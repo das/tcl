@@ -369,7 +369,7 @@ test unixInit-7.1 {closed standard channel: Bug 772288} -constraints {
 	close stdin
 	[list exec $tclsh crash.tcl]
     " crashtest.tcl
-    exec $tclsh crashtest.tcl
+    exec $tclsh [file join [temporaryDirectory] crashtest.tcl]
 } -cleanup {
     removeFile crash.tcl
     removeFile crashtest.tcl
