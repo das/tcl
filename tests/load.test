@@ -21,6 +21,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 
 if {$tcl_platform(platform) == "macintosh"} {
     puts "can't run dynamic library tests on macintosh machines"
+    ::tcltest::cleanupTests
     return
 }
 

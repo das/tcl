@@ -13,14 +13,15 @@
 #
 # RCS: @(#) $Id$
 
+if {[lsearch [namespace children] ::tcltest] == -1} {
+    source [file join [pwd] [file dirname [info script]] defs.tcl]
+}
+
 if {[info commands testobj] == {}} {
     puts "This application hasn't been compiled with the \"testobj\""
     puts "command, so I can't test the Tcl type and object support."
+    ::tcltest::cleanupTests
     return
-}
-
-if {[lsearch [namespace children] ::tcltest] == -1} {
-    source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
 test obj-1.1 {Tcl_AppendAllObjTypes, and InitTypeTable, Tcl_RegisterObjType} {

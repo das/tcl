@@ -16,13 +16,14 @@
 # detect infinite vwaits, as the tests below will hang. The presence of
 # the "testthread" command indicates that this is the case.
 
-if {"[info commands testthread]" == "testthread"} {
-    puts "skipping: tests require the testthread command..."
-    return
-}
-
 if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
+}
+
+if {"[info commands testthread]" == "testthread"} {
+    puts "skipping: tests require the testthread command..."
+    ::tcltest::cleanupTests
+    return
 }
 
 test unixNotfy-1.1 {Tcl_DeleteFileHandler} {unixOnly} {

@@ -12,13 +12,14 @@
 #
 # RCS: @(#) $Id$
 
-if {[info command testthread] == ""} {
-    puts "skipping: tests require the testthread command"
-    return
-}
-
 if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
+}
+
+if {[info command testthread] == ""} {
+    puts "skipping: tests require the testthread command"
+    ::tcltest::cleanupTests
+    return
 }
 
 set mainthread [testthread names]

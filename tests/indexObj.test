@@ -10,14 +10,15 @@
 #
 # RCS: @(#) $Id$
 
+if {[lsearch [namespace children] ::tcltest] == -1} {
+    source [file join [pwd] [file dirname [info script]] defs.tcl]
+}
+
 if {[info commands testindexobj] == {}} {
     puts "This application hasn't been compiled with the \"testindexobj\""
     puts "command, so I can't test Tcl_GetIndexFromObj etc."
+    ::tcltest::cleanupTests
     return 
-}
-
-if {[lsearch [namespace children] ::tcltest] == -1} {
-    source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
 test indexObj-1.1 {exact match} {

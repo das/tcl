@@ -168,6 +168,7 @@ catch {unset msg}
 if {[catch {package require procbodytest}]} {
     puts "This application couldn't load the \"procbodytest\" package, so I"
     puts "can't test creation of procs whose bodies have type \"procbody\"."
+    ::tcltest::cleanupTests
     return
 }
 
