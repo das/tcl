@@ -159,7 +159,7 @@ test proc-3.4 {TclObjInterpProc, procs execute in the namespace in which they we
 test proc-3.5 {TclObjInterpProc, any old result is reset before appending error msg about missing arguments} {
     proc p {x} {info commands 3m}
     list [catch {p} msg] $msg
-} {1 {no value given for parameter "x" to "p"}}
+} {1 {wrong # args: should be "p x"}}
 
 catch {eval namespace delete [namespace children :: test_ns_*]}
 catch {rename p ""}
