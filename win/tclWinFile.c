@@ -813,6 +813,14 @@ TclpStat(path, statPtr)
 	return -1;
     }
 
+    /*
+     * Ensure correct file sizes by forcing the OS to write any
+     * pending data to disk. This is done only for channels which are
+     * dirty, i.e. have been written to since the last flush here.
+     */
+
+    TclWinFlushDirtyChannels ();
+
     nativePath = Tcl_WinUtfToTChar(path, -1, &ds);
     handle = (*tclWinProcs->findFirstFileProc)(nativePath, &data);
     if (handle == INVALID_HANDLE_VALUE) {
