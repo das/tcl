@@ -16,6 +16,16 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
+test binary-2.1 {DupByteArrayInternalRep} {
+    set hdr [binary format cc 0 0316]
+    set buf hellomatt
+    
+    set data $hdr
+    append data $buf
+    
+    string length $data
+} 11
+
 test binary-1.1 {Tcl_BinaryObjCmd: bad args} {
     list [catch {binary} msg] $msg
 } {1 {wrong # args: should be "binary option ?arg arg ...?"}}

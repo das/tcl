@@ -457,6 +457,8 @@ DupByteArrayInternalRep(srcPtr, copyPtr)
     memcpy((VOID *) copyArrayPtr->bytes, (VOID *) srcArrayPtr->bytes,
 	    (size_t) length);
     SET_BYTEARRAY(copyPtr, copyArrayPtr);
+
+    copyPtr->typePtr = &tclByteArrayType;
 }
 
 /*
