@@ -521,7 +521,7 @@ DeleteProc(clientData)
  */
 
 static Tcl_Obj *
-ExecuteRemoteObject(riPtr, ddeObjectPtr);
+ExecuteRemoteObject(riPtr, ddeObjectPtr)
     RegisteredInterp *riPtr;	    /* Info about this server. */
     Tcl_Obj *ddeObjectPtr;	    /* The object to execute. */
 {
