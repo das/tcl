@@ -78,8 +78,8 @@ Currently only sources the resource by name, file IDs may be supported
 at a later date.
 .PP
 \fBTcl_MacConvertTextResource\fR converts a TEXT resource into a Tcl
-suitable string. It mallocs the returned memory, converts '\r' to
-'\n', and appends a NULL. The caller has the responsibility for
+suitable string. It mallocs the returned memory, converts ``\\r'' to
+``\\n'', and appends a NULL. The caller has the responsibility for
 freeing the memory.
 .PP
 \fBTcl_MacFindResource\fR provides a higher level interface for

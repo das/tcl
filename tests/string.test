@@ -197,6 +197,9 @@ test string-4.12 {string first, start index} {
 test string-4.13 {string first, start index} {
     string first \u7266 abc\u7266x end-2
 } 3
+test string-4.14 {string first, negative start index} {
+    string first b abc -1
+} 1
 
 test string-5.1 {string index} {
     list [catch {string index} msg] $msg

@@ -1136,6 +1136,20 @@ test namespace-40.1 {Ignoring namespace proc "unknown"} {
     set l
 } {global global}
 
+test namespace-41.1 {Shadowing byte-compiled commands} {
+    namespace eval ns {
+	proc test {} {
+	    set ::g 0
+	}  
+	lappend ::res [test]
+	proc set {a b} {
+	    ::set a [incr b]
+	}
+	lappend ::res [test]
+    }
+    set res
+} {0 1}
+
 # cleanup
 catch {rename cmd1 {}}
 catch {unset l}

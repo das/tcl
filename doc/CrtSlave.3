@@ -104,9 +104,13 @@ arguments to pass to an object alias command. The location is in storage
 owned by the caller, the vector of Tcl_Obj structures is owned by the
 called function.
 .VS
-.AP char *cmdName in
+.VS 8.4
+.AP "CONST char" *cmdName in
+.VE
 Name of an exposed command to hide or create.
-.AP char *hiddenCmdName in
+.VS 8.4
+.AP "CONST char" *hiddenCmdName in
+.VE
 Name under which a hidden command is stored and with which it can be
 exposed or invoked.
 .VE

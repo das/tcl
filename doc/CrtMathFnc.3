@@ -21,7 +21,9 @@ Tcl_CreateMathFunc \- Define a new math function for expressions
 .AS Tcl_ValueType clientData
 .AP Tcl_Interp *interp in
 Interpreter in which new function will be defined.
-.AP char *name in
+.VS 8.4
+.AP "CONST char" *name in
+.VE
 Name for new function.
 .AP int numArgs in
 Number of arguments to new function;  also gives size of \fIargTypes\fR array.

@@ -30,13 +30,17 @@ int
 int
 \fBTcl_SetCommandInfo\fR(\fIinterp, cmdName, infoPtr\fR)
 .sp
-char *
+.VS 8.4
+CONST char *
+.VE
 \fBTcl_GetCommandName\fR(\fIinterp, token\fR)
 .SH ARGUMENTS
 .AS Tcl_ObjCmdProc *deleteProc in/out
 .AP Tcl_Interp *interp in
 Interpreter in which to create a new command or that contains a command.
+.VS 8.4
 .AP char *cmdName in
+.VE
 Name of command.
 .AP Tcl_ObjCmdProc *proc in
 Implementation of the new command: \fIproc\fR will be called whenever
