@@ -1549,10 +1549,10 @@ BuildCommandLine(
 	}
 
 	quote = 0;
-	if (argv[i][0] == '\0') {
+	if (arg[0] == '\0') {
 	    quote = 1;
 	} else {
-	    for (start = argv[i]; *start != '\0'; start++) {
+	    for (start = arg; *start != '\0'; start++) {
 		if (isspace(*start)) { /* INTL: ISO space. */
 		    quote = 1;
 		    break;
