@@ -3842,24 +3842,6 @@ SetFsPathFromAny(interp, objPtr)
 	return TCL_OK;
     }
     
-    /* Free old representation */
-    if (objPtr->typePtr != NULL) {
-	if (objPtr->bytes == NULL) {
-	    if (objPtr->typePtr->updateStringProc == NULL) {
-		if (interp != NULL) {
-		    Tcl_ResetResult(interp);
-		    Tcl_AppendResult(interp, "can't find object",
-				     "string representation", (char *) NULL);
-		}
-	        return TCL_ERROR;
-	    }
-	    objPtr->typePtr->updateStringProc(objPtr);
-	}
-	if ((objPtr->typePtr->freeIntRepProc) != NULL) {
-	    (*objPtr->typePtr->freeIntRepProc)(objPtr);
-	}
-    }
-
     /* 
      * First step is to translate the filename.  This is similar to
      * Tcl_TranslateFilename, but shouldn't convert everything to
@@ -3980,6 +3962,12 @@ SetFsPathFromAny(interp, objPtr)
     fsPathPtr->fsRecPtr = NULL;
     fsPathPtr->filesystemEpoch = theFilesystemEpoch;
 
+    /*
+     * Free old representation before installing our new one.
+     */
+    if (objPtr->typePtr != NULL && objPtr->typePtr->freeIntRepProc != NULL) {
+	(objPtr->typePtr->freeIntRepProc)(objPtr);
+    }
     objPtr->internalRep.otherValuePtr = (VOID *) fsPathPtr;
     objPtr->typePtr = &tclFsPathType;
 
