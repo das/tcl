@@ -273,6 +273,14 @@ typedef struct CompileEnv {
  */
 #define TCL_BYTECODE_PRECOMPILED		0x0001
 
+
+/*
+ * When a bytecode is compiled, interp or namespace resolvers have not been
+ * applied yet: this is indicated by the TCL_BYTECODE_RESOLVE_VARS flag.
+ */
+
+#define TCL_BYTECODE_RESOLVE_VARS               0x0002
+
 typedef struct ByteCode {
     TclHandle interpHandle;	/* Handle for interpreter containing the
 				 * compiled code.  Commands and their compile

@@ -49,10 +49,10 @@
 #define TCL_MAJOR_VERSION   8
 #define TCL_MINOR_VERSION   5
 #define TCL_RELEASE_LEVEL   TCL_ALPHA_RELEASE
-#define TCL_RELEASE_SERIAL  2
+#define TCL_RELEASE_SERIAL  3
 
 #define TCL_VERSION	    "8.5"
-#define TCL_PATCH_LEVEL	    "8.5a2"
+#define TCL_PATCH_LEVEL	    "8.5a3"
 
 /*
  * The following definitions set up the proper options for Windows
