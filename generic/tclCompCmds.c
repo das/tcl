@@ -694,6 +694,8 @@ TclCompileForeachCmd(interp, parsePtr, envPtr)
      */
 
     range = TclBeginExceptRange(envPtr);
+    infoPtr->rangeIndex = range;
+    
     bodyOffset = (envPtr->codeNext - envPtr->codeStart);
 
     TclCompileCmdWord(interp, bodyTokenPtr+1,
@@ -709,8 +711,6 @@ TclCompileForeachCmd(interp, parsePtr, envPtr)
 
     envPtr->exceptArrayPtr[range].continueOffset
 	    = (envPtr->codeNext - envPtr->codeStart);
-    infoPtr->restartOffset = (envPtr->codeNext - envPtr->codeStart)
-	    - bodyOffset;    
     TclEmitInst1(INST_FOREACH_STEP, infoIndex, envPtr);
 
     /*
@@ -777,7 +777,8 @@ DupForeachInfo(clientData)
     dupPtr->numLists = numLists;
     dupPtr->firstValueTemp = srcPtr->firstValueTemp;
     dupPtr->loopCtTemp = srcPtr->loopCtTemp;
-
+    dupPtr->rangeIndex = srcPtr->rangeIndex;
+    
     for (i = 0;  i < numLists;  i++) {
 	srcListPtr = srcPtr->varLists[i];
 	numVars = srcListPtr->numVars;
@@ -1308,7 +1309,7 @@ TclCompileLassignCmd(interp, parsePtr, envPtr)
     if (numWords > HPUINT_MAX) {
 	return TCL_OUT_LINE_COMPILE;
     }
-    
+
     /*
      * Generate code to push list being taken apart by [lassign].
      */
