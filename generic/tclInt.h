@@ -6,7 +6,7 @@
  * Copyright (c) 1987-1993 The Regents of the University of California.
  * Copyright (c) 1993-1997 Lucent Technologies.
  * Copyright (c) 1994-1998 Sun Microsystems, Inc.
- * Copyright (c) 1998-1999 by Scriptics Corporation.
+ * Copyright (c) 1998-19/99 by Scriptics Corporation.
  * Copyright (c) 2001, 2002 by Kevin B. Kenny.  All rights reserved.
  *
  * See the file "license.terms" for information on usage and redistribution
@@ -1820,6 +1820,11 @@ EXTERN void		TclpFinalizeCondition _ANSI_ARGS_((
 EXTERN void		TclpFinalizeMutex _ANSI_ARGS_((Tcl_Mutex *mutexPtr));
 EXTERN void		TclpFinalizeThreadData _ANSI_ARGS_((
 			    Tcl_ThreadDataKey *keyPtr));
+EXTERN int		TclpThreadCreate _ANSI_ARGS_((
+			    Tcl_ThreadId *idPtr,
+			    Tcl_ThreadCreateProc proc,
+			    ClientData clientData,
+			    int stackSize, int flags));
 EXTERN void		TclpFinalizeThreadDataKey _ANSI_ARGS_((
 			    Tcl_ThreadDataKey *keyPtr));
 EXTERN char *		TclpFindExecutable _ANSI_ARGS_((

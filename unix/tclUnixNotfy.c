@@ -207,7 +207,7 @@ Tcl_InitNotifier()
 
     Tcl_MutexLock(&notifierMutex);
     if (notifierCount == 0) {
-	if (Tcl_CreateThread(&notifierThread, NotifierThreadProc, NULL,
+	if (TclpThreadCreate(&notifierThread, NotifierThreadProc, NULL,
 		     TCL_THREAD_STACK_DEFAULT, TCL_THREAD_NOFLAGS) != TCL_OK) {
 	    Tcl_Panic("Tcl_InitNotifier: unable to start notifier thread");
 	}

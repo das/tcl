@@ -74,10 +74,9 @@ test unixNotfy-2.1 {Tcl_DeleteFileHandler} \
 	fileevent $f writable {set x 1}
 	vwait x
 	close $f
-	testthread create "after 500
-    testthread send [testthread id] {set x ok}
-    testthread exit"
+   	testthread create "testthread send [testthread id] {set x ok}"
 	vwait x
+	threadReap
 	set x
     } \
     -result {ok} \
@@ -97,11 +96,10 @@ test unixNotfy-2.2 {Tcl_DeleteFileHandler} \
 	close $f1
 	vwait y
 	close $f2
-	testthread create "after 500
-            testthread send [testthread id] {set x ok}
-            testthread exit"
-        vwait x
-        set x
+   	testthread create "testthread send [testthread id] {set x ok}"
+	vwait x
+	threadReap
+	set x
     } \
     -result {ok} \
     -cleanup { 
