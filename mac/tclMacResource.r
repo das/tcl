@@ -26,21 +26,6 @@
 #define RESOURCE_INCLUDED
 #include "tcl.h"
 
-#if (TCL_RELEASE_LEVEL == 0)
-#   define RELEASE_LEVEL alpha
-#elif (TCL_RELEASE_LEVEL == 1)
-#   define RELEASE_LEVEL beta
-#elif (TCL_RELEASE_LEVEL == 2)
-#   define RELEASE_LEVEL final
-#endif
-
-#if (TCL_RELEASE_LEVEL == 2)
-#   define MINOR_VERSION (TCL_MINOR_VERSION * 16) + TCL_RELEASE_SERIAL
-#else
-#   define MINOR_VERSION TCL_MINOR_VERSION * 16
-#endif
-
-
 /* 
  * The mechanisim below loads Tcl source into the resource fork of the
  * application.  The example below creates a TEXT resource named
