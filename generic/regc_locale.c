@@ -770,7 +770,7 @@ cclass(v, startp, endp, cases)
 	    break;
 	}
     }
-    Tcl_DStringInit(&ds);
+    Tcl_DStringFree(&ds);
     if (index == -1) {
 	ERR(REG_ECTYPE);
 	return NULL;
