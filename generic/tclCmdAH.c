@@ -2193,55 +2193,21 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 	case 'u':
 	case 'x':
 	case 'X':
-	    size = 40 + precision;
-
-	    /*
-	     * Peek what kind of value we've got so as not to be
-	     * converting stuff unduly.  [Bug #699060]
-	     */
-	    if (objv[objIndex]->typePtr == &tclWideIntType) {
-		Tcl_GetWideIntFromObj(NULL, objv[objIndex], &wideValue);
-		if (useWide) {
-		    whichValue = WIDE_VALUE;
-		    break;
-		} else {
-		    whichValue = INT_VALUE;
-		    if (wideValue>ULONG_MAX || wideValue<LONG_MIN) {
-			/*
-			 * Value too big for type.  Generate an error.
-			 */
-			Tcl_GetLongFromObj(interp, objv[objIndex], &intValue);
-			goto fmtError;
-		    }
-		    intValue = Tcl_WideAsLong(wideValue);
-		}
-	    } else if (objv[objIndex]->typePtr == &tclIntType) {
-		Tcl_GetLongFromObj(NULL, objv[objIndex], &intValue);
-		if (useWide) {
-		    whichValue = WIDE_VALUE;
-		    wideValue = Tcl_LongAsWide(intValue);
-		    break;
-		} else {
-		    whichValue = INT_VALUE;
-		}
-	    } else {
-		/*
-		 * No existing numeric interpretation, so we can
-		 * coerce to whichever is convenient.
-		 */
-		if (useWide) {
-		    if (Tcl_GetWideIntFromObj(interp, /* INTL: Tcl source. */
-			    objv[objIndex], &wideValue) != TCL_OK) {
-			goto fmtError;
-		    }
-		    whichValue = WIDE_VALUE;
-		    break;
-		}
-		if (Tcl_GetLongFromObj(interp,	      /* INTL: Tcl source. */
-			objv[objIndex], &intValue) != TCL_OK) {
+	    if ( useWide ) {
+		if ( Tcl_GetWideIntFromObj( interp, /* INTL: Tcl source. */
+					    objv[objIndex], &wideValue )
+		     != TCL_OK ) {
 		    goto fmtError;
 		}
+		whichValue = WIDE_VALUE;
+		size = 40 + precision;
+		break;
 	    }
+	    if ( Tcl_GetLongFromObj( interp, /* INTL: Tcl source. */
+				     objv[objIndex], &intValue ) != TCL_OK ) {
+		goto fmtError;
+	    }
+
 #if (LONG_MAX > INT_MAX)
 	    /*
 	     * Add the 'l' for long format type because we are on an
