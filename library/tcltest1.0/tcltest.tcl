@@ -1362,12 +1362,7 @@ proc ::tcltest::makeFile {contents name} {
 	puts "::tcltest::makeFile: putting $contents into $name"
     }
     set fd [open $name w]
-
-    # Doing the translation breaks TclPro Checker tests
-    # under Windows 
-    if {[string equal $tcl_platform(platform) "unix"]} {
-	fconfigure $fd -translation lf
-    }
+    fconfigure $fd -translation lf
 
     if {[string equal \
 	    [string index $contents [expr {[string length $contents] - 1}]] \
