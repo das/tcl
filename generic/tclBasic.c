@@ -399,6 +399,12 @@ Tcl_CreateInterp()
 	    TclClockOldscanObjCmd,	(ClientData) NULL,
 	    (Tcl_CmdDeleteProc*) NULL );
 
+    /* Register the default [interp bgerror] handler. */
+
+    Tcl_CreateObjCommand( interp,	"::tcl::Bgerror",
+	    TclDefaultBgErrorHandlerObjCmd,	(ClientData) NULL,
+	    (Tcl_CmdDeleteProc*) NULL );
+
     /*
      * Register the builtin math functions.
      */

@@ -941,6 +941,11 @@ TclStubs tclStubs = {
     Tcl_LimitGetCommands, /* 532 */
     Tcl_LimitGetTime, /* 533 */
     Tcl_LimitGetGranularity, /* 534 */
+    Tcl_SaveInterpState, /* 535 */
+    Tcl_RestoreInterpState, /* 536 */
+    Tcl_DiscardInterpState, /* 537 */
+    Tcl_SetReturnOptions, /* 538 */
+    Tcl_GetReturnOptions, /* 539 */
 };
 
 /* !END!: Do not edit above this line. */
