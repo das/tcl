@@ -502,8 +502,8 @@ TclGetFrame(interp, string, framePtrPtr)
 	}
 	if (level < 0) {
 	    levelError:
-	    Tcl_AppendResult(interp, "bad level \"",
-		    (result ? string : "1"), "\"", (char *) NULL);
+	    Tcl_AppendResult(interp, "bad level \"", string, "\"",
+		    (char *) NULL);
 	    return -1;
 	}
     } else if (isdigit(UCHAR(*string))) { /* INTL: digit */
@@ -1135,7 +1135,7 @@ TclProcCompileProc(interp, procPtr, bodyPtr, nsPtr, description, procName)
  	    if (result == TCL_ERROR) {
 		char buf[100 + TCL_INTEGER_SPACE];
 
- 		numChars = strlen(procName);
+		numChars = strlen(procName);
  		ellipsis = "";
  		if (numChars > 50) {
  		    numChars = 50;
