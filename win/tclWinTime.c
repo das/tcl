@@ -307,12 +307,15 @@ TclpGetTime(timePtr)
 				/* Current estimated time, expressed
 				 * as 100-ns ticks since the Windows epoch */
 
-	static const LARGE_INTEGER posixEpoch = { 0xD53E8000, 0x019DB1DE };
+	static LARGE_INTEGER posixEpoch;
 				/* Posix epoch expressed as 100-ns ticks
 				 * since the windows epoch */
 
 	LONGLONG usecSincePosixEpoch;
 				/* Current microseconds since Posix epoch */
+
+	posixEpoch.LowPart = 0xD53E8000;
+	posixEpoch.HighPart = 0x019DB1DE;
 
 	EnterCriticalSection( &timeInfo.cs );
 
