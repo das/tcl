@@ -140,6 +140,34 @@ test trace-1.10 {trace variable reads} {
     unset x
     set info
 } {}
+test trace-1.11 {read traces that modify the array structure} {
+    catch {unset x}
+    set x(bar) 0 
+    trace variable x r {set x(foo) 1 ;#} 
+    trace variable x r {unset -nocomplain x(bar) ;#} 
+    array get x
+} {}
+test trace-1.12 {read traces that modify the array structure} {
+    catch {unset x}
+    set x(bar) 0 
+    trace variable x r {unset -nocomplain x(bar) ;#} 
+    trace variable x r {set x(foo) 1 ;#} 
+    array get x
+} {}
+test trace-1.13 {read traces that modify the array structure} {
+    catch {unset x}
+    set x(bar) 0 
+    trace variable x r {set x(foo) 1 ;#} 
+    trace variable x r {unset -nocomplain x;#} 
+    list [catch {array get x} res] $res
+} {1 {can't read "x(bar)": no such variable}}
+test trace-1.14 {read traces that modify the array structure} {
+    catch {unset x}
+    set x(bar) 0 
+    trace variable x r {unset -nocomplain x;#} 
+    trace variable x r {set x(foo) 1 ;#} 
+    list [catch {array get x} res] $res
+} {1 {can't read "x(bar)": no such variable}}
 
 # Basic write-tracing on variables
 
