@@ -1899,8 +1899,15 @@ test filename-16.1 {windows specific globbing} {pcOnly} {
     lsort [glob globTest/*.bat]
 } {globTest/x1.BAT globTest/y1.Bat globTest/z1.bat}
 test filename-16.2 {windows specific globbing} {pcOnly} {
-    glob c:
-} c:
+    list [catch {glob c:} res] $res
+} {0 c:}
+test filename-16.2.1 {windows specific globbing} {pcOnly} {
+    set dir [pwd]
+    cd C:/
+    set res [list [catch {glob c:} err] $err]
+    cd $dir
+    set res
+} {0 c:}
 test filename-16.3 {windows specific globbing} {pcOnly} {
     glob c:\\\\
 } c:/
