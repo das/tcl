@@ -345,8 +345,8 @@ UpdateStringOfIndex(objPtr)
     len = strlen(indexStr);
     buf = (char *) ckalloc(len + 1);
     memcpy(buf, indexStr, len+1);
-    indexPtr->bytes = buf;
-    indexPtr->length = len;
+    objPtr->bytes = buf;
+    objPtr->length = len;
 }
 
 /*
@@ -454,7 +454,7 @@ Tcl_WrongNumArgs(interp, objc, objv, message)
 	
 	if (objv[i]->typePtr == &tclIndexType) {
 	    indexRep = (IndexRep *) objv[i]->internalRep.otherValuePtr;
-	    Tcl_AppendStringToObj(objPtr, EXPAND_OF(indexRep), (char *) NULL);
+	    Tcl_AppendStringsToObj(objPtr, EXPAND_OF(indexRep), (char *) NULL);
 	} else {
 	    Tcl_AppendStringsToObj(objPtr, Tcl_GetString(objv[i]),
 		    (char *) NULL);
