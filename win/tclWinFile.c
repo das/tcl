@@ -743,6 +743,11 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 {
     CONST TCHAR *native;
 
+    if (types != NULL && types->type == TCL_GLOB_TYPE_MOUNT) {
+	/* The native filesystem never adds mounts */
+	return TCL_OK;
+    }
+
     if (pattern == NULL || (*pattern == '\0')) {
 	Tcl_Obj *norm = Tcl_FSGetNormalizedPath(NULL, pathPtr);
 	if (norm != NULL) {

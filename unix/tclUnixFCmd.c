@@ -110,6 +110,10 @@ typedef int (TraversalProc) _ANSI_ARGS_((Tcl_DString *srcPtr,
 
 /*
  * Constants and variables necessary for file attributes subcommand.
+ * 
+ * IMPORTANT: The permissions attribute is assumed to be the third
+ * item (i.e. to be indexed with '2' in arrays) in code in tclIOUtil.c
+ * and possibly elsewhere in Tcl's core.
  */
 
 enum {

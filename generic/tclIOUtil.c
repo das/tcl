@@ -999,6 +999,17 @@ Tcl_FSMatchInDirectory(interp, result, pathPtr, pattern, types)
 				 * flag is very important. */
 {
     Tcl_Filesystem *fsPtr;
+    
+    if (types != NULL && types->type & TCL_GLOB_TYPE_MOUNT) {
+	/* 
+	 * We don't currently allow querying of mounts by external code
+	 * (a valuable future step), so since we're the only function
+	 * that actually knows about mounts, this means we're being
+	 * called recursively by ourself.  Return no matches.
+	 */
+	return TCL_OK;
+    }
+    
     if (pathPtr != NULL) {
         fsPtr = Tcl_FSGetFileSystemForPath(pathPtr);
     } else {
@@ -3261,10 +3272,11 @@ FsListMounts(pathPtr, pattern)
     Tcl_Obj *resultPtr = NULL;
     
     /*
-     * Call each of the "listMounts" functions in succession.
-     * A non-NULL return value indicates the particular function has
-     * succeeded.  We call all the functions registered, since we want
-     * a list from each filesystems.
+     * Call each of the "matchInDirectory" functions in succession, with
+     * the specific type information 'mountsOnly'.  A non-NULL return
+     * value indicates the particular function has succeeded.  We call
+     * all the functions registered, since we want a list from each
+     * filesystems.
      */
 
     fsRecPtr = FsGetFirstFilesystem();

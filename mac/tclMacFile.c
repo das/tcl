@@ -156,6 +156,11 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
     OSType okCreator = 0;
     Tcl_Obj *fileNamePtr;
 
+    if (types != NULL && types->type == TCL_GLOB_TYPE_MOUNT) {
+	/* The native filesystem never adds mounts */
+	return TCL_OK;
+    }
+
     fileNamePtr = Tcl_FSGetTranslatedPath(interp, pathPtr);
     if (fileNamePtr == NULL) {
 	return TCL_ERROR;
