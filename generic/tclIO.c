@@ -3556,8 +3556,7 @@ Tcl_GetsObj(chan, objPtr)
 
     /*
      * If there is no encoding, use "iso8859-1" -- Tcl_GetsObj() doesn't
-     * produce ByteArray objects.  To avoid circularity problems,
-     * "iso8859-1" is builtin to Tcl.
+     * produce ByteArray objects.  
      */
 
     if (encoding == NULL) {

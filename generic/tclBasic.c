@@ -183,7 +183,7 @@ Tcl_CreateInterp()
     ByteCodeStats *statsPtr;
 #endif /* TCL_COMPILE_STATS */
 
-    TclInitSubsystems(NULL);
+    TclInitSubsystems();
 
     /*
      * Panic if someone updated the CallFrame structure without

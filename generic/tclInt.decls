@@ -841,6 +841,15 @@ declare 208 generic {
     Tcl_Channel TclpOpenFileChannel (Tcl_Interp *interp,
 	    Tcl_Obj *pathPtr, int mode, int permissions)
 }
+declare 209 generic {
+    Tcl_Obj * TclGetEncodingSearchPath(void)
+}
+declare 210 generic {
+    int TclSetEncodingSearchPath(Tcl_Obj *searchPath)
+}
+declare 211 generic {
+    CONST char * TclpGetEncodingNameFromEnvironment(Tcl_DString *bufPtr)
+}
 
 ##############################################################################
 

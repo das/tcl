@@ -1211,7 +1211,11 @@ TclpCreateProcess(
 		Tcl_DString pipeDll;
 		Tcl_DStringInit(&pipeDll);
 		Tcl_DStringAppend(&pipeDll, TCL_PIPE_DLL, -1);
-		tclExePtr = Tcl_NewStringObj(TclpFindExecutable(""), -1);
+
+		/* For safety, just in case the app didn't call it first */
+		Tcl_FindExecutable(NULL);
+
+		tclExePtr = Tcl_NewStringObj(Tcl_GetNameOfExecutable(), -1);
 		start = Tcl_GetStringFromObj(tclExePtr, &i);
 		for (end = start + (i-1); end > start; end--) {
 		    if (*end == '/') {

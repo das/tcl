@@ -293,6 +293,9 @@ TclIntStubs tclIntStubs = {
     TclpObjStat, /* 206 */
     TclpObjAccess, /* 207 */
     TclpOpenFileChannel, /* 208 */
+    TclGetEncodingSearchPath, /* 209 */
+    TclSetEncodingSearchPath, /* 210 */
+    TclpGetEncodingNameFromEnvironment, /* 211 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
