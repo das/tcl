@@ -3828,6 +3828,7 @@ Tcl_EvalObjEx(interp, objPtr, flags)
 	    Tcl_DecrRefCount(objv[i]);
 	}
 	TclStackFree(interp);
+	return result;
     } else {
 	int allowExceptions = (iPtr->evalFlags & TCL_ALLOW_EXCEPTIONS);
 /*
