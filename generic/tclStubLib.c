@@ -36,10 +36,10 @@
 #undef TCL_STORAGE_CLASS
 #define TCL_STORAGE_CLASS DLLEXPORT
 
-TclStubs *tclStubsPtr;
-TclPlatStubs *tclPlatStubsPtr;
-TclIntStubs *tclIntStubsPtr;
-TclIntPlatStubs *tclIntPlatStubsPtr;
+TclStubs *tclStubsPtr = NULL;
+TclPlatStubs *tclPlatStubsPtr = NULL;
+TclIntStubs *tclIntStubsPtr = NULL;
+TclIntPlatStubs *tclIntPlatStubsPtr = NULL;
 
 static TclStubs *	HasStubSupport _ANSI_ARGS_((Tcl_Interp *interp));
 
@@ -86,14 +86,18 @@ Tcl_InitStubs (interp, version, exact)
     CONST char *version;
     int exact;
 {
-    CONST char *actualVersion;
+    CONST char *actualVersion = NULL;
     TclStubs *tmp;
-    
+
+    /*
+     * We can't optimize this check by caching tclStubsPtr because
+     * that prevents apps from being able to load/unload Tcl dynamically
+     * multiple times. [Bug 615304]
+     */
+
+    tclStubsPtr = HasStubSupport(interp);
     if (!tclStubsPtr) {
-	tclStubsPtr = HasStubSupport(interp);
-	if (!tclStubsPtr) {
-            return NULL;
-        }
+	return NULL;
     }
 
     actualVersion = Tcl_PkgRequireEx(interp, "Tcl", version, exact,
