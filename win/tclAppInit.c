@@ -376,6 +376,7 @@ asyncExit (ClientData clientData, Tcl_Interp *interp, int code)
 BOOL __stdcall
 sigHandler(DWORD fdwCtrlType)
 {
+    HANDLE hStdIn;
     /*
      * If Tcl is currently executing some bytecode or in the eventloop,
      * this will cause Tcl to enter asyncExit at the next command
@@ -388,8 +389,11 @@ sigHandler(DWORD fdwCtrlType)
      * This will cause Tcl_Gets in Tcl_Main() to drop-out with an <EOF> 
      * should it be blocked on input and our Tcl_AsyncMark didn't grab 
      * the attention of the interpreter. 
-     */ 
-    CloseHandle(GetStdHandle(STD_INPUT_HANDLE));
+     */
+    hStdIn = GetStdHandle(STD_INPUT_HANDLE);
+    if (hStdIn) {
+	CloseHandle(hStdIn);
+    }
 
     /* indicate to the OS not to call the default terminator */ 
     return TRUE; 
