@@ -138,6 +138,17 @@ extern "C" {
 #endif /* TCL_THREADS */
 
 /*
+ * Tcl's public routine Tcl_FSSeek() uses the values SEEK_SET,
+ * SEEK_CUR, and SEEK_END, all #define'd by stdio.h .
+ *
+ * Also, many extensions need stdio.h, and they've grown accustomed
+ * to tcl.h providing it for them rather than #include-ing it themselves
+ * as they should, so also for their sake, we keep the #include to be
+ * consistent with prior Tcl releases.
+ */
+#include <stdio.h>
+
+/*
  * Definitions that allow Tcl functions with variable numbers of
  * arguments to be used with either varargs.h or stdarg.h.  TCL_VARARGS
  * is used in procedure prototypes.  TCL_VARARGS_DEF is used to declare
