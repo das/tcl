@@ -272,6 +272,15 @@ TclSetEnv(name, value)
     }
 
     Tcl_MutexUnlock(&envMutex);
+    
+    if (!strcmp(name, "HOME")) {
+	/* 
+	 * If the user's home directory has changed, we must invalidate
+	 * the filesystem cache, because '~' expansions will now be
+	 * incorrect.
+	 */
+        Tcl_FSMountsChanged(NULL);
+    }
 }
 
 /*
