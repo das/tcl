@@ -1012,6 +1012,7 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 #ifndef TCL_WIDE_INT_IS_LONG
 		    if (flags & SCAN_LONGER) {
 			wideValue = (Tcl_WideInt) (*lfn)(buf, NULL, base);
+#   ifdef TCL_PRINTF_SUPPORTS_LL
 			if ((flags & SCAN_UNSIGNED) && (wideValue < 0)) {
 			    sprintf(buf, "%llu",        /* INTL: ISO digit */
 				    wideValue);
@@ -1019,8 +1020,17 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 			} else {
 			    objPtr = Tcl_NewWideIntObj(wideValue);
 			}
+#   else
+			/*
+			 * Convert to string inside the wide-int type;
+			 * this will produce an apparently signed
+			 * value, but it is tricky to do otherwise at
+			 * this point because lltostr() is *crufty*.
+			 */
+			objPtr = Tcl_NewWideIntObj(wideValue);
+#   endif /* TCL_PRINTF_SUPPORTS_LL */
 		    } else {
-#endif
+#endif /* !TCL_WIDE_INT_IS_LONG */
 			value = (long) (*fn)(buf, NULL, base);
 			if ((flags & SCAN_UNSIGNED) && (value < 0)) {
 			    sprintf(buf, "%lu", value); /* INTL: ISO digit */
