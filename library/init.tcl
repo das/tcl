@@ -52,12 +52,10 @@ if {[string compare [info library] {}]} {
 	}
     }
 }
-foreach __dir [list [file dirname [info nameofexecutable]] \
-	[file join [file dirname [file dirname \
-	[info nameofexecutable]]] lib]] {
-    if {[lsearch -exact $auto_path $__dir] < 0} {
-	lappend auto_path $__dir
-    }
+set __dir [file join [file dirname \
+	[file dirname [info nameofexecutable]]] lib]
+if {[lsearch -exact $auto_path $__dir] < 0} {
+    lappend auto_path $__dir
 }
 if {[info exist tcl_pkgPath]} {
     foreach __dir $tcl_pkgPath {
@@ -72,7 +70,7 @@ if {[info exists __dir]} {
   
 # Windows specific end of initialization
 
-if {(![interp issafe]) && [string equal $tcl_platform(platform) "windows"]} {
+if {(![interp issafe]) && ($tcl_platform(platform) == "windows")} {
     namespace eval tcl {
 	proc envTraceProc {lo n1 n2 op} {
 	    set x $::env($n2)
@@ -82,7 +80,7 @@ if {(![interp issafe]) && [string equal $tcl_platform(platform) "windows"]} {
     }
     foreach p [array names env] {
 	set u [string toupper $p]
-	if {[string compare $u $p]} {
+	if {$u != $p} {
 	    switch -- $u {
 		COMSPEC -
 		PATH {
@@ -102,7 +100,7 @@ if {(![interp issafe]) && [string equal $tcl_platform(platform) "windows"]} {
 	unset u
     }
     if {![info exists env(COMSPEC)]} {
-	if {[string equal $tcl_platform(os) "Windows NT"]} {
+	if {$tcl_platform(os) == {Windows NT}} {
 	    set env(COMSPEC) cmd.exe
 	} else {
 	    set env(COMSPEC) command.com
@@ -116,7 +114,7 @@ package unknown tclPkgUnknown
 
 # Conditionalize for presence of exec.
 
-if {[llength [info commands exec]] == 0} {
+if {[info commands exec] == ""} {
 
     # Some machines, such as the Macintosh, do not have exec. Also, on all
     # platforms, safe interpreters do not have exec.
@@ -129,7 +127,7 @@ set errorInfo ""
 # Define a log command (which can be overwitten to log errors
 # differently, specially when stderr is not available)
 
-if {[llength [info commands tclLog]] == 0} {
+if {[info commands tclLog] == ""} {
     proc tclLog {string} {
 	catch {puts stderr $string}
     }
@@ -219,7 +217,7 @@ proc unknown args {
 	}
     }
 
-    if {([info level] == 1) && [string equal [info script] ""] \
+    if {([info level] == 1) && ([info script] == "") \
 	    && [info exists tcl_interactive] && $tcl_interactive} {
 	if {![info exists auto_noexec]} {
 	    set new [auto_execok $name]
@@ -227,7 +225,7 @@ proc unknown args {
 		set errorCode $savedErrorCode
 		set errorInfo $savedErrorInfo
 		set redir ""
-		if {[string equal [info commands console] ""]} {
+		if {[info commands console] == ""} {
 		    set redir ">&@stdout <@stdin"
 		}
 		return [uplevel exec $redir $new [lrange $args 1 end]]
@@ -235,7 +233,7 @@ proc unknown args {
 	}
 	set errorCode $savedErrorCode
 	set errorInfo $savedErrorInfo
-	if {[string equal $name "!!"]} {
+	if {$name == "!!"} {
 	    set newcmd [history event]
 	} elseif {[regexp {^!(.+)$} $name dummy event]} {
 	    set newcmd [history event $event]
@@ -250,7 +248,7 @@ proc unknown args {
 	}
 
 	set ret [catch {set cmds [info commands $name*]} msg]
-	if {[string equal $name "::"]} {
+	if {[string compare $name "::"] == 0} {
 	    set name ""
 	}
 	if {$ret != 0} {
@@ -260,8 +258,8 @@ proc unknown args {
 	if {[llength $cmds] == 1} {
 	    return [uplevel [lreplace $args 0 0 $cmds]]
 	}
-	if {[llength $cmds]} {
-	    if {[string equal $name ""]} {
+	if {[llength $cmds] != 0} {
+	    if {$name == ""} {
 		return -code error "empty command name \"\""
 	    } else {
 		return -code error \
@@ -311,7 +309,7 @@ proc auto_load {cmd {namespace {}}} {
     foreach name $nameList {
 	if {[info exists auto_index($name)]} {
 	    uplevel #0 $auto_index($name)
-	    if {[string compare [info commands $name] ""]} {
+	    if {[info commands $name] != ""} {
 		return 1
 	    }
 	}
@@ -331,9 +329,10 @@ proc auto_load {cmd {namespace {}}} {
 proc auto_load_index {} {
     global auto_index auto_oldpath auto_path errorInfo errorCode
 
-    if {[info exists auto_oldpath] && \
-	    [string equal $auto_oldpath $auto_path]} {
-	return 0
+    if {[info exists auto_oldpath]} {
+	if {$auto_oldpath == $auto_path} {
+	    return 0
+	}
     }
     set auto_oldpath $auto_path
 
@@ -351,24 +350,25 @@ proc auto_load_index {} {
 	} else {
 	    set error [catch {
 		set id [gets $f]
-		if {[string equal $id \
-			"# Tcl autoload index file, version 2.0"]} {
+		if {$id == "# Tcl autoload index file, version 2.0"} {
 		    eval [read $f]
-		} elseif {[string equal $id "# Tcl autoload index file: each line identifies a Tcl"]} {
+		} elseif {$id == \
+		    "# Tcl autoload index file: each line identifies a Tcl"} {
 		    while {[gets $f line] >= 0} {
-			if {[string equal [string index $line 0] "#"] \
+			if {([string index $line 0] == "#")
 				|| ([llength $line] != 2)} {
 			    continue
 			}
 			set name [lindex $line 0]
 			set auto_index($name) \
-				"source [file join $dir [lindex $line 1]]"
+			    "source [file join $dir [lindex $line 1]]"
 		    }
 		} else {
-		    error "[file join $dir tclIndex] isn't a proper Tcl index file"
+		    error \
+		      "[file join $dir tclIndex] isn't a proper Tcl index file"
 		}
 	    } msg]
-	    if {[string compare $f ""]} {
+	    if {$f != ""} {
 		close $f
 	    }
 	    if {$error} {
@@ -421,19 +421,21 @@ proc auto_qualify {cmd namespace} {
     # (if the current namespace is not the global one)
 
     if {$n == 0} {
-	if {[string equal $namespace ::]} {
+	if {[string compare $namespace ::] == 0} {
 	    # ( nocolons , :: ) -> nocolons
 	    return [list $cmd]
 	} else {
 	    # ( nocolons , ::sub ) -> ::sub::nocolons nocolons
 	    return [list ${namespace}::$cmd $cmd]
 	}
-    } elseif {[string equal $namespace ::]} {
-	#  ( foo::bar , :: ) -> ::foo::bar
-	return [list ::$cmd]
     } else {
-	# ( foo::bar , ::sub ) -> ::sub::foo::bar ::foo::bar
-	return [list ${namespace}::$cmd ::$cmd]
+	if {[string compare $namespace ::] == 0} {
+	    #  ( foo::bar , :: ) -> ::foo::bar
+	    return [list ::$cmd]
+	} else {
+	    # ( foo::bar , ::sub ) -> ::sub::foo::bar ::foo::bar
+	    return [list ${namespace}::$cmd ::$cmd]
+	}
     }
 }
 
@@ -458,8 +460,7 @@ proc auto_import {pattern} {
 
     foreach pattern $patternList {
         foreach name [array names auto_index] {
-            if {[string match $pattern $name] && \
-		    [string equal "" [info commands $name]]} {
+            if {[string match $pattern $name] && "" == [info commands $name]} {
                 uplevel #0 $auto_index($name)
             }
         }
@@ -513,7 +514,7 @@ proc auto_execok name {
 	set windir $env(WINDIR) 
     }
     if {[info exists windir]} {
-	if {[string equal $tcl_platform(os) "Windows NT"]} {
+	if {$tcl_platform(os) == "Windows NT"} {
 	    append path "$windir/system32;"
 	}
 	append path "$windir/system;$windir;"
@@ -556,7 +557,7 @@ proc auto_execok name {
 	return $auto_execs($name)
     }
     foreach dir [split $env(PATH) :] {
-	if {[string equal $dir ""]} {
+	if {$dir == ""} {
 	    set dir .
 	}
 	set file [file join $dir $name]
