@@ -1193,8 +1193,8 @@ TclCompileIfCmd(interp, parsePtr, envPtr)
 	}
 	if (wordIdx >= numWords) {
 	    sprintf(buffer,
-	            "wrong # args: no expression after \"%.30s\" argument",
-		    word);
+	            "wrong # args: no expression after \"%.*s\" argument",
+		    numBytes, word);
 	    Tcl_ResetResult(interp);
 	    Tcl_AppendToObj(Tcl_GetObjResult(interp), buffer, -1);
 	    code = TCL_ERROR;
@@ -1256,7 +1256,7 @@ TclCompileIfCmd(interp, parsePtr, envPtr)
 	tokenPtr = testTokenPtr + (testTokenPtr->numComponents + 1);
 	wordIdx++;
 	if (wordIdx >= numWords) {
-	    sprintf(buffer, "wrong # args: no script following \"%.20s\" argument", testTokenPtr->start);
+	    sprintf(buffer, "wrong # args: no script following \"%.*s\" argument", testTokenPtr->size, testTokenPtr->start);
 	    Tcl_ResetResult(interp);
 	    Tcl_AppendToObj(Tcl_GetObjResult(interp), buffer, -1);
 	    code = TCL_ERROR;
