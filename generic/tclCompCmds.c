@@ -1055,7 +1055,7 @@ TclCompileIfCmd(interp, parsePtr, envPtr)
 	}
 	word = tokenPtr[1].start;
 	numBytes = tokenPtr[1].size;
-	if (((numBytes == 2) && (strncmp(word, "if", 2) == 0))
+	if ((tokenPtr == parsePtr->tokenPtr)
 	        || ((numBytes == 6) && (strncmp(word, "elseif", 6) == 0))) {
 	    tokenPtr += (tokenPtr->numComponents + 1);
 	    wordIdx++;
