@@ -2418,7 +2418,6 @@ proc tcltest::cleanupTests {{calledFromAllFile 0}} {
 	# then add current file to failFile list if any tests in this
 	# file failed
 
-	incr numTestFiles
 	if {$currentFailure \
 		&& ([lsearch -exact $failFiles $testFileName] == -1)} {
 	    lappend failFiles $testFileName

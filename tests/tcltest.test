@@ -1725,13 +1725,18 @@ test tcltest-25.2 {
 
 test tcltest-25.3 {
 	reported return code (Bug 611922)
+} -setup {
+	set fail $::tcltest::currentFailure
+	set v [verbose]
 } -body {
-	# Buggy tcltest will generate result of 2
+	verbose {}
 	test tcltest-25.3.0 {} -body {
 	    error foo
 	}
+} -cleanup {
+	set ::tcltest::currentFailure $fail
+	verbose $v
 } -match glob -output {*generated error; Return code was: 1*}
-
 
 cleanupTests
 }
