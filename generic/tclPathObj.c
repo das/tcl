@@ -30,9 +30,6 @@ static void		FreeFsPathInternalRep _ANSI_ARGS_((Tcl_Obj *listPtr));
 static void             UpdateStringOfFsPath _ANSI_ARGS_((Tcl_Obj *objPtr));
 static int		SetFsPathFromAny _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *objPtr));
-static Tcl_Obj*         FSNormalizeAbsolutePath 
-			    _ANSI_ARGS_((Tcl_Interp* interp, Tcl_Obj *pathPtr,
-					 ClientData *clientDataPtr));
 static int 		FindSplitPos _ANSI_ARGS_((char *path, char *separator));
 
 
@@ -104,7 +101,7 @@ typedef struct FsPath {
 /*
  *---------------------------------------------------------------------------
  *
- * FSNormalizeAbsolutePath --
+ * TclFSNormalizeAbsolutePath --
  *
  * Description:
  *	Takes an absolute path specification and computes a 'normalized'
@@ -136,7 +133,7 @@ typedef struct FsPath {
  *---------------------------------------------------------------------------
  */
 static Tcl_Obj*
-FSNormalizeAbsolutePath(interp, pathPtr, clientDataPtr)
+TclFSNormalizeAbsolutePath(interp, pathPtr, clientDataPtr)
     Tcl_Interp* interp;    /* Interpreter to use */
     Tcl_Obj *pathPtr;      /* Absolute path to normalize */
     ClientData *clientDataPtr;
@@ -1185,7 +1182,7 @@ Tcl_FSGetNormalizedPath(interp, pathObjPtr)
 	    /* We have a refCount on the cwd */
 	}
 	/* Already has refCount incremented */
-	fsPathPtr->normPathPtr = FSNormalizeAbsolutePath(interp, absolutePath, 
+	fsPathPtr->normPathPtr = TclFSNormalizeAbsolutePath(interp, absolutePath, 
 		       (fsPathPtr->nativePathPtr == NULL ? &clientData : NULL));
 	if (0 && (clientData != NULL)) {
 	    fsPathPtr->nativePathPtr = 

@@ -56,6 +56,8 @@ int      TclFSEnsureEpochOk _ANSI_ARGS_((Tcl_Obj* pathObjPtr, int theEpoch,
 void     TclFSSetPathDetails _ANSI_ARGS_((Tcl_Obj *pathObjPtr, 
 		FilesystemRecord *fsRecPtr, ClientData clientData, 
 		int theEpoch));
+Tcl_Obj* TclFSNormalizeAbsolutePath _ANSI_ARGS_((Tcl_Interp* interp, 
+		Tcl_Obj *pathPtr, ClientData *clientDataPtr));
 
 /* 
  * Private shared variables for use by tclIOUtil.c and tclPathObj.c
