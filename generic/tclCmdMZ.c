@@ -3688,7 +3688,11 @@ TraceCommandProc(clientData, interp, oldName, newName, flags)
 
 	Tcl_DStringFree(&cmd);
     }
-    if (flags & TCL_TRACE_DESTROYED) {
+    /*
+     * We delete when the trace was destroyed or if this is a delete trace,
+     * because command deletes are unconditional, so the trace must go away.
+     */
+    if (flags & (TCL_TRACE_DESTROYED | TCL_TRACE_DELETE)) {
 	ckfree((char *) tcmdPtr);
     }
     return;
