@@ -666,6 +666,11 @@ declare 168 generic {
     Tcl_Obj *TclGetStartupScriptPath(void)
 }
 
+# variant of Tcl_UtfNCmp that takes n as bytes, not chars
+declare 169 generic {
+    int TclpUtfNcmp2(CONST char *s1, CONST char *s2, unsigned long n)
+}
+
 
 ##############################################################################
 

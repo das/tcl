@@ -248,6 +248,7 @@ TclIntStubs tclIntStubs = {
     TclListObjSetElement, /* 166 */
     TclSetStartupScriptPath, /* 167 */
     TclGetStartupScriptPath, /* 168 */
+    TclpUtfNcmp2, /* 169 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
