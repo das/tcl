@@ -90,7 +90,7 @@ test unixInit-2.1 {TclpInitLibraryPath: value of installLib, developLib} \
 
     set x {}
     lappend x [string compare [lindex $path 0] $prefix/$installLib]
-    lappend x [string compare [lindex $path 1] [file dirname $prefix]/$developLib]
+    lappend x [string compare [lindex $path 4] [file dirname $prefix]/$developLib]
     set x
 } {0 0}
 test unixInit-2.2 {TclpInitLibraryPath: TCL_LIBRARY} {unixOnly installedTcl} {
@@ -139,7 +139,7 @@ test unixInit-2.6 {TclpInitLibraryPath: executable relative} \
     set x [lrange [getlibpath /tmp/sparkly/bin/tcltest] 0 1]
     file delete -force /tmp/sparkly
     set x
-} [list /tmp/sparkly/lib/tcl[info tclversion] /tmp/tcl[info tclversion]/library]
+} [list /tmp/sparkly/lib/tcl[info tclversion] /tmp/lib/tcl[info tclversion]]
 test unixInit-2.7 {TclpInitLibraryPath: compiled-in library path} \
 	{emptyTest unixOnly} {
     # would need test command to get defaultLibDir and compare it to

@@ -907,7 +907,7 @@ case $system in
 	LD_FLAGS="-Wl,-Bexport"
 	LD_SEARCH_FLAGS=""
 	;;
-    NetBSD-*|FreeBSD-*|OpenBSD-*)
+    NetBSD-*|FreeBSD-[12].*|OpenBSD-*)
 	# Not available on all versions:  check for include file.
 	AC_CHECK_HEADER(dlfcn.h, [
 	    SHLIB_CFLAGS="-fpic"
@@ -935,6 +935,17 @@ case $system in
 
 	TCL_UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.a'
 	TCL_LIB_VERSIONS_OK=nodots
+        ;;
+    FreeBSD-*)
+        # FreeBSD 3.* and greater have ELF.
+        SHLIB_CFLAGS="-fpic"
+        SHLIB_LD="ld -Bshareable -x"
+        SHLIB_LD_LIBS=""
+        SHLIB_SUFFIX=".so"
+        DL_OBJS="tclLoadDl.o"
+        DL_LIBS=""
+        LD_FLAGS=""
+        LD_SEARCH_FLAGS=""
 	;;
     NEXTSTEP-*)
 	SHLIB_CFLAGS=""

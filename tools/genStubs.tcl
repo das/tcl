@@ -766,7 +766,13 @@ proc genStubs::emitInit {name textVar} {
     append capName [string range $name 1 end]
 
     if {[info exists hooks($name)]} {
-	append text "\nstatic ${capName}StubHooks ${name}StubHooks;\n"
+ 	append text "\nstatic ${capName}StubHooks ${name}StubHooks = \{\n"
+	set sep "    "
+	foreach sub $hooks($name) {
+	    append text $sep "&${sub}Stubs"
+	    set sep ",\n    "
+	}
+	append text "\n\};\n"
     }
     append text "\n${capName}Stubs ${name}Stubs = \{\n"
     append text "    TCL_STUB_MAGIC,\n"
@@ -799,22 +805,23 @@ proc genStubs::emitInits {} {
     variable libraryName
     variable interfaces
 
+    # Assuming that dependencies only go one level deep, we need to emit
+    # all of the leaves first to avoid needing forward declarations.
+
+    set leaves {}
+    set roots {}
     foreach name [lsort [array names interfaces]] {
+	if {[info exists hooks($name)]} {
+	    lappend roots $name
+	} else {
+	    lappend leaves $name
+	}
+    }
+    foreach name $leaves {
 	emitInit $name text
     }
-
-
-    foreach name [array names hooks] {
-	set capName [string toupper [string index $name 0]]
-	append capName [string range $name 1 end]
-
- 	append text "\nstatic ${capName}StubHooks ${name}StubHooks = \{\n"
-	set sep "    "
-	foreach sub $hooks($name) {
-	    append text $sep "&${sub}Stubs"
-	    set sep ",\n    "
-	}
-	append text "\n\};\n\n"
+    foreach name $roots {
+	emitInit $name text
     }
 
     rewriteFile [file join $outDir ${libraryName}StubInit.c] $text
