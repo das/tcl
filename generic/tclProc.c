@@ -901,7 +901,6 @@ TclObjInterpProc(clientData, interp, objc, objv)
 				  * procedure. */
     Tcl_Obj *CONST objv[];	 /* Argument value objects. */
 {
-    Interp *iPtr = (Interp *) interp;
     register Proc *procPtr = (Proc *) clientData;
     Namespace *nsPtr = procPtr->cmdPtr->nsPtr;
     CallFrame frame;
@@ -1428,7 +1427,6 @@ TclUpdateReturnInfo(iPtr)
 				 * exception is being processed. */
 {
     int level, code = TCL_RETURN;
-    char *errorCode;
     Tcl_Obj *valuePtr;
 
     Tcl_DictObjGet(NULL, iPtr->returnOpts, iPtr->returnLevelKey, &valuePtr);
