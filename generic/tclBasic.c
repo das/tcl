@@ -4963,7 +4963,9 @@ Tcl_DeleteTrace(interp, trace)
      * Execute any delete callback.
      */
 
-    ( tracePtr->delProc )( tracePtr->clientData );
+    if ( tracePtr->delProc != NULL ) {
+	( tracePtr->delProc )( tracePtr->clientData );
+    }
 
     /* Delete the trace object */
 
