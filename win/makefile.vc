@@ -298,7 +298,8 @@ install:    install-binaries install-libraries
 test:	    setup $(TCLTEST) dlls $(CAT16) $(CAT32)
 	copy $(WINDIR)\pkgIndex.tcl $(OUTDIR)
 	set TCL_LIBRARY=$(ROOT)/library
-	$(TCLTEST) <<
+	$(TCLTEST) << "$(TCLREGDLL)"
+		load [lindex $$argv 0] registry
 		cd ../tests
 		source all
 <<
