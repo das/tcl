@@ -455,8 +455,7 @@ Tcl_RegExpExecObj(interp, re, objPtr, offset, nmatches, flags)
     regexpPtr->string = NULL;
     regexpPtr->objPtr = objPtr;
 
-    udata = Tcl_GetUnicode(objPtr);
-    length = Tcl_GetCharLength(objPtr);
+    udata = Tcl_GetUnicodeFromObj(objPtr, &length);
 
     if (offset > length) {
 	offset = length;
