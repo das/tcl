@@ -220,13 +220,16 @@ error if for some reason that is not possible), then the optional
 \fI-linktype\fR argument should be given.  Accepted values for
 \fI-linktype\fR are "-symbolic" and "-hard".
 .
-When creating links on filesystems that either do not support any links,
-or do not support the specific type requested, an error message will be
-returned.  In particular Windows 95, 98 and ME do not support any links
-at present, but most Unix platforms support both symbolic and hard links
-(the latter for files only), MacOS supports symbolic links and Windows
-NT/2000/XP (on NTFS drives) support symbolic directory links and hard
-file links.
+On Unix, symbolic links can be made to relative paths, but on all other
+platforms target paths will be converted to absolute, normalized form
+before the link is created (and "~user" paths are always expanded to
+absolute form).  When creating links on filesystems that
+either do not support any links, or do not support the specific type
+requested, an error message will be returned.  In particular Windows 95,
+98 and ME do not support any links at present, but most Unix platforms
+support both symbolic and hard links (the latter for files only), MacOS
+supports symbolic links and Windows NT/2000/XP (on NTFS drives) support
+symbolic directory links and hard file links.
 .TP
 \fBfile lstat \fIname varName\fR
 .
