@@ -116,6 +116,12 @@ proc genWinImage::generateInstallers {} {
     set __TCLBASEDIR__ [file native $tclBuildDir]
     set __TKBASEDIR__ [file native $tkBuildDir]
     set __WISE__ [file native [file join $toolsDir wise]]
+
+    set f [open [file join $__TCLBASEDIR__ generic/tcl.h] r]
+    set s [read $f]
+    close $f
+    regexp {TCL_PATCH_LEVEL\s*\"([^\"]*)\"} $s dummy __TCL_PATCH_LEVEL__
+    
     set f [open tcl.wse.in r]
     set s [read $f]
     close $f
