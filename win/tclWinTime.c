@@ -269,10 +269,11 @@ TclpGetDate(t, useGMT)
 	 * algorithm ignores daylight savings time before the epoch.
 	 */
 
-	time = *tp - _timezone;
-	if (time >= 0) {
+	if (*tp >= 0) {
 	    return localtime(tp);
 	}
+
+	time = *tp - _timezone;
 	
 	/*
 	 * If we aren't near to overflowing the long, just add the bias and
