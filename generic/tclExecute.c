@@ -1137,7 +1137,7 @@ TclExecuteByteCode(interp, codePtr)
     cleanupV_pushObjResultPtr:
     switch (cleanup) {
         case 0:
-	    PUSH_OBJECT(objResultPtr);
+	    stackPtr[++stackTop] = (objResultPtr);
 	    goto cleanup0;
         default:
 	    cleanup -= 2;
