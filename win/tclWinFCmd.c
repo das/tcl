@@ -447,6 +447,20 @@ DoCopyFile(
         return TCL_ERROR;
     }
     
+    /*
+     * Similarly, if 'nativeSrc' is NULL or empty, the following code
+     * locks up the process on WinNT; bail out.
+     */
+    
+    if (nativeSrc == NULL || nativeSrc[0] == '\0') {
+	Tcl_SetErrno(ENOENT);
+	return TCL_ERROR;
+    }
+    
+    /*
+     * OK, now try the copy.
+     */
+    
     __try {
 	if ((*tclWinProcs->copyFileProc)(nativeSrc, nativeDst, 0) != FALSE) {
 	    return TCL_OK;
