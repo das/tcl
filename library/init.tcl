@@ -491,8 +491,14 @@ proc auto_execok name {
     }
     set auto_execs($name) ""
 
-    if {[lsearch -exact {cls copy date del erase dir echo mkdir md rename 
-	    ren rmdir rd time type ver vol} $name] != -1} {
+    set shellBuiltins [list cls copy date del erase dir echo mkdir \
+	    md rename ren rmdir rd time type ver vol]
+    if {[string equal $tcl_platform(os) "Windows NT"]} {
+	# NT includes the 'start' built-in
+	lappend shellBuiltins "start"
+    }
+
+    if {[lsearch -exact $shellBuiltins $name] != -1} {
 	return [set auto_execs($name) [list $env(COMSPEC) /c $name]]
     }
 
