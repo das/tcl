@@ -1569,8 +1569,6 @@ typedef Tcl_ObjCmdProc *TclObjCmdProcType;
  *----------------------------------------------------------------
  */
 
-extern Tcl_Time			tclBlockTime;
-extern int			tclBlockTimeSet;
 extern char *			tclExecutableName;
 extern char *			tclNativeExecutableName;
 extern char *			tclDefaultEncodingDir;
