@@ -272,6 +272,8 @@ namespace eval tcltest {
 
     # Set the location of the execuatble
     Default tcltest [info nameofexecutable]
+    trace variable tcltest w [namespace code {testConstraint stdio \
+	    [eval [ConstraintInitializer stdio]] ;#}]
 
     # save the platform information so it can be restored later
     Default originalTclPlatform [array get tcl_platform]
