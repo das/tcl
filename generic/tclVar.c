@@ -561,9 +561,8 @@ Tcl_ObjGetVar2(interp, part1Ptr, part2Ptr, flags)
     register Tcl_Obj *part2Ptr;	/* If non-null, points to an object holding
 				 * the name of an element in the array
 				 * part1Ptr. */
-    int flags;			/* OR-ed combination of TCL_GLOBAL_ONLY,
-				 * TCL_LEAVE_ERR_MSG, and
-				 * TCL_PARSE_PART1 bits. */
+    int flags;			/* OR-ed combination of TCL_GLOBAL_ONLY and
+				 * TCL_LEAVE_ERR_MSG bits. */
 {
     char *part1, *part2;
 
@@ -1142,8 +1141,7 @@ Tcl_ObjSetVar2(interp, part1Ptr, part2Ptr, newValuePtr, flags)
     int flags;			/* Various flags that tell how to set value:
 				 * any of TCL_GLOBAL_ONLY,
 				 * TCL_NAMESPACE_ONLY, TCL_APPEND_VALUE,
-				 * TCL_LIST_ELEMENT, TCL_LEAVE_ERR_MSG, or
-				 * TCL_PARSE_PART1. */
+				 * TCL_LIST_ELEMENT, or TCL_LEAVE_ERR_MSG. */
 {
     char *part1, *part2;
 
