@@ -4651,24 +4651,6 @@ Tcl_FSConvertToPathType(interp, objPtr)
 	    return Tcl_ConvertToType(interp, objPtr, &tclFsPathType);
 	}
 	return TCL_OK;
-	/* 
-	 * This code is intentionally never reached.  Once fs-optimisation
-	 * is complete, it will be removed/replaced
-	 */
-	if (fsPathPtr->cwdPtr == NULL) {
-	    return TCL_OK;
-	} else {
-	    if (TclFSCwdPointerEquals(fsPathPtr->cwdPtr)) {
-		return TCL_OK;
-	    } else {
-		if (objPtr->bytes == NULL) {
-		    UpdateStringOfFsPath(objPtr);
-		}
-		FreeFsPathInternalRep(objPtr);
-		objPtr->typePtr = NULL;
-		return Tcl_ConvertToType(interp, objPtr, &tclFsPathType);
-	    }
-	}
     } else {
 	return Tcl_ConvertToType(interp, objPtr, &tclFsPathType);
     }
