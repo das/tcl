@@ -587,6 +587,22 @@ test compile-16.23.$noComp {
 
 }	;# End of noComp loop
 
+# This test is messy because it wrecks the interpreter it runs in!
+test compile-17.1 {Command interpretation binding for compiled code} -constraints knownBug -setup {
+    set i [interp create]
+} -body {
+    $i eval {
+	if 1 {
+	    expr [
+		proc expr args {return substituted}
+		format {[subst compiled]}
+	    ]
+	}
+    }
+} -cleanup {
+    interp delete $i
+} -result substituted
+
 # cleanup
 catch {rename p ""}
 catch {namespace delete test_ns_compile}
