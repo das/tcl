@@ -22,10 +22,6 @@
 #include <shlobj.h>
 #include <lmaccess.h>		/* For TclpGetUserHome(). */
 
-extern  int  ConvertFileNameFormat(Tcl_Interp *interp, 
-    int objIndex, Tcl_Obj *fileName, int longShort, 
-    Tcl_Obj **attributePtrPtr);
-
 /*
  * Declarations for 'link' related information.  This information
  * should come with VC++ 6.0, but is not in some older SDKs.
