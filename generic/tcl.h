@@ -1071,12 +1071,9 @@ typedef enum Tcl_PathType {
 /*
  * The following constant is used to test for older versions of Tcl
  * in the stubs tables.
- *
- * The plus patch implementation uses 0xFCA1BACF so we need to pick
- * a different value to avoid accidental matches.
  */
 
-#define TCL_STUB_MAGIC 0xFCA3BACF
+#define TCL_STUB_MAGIC 0xFCA1BACF
 
 /*
  * The following function is required to be defined in all stubs aware
