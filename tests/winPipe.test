@@ -110,7 +110,7 @@ test winpipe-1.10 {32 bit comprehensive tests: from file handle} \
 } {little stderr32}
 test winpipe-1.11 {32 bit comprehensive tests: read from application} \
 	{win exec cat32} {
-    set f [open "|[list $cat32] < $path(little)" r]
+    set f [open "|[list $cat32] < [list $path(little)]" r]
     gets $f line
     catch {close $f} msg
     list $line $msg
