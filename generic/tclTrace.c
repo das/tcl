@@ -222,7 +222,6 @@ Tcl_TraceObjCmd(dummy, interp, objc, objv)
 		return TCL_ERROR;
 	    }
 	    return (traceSubCmds[typeIndex])(interp, optionIndex, objc, objv);
-	    break;
 	}
 	case TRACE_INFO: {
 	    /* 
