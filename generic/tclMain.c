@@ -175,7 +175,12 @@ void TclSetStartupScriptFileName(fileName)
  */
 CONST char *TclGetStartupScriptFileName()
 {
-    return Tcl_GetString(TclGetStartupScriptPath());
+    Tcl_Obj *pathPtr = TclGetStartupScriptPath();
+
+    if (pathPtr == NULL) {
+	return NULL;
+    }
+    return Tcl_GetString(pathPtr);
 }
 
 
