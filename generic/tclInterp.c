@@ -2005,8 +2005,6 @@ DeleteAlias(interp, slaveInterp, aliasName)
     Slave *slavePtr;		/* Slave record for slave interpreter. */
     Alias *aliasPtr;		/* Points at alias structure to delete. */
     Tcl_HashEntry *hPtr;	/* Search variable. */
-    char *tmpPtr, *namePtr;	/* Local pointers to name of command to
-                                 * be deleted. */
 
     slavePtr = (Slave *) Tcl_GetAssocData(slaveInterp, "tclSlaveRecord",
             NULL);
@@ -2031,33 +2029,13 @@ DeleteAlias(interp, slaveInterp, aliasName)
     aliasPtr = (Alias *) Tcl_GetHashValue(hPtr);
 
     /*
-     * Get a copy of the real name of the command -- it might have
-     * been renamed, and we want to delete the renamed command, not
-     * the current command (if any) by the name of the original alias.
-     * We need the local copy because the name may get smashed when the
-     * command to delete is exposed, if it was hidden.
-     */
-
-    tmpPtr = Tcl_GetCommandName(slaveInterp, aliasPtr->slaveCmd);
-    namePtr = (char *) ckalloc((unsigned) strlen(tmpPtr) + 1);
-    strcpy(namePtr, tmpPtr);
-
-    /*
      * NOTE: The deleteProc for this command will delete the
      * alias from the hash table. The deleteProc will also
      * delete the target information from the master interpreter
      * target table.
      */
 
-    if (Tcl_DeleteCommand(slaveInterp, namePtr) != 0) {
-        if (Tcl_ExposeCommand(slaveInterp, namePtr, namePtr) != TCL_OK) {
-            panic("DeleteAlias: did not find alias to be deleted");
-        }
-        if (Tcl_DeleteCommand(slaveInterp, namePtr) != 0) {
-            panic("DeleteAlias: did not find alias to be deleted");
-        }
-    }
-    ckfree(namePtr);
+    (void) Tcl_DeleteCommandFromToken(slaveInterp, aliasPtr->slaveCmd);
 
     return TCL_OK;
 }
