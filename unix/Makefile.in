@@ -81,9 +81,6 @@ TCL_PACKAGE_PATH	= @TCL_PACKAGE_PATH@
 # Tcl Module default path roots (TIP189).
 TCL_MODULE_PATH		=
 
-# Libraries built with optimization switches have this additional extension
-TCL_DBGX		= @TCL_DBGX@
-
 # warning flags
 CFLAGS_WARNING		= @CFLAGS_WARNING@
 
