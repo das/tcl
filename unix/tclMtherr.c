@@ -61,6 +61,9 @@ struct exception {
  *----------------------------------------------------------------------
  */
 
+#ifdef __APPLE_CC__
+__private_extern__
+#endif
 int
 matherr(xPtr)
     struct exception *xPtr;	/* Describes error that occurred. */

@@ -18,6 +18,11 @@
 #include "tclInt.h"
 #include <mach-o/dyld.h>
 
+/* For compatibility with older API. */
+#ifndef NSLINKMODULE_OPTION_PRIVATE
+#define NSLINKMODULE_OPTION_PRIVATE TRUE
+#endif
+
 /*
  *----------------------------------------------------------------------
  *
@@ -87,7 +92,7 @@ TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
 	return TCL_ERROR;
     }
 
-    module = NSLinkModule(image, fileName, TRUE);
+    module = NSLinkModule(image, fileName, NSLINKMODULE_OPTION_PRIVATE);
 
     if (module == NULL) {
 	Tcl_SetResult(interp, "dyld: falied to link module", TCL_STATIC);
@@ -96,13 +101,21 @@ TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
 
     name = (char*)malloc(sizeof(char)*(strlen(sym1)+2));
     sprintf(name, "_%s", sym1);
+#ifdef NSLINKMODULE_OPTION_PRIVATE
+    symbol = NSLookupSymbolInModule(module, name);
+#else
     symbol = NSLookupAndBindSymbol(name);
+#endif
     free(name);
     *proc1Ptr = NSAddressOfSymbol(symbol);
 
     name = (char*)malloc(sizeof(char)*(strlen(sym2)+2));
     sprintf(name, "_%s", sym2);
+#ifdef NSLINKMODULE_OPTION_PRIVATE
+    symbol = NSLookupSymbolInModule(module, name);
+#else
     symbol = NSLookupAndBindSymbol(name);
+#endif
     free(name);
     *proc2Ptr = NSAddressOfSymbol(symbol);
 
