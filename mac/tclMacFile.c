@@ -322,7 +322,7 @@ TclpMatchFilesTypes(
 				Tcl_NewStringObj(fname, fnameLen));
 		    }
 		}
-	    } else if ((pb.hFileInfo.ioFlAttrib & ioDirMask) != 0) {
+	    } else {
 		Tcl_DStringAppend(&dsOrig, ":", 1);
 		result = TclDoGlob(interp, separators, &dsOrig, tail, types);
 		if (result != TCL_OK) {
