@@ -333,7 +333,6 @@ AppendEnvironment(
     WCHAR wBuf[MAX_PATH];
     char buf[MAX_PATH * TCL_UTF_MAX];
     Tcl_Obj *objPtr;
-    char *str;
     Tcl_DString ds;
     CONST char **pathv;
 
@@ -362,6 +361,7 @@ AppendEnvironment(
 	 */
 
 	if ((pathc > 0) && (lstrcmpiA(lib + 4, pathv[pathc - 1]) != 0)) {
+	    CONST char *str;
 	    /*
 	     * TCL_LIBRARY is set but refers to a different tcl
 	     * installation than the current version.  Try fiddling with the
@@ -698,7 +698,8 @@ TclpFindVariable(name, lengthPtr)
 	 * all the characters after the equal sign.
 	 */
 	
-	envUpper = Tcl_ExternalToUtfDString(NULL, env, -1, &envString);
+	Tcl_ExternalToUtfDString(NULL, env, -1, &envString);
+	envUpper = Tcl_DStringValue(&envString);
 	p1 = strchr(envUpper, '=');
 	if (p1 == NULL) {
 	    continue;
