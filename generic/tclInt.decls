@@ -729,12 +729,6 @@ declare 23 win {
 declare 24 win {
     char * TclWinNoBackslash(char *path)
 }
-declare 25 win {
-    TCHAR * Tcl_WinUtfToTChar(CONST char *str, int len, Tcl_DString *dsPtr)
-}
-declare 26 win {
-    char * Tcl_WinTCharToUtf(CONST TCHAR *str, int len, Tcl_DString *dsPtr)
-}
 
 #########################
 # Unix specific internals

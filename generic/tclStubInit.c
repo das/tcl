@@ -603,8 +603,6 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclpCreateTempFile, /* 22 */
     TclpGetTZName, /* 23 */
     TclWinNoBackslash, /* 24 */
-    Tcl_WinUtfToTChar, /* 25 */
-    Tcl_WinTCharToUtf, /* 26 */
 #endif /* __WIN32__ */
 #ifdef MAC_TCL
     TclpSysAlloc, /* 0 */
@@ -639,6 +637,10 @@ TclIntPlatStubs tclIntPlatStubs = {
 TclPlatStubs tclPlatStubs = {
     TCL_STUB_MAGIC,
     NULL,
+#ifdef __WIN32__
+    Tcl_WinUtfToTChar, /* 0 */
+    Tcl_WinTCharToUtf, /* 1 */
+#endif /* __WIN32__ */
 #ifdef MAC_TCL
     Tcl_MacSetEventProc, /* 0 */
     Tcl_MacConvertTextResource, /* 1 */

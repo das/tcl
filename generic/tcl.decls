@@ -1182,6 +1182,18 @@ declare 344 generic {
 
 interface tclPlat
 
+######################
+# Windows declarations
+
+# Added in Tcl 8.1
+
+declare 0 win {
+    TCHAR * Tcl_WinUtfToTChar(CONST char *str, int len, Tcl_DString *dsPtr)
+}
+declare 1 win {
+    char * Tcl_WinTCharToUtf(CONST TCHAR *str, int len, Tcl_DString *dsPtr)
+}
+
 ##################
 # Mac declarations
 
