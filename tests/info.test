@@ -287,6 +287,10 @@ test info-8.2 {info globals option} {
 test info-8.3 {info globals option} {
     list [catch {info globals 1 2} msg] $msg
 } {1 {wrong # args: should be "info globals ?pattern?"}}
+test info-8.4 {info globals option: may have leading namespace qualifiers} {
+    set x 0
+    list [info globals x] [info globals :x] [info globals ::x] [info globals :::x] [info globals ::::x]
+} {x {} x x x}
 
 test info-9.1 {info level option} {
     info level

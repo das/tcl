@@ -1092,6 +1092,14 @@ InfoGlobalsCmd(dummy, interp, objc, objv)
 	pattern = NULL;
     } else if (objc == 3) {
 	pattern = TclGetString(objv[2]);
+	/*
+	 * Strip leading global-namespace qualifiers. [Bug 1057461]
+	 */
+	if (pattern[0] == ':' && pattern[1] == ':') {
+	    while (*pattern == ':') {
+		pattern++;
+	    }
+	}
     } else {
 	Tcl_WrongNumArgs(interp, 2, objv, "?pattern?");
 	return TCL_ERROR;
