@@ -1182,20 +1182,20 @@ TclProcCompileProc(interp, procPtr, bodyPtr, nsPtr, description, procName)
 
     if (bodyPtr->typePtr == &tclByteCodeType) {
  	if (((Interp *) *codePtr->interpHandle != iPtr)
- 	        || (codePtr->compileEpoch != iPtr->compileEpoch)
- 	        || (codePtr->nsPtr != nsPtr)) {
-            if (codePtr->flags & TCL_BYTECODE_PRECOMPILED) {
-                if ((Interp *) *codePtr->interpHandle != iPtr) {
-                    Tcl_AppendResult(interp,
-                            "a precompiled script jumped interps", NULL);
-                    return TCL_ERROR;
-                }
-	        codePtr->compileEpoch = iPtr->compileEpoch;
-                codePtr->nsPtr = nsPtr;
-            } else {
-                (*tclByteCodeType.freeIntRepProc)(bodyPtr);
-                bodyPtr->typePtr = (Tcl_ObjType *) NULL;
-            }
+		|| (codePtr->compileEpoch != iPtr->compileEpoch)
+		|| (codePtr->nsPtr != nsPtr)) {
+	    if (codePtr->flags & TCL_BYTECODE_PRECOMPILED) {
+		if ((Interp *) *codePtr->interpHandle != iPtr) {
+		    Tcl_AppendResult(interp,
+			    "a precompiled script jumped interps", NULL);
+		    return TCL_ERROR;
+		}
+		codePtr->compileEpoch = iPtr->compileEpoch;
+		codePtr->nsPtr = nsPtr;
+	    } else {
+		bodyPtr->typePtr->freeIntRepProc(bodyPtr);
+		bodyPtr->typePtr = (Tcl_ObjType *) NULL;
+	    }
  	}
     }
     if (bodyPtr->typePtr != &tclByteCodeType) {

@@ -758,7 +758,7 @@ Tcl_ExprObj(interp, objPtr, resultPtrPtr)
                 }
 	        codePtr->compileEpoch = iPtr->compileEpoch;
             } else {
-                (*tclByteCodeType.freeIntRepProc)(objPtr);
+		objPtr->typePtr->freeIntRepProc(objPtr);
                 objPtr->typePtr = (Tcl_ObjType *) NULL;
             }
 	}
@@ -971,7 +971,7 @@ TclCompEvalObj(interp, objPtr)
 		/*
 		 * This byteCode is invalid: free it and recompile
 		 */
-                tclByteCodeType.freeIntRepProc(objPtr);
+		objPtr->typePtr->freeIntRepProc(objPtr);
 		goto recompileObj;
 	    }
 	}
