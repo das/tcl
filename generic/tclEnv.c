@@ -200,6 +200,12 @@ TclSetEnv(name, value)
 	    }
 	    environ = newEnviron;
 	    environSize = length + 5;
+#if defined(__APPLE__) && defined(__DYNAMIC__)
+	    {
+	    char ***e = _NSGetEnviron();
+	    *e = environ;
+	    }
+#endif
 	}
 	index = length;
 	environ[index + 1] = NULL;
