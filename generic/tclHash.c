@@ -316,6 +316,7 @@ Tcl_FindHashEntry(tablePtr, key)
      */
 
     if (typePtr->compareKeysProc) {
+	Tcl_CompareHashKeysProc *compareKeysProc = typePtr->compareKeysProc;
 	for (hPtr = tablePtr->buckets[index]; hPtr != NULL;
 	        hPtr = hPtr->nextPtr) {
 #if TCL_HASH_KEY_STORE_HASH
@@ -323,7 +324,7 @@ Tcl_FindHashEntry(tablePtr, key)
 		continue;
 	    }
 #endif
-	    if (typePtr->compareKeysProc ((VOID *) key, hPtr)) {
+	    if (compareKeysProc ((VOID *) key, hPtr)) {
 		return hPtr;
 	    }
 	}
@@ -414,6 +415,7 @@ Tcl_CreateHashEntry(tablePtr, key, newPtr)
      */
 
     if (typePtr->compareKeysProc) {
+	Tcl_CompareHashKeysProc *compareKeysProc = typePtr->compareKeysProc;
 	for (hPtr = tablePtr->buckets[index]; hPtr != NULL;
 	        hPtr = hPtr->nextPtr) {
 #if TCL_HASH_KEY_STORE_HASH
@@ -421,7 +423,7 @@ Tcl_CreateHashEntry(tablePtr, key, newPtr)
 		continue;
 	    }
 #endif
-	    if (typePtr->compareKeysProc ((VOID *) key, hPtr)) {
+	    if (compareKeysProc ((VOID *) key, hPtr)) {
 		*newPtr = 0;
 		return hPtr;
 	    }
@@ -703,13 +705,14 @@ Tcl_NextHashEntry(searchPtr)
 					 * Tcl_FirstHashEntry. */
 {
     Tcl_HashEntry *hPtr;
+    Tcl_HashTable *tablePtr = searchPtr->tablePtr;
 
     while (searchPtr->nextEntryPtr == NULL) {
-	if (searchPtr->nextIndex >= searchPtr->tablePtr->numBuckets) {
+	if (searchPtr->nextIndex >= tablePtr->numBuckets) {
 	    return NULL;
 	}
 	searchPtr->nextEntryPtr =
-		searchPtr->tablePtr->buckets[searchPtr->nextIndex];
+		tablePtr->buckets[searchPtr->nextIndex];
 	searchPtr->nextIndex++;
     }
     hPtr = searchPtr->nextEntryPtr;
