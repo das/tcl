@@ -611,6 +611,13 @@ InfoBodyCmd(dummy, interp, objc, objv)
      */
 
     bodyPtr = procPtr->bodyPtr;
+    if (bodyPtr->bytes == NULL) {
+	/*
+	 * The string rep might not be valid if the procedure has
+	 * never been run before.  [Bug #545644]
+	 */
+	(void) Tcl_GetString(bodyPtr);
+    }
     resultPtr = Tcl_NewStringObj(bodyPtr->bytes, bodyPtr->length);
     
     Tcl_SetObjResult(interp, resultPtr);
