@@ -316,6 +316,15 @@ test proc-5.1 {Bytecompiling noop; test for correct argument substitution} {
     set result
 } {aba}    
 
+test proc-6.1 {ProcessProcResultCode: Bug 647307 (negative return code)} {
+    proc a {} {return -code -5}
+    proc b {} a
+    set result [catch b]
+    rename a {}
+    rename b {}
+    set result
+} -5
+
 # cleanup
 catch {rename p ""}
 catch {rename t ""}

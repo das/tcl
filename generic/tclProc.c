@@ -1297,7 +1297,7 @@ ProcessProcResultCode(interp, procName, nameLen, returnCode)
     if (returnCode == TCL_OK) {
 	return TCL_OK;
     }
-    if (returnCode > TCL_CONTINUE) {
+    if ((returnCode > TCL_CONTINUE) || (returnCode < TCL_OK)) {
 	return returnCode;
     }
     if (returnCode == TCL_RETURN) {
