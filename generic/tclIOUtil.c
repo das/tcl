@@ -499,7 +499,7 @@ typedef struct ThreadSpecificData {
     FilesystemRecord *filesystemList;
 } ThreadSpecificData;
 
-Tcl_ThreadDataKey dataKey;
+static Tcl_ThreadDataKey dataKey;
 
 /* 
  * Declare fallback support function and 
@@ -2509,7 +2509,8 @@ Tcl_FSGetCwd(interp)
 		 * we'll always be in the 'else' branch below which
 		 * is simpler.
 		 */
-                FsUpdateCwd(norm);
+		FsUpdateCwd(norm);
+		Tcl_DecrRefCount(norm);
 	    }
 	    Tcl_DecrRefCount(retVal);
 	}
@@ -2555,6 +2556,7 @@ Tcl_FSGetCwd(interp)
 			Tcl_DecrRefCount(norm);
 		    } else {
 			FsUpdateCwd(norm);
+			Tcl_DecrRefCount(norm);
 		    }
 		    Tcl_DecrRefCount(retVal);
 		} else {
@@ -5263,15 +5265,16 @@ Tcl_FSGetTranslatedPath(interp, pathPtr)
     srcFsPathPtr = (FsPath*) PATHOBJ(pathPtr);
     if (srcFsPathPtr->translatedPathPtr == NULL) {
 	if (PATHFLAGS(pathPtr) != 0) {
-	    return Tcl_FSGetNormalizedPath(interp, pathPtr);
+	    retObj = Tcl_FSGetNormalizedPath(interp, pathPtr);
+	} else {
+	    /* 
+	     * It is a pure absolute, normalized path object.
+	     * This is something like being a 'pure list'.  The
+	     * object's string, translatedPath and normalizedPath
+	     * are all identical.
+	     */
+	    retObj = srcFsPathPtr->normPathPtr;
 	}
-	/* 
-	 * It is a pure absolute, normalized path object.
-	 * This is something like being a 'pure list'.  The
-	 * object's string, translatedPath and normalizedPath
-	 * are all identical.
-	 */
-	retObj = srcFsPathPtr->normPathPtr;
     } else {
 	/* It is an ordinary path object */
 	retObj = srcFsPathPtr->translatedPathPtr;
