@@ -288,10 +288,10 @@ set path(echoArgs.tcl) [makeFile {
 } echoArgs.tcl]
 
 test winpipe-7.1 {BuildCommandLine: null arguments} {pcOnly exec} {
-    exec [interprter] $path(echoArgs.tcl) foo "" bar
+    exec [interpreter] $path(echoArgs.tcl) foo "" bar
 } [list $path(echoArgs.tcl) {foo {} bar}]
 test winpipe-7.2 {BuildCommandLine: null arguments} {pcOnly exec} {
-    exec [interprter] $path(echoArgs.tcl) foo \" bar
+    exec [interpreter] $path(echoArgs.tcl) foo \" bar
 } [list $path(echoArgs.tcl) {foo {"} bar}]
 
 # restore old values for env(TMP) and env(TEMP)
