@@ -944,6 +944,7 @@ TclStubs tclStubs = {
     Tcl_DictObjRemoveKeyList, /* 502 */
     Tcl_NewDictObj, /* 503 */
     Tcl_DbNewDictObj, /* 504 */
+    Tcl_RegisterConfig, /* 505 */
 };
 
 /* !END!: Do not edit above this line. */

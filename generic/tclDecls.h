@@ -1606,6 +1606,11 @@ EXTERN Tcl_Obj *	Tcl_NewDictObj _ANSI_ARGS_((void));
 /* 504 */
 EXTERN Tcl_Obj *	Tcl_DbNewDictObj _ANSI_ARGS_((CONST char * file, 
 				int line));
+/* 505 */
+EXTERN void		Tcl_RegisterConfig _ANSI_ARGS_((Tcl_Interp* interp, 
+				CONST char* pkgName, 
+				Tcl_Config* configuration, 
+				CONST char* valEncoding));
 
 typedef struct TclStubHooks {
     struct TclPlatStubs *tclPlatStubs;
@@ -2170,6 +2175,7 @@ typedef struct TclStubs {
     int (*tcl_DictObjRemoveKeyList) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Obj * dictPtr, int keyc, Tcl_Obj *CONST * keyv)); /* 502 */
     Tcl_Obj * (*tcl_NewDictObj) _ANSI_ARGS_((void)); /* 503 */
     Tcl_Obj * (*tcl_DbNewDictObj) _ANSI_ARGS_((CONST char * file, int line)); /* 504 */
+    void (*tcl_RegisterConfig) _ANSI_ARGS_((Tcl_Interp* interp, CONST char* pkgName, Tcl_Config* configuration, CONST char* valEncoding)); /* 505 */
 } TclStubs;
 
 #ifdef __cplusplus
@@ -4229,6 +4235,10 @@ extern TclStubs *tclStubsPtr;
 #ifndef Tcl_DbNewDictObj
 #define Tcl_DbNewDictObj \
 	(tclStubsPtr->tcl_DbNewDictObj) /* 504 */
+#endif
+#ifndef Tcl_RegisterConfig
+#define Tcl_RegisterConfig \
+	(tclStubsPtr->tcl_RegisterConfig) /* 505 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

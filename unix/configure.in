@@ -53,6 +53,12 @@ AC_HAVE_HEADERS(unistd.h limits.h)
 SC_ENABLE_THREADS
 
 #------------------------------------------------------------------------
+# Embedded configuration information, encoding to use for the values, TIP #59
+#------------------------------------------------------------------------
+
+SC_TCL_CFG_ENCODING
+
+#------------------------------------------------------------------------
 # If we're using GCC, see if the compiler understands -pipe.  If so, use it.
 # It makes compiling go faster.  (This is only a performance feature.)
 #------------------------------------------------------------------------

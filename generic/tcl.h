@@ -2196,6 +2196,16 @@ typedef struct Tcl_Parse {
  */
 typedef unsigned short Tcl_UniChar;
 
+/* TIP #59: The following structure is used in calls
+ * 'Tcl_RegisterConfig' to provide the system with the embedded
+ * configuration data.
+ */
+
+typedef struct Tcl_Config {
+    CONST char* key;   /* Configuration key to register. ASCII encoded, thus UTF-8 */
+    CONST char* value; /* The value associated with the key. System encoding */
+} Tcl_Config;
+
 
 /*
  * Deprecated Tcl procedures:

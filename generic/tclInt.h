@@ -1648,6 +1648,8 @@ EXTERN int		TclGlob _ANSI_ARGS_((Tcl_Interp *interp,
 			    int globFlags, Tcl_GlobTypeData* types));
 EXTERN void		TclInitAlloc _ANSI_ARGS_((void));
 EXTERN void		TclInitDbCkalloc _ANSI_ARGS_((void));
+EXTERN void             TclInitEmbeddedConfigurationInformation 
+                            _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN void		TclInitEncodingSubsystem _ANSI_ARGS_((void));
 EXTERN void		TclInitIOSubsystem _ANSI_ARGS_((void));
 EXTERN void		TclInitNamespaceSubsystem _ANSI_ARGS_((void));

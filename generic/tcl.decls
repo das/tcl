@@ -1797,6 +1797,12 @@ declare 504 generic {
     Tcl_Obj *Tcl_DbNewDictObj(CONST char *file, int line)
 }
 
+# New export due to TIP#59
+declare 505 generic {
+    void Tcl_RegisterConfig (Tcl_Interp* interp, CONST char* pkgName, Tcl_Config* configuration, \
+	CONST char* valEncoding)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are
