@@ -25,7 +25,10 @@ TK_DOCS = \
 	$(TK_SOURCE)/doc/*.[13n]
 
 PRO_DOCS = \
-	$(PRO_SOURCE)/doc/man/*.[13n]
+	$(PRO_SOURCE)/doc/man/procheck.1 \
+	$(PRO_SOURCE)/doc/man/prodebug.1 \
+	$(PRO_SOURCE)/doc/man/prodebug.n \
+	$(PRO_SOURCE)/doc/man/prolicense.1
 
 ITCL_DOCS = \
 	$(ITCL_SOURCE)/itcl/doc/*.[13n] \
@@ -34,7 +37,8 @@ ITCL_DOCS = \
 #	$(ITCL_SOURCE)/iwidgets3.0.0/doc/*.[13n]
 
 COREDOCS = $(TCL_DOCS) $(TK_DOCS) 
-PRODOCS = $(COREDOCS) $(PRO_DOCS) $(ITCL_DOCS)
+#PRODOCS = $(COREDOCS) $(PRO_DOCS) $(ITCL_DOCS)
+PRODOCS = $(COREDOCS) $(PRO_DOCS) 
 TCLSH = $(TCL_BIN_DIR)/tclsh
 CC=@CC@
 
