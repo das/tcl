@@ -56,7 +56,7 @@ test iocmd-1.7 {puts command} {
 } 7
 test iocmd-1.8 {puts command} {
     set f [open $path(test1) w]
-    fconfigure $f -translation lf -eofchar {}
+    fconfigure $f -translation lf -eofchar {} -encoding iso8859-1
     puts -nonewline $f [binary format a4a5 foo bar]
     close $f
     file size $path(test1)

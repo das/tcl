@@ -25,7 +25,7 @@ DEPBUILD	= ${BUILD} -buildstyle "${DEPBUILDSTYLE}"
 
 INSTALLOPTS	= INSTALL_ROOT="${INSTALL_ROOT}"
 
-EMBEDDEDOPTS	= DYLIB_INSTALL_PATH="@executable_path/../Frameworks"
+EMBEDDEDOPTS	= EMBEDDED_BUILD=1
 
 ################################################################################
 
@@ -53,10 +53,10 @@ install-develop:
 install-deploy:
 	${DEPBUILD} install ${INSTALLOPTS}
 
-embedded-develop: forceRelink
+embedded-develop:
 	${DEVBUILD} ${EMBEDDEDOPTS}
 
-embedded-deploy: forceRelink
+embedded-deploy:
 	${DEPBUILD} ${EMBEDDEDOPTS}
 
 install-embedded-develop: 
