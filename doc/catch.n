@@ -53,7 +53,7 @@ the return code from evaluation of \fIscript\fR is not TCL_RETURN,
 the value of the \fB-level\fR entry will be 0, and the value
 of the \fB-code\fR entry will be the same as the return code.
 Only when the return code is TCL_RETURN will the values of
-the \fB\level\fR and \fB-code\fR entries be something else, as
+the \fB-level\fR and \fB-code\fR entries be something else, as
 further described in the documentation for the \fBreturn\fR command.
 .PP
 When the return code from evaluation of \fIscript\fR is TCL_ERROR,
