@@ -1690,7 +1690,7 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 	     */
 	    Tcl_DStringFree(&ds);
 	    Tcl_ExternalToUtfDString(NULL,normPath,
-                                     strlen(normPath),&ds);
+                                     (unsigned)strlen(normPath),&ds);
 
 	    if (path[nextCheckpoint] != '\0') {
 		/* not at end, append remaining path */

@@ -1757,7 +1757,7 @@ Tcl_FSMatchInDirectory(interp, result, pathPtr, pattern, types)
 		switch (tclPlatform) {
 		    case TCL_PLATFORM_UNIX:
 			if (cwdStr[cwdLen-1] != '/') {
-			    sep == '/';
+			    sep = '/';
 			}
 			break;
 		    case TCL_PLATFORM_WINDOWS:
