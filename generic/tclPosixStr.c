@@ -736,7 +736,7 @@ Tcl_ErrnoMsg(err)
 	case ENOPKG: return "package not installed";
 #endif
 #ifdef ENOPROTOOPT
-	case ENOPROTOOPT: return "bad proocol option";
+	case ENOPROTOOPT: return "bad protocol option";
 #endif
 #ifdef ENOSPC
 	case ENOSPC: return "no space left on device";
