@@ -4734,6 +4734,7 @@ Tcl_CreateObjTrace( interp, level, flags, proc, clientData, delProc )
     tracePtr->clientData	= clientData;
     tracePtr->delProc           = delProc;
     tracePtr->nextPtr		= iPtr->tracePtr;
+    tracePtr->flags		= flags;
     iPtr->tracePtr		= tracePtr;
 
     return (Tcl_Trace) tracePtr;
