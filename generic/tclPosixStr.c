@@ -11,7 +11,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * RCS: @(#) $Id$
+ * SCCS: @(#) tclPosixStr.c 1.34 98/02/18 17:34:54
  */
 
 #include "tclInt.h"
@@ -336,7 +336,7 @@ Tcl_ErrnoId()
 #ifdef ENXIO
 	case ENXIO: return "ENXIO";
 #endif
-#ifdef EOPNOTSUPP
+#if defined(EOPNOTSUPP) &&  (!defined(ENOTSUP) || (ENOTSUP != EOPNOTSUPP))
 	case EOPNOTSUPP: return "EOPNOTSUPP";
 #endif
 #ifdef EPERM
@@ -783,7 +783,7 @@ Tcl_ErrnoMsg(err)
 #ifdef ENXIO
 	case ENXIO: return "no such device or address";
 #endif
-#ifdef EOPNOTSUPP
+#if defined(EOPNOTSUPP) &&  (!defined(ENOTSUP) || (ENOTSUP != EOPNOTSUPP))
 	case EOPNOTSUPP: return "operation not supported on socket";
 #endif
 #ifdef EPERM

@@ -10,7 +10,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * RCS: @(#) $Id$
+ * SCCS: @(#) tclWinReg.c 1.12 98/02/11 17:41:21
  */
 
 #include <tcl.h>
@@ -21,23 +21,21 @@
 #undef WIN32_LEAN_AND_MEAN
 
 /*
- * TCL_STORAGE_CLASS is set unconditionally to DLLEXPORT because the
- * Registry_Init declaration is in the source file itself, which is only
- * accessed when we are building a library.
- */
-
-#undef TCL_STORAGE_CLASS
-#define TCL_STORAGE_CLASS DLLEXPORT
-
-/*
  * VC++ has an alternate entry point called DllMain, so we need to rename
  * our entry point.
  */
 
-#ifdef DLL_BUILD
-# if defined(_MSC_VER)
-#  define DllEntryPoint DllMain
-# endif
+#ifndef STATIC_BUILD
+#if defined(_MSC_VER)
+#   define EXPORT(a,b) __declspec(dllexport) a b
+#   define DllEntryPoint DllMain
+#else
+#   if defined(__BORLANDC__)
+#	define EXPORT(a,b) a _export b
+#   else
+#	define EXPORT(a,b) a b
+#   endif
+#endif
 #endif
 
 /*
@@ -81,7 +79,7 @@ static char *typeNames[] = {
     "dword_big_endian", "link", "multi_sz", "resource_list", NULL
 };
 
-static DWORD lastType = REG_RESOURCE_LIST;
+static DWORD lastType = REG_RESOURCE_REQUIREMENTS_LIST;
 
 
 /*
@@ -116,7 +114,7 @@ static int		SetValue(Tcl_Interp *interp, Tcl_Obj *keyNameObj,
 			    Tcl_Obj *valueNameObj, Tcl_Obj *dataObj,
 			    Tcl_Obj *typeObj);
 
-EXTERN int Registry_Init(Tcl_Interp *interp);
+EXTERN EXPORT(int,Registry_Init)(Tcl_Interp *interp);
 
 /*
  *----------------------------------------------------------------------
@@ -138,7 +136,7 @@ EXTERN int Registry_Init(Tcl_Interp *interp);
  */
 
 #ifdef __WIN32__
-#ifdef DLL_BUILD
+#ifndef STATIC_BUILD
 BOOL APIENTRY
 DllEntryPoint(
     HINSTANCE hInst,		/* Library instance handle. */
@@ -166,8 +164,7 @@ DllEntryPoint(
  *----------------------------------------------------------------------
  */
 
-int
-Registry_Init(
+EXPORT(int,Registry_Init)(
     Tcl_Interp *interp)
 {
     Tcl_CreateObjCommand(interp, "registry", RegistryObjCmd, NULL, NULL);
@@ -545,7 +542,7 @@ GetType(
      * If we don't know about the type, just use the numeric value.
      */
 
-    if (type > lastType || type < 0) {
+    if (type > lastType) {
 	Tcl_SetIntObj(resultPtr, type);
     } else {
 	Tcl_SetStringObj(resultPtr, typeNames[type], -1);
@@ -593,27 +590,19 @@ GetValue(
     }
 
     /*
-     * Initialize a Dstring to maximum statically allocated size
-     * we could get one more byte by avoiding Tcl_DStringSetLength()
-     * and just setting length to TCL_DSTRING_STATIC_SIZE, but this
-     * should be safer if the implementation Dstrings changes.
-     *
-     * This allows short values to be read from the registy in one call.
-     * Longer values need a second call with an expanded DString.
+     * Get the value once to determine the length then again to store
+     * the data in the buffer.
      */
 
     Tcl_DStringInit(&data);
-    Tcl_DStringSetLength(&data, length = TCL_DSTRING_STATIC_SIZE - 1);
-
     resultPtr = Tcl_GetObjResult(interp);
-  
-    valueName = Tcl_GetStringFromObj(valueNameObj, NULL);
-    result = RegQueryValueEx(key, valueName, NULL, &type,
-	    (LPBYTE) Tcl_DStringValue(&data), &length);
-    if (result == ERROR_MORE_DATA) {
-        Tcl_DStringSetLength(&data, length);
-        result = RegQueryValueEx(key, valueName, NULL, &type,
-                (LPBYTE) Tcl_DStringValue(&data), &length);
+
+    valueName = Tcl_GetStringFromObj(valueNameObj, (int*) &length);
+    result = RegQueryValueEx(key, valueName, NULL, &type, NULL, &length);
+    if (result == ERROR_SUCCESS) {
+	Tcl_DStringSetLength(&data, length);
+	result = RegQueryValueEx(key, valueName, NULL, &type,
+		(LPBYTE) Tcl_DStringValue(&data), &length);
     }
     RegCloseKey(key);
     if (result != ERROR_SUCCESS) {
@@ -1156,36 +1145,65 @@ AppendSystemError(
     DWORD error)		/* Result code from error. */
 {
     int length;
-    char *msgbuf, id[10];
+    WCHAR *wMsgPtr;
+    char *msg;
+    char id[TCL_INTEGER_SPACE], msgBuf[24 + TCL_INTEGER_SPACE];
+    Tcl_DString ds;
     Tcl_Obj *resultPtr = Tcl_GetObjResult(interp);
 
-    sprintf(id, "%d", error);
-    length = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM
+    length = FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM
 	    | FORMAT_MESSAGE_ALLOCATE_BUFFER, NULL, error,
-	    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&msgbuf,
+	    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (WCHAR *) &wMsgPtr,
 	    0, NULL);
     if (length == 0) {
+	char *msgPtr;
+
+	length = FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM
+		| FORMAT_MESSAGE_ALLOCATE_BUFFER, NULL, error,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (char *) &msgPtr,
+		0, NULL);
+	if (length > 0) {
+	    wMsgPtr = (WCHAR *) LocalAlloc(LPTR, (length + 1) * sizeof(WCHAR));
+	    MultiByteToWideChar(CP_ACP, 0, msgPtr, length + 1, wMsgPtr, 
+		    length + 1);
+	    LocalFree(msgPtr);
+	}
+    }
+    if (length == 0) {
 	if (error == ERROR_CALL_NOT_IMPLEMENTED) {
-	    msgbuf = "function not supported under Win32s";
+	    msg = "function not supported under Win32s";
 	} else {
-	    msgbuf = id;
+	    sprintf(msgBuf, "unknown error: %d", error);
+	    msg = msgBuf;
 	}
     } else {
+	Tcl_Encoding encoding;
+
+	encoding = Tcl_GetEncoding(NULL, "unicode");
+	Tcl_ExternalToUtfDString(encoding, (char *) wMsgPtr, -1, &ds);
+	Tcl_FreeEncoding(encoding);
+	LocalFree(wMsgPtr);
+
+	msg = Tcl_DStringValue(&ds);
+	length = Tcl_DStringLength(&ds);
+
 	/*
 	 * Trim the trailing CR/LF from the system message.
 	 */
-	if (msgbuf[length-1] == '\n') {
-	    msgbuf[--length] = 0;
+	if (msg[length-1] == '\n') {
+	    msg[--length] = 0;
 	}
-	if (msgbuf[length-1] == '\r') {
-	    msgbuf[--length] = 0;
+	if (msg[length-1] == '\r') {
+	    msg[--length] = 0;
 	}
     }
-    Tcl_SetErrorCode(interp, "WINDOWS", id, msgbuf, (char *) NULL);
-    Tcl_AppendToObj(resultPtr, msgbuf, -1);
+
+    sprintf(id, "%d", error);
+    Tcl_SetErrorCode(interp, "WINDOWS", id, msg, (char *) NULL);
+    Tcl_AppendToObj(resultPtr, msg, length);
 
     if (length != 0) {
-	LocalFree(msgbuf);
+	Tcl_DStringFree(&ds);
     }
 }
 

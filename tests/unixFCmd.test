@@ -9,7 +9,7 @@
 # See the file "license.terms" for information on usage and redistribution
 # of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 #
-# RCS: @(#) $Id$
+# SCCS: @(#) unixFCmd.test 1.17 97/12/08 15:05:53
 
 if {[string compare test [info procs test]] == 1} then {source defs}
 
@@ -91,26 +91,7 @@ test unixFCmd-1.7 {TclpRenameFile: EXDEV} {
     catch {file delete -force foo}
     set result
 } {1}
-test unixFCmd-1.8 {Checking EINTR Bug} nonPortable {
-    testalarm 
-    after 2000
-    list [testgotsig] [testgotsig]
-} {1 0}
-test unixFCmd-1.9 {Checking EINTR Bug} nonPortable {
-    cleanup
-    set f [open tfalarm w]
-    puts $f {
-	after 2000
-	puts "hello world"
-	exit 0
-    }
-    close $f
-    testalarm 
-    set pipe [open "|[info nameofexecutable] tfalarm" r+]
-    set line [read $pipe 1]
-    catch {close $pipe}
-    list $line [testgotsig]
-} {h 1}
+
 test unixFCmd-2.1 {TclpCopyFile: target exists: lstat(dst) == 0} {
     cleanup
     exec touch tf1
@@ -185,7 +166,7 @@ if {[catch {exec {groups}} groupList] == 0} {
 test unixFCmd-12.1 {GetGroupAttribute - file not found} {
     catch {file delete -force -- foo.test}
     list [catch {file attributes foo.test -group} msg] $msg
-} {1 {could not stat file "foo.test": no such file or directory}}
+} {1 {could not read "foo.test": no such file or directory}}
 test unixFCmd-12.2 {GetGroupAttribute - file found} {
     catch {file delete -force -- foo.test}
     close [open foo.test w]
@@ -195,7 +176,7 @@ test unixFCmd-12.2 {GetGroupAttribute - file found} {
 test unixFCmd-13.1 {GetOwnerAttribute - file not found} {
     catch {file delete -force -- foo.test}
     list [catch {file attributes foo.test -group} msg] $msg
-} {1 {could not stat file "foo.test": no such file or directory}}
+} {1 {could not read "foo.test": no such file or directory}}
 test unixFCmd-13.2 {GetOwnerAttribute} {
     catch {file delete -force -- foo.test}
     close [open foo.test w]
@@ -205,7 +186,7 @@ test unixFCmd-13.2 {GetOwnerAttribute} {
 test unixFCmd-14.1 {GetPermissionsAttribute - file not found} {
     catch {file delete -force -- foo.test}
     list [catch {file attributes foo.test -permissions} msg] $msg
-} {1 {could not stat file "foo.test": no such file or directory}}
+} {1 {could not read "foo.test": no such file or directory}}
 test unixFCmd-14.2 {GetPermissionsAttribute} {
     catch {file delete -force -- foo.test}
     close [open foo.test w]
@@ -268,3 +249,4 @@ test unixFCmd-18.1 {Unix pwd} {nonPortable} {
 } {1 {error getting working directory name:}}
 
 cleanup
+return

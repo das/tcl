@@ -14,7 +14,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * RCS: @(#) $Id$
+ * SCCS: @(#) tclMacExit.c 1.7 97/11/26 11:06:00
  */
 
 #include "tclInt.h"
@@ -104,7 +104,7 @@ static ExitToShellDataPtr gExitToShellData = (ExitToShellDataPtr) NULL;
  */
 
 void
-TclPlatformExit(
+TclpExit(
     int status)		/* Ignored. */
 {
     TclMacExitHandler();

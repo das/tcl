@@ -2,12 +2,12 @@ dnl	This file is an input file used by the GNU "autoconf" program to
 dnl	generate the file "configure", which is run during Tcl installation
 dnl	to configure the system for the local environment.
 AC_INIT(../generic/tcl.h)
-# RCS: @(#) $Id$
+# SCCS: @(#) configure.in 1.156 98/02/23 17:51:51
 
-TCL_VERSION=8.0
+TCL_VERSION=8.1
 TCL_MAJOR_VERSION=8
-TCL_MINOR_VERSION=0
-TCL_PATCH_LEVEL=".3"
+TCL_MINOR_VERSION=1
+TCL_PATCH_LEVEL=a2
 VERSION=${TCL_VERSION}
 
 if test "${prefix}" = "NONE"; then
@@ -29,11 +29,22 @@ AC_SUBST(CC)
 fi
 AC_C_CROSS
 
-# set the warning flags depending on whether or not we are using gcc
-if test "${GCC}" = "yes" ; then
-    CFLAGS_WARNING="-Wall -Wconversion"
+# Threads support
+AC_ARG_ENABLE(threads,[  --enable-threads        enable Threads support],,enableval="no")
+
+if test "$enableval" = "yes"; then
+  AC_MSG_RESULT(Will compile with Threads support)
+  AC_DEFINE(TCL_THREADS)
+
+  AC_CHECK_LIB(pthread,pthread_mutex_init,tcl_ok=yes,tcl_ok=no)
+  if test "$tcl_ok" = "yes"; then
+     # The space is needed
+     THREADS_LIBS=" -lpthread"
+  else
+     AC_MSG_WARN("Don t know how to find pthread lib on your system - you must disable thread support or edit the LIBS in the Makefile...")
+  fi
 else
-    CFLAGS_WARNING=""
+  AC_MSG_RESULT(Will compile without Threads support (normal))
 fi
 
 #--------------------------------------------------------------------
@@ -53,6 +64,7 @@ AC_CHECK_FUNC(strerror, , AC_DEFINE(NO_STRERROR))
 AC_CHECK_FUNC(getwd, , AC_DEFINE(NO_GETWD))
 AC_CHECK_FUNC(wait3, , AC_DEFINE(NO_WAIT3))
 AC_CHECK_FUNC(uname, , AC_DEFINE(NO_UNAME))
+AC_CHECK_FUNC(realpath, , AC_DEFINE(NO_REALPATH))
 
 #--------------------------------------------------------------------
 #	On a few very rare systems, all of the libm.a stuff is
@@ -127,6 +139,8 @@ fi
 AC_CHECK_HEADER(string.h, tcl_ok=1, tcl_ok=0)
 AC_EGREP_HEADER(strstr, string.h, , tcl_ok=0)
 AC_EGREP_HEADER(strerror, string.h, , tcl_ok=0)
+# See also memmove check below for a place where NO_STRING_H can be
+# set and why.
 if test $tcl_ok = 0; then
     AC_DEFINE(NO_STRING_H)
 fi
@@ -277,9 +291,23 @@ fi
 
 #--------------------------------------------------------------------
 #	Some systems (e.g., IRIX 4.0.5) lack the st_blksize field
-#	in struct stat.
+#	in struct stat.  But we might be able to use fstatfs instead.
 #--------------------------------------------------------------------
 AC_STRUCT_ST_BLKSIZE
+AC_CHECK_FUNC(fstatfs, , AC_DEFINE(NO_FSTATFS))
+
+#--------------------------------------------------------------------
+#       Some system have no memcmp or it does not work with 8 bit
+#       data, this checks it and add memcmp.o to LIBOBJS if needed
+#--------------------------------------------------------------------
+AC_FUNC_MEMCMP
+
+#--------------------------------------------------------------------
+#       Some system like SunOS 4 and other BSD like systems
+#       have no memmove (we assume they have bcopy instead).
+#       {The replacement define is in compat/string.h}
+#--------------------------------------------------------------------
+AC_CHECK_FUNC(memmove, , AC_DEFINE(NO_MEMMOVE) AC_DEFINE(NO_STRING_H))
 
 #--------------------------------------------------------------------
 #	On some systems strstr is broken: it returns a pointer even
@@ -444,7 +472,6 @@ fi
 #	instead of vfork.
 #--------------------------------------------------------------------
 
-AC_TYPE_SIGNAL()
 AC_CHECK_FUNC(vfork, tcl_ok=1, tcl_ok=0)
 if test "$tcl_ok" = 1; then
     AC_MSG_CHECKING([vfork/signal bug]);
@@ -575,6 +602,10 @@ if test "$tcl_checkBoth" = 1; then
 fi
 AC_CHECK_FUNC(gethostbyname, , AC_CHECK_LIB(nsl, main, [LIBS="$LIBS -lnsl"]))
 
+# Add the threads support libraries
+
+LIBS="$LIBS$THREADS_LIBS"
+
 #--------------------------------------------------------------------
 #	The statements below define a collection of symbols related to
 #	dynamic loading and shared libraries:
@@ -662,11 +693,7 @@ AC_CHECK_LIB(dl, dlopen, have_dl=yes, have_dl=no)
 fullSrcDir=`cd $srcdir; pwd`
 TCL_SHARED_LIB_SUFFIX=""
 TCL_UNSHARED_LIB_SUFFIX=""
-TCL_TRIM_DOTS='`echo ${VERSION} | tr -d .`'
-ECHO_VERSION='`echo ${VERSION}`'
 TCL_LIB_VERSIONS_OK=ok
-CFLAGS_DEBUG=-g
-CFLAGS_OPTIMIZE=-O
 case $system in
     AIX-4.[[2-9]])
 	SHLIB_CFLAGS=""
@@ -678,18 +705,18 @@ case $system in
 	LD_FLAGS=""
 	LD_SEARCH_FLAGS='-L${LIB_RUNTIME_DIR}'
 	AIX=yes
-	TCL_SHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}.a'
+	TCL_SHARED_LIB_SUFFIX='${VERSION}.a'
 	;;
     AIX-*)
 	SHLIB_CFLAGS=""
-	SHLIB_LD="$fullSrcDir/ldAix /bin/ld -bhalt:4 -bM:SRE -bE:lib.exp -H512 -T512 -bnoentry"
+	SHLIB_LD="$fullSrcDir/ldAix /bin/ld -bhalt:4 -bM:SRE -bE:lib.exp -H512 -T512"
 	SHLIB_LD_LIBS='${LIBS}'
 	SHLIB_SUFFIX=".so"
 	DL_OBJS="tclLoadDl.o tclLoadAix.o"
 	DL_LIBS="-lld"
 	LD_FLAGS=""
 	LD_SEARCH_FLAGS='-L${LIB_RUNTIME_DIR}'
-	TCL_SHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}.a'
+	TCL_SHARED_LIB_SUFFIX='${VERSION}.a'
 	;;
     BSD/OS-2.1*|BSD/OS-3*)
 	SHLIB_CFLAGS=""
@@ -721,7 +748,7 @@ case $system in
 	    DL_OBJS="tclLoadShl.o"
 	    DL_LIBS="-ldld"
 	    LD_FLAGS="-Wl,-E"
-	    LD_SEARCH_FLAGS='-Wl,+s,+b,${LIB_RUNTIME_DIR}:.'
+	    LD_SEARCH_FLAGS='-Wl,+b,${LIB_RUNTIME_DIR}:.'
 	fi
 	;;
     IRIX-4.*)
@@ -733,7 +760,7 @@ case $system in
 	DL_LIBS=""
 	LD_FLAGS="-Wl,-D,08000000"
 	LD_SEARCH_FLAGS='-L${LIB_RUNTIME_DIR}'
-	TCL_SHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}.a'
+	TCL_SHARED_LIB_SUFFIX='${VERSION}.a'
 	;;
     IRIX-5.*|IRIX-6.*)
 	SHLIB_CFLAGS=""
@@ -805,7 +832,7 @@ case $system in
 	    DL_LIBS=""
 	    LD_FLAGS=""
 	    LD_SEARCH_FLAGS=""
-	    TCL_SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.so.1.0'
+	    TCL_SHARED_LIB_SUFFIX='`echo ${VERSION} | tr -d .`.so.1.0'
 	], [
 	    SHLIB_CFLAGS=""
 	    SHLIB_LD="echo tclLdAout $CC \{$SHLIB_CFLAGS\} | `pwd`/tclsh -r"
@@ -815,12 +842,12 @@ case $system in
 	    DL_LIBS=""
 	    LD_FLAGS=""
 	    LD_SEARCH_FLAGS='-L${LIB_RUNTIME_DIR}'
-	    TCL_SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.a'
+	    TCL_SHARED_LIB_SUFFIX='`echo ${VERSION} | tr -d .`.a'
 	])
 
 	# FreeBSD doesn't handle version numbers with dots.
 
-	TCL_UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.a'
+	TCL_UNSHARED_LIB_SUFFIX='`echo ${VERSION} | tr -d .`.a'
 	TCL_LIB_VERSIONS_OK=nodots
 	;;
     NEXTSTEP-*)
@@ -915,8 +942,8 @@ case $system in
 	# requires an extra version number at the end of .so file names.
 	# So, the library has to have a name like libtcl75.so.1.0
 
-	TCL_SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.so.1.0'
-	TCL_UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.a'
+	TCL_SHARED_LIB_SUFFIX='`echo ${VERSION} | tr -d .`.so.1.0'
+	TCL_UNSHARED_LIB_SUFFIX='`echo ${VERSION} | tr -d .`.a'
 	TCL_LIB_VERSIONS_OK=nodots
 	;;
     SunOS-5*)
@@ -943,7 +970,7 @@ case $system in
 	LD_FLAGS="-Wl,-D,08000000"
 	LD_SEARCH_FLAGS='-L${LIB_RUNTIME_DIR}'
 	;;
-    UNIX_SV* | UnixWare-5*)
+    UNIX_SV*)
 	SHLIB_CFLAGS="-KPIC"
 	SHLIB_LD="cc -G"
 	SHLIB_LD_LIBS=""
@@ -1093,18 +1120,6 @@ if test "$DL_OBJS" != "tclLoadNone.o" ; then
     fi
 fi
 
-# Set the default compiler switches based on the --enable-symbols option
-
-AC_ARG_ENABLE(symbols, [  --enable-symbols        build with debugging symbols],
-    [tcl_ok=$enableval], [tcl_ok=no])
-if test "$tcl_ok" = "yes"; then
-    CFLAGS_DEFAULT=CFLAGS_DEBUG
-    TCL_DBGX=g
-else
-    CFLAGS_DEFAULT=CFLAGS_OPTIMIZE
-    TCL_DBGX=""
-fi
-
 #--------------------------------------------------------------------
 #	The statements below check for systems where POSIX-style
 #	non-blocking I/O (O_NONBLOCK) doesn't work or is unimplemented. 
@@ -1163,10 +1178,10 @@ esac
 
 realRanlib=$RANLIB
 if test "$TCL_SHARED_LIB_SUFFIX" = "" ; then
-    TCL_SHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}${SHLIB_SUFFIX}'
+    TCL_SHARED_LIB_SUFFIX='${VERSION}${SHLIB_SUFFIX}'
 fi
 if test "$TCL_UNSHARED_LIB_SUFFIX" = "" ; then
-    TCL_UNSHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}.a'
+    TCL_UNSHARED_LIB_SUFFIX='${VERSION}.a'
 fi
 AC_ARG_ENABLE(shared,
     [  --enable-shared         build libtcl as a shared library],
@@ -1177,9 +1192,9 @@ if test "$tcl_ok" = "yes" -a "${SHLIB_SUFFIX}" != "" ; then
     TCL_LD_SEARCH_FLAGS="${LD_SEARCH_FLAGS}"
     eval "TCL_LIB_FILE=libtcl${TCL_SHARED_LIB_SUFFIX}"
     if test "x$DL_OBJS" = "xtclLoadAout.o"; then
-	MAKE_LIB="ar cr \${TCL_LIB_FILE} \${OBJS}"
+	MAKE_LIB="ar cr ${TCL_LIB_FILE} \${OBJS}"
     else
-	MAKE_LIB="\${SHLIB_LD} -o \${TCL_LIB_FILE} \${OBJS} ${SHLIB_LD_LIBS}"
+	MAKE_LIB="\${SHLIB_LD} -o ${TCL_LIB_FILE} \${OBJS} ${SHLIB_LD_LIBS}"
 	RANLIB=":"
     fi
 else
@@ -1198,7 +1213,7 @@ else
     TCL_SHLIB_CFLAGS=""
     TCL_LD_SEARCH_FLAGS=""
     eval "TCL_LIB_FILE=libtcl${TCL_UNSHARED_LIB_SUFFIX}"
-    MAKE_LIB="ar cr \${TCL_LIB_FILE} \${OBJS}"
+    MAKE_LIB="ar cr ${TCL_LIB_FILE} \${OBJS}"
 fi
 
 # Note:  in the following variable, it's important to use the absolute
@@ -1207,23 +1222,12 @@ fi
 # up the Tcl library.
 
 if test "${TCL_LIB_VERSIONS_OK}" = "ok"; then
-    TCL_LIB_FLAG="-ltcl${TCL_VERSION}\${TCL_DBGX}"
+    TCL_BUILD_LIB_SPEC="-L`pwd` -ltcl${VERSION}"
+    TCL_LIB_SPEC="-L${exec_prefix}/lib -ltcl${VERSION}"
 else
-    TCL_LIB_FLAG="-ltcl`echo ${TCL_VERSION} | tr -d .`\${TCL_DBGX}"
+    TCL_BUILD_LIB_SPEC="-L`pwd` -ltcl`echo ${VERSION} | tr -d .`"
+    TCL_LIB_SPEC="-L${exec_prefix}/lib -ltcl`echo ${VERSION} | tr -d .`"
 fi
-TCL_BUILD_LIB_SPEC="-L`pwd` ${TCL_LIB_FLAG}"
-TCL_LIB_SPEC="-L${exec_prefix}/lib ${TCL_LIB_FLAG}"
-
-# tclConfig.sh needs a version of the _LIB_SUFFIX that has been eval'ed
-# so that the backslashes quoting the DBX braces are dropped.
-
-# Trick to replace DBGX with TCL_DBGX
-DBGX='${TCL_DBGX}'
-eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
-
-VERSION='${VERSION}'
-eval "CFG_TCL_SHARED_LIB_SUFFIX=${TCL_SHARED_LIB_SUFFIX}"
-eval "CFG_TCL_UNSHARED_LIB_SUFFIX=${TCL_UNSHARED_LIB_SUFFIX}"
 
 #--------------------------------------------------------------------
 #	The statements below define the symbol TCL_PACKAGE_PATH, which
@@ -1239,13 +1243,6 @@ else
 fi
 
 AC_SUBST(BUILD_DLTEST)
-AC_SUBST(CFLAGS_DEBUG)
-AC_SUBST(CFLAGS_DEFAULT)
-AC_SUBST(CFLAGS_OPTIMIZE)
-AC_SUBST(CFLAGS_WARNING)
-AC_SUBST(CFG_TCL_SHARED_LIB_SUFFIX)
-AC_SUBST(CFG_TCL_UNSHARED_LIB_SUFFIX)
-AC_SUBST(TCL_DBGX)
 AC_SUBST(DL_LIBS)
 AC_SUBST(DL_OBJS)
 AC_SUBST(LD_FLAGS)
@@ -1258,7 +1255,6 @@ AC_SUBST(SHLIB_SUFFIX)
 AC_SUBST(TCL_BUILD_LIB_SPEC)
 AC_SUBST(TCL_LD_SEARCH_FLAGS)
 AC_SUBST(TCL_LIB_FILE)
-AC_SUBST(TCL_LIB_FLAG)
 AC_SUBST(TCL_LIB_SPEC)
 AC_SUBST(TCL_LIB_VERSIONS_OK)
 AC_SUBST(TCL_MAJOR_VERSION)

@@ -14,7 +14,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * RCS: @(#) $Id$
+ * SCCS: @(#) tclMacAlloc.c 1.16 97/12/23 10:47:20
  */
 
 #include "tclMacInt.h"
@@ -22,8 +22,6 @@
 #include <Memory.h>
 #include <stdlib.h>
 #include <string.h>
-
-
 /*
  * Flags that are used by ConfigureMemory to define how the allocator
  * should work.  They can be or'd together.
@@ -138,7 +136,7 @@ TclpSysAlloc(
     ListEl * newMemoryRecord;
 
     if (!(memoryFlags & MEMORY_ALL_SYS)) {
-
+    
     	/*
     	 * If the guard handle has been purged, throw it away and try
     	 * to allocate it again.
@@ -274,7 +272,7 @@ CleanUpExitProc()
     while (systemMemory != NULL) {
 	memRecord = systemMemory;
 	systemMemory = memRecord->next;
-        if (*(memRecord->memoryHandle) != NULL) {
+	if (*(memRecord->memoryHandle) != NULL) {
             DisposeHandle(memRecord->memoryHandle);
         }
 	DisposePtr((void *) memRecord);
@@ -308,16 +306,16 @@ FreeAllMemory()
 	memRecord = systemMemory;
 	systemMemory = memRecord->next;
 	if (*(memRecord->memoryHandle) != NULL) {
-            DisposeHandle(memRecord->memoryHandle);
-        }
+	    DisposeHandle(memRecord->memoryHandle);
+	}
 	DisposePtr((void *) memRecord);
     }
     while (appMemory != NULL) {
 	memRecord = appMemory;
 	appMemory = memRecord->next;
 	if (*(memRecord->memoryHandle) != NULL) {
-            DisposeHandle(memRecord->memoryHandle);
-        }
+	    DisposeHandle(memRecord->memoryHandle);
+	}
 	DisposePtr((void *) memRecord);
     }
 }

@@ -8,7 +8,7 @@
  * source.  See the copyright notice below for details on redistribution
  * restrictions.  The "license.terms" file does not apply to this file.
  *
- * RCS: @(#) $Id$
+ * SCCS: @(#) strftime.c 1.5 98/02/02 20:59:19
  */
 
 /*
@@ -44,9 +44,10 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS)
+#if defined(LIBC_SCCS) && !defined(lint)
+/*static char *sccsid = "from: @(#)strftime.c	5.11 (Berkeley) 2/24/91";*/
 static char *rcsid = "$Id$";
-#endif /* LIBC_SCCS */
+#endif /* LIBC_SCCS and not lint */
 
 #include <time.h>
 #include <string.h>
@@ -315,7 +316,7 @@ _fmt(format, t)
 		    continue;
 #ifndef MAC_TCL
 		case 'Z': {
-		    char *name = TclpGetTZName();
+		    char *name = TclpGetTZName(t->tm_isdst);
 		    if (name && !_add(name)) {
 			return 0;
 		    }

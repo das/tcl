@@ -11,7 +11,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * RCS: @(#) $Id$
+ * SCCS: @(#) tclMacMSLPrefix.h 1.4 97/09/02 16:14:12
  */
 
 #include <ansi_prefix.mac.h>

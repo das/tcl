@@ -12,7 +12,7 @@
 # See the file "license.terms" for information on usage and redistribution
 # of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 #
-# RCS: @(#) $Id$
+# SCCS: @(#) safe.tcl 1.30 98/01/07 17:05:25
 
 #
 # The implementation is based on namespaces. These naming conventions
@@ -22,7 +22,7 @@
 #
 
 # Needed utilities package
-package require opt 0.2;
+package require opt 0.4.1;
 
 # Create the safe namespace
 namespace eval ::safe {
