@@ -434,7 +434,11 @@ StopCalibration( ClientData unused )
 				/* Client data is unused */
 {
     SetEvent( timeInfo.exitEvent );
-    WaitForSingleObject( timeInfo.calibrationThread, INFINITE );
+    /*
+     * If Tcl_Finalize was called from DllMain, the calibration thread
+     * is in a paused state so we need to timeout and continue.
+     */
+    WaitForSingleObject( timeInfo.calibrationThread, 100 );
     CloseHandle( timeInfo.exitEvent );
     CloseHandle( timeInfo.calibrationThread );
 }
