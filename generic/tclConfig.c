@@ -28,7 +28,7 @@
  * caller.
  */
 
-#define ASSOC_KEY "Package About Dict"
+#define ASSOC_KEY "tclPackageAboutDict"
 
 /*
  * Static functions in this file:
