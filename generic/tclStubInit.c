@@ -242,7 +242,9 @@ TclIntStubs tclIntStubs = {
     NULL, /* 160 */
     TclChannelTransform, /* 161 */
     TclChannelEventScriptInvoker, /* 162 */
-    TclpSetInitialEncodings, /* 163 */
+    TclGetInstructionTable, /* 163 */
+    TclExpandCodeArray, /* 164 */
+    TclpSetInitialEncodings, /* 165 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
