@@ -864,16 +864,19 @@ Tcl_UtfBackslash(src, readPtr, dst)
             count = 1;
             break;
 	default:
-	    if (isdigit(UCHAR(*p))) { /* INTL: digit */
+	    /*
+	     * Check for an octal number \oo?o?
+	     */
+	    if (isdigit(UCHAR(*p)) && (UCHAR(*p) < '8')) { /* INTL: digit */
 		result = (unsigned char)(*p - '0');
 		p++;
-		if (!isdigit(UCHAR(*p))) { /* INTL: digit */
+		if (!isdigit(UCHAR(*p)) || (UCHAR(*p) >= '8')) { /* INTL: digit */
 		    break;
 		}
 		count = 3;
 		result = (unsigned char)((result << 3) + (*p - '0'));
 		p++;
-		if (!isdigit(UCHAR(*p))) { /* INTL: digit */
+		if (!isdigit(UCHAR(*p)) || (UCHAR(*p) >= '8')) { /* INTL: digit */
 		    break;
 		}
 		count = 4;

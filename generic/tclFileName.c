@@ -1652,9 +1652,9 @@ TclGlob(interp, pattern, unquotedPrefix, globFlags, types)
 	 * the user name anymore (Vince Darley, June 1999), since the
 	 * new code is designed to handle special chars.
 	 */
-	#ifndef NOT_NEEDED_ANYMORE
+#ifndef NOT_NEEDED_ANYMORE
 	head = DoTildeSubst(interp, start+1, &buffer);
-	#else
+#else
 	
 	if (strpbrk(start+1, "\\[]*?{}") == NULL) {
 	    head = DoTildeSubst(interp, start+1, &buffer);
@@ -1666,7 +1666,7 @@ TclGlob(interp, pattern, unquotedPrefix, globFlags, types)
 	    }
 	    head = NULL;
 	}
-	#endif
+#endif
 	*tail = c;
 	if (head == NULL) {
 	    if (globFlags & GLOBMODE_NO_COMPLAIN) {
