@@ -181,6 +181,7 @@ TCLOBJS = \
 	$(TMPDIR)\tclScan.obj \
 	$(TMPDIR)\tclStringObj.obj \
 	$(TMPDIR)\tclStubInit.obj \
+	$(TMPDIR)\tclStubLib.obj \
 	$(TMPDIR)\tclThread.obj \
 	$(TMPDIR)\tclTimer.obj \
 	$(TMPDIR)\tclUtf.obj \

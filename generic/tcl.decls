@@ -963,9 +963,11 @@ declare 278 generic {
 declare 279 generic {
     void Tcl_GetVersion(int *major, int *minor, int *patchLevel, int *type)
 }
+declare 280 generic {
+    void Tcl_InitMemory(Tcl_Interp *interp)
+}
+
 # Reserved for future use (8.0.x vs. 8.1)
-#  declare 280 generic {
-#  }
 #  declare 281 generic {
 #  }
 #  declare 282 generic {

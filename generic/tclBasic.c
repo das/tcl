@@ -403,6 +403,11 @@ Tcl_CreateInterp()
      */
 
     iPtr->stubTable = &tclStubs;
+
+#ifdef Tcl_InitStubs
+#undef Tcl_InitStubs
+#endif
+    Tcl_InitStubs(interp, TCL_VERSION, 1);
     
     /*
      * Create the core commands. Do it here, rather than calling

@@ -778,8 +778,7 @@ proc genStubs::emitInit {name textVar} {
     
     forAllStubs $name makeInit 1 text {"    NULL, /* $i */\n"}
 
-    append text "\};\n\n"
-    append text "${capName}Stubs *${name}StubsPtr = &${name}Stubs;\n"
+    append text "\};\n"
     return
 }
 
