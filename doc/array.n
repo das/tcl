@@ -188,7 +188,7 @@ array statistics colorcount
 .CE
 
 .SH "SEE ALSO"
-list(n), string(n), variable(n), trace(n)
+list(n), string(n), variable(n), trace(n), foreach(n)
 
 .SH KEYWORDS
 array, element names, search
