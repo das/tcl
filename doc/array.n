@@ -111,6 +111,14 @@ The return value is a
 search identifier that must be used in \fBarray nextelement\fR
 and \fBarray donesearch\fR commands; it allows multiple
 searches to be underway simultaneously for the same array.
+.VS 8.4
+.TP
+\fBarray statistics \fIarrayName\fR
+Returns statistics about the distribution of data within the hashtable
+that represents the array.  This information includes the number of
+entries in the table, the number of buckets, and the utilization of
+the buckets.
+.VE 8.4
 .VS 8.3
 .TP
 \fBarray unset \fIarrayName\fR ?\fIpattern\fR?
