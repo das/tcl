@@ -250,9 +250,9 @@ TclFileMakeDirsCmd(interp, objc, objv)
 	    target = Tcl_FSJoinPath(split, j + 1);
 	    Tcl_IncrRefCount(target);
 	    /*
-	     * Call Tcl_Stat() so that if target is a symlink that points
-	     * to a directory we will create subdirectories in that
-	     * directory.
+	     * Call Tcl_FSStat() so that if target is a symlink that
+	     * points to a directory we will create subdirectories in
+	     * that directory.
 	     */
 
 	    if (Tcl_FSStat(target, &statBuf) == 0) {

@@ -568,6 +568,7 @@ typedef struct Tcl_RegExpInfo {
  * struct's reference in tclDecls.h.
  */
 typedef Tcl_StatBuf *Tcl_Stat_;
+typedef struct stat *Tcl_OldStat_;
 
 /*
  * When a TCL command returns, the interpreter contains a result from the

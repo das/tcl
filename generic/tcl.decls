@@ -1293,7 +1293,7 @@ declare 367 generic {
    int Tcl_Access(CONST char *path, int mode)
 }
 declare 368 generic {
-    int Tcl_Stat(CONST char *path, Tcl_StatBuf *bufPtr)
+    int Tcl_Stat(CONST char *path, struct stat *bufPtr)
 }
 declare 369 generic {
     int Tcl_UtfNcmp(CONST char *s1, CONST char *s2, unsigned long n)
