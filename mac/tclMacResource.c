@@ -1497,7 +1497,7 @@ Tcl_MacFindResource(
 	Tcl_DStringFree(&ds);
     }
     
-    if (*resource == NULL) {
+    if (resource != NULL && *resource == NULL) {
     	*releaseIt = 1;
     	LoadResource(resource);
     } else {
