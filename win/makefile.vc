@@ -216,11 +216,11 @@ guilflags = $(lflags) -subsystem:windows -entry:WinMainCRTStartup
 dlllflags = $(lflags) -entry:_DllMainCRTStartup$(DLLENTRY) -dll
 
 !IF "$(MACHINE)" == "PPC"
-libc = libc.lib
-libcdll = crtdll.lib
+libc = libc$(DBGX).lib
+libcdll = crtdll$(DBGX).lib
 !ELSE
-libc = libc.lib oldnames.lib
-libcdll = msvcrt.lib oldnames.lib
+libc = libc$(DBGX).lib oldnames.lib
+libcdll = msvcrt$(DBGX).lib oldnames.lib
 !ENDIF
 
 baselibs   = kernel32.lib $(optlibs) advapi32.lib user32.lib
