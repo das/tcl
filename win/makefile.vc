@@ -323,10 +323,7 @@ plugin:	    setup $(TCLPLUGINDLL) $(TCLSHP)
 install:    install-binaries install-libraries
 test:	    setup $(TCLTEST) dlls $(CAT16) $(CAT32)
 	set TCL_LIBRARY=$(ROOT)/library
-	$(TCLTEST) << "$(TCLREGDLL)"
-		load [lindex $$argv 0] registry
-		source $(ROOT)/tests/all.tcl
-<<
+	$(TCLTEST) $(ROOT)/tests/all.tcl
 
 setup:
 	@$(MKDIR) $(TMPDIR)
