@@ -3321,7 +3321,7 @@ Tcl_EvalObjv(interp, objc, objv, flags)
 	}
     }
 
-    code = TEOVI(interp, objc, objv, cmdString, cmdLen, flags);
+    code = TEOVICount(interp, objc, objv, cmdString, cmdLen, flags);
 
     /*
      * If we are again at the top level, process any unusual 
