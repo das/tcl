@@ -1961,7 +1961,7 @@ Tcl_GetIntFromObj(interp, objPtr, intPtr)
     }
 
     if (((long)((int)l)) == l) {
-	*intPtr = (int)objPtr->internalRep.longValue;
+	*intPtr = (int)l;
 	return TCL_OK;
     }
 #ifndef TCL_WIDE_INT_IS_LONG

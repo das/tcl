@@ -35281,6 +35281,26 @@ test clock-42.1 {regression test - %z in :localtime when west of Greenwich } \
     } \
     -result {-0500}
 
+test clock-43.1 {regression test - mktime returning -1} \
+    -setup {
+	if { [info exists env(TZ)] } {
+	    set oldTZ $env(TZ)
+	}
+	set env(TZ) UTC0
+    } \
+    -body {
+	clock scan 1969-12-31T23:59:59 -format %Y-%m-%dT%T -timezone :localtime
+    } \
+    -cleanup {
+	if { [info exists oldTZ] } {
+	    set env(TZ) $oldTZ
+	    unset oldTZ
+	} else {
+	    unset env(TZ)
+	}
+    } \
+    -result {-1}
+    
 # cleanup
 
 namespace delete ::testClock
