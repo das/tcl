@@ -86,7 +86,7 @@ test linsert-2.2 {linsert errors} {
 } {1 {wrong # args: should be "linsert list index element ?element ...?"}}
 test linsert-2.3 {linsert errors} {
     list [catch {linsert a 12x 2} msg] $msg
-} {1 {syntax error in expression "12x"}}
+} {1 {bad index "12x": must be integer or end?-integer?}}
 test linsert-2.4 {linsert errors} {
     list [catch {linsert \{ 12 2} msg] $msg
 } {1 {unmatched open brace in list}}
@@ -109,15 +109,3 @@ catch {unset lis}
 catch {rename p ""}
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
