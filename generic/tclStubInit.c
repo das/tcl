@@ -970,6 +970,7 @@ TclStubs tclStubs = {
     Tcl_GetEnsembleNamespace, /* 551 */
     Tcl_SetTimeProc, /* 552 */
     Tcl_QueryTimeProc, /* 553 */
+    Tcl_ChannelThreadActionProc, /* 554 */
 };
 
 /* !END!: Do not edit above this line. */
