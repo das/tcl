@@ -64,11 +64,12 @@
 #endif
 
 #include <time.h>
-#include <winsock2.h>
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #undef WIN32_LEAN_AND_MEAN
+#define WIN32   /* BUGFIX: winsock2.h seems to need this */
+#include <winsock2.h>
 
 #ifdef BUILD_tcl
 #   undef TCL_STORAGE_CLASS
