@@ -3467,7 +3467,7 @@ SetCmdNameFromAny(interp, objPtr)
      * structure was found, leave NULL as the cached value.
      */
 
-    TclFreeIntRep)(objPtr);
+    TclFreeIntRep(objPtr);
     objPtr->internalRep.twoPtrValue.ptr1 = (VOID *) resPtr;
     objPtr->internalRep.twoPtrValue.ptr2 = NULL;
     objPtr->typePtr = &tclCmdNameType;
