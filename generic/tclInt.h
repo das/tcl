@@ -1889,6 +1889,7 @@ MODULE_SCOPE void	TclInitNamespaceSubsystem _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclInitNotifier _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclInitObjSubsystem _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclInitSubsystems ();
+MODULE_SCOPE int	TclInterpReady _ANSI_ARGS_((Tcl_Interp *interp));
 MODULE_SCOPE int	TclIsLocalScalar _ANSI_ARGS_((CONST char *src,
 			    int len));
 MODULE_SCOPE int	TclJoinThread _ANSI_ARGS_((Tcl_ThreadId id,
