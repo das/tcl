@@ -599,6 +599,7 @@ TclTraceExecutionObjCmd(interp, optionIndex, objc, objv)
 	    resultListPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
 	    while ((clientData = Tcl_CommandTraceInfo(interp, name, 0,
 		    TraceCommandProc, clientData)) != NULL) {
+		int numOps = 0;
 
 		TraceCommandInfo *tcmdPtr = (TraceCommandInfo *) clientData;
 
@@ -612,6 +613,7 @@ TclTraceExecutionObjCmd(interp, optionIndex, objc, objv)
 		 */
 
 		elemObjPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
+		Tcl_IncrRefCount(elemObjPtr);
 		if (tcmdPtr->flags & TCL_TRACE_ENTER_EXEC) {
 		    Tcl_ListObjAppendElement(NULL, elemObjPtr,
 			    Tcl_NewStringObj("enter",5));
@@ -628,7 +630,13 @@ TclTraceExecutionObjCmd(interp, optionIndex, objc, objv)
 		    Tcl_ListObjAppendElement(NULL, elemObjPtr,
 			    Tcl_NewStringObj("leavestep",9));
 		}
+		Tcl_ListObjLength(NULL, elemObjPtr, &numOps);
+		if (0 == numOps) {
+		    Tcl_DecrRefCount(elemObjPtr);
+		    continue;
+		}
 		Tcl_ListObjAppendElement(NULL, eachTraceObjPtr, elemObjPtr);
+		Tcl_DecrRefCount(elemObjPtr);
 		elemObjPtr = NULL;
 		
 		Tcl_ListObjAppendElement(NULL, eachTraceObjPtr, 
@@ -794,6 +802,7 @@ TclTraceCommandObjCmd(interp, optionIndex, objc, objv)
 	    resultListPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
 	    while ((clientData = Tcl_CommandTraceInfo(interp, name, 0,
 		    TraceCommandProc, clientData)) != NULL) {
+		int numOps = 0;
 
 		TraceCommandInfo *tcmdPtr = (TraceCommandInfo *) clientData;
 
@@ -807,6 +816,7 @@ TclTraceCommandObjCmd(interp, optionIndex, objc, objv)
 		 */
 
 		elemObjPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
+		Tcl_IncrRefCount(elemObjPtr);
 		if (tcmdPtr->flags & TCL_TRACE_RENAME) {
 		    Tcl_ListObjAppendElement(NULL, elemObjPtr,
 			    Tcl_NewStringObj("rename",6));
@@ -815,7 +825,13 @@ TclTraceCommandObjCmd(interp, optionIndex, objc, objv)
 		    Tcl_ListObjAppendElement(NULL, elemObjPtr,
 			    Tcl_NewStringObj("delete",6));
 		}
+		Tcl_ListObjLength(NULL, elemObjPtr, &numOps);
+		if (0 == numOps) {
+		    Tcl_DecrRefCount(elemObjPtr);
+		    continue;
+		}
 		Tcl_ListObjAppendElement(NULL, eachTraceObjPtr, elemObjPtr);
+		Tcl_DecrRefCount(elemObjPtr);
 
 		elemObjPtr = Tcl_NewStringObj(tcmdPtr->command, -1);
 		Tcl_ListObjAppendElement(NULL, eachTraceObjPtr, elemObjPtr);
