@@ -461,9 +461,10 @@ topDirName:
 gendate:
 	yacc -l $(GENERIC_DIR)/tclGetDate.y
 	sed -e 's/yy/TclDate/g' -e '/^#include <values.h>/d' \
-	    -e "s/SCCSID/RCS: @(#) \$Id\$"
+	    -e 's/SCCSID/RCS: @(#) $$Id$$/' \
 	    -e '/#ifdef __STDC__/,/#endif/d' -e '/TclDateerrlab:/d' \
 	    -e '/TclDatenewstate:/d' -e '/#pragma/d' \
+	    -e '/#include <inttypes.h>/d' \
 	    <y.tab.c >$(GENERIC_DIR)/tclDate.c
 	rm y.tab.c
 
