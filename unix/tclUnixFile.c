@@ -283,34 +283,24 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 	nativeDirLen = Tcl_DStringLength(&ds);
 
 	/*
-	 * Check to see if the pattern needs to compare with hidden files.
+	 * Check to see if -type or the pattern requests hidden files.
 	 */
-
-	if ((pattern[0] == '.')
-		|| ((pattern[0] == '\\') && (pattern[1] == '.'))) {
-	    matchHidden = 1;
-	} else {
-	    matchHidden = 0;
-	}
+	matchHidden = ((types && (types->perm & TCL_GLOB_PERM_HIDDEN)) ||
+		((pattern[0] == '.')
+			|| ((pattern[0] == '\\') && (pattern[1] == '.'))));
 
 	while ((entryPtr = TclOSreaddir(d)) != NULL) { /* INTL: Native. */
 	    Tcl_DString utfDs;
 	    CONST char *utfname;
-	    
-	    if (types != NULL && (types->perm & TCL_GLOB_PERM_HIDDEN)) {
-		/* 
-		 * We explicitly asked for hidden files, so turn around
-		 * and ignore any file which isn't hidden.
-		 */
-		if (*entryPtr->d_name != '.') {
-		    continue;
-		}
-	    } else if (!matchHidden && (*entryPtr->d_name == '.')) {
-		/*
-		 * Don't match names starting with "." unless the "." is
-		 * present in the pattern.
-		 */
-		continue;
+
+	    /* 
+	     * Skip this file if it doesn't agree with the hidden
+	     * parameters requested by the user (via -type or pattern).
+	     */
+	    if (*entryPtr->d_name == '.') {
+		if (!matchHidden) continue;
+	    } else {
+		if (matchHidden) continue;
 	    }
 
 	    /*
