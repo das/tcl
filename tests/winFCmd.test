@@ -592,8 +592,10 @@ test winFCmd-6.11 {TclpRemoveDirectory: attr == -1} {pcOnly nt} {
     set res [list [catch {testfile rmdir /} msg] $msg]
     # WinXP returns EEXIST, WinNT seems to return EACCES.  No policy
     # decision has been made as to which is correct.
-    regsub {E(ACCES|EXIST)} $res "EACCES or EEXIST"
-} {1 {C:/ EACCES or EEXIST}}
+    regsub {E(ACCES|EXIST)} $res "EACCES or EEXIST" res
+    # Don't mind which drive we're on
+    regsub {[A-Z]:} $res ""
+} {1 {/ EACCES or EEXIST}}
 test winFCmd-6.12 {TclpRemoveDirectory: errno == EACCES} {pcOnly 95} {
     cleanup
     createfile tf1
