@@ -394,5 +394,8 @@ bug fixes that retain backward compatibility.
 The value of this variable is returned by the \fBinfo tclversion\fR
 command.
 
+.SH "SEE ALSO"
+eval(n)
+
 .SH KEYWORDS
 arithmetic, bytecode, compiler, error, environment, POSIX, precision, subprocess, variables

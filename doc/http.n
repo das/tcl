@@ -505,11 +505,10 @@ proc ::http::copy { url file {chunk 4096} } {
 proc ::http::Progress {args} {
     puts -nonewline stderr . ; flush stderr
 }
-
 .DE
+
 .SH "SEE ALSO"
 safe(n), socket(n), safesock(n)
+
 .SH KEYWORDS
 security policy, socket
-
-
