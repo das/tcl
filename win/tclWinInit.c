@@ -240,6 +240,18 @@ TclPlatformInit(interp)
 		TCL_GLOBAL_ONLY);
     }
 
+#ifdef _DEBUG
+    /*
+     * The existence of the "debug" element of the tcl_platform array indicates
+     * that this particular Tcl shell has been compiled with debug information.
+     * Using "info exists tcl_platform(debug)" a Tcl script can direct the 
+     * interpreter to load debug versions of DLLs with the load command.
+     */
+
+    Tcl_SetVar2(interp, "tcl_platform", "debug", "1",
+		TCL_GLOBAL_ONLY);
+#endif
+
     /*
      * Set up the HOME environment variable from the HOMEDRIVE & HOMEPATH
      * environment variables, if necessary.
