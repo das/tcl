@@ -2326,16 +2326,13 @@ Tcl_FindNamespaceVar(interp, name, contextNsPtr, flags)
                 varPtr = (Var *) Tcl_GetHashValue(entryPtr);
 		
 		/* Fix for [Bug 959052].
-		 * When a varName is looked from a namespace different from the
-		 * global one, there is no corresponding variable in the namespace and
-		 * there is a "zombie" variable in the global namespace (ie, the
-		 * varName is in the hash table, but the variable is unset), this code
-		 * returns a reference to the zombie. Except when the zombie was
-		 * created by a [variable] call, it should instead create a
-		 * variable in the namespace.
-		 * In particular, zombies created by [trace], [upvar], [global] or
-		 * a reference in a tclNsVarNameType obj should never be found.
+		 * We might have found a "zombie" variable: it is in the hash
+		 * table, but the variable is unset and it was not fixed with
+		 * a call to [variable]. In particular, zombies created by
+		 * [trace], [upvar], [global] or a reference in a
+		 * tclNsVarNameType obj should never be found. 
 		 */
+		
 		if (TclIsVarUndefined(varPtr)
 			&& !(varPtr->flags & VAR_NAMESPACE_VAR)		    
 			&& !(flags & (TCL_GLOBAL_ONLY|TCL_NAMESPACE_ONLY))) {
