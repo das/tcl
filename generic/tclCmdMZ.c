@@ -481,7 +481,7 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
     Tcl_RegExp regExpr;
     Tcl_RegExpInfo info;
     Tcl_Obj *resultPtr, *varPtr, *objPtr;
-    Tcl_UniChar ch, *wsrc, *wfirstChar, *wstring, *wsubspec;
+    Tcl_UniChar ch, *wsrc, *wfirstChar, *wstring, *wsubspec, *wend;
 
     static char *options[] = {
 	"-all",		"-nocase",	"-expanded",
@@ -629,7 +629,8 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 	 */
 
 	wsrc = wfirstChar = wsubspec;
-	for (ch = *wsrc; ch != '\0'; wsrc++, ch = *wsrc) {
+	wend = wsubspec + wsublen;
+	for (ch = *wsrc; wsrc != wend; wsrc++, ch = *wsrc) {
 	    if (ch == '&') {
 		idx = 0;
 	    } else if (ch == '\\') {

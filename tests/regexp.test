@@ -530,21 +530,11 @@ test regexp-18.11 {regexp -all} {
     regexp -all -inline {^a} aaaa
 } {a}
 
+test regexp-19.1 {regsub null replacement} {
+    regsub -all {@} {@hel@lo@} "\0a\0" result
+    list $result [string length $result]
+} "\0a\0hel\0a\0lo\0a\0 14"
 
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
-
-
