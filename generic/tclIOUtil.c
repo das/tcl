@@ -2526,8 +2526,12 @@ Tcl_FSLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr,
 	    if (*handlePtr == NULL) {
 		return TCL_ERROR;
 	    }
-	    *proc1Ptr = TclpFindSymbol(interp, *handlePtr, sym1);
-	    *proc2Ptr = TclpFindSymbol(interp, *handlePtr, sym2);
+	    if (sym1 != NULL) {
+	        *proc1Ptr = TclpFindSymbol(interp, *handlePtr, sym1);
+	    }
+	    if (sym2 != NULL) {
+	        *proc2Ptr = TclpFindSymbol(interp, *handlePtr, sym2);
+	    }
 	    return retVal;
 	} else {
 	    Tcl_Filesystem *copyFsPtr;
