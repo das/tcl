@@ -1448,10 +1448,9 @@ TclCompileExprWords(interp, tokenPtr, numWords, envPtr)
     CompileEnv *envPtr;		/* Holds the resulting instructions. */
 {
     Tcl_Token *wordPtr;
-    int range, numBytes, i, code;
+    int numBytes, i, code;
     CONST char *script;
 
-    range = -1;
     code = TCL_OK;
 
     /*

@@ -1828,7 +1828,7 @@ static void
 UpdateStringOfString(objPtr)
     Tcl_Obj *objPtr;		/* Object with string rep to update. */
 {
-    int i, length, size;
+    int i, size;
     Tcl_UniChar *unicode;
     char dummy[TCL_UTF_MAX];
     char *dst;
@@ -1850,7 +1850,6 @@ UpdateStringOfString(objPtr)
 	}
 
 	unicode = stringPtr->unicode;
-	length = stringPtr->numChars * sizeof(Tcl_UniChar);
 
 	/*
 	 * Translate the Unicode string to UTF.  "size" will hold the

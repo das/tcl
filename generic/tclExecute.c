@@ -5446,7 +5446,6 @@ ExprSrandFunc(interp, eePtr, clientData)
     Interp *iPtr = (Interp *) interp;
     Tcl_Obj *valuePtr;
     long i = 0;			/* Initialized to avoid compiler warning. */
-    int result;
 
     /*
      * Set stackPtr and stackTop from eePtr.
@@ -5462,7 +5461,6 @@ ExprSrandFunc(interp, eePtr, clientData)
     valuePtr = POP_OBJECT();
 
     if (VerifyExprObjType(interp, valuePtr) != TCL_OK) {
-	result = TCL_ERROR;
 	goto badValue;
     }
 

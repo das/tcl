@@ -695,7 +695,7 @@ test execute-7.29 {Wide int handling in INST_BITNOT} {longIs32bit} {
 test execute-7.30 {Wide int handling in function call} {longIs32bit} {
     set x 0x12345687123456
     incr x
-    expr {sin($x) == sin(double($x))}
+    expr {log($x) == log(double($x))}
 } 1
 test execute-7.31 {Wide int handling in abs()} {longIs32bit} {
     set x 0xa23456871234568
