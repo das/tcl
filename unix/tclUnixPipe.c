@@ -16,6 +16,10 @@
 #include "tclInt.h"
 #include "tclPort.h"
 
+#ifdef USE_VFORK
+#define fork vfork
+#endif
+
 /*
  * The following macros convert between TclFile's and fd's.  The conversion
  * simple involves shifting fd's up by one to ensure that no valid fd is ever
