@@ -146,10 +146,9 @@ DEPARG = "$(shell $(CYGPATH) $(PATHTYPE) $<)"
 
 # Setting the VPATH variable to a list of paths will cause the 
 # makefile to look into these paths when resolving .c to .obj
-# dependencies. Note the ':' to avoid autoconf's habit of deleting
-# all VPATH lines without an explicit ':' in it. 
+# dependencies.
 
-VPATH = $(GENERIC_DIR)@VPSEP@$(WIN_DIR)@VPSEP@$(COMPAT_DIR) # : 
+VPATH = $(GENERIC_DIR):$(WIN_DIR):$(COMPAT_DIR)
 
 AR		= @AR@
 RANLIB		= @RANLIB@
