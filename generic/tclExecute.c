@@ -1239,29 +1239,6 @@ TclExecuteByteCode(interp, codePtr)
     }
 
     switch (*pc) {
-    case INST_START_CMD:
-	if ((!(iPtr->flags & DELETED)
-		    && (codeCompileEpoch == iPtr->compileEpoch)
-		    && (codeNsEpoch == namespacePtr->resolverEpoch))
-		|| codePrecompiled) {
-	    NEXT_INST_F(5, 0, 0);
-	} else {
-	    bytes = GetSrcInfoForPc(pc, codePtr, &length);
-	    result = Tcl_EvalEx(interp, bytes, length, 0);
-	    if (result != TCL_OK) {
-		goto checkForCatch;
-	    }
-	    opnd = TclGetUInt4AtPtr(pc+1);
-	    objResultPtr = Tcl_GetObjResult(interp);
-	    {
-		Tcl_Obj *newObjResultPtr;
-		TclNewObj(newObjResultPtr);
-		Tcl_IncrRefCount(newObjResultPtr);
-		iPtr->objResultPtr = newObjResultPtr;
-	    }
-	    NEXT_INST_V(opnd, 0, -1);
-	}
-	
     case INST_RETURN:
 	{
 	    int code = TclGetInt4AtPtr(pc+1);
@@ -1319,7 +1296,39 @@ TclExecuteByteCode(interp, codePtr)
 	TRACE_WITH_OBJ(("=> discarding "), *tosPtr);
 	valuePtr = POP_OBJECT();
 	TclDecrRefCount(valuePtr);
-	NEXT_INST_F(1, 0, 0);
+
+	/*
+	 * Runtime peephole optimisation: an INST_POP is scheduled
+	 * at the end of most commands. If the next instruction is an
+	 * INST_START_CMD, fall through to it.
+	 */
+	pc++;
+	if (*pc != INST_START_CMD) {	
+	    NEXT_INST_F(0, 0, 0);
+	}
+	
+    case INST_START_CMD:
+	if ((!(iPtr->flags & DELETED)
+		    && (codeCompileEpoch == iPtr->compileEpoch)
+		    && (codeNsEpoch == namespacePtr->resolverEpoch))
+		|| codePrecompiled) {
+	    NEXT_INST_F(5, 0, 0);
+	} else {
+	    bytes = GetSrcInfoForPc(pc, codePtr, &length);
+	    result = Tcl_EvalEx(interp, bytes, length, 0);
+	    if (result != TCL_OK) {
+		goto checkForCatch;
+	    }
+	    opnd = TclGetUInt4AtPtr(pc+1);
+	    objResultPtr = Tcl_GetObjResult(interp);
+	    {
+		Tcl_Obj *newObjResultPtr;
+		TclNewObj(newObjResultPtr);
+		Tcl_IncrRefCount(newObjResultPtr);
+		iPtr->objResultPtr = newObjResultPtr;
+	    }
+	    NEXT_INST_V(opnd, 0, -1);
+	}
 	
     case INST_DUP:
 	objResultPtr = *tosPtr;
