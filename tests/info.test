@@ -548,7 +548,7 @@ test info-16.7 {info script option} {
 } [list gorp.info newname.txt info.test]
 removeFile gorp.info
 makeFile {list [info script] [info script foo.bar]} gorp.info
-test info-16.3 {info script option} {
+test info-16.8 {info script option} {
     list [source gorp.info] [file tail [info script]]
 } [list [list gorp.info foo.bar] info.test]
 removeFile gorp.info
