@@ -165,7 +165,7 @@ static CmdInfo builtInCmds[] = {
     {"subst",		(Tcl_CmdProc *) NULL,	Tcl_SubstObjCmd,
         (CompileProc *) NULL,		1},
     {"switch",		(Tcl_CmdProc *) NULL,	Tcl_SwitchObjCmd,	
-        TclCompileSwitchCmd,		1},
+        (CompileProc *) NULL,		1},
     {"trace",		(Tcl_CmdProc *) NULL,	Tcl_TraceObjCmd,
         (CompileProc *) NULL,		1},
     {"unset",		(Tcl_CmdProc *) NULL,	Tcl_UnsetObjCmd,	
@@ -3003,10 +3003,14 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
          * word array with "unknown" as the first word and the original
          * command words as arguments.  Then call ourselves recursively
          * to execute it.
+	 *
+	 * If caller requests, or if we're resolving the target end of
+	 * an interpeter alias (TCL_EVAL_INVOKE), be sure to do command
+	 * name resolution in the global namespace.
          */
 
 	savedVarFramePtr = iPtr->varFramePtr;
-	if (flags & TCL_EVAL_INVOKE) {
+	if (flags & (TCL_EVAL_INVOKE | TCL_EVAL_GLOBAL)) {
 	    iPtr->varFramePtr = NULL;
 	}
         cmdPtr = (Command *) Tcl_GetCommandFromObj(interp, objv[0]);
@@ -3667,8 +3671,8 @@ Tcl_EvalEx(interp, script, numBytes, flags)
 		code = TCL_ERROR;
 	    } else {
 		iPtr->numLevels++;    
-		code = TclEvalObjvInternal(interp, objectsUsed, objv, p, 
-		        parse.commandStart + parse.commandSize - p, 0);
+		code = TclEvalObjvInternal(interp, objectsUsed, objv, 
+		        parse.commandStart, parse.commandSize, 0);
 		iPtr->numLevels--;
 	    }
 	    if (code != TCL_OK) {
