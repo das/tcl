@@ -684,18 +684,22 @@ TclFreeObj(objPtr)
      * Tcl_Obj structs we maintain.
      */
 
-    Tcl_MutexLock(&tclObjMutex);
 #if defined(TCL_MEM_DEBUG) || defined(PURIFY)
+    Tcl_MutexLock(&tclObjMutex);
     ckfree((char *) objPtr);
-#else
+    Tcl_MutexUnlock(&tclObjMutex);
+#elif defined(TCL_THREADS) && defined(USE_THREAD_ALLOC) 
+    TclThreadFreeObj(objPtr); 
+#else 
+    Tcl_MutexLock(&tclObjMutex);
     objPtr->internalRep.otherValuePtr = (VOID *) tclFreeObjList;
     tclFreeObjList = objPtr;
+    Tcl_MutexUnlock(&tclObjMutex);
 #endif /* TCL_MEM_DEBUG */
 
 #ifdef TCL_COMPILE_STATS
     tclObjsFreed++;
 #endif /* TCL_COMPILE_STATS */
-    Tcl_MutexUnlock(&tclObjMutex);
 }
 
 /*
