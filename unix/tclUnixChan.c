@@ -1326,7 +1326,7 @@ TclpOpenFileChannel(interp, pathPtr, modeString, permissions)
     if (native == NULL) {
 	return NULL;
     }
-    fd = open(native, mode, permissions);
+    fd = Tcl_PlatformOpen(native, mode, permissions);
 
     if (fd < 0) {
         if (interp != (Tcl_Interp *) NULL) {

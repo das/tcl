@@ -455,7 +455,7 @@ Tcl_SeekObjCmd(clientData, interp, objc, objv)
     }
 
     result = Tcl_Seek(chan, offset, mode);
-    if (result == (Tcl_WideInt)-1) {
+    if (result == Tcl_LongAsWide(-1)) {
         Tcl_AppendResult(interp, "error during seek on \"", 
 		chanName, "\": ", Tcl_PosixError(interp), (char *) NULL);
         return TCL_ERROR;

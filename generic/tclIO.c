@@ -5464,7 +5464,7 @@ Tcl_Tell(chan)
      */
 
     curPos = (chanPtr->typePtr->seekProc) (chanPtr->instanceData,
-	    (Tcl_WideInt)0, SEEK_CUR, &result);
+	    Tcl_LongAsWide(0), SEEK_CUR, &result);
     if (curPos == -1) {
         Tcl_SetErrno(result);
         return -1;

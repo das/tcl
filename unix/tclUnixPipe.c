@@ -140,7 +140,7 @@ TclpOpenFile(fname, mode)
     Tcl_DString ds;
 
     native = Tcl_UtfToExternalDString(NULL, fname, -1, &ds);
-    fd = open(native, mode, 0666);			/* INTL: Native. */
+    fd = Tcl_PlatformOpen(native, mode, 0666);		/* INTL: Native. */
     Tcl_DStringFree(&ds);
     if (fd != -1) {
         fcntl(fd, F_SETFD, FD_CLOEXEC);

@@ -295,9 +295,9 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
     while (1) {
         Tcl_DString utfDs;
 	char *utf;
-	struct dirent *entryPtr;
+	Tcl_DirEntry *entryPtr;
 	
-	entryPtr = readdir(d);				/* INTL: Native. */
+	entryPtr = Tcl_PlatformReaddir(d);		/* INTL: Native. */
 	if (entryPtr == NULL) {
 	    break;
 	}
