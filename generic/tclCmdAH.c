@@ -242,12 +242,6 @@ Tcl_CatchObjCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
 
-    /*
-     * Save a pointer to the variable name object, if any, in case the
-     * Tcl_EvalObj reallocates the bytecode interpreter's evaluation
-     * stack rendering objv invalid.
-     */
-    
     if (objc >= 3) {
 	varNamePtr = objv[2];
     }
