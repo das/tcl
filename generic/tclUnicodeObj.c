@@ -640,7 +640,7 @@ DupUnicodeInternalRep(srcPtr, copyPtr)
     Tcl_Obj *copyPtr;		/* Object with internal rep to set. */
 {
     Unicode *srcUnicodePtr = GET_UNICODE(srcPtr);
-    Unicode *copyUnicodePtr; /*GET_UNICODE(copyPtr);*/
+    Unicode *copyUnicodePtr;
     
     /*
      * If the src obj is a string of 1-byte Utf chars, then copy the
@@ -649,7 +649,7 @@ DupUnicodeInternalRep(srcPtr, copyPtr)
      * internal rep, and invalidate the string rep of the new object.
      */
     
-    if (AllSingleByteChars(srcPtr)) {
+    if (srcUnicodePtr->numChars == srcPtr->length) {
 	copyUnicodePtr = (Unicode *) ckalloc(sizeof(Unicode));
 	copyUnicodePtr->allocated = 0;
     } else {
@@ -664,6 +664,7 @@ DupUnicodeInternalRep(srcPtr, copyPtr)
     }
     copyUnicodePtr->numChars = srcUnicodePtr->numChars;
     SET_UNICODE(copyPtr, copyUnicodePtr);
+    copyPtr->typePtr = &tclUnicodeType;
 }
 
 /*
