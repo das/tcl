@@ -910,6 +910,8 @@ typedef struct ExecEnv {
     int stackTop;		/* Index of current top of stack; -1 when
 				 * the stack is empty. */
     int stackEnd;		/* Index of last usable item in stack. */
+    Tcl_Obj *errorInfo;
+    Tcl_Obj *errorCode;
 } ExecEnv;
 
 /*
