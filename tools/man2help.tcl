@@ -29,7 +29,7 @@ proc generateContents {basename version files} {
 	    puts $fd "1 $section"
 	    set lastTopic {}
 	    foreach topic [getTopics $package $section] {
-		if {[string equal $lastTopic $topic]} {
+		if {[string compare $lastTopic $topic]} {
 		    set id $topics($package,$section,$topic) 
 		    puts $fd "2 $topic=$id"
 		    set lastTopic $topic
