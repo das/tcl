@@ -433,8 +433,8 @@ CopyFile(src, dst, statBufPtr)
 {
     int srcFd;
     int dstFd;
-    u_int blockSize;   /* Optimal I/O blocksize for filesystem */
-    char *buffer;      /* Data buffer for copy */
+    unsigned blockSize;		/* Optimal I/O blocksize for filesystem */
+    char *buffer;		/* Data buffer for copy */
     size_t nread;
 
     if ((srcFd = TclOSopen(src, O_RDONLY, 0)) < 0) {	/* INTL: Native. */
