@@ -1212,7 +1212,7 @@ TclCompileTokens(interp, tokenPtr, count, envPtr)
 		            /*onHeap*/ 0), envPtr);
 		} else {
 		    localVar = TclFindCompiledLocal(name, nameBytes, 
-			    /*create*/ 0, /*flags*/ 0, envPtr->procPtr);
+			    /*create*/ 1, /*flags*/ 0, envPtr->procPtr);
 		    if (localVar < 0) {
 			TclEmitPush(TclRegisterLiteral(envPtr, name,
 			        nameBytes, /*onHeap*/ 0), envPtr); 
