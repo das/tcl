@@ -504,7 +504,9 @@ ConsoleCloseProc(
      */
     
     if (consolePtr->writeThread) {
-	WaitForSingleObject(consolePtr->writable, INFINITE);
+	if (consolePtr->toWrite) {
+	    WaitForSingleObject(consolePtr->writable, INFINITE);
+	}
 
 	/*
 	 * Forcibly terminate the background thread.  We cannot rely on the
