@@ -2289,6 +2289,7 @@ TcpGetOptionProc(instanceData, interp, optionName, dsPtr)
 
 		Tcl_ExternalToUtfDString(NULL, hostEntPtr->h_name, -1, &ds);
 		Tcl_DStringAppendElement(dsPtr, Tcl_DStringValue(&ds));
+		Tcl_DStringFree(&ds);
 	    } else {
 		Tcl_DStringAppendElement(dsPtr, inet_ntoa(peername.sin_addr));
 	    }
@@ -2335,6 +2336,7 @@ TcpGetOptionProc(instanceData, interp, optionName, dsPtr)
 
 		Tcl_ExternalToUtfDString(NULL, hostEntPtr->h_name, -1, &ds);
 		Tcl_DStringAppendElement(dsPtr, Tcl_DStringValue(&ds));
+		Tcl_DStringFree(&ds);
 	    } else {
 		Tcl_DStringAppendElement(dsPtr, inet_ntoa(sockname.sin_addr));
 	    }
