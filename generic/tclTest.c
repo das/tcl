@@ -3357,7 +3357,7 @@ TestregexpObjCmd(dummy, interp, objc, objv)
 
 	    Tcl_RegExpGetInfo(regExpr, &info);
 	    varName = Tcl_GetString(objv[2]);
-	    sprintf(resinfo, "%d", info.extendStart);
+	    sprintf(resinfo, "%ld", info.extendStart);
 	    value = Tcl_SetVar(interp, varName, resinfo, 0);
 	    if (value == NULL) {
 		Tcl_AppendResult(interp, "couldn't set variable \"",
