@@ -15,7 +15,7 @@
 #
 # RCS: @(#) $Id$
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -932,6 +932,16 @@ if {(4195835.0 - (4195835.0/3145727.0)*3145727.0) == 256.0} {
 }
 
 # cleanup
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

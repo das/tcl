@@ -11,7 +11,7 @@
 #
 # RCS: @(#) $Id$
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -569,6 +569,16 @@ if {[info commands testfilewait] != ""} {
 foreach i [after info] {
     after cancel $i
 }
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

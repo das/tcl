@@ -12,7 +12,7 @@
 #
 # RCS: @(#) $Id$
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -1010,6 +1010,16 @@ test if-9.1 {if cmd with namespace qualifiers} {
 } 4
 
 # cleanup
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

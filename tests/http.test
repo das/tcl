@@ -14,7 +14,7 @@
 #
 # RCS: @(#) $Id$
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -298,6 +298,16 @@ if {[info exists httpthread]} {
 } else {
     close $listen
 }
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

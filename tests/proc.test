@@ -15,7 +15,7 @@
 #
 # RCS: @(#) $Id$
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -295,6 +295,16 @@ test proc-4.7 {TclCreateProc, procbody obj, inconsitent arg default value} {
 # cleanup
 catch {rename p ""}
 catch {rename t ""}
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

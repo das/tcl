@@ -20,7 +20,7 @@ if {[info commands pid] == ""} {
     return
 }
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -52,7 +52,17 @@ test pid-1.5 {pid command} {
 } {1 {can not find channel named "gorp"}}
 
 # cleanup
-catch {::test::removeFile test1}
-::test::cleanupTests
+catch {::tcltest::removeFile test1}
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

@@ -12,7 +12,7 @@
 #
 # RCS: @(#) $Id$
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -497,6 +497,16 @@ test incr-2.29 {incr command (not compiled): runtime error, bad variable value} 
 } {1 {expected integer but got "  -  "}}
 
 # cleanup
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

@@ -13,7 +13,7 @@
 #
 # RCS: @(#) $Id$
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -387,6 +387,16 @@ test string-15.2 {error conditions} {
 } {1 {wrong # args: should be "string option arg ?arg ...?"}}
 
 # cleanup
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

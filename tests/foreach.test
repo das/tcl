@@ -211,6 +211,16 @@ test foreach-5.4 {break tests} {
 # cleanup
 catch {unset a}
 catch {unset x}
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

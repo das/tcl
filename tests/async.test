@@ -19,7 +19,7 @@ if {[info commands testasync] == {}} {
     return
 }
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -133,6 +133,16 @@ test async-3.1 {deleting handlers} {
 
 # cleanup
 testasync delete
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

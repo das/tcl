@@ -10,7 +10,7 @@
 #
 # RCS: @(#) $Id$
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -258,15 +258,15 @@ test cmdIL-4.23 {DictionaryCompare procedure, case} {
     lsort -dictionary {ABcd AbCd}
 } {ABcd AbCd}
 test cmdIL-4.24 {DictionaryCompare procedure, international characters} {hasIsoLocale} {
-    ::test::set_iso8859_1_locale
+    ::tcltest::set_iso8859_1_locale
     set result [lsort -dictionary "a b c A B C \xe3 \xc4"]
-    ::test::restore_locale
+    ::tcltest::restore_locale
     set result
 } "A a B b C c \xe3 \xc4"
 test cmdIL-4.25 {DictionaryCompare procedure, international characters} {hasIsoLocale} {
-    ::test::set_iso8859_1_locale
+    ::tcltest::set_iso8859_1_locale
     set result [lsort -dictionary "a23\xe3 a23\xc5 a23\xe4"]
-    ::test::restore_locale
+    ::tcltest::restore_locale
     set result
 } "a23\xe3 a23\xe4 a23\xc5"
 test cmdIL-4.26 {DefaultCompare procedure, signed characters} {
@@ -309,6 +309,16 @@ test cmdIL-4.27 {DictionaryCompare procedure, signed characters} {
 } [list "abc" "abc\\200"]
 
 # cleanup
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

@@ -16,7 +16,7 @@
 #
 # RCS: @(#) $Id$
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -507,6 +507,16 @@ test proc-old-10.1 {ByteCode epoch change during recursive proc execution} {
 # cleanup
 catch {rename t1 ""}
 catch {rename foo ""}
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

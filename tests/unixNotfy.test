@@ -12,11 +12,6 @@
 #
 # RCS: @(#) $Id$
 
-if {$tcl_platform(platform) != "unix"} {
-    puts "skipping: Unix only tests..."
-    return
-}
-
 # The tests should not be run if you have a notifier which is unable to
 # detect infinite vwaits, as the tests below will hang. The presence of
 # the "testthread" command indicates that this is the case.
@@ -26,11 +21,11 @@ if {"[info commands testthread]" == "testthread"} {
     return
 }
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
-test unixNotfy-1.1 {Tcl_DeleteFileHandler} {
+test unixNotfy-1.1 {Tcl_DeleteFileHandler} {unixOnly} {
     catch {vwait x}
     set f [open foo w]
     fileevent $f writable {set x 1}
@@ -38,7 +33,7 @@ test unixNotfy-1.1 {Tcl_DeleteFileHandler} {
     close $f
     list [catch {vwait x} msg] $msg
 } {1 {can't wait for variable "x":  would wait forever}}
-test unixNotfy-1.2 {Tcl_DeleteFileHandler} {
+test unixNotfy-1.2 {Tcl_DeleteFileHandler} {unixOnly} {
     catch {vwait x}
     set f1 [open foo w]
     set f2 [open foo2 w]
@@ -54,6 +49,16 @@ test unixNotfy-1.2 {Tcl_DeleteFileHandler} {
 # cleanup
 file delete foo
 file delete foo2
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

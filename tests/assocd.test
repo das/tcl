@@ -19,7 +19,7 @@ if {[string compare testsetassocdata [info commands testsetassocdata]] != 0} {
     return
 }
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -60,6 +60,16 @@ test assocd-3.3 {testing deleting assoc data} {
 } {0 {}}
 
 # cleanup
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

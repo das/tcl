@@ -10,7 +10,7 @@
 #
 # RCS: @(#) $Id$
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -324,6 +324,16 @@ test compExpr-6.1 {LogSyntaxError procedure, error in expr longer than 60 chars}
 # cleanup
 catch {unset a}
 catch {unset b}
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

@@ -13,7 +13,7 @@
 #
 # RCS: @(#) $Id$
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -564,7 +564,17 @@ test cmdMZ-20.12 {Tcl_StringObjCmd: string wordstart, unicode} {
 # The tests for Tcl_WhileObjCmd are in while.test
 
 # cleanup
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 
 

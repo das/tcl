@@ -16,7 +16,7 @@ if {[info commands testindexobj] == {}} {
     return 
 }
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -69,6 +69,16 @@ test indexObj-4.1 {free old internal representation} {
 } {2}
 
 # cleanup
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

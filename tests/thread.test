@@ -17,7 +17,7 @@ if {[info command testthread] == ""} {
     return
 }
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -220,6 +220,16 @@ test thread-4.4 {TclThreadSend preserve errorCode} {
 ThreadReap
 
 # cleanup
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

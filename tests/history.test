@@ -19,7 +19,7 @@ if {[catch {history}]} {
     return
 }
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -213,6 +213,16 @@ test history-9.2 {miscellaneous} {
 } {bad option "gorp": must be add, change, clear, event, info, keep, nextid, or redo}
 
 # cleanup
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

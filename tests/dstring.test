@@ -19,7 +19,7 @@ if {[info commands testdstring] == {}} {
     return
 }
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -250,6 +250,16 @@ test dstring-6.5 {Tcl_DStringGetResult} {
 
 # cleanup
 testdstring free
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

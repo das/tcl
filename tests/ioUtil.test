@@ -10,7 +10,7 @@
 # 
 # RCS: @(#) $Id$
  
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -302,6 +302,16 @@ test ioUtil-3.8 {TclOpenFileChannelDeleteProc: Verify that all procs have been d
 }
 
 # cleanup
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

@@ -12,7 +12,7 @@
 #
 # RCS: @(#) $Id$
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -20,7 +20,7 @@ if {[lsearch [namespace children] ::test] == -1} {
 # package list
 set i [interp create]
 interp eval $i [list set argv $argv]
-interp eval $i [list source [file join $::test::testsDir defs.tcl]]
+interp eval $i [list source [file join $::tcltest::testsDir defs.tcl]]
 interp eval $i {
 
 eval package forget [package names]
@@ -636,6 +636,16 @@ concat
 
 # cleanup
 interp delete $i
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

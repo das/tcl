@@ -50,3 +50,13 @@ namespace eval buried {
         proc ::buried::explicit {args} {return "explicit: $args"}
     }
 }
+
+
+
+
+
+
+
+
+
+

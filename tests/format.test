@@ -483,6 +483,16 @@ catch {unset a}
 catch {unset b}
 catch {unset c}
 catch {unset d}
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

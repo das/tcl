@@ -15,7 +15,7 @@ if {[info commands testobj] == {}} {
     return
 }
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -289,6 +289,16 @@ test util-7.4 {TclPrecTraceProc - write traces, bogus values} {
 set tcl_precision 12
 
 # cleanup
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 

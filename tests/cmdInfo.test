@@ -21,7 +21,7 @@ if {[info commands testcmdinfo] == {}} {
     return
 }
 
-if {[lsearch [namespace children] ::test] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
@@ -99,6 +99,16 @@ test cmdinfo-6.1 {Names for commands created when outside namespaces} {
 # cleanup
 catch {namespace delete cmdInfoNs1::cmdInfoNs2 cmdInfoNs1}
 catch {rename x1 ""}
-::test::cleanupTests
+::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
 
