@@ -263,7 +263,7 @@ TclpGetDate(time, useGMT)
     TclpTime_t time;
     int useGMT;
 {
-    const time_t *tp = (const time_t *)time;
+    CONST time_t *tp = (CONST time_t *)time;
 
     if (useGMT) {
 	return gmtime(tp);
@@ -292,8 +292,8 @@ size_t
 TclpStrftime(s, maxsize, format, t)
     char *s;
     size_t maxsize;
-    const char *format;
-    const struct tm *t;
+    CONST char *format;
+    CONST struct tm *t;
 {
     return strftime(s, maxsize, format, t);
 }

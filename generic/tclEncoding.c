@@ -339,7 +339,7 @@ TclFinalizeEncodingSubsystem()
  */
 
 char *
-Tcl_GetDefaultEncodingDir(void)
+Tcl_GetDefaultEncodingDir()
 {
     return tclDefaultEncodingDir;
 }

@@ -448,7 +448,7 @@ SerialCloseProc(
     Tcl_Interp *interp)		/* For error reporting. */
 {
     SerialInfo *serialPtr = (SerialInfo *) instanceData;
-    int errorCode, result;
+    int errorCode, result = 0;
     SerialInfo *infoPtr, **nextPtrPtr;
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
 

@@ -1372,7 +1372,7 @@ TclUpdateReturnInfo(iPtr)
 TclCmdProcType
 TclGetInterpProc()
 {
-    return TclProcInterpProc;
+    return (TclCmdProcType) TclProcInterpProc;
 }
 
 /*
@@ -1397,7 +1397,7 @@ TclGetInterpProc()
 TclObjCmdProcType
 TclGetObjInterpProc()
 {
-    return TclObjInterpProc;
+    return (TclObjCmdProcType) TclObjInterpProc;
 }
 
 /*
