@@ -17,8 +17,12 @@
  *  of the core are matching against your project build for these
  *  public functions.  BE AWARE.
  */
-#if defined(__WIN32__) && !defined(_INC_TCHAR)
-#include <tchar.h>
+#if defined(__WIN32__) && (!defined(_TCHAR_DEFINED) && !defined(__TCHAR_DEFINED))
+#   include <tchar.h>
+#   ifndef _TCHAR_DEFINED
+	/* tchar.h doesn't set this.  winnt.h checks this. */
+#	define _TCHAR_DEFINED
+#   endif
 #endif
 
 /* !BEGIN!: Do not edit below this line. */
