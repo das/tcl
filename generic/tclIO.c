@@ -8787,7 +8787,7 @@ Tcl_ChannelVersion(chanTypePtr)
  *----------------------------------------------------------------------
  */
 
-int
+static int
 HaveVersion(chanTypePtr, minimumVersion)
     Tcl_ChannelType *chanTypePtr;
     Tcl_ChannelTypeVersion minimumVersion;
