@@ -837,12 +837,16 @@ test string-11.46 {string match, *special case} {
 test string-11.47 {string match, *special case} {
     string match "*\\*" "*"
 } 1
-test string-11.47 {string match, *special case} {
+test string-11.48 {string match, *special case} {
     string match "*\\*" "*abc"
 } 0
-test string-11.48 {string match, *special case} {
+test string-11.49 {string match, *special case} {
     string match "?\\*" "a*"
 } 1
+test string-11.50 {string match, *special case} {
+    string match "\\" "\\"
+} 0
+
 
 test string-12.1 {string range} {
     list [catch {string range} msg] $msg
