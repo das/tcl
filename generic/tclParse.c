@@ -1021,9 +1021,17 @@ Tcl_ParseVar(interp, string, termPtr)
     /*
      * At this point we should have an object containing the value of
      * a variable.  Just return the string from that object.
+     *
+     * This should have returned the object for the user to manage, but
+     * instead we have some weak reference to the string value in the
+     * object, which is why we make sure the object exists after resetting
+     * the result.  This isn't ideal, but it's the best we can do with the
+     * current documented interface. -- hobbs
      */
 
-    Tcl_IncrRefCount(objPtr);
+    if (!Tcl_IsShared(objPtr)) {
+	Tcl_IncrRefCount(objPtr);
+    }
     Tcl_ResetResult(interp);
     return TclGetString(objPtr);
 }
