@@ -65,15 +65,30 @@ Sort the list in decreasing order (``largest'' items first).
 .TP 20
 \fB\-index\0\fIindex\fR
 If this option is specified, each of the elements of \fIlist\fR must
-itself be a proper Tcl sublist.  Instead of sorting based on whole sublists,
-\fBlsort\fR will extract the \fIindex\fR'th element from each sublist
-and sort based on the given element.  The keyword \fBend\fP is allowed
-for the \fIindex\fP to sort on the last sublist element. For example,
+itself be a proper Tcl sublist.  Instead of sorting based on whole
+sublists, \fBlsort\fR will extract the \fIindex\fR'th element from
+each sublist and sort based on the given element.  The keyword
+\fBend\fP is allowed for the \fIindex\fP to sort on the last sublist
+element,
+.VS 8.4
+and \fBend-\fIindex\fR sorts on a sublist element offset from
+the end.
+.VE
+For example,
 .RS
 .CS
 lsort -integer -index 1 {{First 24} {Second 18} {Third 30}}
 .CE
-returns \fB{Second 18} {First 24} {Third 30}\fR.
+returns \fB{Second 18} {First 24} {Third 30}\fR, and
+.VS 8.4
+'\"
+'\" This example is from the test suite!
+'\"
+.CS
+lsort -index end-1 {{a 1 e i} {b 2 3 f g} {c 4 5 6 d h}}
+.CE
+returns \fB{c 4 5 6 d h} {a 1 e i} {b 2 3 f g}\fR.
+.VE
 This option is much more efficient than using \fB\-command\fR
 to achieve the same effect.
 .RE
