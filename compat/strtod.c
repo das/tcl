@@ -110,7 +110,7 @@ strtod(string, endPtr)
      */
 
     p = string;
-    while (isspace(*p)) {
+    while (isspace(UCHAR(*p))) {
 	p += 1;
     }
     if (*p == '-') {
@@ -208,11 +208,11 @@ strtod(string, endPtr)
 	    }
 	    expSign = FALSE;
 	}
-	if (!isdigit(*p)) {
+	if (!isdigit(UCHAR(*p))) {
 	    p = pExp;
 	    goto done;
 	}
-	while (isdigit(*p)) {
+	while (isdigit(UCHAR(*p))) {
 	    exp = exp * 10 + (*p - '0');
 	    p += 1;
 	}

@@ -80,7 +80,7 @@ strtoul(string, endPtr, base)
      */
 
     p = string;
-    while (isspace(*p)) {
+    while (isspace(UCHAR(*p))) {
 	p += 1;
     }
     if (*p == '-') {
