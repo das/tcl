@@ -119,7 +119,7 @@ static CmdInfo builtInCmds[] = {
     {"linsert",		(Tcl_CmdProc *) NULL,	Tcl_LinsertObjCmd,
         (CompileProc *) NULL,		1},
     {"list",		(Tcl_CmdProc *) NULL,	Tcl_ListObjCmd,
-        (CompileProc *) NULL,		1},
+        TclCompileListCmd,		1},
     {"llength",		(Tcl_CmdProc *) NULL,	Tcl_LlengthObjCmd,
         TclCompileLlengthCmd,		1},
     {"load",		(Tcl_CmdProc *) NULL,	Tcl_LoadObjCmd,

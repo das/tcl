@@ -1388,7 +1388,7 @@ TclExecuteByteCode(interp, codePtr)
 	case INST_APPEND_ARRAY1:
 	    opnd = TclGetUInt1AtPtr(pc+1);
 	    pcAdjustment = 2;
-	    
+
 	    doAppendArray:
 	    valuePtr = POP_OBJECT();
 	    elemPtr = POP_OBJECT();
@@ -1415,6 +1415,24 @@ TclExecuteByteCode(interp, codePtr)
 	    /*
 	     * END APPEND INSTRUCTIONS
 	     */
+
+	case INST_LIST:
+	    /*
+	     * Pop the opnd (objc) top stack elements into a new list obj
+	     * and then decrement their ref counts. 
+	     */
+
+	    opnd = TclGetUInt4AtPtr(pc+1);
+	    valuePtr = Tcl_NewListObj(opnd, &(stackPtr[stackTop - (opnd-1)]));
+
+	    for (i = 0; i < opnd; i++) {
+		TclDecrRefCount(stackPtr[stackTop--]);
+	    }
+
+	    PUSH_OBJECT(valuePtr);
+	    TRACE_WITH_OBJ(("%u => " opnd), valuePtr);
+	    ADJUST_PC(5);
+
 	    /*
 	     * START LAPPEND INSTRUCTIONS
 	     */
