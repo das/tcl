@@ -43,7 +43,6 @@ typedef float *TCHAR;
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <direct.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <float.h>
@@ -64,7 +63,6 @@ typedef float *TCHAR;
 #include <sys/utime.h>
 #endif
 
-#include <tchar.h>
 #include <time.h>
 #include <winsock.h>
 
