@@ -387,6 +387,30 @@ typedef struct Tcl_Trace_ *Tcl_Trace;
 typedef struct Tcl_Var_ *Tcl_Var;
 
 /*
+ * Definition of the interface to procedures implementing threads.
+ * A procedure following this definition is given to each call of
+ * 'Tcl_CreateThread' and will be called as the main fuction of
+ * the new thread created by that call.
+ */
+
+#ifdef MAC_TCL
+typedef pascal void *(Tcl_ThreadCreateProc) _ANSI_ARGS_((ClientData clientData));
+#elif defined __WIN32__
+typedef unsigned __stdcall (Tcl_ThreadCreateProc) _ANSI_ARGS_((ClientData clientData));
+#else
+typedef void (Tcl_ThreadCreateProc) _ANSI_ARGS_((ClientData clientData));
+#endif
+
+/*
+ * Definition of values for default stacksize and the possible flags to be
+ * given to Tcl_CreateThread.
+ */
+
+#define TCL_THREAD_STACK_DEFAULT (0)    /* Use default size for stack */
+#define TCL_THREAD_NOFLAGS       (0000) /* Standard flags, default behaviour */
+#define TCL_THREAD_JOINABLE      (0001) /* Mark the thread as joinable */
+
+/*
  * Flag values passed to Tcl_GetRegExpFromObj.
  */
 

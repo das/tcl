@@ -359,7 +359,8 @@ TclCreateThread(interp, script)
     ctrl.flags = 0;
 
     Tcl_MutexLock(&threadMutex);
-    if (TclpThreadCreate(&id, NewThread, (ClientData) &ctrl) != TCL_OK) {
+    if (Tcl_CreateThread(&id, NewThread, (ClientData) &ctrl,
+		 TCL_THREAD_STACK_DEFAULT, TCL_THREAD_NOFLAGS) != TCL_OK) {
 	Tcl_MutexUnlock(&threadMutex);
         Tcl_AppendResult(interp,"can't create a new thread",0);
 	ckfree((void*)ctrl.script);

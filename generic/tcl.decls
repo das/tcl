@@ -1353,6 +1353,10 @@ declare 391 generic {
 declare 392 generic {
     void Tcl_MutexFinalize (Tcl_Mutex *mutex)
 }
+declare 393 generic {
+    int Tcl_CreateThread (Tcl_ThreadId *idPtr, Tcl_ThreadCreateProc proc, \
+	    ClientData clientData, int stackSize, int flags)
+}
 
 ##############################################################################
 

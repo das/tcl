@@ -790,6 +790,7 @@ TclStubs tclStubs = {
     Tcl_ProcObjCmd, /* 390 */
     Tcl_ConditionFinalize, /* 391 */
     Tcl_MutexFinalize, /* 392 */
+    Tcl_CreateThread, /* 393 */
 };
 
 /* !END!: Do not edit above this line. */

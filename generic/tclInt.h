@@ -790,12 +790,6 @@ EXTERN void TclThreadDataKeySet _ANSI_ARGS_((Tcl_ThreadDataKey *keyPtr, VOID *da
 #define TCL_TSD_INIT(keyPtr)	(ThreadSpecificData *)Tcl_GetThreadData((keyPtr), sizeof(ThreadSpecificData))
 
 
-#ifdef MAC_TCL
-typedef pascal void *(Tcl_ThreadCreateProc) _ANSI_ARGS_((ClientData clientData));
-#else
-typedef void (Tcl_ThreadCreateProc) _ANSI_ARGS_((ClientData clientData));
-#endif
-
 /*
  *----------------------------------------------------------------
  * Data structures related to bytecode compilation and execution.
@@ -1799,8 +1793,6 @@ EXTERN int		TclProcCompileProc _ANSI_ARGS_((Tcl_Interp *interp,
 EXTERN void		TclProcDeleteProc _ANSI_ARGS_((ClientData clientData));
 EXTERN int		TclProcInterpProc _ANSI_ARGS_((ClientData clientData,
 			    Tcl_Interp *interp, int argc, char **argv));
-EXTERN int		TclpThreadCreate _ANSI_ARGS_((Tcl_ThreadId *idPtr,
-			    Tcl_ThreadCreateProc proc, ClientData clientData));
 EXTERN VOID *		TclpThreadDataKeyGet _ANSI_ARGS_((
 			    Tcl_ThreadDataKey *keyPtr));
 EXTERN void		TclpThreadDataKeyInit _ANSI_ARGS_((
