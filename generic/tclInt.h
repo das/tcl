@@ -1641,6 +1641,7 @@ typedef Tcl_ObjCmdProc *TclObjCmdProcType;
 
 extern char *			tclExecutableName;
 extern char *			tclNativeExecutableName;
+extern int			tclFindExecutableSearchDone;
 extern char *			tclDefaultEncodingDir;
 extern char *			tclMemDumpFileName;
 extern TclPlatformType		tclPlatform;

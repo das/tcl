@@ -54,9 +54,10 @@ TclpFindExecutable(argv0)
     if (argv0 == NULL) {
 	return NULL;
     }
-    if (tclNativeExecutableName != NULL) {
+    if (tclFindExecutableSearchDone) {
 	return tclNativeExecutableName;
     }
+    tclFindExecutableSearchDone = 1;
 
     Tcl_DStringInit(&buffer);
 
