@@ -43,6 +43,9 @@ main (int argc, char *argv[])
     DWORD dwWritten;
     int chars;
 
+    /* make sure children (cl.exe and link.exe) are kept quiet. */
+    SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOOPENFILEERRORBOX);
+
     if (argc > 1 && *argv[1] == '-') {
 	switch (*(argv[1]+1)) {
 	case 'c':
@@ -137,7 +140,7 @@ CheckForCompilerFeature (const char *option)
     /* append our option for testing */
     strcat(cmdline, option);
     /* filename to compile, which exists, but is nothing and empty. */
-    strcat(cmdline, " nul");
+    strcat(cmdline, " .\nul");
 
     ok = CreateProcess(
 	    NULL,	    /* Module name. */
@@ -232,7 +235,7 @@ CheckForLinkerFeature (const char *option)
     /* append our option for testing */
     strcat(cmdline, option);
     /* filename to compile, which exists, but is nothing and empty. */
-//    strcat(cmdline, " nul");
+//    strcat(cmdline, " .\nul");
 
     ok = CreateProcess(
 	    NULL,	    /* Module name. */
