@@ -421,9 +421,9 @@ install:    install-binaries install-libraries install-docs
 test: setup $(TCLTEST) dlls $(CAT32)
 	set TCL_LIBRARY=$(ROOT)/library
 !if "$(OS)" == "Windows_NT"  || "$(MSVCDIR)" == "IDE"
-	$(TCLTEST) $(ROOT)/tests/all.tcl $(TESTFLAGS)
+	$(TCLTEST) "$(ROOT)/tests/all.tcl" $(TESTFLAGS)
 !else
-	$(TCLTEST) $(ROOT)/tests/all.tcl $(TESTFLAGS) > tests.log
+	$(TCLTEST) "$(ROOT)/tests/all.tcl" $(TESTFLAGS) > tests.log
 	type tests.log | more
 !endif
 
