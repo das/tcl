@@ -2434,13 +2434,16 @@ Tcl_Eval(interp, string)
  *----------------------------------------------------------------------
  */
 
+#undef Tcl_EvalObj
+
 int
-Tcl_EvalObj(interp, objPtr)
+Tcl_EvalObj(interp, objPtr, dummy)
     Tcl_Interp *interp;			/* Token for command interpreter
 					 * (returned by a previous call to
 					 * Tcl_CreateInterp). */
     Tcl_Obj *objPtr;			/* Pointer to object containing
 					 * commands to execute. */
+    int dummy;				/* not used */
 {
     register Interp *iPtr = (Interp *) interp;
     int flags;				/* Interp->evalFlags value when the
@@ -3923,7 +3926,7 @@ Tcl_GlobalEvalObj(interp, objPtr)
 
     savedVarFramePtr = iPtr->varFramePtr;
     iPtr->varFramePtr = NULL;
-    result = Tcl_EvalObj(interp, objPtr);
+    result = Tcl_EvalObj(interp, objPtr, 0);
     iPtr->varFramePtr = savedVarFramePtr;
     return result;
 }

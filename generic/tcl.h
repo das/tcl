@@ -967,6 +967,7 @@ typedef struct Tcl_ChannelType {
     Tcl_DriverGetHandleProc *getHandleProc;
 					/* Get an OS handle from the channel
                                          * or NULL if not supported. */
+    VOID *reserved;			/* reserved for future expansion */
 } Tcl_ChannelType;
 
 /*
@@ -1172,7 +1173,8 @@ EXTERN int		Tcl_EvalFile _ANSI_ARGS_((Tcl_Interp *interp,
 EXTERN void		Tcl_EventuallyFree _ANSI_ARGS_((ClientData clientData,
 			    Tcl_FreeProc *freeProc));
 EXTERN int		Tcl_EvalObj _ANSI_ARGS_((Tcl_Interp *interp,
-			    Tcl_Obj *objPtr));
+			    Tcl_Obj *objPtr, int flags));
+#define Tcl_EvalObj(a,b) Tcl_EvalObj(a,b,0)
 EXTERN void		Tcl_Exit _ANSI_ARGS_((int status));
 EXTERN int		Tcl_ExposeCommand _ANSI_ARGS_((Tcl_Interp *interp,
         		    char *hiddenCmdToken, char *cmdName));
