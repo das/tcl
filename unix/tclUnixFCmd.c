@@ -1675,7 +1675,7 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
     while (1) {
 	cur = *currentPathEndPosition;
 	if ((cur == '/') && (path != currentPathEndPosition)) {
-	    /* Reached directory separator, or end of string */
+	    /* Reached directory separator */
 	    Tcl_DString ds;
 	    CONST char *nativePath;
 	    int accessOk;
@@ -1691,6 +1691,8 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 	    /* Update the acceptable point */
 	    nextCheckpoint = currentPathEndPosition - path;
 	} else if (cur == 0) {
+	    /* Reached end of string */
+	    nextCheckpoint = pathLen;
 	    break;
 	}
 	currentPathEndPosition++;

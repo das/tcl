@@ -25,6 +25,10 @@
 #ifdef MAC_TCL
 #include "tclMacInt.h"
 #endif
+#ifdef __WIN32__
+/* For 'file link' */
+#include "tclWinInt.h"
+#endif
 
 /*
  * Prototypes for procedures defined later in this file.
@@ -4417,13 +4421,31 @@ TclpNativeToNormalized(clientData)
 {
     Tcl_DString ds;
     Tcl_Obj *objPtr;
+    CONST char *copy;
+    int len;
     
 #ifdef __WIN32__
     Tcl_WinTCharToUtf((CONST char*)clientData, -1, &ds);
 #else
     Tcl_ExternalToUtfDString(NULL, (CONST char*)clientData, -1, &ds);
 #endif
-    objPtr = Tcl_NewStringObj(Tcl_DStringValue(&ds),Tcl_DStringLength(&ds));
+    
+    copy = Tcl_DStringValue(&ds);
+    len = Tcl_DStringLength(&ds);
+
+#ifdef __WIN32__
+    /* 
+     * Certain native path representations on Windows have this special
+     * prefix to indicate that they are to be treated specially.  For
+     * example extremely long paths, or symlinks 
+     */
+    if (0 == strncmp(copy,"\\??\\",4)) {
+	copy += 4;
+	len -= 4;
+    }
+#endif
+
+    objPtr = Tcl_NewStringObj(copy,len);
     Tcl_DStringFree(&ds);
     
     return objPtr;
@@ -4450,19 +4472,29 @@ static ClientData
 NativeDupInternalRep(clientData)
     ClientData clientData;
 {
-#ifdef __WIN32__
-    /* Copying internal representations is complicated with multi-byte TChars */
-    return NULL;
-#else
+    ClientData copy;
+    size_t len;
+
     if (clientData == NULL) {
-        return NULL;
-    } else {
-	char *native = (char*)clientData;
-	char *copy = ckalloc((unsigned)(1+strlen(native)));
-	strcpy(copy,native);
-	return (ClientData)copy;
+	return NULL;
     }
+
+#ifdef __WIN32__
+    if (tclWinProcs->useWide) {
+	/* unicode representation when running on NT/2K/XP */
+	len = sizeof(WCHAR) + (wcslen((CONST WCHAR*)clientData) * sizeof(WCHAR));
+    } else {
+	/* ansi representation when running on 95/98/ME */
+	len = sizeof(CHAR) + (strlen((CONST CHAR*)clientData) * sizeof(CHAR));
+    }
+#else
+    /* ansi representation when running on Unix/MacOS */
+    len = sizeof(CHAR) + (strlen((CONST CHAR*)clientData) * sizeof(CHAR));
 #endif
+    
+    copy = (ClientData) ckalloc(len);
+    memcpy((VOID*)copy, (VOID*)clientData, len);
+    return copy;
 }
 
 /*
