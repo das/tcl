@@ -2344,6 +2344,7 @@ test interp-31.1 {alias invocation scope} {
     set result [testMyNewSet "ok"]
     rename testMyNewSet {}
     rename mySet {}
+    rename myNewSet {}
     set result
 } ok
 

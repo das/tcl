@@ -389,8 +389,9 @@ test http-4.11 {httpEvent} {
 } {reset}
 test http-4.12 {httpEvent} {
     update
+    after 1000 {set x 1}
     set token [http_get $url -timeout 1 -command {#}]
-    update
+    vwait x
     http_status $token
 } {timeout}
 

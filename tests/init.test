@@ -65,7 +65,9 @@ interp eval $testInterp [list source [file join $::tcltest::testsDir defs.tcl]]
 
 interp eval $testInterp {
 
-if {[string compare test [info procs test]] == 1} then {source defs}
+if {[lsearch [namespace children] ::tcltest] == -1} {
+    source [file join [pwd] [file dirname [info script]] defs.tcl]
+}
 
 auto_reset
 catch {rename parray {}}
