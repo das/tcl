@@ -1324,8 +1324,8 @@ TclCompileLassignCmd(interp, parsePtr, envPtr)
      * Generate code to assign values from the list to variables
      */
     for (idx=0 ; idx<numWords-2 ; idx++) {
-	tokenPtr += tokenPtr->numComponents + 1;
 	int flags = (TCL_LEAVE_ERR_MSG|VM_VAR_OMIT_PUSH);
+	tokenPtr += tokenPtr->numComponents + 1;
 	/*
 	 * Generate the next variable name
 	 */
