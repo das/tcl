@@ -333,7 +333,7 @@ setup:
 	@$(MKDIR) $(OUTDIR)
 
 $(DUMPEXTS): $(WINDIR)\winDumpExts.c
-	$(cc32) $(CON_CFLAGS) -DTCL_LIB_VERSION=$(VERSION) -Fo$(TMPDIR)\ $?
+	$(cc32) $(CON_CFLAGS) -Fo$(TMPDIR)\ $?
 	set LIB="$(TOOLS32)\lib"
 	$(link32) $(ldebug) $(conlflags) $(guilibs) -out:$@ \
 		$(TMPDIR)\winDumpExts.obj 

@@ -474,7 +474,6 @@ main(int argc, char **argv)
 	if (arg == argc) {
 	    goto Usage;
 	}
-	fprintf(fout, "LIBRARY TCL%d\n", TCL_LIB_VERSION);
 	fprintf(fout, "EXPORTS\n");
     }
 
