@@ -6104,7 +6104,9 @@ Corrects Tcl_StatBuf definition issues.  (hobbs)
 
 2004-11-15 (bug fix)[10653678] [trace variable],[trace remove] interop (porter)
 
-Documentation improvements [759545,1058446,1062647,etc.]
+2004-11-16 (bug fix)[695441] [tcl_findLibrary] search $::auto_path too (porter)
+
+Documentation improvements [759545,1058446,1062647,1065732,etc.]
 Test suite expansion [1036649,1001997,etc.]
 
 --- Released 8.4.8, November XX, 2004 --- See ChangeLog for details ---
