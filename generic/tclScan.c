@@ -1144,7 +1144,7 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 		if (!(flags & SCAN_SUPPRESS)) {
 		    double dvalue;
 		    *end = '\0';
-		    dvalue = strtod(buf, NULL);
+		    dvalue = TclStrToD(buf, NULL);
 		    objPtr = Tcl_NewDoubleObj(dvalue);
 		    Tcl_IncrRefCount(objPtr);
 		    objs[objIndex++] = objPtr;

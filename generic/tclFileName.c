@@ -2308,7 +2308,7 @@ DoGlob(interp, matchesObj, separators, pathPtr, flags, pattern, types)
 /*
  *---------------------------------------------------------------------------
  *
- * Tcl_AllocStatBuf
+ * Tcl_AllocStatBuf --
  *
  *     This procedure allocates a Tcl_StatBuf on the heap.  It exists
  *     so that extensions may be used unchanged on systems where

@@ -1704,6 +1704,12 @@ test io-14.9 {reuse of stdio special channels} {stdio openpipe fileevent} {
     set f [open "|[list [interpreter] $path(script) [array get path]]" r]
     set c [gets $f]
     close $f
+    # Added delay to give Windows time to stop the spawned process and clean
+    # up its grip on the file test1. Added delete as proper test cleanup.
+    # The failing tests were 18.1 and 18.2 as first re-users of file "test1".
+    after 10000
+    file delete $path(script)
+    file delete $path(test1)
     set c
 } hello
 

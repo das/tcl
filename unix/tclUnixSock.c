@@ -147,49 +147,3 @@ TclpHasSockets(interp)
 {
     return TCL_OK;
 }
-
-/*
- *----------------------------------------------------------------------
- *
- * TclpCutSockChannel --
- *
- *	Remove any thread local refs to this channel. See
- *	Tcl_CutChannel for more info. Dummy definition.
- *
- * Results:
- *	None.
- *
- * Side effects:
- *	None.
- *
- *----------------------------------------------------------------------
- */
-
-void
-TclpCutSockChannel(chan)
-    Tcl_Channel chan;
-{
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * TclpSpliceSockChannel --
- *
- *	Insert thread local ref for this channel.
- *	Tcl_SpliceChannel for more info. Dummy definition.
- *
- * Results:
- *	None.
- *
- * Side effects:
- *	None.
- *
- *----------------------------------------------------------------------
- */
-
-void
-TclpSpliceSockChannel(chan)
-    Tcl_Channel chan;
-{
-}

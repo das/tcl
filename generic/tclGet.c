@@ -220,11 +220,11 @@ Tcl_GetDouble(interp, string, doublePtr)
 				 * in a form acceptable to strtod. */
     double *doublePtr;		/* Place to store converted result. */
 {
-    char *end;
+    CONST char *end;
     double d;
 
     errno = 0;
-    d = strtod(string, &end); /* INTL: Tcl source. */
+    d = TclStrToD(string, &end); /* INTL: Tcl source. */
     if (end == string) {
 	badDouble:
         if (interp != (Tcl_Interp *) NULL) {

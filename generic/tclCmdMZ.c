@@ -1505,7 +1505,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 			}
 		    }
 		    errno = 0;
-		    strtod(string1, &stop); /* INTL: Tcl source. */
+		    TclStrToD(string1, (CONST char **) &stop); /* INTL: Tcl source. */
 		    if (errno == ERANGE) {
 			/*
 			 * if (errno == ERANGE), then it was an over/underflow

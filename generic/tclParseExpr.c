@@ -1666,14 +1666,15 @@ GetLexeme(infoPtr)
 	     * so we can set an terminating NULL to keep strtod from
 	     * scanning too far.
 	     */
-	    char *startPtr, *termPtr;
+	    char *startPtr;
+	    CONST char *termPtr;
 	    double doubleValue;
 	    Tcl_DString toParse;
 
 	    errno = 0;
 	    Tcl_DStringInit(&toParse);
 	    startPtr = Tcl_DStringAppend(&toParse, src, length);
-	    doubleValue = strtod(startPtr, &termPtr);
+	    doubleValue = TclStrToD(startPtr, &termPtr);
 	    Tcl_DStringFree(&toParse);
 	    if (termPtr != startPtr) {
 		if (errno != 0) {

@@ -309,7 +309,7 @@ TclRememberMutex(mutexPtr)
 /*
  *----------------------------------------------------------------------
  *
- * Tcl_MutexFinalize
+ * Tcl_MutexFinalize --
  *
  *      Finalize a single mutex and remove it from the
  *	list of remembered objects.
@@ -382,7 +382,7 @@ TclRememberCondition(condPtr)
 /*
  *----------------------------------------------------------------------
  *
- * Tcl_ConditionFinalize
+ * Tcl_ConditionFinalize --
  *
  *      Finalize a single condition variable and remove it from the
  *	list of remembered objects.

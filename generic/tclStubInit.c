@@ -973,10 +973,13 @@ TclStubs tclStubs = {
     Tcl_GetEnsembleUnknownHandler, /* 549 */
     Tcl_GetEnsembleFlags, /* 550 */
     Tcl_GetEnsembleNamespace, /* 551 */
-    Tcl_NewBignumObj, /* 552 */
-    Tcl_DbNewBignumObj, /* 553 */
-    Tcl_SetBignumObj, /* 554 */
-    Tcl_GetBignumFromObj, /* 555 */
+    Tcl_SetTimeProc, /* 552 */
+    Tcl_QueryTimeProc, /* 553 */
+    Tcl_ChannelThreadActionProc, /* 554 */
+    Tcl_NewBignumObj, /* 555 */
+    Tcl_DbNewBignumObj, /* 556 */
+    Tcl_SetBignumObj, /* 557 */
+    Tcl_GetBignumFromObj, /* 558 */
 };
 
 /* !END!: Do not edit above this line. */

@@ -1419,7 +1419,7 @@ SetBooleanFromAny(interp, objPtr)
 	     * NULLs.
 	     */
 
-	    dbl = strtod(string, &end);
+	    dbl = TclStrToD(string, (CONST char **) &end);
 	    if (end == string) {
 		goto badBoolean;
 	    }
@@ -1705,7 +1705,7 @@ SetDoubleFromAny(interp, objPtr)
     Tcl_Interp *interp;		/* Used for error reporting if not NULL. */
     register Tcl_Obj *objPtr;	/* The object to convert. */
 {
-    char *string, *end;
+    CONST char *string, *end;
     double newDouble;
     int length;
 
@@ -1722,7 +1722,7 @@ SetDoubleFromAny(interp, objPtr)
      */
 
     errno = 0;
-    newDouble = strtod(string, &end);
+    newDouble = TclStrToD(string, &end);
     if (end == string) {
 	badDouble:
 	if (interp != NULL) {
