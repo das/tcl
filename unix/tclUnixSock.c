@@ -110,3 +110,26 @@ Tcl_GetHostName()
     Tcl_MutexUnlock(&hostMutex);
     return hostname;
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclpHasSockets --
+ *
+ *	Detect if sockets are available on this platform.
+ *
+ * Results:
+ *	Returns TCL_OK.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+int
+TclpHasSockets(interp)
+    Tcl_Interp *interp;		/* Not used. */
+{
+    return TCL_OK;
+}

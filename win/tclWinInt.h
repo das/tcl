@@ -108,4 +108,6 @@ EXTERN char *		Tcl_WinTCharToUtf(CONST TCHAR *string, int len,
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT
 
+#include "tclIntPlatDecls.h"
+
 #endif	/* _TCLWININT */

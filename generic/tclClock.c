@@ -276,7 +276,7 @@ FormatClock(interp, clockVal, useGMT, format)
     }
 #endif
 
-    timeDataPtr = TclpGetDate((time_t *) &clockVal, useGMT);
+    timeDataPtr = TclpGetDate((TclpTime_t) &clockVal, useGMT);
     
     /*
      * Make a guess at the upper limit on the substituted string size
@@ -294,7 +294,7 @@ FormatClock(interp, clockVal, useGMT, format)
     Tcl_DStringSetLength(&buffer, bufSize);
 
     Tcl_MutexLock(&clockMutex);
-    result = TclStrftime(buffer.string, (unsigned int) bufSize, format,
+    result = TclpStrftime(buffer.string, (unsigned int) bufSize, format,
 	    timeDataPtr);
     Tcl_MutexUnlock(&clockMutex);
 

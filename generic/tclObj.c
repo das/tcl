@@ -130,6 +130,7 @@ TclInitObjSubsystem()
     Tcl_MutexUnlock(&tableMutex);
 
     Tcl_RegisterObjType(&tclBooleanType);
+    Tcl_RegisterObjType(&tclByteArrayType);
     Tcl_RegisterObjType(&tclDoubleType);
     Tcl_RegisterObjType(&tclIntType);
     Tcl_RegisterObjType(&tclStringType);

@@ -204,14 +204,6 @@ extern char **environ;
 #define TCL_SHLIB_EXT ".shlb"
 
 /*
- * The following declarations belong in tclInt.h, but depend on platform
- * specific types.  
- */
-
-EXTERN struct tm *	TclpGetDate _ANSI_ARGS_((const time_t *tp,
-			    int useGMT));
-
-/*
  * The following define is bogus and needs to be fixed.  It claims that
  * struct tm has the timezone string in it, which is not true.  However,
  * the code that works around this fact does not compile on the Mac, since
@@ -243,21 +235,16 @@ EXTERN struct tm *	TclpGetDate _ANSI_ARGS_((const time_t *tp,
  */
 #define lstat(path, bufPtr) TclStat(path, bufPtr)
 
-EXTERN FILE * TclMacFOpenHack _ANSI_ARGS_((const char *path,
-	const char *mode));
 #define fopen(path, mode) TclMacFOpenHack(path, mode)
-EXTERN int TclMacReadlink _ANSI_ARGS_((char *path, char *buf, int size));
 #define readlink(fileName, buffer, size) TclMacReadlink(fileName, buffer, size)
 #ifdef TCL_TEST
 #define chmod(path, mode) TclMacChmod(path, mode)
-EXTERN int	TclMacChmod(char *path, int mode);
 #endif
 
 /*
  * Prototypes needed for compatability
  */
 
-EXTERN int 	TclMacCreateEnv _ANSI_ARGS_((void));
 EXTERN int	strncasecmp _ANSI_ARGS_((CONST char *s1,
 			    CONST char *s2, size_t n));
 
@@ -291,13 +278,5 @@ typedef int TclpMutex;
 #define	TclpMutexLock(a)
 #define	TclpMutexUnlock(a)
 #endif /* TCL_THREADS */
-
-/*
- * The following define should really be in tclInt.h, but tclInt.h does
- * not include tclPort.h, which includes the "struct stat" definition.
- */
-
-EXTERN int TclpStat _ANSI_ARGS_ ((CONST char *path, struct stat *buf));
-EXTERN int TclpAccess _ANSI_ARGS_ ((CONST char *path, int mode));
 
 #endif /* _MACPORT */

@@ -201,7 +201,7 @@ static void		SlaveObjCmdDeleteProc _ANSI_ARGS_((
  *	Tcl_CreateInterp().
  *
  * Results:
- *	None.
+ *	Always returns TCL_OK for backwards compatibility.
  *
  * Side effects:
  *	Adds the "interp" command to an interpreter and initializes the
@@ -210,7 +210,7 @@ static void		SlaveObjCmdDeleteProc _ANSI_ARGS_((
  *---------------------------------------------------------------------------
  */
 
-void
+int
 TclInterpInit(interp)
     Tcl_Interp *interp;			/* Interpreter to initialize. */
 {
@@ -235,6 +235,7 @@ TclInterpInit(interp)
     Tcl_CreateObjCommand(interp, "interp", Tcl_InterpObjCmd, NULL, NULL);
 
     Tcl_CallWhenDeleted(interp, InterpInfoDeleteProc, NULL);
+    return TCL_OK;
 }
 
 /*

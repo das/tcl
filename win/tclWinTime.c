@@ -252,10 +252,11 @@ TclpGetTZName(int dst)
  */
 
 struct tm *
-TclpGetDate(tp, useGMT)
-    const time_t *tp;
+TclpGetDate(t, useGMT)
+    TclpTime_t t;
     int useGMT;
 {
+    const time_t *tp = (const time_t *) t;
     struct tm *tmPtr;
     long time;
 
