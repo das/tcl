@@ -447,7 +447,6 @@ EXTERN int		gettimeofday _ANSI_ARGS_((struct timeval *tp,
  */
 
 #define TclHasSockets(interp) (TCL_OK)
-#define TclHasPipes() (1)
 
 /*
  * Variables provided by the C library:
