@@ -2146,7 +2146,7 @@ SocketThread(LPVOID arg)
 	 */
 
 #ifdef _WIN64
-	SetWindowLongPtr(tsdPtr->hwnd, GWLP_USERDATA, (LONG) tsdPtr);
+	SetWindowLongPtr(tsdPtr->hwnd, GWLP_USERDATA, (LONG_PTR) tsdPtr);
 #else
 	SetWindowLong(tsdPtr->hwnd, GWL_USERDATA, (LONG) tsdPtr);
 #endif

@@ -14,7 +14,6 @@
  */
 
 #include "tclWinInt.h"
-#include <winsock.h>
 
 #define INTERVAL_TIMER 1	/* Handle of interval timer. */
 

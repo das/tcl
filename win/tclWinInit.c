@@ -42,6 +42,21 @@ typedef struct {
 #ifndef PROCESSOR_ARCHITECTURE_PPC
 #define PROCESSOR_ARCHITECTURE_PPC   3
 #endif
+#ifndef PROCESSOR_ARCHITECTURE_SHX  
+#define PROCESSOR_ARCHITECTURE_SHX   4
+#endif
+#ifndef PROCESSOR_ARCHITECTURE_ARM
+#define PROCESSOR_ARCHITECTURE_ARM   5
+#endif
+#ifndef PROCESSOR_ARCHITECTURE_IA64
+#define PROCESSOR_ARCHITECTURE_IA64  6
+#endif
+#ifndef PROCESSOR_ARCHITECTURE_ALPHA64
+#define PROCESSOR_ARCHITECTURE_ALPHA64 7
+#endif
+#ifndef PROCESSOR_ARCHITECTURE_MSIL
+#define PROCESSOR_ARCHITECTURE_MSIL  8
+#endif
 #ifndef PROCESSOR_ARCHITECTURE_UNKNOWN
 #define PROCESSOR_ARCHITECTURE_UNKNOWN 0xFFFF
 #endif
@@ -57,9 +72,9 @@ static char* platforms[NUMPLATFORMS] = {
     "Win32s", "Windows 95", "Windows NT"
 };
 
-#define NUMPROCESSORS 4
+#define NUMPROCESSORS 9
 static char* processors[NUMPROCESSORS] = {
-    "intel", "mips", "alpha", "ppc"
+    "intel", "mips", "alpha", "ppc", "shx", "arm", "ia64", "alpha64", "msil"
 };
 
 /*
