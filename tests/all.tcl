@@ -16,11 +16,11 @@ set ::tcltest::testSingleFile false
 
 puts stdout "Tcl $tcl_patchLevel tests running in interp:  [info nameofexecutable]"
 puts stdout "Tests running in working dir:  $::tcltest::workingDir"
-if {[llength $::tcltest::skippingTests] > 0} {
-    puts stdout "Skipping tests that match:  $::tcltest::skippingTests"
+if {[llength $::tcltest::skip] > 0} {
+    puts stdout "Skipping tests that match:  $::tcltest::skip"
 }
-if {[llength $::tcltest::matchingTests] > 0} {
-    puts stdout "Only running tests that match:  $::tcltest::matchingTests"
+if {[llength $::tcltest::match] > 0} {
+    puts stdout "Only running tests that match:  $::tcltest::match"
 }
 
 # Use command line specified glob pattern (specified by -file or -f)
