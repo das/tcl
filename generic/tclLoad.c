@@ -274,7 +274,7 @@ Tcl_LoadObjCmd(dummy, interp, objc, objv)
 	    if (!retc) {
 		Tcl_Obj *splitPtr;
 		Tcl_Obj *pkgGuessPtr;
-		Tcl_Length pElements;
+		int pElements;
 		char *pkgGuess;
 
 		/*
@@ -286,8 +286,7 @@ Tcl_LoadObjCmd(dummy, interp, objc, objv)
 		 */
 
 		splitPtr = Tcl_FSSplitPath(objv[1], &pElements);
-		Tcl_ListObjIndex(NULL, splitPtr, (int)pElements - 1,
-			&pkgGuessPtr);
+		Tcl_ListObjIndex(NULL, splitPtr, pElements -1, &pkgGuessPtr);
 		pkgGuess = Tcl_GetString(pkgGuessPtr);
 		if ((pkgGuess[0] == 'l') && (pkgGuess[1] == 'i')
 			&& (pkgGuess[2] == 'b')) {
@@ -321,7 +320,7 @@ Tcl_LoadObjCmd(dummy, interp, objc, objv)
 	 */
     
 	Tcl_DStringSetLength(&pkgName,
-		(Tcl_Length) Tcl_UtfToTitle(Tcl_DStringValue(&pkgName)));
+		Tcl_UtfToTitle(Tcl_DStringValue(&pkgName)));
 
 	/*
 	 * Compute the names of the two initialization procedures,

@@ -524,7 +524,7 @@ Tcl_PackageObjCmd(dummy, interp, objc, objv)
 	    break;
 	}
 	case PKG_IFNEEDED: {
-	    Tcl_Length length;
+	    int length;
 	    if ((objc != 4) && (objc != 5)) {
 		Tcl_WrongNumArgs(interp, 2, objv, "package version ?script?");
 		return TCL_ERROR;
@@ -680,7 +680,7 @@ Tcl_PackageObjCmd(dummy, interp, objc, objv)
 	    break;
 	}
 	case PKG_UNKNOWN: {
-	    Tcl_Length length;
+	    int length;
 	    if (objc == 2) {
 		if (iPtr->packageUnknown != NULL) {
 		    Tcl_SetResult(interp, iPtr->packageUnknown, TCL_VOLATILE);
