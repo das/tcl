@@ -34,6 +34,9 @@ char *
 \fBTcl_GetString\fR(\fIobjPtr\fR)
 .sp
 Tcl_UniChar *
+\fBTcl_GetUnicodeFromObj\fR(\fIobjPtr, lengthPtr\fR)
+.sp
+Tcl_UniChar *
 \fBTcl_GetUnicode\fR(\fIobjPtr\fR)
 .sp
 Tcl_UniChar
@@ -156,7 +159,15 @@ caller.  The procedure \fBTcl_GetString\fR is used in the common case
 where the caller does not need the length of the string
 representation.
 .PP
-\fBTcl_GetUnicode\fR returns an object's value as a Unicode string.
+\fBTcl_GetUnicodeFromObj\fR and \fBTcl_GetUnicode\fR return an object's
+value as a Unicode string.  This is given by the returned pointer and
+(for \fBTcl_GetUnicodeFromObj\fR) length, which is stored in
+\fIlengthPtr\fR if it is non-NULL.  The storage referenced by the returned
+byte pointer is owned by the object manager and should not be modified by
+the caller.  The procedure \fBTcl_GetUnicode\fR is used in the common case
+where the caller does not need the length of the unicode string
+representation.
+.PP
 \fBTcl_GetUniChar\fR returns the \fIindex\fR'th character in the
 object's Unicode representation.
 .PP
