@@ -162,7 +162,9 @@ TclInitAlloc()
 {
     if (!allocInit) {
 	allocInit = 1;
+#ifdef TCL_THREADS
 	allocMutexPtr = Tcl_GetAllocMutex();
+#endif
     }
 }
 
@@ -254,7 +256,7 @@ TclpAlloc(nbytes)
 	 * may be used before any other part of Tcl.  E.g., see
 	 * main() for tclsh!
 	 */
-	TclAllocInit();
+	TclInitAlloc();
     }
     Tcl_MutexLock(allocMutexPtr);
     /*

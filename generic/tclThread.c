@@ -403,7 +403,9 @@ TclFinalizeThreadData()
 	}
 #endif
     }
+#ifdef TCL_THREADS
     TclpMasterUnlock();
+#endif
 }
 
 /*

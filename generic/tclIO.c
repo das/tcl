@@ -597,40 +597,6 @@ TclFinalizeIOSubsystem()
 /*
  *----------------------------------------------------------------------
  *
- * Tcl_CloseChannels --
- *
- *	Close all open channels in this interp, except for the
- *	standard input/output channels.  This is useful for cleanup.
- *
- * Results:
- *	None
- *
- * Side effects:
- *	May closes one or more channels.
- *
- *----------------------------------------------------------------------
- */
-
-void
-Tcl_CloseChannels(Tcl_Interp *interp)
-{
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
-    Channel *chanPtr, *nextChanPtr;
-
-    for (chanPtr = tsdPtr->firstChanPtr; chanPtr != NULL; chanPtr = nextChanPtr) {
-	nextChanPtr = chanPtr->nextChanPtr;
-	if (chanPtr != (Channel *) tsdPtr->stdinChannel
-		&& chanPtr != (Channel *) tsdPtr->stdoutChannel
-		&& chanPtr != (Channel *) tsdPtr->stderrChannel) {
-            (void) Tcl_UnregisterChannel(interp, (Tcl_Channel) chanPtr);
-	}
-    }
-}
-
-
-/*
- *----------------------------------------------------------------------
- *
  * Tcl_SetStdChannel --
  *
  *	This function is used to change the channels that are used

@@ -305,7 +305,7 @@ Tcl_ListObjGetElements(interp, listPtr, objcPtr, objvPtr)
 				 * is to be returned. */
     int *objcPtr;		/* Where to store the count of objects
 				 * referenced by objv. */
-    Tcl_Obj ***objvPtr;		/* Where to store the pointer to an array
+    Tcl_Obj * CONST **objvPtr;	/* Where to store the pointer to an array
 				 * of pointers to the list's objects. */
 {
     register List *listRepPtr;

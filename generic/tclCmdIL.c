@@ -907,7 +907,7 @@ InfoExistsCmd(dummy, interp, objc, objv)
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
     char *varName;
-    Var *varPtr, *arrayPtr;
+    Var *varPtr;
 
     if (objc != 3) {
         Tcl_WrongNumArgs(interp, 2, objv, "varName");

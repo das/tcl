@@ -181,7 +181,7 @@ declare 44 generic {
 }
 declare 45 generic {
     int Tcl_ListObjGetElements(Tcl_Interp *interp, Tcl_Obj *listPtr, \
-	    int *objcPtr, Tcl_Obj ***objvPtr)
+	    int *objcPtr, Tcl_Obj * CONST **objvPtr)
 }
 declare 46 generic {
     int Tcl_ListObjIndex(Tcl_Interp *interp, Tcl_Obj *listPtr, int index, \
