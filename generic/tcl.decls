@@ -1876,3 +1876,11 @@ declare 0 macosx {
 	    int maxPathLen,
 	    char *libraryPath)
 }
+declare 1 macosx {
+    int Tcl_MacOSXOpenVersionedBundleResources(Tcl_Interp *interp,
+	    CONST char *bundleName,
+	    CONST char *bundleVersion,
+	    int hasResourceFile,
+	    int maxPathLen,
+	    char *libraryPath)
+}

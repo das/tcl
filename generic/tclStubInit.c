@@ -372,6 +372,7 @@ TclPlatStubs tclPlatStubs = {
 #endif /* MAC_TCL */
 #ifdef MAC_OSX_TCL
     Tcl_MacOSXOpenBundleResources, /* 0 */
+    Tcl_MacOSXOpenVersionedBundleResources, /* 1 */
 #endif /* MAC_OSX_TCL */
 };
 
