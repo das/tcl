@@ -386,7 +386,7 @@ EXTERN int		gettimeofday _ANSI_ARGS_((struct timeval *tp,
 #endif /* !S_ISSOCK */
 
 /*
- * Make sure that MAXPATHLEN is defined.
+ * Make sure that MAXPATHLEN and MAXNAMLEN are defined.
  */
 
 #ifndef MAXPATHLEN
@@ -394,6 +394,14 @@ EXTERN int		gettimeofday _ANSI_ARGS_((struct timeval *tp,
 #       define MAXPATHLEN PATH_MAX
 #   else
 #       define MAXPATHLEN 2048
+#   endif
+#endif
+
+#ifndef MAXNAMLEN
+#   ifdef NAME_MAX
+#	define MAXNAMLEN NAME_MAX
+#   else
+#	define MAXNAMLEN 255
 #   endif
 #endif
 
