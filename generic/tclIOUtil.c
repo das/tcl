@@ -1161,13 +1161,30 @@ FsAddMountsToGlobResult(result, pathPtr, pattern, types)
 	    }
 	}
 	if (!found && dir) {
+            int len, mlen;
+            CONST char *path;
+            CONST char *mount;
 	    if (Tcl_IsShared(result)) {
 		Tcl_Obj *newList;
 		newList = Tcl_DuplicateObj(result);
 		Tcl_DecrRefCount(result);
 		result = newList;
 	    }
-	    Tcl_ListObjAppendElement(NULL, result, mElt);
+            /* 
+             * We know mElt is absolute normalized and lies inside pathPtr, 
+             * so now we must add to the result the right
+             * representation of mElt, i.e. the representation which
+             * is relative to pathPtr.
+             */
+            mount = Tcl_GetStringFromObj(mElt, &mlen);
+            path = Tcl_GetStringFromObj(Tcl_FSGetNormalizedPath(NULL, pathPtr), 
+                                        &len);
+            if (path[len-1] == '/') {
+                /* Deal with the root of the volume */
+                len--;
+            }
+            mElt = TclNewFSPathObj(pathPtr, mount + len + 1, mlen - len);
+            Tcl_ListObjAppendElement(NULL, result, mElt);
 	    /* 
 	     * No need to increment gLength, since we
 	     * don't want to compare mounts against
