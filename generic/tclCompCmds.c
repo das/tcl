@@ -2372,14 +2372,6 @@ TclCompileReturnCmd(interp, parsePtr, envPtr)
     Tcl_Token *varTokenPtr;
     int code;
 
-    /*
-     * If we're not in a procedure, don't compile.
-     */
-
-    if (envPtr->procPtr == NULL) {
-	return TCL_OUT_LINE_COMPILE;
-    }
-
     switch (parsePtr->numWords) {
 	case 1: {
 	    /*
