@@ -136,7 +136,7 @@ static TclWinProcs asciiProcs = {
      */
     NULL,
     NULL,
-    (int (__cdecl*)(CONST TCHAR *, struct _utimbuf *)) _utime,
+    /* deleted (int (__cdecl*)(CONST TCHAR *, struct _utimbuf *)) _utime, */
     NULL,
     NULL,
     /* Security SDK - not available on 95,98,ME */
@@ -187,7 +187,7 @@ static TclWinProcs unicodeProcs = {
      */
     NULL,
     NULL,
-    (int (__cdecl*)(CONST TCHAR *, struct _utimbuf *)) _wutime,
+    /* deleted (int (__cdecl*)(CONST TCHAR *, struct _utimbuf *)) _wutime, */
     NULL,
     NULL,
     /* Security SDK - will be filled in on NT,XP,2000,2003 */

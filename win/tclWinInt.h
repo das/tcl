@@ -100,7 +100,7 @@ typedef struct TclWinProcs {
     BOOL (WINAPI *createHardLinkProc)(CONST TCHAR*, CONST TCHAR*, 
 				      LPSECURITY_ATTRIBUTES);
     
-    INT (__cdecl *utimeProc)(CONST TCHAR*, struct _utimbuf *);
+    /* deleted INT (__cdecl *utimeProc)(CONST TCHAR*, struct _utimbuf *); */
     /* These two are also NULL at start; see comment above */
     HANDLE (WINAPI *findFirstFileExProc)(CONST TCHAR*, UINT,
 					 LPVOID, UINT,
