@@ -766,9 +766,12 @@ Tcl_JoinPath(argc, argv, resultPtr)
 		/*
 		 * Check for QNX //<node id> prefix
 		 */
-		if (*p && (strlen(p) > 3) &&
-			(p[0] == '/') && (p[1] == '/') && atoi(&p[2])) {
+		if (*p && (strlen(p) > 3) && (p[0] == '/') && (p[1] == '/')
+			&& isdigit(UCHAR(p[2]))) { /* INTL: digit */
 		    p += 3;
+		    while (isdigit(UCHAR(*p))) { /* INTL: digit */
+			++p;
+		    }
 		}
 #endif
 		if (*p == '/') {
