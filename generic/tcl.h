@@ -56,11 +56,11 @@ extern "C" {
  */
 #define TCL_MAJOR_VERSION   8
 #define TCL_MINOR_VERSION   4
-#define TCL_RELEASE_LEVEL   TCL_BETA_RELEASE
-#define TCL_RELEASE_SERIAL  3
+#define TCL_RELEASE_LEVEL   TCL_FINAL_RELEASE
+#define TCL_RELEASE_SERIAL  0
 
 #define TCL_VERSION	    "8.4"
-#define TCL_PATCH_LEVEL	    "8.4b3"
+#define TCL_PATCH_LEVEL	    "8.4.0"
 
 /*
  * The following definitions set up the proper options for Windows
