@@ -67,7 +67,8 @@ missing close-brace for variable name
 "tstProc"}]
 
 for {set i 1} {$i<300} {incr i} {
-    test misc-2.$i {hash table with sys-alloc} "testhashsystemhash $i" OK
+    test misc-2.$i {hash table with sys-alloc} testhashsystemhash \
+	    "testhashsystemhash $i" OK
 }
 
 # cleanup
