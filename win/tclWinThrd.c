@@ -40,8 +40,12 @@ static CRITICAL_SECTION initLock;
  * For obvious reasons, cannot use any dyamically allocated storage.
  */
 
+#ifdef TCL_THREADS
+
 static CRITICAL_SECTION allocLock;
 static Tcl_Mutex allocLockPtr = (Tcl_Mutex) &allocLock;
+
+#endif /* TCL_THREADS */
 
 /*
  * The joinLock serializes Create- and ExitThread. This is necessary to
@@ -69,6 +73,8 @@ static CRITICAL_SECTION joinLock;
  * The per-thread event and queue pointers.
  */
 
+#ifdef TCL_THREADS
+
 typedef struct ThreadSpecificData {
     HANDLE condEvent;			/* Per-thread condition event */
     struct ThreadSpecificData *nextPtr;	/* Queue pointers */
@@ -76,6 +82,8 @@ typedef struct ThreadSpecificData {
     int flags;				/* See flags below */
 } ThreadSpecificData;
 static Tcl_ThreadDataKey dataKey;
+
+#endif /* TCL_THREADS */
 
 /*
  * State bits for the thread.

@@ -467,7 +467,7 @@ FileSeekProc(instanceData, offset, mode, errorCodePtr)
     oldPos = SetFilePointer(infoPtr->handle, (LONG)0, &oldPosHigh,
 	    FILE_CURRENT);
     if (oldPos == INVALID_SET_FILE_POINTER) {
-	int winError = GetLastError();
+	DWORD winError = GetLastError();
 	if (winError != NO_ERROR) {
 	    TclWinConvertError(winError);
 	    *errorCodePtr = errno;
@@ -479,7 +479,7 @@ FileSeekProc(instanceData, offset, mode, errorCodePtr)
     newPos = SetFilePointer(infoPtr->handle, (LONG) offset, &newPosHigh,
 			    moveMethod);
     if (newPos == INVALID_SET_FILE_POINTER) {
-	int winError = GetLastError();
+	DWORD winError = GetLastError();
 	if (winError != NO_ERROR) {
 	    TclWinConvertError(winError);
 	    *errorCodePtr = errno;
@@ -540,7 +540,7 @@ FileWideSeekProc(instanceData, offset, mode, errorCodePtr)
     newPos = SetFilePointer(infoPtr->handle, (LONG) offset, &newPosHigh,
 			    moveMethod);
     if (newPos == INVALID_SET_FILE_POINTER) {
-	int winError = GetLastError();
+	DWORD winError = GetLastError();
 	if (winError != NO_ERROR) {
 	    TclWinConvertError(winError);
 	    *errorCodePtr = errno;

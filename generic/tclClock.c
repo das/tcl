@@ -263,7 +263,7 @@ FormatClock(interp, clockVal, useGMT, format)
     char *p;
     int result;
     time_t tclockVal;
-#ifndef HAVE_TM_ZONE
+#if defined(HAVE_TM_ZONE) && !defined(WIN32)
     int savedTimeZone = 0;	/* lint. */
     char *savedTZEnv = NULL;	/* lint. */
 #endif

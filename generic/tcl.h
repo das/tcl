@@ -353,7 +353,7 @@ typedef long LONG;
  */
 
 #if !defined(TCL_WIDE_INT_TYPE)&&!defined(TCL_WIDE_INT_IS_LONG)
-#   ifdef __CYGWIN__
+#   if defined(__CYGWIN__) || defined(__MINGW32__)
 #      define TCL_WIDE_INT_TYPE long long
 #      define TCL_LL_MODIFIER	"L"
 typedef struct stat	Tcl_StatBuf;
