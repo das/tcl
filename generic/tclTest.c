@@ -1557,8 +1557,7 @@ TestevalobjvObjCmd(dummy, interp, objc, objv)
     int objc;				/* Number of arguments. */
     Tcl_Obj *CONST objv[];		/* Argument objects. */
 {
-    int length, evalGlobal;
-    char *command;
+    int evalGlobal;
 
     if (objc < 3) {
 	Tcl_WrongNumArgs(interp, 1, objv, "global word ?word ...?");
