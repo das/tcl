@@ -487,7 +487,7 @@ CompileSubExpr(exprTokenPtr, infoPtr, envPtr)
 	     * TODO: Note that the string is modified in place.  This is unsafe
 	     * and will break if any of the routines called while the string is
 	     * modified have side effects that depend on the original string
-	     * being unmodified (e.g. adding an etry to the literal table).
+	     * being unmodified (e.g. adding an entry to the literal table).
 	     */
 
 	    operator = tokenPtr->start;
