@@ -3322,13 +3322,14 @@ TclpCutFileChannel(chan)
     FileState **nextPtrPtr;
     int removed = 0;
 
-    if (chanPtr->typePtr != &fileChannelType)
+    if (chanPtr->typePtr != &fileChannelType) {
         return;
+    }
 
     fsPtr = (FileState *) chanPtr->instanceData;
 
     for (nextPtrPtr = &(tsdPtr->firstFilePtr); (*nextPtrPtr) != NULL;
-	 nextPtrPtr = &((*nextPtrPtr)->nextPtr)) {
+	    nextPtrPtr = &((*nextPtrPtr)->nextPtr)) {
 	if ((*nextPtrPtr) == fsPtr) {
 	    (*nextPtrPtr) = fsPtr->nextPtr;
 	    removed = 1;
@@ -3377,8 +3378,9 @@ TclpSpliceFileChannel(chan)
     Channel *chanPtr = (Channel *) chan;
     FileState *fsPtr;
 
-    if (chanPtr->typePtr != &fileChannelType)
+    if (chanPtr->typePtr != &fileChannelType) {
         return;
+    }
 
     fsPtr = (FileState *) chanPtr->instanceData;
 
