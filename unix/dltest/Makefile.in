@@ -49,8 +49,12 @@ pkgua${SHLIB_SUFFIX}: $(SRC_DIR)/pkgua.c
 	${SHLIB_LD} -o pkgua${SHLIB_SUFFIX} pkgua.o ${SHLIB_LD_LIBS}
 
 clean:
-	rm -f *.o *${SHLIB_SUFFIX} config.cache config.log config.status
+	rm -f *.o config.cache config.log config.status
 	rm -f lib.exp ../dltest.marker
+	@if test "$(SHLIB_SUFFIX)" != ""; then \
+	    echo "rm -f *${SHLIB_SUFFIX}" ; \
+	    rm -f *${SHLIB_SUFFIX} ; \
+	fi
 
 distclean: clean
 	rm -f Makefile
