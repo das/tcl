@@ -42,9 +42,11 @@ if {![info exists auto_path]} {
 	set auto_path ""
     }
 }
-foreach __dir [list [info library] [file dirname [info library]]] {
-    if {[lsearch -exact $auto_path $__dir] < 0} {
-	lappend auto_path $__dir
+if {[string compare [info library] {}]} {
+    foreach __dir [list [info library] [file dirname [info library]]] {
+	if {[lsearch -exact $auto_path $__dir] < 0} {
+	    lappend auto_path $__dir
+	}
     }
 }
 if {[info exist tcl_pkgPath]} {
@@ -54,7 +56,9 @@ if {[info exist tcl_pkgPath]} {
 	}
     }
 }
-catch {unset __dir}
+if {[info exists __dir]} {
+    unset __dir
+}
 
 # Windows specific initialization to handle case isses with envars
 
@@ -611,7 +615,7 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
 
     # The C application may have hardwired a path, which we honor
     
-    if {[info exist the_library]} {
+    if {[info exist the_library] && [string compare $the_library {}]} {
 	lappend dirs $the_library
     } else {
 
@@ -625,7 +629,8 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
 
 	# 2. Relative to the Tcl library
 
-        lappend dirs [file join [file dirname [info library]] $basename$version]
+        lappend dirs [file join [file dirname [info library]] \
+		$basename$version]
 
 	# 3. Various locations relative to the executable
 	# ../lib/foo1.0		(From bin directory in install hierarchy)
@@ -641,9 +646,7 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
         lappend dirs [file join $grandParentDir lib $basename$version]
         lappend dirs [file join $parentDir library]
         lappend dirs [file join $grandParentDir library]
-        if {[string match {*[ab]*} $patch]} {
-            set ver $patch
-        } else {
+        if {![regexp {.*[ab][0-9]*} $patch ver]} {
             set ver $version
         }
         lappend dirs [file join $grandParentDir $basename$ver library]
@@ -1425,7 +1428,7 @@ proc tclPkgSetup {dir pkg version files} {
 	    if {$type == "load"} {
 		set auto_index($cmd) [list load [file join $dir $f] $pkg]
 	    } else {
-		set auto_index($cmd) [list source [file join $dir $f]]
+		set auto_index($cmd) [list $type [file join $dir $f]]
 	    } 
 	}
     }
