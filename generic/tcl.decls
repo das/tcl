@@ -770,8 +770,9 @@ declare 218 generic {
 declare 219 generic {
     int Tcl_ScanCountedElement(CONST char *str, int length, int *flagPtr)
 }
+# Obsolete
 declare 220 generic {
-    Tcl_WideInt Tcl_Seek(Tcl_Channel chan, Tcl_WideInt offset, int mode)
+    int Tcl_SeekOld(Tcl_Channel chan, int offset, int mode)
 }
 declare 221 generic {
     int Tcl_ServiceAll(void)
@@ -857,8 +858,9 @@ declare 244 generic {
 declare 245 generic {
     int Tcl_StringMatch(CONST char *str, CONST char *pattern)
 }
+# Obsolete
 declare 246 generic {
-    Tcl_WideInt Tcl_Tell(Tcl_Channel chan)
+    int Tcl_TellOld(Tcl_Channel chan)
 }
 declare 247 generic {
     int Tcl_TraceVar(Tcl_Interp *interp, char *varName, int flags,
@@ -1698,6 +1700,12 @@ declare 485 generic {
 }
 declare 486 generic {
     Tcl_StatBuf * Tcl_AllocStatBuf(void)
+}
+declare 487 generic {
+    Tcl_WideInt Tcl_Seek(Tcl_Channel chan, Tcl_WideInt offset, int mode)
+}
+declare 488 generic {
+    Tcl_WideInt Tcl_Tell(Tcl_Channel chan)
 }
 
 ##############################################################################

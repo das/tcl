@@ -617,7 +617,7 @@ TclStubs tclStubs = {
     Tcl_ResetResult, /* 217 */
     Tcl_ScanElement, /* 218 */
     Tcl_ScanCountedElement, /* 219 */
-    Tcl_Seek, /* 220 */
+    Tcl_SeekOld, /* 220 */
     Tcl_ServiceAll, /* 221 */
     Tcl_ServiceEvent, /* 222 */
     Tcl_SetAssocData, /* 223 */
@@ -643,7 +643,7 @@ TclStubs tclStubs = {
     Tcl_SplitPath, /* 243 */
     Tcl_StaticPackage, /* 244 */
     Tcl_StringMatch, /* 245 */
-    Tcl_Tell, /* 246 */
+    Tcl_TellOld, /* 246 */
     Tcl_TraceVar, /* 247 */
     Tcl_TraceVar2, /* 248 */
     Tcl_TranslateFileName, /* 249 */
@@ -884,6 +884,8 @@ TclStubs tclStubs = {
     Tcl_NewWideIntObj, /* 484 */
     Tcl_SetWideIntObj, /* 485 */
     Tcl_AllocStatBuf, /* 486 */
+    Tcl_Seek, /* 487 */
+    Tcl_Tell, /* 488 */
 };
 
 /* !END!: Do not edit above this line. */
