@@ -1392,12 +1392,16 @@ allpatch: dist
 # TOOL_DIR.
 #
 
-html-tcl: EXTRA_HTML_ARGS=--tcl
-html-tk:  EXTRA_HTML_ARGS=--tk
+html:
+	$(BUILD_HTML)
+html-tcl:
+	$(BUILD_HTML) --tcl
+html-tk:
+	$(BUILD_HTML) --tk
 
-html html-tcl html-tk: 
+BUILD_HTML = \
 	$(TCL_EXE) $(TOOL_DIR)/tcltk-man2html.tcl --htmldir=$(DISTDIR)/html \
-		--srcdir=$(TOP_DIR)/.. $(EXTRA_HTML_ARGS)
+		--srcdir=$(TOP_DIR)/..
 
 #
 # Target to create a Macintosh version of the distribution.  This will
