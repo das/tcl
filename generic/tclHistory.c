@@ -133,6 +133,14 @@ Tcl_RecordAndEvalObj(interp, cmdPtr, flags)
     Tcl_DecrRefCount(objPtr);
 
     /*
+     * One possible failure mode above: exceeding a resource limit
+     */
+
+    if (Tcl_LimitExceeded(interp)) {
+	return TCL_ERROR;
+    }
+
+    /*
      * Execute the command.
      */
 
