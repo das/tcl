@@ -12,15 +12,15 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
-set ::tcltest::testConstraints(testfilehandler) \
+::tcltest::testConstraint testfilehandler \
 	[expr {[info commands testfilehandler] != {}}]
-set ::tcltest::testConstraints(testexithandler) \
+::tcltest::testConstraint testexithandler \
 	[expr {[info commands testexithandler] != {}}]
-set ::tcltest::testConstraints(testfilewait) \
+::tcltest::testConstraint testfilewait \
 	[expr {[info commands testfilewait] != {}}]
 
 test event-1.1 {Tcl_CreateFileHandler, reading} {testfilehandler} {

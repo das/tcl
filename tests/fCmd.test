@@ -14,7 +14,7 @@
 #
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
@@ -2140,14 +2140,14 @@ test fCmd-27.4 {TclFileAttrsCmd - getting one option} {
 # Find a group that exists on this Unix system, or else skip tests that
 # require Unix groups.
 if {$tcl_platform(platform) == "unix"} {
-    set ::tcltest::testConstraints(foundGroup) 0
+    ::tcltest::testConstraint foundGroup 0
     catch {
 	set groupList [exec groups]
 	set group [lindex $groupList 0]
-	set ::tcltest::testConstraints(foundGroup) 1
+	::tcltest::testConstraint foundGroup 1
     }
 } else {
-    set ::tcltest::testConstraints(foundGroup) 1
+    ::tcltest::testConstraint foundGroup 1
 }
 
 test fCmd-27.5 {TclFileAttrsCmd - setting one option} {foundGroup} {

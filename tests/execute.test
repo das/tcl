@@ -17,7 +17,7 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
@@ -27,13 +27,13 @@ catch {unset x}
 catch {unset y}
 catch {unset msg}
 
-set ::tcltest::testConstraints(testobj) \
+::tcltest::testConstraint testobj \
 	[expr {[info commands testobj] != {} \
 	&& [info commands testdoubleobj] != {} \
 	&& [info commands teststringobj] != {} \
 	&& [info commands testobj] != {}}]
 
-set ::tcltest::testConstraints(longIs32bit) \
+::tcltest::testConstraint longIs32bit \
 	[expr {int(0x80000000) < 0}]
 
 # Tests for the omnibus TclExecuteByteCode function:

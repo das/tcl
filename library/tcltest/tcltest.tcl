@@ -685,6 +685,9 @@ proc tcltest::testConstraint {constraint {value ""}} {
     if {[catch {expr {$value && $value}} msg]} {
 	return -code error $msg
     }
+    if {[limitConstraints]} {
+	set value 0
+    }
     set testConstraints($constraint) $value
 }
 

@@ -11,15 +11,15 @@
 # RCS: @(#) $Id$
  
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
-set ::tcltest::testConstraints(testopenfilechannelproc) \
+::tcltest::testConstraint testopenfilechannelproc \
 	[llength [info commands testopenfilechannelproc]]
-set ::tcltest::testConstraints(testaccessproc) \
+::tcltest::testConstraint testaccessproc \
 	[llength [info commands testaccessproc]]
-set ::tcltest::testConstraints(teststatproc) \
+::tcltest::testConstraint teststatproc \
 	[llength [info commands teststatproc]]
 
 set unsetScript {

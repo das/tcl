@@ -12,7 +12,7 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
@@ -30,12 +30,12 @@ if {[string equal $::tcl_platform(platform) "unix"]} {
                 may cause Tcl to\ncrash due to stack overflow before the\
                 recursion limit is reached.\nA minimum stacksize of 2400\
                 kbytes is recommended.\nSkipping infinite recursion test."
-        set ::tcltest::testConstraints(minStack2400) 0
+        ::tcltest::testConstraint minStack2400 0
     } else {
-        set ::tcltest::testConstraints(minStack2400) 1
+        ::tcltest::testConstraint minStack2400 1
     }
 } else {
-    set ::tcltest::testConstraints(minStack2400) 1
+    ::tcltest::testConstraint minStack2400 1
 }
 
 test stack-1.1 {maxNestingDepth reached on infinite recursion} {minStack2400} {

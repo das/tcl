@@ -14,7 +14,7 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
@@ -265,8 +265,8 @@ test compile-11.9 {Tcl_Append*: ensure Tcl_ResetResult is used properly} {
 # with TCL_MEM_DEBUG
 #
 # Special test for leak on interp delete [Bug 467523]. 
-set ::tcltest::testConstraints(execCommandExists) [expr {[info commands exec] != ""}]
-set ::tcltest::testConstraints(memDebug) [expr {[info commands memory] != ""}]
+::tcltest::testConstraint execCommandExists [expr {[info commands exec] != ""}]
+::tcltest::testConstraint memDebug [expr {[info commands memory] != ""}]
 
 test compile-12.1 {testing literal leak on interp delete} {memDebug} {
     proc getbytes {} {

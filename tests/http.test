@@ -27,6 +27,7 @@ if {[catch {package require http 2} version]} {
 	catch {puts "Running http 2.* tests in slave interp"}
 	set interp [interp create http2]
 	$interp eval [list set http2 "running"]
+	$interp eval [list set argv $argv]
 	$interp eval [list source [info script]]
 	interp delete $interp
 	return

@@ -14,7 +14,7 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
@@ -1167,7 +1167,7 @@ test namespace-41.2 {Shadowing byte-compiled commands, Bug: 231259} {
     set res
 } {New proc is called}
 
-test namespace-41.3 {Shadowing byte-compiled commands, Bug: 231259} {knownbug} {
+test namespace-41.3 {Shadowing byte-compiled commands, Bug: 231259} {knownBug} {
     set res {}
     namespace eval ns {
 	variable b 0

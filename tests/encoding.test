@@ -11,7 +11,7 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
@@ -26,9 +26,9 @@ proc fromutf {args} {
 
 # Some tests require the testencoding command
 
-set ::tcltest::testConstraints(testencoding) \
+::tcltest::testConstraint testencoding \
 	[expr {[info commands testencoding] != {}}]
-set ::tcltest::testConstraints(exec) \
+::tcltest::testConstraint exec \
 	[llength [info commands exec]]
 
 

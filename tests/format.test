@@ -13,7 +13,7 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
@@ -487,9 +487,9 @@ for {set i 290} {$i < 400} {incr i} {
     append b "x"
 }
 
-set ::tcltest::testConstraints(64bitInts) \
+::tcltest::testConstraint 64bitInts \
 	[expr {0x80000000 > 0}]
-set ::tcltest::testConstraints(wideIntExpressions) \
+::tcltest::testConstraint wideIntExpressions \
 	[expr {wide(0x80000000) != int(0x80000000)}]
 
 test format-17.1 {testing %d with wide} {64bitInts wideIntExpressions} {

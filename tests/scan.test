@@ -14,12 +14,11 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
-set ::tcltest::testConstraints(64bitInts) \
-	[expr {0x80000000 > 0}]
+::tcltest::testConstraint 64bitInts [expr {0x80000000 > 0}]
 
 test scan-1.1 {BuildCharSet, CharInSet} {
     list [scan foo {%[^o]} x] $x

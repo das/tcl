@@ -19,17 +19,17 @@
 #
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
-set ::tcltest::testConstraints(testcmdtoken) \
+::tcltest::testConstraint testcmdtoken \
 	[llength [info commands testcmdtoken]]
-set ::tcltest::testConstraints(testcmdtrace) \
+::tcltest::testConstraint testcmdtrace \
 	[llength [info commands testcmdtrace]]
-set ::tcltest::testConstraints(testcreatecommand) \
+::tcltest::testConstraint testcreatecommand \
 	[llength [info commands testcreatecommand]]
-set ::tcltest::testConstraints(exec) \
+::tcltest::testConstraint exec \
 	[llength [info commands exec]]
 
 # This variable needs to be changed when the major or minor version number for
