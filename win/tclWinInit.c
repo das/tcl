@@ -185,7 +185,7 @@ SetDefaultLibraryDir(directory)
 	 * multiple times to the same value that's not harmful.
 	 */
 	if (defaultLibraryDirLength != numBytes 
-		|| memcmp(defaultLibraryDir, bytes, numBytes) != 0) {
+		|| memcmp(defaultLibraryDir, bytes, (unsigned)numBytes) != 0) {
 	    Tcl_Panic("Attempt to modify defaultLibraryDir");
 	}
 	return;
