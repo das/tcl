@@ -86,10 +86,10 @@ typedef off_t		Tcl_SeekOffset;
 #endif
 
 #if !HAVE_STRTOLL && defined(TCL_WIDE_INT_TYPE)
-EXTERN Tcl_WideInt	strtoll _ANSI_ARGS_((char *string,  char **endPtr,
-					     int base));
-EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((char *string,  char **endPtr,
-					      int base));
+EXTERN Tcl_WideInt	strtoll _ANSI_ARGS_((CONST char *string,
+					     char **endPtr, int base));
+EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((CONST char *string,
+					      char **endPtr, int base));
 #endif
 
 #include <sys/file.h>

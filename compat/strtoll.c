@@ -41,7 +41,7 @@
 
 Tcl_WideInt
 strtoll(string, endPtr, base)
-    char *string;		/* String of ASCII digits, possibly
+    CONST char *string;		/* String of ASCII digits, possibly
 				 * preceded by white space.  For bases
 				 * greater than 10, either lower- or
 				 * upper-case digits may be used.
@@ -55,8 +55,8 @@ strtoll(string, endPtr, base)
 				 * else means decimal.
 				 */
 {
-    register char *p;
-    Tcl_WideInt result;
+    register CONST char *p;
+    Tcl_WideInt result = Tcl_LongAsWide(0);
     Tcl_WideUInt uwResult;
 
     /*
@@ -64,7 +64,7 @@ strtoll(string, endPtr, base)
      */
 
     p = string;
-    while (isspace(*p)) {
+    while (isspace(UCHAR(*p))) {
 	p += 1;
     }
 
@@ -100,7 +100,7 @@ strtoll(string, endPtr, base)
 	}
     }
     if ((result == 0) && (endPtr != 0) && (*endPtr == p)) {
-	*endPtr = string;
+	*endPtr = (char *) string;
     }
     return result;
 }
