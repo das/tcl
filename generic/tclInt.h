@@ -1925,6 +1925,8 @@ EXTERN void		TclTransferResult _ANSI_ARGS_((Tcl_Interp *sourceInterp,
 EXTERN int		TclUpdateReturnInfo _ANSI_ARGS_((Interp *iPtr));
 EXTERN Tcl_Obj*         TclpNativeToNormalized 
                             _ANSI_ARGS_((ClientData clientData));
+EXTERN Tcl_Obj*	TclpFilesystemPathType
+					_ANSI_ARGS_((Tcl_Obj* pathObjPtr));
 
 /*
  *----------------------------------------------------------------
