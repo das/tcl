@@ -72,7 +72,7 @@ extern "C" {
 
 #ifndef __WIN32__
 #   if defined(_WIN32) || defined(WIN32) || \
-       defined(__CYGWIN__) || defined(__MINGW32__)
+       defined(__CYGWIN__) || defined(__MINGW32__) || defined(__BORLANDC__)
 #	define __WIN32__
 #   endif
 #endif
@@ -224,16 +224,16 @@ extern "C" {
  */
 
 #ifdef STATIC_BUILD
-# define DLLIMPORT
-# define DLLEXPORT
+#   define DLLIMPORT
+#   define DLLEXPORT
 #else
-# if defined(__WIN32__) && (defined(_MSC_VER) || (defined(__GNUC__) && defined(__declspec)))
-#   define DLLIMPORT __declspec(dllimport)
-#   define DLLEXPORT __declspec(dllexport)
-# else
-#  define DLLIMPORT
-#  define DLLEXPORT
-# endif
+#   if defined(__WIN32__) && (defined(_MSC_VER) || (defined(__GNUC__) && defined(__declspec)))
+#	define DLLIMPORT __declspec(dllimport)
+#	define DLLEXPORT __declspec(dllexport)
+#   else
+#	define DLLIMPORT
+#	define DLLEXPORT
+#   endif
 #endif
 
 /*
