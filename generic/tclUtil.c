@@ -2179,7 +2179,7 @@ Tcl_Access(path, mode)
     CONST char *path;		/* Path of file to access (UTF-8). */
     int mode;			/* Permission setting. */
 {
-    return TclpAccess(path, mode);
+    return TclAccess(path, mode);
 }
 
 /*
@@ -2203,5 +2203,5 @@ Tcl_Stat(path, bufPtr)
     CONST char *path;		/* Path of file to stat (in UTF-8). */
     struct stat *bufPtr;	/* Filled with results of stat call. */
 {
-    return TclpStat(path, bufPtr);
+    return TclStat(path, bufPtr);
 }
