@@ -523,8 +523,7 @@ Tcl_DbNewObj(file, line)
 void
 TclAllocateFreeObjects()
 {
-    size_t objSizePlusPadding = sizeof(Tcl_Obj);
-    size_t bytesToAlloc = (OBJS_TO_ALLOC_EACH_TIME * objSizePlusPadding);
+    size_t bytesToAlloc = (OBJS_TO_ALLOC_EACH_TIME * sizeof(Tcl_Obj));
     char *basePtr;
     register Tcl_Obj *prevPtr, *objPtr;
     register int i;
@@ -534,7 +533,7 @@ TclAllocateFreeObjects()
 
     prevPtr = NULL;
     objPtr = (Tcl_Obj *) basePtr;
-    for (i = 0;  i < OBJS_TO_ALLOC_EACH_TIME;  i++) {
+    for (i = 0; i < OBJS_TO_ALLOC_EACH_TIME; i++) {
 	objPtr->internalRep.otherValuePtr = (VOID *) prevPtr;
 	prevPtr = objPtr;
 	objPtr++;

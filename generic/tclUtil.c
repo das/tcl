@@ -1071,7 +1071,7 @@ Tcl_ConcatObj(objc, objv)
         for (i = 0;  i < objc;  i++) {
 	    objPtr = objv[i];
 	    element = Tcl_GetStringFromObj(objPtr, &elemLength);
-	    while ((elemLength > 0)
+	    while ((elemLength > 0) && (UCHAR(*element) < 127)
 		    && (isspace(UCHAR(*element)))) { /* INTL: ISO space. */
 	         element++;
 		 elemLength--;
@@ -1083,7 +1083,7 @@ Tcl_ConcatObj(objc, objv)
 	     * this case it could be significant.
 	     */
 
-	    while ((elemLength > 0)
+	    while ((elemLength > 0) && (UCHAR(element[elemLength-1]) < 127)
 		    && isspace(UCHAR(element[elemLength-1])) /* INTL: ISO space. */
 		    && ((elemLength < 2) || (element[elemLength-2] != '\\'))) {
 		elemLength--;
@@ -1136,7 +1136,131 @@ Tcl_StringMatch(string, pattern)
     CONST char *pattern;	/* Pattern, which may contain special
 				 * characters. */
 {
-    return Tcl_StringCaseMatch(string, pattern, 0);
+    int p, s;
+    CONST char *pstart = pattern;
+    
+    while (1) {
+	p = *pattern;
+	s = *string;
+	
+	/*
+	 * See if we're at the end of both the pattern and the string.  If
+	 * so, we succeeded.  If we're at the end of the pattern but not at
+	 * the end of the string, we failed.
+	 */
+	
+	if (p == '\0') {
+	    if (s == '\0') {
+		return 1;
+	    } else {
+		return 0;
+	    }
+	}
+	if ((s == '\0') && (p != '*')) {
+	    return 0;
+	}
+
+	/* Check for a "*" as the next pattern character.  It matches
+	 * any substring.  We handle this by calling ourselves
+	 * recursively for each postfix of string, until either we
+	 * match or we reach the end of the string.
+	 */
+	
+	if (p == '*') {
+	    pattern++;
+	    if (*pattern == '\0') {
+		return 1;
+	    }
+	    while (1) {
+		if (Tcl_StringMatch(string, pattern)) {
+		    return 1;
+		}
+		if (*string == '\0') {
+		    return 0;
+		}
+		string++;
+	    }
+	}
+
+	/* Check for a "?" as the next pattern character.  It matches
+	 * any single character.
+	 */
+
+	if (p == '?') {
+	    Tcl_UniChar ch;
+	    
+	    pattern++;
+	    string += Tcl_UtfToUniChar(string, &ch);
+	    continue;
+	}
+
+	/* Check for a "[" as the next pattern character.  It is followed
+	 * by a list of characters that are acceptable, or by a range
+	 * (two characters separated by "-").
+	 */
+	
+	if (p == '[') {
+	    Tcl_UniChar ch, startChar, endChar;
+
+	    pattern++;
+	    string += Tcl_UtfToUniChar(string, &ch);
+
+	    while (1) {
+		if ((*pattern == ']') || (*pattern == '\0')) {
+		    return 0;
+		}
+		pattern += Tcl_UtfToUniChar(pattern, &startChar);
+		if (*pattern == '-') {
+		    pattern++;
+		    if (*pattern == '\0') {
+			return 0;
+		    }
+		    pattern += Tcl_UtfToUniChar(pattern, &endChar);
+		    if (((startChar <= ch) && (ch <= endChar))
+			    || ((endChar <= ch) && (ch <= startChar))) {
+			/*
+			 * Matches ranges of form [a-z] or [z-a].
+			 */
+
+			break;
+		    }
+		} else if (startChar == ch) {
+		    break;
+		}
+	    }
+	    while (*pattern != ']') {
+		if (*pattern == '\0') {
+		    pattern = Tcl_UtfPrev(pattern, pstart);
+		    break;
+		}
+		pattern++;
+	    }
+	    pattern++;
+	    continue;
+	}
+    
+	/* If the next pattern character is '\', just strip off the '\'
+	 * so we do exact matching on the character that follows.
+	 */
+	
+	if (p == '\\') {
+	    pattern++;
+	    p = *pattern;
+	    if (p == '\0') {
+		return 0;
+	    }
+	}
+
+	/* There's no special character.  Just make sure that the next
+	 * bytes of each string match.
+	 */
+	
+	if (s != p) {
+	    return 0;
+	}
+	pattern++;
+	string++;
+    }
 }
 
 /*
@@ -1166,12 +1290,13 @@ Tcl_StringCaseMatch(string, pattern, nocase)
 				 * characters. */
     int nocase;			/* 0 for case sensitive, 1 for insensitive */
 {
-    int p;
+    int p, s;
     CONST char *pstart = pattern;
     Tcl_UniChar ch1, ch2;
     
     while (1) {
 	p = *pattern;
+	s = *string;
 	
 	/*
 	 * See if we're at the end of both the pattern and the string.  If
@@ -1180,61 +1305,35 @@ Tcl_StringCaseMatch(string, pattern, nocase)
 	 */
 	
 	if (p == '\0') {
-	    return (*string == '\0');
+	    return (s == '\0');
 	}
-	if ((*string == '\0') && (p != '*')) {
+	if ((s == '\0') && (p != '*')) {
 	    return 0;
 	}
 
-	/*
-	 * Check for a "*" as the next pattern character.  It matches
+	/* Check for a "*" as the next pattern character.  It matches
 	 * any substring.  We handle this by calling ourselves
 	 * recursively for each postfix of string, until either we
 	 * match or we reach the end of the string.
 	 */
 	
 	if (p == '*') {
-	    /*
-	     * Skip all successive *'s in the pattern
-	     */
-	    while (*(++pattern) == '*') {}
-	    p = *pattern;
-	    if (p == '\0') {
+	    pattern++;
+	    if (*pattern == '\0') {
 		return 1;
 	    }
 	    while (1) {
-		/*
-		 * Optimization for matching - cruise through the string
-		 * quickly if the next char in the pattern isn't a special
-		 * character
-		 */
-		if ((p != '[') && (p != '?') && (p != '\\')) {
-		    if (nocase) {
-			while (*string && (p != *string)) {
-			    ch2 = Tcl_UtfToUniChar(string, &ch1);
-			    if (p == Tcl_UniCharToLower(ch1)) {
-				break;
-			    }
-			    string += ch2;
-			}
-		    } else {
-			while (*string && (p != *string)) {
-			    string += Tcl_UtfToUniChar(string, &ch1);
-			}
-		    }
-		}
 		if (Tcl_StringCaseMatch(string, pattern, nocase)) {
 		    return 1;
 		}
 		if (*string == '\0') {
 		    return 0;
 		}
-		string += Tcl_UtfToUniChar(string, &ch1);
+		string++;
 	    }
 	}
 
-	/*
-	 * Check for a "?" as the next pattern character.  It matches
+	/* Check for a "?" as the next pattern character.  It matches
 	 * any single character.
 	 */
 
@@ -1244,12 +1343,11 @@ Tcl_StringCaseMatch(string, pattern, nocase)
 	    continue;
 	}
 
-	/*
-	 * Check for a "[" as the next pattern character.  It is followed
+	/* Check for a "[" as the next pattern character.  It is followed
 	 * by a list of characters that are acceptable, or by a range
 	 * (two characters separated by "-").
 	 */
-
+	
 	if (p == '[') {
 	    Tcl_UniChar startChar, endChar;
 
@@ -1298,23 +1396,22 @@ Tcl_StringCaseMatch(string, pattern, nocase)
 	    continue;
 	}
     
-	/*
-	 * If the next pattern character is '\', just strip off the '\'
+	/* If the next pattern character is '\', just strip off the '\'
 	 * so we do exact matching on the character that follows.
 	 */
-
+	
 	if (p == '\\') {
 	    pattern++;
-	    if (*pattern == '\0') {
+	    p = *pattern;
+	    if (p == '\0') {
 		return 0;
 	    }
 	}
 
-	/*
-	 * There's no special character.  Just make sure that the next
+	/* There's no special character.  Just make sure that the next
 	 * bytes of each string match.
 	 */
-
+	
 	string  += Tcl_UtfToUniChar(string, &ch1);
 	pattern += Tcl_UtfToUniChar(pattern, &ch2);
 	if (nocase) {
