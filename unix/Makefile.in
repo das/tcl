@@ -431,7 +431,7 @@ test: tcltest
 	LIBPATH=`pwd`:${LIBPATH}; export LIBPATH; \
 	SHLIB_PATH=`pwd`:${SHLIB_PATH}; export SHLIB_PATH; \
 	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
-	./tcltest $(TOP_DIR)/tests/all.tcl
+	./tcltest $(TOP_DIR)/tests/all.tcl $(TCLTESTARGS)
 
 # Useful target to launch a built tcltest with the proper path,...
 runtest: tcltest
