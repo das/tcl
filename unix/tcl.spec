@@ -1,7 +1,7 @@
 # $Id$
 # This file is the basis for a binary Tcl RPM for Linux.
 
-%define version 8.4.8
+%define version 8.4.9
 %define directory /usr/local
 
 Summary: Tcl scripting language development environment
