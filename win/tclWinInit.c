@@ -334,8 +334,7 @@ TclpInitLibraryPath(path)
     Tcl_Obj *pathPtr, *objPtr, **objv;
     CONST char *str;
     Tcl_DString ds;
-    int objc, pathc;
-    CONST char **pathv;
+    int objc;
     char installLib[LIBRARY_SIZE];
 
     Tcl_DStringInit(&ds);
