@@ -296,7 +296,7 @@ test iocmd-8.18 {fconfigure command / unix tty channel} {nonPortable unixOnly} {
 	close $tty;
 	set r;
 } {1 {bad option "-blah": should be one of -blocking, -buffering, -buffersize, -eofchar, -translation, or -mode}}
-test iocmd-8.19 {fconfigure command / win tty channel} {pcOnly} {
+test iocmd-8.19 {fconfigure command / win tty channel} {nonPortable pcOnly} {
 	# might fail if com1 is unavailable
 	set tty [open com1]
 	set r [list [catch {fconfigure $tty -blah blih} msg] $msg];

@@ -16,6 +16,9 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
+set ::tcltest::testConfig(testeventloop) \
+	[expr {[info commands testeventloop] != {}}]
+
 # There is no explicit test for InitNotifier or NotifierExitHandler
 
 test winNotify-1.1 {Tcl_SetTimer: positive timeout} {pcOnly} {
@@ -68,7 +71,7 @@ test winNotify-2.2 {Tcl_ResetIdleTimer: message pending} {pcOnly} {
     list $x $y
 } {1 2}
 
-test winNotify-3.1 {NotifierProc: non-modal normal timer} {pcOnly} {
+test winNotify-3.1 {NotifierProc: non-modal normal timer} {pcOnly testeventloop} {
     update
     set x 0
     foreach i [after info] {
@@ -78,7 +81,7 @@ test winNotify-3.1 {NotifierProc: non-modal normal timer} {pcOnly} {
     testeventloop wait
     set x
 } 1
-test winNotify-3.2 {NotifierProc: non-modal normal timer, rescheduled} {pcOnly} {
+test winNotify-3.2 {NotifierProc: non-modal normal timer, rescheduled} {pcOnly testeventloop} {
     update
     set x 0
     foreach i [after info] {
@@ -109,7 +112,7 @@ test winNotify-3.4 {NotifierProc: modal normal timer, rescheduled} {pcOnly} {
     vwait x
     list $x $y
 } {1 1}
-test winNotify-3.5 {NotifierProc: non-modal idle timer} {pcOnly} {
+test winNotify-3.5 {NotifierProc: non-modal idle timer} {pcOnly testeventloop} {
     update
     set x 0
     foreach i [after info] {
@@ -119,7 +122,7 @@ test winNotify-3.5 {NotifierProc: non-modal idle timer} {pcOnly} {
     testeventloop wait
     set x
 } 1
-test winNotify-3.6 {NotifierProc: non-modal idle timer, rescheduled} {pcOnly} {
+test winNotify-3.6 {NotifierProc: non-modal idle timer, rescheduled} {pcOnly testeventloop} {
     update
     set x 0
     foreach i [after info] {
