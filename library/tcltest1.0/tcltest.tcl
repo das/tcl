@@ -270,7 +270,7 @@ namespace eval tcltest {
 	variable version 8.4
     }
     if {![info exists patchLevel]} {
-	variable patchLevel 8.4a1
+	variable patchLevel 8.4a2
     }
 }   
 
