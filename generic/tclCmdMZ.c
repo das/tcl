@@ -879,7 +879,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		 * Anything matches at 0 chars, right?
 		 */
 		match = 0;
-	    } else if (nocase || ((reqlength > 0) && (reqlength < length))) {
+	    } else if (nocase || ((reqlength > 0) && (reqlength <= length))) {
 		/*
 		 * with -nocase or -length we have to check true char length
 		 * as it could be smaller than expected
@@ -901,7 +901,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		    match = Tcl_UtfNcmp(string1, string2,
 			    (unsigned) length);
 		}
-		if ((match == 0) && (reqlength >= length)) {
+		if ((match == 0) && (reqlength > length)) {
 		    match = length1 - length2;
 		}
 	    } else {
