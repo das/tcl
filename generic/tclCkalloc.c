@@ -449,7 +449,7 @@ Tcl_DbCkalloc(size, file, line)
 char *
 Tcl_AttemptDbCkalloc(size, file, line)
     unsigned int size;
-    char        *file;
+    CONST char  *file;
     int          line;
 {
     struct mem_header *result;
@@ -662,7 +662,7 @@ char *
 Tcl_AttemptDbCkrealloc(ptr, size, file, line)
     char *ptr;
     unsigned int size;
-    char *file;
+    CONST char *file;
     int line;
 {
     char *new;
@@ -1036,7 +1036,7 @@ Tcl_AttemptAlloc (size)
 char *
 Tcl_AttemptDbCkalloc(size, file, line)
     unsigned int size;
-    char        *file;
+    CONST char	*file;
     int          line;
 {
     char *result;
@@ -1114,7 +1114,7 @@ char *
 Tcl_AttemptDbCkrealloc(ptr, size, file, line)
     char *ptr;
     unsigned int size;
-    char *file;
+    CONST char *file;
     int line;
 {
     char *result;
