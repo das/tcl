@@ -128,11 +128,17 @@ Tcl_RegisterConfig (interp, pkgName, configuration, valEncoding)
      * place it in.
      */
 
-    if ((Tcl_Namespace*) NULL == Tcl_CreateNamespace (interp,
-		      Tcl_DStringValue (&cmdName), (ClientData) NULL,
-		      (Tcl_NamespaceDeleteProc *) NULL)) {
+    if ((Tcl_Namespace*) NULL == Tcl_FindNamespace(interp,
+		Tcl_DStringValue (&cmdName), NULL, TCL_GLOBAL_ONLY)) {
 
-        Tcl_Panic ("Tcl_RegisterConfig: Unable to create namespace for package configuration");
+	if ((Tcl_Namespace*) NULL == Tcl_CreateNamespace (interp,
+			  Tcl_DStringValue (&cmdName), (ClientData) NULL,
+			  (Tcl_NamespaceDeleteProc *) NULL)) {
+
+	    Tcl_Panic ("%s.\n%s %s", Tcl_GetStringResult(interp),
+		    "Tcl_RegisterConfig: Unable to create namespace for",
+		    "package configuration.");
+	}
     }
 
     Tcl_DStringAppend (&cmdName, "::pkgconfig", -1);   
@@ -141,7 +147,8 @@ Tcl_RegisterConfig (interp, pkgName, configuration, valEncoding)
 		    Tcl_DStringValue (&cmdName), QueryConfigObjCmd,
 		    (ClientData) wrap, QueryConfigDelete)) {
 
-        Tcl_Panic ("Tcl_RegisterConfig: Unable to create query command for package configuration");
+        Tcl_Panic ("%s %s", "Tcl_RegisterConfig: Unable to create query",
+		"command for package configuration");
     }
 
     Tcl_DStringFree (&cmdName);
