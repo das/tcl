@@ -514,7 +514,11 @@ $(GENERICDIR)\regguts.h: $(GENERICDIR)\regcustom.h
 
 {$(WINDIR)}.rc{$(TMPDIR)}.res:
 	$(rc32) -fo $@ -r -i $(GENERICDIR) -i $(WINDIR) -D__WIN32__ \
-		$(TCL_DEFINES) $<
+		$(TCL_DEFINES) \
+!if "$(NODEBUG)" == "0"
+		-d DEBUG \
+!endif
+		$<
 
 clean:
 	-@$(RM) $(OUTDIR)\*.exp 

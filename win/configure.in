@@ -140,6 +140,26 @@ CFG_TCL_SHARED_LIB_SUFFIX=${TCL_SHARED_LIB_SUFFIX}
 CFG_TCL_UNSHARED_LIB_SUFFIX=${TCL_UNSHARED_LIB_SUFFIX}
 CFG_TCL_EXPORT_FILE_SUFFIX=${TCL_EXPORT_FILE_SUFFIX}
 
+#--------------------------------------------------------------------
+# Adjust the defines for how the resources are built depending
+# on symbols and static vs. shared.
+#--------------------------------------------------------------------
+
+if test ${SHARED_BUILD} = 0 ; then
+    if test "${DBGX}" = "d"; then
+        RC_DEFINES="-d STATIC_BUILD -d DEBUG"
+    else
+        RC_DEFINES="-d STATIC_BUILD"
+    fi
+else
+    if test "${DBGX}" = "d"; then
+        RC_DEFINES="-d DEBUG"
+    else
+        RC_DEFINES=""
+    fi
+fi
+
+
 AC_SUBST(TCL_VERSION)
 AC_SUBST(TCL_MAJOR_VERSION)
 AC_SUBST(TCL_MINOR_VERSION)
@@ -187,6 +207,7 @@ AC_SUBST(RC)
 AC_SUBST(RC_OUT)
 AC_SUBST(RC_TYPE)
 AC_SUBST(RC_INCLUDE)
+AC_SUBST(RC_DEFINES)
 AC_SUBST(RES)
 AC_SUBST(LIBS)
 AC_SUBST(LIBS_GUI)
