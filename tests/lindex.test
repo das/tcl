@@ -52,7 +52,7 @@ test lindex-2.2 {error conditions} {
 } {1 {wrong # args: should be "lindex list index"}}
 test lindex-2.3 {error conditions} {
     list [catch {lindex 1 2a2} msg] $msg
-} {1 {bad index "2a2": must be integer or "end"}}
+} {1 {syntax error in expression "2a2"}}
 test lindex-2.4 {error conditions} {
     list [catch {lindex "a \{" 2} msg] $msg
 } {1 {unmatched open brace in list}}
