@@ -295,6 +295,11 @@ InstructionDesc tclInstructionTable[] = {
 
     {"startCommand",      5,    0,         1,   {OPERAND_UINT4}},
         /* Start of bytecoded command: op is the length of the cmd's code */ 
+
+    {"listIn",		  1,	-1,	   0,	{OPERAND_NONE}},
+	/* List containment: push [lsearch stktop stknext]>=0) */
+    {"listNotIn",	  1,	-1,	   0,	{OPERAND_NONE}},
+	/* List negated containment: push [lsearch stktop stknext]<0) */
     {0}
 };
 

@@ -91,6 +91,8 @@ typedef struct ExprInfo {
 #define OP_STREQ	21
 #define OP_STRNEQ	22
 #define OP_EXPON	23
+#define OP_IN_LIST	24
+#define OP_NOT_IN_LIST	25
 
 /*
  * Table describing the expression operators. Entries in this table must
@@ -134,6 +136,8 @@ static OperatorDesc operatorTable[] = {
     {"eq",  2,  INST_STR_EQ},
     {"ne",  2,  INST_STR_NEQ},
     {"**",  2,	INST_EXPON},
+    {"in",  2,	INST_LIST_IN},
+    {"ni",  2,	INST_LIST_NOT_IN},
     {NULL}
 };
 
