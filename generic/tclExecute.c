@@ -3241,24 +3241,10 @@ TclExecuteByteCode(interp, codePtr)
 	value2Ptr = *tosPtr;
 	valuePtr  = *(tosPtr - 1);
 
-	if (valuePtr == value2Ptr) {
-	    /*
-	     * Optimize the equal object case.
-	     */
-	    switch (*pc) {
-	        case INST_EQ:
-	        case INST_LE:
-	        case INST_GE:
-		    iResult = 1;
-		    break;
-	        case INST_NEQ:
-	        case INST_LT:
-	        case INST_GT:
-		    iResult = 0;
-		    break;
-	    }
-	    goto foundResult;
-	}
+	/*
+	 * Can't optimize the equal-object case; 'NaN' isn't supposed
+	 * to be equal to even itself. [Bug 761471]
+	 */
 
 	t1Ptr = valuePtr->typePtr;
 	t2Ptr = value2Ptr->typePtr;
