@@ -14,7 +14,8 @@
 # 
 # RCS: @(#) $Id$
 
-package provide tcltest 1.0
+package require Tcl 8.2
+package provide tcltest 1.0.1
 
 # create the "tcltest" namespace for all testing variables and procedures
 
@@ -267,10 +268,10 @@ namespace eval tcltest {
 
     # Tcl version numbers
     if {![info exists version]} {
-	variable version 8.4
+	variable version 8.3
     }
     if {![info exists patchLevel]} {
-	variable patchLevel 8.4a1
+	variable patchLevel 8.3.0
     }
 }   
 

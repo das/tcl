@@ -20,7 +20,8 @@
 #	This version also cleans up error cases and eliminates the
 #	"ioerror" status in favor of raising an error
 
-package provide http 2.3
+package require Tcl 8.2
+package provide http 2.3.2
 
 namespace eval http {
     variable http
@@ -28,7 +29,7 @@ namespace eval http {
 	-accept */*
 	-proxyhost {}
 	-proxyport {}
-	-useragent {Tcl http client package 2.3}
+	-useragent {Tcl http client package 2.3.2}
 	-proxyfilter http::ProxyRequired
     }
 
@@ -853,10 +854,8 @@ proc http::formatQuery {args} {
 
     set alphanumeric	a-zA-Z0-9
     regsub -all \[^$alphanumeric\] $string {$formMap(&)} string
-    regsub -all \n $string {\\n} string
-    regsub -all \t $string {\\t} string
     regsub -all {[][{})\\]\)} $string {\\&} string
-    return [subst $string]
+    return [subst -nocommand $string]
 }
 
 # http::ProxyRequired --

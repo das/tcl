@@ -12,7 +12,8 @@
 # 
 # RCS: @(#) $Id$
 
-package provide msgcat 1.1
+package require Tcl 8.2
+package provide msgcat 1.1.1
 
 namespace eval msgcat {
     namespace export mc mcset mclocale mcpreferences mcunknown
@@ -49,7 +50,7 @@ proc msgcat::mc {src args} {
     # Check for the src in each namespace starting from the local and
     # ending in the global.
 
-    set ns [uplevel {namespace current}]
+    set ns [uplevel 1 [list ::namespace current]]
     
     while {$ns != ""} {
 	foreach loc $::msgcat::loclist {
@@ -66,7 +67,7 @@ proc msgcat::mc {src args} {
 	set ns [namespace parent $ns]
     }
     # we have not found the translation
-    return [uplevel 1 [list [namespace origin mcunknown] \
+    return [uplevel 1 [list [::namespace origin mcunknown] \
 	    $::msgcat::locale $src] $args]
 }
 
@@ -134,7 +135,10 @@ proc msgcat::mcload {langdir} {
 	set langfile [file join $langdir $p.msg]
 	if {[file exists $langfile]} {
 	    incr x
-	    uplevel [list source $langfile]
+            set fid [open $langfile "r"]
+            fconfigure $fid -encoding utf-8
+            uplevel 1 [read $fid]
+            close $fid
 	}
     }
     return $x
@@ -158,7 +162,7 @@ proc msgcat::mcset {locale src {dest ""}} {
 	set dest $src
     }
 
-    set ns [uplevel {namespace current}]
+    set ns [uplevel 1 [list ::namespace current]]
 
     set ::msgcat::msgs([string tolower $locale],$ns,$src) $dest
     return $dest
