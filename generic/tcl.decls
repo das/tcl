@@ -1799,8 +1799,54 @@ declare 504 generic {
 
 # New export due to TIP#59
 declare 505 generic {
-    void Tcl_RegisterConfig (Tcl_Interp* interp, CONST char* pkgName, Tcl_Config* configuration, \
-	CONST char* valEncoding)
+    void Tcl_RegisterConfig(Tcl_Interp* interp, CONST char* pkgName,
+	    Tcl_Config* configuration, CONST char* valEncoding)
+}
+
+# Transferred from tclInt.decls due to TIP #139
+declare 506 generic {
+    Tcl_Namespace *Tcl_CreateNamespace(Tcl_Interp *interp, CONST char *name,
+	    ClientData clientData, Tcl_NamespaceDeleteProc *deleteProc)
+}
+declare 507 generic {
+    void Tcl_DeleteNamespace(Tcl_Namespace *nsPtr)
+}
+declare 508 generic {
+    int Tcl_AppendExportList(Tcl_Interp *interp, Tcl_Namespace *nsPtr,
+	    Tcl_Obj *objPtr)
+}
+declare 509 generic {
+    int Tcl_Export(Tcl_Interp *interp, Tcl_Namespace *nsPtr,
+	    CONST char *pattern, int resetListFirst)
+}
+declare 510 generic {
+    int Tcl_Import(Tcl_Interp *interp, Tcl_Namespace *nsPtr,
+	    CONST char *pattern, int allowOverwrite)
+}
+declare 511 generic {
+    int Tcl_ForgetImport(Tcl_Interp *interp, Tcl_Namespace *nsPtr,
+	    CONST char *pattern)
+}
+declare 512 generic {
+    Tcl_Namespace *Tcl_GetCurrentNamespace(Tcl_Interp *interp)
+}
+declare 513 generic {
+    Tcl_Namespace *Tcl_GetGlobalNamespace(Tcl_Interp *interp)
+}
+declare 514 generic {
+    Tcl_Namespace *Tcl_FindNamespace(Tcl_Interp *interp, CONST char *name,
+	    Tcl_Namespace *contextNsPtr, int flags)
+}
+declare 515 generic {
+    Tcl_Command Tcl_FindCommand(Tcl_Interp *interp, CONST char *name,
+	    Tcl_Namespace *contextNsPtr, int flags)
+}
+declare 516 generic {
+    Tcl_Command Tcl_GetCommandFromObj(Tcl_Interp *interp, Tcl_Obj *objPtr)
+}
+declare 517 generic {
+    void Tcl_GetCommandFullName(Tcl_Interp *interp, Tcl_Command command,
+	    Tcl_Obj *objPtr)
 }
 
 ##############################################################################
