@@ -67,7 +67,7 @@ proc msgcat::mc {src args} {
     }
     # we have not found the translation
     return [uplevel 1 [list [namespace origin mcunknown] \
-	    $::msgcat::locale $src]]
+	    $::msgcat::locale $src] $args]
 }
 
 # msgcat::mclocale --
@@ -170,16 +170,23 @@ proc msgcat::mcset {locale src {dest ""}} {
 #	be found for a string.  This routine is intended to be replaced
 #	by an application specific routine for error reporting
 #	purposes.  The default behavior is to return the source string.  
+#	If additional args are specified, the format command will be used
+#	to work them into the traslated string.
 #
 # Arguments:
 #	locale		The current locale.
 #	src		The string to be translated.
+#	args		Args to pass to the format command
 #
 # Results:
 #	Returns the translated value.
 
-proc msgcat::mcunknown {locale src} {
-    return $src
+proc msgcat::mcunknown {locale src args} {
+    if {[llength $args]} {
+	return [eval [list format $src] $args]
+    } else {
+	return $src
+    }
 }
 
 # msgcat::mcmax --
