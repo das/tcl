@@ -372,6 +372,7 @@ install: all install-binaries install-libraries install-doc
 install-binaries:
 	@$(MKDIR) -p "$(BIN_INSTALL_DIR)"
 	@$(MKDIR) -p "$(LIB_INSTALL_DIR)"
+	$(COPY) tclConfig.sh $(LIB_INSTALL_DIR)/tclConfig.sh
 	@for i in dde1.1 reg1.0; \
 	    do \
 	    if [ ! -d $(LIB_INSTALL_DIR)/$$i ] ; then \
