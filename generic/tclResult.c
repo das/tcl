@@ -1186,14 +1186,15 @@ TclProcessReturn(interp, code, level, returnOpts)
     }
 
     if (code == TCL_ERROR) {
+	if (iPtr->errorInfo) {
+	    Tcl_DecrRefCount(iPtr->errorInfo);
+	    iPtr->errorInfo = NULL;
+	}
 	Tcl_DictObjGet(NULL, iPtr->returnOpts, keys[KEY_ERRORINFO], &valuePtr);
 	if (valuePtr != NULL) {
 	    int infoLen;
 	    (void) Tcl_GetStringFromObj(valuePtr, &infoLen);
 	    if (infoLen) {
-		if (iPtr->errorInfo) {
-		    Tcl_DecrRefCount(iPtr->errorInfo);
-		}
 		iPtr->errorInfo = valuePtr;
 		Tcl_IncrRefCount(iPtr->errorInfo);
 		iPtr->flags |= ERR_ALREADY_LOGGED;
