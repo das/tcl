@@ -701,6 +701,12 @@ test string-10.16 {string map, one pair case} {
 test string-10.17 {string map, one pair case} {
     string map {Ab 4321} aAbCaBaAbAbcAb
 } {a4321CaBa43214321c4321}
+test string-10.18 {string map, empty argument} {
+    string map -nocase {{} abc} foo
+} foo
+test string-10.19 {string map, empty arguments} {
+    string map -nocase {{} abc f bar {} def} foo
+} baroo
 
 test string-11.1 {string match, too few args} {
     list [catch {string match a} msg] $msg
