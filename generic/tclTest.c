@@ -4524,7 +4524,7 @@ TestChannelCmd(clientData, interp, argc, argv)
             return TCL_ERROR;
         }
 
-        TclFormatInt(buf, Tcl_GetChannelThread (chan));
+        TclFormatInt(buf, (long) Tcl_GetChannelThread(chan));
         Tcl_AppendResult(interp, buf, (char *) NULL);
         return TCL_OK;
     }
