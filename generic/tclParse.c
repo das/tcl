@@ -860,7 +860,7 @@ EvalObjv(interp, objc, objv, command, length, flags)
 	for (i = objc-1; i >= 0; i--) {
 	    newObjv[i+1] = objv[i];
 	}
-	newObjv[0] = Tcl_NewStringObj("unknown", -1);
+	newObjv[0] = Tcl_NewStringObj("::unknown", -1);
 	Tcl_IncrRefCount(newObjv[0]);
 	cmdPtr = (Command *) Tcl_GetCommandFromObj(interp, newObjv[0]);
 	if (cmdPtr == NULL) {
