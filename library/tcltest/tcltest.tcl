@@ -2778,7 +2778,7 @@ proc tcltest::runAllTests { {shell ""} } {
 	puts [outputChannel] [string repeat ~ 44]
 	puts [outputChannel] "$dir test began at [eval $timeCmd]\n"
 	
-	uplevel 1 "::source [file join $directory all.tcl]"
+	uplevel 1 [list ::source [file join $directory all.tcl]]
 	
 	set endTime [eval $timeCmd]
 	puts [outputChannel] "\n$dir test ended at $endTime"
