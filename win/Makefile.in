@@ -490,7 +490,7 @@ install-libraries: libraries
 		else true; \
 		fi; \
 	    done;
-	@for i in http1.0 http2.4 opt0.4 encoding msgcat1.3 tcltest2.2; \
+	@for i in http1.0 http2.5 opt0.4 encoding msgcat1.3 tcltest2.2; \
 	    do \
 	    if [ ! -d $(SCRIPT_INSTALL_DIR)/$$i ] ; then \
 		echo "Making directory $(SCRIPT_INSTALL_DIR)/$$i"; \
@@ -514,10 +514,10 @@ install-libraries: libraries
 	    do \
 	    $(COPY) "$$j" "$(SCRIPT_INSTALL_DIR)/http1.0"; \
 	    done;
-	@echo "Installing library http2.4 directory";
+	@echo "Installing library http2.5 directory";
 	@for j in $(ROOT_DIR)/library/http/*.tcl; \
 	    do \
-	    $(COPY) "$$j" "$(SCRIPT_INSTALL_DIR)/http2.4"; \
+	    $(COPY) "$$j" "$(SCRIPT_INSTALL_DIR)/http2.5"; \
 	    done;
 	@echo "Installing library opt0.4 directory";
 	@for j in $(ROOT_DIR)/library/opt/*.tcl; \

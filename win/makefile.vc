@@ -738,9 +738,9 @@ install-libraries:
 	@echo installing http1.0
 	@$(CPY) "$(ROOT)\library\http1.0\*.tcl" \
 		"$(SCRIPT_INSTALL_DIR)\http1.0\"
-	@echo installing http2.4
+	@echo installing http2.5
 	@$(CPY) "$(ROOT)\library\http\*.tcl" \
-		"$(SCRIPT_INSTALL_DIR)\http2.4\"
+		"$(SCRIPT_INSTALL_DIR)\http2.5\"
 	@echo installing opt0.4
 	@$(CPY) "$(ROOT)\library\opt\*.tcl" \
 		"$(SCRIPT_INSTALL_DIR)\opt0.4\"
