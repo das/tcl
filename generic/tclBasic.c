@@ -3047,7 +3047,7 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
 	}
 	if (!(flags & TCL_EVAL_INVOKE) &&
 		(iPtr->ensembleRewrite.sourceObjs != NULL) &&
-		!TclIsEnsemble(cmdPtr)) {
+		!Tcl_IsEnsemble((Tcl_Command) cmdPtr)) {
 	    iPtr->ensembleRewrite.sourceObjs = NULL;
 	}
 	code = (*cmdPtr->objProc)(cmdPtr->objClientData, interp, objc, objv);
