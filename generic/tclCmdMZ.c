@@ -4380,7 +4380,9 @@ TraceExecutionProc(ClientData clientData, Tcl_Interp *interp,
 		/* Restore result if trace execution was successful */
 		Tcl_RestoreResult(interp, &state);
 		iPtr->returnCode = stateCode;
-            }
+            } else {
+		Tcl_DiscardResult(&state);
+	    }
 
 	    Tcl_DStringFree(&cmd);
 	}
