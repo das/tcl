@@ -2717,9 +2717,9 @@ CompareObjKeys(keyPtr, hPtr)
      * Don't use Tcl_GetStringFromObj as it would prevent l1 and l2 being
      * in a register.
      */
-    p1 = Tcl_GetString (objPtr1);
+    p1 = TclGetString(objPtr1);
     l1 = objPtr1->length;
-    p2 = Tcl_GetString (objPtr2);
+    p2 = TclGetString(objPtr2);
     l2 = objPtr2->length;
     
     /*
@@ -2789,14 +2789,11 @@ HashObjKey(tablePtr, keyPtr)
     VOID *keyPtr;		/* Key from which to compute hash value. */
 {
     Tcl_Obj *objPtr = (Tcl_Obj *) keyPtr;
-    register CONST char *string;
-    register int length;
-    register unsigned int result;
-    register int c;
+    CONST char *string = TclGetString(objPtr);
+    int length = objPtr->length;
+    unsigned int result;
+    int i;
 
-    string = Tcl_GetString (objPtr);
-    length = objPtr->length;
-    
     /*
      * I tried a zillion different hash functions and asked many other
      * people for advice.  Many people had their own favorite functions,
@@ -2814,14 +2811,8 @@ HashObjKey(tablePtr, keyPtr)
      */
 
     result = 0;
-    while (length) {
-	c = *string;
-	string++;
-	length--;
-	if (length == 0) {
-	    break;
-	}
-	result += (result<<3) + c;
+    for (i=0 ; i<length ; i++) {
+	result += (result<<3) + string[i];
     }
     return result;
 }
