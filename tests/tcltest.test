@@ -556,12 +556,12 @@ switch $tcl_platform(platform) {
     }
 }
 
-test tcltest-8.3 {tcltest a.tcl -tmpdir notReadableDir} {unixOnly} {
+test tcltest-8.3 {tcltest a.tcl -tmpdir notReadableDir} {unixOnly nonRoot} {
     slave msg a.tcl -tmpdir $notReadableDir 
     string match {*not readable*} $msg
 } {1}
 
-test tcltest-8.4 {tcltest a.tcl -tmpdir notWriteableDir} {unixOrPc} {
+test tcltest-8.4 {tcltest a.tcl -tmpdir notWriteableDir} {unixOrPc nonRoot} {
     slave msg a.tcl -tmpdir $notWriteableDir
     string match {*not writeable*} $msg
 } {1}
@@ -616,7 +616,7 @@ test tcltest-8.11 {tcltest a.tcl -testdir thisdirectoryisafile} {unixOrPc} {
     string match "*not a directory*" $msg 
 } {1}
 
-test tcltest-8.12 {tcltest a.tcl -testdir notReadableDir} {unixOnly} {
+test tcltest-8.12 {tcltest a.tcl -testdir notReadableDir} {unixOnly nonRoot} {
     slave msg a.tcl -testdir $notReadableDir 
     string match {*not readable*} $msg
 } {1}
