@@ -1540,15 +1540,6 @@ extern Tcl_ObjType	tclProcBodyType;
 extern Tcl_ObjType	tclStringType;
 
 /*
- * Variables denoting the hash key types defined in the core.
- */
-
-extern Tcl_HashKeyType tclArrayHashKeyType;
-extern Tcl_HashKeyType tclOneWordHashKeyType;
-extern Tcl_HashKeyType tclStringHashKeyType;
-extern Tcl_HashKeyType tclObjHashKeyType;
-
-/*
  * The head of the list of free Tcl objects, and the total number of Tcl
  * objects ever allocated and freed.
  */
