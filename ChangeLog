@@ -1,33 +1,12 @@
-2001-04-10  Kevin B. Kenny    <kennykb@acm.org>
-	* unix/tclUnixTime.c: Altered code to use memcpy instead of
-	structure assigments in an effort to achieve better K&R
-	compatibility.
-	
-2001-04-10  Kevin B. Kenny    <kennykb@acm.org>
+2001-04-11  Miguel Sofer <msofer@users.sourceforge.net>
 
-	* unix/tclUnixTime.c: Fixed silly typo in calls to 'gmtime' and
-	'localtime' that broke the Linux build.
-	
-2001-04-09  Kevin B. Kenny    <kennykb@acm.org>
-
-	* unix/tclLoadShl.c: Added DYNAMIC_PATH to the load flags so that
-	the SHLIB_PATH will be searched for other libraries.  [Bug #219140]
-	
-2001-04-09  Kevin B. Kenny    <kennykb@acm.org>
-
-	* unix/tcl.m4: Added _REENTRANT to Solaris build so that thread
-	safe library routines are included.
-	* unix/configure: Re-ran 'autoconf' with changed tcl.m4
-	* tclUnixTime.c: Modified for thread safety of 'gmtime' and
-	'localtime' system calls [Bugs #219136 and #232558]
-	
-2001-04-09  Donal K. Fellows  <fellowsd@cs.man.ac.uk>
-
-	* tests/expr.test (expr-21.*): Tests to check below fix.
-	* generic/tclParseExpr.c (GetLexeme): Now recognises the
-	non-numeric boolean literals for what they are. It no longer makes
-	sense for anyone to create functions with the same name as one of
-	them, but this was true in 7.* as well [Bug #217777; finally!]
+	** First CVS version of the S4 engine **
+	* generic/tclCompile.h: Added compilation flag
+	  TCL_BYTECODE_OPCODES_OK  
+	* generic/tclExecute.c: First CVS version of the engine
+	* generic/tclExecute.h: Compiler dependent macros (new file)
+	* generic/tclInt.h: slight modifs, mainly for the new addressing
+	  mode for the tcl stack
 
 2001-04-07  Miguel Sofer <msofer@users.sourceforge.net>
 
@@ -39,7 +18,7 @@
 
 	* doc/namespace.n: document correct functionality
 	* generic/tclNamesp.c: corrected behaviour of [namespace code]
-	(Bug #219385, Patch #403530)
+	  (Bug #219385, Patch #403530)
 	* library/init.tcl:
 	* tests/namespace-old.test: test correct functionality
 	* tests/namespace.test: test correct functionality
