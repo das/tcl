@@ -1,7 +1,7 @@
 @echo off
 rem RCS: @(#) $Id$
 
-if not exist %1\tag.txt goto end
+if not exist %1\. goto end
 
 echo Removing directory %1
 
