@@ -198,6 +198,14 @@ test cmdAH-6.4 {Tcl_FileObjCmd: volumes} {pcOnly} {
     list [catch {lsearch $volumeList "c:/"} element] [expr $element != -1] [catch {list glob -nocomplain [lindex $volumeList $element]*}]
 } {0 1 0}
 
+test cmdAH-6.5 {cd} {unixOnly nonPortable} {
+    set dir [pwd]
+    cd /
+    set res [pwd]
+    cd $dir
+    set res
+} {/}
+
 # attributes
 
 test cmdAH-7.1 {Tcl_FileObjCmd - file attrs} {
