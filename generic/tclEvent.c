@@ -928,13 +928,19 @@ Tcl_FinalizeThread()
 	TclFinalizeIOSubsystem();
 	TclFinalizeNotifier();
 	TclFinalizeAsync();
+    }
 
 	/*
 	 * Blow away all thread local storage blocks.
+     *
+     * Note that Tcl API allows creation of threads which do not use any
+     * Tcl interp or other Tcl subsytems. Those threads might, however,
+     * use thread local storage, so we must unconditionally finalize it.
+     *
+     * Fix [Bug #571002]
 	 */
 
 	TclFinalizeThreadData();
-    }
 }
 
 /*
