@@ -501,6 +501,9 @@ test format-17.2 {testing %ld with wide} {64bitInts} {
 test format-17.3 {testing %ld with non-wide} {64bitInts} {
     format %ld 42
 } 42
+test format-17.4 {testing %l with non-integer} {
+    format %lf 1
+} 1.000000
 
 # cleanup
 catch {unset a}
