@@ -890,6 +890,9 @@ TclCompileScript(interp, script, numBytes, nested, envPtr)
 			if ((cmdPtr != NULL)
 			        && (cmdPtr->compileProc != NULL)
 			        && !(iPtr->flags & DONT_COMPILE_CMDS_INLINE)) {
+			    int savedNumCmds = envPtr->numCommands;
+			    unsigned char *savedCodeNext = envPtr->codeNext;
+
 			    code = (*(cmdPtr->compileProc))(interp, &parse,
 			            envPtr);
 			    if (code == TCL_OK) {
@@ -897,7 +900,14 @@ TclCompileScript(interp, script, numBytes, nested, envPtr)
 			                maxDepth);
 				goto finishCommand;
 			    } else if (code == TCL_OUT_LINE_COMPILE) {
-				/* do nothing */
+				/*
+				 * Restore numCommands and codeNext to its
+				 * correct value, removing any commands
+				 * compiled before TCL_OUT_LINE_COMPILE
+				 * [Bug 705406 and 735055]
+				 */
+				envPtr->numCommands = savedNumCmds;
+				envPtr->codeNext = savedCodeNext;
 			    } else { /* an error */
 				/*
 				 * There was a compilation error, the last
