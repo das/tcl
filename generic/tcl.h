@@ -393,11 +393,6 @@ typedef unsigned long long	Tcl_WideUInt;
 #   include <sys/types.h>
 typedef long		Tcl_WideInt;
 typedef unsigned long	Tcl_WideInt;
-#   ifdef __WIN32__
-typedef long		Tcl_SeekOffset;
-#   else
-typedef off_t		Tcl_SeekOffset;
-#   endif
 typedef struct stat	Tcl_StatBuf;
 #   define Tcl_WideAsLong(val)		((long)(val))
 #   define Tcl_LongAsWide(val)		((long)(val))
