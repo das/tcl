@@ -280,10 +280,13 @@ Computes the value of \fIx\fR raised to the power \fIy\fR.  If \fIx\fR
 is negative, \fIy\fR must be an integer value.
 .TP
 \fBrand()\fR
-Returns a floating point number from zero to just less than one or, in
-mathematical terms, the range [\fI0\fR,\fI1\fR).  The seed comes from
-the internal clock of the machine or may be set manual with the
-\fBsrand\fR function.
+Returns a pseudo-random floating point value in the range (\fI0\fR,\fI1\fR).  
+The generator algorithm is a simple linear congruential generator that
+is not cryptographically secure.  Each result from \fBrand\fR completely
+determines all future results from subsequent calls to \fBrand\fR, so
+\fBrand\fR should not be used to generate a sequence of secrets, such as
+one-time passwords.  The seed of the generator is initialized from the
+internal clock of the machine or may be set with the \fBsrand\fR function.
 .TP
 \fBround(\fIarg\fB)\fR
 If \fIarg\fR is an integer value, returns \fIarg\fR, otherwise converts
@@ -301,8 +304,8 @@ Returns the square root of \fIarg\fR.  \fIArg\fR must be non-negative.
 .TP
 \fBsrand(\fIarg\fB)\fR
 The \fIarg\fR, which must be an integer, is used to reset the seed for
-the random number generator.  Returns the first random number from
-that seed.  Each interpreter has its own seed.
+the random number generator of \fBrand\fR.  Returns the first random
+number from that seed.  Each interpreter has its own seed.
 .TP
 \fBtan(\fIarg\fB)\fR
 Returns the tangent of \fIarg\fR, measured in radians.
