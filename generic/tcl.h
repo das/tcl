@@ -178,6 +178,8 @@ extern "C" {
 #include <stdio.h>
 #endif
 
+#include <sys/types.h>
+    
 /*
  * Definitions that allow Tcl functions with variable numbers of
  * arguments to be used with either varargs.h or stdarg.h.  TCL_VARARGS
