@@ -846,6 +846,29 @@ void
 Tcl_Finalize()
 {
     ExitHandler *exitPtr;
+    
+    /*
+     * Invoke exit handlers first.
+     */
+
+    Tcl_MutexLock(&exitMutex);
+    inFinalize = 1;
+    for (exitPtr = firstExitPtr; exitPtr != NULL; exitPtr = firstExitPtr) {
+	/*
+	 * Be careful to remove the handler from the list before
+	 * invoking its callback.  This protects us against
+	 * double-freeing if the callback should call
+	 * Tcl_DeleteExitHandler on itself.
+	 */
+
+	firstExitPtr = exitPtr->nextPtr;
+	Tcl_MutexUnlock(&exitMutex);
+	(*exitPtr->proc)(exitPtr->clientData);
+	ckfree((char *) exitPtr);
+	Tcl_MutexLock(&exitMutex);
+    }    
+    firstExitPtr = NULL;
+    Tcl_MutexUnlock(&exitMutex);
 
     TclpInitLock();
     if (subsystemsInitialized != 0) {
@@ -857,29 +880,6 @@ Tcl_Finalize()
 	 */
 
 	(void) TCL_TSD_INIT(&dataKey);
-
-	/*
-	 * Invoke exit handlers first.
-	 */
-
-	Tcl_MutexLock(&exitMutex);
-	inFinalize = 1;
-	for (exitPtr = firstExitPtr; exitPtr != NULL; exitPtr = firstExitPtr) {
-	    /*
-	     * Be careful to remove the handler from the list before
-	     * invoking its callback.  This protects us against
-	     * double-freeing if the callback should call
-	     * Tcl_DeleteExitHandler on itself.
-	     */
-
-	    firstExitPtr = exitPtr->nextPtr;
-	    Tcl_MutexUnlock(&exitMutex);
-	    (*exitPtr->proc)(exitPtr->clientData);
-	    ckfree((char *) exitPtr);
-	    Tcl_MutexLock(&exitMutex);
-	}    
-	firstExitPtr = NULL;
-	Tcl_MutexUnlock(&exitMutex);
 
 	/*
 	 * Clean up after the current thread now, after exit handlers.
