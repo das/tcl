@@ -1002,6 +1002,7 @@ test winFCmd-16.8 {Windows file normalization} {pcOnly} {
 test winFCmd-16.9 {Windows file normalization} {pcOnly} {
     file norm /bar/foo
 } "${d}:/bar/foo"
+if {$d eq "C"} { set dd "D" } else { set dd "C" }
 test winFCmd-16.10 {Windows file normalization} {pcOnly} {
     file norm ${dd}:foo
 } "${dd}:/foo"
