@@ -376,7 +376,7 @@ Tcl_LoadObjCmd(dummy, interp, objc, objv)
 	if (code != TCL_OK) {
 	    goto done;
 	}
-	if (procPtrs[0] /* initProc */ == NULL) {
+	if (*procPtrs[0] /* initProc */ == NULL) {
 	    Tcl_AppendResult(interp, "couldn't find procedure ",
 		    Tcl_DStringValue(&initName), (char *) NULL);
 	    if (unLoadProcPtr != NULL) {
