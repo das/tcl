@@ -2450,6 +2450,7 @@ DictFilterCmd(interp, objc, objv)
     }
     panic("unexpected fallthrough");
     /* Control never reaches this point. */
+    return TCL_ERROR;
 
   abnormalResult:
     Tcl_DictObjDone(&search);
