@@ -1339,10 +1339,11 @@ Tcl_TranslateFileName(interp, name, bufferPtr)
 {
     Tcl_Obj *path = Tcl_NewStringObj(name, -1);
     CONST char *result;
-   
+
     Tcl_IncrRefCount(path);
-    result = Tcl_FSGetTranslatedStringPath(interp,path);
+    result = Tcl_FSGetTranslatedStringPath(interp, path);
     if (result == NULL) {
+	Tcl_DecrRefCount(path);
 	return NULL;
     }
     Tcl_DStringInit(bufferPtr);
