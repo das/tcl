@@ -73,7 +73,12 @@ in an application.  If a given \fIfileName\fR is loaded into multiple
 interpreters, then the first \fBload\fR will load the code and
 call the initialization procedure;  subsequent \fBload\fRs will
 call the initialization procedure without loading the code again.
-It is not possible to unload or reload a package.
+.VS 8.5
+For Tcl versions lower than 8.5, it is not possible to unload or reload a
+package. From version 8.5 however, the \fBunload\fR command allows the unloading
+of libraries loaded with \fBload\fR, for libraries that are aware of the
+Tcl's unloading mechanism.
+.VE 8.5
 .PP
 The \fBload\fR command also supports packages that are statically
 linked with the application, if those packages have been registered

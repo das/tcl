@@ -166,6 +166,8 @@ static CmdInfo builtInCmds[] = {
         TclCompileSwitchCmd,		1},
     {"trace",		(Tcl_CmdProc *) NULL,	Tcl_TraceObjCmd,
         (CompileProc *) NULL,		1},
+    {"unload",		(Tcl_CmdProc *) NULL,	Tcl_UnloadObjCmd,
+        (CompileProc *) NULL,		1},
     {"unset",		(Tcl_CmdProc *) NULL,	Tcl_UnsetObjCmd,	
         (CompileProc *) NULL,		1},
     {"uplevel",		(Tcl_CmdProc *) NULL,	Tcl_UplevelObjCmd,	
