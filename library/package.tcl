@@ -437,7 +437,7 @@ proc tclPkgSetup {dir pkg version files} {
 # interpreter to setup the package database.
 
 proc tclMacPkgSearch {dir} {
-    foreach x [glob -nocomplain [file join $dir *.shlb]] {
+    foreach x [glob -directory $dir -nocomplain *.shlb] {
 	if {[file isfile $x]} {
 	    set res [resource open $x]
 	    foreach y [resource list TEXT $res] {
@@ -477,7 +477,8 @@ proc tclPkgUnknown {name version {exact {}}} {
 	# in a catch statement, where we get the pkgIndex files out
 	# of the subdirectories
 	catch {
-	    foreach file [glob -nocomplain [file join $dir * pkgIndex.tcl]] {
+	    foreach file [glob -directory $dir -join -nocomplain \
+		    * pkgIndex.tcl] {
 		set dir [file dirname $file]
 		if {[file readable $file] && ![info exists procdDirs($dir)]} {
 		    if {[catch {source $file} msg]} {
@@ -509,7 +510,7 @@ proc tclPkgUnknown {name version {exact {}}} {
 		tclMacPkgSearch $dir
 		set procdDirs($dir) 1
 	    }
-	    foreach x [glob -nocomplain [file join $dir *]] {
+	    foreach x [glob -directory $dir -nocomplain *] {
 		if {[file isdirectory $x] && ![info exists procdDirs($x)]} {
 		    set dir $x
 		    tclMacPkgSearch $dir
