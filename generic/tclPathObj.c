@@ -132,7 +132,7 @@ typedef struct FsPath {
  *
  *---------------------------------------------------------------------------
  */
-static Tcl_Obj*
+Tcl_Obj*
 TclFSNormalizeAbsolutePath(interp, pathPtr, clientDataPtr)
     Tcl_Interp* interp;    /* Interpreter to use */
     Tcl_Obj *pathPtr;      /* Absolute path to normalize */
