@@ -412,6 +412,29 @@ genstubs:
 		$(GENERICDIR)\tcl.decls $(GENERICDIR)\tclInt.decls
 
 #
+# Regenerate the windows help files.
+#
+
+TCLTOOLS	= $(ROOT)/tools
+MAN2TCL		= $(TCLTOOLS)/man2tcl
+TCLRTF		= $(TCLTOOLS)/tcl.rtf
+TCLHPJ		= $(TCLTOOLS)/tcl.hpj
+MAN2HELP	= $(TCLTOOLS)/man2help.tcl
+HCRTF		= $(TOOLS32)/bin/hcrtf.exe
+
+winhelp: $(TCLRTF)
+	cd $(TCLTOOLS)
+	start /wait $(HCRTF) -xn $(TCLHPJ)
+
+$(MAN2TCL).exe: $(MAN2TCL).obj 
+	cd $(TCLTOOLS)
+	$(cc32) /nologo /G4 /ML /O2 $(MAN2TCL).c
+
+$(TCLRTF): $(MAN2TCL).exe $(TCLSH)
+	cd $(TCLTOOLS)
+	..\win\$(TCLSH) $(MAN2HELP) $(NAMEPREFIX) $(VERSION) $(ROOT)/doc ../../tk$(DOTVERSION)/doc
+
+#
 # Special case object file targets
 #
 
