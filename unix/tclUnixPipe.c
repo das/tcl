@@ -660,8 +660,6 @@ SetupStdFile(file, type)
             
             fcntl(targetFd, F_SETFD, 0);
 	} else {
-	    int result;
-
 	    /*
 	     * Since we aren't dup'ing the file, we need to explicitly clear
 	     * the close-on-exec flag.
