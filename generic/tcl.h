@@ -1341,7 +1341,8 @@ typedef int	(Tcl_DriverGetHandleProc) _ANSI_ARGS_((
 #   define ckalloc(x) Tcl_DbCkalloc(x, __FILE__, __LINE__)
 #   define ckfree(x)  Tcl_DbCkfree(x, __FILE__, __LINE__)
 #   define ckrealloc(x,y) Tcl_DbCkrealloc((x), (y),__FILE__, __LINE__)
-
+#   define attemptckalloc(x) Tcl_AttempDbCkalloc(x, __FILE__, __LINE__)
+#   define attemptckrealloc(x,y) Tcl_AttemptDbCkrealloc((x), (y), __FILE__, __LINE__)
 #else /* !TCL_MEM_DEBUG */
 
 /*
@@ -1354,6 +1355,8 @@ typedef int	(Tcl_DriverGetHandleProc) _ANSI_ARGS_((
 #   define ckalloc(x) Tcl_Alloc(x)
 #   define ckfree(x) Tcl_Free(x)
 #   define ckrealloc(x,y) Tcl_Realloc(x,y)
+#   define attemptckalloc(x) Tcl_AttemptAlloc(x)
+#   define attemptckrealloc(x,y) Tcl_AttemptRealloc(x,y)
 #   define Tcl_InitMemory(x)
 #   define Tcl_DumpActiveMemory(x)
 #   define Tcl_ValidateAllMemory(x,y)

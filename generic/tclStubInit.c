@@ -812,6 +812,11 @@ TclStubs tclStubs = {
     Tcl_CommandTraceInfo, /* 407 */
     Tcl_TraceCommand, /* 408 */
     Tcl_UntraceCommand, /* 409 */
+    Tcl_AttemptAlloc, /* 410 */
+    Tcl_AttemptDbCkalloc, /* 411 */
+    Tcl_AttemptRealloc, /* 412 */
+    Tcl_AttemptDbCkrealloc, /* 413 */
+    Tcl_AttemptSetObjLength, /* 414 */
 };
 
 /* !END!: Do not edit above this line. */

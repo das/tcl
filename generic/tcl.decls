@@ -1418,6 +1418,22 @@ declare 409 generic {
     void Tcl_UntraceCommand(Tcl_Interp *interp, char *varName, int flags, \
 		Tcl_CommandTraceProc *proc, ClientData clientData)
 }
+declare 410 generic {
+    char * Tcl_AttemptAlloc(unsigned int size)
+}
+declare 411 generic {
+    char * Tcl_AttemptDbCkalloc(unsigned int size, char *file, int line)
+}
+declare 412 generic {
+    char * Tcl_AttemptRealloc(char *ptr, unsigned int size)
+}
+declare 413 generic {
+    char * Tcl_AttemptDbCkrealloc(char *ptr, unsigned int size, char *file, 
+	int line)
+}
+declare 414 generic {
+    int Tcl_AttemptSetObjLength(Tcl_Obj *objPtr, int length)
+}
 
 ##############################################################################
 
