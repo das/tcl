@@ -4,7 +4,7 @@
 #	message catalog facility for Tcl programs.  It should be
 #	loaded with the command "package require msgcat".
 #
-# Copyright (c) 1998 by Scriptics Corporation.
+# Copyright (c) 1998-2000 by Ajuba Solutions.
 # Copyright (c) 1998 by Mark Harrison.
 #
 # See the file "license.terms" for information on usage and redistribution
@@ -12,10 +12,10 @@
 # 
 # RCS: @(#) $Id$
 
-package provide msgcat 1.0
+package provide msgcat 1.1
 
 namespace eval msgcat {
-    namespace export mc mcset mclocale mcpreferences mcunknown
+    namespace export mc mcset mclocale mcpreferences mcunknown mcmax
 
     # Records the current locale as passed to mclocale
     variable locale ""
@@ -180,6 +180,28 @@ proc msgcat::mcset {locale src {dest ""}} {
 
 proc msgcat::mcunknown {locale src} {
     return $src
+}
+
+# msgcat::mcmax --
+#
+#	Calculates the maximun length of the translated strings of the given 
+#	list.
+#
+# Arguments:
+#	args	strings to translate.
+#
+# Results:
+#	Returns the length of the longest translated string.
+
+proc msgcat::mcmax {args} {
+    set max 0
+    foreach string $args {
+        set len [string length [msgcat::mc $string]]
+        if {$len>$max} {
+            set max $len
+        }
+    }
+    return $max
 }
 
 # Initialize the default locale
