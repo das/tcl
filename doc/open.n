@@ -55,8 +55,9 @@ Open the file for reading and writing.  Truncate it if it exists.
 If it doesn't exist, create a new file.
 .TP 15
 \fBa\fR
-Open the file for writing only.  The file must already exist, and the file
-is positioned so that new data is appended to the file.
+Open the file for writing only.  If the file doesn't exist,
+create a new empty file.
+Set the initial access position  to the end of the file.
 .TP 15
 \fBa+\fR
 Open the file for reading and writing.  If the file doesn't exist,
