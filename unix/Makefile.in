@@ -64,9 +64,6 @@ MAN3_INSTALL_DIR = $(MAN_INSTALL_DIR)/man3
 # Tcl commands:
 MANN_INSTALL_DIR = $(MAN_INSTALL_DIR)/mann
 
-# Directory in which to install the include file tcl.h:
-INCLUDE_INSTALL_DIR = @includedir@
-
 # Package search path.
 TCL_PACKAGE_PATH	= @TCL_PACKAGE_PATH@
 
@@ -431,6 +428,7 @@ tcltest: ${TCLTEST_OBJS} ${TCL_LIB_FILE} ${BUILD_DLTEST}
 
 test: tcltest
 	LD_LIBRARY_PATH=`pwd`:${LD_LIBRARY_PATH}; export LD_LIBRARY_PATH; \
+	LIBPATH=`pwd`:${LIBPATH}; export LIBPATH; \
 	SHLIB_PATH=`pwd`:${SHLIB_PATH}; export SHLIB_PATH; \
 	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
 	./tcltest $(TOP_DIR)/tests/all.tcl
@@ -438,6 +436,7 @@ test: tcltest
 # Useful target to launch a built tcltest with the proper path,...
 runtest: tcltest
 	LD_LIBRARY_PATH=`pwd`:${LD_LIBRARY_PATH}; export LD_LIBRARY_PATH; \
+	LIBPATH=`pwd`:${LIBPATH}; export LIBPATH; \
 	SHLIB_PATH=`pwd`:${SHLIB_PATH}; export SHLIB_PATH; \
 	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
 	./tcltest
