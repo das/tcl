@@ -155,7 +155,7 @@ Tcl_CaseObjCmd(dummy, interp, objc, objv)
 
 	pat = Tcl_GetString(caseObjv[i]);
 	for (p = (unsigned char *) pat; *p != '\0'; p++) {
-	    if (isspace(*p) || (*p == '\\')) {	/* INTL: ISO space */
+	    if (isspace(*p) || (*p == '\\')) {	/* INTL: ISO space, UCHAR */
 		break;
 	    }
 	}
@@ -1960,7 +1960,7 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 	*newPtr = '%';
 	newPtr++;
 	format++;
-	if (isdigit(*((unsigned char *) format))) { /* INTL: Tcl source. */
+	if (isdigit(UCHAR(*format))) { /* INTL: Tcl source. */
 	    int tmp;
 
 	    /*
@@ -2001,7 +2001,7 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 	    newPtr++;
 	    format++;
 	}
-	if (isdigit(*((unsigned char *) format))) { /* INTL: Tcl source. */
+	if (isdigit(UCHAR(*format))) { /* INTL: Tcl source. */
 	    width = strtoul(format, &end, 10);	/* INTL: Tcl source. */
 	    format = end;
 	} else if (*format == '*') {
@@ -2044,7 +2044,7 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 	    format++;
 	    gotPrecision = 1;
 	}
-	if (isdigit(*((unsigned char *) format))) { /* INTL: Tcl source. */
+	if (isdigit(UCHAR(*format))) { /* INTL: Tcl source. */
 	    precision = strtoul(format, &end, 10);  /* INTL: "C" locale. */
 	    format = end;
 	} else if (*format == '*') {

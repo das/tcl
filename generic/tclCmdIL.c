@@ -2829,9 +2829,6 @@ SortCompare(objPtr1, objPtr2, infoPtr)
 	infoPtr->resultCode = Tcl_EvalObjv(infoPtr->interp, objc, objv, 0);
   
   	if (infoPtr->resultCode != TCL_OK) {
-	    Tcl_Obj *errorPtr = Tcl_NewListObj(3, objv);
-	    int length;
-	    char *compareCmd = Tcl_GetStringFromObj(errorPtr, &length);
 	    Tcl_AddErrorInfo(infoPtr->interp,
 		    "\n    (-compare command)");
 	    return order;

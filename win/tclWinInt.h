@@ -94,18 +94,19 @@ typedef struct TclWinProcs {
 EXTERN TclWinProcs *tclWinProcs;
 EXTERN Tcl_Encoding tclWinTCharEncoding;
 
+/*
+ * Declarations of functions that are not accessible by way of the
+ * stubs table.
+ */
+
 EXTERN TclPlatformType *TclWinGetPlatform(void);
 EXTERN int		TclWinGetPlatformId(void);
 EXTERN void		TclWinInit(HINSTANCE hInst);
-EXTERN char *		TclWinNoBackslash(char *path);
 EXTERN void		TclWinSetInterfaces(int);
-EXTERN int		TclWinSynchSpawn(void *args, int type, void **trans,
-				Tcl_Pid *pidPtr);
-EXTERN TCHAR *		Tcl_WinUtfToTChar(CONST char *string, int len,
-				Tcl_DString *dsPtr);
-EXTERN char *		Tcl_WinTCharToUtf(CONST TCHAR *string, int len,
-				Tcl_DString *dsPtr);
+
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT
+
+#include "tclIntPlatDecls.h"
 
 #endif	/* _TCLWININT */

@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 /*
  * Flags that are used by ConfigureMemory to define how the allocator
  * should work.  They can be or'd together.
@@ -137,7 +138,7 @@ TclpSysAlloc(
     ListEl * newMemoryRecord;
 
     if (!(memoryFlags & MEMORY_ALL_SYS)) {
-    
+
     	/*
     	 * If the guard handle has been purged, throw it away and try
     	 * to allocate it again.
@@ -273,7 +274,7 @@ CleanUpExitProc()
     while (systemMemory != NULL) {
 	memRecord = systemMemory;
 	systemMemory = memRecord->next;
-	if (*(memRecord->memoryHandle) != NULL) {
+        if (*(memRecord->memoryHandle) != NULL) {
             DisposeHandle(memRecord->memoryHandle);
         }
 	DisposePtr((void *) memRecord);

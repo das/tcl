@@ -443,7 +443,8 @@ FileSeekProc(instanceData, offset, mode, errorCodePtr)
     newPos = SetFilePointer(infoPtr->handle, offset, NULL, moveMethod);
     if (newPos == 0xFFFFFFFF) {
         TclWinConvertError(GetLastError());
-        return -1;
+        *errorCodePtr = errno;
+	return -1;
     }
     return newPos;
 }

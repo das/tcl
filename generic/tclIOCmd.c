@@ -337,7 +337,7 @@ Tcl_ReadObjCmd(dummy, interp, objc, objv)
 	char *arg;
 	
 	arg = Tcl_GetString(objv[i]);
-	if (isdigit((unsigned char) arg[0])) { /* INTL: digit */
+	if (isdigit(UCHAR(arg[0]))) { /* INTL: digit */
 	    if (Tcl_GetIntFromObj(interp, objv[i], &toRead) != TCL_OK) {
                 return TCL_ERROR;
 	    }

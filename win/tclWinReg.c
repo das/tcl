@@ -31,17 +31,6 @@
 #define TCL_STORAGE_CLASS DLLEXPORT
 
 /*
- * VC++ has an alternate entry point called DllMain, so we need to rename
- * our entry point.
- */
-
-#ifdef DLL_BUILD
-# if defined(_MSC_VER)
-#  define DllEntryPoint DllMain
-# endif
-#endif
-
-/*
  * The following macros convert between different endian ints.
  */
 
@@ -123,38 +112,6 @@ EXTERN int Registry_Init(Tcl_Interp *interp);
 /*
  *----------------------------------------------------------------------
  *
- * DllEntryPoint --
- *
- *	This wrapper function is used by Windows to invoke the
- *	initialization code for the DLL.  If we are compiling
- *	with Visual C++, this routine will be renamed to DllMain.
- *	routine.
- *
- * Results:
- *	Returns TRUE;
- *
- * Side effects:
- *	None.
- *
- *----------------------------------------------------------------------
- */
-
-#ifdef __WIN32__
-#ifdef DLL_BUILD
-BOOL APIENTRY
-DllEntryPoint(
-    HINSTANCE hInst,		/* Library instance handle. */
-    DWORD reason,		/* Reason this function is being called. */
-    LPVOID reserved)		/* Not used. */
-{
-    return TRUE;
-}
-#endif
-#endif
-
-/*
- *----------------------------------------------------------------------
- *
  * Registry_Init --
  *
  *	This procedure initializes the registry command.
@@ -172,6 +129,9 @@ int
 Registry_Init(
     Tcl_Interp *interp)
 {
+    if (!Tcl_InitStubs(interp, "8.0", 0)) {
+	return TCL_ERROR;
+    }
     Tcl_CreateObjCommand(interp, "registry", RegistryObjCmd, NULL, NULL);
     return Tcl_PkgProvide(interp, "registry", "1.0");
 }
