@@ -349,7 +349,7 @@ UpdateStringOfIndex(objPtr)
 {
     IndexRep *indexRep = (IndexRep *) objPtr->internalRep.otherValuePtr;
     register char *buf;
-    register int len;
+    register unsigned len;
     register char *indexStr = EXPAND_OF(indexRep);
 
     len = strlen(indexStr);

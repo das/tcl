@@ -2164,7 +2164,7 @@ UpdateStringOfWideInt(objPtr)
     register Tcl_Obj *objPtr;	/* Int object whose string rep to update. */
 {
     char buffer[TCL_INTEGER_SPACE+2];
-    register int len;
+    register unsigned len;
     register Tcl_WideInt wideVal = objPtr->internalRep.wideValue;
 
     sprintf(buffer, "%" TCL_LL_MODIFIER "d", wideVal);
