@@ -478,7 +478,8 @@ install-libraries:
 		fi; \
 	    done;
 	@echo "Installing header files";
-	@for i in "$(GENERIC_DIR)/tcl.h" "$(GENERIC_DIR)/tclDecls.h" ; \
+	@for i in "$(GENERIC_DIR)/tcl.h" "$(GENERIC_DIR)/tclDecls.h" \
+		"$(GENERIC_DIR)/tclPlatDecls.h" ; \
 	    do \
 	    $(COPY) "$$i" "$(INCLUDE_INSTALL_DIR)"; \
 	    done;

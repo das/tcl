@@ -1795,6 +1795,13 @@ EXTERN char *		Tcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp,
 #include "tclDecls.h"
 
 /*
+ * Include platform specific public function declarations that are
+ * accessible via the stubs table.
+ */
+
+#include "tclPlatDecls.h"
+
+/*
  * Public functions that are not accessible via the stubs table.
  */
 

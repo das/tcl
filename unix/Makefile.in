@@ -564,7 +564,8 @@ install-libraries: libraries
 	    chmod +x $(SRC_DIR)/install-sh; \
 	    fi
 	@echo "Installing header files";
-	@for i in $(GENERIC_DIR)/tcl.h $(GENERIC_DIR)/tclDecls.h ; \
+	@for i in $(GENERIC_DIR)/tcl.h $(GENERIC_DIR)/tclDecls.h \
+		$(GENERIC_DIR)/tclPlatDecls.h ; \
 	    do \
 	    $(INSTALL_DATA) $$i $(INCLUDE_INSTALL_DIR); \
 	    done;
