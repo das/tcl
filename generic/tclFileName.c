@@ -446,6 +446,19 @@ SplitUnixPath(path, bufPtr)
      * Deal with the root directory as a special case.
      */
 
+#ifdef __QNX__
+    /*
+     * Check for QNX //<node id> prefix
+     */
+    if ((path[0] == '/') && (path[1] == '/')
+	    && isdigit(UCHAR(path[2]))) { /* INTL: digit */
+	path += 3;
+	while (isdigit(UCHAR(*path))) { /* INTL: digit */
+	    ++path;
+	}
+    }
+#endif
+
     if (path[0] == '/') {
 	Tcl_DStringAppend(bufPtr, "/", 2);
 	p = path+1;
