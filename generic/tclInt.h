@@ -1652,6 +1652,8 @@ EXTERN int		TclDoGlob _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *separators, Tcl_DString *headPtr,
 			    char *tail, Tcl_GlobTypeData *types));
 EXTERN void		TclDumpMemoryInfo _ANSI_ARGS_((FILE *outFile));
+EXTERN void             TclInitEmbeddedConfigurationInformation 
+                            _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN void		TclExpandTokenArray _ANSI_ARGS_((
 			    Tcl_Parse *parsePtr));
 EXTERN void		TclExprFloatError _ANSI_ARGS_((Tcl_Interp *interp,

@@ -104,6 +104,10 @@ the environment.  Jump to this line to read the new instructions.
 #	TESTPAT=<file>
 #		Reads the tests requested to be run from this file.
 #
+#	CFG_ENCODING=encoding
+#		name of encoding for configuration information. Defaults
+#		to cp1252
+#
 # 5)  Examples:
 #
 #	Basic syntax of calling nmake looks like this:
@@ -230,6 +234,7 @@ TCLOBJS = \
 	$(TMP_DIR)\tclCompCmds.obj \
 	$(TMP_DIR)\tclCompExpr.obj \
 	$(TMP_DIR)\tclCompile.obj \
+	$(TMP_DIR)\tclConfig.obj \
 	$(TMP_DIR)\tclDate.obj \
 	$(TMP_DIR)\tclEncoding.obj \
 	$(TMP_DIR)\tclEnv.obj \
@@ -260,6 +265,7 @@ TCLOBJS = \
 	$(TMP_DIR)\tclParseExpr.obj \
 	$(TMP_DIR)\tclPipe.obj \
 	$(TMP_DIR)\tclPkg.obj \
+	$(TMP_DIR)\tclPkgConfig.obj \
 	$(TMP_DIR)\tclPosixStr.obj \
 	$(TMP_DIR)\tclPreserve.obj \
 	$(TMP_DIR)\tclProc.obj \
@@ -595,6 +601,14 @@ $(TMP_DIR)\tclTestObj.obj: $(GENERICDIR)\tclTestObj.c
 
 $(TMP_DIR)\tclWinTest.obj: $(WINDIR)\tclWinTest.c
 	$(cc32) $(TCL_CFLAGS) -Fo$@ $?
+
+$(TMP_DIR)\tclPkgConfig.obj: $(GENERICDIR)\tclPkgConfig.c
+	$(cc32) $(TCL_CFLAGS) \
+		-DCFG_INSTALL_EXEC_PREFIX=\"$(INSTALLDIR)\"	\
+		-DCFG_INSTALL_PREFIX=\"$(INSTALLDIR)\"		\
+		-DCFG_RUNTIME_EXEC_PREFIX=\"$(INSTALLDIR)\"	\
+		-DCFG_RUNTIME_PREFIX=\"$(INSTALLDIR)\"		\
+	-Fo$@ $?
 
 $(TMP_DIR)\tclAppInit.obj: $(WINDIR)\tclAppInit.c
 !if $(TCL_LINKWITHEXTENSIONS)

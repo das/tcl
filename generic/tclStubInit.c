@@ -885,6 +885,7 @@ TclStubs tclStubs = {
     Tcl_FSMountsChanged, /* 480 */
     Tcl_EvalTokensStandard, /* 481 */
     Tcl_GetTime, /* 482 */
+    Tcl_RegisterConfig, /* 483 */
 };
 
 /* !END!: Do not edit above this line. */

@@ -1698,6 +1698,12 @@ declare 482 generic {
     void Tcl_GetTime( Tcl_Time* timeBuf )
 }
 
+# New export due to TIP#59
+declare 483 generic {
+    void Tcl_RegisterConfig (Tcl_Interp* interp, CONST char* pkgName, Tcl_Config* configuration, \
+	CONST char* valEncoding)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are

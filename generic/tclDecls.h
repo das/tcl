@@ -1514,6 +1514,11 @@ EXTERN int		Tcl_EvalTokensStandard _ANSI_ARGS_((
 				int count));
 /* 482 */
 EXTERN void		Tcl_GetTime _ANSI_ARGS_((Tcl_Time* timeBuf));
+/* 483 */
+EXTERN void		Tcl_RegisterConfig _ANSI_ARGS_((Tcl_Interp* interp, 
+				CONST char* pkgName, 
+				Tcl_Config* configuration, 
+				CONST char* valEncoding));
 
 typedef struct TclStubHooks {
     struct TclPlatStubs *tclPlatStubs;
@@ -2056,6 +2061,7 @@ typedef struct TclStubs {
     void (*tcl_FSMountsChanged) _ANSI_ARGS_((Tcl_Filesystem * fsPtr)); /* 480 */
     int (*tcl_EvalTokensStandard) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Token * tokenPtr, int count)); /* 481 */
     void (*tcl_GetTime) _ANSI_ARGS_((Tcl_Time* timeBuf)); /* 482 */
+    void (*tcl_RegisterConfig) _ANSI_ARGS_((Tcl_Interp* interp, CONST char* pkgName, Tcl_Config* configuration, CONST char* valEncoding)); /* 483 */
 } TclStubs;
 
 #ifdef __cplusplus
@@ -4027,6 +4033,10 @@ extern TclStubs *tclStubsPtr;
 #ifndef Tcl_GetTime
 #define Tcl_GetTime \
 	(tclStubsPtr->tcl_GetTime) /* 482 */
+#endif
+#ifndef Tcl_RegisterConfig
+#define Tcl_RegisterConfig \
+	(tclStubsPtr->tcl_RegisterConfig) /* 483 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
