@@ -1291,9 +1291,9 @@ Tcl_FSData(fsPtr)
     FilesystemRecord *fsRecPtr = FsGetFirstFilesystem();
 
     /*
-     * Traverse the 'filesystemList' looking for the particular node
-     * whose 'fsPtr' member matches 'fsPtr' and remove that one from
-     * the list.  Ensure that the "default" node cannot be removed.
+     * Traverse the list of filesystems look for a particular one.
+     * If found, return that filesystem's clientData (originally
+     * provided when calling Tcl_FSRegister).
      */
 
     while ((retVal == NULL) && (fsRecPtr != NULL)) {
