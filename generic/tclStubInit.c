@@ -229,13 +229,14 @@ TclIntStubs tclIntStubs = {
     TclRegExpRangeUniChar, /* 151 */
     TclSetLibraryPath, /* 152 */
     TclGetLibraryPath, /* 153 */
-    TclTestChannelCmd, /* 154 */
-    TclTestChannelEventCmd, /* 155 */
+    NULL, /* 154 */
+    NULL, /* 155 */
     TclRegError, /* 156 */
     TclVarTraceExists, /* 157 */
     TclSetStartupScriptFileName, /* 158 */
     TclGetStartupScriptFileName, /* 159 */
     TclpMatchFilesTypes, /* 160 */
+    TclChannelEventScriptInvoker, /* 161 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {

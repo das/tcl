@@ -577,14 +577,15 @@ declare 153 generic {
     Tcl_Obj *TclGetLibraryPath(void)
 }
 
-declare 154 generic {
-    int TclTestChannelCmd(ClientData clientData,
-    Tcl_Interp *interp, int argc, char **argv)
-}
-declare 155 generic {
-    int TclTestChannelEventCmd(ClientData clientData, \
-	    Tcl_Interp *interp, int argc, char **argv)
-}
+#declare 154 generic {
+#    int TclTestChannelCmd(ClientData clientData,
+#    Tcl_Interp *interp, int argc, char **argv)
+#}
+#declare 155 generic {
+#    int TclTestChannelEventCmd(ClientData clientData, \
+#	     Tcl_Interp *interp, int argc, char **argv)
+#}
+
 declare 156 generic {
     void TclRegError (Tcl_Interp *interp, char *msg, \
 	    int status)
@@ -601,6 +602,10 @@ declare 159 generic {
 declare 160 generic {
     int TclpMatchFilesTypes(Tcl_Interp *interp, char *separators, \
 	    Tcl_DString *dirPtr, char *pattern, char *tail, GlobTypeData *types)
+}
+
+declare 161 generic {
+    void TclChannelEventScriptInvoker(ClientData clientData, int mask)
 }
 
 ##############################################################################
