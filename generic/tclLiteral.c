@@ -88,7 +88,14 @@ LiteralThreadExitProc(clientData)
 {
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
     if (tsdPtr->initialized) {
+#if 0
+	/*
+	 * This causes a crash on exit in some cases that must be
+	 * further explored.  It has to do with circular references
+	 * in bytecodes that cause a double-delete on literal objects.
+	 */
 	TclDeleteLiteralTable(NULL, &(tsdPtr->literalTable));
+#endif
 	tsdPtr->initialized = 0;
     }
 }
