@@ -15,6 +15,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 }
 info commands
 set ::tcltest::testSingleFile false
+set ::tcltest::testsDirectory [file dir [info script]]
 
 puts stdout "Tcl $tcl_patchLevel tests running in interp:  [info nameofexecutable]"
 puts stdout "Tests running in working dir:  $::tcltest::workingDirectory"
@@ -29,6 +30,7 @@ if {[llength $::tcltest::match] > 0} {
 # if one exists.  Otherwise use *.test.  If given, the file pattern
 # should be specified relative to the dir containing this file.  If no
 # files are found to match the pattern, print an error message and exit.
+
 set fileIndex [expr {[lsearch $argv "-file"] + 1}]
 set fIndex [expr {[lsearch $argv "-f"] + 1}]
 if {($fileIndex < 1) || ($fIndex > $fileIndex)} {
