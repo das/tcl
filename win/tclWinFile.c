@@ -333,7 +333,7 @@ TclpMatchFilesTypes(
 	 * because it is an expensive call.
 	 */
 
-	attr = NULL;
+	attr = 0;
 
 	if (tail == NULL) {
 	    int typeOk = 1;
