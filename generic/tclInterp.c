@@ -3176,7 +3176,7 @@ TclInitLimitSupport(interp)
     iPtr->limit.timeHandlers = NULL;
     iPtr->limit.timeGranularity = 10;
     Tcl_InitHashTable(&iPtr->limit.callbacks,
-	    sizeof(struct ScriptLimitCallbackKey)/sizeof(ClientData));
+	    sizeof(struct ScriptLimitCallbackKey)/sizeof(int));
 }
 
 static void
