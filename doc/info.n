@@ -214,8 +214,8 @@ script:
 proc printProc {procName} {
     set result [list proc $procName]
     set formals {}
-    foreach var [\fBinfo\fR args $procName] {
-        if {[\fBinfo\fR default $procName $var def]} {
+    foreach var [\fBinfo args\fR $procName] {
+        if {[\fBinfo default\fR $procName $var def]} {
             lappend formals [list $var $def]
         } else {
             # Still need the list-quoting because variable
@@ -223,7 +223,7 @@ proc printProc {procName} {
             lappend formals [list $var]
         }
     }
-    puts [lappend result $formals [\fBinfo\fR body $procName]]
+    puts [lappend result $formals [\fBinfo body\fR $procName]]
 }
 .CE
 

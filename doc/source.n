@@ -50,9 +50,22 @@ what \fBTEXT\fR resource to source by either name or id.  By default Tcl
 searches all open resource files, which include the current
 application and any loaded C extensions.  Alternatively, you may
 specify the \fIfileName\fR where the \fBTEXT\fR resource can be found.
+.SH EXAMPLE
+Run the script in the file \fBfoo.tcl\fR and then the script in the
+file \fBbar.tcl\fR:
+.CS
+\fBsource\fR foo.tcl
+\fBsource\fR bar.tcl
+.CE
+Alternatively:
+.CS
+foreach scriptFile {foo.tcl bar.tcl} {
+   \fBsource\fR $scriptFile
+}
+.CE
 
 .SH "SEE ALSO"
-file(n), cd(n)
+file(n), cd(n), info(n)
 
 .SH KEYWORDS
 file, script
