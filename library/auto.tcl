@@ -123,6 +123,10 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
     # uniquify $dirs in order
     array set seen {}
     foreach i $dirs {
+	# Take note that the [file normalize] below has been noted to
+	# cause difficulties for the freewrap utility.  See Bug 1072136.
+	# Until freewrap resolves the matter, one might work around the
+	# problem by disabling that branch.
 	if {[interp issafe]} {
 	    set norm $i
 	} else {
