@@ -22,7 +22,7 @@
  */
 
 #ifdef WIN32
-#define HAVE_MKTIME
+#define HAVE_MKTIME 1
 #endif
 
 /*
@@ -215,15 +215,15 @@ TclClockMktimeObjCmd(  ClientData clientData,
 		       Tcl_Obj* CONST* objv )
      					/* Parameter vector */
 {
-    int i;
-    struct tm toConvert;	/* Time to be converted */
-    time_t convertedTime;	/* Time converted from mktime */
-
 #ifndef HAVE_MKTIME
     Tcl_SetObjResult( interp,
 		      Tcl_NewStringObj( "cannot determine local time", -1 ) );
     return TCL_ERROR;
 #else
+
+    int i;
+    struct tm toConvert;	/* Time to be converted */
+    time_t convertedTime;	/* Time converted from mktime */
 
     /* Convert parameters */
 
