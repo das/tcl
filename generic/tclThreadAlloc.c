@@ -14,9 +14,8 @@
  * RCS: @(#) $Id$
  */
 
-#if defined(TCL_THREADS) && defined(USE_THREAD_ALLOC)
-
 #include "tclInt.h"
+#if defined(TCL_THREADS) && defined(USE_THREAD_ALLOC)
 
 /*
  * If range checking is enabled, an additional byte will be allocated

@@ -2169,6 +2169,8 @@ EXTERN void	TclDbInitNewObj _ANSI_ARGS_((Tcl_Obj *objPtr));
 # define TclNewListObjDirect(objc, objv) \
     TclDbNewListObjDirect(objc, objv, __FILE__, __LINE__)
 
+#undef USE_THREAD_ALLOC
+
 #elif defined(PURIFY)
 
 /*
