@@ -116,8 +116,9 @@ set arg 0
 
 if {![string compare [lindex $argv $arg] "-bitmap"]} {
     set bitmap [lindex $argv [incr arg]]
+    incr arg
 }
-set baseName [lindex $argv [incr arg]]
+set baseName [lindex $argv $arg]
 set version [lindex $argv [incr arg]]
 set files {}
 foreach i [lrange $argv [incr arg] end] {
