@@ -2058,6 +2058,30 @@ EXTERN int	TclCompileWhileCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
 
 /*
+ * Functions defined in generic/tclVar.c and currenttly exported only 
+ * for use by the bytecode compiler and engine. Some of these could later 
+ * be placed in the public interface.
+ */
+
+EXTERN Var *	TclLookupArrayElement _ANSI_ARGS_((Tcl_Interp *interp,
+		    CONST char *arrayName, CONST char *elName, CONST int flags,
+		    CONST char *msg, CONST int createPart1,
+		    CONST int createPart2, Var *arrayPtr));	
+EXTERN Var *    TclObjLookupVar _ANSI_ARGS_((Tcl_Interp *interp,
+		    Tcl_Obj *part1Ptr, CONST char *part2, int flags,
+		    CONST char *msg, CONST int createPart1,
+		    CONST int createPart2, Var **arrayPtrPtr));
+EXTERN Tcl_Obj *TclPtrGetVar _ANSI_ARGS_((Tcl_Interp *interp, Var *varPtr,
+		    Var *arrayPtr, char *part1, CONST char *part2,
+		    CONST int flags));
+EXTERN Tcl_Obj *TclPtrSetVar _ANSI_ARGS_((Tcl_Interp *interp, Var *varPtr,
+		    Var *arrayPtr, char *part1, CONST char *part2,
+		    Tcl_Obj *newValuePtr, CONST int flags));
+EXTERN Tcl_Obj *TclPtrIncrVar _ANSI_ARGS_((Tcl_Interp *interp, Var *varPtr,
+		    Var *arrayPtr, char *part1, CONST char *part2,
+		    CONST long i, CONST int flags));
+
+/*
  *----------------------------------------------------------------
  * Macros used by the Tcl core to create and release Tcl objects.
  * TclNewObj(objPtr) creates a new object denoting an empty string.
