@@ -22,8 +22,6 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 removeFile test1
 removeFile pipe
 
-set executable [list [info nameofexecutable]]
-
 test iocmd-1.1 {puts command} {
    list [catch {puts} msg] $msg
 } {1 {wrong # args: should be "puts ?-nonewline? ?channelId? string"}}
