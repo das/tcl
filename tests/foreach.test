@@ -222,7 +222,7 @@ test foreach-5.5 {break tests} {
 
 # Test for incorrect "double evaluation" semantics
 
-test foreach-6.1 {delayed substitution of body} {knownBug} {
+test foreach-6.1 {delayed substitution of body} {
     proc foo {} {
        set a 0
        foreach a [list 1 2 3] "
