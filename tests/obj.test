@@ -588,6 +588,14 @@ test obj-31.6 {regenerate string rep of "end--bigInteger"} {testobj nonPortable}
     testobj invalidateStringRep 1
 } end--2147483648
 
+test obj-32.1 {freeing very large object trees} {
+    set x {}
+    for {set i 0} {$i<100000} {incr i} {
+	set x [list $x {}]
+    }
+    unset x
+} {}
+
 if {[testConstraint testobj]} {
     testobj freeallvars
 }
