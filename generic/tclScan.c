@@ -694,12 +694,12 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 	    case 'o':
 		op = 'i';
 		base = 8;
-		fn = (long (*)())strtol;
+		fn = (long (*)())strtoul;
 		break;
 	    case 'x':
 		op = 'i';
 		base = 16;
-		fn = (long (*)())strtol;
+		fn = (long (*)())strtoul;
 		break;
 	    case 'u':
 		op = 'i';
