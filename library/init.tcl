@@ -372,7 +372,8 @@ proc auto_load_index {} {
 }
 
 # auto_qualify --
-# compute a fully qualified names list for use in the auto_index array.
+#
+# Compute a fully qualified names list for use in the auto_index array.
 # For historical reasons, commands in the global namespace do not have leading
 # :: in the index key. The list has two elements when the command name is
 # relative (no leading ::) and the namespace is not the global one. Otherwise
@@ -431,7 +432,8 @@ proc auto_qualify {cmd namespace} {
 }
 
 # auto_import --
-# invoked during "namespace import" to make see if the imported commands
+#
+# Invoked during "namespace import" to make see if the imported commands
 # reside in an autoloaded library.  If so, the commands are loaded so
 # that they will be available for the import links.  If not, then this
 # procedure does nothing.
