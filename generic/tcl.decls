@@ -605,7 +605,7 @@ declare 167 unix {
 # Obsolete.  Should now use Tcl_FSGetPathType which is objectified
 # and therefore usually faster.
 declare 168 generic {
-    Tcl_PathType Tcl_GetPathType(char *path)
+    Tcl_PathType Tcl_GetPathType(CONST char *path)
 }
 declare 169 generic {
     int Tcl_Gets(Tcl_Channel chan, Tcl_DString *dsPtr)

@@ -272,7 +272,7 @@ ExtractWinRoot(path, resultPtr, offset, typePtr)
 
 Tcl_PathType
 Tcl_GetPathType(path)
-    char *path;
+    CONST char *path;
 {
     Tcl_PathType type;
     Tcl_Obj *tempObj = Tcl_NewStringObj(path,-1);

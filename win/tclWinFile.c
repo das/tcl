@@ -121,7 +121,8 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 {
     char drivePat[] = "?:\\";
     const char *message;
-    char *dir, *root;
+    CONST char *dir;
+    char *root;
     int dirLength;
     Tcl_DString dirString;
     DWORD attr, volFlags;
@@ -887,7 +888,7 @@ NativeStat(nativePath, statPtr)
     DWORD attr;
     WCHAR nativeFullPath[MAX_PATH];
     TCHAR *nativePart;
-    char *fullPath;
+    CONST char *fullPath;
     int dev, mode;
 
     handle = (*tclWinProcs->findFirstFileProc)(nativePath, &data);
