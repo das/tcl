@@ -213,7 +213,7 @@ TclpThreadExit(status)
     LeaveCriticalSection(&joinLock);
 
 #if defined(__MSVCRT__) || defined(__BORLANDC__)
-    _endthreadex((DWORD)status);
+    _endthreadex((unsigned) status);
 #else
     ExitThread((DWORD) status);
 #endif
