@@ -43,7 +43,8 @@ extern "C" {
  * win/configure.in	(as above)
  * win/tcl.m4		(not patchlevel)
  * win/makefile.vc	(not patchlevel) 2 LOC
- * library/reg1.0/pkgIndex.tcl	(not patchlevel, for tclregNN.dll)
+ * library/reg/pkgIndex.tcl	(not patchlevel, for tclregNN.dll)
+ * library/dde/pkgIndex.tcl	(not patchlevel, for tclddeNN.dll)
  * README		(sections 0 and 2)
  * mac/README		(2 LOC, not patchlevel)
  * win/README.binary	(sections 0-4)
