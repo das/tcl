@@ -2548,7 +2548,7 @@ proc tcltest::cleanupTests {{calledFromAllFile 0}} {
 #       None
 
 # a lower case version is needed for compatibility with tcltest 1.0
-proc tcltest::getMatchFiles args {eval GetMatchingFiles $args}
+proc tcltest::getMatchingFiles args {eval GetMatchingFiles $args}
 
 proc tcltest::GetMatchingFiles { {searchDirectory ""} } {
     if {[llength [info level 0]] == 1} {
