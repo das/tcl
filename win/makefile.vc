@@ -343,16 +343,16 @@ cflags = $(cflags) -QIA64_Bx
 !endif
 
 !if $(MSVCRT)
-!if "$(DBGX)" == ""
-crt = -MD
-!else
+!if $(DEBUG)
 crt = -MDd
+!else
+crt = -MD
 !endif
 !else
-!if "$(DBGX)" == ""
-crt = -MT
-!else
+!if $(DEBUG)
 crt = -MTd
+!else
+crt = -MT
 !endif
 !endif
 
