@@ -494,7 +494,7 @@ CompileSubExpr(exprTokenPtr, infoPtr, envPtr)
 	    hPtr = Tcl_FindHashEntry(&opHashTable, operator);
 	    if (hPtr == NULL) {
 		code = CompileMathFuncCall(exprTokenPtr, operator, infoPtr,
-		        envPtr, &endPtr);
+			envPtr, &endPtr);
 		operator[tokenPtr->size] = (char) savedChar;
 		if (code != TCL_OK) {
 		    goto done;

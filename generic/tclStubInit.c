@@ -783,6 +783,7 @@ TclStubs tclStubs = {
     Tcl_SetNotifier, /* 386 */
     Tcl_GetAllocMutex, /* 387 */
     Tcl_GetChannelNames, /* 388 */
+    Tcl_GetChannelNamesEx, /* 389 */
 };
 
 /* !END!: Do not edit above this line. */

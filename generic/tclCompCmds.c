@@ -1446,7 +1446,7 @@ TclCompileIncrCmd(interp, parsePtr, envPtr)
 
 	    word[numBytes] = '\0';
 	    if (TclLooksLikeInt(word, numBytes)
-		     && (TclGetLong((Tcl_Interp *) NULL, word, &n) == TCL_OK)) {
+		    && (TclGetLong((Tcl_Interp *) NULL, word, &n) == TCL_OK)) {
 		if ((-127 <= n) && (n <= 127)) {
 		    haveImmValue = 1;
 		    immValue = n;

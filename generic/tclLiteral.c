@@ -188,7 +188,6 @@ TclRegisterLiteral(envPtr, bytes, length, onHeap)
     long n;
     char buf[TCL_INTEGER_SPACE];
 
- 
     if (length < 0) {
 	length = (bytes? strlen(bytes) : 0);
     }
@@ -303,7 +302,6 @@ TclRegisterLiteral(envPtr, bytes, length, onHeap)
     if (globalTablePtr->numEntries >= globalTablePtr->rebuildSize) {
 	RebuildLiteralTable(globalTablePtr);
     }
-    
     objIndex = AddLocalLiteralEntry(envPtr, globalPtr, localHash);
 
 #ifdef TCL_COMPILE_DEBUG
@@ -752,7 +750,6 @@ TclReleaseLiteral(interp, objPtr)
      * Remove the reference corresponding to the local literal table
      * entry.
      */
-
     Tcl_DecrRefCount(objPtr);
 }
 

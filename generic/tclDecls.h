@@ -1212,6 +1212,9 @@ EXTERN void		Tcl_SetNotifier _ANSI_ARGS_((
 EXTERN Tcl_Mutex *	Tcl_GetAllocMutex _ANSI_ARGS_((void));
 /* 388 */
 EXTERN int		Tcl_GetChannelNames _ANSI_ARGS_((Tcl_Interp * interp));
+/* 389 */
+EXTERN int		Tcl_GetChannelNamesEx _ANSI_ARGS_((
+				Tcl_Interp * interp, char * pattern));
 
 typedef struct TclStubHooks {
     struct TclPlatStubs *tclPlatStubs;
@@ -1668,6 +1671,7 @@ typedef struct TclStubs {
     void (*tcl_SetNotifier) _ANSI_ARGS_((Tcl_NotifierProcs * notifierProcPtr)); /* 386 */
     Tcl_Mutex * (*tcl_GetAllocMutex) _ANSI_ARGS_((void)); /* 387 */
     int (*tcl_GetChannelNames) _ANSI_ARGS_((Tcl_Interp * interp)); /* 388 */
+    int (*tcl_GetChannelNamesEx) _ANSI_ARGS_((Tcl_Interp * interp, char * pattern)); /* 389 */
 } TclStubs;
 
 #ifdef __cplusplus
@@ -3268,6 +3272,10 @@ extern TclStubs *tclStubsPtr;
 #ifndef Tcl_GetChannelNames
 #define Tcl_GetChannelNames \
 	(tclStubsPtr->tcl_GetChannelNames) /* 388 */
+#endif
+#ifndef Tcl_GetChannelNamesEx
+#define Tcl_GetChannelNamesEx \
+	(tclStubsPtr->tcl_GetChannelNamesEx) /* 389 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

@@ -58,7 +58,7 @@ static char initScript[] = "if {[info proc tclInit]==\"\"} {\n\
 	set tclfile [file join $i init.tcl]\n\
 	if {[file exists $tclfile]} {\n\
 	    if {![catch {uplevel #0 [list source $tclfile]} msg]} {\n\
-	        return\n\
+		return\n\
 	    } else {\n\
 		append errors \"$tclfile: $msg\n$errorInfo\n\"\n\
 	    }\n\

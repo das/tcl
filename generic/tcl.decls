@@ -1340,6 +1340,9 @@ declare 387 generic {
 declare 388 generic {
     int Tcl_GetChannelNames(Tcl_Interp *interp)
 }
+declare 389 generic {
+    int Tcl_GetChannelNamesEx(Tcl_Interp *interp, char *pattern)
+}
 
 
 
