@@ -1406,7 +1406,7 @@ AliasObjCmd(clientData, interp, objc, objv)
     cmdPtr = Tcl_NewListObj(prefc, prefv);
     Tcl_ListObjReplace(NULL, cmdPtr, prefc, 0, objc - 1, objv + 1);
     Tcl_ListObjGetElements(NULL, cmdPtr, &cmdc, &cmdv);
-    result = TclObjInvokeGlobal(targetInterp, cmdc, cmdv,
+    result = TclObjInvoke(targetInterp, cmdc, cmdv,
 	    TCL_INVOKE_NO_TRACEBACK);
     Tcl_DecrRefCount(cmdPtr);
 
