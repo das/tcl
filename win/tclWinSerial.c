@@ -1157,7 +1157,7 @@ SerialGetOptionProc(instanceData, interp, optionName, dsPtr)
             char buf[2 * TCL_INTEGER_SPACE + 16];
 
             parity = 'n';
-            if (dcb.Parity < 4) {
+            if (dcb.Parity <= 4) {
                 parity = "noems"[dcb.Parity];
             }
 
