@@ -61,8 +61,8 @@ steps:
 Call \fBTcl_InitStubs\fR in the extension before calling any other
 Tcl functions.
 .IP 2) 5
-Define the USE_TCL_STUBS symbol.  Typically, you would include the
--DUSE_TCL_STUBS flag when compiling the extension.
+Define the \fBUSE_TCL_STUBS\fR symbol.  Typically, you would include the
+\fB\-DUSE_TCL_STUBS\fR flag when compiling the extension.
 .IP 3) 5
 Link the extension with the Tcl stubs library instead of the standard
 Tcl library.  On Unix platforms, the library name is

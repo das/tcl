@@ -49,8 +49,8 @@ Tcl variables \fBargv\fR and \fBargv0\fR in \fIinterp\fR.
 .IP [3]
 Invoke a startup script to initialize the application.
 .LP
-\fBTcl_AppInit\fR returns TCL_OK or TCL_ERROR.
-If it returns TCL_ERROR then it must leave an error message in
+\fBTcl_AppInit\fR returns \fBTCL_OK\fR or \fBTCL_ERROR\fR.
+If it returns \fBTCL_ERROR\fR then it must leave an error message in
 for the interpreter's result;  otherwise the result is ignored.
 .PP
 In addition to \fBTcl_AppInit\fR, your application should also contain

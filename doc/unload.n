@@ -80,7 +80,7 @@ instead of \fIpkg\fB_Unload\fR.
 If \fBunload\fR determines that a library is not unloadable (or unload
 functionality has been disabled during compilation), an error will be returned.
 If the library is unloadable, then \fBunload\fR will call the unload
-procedure. If the unload procedure returns TCL_OK, \fBunload\fR will proceed
+procedure. If the unload procedure returns \fBTCL_OK\fR, \fBunload\fR will proceed
 and decrease the proper reference count (depending on the target interpreter
 type). When both reference counts have reached 0, the library will be
 detached from the process.

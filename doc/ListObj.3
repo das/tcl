@@ -230,7 +230,7 @@ to the end of the list \fIlistPtr\fR:
 .CS
 result = Tcl_ListObjLength(interp, listPtr, &length);
 if (result == TCL_OK) {
-	result = Tcl_ListObjReplace(interp, listPtr, length, 0, objc, objv);
+    result = Tcl_ListObjReplace(interp, listPtr, length, 0, objc, objv);
 }
 .CE
 The \fIcount\fR list elements starting at \fIfirst\fR can be deleted

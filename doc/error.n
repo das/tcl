@@ -19,7 +19,7 @@ error \- Generate an error
 
 .SH DESCRIPTION
 .PP
-Returns a TCL_ERROR code, which causes command interpretation to be
+Returns a \fBTCL_ERROR\fR code, which causes command interpretation to be
 unwound.  \fIMessage\fR is a string that is returned to the application
 to indicate what went wrong.
 .PP

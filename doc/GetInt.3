@@ -47,8 +47,8 @@ integers).  Each of the procedures takes a \fIstring\fR argument,
 converts it to an internal form of a particular type, and stores
 the converted value at the location indicated by the procedure's
 third argument.  If all goes well, each of the procedures returns
-TCL_OK.  If \fIstring\fR doesn't have the proper syntax for the
-desired type then TCL_ERROR is returned, an error message is left
+\fBTCL_OK\fR.  If \fIstring\fR doesn't have the proper syntax for the
+desired type then \fBTCL_ERROR\fR is returned, an error message is left
 in the interpreter's result, and nothing is stored at *\fIintPtr\fR
 or *\fIdoublePtr\fR or *\fIboolPtr\fR.
 .PP
