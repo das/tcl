@@ -12,15 +12,9 @@
  * RCS: @(#) $Id$
  */
 
-#include "tcl.h"
+#include "tclInt.h"
 #include "tclPort.h"
-#ifdef NO_STDLIB_H
-#   include "../compat/stdlib.h"
-#else
-#   include <stdlib.h>
-#endif
 #include <ctype.h>
-#include "tclPort.h"
 
 #ifndef TRUE
 #define TRUE 1
