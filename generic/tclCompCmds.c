@@ -1808,7 +1808,14 @@ TclCompileLindexCmd(interp, parsePtr, envPtr)
     if ( numWords == 3 ) {
 	TclEmitOpcode( INST_LIST_INDEX, envPtr );
     } else {
-	TclEmitInstInt4( INST_LIST_INDEX_MULTI, numWords-2, envPtr );
+	/*
+	 * envPtr->currStackDepth has to be updated, as this instruction 
+	 * does not conform to the convention that its stack balance is
+	 * (1-opnd): it is actually one less (-opnd).
+	 */
+
+ 	TclEmitInstInt4( INST_LIST_INDEX_MULTI, numWords-2, envPtr );
+	envPtr->currStackDepth--;
     }
 
     return TCL_OK;
