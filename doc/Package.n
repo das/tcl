@@ -90,9 +90,7 @@ provided by a previous \fBpackage provide\fR command.
 If the \fIversion\fR argument is omitted, then the command
 returns the version number that is currently provided, or an
 empty string if no \fBpackage provide\fR command has been
-invoked for \fIpackage\fR in this interpreter.  By convention, package
-names starting with "app-" are reserved for applications that are
-being managed with the package versioning subsystem.
+invoked for \fIpackage\fR in this interpreter.  
 .TP
 \fBpackage require \fR?\fB\-exact\fR? \fIpackage \fR?\fIversion\fR?
 This command is typically invoked by Tcl code that wishes to use
