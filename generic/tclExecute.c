@@ -3413,7 +3413,6 @@ TclExecuteByteCode(interp, codePtr)
 	    }
 	}
 
-    foundResult:
 	TRACE(("%.20s %.20s => %ld\n", O2S(valuePtr), O2S(value2Ptr), iResult));
 
 	/*
