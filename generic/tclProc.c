@@ -1173,9 +1173,6 @@ TclProcCompileProc(interp, procPtr, bodyPtr, nsPtr, description, procName)
     }
     if (bodyPtr->typePtr != &tclByteCodeType) {
 #ifdef TCL_COMPILE_DEBUG
- 	int numChars;
- 	char *ellipsis;
- 	
  	if (tclTraceCompile >= 1) {
  	    /*
  	     * Display a line summarizing the top level command we

@@ -4431,7 +4431,6 @@ ValidatePcAndStackTop(codePtr, pc, stackTop, stackLowerBound)
     if ((stackTop < stackLowerBound) || (stackTop > stackUpperBound)) {
 	int numChars;
 	char *cmd = GetSrcInfoForPc(pc, codePtr, &numChars);
-	char *ellipsis = "";
 	
 	fprintf(stderr, "\nBad stack top %d at pc %u in TclExecuteByteCode (min %i, max %i)",
 		stackTop, relativePc, stackLowerBound, stackUpperBound);
