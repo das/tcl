@@ -3695,3 +3695,5 @@ Thanks to Kevin Kenny for this fix.  (SS)
 
 1/11/98 (bug fix)  On HP, "info sharedlibextension" was returning 
 empty string on static apps.  It now always returns ".sl".  (RJ)
+
+1/28/99 (configure change) Now support -pipe option on gcc.  (RJ)
