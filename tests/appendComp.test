@@ -191,12 +191,13 @@ test append-4.16 {lappend command} {
     foo
 } "x abc"
 test append-4.17 {lappend command} {
-    proc foo {} {
-	catch {unset x}
-	lappend x
-    }
+    proc foo {} { lappend x }
     foo
 } {}
+test append-4.18 {lappend command} {
+    proc foo {} { lappend x {} }
+    foo
+} {{}}
 
 proc check {var size} {
     set l [llength $var]

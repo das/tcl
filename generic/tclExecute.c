@@ -1429,7 +1429,7 @@ TclExecuteByteCode(interp, codePtr)
 	    /*
 	     * START LAPPEND INSTRUCTIONS
 	     */
-#if 1
+
 	case INST_LAPPEND_SCALAR4:
 	    opnd = TclGetUInt4AtPtr(pc+1);
 	    pcAdjustment = 5;
@@ -1574,7 +1574,7 @@ TclExecuteByteCode(interp, codePtr)
 	    /*
 	     * END (L)APPEND INSTRUCTIONS
 	     */
-#endif
+
 	case INST_INCR_SCALAR1:
 	    opnd = TclGetUInt1AtPtr(pc+1);
 	    valuePtr = POP_OBJECT(); 
