@@ -34,28 +34,30 @@ ITCL_DOCS = \
 
 #	$(ITCL_SOURCE)/iwidgets3.0.0/doc/*.[13n]
 
-DOCS = $(TCL_DOCS) $(TK_DOCS) $(PRO_DOCS) $(ITCL_DOCS)
+COREDOCS = $(TCL_DOCS) $(TK_DOCS) 
+PRODOCS = $(COREDOCS) $(PRO_DOCS) $(ITCL_DOCS)
 TCLSH = $(TCL_SOURCE)/unix/tclsh
 CC=@CC@
 
-all: winhelp
+all: core
+
+pro:
+	$(MAKE) PRODOCS="$(PRODOCS)" VER="" rtf
+
+core:
+	$(MAKE) DOCS="$(COREDOCS)" rtf
+
+rtf: man2help.tcl man2tcl $(DOCS)
+	LD_LIBRARY_PATH=$(TCL_SOURCE)/unix \
+	$(TCLSH) man2help.tcl tcl "$(VER)" $(DOCS)
 
 winhelp: tcl.rtf
-html: tcl$(VER).html
 
 man2tcl: man2tcl.c
 	$(CC) $(CFLAGS) -o man2tcl man2tcl.c
 
-tcl.rtf: man2help.tcl man2tcl $(DOCS)
-	LD_LIBRARY_PATH=$(TCL_SOURCE)/unix \
-	$(TCLSH) man2help.tcl tcl "" $(DOCS)
-
-tcl$(VER).html: man2html.tcl man2tcl $(TCL_DOCS) $(TK_DOCS)
-	$(TCLSH) man2html.tcl tcl$(VER).html \
-		../.. ${TCL} ${TK}
-
 clean:
-	-rm -f man2tcl *.o tcl$(VER).cnt tcl$(VER).rtf
+	-rm -f man2tcl *.o *.cnt *.rtf
 
 helpfile:
 	hcw /c tcl.hpj
