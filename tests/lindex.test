@@ -83,6 +83,11 @@ test lindex-3.6 {bad octal} {
     list [catch { eval [list $lindex {a b c} $x] } result] $result
 } "1 {bad index \"-09\": must be integer or end?-integer? (looks like invalid octal number)}"
 
+test lindex-3.7 {indexes don't shimmer wide ints} {
+    set x [expr {(wide(1)<<31) - 2}]
+    list $x [lindex {1 2 3} $x] [incr x] [incr x]
+} {2147483646 {} 2147483647 2147483648}
+
 # Indices relative to end
 
 test lindex-4.1 {index = end} {
