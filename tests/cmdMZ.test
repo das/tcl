@@ -307,7 +307,6 @@ test cmdMZ-5.7 {Tcl_TimeObjCmd: errors generate right trace} {
     invoked from within
 "time {error foo}"}}
 
-# The tests for Tcl_TraceObjCmd and TraceVarProc are in trace.test
 # The tests for Tcl_WhileObjCmd are in while.test
 
 # cleanup
