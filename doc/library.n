@@ -278,8 +278,9 @@ comprised of any character that is not a space, tab, or newline.  Under
 Unix, words are comprised of numbers, letters or underscores.
 .VE
 .TP
-\fBunknown_active\fR
-This variable is set by \fBunknown\fR to indicate that it is active.
+\fBunknown_pending\fR
+Used by \fBunknown\fR to record the command(s) for which it is
+searching.
 It is used to detect errors where \fBunknown\fR recurses on itself
 infinitely.
 The variable is unset before \fBunknown\fR returns.
