@@ -2653,7 +2653,6 @@ CloseChannel(interp, chanPtr, errorCode)
 
 	chanPtr->channelName	= chanDownPtr->channelName;
 	chanPtr->flags		= chanDownPtr->flags | CHANNEL_CLOSED;
-	chanPtr->flags		&= (~(TCL_READABLE|TCL_WRITABLE));
 
 	Tcl_FreeEncoding(chanDownPtr->encoding);
 	chanDownPtr->encoding	= NULL;
