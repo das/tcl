@@ -8,7 +8,6 @@
 # Copyright (c) 1991-1993 The Regents of the University of California.
 # Copyright (c) 1994-1996 Sun Microsystems, Inc.
 # Copyright (c) 1998-1999 Scriptics Corporation.
-# Copyright (c) 2004 by Kevin B. Kenny.  All rights reserved.
 #
 # See the file "license.terms" for information on usage and redistribution
 # of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -25,7 +24,7 @@ package require -exact Tcl 8.5
 # The environment variable TCLLIBPATH
 #
 # tcl_library, which is the directory containing this init.tcl script.
-# [tclInit] (Tcl_Init()) searches around for the directory containing this
+# tclInitScript.h searches around for the directory containing this
 # init.tcl and defines tcl_library to that location before sourcing it.
 #
 # The parent directory of tcl_library. Adding the parent
@@ -38,6 +37,7 @@ package require -exact Tcl 8.5
 # tcl_pkgPath, which is set by the platform-specific initialization routines
 #	On UNIX it is compiled in
 #       On Windows, it is not used
+#	On Macintosh it is "Tool Command Language" in the Extensions folder
 
 if {![info exists auto_path]} {
     if {[info exists env(TCLLIBPATH)]} {
@@ -119,17 +119,22 @@ if {![interp issafe]} {
 	    [string equal $::tcl_platform(os) "Darwin"]} {
 	package unknown [list tcl::MacOSXPkgUnknown [package unknown]]
     }
+    if {[string equal $::tcl_platform(platform) "macintosh"]} {
+	package unknown [list tcl::MacPkgUnknown [package unknown]]
+    }
 }
 
 # Conditionalize for presence of exec.
 
 if {[llength [info commands exec]] == 0} {
 
-    # Some machines do not have exec. Also, on all
+    # Some machines, such as the Macintosh, do not have exec. Also, on all
     # platforms, safe interpreters do not have exec.
 
     set auto_noexec 1
 }
+set errorCode ""
+set errorInfo ""
 
 # Define a log command (which can be overwitten to log errors
 # differently, specially when stderr is not available)
@@ -163,57 +168,57 @@ if {[llength [info commands tclLog]] == 0} {
 #		command, including the command name.
 
 proc unknown args {
-    variable ::tcl::UnknownPending
-    global auto_noexec auto_noload env tcl_interactive
+    global auto_noexec auto_noload env unknown_pending tcl_interactive
+    global errorCode errorInfo
 
     # If the command word has the form "namespace inscope ns cmd"
     # then concatenate its arguments onto the end and evaluate it.
 
     set cmd [lindex $args 0]
     if {[regexp "^:*namespace\[ \t\n\]+inscope" $cmd] && [llength $cmd] == 4} {
-	#return -code error "You need an {expand}"
         set arglist [lrange $args 1 end]
-	set ret [catch {uplevel 1 ::$cmd $arglist} result opts]
-	dict unset opts -errorinfo
-	dict incr opts -level
-	return -options $opts $result
+	set ret [catch {uplevel 1 ::$cmd $arglist} result]
+        if {$ret == 0} {
+            return $result
+        } else {
+	    return -code $ret -errorcode $errorCode $result
+        }
     }
 
-    catch {set savedErrorInfo $::errorInfo}
-    catch {set savedErrorCode $::errorCode}
+    # Save the values of errorCode and errorInfo variables, since they
+    # may get modified if caught errors occur below.  The variables will
+    # be restored just before re-executing the missing command.
+
+    set savedErrorCode $errorCode
+    set savedErrorInfo $errorInfo
     set name [lindex $args 0]
     if {![info exists auto_noload]} {
 	#
 	# Make sure we're not trying to load the same proc twice.
 	#
-	if {[info exists UnknownPending($name)]} {
-	    return -code error "self-referential recursion\
-		    in \"unknown\" for command \"$name\"";
+	if {[info exists unknown_pending($name)]} {
+	    return -code error "self-referential recursion in \"unknown\" for command \"$name\"";
 	}
-	set UnknownPending($name) pending;
-	set ret [catch {
-		auto_load $name [uplevel 1 {::namespace current}]
-	} msg opts]
-	unset UnknownPending($name);
+	set unknown_pending($name) pending;
+	set ret [catch {auto_load $name [uplevel 1 {::namespace current}]} msg]
+	unset unknown_pending($name);
 	if {$ret != 0} {
-	    dict append opts -errorinfo "\n    (autoloading \"$name\")"
-	    return -options $opts $msg
+	    append errorInfo "\n    (autoloading \"$name\")"
+	    return -code $ret -errorcode $errorCode -errorinfo $errorInfo $msg
 	}
-	if {![array size UnknownPending]} {
-	    unset UnknownPending
+	if {![array size unknown_pending]} {
+	    unset unknown_pending
 	}
 	if {$msg} {
-	    catch {set ::errorCode $savedErrorCode}
-	    catch {set ::errorInfo $savedErrorInfo}
-	    set code [catch {uplevel 1 $args} msg opts]
+	    set errorCode $savedErrorCode
+	    set errorInfo $savedErrorInfo
+	    set code [catch {uplevel 1 $args} msg]
 	    if {$code ==  1} {
 		#
 		# Compute stack trace contribution from the [uplevel].
 		# Note the dependence on how Tcl_AddErrorInfo, etc. 
 		# construct the stack trace.
 		#
-		set errorInfo [dict get $opts -errorinfo]
-		set errorCode [dict get $opts -errorcode]
 		set cinfo $args
 		if {[string bytelength $cinfo] > 153} {
 		    set cinfo [string range $cinfo 0 152]
@@ -235,9 +240,7 @@ proc unknown args {
 		    # The stack has only the eval from the expanded command
 		    # Do not generate any stack trace here.
 		    #
-		    dict unset opts -errorinfo
-		    dict incr opts -level
-		    return -options $opts $msg
+		    return -code error -errorcode $errorCode $msg
 		}
 		#
 		# Stack trace is nested, trim off just the contribution
@@ -269,6 +272,8 @@ proc unknown args {
 	if {![info exists auto_noexec]} {
 	    set new [auto_execok $name]
 	    if {$new != ""} {
+		set errorCode $savedErrorCode
+		set errorInfo $savedErrorInfo
 		set redir ""
 		if {[string equal [info commands console] ""]} {
 		    set redir ">&@stdout <@stdin"
@@ -276,6 +281,8 @@ proc unknown args {
 		return [uplevel 1 exec $redir $new [lrange $args 1 end]]
 	    }
 	}
+	set errorCode $savedErrorCode
+	set errorInfo $savedErrorInfo
 	if {[string equal $name "!!"]} {
 	    set newcmd [history event]
 	} elseif {[regexp {^!(.+)$} $name dummy event]} {
@@ -290,22 +297,13 @@ proc unknown args {
 	    return [uplevel 1 $newcmd]
 	}
 
-	set ret [catch {set candidates [info commands $name*]} msg]
+	set ret [catch {set cmds [info commands $name*]} msg]
 	if {[string equal $name "::"]} {
 	    set name ""
 	}
 	if {$ret != 0} {
-	    dict append opts -errorinfo \
-		    "\n    (expanding command prefix \"$name\" in unknown)"
-	    return -options $opts $msg
-	}
-	# Filter out bogus matches when $name contained
-	# a glob-special char [Bug 946952]
-	set cmds [list]
-	foreach x $candidates {
-	    if {[string range $x 0 [expr [string length $name]-1]] eq $name} {
-		lappend cmds $x
-	    }
+	    return -code $ret -errorcode $errorCode \
+		"error in unknown while checking if \"$name\" is a unique command abbreviation: $msg"
 	}
 	if {[llength $cmds] == 1} {
 	    return [uplevel 1 [lreplace $args 0 0 $cmds]]
@@ -335,7 +333,7 @@ proc unknown args {
 #                       for instance. If not given, namespace current is used.
 
 proc auto_load {cmd {namespace {}}} {
-    global auto_index auto_path
+    global auto_index auto_oldpath auto_path
 
     if {[string length $namespace] == 0} {
 	set namespace [uplevel 1 [list ::namespace current]]
@@ -387,8 +385,7 @@ proc auto_load {cmd {namespace {}}} {
 # None.
 
 proc auto_load_index {} {
-    variable ::tcl::auto_oldpath
-    global auto_index auto_path
+    global auto_index auto_oldpath auto_path errorInfo errorCode
 
     if {[info exists auto_oldpath] && \
 	    [string equal $auto_oldpath $auto_path]} {
@@ -426,12 +423,12 @@ proc auto_load_index {} {
 		} else {
 		    error "[file join $dir tclIndex] isn't a proper Tcl index file"
 		}
-	    } msg opts]
+	    } msg]
 	    if {$f != ""} {
 		close $f
 	    }
 	    if {$error} {
-		return -options $opts $msg
+		error $msg $errorInfo $errorCode
 	    }
 	}
     }
@@ -671,7 +668,6 @@ proc auto_execok name {
 proc tcl::CopyDirectory {action src dest} {
     set nsrc [file normalize $src]
     set ndest [file normalize $dest]
-
     if {[string equal $action "renaming"]} {
 	# Can't rename volumes.  We could give a more precise
 	# error message here, but that would break the test suite.
@@ -688,14 +684,8 @@ proc tcl::CopyDirectory {action src dest} {
 	      into itself"
 	}
 	if {[string equal $action "copying"]} {
-	    # We used to throw an error here, but, looking more closely
-	    # at the core copy code in tclFCmd.c, if the destination
-	    # exists, then we should only call this function if -force
-	    # is true, which means we just want to over-write.  So,
-	    # the following code is now commented out.
-	    # 
-	    # return -code error "error $action \"$src\" to\
-	    # \"$dest\": file already exists"
+	    return -code error "error $action \"$src\" to\
+	      \"$dest\": file already exists"
 	} else {
 	    # Depending on the platform, and on the current
 	    # working directory, the directories '.', '..'
@@ -731,52 +721,11 @@ proc tcl::CopyDirectory {action src dest} {
     # or filesystems hidden files may have other interpretations.
     set filelist [concat [glob -nocomplain -directory $src *] \
       [glob -nocomplain -directory $src -types hidden *]]
-
+    
     foreach s [lsort -unique $filelist] {
 	if {([file tail $s] != ".") && ([file tail $s] != "..")} {
-	    file copy -force $s [file join $dest [file tail $s]]
+	    file copy $s [file join $dest [file tail $s]]
 	}
     }
     return
-}
-
-# Set up the 'clock' ensemble
-
-if { ![interp issafe] } {
-
-    namespace eval ::tcl::clock \
-	[list variable TclLibDir [file dirname [info script]]]
-
-    namespace eval ::tcl::clock {
-	namespace ensemble create -command ::clock \
-	    -subcommands {
-		add clicks format 
-		microseconds milliseconds 
-		scan seconds
-	    }
-	
-	# Auto-loading stub for 'clock.tcl'
-	
-	proc add args {
-	    variable TclLibDir
-	    source -encoding utf-8 [file join $TclLibDir clock.tcl]
-	    return [uplevel 1 [info level 0]]
-	}
-	proc format args {
-	    variable TclLibDir
-	    source -encoding utf-8 [file join $TclLibDir clock.tcl]
-	    return [uplevel 1 [info level 0]]
-	}
-	proc scan args {
-	    variable TclLibDir
-	    source -encoding utf-8 [file join $TclLibDir clock.tcl]
-	    return [uplevel 1 [info level 0]]
-	}
-    }
-}
-
-# Set up search for Tcl Modules (TIP #189).
-
-if { ![interp issafe] } {
-    source [file join [file dirname [info script]] tm.tcl]
 }

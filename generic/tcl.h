@@ -1615,6 +1615,7 @@ typedef struct Tcl_GlobTypeData {
 #define TCL_GLOB_TYPE_FILE		(1<<4)
 #define TCL_GLOB_TYPE_LINK		(1<<5)
 #define TCL_GLOB_TYPE_SOCK		(1<<6)
+#define TCL_GLOB_TYPE_MOUNT		(1<<7)
 
 #define TCL_GLOB_PERM_RONLY		(1<<0)
 #define TCL_GLOB_PERM_HIDDEN		(1<<1)
@@ -1790,7 +1791,7 @@ typedef struct Tcl_Filesystem {
 			     * 'Tcl_FSLink()' call.  Should be
 			     * implemented only if the filesystem supports
 			     * links (reading or creating). */
-    Tcl_FSListVolumesProc *listVolumesProc;	    
+    Tcl_FSListVolumesProc *listVolumesProc;
 			    /* Function to list any filesystem volumes 
 			     * added by this filesystem.  Should be
 			     * implemented only if the filesystem adds

@@ -33,18 +33,10 @@ testConstraint exec [llength [info commands exec]]
 testConstraint openpipe 1
 testConstraint fileevent [llength [info commands fileevent]]
 testConstraint fcopy [llength [info commands fcopy]]
-testConstraint testfevent [llength [info commands testfevent]]
-testConstraint testchannelevent [llength [info commands testchannelevent]]
-testConstraint testmainthread [llength [info commands testmainthread]]
 
 # You need a *very* special environment to do some tests.  In
 # particular, many file systems do not support large-files...
 testConstraint largefileSupport 0
-
-# some tests can only be run is umask is 2
-# if "umask" cannot be run, the tests will be skipped.
-set umaskValue 0
-testConstraint umask [expr {![catch {set umaskValue [exec /bin/sh -c umask]}]}]
 
 # set up a long data file for some of the following tests
 
@@ -90,7 +82,9 @@ proc contents {file} {
 test io-1.5 {Tcl_WriteChars: CheckChannelErrors} {emptyTest} {
     # no test, need to cause an async error.
 } {}
+
 set path(test1) [makeFile {} test1]
+
 test io-1.6 {Tcl_WriteChars: WriteBytes} {
     set f [open $path(test1) w]
     fconfigure $f -encoding binary
@@ -105,7 +99,9 @@ test io-1.7 {Tcl_WriteChars: WriteChars} {
     close $f
     contents $path(test1)
 } "a\x93\xe1\x00"
+
 set path(test2) [makeFile {} test2]
+
 test io-1.8 {Tcl_WriteChars: WriteChars} {
     # This test written for SF bug #506297.
     #
@@ -359,7 +355,7 @@ test io-6.1 {Tcl_GetsObj: working} {
     close $f
     set x
 } {foo}
-test io-6.2 {Tcl_GetsObj: CheckChannelErrors() != 0} emptyTest {
+test io-6.2 {Tcl_GetsObj: CheckChannelErrors() != 0} {
     # no test, need to cause an async error.
 } {}
 test io-6.3 {Tcl_GetsObj: how many have we used?} {
@@ -414,7 +410,7 @@ test io-6.6 {Tcl_GetsObj: loop test} {
 test io-6.7 {Tcl_GetsObj: error in input} {stdio openpipe} {
     # if (FilterInputBytes(chanPtr, &gs) != 0)
 
-    set f [open "|[list [interpreter] $path(cat)]" w+]
+    set f [open "|[list [interpreter] cat]" w+]
     puts -nonewline $f "hi\nwould"
     flush $f
     gets $f
@@ -443,7 +439,9 @@ test io-6.9 {Tcl_GetsObj: remember if EOF is seen} {
     close $f
     set x
 } {11 abcdefghijk 3 wom}
+
 # Comprehensive tests
+
 test io-6.10 {Tcl_GetsObj: lf mode: no chars} {
     set f [open $path(test1) w]
     close $f
@@ -1171,11 +1169,12 @@ test io-8.7 {PeekAhead: cleanup} {stdio testchannel openpipe fileevent} {
     close $f
     set x
 } {15 abcdefghijklmno 1 -1 {}}
+    
 
-test io-9.1 {CommonGetsCleanup} emptyTest {
+test io-9.1 {CommonGetsCleanup} {
 } {}
 
-test io-10.1 {Tcl_ReadChars: CheckChannelErrors} emptyTest {
+test io-10.1 {Tcl_ReadChars: CheckChannelErrors} {
     # no test, need to cause an async error.
 } {}
 test io-10.2 {Tcl_ReadChars: loop until enough copied} {
@@ -1285,7 +1284,7 @@ test io-11.4 {ReadBytes: EOF char found} {
     close $f
     set x
 } [list "abcdefghijkl" 1 "" 1]
-
+    
 test io-12.1 {ReadChars: want to read a lot} {
     # ((unsigned) toRead > (unsigned) srcLen)
 
@@ -1545,13 +1544,17 @@ test io-13.12 {TranslateInputEOL: find EOF char in src} {
     close $f
     set x
 } "\n\n\nab\n\nd"
-
+    
 # Test standard handle management. The functions tested are
 # Tcl_SetStdChannel and Tcl_GetStdChannel. Incidentally we are
 # also testing channel table management.
 
 if {[info commands testchannel] != ""} {
-    set consoleFileNames [lsort [testchannel open]]
+    if {$tcl_platform(platform) == "macintosh"} {
+	set consoleFileNames [list console0 console1 console2]
+    } else {
+	set consoleFileNames [lsort [testchannel open]]
+    }
 } else {
     # just to avoid an error
     set consoleFileNames [list]
@@ -1574,24 +1577,25 @@ test io-14.2 {Tcl_SetStdChannel and Tcl_GetStdChannel} {
     interp delete x
     set l
 } {line line none}
+
 set path(test3) [makeFile {} test3]
+
 test io-14.3 {Tcl_SetStdChannel & Tcl_GetStdChannel} {exec openpipe} {
     set f [open $path(test1) w]
-    puts -nonewline $f {
+    puts $f [format {
 	close stdin
 	close stdout
 	close stderr
-	set f  [}
-    puts $f [list open $path(test1) r]]
-    puts $f "set f2 \[[list open $path(test2) w]]"
-    puts $f "set f3 \[[list open $path(test3) w]]"
-    puts $f {	puts stdout [gets stdin]
+	set f  [open "%s" r]
+	set f2 [open "%s" w]
+	set f3 [open "%s" w]
+	puts stdout [gets stdin]
 	puts stdout out
 	puts stderr err
 	close $f
 	close $f2
 	close $f3
-    }
+    } $path(test1) $path(test2) $path(test3)]
     close $f
     set result [exec [interpreter] $path(test1)]
     set f  [open $path(test2) r]
@@ -1605,22 +1609,21 @@ out
 } {err
 }}
 # This test relies on the fact that the smallest available fd is used first.
-test io-14.4 {Tcl_SetStdChannel & Tcl_GetStdChannel} {exec unix} {
+test io-14.4 {Tcl_SetStdChannel & Tcl_GetStdChannel} {exec unixOnly} {
     set f [open $path(test1) w]
-    puts -nonewline $f { close stdin
+    puts $f [format { close stdin
 	close stdout
 	close stderr
-	set f  [}
-    puts $f [list open $path(test1) r]]
-    puts $f "set f2 \[[list open $path(test2) w]]"
-    puts $f "set f3 \[[list open $path(test3) w]]"
-    puts $f {	puts stdout [gets stdin]
+	set f  [open "%s" r]
+	set f2 [open "%s" w]
+	set f3 [open "%s" w]
+	puts stdout [gets stdin]
 	puts stdout $f2
 	puts stderr $f3
 	close $f
 	close $f2
 	close $f3
-    }
+    } $path(test1) $path(test2) $path(test3)]
     close $f
     set result [exec [interpreter] $path(test1)]
     set f  [open $path(test2) r]
@@ -1664,29 +1667,28 @@ test io-14.7 {Tcl_GetChannel: stdio name translation} {
     interp delete z
     set result
 } {{} {} {can not find channel named "stderr"}}
+
 set path(script) [makeFile {} script]
+
 test io-14.8 {reuse of stdio special channels} {stdio openpipe} {
     file delete $path(script)
     file delete $path(test1)
     set f [open $path(script) w]
-    puts -nonewline $f {
+    puts $f [format {
 	close stderr
-	set f [}
-    puts $f [list open $path(test1) w]]
-    puts -nonewline $f {
+	set f [open "%s" w]
 	puts stderr hello
 	close $f
-	set f [}
-    puts $f [list open $path(test1) r]]
-    puts $f {
+	set f [open "%s" r]
 	puts [gets $f]
-    }
+    } $path(test1) $path(test1)]
     close $f
     set f [open "|[list [interpreter] $path(script)]" r]
     set c [gets $f]
     close $f
     set c
 } hello
+
 test io-14.9 {reuse of stdio special channels} {stdio openpipe fileevent} {
     file delete $path(script)
     file delete $path(test1)
@@ -1707,10 +1709,10 @@ test io-14.9 {reuse of stdio special channels} {stdio openpipe fileevent} {
     set c
 } hello
 
-test io-15.1 {Tcl_CreateCloseHandler} emptyTest {
+test io-15.1 {Tcl_CreateCloseHandler} {
 } {}
 
-test io-16.1 {Tcl_DeleteCloseHandler} emptyTest {
+test io-16.1 {Tcl_DeleteCloseHandler} {
 } {}
 
 # Test channel table management. The functions tested are
@@ -1758,7 +1760,7 @@ test io-17.3 {GetChannelTable, DeleteChannelTable on std handles} {testchannel} 
 } {0 1 0}
 
 test io-18.1 {Tcl_RegisterChannel, Tcl_UnregisterChannel} {testchannel} {
-    file delete -force $path(test1)
+    file delete $path(test1)
     set l ""
     set f [open $path(test1) w]
     lappend l [lindex [testchannel info $f] 15]
@@ -1772,7 +1774,7 @@ test io-18.1 {Tcl_RegisterChannel, Tcl_UnregisterChannel} {testchannel} {
 	[list 1 [format "can not find channel named \"%s\"" $f]]
 } 0
 test io-18.2 {Tcl_RegisterChannel, Tcl_UnregisterChannel} {testchannel} {
-    file delete -force $path(test1)
+    file delete $path(test1)
     set l ""
     set f [open $path(test1) w]
     lappend l [lindex [testchannel info $f] 15]
@@ -1851,45 +1853,51 @@ test io-20.1 {Tcl_CreateChannel: initial settings} {
 	close $a
     set x
 } {ascii}    
-test io-20.2 {Tcl_CreateChannel: initial settings} {win} {
+test io-20.2 {Tcl_CreateChannel: initial settings} {pcOnly} {
     set f [open $path(test1) w+]
     set x [list [fconfigure $f -eofchar] [fconfigure $f -translation]]
     close $f
     set x
 } [list [list \x1a ""] {auto crlf}]
-test io-20.3 {Tcl_CreateChannel: initial settings} {unix} {
+test io-20.3 {Tcl_CreateChannel: initial settings} {unixOnly} {
     set f [open $path(test1) w+]
     set x [list [fconfigure $f -eofchar] [fconfigure $f -translation]]
     close $f
     set x
 } {{{} {}} {auto lf}}
+test io-20.4 {Tcl_CreateChannel: initial settings} {macOnly} {
+    set f [open $path(test1) w+]
+    set x [list [fconfigure $f -eofchar] [fconfigure $f -translation]]
+    close $f
+    set x
+} {{{} {}} {auto cr}}
+
 set path(stdout) [makeFile {} stdout]
+
 test io-20.5 {Tcl_CreateChannel: install channel in empty slot} {stdio openpipe} {
     set f [open $path(script) w]
-    puts -nonewline $f {
+    puts $f [format {
 	close stdout
-	set f1 [}
-    puts $f [list open $path(stdout) w]]
-    puts $f {
+	set f1 [open "%s" w]
 	fconfigure $f1 -buffersize 777
 	puts stderr [fconfigure stdout -buffersize]
-    }
+    } $path(stdout)]
     close $f
     set f [open "|[list [interpreter] $path(script)]"]
     catch {close $f} msg
     set msg
 } {777}
-
-test io-21.1 {CloseChannelsOnExit} emptyTest {
+	
+test io-21.1 {CloseChannelsOnExit} {
 } {}
-
+    
 # Test management of attributes associated with a channel, such as
 # its default translation, its name and type, etc. The functions
 # tested in this group are Tcl_GetChannelName,
 # Tcl_GetChannelType and Tcl_GetChannelFile. Tcl_GetChannelInstanceData
 # not tested because files do not use the instance data.
 
-test io-22.1 {Tcl_GetChannelMode} emptyTest {
+test io-22.1 {Tcl_GetChannelMode} {
     # Not used anywhere in Tcl.
 } {}
 
@@ -2012,22 +2020,24 @@ test io-27.5 {FlushChannel, implicit flush when buffer fills and on close} \
     lappend l [file size $path(test1)]
     set l
 } {0 60 72}
+
 set path(pipe)   [makeFile {} pipe]
 set path(output) [makeFile {} output]
+
 test io-27.6 {FlushChannel, async flushing, async close} \
 	{stdio asyncPipeClose openpipe} {
     file delete $path(pipe)
     file delete $path(output)
     set f [open $path(pipe) w]
-    puts $f "set f \[[list open $path(output) w]]"
-    puts $f {
+    puts $f [format {
+	set f [open "%s" w]
 	fconfigure $f -translation lf -buffering none -eofchar {}
 	while {![eof stdin]} {
 	    after 20
 	    puts -nonewline $f [read stdin 1024]
 	}
 	close $f
-    }
+    } $path(output)]
     close $f
     set x 01234567890123456789012345678901
     for {set i 0} {$i < 11} {incr i} {
@@ -2041,8 +2051,9 @@ test io-27.6 {FlushChannel, async flushing, async close} \
     close $f
     set counter 0
     while {([file size $path(output)] < 65536) && ($counter < 1000)} {
-	after 20 [list incr [namespace which -variable counter]]
-	vwait [namespace which -variable counter]
+        incr counter
+        after 20
+        update
     }
     if {$counter == 1000} {
         set result "file size only [file size $path(output)]"
@@ -2117,8 +2128,9 @@ test io-28.3 {CloseChannel, not called before output queue is empty} \
     close $f
     set counter 0
     while {([file size $path(output)] < 20480) && ($counter < 1000)} {
-	after 20 [list incr [namespace which -variable counter]]
-	vwait [namespace which -variable counter]
+        incr counter
+        after 20
+        update
     }
     if {$counter == 1000} {
         set result probably_broken
@@ -2135,11 +2147,11 @@ test io-28.4 {Tcl_Close} {testchannel} {
     close $f
     lappend l [lsort [testchannel open]]
     set x [list $consoleFileNames \
-		[lsort [list {expand}$consoleFileNames $f]] \
+		[lsort [eval list $consoleFileNames $f]] \
 		$consoleFileNames]
     string compare $l $x
 } 0
-test io-28.5 {Tcl_Close vs standard handles} {stdio unix testchannel openpipe} {
+test io-28.5 {Tcl_Close vs standard handles} {stdio unixOnly testchannel openpipe} {
     file delete $path(script)
     set f [open $path(script) w]
     puts $f {
@@ -2214,6 +2226,7 @@ test io-29.6 {Tcl_WriteChars, buffering in no buffering mode} {testchannel} {
     close $f
     set l
 } {0 5 0 11}
+
 test io-29.7 {Tcl_Flush, full buffering} {testchannel} {
     file delete $path(test1)
     set f [open $path(test1) w]
@@ -2282,12 +2295,12 @@ test io-29.12 {Tcl_WriteChars on a pipe} {stdio openpipe} {
     file delete $path(test1)
     file delete $path(pipe)
     set f1 [open $path(pipe) w]
-    puts $f1 "set f1 \[[list open $path(longfile) r]]"
-    puts $f1 {
+    puts $f1 [format {
+	set f1 [open "%s" r]
 	for {set x 0} {$x < 10} {incr x} {
 	    puts [gets $f1]
 	}
-    }
+    } $path(longfile)]
     close $f1
     set f1 [open "|[list [interpreter] $path(pipe)]" r]
     set f2 [open $path(longfile) r]
@@ -2578,7 +2591,7 @@ test io-29.31 {Tcl_WriteChars, background flush} {stdio openpipe} {
     file delete $path(pipe)
     file delete $path(output)
     set f [open $path(pipe) w]
-    puts $f "set f \[[list open $path(output)  w]]"
+    puts $f [format {set f [open "%s" w]} $path(output)]
     puts $f {fconfigure $f -translation lf}
     set x [list while {![eof stdin]}]
     set x "$x {"
@@ -2600,26 +2613,22 @@ test io-29.31 {Tcl_WriteChars, background flush} {stdio openpipe} {
     close $f
     set counter 0
     while {([file size $path(output)] < 65536) && ($counter < 1000)} {
-	after 10 [list incr [namespace which -variable counter]]
-	vwait [namespace which -variable counter]
+	incr counter
+	after 5
+	update
     }
     if {$counter == 1000} {
 	set result "file size only [file size $path(output)]"
     } else {
 	set result ok
     }
-    # allow a little time for the background process to close.
-    # otherwise, the following test fails on the [file delete $path(output)
-    # on Windows because a process still has the file open.
-    after 100 set v 1; vwait v
-    set result
 } ok
 test io-29.32 {Tcl_WriteChars, background flush to slow reader} \
 	{stdio asyncPipeClose openpipe} {
     file delete $path(pipe)
     file delete $path(output)
     set f [open $path(pipe) w]
-    puts $f "set f \[[list open $path(output) w]]"
+    puts $f [format {set f [open {%s} w]} $path(output)]
     puts $f {fconfigure $f -translation lf}
     set x [list while {![eof stdin]}]
     set x "$x \{"
@@ -2642,8 +2651,9 @@ test io-29.32 {Tcl_WriteChars, background flush to slow reader} \
     close $f
     set counter 0
     while {([file size $path(output)] < 65536) && ($counter < 1000)} {
-	after 20 [list incr [namespace which -variable counter]]
-	vwait [namespace which -variable counter]
+	incr counter
+	after 20
+	update
     }
     if {$counter == 1000} {
 	set result "file size only [file size $path(output)]"
@@ -2653,12 +2663,13 @@ test io-29.32 {Tcl_WriteChars, background flush to slow reader} \
 } ok
 test io-29.33 {Tcl_Flush, implicit flush on exit} {exec} {
     set f [open $path(script) w]
-    puts $f "set f \[[list open $path(test1) w]]"
-    puts $f {fconfigure $f -translation lf
+    puts $f [format {
+	set f [open "%s" w]
+	fconfigure $f -translation lf
 	puts $f hello
 	puts $f bye
 	puts $f strange
-    }
+    } $path(test1)]
     close $f
     exec [interpreter] $path(script)
     set f [open $path(test1) r]
@@ -2667,7 +2678,7 @@ test io-29.33 {Tcl_Flush, implicit flush on exit} {exec} {
     set r
 } "hello\nbye\nstrange\n"
 test io-29.34 {Tcl_Close, async flush on close, using sockets} {socket tempNotMac fileevent} {
-    variable c 0
+    set c 0
     variable x running
     set l abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
     proc writelots {s l} {
@@ -2903,6 +2914,7 @@ there
 and
 here
 } auto}
+
 test io-30.13 {Tcl_Write crlf on block boundary, Tcl_Read auto} {
     file delete $path(test1)
     set f [open $path(test1) w]
@@ -2919,6 +2931,7 @@ test io-30.13 {Tcl_Write crlf on block boundary, Tcl_Read auto} {
     close $f
     string length $c
 } [expr 700*15+1]
+
 test io-30.14 {Tcl_Write crlf on block boundary, Tcl_Read crlf} {
     file delete $path(test1)
     set f [open $path(test1) w]
@@ -2935,6 +2948,7 @@ test io-30.14 {Tcl_Write crlf on block boundary, Tcl_Read crlf} {
     close $f
     string length $c
 } [expr 700*15+1]
+
 test io-30.15 {Tcl_Write mixed, Tcl_Read auto} {
     file delete $path(test1)
     set f [open $path(test1) w]
@@ -2967,7 +2981,7 @@ there
 and
 here
 }
-test io-30.17 {Tcl_Write, implicit ^Z at end, Tcl_Read auto} {win} {
+test io-30.17 {Tcl_Write, implicit ^Z at end, Tcl_Read auto} {pcOnly} {
     file delete $path(test1)
     set f [open $path(test1) w]
     fconfigure $f -eofchar \x1a -translation lf
@@ -3773,6 +3787,7 @@ test io-31.32 {Tcl_Write crlf on block boundary, Tcl_Gets auto} {
     string length $c
 } [expr 700*15+1]
 
+
 # Test Tcl_Read and buffering.
 
 test io-32.1 {Tcl_Read, channel not readable} {
@@ -4202,7 +4217,9 @@ test io-34.9 {Tcl_Seek, testing buffered input flushing} {
     close $f
     set x
 } {a d a l Y {} b}
+
 set path(test3) [makeFile {} test3]
+
 test io-34.10 {Tcl_Seek testing flushing of buffered input} {
     set f [open $path(test3) w]
     fconfigure $f -translation lf
@@ -4787,6 +4804,7 @@ test io-38.2 {Tcl_SetChannelBufferSize, Tcl_GetChannelBufferSize} {
     close $f
     set l
 } {4096 10000 10000 10000 10000 100000 100000}
+
 test io-38.3 {Tcl_SetChannelBufferSize, changing buffersize between reads} {
     # This test crashes the interp if Bug #427196 is not fixed
 
@@ -5024,6 +5042,7 @@ test io-39.17 {Tcl_SetChannelOption: -encoding, clearing CHANNEL_NEED_MORE_DATA}
     close $f
     set x
 } "{} timeout {} timeout \xe7 timeout"
+
 test io-39.18 {Tcl_SetChannelOption, setting read mode independently} \
 	{socket} {
     proc accept {s a p} {close $s}
@@ -5076,7 +5095,8 @@ test io-39.21 {Tcl_SetChannelOption, setting read mode independently} \
     close $s2
     set modes
 } {auto crlf}
-test io-39.22 {Tcl_SetChannelOption, invariance} {unix} {
+
+test io-39.22 {Tcl_SetChannelOption, invariance} {unixOnly} {
     file delete $path(test1)
     set f1 [open $path(test1) w+]
     set l ""
@@ -5088,6 +5108,7 @@ test io-39.22 {Tcl_SetChannelOption, invariance} {unix} {
     close $f1
     set l
 } {{{} {}} {O G} {D D}}
+
 test io-39.22a {Tcl_SetChannelOption, invariance} {
     file delete $path(test1)
     set f1 [open $path(test1) w+]
@@ -5100,6 +5121,8 @@ test io-39.22a {Tcl_SetChannelOption, invariance} {
     close $f1
     set l
 } {{O G} {D D} {1 {bad value for -eofchar: should be a list of zero, one, or two elements}}}
+
+
 test io-39.23 {Tcl_GetChannelOption, server socket is not readable or
         writeable, it should still have valid -eofchar and -translation options } {
     set l [list]
@@ -5133,7 +5156,7 @@ test io-40.1 {POSIX open access modes: RDWR} {
     close $f
     set x
 } {zzy abzzy}
-test io-40.2 {POSIX open access modes: CREAT} {unix} {
+test io-40.2 {POSIX open access modes: CREAT} {unixOnly} {
     file delete $path(test3)
     set f [open $path(test3) {WRONLY CREAT} 0600]
     file stat $path(test3) stats
@@ -5145,14 +5168,19 @@ test io-40.2 {POSIX open access modes: CREAT} {unix} {
     close $f
     set x
 } {0600 {line 1}}
-test io-40.3 {POSIX open access modes: CREAT} {unix umask} {
+
+# some tests can only be run is umask is 2
+# if "umask" cannot be run, the tests will be skipped.
+catch {testConstraint umask2 [expr {[exec umask] == 2}]}
+
+test io-40.3 {POSIX open access modes: CREAT} {unixOnly umask2} {
     # This test only works if your umask is 2, like ouster's.
     file delete $path(test3)
     set f [open $path(test3) {WRONLY CREAT}]
     close $f
-    file stat $path(test3) stats
+    file stat test3 stats
     format "0%o" [expr $stats(mode)&0777]
-} [format %04o [expr {0666 & ~ $umaskValue}]]
+} 0664
 test io-40.4 {POSIX open access modes: CREAT} {
     file delete $path(test3)
     set f [open $path(test3) w]
@@ -5217,7 +5245,7 @@ test io-40.8 {POSIX open access modes: TRUNC} {
     close $f
     set x
 } abc
-test io-40.9 {POSIX open access modes: NONBLOCK} {nonPortable unix} {
+test io-40.9 {POSIX open access modes: NONBLOCK} {nonPortable macOrUnix} {
     file delete $path(test3)
     set f [open $path(test3) {WRONLY NONBLOCK CREAT}]
     puts $f "NONBLOCK test"
@@ -5272,14 +5300,15 @@ test io-40.15 {POSIX open access modes: RDWR} {
     close $f
     lappend x [viewFile test3]
 } {zzy abzzy}
-testConstraint makeFileInHome [expr {![file exists ~/_test_] && [file writable ~]}]
-test io-40.16 {tilde substitution in open} -constraints makeFileInHome -setup {
-    makeFile {Some text} _test_ ~
-} -body {
-    file exists [file join $env(HOME) _test_]
-} -cleanup {
-    removeFile _test_ ~
-} -result 1
+if {![file exists ~/_test_] && [file writable ~]} {
+    test io-40.16 {tilde substitution in open} -setup {
+	makeFile {Some text} _test_ ~
+    } -body {
+	file exists [file join $env(HOME) _test_]
+    } -cleanup {
+	removeFile _test_ ~
+    } -result 1
+}
 test io-40.17 {tilde substitution in open} {
     set home $env(HOME)
     unset env(HOME)
@@ -5341,8 +5370,8 @@ test io-42.3 {Tcl_FileeventCmd: replacing, with NULL chars in script} {fileevent
 # Test fileevent on a pipe
 #
 if {[testConstraint openpipe]} {
-    catch {set f2 [open "|[list cat -u]" r+]}
-    catch {set f3 [open "|[list cat -u]" r+]}
+catch {set f2 [open "|[list cat -u]" r+]}
+catch {set f3 [open "|[list cat -u]" r+]}
 }
 
 test io-43.1 {Tcl_FileeventCmd: creating, deleting, querying} {stdio unixExecs fileevent} {
@@ -5380,23 +5409,15 @@ test io-44.1 {FileEventProc procedure: normal read event} {stdio unixExecs filee
     vwait [namespace which -variable x]
     set x
 } {text}
-test io-44.2 {FileEventProc procedure: error in read event} -constraints {
-    stdio unixExecs fileevent
-} -setup {
-    proc myHandler {msg options} {
-	variable x $msg
-    }
-    set handler [interp bgerror {}]
-    interp bgerror {} [namespace which myHandler]
-} -body {
+test io-44.2 {FileEventProc procedure: error in read event} {stdio unixExecs fileevent} {
+    proc ::bgerror args "set [namespace which -variable x] \$args"
     fileevent $f2 readable {error bogus}
     puts $f2 text; flush $f2
     variable x initial
     vwait [namespace which -variable x]
+    rename ::bgerror {}
     list $x [fileevent $f2 readable]
-} -cleanup {
-    interp bgerror {} $handler
-} -result {bogus {}}
+} {bogus {}}
 test io-44.3 {FileEventProc procedure: normal write event} {stdio unixExecs fileevent} {
     fileevent $f2 writable [namespace code {
 	lappend x "triggered"
@@ -5412,22 +5433,14 @@ test io-44.3 {FileEventProc procedure: normal write event} {stdio unixExecs file
     vwait [namespace which -variable x]
     set x
 } {initial triggered triggered triggered}
-test io-44.4 {FileEventProc procedure: eror in write event} -constraints {
-    stdio unixExecs fileevent
-} -setup {
-    proc myHandler {msg options} {
-	variable x $msg
-    }
-    set handler [interp bgerror {}]
-    interp bgerror {} [namespace which myHandler]
-} -body {
+test io-44.4 {FileEventProc procedure: eror in write event} {stdio unixExecs fileevent} {
+    proc ::bgerror args "set [namespace which -variable x] \$args"
     fileevent $f2 writable {error bad-write}
     variable x initial
     vwait [namespace which -variable x]
+    rename ::bgerror {}
     list $x [fileevent $f2 writable]
-} -cleanup {
-    interp bgerror {} $handler
-} -result {bad-write {}}
+} {bad-write {}}
 test io-44.5 {FileEventProc procedure: end of file} {stdio unixExecs openpipe fileevent} {
     set f4 [open "|[list [interpreter] $path(cat) << foo]" r]
     fileevent $f4 readable [namespace code {
@@ -5447,9 +5460,10 @@ test io-44.5 {FileEventProc procedure: end of file} {stdio unixExecs openpipe fi
 
 catch {close $f2}
 catch {close $f3}
+
+
 close $f
 makeFile "foo bar" foo
-
 test io-45.1 {DeleteFileEvent, cleanup on close} {fileevent} {
     set f [open $path(foo) r]
     fileevent $f readable [namespace code {
@@ -5503,18 +5517,18 @@ test io-45.3 {DeleteFileEvent, cleanup on close} {fileevent} {
 } {0 {f script} 1 0 {f3 script} 0 {f script} 1 1 1 1 1}
 
 # Execute these tests only if the "testfevent" command is present.
+testConstraint testfevent [llength [info commands testfevent]]
 
 test io-46.1 {Tcl event loop vs multiple interpreters} {testfevent fileevent} {
     testfevent create
-    set script "set f \[[list open $path(foo) r]]\n"
-    append script {
+    testfevent cmd [format {
+	set f [open {%s} r]
 	set x "no event"
 	fileevent $f readable [namespace code {
 	    set x "f triggered: [gets $f]"
 	    fileevent $f readable {}
 	}]
-    }
-    testfevent cmd $script
+    } $path(foo)]
     after 1	;# We must delay because Windows takes a little time to notice
     update
     testfevent cmd {close $f}
@@ -5702,8 +5716,10 @@ test io-48.2 {testing readability conditions} {nonBlockFiles fileevent} {
     vwait [namespace which -variable x]
     list $x $l
 } {done {called called called called called called called}}
+
 set path(my_script) [makeFile {} my_script]
-test io-48.3 {testing readability conditions} {stdio unix nonBlockFiles openpipe fileevent} {
+
+test io-48.3 {testing readability conditions} {stdio unixOnly nonBlockFiles openpipe fileevent} {
     set f [open $path(bar) w]
     puts $f abcdefg
     puts $f abcdefg
@@ -5740,8 +5756,8 @@ test io-48.3 {testing readability conditions} {stdio unix nonBlockFiles openpipe
     }
     set l ""
     variable x not_done
-    puts $f [list source $path(my_script)]
-    puts $f "set f \[[list open $path(bar) r]]"
+    puts $f [format {source {%s}}         $path(my_script)]
+    puts $f [format {set f [open {%s} r]} $path(bar)]
     puts $f {copy_slowly $f}
     puts $f {exit}
     vwait [namespace which -variable x]
@@ -5752,7 +5768,7 @@ test io-48.4 {lf write, testing readability, ^Z termination, auto read mode} {fi
     file delete $path(test1)
     set f [open $path(test1) w]
     fconfigure $f -translation lf
-    variable c [format "abc\ndef\n%c" 26]
+    set c [format "abc\ndef\n%c" 26]
     puts -nonewline $f $c
     close $f
     proc consume {f} {
@@ -6197,7 +6213,8 @@ test io-49.5 {testing crlf reading, leftover cr disgorgment} {
     close $f
     set l
 } [list 7 a\rb\rc 7 {} 7 1]
-
+    
+testConstraint testchannelevent [llength [info commands testchannelevent]]
 test io-50.1 {testing handler deletion} {testchannelevent} {
     file delete $path(test1)
     set f [open $path(test1) w]
@@ -6276,8 +6293,8 @@ test io-50.4 {testing handler deletion vs reentrant calls} {testchannelevent} {
 	    update
 	}
     }
-    variable u toplevel
-    variable z ""
+    set u toplevel
+    set z ""
     update
     close $f
     string compare [string tolower $z] \
@@ -6528,15 +6545,18 @@ test io-52.8 {TclCopyChannel} {stdio openpipe fcopy} {
     close $f2
     list $s0 [file size $path(test1)]
 } {40 40}
+
 # Empty files, to register them with the test facility
 set path(kyrillic.txt)   [makeFile {} kyrillic.txt]
 set path(utf8-fcopy.txt) [makeFile {} utf8-fcopy.txt]
 set path(utf8-rp.txt)    [makeFile {} utf8-rp.txt]
+
 # Create kyrillic file, use lf translation to avoid os eol issues
 set out [open $path(kyrillic.txt) w]
 fconfigure $out -encoding koi8-r -translation lf
 puts       $out "\u0410\u0410"
 close      $out
+
 test io-52.9 {TclCopyChannel & encodings} {fcopy} {
     # Copy kyrillic to UTF-8, using fcopy.
 
@@ -6567,6 +6587,7 @@ test io-52.9 {TclCopyChannel & encodings} {fcopy} {
 	    [file size $path(utf8-fcopy.txt)] \
 	    [file size $path(utf8-rp.txt)]
 } {3 5 5}
+
 test io-52.10 {TclCopyChannel & encodings} {fcopy} {
     # encoding to binary (=> implies that the
     # internal utf-8 is written)
@@ -6584,6 +6605,7 @@ test io-52.10 {TclCopyChannel & encodings} {fcopy} {
 
     file size $path(utf8-fcopy.txt)
 } 5
+
 test io-52.11 {TclCopyChannel & encodings} {fcopy} {
     # binary to encoding => the input has to be
     # in utf-8 to make sense to the encoder
@@ -6633,22 +6655,20 @@ test io-53.2 {CopyData} {fcopy} {
     }
     set result
 } {0 0 ok}
-test io-53.3 {CopyData: background read underflow} {stdio unix openpipe fcopy} {
+test io-53.3 {CopyData: background read underflow} {stdio unixOnly openpipe fcopy} {
     file delete $path(test1)
     file delete $path(pipe)
     set f1 [open $path(pipe) w]
-    puts -nonewline $f1 {
+    puts $f1 [format {
 	puts ready
 	flush stdout				;# Don't assume line buffered!
 	fcopy stdin stdout -command { set x }
 	vwait x
-	set f [}
-    puts $f1 [list open $path(test1) w]]
-    puts $f1 {
+	set f [open "%s" w]
 	fconfigure $f -translation lf
 	puts $f "done"
 	close $f
-    }
+    } $path(test1)]
     close $f1
     set f1 [open "|[list [interpreter] $path(pipe)]" r+]
     set result [gets $f1]
@@ -6665,7 +6685,7 @@ test io-53.3 {CopyData: background read underflow} {stdio unix openpipe fcopy} {
     close $f
     set result
 } "ready line1 line2 {done\n}"
-test io-53.4 {CopyData: background write overflow} {stdio unix openpipe fileevent fcopy} {
+test io-53.4 {CopyData: background write overflow} {stdio unixOnly openpipe fileevent fcopy} {
     set big bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\n
     variable x
     for {set x 0} {$x < 12} {incr x} {
@@ -6703,6 +6723,7 @@ test io-53.4 {CopyData: background write overflow} {stdio unix openpipe fileeven
     set x
 } done
 set result {}
+
 proc FcopyTestAccept {sock args} {
     after 1000 "close $sock"
 }
@@ -6714,6 +6735,7 @@ proc FcopyTestDone {bytes {error {}}} {
 	set fcopyTestDone 0
     }
 }
+
 test io-53.5 {CopyData: error during fcopy} {socket fcopy} {
     variable fcopyTestDone
     set listen [socket -server [namespace code FcopyTestAccept] 0]
@@ -6749,20 +6771,24 @@ test io-53.6 {CopyData: error during fcopy} {stdio openpipe fcopy} {
     close $out
     set fcopyTestDone	;# 0 for plain end of file
 } {0}
+
 proc doFcopy {in out {bytes 0} {error {}}} {
     variable fcopyTestDone
     variable fcopyTestCount
     incr fcopyTestCount $bytes
     if {[string length $error]} {
-	set fcopyTestDone 1
+	    set fcopyTestDone 1
     } elseif {[eof $in]} {
-	set fcopyTestDone 0
+	    set fcopyTestDone 0
     } else {
         # Delay next fcopy to wait for size>0 input bytes
-        after 100 [list fcopy $in $out -size 1000 \
-		-command [namespace code [list doFcopy $in $out]]]
+        after 100 [list 
+            fcopy $in $out -size 1000 \
+		    -command [namespace code [list doFcopy $in $out]]
+        ]
     }
 }
+
 test io-53.7 {CopyData: Flooding fcopy from pipe} {stdio openpipe fcopy} {
     variable fcopyTestDone
     file delete $path(pipe)
@@ -6914,9 +6940,7 @@ test io-54.2 {Testing for busy-wait in recursive channel events} {socket fileeve
 
 set path(fooBar) [makeFile {} fooBar]
 
-test io-55.1 {ChannelEventScriptInvoker: deletion} -constraints {
-    fileevent
-} -setup {
+test io-55.1 {ChannelEventScriptInvoker: deletion} {fileevent} {
     variable x
     proc eventScript {fd} {
 	variable x
@@ -6924,20 +6948,13 @@ test io-55.1 {ChannelEventScriptInvoker: deletion} -constraints {
 	error "planned error"
 	set x whoops
     }
-    proc myHandler args {
-	variable x got_error
-    }
-    set handler [interp bgerror {}]
-    interp bgerror {} [namespace which myHandler]
-} -body {
+    proc ::bgerror {args} "set [namespace which -variable x] got_error"
     set f [open $path(fooBar) w]
     fileevent $f writable [namespace code [list eventScript $f]]
     variable x not_done
     vwait [namespace which -variable x]
     set x
-} -cleanup {
-    interp bgerror {} $handler
-} -result {got_error}
+} {got_error}
 
 test io-56.1 {ChannelTimerProc} {testchannelevent} {
     set f [open $path(fooBar) w]
@@ -7006,7 +7023,7 @@ test io-57.2 {buffered data and file events, read} {fileevent} {
     close $server
     set result
 } {1 readable 234567890 timer}
-
+        
 test io-58.1 {Tcl_NotifyChannel and error when closing} {stdio unixOrPc openpipe fileevent} {
     set out [open $path(script) w]
     puts $out {
@@ -7034,6 +7051,8 @@ test io-58.1 {Tcl_NotifyChannel and error when closing} {stdio unixOrPc openpipe
     list $x $result
 } {1 {gets {normal message from pipe} gets {} catch {error message from pipe}}}
 
+
+testConstraint testmainthread [llength [info commands testmainthread]]
 test io-59.1 {Thread reference of channels} {testmainthread testchannel} {
     # TIP #10
     # More complicated tests (like that the reference changes as a
@@ -7046,6 +7065,7 @@ test io-59.1 {Thread reference of channels} {testmainthread testchannel} {
     close $f
     string equal $result [testmainthread]
 } {1}
+
 
 test io-60.1 {writing illegal utf sequences} {openpipe fileevent} {
     # This test will hang in older revisions of the core.
@@ -7078,32 +7098,8 @@ test io-60.1 {writing illegal utf sequences} {openpipe fileevent} {
     list $x $result
 } {1 {gets {} catch {error writing "stdout": invalid argument}}}
 
-test io-61.1 {Reset eof state after changing the eof char} -setup {
-    set datafile [makeFile {} eofchar]
-    set f [open $datafile w]
-    fconfigure $f -translation binary
-    puts -nonewline $f [string repeat "Ho hum\n" 11]
-    puts $f =
-    set line [string repeat "Ge gla " 4]
-    puts -nonewline $f [string repeat [string trimright $line]\n 834]
-    close $f
-} -body {
-    set f [open $datafile r]
-    fconfigure $f -eofchar =
-    set res {}
-    lappend res [read $f; tell $f]
-    fconfigure $f -eofchar {}
-    lappend res [read $f 1]
-    lappend res [read $f; tell $f]
-    # Any seek zaps the internals into a good state.
-    #seek $f 0 start
-    #seek $f 0 current
-    #lappend res [read $f; tell $f]
-    close $f
-    set res
-} -cleanup {
-    removeFile eofchar
-} -result {77 = 23431}
+
+
 
 # cleanup
 foreach file [list fooBar longfile script output test1 pipe my_script foo \

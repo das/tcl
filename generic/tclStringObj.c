@@ -699,20 +699,24 @@ Tcl_SetStringObj(objPtr, bytes, length)
 				 * negative, use bytes up to the first
 				 * NULL byte.*/
 {
+    register Tcl_ObjType *oldTypePtr = objPtr->typePtr;
+
     /*
      * Free any old string rep, then set the string rep to a copy of
      * the length bytes starting at "bytes".
      */
 
     if (Tcl_IsShared(objPtr)) {
-	Tcl_Panic("Tcl_SetStringObj called with shared object");
+	panic("Tcl_SetStringObj called with shared object");
     }
 
     /*
      * Set the type to NULL and free any internal rep for the old type.
      */
 
-    TclFreeIntRep(objPtr);
+    if ((oldTypePtr != NULL) && (oldTypePtr->freeIntRepProc != NULL)) {
+	oldTypePtr->freeIntRepProc(objPtr);
+    }
     objPtr->typePtr = NULL;
 
     Tcl_InvalidateStringRep(objPtr);
@@ -757,7 +761,7 @@ Tcl_SetObjLength(objPtr, length)
     String *stringPtr;
 
     if (Tcl_IsShared(objPtr)) {
-	Tcl_Panic("Tcl_SetObjLength called with shared object");
+	panic("Tcl_SetObjLength called with shared object");
     }
     SetStringFromAny(NULL, objPtr);
     
@@ -852,7 +856,7 @@ Tcl_AttemptSetObjLength(objPtr, length)
     String *stringPtr;
 
     if (Tcl_IsShared(objPtr)) {
-	Tcl_Panic("Tcl_AttemptSetObjLength called with shared object");
+	panic("Tcl_AttemptSetObjLength called with shared object");
     }
     SetStringFromAny(NULL, objPtr);
         
@@ -946,6 +950,7 @@ Tcl_SetUnicodeObj(objPtr, unicode, numChars)
     int numChars;		/* Number of characters in the unicode
 				 * string. */
 {
+    Tcl_ObjType *typePtr;
     String *stringPtr;
     size_t uallocated;
 
@@ -961,7 +966,10 @@ Tcl_SetUnicodeObj(objPtr, unicode, numChars)
      * Free the internal rep if one exists, and invalidate the string rep.
      */
 
-    TclFreeIntRep(objPtr);
+    typePtr = objPtr->typePtr;
+    if ((typePtr != NULL) && (typePtr->freeIntRepProc) != NULL) {
+	(*typePtr->freeIntRepProc)(objPtr);
+    }
     objPtr->typePtr = &tclStringType;
 
     /*
@@ -1016,7 +1024,7 @@ TclAppendLimitedToObj(objPtr, bytes, length, limit, ellipsis)
     int toCopy = 0;
 
     if (Tcl_IsShared(objPtr)) {
-	Tcl_Panic("TclAppendLimitedToObj called with shared object");
+	panic("TclAppendLimitedToObj called with shared object");
     }
 
     SetStringFromAny(NULL, objPtr);
@@ -1119,7 +1127,7 @@ Tcl_AppendUnicodeToObj(objPtr, unicode, length)
     String *stringPtr;
 
     if (Tcl_IsShared(objPtr)) {
-	Tcl_Panic("Tcl_AppendUnicodeToObj called with shared object");
+	panic("Tcl_AppendUnicodeToObj called with shared object");
     }
 
     if (length == 0) {
@@ -1496,7 +1504,7 @@ Tcl_AppendStringsToObjVA (objPtr, argList)
     int nargs, i;
 
     if (Tcl_IsShared(objPtr)) {
-	Tcl_Panic("Tcl_AppendStringsToObj called with shared object");
+	panic("Tcl_AppendStringsToObj called with shared object");
     }
 
     SetStringFromAny(NULL, objPtr);
@@ -1805,7 +1813,9 @@ SetStringFromAny(interp, objPtr)
 	    if (objPtr->bytes == NULL) {
 		objPtr->typePtr->updateStringProc(objPtr);
 	    }
-	    TclFreeIntRep(objPtr);
+	    if ((objPtr->typePtr->freeIntRepProc) != NULL) {
+		(*objPtr->typePtr->freeIntRepProc)(objPtr);
+	    }
 	}
 	objPtr->typePtr = &tclStringType;
 

@@ -19,19 +19,21 @@
 #include <locale.h>
 
 #ifdef TCL_TEST
-extern Tcl_PackageInitProc	Procbodytest_Init;
-extern Tcl_PackageInitProc	Procbodytest_SafeInit;
-extern Tcl_PackageInitProc	Tcltest_Init;
-extern Tcl_PackageInitProc	TclObjTest_Init;
+extern int		Procbodytest_Init _ANSI_ARGS_((Tcl_Interp *interp));
+extern int		Procbodytest_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
+extern int		Tcltest_Init _ANSI_ARGS_((Tcl_Interp *interp));
+extern int		TclObjTest_Init _ANSI_ARGS_((Tcl_Interp *interp));
+#ifdef TCL_THREADS
+extern int		TclThread_Init _ANSI_ARGS_((Tcl_Interp *interp));
+#endif
 #endif /* TCL_TEST */
 
-#if defined(__GNUC__)
 static void		setargv _ANSI_ARGS_((int *argcPtr, char ***argvPtr));
-#endif /* __GNUC__ */
-static BOOL WINAPI	sigHandler (DWORD fdwCtrlType);
+static BOOL __stdcall	sigHandler (DWORD fdwCtrlType);
 static Tcl_AsyncProc	asyncExit;
 static void		AppInitExitHandler(ClientData clientData);
 
+static char **          argvSave = NULL;
 static Tcl_AsyncHandler exitToken = NULL;
 static DWORD            exitErrorCode = 0;
 
@@ -54,7 +56,9 @@ static DWORD            exitErrorCode = 0;
  */
 
 int
-main (int argc, char *argv[])
+main(argc, argv)
+    int argc;			/* Number of command-line arguments. */
+    char **argv;		/* Values of command-line arguments. */
 {
     /*
      * The following #if block allows you to change the AppInit
@@ -78,23 +82,29 @@ main (int argc, char *argv[])
     extern int TCL_LOCAL_MAIN_HOOK _ANSI_ARGS_((int *argc, char ***argv));
 #endif
 
+    char buffer[MAX_PATH +1];
     char *p;
-
     /*
      * Set up the default locale to be standard "C" locale so parsing
      * is performed correctly.
      */
 
-#if defined(__GNUC__)
-    setargv( &argc, &argv );
-#endif
     setlocale(LC_ALL, "C");
+    setargv(&argc, &argv);
 
     /*
-     * Forward slashes substituted for backslashes.
+     * Save this for later, so we can free it.
+     */
+    argvSave = argv;
+
+    /*
+     * Replace argv[0] with full pathname of executable, and forward
+     * slashes substituted for backslashes.
      */
 
-    for (p = argv[0]; *p != '\0'; p++) {
+    GetModuleFileName(NULL, buffer, sizeof(buffer));
+    argv[0] = buffer;
+    for (p = buffer; *p != '\0'; p++) {
 	if (*p == '\\') {
 	    *p = '/';
 	}
@@ -108,6 +118,7 @@ main (int argc, char *argv[])
 
     return 0;			/* Needed only to prevent compiler warning. */
 }
+
 
 /*
  *----------------------------------------------------------------------
@@ -152,10 +163,16 @@ Tcl_AppInit(interp)
     if (Tcltest_Init(interp) == TCL_ERROR) {
 	return TCL_ERROR;
     }
-    Tcl_StaticPackage(interp, "Tcltest", Tcltest_Init, NULL);
+    Tcl_StaticPackage(interp, "Tcltest", Tcltest_Init,
+            (Tcl_PackageInitProc *) NULL);
     if (TclObjTest_Init(interp) == TCL_ERROR) {
 	return TCL_ERROR;
     }
+#ifdef TCL_THREADS
+    if (TclThread_Init(interp) == TCL_ERROR) {
+	return TCL_ERROR;
+    }
+#endif
     if (Procbodytest_Init(interp) == TCL_ERROR) {
 	return TCL_ERROR;
     }
@@ -163,11 +180,10 @@ Tcl_AppInit(interp)
             Procbodytest_SafeInit);
 #endif /* TCL_TEST */
 
-#if defined(STATIC_BUILD) && TCL_USE_STATIC_PACKAGES
+#if defined(STATIC_BUILD) && defined(TCL_USE_STATIC_PACKAGES)
     {
 	extern Tcl_PackageInitProc Registry_Init;
 	extern Tcl_PackageInitProc Dde_Init;
-	extern Tcl_PackageInitProc Dde_SafeInit;
 
 	if (Registry_Init(interp) == TCL_ERROR) {
 	    return TCL_ERROR;
@@ -177,7 +193,7 @@ Tcl_AppInit(interp)
 	if (Dde_Init(interp) == TCL_ERROR) {
 	    return TCL_ERROR;
 	}
-	Tcl_StaticPackage(interp, "dde", Dde_Init, Dde_SafeInit);
+	Tcl_StaticPackage(interp, "dde", Dde_Init, NULL);
    }
 #endif
 
@@ -227,8 +243,13 @@ Tcl_AppInit(interp)
 
 static void
 AppInitExitHandler(
-    ClientData clientData)	/* Not Used. */
+    ClientData clientData)
 {
+    if (argvSave != NULL) {
+        ckfree((char *)argvSave);
+        argvSave = NULL;
+    }
+
     if (exitToken != NULL) {
         /*
          * This should be safe to do even if we
@@ -266,7 +287,6 @@ AppInitExitHandler(
  *--------------------------------------------------------------------------
  */
 
-#if defined(__GNUC__)
 static void
 setargv(argcPtr, argvPtr)
     int *argcPtr;		/* Filled with number of argument strings. */
@@ -295,7 +315,7 @@ setargv(argcPtr, argvPtr)
 	    }
 	}
     }
-    argSpace = (char *) Tcl_Alloc(
+    argSpace = (char *) ckalloc(
 	    (unsigned) (size * sizeof(char *) + strlen(cmdLine) + 1));
     argv = (char **) argSpace;
     argSpace += size * sizeof(char *);
@@ -356,7 +376,6 @@ setargv(argcPtr, argvPtr)
     *argcPtr = argc;
     *argvPtr = argv;
 }
-#endif /* __GNUC__ */
 
 /*
  *----------------------------------------------------------------------
@@ -375,10 +394,7 @@ setargv(argcPtr, argvPtr)
  */
 
 int
-asyncExit (
-    ClientData clientData,	/* Not Used. */
-    Tcl_Interp *interp,		/* interp in context, if any. */
-    int code)			/* result of last command, if any. */
+asyncExit (ClientData clientData, Tcl_Interp *interp, int code)
 {
     Tcl_Exit((int)exitErrorCode);
 
@@ -406,9 +422,8 @@ asyncExit (
  *----------------------------------------------------------------------
  */
 
-BOOL WINAPI
-sigHandler(
-    DWORD fdwCtrlType)	    /* One of the CTRL_*_EVENT constants. */
+BOOL __stdcall
+sigHandler(DWORD fdwCtrlType)
 {
     HANDLE hStdIn;
 
@@ -435,6 +450,6 @@ sigHandler(
 	CloseHandle(hStdIn);
     }
 
-    /* indicate to the OS not to call the default terminator. */
+    /* indicate to the OS not to call the default terminator */
     return TRUE;
 }

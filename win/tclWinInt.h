@@ -14,7 +14,12 @@
 #ifndef _TCLWININT
 #define _TCLWININT
 
+#ifndef _TCLINT
 #include "tclInt.h"
+#endif
+#ifndef _TCLPORT
+#include "tclPort.h"
+#endif
 
 /*
  * The following specifies how much stack space TclpCheckStackSpace()
@@ -22,7 +27,12 @@
  * to help avoid overflowing the stack in the case of infinite recursion.
  */
 
-#define TCL_WIN_STACK_THRESHOLD 0x8000
+#define TCL_WIN_STACK_THRESHOLD 0x2000
+
+#ifdef BUILD_tcl
+# undef TCL_STORAGE_CLASS
+# define TCL_STORAGE_CLASS DLLEXPORT
+#endif
 
 /*
  * Some versions of Borland C have a define for the OSVERSIONINFO for
@@ -95,13 +105,12 @@ typedef struct TclWinProcs {
     BOOL (WINAPI *createHardLinkProc)(CONST TCHAR*, CONST TCHAR*, 
 				      LPSECURITY_ATTRIBUTES);
     
-    /* deleted INT (__cdecl *utimeProc)(CONST TCHAR*, struct _utimbuf *); */
+    INT (__cdecl *utimeProc)(CONST TCHAR*, struct _utimbuf *);
     /* These two are also NULL at start; see comment above */
     HANDLE (WINAPI *findFirstFileExProc)(CONST TCHAR*, UINT,
 					 LPVOID, UINT,
 					 LPVOID, DWORD);
     BOOL (WINAPI *getVolumeNameForVMPProc)(CONST TCHAR*, TCHAR*, DWORD);
-    DWORD (WINAPI *getLongPathNameProc)(CONST TCHAR*, TCHAR*, DWORD);
     /* 
      * These six are for the security sdk to get correct file
      * permissions on NT, 2000, XP, etc.  On 95,98,ME they are
@@ -129,42 +138,37 @@ typedef struct TclWinProcs {
 		    LPBOOL AccessStatus);
 } TclWinProcs;
 
-MODULE_SCOPE TclWinProcs *tclWinProcs;
+EXTERN TclWinProcs *tclWinProcs;
 
 /*
  * Declarations of functions that are not accessible by way of the
  * stubs table.
  */
 
-MODULE_SCOPE char	TclWinDriveLetterForVolMountPoint(
-			    CONST WCHAR *mountPoint);
-MODULE_SCOPE void	TclWinEncodingsCleanup();
-MODULE_SCOPE void	TclWinInit(HINSTANCE hInst);
-MODULE_SCOPE TclFile	TclWinMakeFile(HANDLE handle);
-MODULE_SCOPE Tcl_Channel TclWinOpenConsoleChannel(HANDLE handle,
-			    char *channelName, int permissions);
-MODULE_SCOPE Tcl_Channel TclWinOpenFileChannel(HANDLE handle, char *channelName,
-			    int permissions, int appendMode);
-MODULE_SCOPE Tcl_Channel TclWinOpenSerialChannel(HANDLE handle,
-			    char *channelName, int permissions);
-MODULE_SCOPE void	TclWinResetInterfaceEncodings();
-MODULE_SCOPE HANDLE	TclWinSerialReopen(HANDLE handle, CONST TCHAR *name,
-			    DWORD access);
-MODULE_SCOPE int	TclWinSymLinkCopyDirectory(CONST TCHAR* LinkOriginal,
-			    CONST TCHAR* LinkCopy);
-MODULE_SCOPE int	TclWinSymLinkDelete(CONST TCHAR* LinkOriginal, 
-			    int linkOnly);
+EXTERN void		TclWinEncodingsCleanup();
+EXTERN void		TclWinResetInterfaceEncodings();
+EXTERN void		TclWinInit(HINSTANCE hInst);
+EXTERN int              TclWinSymLinkCopyDirectory(CONST TCHAR* LinkOriginal,
+						   CONST TCHAR* LinkCopy);
+EXTERN int              TclWinSymLinkDelete(CONST TCHAR* LinkOriginal, 
+					    int linkOnly);
+EXTERN char TclWinDriveLetterForVolMountPoint(CONST WCHAR *mountPoint);
 #if defined(TCL_THREADS) && defined(USE_THREAD_ALLOC)
-MODULE_SCOPE void	TclWinFreeAllocCache(void);
-MODULE_SCOPE void	TclFreeAllocCache(void *);
-MODULE_SCOPE Tcl_Mutex *TclpNewAllocMutex(void);
-MODULE_SCOPE void *	TclpGetAllocCache(void);
-MODULE_SCOPE void	TclpSetAllocCache(void *);
+EXTERN void		TclWinFreeAllocCache(void);
+EXTERN void		TclFreeAllocCache(void *);
+EXTERN Tcl_Mutex	*TclpNewAllocMutex(void);
+EXTERN void		*TclpGetAllocCache(void);
+EXTERN void		TclpSetAllocCache(void *);
 #endif /* TCL_THREADS */
 
 /* Needed by tclWinFile.c and tclWinFCmd.c */
 #ifndef FILE_ATTRIBUTE_REPARSE_POINT
 #define FILE_ATTRIBUTE_REPARSE_POINT 0x00000400
 #endif
+
+#include "tclIntPlatDecls.h"
+
+# undef TCL_STORAGE_CLASS
+# define TCL_STORAGE_CLASS DLLIMPORT
 
 #endif	/* _TCLWININT */

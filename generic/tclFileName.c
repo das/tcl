@@ -1380,17 +1380,19 @@ Tcl_TranslateFileName(interp, name, bufferPtr)
 				 * with name after tilde substitution. */
 {
     Tcl_Obj *path = Tcl_NewStringObj(name, -1);
-    CONST char *result;
+    Tcl_Obj *transPtr;
 
     Tcl_IncrRefCount(path);
-    result = Tcl_FSGetTranslatedStringPath(interp, path);
-    if (result == NULL) {
+    transPtr = Tcl_FSGetTranslatedPath(interp, path);
+    if (transPtr == NULL) {
 	Tcl_DecrRefCount(path);
 	return NULL;
     }
+    
     Tcl_DStringInit(bufferPtr);
-    Tcl_DStringAppend(bufferPtr, result, -1);
+    Tcl_DStringAppend(bufferPtr, Tcl_GetString(transPtr), -1);
     Tcl_DecrRefCount(path);
+    Tcl_DecrRefCount(transPtr);
 
     /*
      * Convert forward slashes to backslashes in Windows paths because

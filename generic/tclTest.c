@@ -19,6 +19,7 @@
 
 #define TCL_TEST
 #include "tclInt.h"
+#include "tclPort.h"
 
 /*
  * Required for Testregexp*Cmd
@@ -128,9 +129,6 @@ typedef struct TestEvent {
 int			Tcltest_Init _ANSI_ARGS_((Tcl_Interp *interp));
 static int		AsyncHandlerProc _ANSI_ARGS_((ClientData clientData,
 			    Tcl_Interp *interp, int code));
-#ifdef TCL_THREADS
-static Tcl_ThreadCreateType AsyncThreadProc _ANSI_ARGS_((ClientData));
-#endif
 static void		CleanupTestSetassocdataTests _ANSI_ARGS_((
 			    ClientData clientData, Tcl_Interp *interp));
 static void		CmdDelProc1 _ANSI_ARGS_((ClientData clientData));
@@ -257,8 +255,6 @@ static int		TestfeventCmd _ANSI_ARGS_((ClientData dummy,
 			    Tcl_Interp *interp, int argc, CONST char **argv));
 static int		TestgetassocdataCmd _ANSI_ARGS_((ClientData dummy,
 			    Tcl_Interp *interp, int argc, CONST char **argv));
-static int		TestgetintCmd _ANSI_ARGS_((ClientData dummy,
-			    Tcl_Interp *interp, int argc, CONST char **argv));
 static int		TestgetplatformCmd _ANSI_ARGS_((ClientData dummy,
 			    Tcl_Interp *interp, int argc, CONST char **argv));
 static int		TestgetvarfullnameCmd _ANSI_ARGS_((
@@ -319,8 +315,6 @@ static int		TestsetassocdataCmd _ANSI_ARGS_((ClientData dummy,
 			    Tcl_Interp *interp, int argc, CONST char **argv));
 static int		TestsetCmd _ANSI_ARGS_((ClientData dummy,
 			    Tcl_Interp *interp, int argc, CONST char **argv));
-static int		TestseterrorcodeCmd _ANSI_ARGS_((ClientData dummy,
-			    Tcl_Interp *interp, int argc, CONST char **argv));
 static int		TestsetobjerrorcodeCmd _ANSI_ARGS_((
 			    ClientData dummy, Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[]));
@@ -368,7 +362,7 @@ static void             TestReport _ANSI_ARGS_ ((CONST char* cmd, Tcl_Obj* arg1,
 			    Tcl_Obj* arg2));
 
 static Tcl_Obj*         TestReportGetNativePath _ANSI_ARGS_ ((
-			    Tcl_Obj* pathPtr));
+			    Tcl_Obj* pathObjPtr));
 
 static int		TestReportStat _ANSI_ARGS_ ((Tcl_Obj *path,
 			    Tcl_StatBuf *buf));
@@ -425,15 +419,8 @@ static Tcl_Channel	SimpleOpenFileChannel _ANSI_ARGS_ ((
 static Tcl_Obj*         SimpleListVolumes _ANSI_ARGS_ ((void));
 static int              SimplePathInFilesystem _ANSI_ARGS_ ((
 			    Tcl_Obj *pathPtr, ClientData *clientDataPtr));
-static Tcl_Obj*         SimpleRedirect _ANSI_ARGS_ ((Tcl_Obj *pathPtr));
-static int		SimpleMatchInDirectory _ANSI_ARGS_ ((
-			    Tcl_Interp *interp, Tcl_Obj *resultPtr,
-			    Tcl_Obj *dirPtr, CONST char *pattern,
-			    Tcl_GlobTypeData *types));
+static Tcl_Obj*         SimpleCopy _ANSI_ARGS_ ((Tcl_Obj *pathPtr));
 static int              TestNumUtfCharsCmd _ANSI_ARGS_((ClientData clientData,
-                            Tcl_Interp *interp, int objc,
-			    Tcl_Obj *CONST objv[]));
-static int              TestHashSystemHashCmd _ANSI_ARGS_((ClientData clientData,
                             Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[]));
 
@@ -492,7 +479,7 @@ static Tcl_Filesystem simpleFilesystem = {
     &SimpleStat,
     &SimpleAccess,
     &SimpleOpenFileChannel,
-    &SimpleMatchInDirectory,
+    NULL,
     NULL,
     /* We choose not to support symbolic links inside our vfs's */
     NULL,
@@ -633,12 +620,7 @@ Tcltest_Init(interp)
             (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
     Tcl_CreateObjCommand(interp, "testfile", TestfileCmd,
             (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
-    Tcl_CreateObjCommand(interp, "testhashsystemhash",
-	    TestHashSystemHashCmd, (ClientData) 0, 
-	    (Tcl_CmdDeleteProc *) NULL);
     Tcl_CreateCommand(interp, "testgetassocdata", TestgetassocdataCmd,
-            (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
-    Tcl_CreateCommand(interp, "testgetint", TestgetintCmd,
             (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
     Tcl_CreateCommand(interp, "testgetplatform", TestgetplatformCmd,
 	    (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
@@ -672,8 +654,6 @@ Tcltest_Init(interp)
             (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
     Tcl_CreateCommand(interp, "testseterr", TestsetCmd,
             (ClientData) TCL_LEAVE_ERR_MSG, (Tcl_CmdDeleteProc *) NULL);
-    Tcl_CreateCommand(interp, "testseterrorcode", TestseterrorcodeCmd,
-	    (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
     Tcl_CreateObjCommand(interp, "testsetobjerrorcode", 
 	    TestsetobjerrorcodeCmd, (ClientData) 0,
 	    (Tcl_CmdDeleteProc *) NULL);
@@ -854,39 +834,11 @@ TestasyncCmd(dummy, interp, argc, argv)
 	}
 	Tcl_SetResult(interp, (char *)argv[3], TCL_VOLATILE);
 	return code;
-#ifdef TCL_THREADS
-    } else if (strcmp(argv[1], "marklater") == 0) {
-	if (argc != 3) {
-	    goto wrongNumArgs;
-	}
-	if (Tcl_GetInt(interp, argv[2], &id) != TCL_OK) {
-	    return TCL_ERROR;
-	}
-	for (asyncPtr = firstHandler; asyncPtr != NULL;
-		asyncPtr = asyncPtr->nextPtr) {
-	    if (asyncPtr->id == id) {
-		Tcl_ThreadId threadID;
-		if (Tcl_CreateThread(&threadID, AsyncThreadProc,
-			(ClientData) asyncPtr, TCL_THREAD_STACK_DEFAULT,
-			TCL_THREAD_NOFLAGS) != TCL_OK) {
-		    Tcl_SetResult(interp, "can't create thread", TCL_STATIC);
-		    return TCL_ERROR;
-		}
-		break;
-	    }
-	}
-    } else {
-	Tcl_AppendResult(interp, "bad option \"", argv[1],
-		"\": must be create, delete, int, mark, or marklater",
-		(char *) NULL);
-	return TCL_ERROR;
-#else /* !TCL_THREADS */
     } else {
 	Tcl_AppendResult(interp, "bad option \"", argv[1],
 		"\": must be create, delete, int, or mark",
 		(char *) NULL);
 	return TCL_ERROR;
-#endif
     }
     return TCL_OK;
 }
@@ -920,36 +872,6 @@ AsyncHandlerProc(clientData, interp, code)
     ckfree((char *)cmd);
     return code;
 }
-
-/*
- *----------------------------------------------------------------------
- *
- * AsyncThreadProc --
- *
- *	Delivers an asynchronous event to a handler in another thread.
- *
- * Results:
- *	None.
- *
- * Side effects:
- *	Invokes Tcl_AsyncMark on the handler
- *
- *----------------------------------------------------------------------
- */
-
-#ifdef TCL_THREADS
-static Tcl_ThreadCreateType
-AsyncThreadProc(clientData)
-    ClientData clientData;	/* Parameter is a pointer to a
-				 * TestAsyncHandler, defined above. */
-{
-    TestAsyncHandler* asyncPtr = clientData;
-    Tcl_Sleep(1);
-    Tcl_AsyncMark(asyncPtr->handler);
-    Tcl_ExitThread(TCL_OK);
-    TCL_THREAD_CREATE_RETURN;
-}
-#endif
 
 /*
  *----------------------------------------------------------------------
@@ -1207,18 +1129,6 @@ TestcmdtraceCmd(dummy, interp, argc, argv)
 	cmdTrace = Tcl_CreateTrace(interp, 50000,
 	        (Tcl_CmdTraceProc *) CmdTraceDeleteProc, (ClientData) NULL);
 	Tcl_Eval(interp, argv[2]);
-    } else if (strcmp(argv[1], "leveltest") == 0) {
-	Interp *iPtr = (Interp *) interp;
-	Tcl_DStringInit(&buffer);
-	cmdTrace = Tcl_CreateTrace(interp, iPtr->numLevels + 4,
-		(Tcl_CmdTraceProc *) CmdTraceProc, (ClientData) &buffer);
-	result = Tcl_Eval(interp, argv[2]);
-	if (result == TCL_OK) {
-	    Tcl_ResetResult(interp);
-	    Tcl_AppendResult(interp, Tcl_DStringValue(&buffer), NULL);
-	}
-	Tcl_DeleteTrace(interp, cmdTrace);
-	Tcl_DStringFree(&buffer);
     } else if ( strcmp(argv[1], "resulttest" ) == 0 ) {
 	/* Create an object-based trace, then eval a script. This is used
 	 * to test return codes other than TCL_OK from the trace engine.
@@ -1818,9 +1728,9 @@ TestencodingObjCmd(dummy, interp, objc, objv)
 	}
 	case ENC_PATH: {
 	    if (objc == 2) {
-		Tcl_SetObjResult(interp, TclGetEncodingSearchPath());
+		Tcl_SetObjResult(interp, TclGetLibraryPath());
 	    } else {
-		TclSetEncodingSearchPath(objv[2]);
+		TclSetLibraryPath(objv[2]);
 	    }
 	    break;
 	}
@@ -1927,14 +1837,31 @@ TestevalexObjCmd(dummy, interp, objc, objv)
     int objc;				/* Number of arguments. */
     Tcl_Obj *CONST objv[];		/* Argument objects. */
 {
-    int length, flags;
-    char *script;
+    Interp *iPtr = (Interp *) interp;
+    int code, oldFlags, length, flags;
+    char *string;
+
+    if (objc == 1) {
+	/*
+	 * The command was invoked with no arguments, so just toggle
+	 * the flag that determines whether we use Tcl_EvalEx.
+	 */
+
+	if (iPtr->flags & USE_EVAL_DIRECT) {
+	    iPtr->flags &= ~USE_EVAL_DIRECT;
+	    Tcl_SetResult(interp, "disabling direct evaluation", TCL_STATIC);
+	} else {
+	    iPtr->flags |= USE_EVAL_DIRECT;
+	    Tcl_SetResult(interp, "enabling direct evaluation", TCL_STATIC);
+	}
+	return TCL_OK;
+    }
 
     flags = 0;
     if (objc == 3) {
-	char *global = Tcl_GetStringFromObj(objv[2], &length);
-	if (strcmp(global, "global") != 0) {
-	    Tcl_AppendResult(interp, "bad value \"", global,
+	string = Tcl_GetStringFromObj(objv[2], &length);
+	if (strcmp(string, "global") != 0) {
+	    Tcl_AppendResult(interp, "bad value \"", string,
 		    "\": must be global", (char *) NULL);
 	    return TCL_ERROR;
 	}
@@ -1943,9 +1870,21 @@ TestevalexObjCmd(dummy, interp, objc, objv)
 	Tcl_WrongNumArgs(interp, 1, objv, "script ?global?");
         return TCL_ERROR;
     }
+    Tcl_SetResult(interp, "xxx", TCL_STATIC);
 
-    script = Tcl_GetStringFromObj(objv[1], &length);
-    return Tcl_EvalEx(interp, script, length, flags); 
+    /*
+     * Note, we have to set the USE_EVAL_DIRECT flag in the interpreter
+     * in addition to calling Tcl_EvalEx.  This is needed so that even nested
+     * commands are evaluated directly.
+     */
+
+    oldFlags = iPtr->flags;
+    iPtr->flags |= USE_EVAL_DIRECT;
+    string = Tcl_GetStringFromObj(objv[1], &length);
+    code = Tcl_EvalEx(interp, string, length, flags); 
+    iPtr->flags = (iPtr->flags & ~USE_EVAL_DIRECT)
+	    | (oldFlags & USE_EVAL_DIRECT);
+    return code;
 }
 
 /*
@@ -2034,8 +1973,7 @@ TesteventObjCmd( ClientData unused,      /* Not used */
 	NULL
     };
     int posIndex;		/* Index of the chosen position */
-    static CONST Tcl_QueuePosition posNum[] = { 
-				/* Interpretation of the chosen position */
+    static CONST int posNum[] = { /* Interpretation of the chosen position */
 	TCL_QUEUE_HEAD,
 	TCL_QUEUE_TAIL,
 	TCL_QUEUE_MARK
@@ -3045,10 +2983,6 @@ TestexprparserObjCmd(clientData, interp, objc, objv)
     if (length == 0) {
 	length = dummy;
     }
-    parse.commentStart = NULL;
-    parse.commentSize = 0;
-    parse.commandStart = NULL;
-    parse.commandSize = 0;
     if (Tcl_ParseExpr(interp, script, length, &parse) != TCL_OK) {
 	Tcl_AddErrorInfo(interp, "\n    (remainder of expr: \"");
 	Tcl_AddErrorInfo(interp, parse.term);
@@ -3111,9 +3045,6 @@ PrintParse(interp, parsePtr)
     for (i = 0; i < parsePtr->numTokens; i++) {
 	tokenPtr = &parsePtr->tokenPtr[i];
 	switch (tokenPtr->type) {
-	    case TCL_TOKEN_EXPAND_WORD:
-		typeString = "expand";
-		break;
 	    case TCL_TOKEN_WORD:
 		typeString = "word";
 		break;
@@ -3707,11 +3638,13 @@ TestsetplatformCmd(clientData, interp, argc, argv)
     length = strlen(argv[1]);
     if (strncmp(argv[1], "unix", length) == 0) {
 	*platform = TCL_PLATFORM_UNIX;
+    } else if (strncmp(argv[1], "mac", length) == 0) {
+	*platform = TCL_PLATFORM_MAC;
     } else if (strncmp(argv[1], "windows", length) == 0) {
 	*platform = TCL_PLATFORM_WINDOWS;
     } else {
         Tcl_AppendResult(interp, "unsupported platform: should be one of ",
-		"unix, or windows", (char *) NULL);
+		"unix, mac, or windows", (char *) NULL);
 	return TCL_ERROR;
     }
     return TCL_OK;
@@ -3865,46 +3798,11 @@ TestupvarCmd(dummy, interp, argc, argv)
 /*
  *----------------------------------------------------------------------
  *
- * TestseterrorcodeCmd --
- *
- *	This procedure implements the "testseterrorcodeCmd".
- *	This tests up to five elements passed to the
- *	Tcl_SetErrorCode command.
- *
- * Results:
- *	A standard Tcl result. Always returns TCL_ERROR so that
- *	the error code can be tested.
- *
- * Side effects:
- *	None.
- *
- *----------------------------------------------------------------------
- */
-
-	/* ARGSUSED */
-static int
-TestseterrorcodeCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    CONST char **argv;			/* Argument strings. */
-{
-    if (argc > 6) {
-	Tcl_SetResult(interp, "too many args", TCL_STATIC);
-	return TCL_ERROR;
-    }
-    Tcl_SetErrorCode(interp, argv[1], argv[2], argv[3], argv[4],
-	    argv[5], NULL);
-    return TCL_ERROR;
-}
-
-/*
- *----------------------------------------------------------------------
- *
  * TestsetobjerrorcodeCmd --
  *
  *	This procedure implements the "testsetobjerrorcodeCmd".
- *	This tests the Tcl_SetObjErrorCode function.
+ *	This tests up to five elements passed to the
+ *	Tcl_SetObjErrorCode command.
  *
  * Results:
  *	A standard Tcl result. Always returns TCL_ERROR so that
@@ -3924,7 +3822,16 @@ TestsetobjerrorcodeCmd(dummy, interp, objc, objv)
     int objc;			/* Number of arguments. */
     Tcl_Obj *CONST objv[];	/* The argument objects. */
 {
-    Tcl_SetObjErrorCode(interp, Tcl_ConcatObj(objc - 1, objv + 1));
+    Tcl_Obj *listObjPtr;
+
+    if (objc > 1) {
+	listObjPtr = Tcl_ConcatObj(objc - 1, objv + 1);
+    } else {
+	listObjPtr = Tcl_NewObj();
+    }
+    Tcl_IncrRefCount(listObjPtr);
+    Tcl_SetObjErrorCode(interp, listObjPtr);
+    Tcl_DecrRefCount(listObjPtr);
     return TCL_ERROR;
 }
 
@@ -4033,7 +3940,7 @@ TestpanicCmd(dummy, interp, argc, argv)
      */
 
     argString = Tcl_Merge(argc-1, argv+1);
-    Tcl_Panic(argString);
+    panic(argString);
     ckfree((char *)argString);
  
     return TCL_OK;
@@ -4045,7 +3952,7 @@ TestpanicCmd(dummy, interp, argc, argv)
  * TestchmodCmd --
  *
  *	Implements the "testchmod" cmd.  Used when testing "file"
- *	command.  The only attribute used by the Windows platform
+ *	command.  The only attribute used by the Mac and Windows platforms
  *	is the user write flag; if this is not set, the file is
  *	made read-only.  Otehrwise, the file is made read-write.
  *
@@ -4191,7 +4098,7 @@ TestgetvarfullnameCmd(dummy, interp, objc, objv)
     char *name, *arg;
     int flags = 0;
     Tcl_Namespace *namespacePtr;
-    Tcl_CallFrame *framePtr;
+    Tcl_CallFrame frame;
     Tcl_Var variable;
     int result;
 
@@ -4222,7 +4129,7 @@ TestgetvarfullnameCmd(dummy, interp, objc, objv)
 	if (namespacePtr == NULL) {
 	    return TCL_ERROR;
 	}
-	result = TclPushStackFrame(interp, &framePtr, namespacePtr,
+	result = Tcl_PushCallFrame(interp, &frame, namespacePtr,
                 /*isProcCallFrame*/ 0);
 	if (result != TCL_OK) {
 	    return result;
@@ -4233,7 +4140,7 @@ TestgetvarfullnameCmd(dummy, interp, objc, objv)
 	    (flags | TCL_LEAVE_ERR_MSG));
 
     if (flags == TCL_NAMESPACE_ONLY) {
-	TclPopStackFrame(interp);
+	Tcl_PopCallFrame(interp);
     }
     if (variable == (Tcl_Var) NULL) {
 	return TCL_ERROR;
@@ -4811,6 +4718,11 @@ static int PretendTclpStat(path, buf)
     return ret;
 #endif /* TCL_WIDE_INT_IS_LONG */
 }
+
+/* Be careful in the compares in these tests, since the Macintosh puts a  
+ * leading : in the beginning of non-absolute paths before passing them 
+ * into the file command procedures.
+ */
 
 static int
 TestStatProc1(path, buf)
@@ -5785,7 +5697,7 @@ TestChannelEventCmd(dummy, interp, argc, argv)
                 /* Empty loop body. */
             }
             if (prevEsPtr == (EventScriptRecord *) NULL) {
-                Tcl_Panic("TestChannelEventCmd: damaged event script list");
+                panic("TestChannelEventCmd: damaged event script list");
             }
             prevEsPtr->nextPtr = esPtr->nextPtr;
         }
@@ -6072,8 +5984,8 @@ TestReportInFilesystem(Tcl_Obj *pathPtr, ClientData *clientDataPtr)
  * path object, or NULL if no such representation exists.
  */
 static Tcl_Obj* 
-TestReportGetNativePath(Tcl_Obj* pathPtr) {
-    return (Tcl_Obj*) Tcl_FSGetInternalRep(pathPtr, &testReportingFilesystem);
+TestReportGetNativePath(Tcl_Obj* pathObjPtr) {
+    return (Tcl_Obj*) Tcl_FSGetInternalRep(pathObjPtr, &testReportingFilesystem);
 }
 
 static void 
@@ -6338,22 +6250,34 @@ SimplePathInFilesystem(Tcl_Obj *pathPtr, ClientData *clientDataPtr) {
 }
 
 /* 
- * This is a slightly 'hacky' filesystem which is used just to test a
- * few important features of the vfs code: (1) that you can load a
- * shared library from a vfs, (2) that when copying files from one fs to
- * another, the 'mtime' is preserved.  (3) that recursive
- * cross-filesystem directory copies have the correct behaviour
- * with/without -force.
+ * Since TclCopyChannel insists on an interpreter, we use this
+ * to simplify our test scripts.  Would be better if it could
+ * copy without an interp
+ */
+static Tcl_Interp *simpleInterpPtr = NULL;
+/* We use this to ensure we clean up after ourselves */
+static Tcl_Obj *tempFile = NULL;
+
+/* 
+ * This is a very 'hacky' filesystem which is used just to 
+ * test two important features of the vfs code: (1) that
+ * you can load a shared library from a vfs, (2) that when
+ * copying files from one fs to another, the 'mtime' is
+ * preserved.
  * 
- * It treats any file in 'simplefs:/' as a file, which it
- * routes to the current directory.  The real file it uses is
+ * It treats any file in 'simplefs:/' as a file, and
+ * artificially creates a real file on the fly which it uses
+ * to extract information from.  The real file it uses is
  * whatever follows the trailing '/' (e.g. 'foo' in 'simplefs:/foo'),
- * and that file exists or not according to what is in the native
- * pwd.
+ * and that file is assumed to exist in the native pwd, and is
+ * copied over to the native temporary directory where it is
+ * accessed.
  * 
  * Please do not consider this filesystem a model of how
  * things are to be done.  It is quite the opposite!  But, it
- * does allow us to test some important features.
+ * does allow us to test two important features.
+ * 
+ * Finally: this fs can only be used from one interpreter.
  */
 static int
 TestSimpleFilesystemObjCmd(dummy, interp, objc, objv)
@@ -6375,81 +6299,54 @@ TestSimpleFilesystemObjCmd(dummy, interp, objc, objv)
     if (boolVal) {
 	res = Tcl_FSRegister((ClientData)interp, &simpleFilesystem);
 	msg = (res == TCL_OK) ? "registered" : "failed";
+	simpleInterpPtr = interp;
     } else {
+	if (tempFile != NULL) {
+	    Tcl_FSDeleteFile(tempFile);
+	    Tcl_DecrRefCount(tempFile);
+	    tempFile = NULL;
+	}
 	res = Tcl_FSUnregister(&simpleFilesystem);
 	msg = (res == TCL_OK) ? "unregistered" : "failed";
+	simpleInterpPtr = NULL;
     }
     Tcl_SetResult(interp, msg, TCL_VOLATILE);
     return res;
 }
 
 /* 
- * Treats a file name 'simplefs:/foo' by using the file 'foo'
- * in the current (native) directory.
+ * Treats a file name 'simplefs:/foo' by copying the file 'foo'
+ * in the current (native) directory to a temporary native file,
+ * and then returns that native file.
  */
 static Tcl_Obj*
-SimpleRedirect(pathPtr)
+SimpleCopy(pathPtr)
     Tcl_Obj *pathPtr;                   /* Name of file to copy. */
 {
-    int len;
+    int res;
     CONST char *str;
     Tcl_Obj *origPtr;
+    Tcl_Obj *tempPtr;
+
+    tempPtr = TclpTempFileName();
+    Tcl_IncrRefCount(tempPtr);
 
     /* 
      * We assume the same name in the current directory is ok.
      */
-    str = Tcl_GetStringFromObj(pathPtr, &len);
-    if (len < 10 || strncmp(str, "simplefs:/", 10)) {
-	/* Probably shouldn't ever reach here */
-	Tcl_IncrRefCount(pathPtr);
-	return pathPtr;
-    } 
+    str = Tcl_GetString(pathPtr);
     origPtr = Tcl_NewStringObj(str+10,-1);
     Tcl_IncrRefCount(origPtr);
-    return origPtr;
-}
 
-static int
-SimpleMatchInDirectory(interp, resultPtr, dirPtr, pattern, types)
-    Tcl_Interp *interp;		/* Interpreter for error
-				 * messages. */
-    Tcl_Obj *resultPtr;		/* Object to lappend results. */
-    Tcl_Obj *dirPtr;	        /* Contains path to directory to search. */
-    CONST char *pattern;	/* Pattern to match against. */
-    Tcl_GlobTypeData *types;	/* Object containing list of acceptable types.
-				 * May be NULL. */
-{
-    int res;
-    Tcl_Obj *origPtr;
-    Tcl_Obj *resPtr;
-
-    /* We only provide a new volume, therefore no mounts at all */
-    if (types != NULL && types->type & TCL_GLOB_TYPE_MOUNT) {
-	return TCL_OK;
-    }
-    
-    /* 
-     * We assume the same name in the current directory is ok.
-     */
-    resPtr = Tcl_NewObj();
-    Tcl_IncrRefCount(resPtr);
-    origPtr = SimpleRedirect(dirPtr);
-    Tcl_IncrRefCount(origPtr);
-    res = Tcl_FSMatchInDirectory(interp, resPtr, origPtr, pattern, types);
-    if (res == TCL_OK) {
-	int gLength, j;
-	Tcl_ListObjLength(NULL, resPtr, &gLength);
-	for (j = 0; j < gLength; j++) {
-	    Tcl_Obj *gElt, *nElt;
-	    Tcl_ListObjIndex(NULL, resPtr, j, &gElt);
-	    nElt = Tcl_NewStringObj("simplefs:/",10);
-	    Tcl_AppendObjToObj(nElt, gElt);
-	    Tcl_ListObjAppendElement(NULL, resultPtr, nElt);
-	}
-    }
+    res = TclCrossFilesystemCopy(simpleInterpPtr, origPtr, tempPtr);
     Tcl_DecrRefCount(origPtr);
-    Tcl_DecrRefCount(resPtr);
-    return res;
+
+    if (res != TCL_OK) {
+	Tcl_FSDeleteFile(tempPtr);
+	Tcl_DecrRefCount(tempPtr);
+	return NULL;
+    }
+    return tempPtr;
 }
 
 static Tcl_Channel
@@ -6471,11 +6368,24 @@ SimpleOpenFileChannel(interp, pathPtr, mode, permissions)
 	return NULL;
     }
     
-    tempPtr = SimpleRedirect(pathPtr);
+    tempPtr = SimpleCopy(pathPtr);
+    
+    if (tempPtr == NULL) {
+	return NULL;
+    }
     
     chan = Tcl_FSOpenFileChannel(interp, tempPtr, "r", permissions);
 
-    Tcl_DecrRefCount(tempPtr);
+    if (tempFile != NULL) {
+        Tcl_FSDeleteFile(tempFile);
+	Tcl_DecrRefCount(tempFile);
+	tempFile = NULL;
+    }
+    /* 
+     * Store file pointer in this global variable so we can delete
+     * it later 
+     */
+    tempFile = tempPtr;
     return chan;
 }
 
@@ -6484,11 +6394,8 @@ SimpleAccess(pathPtr, mode)
     Tcl_Obj *pathPtr;		/* Path of file to access (in current CP). */
     int mode;                   /* Permission setting. */
 {
-    int res;
-    Tcl_Obj *tempPtr = SimpleRedirect(pathPtr);
-    res = Tcl_FSAccess(tempPtr, mode);
-    Tcl_DecrRefCount(tempPtr);
-    return res;
+    /* All files exist */
+    return TCL_OK;
 }
 
 static int
@@ -6496,11 +6403,16 @@ SimpleStat(pathPtr, bufPtr)
     Tcl_Obj *pathPtr;		/* Path of file to stat (in current CP). */
     Tcl_StatBuf *bufPtr;	/* Filled with results of stat call. */
 {
-    int res;
-    Tcl_Obj *tempPtr = SimpleRedirect(pathPtr);
-    res = Tcl_FSStat(tempPtr, bufPtr);
-    Tcl_DecrRefCount(tempPtr);
-    return res;
+    Tcl_Obj *tempPtr = SimpleCopy(pathPtr);
+    if (tempPtr == NULL) {
+	/* We just pretend the file exists anyway */
+	return TCL_OK;
+    } else {
+	int res = Tcl_FSStat(tempPtr, bufPtr);
+	Tcl_FSDeleteFile(tempPtr);
+	Tcl_DecrRefCount(tempPtr);
+	return res;
+    }
 }
 
 static Tcl_Obj*
@@ -6533,109 +6445,4 @@ TestNumUtfCharsCmd(clientData, interp, objc, objv)
 	Tcl_SetObjResult(interp, Tcl_NewIntObj(len));
     }
     return TCL_OK;
-}
-
-/*
- * Used to do basic checks of the TCL_HASH_KEY_SYSTEM_HASH flag
- */
-static int
-TestHashSystemHashCmd(clientData, interp, objc, objv)
-    ClientData clientData;
-    Tcl_Interp *interp;
-    int objc;
-    Tcl_Obj *CONST objv[];
-{
-    static Tcl_HashKeyType hkType = {
-	TCL_HASH_KEY_TYPE_VERSION, TCL_HASH_KEY_SYSTEM_HASH,
-	NULL, NULL, NULL, NULL
-    };
-    Tcl_HashTable hash;
-    Tcl_HashEntry *hPtr;
-    int i, isNew, limit = 100;
-
-    if (objc>1 && Tcl_GetIntFromObj(interp, objv[1], &limit)!=TCL_OK) {
-	return TCL_ERROR;
-    }
-
-    Tcl_InitCustomHashTable(&hash, TCL_CUSTOM_TYPE_KEYS, &hkType);
-
-    if (hash.numEntries != 0) {
-	Tcl_AppendResult(interp, "non-zero initial size", NULL);
-	Tcl_DeleteHashTable(&hash);
-	return TCL_ERROR;
-    }
-
-    for (i=0 ; i<limit ; i++) {
-	hPtr = Tcl_CreateHashEntry(&hash, (char *)i, &isNew);
-	if (!isNew) {
-	    Tcl_SetObjResult(interp, Tcl_NewIntObj(i));
-	    Tcl_AppendToObj(Tcl_GetObjResult(interp)," creation problem",-1);
-	    Tcl_DeleteHashTable(&hash);
-	    return TCL_ERROR;
-	}
-	Tcl_SetHashValue(hPtr, (ClientData) (i+42));
-    }
-
-    if (hash.numEntries != limit) {
-	Tcl_AppendResult(interp, "unexpected maximal size", NULL);
-	Tcl_DeleteHashTable(&hash);
-	return TCL_ERROR;
-    }
-
-    for (i=0 ; i<limit ; i++) {
-	hPtr = Tcl_FindHashEntry(&hash, (char *)i);
-	if (hPtr == NULL) {
-	    Tcl_SetObjResult(interp, Tcl_NewIntObj(i));
-	    Tcl_AppendToObj(Tcl_GetObjResult(interp)," lookup problem",-1);
-	    Tcl_DeleteHashTable(&hash);
-	    return TCL_ERROR;
-	}
-	if ((int)(Tcl_GetHashValue(hPtr)) != i+42) {
-	    Tcl_SetObjResult(interp, Tcl_NewIntObj(i));
-	    Tcl_AppendToObj(Tcl_GetObjResult(interp)," value problem",-1);
-	    Tcl_DeleteHashTable(&hash);
-	    return TCL_ERROR;
-	}
-	Tcl_DeleteHashEntry(hPtr);
-    }
-
-    if (hash.numEntries != 0) {
-	Tcl_AppendResult(interp, "non-zero final size", NULL);
-	Tcl_DeleteHashTable(&hash);
-	return TCL_ERROR;
-    }
-
-    Tcl_DeleteHashTable(&hash);
-    Tcl_AppendResult(interp, "OK", NULL);
-    return TCL_OK;
-}
-
-/*
- * Used for testing Tcl_GetInt which is no longer used directly by the
- * core very much.
- */
-static int
-TestgetintCmd(dummy, interp, argc, argv)
-    ClientData dummy;
-    Tcl_Interp *interp;
-    int argc;
-    CONST char **argv;
-{
-    if (argc < 2) {
-	Tcl_SetResult(interp, "wrong # args", TCL_STATIC);
-	return TCL_ERROR;
-    } else {
-        int val,i,total=0;
-	char buf[TCL_INTEGER_SPACE];
-
-	for (i=1 ; i<argc ; i++) {
-	    if (Tcl_GetInt(interp, argv[i], &val) != TCL_OK) {
-		return TCL_ERROR;
-	    }
-	    total += val;
-	}
-	TclFormatInt(buf, total);
-	Tcl_SetResult(interp, buf, TCL_VOLATILE);
-	return TCL_OK;
-    }
 }

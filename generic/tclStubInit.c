@@ -8,7 +8,11 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
+<<<<<<< tclStubInit.c
  * RCS: @(#) $Id$
+=======
+ * RCS: @(#) $Id$
+>>>>>>> 1.89
  */
 
 #include "tclInt.h"
@@ -963,6 +967,7 @@ TclStubs tclStubs = {
     Tcl_GetCommandFromObj, /* 516 */
     Tcl_GetCommandFullName, /* 517 */
     Tcl_FSEvalFileEx, /* 518 */
+    Tcl_SetExitProc, /* 519 */
 };
 
 /* !END!: Do not edit above this line. */

@@ -93,7 +93,7 @@ if {![info exists remoteServerPort]} {
 #
 
 set doTestsWithRemoteServer 1
-if {![info exists remoteServerIP]} {
+if {![info exists remoteServerIP] && ($tcl_platform(platform) != "macintosh")} {
     set remoteServerIP 127.0.0.1
 }
 if {($doTestsWithRemoteServer == 1) && (![info exists remoteServerPort])} {
@@ -148,8 +148,8 @@ if {$doTestsWithRemoteServer} {
 }
 
 # Some tests are run only if we are doing testing against a remote server.
-testConstraint doTestsWithRemoteServer $doTestsWithRemoteServer
-if {!$doTestsWithRemoteServer} {
+set ::tcltest::testConstraints(doTestsWithRemoteServer) $doTestsWithRemoteServer
+if {$doTestsWithRemoteServer == 0} {
     if {[string first s $::tcltest::verbose] != -1} {
     	puts "Skipping tests with remote server. See tests/socket.test for"
 	puts "information on how to run remote server."
@@ -162,7 +162,7 @@ if {!$doTestsWithRemoteServer} {
 # remote server.
 #
 
-if {[testConstraint doTestsWithRemoteServer]} {
+if {$doTestsWithRemoteServer == 1} {
     proc sendCommand {c} {
 	global commandSocket
 
@@ -242,12 +242,6 @@ socket -server command ?-myaddr addr? port}}
 test socket-1.12 {arg parsing for socket command} {socket} {
     list [catch {socket foo badport} msg] $msg
 } {1 {expected integer but got "badport"}}
-test socket-1.13 {arg parsing for socket command} {socket} {
-list [catch {socket -async -server} msg] $msg
-} {1 {cannot set -async option for server sockets}}
-test socket-1.14 {arg parsing for socket command} {socket} {
-list [catch {socket -server foo -async} msg] $msg
-} {1 {cannot set -async option for server sockets}}
 
 set path(script) [makeFile {} script]
 
@@ -743,7 +737,7 @@ test socket-4.2 {byte order problems, socket numbers, htons} {socket} {
 } ok
 
 test socket-5.1 {byte order problems, socket numbers, htons} \
-	{socket unix notRoot} {
+	{socket unixOnly notRoot} {
     set x {couldn't open socket: not owner}
     if {![catch {socket -server dodo 0x1} msg]} {
         set x {htons problem, should be disallowed, are you running as SU?}
@@ -760,7 +754,7 @@ test socket-5.2 {byte order problems, socket numbers, htons} {socket} {
     set x
 } {couldn't open socket: port number too high}
 test socket-5.3 {byte order problems, socket numbers, htons} \
-	{socket unix notRoot} {
+	{socket unixOnly notRoot} {
     set x {couldn't open socket: not owner}
     if {![catch {socket -server dodo 21} msg]} {
 	set x {htons problem, should be disallowed, are you running as SU?}
@@ -769,14 +763,8 @@ test socket-5.3 {byte order problems, socket numbers, htons} \
     set x
 } {couldn't open socket: not owner}
 
-test socket-6.1 {accept callback error} -constraints {socket stdio} -setup {
-    proc myHandler {msg options} {
-	variable x $msg
-    }
-    set handler [interp bgerror {}]
-    interp bgerror {} [namespace which myHandler]
+test socket-6.1 {accept callback error} {socket stdio} {
     file delete $path(script)
-} -body {
     set f [open $path(script) w]
     puts $f {
 	gets stdin port
@@ -784,6 +772,10 @@ test socket-6.1 {accept callback error} -constraints {socket stdio} -setup {
     }
     close $f
     set f [open "|[list [interpreter] $path(script)]" r+]
+    proc bgerror args {
+	global x
+	set x $args
+    }
     proc accept {s a p} {expr 10 / 0}
     set s [socket -server accept 0]
     puts $f [lindex [fconfigure $s -sockname] 2]
@@ -792,10 +784,9 @@ test socket-6.1 {accept callback error} -constraints {socket stdio} -setup {
     vwait x
     after cancel $timer
     close $s
+    rename bgerror {}
     set x
-} -cleanup {
-    interp bgerror {} $handler
-} -result {divide by zero}
+} {{divide by zero}}
 
 test socket-7.1 {testing socket specific options} {socket stdio} {
     file delete $path(script)
@@ -1046,16 +1037,9 @@ test socket-9.3 {testing EOF stickyness} {socket} {
 
 removeFile script
 
-test socket-10.1 {testing socket accept callback error handling} -constraints {
-    socket
-} -setup {
-    variable goterror 0
-    proc myHandler {msg options} {
-	variable goterror 1
-    }
-    set handler [interp bgerror {}]
-    interp bgerror {} [namespace which myHandler]
-} -body {
+test socket-10.1 {testing socket accept callback error handling} {socket} {
+    set goterror 0
+    proc bgerror args {global goterror; set goterror 1}
     set s [socket -server accept 0]
     proc accept {s a p} {close $s; error}
     set c [socket 127.0.0.1 [lindex [fconfigure $s -sockname] 2]]
@@ -1063,9 +1047,7 @@ test socket-10.1 {testing socket accept callback error handling} -constraints {
     close $s
     close $c
     set goterror
-} -cleanup {
-    interp bgerror {} $handler
-} -result 1
+} 1
 
 test socket-11.1 {tcp connection} {socket doTestsWithRemoteServer} {
     sendCommand {
@@ -1167,6 +1149,12 @@ test socket-11.5 {remote echo, 50 lines} {socket doTestsWithRemoteServer} {
     sendCommand {close $socket10_7_test_server}
     set cnt
 } 50
+# Macintosh sockets can have more than one server per port
+if {$tcl_platform(platform) == "macintosh"} {
+    set conflictResult {0 2836}
+} else {
+    set conflictResult {1 {couldn't open socket: address already in use}}
+}
 test socket-11.6 {socket conflict} {socket doTestsWithRemoteServer} {
     set s1 [socket -server accept 2836]
     if {[catch {set s2 [socket -server accept 2836]} msg]} {
@@ -1177,7 +1165,7 @@ test socket-11.6 {socket conflict} {socket doTestsWithRemoteServer} {
     }
     close $s1
     set result
-} {1 {couldn't open socket: address already in use}}
+} $conflictResult
 test socket-11.7 {server with several clients} {socket doTestsWithRemoteServer} {
     sendCommand {
 	set socket10_9_test_server [socket -server accept 2836]
@@ -1240,17 +1228,13 @@ test socket-11.8 {client with several servers} {socket doTestsWithRemoteServer} 
     }
     set l
 } {4003 {} 1 4004 {} 1 4005 {} 1}
-test socket-11.9 {accept callback error} -constraints {
-    socket doTestsWithRemoteServer
-} -setup {
-    proc myHandler {msg options} {
-	variable x $msg
-    }
-    set handler [interp bgerror {}]
-    interp bgerror {} [namespace which myHandler]
-} -body {
+test socket-11.9 {accept callback error} {socket doTestsWithRemoteServer} {
     set s [socket -server accept 2836]
     proc accept {s a p} {expr 10 / 0}
+    proc bgerror args {
+	global x
+	set x $args
+    }
     if {[catch {sendCommand {
 	    set peername [fconfigure $callerSocket -peername]
 	    set s [socket [lindex $peername 0] 2836]
@@ -1263,10 +1247,9 @@ test socket-11.9 {accept callback error} -constraints {
     vwait x
     after cancel $timer
     close $s
+    rename bgerror {}
     set x
-} -cleanup {
-    interp bgerror {} $handler
-} -result {divide by zero}
+} {{divide by zero}}
 test socket-11.10 {testing socket specific options} {socket doTestsWithRemoteServer} {
     sendCommand {
 	set socket10_12_test_server [socket -server accept 2836]
@@ -1432,19 +1415,17 @@ test socket-12.1 {testing inheritance of server sockets} {socket stdio exec} {
 
     set f [open $path(script2) w]
     puts $f [list set tcltest [interpreter]]
-    puts -nonewline $f {
+    puts $f [format {
 	set f [socket -server accept 0]
 	puts [lindex [fconfigure $f -sockname] 2]
 	proc accept { file addr port } {
 	    close $file
 	}
-	exec $tcltest }
-    puts $f [list $path(script1) &]
-    puts $f {
+	exec $tcltest "%s" &
 	close $f
 	after 1000 exit
 	vwait forever
-    }
+    } $path(script1)]
     close $f
 	
     # Launch script2 and wait 5 seconds
@@ -1488,17 +1469,15 @@ test socket-12.2 {testing inheritance of client sockets} {socket stdio exec} {
 
     set f [open $path(script2) w]
     puts $f [list set tcltest [interpreter]]
-    puts -nonewline $f {
+    puts $f [format {
         gets stdin port
 	set f [socket 127.0.0.1 $port]
-        exec $tcltest }
-    puts $f [list $path(script1) &]
-    puts $f {
+	exec $tcltest "%s" &
 	puts $f testing
 	flush $f
 	after 1000 exit
 	vwait forever
-    }
+    } $path(script1)]
     close $f
 
     # Create the server socket
@@ -1568,23 +1547,17 @@ test socket-12.3 {testing inheritance of accepted sockets} {socket stdio exec} {
 
     set f [open $path(script2) w]
     puts $f [list set tcltest [interpreter]]
-    puts -nonewline $f {
+    puts $f [format {
 	set server [socket -server accept 0]
 	puts stdout [lindex [fconfigure $server -sockname] 2]
-	proc accept { file host port } }
-    puts $f \{
-    puts -nonewline $f {
+	proc accept { file host port } {
 	    global tcltest
 	    puts $file {test data on socket}
-	    exec $tcltest }
-    puts $f [list $path(script1) &]
-    puts $f {
+	    exec $tcltest "%s" &
 	    after 1000 exit
 	}
-    puts $f \} 
-    puts $f {
 	vwait forever
-    }
+    } $path(script1)]
     close $f
 
     # Launch the script2 process and connect to it.  See how long
@@ -1638,40 +1611,40 @@ test socket-12.3 {testing inheritance of accepted sockets} {socket stdio exec} {
 } {accepted socket was not inherited}
 
 test socket-13.1 {Testing use of shared socket between two threads} \
-        -constraints {socket testthread} -setup {
+	{socket testthread} {
 
+    file delete $path(script1)
     threadReap
 
-    set path(script) [makeFile {
-        set f [socket -server accept 0]
-        set listen [lindex [fconfigure $f -sockname] 2]
-        proc accept {s a p} {
+    makeFile {
+	set f [socket -server accept 0]
+	set listen [lindex [fconfigure $f -sockname] 2]
+	proc accept {s a p} {
             fileevent $s readable [list echo $s]
             fconfigure $s -buffering line
         }
-        proc echo {s} {
-             global i
+	proc echo {s} {
+	     global i
              set l [gets $s]
              if {[eof $s]} {
                  global x
                  close $s
                  set x done
-             } else {
-                 incr i
+             } else { 
+	         incr i
                  puts $s $l
              }
-        }
-        set i 0
-        vwait x
-        close $f
+	}
+	set i 0
+	vwait x
+	close $f
 
-        # thread cleans itself up.
-        testthread exit
-    } script]
-
-} -body {
+	# thread cleans itself up.
+	testthread exit
+    } script
+    
     # create a thread
-    set serverthread [testthread create [list source $path(script) ] ]
+    set serverthread [testthread create { source script } ]
     update
     set port [testthread send $serverthread {set listen}]
     update
@@ -1681,18 +1654,18 @@ test socket-13.1 {Testing use of shared socket between two threads} \
     fconfigure $s -buffering line
 
     catch {
-        puts $s "hello"
-        gets $s result
+	puts $s "hello"
+	gets $s result
     }
     close $s
     update
 
     after 2000
     lappend result [threadReap]
-} -cleanup {
-    removeFile script
-} -result {hello 1}
+    
+    set result
 
+} {hello 1}
 
 removeFile script1
 removeFile script2

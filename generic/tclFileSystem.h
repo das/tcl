@@ -82,16 +82,15 @@ Tcl_Obj* TclFSNormalizeAbsolutePath _ANSI_ARGS_((Tcl_Interp* interp,
  * Private shared variables for use by tclIOUtil.c and tclPathObj.c
  */
 extern Tcl_Filesystem tclNativeFilesystem;
-extern int theFilesystemEpoch;
-extern Tcl_ThreadDataKey fsDataKey;
+extern Tcl_ThreadDataKey tclFsDataKey;
 
 /* 
  * Private shared functions for use by tclIOUtil.c and tclPathObj.c
  */
-Tcl_PathType     FSGetPathType  _ANSI_ARGS_((Tcl_Obj *pathObjPtr, 
+Tcl_PathType     TclFSGetPathType  _ANSI_ARGS_((Tcl_Obj *pathObjPtr, 
 			    Tcl_Filesystem **filesystemPtrPtr, 
 			    int *driveNameLengthPtr));
-Tcl_PathType     GetPathType  _ANSI_ARGS_((Tcl_Obj *pathObjPtr, 
+Tcl_PathType     TclGetPathType  _ANSI_ARGS_((Tcl_Obj *pathObjPtr, 
 			    Tcl_Filesystem **filesystemPtrPtr, 
 			    int *driveNameLengthPtr, Tcl_Obj **driveNameRef));
-Tcl_FSPathInFilesystemProc NativePathInFilesystem;
+Tcl_FSPathInFilesystemProc TclNativePathInFilesystem;
