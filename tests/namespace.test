@@ -560,6 +560,30 @@ test namespace-17.9 {Tcl_FindNamespaceVar, relative name and TCL_GLOBAL_ONLY} {
     }
     set test_ns_1::a
 } {hello}
+test namespace-17.10 {Tcl_FindNamespaceVar, do not find zombies (Bug 959052)} {
+    catch {unset x}
+    catch {namespace delete test_ns_1 }
+    catch {namespace delete test_ns_2}
+    namespace eval test_ns_1 upvar x q
+    namespace eval test_ns_2 set x 1
+    catch {set ::x}
+} 1
+test namespace-17.11 {Tcl_FindNamespaceVar, do not find zombies (Bug 959052)} {
+    catch {unset x}
+    catch {namespace delete test_ns_1}
+    trace add variable x write {;#}
+    namespace eval test_ns_1 set x 1
+    catch {set ::x}
+} 1
+test namespace-17.12 {Tcl_FindNamespaceVar, do not find zombies (Bug 959052)} {
+    catch {unset x}
+    catch {namespace delete test_ns_1} 
+    namespace eval test_ns_1 {trace add variable x write {;#}}
+    set ::x 0
+    namespace eval test_ns_1 set x 1
+    set ::x
+} 1
+
 catch {unset x}
 
 catch {unset l}
