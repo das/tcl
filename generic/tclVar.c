@@ -548,10 +548,7 @@ TclObjLookupVar(interp, part1Ptr, part2, flags, msg, createPart1, createPart2,
 	 * An indexed local variable.
 	 */
 
-	Proc *procPtr = ((Interp *) interp)->varFramePtr->procPtr;
-
 	part1Ptr->typePtr = &tclLocalVarNameType;
-	procPtr->refCount++;
 	part1Ptr->internalRep.longValue = (long) index;
 #if ENABLE_NS_VARNAME_CACHING
     } else if (index > -3) {
