@@ -177,7 +177,7 @@
 #  define DLLIMPORT
 #  define DLLEXPORT
 # else
-#  ifdef _MSC_VER
+#  if defined(_MSC_VER) || (defined(__GNUC__) && defined(__declspec))
 #   define DLLIMPORT __declspec(dllimport)
 #   define DLLEXPORT __declspec(dllexport)
 #  else
