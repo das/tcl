@@ -173,6 +173,16 @@ extern "C" {
 
 #ifndef RESOURCE_INCLUDED
 
+/*
+ * Must define _before_ any #include of system headers...
+ */
+#define _LARGEFILE64_SOURCE 1
+/*
+ * *Not* the following definition...
+ *
+ * #define _LARGEFILE_SOURCE 1
+ */
+
 #ifndef BUFSIZ
 #include <stdio.h>
 #endif
@@ -333,9 +343,9 @@ typedef long LONG;
 /*
  * Type of 64-bit values on 32-bit systems.  FIXME - DKF
  */
-typedef Tcl_WideInt long long;
-typedef Tcl_Length unsigned int;
-typedef Tcl_StatBuf struct stat;
+typedef long long	Tcl_WideInt;
+typedef unsigned int	Tcl_Length;
+typedef struct stat64	Tcl_StatBuf;
 
 /*
  * This flag controls whether binary compatability is maintained with
