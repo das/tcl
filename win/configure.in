@@ -366,6 +366,15 @@ AC_SUBST(MAN2TCLFLAGS)
 TCL_SHARED_BUILD=${SHARED_BUILD}
 
 #--------------------------------------------------------------------
+# Define the size of pointers and of the different integer types
+#--------------------------------------------------------------------
+
+AC_CHECK_SIZEOF( short )
+AC_CHECK_SIZEOF( int )
+AC_CHECK_SIZEOF( long )
+AC_CHECK_SIZEOF( void * )
+
+#--------------------------------------------------------------------
 # Perform final evaluations of variables with possible substitutions.
 #--------------------------------------------------------------------
 
