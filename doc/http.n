@@ -14,7 +14,7 @@
 .SH NAME
 Http \- Client-side implementation of the HTTP/1.0 protocol.
 .SH SYNOPSIS
-\fBpackage require http ?2.4?\fP
+\fBpackage require http ?2.4?\fR
 .sp
 \fB::http::config \fI?options?\fR
 .sp
