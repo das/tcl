@@ -11,7 +11,7 @@
 .TH re_syntax n "8.1" Tcl "Tcl Built-In Commands"
 .BS
 .SH NAME
-re_syntax \- Syntax of Tcl regular expressions.
+re_syntax \- Syntax of Tcl regular expressions
 .BE
 
 .SH DESCRIPTION

@@ -11,7 +11,7 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-Safe\ Base \- A mechanism for creating and manipulating safe interpreters.
+Safe\ Base \- A mechanism for creating and manipulating safe interpreters
 .SH SYNOPSIS
 \fB::safe::interpCreate\fR ?\fIslave\fR? ?\fIoptions...\fR?
 .sp
@@ -209,7 +209,7 @@ thus specifies the safe interpreter will be allowed
 to load packages into its own sub-interpreters.
 .TP 
 \fB\-deleteHook\fR \fIscript\fR
-When this option is given an non empty \fIscript\fR, it will be
+When this option is given a non-empty \fIscript\fR, it will be
 evaluated in the master with the name of
 the safe interpreter as an additional argument
 just before actually deleting the safe interpreter.

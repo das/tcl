@@ -346,7 +346,7 @@ trace procedures will always be invoked.
 .SH "RESTRICTIONS"
 .PP
 A trace procedure can be called at any time, even when there
-is a partially-formed result in the interpreter's result area.  If
+is a partially formed result in the interpreter's result area.  If
 the trace procedure does anything that could damage this result (such
 as calling \fBTcl_Eval\fR) then it must save the original values of
 the interpreter's \fBresult\fR and \fBfreeProc\fR fields and restore

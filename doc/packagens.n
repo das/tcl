@@ -9,8 +9,7 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-pkg::create \- Construct an appropriate \fBpackage ifneeded\fR
-command for a given package specification
+pkg::create \- Construct an appropriate `package ifneeded' command for a given package specification
 .SH SYNOPSIS
 \fB::pkg::create \fI\-name packageName\fR \fI\-version packageVersion\fR ?\fI\-load filespec\fR? ... ?\fI\-source filespec\fR? ...
 .BE

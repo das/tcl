@@ -11,7 +11,7 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-dict \- Manipulate dictionaries.
+dict \- Manipulate dictionaries
 .SH SYNOPSIS
 \fBdict \fIoption arg \fR?\fIarg ...\fR?
 .BE

@@ -11,7 +11,7 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-unload \- Unload machine code.
+unload \- Unload machine code
 .SH SYNOPSIS
 \fBunload \fR?\fIswitches\fR? \fIfileName\fR
 .br

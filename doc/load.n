@@ -11,7 +11,7 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-load \- Load machine code and initialize new commands.
+load \- Load machine code and initialize new commands
 .SH SYNOPSIS
 \fBload \fIfileName\fR
 .br

@@ -13,7 +13,7 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-http \- Client-side implementation of the HTTP/1.0 protocol.
+http \- Client-side implementation of the HTTP/1.0 protocol
 .SH SYNOPSIS
 \fBpackage require http ?2.5?\fR
 .sp

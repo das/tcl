@@ -11,8 +11,7 @@
 .TH Tcl_CreateTimerHandler 3 7.5 Tcl "Tcl Library Procedures"
 .BS
 .SH NAME
-Tcl_CreateTimerHandler, Tcl_DeleteTimerHandler \- call a procedure at a
-given time
+Tcl_CreateTimerHandler, Tcl_DeleteTimerHandler \- call a procedure at a given time
 .SH SYNOPSIS
 .nf
 \fB#include <tcl.h>\fR
@@ -30,7 +29,7 @@ Procedure to invoke after \fImilliseconds\fR have elapsed.
 .AP ClientData clientData in
 Arbitrary one-word value to pass to \fIproc\fR.
 .AP Tcl_TimerToken token in
-Token for previously-created timer handler (the return value
+Token for previously created timer handler (the return value
 from some previous call to \fBTcl_CreateTimerHandler\fR).
 .BE
 
@@ -63,7 +62,7 @@ structure containing application-specific information about
 what to do in \fIproc\fR.
 .PP
 \fBTcl_DeleteTimerHandler\fR may be called to delete a
-previously-created timer handler.  It deletes the handler
+previously created timer handler.  It deletes the handler
 indicated by \fItoken\fR so that no call to \fIproc\fR
 will be made;  if that handler no longer exists
 (e.g. because the time period has already elapsed and \fIproc\fR
