@@ -226,7 +226,7 @@ under Windows or AppleScript on the Macintosh.
 Returns a unique normalised path representation for the file, whose string
 value can be used as a unique identifier for the it.  A normalized path is
 one which has all '../', './' removed.  Also it is one which is in the
-'standard' format for the native platform.  On MacOS, Unix, this means the
+\'standard\' format for the native platform.  On MacOS, Unix, this means the
 path must be free of symbolic links/aliases, and on Windows it means we want
 the long form, with the long form's case-dependence (which gives us a
 unique, case-dependent path).
