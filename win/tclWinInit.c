@@ -465,7 +465,7 @@ ToUtf(
 /*
  *---------------------------------------------------------------------------
  *
- * TclWinFilesystemAndEncodingsCleanup --
+ * TclWinEncodingsCleanup --
  *
  *	Reset information to its original state in finalization to
  *	allow for reinitialization to be possible.  This must not
@@ -482,9 +482,9 @@ ToUtf(
  */
 
 void
-TclWinFilesystemAndEncodingsCleanup()
+TclWinEncodingsCleanup()
 {
-    TclWinResetInterfaces();
+    TclWinResetInterfaceEncodings();
     libraryPathEncodingFixed = 0;
     if (binaryEncoding != NULL) {
 	Tcl_FreeEncoding(binaryEncoding);

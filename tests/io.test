@@ -5531,12 +5531,12 @@ testConstraint testfevent [llength [info commands testfevent]]
 test io-46.1 {Tcl event loop vs multiple interpreters} {testfevent} {
     testfevent create
     testfevent cmd [format {
-        set f [open %s r]
-        set x "no event"
-        fileevent $f readable [namespace code {
-            set x "f triggered: [gets $f]"
-            fileevent $f readable {}
-        }]
+	set f [open {%s} r]
+	set x "no event"
+	fileevent $f readable [namespace code {
+	    set x "f triggered: [gets $f]"
+	    fileevent $f readable {}
+	}]
     } $path(foo)]
     after 1	;# We must delay because Windows takes a little time to notice
     update

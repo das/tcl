@@ -556,9 +556,11 @@ TclWinSetInterfaces(
 /*
  *---------------------------------------------------------------------------
  *
- * TclWinResetInterfaces --
+ * TclWinResetInterfaceEncodings --
  *
- *	Called during finalization to reset us to a safe state for reuse.
+ *	Called during finalization to free up any encodings we use.
+ *	The tclWinProcs-> look up table is still ok to use after
+ *	this call, provided no encoding conversion is required.
  *
  * Results:
  *	None.
@@ -568,12 +570,35 @@ TclWinSetInterfaces(
  *
  *---------------------------------------------------------------------------
  */
-
+void
+TclWinResetInterfaceEncodings()
+{
+    if (tclWinTCharEncoding != NULL) {
+	Tcl_FreeEncoding(tclWinTCharEncoding);
+	tclWinTCharEncoding = NULL;
+    }
+}
+
+/*
+ *---------------------------------------------------------------------------
+ *
+ * TclWinResetInterfaces --
+ *
+ *	Called during finalization to reset us to a safe state for reuse.
+ *	After this call, it is best not to use the tclWinProcs-> look
+ *	up table since it is likely to be different to what is expected.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	None.
+ *
+ *---------------------------------------------------------------------------
+ */
 void
 TclWinResetInterfaces()
 {
-    Tcl_FreeEncoding(tclWinTCharEncoding);
-    tclWinTCharEncoding = NULL;
     tclWinProcs = &asciiProcs;
 }
 

@@ -587,7 +587,7 @@ test basic-46.2 {Tcl_AllowExceptions: exception return not allowed} {exec} {
     } BREAKtest]
     set res [list [catch {exec [interpreter] $fName} msg] $msg]
     removeFile BREAKtest
-    regsub {"[^ ]*BREAKtest"} $res {"BREAKtest"} res
+    regsub {file ".*BREAKtest"} $res {file "BREAKtest"} res
     set res
 } {1 {hello
 invoked "break" outside of a loop
@@ -603,7 +603,7 @@ test basic-46.3 {Tcl_AllowExceptions: exception return not allowed} {exec} {
     } BREAKtest]
     set res [list [catch {exec [interpreter] $fName} msg] $msg]
     removeFile BREAKtest
-    regsub {"[^ ]*BREAKtest"} $res {"BREAKtest"} res
+    regsub {file ".*BREAKtest"} $res {file "BREAKtest"} res
     set res
 } {1 {invoked "break" outside of a loop
     while executing
@@ -616,7 +616,7 @@ test basic-46.4 {Tcl_AllowExceptions: exception return not allowed} {exec} {
     } BREAKtest]
     set res [list [catch {exec [interpreter] $fName} msg] $msg]
     removeFile BREAKtest
-    regsub {"[^ ]*BREAKtest"} $res {"BREAKtest"} res
+    regsub {file ".*BREAKtest"} $res {file "BREAKtest"} res
     set res
 } {1 {invoked "break" outside of a loop
     while executing
@@ -631,7 +631,7 @@ test basic-46.5 {Tcl_AllowExceptions: exception return not allowed} {exec} {
     } BREAKtest]
     set res [list [catch {exec [interpreter] $fName} msg] $msg]
     removeFile BREAKtest
-    regsub {"[^ ]*BREAKtest"} $res {"BREAKtest"} res
+    regsub {file ".*BREAKtest"} $res {file "BREAKtest"} res
     set res
 } {1 {command returned bad code: 2
     while executing

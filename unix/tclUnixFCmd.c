@@ -134,7 +134,6 @@ static int		CopyFileAtts _ANSI_ARGS_((CONST char *src,
 static int		DoCopyFile _ANSI_ARGS_((CONST char *srcPtr,
 			    CONST char *dstPtr));
 static int		DoCreateDirectory _ANSI_ARGS_((CONST char *pathPtr));
-static int		DoDeleteFile _ANSI_ARGS_((CONST char *path));
 static int		DoRemoveDirectory _ANSI_ARGS_((Tcl_DString *pathPtr,
 			    int recursive, Tcl_DString *errorPtr));
 static int		DoRenameFile _ANSI_ARGS_((CONST char *src,
@@ -500,7 +499,7 @@ CopyFile(src, dst, statBufPtr)
 /*
  *---------------------------------------------------------------------------
  *
- * TclpObjDeleteFile, DoDeleteFile --
+ * TclpObjDeleteFile, TclpDeleteFile --
  *
  *      Removes a single file (not a directory).
  *
@@ -523,11 +522,11 @@ int
 TclpObjDeleteFile(pathPtr)
     Tcl_Obj *pathPtr;
 {
-    return DoDeleteFile(Tcl_FSGetNativePath(pathPtr));
+    return TclpDeleteFile(Tcl_FSGetNativePath(pathPtr));
 }
 
-static int
-DoDeleteFile(path)
+int
+TclpDeleteFile(path)
     CONST char *path;	/* Pathname of file to be removed (native). */
 {
     if (unlink(path) != 0) {				/* INTL: Native. */
@@ -995,7 +994,7 @@ TraversalDelete(srcPtr, ignore, statBufPtr, type, errorPtr)
 {
     switch (type) {
         case DOTREE_F: {
-	    if (DoDeleteFile(Tcl_DStringValue(srcPtr)) == 0) {
+	    if (TclpDeleteFile(Tcl_DStringValue(srcPtr)) == 0) {
 		return TCL_OK;
 	    }
 	    break;

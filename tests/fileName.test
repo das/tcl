@@ -1825,6 +1825,7 @@ test filename-17.1 {windows specific special files} {testsetplatform} {
 
 # cleanup
 catch {file delete -force C:/globTest}
+cd [temporaryDirectory]
 file delete -force globTest
 cd $oldpwd
 set env(HOME) $oldhome
@@ -1832,6 +1833,6 @@ if {[tcltest::testConstraint testsetplatform]} {
     testsetplatform $platform
     catch {unset platform}
 }
-catch {unset oldhome temp result}
+catch {unset oldhome temp result globPreResult}
 ::tcltest::cleanupTests
 return

@@ -99,7 +99,6 @@ static int		ConvertFileNameFormat(Tcl_Interp *interp,
 			    Tcl_Obj **attributePtrPtr);
 static int		DoCopyFile(CONST TCHAR *srcPtr, CONST TCHAR *dstPtr);
 static int		DoCreateDirectory(CONST TCHAR *pathPtr);
-static int		DoDeleteFile(CONST TCHAR *pathPtr);
 static int		DoRemoveJustDirectory(CONST TCHAR *nativeSrc, 
 			    int ignoreError, Tcl_DString *errorPtr);
 static int		DoRemoveDirectory(Tcl_DString *pathPtr, int recursive, 
@@ -670,7 +669,7 @@ _except_docopyfile_handler(
 /*
  *---------------------------------------------------------------------------
  *
- * TclpObjDeleteFile, DoDeleteFile --
+ * TclpObjDeleteFile, TclpDeleteFile --
  *
  *      Removes a single file (not a directory).
  *
@@ -696,11 +695,11 @@ int
 TclpObjDeleteFile(pathPtr)
     Tcl_Obj *pathPtr;
 {
-    return DoDeleteFile(Tcl_FSGetNativePath(pathPtr));
+    return TclpDeleteFile(Tcl_FSGetNativePath(pathPtr));
 }
 
-static int
-DoDeleteFile(
+int
+TclpDeleteFile(
     CONST TCHAR *nativePath)	/* Pathname of file to be removed (native). */
 {
     DWORD attr;
@@ -1380,7 +1379,7 @@ TraversalDelete(
 {
     switch (type) {
 	case DOTREE_F: {
-	    if (DoDeleteFile(nativeSrc) == TCL_OK) {
+	    if (TclpDeleteFile(nativeSrc) == TCL_OK) {
 		return TCL_OK;
 	    }
 	    break;
