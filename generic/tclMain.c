@@ -404,7 +404,8 @@ Tcl_Main(argc, argv, appInitProc)
  */
 
 void
-Tcl_SetMainLoop(Tcl_MainLoopProc *proc)
+Tcl_SetMainLoop(proc)
+    Tcl_MainLoopProc *proc;
 {
     mainLoopProc = proc;
 }
