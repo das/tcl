@@ -381,6 +381,12 @@ FileCloseProc(instanceData, interp)
 
     FileWatchProc(instanceData, 0);
 
+    /*
+     * Don't close the Win32 handle if the handle is a standard channel
+     * during the exit process.  Otherwise, one thread may kill the stdio
+     * of another.
+     */
+
     if (!TclInExit() 
 	    || ((GetStdHandle(STD_INPUT_HANDLE) != fileInfoPtr->handle)
 		&& (GetStdHandle(STD_OUTPUT_HANDLE) != fileInfoPtr->handle)

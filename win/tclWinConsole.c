@@ -503,11 +503,22 @@ ConsoleCloseProc(
     consolePtr->validMask &= ~TCL_WRITABLE;
 
 
-    if (CloseHandle(consolePtr->handle) == FALSE) {
-	TclWinConvertError(GetLastError());
-	errorCode = errno;
-    }
+    /*
+     * Don't close the Win32 handle if the handle is a standard channel
+     * during the exit process.  Otherwise, one thread may kill the stdio
+     * of another.
+     */
 
+    if (!TclInExit() 
+	    || ((GetStdHandle(STD_INPUT_HANDLE) != consolePtr->handle)
+		&& (GetStdHandle(STD_OUTPUT_HANDLE) != consolePtr->handle)
+		&& (GetStdHandle(STD_ERROR_HANDLE) != consolePtr->handle))) {
+	if (CloseHandle(consolePtr->handle) == FALSE) {
+	    TclWinConvertError(GetLastError());
+	    errorCode = errno;
+	}
+    }
+    
     consolePtr->watchMask &= consolePtr->validMask;
 
     /*
