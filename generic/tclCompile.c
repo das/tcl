@@ -463,7 +463,7 @@ TclCleanupByteCode(codePtr)
 #ifdef TCL_COMPILE_STATS
 
     if (interp != NULL) {
-	ByteCodeStats *statsPtr = &(codePtr->iPtr->stats);
+	ByteCodeStats *statsPtr;
 	Tcl_Time destroyTime;
 	int lifetimeSec, lifetimeMicroSec, log2;
 
