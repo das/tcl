@@ -993,7 +993,7 @@ Tcl_DdeObjCmd(
                             ddeResult);
 		} else {
 		    ddeReturn = DdeClientTransaction((LPBYTE) ddeData, 0xFFFFFFFF,
-			    hConv, 0, CF_TEXT, XTYP_EXECUTE, 7200000, NULL);
+			    hConv, 0, CF_TEXT, XTYP_EXECUTE, 30000, NULL);
 		    if (ddeReturn == 0) {
 			SetDdeError(interp);
 			result = TCL_ERROR;
@@ -1178,13 +1178,13 @@ Tcl_DdeObjCmd(
 		    DdeAbandonTransaction(ddeInstance, hConv, ddeResult);
 		} else {
 		    ddeData = DdeClientTransaction((LPBYTE) ddeItemData, 0xFFFFFFFF, hConv, 0,
-			    CF_TEXT, XTYP_EXECUTE, 7200000, NULL);
+			    CF_TEXT, XTYP_EXECUTE, 30000, NULL);
 		    if (ddeData != 0) {
 			
 			ddeCookie = DdeCreateStringHandle(ddeInstance, 
 				"$TCLEVAL$EXECUTE$RESULT", CP_WINANSI);
 			ddeData = DdeClientTransaction(NULL, 0, hConv, ddeCookie,
-				CF_TEXT, XTYP_REQUEST, 7200000, NULL);
+				CF_TEXT, XTYP_REQUEST, 30000, NULL);
 		    }
 		}
 		
