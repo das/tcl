@@ -23,6 +23,8 @@ Append all of the \fIvalue\fR arguments to the current value
 of variable \fIvarName\fR.  If \fIvarName\fR doesn't exist,
 it is given a value equal to the concatenation of all the
 \fIvalue\fR arguments.
+The result of this command is the new value stored in variable
+\fIvarName\fR.
 This command provides an efficient way to build up long
 variables incrementally.
 For example, ``\fBappend a $b\fR'' is much more efficient than
