@@ -5075,14 +5075,15 @@ DupParsedVarName(srcPtr, dupPtr)
 
     if (arrayPtr != NULL) {
 	Tcl_IncrRefCount(arrayPtr);
+	elemLen = strlen(elem);
+	elemCopy = ckalloc(elemLen+1);
+	memcpy(elemCopy, elem, elemLen);
+	*(elemCopy + elemLen) = '\0';
+	elem = elemCopy;
     }
-    elemLen = strlen(elem);
-    elemCopy = ckalloc(elemLen+1);
-    memcpy(elemCopy, elem, elemLen);
-    *(elemCopy + elemLen) = '\0';
 
     dupPtr->internalRep.twoPtrValue.ptr1 = (VOID *) arrayPtr;
-    dupPtr->internalRep.twoPtrValue.ptr2 = (VOID *) elemCopy;
+    dupPtr->internalRep.twoPtrValue.ptr2 = (VOID *) elem;
     dupPtr->typePtr = &tclParsedVarNameType;
 }
 
