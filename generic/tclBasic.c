@@ -989,7 +989,7 @@ DeleteInterpProc(interp)
      * this interpreter.
      */
 
-    TclDecommissionLimitCallbacks(interp);
+    TclRemoveScriptLimitCallbacks(interp);
     TclLimitRemoveAllHandlers(interp);
 
     /*

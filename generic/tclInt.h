@@ -1714,8 +1714,6 @@ EXTERN int		TclArraySet _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *arrayNameObj, Tcl_Obj *arrayElemObj));
 EXTERN int		TclCheckBadOctal _ANSI_ARGS_((Tcl_Interp *interp,
 			    CONST char *value));
-EXTERN void		TclDecommissionLimitCallbacks _ANSI_ARGS_((
-			    Tcl_Interp *interp));
 EXTERN void		TclExpandTokenArray _ANSI_ARGS_((
 			    Tcl_Parse *parsePtr));
 EXTERN int		TclFileAttrsCmd _ANSI_ARGS_((Tcl_Interp *interp,
@@ -1901,6 +1899,8 @@ EXTERN void		TclRememberCondition _ANSI_ARGS_((Tcl_Condition *mutex));
 EXTERN void		TclRememberDataKey _ANSI_ARGS_((Tcl_ThreadDataKey *mutex));
 EXTERN VOID             TclRememberJoinableThread _ANSI_ARGS_((Tcl_ThreadId id));
 EXTERN void		TclRememberMutex _ANSI_ARGS_((Tcl_Mutex *mutex));
+EXTERN void		TclRemoveScriptLimitCallbacks _ANSI_ARGS_((
+			    Tcl_Interp *interp));
 EXTERN VOID             TclSignalExitThread _ANSI_ARGS_((Tcl_ThreadId id,
 			    int result));
 EXTERN int		TclSubstTokens _ANSI_ARGS_((Tcl_Interp *interp,
