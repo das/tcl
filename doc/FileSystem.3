@@ -1244,10 +1244,11 @@ typedef int Tcl_FSRemoveDirectoryProc(
 The return value is a standard Tcl result indicating whether an error
 occurred in the process.  If successful, the directory specified by
 \fIpathPtr\fR should have been removed from the filesystem.  If the
-\fIrecursive\fR flag is given, then a non-empty directory should
-be deleted without error.  If an error does occur, the name of
-the file or directory which caused the error should be placed in
-\fIerrorPtr\fR.
+\fIrecursive\fR flag is given, then a non-empty directory should be
+deleted without error.  If this flag is not given, then and the
+directory is non-empty a posix EEXIST error should be signalled.  If an
+error does occur, the name of the file or directory which caused the
+error should be placed in \fIerrorPtr\fR.
 .SH DELETEFILEPROC	    
 .PP
 Function to process a \fBTcl_FSDeleteFile()\fR call.  Should be implemented
