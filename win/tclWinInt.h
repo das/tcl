@@ -112,6 +112,7 @@ EXTERN TclWinProcs *tclWinProcs;
  * stubs table.
  */
 
+EXTERN void		TclWinFilesystemAndEncodingsCleanup();
 EXTERN void		TclWinInit(HINSTANCE hInst);
 EXTERN int              TclWinSymLinkCopyDirectory(CONST TCHAR* LinkOriginal,
 						   CONST TCHAR* LinkCopy);

@@ -465,10 +465,12 @@ ToUtf(
 /*
  *---------------------------------------------------------------------------
  *
- * WinEncodingsCleanup --
+ * TclWinFilesystemAndEncodingsCleanup --
  *
  *	Reset information to its original state in finalization to
- *	allow for reinitialization to be possible.
+ *	allow for reinitialization to be possible.  This must not
+ *	be called until after the filesystem has been finalised, or
+ *	exit crashes may occur when using virtual filesystems.
  *
  * Results:
  *	None.
@@ -479,8 +481,8 @@ ToUtf(
  *---------------------------------------------------------------------------
  */
 
-static void
-WinEncodingsCleanup(ClientData clientData)
+void
+TclWinFilesystemAndEncodingsCleanup()
 {
     TclWinResetInterfaces();
     libraryPathEncodingFixed = 0;
@@ -565,8 +567,6 @@ TclpSetInitialEncodings()
 	encoding = "iso8859-1";
 	binaryEncoding = Tcl_GetEncoding(NULL, encoding);
     }
-
-    Tcl_CreateExitHandler(WinEncodingsCleanup, NULL);
 }
 
 /*

@@ -709,7 +709,6 @@ $<
 
 install-binaries:
 	@echo Installing to '$(_INSTALLDIR)'
-	@echo.
 	@echo installing $(TCLLIBNAME)
 !if "$(TCLLIB)" != "$(TCLIMPLIB)"
 	@$(CPY) "$(TCLLIB)" "$(BIN_INSTALL_DIR)\"

@@ -654,6 +654,15 @@ TclFinalizeFilesystem() {
 #ifdef TCL_THREADS
     filesystemOkToModify = NULL;
 #endif
+    /* 
+     * Cleans up the win32 API filesystem proc lookup table and
+     * any special encodings which have been loaded.  This must
+     * happen after the filesystem has been closed down, or crashes
+     * can result (especially with vfs).
+     */
+#ifdef __WIN32__
+    TclWinFilesystemAndEncodingsCleanup();
+#endif
 }
 
 /*
