@@ -770,6 +770,7 @@ TclStubs tclStubs = {
     Tcl_GetRange, /* 383 */
     Tcl_AppendUnicodeToObj, /* 384 */
     Tcl_RegExpMatchObj, /* 385 */
+    Tcl_SetNotifier, /* 386 */
 };
 
 /* !END!: Do not edit above this line. */

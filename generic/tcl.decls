@@ -1330,6 +1330,9 @@ declare 385 generic {
     int Tcl_RegExpMatchObj(Tcl_Interp *interp, Tcl_Obj *stringObj, \
 	    Tcl_Obj *patternObj)
 }
+declare 386 generic {
+    void Tcl_SetNotifier(Tcl_NotifierProcs *notifierProcPtr)
+}
 
 ##############################################################################
 
