@@ -346,7 +346,7 @@ WINDIR		= $(ROOT)\win
 # Compile flags
 #---------------------------------------------------------------------
 
-!if !$(DEBUG) || $(UNCHECKED)
+!if !$(DEBUG)
 !if $(OPTIMIZING)
 ### This cranks the optimization level to maximize speed
 cdebug	= -O2 -Op -Gs
