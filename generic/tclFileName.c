@@ -1788,8 +1788,19 @@ TclGlob(interp, pattern, pathPrefix, globFlags, types)
 
 	/* If this length has never been set, set it here */
 	CONST char *pre = Tcl_GetStringFromObj(pathPrefix, &prefixLen);
-	if (prefixLen > 0) {
-	    if (strchr(separators, pre[prefixLen-1]) == NULL) {
+	if (prefixLen > 0 
+	  && (strchr(separators, pre[prefixLen-1]) == NULL)) {
+	      
+	    /* 
+	     * If we're on Windows and the prefix is a volume
+	     * relative one like 'C:', then there won't be
+	     * a path separator in between, so no need to
+	     * skip it here.
+	     */
+	    
+	    if ((tclPlatform != TCL_PLATFORM_WINDOWS) 
+		|| (prefixLen != 2) 
+		|| (pre[1] != ':')) {
 		prefixLen++;
 	    }
 	}
