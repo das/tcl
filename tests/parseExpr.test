@@ -497,7 +497,7 @@ test parseExpr-14.5 {GetLexeme procedure, integer lexeme too big} {nonPortable} 
 } {1 {integer value too large to represent}}
 test parseExpr-14.6 {GetLexeme procedure, bad integer lexeme} {
     list [catch {testexprparser {0999} -1} msg] $msg
-} {1 {syntax error in expression "0999"}}
+} {1 {"0999" is an invalid octal number}}
 test parseExpr-14.7 {GetLexeme procedure, double lexeme} {
     testexprparser {0.999} -1
 } {- {} 0 subexpr 0.999 1 text 0.999 0 {}}

@@ -17,6 +17,16 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 set ::tcltest::testSingleFile false
 set ::tcltest::testsDirectory [file dir [info script]]
 
+# We need to ensure that the testsDirectory is absolute
+#
+if {[string equal relative [file pathtype $::tcltest::testsDirectory]]} {
+    set cwd [pwd]
+    cd $::tcltest::testsDirectory
+    set ::tcltest::testsDirectory [pwd]
+    cd $cwd
+    unset cwd
+}
+
 puts stdout "Tcl $tcl_patchLevel tests running in interp:  [info nameofexecutable]"
 puts stdout "Tests running in working dir:  $::tcltest::testsDirectory"
 if {[llength $::tcltest::skip] > 0} {
