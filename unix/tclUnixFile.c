@@ -764,9 +764,8 @@ TclpObjLink(pathPtr, toPtr, linkAction)
 
 	char link[MAXPATHLEN];
 	int length;
-	char *native;
 	Tcl_DString ds;
-	
+
 	if (Tcl_FSGetTranslatedPath(NULL, pathPtr) == NULL) {
 	    return NULL;
 	}
@@ -774,16 +773,8 @@ TclpObjLink(pathPtr, toPtr, linkAction)
 	if (length < 0) {
 	    return NULL;
 	}
-	
-	/* 
-	 * Allocate and copy the name, taking care since the
-	 * name need not be null terminated. 
-	 */
-	native = (char*)ckalloc((unsigned)(1+length));
-	strncpy(native, link, (unsigned)length);
-	native[length] = '\0';
-	
-	Tcl_ExternalToUtfDString(NULL, native, length, &ds);
+
+	Tcl_ExternalToUtfDString(NULL, link, length, &ds);
 	linkPtr = Tcl_NewStringObj(Tcl_DStringValue(&ds), 
 				   Tcl_DStringLength(&ds));
 	Tcl_DStringFree(&ds);
