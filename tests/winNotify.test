@@ -160,15 +160,3 @@ test winNotify-3.8 {NotifierProc: modal idle timer, rescheduled} {pcOnly} {
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
