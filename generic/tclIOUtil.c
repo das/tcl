@@ -3405,7 +3405,7 @@ SetFsPathFromAbsoluteNormalized(interp, objPtr)
     fsPathPtr->fsRecPtr = NULL;
     fsPathPtr->filesystemEpoch = -1;
 
-    objPtr->internalRep.otherValuePtr = fsPathPtr;
+    objPtr->internalRep.otherValuePtr = (VOID *) fsPathPtr;
     objPtr->typePtr = &tclFsPathType;
 
     return TCL_OK;
@@ -3564,7 +3564,7 @@ SetFsPathFromAny(interp, objPtr)
     fsPathPtr->fsRecPtr = NULL;
     fsPathPtr->filesystemEpoch = -1;
 
-    objPtr->internalRep.otherValuePtr = fsPathPtr;
+    objPtr->internalRep.otherValuePtr = (VOID *) fsPathPtr;
     objPtr->typePtr = &tclFsPathType;
 
     return TCL_OK;
@@ -3642,7 +3642,7 @@ Tcl_FSNewNativePath(fromFilesystem, clientData)
     fsPathPtr->fsRecPtr = fsFromPtr->fsRecPtr;
     fsPathPtr->filesystemEpoch = fsFromPtr->filesystemEpoch;
 
-    objPtr->internalRep.otherValuePtr = fsPathPtr;
+    objPtr->internalRep.otherValuePtr = (VOID *) fsPathPtr;
     objPtr->typePtr = &tclFsPathType;
     return objPtr;
 }
@@ -3697,7 +3697,7 @@ DupFsPathInternalRep(srcPtr, copyPtr)
       (FsPath*) ckalloc((unsigned)sizeof(FsPath));
     Tcl_FSDupInternalRepProc *dupProc;
     
-    copyPtr->internalRep.otherValuePtr = copyFsPathPtr;
+    copyPtr->internalRep.otherValuePtr = (VOID *) copyFsPathPtr;
 
     if (srcFsPathPtr->translatedPathPtr != NULL) {
 	copyFsPathPtr->translatedPathPtr = srcFsPathPtr->translatedPathPtr;

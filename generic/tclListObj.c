@@ -927,7 +927,7 @@ TclLsetList( interp, listPtr, indexArgPtr, valuePtr )
 	if ( result != TCL_OK ) {
 	    break;
 	}
-	listPtr->internalRep.twoPtrValue.ptr2 = chainPtr;
+	listPtr->internalRep.twoPtrValue.ptr2 = (VOID *) chainPtr;
 
 	/*
 	 * Reconstitute the index array
@@ -1014,12 +1014,12 @@ TclLsetList( interp, listPtr, indexArgPtr, valuePtr )
 
     if ( result == TCL_OK ) {
 
-	listPtr->internalRep.twoPtrValue.ptr2 = chainPtr;
+	listPtr->internalRep.twoPtrValue.ptr2 = (VOID *) chainPtr;
 
 	/* Spoil all the string reps */
 	
 	while ( listPtr != NULL ) {
-	    subListPtr = listPtr->internalRep.twoPtrValue.ptr2;
+	    subListPtr = (Tcl_Obj *) listPtr->internalRep.twoPtrValue.ptr2;
 	    Tcl_InvalidateStringRep( listPtr );
 	    listPtr->internalRep.twoPtrValue.ptr2 = NULL;
 	    listPtr = subListPtr;
@@ -1164,7 +1164,7 @@ TclLsetFlat( interp, listPtr, indexCount, indexArray, valuePtr )
 	if ( result != TCL_OK ) {
 	    break;
 	}
-	listPtr->internalRep.twoPtrValue.ptr2 = chainPtr;
+	listPtr->internalRep.twoPtrValue.ptr2 = (VOID *) chainPtr;
 
 	/*
 	 * Determine the index of the requested element.
@@ -1235,12 +1235,12 @@ TclLsetFlat( interp, listPtr, indexCount, indexArray, valuePtr )
 
     if ( result == TCL_OK ) {
 
-	listPtr->internalRep.twoPtrValue.ptr2 = chainPtr;
+	listPtr->internalRep.twoPtrValue.ptr2 = (VOID *) chainPtr;
 
 	/* Spoil all the string reps */
 	
 	while ( listPtr != NULL ) {
-	    subListPtr = listPtr->internalRep.twoPtrValue.ptr2;
+	    subListPtr = (Tcl_Obj *) listPtr->internalRep.twoPtrValue.ptr2;
 	    Tcl_InvalidateStringRep( listPtr );
 	    listPtr->internalRep.twoPtrValue.ptr2 = NULL;
 	    listPtr = subListPtr;
