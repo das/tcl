@@ -191,7 +191,6 @@ no substitutions are performed before making the recursive
 call and no additional substitutions are performed on the result
 of the nested script.
 .RS
-.LP
 Substitutions take place from left to right, and each substitution is
 evaluated completely before attempting to evaluate the next.  Thus, a
 sequence like
