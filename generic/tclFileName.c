@@ -1745,6 +1745,16 @@ Tcl_GlobObjCmd(dummy, interp, objc, objv)
 		/* Have to split off the end */
 		Tcl_DStringAppend(&pref, last, first+pathlength-last);
 		pathOrDir = Tcl_NewStringObj(first, last-first-1);
+		/* 
+		 * We must ensure that we haven't cut off too much,
+		 * and turned a valid path like '/' or 'C:/' into
+		 * an incorrect path like '' or 'C:'.  The way we
+		 * do this is to add a separator if there are none
+		 * presently in the prefix.
+		 */
+		if (strpbrk(Tcl_GetString(pathOrDir), "\\/") == NULL) {
+		    Tcl_AppendToObj(pathOrDir, last-1, 1); 
+		}
 	    }
 	    /* Need to quote 'prefix' */
 	    Tcl_DStringInit(&prefix);

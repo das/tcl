@@ -1668,6 +1668,37 @@ test filename-12.5 {simple globbing} {
 test filename-12.6 {simple globbing} {
     list [catch {glob globTest\\/\\x1.c} msg] $msg
 } "0 $globPreResult$x1"
+test filename-12.7 {globbing at filesystem root} {unixOnly} {
+    set res1 [glob -nocomplain /*]
+    set res2 [glob -path / *]
+    set equal [string equal $res1 $res2]
+    if {!$equal} {
+	lappend equal "not equal" $res1 $res2
+    }
+    set equal
+} {1}
+test filename-12.8 {globbing at filesystem root} {unixOnly} {
+    set dir [lindex [glob -type d /*] 0]
+    set first [string range $dir 0 1]
+    set res1 [glob -nocomplain ${first}*]
+    set res2 [glob -path $first *]
+    set equal [string equal $res1 $res2]
+    if {!$equal} {
+	lappend equal "not equal" $res1 $res2
+    }
+    set equal
+} {1}
+test filename-12.9 {globbing at filesystem root} {winOnly} {
+    set dir [lindex [glob -type d [lindex [file volumes] 0]*] 0]
+    set first [string range $dir 0 3]
+    set res1 [glob -nocomplain ${first}*]
+    set res2 [glob -path $first *]
+    set equal [string equal $res1 $res2]
+    if {!$equal} {
+	lappend equal "not equal" $res1 $res2
+    }
+    set equal
+} {1}
 
 test filename-13.1 {globbing with brace substitution} {
     list [catch {glob globTest/\{\}} msg] $msg
