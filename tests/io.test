@@ -37,8 +37,7 @@ for { set i 0 } { $i < 100 } { incr i} {
     }
 close $f
 
-set f [open cat w]
-puts $f {
+makeFile {
     set f stdin
     if {$argv != ""} {
 	set f [open $argv]
@@ -55,8 +54,7 @@ puts $f {
 	}
     }
     vwait forever
-}
-close $f
+} cat
 
 # These tests are disabled until we decide what to do with "unsupported0".
 #
