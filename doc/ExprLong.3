@@ -31,7 +31,9 @@ int
 .AS Tcl_Interp *booleanPtr
 .AP Tcl_Interp *interp in
 Interpreter in whose context to evaluate \fIstring\fR or \fIobjPtr\fR.
-.AP char *string in
+.VS 8.4
+.AP "CONST char" *string in
+.VE
 Expression to be evaluated.  Must be in writable memory (the expression
 parser makes temporary modifications to the string during parsing, which
 it undoes before returning).

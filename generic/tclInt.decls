@@ -157,10 +157,10 @@ declare 37 generic {
     int TclGetLoadedPackages(Tcl_Interp *interp, char *targetName)
 }
 declare 38 generic {
-    int TclGetNamespaceForQualName(Tcl_Interp *interp, char *qualName, \
+    int TclGetNamespaceForQualName(Tcl_Interp *interp, CONST char *qualName, \
 	    Namespace *cxtNsPtr, int flags, Namespace **nsPtrPtr, \
 	    Namespace **altNsPtrPtr, Namespace **actualCxtPtrPtr, \
-	    char **simpleNamePtr)
+	    CONST char **simpleNamePtr)
 }
 declare 39 generic {
     TclObjCmdProcType TclGetObjInterpProc(void)
@@ -425,7 +425,7 @@ declare 112 generic {
 	    Tcl_Obj *objPtr)
 }
 declare 113 generic {
-    Tcl_Namespace * Tcl_CreateNamespace(Tcl_Interp *interp, char *name, \
+    Tcl_Namespace * Tcl_CreateNamespace(Tcl_Interp *interp, CONST char *name, \
 	    ClientData clientData, Tcl_NamespaceDeleteProc *deleteProc)
 }
 declare 114 generic {
@@ -436,7 +436,7 @@ declare 115 generic {
 	    int resetListFirst)
 }
 declare 116 generic {
-    Tcl_Command Tcl_FindCommand(Tcl_Interp *interp, char *name, \
+    Tcl_Command Tcl_FindCommand(Tcl_Interp *interp, CONST char *name, \
 	    Tcl_Namespace *contextNsPtr, int flags)
 }
 declare 117 generic {

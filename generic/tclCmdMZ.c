@@ -89,8 +89,8 @@ static char *		TraceVarProc _ANSI_ARGS_((ClientData clientData,
 			    Tcl_Interp *interp, char *name1, char *name2,
 			    int flags));
 static void		TraceCommandProc _ANSI_ARGS_((ClientData clientData,
-			    Tcl_Interp *interp, char *oldName, char *newName,
-			    int flags));
+			    Tcl_Interp *interp, CONST char *oldName,
+                            CONST char *newName, int flags));
 
 
 /*
@@ -3432,8 +3432,8 @@ static void
 TraceCommandProc(clientData, interp, oldName, newName, flags)
     ClientData clientData;	/* Information about the command trace. */
     Tcl_Interp *interp;		/* Interpreter containing command. */
-    char *oldName;		/* Name of command being changed. */
-    char *newName;		/* New name of command.  Empty string
+    CONST char *oldName;	/* Name of command being changed. */
+    CONST char *newName;	/* New name of command.  Empty string
                   		 * or NULL means command is being deleted
                   		 * (renamed to ""). */
     int flags;			/* OR-ed bits giving operation and other
