@@ -2081,7 +2081,6 @@ Tcl_SubstObj(interp, objPtr, flags)
     Tcl_Parse parse;
     Tcl_Token *endTokenPtr;
     Tcl_Obj *result;
-    Tcl_Obj *errMsg = NULL;
     CONST char *p = Tcl_GetStringFromObj(objPtr, &length);
 
     parse.tokenPtr = parse.staticTokens;
@@ -2111,11 +2110,6 @@ Tcl_SubstObj(interp, objPtr, flags)
 	    &tokensLeft,0);
     if (code == TCL_OK) {
 	Tcl_FreeParse(&parse);
-	if (errMsg != NULL) {
-	    Tcl_SetObjResult(interp, errMsg);
-	    Tcl_DecrRefCount(errMsg);
-	    return NULL;
-	}
 	return Tcl_GetObjResult(interp);
     }
     result = Tcl_NewObj();
@@ -2124,9 +2118,6 @@ Tcl_SubstObj(interp, objPtr, flags)
 	    case TCL_ERROR:
 		Tcl_FreeParse(&parse);
 		Tcl_DecrRefCount(result);
-		if (errMsg != NULL) {
-		    Tcl_DecrRefCount(errMsg);
-		}
 		return NULL;
 	    case TCL_BREAK:
 		tokensLeft = 0;		/* Halt substitution */
@@ -2136,14 +2127,6 @@ Tcl_SubstObj(interp, objPtr, flags)
 
 	if (tokensLeft == 0) {
 	    Tcl_FreeParse(&parse);
-	    if (errMsg != NULL) {
-		if (code != TCL_BREAK) {
-		    Tcl_SetObjResult(interp, errMsg);
-		    Tcl_DecrRefCount(errMsg);
-		    return NULL;
-		}
-		Tcl_DecrRefCount(errMsg);
-	    }
 	    return result;
 	}
 
