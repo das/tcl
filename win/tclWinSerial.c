@@ -130,10 +130,10 @@ static int      SerialOutputProc(ClientData instanceData, char *buf,
 static void     SerialSetupProc(ClientData clientData, int flags);
 static void     SerialWatchProc(ClientData instanceData, int mask);
 static void     ProcExitHandler(ClientData clientData);
-static int       SerialGetOptionProc _ANSI_ARGS_((ClientData instanceData,
+static int	SerialGetOptionProc _ANSI_ARGS_((ClientData instanceData,
                 Tcl_Interp *interp, char *optionName,
                 Tcl_DString *dsPtr));
-static int       SerialSetOptionProc _ANSI_ARGS_((ClientData instanceData,
+static int	SerialSetOptionProc _ANSI_ARGS_((ClientData instanceData,
                 Tcl_Interp *interp, char *optionName,
                 char *value));
 
@@ -1008,7 +1008,7 @@ SerialSetOptionProc(instanceData, interp, optionName, value)
 	return Tcl_BadChannelOption(interp, optionName,
 		"mode pollinterval");
     }
-    return TCL_ERROR;
+    return TCL_OK;
 }
 
 /*
