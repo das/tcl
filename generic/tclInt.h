@@ -2163,7 +2163,7 @@ EXTERN void	TclDbInitNewObj _ANSI_ARGS_((Tcl_Obj *objPtr));
  */
 
 #  define TclAllocObjStorage(objPtr) \
-       (objPtr) = (Tcl_Obj *) Tcl_Ckalloc(sizeof(Tcl_Obj))
+       (objPtr) = (Tcl_Obj *) Tcl_Alloc(sizeof(Tcl_Obj))
 
 #  define TclFreeObjStorage(objPtr) \
        ckfree((char *) (objPtr))
