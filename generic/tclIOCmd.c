@@ -101,7 +101,7 @@ Tcl_PutsObjCmd(dummy, interp, objc, objv)
 	    int length;
 
 	    arg = Tcl_GetStringFromObj(objv[3], &length);
-	    if (strncmp(arg, "nonewline", (size_t) length) != 0) {
+	    if ((length != 9) || (strncmp(arg, "nonewline", (size_t) length) != 0)) {
 		Tcl_AppendResult(interp, "bad argument \"", arg,
 				 "\": should be \"nonewline\"",
 				 (char *) NULL);
