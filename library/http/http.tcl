@@ -25,7 +25,7 @@
 package require Tcl 8.2
 # keep this in sync with pkgIndex.tcl
 # and with the install directories in Makefiles
-package provide http 2.4.3
+package provide http 2.4.4
 
 namespace eval http {
     variable http
@@ -288,9 +288,11 @@ proc http::geturl { url args } {
     }
 
     # Validate URL, determine the server host and port, and check proxy case
+    # Recognize user:pass@host URLs also, although we do not do anything
+    # with that info yet.
 
-    if {![regexp -nocase {^(([^:]*)://)?([^/:]+)(:([0-9]+))?(/.*)?$} $url \
-	    x prefix proto host y port srvurl]} {
+    set exp {^(([^:]*)://)?([^@]+@)?([^/:]+)(:([0-9]+))?(/.*)?$}
+    if {![regexp -nocase $exp $url x prefix proto user host y port srvurl]} {
 	unset $token
 	return -code error "Unsupported URL: $url"
     }
