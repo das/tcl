@@ -50,7 +50,7 @@ typedef struct Alias {
                                  * redirecting to it. Random access to this
                                  * hash table is never required - we are using
                                  * a hash table only for convenience. */
-    unsigned int objc;          /* Count of Tcl_Obj in the prefix of the
+    int objc;                   /* Count of Tcl_Obj in the prefix of the
 				 * target command to be invoked in the
 				 * target interpreter. Additional arguments
 				 * specified when calling the alias in the
@@ -1347,7 +1347,7 @@ AliasDescribe(interp, slaveInterp, namePtr)
         return TCL_OK;
     }
     aliasPtr = (Alias *) Tcl_GetHashValue(hPtr);
-    prefixPtr = Tcl_NewListObj((int) aliasPtr->objc, &aliasPtr->objPtr);
+    prefixPtr = Tcl_NewListObj(aliasPtr->objc, &aliasPtr->objPtr);
     Tcl_SetObjResult(interp, prefixPtr);
     return TCL_OK;
 }
