@@ -351,7 +351,7 @@ parseWord:
 	     */
 
 	    expPtr = &parsePtr->tokenPtr[expIdx];
-	    if ( (expPfxLen == expPtr->size)
+	    if ( (expPfxLen == (size_t) expPtr->size)
 					/* Same length as prefix */
 		    && (0 == expandWord)
 		    			/* Haven't seen prefix already */
