@@ -513,7 +513,7 @@ TclInitEncodingSubsystem()
     Tcl_CreateEncoding(&type);
 
     encodingsInitialized = 1;
-
+    TclpSetInitialEncodings();
 }
 
 /*
@@ -1304,7 +1304,6 @@ Tcl_FindExecutable(argv0)
 				 * (native). */
 {
     TclInitSubsystems();
-    TclpSetInitialEncodings();
     TclpFindExecutable(argv0);
 }
 
