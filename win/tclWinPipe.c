@@ -1601,12 +1601,11 @@ BuildCommandLine(
 	if (quote) {
 	    Tcl_DStringAppend(&ds, "\"", 1);
 	}
-
 	start = arg;	    
 	for (special = arg; ; ) {
 	    if ((*special == '\\') && 
-		    (special[1] == '\\' || special[1] == '"')) {
-		Tcl_DStringAppend(&ds, start, special - start);
+		    (special[1] == '\\' || special[1] == '"' || (quote && special[1] == '\0'))) {
+		Tcl_DStringAppend(&ds, start, (int) (special - start));
 		start = special;
 		while (1) {
 		    special++;
@@ -1616,18 +1615,23 @@ BuildCommandLine(
 			 * N * 2 + 1 backslashes then a quote.
 			 */
 
-			Tcl_DStringAppend(&ds, start, special - start);
+			Tcl_DStringAppend(&ds, start,
+				(int) (special - start));
 			break;
 		    }
 		    if (*special != '\\') {
 			break;
 		    }
 		}
-		Tcl_DStringAppend(&ds, start, special - start);
+		/*
+		 * Do it twice when arg is quoted.
+		 */
+		if (quote) Tcl_DStringAppend(&ds, start, (int) (special - start));
+		Tcl_DStringAppend(&ds, start, (int) (special - start));
 		start = special;
 	    }
 	    if (*special == '"') {
-		Tcl_DStringAppend(&ds, start, special - start);
+		Tcl_DStringAppend(&ds, start, (int) (special - start));
 		Tcl_DStringAppend(&ds, "\\\"", 2);
 		start = special + 1;
 	    }
@@ -1636,7 +1640,7 @@ BuildCommandLine(
 	    }
 	    special++;
 	}
-	Tcl_DStringAppend(&ds, start, special - start);
+	Tcl_DStringAppend(&ds, start, (int) (special - start));
 	if (quote) {
 	    Tcl_DStringAppend(&ds, "\"", 1);
 	}
