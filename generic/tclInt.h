@@ -2143,6 +2143,9 @@ EXTERN void	TclDbInitNewObj _ANSI_ARGS_((Tcl_Obj *objPtr));
 # define TclDecrRefCount(objPtr) \
     Tcl_DbDecrRefCount(objPtr, __FILE__, __LINE__)
 
+# define TclNewListObjDirect(objc, objv) \
+    TclDbNewListObjDirect(objc, objv, __FILE__, __LINE__)
+
 #elif defined(PURIFY)
 
 /*

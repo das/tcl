@@ -725,6 +725,15 @@ declare 178 generic {
 declare 179 generic {
     Tcl_Obj *Tcl_GetStartupScript(CONST char **encodingNamePtr)
 }
+
+# Allocate lists without copying arrays
+declare 180 generic {
+    Tcl_Obj *TclNewListObjDirect(int objc, Tcl_Obj *CONST objv[])
+}
+declare 180 generic {
+    Tcl_Obj *TclDbNewListObjDirect(int objc, Tcl_Obj *CONST objv[],
+	    CONST char *file, int line)
+}
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are
