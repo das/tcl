@@ -233,14 +233,13 @@ proc http::geturl { url args } {
     # Wait for the connection to complete
 
     if {$state(-timeout) > 0} {
-	#fileevent $s writable [list set $token\(status) connect]
 	fileevent $s writable [list http::Connect $token]
 	http::wait $token
 	if {[string equal $state(status) "timeout"]} {
 	    return
 	}
 	fileevent $s writable {}
-	unset state(status)
+	set state(status) ""
     }
 
     # Send data in cr-lf format, but accept any line terminators
