@@ -1,4 +1,5 @@
 @echo off
+rem SCCS: %Z% $Id$ 
 
 if exist %1 goto end
 
