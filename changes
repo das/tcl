@@ -3988,3 +3988,10 @@ in %s format strings. (stanton)
 ("-line", "-lineanchor", and "-linestop") that control how regular
 expressions treat line breaks. See the regexp manual entry for more
 details. (stanton)
+
+11/17/98 (bug fix) "scan" now correctly handles Unicode
+characters. (stanton)
+
+11/17/98 (new feature) "scan" now supports XPG3 position specifiers
+and the "%n" conversion character.  See the "scan" manual entry for
+more details. (stanton)
