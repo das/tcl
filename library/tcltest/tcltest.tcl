@@ -137,7 +137,7 @@ namespace eval tcltest {
     # ::tcltest::testsDirectory.
 
     set oDir [pwd]
-    cd [file join [file dirname [info library]] tests]
+    catch {cd [file join [file dirname [info script]] .. .. tests]}
     variable testsDirectory [pwd]
     cd $oDir
 
