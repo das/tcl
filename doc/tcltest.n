@@ -411,7 +411,7 @@ release 3.5.''
 During evaluation of [\fBtest\fR], the \fIname\fR will be compared
 to the lists of string matching patterns returned by
 [\fBconfigure -match\fR], and [\fBconfigure -skip\fR].  The test
-will be run only if \fIname\fR matches one of the patterns from
+will be run only if \fIname\fR matches any of the patterns from
 [\fBconfigure -match\fR] and matches none of the patterns
 from [\fBconfigure -skip\fR].
 .PP
