@@ -4207,3 +4207,7 @@ to be too generic and likely to create conflits.
 Tcl as a shared library; specify --disable-shared to build a static Tcl
 library and shell.
 *** POTENTIAL INCOMPATIBILITY ***
+
+4/1/99 (bug fix) Changed the implemenation of Tcl_ConditionWait and
+Tcl_ConditionNotify on Windows.  The new algorithm eliminates a race
+condition and was suggested by Jim Davidson. (welch)
