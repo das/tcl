@@ -328,6 +328,7 @@ TclpStrftime(s, maxsize, format, t, useGMT)
 {
     Tcl_DString utf8Buffer;
     size_t status;
+    char* utf8Format;
     if (format[0] == '%' && format[1] == 'Q') {
 	/* Format as a stardate */
 	sprintf(s, "Stardate %2d%03d.%01d",
@@ -337,11 +338,14 @@ TclpStrftime(s, maxsize, format, t, useGMT)
 		(((t->tm_hour * 60) + t->tm_min)/144));
 	return(strlen(s));
     } else {
+        Tcl_DStringInit( &utf8Buffer );
+	utf8Format = Tcl_UtfToExternalDString( NULL, format, -1, &utf8Buffer );
 	setlocale(LC_TIME, "");
-	status = strftime(s, maxsize, format, t);
+	status = strftime( s, maxsize, utf8Format, t );
+	Tcl_DStringFree( &utf8Buffer );
 	if ( status > 0 ) {
 	    Tcl_DStringInit ( &utf8Buffer );
-	    Tcl_ExternalToUtfDString( NULL, s, status, &utf8Buffer );
+	    Tcl_ExternalToUtfDString( NULL, s, (int) status, &utf8Buffer );
 	    strcpy( s, Tcl_DStringValue( &utf8Buffer ) );
 	    Tcl_DStringFree( &utf8Buffer );
 	}
