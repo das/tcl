@@ -1609,7 +1609,7 @@ BuildCommandLine(
 		start = special;
 		while (1) {
 		    special++;
-		    if (*special == '"') {
+		    if (*special == '"' || (quote && *special == '\0')) {
 			/* 
 			 * N backslashes followed a quote -> insert 
 			 * N * 2 + 1 backslashes then a quote.
@@ -1623,10 +1623,6 @@ BuildCommandLine(
 			break;
 		    }
 		}
-		/*
-		 * Do it twice when arg is quoted.
-		 */
-		if (quote) Tcl_DStringAppend(&ds, start, (int) (special - start));
 		Tcl_DStringAppend(&ds, start, (int) (special - start));
 		start = special;
 	    }
