@@ -427,10 +427,13 @@ test clock-8.1 {clock scan midnight/gmt range bug 413397} {
 	    [clock format [clock scan year -base $5amPST -gmt 1] -format $fmt]
 } {12/31 12/31}
 
-set ::tcltest::testConstraints(needPST) \
-	[regexp {^(Pacific.*|P[DS]T)$} [clock format 1 -format %Z]]
+set ::tcltest::testConstraints(needPST) [expr {
+    [regexp {^(Pacific.*|P[DS]T)$} [clock format 1 -format %Z]]
+    && ([clock format 1 -format %s] != "%s")
+}]
 test clock-9.1 {%s gmt testing} {needPST} {
-    # We need PST to guarantee the difference value below.
+    # We need PST to guarantee the difference value below, and %s isn't
+    # valid on all OSes (like Solaris).
     set s 100000
     set a [clock format $s -format %s -gmt 0]
     set b [clock format $s -format %s -gmt 1]
