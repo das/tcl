@@ -13,12 +13,12 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest 2
+    package require tcltest
     namespace import -force ::tcltest::*
 }
 
 # Clear out any namespaces called test_ns_*
-catch {namespace delete {expand}[namespace children :: test_ns_*]}
+catch {eval namespace delete [namespace children :: test_ns_*]}
 
 # Six cases - white box testing
 
@@ -66,6 +66,10 @@ interp eval $testInterp [list package require tcltest]
 interp eval $testInterp [list namespace import -force ::tcltest::*]
 
 interp eval $testInterp {
+
+if {[lsearch [namespace children] ::tcltest] == -1} {
+    package require tcltest
+}
 
 auto_reset
 catch {rename parray {}}
@@ -125,16 +129,17 @@ test init-2.7 {oad setLogCmd from safe::  - stage 2} {
 } {}
 
 
+auto_reset
+package require http 2.0
+catch {rename ::http::geturl {}}
 
-test init-2.8 {load tcl::HistAdd} -setup {
-    auto_reset
-    catch {rename ::tcl::HistAdd {}}
-} -body {
+test init-2.8 {load http::geturl (package)} {
     # 3 ':' on purpose
-    list [catch {tcl:::HistAdd} error] $error
-} -cleanup {
-    rename ::tcl::HistAdd {} ; 
-} -result {1 {wrong # args: should be "tcl:::HistAdd command ?exec?"}}
+    set ret [catch {http:::geturl} error]
+    # removing it, for the next test. should not fail.
+    rename ::http::geturl {} ; 
+    list $ret $error
+} {1 {wrong # args: should be "http:::geturl url args"}}
 
 
 test init-3.0 {random stuff in the auto_index, should still work} {
@@ -196,7 +201,6 @@ foreach arg [subst -nocommands -novariables {
     incr count
 }
 
-cleanupTests
 }	;#  End of [interp eval $testInterp]
 
 # cleanup

@@ -176,8 +176,9 @@ Tcl_TraceObjCmd(dummy, interp, objc, objv)
     int objc;				/* Number of arguments. */
     Tcl_Obj *CONST objv[];		/* Argument objects. */
 {
-    int optionIndex;
-    char *name, *flagOps, *p;
+    int optionIndex, commandLength;
+    char *name, *flagOps, *command, *p;
+    size_t length;
     /* Main sub commands to 'trace' */
     static CONST char *traceOptions[] = {
 	"add", "info", "remove", 
@@ -221,6 +222,7 @@ Tcl_TraceObjCmd(dummy, interp, objc, objv)
 		return TCL_ERROR;
 	    }
 	    return (traceSubCmds[typeIndex])(interp, optionIndex, objc, objv);
+	    break;
 	}
 	case TRACE_INFO: {
 	    /* 
@@ -246,52 +248,105 @@ Tcl_TraceObjCmd(dummy, interp, objc, objv)
 	}
 
 #ifndef TCL_REMOVE_OBSOLETE_TRACES
-	case TRACE_OLD_VARIABLE:
+        case TRACE_OLD_VARIABLE: {
+	    int flags;
+	    TraceVarInfo *tvarPtr;
+	    if (objc != 5) {
+		Tcl_WrongNumArgs(interp, 2, objv, "name ops command");
+		return TCL_ERROR;
+	    }
+
+	    flags = 0;
+	    flagOps = Tcl_GetString(objv[3]);
+	    for (p = flagOps; *p != 0; p++) {
+		if (*p == 'r') {
+		    flags |= TCL_TRACE_READS;
+		} else if (*p == 'w') {
+		    flags |= TCL_TRACE_WRITES;
+		} else if (*p == 'u') {
+		    flags |= TCL_TRACE_UNSETS;
+		} else if (*p == 'a') {
+		    flags |= TCL_TRACE_ARRAY;
+		} else {
+		    goto badVarOps;
+		}
+	    }
+	    if (flags == 0) {
+		goto badVarOps;
+	    }
+	    flags |= TCL_TRACE_OLD_STYLE;
+	    
+	    command = Tcl_GetStringFromObj(objv[4], &commandLength);
+	    length = (size_t) commandLength;
+	    tvarPtr = (TraceVarInfo *) ckalloc((unsigned)
+		    (sizeof(TraceVarInfo) - sizeof(tvarPtr->command)
+			    + length + 1));
+	    tvarPtr->flags = flags;
+	    tvarPtr->length = length;
+	    flags |= TCL_TRACE_UNSETS | TCL_TRACE_RESULT_OBJECT;
+	    strcpy(tvarPtr->command, command);
+	    name = Tcl_GetString(objv[2]);
+	    if (Tcl_TraceVar(interp, name, flags, TraceVarProc,
+		    (ClientData) tvarPtr) != TCL_OK) {
+		ckfree((char *) tvarPtr);
+		return TCL_ERROR;
+	    }
+	    break;
+	}
 	case TRACE_OLD_VDELETE: {
-	    Tcl_Obj *copyObjv[6];
-	    Tcl_Obj *opsList;
-	    int code, numFlags;
+	    int flags;
+	    TraceVarInfo *tvarPtr;
+	    ClientData clientData;
 
 	    if (objc != 5) {
 		Tcl_WrongNumArgs(interp, 2, objv, "name ops command");
 		return TCL_ERROR;
 	    }
 
-	    opsList = Tcl_NewObj();
-	    Tcl_IncrRefCount(opsList);
-	    flagOps = Tcl_GetStringFromObj(objv[3], &numFlags);
-	    if (numFlags == 0) {
-		Tcl_DecrRefCount(opsList);
-		goto badVarOps;
-	    }
+	    flags = 0;
+	    flagOps = Tcl_GetString(objv[3]);
 	    for (p = flagOps; *p != 0; p++) {
 		if (*p == 'r') {
-		    Tcl_ListObjAppendElement(NULL, opsList,
-			    Tcl_NewStringObj("read", -1));
+		    flags |= TCL_TRACE_READS;
 		} else if (*p == 'w') {
-		    Tcl_ListObjAppendElement(NULL, opsList,
-			    Tcl_NewStringObj("write", -1));
+		    flags |= TCL_TRACE_WRITES;
 		} else if (*p == 'u') {
-		    Tcl_ListObjAppendElement(NULL, opsList,
-			    Tcl_NewStringObj("unset", -1));
+		    flags |= TCL_TRACE_UNSETS;
 		} else if (*p == 'a') {
-		    Tcl_ListObjAppendElement(NULL, opsList,
-			    Tcl_NewStringObj("array", -1));
+		    flags |= TCL_TRACE_ARRAY;
 		} else {
-		    Tcl_DecrRefCount(opsList);
 		    goto badVarOps;
 		}
 	    }
-	    copyObjv[0] = NULL;
-	    memcpy(copyObjv+1, objv, objc*sizeof(Tcl_Obj *));
-	    copyObjv[4] = opsList;
-	    if  (optionIndex == TRACE_OLD_VARIABLE) {
-		code = (traceSubCmds[2])(interp,TRACE_ADD,objc+1,copyObjv);
-	    } else {
-		code = (traceSubCmds[2])(interp,TRACE_REMOVE,objc+1,copyObjv);
+	    if (flags == 0) {
+		goto badVarOps;
 	    }
-	    Tcl_DecrRefCount(opsList);
-	    return code;
+	    flags |= TCL_TRACE_OLD_STYLE;
+
+	    /*
+	     * Search through all of our traces on this variable to
+	     * see if there's one with the given command.  If so, then
+	     * delete the first one that matches.
+	     */
+
+	    command = Tcl_GetStringFromObj(objv[4], &commandLength);
+	    length = (size_t) commandLength;
+	    clientData = 0;
+	    name = Tcl_GetString(objv[2]);
+	    while ((clientData = Tcl_VarTraceInfo(interp, name, 0,
+		    TraceVarProc, clientData)) != 0) {
+		tvarPtr = (TraceVarInfo *) clientData;
+		if ((tvarPtr->length == length) && (tvarPtr->flags == flags)
+			&& (strncmp(command, tvarPtr->command,
+				(size_t) length) == 0)) {
+		    Tcl_UntraceVar2(interp, name, NULL,
+			    flags | TCL_TRACE_UNSETS | TCL_TRACE_RESULT_OBJECT,
+			    TraceVarProc, clientData);
+		    Tcl_EventuallyFree((ClientData) tvarPtr, TCL_DYNAMIC);
+		    break;
+		}
+	    }
+	    break;
 	}
 	case TRACE_OLD_VINFO: {
 	    ClientData clientData;
@@ -302,7 +357,7 @@ Tcl_TraceObjCmd(dummy, interp, objc, objv)
 		Tcl_WrongNumArgs(interp, 2, objv, "name");
 		return TCL_ERROR;
 	    }
-	    resultListPtr = Tcl_NewObj();
+	    resultListPtr = Tcl_GetObjResult(interp);
 	    clientData = 0;
 	    name = Tcl_GetString(objv[2]);
 	    while ((clientData = Tcl_VarTraceInfo(interp, name, 0,
@@ -452,8 +507,7 @@ TclTraceExecutionObjCmd(interp, optionIndex, objc, objv)
 		tcmdPtr->length = length;
 		tcmdPtr->refCount = 1;
 		flags |= TCL_TRACE_DELETE;
-		if (flags & (TCL_TRACE_ENTER_DURING_EXEC |
-			     TCL_TRACE_LEAVE_DURING_EXEC)) {
+		if (flags & (TRACE_EXEC_ENTER_STEP | TRACE_EXEC_LEAVE_STEP)) {
 		    flags |= (TCL_TRACE_ENTER_EXEC | TCL_TRACE_LEAVE_EXEC);
 		}
 		strcpy(tcmdPtr->command, command);
@@ -495,8 +549,8 @@ TclTraceExecutionObjCmd(interp, optionIndex, objc, objv)
 			    && (strncmp(command, tcmdPtr->command,
 				    (size_t) length) == 0)) {
 			flags |= TCL_TRACE_DELETE;
-			if (flags & (TCL_TRACE_ENTER_DURING_EXEC | 
-				     TCL_TRACE_LEAVE_DURING_EXEC)) {
+			if (flags & (TRACE_EXEC_ENTER_STEP | 
+				     TRACE_EXEC_LEAVE_STEP)) {
 			    flags |= (TCL_TRACE_ENTER_EXEC | 
 				      TCL_TRACE_LEAVE_EXEC);
 			}
@@ -546,9 +600,10 @@ TclTraceExecutionObjCmd(interp, optionIndex, objc, objv)
 	    resultListPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
 	    while ((clientData = Tcl_CommandTraceInfo(interp, name, 0,
 		    TraceCommandProc, clientData)) != NULL) {
-		int numOps = 0;
 
 		TraceCommandInfo *tcmdPtr = (TraceCommandInfo *) clientData;
+
+		eachTraceObjPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
 
 		/*
 		 * Build a list with the ops list as the first obj
@@ -558,7 +613,6 @@ TclTraceExecutionObjCmd(interp, optionIndex, objc, objv)
 		 */
 
 		elemObjPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
-		Tcl_IncrRefCount(elemObjPtr);
 		if (tcmdPtr->flags & TCL_TRACE_ENTER_EXEC) {
 		    Tcl_ListObjAppendElement(NULL, elemObjPtr,
 			    Tcl_NewStringObj("enter",5));
@@ -575,14 +629,7 @@ TclTraceExecutionObjCmd(interp, optionIndex, objc, objv)
 		    Tcl_ListObjAppendElement(NULL, elemObjPtr,
 			    Tcl_NewStringObj("leavestep",9));
 		}
-		Tcl_ListObjLength(NULL, elemObjPtr, &numOps);
-		if (0 == numOps) {
-		    Tcl_DecrRefCount(elemObjPtr);
-		    continue;
-		}
-		eachTraceObjPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
 		Tcl_ListObjAppendElement(NULL, eachTraceObjPtr, elemObjPtr);
-		Tcl_DecrRefCount(elemObjPtr);
 		elemObjPtr = NULL;
 		
 		Tcl_ListObjAppendElement(NULL, eachTraceObjPtr, 
@@ -748,9 +795,10 @@ TclTraceCommandObjCmd(interp, optionIndex, objc, objv)
 	    resultListPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
 	    while ((clientData = Tcl_CommandTraceInfo(interp, name, 0,
 		    TraceCommandProc, clientData)) != NULL) {
-		int numOps = 0;
 
 		TraceCommandInfo *tcmdPtr = (TraceCommandInfo *) clientData;
+
+		eachTraceObjPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
 
 		/*
 		 * Build a list with the ops list as
@@ -760,7 +808,6 @@ TclTraceCommandObjCmd(interp, optionIndex, objc, objv)
 		 */
 
 		elemObjPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
-		Tcl_IncrRefCount(elemObjPtr);
 		if (tcmdPtr->flags & TCL_TRACE_RENAME) {
 		    Tcl_ListObjAppendElement(NULL, elemObjPtr,
 			    Tcl_NewStringObj("rename",6));
@@ -769,14 +816,7 @@ TclTraceCommandObjCmd(interp, optionIndex, objc, objv)
 		    Tcl_ListObjAppendElement(NULL, elemObjPtr,
 			    Tcl_NewStringObj("delete",6));
 		}
-		Tcl_ListObjLength(NULL, elemObjPtr, &numOps);
-		if (0 == numOps) {
-		    Tcl_DecrRefCount(elemObjPtr);
-		    continue;
-		}
-		eachTraceObjPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
 		Tcl_ListObjAppendElement(NULL, eachTraceObjPtr, elemObjPtr);
-		Tcl_DecrRefCount(elemObjPtr);
 
 		elemObjPtr = Tcl_NewStringObj(tcmdPtr->command, -1);
 		Tcl_ListObjAppendElement(NULL, eachTraceObjPtr, elemObjPtr);
@@ -880,9 +920,6 @@ TclTraceVariableObjCmd(interp, optionIndex, objc, objv)
 			(sizeof(TraceVarInfo) - sizeof(tvarPtr->command)
 				+ length + 1));
 		tvarPtr->flags = flags;
-		if (objv[0] == NULL) {
-		    tvarPtr->flags |= TCL_TRACE_OLD_STYLE;
-		}
 		tvarPtr->length = length;
 		flags |= TCL_TRACE_UNSETS | TCL_TRACE_RESULT_OBJECT;
 		strcpy(tvarPtr->command, command);
@@ -906,7 +943,7 @@ TclTraceVariableObjCmd(interp, optionIndex, objc, objv)
 			TraceVarProc, clientData)) != 0) {
 		    tvarPtr = (TraceVarInfo *) clientData;
 		    if ((tvarPtr->length == length)
-			    && ((tvarPtr->flags & ~TCL_TRACE_OLD_STYLE)==flags)
+			    && (tvarPtr->flags == flags)
 			    && (strncmp(command, tvarPtr->command,
 				    (size_t) length) == 0)) {
 			Tcl_UntraceVar2(interp, name, NULL, 
@@ -927,7 +964,7 @@ TclTraceVariableObjCmd(interp, optionIndex, objc, objv)
 		return TCL_ERROR;
 	    }
 
-	    resultListPtr = Tcl_NewObj();
+	    resultListPtr = Tcl_GetObjResult(interp);
 	    clientData = 0;
 	    name = Tcl_GetString(objv[3]);
 	    while ((clientData = Tcl_VarTraceInfo(interp, name, 0,
@@ -935,6 +972,7 @@ TclTraceVariableObjCmd(interp, optionIndex, objc, objv)
 
 		TraceVarInfo *tvarPtr = (TraceVarInfo *) clientData;
 
+		eachTraceObjPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
 		/*
 		 * Build a list with the ops list as
 		 * the first obj element and the tcmdPtr->command string
@@ -959,7 +997,6 @@ TclTraceVariableObjCmd(interp, optionIndex, objc, objv)
 		    Tcl_ListObjAppendElement(NULL, elemObjPtr,
 			    Tcl_NewStringObj("unset", 5));
 		}
-		eachTraceObjPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
 		Tcl_ListObjAppendElement(NULL, eachTraceObjPtr, elemObjPtr);
 
 		elemObjPtr = Tcl_NewStringObj(tvarPtr->command, -1);
@@ -1235,14 +1272,16 @@ TraceCommandProc(clientData, interp, oldName, newName, flags)
     int flags;			/* OR-ed bits giving operation and other
 				 * information. */
 {
+    Interp *iPtr = (Interp *) interp;
+    Tcl_Obj *stateReturnOpts;
+    Tcl_SavedResult state;
     TraceCommandInfo *tcmdPtr = (TraceCommandInfo *) clientData;
     int code;
     Tcl_DString cmd;
     
     tcmdPtr->refCount++;
     
-    if ((tcmdPtr->flags & flags) && !(flags & TCL_INTERP_DESTROYED)
-	    && !Tcl_LimitExceeded(interp)) {
+    if ((tcmdPtr->flags & flags) && !(flags & TCL_INTERP_DESTROYED)) {
 	/*
 	 * Generate a command to execute by appending list elements
 	 * for the old and new command name and the operation.
@@ -1259,23 +1298,37 @@ TraceCommandProc(clientData, interp, oldName, newName, flags)
 	}
 
 	/*
-	 * Execute the command.  
-	 * We discard any object result the command returns.
+	 * Execute the command.  Save the interp's result used for the
+	 * command, including the value of iPtr->returnOpts which may be
+	 * modified when Tcl_Eval is invoked. We discard any object
+	 * result the command returns.
 	 *
 	 * Add the TCL_TRACE_DESTROYED flag to tcmdPtr to indicate to
 	 * other areas that this will be destroyed by us, otherwise a
 	 * double-free might occur depending on what the eval does.
 	 */
 
+	Tcl_SaveResult(interp, &state);
+	stateReturnOpts = iPtr->returnOpts;
+	Tcl_IncrRefCount(stateReturnOpts);
 	if (flags & TCL_TRACE_DESTROYED) {
 	    tcmdPtr->flags |= TCL_TRACE_DESTROYED;
 	}
+
 	code = Tcl_EvalEx(interp, Tcl_DStringValue(&cmd),
 		Tcl_DStringLength(&cmd), 0);
 	if (code != TCL_OK) {	     
 	    /* We ignore errors in these traced commands */
-	    /*** QUESTION: Use Tcl_BackgroundError(interp); instead? ***/
 	}
+
+	Tcl_RestoreResult(interp, &state);
+	if (iPtr->returnOpts != stateReturnOpts) {
+	    Tcl_DecrRefCount(iPtr->returnOpts);
+	    iPtr->returnOpts = stateReturnOpts;
+	    Tcl_IncrRefCount(iPtr->returnOpts);
+	}
+	Tcl_DecrRefCount(stateReturnOpts);
+	
 	Tcl_DStringFree(&cmd);
     }
     /*
@@ -1283,8 +1336,6 @@ TraceCommandProc(clientData, interp, oldName, newName, flags)
      * because command deletes are unconditional, so the trace must go away.
      */
     if (flags & (TCL_TRACE_DESTROYED | TCL_TRACE_DELETE)) {
-	int untraceFlags = tcmdPtr->flags;
-
 	if (tcmdPtr->stepTrace != NULL) {
 	    Tcl_DeleteTrace(interp, tcmdPtr->stepTrace);
 	    tcmdPtr->stepTrace = NULL;
@@ -1296,28 +1347,10 @@ TraceCommandProc(clientData, interp, oldName, newName, flags)
 	    /* Postpone deletion, until exec trace returns */
 	    tcmdPtr->flags = 0;
 	}
-	/*
-	 * We need to construct the same flags for Tcl_UntraceCommand
-	 * as were passed to Tcl_TraceCommand.  Reproduce the processing
-	 * of [trace add execution/command].  Be careful to keep this
-	 * code in sync with that.
+	/* 
+	 * Decrement the refCount since the command which held our
+	 * reference (ever since we were created) has just gone away
 	 */
-	if (untraceFlags & TCL_TRACE_ANY_EXEC) {
-	    untraceFlags |= TCL_TRACE_DELETE;
-	    if (untraceFlags & (TCL_TRACE_ENTER_DURING_EXEC 
-		    | TCL_TRACE_LEAVE_DURING_EXEC)) {
-		untraceFlags |= (TCL_TRACE_ENTER_EXEC | TCL_TRACE_LEAVE_EXEC);
-	    }
-	} else if (untraceFlags & TCL_TRACE_RENAME) {
-	    untraceFlags |= TCL_TRACE_DELETE;
-	}
-	/*
-	 * Remove the trace since TCL_TRACE_DESTROYED tells us to, or the
-	 * command we're tracing has just gone away.  Then decrement the
-	 * clientData refCount that was set up by trace creation.
-	 */
-	Tcl_UntraceCommand(interp, oldName, untraceFlags,
-		TraceCommandProc, clientData);
 	tcmdPtr->refCount--;
     }
     if ((--tcmdPtr->refCount) <= 0) {
@@ -1371,7 +1404,6 @@ TclCheckExecutionTraces(interp, command, numChars, cmdPtr, code,
     int curLevel;
     int traceCode = TCL_OK;
     TraceCommandInfo* tcmdPtr;
-    Tcl_InterpState state = NULL;
     
     if (command == NULL || cmdPtr->tracePtr == NULL) {
 	return traceCode;
@@ -1403,9 +1435,6 @@ TclCheckExecutionTraces(interp, command, numChars, cmdPtr, code,
             tcmdPtr->curFlags = traceFlags | TCL_TRACE_EXEC_DIRECT;
             tcmdPtr->curCode  = code;
 	    tcmdPtr->refCount++;
-	    if (state == NULL) {
-		state = Tcl_SaveInterpState(interp, code);
-	    }
 	    traceCode = TraceExecutionProc((ClientData)tcmdPtr, interp, 
 	          curLevel, command, (Tcl_Command)cmdPtr, objc, objv);
 	    if ((--tcmdPtr->refCount) <= 0) {
@@ -1415,9 +1444,6 @@ TclCheckExecutionTraces(interp, command, numChars, cmdPtr, code,
         lastTracePtr = tracePtr;
     }
     iPtr->activeCmdTracePtr = active.nextPtr;
-    if (state) {
-	(void) Tcl_RestoreInterpState(interp, state);
-    }
     return(traceCode);
 }
 
@@ -1463,14 +1489,13 @@ TclCheckInterpTraces(interp, command, numChars, cmdPtr, code,
     int curLevel;
     int traceCode = TCL_OK;
     TraceCommandInfo* tcmdPtr;
-    Tcl_InterpState state = NULL;
     
     if (command == NULL || iPtr->tracePtr == NULL ||
            (iPtr->flags & INTERP_TRACE_IN_PROGRESS)) {
 	return(traceCode);
     }
     
-    curLevel = iPtr->numLevels;
+    curLevel = ((iPtr->varFramePtr == NULL) ? 0 : iPtr->varFramePtr->level);
     
     active.nextPtr = iPtr->activeInterpTracePtr;
     iPtr->activeInterpTracePtr = &active;
@@ -1510,9 +1535,6 @@ TclCheckInterpTraces(interp, command, numChars, cmdPtr, code,
 	     */
 	    Tcl_Preserve((ClientData) tracePtr);
 	    tracePtr->flags |= TCL_TRACE_EXEC_IN_PROGRESS;
-	    if (state == NULL) {
-		state = Tcl_SaveInterpState(interp, code);
-	    }
 	    
 	    if (tracePtr->flags & (TCL_TRACE_ENTER_EXEC | TCL_TRACE_LEAVE_EXEC)) {
 	        /* New style trace */
@@ -1545,13 +1567,6 @@ TclCheckInterpTraces(interp, command, numChars, cmdPtr, code,
         lastTracePtr = tracePtr;
     }
     iPtr->activeInterpTracePtr = active.nextPtr;
-    if (state) {
-	if (traceCode == TCL_OK) {
-	    (void) Tcl_RestoreInterpState(interp, state);
-	} else {
-	    Tcl_DiscardInterpState(state);
-	}
-    }
     return(traceCode);
 }
 
@@ -1679,7 +1694,7 @@ TraceExecutionProc(ClientData clientData, Tcl_Interp *interp,
 	return traceCode;
     }
     
-    if (!(flags & TCL_INTERP_DESTROYED) && !Tcl_LimitExceeded(interp)) {
+    if (!(flags & TCL_INTERP_DESTROYED)) {
 	/*
 	 * Check whether the current call is going to eval arbitrary
 	 * Tcl code with a generated trace, or whether we are only
@@ -1714,6 +1729,8 @@ TraceExecutionProc(ClientData clientData, Tcl_Interp *interp,
 	 * Second, create the tcl callback, if required.
 	 */
 	if (call) {
+	    Tcl_SavedResult state;
+	    Tcl_Obj *stateReturnOpts;
 	    Tcl_DString cmd;
 	    Tcl_DString sub;
 	    int i;
@@ -1757,13 +1774,19 @@ TraceExecutionProc(ClientData clientData, Tcl_Interp *interp,
 		    Tcl_DStringAppendElement(&cmd, "leavestep");
 		}
 	    } else {
-		Tcl_Panic("TraceExecutionProc: bad flag combination");
+		panic("TraceExecutionProc: bad flag combination");
 	    }
 	    
 	    /*
-	     * Execute the command.  
-	     * We discard any object result the command returns.
+	     * Execute the command.  Save the interp's result used for
+	     * the command, including the value of iPtr->returnOpts which
+	     * may be modified when Tcl_Eval is invoked.  We discard any
+	     * object result the command returns.
 	     */
+
+	    Tcl_SaveResult(interp, &state);
+	    stateReturnOpts = iPtr->returnOpts;
+	    Tcl_IncrRefCount(stateReturnOpts);
 
 	    tcmdPtr->flags |= TCL_TRACE_EXEC_IN_PROGRESS;
 	    iPtr->flags    |= INTERP_TRACE_IN_PROGRESS;
@@ -1779,6 +1802,20 @@ TraceExecutionProc(ClientData clientData, Tcl_Interp *interp,
 	    if (tcmdPtr->flags == 0) {
 		flags |= TCL_TRACE_DESTROYED;
 	    }
+	    
+            if (traceCode == TCL_OK) {
+		/* Restore result if trace execution was successful */
+		Tcl_RestoreResult(interp, &state);
+		if (iPtr->returnOpts != stateReturnOpts) {
+		    Tcl_DecrRefCount(iPtr->returnOpts);
+		    iPtr->returnOpts = stateReturnOpts;
+		    Tcl_IncrRefCount(iPtr->returnOpts);
+		}
+            } else {
+		Tcl_DiscardResult(&state);
+	    }
+	    Tcl_DecrRefCount(stateReturnOpts);
+
 	    Tcl_DStringFree(&cmd);
 	}
 	
@@ -1850,6 +1887,7 @@ TraceVarProc(clientData, interp, name1, name2, flags)
     int flags;			/* OR-ed bits giving operation and other
 				 * information. */
 {
+    Tcl_SavedResult state;
     TraceVarInfo *tvarPtr = (TraceVarInfo *) clientData;
     char *result;
     int code;
@@ -1866,8 +1904,7 @@ TraceVarProc(clientData, interp, name1, name2, flags)
     Tcl_Preserve((ClientData) tvarPtr);
 
     result = NULL;
-    if ((tvarPtr->flags & flags) && !(flags & TCL_INTERP_DESTROYED)
-	    && !Tcl_LimitExceeded(interp)) {
+    if ((tvarPtr->flags & flags) && !(flags & TCL_INTERP_DESTROYED)) {
 	if (tvarPtr->length != (size_t) 0) {
 	    /*
 	     * Generate a command to execute by appending list elements
@@ -1905,24 +1942,29 @@ TraceVarProc(clientData, interp, name1, name2, flags)
 #endif
 	    
 	    /*
-	     * Execute the command.  
-	     * We discard any object result the command returns.
+	     * Execute the command.  Save the interp's result used for
+	     * the command. We discard any object result the command returns.
 	     *
 	     * Add the TCL_TRACE_DESTROYED flag to tvarPtr to indicate to
 	     * other areas that this will be destroyed by us, otherwise a
 	     * double-free might occur depending on what the eval does.
 	     */
 
+	    Tcl_SaveResult(interp, &state);
 	    if (flags & TCL_TRACE_DESTROYED) {
 		tvarPtr->flags |= TCL_TRACE_DESTROYED;
 	    }
+
 	    code = Tcl_EvalEx(interp, Tcl_DStringValue(&cmd),
 		    Tcl_DStringLength(&cmd), 0);
 	    if (code != TCL_OK) {	     /* copy error msg to result */
-		Tcl_Obj *errMsgObj = Tcl_GetObjResult(interp);
+		register Tcl_Obj *errMsgObj = Tcl_GetObjResult(interp);
 		Tcl_IncrRefCount(errMsgObj);
 		result = (char *) errMsgObj;
 	    }
+
+	    Tcl_RestoreResult(interp, &state);
+
 	    Tcl_DStringFree(&cmd);
 	}
     }
@@ -2334,8 +2376,8 @@ TclVarTraceExists(interp, varName)
  *      Returns TCL_OK to indicate normal operation.  Returns TCL_ERROR
  *      if invocation of a trace procedure indicated an error.  When
  *      TCL_ERROR is returned and leaveErrMsg is true, then the
- *      errorInfo field of iPtr has information about the error
- *      placed in it.
+ *      ::errorInfo variable of iPtr has information about the error
+ *      appended to it.
  *
  * Side effects:
  *	Almost anything can happen, depending on trace; this procedure
@@ -2359,7 +2401,7 @@ TclCallVarTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, leaveErrMsg)
 				 * plus other stuff like TCL_GLOBAL_ONLY,
 				 * TCL_NAMESPACE_ONLY, and
 				 * TCL_INTERP_DESTROYED. */
-    int leaveErrMsg;	        /* If true, and one of the traces indicates an
+    CONST int leaveErrMsg;	/* If true, and one of the traces indicates an
 				 * error, then leave an error message and stack
 				 * trace information in *iPTr. */
 {
@@ -2371,17 +2413,16 @@ TclCallVarTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, leaveErrMsg)
     int copiedName;
     int code = TCL_OK;
     int disposeFlags = 0;
-    Tcl_InterpState state = NULL;
 
     /*
      * If there are already similar trace procedures active for the
      * variable, don't call them again.
      */
 
-    if (TclIsVarTraceActive(varPtr)) {
+    if (varPtr->flags & VAR_TRACE_ACTIVE) {
 	return code;
     }
-    TclSetVarTraceActive(varPtr);
+    varPtr->flags |= VAR_TRACE_ACTIVE;
     varPtr->refCount++;
     if (arrayPtr != NULL) {
 	arrayPtr->refCount++;
@@ -2429,7 +2470,7 @@ TclCallVarTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, leaveErrMsg)
     active.nextPtr = iPtr->activeVarTracePtr;
     iPtr->activeVarTracePtr = &active;
     Tcl_Preserve((ClientData) iPtr);
-    if (arrayPtr != NULL && !TclIsVarTraceActive(arrayPtr)) {
+    if (arrayPtr != NULL && !(arrayPtr->flags & VAR_TRACE_ACTIVE)) {
 	active.varPtr = arrayPtr;
 	for (tracePtr = arrayPtr->tracePtr;  tracePtr != NULL;
 	     tracePtr = active.nextTracePtr) {
@@ -2438,9 +2479,6 @@ TclCallVarTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, leaveErrMsg)
 		continue;
 	    }
 	    Tcl_Preserve((ClientData) tracePtr);
-	    if (state == NULL) {
-		state = Tcl_SaveInterpState((Tcl_Interp *)iPtr, code);
-	    }
 	    result = (*tracePtr->traceProc)(tracePtr->clientData,
 		    (Tcl_Interp *) iPtr, part1, part2, flags);
 	    if (result != NULL) {
@@ -2474,9 +2512,6 @@ TclCallVarTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, leaveErrMsg)
 	    continue;
 	}
 	Tcl_Preserve((ClientData) tracePtr);
-	if (state == NULL) {
-	    state = Tcl_SaveInterpState((Tcl_Interp *)iPtr, code);
-	}
 	result = (*tracePtr->traceProc)(tracePtr->clientData,
 		(Tcl_Interp *) iPtr, part1, part2, flags);
 	if (result != NULL) {
@@ -2503,33 +2538,19 @@ TclCallVarTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, leaveErrMsg)
     if (code == TCL_ERROR) {
 	if (leaveErrMsg) {
 	    CONST char *type = "";
-	    Tcl_Obj *options = Tcl_GetReturnOptions((Tcl_Interp *)iPtr, code);
-	    Tcl_Obj *errorInfoKey = Tcl_NewStringObj("-errorinfo", -1);
-	    Tcl_Obj *errorInfo;
-
-	    Tcl_IncrRefCount(errorInfoKey);
-	    Tcl_DictObjGet(NULL, options, errorInfoKey, &errorInfo);
-	    Tcl_IncrRefCount(errorInfo);
-	    Tcl_DictObjRemove(NULL, options, errorInfoKey);
-	    if (Tcl_IsShared(errorInfo)) {
-		Tcl_DecrRefCount(errorInfo);
-		errorInfo = Tcl_DuplicateObj(errorInfo);
-		Tcl_IncrRefCount(errorInfo);
-	    }
-	    Tcl_AppendToObj(errorInfo, "\n    (", -1);
 	    switch (flags&(TCL_TRACE_READS|TCL_TRACE_WRITES|TCL_TRACE_ARRAY)) {
-		case TCL_TRACE_READS:
+		case TCL_TRACE_READS: {
 		    type = "read";
-		    Tcl_AppendToObj(errorInfo, type, -1);
 		    break;
-		case TCL_TRACE_WRITES:
+		}
+		case TCL_TRACE_WRITES: {
 		    type = "set";
-		    Tcl_AppendToObj(errorInfo, "write", -1);
 		    break;
-		case TCL_TRACE_ARRAY:
+		}
+		case TCL_TRACE_ARRAY: {
 		    type = "trace array";
-		    Tcl_AppendToObj(errorInfo, "array", -1);
 		    break;
+		}
 	    }
 	    if (disposeFlags & TCL_TRACE_RESULT_OBJECT) {
 		TclVarErrMsg((Tcl_Interp *) iPtr, part1, part2, type,
@@ -2537,30 +2558,8 @@ TclCallVarTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, leaveErrMsg)
 	    } else {
 		TclVarErrMsg((Tcl_Interp *) iPtr, part1, part2, type, result);
 	    }
-	    Tcl_AppendToObj(errorInfo, " trace on \"", -1);
-	    Tcl_AppendToObj(errorInfo, part1, -1);
-	    if (part2 != NULL) {
-		Tcl_AppendToObj(errorInfo, "(", -1);
-		Tcl_AppendToObj(errorInfo, part1, -1);
-		Tcl_AppendToObj(errorInfo, ")", -1);
-	    }
-	    Tcl_AppendToObj(errorInfo, "\")", -1);
-	    Tcl_DictObjPut(NULL, options, errorInfoKey, errorInfo);
-	    Tcl_DecrRefCount(errorInfoKey);
-	    Tcl_DecrRefCount(errorInfo);
-	    code = Tcl_SetReturnOptions((Tcl_Interp *)iPtr, options);
-	    iPtr->flags &= ~(ERR_ALREADY_LOGGED);
-	    Tcl_DiscardInterpState(state);
-	} else {
-	    (void) Tcl_RestoreInterpState((Tcl_Interp *)iPtr, state);
 	}
 	DisposeTraceResult(disposeFlags,result);
-    } else if (state) {
-	if (code == TCL_OK) {
-	    code = Tcl_RestoreInterpState((Tcl_Interp *)iPtr, state);
-	} else {
-	    Tcl_DiscardInterpState(state);
-	}
     }
 
     if (arrayPtr != NULL) {
@@ -2569,7 +2568,7 @@ TclCallVarTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, leaveErrMsg)
     if (copiedName) {
 	Tcl_DStringFree(&nameCopy);
     }
-    TclClearVarTraceActive(varPtr);
+    varPtr->flags &= ~VAR_TRACE_ACTIVE;
     varPtr->refCount--;
     iPtr->activeVarTracePtr = active.nextPtr;
     Tcl_Release((ClientData) iPtr);
@@ -2937,7 +2936,7 @@ Tcl_TraceVar2(interp, part1, part2, flags, proc, clientData)
     /* 
      * We strip 'flags' down to just the parts which are relevant to
      * TclLookupVar, to avoid conflicts between trace flags and
-     * internal namespace flags such as 'TCL_FIND_ONLY_NS'.  This can
+     * internal namespace flags such as 'FIND_ONLY_NS'.  This can
      * now occur since we have trace flags with values 0x1000 and higher.
      */
     flagMask = TCL_GLOBAL_ONLY | TCL_NAMESPACE_ONLY;
@@ -2950,11 +2949,11 @@ Tcl_TraceVar2(interp, part1, part2, flags, proc, clientData)
 
     /*
      * Check for a nonsense flag combination.  Note that this is a
-     * Tcl_Panic() because there should be no code path that ever sets
+     * panic() because there should be no code path that ever sets
      * both flags.
      */
     if ((flags&TCL_TRACE_RESULT_DYNAMIC) && (flags&TCL_TRACE_RESULT_OBJECT)) {
-	Tcl_Panic("bad result flag combination");
+	panic("bad result flag combination");
     }
 
     /*
