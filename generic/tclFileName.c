@@ -1084,7 +1084,7 @@ DoTildeSubst(interp, user, resultPtr)
 	    return NULL;
 	}
 	Tcl_JoinPath(1, &dir, resultPtr);
-    } else if (TclpGetUserHome(user, resultPtr) == NULL) {	
+    } else if (TclGetUserHome(user, resultPtr) == NULL) {	
 	if (interp) {
 	    Tcl_ResetResult(interp);
 	    Tcl_AppendResult(interp, "user \"", user, "\" doesn't exist",

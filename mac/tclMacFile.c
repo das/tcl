@@ -249,7 +249,7 @@ Tcl_FindExecutable(
 /*
  *----------------------------------------------------------------------
  *
- * TclpGetUserHome --
+ * TclGetUserHome --
  *
  *	This function takes the passed in user name and finds the
  *	corresponding home directory specified in the password file.
@@ -264,7 +264,7 @@ Tcl_FindExecutable(
  */
 
 char *
-TclpGetUserHome(
+TclGetUserHome(
     char *name,			/* User name to use to find home directory. */
     Tcl_DString *bufferPtr)	/* May be used to hold result.  Must not hold
 				 * anything at the time of the call, and need
