@@ -34,6 +34,14 @@ buffered output has been flushed to the channel. If the channel is in
 nonblocking mode, the command may return before all buffered output has been
 flushed; the remainder will be flushed in the background as fast as the
 underlying file or device is able to absorb it.
+.SH EXAMPLE
+Prompt for the user to type some information in on the console:
+.CS
+puts -nonewline "Please type your name: "
+flush stdout
+gets stdin name
+puts "Hello there, $name!"
+.CE
 
 .SH "SEE ALSO"
 file(n), open(n), socket(n), Tcl_StandardChannels(3)
