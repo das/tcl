@@ -149,7 +149,7 @@ if {$doTestsWithRemoteServer} {
 
 # Some tests are run only if we are doing testing against a remote server.
 testConstraint doTestsWithRemoteServer $doTestsWithRemoteServer
-if {![testConstraint doTestsWithRemoteServer]} {
+if {!$doTestsWithRemoteServer} {
     if {[string first s $::tcltest::verbose] != -1} {
     	puts "Skipping tests with remote server. See tests/socket.test for"
 	puts "information on how to run remote server."
