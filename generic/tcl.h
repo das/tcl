@@ -381,8 +381,6 @@ typedef unsigned TCL_WIDE_INT_TYPE	Tcl_WideUInt;
 
 #ifdef TCL_WIDE_INT_IS_LONG
 #   include <sys/types.h>
-typedef long		Tcl_WideInt;
-typedef unsigned long	Tcl_WideInt;
 typedef struct stat	Tcl_StatBuf;
 #   define Tcl_WideAsLong(val)		((long)(val))
 #   define Tcl_LongAsWide(val)		((long)(val))
