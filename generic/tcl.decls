@@ -136,7 +136,7 @@ declare 30 generic {
     void TclFreeObj(Tcl_Obj *objPtr)
 }
 declare 31 generic {
-    int Tcl_GetBoolean(Tcl_Interp *interp, char *str, int *boolPtr)
+    int Tcl_GetBoolean(Tcl_Interp *interp, CONST char *str, int *boolPtr)
 }
 declare 32 generic {
     int Tcl_GetBooleanFromObj(Tcl_Interp *interp, Tcl_Obj *objPtr, \
@@ -146,7 +146,7 @@ declare 33 generic {
     unsigned char * Tcl_GetByteArrayFromObj(Tcl_Obj *objPtr, int *lengthPtr)
 }
 declare 34 generic {
-    int Tcl_GetDouble(Tcl_Interp *interp, char *str, double *doublePtr)
+    int Tcl_GetDouble(Tcl_Interp *interp, CONST char *str, double *doublePtr)
 }
 declare 35 generic {
     int Tcl_GetDoubleFromObj(Tcl_Interp *interp, Tcl_Obj *objPtr, \
@@ -157,7 +157,7 @@ declare 36 generic {
 	    char **tablePtr, char *msg, int flags, int *indexPtr)
 }
 declare 37 generic {
-    int Tcl_GetInt(Tcl_Interp *interp, char *str, int *intPtr)
+    int Tcl_GetInt(Tcl_Interp *interp, CONST char *str, int *intPtr)
 }
 declare 38 generic {
     int Tcl_GetIntFromObj(Tcl_Interp *interp, Tcl_Obj *objPtr, int *intPtr)

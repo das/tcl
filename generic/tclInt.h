@@ -1690,8 +1690,6 @@ EXTERN int		TclGetIntForIndex _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *objPtr, int endValue, int *indexPtr));
 EXTERN Tcl_Obj *	TclGetIndexedScalar _ANSI_ARGS_((Tcl_Interp *interp,
 			    int localIndex, int flags));
-EXTERN int		TclGetLong _ANSI_ARGS_((Tcl_Interp *interp,
-			    char *string, long *longPtr));
 EXTERN int		TclGetLoadedPackages _ANSI_ARGS_((
 			    Tcl_Interp *interp, char *targetName));
 EXTERN int		TclGetNamespaceForQualName _ANSI_ARGS_((

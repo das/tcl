@@ -154,7 +154,7 @@ declare 35 generic {
 	    int flags)
 }
 declare 36 generic {
-    int TclGetLong(Tcl_Interp *interp, char *str, long *longPtr)
+    int TclGetLong(Tcl_Interp *interp, CONST char *str, long *longPtr)
 }
 declare 37 generic {
     int TclGetLoadedPackages(Tcl_Interp *interp, char *targetName)
