@@ -23,7 +23,8 @@
 # None.
 
 proc auto_reset {} {
-    global auto_execs auto_index auto_oldpath
+    variable ::tcl::auto_oldpath
+    global auto_execs auto_index 
     foreach p [info procs] {
 	if {[info exists auto_index($p)] && ![string match auto_* $p]
 		&& ([lsearch -exact {unknown pkg_mkIndex tclPkgSetup
