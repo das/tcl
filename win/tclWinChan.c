@@ -440,7 +440,7 @@ FileSeekProc(instanceData, offset, mode, errorCodePtr)
 {
     FileInfo *infoPtr = (FileInfo *) instanceData;
     DWORD moveMethod;
-    DWORD newPos;
+    DWORD newPos, newPosHigh;
 
     *errorCodePtr = 0;
     if (mode == SEEK_SET) {
@@ -451,13 +451,18 @@ FileSeekProc(instanceData, offset, mode, errorCodePtr)
         moveMethod = FILE_END;
     }
 
-    newPos = SetFilePointer(infoPtr->handle, offset, NULL, moveMethod);
-    if (newPos == 0xFFFFFFFF) {
-        TclWinConvertError(GetLastError());
-        *errorCodePtr = errno;
-	return -1;
+    newPosHigh = (DWORD)(offset >> 32);
+    newPos = SetFilePointer(infoPtr->handle, (LONG) offset, &newPosHigh,
+			    moveMethod);
+    if (newPos == INVALID_SET_FILE_POINTER) {
+	int winError = GetLastError();
+	if (winError != NO_ERROR) {
+	    TclWinConvertError(winError);
+	    *errorCodePtr = errno;
+	    return -1;
+	}
     }
-    return newPos;
+    return ((Tcl_WideInt) newPos) | (((Tcl_WideInt) newPosHigh) << 32);
 }
 
 /*

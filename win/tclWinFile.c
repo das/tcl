@@ -980,7 +980,8 @@ NativeStat(nativePath, statPtr)
     statPtr->st_uid	= 0;
     statPtr->st_gid	= 0;
     statPtr->st_rdev	= (dev_t) dev;
-    statPtr->st_size	= data.a.nFileSizeLow;
+    statPtr->st_size	= ((Tcl_WideInt)data.a.nFileSizeLow) |
+	    (((Tcl_WideInt)data.a.nFileSizeHigh) << 32);
     statPtr->st_atime	= ToCTime(data.a.ftLastAccessTime);
     statPtr->st_mtime	= ToCTime(data.a.ftLastWriteTime);
     statPtr->st_ctime	= ToCTime(data.a.ftCreationTime);
