@@ -1667,11 +1667,11 @@ EXTERN int		Tcl_RecordAndEvalObj _ANSI_ARGS_((Tcl_Interp *interp,
 EXTERN Tcl_RegExp	Tcl_RegExpCompile _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *string));
 EXTERN int		Tcl_RegExpExec _ANSI_ARGS_((Tcl_Interp *interp,
-			    Tcl_RegExp regexp, CONST char *string,
+			    Tcl_RegExp re, CONST char *string,
 			    CONST char *start));
 EXTERN int		Tcl_RegExpMatch _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *string, char *pattern));
-EXTERN void		Tcl_RegExpRange _ANSI_ARGS_((Tcl_RegExp regexp,
+EXTERN void		Tcl_RegExpRange _ANSI_ARGS_((Tcl_RegExp re,
 			    int index, char **startPtr, char **endPtr));
 EXTERN void		Tcl_RegisterChannel _ANSI_ARGS_((Tcl_Interp *interp,
 	        	    Tcl_Channel chan));

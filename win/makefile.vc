@@ -463,6 +463,16 @@ $(TMPDIR)\tclWinTest.obj: $(WINDIR)\tclWinTest.c
 $(TMPDIR)\tclAppInit.obj : $(WINDIR)\tclAppInit.c
 	$(cc32) $(TCL_CFLAGS) -DSTATIC_BUILD -Fo$@ $?
 
+# Dedependency rules
+
+$(GENERICDIR)\regcomp.c: \
+	$(GENERICDIR)\regc_locale.c \
+	$(GENERICDIR)\regguts.h \
+	$(GENERICDIR)\regc_lex.c \
+	$(GENERICDIR)\regc_color.c \
+	$(GENERICDIR)\regc_nfa.c \
+	$(GENERICDIR)\regc_cvec.c
+
 #
 # Implicit rules
 #

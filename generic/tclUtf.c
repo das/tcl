@@ -12,7 +12,12 @@
  */
 
 #include "tclInt.h"
-#include "tclUtf.h"
+
+/*
+ * Include the static character classification tables and macros.
+ */
+
+#include "tclUniData.c"
 
 /*
  * The following macros are used for fast character category tests.  The
