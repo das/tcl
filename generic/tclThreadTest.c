@@ -868,13 +868,13 @@ ThreadEventProc(evPtr, mask)
 	code = Tcl_GlobalEval(interp, threadEventPtr->script);
 	Tcl_DeleteThreadExitHandler(ThreadFreeProc,
 		(ClientData) threadEventPtr->script);
-	result = Tcl_GetStringResult(interp);
 	if (code != TCL_OK) {
 	    errorCode = Tcl_GetVar(interp, "errorCode", TCL_GLOBAL_ONLY);
 	    errorInfo = Tcl_GetVar(interp, "errorInfo", TCL_GLOBAL_ONLY);
 	} else {
 	    errorCode = errorInfo = NULL;
 	}
+	result = Tcl_GetStringResult(interp);
     }
     ckfree(threadEventPtr->script);
     if (resultPtr) {
