@@ -810,7 +810,6 @@ typedef void (Tcl_ThreadCreateProc) _ANSI_ARGS_((ClientData clientData));
  * CompileProc declared below.
  */
 
-struct Tcl_Parse;
 struct CompileEnv;
 
 /*
@@ -833,7 +832,15 @@ struct CompileEnv;
 #define TCL_OUT_LINE_COMPILE	(TCL_CONTINUE + 1)
 
 typedef int (CompileProc) _ANSI_ARGS_((Tcl_Interp *interp,
-	struct Tcl_Parse *parsePtr, struct CompileEnv *compEnvPtr));
+	Tcl_Parse *parsePtr, struct CompileEnv *compEnvPtr));
+
+/*
+ * The type of procedure called from the compilation hook point in
+ * SetByteCodeFromAny.
+ */
+
+typedef int (CompileHookProc) _ANSI_ARGS_((Tcl_Interp *interp,
+	struct CompileEnv *compEnvPtr, ClientData clientData));
 
 /*
  * The data structure defining the execution environment for ByteCode's.

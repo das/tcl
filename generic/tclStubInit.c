@@ -585,6 +585,9 @@ TclIntStubs tclIntStubs = {
     TclpLoadFile, /* 139 */
     TclLooksLikeInt, /* 140 */
     TclpGetCwd, /* 141 */
+    TclSetByteCodeFromAny, /* 142 */
+    TclAddLiteralObj, /* 143 */
+    TclHideLiteral, /* 144 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
