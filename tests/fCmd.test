@@ -433,7 +433,7 @@ test fCmd-6.6 {CopyRenameOneFile: errno != ENOENT} {unixOnly notRoot testchmod} 
     testchmod 755 td1
     set msg
 } {1 {error renaming "tf1" to "td1/tf1": permission denied}}
-test fCmd-6.7 {CopyRenameOneFile: errno != ENOENT} {95} {
+test fCmd-6.7 {CopyRenameOneFile: errno != ENOENT} {pcOnly 95} {
     cleanup
     createfile tf1
     list [catch {file rename tf1 $long} msg] $msg
