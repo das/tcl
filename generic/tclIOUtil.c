@@ -100,7 +100,7 @@ static Tcl_Obj*  TclFSNormalizeAbsolutePath
 
 static FilesystemRecord* FsGetIterator(void);
 static void FsReleaseIterator(void);
-
+static void FsThrExitProc(ClientData cd);
 
 /* 
  * These form part of the native filesystem support.  They are needed
