@@ -238,7 +238,7 @@ test registry-4.7 {GetKeyNames: Unicode} {pcOnly english} {
     registry delete HKEY_CLASSES_ROOT\\TclFoobar
     set result
 } "baz\u00c7bar blat"
-test registry-4.8 {GetKeyNames: Unicode} {pcOnly} {
+test registry-4.8 {GetKeyNames: Unicode} {pcOnly nt} {
     registry delete HKEY_CLASSES_ROOT\\TclFoobar
     registry set HKEY_CLASSES_ROOT\\TclFoobar\\baz\u30b7bar
     registry set HKEY_CLASSES_ROOT\\TclFoobar\\blat
@@ -428,7 +428,7 @@ test registry-6.17 {GetValue: Unicode value names} {pcOnly} {
     registry delete HKEY_CLASSES_ROOT\\TclFoobar
     set result
 } foobar
-test registry-6.18 {GetValue: values with Unicode strings} {pcOnly} {
+test registry-6.18 {GetValue: values with Unicode strings} {pcOnly nt} {
     registry set HKEY_CLASSES_ROOT\\TclFoobar val1 {foo ba\u30b7r baz} multi_sz
     set result [registry get HKEY_CLASSES_ROOT\\TclFoobar val1]
     registry delete HKEY_CLASSES_ROOT\\TclFoobar
