@@ -99,7 +99,7 @@ typedef int (Tcl_ResolveVarProc) _ANSI_ARGS_((
     int flags, Tcl_Var *rPtr));
 
 typedef int (Tcl_ResolveCmdProc) _ANSI_ARGS_((Tcl_Interp* interp,
-    CONST char* name, Tcl_Namespace *context, int flags,
+    CONST84 char* name, Tcl_Namespace *context, int flags,
     Tcl_Command *rPtr));
  
 typedef struct Tcl_ResolverInfo {
