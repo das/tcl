@@ -875,8 +875,13 @@ ThreadExitProc(dummy)
 	} else if (resultPtr->dstThreadId == self) {
 	    /*
 	     * Dang.  The target is going away.  Unblock the caller.
+	     * The result string must be dynamically allocated because
+	     * the main thread is going to call free on it.
 	     */
-	    resultPtr->result = "target thread died";
+
+	    char *msg = "target thread died";
+	    resultPtr->result = ckalloc(strlen(msg)+1);
+	    strcpy(resultPtr->result, msg);
 	    resultPtr->code = TCL_ERROR;
 	    Tcl_ConditionNotify(&resultPtr->done);
 	}
