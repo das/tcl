@@ -66,7 +66,7 @@ extensions like Tk normally execute callback scripts
 in the global namespace.
 A scoped command captures a command together with its namespace context
 in a way that allows it to be executed properly later.
-See the section \fBSCOPED VALUES\fR for some examples
+See the section \fBSCOPED SCRIPTS\fR for some examples
 of how this is used to create callback scripts.
 .TP
 \fBnamespace current\fR
@@ -567,6 +567,30 @@ The \fBnamespace export\fR command specifies what commands
 may be imported by other namespaces.
 If a \fBnamespace import\fR command specifies a command
 that is not exported, the command is not imported.
+
+.SH "SCOPED SCRIPTS"
+The \fBnamespace code\fP command is the means by which a script may be
+packaged for evaluation in a namespace other than the one in which it
+was created.  It is used most often to create event handlers, Tk bindings,
+and traces for evaluation in the global context.  For instance, the following
+code indicates how to direct a variable trace callback into the current
+namespace:
+.CS
+namespace eval a {
+    variable b
+    proc theTraceCallback { n1 n2 op } {
+       upvar 1 $n1 var
+       puts "the value of $n1 has changed to $var"
+       return
+    }
+    trace variable b w [namespace code theTraceCallback]
+}
+set a::b c
+.CE
+When executed, it prints the message:
+.CS
+the value of a::b has changed to c
+.CE
 
 .SH "SEE ALSO"
 variable(n)
