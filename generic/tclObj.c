@@ -2149,6 +2149,10 @@ UpdateStringOfWideInt(objPtr)
     register int len;
     register Tcl_WideInt wideVal = objPtr->internalRep.wideValue;
 
+#ifdef TCL_PRINTF_SUPPORTS_LL
+    sprintf(buffer, "%lld", wideVal);
+    len = strlen(start = buffer);
+#else
     buffer[TCL_INTEGER_SPACE*2+1] = '\0';
     /*** lltostr() is a weird function... ***/
     if (wideVal < 0) {
@@ -2165,6 +2169,7 @@ UpdateStringOfWideInt(objPtr)
 	start = lltostr(wideVal, buffer+(TCL_INTEGER_SPACE*2+1));
     }
     len = (int)(buffer + (TCL_INTEGER_SPACE*2+1) - start);
+#endif
     objPtr->bytes = ckalloc((unsigned) len + 1);
     strcpy(objPtr->bytes, start);
     objPtr->length = len;

@@ -177,7 +177,8 @@ extern "C" {
  * Must #define _before_ any #include of system headers or all hell
  * breaks loose...
  */
-#define _LARGEFILE64_SOURCE 1
+#define _LARGEFILE64_SOURCE	1
+#define _ISOC99_SOURCE		1
 /*
  * *Not* the following definition...
  *
@@ -349,9 +350,11 @@ typedef long LONG;
  * Longs are 64-bit, so use them.
  */
 #define TCL_WIDE_INT_IS_LONG
+#define TCL_NARROW_OFFSETS
 typedef long		Tcl_WideInt;
 #else
 typedef long long	Tcl_WideInt;
+#define TCL_PRINTF_SUPPORTS_LL	/* True on Solaris/SPARC and Linux/glibc2.1 */
 #endif
 /*
  * Strip the high bits, bearing in mind the sign!
@@ -370,15 +373,6 @@ typedef long long	Tcl_WideInt;
  * operating buffer backwards) so any changes you make will need to be
  * done cautiously...
  */
-
-/*
- * If _LARGEFILE64_SOURCE is not defined, then on Solaris at least
- * there is no chance that any of the following definitions will work
- * in wide mode, so we'll switch to narrow off_t et al. instead.
- */
-#ifndef _LARGEFILE64_SOURCE
-#define TCL_NARROW_OFFSETS
-#endif
 
 #ifdef TCL_NARROW_OFFSETS
 
