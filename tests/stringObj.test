@@ -414,11 +414,11 @@ test stringObj-13.6 {Tcl_GetCharLength with mixed width chars} {
     set a "\u00EFa\u00BFb\u00AEc\u00EF\u00BFd\u00AE"
     list [string length $a] [string length $a]
 } {10 10}
-test encoding-14.2 {Tcl_GetCharLength with identity nulls} {
+test stringObj-13.7 {Tcl_GetCharLength with identity nulls} {
     # SF bug #684699
     string length [encoding convertfrom identity \x00]
 } 1
-test encoding-14.2 {Tcl_GetCharLength with identity nulls} {
+test stringObj-13.8 {Tcl_GetCharLength with identity nulls} {
     string length [encoding convertfrom identity \x01\x00\x02]
 } 3
 
