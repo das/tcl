@@ -198,11 +198,11 @@ test appendComp-4.18 {lappend command} {
     proc foo {} { lappend x {} }
     foo
 } {{}}
-test append-4.19 {lappend command} {
+test appendComp-4.19 {lappend command} {
     proc foo {} { lappend x(0) }
     foo
 } {}
-test append-4.20 {lappend command} {
+test appendComp-4.20 {lappend command} {
     proc foo {} { lappend x(0) abc }
     foo
 } {abc}
