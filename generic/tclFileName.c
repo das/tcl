@@ -610,6 +610,11 @@ Tcl_SplitPath(path, argcPtr, argvPtr)
     }
     (*argvPtr)[i] = NULL;
 
+    /*
+     * Free the result ptr given to us by Tcl_FSSplitPath
+     */
+
+    Tcl_DecrRefCount(resultPtr);
 }
 
 /*
