@@ -213,7 +213,11 @@ Tcl_GetIndexFromObjStruct(interp, objPtr, tablePtr, offset, msg, flags,
 	objPtr->typePtr->freeIntRepProc(objPtr);
     }
     objPtr->internalRep.twoPtrValue.ptr1 = (VOID *) tablePtr;
-    objPtr->internalRep.twoPtrValue.ptr2 = (VOID *) index;
+    /*
+     * Make sure to account for offsets != sizeof(char *).  [Bug 5153]
+     */
+    objPtr->internalRep.twoPtrValue.ptr2 =
+	(VOID *) (index * (offset / sizeof(char *)));
     objPtr->typePtr = &tclIndexType;
     *indexPtr = index;
     return TCL_OK;
