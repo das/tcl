@@ -707,6 +707,9 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 #ifndef TCL_WIDE_INT_IS_LONG
 	    flags |= SCAN_LONGER;
 #endif
+	    /*
+	     * Fall through so we skip to the next character.
+	     */
 	case 'h':
 	    format += Tcl_UtfToUniChar(format, &ch);
 	}
