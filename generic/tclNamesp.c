@@ -1859,7 +1859,7 @@ TclGetNamespaceForQualName(interp, qualName, cxtNsPtr, flags,
      * Determine the context namespace nsPtr in which to start the primary
      * search.  If the qualName name starts with a "::" or TCL_GLOBAL_ONLY
      * was specified, search from the global namespace. Otherwise, use the
-     * given namespace given in cxtNsPtr, or if that is NULL, use the current
+     * namespace given in cxtNsPtr, or if that is NULL, use the current
      * namespace context. Note that we always treat two or more
      * adjacent ":"s as a namespace separator.
      */
