@@ -529,7 +529,7 @@ $(GENERICDIR)\regguts.h: $(GENERICDIR)\regcustom.h
     $(cc32) -DBUILD_tcl $(TCL_CFLAGS) -Fo$(TMPDIR)\ $<
 
 {$(WINDIR)}.rc{$(TMPDIR)}.res:
-	$(rc32) -fo $@ -r -i $(GENERICDIR) -i $(WINDIR) -D__WIN32__ \
+	$(rc32) -fo $@ -r -i $(GENERICDIR) $(include32) -D__WIN32__ \
 		$(TCL_DEFINES) \
 !if "$(NODEBUG)" == "0"
 		-d DEBUG \
