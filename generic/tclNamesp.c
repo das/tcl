@@ -5262,7 +5262,15 @@ BuildEnsembleConfig(ensemblePtr)
 	/*
 	 * Remove pre-existing table.
 	 */
+	Tcl_HashSearch search;
+
 	ckfree((char *)ensemblePtr->subcommandArrayPtr);
+	hPtr = Tcl_FirstHashEntry(hash, &search);
+	while (hPtr != NULL) {
+	    Tcl_Obj *prefixObj = (Tcl_Obj *) Tcl_GetHashValue(hPtr);
+	    Tcl_DecrRefCount(prefixObj);
+	    hPtr = Tcl_NextHashEntry(&search);
+	}
 	Tcl_DeleteHashTable(hash);
 	Tcl_InitHashTable(hash, TCL_STRING_KEYS);
     }
