@@ -798,7 +798,7 @@ TclProcInterpProc(clientData, interp, argc, argv)
 				 * invoked. */
     int argc;			/* Count of number of arguments to this
 				 * procedure. */
-    register char **argv;	/* Argument values. */
+    register CONST char **argv;	/* Argument values. */
 {
     register Tcl_Obj *objPtr;
     register int i;

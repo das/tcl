@@ -11,6 +11,7 @@
  * RCS: @(#) $Id$
  */
 
+#define USE_COMPAT_CONST
 #include "tclWinInt.h"
 
 /*

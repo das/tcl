@@ -49,7 +49,7 @@ if NULL, then no error messages are left after errors.
 For \fBTcl_EvalTokens\fR and \fBTcl_EvalTokensStandard\fR,
 determines the context for evaluating the
 script and also is used for error reporting; must not be NULL.
-.AP char *string in
+.AP "CONST char" *string in
 Pointer to first character in string to parse.
 .AP int numBytes in
 Number of bytes in \fIstring\fR, not including any terminating null
@@ -71,7 +71,7 @@ Any previous information in this structure
 is ignored, unless \fIappend\fR is non-zero in a call to
 \fBTcl_ParseBraces\fR, \fBTcl_ParseQuotedString\fR,
 or \fBTcl_ParseVarName\fR.
-.AP char **termPtr out
+.AP "CONST char" **termPtr out
 If not NULL, points to a location where
 \fBTcl_ParseBraces\fR, \fBTcl_ParseQuotedString\fR, and
 \fBTcl_ParseVar\fR will store a pointer to the character

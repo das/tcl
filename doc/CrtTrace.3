@@ -165,7 +165,7 @@ typedef void Tcl_CmdTraceProc(
 	Tcl_CmdProc *\fIcmdProc\fR,
 	ClientData \fIcmdClientData\fR,
 	int \fIargc\fR,
-	char *\fIargv\fR[]);
+	CONST char *\fIargv\fR[]);
 .CE
 The parameters to the \fIproc\fR callback are similar to those of the
 \fIobjProc\fR callback above. The \fIcommandToken\fR is

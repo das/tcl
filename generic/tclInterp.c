@@ -835,7 +835,7 @@ Tcl_CreateAlias(slaveInterp, slaveCmd, targetInterp, targetCmd, argc, argv)
     Tcl_Interp *targetInterp;	/* Interpreter for target command. */
     CONST char *targetCmd;	/* Name of target command. */
     int argc;			/* How many additional arguments? */
-    char * CONST *argv;		/* These are the additional args. */
+    CONST char * CONST *argv;	/* These are the additional args. */
 {
     Tcl_Obj *slaveObjPtr, *targetObjPtr;
     Tcl_Obj **objv;
@@ -933,7 +933,7 @@ Tcl_GetAlias(interp, aliasName, targetInterpPtr, targetNamePtr, argcPtr,
     Tcl_Interp **targetInterpPtr;	/* (Return) target interpreter. */
     CONST char **targetNamePtr;		/* (Return) name of target command. */
     int *argcPtr;			/* (Return) count of addnl args. */
-    char ***argvPtr;			/* (Return) additional arguments. */
+    CONST char ***argvPtr;		/* (Return) additional arguments. */
 {
     InterpInfo *iiPtr;
     Tcl_HashEntry *hPtr;
@@ -962,7 +962,8 @@ Tcl_GetAlias(interp, aliasName, targetInterpPtr, targetNamePtr, argcPtr,
 	*argcPtr = objc - 1;
     }
     if (argvPtr != NULL) {
-        *argvPtr = (char **) ckalloc((unsigned) sizeof(char *) * (objc - 1));
+        *argvPtr = (CONST char **) 
+		ckalloc((unsigned) sizeof(CONST char *) * (objc - 1));
         for (i = 1; i < objc; i++) {
             *argvPtr[i - 1] = Tcl_GetString(objv[i]);
         }

@@ -1209,7 +1209,7 @@ SetBooleanFromAny(interp, objPtr)
          * Still might be a string containing the characters representing an
          * int or double that wasn't handled above. This would be a string
          * like "27" or "1.0" that is non-zero and not "1". Such a string
-         * whould result in the boolean value true. We try converting to
+         * would result in the boolean value true. We try converting to
          * double. If that succeeds and the resulting double is non-zero, we
          * have a "true". Note that numbers can't have embedded NULLs.
 	 */

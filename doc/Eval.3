@@ -66,10 +66,8 @@ value of a single word in the command to execute.
 The number of bytes in \fIscript\fR, not including any
 null terminating character.  If \-1, then all characters up to the
 first null byte are used.
-.AP char *script in
+.AP "CONST char" *script in
 Points to first byte of script to execute (NULL terminated and UTF-8).
-This script must be in writable memory: temporary modifications are made
-to it during parsing.
 .AP char *string in
 String forming part of a Tcl script.
 .AP va_list argList in
