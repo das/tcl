@@ -26,12 +26,14 @@ Tcl_Channel
 .sp
 Tcl_Channel
 \fBTcl_GetChannel\fR(\fIinterp, channelName, modePtr\fR)
+.VS 8.3
 .sp
 int
 \fBTcl_GetChannelNames\fR(\fIinterp\fR)
 .sp
 int
 \fBTcl_GetChannelNamesEx\fR(\fIinterp, pattern\fR)
+.VE
 .sp
 void
 \fBTcl_RegisterChannel\fR(\fIinterp, channel\fR)
@@ -48,6 +50,7 @@ int
 int
 \fBTcl_Close\fR(\fIinterp, channel\fR)
 .sp
+.VS 8.1
 int
 \fBTcl_ReadChars\fR(\fIchannel, readObjPtr, charsToRead, appendFlag\fR)
 .sp
@@ -71,12 +74,15 @@ int
 .sp
 int
 \fBTcl_Write\fR(\fIchannel, byteBuf, bytesToWrite\fR)
+.VE
+.VS 8.3.2
 .sp
 int
 \fBTcl_ReadRaw\fR(\fIchannel, readBuf, bytesToRead\fR)
 .sp
 int
 \fBTcl_WriteRaw\fR(\fIchannel, byteBuf, bytesToWrite\fR)
+.VE
 .sp
 int
 \fBTcl_Eof\fR(\fIchannel\fR)
@@ -95,10 +101,10 @@ int
 \fBTcl_OutputBuffered\fR(\fIchannel\fR)
 .VE
 .sp
-Tcl_WideInt
+int
 \fBTcl_Seek\fR(\fIchannel, offset, seekMode\fR)
 .sp
-Tcl_WideInt
+int
 \fBTcl_Tell\fR(\fIchannel\fR)
 .sp
 int
@@ -108,12 +114,12 @@ int
 \fBTcl_SetChannelOption\fR(\fIinterp, channel, optionName, newValue\fR)
 .sp
 .SH ARGUMENTS
-.AS Tcl_DString *channelName in/out
+.AS Tcl_ChannelType newClientProcPtr in
 .AP Tcl_Interp *interp in
 Used for error reporting and to look up a channel registered in it.
-.AP "const char" *fileName in
+.AP "CONST char" *fileName in
 The name of a local or network file.
-.AP "const char" *mode in
+.AP "CONST char" *mode in
 Specifies how the file is to be accessed.  May have any of the values
 allowed for the \fImode\fR argument to the Tcl \fBopen\fR command.  
 .AP int permissions in
@@ -121,7 +127,7 @@ POSIX-style permission flags such as 0644.  If a new file is created, these
 permissions will be set on the created file.
 .AP int argc in
 The number of elements in \fIargv\fR.
-.AP "const char" **argv in
+.AP "CONST char" **argv in
 Arguments for constructing a command pipeline.  These values have the same
 meaning as the non-switch arguments to the Tcl \fBexec\fR command.
 .AP int flags in
@@ -140,17 +146,20 @@ file descriptor, for Windows it is a HANDLE.
 .AP int readOrWrite in
 OR-ed combination of \fBTCL_READABLE\fR and \fBTCL_WRITABLE\fR to indicate
 what operations are valid on \fIhandle\fR.
-.AP "const char" *channelName in
+.AP "CONST char" *channelName in
 The name of the channel. 
 .AP int *modePtr out
 Points at an integer variable that will receive an OR-ed combination of
 \fBTCL_READABLE\fR and \fBTCL_WRITABLE\fR denoting whether the channel is
 open for reading and writing.
-.AP "const char" *pattern in
+.VS 8.3
+.AP "CONST char" *pattern in
 The pattern to match on, passed to Tcl_StringMatch, or NULL.
+.VE
 .AP Tcl_Channel channel in
 A Tcl channel for input or output.  Must have been the return value
 from a procedure such as \fBTcl_OpenFileChannel\fR.
+.VS 8.1 br
 .AP Tcl_Obj *readObjPtr in/out
 A pointer to a Tcl Object in which to store the characters read from the
 channel.
@@ -174,23 +183,26 @@ object.
 A pointer to a Tcl dynamic string in which to store the line read from the
 channel.  Must have been initialized by the caller.  The line read will be
 appended to any data already in the dynamic string.
-.AP "const char" *input in
+.VS 8.3
+.AP "CONST char" *input in
 The input to add to a channel buffer.
 .AP int inputLen in
 Length of the input
 .AP int addAtEnd in
 Flag indicating whether the input should be added to the end or
 beginning of the channel buffer.
+.VE
 .AP Tcl_Obj *writeObjPtr in
 A pointer to a Tcl Object whose contents will be output to the channel.
-.AP "const char" *charBuf in
+.AP "CONST char" *charBuf in
 A buffer containing the characters to output to the channel.
-.AP "const char" *byteBuf in
+.AP "CONST char" *byteBuf in
 A buffer containing the bytes to output to the channel.
 .AP int bytesToWrite in
 The number of bytes to consume from \fIcharBuf\fR or \fIbyteBuf\fR and
 output to the channel.
-.AP Tcl_WideInt offset in
+.VE
+.AP int offset in
 How far to move the access point in the channel at which the next input or
 output operation will be applied, measured in bytes from the position
 given by \fIseekMode\fR.  May be either positive or negative.
@@ -198,13 +210,13 @@ given by \fIseekMode\fR.  May be either positive or negative.
 Relative to which point to seek; used with \fIoffset\fR to calculate the new
 access point for the channel. Legal values are \fBSEEK_SET\fR,
 \fBSEEK_CUR\fR, and \fBSEEK_END\fR.
-.AP "const char" *optionName in
+.AP "CONST char" *optionName in
 The name of an option applicable to this channel, such as \fB\-blocking\fR.
 May have any of the values accepted by the \fBfconfigure\fR command.
 .AP Tcl_DString *optionValue in
 Where to store the value of an option or a list of all options and their
 values. Must have been initialized by the caller.
-.AP "const char" *newValue in
+.AP "CONST char" *newValue in
 New value for the option given by \fIoptionName\fR.
 .BE
 
@@ -215,7 +227,7 @@ platform-independent mechanism for performing buffered input
 and output operations on a variety of file, socket, and device
 types.
 The channel mechanism is extensible to new channel types, by
-providing a low-level channel driver for the new type; the channel driver
+providing a low level channel driver for the new type; the channel driver
 interface is described in the manual entry for \fBTcl_CreateChannel\fR. The
 channel mechanism provides a buffering scheme modeled after
 Unix's standard I/O, and it also allows for nonblocking I/O on
@@ -336,7 +348,7 @@ reference to a channel that is also registered in a Tcl interpreter.
 .PP
 This procedure interacts with the code managing the standard
 channels. If no standard channels were initialized before the first
-call to \fBTcl_RegisterChannel\fR, they will get initialized by that
+call to \fBTcl_RegisterChannel\fR they will get initialized by that
 call. See \fBTcl_StandardChannels\fR for a general treatise about
 standard channels and the behaviour of the Tcl library with regard to
 them.
@@ -363,7 +375,7 @@ accessible in \fIinterp\fR. After this call, Tcl programs will no longer be
 able to use the channel's name to refer to the channel in that interpreter.
 Beyond that, this command has no further effect.  It cannot be used on
 the standard channels (stdout, stderr, stdin), and will return
-\fBTCL_ERROR\fR if passed one of those channels.
+TCL_ERROR if passed one of those channels.
 .PP
 Code not associated with a Tcl interpreter can call
 \fBTcl_DetachChannel\fR with \fIinterp\fR as NULL, to indicate to Tcl
@@ -410,6 +422,7 @@ been given as the \fBchan\fR argument in a call to
 when all calls to \fBTcl_RegisterChannel\fR have been matched by
 corresponding calls to \fBTcl_UnregisterChannel\fR.
 
+.VS 8.1 br
 .SH "TCL_READCHARS AND TCL_READ"
 .PP
 \fBTcl_ReadChars\fR consumes bytes from \fIchannel\fR, converting the bytes
@@ -419,10 +432,6 @@ to UTF-8 based on the channel's encoding and storing the produced data in
 that were stored in \fIreadObjPtr\fR.  If an error occurs while reading, the
 return value is \-1 and \fBTcl_ReadChars\fR records a POSIX error code that
 can be retrieved with \fBTcl_GetErrno\fR.
-.PP
-Setting \fIcharsToRead\fR to \fB-1\fR will cause the command to read
-all characters currently available (non-blocking) or everything until
-eof (blocking mode).
 .PP
 The return value may be smaller than the value to read, indicating that less
 data than requested was available.  This is called a \fIshort read\fR.  In
@@ -563,6 +572,7 @@ not. Thus this function is \fBonly\fR usable for transformational
 channel drivers, i.e. drivers used in the middle of a stack of
 channels, to move data from the transformation into the channel below
 it.
+.VE
 
 .SH TCL_FLUSH
 .PP
@@ -658,7 +668,8 @@ call.  On Windows platforms, the handle is a file \fBHANDLE\fR when
 the channel was created with \fBTcl_OpenFileChannel\fR,
 \fBTcl_OpenCommandChannel\fR, or \fBTcl_MakeFileChannel\fR.  Other
 channel types may return a different type of handle on Windows
-platforms.
+platforms.  On the Macintosh platform, the handle is a file reference
+number as returned from \fBHOpenDF\fR.
 
 .SH "SEE ALSO"
 DString(3), fconfigure(n), filename(n), fopen(3), Tcl_CreateChannel(3)

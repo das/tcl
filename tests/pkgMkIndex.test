@@ -89,7 +89,7 @@ proc pkgtest::parseIndex { filePath } {
 		    set ver [lindex $args 2]
 		    set ::PKGS($pkg:$ver) [lindex $args 3]
 		} else {
-		    return [package_original {expand}$args]
+		    return [eval package_original $args]
 		}
 	    }
 	    array set ::PKGS {}
@@ -148,7 +148,7 @@ proc pkgtest::parseIndex { filePath } {
 #    1: the error result if element 0 was 1
 
 proc pkgtest::createIndex { args } {
-    set parsed [parseArgs {expand}$args]
+    set parsed [eval parseArgs $args]
     set options [lindex $parsed 0]
     set dirPath [lindex $parsed 1]
     set patternList [lindex $parsed 2]
@@ -157,7 +157,7 @@ proc pkgtest::createIndex { args } {
 
     if {[catch {
 	file delete [file join $dirPath pkgIndex.tcl]
-	pkg_mkIndex {expand}$options $dirPath {expand}$patternList
+	eval pkg_mkIndex $options [list $dirPath] $patternList
     } err]} {
 	return [list 1 $err]
     }
@@ -231,7 +231,7 @@ proc makePkgList { inList } {
 
 proc pkgtest::runCreatedIndex {rv args} {
     if {[lindex $rv 0] == 0} {
-	set parsed [parseArgs {expand}$args]
+	set parsed [eval parseArgs $args]
 	set dirPath [lindex $parsed 1]
 	set idxFile [file join $dirPath pkgIndex.tcl]
 
@@ -248,8 +248,8 @@ proc pkgtest::runCreatedIndex {rv args} {
     return $result
 }
 proc pkgtest::runIndex { args } {
-    set rv [createIndex {expand}$args]
-    return [runCreatedIndex $rv {expand}$args]
+    set rv [eval createIndex $args]
+    return [eval [list runCreatedIndex $rv] $args]
 }
 
 # If there is no match to the patterns, make sure the directory hasn't
@@ -673,24 +673,24 @@ test pkgMkIndex-13.1 {proc names with embedded spaces} {
 
 removeFile [file join pkg spacename.tcl]
 
-# Test the tcl::Pkg::CompareExtension helper function
-test pkgMkIndex-14.1 {tcl::Pkg::CompareExtension} {unix} {
-    tcl::Pkg::CompareExtension foo.so .so
+# Test the pkg_compareExtension helper function
+test pkgMkIndex-14.1 {pkg_compareExtension} {unixOnly} {
+    pkg_compareExtension foo.so .so
 } 1
-test pkgMkIndex-14.2 {tcl::Pkg::CompareExtension} {unix} {
-    tcl::Pkg::CompareExtension foo.so.bar .so
+test pkgMkIndex-14.2 {pkg_compareExtension} {unixOnly} {
+    pkg_compareExtension foo.so.bar .so
 } 0
-test pkgMkIndex-14.3 {tcl::Pkg::CompareExtension} {unix} {
-    tcl::Pkg::CompareExtension foo.so.1 .so
+test pkgMkIndex-14.3 {pkg_compareExtension} {unixOnly} {
+    pkg_compareExtension foo.so.1 .so
 } 1
-test pkgMkIndex-14.4 {tcl::Pkg::CompareExtension} {unix} {
-    tcl::Pkg::CompareExtension foo.so.1.2 .so
+test pkgMkIndex-14.4 {pkg_compareExtension} {unixOnly} {
+    pkg_compareExtension foo.so.1.2 .so
 } 1
-test pkgMkIndex-14.5 {tcl::Pkg::CompareExtension} {unix} {
-    tcl::Pkg::CompareExtension foo .so
+test pkgMkIndex-14.5 {pkg_compareExtension} {unixOnly} {
+    pkg_compareExtension foo .so
 } 0
-test pkgMkIndex-14.6 {tcl::Pkg::CompareExtension} {unix} {
-    tcl::Pkg::CompareExtension foo.so.1.2.bar .so
+test pkgMkIndex-14.6 {pkg_compareExtension} {unixOnly} {
+    pkg_compareExtension foo.so.1.2.bar .so
 } 0
 
 # cleanup

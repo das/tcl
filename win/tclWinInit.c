@@ -16,13 +16,6 @@
 #include <lmcons.h>
 
 /*
- * GetUserName() is found in advapi32.dll
- */
-#ifdef _MSC_VER
-#   pragma comment(lib, "advapi32.lib")
-#endif
-
-/*
  * The following declaration is a workaround for some Microsoft brain damage.
  * The SYSTEM_INFO structure is different in various releases, even though the
  * layout is the same.  So we overlay our own structure on top of it so we
@@ -50,7 +43,7 @@ typedef struct {
 #ifndef PROCESSOR_ARCHITECTURE_PPC
 #define PROCESSOR_ARCHITECTURE_PPC   3
 #endif
-#ifndef PROCESSOR_ARCHITECTURE_SHX
+#ifndef PROCESSOR_ARCHITECTURE_SHX  
 #define PROCESSOR_ARCHITECTURE_SHX   4
 #endif
 #ifndef PROCESSOR_ARCHITECTURE_ARM
@@ -92,14 +85,21 @@ static char* processors[NUMPROCESSORS] = {
     "amd64", "ia32_on_win64"
 };
 
+/* Used to store the encoding used for binary files */
+static Tcl_Encoding binaryEncoding = NULL;
+/* Has the basic library path encoding issue been fixed */
+static int libraryPathEncodingFixed = 0;
+
 /*
- * The default directory in which the init.tcl file is expected to be found.
+ * The Init script (common to Windows and Unix platforms) is
+ * defined in tkInitScript.h
  */
-static TclInitProcessGlobalValueProc	InitializeDefaultLibraryDir;
-static ProcessGlobalValue defaultLibraryDir =
-	{0, 0, NULL, NULL, InitializeDefaultLibraryDir, NULL, NULL};
+
+#include "tclInitScript.h"
 
 static void		AppendEnvironment(Tcl_Obj *listPtr, CONST char *lib);
+static void		AppendDllPath(Tcl_Obj *listPtr, HMODULE hModule,
+			    CONST char *lib);
 static int		ToUtf(CONST WCHAR *wSrc, char *dst);
 
 /*
@@ -152,43 +152,62 @@ TclpInitPlatform()
 }
 
 /*
- *-------------------------------------------------------------------------
+ *---------------------------------------------------------------------------
  *
  * TclpInitLibraryPath --
  *
- *      This is the fallback routine that sets the library path
- *      if the application has not set one by the first time
- *      it is needed.
+ *	Initialize the library path at startup.  
+ *
+ *	This call sets the library path to strings in UTF-8. Any 
+ *	pre-existing library path information is assumed to have been 
+ *	in the native multibyte encoding.
+ *
+ *	Called at process initialization time.
  *
  * Results:
- *      None.
+ *	None.
  *
  * Side effects:
- *      Sets the library path to an initial value.  
+ *	None.
  *
- *-------------------------------------------------------------------------
- */  
+ *---------------------------------------------------------------------------
+ */
 
 void
-TclpInitLibraryPath(valuePtr, lengthPtr, encodingPtr)
-    char **valuePtr;
-    int *lengthPtr;
-    Tcl_Encoding *encodingPtr;
+TclpInitLibraryPath(path)
+    CONST char *path;		/* Potentially dirty UTF string that is */
+				/* the path to the executable name.     */
 {
 #define LIBRARY_SIZE	    32
-    Tcl_Obj *pathPtr;
-    char installLib[LIBRARY_SIZE];
-    char *bytes;
+    Tcl_Obj *pathPtr, *objPtr;
+    CONST char *str;
+    Tcl_DString ds;
+    int pathc;
+    CONST char **pathv;
+    char installLib[LIBRARY_SIZE], developLib[LIBRARY_SIZE];
 
+    Tcl_DStringInit(&ds);
     pathPtr = Tcl_NewObj();
 
     /*
-     * Initialize the substring used when locating the script library.  The
-     * installLib variable computes the script library path relative to the
-     * installed DLL.
+     * Initialize the substrings used when locating an executable.  The
+     * installLib variable computes the path as though the executable
+     * is installed.  The developLib computes the path as though the
+     * executable is run from a develpment directory.
      */
 
     sprintf(installLib, "lib/tcl%s", TCL_VERSION);
+    sprintf(developLib, "../tcl%s/library", TCL_PATCH_LEVEL);
+
+    /*
+     * Look for the library relative to default encoding dir.
+     */
+
+    str = Tcl_GetDefaultEncodingDir();
+    if ((str != NULL) && (str[0] != '\0')) {
+	objPtr = Tcl_NewStringObj(str, -1);
+	Tcl_ListObjAppendElement(NULL, pathPtr, objPtr);
+    }
 
     /*
      * Look for the library relative to the TCL_LIBRARY env variable.
@@ -200,16 +219,98 @@ TclpInitLibraryPath(valuePtr, lengthPtr, encodingPtr)
     AppendEnvironment(pathPtr, installLib);
 
     /*
-     * Look for the library in its default location.
+     * Look for the library relative to the DLL.  Only use the installLib
+     * because in practice, the DLL is always installed.
      */
-    Tcl_ListObjAppendElement(NULL, pathPtr,
-	    TclGetProcessGlobalValue(&defaultLibraryDir));
 
-    *encodingPtr = NULL;
-    bytes = Tcl_GetStringFromObj(pathPtr, lengthPtr);
-    *valuePtr = ckalloc((unsigned int)(*lengthPtr)+1);
-    memcpy((VOID *) *valuePtr, (VOID *) bytes, (size_t)(*lengthPtr)+1);
-    Tcl_DecrRefCount(pathPtr);
+    AppendDllPath(pathPtr, TclWinGetTclInstance(), installLib);
+    
+
+    /*
+     * Look for the library relative to the executable.  This algorithm
+     * should be the same as the one in the tcl_findLibrary procedure.
+     *
+     * This code looks in the following directories:
+     *
+     *	<bindir>/../<installLib>
+     *	  (e.g. /usr/local/bin/../lib/tcl8.4)
+     *	<bindir>/../../<installLib>
+     * 	  (e.g. /usr/local/TclPro/solaris-sparc/bin/../../lib/tcl8.4)
+     *	<bindir>/../library
+     * 	  (e.g. /usr/src/tcl8.4.0/unix/../library)
+     *	<bindir>/../../library
+     *	  (e.g. /usr/src/tcl8.4.0/unix/solaris-sparc/../../library)
+     *	<bindir>/../../<developLib>
+     *	  (e.g. /usr/src/tcl8.4.0/unix/../../tcl8.4.0/library)
+     *	<bindir>/../../../<developLib>
+     *	   (e.g. /usr/src/tcl8.4.0/unix/solaris-sparc/../../../tcl8.4.0/library)
+     */
+     
+    /*
+     * The variable path holds an absolute path.  Take care not to
+     * overwrite pathv[0] since that might produce a relative path.
+     */
+
+    if (path != NULL) {
+	Tcl_SplitPath(path, &pathc, &pathv);
+	if (pathc > 2) {
+	    str = pathv[pathc - 2];
+	    pathv[pathc - 2] = installLib;
+	    path = Tcl_JoinPath(pathc - 1, pathv, &ds);
+	    pathv[pathc - 2] = str;
+	    objPtr = Tcl_NewStringObj(path, Tcl_DStringLength(&ds));
+	    Tcl_ListObjAppendElement(NULL, pathPtr, objPtr);
+	    Tcl_DStringFree(&ds);
+	}
+	if (pathc > 3) {
+	    str = pathv[pathc - 3];
+	    pathv[pathc - 3] = installLib;
+	    path = Tcl_JoinPath(pathc - 2, pathv, &ds);
+	    pathv[pathc - 3] = str;
+	    objPtr = Tcl_NewStringObj(path, Tcl_DStringLength(&ds));
+	    Tcl_ListObjAppendElement(NULL, pathPtr, objPtr);
+	    Tcl_DStringFree(&ds);
+	}
+	if (pathc > 2) {
+	    str = pathv[pathc - 2];
+	    pathv[pathc - 2] = "library";
+	    path = Tcl_JoinPath(pathc - 1, pathv, &ds);
+	    pathv[pathc - 2] = str;
+	    objPtr = Tcl_NewStringObj(path, Tcl_DStringLength(&ds));
+	    Tcl_ListObjAppendElement(NULL, pathPtr, objPtr);
+	    Tcl_DStringFree(&ds);
+	}
+	if (pathc > 3) {
+	    str = pathv[pathc - 3];
+	    pathv[pathc - 3] = "library";
+	    path = Tcl_JoinPath(pathc - 2, pathv, &ds);
+	    pathv[pathc - 3] = str;
+	    objPtr = Tcl_NewStringObj(path, Tcl_DStringLength(&ds));
+	    Tcl_ListObjAppendElement(NULL, pathPtr, objPtr);
+	    Tcl_DStringFree(&ds);
+	}
+	if (pathc > 3) {
+	    str = pathv[pathc - 3];
+	    pathv[pathc - 3] = developLib;
+	    path = Tcl_JoinPath(pathc - 2, pathv, &ds);
+	    pathv[pathc - 3] = str;
+	    objPtr = Tcl_NewStringObj(path, Tcl_DStringLength(&ds));
+	    Tcl_ListObjAppendElement(NULL, pathPtr, objPtr);
+	    Tcl_DStringFree(&ds);
+	}
+	if (pathc > 4) {
+	    str = pathv[pathc - 4];
+	    pathv[pathc - 4] = developLib;
+	    path = Tcl_JoinPath(pathc - 3, pathv, &ds);
+	    pathv[pathc - 4] = str;
+	    objPtr = Tcl_NewStringObj(path, Tcl_DStringLength(&ds));
+	    Tcl_ListObjAppendElement(NULL, pathPtr, objPtr);
+	    Tcl_DStringFree(&ds);
+	}
+	ckfree((char *) pathv);
+    }
+
+    TclSetLibraryPath(pathPtr);
 }
 
 /*
@@ -242,33 +343,14 @@ AppendEnvironment(
     Tcl_Obj *objPtr;
     Tcl_DString ds;
     CONST char **pathv;
-    char *shortlib;
-
-    /*
-     * The shortlib value needs to be the tail component of the
-     * lib path. For example, "lib/tcl8.4" -> "tcl8.4" while
-     * "usr/share/tcl8.5" -> "tcl8.5".
-     */
-    for (shortlib = (char *) &lib[strlen(lib)-1]; shortlib>lib ; shortlib--) {
-	if (*shortlib == '/') {
-	    if ((unsigned)(shortlib - lib) == strlen(lib) - 1) {
-		Tcl_Panic("last character in lib cannot be '/'");
-	    }
-	    shortlib++;
-	    break;
-	}
-    }
-    if (shortlib == lib) {
-	Tcl_Panic("no '/' character found in lib");
-    }
 
     /*
      * The "L" preceeding the TCL_LIBRARY string is used to tell VC++
      * that this is a unicode string.
      */
-
+    
     if (GetEnvironmentVariableW(L"TCL_LIBRARY", wBuf, MAX_PATH) == 0) {
-	buf[0] = '\0';
+        buf[0] = '\0';
 	GetEnvironmentVariableA("TCL_LIBRARY", buf, MAX_PATH);
     } else {
 	ToUtf(wBuf, buf);
@@ -283,10 +365,10 @@ AppendEnvironment(
 
 	/* 
 	 * The lstrcmpi() will work even if pathv[pathc - 1] is random
-	 * UTF-8 chars because I know shortlib is ascii.
+	 * UTF-8 chars because I know lib is ascii.
 	 */
 
-	if ((pathc > 0) && (lstrcmpiA(shortlib, pathv[pathc - 1]) != 0)) {
+	if ((pathc > 0) && (lstrcmpiA(lib + 4, pathv[pathc - 1]) != 0)) {
 	    CONST char *str;
 	    /*
 	     * TCL_LIBRARY is set but refers to a different tcl
@@ -295,8 +377,8 @@ AppendEnvironment(
 	     * removing the old "tclX.Y" and substituting the current
 	     * version string.
 	     */
-
-	    pathv[pathc - 1] = shortlib;
+	    
+	    pathv[pathc - 1] = (lib + 4);
 	    Tcl_DStringInit(&ds);
 	    str = Tcl_JoinPath(pathc, pathv, &ds);
 	    objPtr = Tcl_NewStringObj(str, Tcl_DStringLength(&ds));
@@ -312,10 +394,10 @@ AppendEnvironment(
 /*
  *---------------------------------------------------------------------------
  *
- * InitializeDefaultLibraryDir --
+ * AppendDllPath --
  *
- *	Locate the Tcl script library default location relative to
- *	the location of the Tcl DLL.
+ *	Append a path onto the path pointer that tries to locate the Tcl
+ *	library relative to the location of the Tcl DLL.
  *
  * Results:
  *	None.
@@ -326,22 +408,23 @@ AppendEnvironment(
  *---------------------------------------------------------------------------
  */
 
-static void
-InitializeDefaultLibraryDir(valuePtr, lengthPtr, encodingPtr)
-    char **valuePtr;
-    int *lengthPtr;
-    Tcl_Encoding *encodingPtr;
+static void 
+AppendDllPath(
+    Tcl_Obj *pathPtr, 
+    HMODULE hModule,
+    CONST char *lib)
 {
-    HMODULE hModule = TclWinGetTclInstance();
     WCHAR wName[MAX_PATH + LIBRARY_SIZE];
     char name[(MAX_PATH + LIBRARY_SIZE) * TCL_UTF_MAX];
-    char *end, *p;
 
     if (GetModuleFileNameW(hModule, wName, MAX_PATH) == 0) {
 	GetModuleFileNameA(hModule, name, MAX_PATH);
     } else {
 	ToUtf(wName, name);
     }
+    if (lib != NULL) {
+	char *end, *p;
+
 	end = strrchr(name, '\\');
 	*end = '\0';
 	p = strrchr(name, '\\');
@@ -349,12 +432,10 @@ InitializeDefaultLibraryDir(valuePtr, lengthPtr, encodingPtr)
 	    end = p;
 	}
 	*end = '\\';
+	strcpy(end + 1, lib);
+    }
     TclWinNoBackslash(name);
-    sprintf(end + 1, "lib/tcl%s", TCL_VERSION);
-    *lengthPtr = strlen(name);
-    *valuePtr = ckalloc((unsigned int) *lengthPtr + 1);
-    *encodingPtr = NULL;
-    memcpy((VOID *) *valuePtr, (VOID *) name, (size_t) *lengthPtr + 1);
+    Tcl_ListObjAppendElement(NULL, pathPtr, Tcl_NewStringObj(name, -1));
 }
 
 /*
@@ -412,6 +493,11 @@ void
 TclWinEncodingsCleanup()
 {
     TclWinResetInterfaceEncodings();
+    libraryPathEncodingFixed = 0;
+    if (binaryEncoding != NULL) {
+	Tcl_FreeEncoding(binaryEncoding);
+	binaryEncoding = NULL;
+    }
 }
 
 /*
@@ -441,31 +527,54 @@ TclWinEncodingsCleanup()
 void
 TclpSetInitialEncodings()
 {
-    Tcl_DString encodingName;
-    
-    TclpSetInterfaces();
-    Tcl_SetSystemEncoding(NULL,
-	    TclpGetEncodingNameFromEnvironment(&encodingName));
-    Tcl_DStringFree(&encodingName);
-}
+    CONST char *encoding;
+    char buf[4 + TCL_INTEGER_SPACE];
 
-void
-TclpSetInterfaces()
-{
-    int platformId, useWide;
-    platformId = TclWinGetPlatformId();
-    useWide = ((platformId == VER_PLATFORM_WIN32_NT)
-	    || (platformId == VER_PLATFORM_WIN32_CE));
-    TclWinSetInterfaces(useWide);
-}
+    if (libraryPathEncodingFixed == 0) {
+	int platformId;
+	platformId = TclWinGetPlatformId();
+	TclWinSetInterfaces(platformId == VER_PLATFORM_WIN32_NT);
+	
+	wsprintfA(buf, "cp%d", GetACP());
+	Tcl_SetSystemEncoding(NULL, buf);
 
-CONST char *
-TclpGetEncodingNameFromEnvironment(bufPtr)
-    Tcl_DString *bufPtr;
-{
-    Tcl_DStringInit(bufPtr);
-    wsprintfA(Tcl_DStringValue(bufPtr), "cp%d", GetACP());
-    return Tcl_DStringValue(bufPtr);
+	if (platformId != VER_PLATFORM_WIN32_NT) {
+	    Tcl_Obj *pathPtr = TclGetLibraryPath();
+	    if (pathPtr != NULL) {
+		int i, objc;
+		Tcl_Obj **objv;
+		
+		objc = 0;
+		Tcl_ListObjGetElements(NULL, pathPtr, &objc, &objv);
+		for (i = 0; i < objc; i++) {
+		    int length;
+		    char *string;
+		    Tcl_DString ds;
+
+		    string = Tcl_GetStringFromObj(objv[i], &length);
+		    Tcl_ExternalToUtfDString(NULL, string, length, &ds);
+		    Tcl_SetStringObj(objv[i], Tcl_DStringValue(&ds), 
+			    Tcl_DStringLength(&ds));
+		    Tcl_DStringFree(&ds);
+		}
+	    }
+	}
+	
+	libraryPathEncodingFixed = 1;
+    } else {
+	wsprintfA(buf, "cp%d", GetACP());
+	Tcl_SetSystemEncoding(NULL, buf);
+    }
+
+    /* This is only ever called from the startup thread */
+    if (binaryEncoding == NULL) {
+	/*
+	 * Keep this encoding preloaded.  The IO package uses it for
+	 * gets on a binary channel.
+	 */
+	encoding = "iso8859-1";
+	binaryEncoding = Tcl_GetEncoding(NULL, encoding);
+    }
 }
 
 /*
@@ -488,19 +597,16 @@ TclpGetEncodingNameFromEnvironment(bufPtr)
 
 void
 TclpSetVariables(interp)
-    Tcl_Interp *interp;		/* Interp to initialize. */
-{
+    Tcl_Interp *interp;		/* Interp to initialize. */	
+{	    
     CONST char *ptr;
     char buffer[TCL_INTEGER_SPACE * 2];
     SYSTEM_INFO sysInfo;
     OemId *oemId;
     OSVERSIONINFOA osInfo;
     Tcl_DString ds;
-    TCHAR szUserName[UNLEN+1];
+    TCHAR szUserName[ UNLEN+1 ];
     DWORD dwUserNameLen = sizeof(szUserName);
-
-    Tcl_SetVar2Ex(interp, "tclDefaultLibrary", NULL,
-	    TclGetProcessGlobalValue(&defaultLibraryDir), TCL_GLOBAL_ONLY);
 
     osInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOA);
     GetVersionExA(&osInfo);
@@ -567,11 +673,12 @@ TclpSetVariables(interp)
      * faster than asking the system.
      */
 
-    Tcl_DStringInit(&ds);
+    Tcl_DStringInit( &ds );
     if (TclGetEnv("USERNAME", &ds) == NULL) {
-	if (GetUserName(szUserName, &dwUserNameLen) != 0) {
-	    Tcl_WinTCharToUtf(szUserName, (int) dwUserNameLen, &ds);
-	}
+
+	if ( GetUserName( szUserName, &dwUserNameLen ) != 0 ) {
+	    Tcl_WinTCharToUtf( szUserName, dwUserNameLen, &ds );
+	}	
     }
     Tcl_SetVar2(interp, "tcl_platform", "user", Tcl_DStringValue(&ds),
 	    TCL_GLOBAL_ONLY);
@@ -622,7 +729,7 @@ TclpFindVariable(name, lengthPtr)
     nameUpper = (char *) ckalloc((unsigned) length+1);
     memcpy((VOID *) nameUpper, (VOID *) name, (size_t) length+1);
     Tcl_UtfToUpper(nameUpper);
-
+    
     Tcl_DStringInit(&envString);
     for (i = 0, env = environ[i]; env != NULL; i++, env = environ[i]) {
 	/*
@@ -630,7 +737,7 @@ TclpFindVariable(name, lengthPtr)
 	 * the name to all upper case, so we do not have to convert
 	 * all the characters after the equal sign.
 	 */
-
+	
 	envUpper = Tcl_ExternalToUtfDString(NULL, env, -1, &envString);
 	p1 = strchr(envUpper, '=');
 	if (p1 == NULL) {
@@ -650,14 +757,115 @@ TclpFindVariable(name, lengthPtr)
 	    result = i;
 	    goto done;
 	}
-
+	
 	Tcl_DStringFree(&envString);
     }
-
+    
     *lengthPtr = i;
 
     done:
     Tcl_DStringFree(&envString);
     ckfree(nameUpper);
     return result;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * Tcl_Init --
+ *
+ *	This procedure is typically invoked by Tcl_AppInit procedures
+ *	to perform additional initialization for a Tcl interpreter,
+ *	such as sourcing the "init.tcl" script.
+ *
+ * Results:
+ *	Returns a standard Tcl completion code and sets the interp's
+ *	result if there is an error.
+ *
+ * Side effects:
+ *	Depends on what's in the init.tcl script.
+ *
+ *----------------------------------------------------------------------
+ */
+
+int
+Tcl_Init(interp)
+    Tcl_Interp *interp;		/* Interpreter to initialize. */
+{
+    Tcl_Obj *pathPtr;
+
+    if (tclPreInitScript != NULL) {
+	if (Tcl_Eval(interp, tclPreInitScript) == TCL_ERROR) {
+	    return (TCL_ERROR);
+	};
+    }
+
+    pathPtr = TclGetLibraryPath();
+    if (pathPtr == NULL) {
+	pathPtr = Tcl_NewObj();
+    }
+    Tcl_SetVar2Ex(interp, "tcl_libPath", NULL, pathPtr, TCL_GLOBAL_ONLY);
+    return Tcl_Eval(interp, initScript);
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * Tcl_SourceRCFile --
+ *
+ *	This procedure is typically invoked by Tcl_Main of Tk_Main
+ *	procedure to source an application specific rc file into the
+ *	interpreter at startup time.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Depends on what's in the rc script.
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+Tcl_SourceRCFile(interp)
+    Tcl_Interp *interp;		/* Interpreter to source rc file into. */
+{
+    Tcl_DString temp;
+    CONST char *fileName;
+    Tcl_Channel errChannel;
+
+    fileName = Tcl_GetVar(interp, "tcl_rcFileName", TCL_GLOBAL_ONLY);
+
+    if (fileName != NULL) {
+        Tcl_Channel c;
+	CONST char *fullName;
+
+        Tcl_DStringInit(&temp);
+	fullName = Tcl_TranslateFileName(interp, fileName, &temp);
+	if (fullName == NULL) {
+	    /*
+	     * Couldn't translate the file name (e.g. it referred to a
+	     * bogus user or there was no HOME environment variable).
+	     * Just do nothing.
+	     */
+	} else {
+
+	    /*
+	     * Test for the existence of the rc file before trying to read it.
+	     */
+
+            c = Tcl_OpenFileChannel(NULL, fullName, "r", 0);
+            if (c != (Tcl_Channel) NULL) {
+                Tcl_Close(NULL, c);
+		if (Tcl_EvalFile(interp, fullName) != TCL_OK) {
+		    errChannel = Tcl_GetStdChannel(TCL_STDERR);
+		    if (errChannel) {
+			Tcl_WriteObj(errChannel, Tcl_GetObjResult(interp));
+			Tcl_WriteChars(errChannel, "\n", 1);
+		    }
+		}
+	    }
+	}
+        Tcl_DStringFree(&temp);
+    }
 }

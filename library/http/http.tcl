@@ -22,10 +22,10 @@
 # 2.4	Added -binary option to http::geturl and charset element
 #	to the state array.
 
-package require Tcl 8.4
+package require Tcl 8.2
 # keep this in sync with pkgIndex.tcl
 # and with the install directories in Makefiles
-package provide http 2.5.1
+package provide http 2.4.4
 
 namespace eval http {
     variable http
@@ -34,22 +34,20 @@ namespace eval http {
 	-proxyhost {}
 	-proxyport {}
 	-proxyfilter http::ProxyRequired
-	-urlencoding utf-8
     }
     set http(-useragent) "Tcl http client package [package provide http]"
 
     proc init {} {
-	# Set up the map for quoting chars
-	# The spec says: "non-alphanumeric characters are replaced by '%HH'"
-	for {set i 0} {$i < 256} {incr i} {
+	variable formMap
+	variable alphanumeric a-zA-Z0-9
+	for {set i 0} {$i <= 256} {incr i} {
 	    set c [format %c $i]
-	    if {![string match {[a-zA-Z0-9]} $c]} {
-		set map($c) %[format %.2x $i]
+	    if {![string match \[$alphanumeric\] $c]} {
+		set formMap($c) %[format %.2x $i]
 	    }
 	}
 	# These are handled specially
-	array set map { " " + \n %0d%0a }
-	variable formMap [array get map]
+	array set formMap { " " + \n %0d%0a }
     }
     init
 
@@ -257,14 +255,6 @@ proc http::geturl { url args } {
 	status		""
 	http            ""
     }
-    # These flags have their types verified [Bug 811170]
-    array set type {
-	-binary		boolean
-	-blocksize	integer
-	-queryblocksize integer
-	-validate	boolean
-	-timeout	integer
-    }
     set state(charset)	$defaultCharset
     set options {-binary -blocksize -channel -command -handler -headers \
 	    -progress -query -queryblocksize -querychannel -queryprogress\
@@ -275,10 +265,11 @@ proc http::geturl { url args } {
     foreach {flag value} $args {
 	if {[regexp $pat $flag]} {
 	    # Validate numbers
-	    if {[info exists type($flag)] && \
-		    ![string is $type($flag) -strict $value]} {
+	    if {[info exists state($flag)] && \
+		    [string is integer -strict $state($flag)] && \
+		    ![string is integer -strict $value]} {
 		unset $token
-		return -code error "Bad value for $flag ($value), must be $type($flag)"
+		return -code error "Bad value for $flag ($value), must be integer"
 	    }
 	    set state($flag) $value
 	} else {
@@ -369,7 +360,7 @@ proc http::geturl { url args } {
 	fileevent $s writable [list http::Connect $token]
 	http::wait $token
 
-	if {$state(status) eq "error"} {
+	if {[string equal $state(status) "error"]} {
 	    # something went wrong while trying to establish the connection
 	    # Clean up after events and such, but DON'T call the command
 	    # callback (if available) because we're going to throw an 
@@ -377,7 +368,7 @@ proc http::geturl { url args } {
 	    set err [lindex $state(error) 0]
 	    cleanup $token
 	    return -code error $err
-	} elseif {$state(status) ne "connect"} {
+	} elseif {![string equal $state(status) "connect"]} {
 	    # Likely to be connection timeout
 	    return $token
 	}
@@ -427,7 +418,7 @@ proc http::geturl { url args } {
 	foreach {key value} $state(-headers) {
 	    set value [string map [list \n "" \r ""] $value]
 	    set key [string trim $key]
-	    if {$key eq "Content-Length"} {
+	    if {[string equal $key "Content-Length"]} {
 		set contDone 1
 		set state(querylength) $value
 	    }
@@ -462,7 +453,7 @@ proc http::geturl { url args } {
 	# (among Solaris, Linux, and NT)  behave the same, and none 
 	# behave all that well in any case.  Servers should always read thier
 	# POST data if they expect the client to read their response.
-
+		
 	if {$isQuery || $isQueryChannel} {
 	    puts $s "Content-Type: $state(-type)"
 	    if {!$contDone} {
@@ -483,11 +474,11 @@ proc http::geturl { url args } {
 	    # calls it synchronously, we just do a wait here.
 
 	    wait $token
-	    if {$state(status) eq "error"} {
+	    if {[string equal $state(status) "error"]} {
 		# Something went wrong, so throw the exception, and the
 		# enclosing catch will do cleanup.
 		return -code error [lindex $state(error) 0]
-	    }
+	    }		
 	}
     } err]} {
 	# The socket probably was never connected,
@@ -496,10 +487,10 @@ proc http::geturl { url args } {
 	# Clean up after events and such, but DON'T call the command callback
 	# (if available) because we're going to throw an exception from here
 	# instead.
-
+	
 	# if state(status) is error, it means someone's already called Finish
 	# to do the above-described clean up.
-	if {$state(status) eq "error"} {
+	if {[string equal $state(status) "error"]} {
 	    Finish $token $err 1
 	}
 	cleanup $token
@@ -611,13 +602,16 @@ proc http::Write {token} {
     variable $token
     upvar 0 $token state
     set s $state(sock)
-
+    
     # Output a block.  Tcl will buffer this if the socket blocks
+    
     set done 0
     if {[catch {
+	
 	# Catch I/O errors on dead sockets
 
 	if {[info exists state(-query)]} {
+	    
 	    # Chop up large query strings so queryprogress callback
 	    # can give smooth feedback
 
@@ -630,6 +624,7 @@ proc http::Write {token} {
 		set done 1
 	    }
 	} else {
+	    
 	    # Copy blocks from the query channel
 
 	    set outStr [read $state(-querychannel) $state(-queryblocksize)]
@@ -679,7 +674,7 @@ proc http::Event {token} {
 	Eof $token
 	return
     }
-    if {$state(state) eq "header"} {
+    if {[string equal $state(state) "header"]} {
 	if {[catch {gets $s line} n]} {
 	    Finish $token $n
 	} elseif {$n == 0} {
@@ -817,7 +812,7 @@ proc http::CopyDone {token count {error {}}} {
 proc http::Eof {token} {
     variable $token
     upvar 0 $token state
-    if {$state(state) eq "header"} {
+    if {[string equal $state(state) "header"]} {
 	# Premature eof
 	set state(status) eof
     } else {
@@ -867,7 +862,7 @@ proc http::formatQuery {args} {
     set sep ""
     foreach i $args {
 	append result $sep [mapReply $i]
-	if {$sep eq "="} {
+	if {[string equal $sep "="]} {
 	    set sep &
 	} else {
 	    set sep =
@@ -887,25 +882,18 @@ proc http::formatQuery {args} {
 #       The encoded string
 
 proc http::mapReply {string} {
-    variable http
     variable formMap
+    variable alphanumeric
 
     # The spec says: "non-alphanumeric characters are replaced by '%HH'"
-    # Use a pre-computed map and [string map] to do the conversion
-    # (much faster than [regsub]/[subst]). [Bug 1020491]
+    # 1 leave alphanumerics characters alone
+    # 2 Convert every other character to an array lookup
+    # 3 Escape constructs that are "special" to the tcl parser
+    # 4 "subst" the result, doing all the array substitutions
 
-    if {$http(-urlencoding) ne ""} {
-	set string [encoding convertto $http(-urlencoding) $string]
-	return [string map $formMap $string]
-    }
-    set converted [string map $formMap $string]
-    if {[string match "*\[\u0100-\uffff\]*" $converted]} {
-	regexp {[\u0100-\uffff]} $converted badChar
-	# Return this error message for maximum compatability... :^/
-	return -code error \
-	    "can't read \"formMap($badChar)\": no such element in array"
-    }
-    return $converted
+    regsub -all \[^$alphanumeric\] $string {$formMap(&)} string
+    regsub -all {[][{})\\]\)} $string {\\&} string
+    return [subst -nocommand $string]
 }
 
 # http::ProxyRequired --

@@ -26,17 +26,16 @@ BINDIR			?= ${PREFIX}/bin
 MANDIR			?= ${PREFIX}/man
 
 # set to non-empty value to install manpages in addition to html help:
-INSTALL_MANPAGES 	?= 
+INSTALL_MANPAGES ?= 
 
 TCL_PACKAGE_PATH	?= "~/Library/Tcl /Library/Tcl /Network/Library/Tcl /System/Library/Tcl \
 			    ~/Library/Frameworks /Library/Frameworks /Network/Library/Frameworks \
 			    /System/Library/Frameworks"
-TCL_MODULE_PATH		?= "~/Library/Tcl /Library/Tcl /Network/Library/Tcl /System/Library/Tcl"
 
 #-------------------------------------------------------------------------------------------------------
 # meta targets
 
-meta 			:= all install embedded install-embedded clean distclean test
+meta 			:= all install embedded install-embedded clean distclean
 
 styles			:= develop deploy
 
@@ -59,10 +58,6 @@ distclean		:= ${styles:%=distclean-%}
 distclean		: ${distclean}
 distclean-%:		action := distclean-
 
-test			:= ${styles:%=test-%}
-test			: ${test}
-test-%:			action := test-
-
 targets			:= $(foreach v,${meta},${$v})
 
 #-------------------------------------------------------------------------------------------------------
@@ -71,8 +66,7 @@ targets			:= $(foreach v,${meta},${$v})
 develop_make_args	:= BUILD_STYLE=Development CONFIGURE_ARGS=--enable-symbols
 deploy_make_args	:= BUILD_STYLE=Deployment \
 			   MAKE_ARGS=INSTALL_PROGRAM="'$$\$${INSTALL} $$\$${INSTALL_STRIP_PROGRAM}'" \
-			   MAKE_ARGS+=INSTALL_LIBRARY="'$$\$${INSTALL} $$\$${INSTALL_STRIP_LIBRARY}'" \
-			   MAKE_ARGS+=MEM_DEBUG_FLAGS="-DNDEBUG"
+			   MAKE_ARGS+=INSTALL_LIBRARY="'$$\$${INSTALL} $$\$${INSTALL_STRIP_LIBRARY}'"
 embedded_make_args	:= EMBEDDED_BUILD=1
 install_make_args	:= INSTALL_BUILD=1
 
@@ -93,20 +87,21 @@ PRODUCT_VERSION		:= $(shell eval $$(grep '^TCL_VERSION=' ${UNIX_DIR}/configure.i
 				echo "$${TCL_VERSION}")
 PRODUCT_LONGVERSION	:= $(shell eval $$(grep '^TCL_PATCH_LEVEL=' ${UNIX_DIR}/configure.in); \
 				echo "${PRODUCT_VERSION}$${TCL_PATCH_LEVEL}")
-YEAR                    := $(shell date +%Y)
 
+PRIVATE_HEADERS		:= tclInt.h tclIntDecls.h tclIntPlatDecls.h tclMath.h
 TARGETS			:= tclsh tcltest
 TCLSH			:= tclsh${PRODUCT_VERSION}
 TCL_EXE			?= ${SYMROOT}/${TCLSH}
 
 DYLIB_INSTALL_PATH	?= ${INSTALL_PATH}
 
+TCL_LIBRARY		:= @TCL_IN_FRAMEWORK@
 LIBDIR			:= ${INSTALL_PATH}/${PRODUCT_NAME}.framework/Versions/${PRODUCT_VERSION}
 DYLIB_INSTALL_DIR	:= ${DYLIB_INSTALL_PATH}/${PRODUCT_NAME}.framework/Versions/${PRODUCT_VERSION}
 INCLUDEDIR		:= ${LIBDIR}/Headers
 PRIVATEINCLUDEDIR	:= ${LIBDIR}/PrivateHeaders
 SCRIPTDIR		:= ${LIBDIR}/Resources/Scripts
-DOCDIR			:= ${LIBDIR}/Resources/Documentation/Reference
+DOCDIR			:= ${LIBDIR}/Resources/English.lproj/Documentation/Reference
 INFOPLIST		:= ${LIBDIR}/Resources/Info.plist
 
 BUILD_STYLE		=
@@ -114,7 +109,7 @@ OBJ_DIR			= ${OBJROOT}/${BUILD_STYLE}
 
 ${PROJECT}:		override INSTALL_ROOT = ${OBJ_DIR}/
 
-MAKE_VARS		:= INSTALL_ROOT TCL_PACKAGE_PATH TCL_MODULE_PATH DYLIB_INSTALL_DIR
+MAKE_VARS		:= INSTALL_ROOT TCL_PACKAGE_PATH TCL_LIBRARY DYLIB_INSTALL_DIR
 MAKE_ARGS_V		= $(foreach v,${MAKE_VARS},$v=${$v})
 export CPPROG		:= cp -p
 
@@ -136,7 +131,7 @@ build-${PROJECT}: ${OBJ_DIR}/Makefile
 # symolic link hackery to trick
 # 'make install INSTALL_ROOT=${OBJ_DIR}'
 # into building Tcl.framework and tclsh in ${SYMROOT}
-	cd ${OBJ_DIR}; mkdir -p $(dir ./${INSTALL_PATH}) $(dir ./${BINDIR}) ${SYMROOT}; \
+	cd ${OBJ_DIR}; mkdir -p $(dir ./${INSTALL_PATH}) $(dir ./${BINDIR}); \
 	rm -f ./${INSTALL_PATH}; ln -fs ${SYMROOT} ./${INSTALL_PATH}; \
 	rm -f ./${BINDIR}; ln -fs ${SYMROOT} ./${BINDIR}; \
 	ln -fs ${OBJ_DIR}/tcltest ${SYMROOT}
@@ -148,15 +143,12 @@ distclean-${PROJECT}:
 	${MAKE} -C ${OBJ_DIR} distclean ${EXTRA_MAKE_ARGS}
 	rm -rf ${OBJ_DIR} ${PRODUCT_NAME}.framework tclsh${PRODUCT_VERSION} tcltest
 	
-test-${PROJECT}: build-${PROJECT}
-	${MAKE} -C ${OBJ_DIR} test ${EXTRA_MAKE_ARGS}
-
 install-${PROJECT}: build-${PROJECT}
 # install to ${INSTALL_ROOT} with optional stripping
-	${MAKE} -C ${OBJ_DIR} install-binaries install-libraries install-private-headers \
-	SCRIPT_INSTALL_DIR=${INSTALL_ROOT}${SCRIPTDIR} \
-	PRIVATE_INCLUDE_INSTALL_DIR=${INSTALL_ROOT}${PRIVATEINCLUDEDIR} \
-	${MAKE_ARGS_V} ${MAKE_ARGS} ${EXTRA_MAKE_ARGS}
+	${MAKE} -C ${OBJ_DIR} install-binaries install-libraries \
+	SCRIPT_INSTALL_DIR=${INSTALL_ROOT}${SCRIPTDIR} ${MAKE_ARGS_V} ${MAKE_ARGS} ${EXTRA_MAKE_ARGS}
+	mkdir -p ${INSTALL_ROOT}${PRIVATEINCLUDEDIR} && \
+	cd ${GENERIC_DIR} && ${CPPROG} ${PRIVATE_HEADERS} ${INSTALL_ROOT}${PRIVATEINCLUDEDIR}
 ifeq (${BUILD_STYLE},Development)
 # keep copy of debug library around, so that
 # Deployment build can be installed on top
@@ -172,18 +164,19 @@ endif
 ifeq (${INSTALL_BUILD},1)
 ifeq (${EMBEDDED_BUILD},1)
 # if we are embedding frameworks, don't install tclsh
-	rm -f "${INSTALL_ROOT}${BINDIR}/${TCLSH}"
-	-rmdir -p "${INSTALL_ROOT}${BINDIR}" 2>&-
+	rm -f "${INSTALL_ROOT}/${BINDIR}/${TCLSH}"
+	-rmdir -p "${INSTALL_ROOT}/${BINDIR}" 2>&-
 else
 # redo prebinding
-	cd ${INSTALL_ROOT}/; \
+	cd ${INSTALL_ROOT}; \
 	if [ ! -d usr/lib ]; then mkdir -p usr; ln -fs /usr/lib usr/; RM_USRLIB=1; fi; \
 	if [ ! -d System ]; then ln -fs /System .; RM_SYSTEM=1; fi; \
 	redo_prebinding -r . "./${BINDIR}/${TCLSH}"; \
 	if [ -n "$${RM_USRLIB:-}" ]; then rm -f usr/lib; rmdir -p usr 2>&-; fi; \
 	if [ -n "$${RM_SYSTEM:-}" ]; then rm -f System; fi
 # install tclsh symbolic link
-	ln -fs ${TCLSH} ${INSTALL_ROOT}${BINDIR}/tclsh
+	mkdir -p ${INSTALL_ROOT}/usr/bin && \
+	ln -fs ${TCLSH} ${INSTALL_ROOT}/${BINDIR}/tclsh
 ifeq (${BUILD_STYLE},Deployment)
 ifneq (${INSTALL_MANPAGES},)
 # install manpages
@@ -210,7 +203,7 @@ endif
 		<key>CFBundleExecutable</key>\n\
 		<string>Tcl</string>\n\
 		<key>CFBundleGetInfoString</key>\n\
-		<string>Tcl Library ${PRODUCT_VERSION}, Copyright © ${YEAR} Tcl Core Team.\n\
+		<string>Tcl Library ${PRODUCT_VERSION}, Copyright © 2003 Tcl Core Team.\n\
 	MacOS X Port by Jim Ingham &lt;jingham@apple.com&gt; &amp; Ian Reid, Copyright\
 	© 2001-2002, Apple Computer, Inc.</string>\n\
 		<key>CFBundleIdentifier</key>\n\
@@ -234,7 +227,5 @@ endif
 
 .PHONY: ${meta} ${targets} ${PROJECT} build-${PROJECT} install-${PROJECT} \
 	clean-${PROJECT} distclean-${PROJECT}
-
-.NOTPARALLEL:
 
 #-------------------------------------------------------------------------------------------------------

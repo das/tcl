@@ -19,6 +19,7 @@
  */
 
 #include "tclInt.h"
+#include "tclPort.h"
 #include "tclRegexp.h"
 
 /*
@@ -30,7 +31,7 @@
 typedef struct SortElement {
     Tcl_Obj *objPtr;			/* Object being sorted. */
     int count;				/* number of same elements in list */
-    struct SortElement *nextPtr;	/* Next element in the list, or
+    struct SortElement *nextPtr;        /* Next element in the list, or
 					 * NULL for end of list. */
 } SortElement;
 
@@ -49,19 +50,15 @@ typedef struct SortInfo {
     Tcl_Obj *compareCmdPtr;     /* The Tcl comparison command when sortMode
 				 * is SORTMODE_COMMAND.  Pre-initialized to
 				 * hold base of command.*/
-    int *indexv;		/* If the -index option was specified, this
-				 * holds the indexes contained in the list
-				 * supplied as an argument to that option.
-				 * NULL if no indexes supplied, and points
-				 * to singleIndex field when only one
-				 * supplied. */
-    int indexc;			/* Number of indexes in indexv array. */
-    int singleIndex;		/* Static space for common index case. */
+    int index;			/* If the -index option was specified, this
+				 * holds the index of the list element
+				 * to extract for comparison.  If -index
+				 * wasn't specified, this is -1. */
     Tcl_Interp *interp;		/* The interpreter in which the sortis
 				 * being done. */
     int resultCode;		/* Completion code for the lsort command.
 				 * If an error occurs during the sort this
-				 * is changed from TCL_OK to TCL_ERROR. */
+				 * is changed from TCL_OK to  TCL_ERROR. */
 } SortInfo;
 
 /*
@@ -160,9 +157,6 @@ static SortElement *    MergeLists _ANSI_ARGS_((SortElement *leftPtr,
 			    SortElement *rightPtr, SortInfo *infoPtr));
 static int		SortCompare _ANSI_ARGS_((Tcl_Obj *firstPtr,
 			    Tcl_Obj *second, SortInfo *infoPtr));
-static Tcl_Obj *	SelectObjFromSublist _ANSI_ARGS_((Tcl_Obj *firstPtr,
-			    SortInfo *infoPtr));
-
 
 /*
  *----------------------------------------------------------------------
@@ -207,7 +201,7 @@ Tcl_IfObjCmd(dummy, interp, objc, objv)
 	 */
 
 	if (i >= objc) {
-	    clause = TclGetString(objv[i-1]);
+	    clause = Tcl_GetString(objv[i-1]);
 	    Tcl_AppendResult(interp, "wrong # args: no expression after \"",
 		    clause, "\" argument", (char *) NULL);
 	    return TCL_ERROR;
@@ -221,12 +215,12 @@ Tcl_IfObjCmd(dummy, interp, objc, objv)
 	i++;
 	if (i >= objc) {
 	    missingScript:
-	    clause = TclGetString(objv[i-1]);
+	    clause = Tcl_GetString(objv[i-1]);
 	    Tcl_AppendResult(interp, "wrong # args: no script following \"",
 		    clause, "\" argument", (char *) NULL);
 	    return TCL_ERROR;
 	}
-	clause = TclGetString(objv[i]);
+	clause = Tcl_GetString(objv[i]);
 	if ((i < objc) && (strcmp(clause, "then") == 0)) {
 	    i++;
 	}
@@ -237,7 +231,7 @@ Tcl_IfObjCmd(dummy, interp, objc, objv)
 	    thenScriptIndex = i;
 	    value = 0;
 	}
-
+	
 	/*
 	 * The expression evaluated to false.  Skip the command, then
 	 * see if there is an "else" or "elseif" clause.
@@ -250,7 +244,7 @@ Tcl_IfObjCmd(dummy, interp, objc, objv)
 	    }
 	    return TCL_OK;
 	}
-	clause = TclGetString(objv[i]);
+	clause = Tcl_GetString(objv[i]);
 	if ((clause[0] == 'e') && (strcmp(clause, "elseif") == 0)) {
 	    i++;
 	    continue;
@@ -318,7 +312,7 @@ Tcl_IncrObjCmd(dummy, interp, objc, objv)
     Tcl_WideInt wideIncrAmount;
     Tcl_Obj *newValuePtr;
     int isWide = 0;
-
+    
     if ((objc != 2) && (objc != 3)) {
 	Tcl_WrongNumArgs(interp, 1, objv, "varName ?increment?");
 	return TCL_ERROR;
@@ -327,7 +321,7 @@ Tcl_IncrObjCmd(dummy, interp, objc, objv)
     /*
      * Calculate the amount to increment by.
      */
-
+    
     if (objc == 3) {
 	/*
 	 * Need to be a bit cautious to ensure that [expr]-like rules
@@ -357,7 +351,7 @@ Tcl_IncrObjCmd(dummy, interp, objc, objv)
 	    }
 	}
     }
-
+    
     /*
      * Increment the variable's value.
      */
@@ -427,7 +421,7 @@ Tcl_InfoObjCmd(clientData, interp, objc, objv)
 	Tcl_WrongNumArgs(interp, 1, objv, "option ?arg arg ...?");
 	return TCL_ERROR;
     }
-
+    
     result = Tcl_GetIndexFromObj(interp, objv[1], subCmds, "option", 0,
 	    (int *) &index);
     if (result != TCL_OK) {
@@ -510,7 +504,7 @@ Tcl_InfoObjCmd(clientData, interp, objc, objv)
  *      Called to implement the "info args" command that returns the
  *      argument list for a procedure. Handles the following syntax:
  *
- *	    info args procName
+ *          info args procName
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -540,18 +534,18 @@ InfoArgsCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
 
-    name = TclGetString(objv[2]);
+    name = Tcl_GetString(objv[2]);
     procPtr = TclFindProc(iPtr, name);
     if (procPtr == NULL) {
-	Tcl_AppendResult(interp, "\"", name,
-		"\" isn't a procedure", (char *) NULL);
+	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+		"\"", name, "\" isn't a procedure", (char *) NULL);
 	return TCL_ERROR;
     }
 
     /*
      * Build a return list containing the arguments.
      */
-
+    
     listObjPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
     for (localPtr = procPtr->firstLocalPtr;  localPtr != NULL;
 	    localPtr = localPtr->nextPtr) {
@@ -572,7 +566,7 @@ InfoArgsCmd(dummy, interp, objc, objv)
  *      Called to implement the "info body" command that returns the body
  *      for a procedure. Handles the following syntax:
  *
- *	    info body procName
+ *          info body procName
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -595,17 +589,17 @@ InfoBodyCmd(dummy, interp, objc, objv)
     char *name;
     Proc *procPtr;
     Tcl_Obj *bodyPtr, *resultPtr;
-
+    
     if (objc != 3) {
 	Tcl_WrongNumArgs(interp, 2, objv, "procname");
 	return TCL_ERROR;
     }
 
-    name = TclGetString(objv[2]);
+    name = Tcl_GetString(objv[2]);
     procPtr = TclFindProc(iPtr, name);
     if (procPtr == NULL) {
-	Tcl_AppendResult(interp, "\"", name,
-		"\" isn't a procedure", (char *) NULL);
+	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+		"\"", name, "\" isn't a procedure", (char *) NULL);
 	return TCL_ERROR;
     }
 
@@ -627,7 +621,7 @@ InfoBodyCmd(dummy, interp, objc, objv)
 	(void) Tcl_GetString(bodyPtr);
     }
     resultPtr = Tcl_NewStringObj(bodyPtr->bytes, bodyPtr->length);
-
+    
     Tcl_SetObjResult(interp, resultPtr);
     return TCL_OK;
 }
@@ -641,7 +635,7 @@ InfoBodyCmd(dummy, interp, objc, objv)
  *      number of commands that have been executed. Handles the following
  *      syntax:
  *
- *	    info cmdcount
+ *          info cmdcount
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -661,13 +655,13 @@ InfoCmdCountCmd(dummy, interp, objc, objv)
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
     Interp *iPtr = (Interp *) interp;
-
+    
     if (objc != 2) {
 	Tcl_WrongNumArgs(interp, 2, objv, NULL);
 	return TCL_ERROR;
     }
 
-    Tcl_SetObjResult(interp, Tcl_NewIntObj(iPtr->cmdCount));
+    Tcl_SetIntObj(Tcl_GetObjResult(interp), iPtr->cmdCount);
     return TCL_OK;
 }
 
@@ -683,7 +677,7 @@ InfoCmdCountCmd(dummy, interp, objc, objv)
  *	glob-style pattern that restricts which commands are returned.
  *	Handles the following syntax:
  *
- *	    info commands ?pattern?
+ *          info commands ?pattern?
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -733,7 +727,7 @@ InfoCommandsCmd(dummy, interp, objc, objv)
 
 	Namespace *dummy1NsPtr, *dummy2NsPtr;
 
-	pattern = TclGetString(objv[2]);
+	pattern = Tcl_GetString(objv[2]);
 	TclGetNamespaceForQualName(interp, pattern, (Namespace *) NULL, 0,
 		&nsPtr, &dummy1NsPtr, &dummy2NsPtr, &simplePattern);
 
@@ -746,14 +740,6 @@ InfoCommandsCmd(dummy, interp, objc, objv)
     }
 
     /*
-     * Exit as quickly as possible if we couldn't find the namespace.
-     */
-
-    if (nsPtr == NULL) {
-	return TCL_OK;
-    }
-
-    /*
      * Scan through the effective namespace's command table and create a
      * list with all commands that match the pattern. If a specific
      * namespace was requested in the pattern, qualify the command names
@@ -762,38 +748,12 @@ InfoCommandsCmd(dummy, interp, objc, objv)
 
     listPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
 
-    if (simplePattern != NULL && TclMatchIsTrivial(simplePattern)) {
-	/*
-	 * Special case for when the pattern doesn't include any of
-	 * glob's special characters. This lets us avoid scans of any
-	 * hash tables.
-	 */
-	entryPtr = Tcl_FindHashEntry(&nsPtr->cmdTable, simplePattern);
-	if (entryPtr != NULL) {
-	    if (specificNsInPattern) {
-		cmd = (Tcl_Command) Tcl_GetHashValue(entryPtr);
-		elemObjPtr = Tcl_NewObj();
-		Tcl_GetCommandFullName(interp, cmd, elemObjPtr);
-	    } else {
-		cmdName = Tcl_GetHashKey(&nsPtr->cmdTable, entryPtr);
-		elemObjPtr = Tcl_NewStringObj(cmdName, -1);
-	    }
-	    Tcl_ListObjAppendElement(interp, listPtr, elemObjPtr);
-	} else if ((nsPtr != globalNsPtr) && !specificNsInPattern) {
-	    entryPtr = Tcl_FindHashEntry(&globalNsPtr->cmdTable,
-		    simplePattern);
-	    if (entryPtr != NULL) {
-		cmdName = Tcl_GetHashKey(&globalNsPtr->cmdTable, entryPtr);
-		Tcl_ListObjAppendElement(interp, listPtr,
-			Tcl_NewStringObj(cmdName, -1));
-	    }
-	}
-    } else {
+    if (nsPtr != NULL) {
 	entryPtr = Tcl_FirstHashEntry(&nsPtr->cmdTable, &search);
 	while (entryPtr != NULL) {
 	    cmdName = Tcl_GetHashKey(&nsPtr->cmdTable, entryPtr);
 	    if ((simplePattern == NULL)
-		    || Tcl_StringMatch(cmdName, simplePattern)) {
+	            || Tcl_StringMatch(cmdName, simplePattern)) {
 		if (specificNsInPattern) {
 		    cmd = (Tcl_Command) Tcl_GetHashValue(entryPtr);
 		    elemObjPtr = Tcl_NewObj();
@@ -813,13 +773,13 @@ InfoCommandsCmd(dummy, interp, objc, objv)
 	 * we add in only those commands that aren't hidden by a command in
 	 * the effective namespace.
 	 */
-
+	
 	if ((nsPtr != globalNsPtr) && !specificNsInPattern) {
 	    entryPtr = Tcl_FirstHashEntry(&globalNsPtr->cmdTable, &search);
 	    while (entryPtr != NULL) {
 		cmdName = Tcl_GetHashKey(&globalNsPtr->cmdTable, entryPtr);
 		if ((simplePattern == NULL)
-			|| Tcl_StringMatch(cmdName, simplePattern)) {
+	                || Tcl_StringMatch(cmdName, simplePattern)) {
 		    if (Tcl_FindHashEntry(&nsPtr->cmdTable, cmdName) == NULL) {
 			Tcl_ListObjAppendElement(interp, listPtr,
 				Tcl_NewStringObj(cmdName, -1));
@@ -829,7 +789,7 @@ InfoCommandsCmd(dummy, interp, objc, objv)
 	    }
 	}
     }
-
+    
     Tcl_SetObjResult(interp, listPtr);
     return TCL_OK;
 }
@@ -843,7 +803,7 @@ InfoCommandsCmd(dummy, interp, objc, objv)
  *      whether a string is a complete Tcl command. Handles the following
  *      syntax:
  *
- *	    info complete command
+ *          info complete command
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -868,9 +828,9 @@ InfoCompleteCmd(dummy, interp, objc, objv)
     }
 
     if (TclObjCommandComplete(objv[2])) {
-	Tcl_SetObjResult(interp, Tcl_NewIntObj(1));
+	Tcl_SetIntObj(Tcl_GetObjResult(interp), 1);
     } else {
-	Tcl_SetObjResult(interp, Tcl_NewIntObj(0));
+	Tcl_SetIntObj(Tcl_GetObjResult(interp), 0);
     }
 
     return TCL_OK;
@@ -885,7 +845,7 @@ InfoCompleteCmd(dummy, interp, objc, objv)
  *      default value for a procedure argument. Handles the following
  *      syntax:
  *
- *	    info default procName arg varName
+ *          info default procName arg varName
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -915,13 +875,13 @@ InfoDefaultCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
 
-    procName = TclGetString(objv[2]);
-    argName = TclGetString(objv[3]);
+    procName = Tcl_GetString(objv[2]);
+    argName = Tcl_GetString(objv[3]);
 
     procPtr = TclFindProc(iPtr, procName);
     if (procPtr == NULL) {
-	Tcl_AppendResult(interp, "\"", procName,
-		"\" isn't a procedure", (char *) NULL);
+	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+		"\"", procName, "\" isn't a procedure", (char *) NULL);
 	return TCL_ERROR;
     }
 
@@ -934,13 +894,13 @@ InfoDefaultCmd(dummy, interp, objc, objv)
 			localPtr->defValuePtr, 0);
 		if (valueObjPtr == NULL) {
 		    defStoreError:
-		    varName = TclGetString(objv[4]);
-		    Tcl_AppendResult(interp,
-			    "couldn't store default value in variable \"",
+		    varName = Tcl_GetString(objv[4]);
+		    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+	                    "couldn't store default value in variable \"",
 			    varName, "\"", (char *) NULL);
 		    return TCL_ERROR;
 		}
-		Tcl_SetObjResult(interp, Tcl_NewIntObj(1));
+		Tcl_SetIntObj(Tcl_GetObjResult(interp), 1);
 	    } else {
 		Tcl_Obj *nullObjPtr = Tcl_NewObj();
 		valueObjPtr = Tcl_ObjSetVar2(interp, objv[4], NULL,
@@ -949,14 +909,15 @@ InfoDefaultCmd(dummy, interp, objc, objv)
 		    Tcl_DecrRefCount(nullObjPtr); /* free unneeded obj */
 		    goto defStoreError;
 		}
-		Tcl_SetObjResult(interp, Tcl_NewIntObj(0));
+		Tcl_SetIntObj(Tcl_GetObjResult(interp), 0);
 	    }
 	    return TCL_OK;
 	}
     }
 
-    Tcl_AppendResult(interp, "procedure \"", procName,
-	    "\" doesn't have an argument \"", argName, "\"", (char *) NULL);
+    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+	    "procedure \"", procName, "\" doesn't have an argument \"",
+	    argName, "\"", (char *) NULL);
     return TCL_ERROR;
 }
 
@@ -968,7 +929,7 @@ InfoDefaultCmd(dummy, interp, objc, objv)
  *      Called to implement the "info exists" command that determines
  *      whether a variable exists. Handles the following syntax:
  *
- *	    info exists varName
+ *          info exists varName
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -995,12 +956,12 @@ InfoExistsCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
 
-    varName = TclGetString(objv[2]);
+    varName = Tcl_GetString(objv[2]);
     varPtr = TclVarTraceExists(interp, varName);
     if ((varPtr != NULL) && !TclIsVarUndefined(varPtr)) {
-	Tcl_SetObjResult(interp, Tcl_NewIntObj(1));
+	Tcl_SetIntObj(Tcl_GetObjResult(interp), 1);
     } else {
-	Tcl_SetObjResult(interp, Tcl_NewIntObj(0));
+	Tcl_SetIntObj(Tcl_GetObjResult(interp), 0);
     }
     return TCL_OK;
 }
@@ -1014,7 +975,7 @@ InfoExistsCmd(dummy, interp, objc, objv)
  *      list of math functions matching an optional pattern. Handles the
  *      following syntax:
  *
- *	    info functions ?pattern?
+ *          info functions ?pattern?
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -1039,7 +1000,7 @@ InfoFunctionsCmd(dummy, interp, objc, objv)
     if (objc == 2) {
 	pattern = NULL;
     } else if (objc == 3) {
-	pattern = TclGetString(objv[2]);
+	pattern = Tcl_GetString(objv[2]);
     } else {
 	Tcl_WrongNumArgs(interp, 2, objv, "?pattern?");
 	return TCL_ERROR;
@@ -1062,7 +1023,7 @@ InfoFunctionsCmd(dummy, interp, objc, objv)
  *      of global variables matching an optional pattern. Handles the
  *      following syntax:
  *
- *	    info globals ?pattern?
+ *          info globals ?pattern?
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -1091,15 +1052,7 @@ InfoGlobalsCmd(dummy, interp, objc, objv)
     if (objc == 2) {
 	pattern = NULL;
     } else if (objc == 3) {
-	pattern = TclGetString(objv[2]);
-	/*
-	 * Strip leading global-namespace qualifiers. [Bug 1057461]
-	 */
-	if (pattern[0] == ':' && pattern[1] == ':') {
-	    while (*pattern == ':') {
-		pattern++;
-	    }
-	}
+	pattern = Tcl_GetString(objv[2]);
     } else {
 	Tcl_WrongNumArgs(interp, 2, objv, "?pattern?");
 	return TCL_ERROR;
@@ -1109,27 +1062,19 @@ InfoGlobalsCmd(dummy, interp, objc, objv)
      * Scan through the global :: namespace's variable table and create a
      * list of all global variables that match the pattern.
      */
-
+    
     listPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
-    if (pattern != NULL && TclMatchIsTrivial(pattern)) {
-	entryPtr = Tcl_FindHashEntry(&globalNsPtr->varTable, pattern);
-	if (entryPtr != NULL) {
-	    Tcl_ListObjAppendElement(interp, listPtr,
-		    Tcl_NewStringObj(pattern, -1));
+    for (entryPtr = Tcl_FirstHashEntry(&globalNsPtr->varTable, &search);
+	    entryPtr != NULL;
+	    entryPtr = Tcl_NextHashEntry(&search)) {
+	varPtr = (Var *) Tcl_GetHashValue(entryPtr);
+	if (TclIsVarUndefined(varPtr)) {
+	    continue;
 	}
-    } else {
-	for (entryPtr = Tcl_FirstHashEntry(&globalNsPtr->varTable, &search);
-		entryPtr != NULL;
-		entryPtr = Tcl_NextHashEntry(&search)) {
-	    varPtr = (Var *) Tcl_GetHashValue(entryPtr);
-	    if (TclIsVarUndefined(varPtr)) {
-		continue;
-	    }
-	    varName = Tcl_GetHashKey(&globalNsPtr->varTable, entryPtr);
-	    if ((pattern == NULL) || Tcl_StringMatch(varName, pattern)) {
-		Tcl_ListObjAppendElement(interp, listPtr,
-			Tcl_NewStringObj(varName, -1));
-	    }
+	varName = Tcl_GetHashKey(&globalNsPtr->varTable, entryPtr);
+	if ((pattern == NULL) || Tcl_StringMatch(varName, pattern)) {
+	    Tcl_ListObjAppendElement(interp, listPtr,
+		    Tcl_NewStringObj(varName, -1));
 	}
     }
     Tcl_SetObjResult(interp, listPtr);
@@ -1144,7 +1089,7 @@ InfoGlobalsCmd(dummy, interp, objc, objv)
  *      Called to implement the "info hostname" command that returns the
  *      host name. Handles the following syntax:
  *
- *	    info hostname
+ *          info hostname
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -1171,11 +1116,11 @@ InfoHostnameCmd(dummy, interp, objc, objv)
 
     name = Tcl_GetHostName();
     if (name) {
-	Tcl_SetObjResult(interp, Tcl_NewStringObj(name, -1));
+	Tcl_SetStringObj(Tcl_GetObjResult(interp), name, -1);
 	return TCL_OK;
     } else {
-	Tcl_SetObjResult(interp, Tcl_NewStringObj(
-		"unable to determine name of host", -1));
+	Tcl_SetStringObj(Tcl_GetObjResult(interp),
+		"unable to determine name of host", -1);
 	return TCL_ERROR;
     }
 }
@@ -1188,7 +1133,7 @@ InfoHostnameCmd(dummy, interp, objc, objv)
  *      Called to implement the "info level" command that returns
  *      information about the call stack. Handles the following syntax:
  *
- *	    info level ?number?
+ *          info level ?number?
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -1214,9 +1159,9 @@ InfoLevelCmd(dummy, interp, objc, objv)
 
     if (objc == 2) {		/* just "info level" */
 	if (iPtr->varFramePtr == NULL) {
-	    Tcl_SetObjResult(interp, Tcl_NewIntObj(0));
+	    Tcl_SetIntObj(Tcl_GetObjResult(interp), 0);
 	} else {
-	    Tcl_SetObjResult(interp, Tcl_NewIntObj(iPtr->varFramePtr->level));
+	    Tcl_SetIntObj(Tcl_GetObjResult(interp), iPtr->varFramePtr->level);
 	}
 	return TCL_OK;
     } else if (objc == 3) {
@@ -1226,8 +1171,10 @@ InfoLevelCmd(dummy, interp, objc, objv)
 	if (level <= 0) {
 	    if (iPtr->varFramePtr == NULL) {
 		levelError:
-		Tcl_AppendResult(interp, "bad level \"",
-			TclGetString(objv[2]), "\"", (char *) NULL);
+		Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+			"bad level \"",
+			Tcl_GetString(objv[2]),
+			"\"", (char *) NULL);
 		return TCL_ERROR;
 	    }
 	    level += iPtr->varFramePtr->level;
@@ -1260,7 +1207,7 @@ InfoLevelCmd(dummy, interp, objc, objv)
  *      library directory for the Tcl installation. Handles the following
  *      syntax:
  *
- *	    info library
+ *          info library
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -1288,11 +1235,11 @@ InfoLibraryCmd(dummy, interp, objc, objv)
 
     libDirName = Tcl_GetVar(interp, "tcl_library", TCL_GLOBAL_ONLY);
     if (libDirName != NULL) {
-	Tcl_SetObjResult(interp, Tcl_NewStringObj(libDirName, -1));
+	Tcl_SetStringObj(Tcl_GetObjResult(interp), libDirName, -1);
 	return TCL_OK;
     }
-    Tcl_SetObjResult(interp, Tcl_NewStringObj(
-	    "no library has been specified for Tcl", -1));
+    Tcl_SetStringObj(Tcl_GetObjResult(interp), 
+	    "no library has been specified for Tcl", -1);
     return TCL_ERROR;
 }
 
@@ -1305,7 +1252,7 @@ InfoLibraryCmd(dummy, interp, objc, objv)
  *      packages that have been loaded into an interpreter. Handles the
  *      following syntax:
  *
- *	    info loaded ?interp?
+ *          info loaded ?interp?
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -1335,7 +1282,7 @@ InfoLoadedCmd(dummy, interp, objc, objv)
     if (objc == 2) {		/* get loaded pkgs in all interpreters */
 	interpName = NULL;
     } else {			/* get pkgs just in specified interp */
-	interpName = TclGetString(objv[2]);
+	interpName = Tcl_GetString(objv[2]);
     }
     result = TclGetLoadedPackages(interp, interpName);
     return result;
@@ -1350,7 +1297,7 @@ InfoLoadedCmd(dummy, interp, objc, objv)
  *      local variables that match an optional pattern. Handles the
  *      following syntax:
  *
- *	    info locals ?pattern?
+ *          info locals ?pattern?
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -1376,14 +1323,13 @@ InfoLocalsCmd(dummy, interp, objc, objv)
     if (objc == 2) {
 	pattern = NULL;
     } else if (objc == 3) {
-	pattern = TclGetString(objv[2]);
+	pattern = Tcl_GetString(objv[2]);
     } else {
 	Tcl_WrongNumArgs(interp, 2, objv, "?pattern?");
 	return TCL_ERROR;
     }
-
-    if (iPtr->varFramePtr == NULL ||
-	    !(iPtr->varFramePtr->isProcCallFrame & FRAME_IS_PROC )) {
+    
+    if (iPtr->varFramePtr == NULL || !iPtr->varFramePtr->isProcCallFrame) {
 	return TCL_OK;
     }
 
@@ -1392,7 +1338,7 @@ InfoLocalsCmd(dummy, interp, objc, objv)
      * ones stored in the call frame), then the variables in the local hash
      * table (if one exists).
      */
-
+    
     listPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
     AppendLocals(interp, listPtr, pattern, 0);
     Tcl_SetObjResult(interp, listPtr);
@@ -1443,27 +1389,27 @@ AppendLocals(interp, listPtr, pattern, includeLinks)
 	 */
 
 	if (!TclIsVarTemporary(localPtr) && !TclIsVarUndefined(varPtr)
-		&& (includeLinks || !TclIsVarLink(varPtr))) {
+	        && (includeLinks || !TclIsVarLink(varPtr))) {
 	    varName = varPtr->name;
 	    if ((pattern == NULL) || Tcl_StringMatch(varName, pattern)) {
 		Tcl_ListObjAppendElement(interp, listPtr,
-			Tcl_NewStringObj(varName, -1));
+		        Tcl_NewStringObj(varName, -1));
 	    }
 	}
 	varPtr++;
 	localPtr = localPtr->nextPtr;
     }
-
+    
     if (localVarTablePtr != NULL) {
 	for (entryPtr = Tcl_FirstHashEntry(localVarTablePtr, &search);
-		entryPtr != NULL;
+	        entryPtr != NULL;
 		entryPtr = Tcl_NextHashEntry(&search)) {
 	    varPtr = (Var *) Tcl_GetHashValue(entryPtr);
 	    if (!TclIsVarUndefined(varPtr)
 		    && (includeLinks || !TclIsVarLink(varPtr))) {
 		varName = Tcl_GetHashKey(localVarTablePtr, entryPtr);
 		if ((pattern == NULL)
-			|| Tcl_StringMatch(varName, pattern)) {
+		        || Tcl_StringMatch(varName, pattern)) {
 		    Tcl_ListObjAppendElement(interp, listPtr,
 			    Tcl_NewStringObj(varName, -1));
 		}
@@ -1481,7 +1427,7 @@ AppendLocals(interp, listPtr, pattern, includeLinks)
  *      the name of the binary file running this application. Handles the
  *      following syntax:
  *
- *	    info nameofexecutable
+ *          info nameofexecutable
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -1500,11 +1446,18 @@ InfoNameOfExecutableCmd(dummy, interp, objc, objv)
     int objc;			/* Number of arguments. */
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
+    CONST char *nameOfExecutable;
+
     if (objc != 2) {
 	Tcl_WrongNumArgs(interp, 2, objv, NULL);
 	return TCL_ERROR;
     }
-    Tcl_SetObjResult(interp, TclGetObjNameOfExecutable());
+
+    nameOfExecutable = Tcl_GetNameOfExecutable();
+    
+    if (nameOfExecutable != NULL) {
+	Tcl_SetStringObj(Tcl_GetObjResult(interp), nameOfExecutable, -1);
+    }
     return TCL_OK;
 }
 
@@ -1517,7 +1470,7 @@ InfoNameOfExecutableCmd(dummy, interp, objc, objv)
  *      default value for an argument to a procedure. Handles the following
  *      syntax:
  *
- *	    info patchlevel
+ *          info patchlevel
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -1546,7 +1499,7 @@ InfoPatchLevelCmd(dummy, interp, objc, objv)
     patchlevel = Tcl_GetVar(interp, "tcl_patchLevel",
 	    (TCL_GLOBAL_ONLY | TCL_LEAVE_ERR_MSG));
     if (patchlevel != NULL) {
-	Tcl_SetObjResult(interp, Tcl_NewStringObj(patchlevel, -1));
+	Tcl_SetStringObj(Tcl_GetObjResult(interp), patchlevel, -1);
 	return TCL_OK;
     }
     return TCL_ERROR;
@@ -1564,7 +1517,7 @@ InfoPatchLevelCmd(dummy, interp, objc, objv)
  *	glob-style pattern that restricts which commands are returned.
  *	Handles the following syntax:
  *
- *	    info procs ?pattern?
+ *          info procs ?pattern?
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -1616,7 +1569,7 @@ InfoProcsCmd(dummy, interp, objc, objv)
 
 	Namespace *dummy1NsPtr, *dummy2NsPtr;
 
-	pattern = TclGetString(objv[2]);
+	pattern = Tcl_GetString(objv[2]);
 	TclGetNamespaceForQualName(interp, pattern, (Namespace *) NULL,
 		/*flags*/ 0, &nsPtr, &dummy1NsPtr, &dummy2NsPtr,
 		&simplePattern);
@@ -1629,10 +1582,6 @@ InfoProcsCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
 
-    if (nsPtr == NULL) {
-	return TCL_OK;
-    }
-
     /*
      * Scan through the effective namespace's command table and create a
      * list with all procs that match the pattern. If a specific
@@ -1641,48 +1590,19 @@ InfoProcsCmd(dummy, interp, objc, objv)
      */
 
     listPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
-#ifndef INFO_PROCS_SEARCH_GLOBAL_NS
-    if (simplePattern != NULL && TclMatchIsTrivial(simplePattern)) {
-	entryPtr = Tcl_FindHashEntry(&nsPtr->cmdTable, simplePattern);
-	if (entryPtr != NULL) {
-	    cmdPtr = (Command *) Tcl_GetHashValue(entryPtr);
-
-	    if (!TclIsProc(cmdPtr)) {
-		realCmdPtr = (Command *)
-			TclGetOriginalCommand((Tcl_Command) cmdPtr);
-		if (realCmdPtr != NULL && TclIsProc(realCmdPtr)) {
-		    goto simpleProcOK;
-		}
-	    } else {
-	      simpleProcOK:
-		if (specificNsInPattern) {
-		    elemObjPtr = Tcl_NewObj();
-		    Tcl_GetCommandFullName(interp, (Tcl_Command) cmdPtr,
-			    elemObjPtr);
-		} else {
-		    elemObjPtr = Tcl_NewStringObj(simplePattern, -1);
-		}
-		Tcl_ListObjAppendElement(interp, listPtr, elemObjPtr);
-	    }
-	}
-    } else
-#endif /* !INFO_PROCS_SEARCH_GLOBAL_NS */
-    {
+    if (nsPtr != NULL) {
 	entryPtr = Tcl_FirstHashEntry(&nsPtr->cmdTable, &search);
 	while (entryPtr != NULL) {
 	    cmdName = Tcl_GetHashKey(&nsPtr->cmdTable, entryPtr);
 	    if ((simplePattern == NULL)
-		    || Tcl_StringMatch(cmdName, simplePattern)) {
+	            || Tcl_StringMatch(cmdName, simplePattern)) {
 		cmdPtr = (Command *) Tcl_GetHashValue(entryPtr);
 
-		if (!TclIsProc(cmdPtr)) {
-		    realCmdPtr = (Command *)
-			    TclGetOriginalCommand((Tcl_Command) cmdPtr);
-		    if (realCmdPtr != NULL && TclIsProc(realCmdPtr)) {
-			goto procOK;
-		    }
-		} else {
-		  procOK:
+		realCmdPtr = (Command *)
+		    TclGetOriginalCommand((Tcl_Command) cmdPtr);
+
+		if (TclIsProc(cmdPtr)
+		        || ((realCmdPtr != NULL) && TclIsProc(realCmdPtr))) {
 		    if (specificNsInPattern) {
 			elemObjPtr = Tcl_NewObj();
 			Tcl_GetCommandFullName(interp, (Tcl_Command) cmdPtr,
@@ -1690,6 +1610,7 @@ InfoProcsCmd(dummy, interp, objc, objv)
 		    } else {
 			elemObjPtr = Tcl_NewStringObj(cmdName, -1);
 		    }
+
 		    Tcl_ListObjAppendElement(interp, listPtr, elemObjPtr);
 		}
 	    }
@@ -1717,16 +1638,16 @@ InfoProcsCmd(dummy, interp, objc, objv)
 	    while (entryPtr != NULL) {
 		cmdName = Tcl_GetHashKey(&globalNsPtr->cmdTable, entryPtr);
 		if ((simplePattern == NULL)
-			|| Tcl_StringMatch(cmdName, simplePattern)) {
+	                || Tcl_StringMatch(cmdName, simplePattern)) {
 		    if (Tcl_FindHashEntry(&nsPtr->cmdTable, cmdName) == NULL) {
 			cmdPtr = (Command *) Tcl_GetHashValue(entryPtr);
 			realCmdPtr = (Command *) TclGetOriginalCommand(
-				(Tcl_Command) cmdPtr);
+			        (Tcl_Command) cmdPtr);
 
 			if (TclIsProc(cmdPtr) || ((realCmdPtr != NULL)
 				&& TclIsProc(realCmdPtr))) {
 			    Tcl_ListObjAppendElement(interp, listPtr,
-				    Tcl_NewStringObj(cmdName, -1));
+			            Tcl_NewStringObj(cmdName, -1));
 			}
 		    }
 		}
@@ -1749,7 +1670,7 @@ InfoProcsCmd(dummy, interp, objc, objv)
  *      script file that is currently being evaluated. Handles the
  *      following syntax:
  *
- *	    info script ?newName?
+ *          info script ?newName?
  *
  *	If newName is specified, it will set that as the internal name.
  *
@@ -1799,7 +1720,7 @@ InfoScriptCmd(dummy, interp, objc, objv)
  *      returns the file extension used for shared libraries. Handles the
  *      following syntax:
  *
- *	    info sharedlibextension
+ *          info sharedlibextension
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -1822,9 +1743,9 @@ InfoSharedlibCmd(dummy, interp, objc, objv)
 	Tcl_WrongNumArgs(interp, 2, objv, NULL);
 	return TCL_ERROR;
     }
-
+    
 #ifdef TCL_SHLIB_EXT
-    Tcl_SetObjResult(interp, Tcl_NewStringObj(TCL_SHLIB_EXT, -1));
+    Tcl_SetStringObj(Tcl_GetObjResult(interp), TCL_SHLIB_EXT, -1);
 #endif
     return TCL_OK;
 }
@@ -1837,7 +1758,7 @@ InfoSharedlibCmd(dummy, interp, objc, objv)
  *      Called to implement the "info tclversion" command that returns the
  *      version number for this Tcl library. Handles the following syntax:
  *
- *	    info tclversion
+ *          info tclversion
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -1856,17 +1777,17 @@ InfoTclVersionCmd(dummy, interp, objc, objv)
     int objc;			/* Number of arguments. */
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
-    Tcl_Obj *version;
+    CONST char *version;
 
     if (objc != 2) {
 	Tcl_WrongNumArgs(interp, 2, objv, NULL);
 	return TCL_ERROR;
     }
 
-    version = Tcl_GetVar2Ex(interp, "tcl_version", NULL,
+    version = Tcl_GetVar(interp, "tcl_version",
 	(TCL_GLOBAL_ONLY | TCL_LEAVE_ERR_MSG));
     if (version != NULL) {
-	Tcl_SetObjResult(interp, version);
+	Tcl_SetStringObj(Tcl_GetObjResult(interp), version, -1);
 	return TCL_OK;
     }
     return TCL_ERROR;
@@ -1884,7 +1805,7 @@ InfoTclVersionCmd(dummy, interp, objc, objv)
  *	glob-style pattern that restricts which variables are returned.
  *	Handles the following syntax:
  *
- *	    info vars ?pattern?
+ *          info vars ?pattern?
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
@@ -1936,7 +1857,7 @@ InfoVarsCmd(dummy, interp, objc, objv)
 
 	Namespace *dummy1NsPtr, *dummy2NsPtr;
 
-	pattern = TclGetString(objv[2]);
+	pattern = Tcl_GetString(objv[2]);
 	TclGetNamespaceForQualName(interp, pattern, (Namespace *) NULL,
 		/*flags*/ 0, &nsPtr, &dummy1NsPtr, &dummy2NsPtr,
 		&simplePattern);
@@ -1956,11 +1877,11 @@ InfoVarsCmd(dummy, interp, objc, objv)
     if (nsPtr == NULL) {
 	return TCL_OK;
     }
-
+    
     listPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
-
+    
     if ((iPtr->varFramePtr == NULL)
-	    || !(iPtr->varFramePtr->isProcCallFrame & FRAME_IS_PROC)
+	    || !iPtr->varFramePtr->isProcCallFrame
 	    || specificNsInPattern) {
 	/*
 	 * There is no frame pointer, the frame pointer was pushed only
@@ -1968,99 +1889,60 @@ InfoVarsCmd(dummy, interp, objc, objv)
 	 * but a specific namespace was specified. Create a list containing
 	 * only the variables in the effective namespace's variable table.
 	 */
-
-	if (simplePattern != NULL && TclMatchIsTrivial(simplePattern)) {
-	    /*
-	     * If we can just do hash lookups, that simplifies things
-	     * a lot.
-	     */
-
-	    entryPtr = Tcl_FindHashEntry(&nsPtr->varTable, simplePattern);
-	    if (entryPtr != NULL) {
-		varPtr = (Var *) Tcl_GetHashValue(entryPtr);
-		if (!TclIsVarUndefined(varPtr)
-			|| TclIsVarNamespaceVar(varPtr)) {
+	
+	entryPtr = Tcl_FirstHashEntry(&nsPtr->varTable, &search);
+	while (entryPtr != NULL) {
+	    varPtr = (Var *) Tcl_GetHashValue(entryPtr);
+	    if (!TclIsVarUndefined(varPtr)
+		    || (varPtr->flags & VAR_NAMESPACE_VAR)) {
+		varName = Tcl_GetHashKey(&nsPtr->varTable, entryPtr);
+		if ((simplePattern == NULL)
+	                || Tcl_StringMatch(varName, simplePattern)) {
 		    if (specificNsInPattern) {
 			elemObjPtr = Tcl_NewObj();
 			Tcl_GetVariableFullName(interp, (Tcl_Var) varPtr,
-				    elemObjPtr);
+			        elemObjPtr);
 		    } else {
-			elemObjPtr = Tcl_NewStringObj(simplePattern, -1);
+			elemObjPtr = Tcl_NewStringObj(varName, -1);
 		    }
 		    Tcl_ListObjAppendElement(interp, listPtr, elemObjPtr);
 		}
-	    } else if ((nsPtr != globalNsPtr) && !specificNsInPattern) {
-		entryPtr = Tcl_FindHashEntry(&globalNsPtr->varTable,
-			simplePattern);
-		if (entryPtr != NULL) {
-		    varPtr = (Var *) Tcl_GetHashValue(entryPtr);
-		    if (!TclIsVarUndefined(varPtr)
-			    || TclIsVarNamespaceVar(varPtr)) {
-			Tcl_ListObjAppendElement(interp, listPtr,
-				Tcl_NewStringObj(simplePattern, -1));
-		    }
-		}
 	    }
-	} else {
-	    /*
-	     * Have to scan the tables of variables.
-	     */
+	    entryPtr = Tcl_NextHashEntry(&search);
+	}
 
-	    entryPtr = Tcl_FirstHashEntry(&nsPtr->varTable, &search);
+	/*
+	 * If the effective namespace isn't the global :: namespace, and a
+	 * specific namespace wasn't requested in the pattern (i.e., the
+	 * pattern only specifies variable names), then add in all global ::
+	 * variables that match the simple pattern. Of course, add in only
+	 * those variables that aren't hidden by a variable in the effective
+	 * namespace.
+	 */
+
+	if ((nsPtr != globalNsPtr) && !specificNsInPattern) {
+	    entryPtr = Tcl_FirstHashEntry(&globalNsPtr->varTable, &search);
 	    while (entryPtr != NULL) {
 		varPtr = (Var *) Tcl_GetHashValue(entryPtr);
 		if (!TclIsVarUndefined(varPtr)
-			|| TclIsVarNamespaceVar(varPtr)) {
-		    varName = Tcl_GetHashKey(&nsPtr->varTable, entryPtr);
+		        || (varPtr->flags & VAR_NAMESPACE_VAR)) {
+		    varName = Tcl_GetHashKey(&globalNsPtr->varTable,
+			    entryPtr);
 		    if ((simplePattern == NULL)
-			    || Tcl_StringMatch(varName, simplePattern)) {
-			if (specificNsInPattern) {
-			    elemObjPtr = Tcl_NewObj();
-			    Tcl_GetVariableFullName(interp, (Tcl_Var) varPtr,				    elemObjPtr);
-			} else {
-			    elemObjPtr = Tcl_NewStringObj(varName, -1);
+	                    || Tcl_StringMatch(varName, simplePattern)) {
+			if (Tcl_FindHashEntry(&nsPtr->varTable, varName) == NULL) {
+			    Tcl_ListObjAppendElement(interp, listPtr,
+			            Tcl_NewStringObj(varName, -1));
 			}
-			Tcl_ListObjAppendElement(interp, listPtr, elemObjPtr);
 		    }
 		}
 		entryPtr = Tcl_NextHashEntry(&search);
-	    }
-
-	    /*
-	     * If the effective namespace isn't the global ::
-	     * namespace, and a specific namespace wasn't requested in
-	     * the pattern (i.e., the pattern only specifies variable
-	     * names), then add in all global :: variables that match
-	     * the simple pattern. Of course, add in only those
-	     * variables that aren't hidden by a variable in the
-	     * effective namespace.
-	     */
-
-	    if ((nsPtr != globalNsPtr) && !specificNsInPattern) {
-		entryPtr = Tcl_FirstHashEntry(&globalNsPtr->varTable, &search);
-		while (entryPtr != NULL) {
-		    varPtr = (Var *) Tcl_GetHashValue(entryPtr);
-		    if (!TclIsVarUndefined(varPtr)
-			    || TclIsVarNamespaceVar(varPtr)) {
-			varName = Tcl_GetHashKey(&globalNsPtr->varTable,
-				entryPtr);
-			if ((simplePattern == NULL)
-				|| Tcl_StringMatch(varName, simplePattern)) {
-			    if (Tcl_FindHashEntry(&nsPtr->varTable,
-				    varName) == NULL) {
-				Tcl_ListObjAppendElement(interp, listPtr,
-					Tcl_NewStringObj(varName, -1));
-			    }
-			}
-		    }
-		    entryPtr = Tcl_NextHashEntry(&search);
-		}
 	    }
 	}
     } else if (((Interp *)interp)->varFramePtr->procPtr != NULL) {
 	AppendLocals(interp, listPtr, simplePattern, 1);
     }
-
+    
     Tcl_SetObjResult(interp, listPtr);
     return TCL_OK;
 }
@@ -2116,10 +1998,12 @@ Tcl_JoinObjCmd(dummy, interp, objc, objv)
     }
 
     /*
-     * Now concatenate strings to form the "joined" result.
+     * Now concatenate strings to form the "joined" result. We append
+     * directly into the interpreter's result object.
      */
 
-    resObjPtr = Tcl_NewObj();
+    resObjPtr = Tcl_GetObjResult(interp);
+
     for (i = 0;  i < listLen;  i++) {
 	bytes = Tcl_GetStringFromObj(elemPtrs[i], &length);
 	if (i > 0) {
@@ -2127,112 +2011,6 @@ Tcl_JoinObjCmd(dummy, interp, objc, objv)
 	}
 	Tcl_AppendToObj(resObjPtr, bytes, length);
     }
-    Tcl_SetObjResult(interp, resObjPtr);
-    return TCL_OK;
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * Tcl_LassignObjCmd --
- *
- *	This object-based procedure is invoked to process the "lassign" Tcl
- *	command. See the user documentation for details on what it does.
- *
- * Results:
- *	A standard Tcl object result.
- *
- * Side effects:
- *	See the user documentation.
- *
- *----------------------------------------------------------------------
- */
-
-    /* ARGSUSED */
-int
-Tcl_LassignObjCmd(dummy, interp, objc, objv)
-    ClientData dummy;		/* Not used. */
-    Tcl_Interp *interp;		/* Current interpreter. */
-    int objc;			/* Number of arguments. */
-    Tcl_Obj *CONST objv[];	/* Argument objects. */
-{
-    Tcl_Obj *valueObj;		/* Value to assign to variable, as read from
-				 * the list object or created in the emptyObj
-				 * variable. */
-    Tcl_Obj *emptyObj = NULL;	/* If non-NULL, an empty object created for
-				 * being assigned to variables once we have
-				 * run out of values from the list object. */
-    Tcl_Obj **listObjv;		/* The contents of the list. */
-    int listObjc;		/* The length of the list. */
-    int i;
-
-    if (objc < 3) {
-	Tcl_WrongNumArgs(interp, 1, objv, "list varname ?varname ...?");
-	return TCL_ERROR;
-    }
-
-    /*
-     * First assign values out of the list to variables.
-     */
-
-    for (i=0 ; i+2<objc ; i++) {
-	/*
-	 * We do this each time round the loop because that is robust
-	 * against shimmering nasties.
-	 */
-	if (Tcl_ListObjIndex(interp, objv[1], i, &valueObj) != TCL_OK) {
-	    return TCL_ERROR;
-	}
-	if (valueObj == NULL) {
-	    if (emptyObj == NULL) {
-		TclNewObj(emptyObj);
-		Tcl_IncrRefCount(emptyObj);
-	    }
-	    valueObj = emptyObj;
-	}
-	/*
-	 * Make sure the reference count for the value being assigned
-	 * is greater than one (other reference minimally in the list)
-	 * so we can't get hammered by shimmering.
-	 */
-	Tcl_IncrRefCount(valueObj);
-	if (Tcl_ObjSetVar2(interp, objv[i+2], NULL, valueObj,
-		TCL_LEAVE_ERR_MSG) == NULL) {
-	    Tcl_DecrRefCount(valueObj);
-	    if (emptyObj != NULL) {
-		Tcl_DecrRefCount(emptyObj);
-	    }
-	    return TCL_ERROR;
-	}
-	Tcl_DecrRefCount(valueObj);
-    }
-    if (emptyObj != NULL) {
-	Tcl_DecrRefCount(emptyObj);
-    }
-
-    /*
-     * Now place a list of any values left over into the interpreter
-     * result.
-     *
-     * First, figure out how many values were not assigned by getting
-     * the length of the list.  Note that I do not expect this
-     * operation to fail.
-     */
-
-    if (Tcl_ListObjGetElements(interp, objv[1],
-	    &listObjc, &listObjv) != TCL_OK) {
-	return TCL_ERROR;
-    }
-
-    if (listObjc > objc-2) {
-	/*
-	 * OK, there were left-overs.  Make a list of them and slap
-	 * that back in the interpreter result.
-	 */
-	Tcl_SetObjResult(interp,
-		Tcl_NewListObj(listObjc - objc + 2, listObjv + objc - 2));
-    }
-
     return TCL_OK;
 }
 
@@ -2270,27 +2048,31 @@ Tcl_LindexObjCmd(dummy, interp, objc, objv)
     }
 
     /*
-     * If objc==3, then objv[2] may be either a single index or a list
-     * of indices: go to TclLindexList to determine which.
-     * If objc>=4, or objc==2, then objv[2 .. objc-2] are all single
-     * indices and processed as such in TclLindexFlat.
+     * If objc == 3, then objv[ 2 ] may be either a single index or
+     * a list of indices: go to TclLindexList to determine which.
+     * If objc >= 4, or objc == 2, then objv[ 2 .. objc-2 ] are all
+     * single indices and processed as such in TclLindexFlat.
      */
 
-    if (objc == 3) {
-	elemPtr = TclLindexList(interp, objv[1], objv[2]);
-    } else {
-	elemPtr = TclLindexFlat(interp, objv[1], objc-2, objv+2);
-    }
+    if ( objc == 3 ) {
 
+	elemPtr = TclLindexList( interp, objv[ 1 ], objv[ 2 ] );
+
+    } else {
+
+	elemPtr = TclLindexFlat( interp, objv[ 1 ], objc-2, objv+2 );
+
+    }
+	
     /*
      * Set the interpreter's object result to the last element extracted
      */
 
-    if (elemPtr == NULL) {
+    if ( elemPtr == NULL ) {
 	return TCL_ERROR;
     } else {
 	Tcl_SetObjResult(interp, elemPtr);
-	Tcl_DecrRefCount(elemPtr);
+	Tcl_DecrRefCount( elemPtr );
 	return TCL_OK;
     }
 }
@@ -2309,22 +2091,21 @@ Tcl_LindexObjCmd(dummy, interp, objc, objv)
  * Side effects:
  *	None.
  *
- * Notes:
- *	If objv[1] can be parsed as a list, TclLindexList handles
- *	extraction of the desired element locally.  Otherwise, it
- *	invokes TclLindexFlat to treat objv[1] as a scalar.
+ * If objv[1] can be parsed as a list, TclLindexList handles extraction
+ * of the desired element locally.  Otherwise, it invokes
+ * TclLindexFlat to treat objv[1] as a scalar.
  *
- *	The reference count of the returned object includes one
- *	reference corresponding to the pointer returned.  Thus, the
- *	calling code will usually do something like:
- *		Tcl_SetObjResult(interp, result);
- *		Tcl_DecrRefCount(result);
+ * The reference count of the returned object includes one reference
+ * corresponding to the pointer returned.  Thus, the calling code will
+ * usually do something like:
+ *	Tcl_SetObjResult( interp, result );
+ *	Tcl_DecrRefCount( result );
  *
  *----------------------------------------------------------------------
  */
-
+
 Tcl_Obj *
-TclLindexList(interp, listPtr, argPtr)
+TclLindexList( interp, listPtr, argPtr )
     Tcl_Interp* interp;		/* Tcl interpreter */
     Tcl_Obj* listPtr;		/* List being unpacked */
     Tcl_Obj* argPtr;		/* Index or index list */
@@ -2335,9 +2116,9 @@ TclLindexList(interp, listPtr, argPtr)
     int index;			/* Index into the list */
     int result;			/* Result returned from a Tcl library call */
     int i;			/* Current index number */
-    Tcl_Obj **indices;		/* Array of list indices */
+    Tcl_Obj** indices;		/* Array of list indices */
     int indexCount;		/* Size of the array of list indices */
-    Tcl_Obj *oldListPtr;	/* Temp location to preserve the list
+    Tcl_Obj* oldListPtr;	/* Temp location to preserve the list
 				 * pointer when replacing it with a sublist */
 
     /*
@@ -2346,21 +2127,23 @@ TclLindexList(interp, listPtr, argPtr)
      * repeated shimmering; see TIP#22 and TIP#33 for the details.
      */
 
-    if (argPtr->typePtr != &tclListType 
-	    && TclGetIntForIndex(NULL , argPtr, 0, &index) == TCL_OK) {
+    if ( argPtr->typePtr != &tclListType 
+	 && TclGetIntForIndex( NULL , argPtr, 0, &index ) == TCL_OK ) {
+
 	/*
 	 * argPtr designates a single index.
 	 */
 
-	return TclLindexFlat(interp, listPtr, 1, &argPtr);
+	return TclLindexFlat( interp, listPtr, 1, &argPtr );
 
-    }
-    if (Tcl_ListObjGetElements(NULL, argPtr, &indexCount, &indices) != TCL_OK){
+    } else if ( Tcl_ListObjGetElements( NULL, argPtr, &indexCount, &indices )
+		!= TCL_OK ) {
+
 	/*
 	 * argPtr designates something that is neither an index nor a
 	 * well-formed list.  Report the error via TclLindexFlat.
 	 */
-
+	
 	return TclLindexFlat( interp, listPtr, 1, &argPtr );
     }
 
@@ -2369,86 +2152,92 @@ TclLindexList(interp, listPtr, argPtr)
      * the activation record.
      */
 
-    Tcl_IncrRefCount(listPtr);
+    Tcl_IncrRefCount( listPtr );
 
     /*
      * argPtr designates a list, and the 'else if' above has parsed it
      * into indexCount and indices.
      */
 
-    for (i=0 ; i<indexCount ; i++) {
+    for ( i = 0; i < indexCount; ++i ) {
+
 	/*
 	 * Convert the current listPtr to a list if necessary.
 	 */
-
-	result = Tcl_ListObjGetElements(interp, listPtr, &listLen, &elemPtrs);
+	    
+	result = Tcl_ListObjGetElements( interp, listPtr,
+					 &listLen, &elemPtrs);
 	if (result != TCL_OK) {
-	    Tcl_DecrRefCount(listPtr);
+	    Tcl_DecrRefCount( listPtr );
 	    return NULL;
 	}
-
+	    
 	/*
-	 * Get the index from indices[i]
+	 * Get the index from indices[ i ]
 	 */
-
-	result = TclGetIntForIndex(interp, indices[i], /*endValue*/ listLen-1,
-		&index);
-	if (result != TCL_OK) {
+	
+	result = TclGetIntForIndex( interp, indices[ i ],
+				    /*endValue*/ (listLen - 1),
+				    &index );
+	if ( result != TCL_OK ) {
 	    /*
 	     * Index could not be parsed
 	     */
 
-	    Tcl_DecrRefCount(listPtr);
+	    Tcl_DecrRefCount( listPtr );
 	    return NULL;
 
-	} else if (index<0 || index>=listLen) {
+	} else if ( index < 0
+		    || index >= listLen ) {
 	    /*
 	     * Index is out of range
 	     */
-	    Tcl_DecrRefCount(listPtr);
+	    Tcl_DecrRefCount( listPtr );
 	    listPtr = Tcl_NewObj();
-	    Tcl_IncrRefCount(listPtr);
+	    Tcl_IncrRefCount( listPtr );
 	    return listPtr;
 	}
-
+	
 	/*
 	 * Make sure listPtr still refers to a list object.
 	 * If it shared a Tcl_Obj structure with the arguments, then
 	 * it might have just been converted to something else.
 	 */
-
+	
 	if (listPtr->typePtr != &tclListType) {
 	    result = Tcl_ListObjGetElements(interp, listPtr, &listLen,
 					    &elemPtrs);
 	    if (result != TCL_OK) {
-		Tcl_DecrRefCount(listPtr);
+		Tcl_DecrRefCount( listPtr );
 		return NULL;
 	    }
 	}
-
+	
 	/*
 	 * Extract the pointer to the appropriate element
 	 */
-
+	
 	oldListPtr = listPtr;
-	listPtr = elemPtrs[index];
-	Tcl_IncrRefCount(listPtr);
-	Tcl_DecrRefCount(oldListPtr);
-
+	listPtr = elemPtrs[ index ];
+	Tcl_IncrRefCount( listPtr );
+	Tcl_DecrRefCount( oldListPtr );
+	
 	/*
 	 * The work we did above may have caused the internal rep
 	 * of *argPtr to change to something else.  Get it back.
 	 */
-
-	result = Tcl_ListObjGetElements(interp, argPtr, &indexCount, &indices);
-	if (result != TCL_OK) {
+	
+	result = Tcl_ListObjGetElements( interp, argPtr,
+					 &indexCount, &indices );
+	if ( result != TCL_OK ) {
 	    /* 
 	     * This can't happen unless some extension corrupted a Tcl_Obj.
 	     */
-	    Tcl_DecrRefCount(listPtr);
+	    Tcl_DecrRefCount( listPtr );
 	    return NULL;
 	}
-    }
+	
+    } /* end for */
 
     /*
      * Return the last object extracted.  Its reference count will include
@@ -2472,26 +2261,26 @@ TclLindexList(interp, listPtr, argPtr)
  * Side effects:
  *	None.
  *
- * Notes:
- *	This procedure is called from either tclExecute.c or
- *	Tcl_LindexObjCmd whenever either is presented with objc==2 or
- *	objc>=4.  It is also called from TclLindexList for the objc==3
- *	case once it is determined that objv[2] cannot be parsed as a
- *	list.
+ * This procedure is called from either tclExecute.c or
+ * Tcl_LindexObjCmd whenever either is presented with
+ * objc == 2 or objc >= 4.  It is also called from TclLindexList
+ * for the objc==3 case once it is determined that objv[2] cannot
+ * be parsed as a list.
  *
  *----------------------------------------------------------------------
  */
 
 Tcl_Obj *
-TclLindexFlat(interp, listPtr, indexCount, indexArray)
-    Tcl_Interp *interp;		/* Tcl interpreter */
-    Tcl_Obj *listPtr;		/* Tcl object representing the list */
+TclLindexFlat( interp, listPtr, indexCount, indexArray )
+    Tcl_Interp* interp;		/* Tcl interpreter */
+    Tcl_Obj* listPtr;		/* Tcl object representing the list */
     int indexCount;		/* Count of indices */
-    Tcl_Obj *CONST indexArray[];
+    Tcl_Obj* CONST indexArray[];
 				/* Array of pointers to Tcl objects
 				 * representing the indices in the
 				 * list */
 {
+
     int i;			/* Current list index */
     int result;			/* Result of Tcl library calls */
     int listLen;		/* Length of the current list being 
@@ -2508,67 +2297,72 @@ TclLindexFlat(interp, listPtr, indexCount, indexArray)
      * maintaining in the C activation record.
      */
 
-    Tcl_IncrRefCount(listPtr);
+    Tcl_IncrRefCount( listPtr );
 
-    for (i=0 ; i<indexCount ; i++) {
+    for ( i = 0; i < indexCount; ++i ) {
+
 	/*
 	 * Convert the current listPtr to a list if necessary.
 	 */
-
-	result = Tcl_ListObjGetElements(interp, listPtr, &listLen, &elemPtrs);
+	
+	result = Tcl_ListObjGetElements(interp, listPtr,
+					&listLen, &elemPtrs);
 	if (result != TCL_OK) {
-	    Tcl_DecrRefCount(listPtr);
+	    Tcl_DecrRefCount( listPtr );
 	    return NULL;
 	}
-
+	
 	/*
 	 * Get the index from objv[i]
 	 */
+	
+	result = TclGetIntForIndex( interp, indexArray[ i ],
+				    /*endValue*/ (listLen - 1),
+				    &index );
+	if ( result != TCL_OK ) {
 
-	result = TclGetIntForIndex(interp, indexArray[i],
-		/*endValue*/ listLen-1, &index);
-	if (result != TCL_OK) {
-	    /*
-	     * Index could not be parsed
-	     */
+	    /* Index could not be parsed */
 
-	    Tcl_DecrRefCount(listPtr);
+	    Tcl_DecrRefCount( listPtr );
 	    return NULL;
 
-	} else if (index<0 || index>=listLen) {
+	} else if ( index < 0
+		    || index >= listLen ) {
+	    
 	    /*
 	     * Index is out of range
 	     */
-
-	    Tcl_DecrRefCount(listPtr);
+		
+	    Tcl_DecrRefCount( listPtr );
 	    listPtr = Tcl_NewObj();
-	    Tcl_IncrRefCount(listPtr);
+	    Tcl_IncrRefCount( listPtr );
 	    return listPtr;
 	}
-
+	    
 	/*
 	 * Make sure listPtr still refers to a list object.
 	 * It might have been converted to something else above
 	 * if objv[1] overlaps with one of the other parameters.
 	 */
-
+	
 	if (listPtr->typePtr != &tclListType) {
 	    result = Tcl_ListObjGetElements(interp, listPtr, &listLen,
 					    &elemPtrs);
 	    if (result != TCL_OK) {
-		Tcl_DecrRefCount(listPtr);
+		Tcl_DecrRefCount( listPtr );
 		return NULL;
 	    }
 	}
-
+	
 	/*
 	 * Extract the pointer to the appropriate element
 	 */
-
+	
 	oldListPtr = listPtr;
-	listPtr = elemPtrs[index];
-	Tcl_IncrRefCount(listPtr);
-	Tcl_DecrRefCount(oldListPtr);
+	listPtr = elemPtrs[ index ];
+	Tcl_IncrRefCount( listPtr );
+	Tcl_DecrRefCount( oldListPtr );
+	
     }
 
     return listPtr;
@@ -2655,7 +2449,7 @@ Tcl_LinsertObjCmd(dummy, interp, objc, objv)
 	}
 	return result;
     }
-
+    
     /*
      * Set the interpreter's object result.
      */
@@ -2691,11 +2485,11 @@ Tcl_ListObjCmd(dummy, interp, objc, objv)
 {
     /*
      * If there are no list elements, the result is an empty object.
-     * Otherwise set the interpreter's result object to be a list object.
+     * Otherwise modify the interpreter's result object to be a list object.
      */
-
+    
     if (objc > 1) {
-	Tcl_SetObjResult(interp, Tcl_NewListObj((objc-1), &(objv[1])));
+	Tcl_SetListObj(Tcl_GetObjResult(interp), (objc-1), &(objv[1]));
     }
     return TCL_OK;
 }
@@ -2742,7 +2536,7 @@ Tcl_LlengthObjCmd(dummy, interp, objc, objv)
      * length. 
      */
 
-    Tcl_SetObjResult(interp, Tcl_NewIntObj(listLen));
+    Tcl_SetIntObj(Tcl_GetObjResult(interp), listLen);
     return TCL_OK;
 }
 
@@ -2812,7 +2606,7 @@ Tcl_LrangeObjCmd(notUsed, interp, objc, objv)
     if (last >= listLen) {
 	last = (listLen - 1);
     }
-
+    
     if (first > last) {
 	return TCL_OK;		/* the result is an empty object */
     }
@@ -2836,122 +2630,7 @@ Tcl_LrangeObjCmd(notUsed, interp, objc, objv)
      */
 
     numElems = (last - first + 1);
-    Tcl_SetObjResult(interp, Tcl_NewListObj(numElems, &(elemPtrs[first])));
-    return TCL_OK;
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * Tcl_LrepeatObjCmd --
- *
- *	This procedure is invoked to process the "lrepeat" Tcl command.
- *	See the user documentation for details on what it does.
- *
- * Results:
- *	A standard Tcl object result.
- *
- * Side effects:
- *	See the user documentation.
- *
- *----------------------------------------------------------------------
- */
-
-	/* ARGSUSED */
-int
-Tcl_LrepeatObjCmd(dummy, interp, objc, objv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    register int objc;			/* Number of arguments. */
-    register Tcl_Obj *CONST objv[];	/* The argument objects. */
-{
-    int elementCount, i, result;
-    Tcl_Obj **dataArray;
-
-    /* 
-     * Check arguments for legality:
-     *		lrepeat posInt value ?value ...?
-     */
-
-    if (objc < 3) {
-	Tcl_WrongNumArgs(interp, 1, objv, "positiveCount value ?value ...?");
-	return TCL_ERROR;
-    }
-    elementCount = 0;
-    result = Tcl_GetIntFromObj(interp, objv[1], &elementCount);
-    if (result == TCL_ERROR) {
-	return TCL_ERROR;
-    }
-    if (elementCount < 1) {
-	Tcl_AppendResult(interp, "must have a count of at least 1", NULL);
-	return TCL_ERROR;
-    }
-
-    /*
-     * Skip forward to the interesting arguments now we've finished
-     * parsing.
-     */
-
-    objc -= 2;
-    objv += 2;
-
-    /*
-     * Create workspace array large enough to hold each init value
-     * elementCount times.  Note that we don't bother with stack
-     * allocation for this, as we expect this function to be used
-     * mainly when stack allocation would be inappropriate anyway.
-     * First check to see if we'd overflow and try to allocate an
-     * object larger than our memory allocator allows.  Note that this
-     * is actually a fairly small value when you're on a serious
-     * 64-bit machine, but that requires API changes to fix.
-     *
-     * We allocate using attemptckalloc() because if we ask for
-     * something big but can't get it, we've still got a high chance
-     * of having a proper failover strategy.  If *that* fails to get
-     * memory, Tcl_Panic() will happen just a few lines lower...
-     */
-
-    if ((unsigned)elementCount > INT_MAX/sizeof(Tcl_Obj *)/objc) {
-	Tcl_AppendResult(interp, "overflow of maximum list length", NULL);
-	return TCL_ERROR;
-    }
-
-    dataArray = (Tcl_Obj **)
-	    attemptckalloc(elementCount * objc * sizeof(Tcl_Obj *));
-
-    if (dataArray == NULL) {
-	Tcl_AppendResult(interp, "insufficient memory to create list", NULL);
-	return TCL_ERROR;
-    }
-
-    /*
-     * Set the elements.  Note that we handle the common degenerate
-     * case of a single value being repeated separately to permit the
-     * compiler as much room as possible to optimize a loop that might
-     * be run a very large number of times.
-     */
-
-    if (objc == 1) {
-	register Tcl_Obj *tmpPtr = objv[0];
-
-	for (i=0 ; i<elementCount ; i++) {
-	    dataArray[i] = tmpPtr;
-	}
-    } else {
-	int j, k = 0;
-
-	for (i=0 ; i<elementCount ; i++) {
-	    for (j=0 ; j<objc ; j++) {
-		dataArray[k++] = objv[j];
-	    }
-	}
-    }
-
-    /*
-     * Build the result list, clean up and return.
-     */
-
-    Tcl_SetObjResult(interp, TclNewListObjDirect(elementCount*objc,dataArray));
+    Tcl_SetListObj(Tcl_GetObjResult(interp), numElems, &(elemPtrs[first]));
     return TCL_OK;
 }
 
@@ -3023,8 +2702,9 @@ Tcl_LreplaceObjCmd(dummy, interp, objc, objv)
      */
 
     if ((first >= listLen) && (listLen > 0)) {
-	Tcl_AppendResult(interp, "list doesn't contain element ",
-		TclGetString(objv[2]), (int *) NULL);
+	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+		"list doesn't contain element ",
+		Tcl_GetString(objv[2]), (int *) NULL);
 	return TCL_ERROR;
     }
     if (last >= listLen) {
@@ -3096,23 +2776,21 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
     char *bytes, *patternBytes;
     int i, match, mode, index, result, listc, length, elemLen;
     int dataType, isIncreasing, lower, upper, patInt, objInt;
-    int offset, allMatches, inlineReturn, negatedMatch, returnSubindices;
+    int offset, allMatches, inlineReturn, negatedMatch;
     double patDouble, objDouble;
-    SortInfo sortInfo;
-    Tcl_Obj *patObj, **listv, *listPtr, *startPtr, *itemPtr;
+    Tcl_Obj *patObj, **listv, *listPtr, *startPtr;
     Tcl_RegExp regexp = NULL;
     static CONST char *options[] = {
-	"-all",	    "-ascii",   "-decreasing", "-dictionary",
-	"-exact",   "-glob",    "-increasing", "-index",
-	"-inline",  "-integer", "-not",        "-real",
-	"-regexp",  "-sorted",  "-start",      "-subindices",
-	NULL
+	"-all",	    "-ascii", "-decreasing", "-dictionary",
+	"-exact",   "-glob",  "-increasing", "-inline",
+	"-integer", "-not",   "-real",	     "-regexp",
+	"-sorted",  "-start", NULL
     };
     enum options {
 	LSEARCH_ALL, LSEARCH_ASCII, LSEARCH_DECREASING, LSEARCH_DICTIONARY,
-	LSEARCH_EXACT, LSEARCH_GLOB, LSEARCH_INCREASING, LSEARCH_INDEX,
-	LSEARCH_INLINE, LSEARCH_INTEGER, LSEARCH_NOT, LSEARCH_REAL,
-	LSEARCH_REGEXP, LSEARCH_SORTED, LSEARCH_START, LSEARCH_SUBINDICES
+	LSEARCH_EXACT, LSEARCH_GLOB, LSEARCH_INCREASING, LSEARCH_INLINE,
+	LSEARCH_INTEGER, LSEARCH_NOT, LSEARCH_REAL, LSEARCH_REGEXP,
+	LSEARCH_SORTED, LSEARCH_START
     };
     enum datatypes {
 	ASCII, DICTIONARY, INTEGER, REAL
@@ -3126,18 +2804,10 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
     isIncreasing = 1;
     allMatches = 0;
     inlineReturn = 0;
-    returnSubindices = 0;
     negatedMatch = 0;
     listPtr = NULL;
     startPtr = NULL;
     offset = 0;
-    sortInfo.compareCmdPtr = NULL;
-    sortInfo.isIncreasing = 0;
-    sortInfo.sortMode = 0;
-    sortInfo.interp = interp;
-    sortInfo.resultCode = TCL_OK;
-    sortInfo.indexv = NULL;
-    sortInfo.indexc = 0;
 
     if (objc < 3) {
 	Tcl_WrongNumArgs(interp, 1, objv, "?options? list pattern");
@@ -3147,11 +2817,8 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
     for (i = 1; i < objc-2; i++) {
 	if (Tcl_GetIndexFromObj(interp, objv[i], options, "option", 0, &index)
 		!= TCL_OK) {
-	    if (startPtr != NULL) {
+	    if (startPtr) {
 		Tcl_DecrRefCount(startPtr);
-	    }
-	    if (sortInfo.indexc > 1) {
-		ckfree((char *) sortInfo.indexv);
 	    }
 	    return TCL_ERROR;
 	}
@@ -3195,22 +2862,16 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 	case LSEARCH_SORTED:		/* -sorted */
 	    mode = SORTED;
 	    break;
-	case LSEARCH_SUBINDICES:	/* -subindices */
-	    returnSubindices = 1;
-	    break;
 	case LSEARCH_START:		/* -start */
 	    /*
 	     * If there was a previous -start option, release its saved
 	     * index because it will either be replaced or there will be
 	     * an error.
 	     */
-	    if (startPtr != NULL) {
+	    if (startPtr) {
 		Tcl_DecrRefCount(startPtr);
 	    }
 	    if (i > objc-4) {
-		if (sortInfo.indexc > 1) {
-		    ckfree((char *) sortInfo.indexv);
-		}
 		Tcl_AppendResult(interp, "missing starting index", NULL);
 		return TCL_ERROR;
 	    }
@@ -3228,87 +2889,7 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 		startPtr = objv[i];
 		Tcl_IncrRefCount(startPtr);
 	    }
-	    break;
-	case LSEARCH_INDEX: {		/* -index */
-	    Tcl_Obj **indices;
-	    int j;
-	    if (sortInfo.indexc > 1) {
-		ckfree((char *) sortInfo.indexv);
-	    }
-	    if (i > objc-4) {
-		if (startPtr != NULL) {
-		    Tcl_DecrRefCount(startPtr);
-		}
-		Tcl_AppendResult(interp,
-			"\"-index\" option must be followed by list index",
-			NULL);
-		return TCL_ERROR;
-	    }
-
-	    /*
-	     * Store the extracted indices for processing by sublist
-	     * extraction.  Note that we don't do this using objects
-	     * because that has shimmering problems.
-	     */
-
-	    i++;
-	    if (Tcl_ListObjGetElements(interp, objv[i],
-		    &sortInfo.indexc, &indices) != TCL_OK) {
-		if (startPtr != NULL) {
-		    Tcl_DecrRefCount(startPtr);
-		}
-		return TCL_ERROR;
-	    }
-	    switch (sortInfo.indexc) {
-	    case 0:
-		sortInfo.indexv = NULL;
-		break;
-	    case 1:
-		sortInfo.indexv = &sortInfo.singleIndex;
-		break;
-	    default:
-		sortInfo.indexv = (int *)
-			ckalloc(sizeof(int) * sortInfo.indexc);
-	    }
-
-	    /*
-	     * Fill the array by parsing each index.  We don't know
-	     * whether their scale is sensible yet, but we at least
-	     * perform the syntactic check here.
-	     */
-
-	    for (j=0 ; j<sortInfo.indexc ; j++) {
-		if (TclGetIntForIndex(interp, indices[j], SORTIDX_END,
-			&sortInfo.indexv[j]) != TCL_OK) {
-		    char buffer[TCL_INTEGER_SPACE];
-		    
-		    if (sortInfo.indexc > 1) {
-			ckfree((char *) sortInfo.indexv);
-		    }
-		    sprintf(buffer, "%d", j);
-		    Tcl_AddErrorInfo(interp,
-			    "\n    (-index option item number ");
-		    Tcl_AddErrorInfo(interp, buffer);
-		    Tcl_AddErrorInfo(interp, ")");
-		    return TCL_ERROR;
-		}
-	    }
-	    break;
 	}
-	}
-    }
-
-    /*
-     * Subindices only make sense if asked for with -index option set.
-     */
-
-    if (returnSubindices && sortInfo.indexc==0) {
-	if (startPtr != NULL) {
-	    Tcl_DecrRefCount(startPtr);
-	}
-	Tcl_AppendResult(interp,
-		"-subindices cannot be used without -index option", NULL);
-	return TCL_ERROR;
     }
 
     if ((enum modes) mode == REGEXP) {
@@ -3319,11 +2900,8 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 	regexp = Tcl_GetRegExpFromObj(interp, objv[objc - 1],
 		TCL_REG_ADVANCED | TCL_REG_NOSUB);
 	if (regexp == NULL) {
-	    if (startPtr != NULL) {
+	    if (startPtr) {
 		Tcl_DecrRefCount(startPtr);
-	    }
-	    if (sortInfo.indexc > 1) {
-		ckfree((char *) sortInfo.indexv);
 	    }
 	    return TCL_ERROR;
 	}
@@ -3336,11 +2914,8 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 
     result = Tcl_ListObjGetElements(interp, objv[objc - 2], &listc, &listv);
     if (result != TCL_OK) {
-	if (startPtr != NULL) {
+	if (startPtr) {
 	    Tcl_DecrRefCount(startPtr);
-	}
-	if (sortInfo.indexc > 1) {
-	    ckfree((char *) sortInfo.indexv);
 	}
 	return result;
     }
@@ -3352,9 +2927,6 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 	result = TclGetIntForIndex(interp, startPtr, listc-1, &offset);
 	Tcl_DecrRefCount(startPtr);
 	if (result != TCL_OK) {
-	    if (sortInfo.indexc > 1) {
-		ckfree((char *) sortInfo.indexv);
-	    }
 	    return result;
 	}
 	if (offset > listc-1) {
@@ -3376,18 +2948,12 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 	case INTEGER:
 	    result = Tcl_GetIntFromObj(interp, patObj, &patInt);
 	    if (result != TCL_OK) {
-		if (sortInfo.indexc > 1) {
-		    ckfree((char *) sortInfo.indexv);
-		}
 		return result;
 	    }
 	    break;
 	case REAL:
 	    result = Tcl_GetDoubleFromObj(interp, patObj, &patDouble);
 	    if (result != TCL_OK) {
-		if (sortInfo.indexc > 1) {
-		    ckfree((char *) sortInfo.indexv);
-		}
 		return result;
 	    }
 	    break;
@@ -3414,30 +2980,20 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 	 */
 	lower = offset - 1;
 	upper = listc;
-	while (lower + 1 != upper && sortInfo.resultCode == TCL_OK) {
+	while (lower + 1 != upper) {
 	    i = (lower + upper)/2;
-	    itemPtr = SelectObjFromSublist(listv[i], &sortInfo);
-	    if (sortInfo.resultCode != TCL_OK) {
-		if (sortInfo.indexc > 1) {
-		    ckfree((char *) sortInfo.indexv);
-		}
-		return sortInfo.resultCode;
-	    }
 	    switch ((enum datatypes) dataType) {
 	    case ASCII:
-		bytes = TclGetString(itemPtr);
+		bytes = Tcl_GetString(listv[i]);
 		match = strcmp(patternBytes, bytes);
 		break;
 	    case DICTIONARY:
-		bytes = TclGetString(itemPtr);
+		bytes = Tcl_GetString(listv[i]);
 		match = DictionaryCompare(patternBytes, bytes);
 		break;
 	    case INTEGER:
-		result = Tcl_GetIntFromObj(interp, itemPtr, &objInt);
+		result = Tcl_GetIntFromObj(interp, listv[i], &objInt);
 		if (result != TCL_OK) {
-		    if (sortInfo.indexc > 1) {
-			ckfree((char *) sortInfo.indexv);
-		    }
 		    return result;
 		}
 		if (patInt == objInt) {
@@ -3449,11 +3005,8 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 		}
 		break;
 	    case REAL:
-		result = Tcl_GetDoubleFromObj(interp, itemPtr, &objDouble);
+		result = Tcl_GetDoubleFromObj(interp, listv[i], &objDouble);
 		if (result != TCL_OK) {
-		    if (sortInfo.indexc > 1) {
-			ckfree((char *) sortInfo.indexv);
-		    }
 		    return result;
 		}
 		if (patDouble == objDouble) {
@@ -3507,54 +3060,37 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 	}
 	for (i = offset; i < listc; i++) {
 	    match = 0;
-	    itemPtr = SelectObjFromSublist(listv[i], &sortInfo);
-	    if (sortInfo.resultCode != TCL_OK) {
-		if (listPtr != NULL) {
-		    Tcl_DecrRefCount(listPtr);
-		}
-		if (sortInfo.indexc > 1) {
-		    ckfree((char *) sortInfo.indexv);
-		}
-		return sortInfo.resultCode;
-	    }
 	    switch ((enum modes) mode) {
 	    case SORTED:
 	    case EXACT:
 		switch ((enum datatypes) dataType) {
 		case ASCII:
-		    bytes = Tcl_GetStringFromObj(itemPtr, &elemLen);
+		    bytes = Tcl_GetStringFromObj(listv[i], &elemLen);
 		    if (length == elemLen) {
 			match = (memcmp(bytes, patternBytes,
 				(size_t) length) == 0);
 		    }
 		    break;
 		case DICTIONARY:
-		    bytes = TclGetString(itemPtr);
+		    bytes = Tcl_GetString(listv[i]);
 		    match = (DictionaryCompare(bytes, patternBytes) == 0);
 		    break;
-
 		case INTEGER:
-		    result = Tcl_GetIntFromObj(interp, itemPtr, &objInt);
+		    result = Tcl_GetIntFromObj(interp, listv[i], &objInt);
 		    if (result != TCL_OK) {
-			if (listPtr != NULL) {
+			if (listPtr) {
 			    Tcl_DecrRefCount(listPtr);
-			}
-			if (sortInfo.indexc > 1) {
-			    ckfree((char *) sortInfo.indexv);
 			}
 			return result;
 		    }
 		    match = (objInt == patInt);
 		    break;
-
 		case REAL:
-		    result = Tcl_GetDoubleFromObj(interp, itemPtr, &objDouble);
+		    result = Tcl_GetDoubleFromObj(interp, listv[i],
+			    &objDouble);
 		    if (result != TCL_OK) {
 			if (listPtr) {
 			    Tcl_DecrRefCount(listPtr);
-			}
-			if (sortInfo.indexc > 1) {
-			    ckfree((char *) sortInfo.indexv);
 			}
 			return result;
 		    }
@@ -3562,19 +3098,16 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 		    break;
 		}
 		break;
-
 	    case GLOB:
-		match = Tcl_StringMatch(TclGetString(itemPtr), patternBytes);
+		match = Tcl_StringMatch(Tcl_GetString(listv[i]),
+			patternBytes);
 		break;
 	    case REGEXP:
-		match = Tcl_RegExpExecObj(interp, regexp, itemPtr, 0, 0, 0);
+		match = Tcl_RegExpExecObj(interp, regexp, listv[i], 0, 0, 0);
 		if (match < 0) {
 		    Tcl_DecrRefCount(patObj);
-		    if (listPtr != NULL) {
+		    if (listPtr) {
 			Tcl_DecrRefCount(listPtr);
-		    }
-		    if (sortInfo.indexc > 1) {
-			ckfree((char *) sortInfo.indexv);
 		    }
 		    return TCL_ERROR;
 		}
@@ -3586,32 +3119,19 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 	    if (negatedMatch) {
 		match = !match;
 	    }
-	    if (!match) {
-		continue;
-	    }
-	    if (!allMatches) {
-		index = i;
-		break;
-	    } else if (inlineReturn) {
-		/*
-		 * Note that these appends are not expected to fail.
-		 */
-		if (returnSubindices) {
-		    itemPtr = SelectObjFromSublist(listv[i], &sortInfo);
+	    if (match != 0) {
+		if (!allMatches) {
+		    index = i;
+		    break;
+		} else if (inlineReturn) {
+		    /*
+		     * Note that these appends are not expected to fail.
+		     */
+		    Tcl_ListObjAppendElement(interp, listPtr, listv[i]);
 		} else {
-		    itemPtr = listv[i];
+		    Tcl_ListObjAppendElement(interp, listPtr,
+			    Tcl_NewIntObj(i));
 		}
-		Tcl_ListObjAppendElement(interp, listPtr, itemPtr);
-	    } else if (returnSubindices) {
-		int j;
-		itemPtr = Tcl_NewIntObj(i);
-		for (j=0 ; j<sortInfo.indexc ; j++) {
-		    Tcl_ListObjAppendElement(interp, itemPtr,
-			    Tcl_NewIntObj(sortInfo.indexv[j]));
-		}
-		Tcl_ListObjAppendElement(interp, listPtr, itemPtr);
-	    } else {
-		Tcl_ListObjAppendElement(interp, listPtr, Tcl_NewIntObj(i));
 	    }
 	}
     }
@@ -3622,17 +3142,7 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
     if (allMatches) {
 	Tcl_SetObjResult(interp, listPtr);
     } else if (!inlineReturn) {
-	if (returnSubindices) {
-	    int j;
-	    itemPtr = Tcl_NewIntObj(index);
-	    for (j=0 ; j<sortInfo.indexc ; j++) {
-		Tcl_ListObjAppendElement(interp, itemPtr,
-			Tcl_NewIntObj(sortInfo.indexv[j]));
-	    }
-	    Tcl_SetObjResult(interp, itemPtr);
-	} else {
-	    Tcl_SetObjResult(interp, Tcl_NewIntObj(index));
-	}
+	Tcl_SetIntObj(Tcl_GetObjResult(interp), index);
     } else if (index < 0) {
 	/*
 	 * Is this superfluous?  The result should be a blank object
@@ -3641,12 +3151,6 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 	Tcl_SetObjResult(interp, Tcl_NewObj());
     } else {
 	Tcl_SetObjResult(interp, listv[index]);
-    }
-    /*
-     * Cleanup the index list array.
-     */
-    if (sortInfo.indexc > 1) {
-	ckfree((char *) sortInfo.indexv);
     }
     return TCL_OK;
 }
@@ -3755,7 +3259,7 @@ Tcl_LsortObjCmd(clientData, interp, objc, objv)
     int objc;			/* Number of arguments. */
     Tcl_Obj *CONST objv[];	/* Argument values. */
 {
-    int i, index, unique, indices;
+    int i, index, unique;
     Tcl_Obj *resultPtr;
     int length;
     Tcl_Obj *cmdPtr, **listObjPtrs;
@@ -3766,14 +3270,10 @@ Tcl_LsortObjCmd(clientData, interp, objc, objv)
 					 * comparison function */
     static CONST char *switches[] = {
 	"-ascii", "-command", "-decreasing", "-dictionary", "-increasing",
-	"-index", "-indices", "-integer", "-real", "-unique", (char *) NULL
-    };
-    enum Lsort_Switches {
-	LSORT_ASCII, LSORT_COMMAND, LSORT_DECREASING, LSORT_DICTIONARY,
-	LSORT_INCREASING, LSORT_INDEX, LSORT_INDICES, LSORT_INTEGER,
-	LSORT_REAL, LSORT_UNIQUE
+	"-index", "-integer", "-real", "-unique", (char *) NULL
     };
 
+    resultPtr = Tcl_GetObjResult(interp);
     if (objc < 2) {
 	Tcl_WrongNumArgs(interp, 1, objv, "?options? list");
 	return TCL_ERROR;
@@ -3785,116 +3285,64 @@ Tcl_LsortObjCmd(clientData, interp, objc, objv)
 
     sortInfo.isIncreasing = 1;
     sortInfo.sortMode = SORTMODE_ASCII;
-    sortInfo.indexv = NULL;
-    sortInfo.indexc = 0;
+    sortInfo.index = SORTIDX_NONE;
     sortInfo.interp = interp;
     sortInfo.resultCode = TCL_OK;
     cmdPtr = NULL;
     unique = 0;
-    indices = 0;
     for (i = 1; i < objc-1; i++) {
 	if (Tcl_GetIndexFromObj(interp, objv[i], switches, "option", 0, &index)
 		!= TCL_OK) {
 	    return TCL_ERROR;
 	}
-	switch ((enum Lsort_Switches) index) {
-	case LSORT_ASCII:
-	    sortInfo.sortMode = SORTMODE_ASCII;
-	    break;
-	case LSORT_COMMAND:
-	    if (i == (objc-2)) {
-		if (sortInfo.indexc > 1) {
-		    ckfree((char *) sortInfo.indexv);
-		}
-		Tcl_AppendResult(interp,
-			"\"-command\" option must be followed ",
-			"by comparison command", NULL);
-		return TCL_ERROR;
-	    }
-	    sortInfo.sortMode = SORTMODE_COMMAND;
-	    cmdPtr = objv[i+1];
-	    i++;
-	    break;
-	case LSORT_DECREASING:
-	    sortInfo.isIncreasing = 0;
-	    break;
-	case LSORT_DICTIONARY:
-	    sortInfo.sortMode = SORTMODE_DICTIONARY;
-	    break;
-	case LSORT_INCREASING:
-	    sortInfo.isIncreasing = 1;
-	    break;
-	case LSORT_INDEX: {
-	    int j;
-	    Tcl_Obj **indices;
-
-	    if (sortInfo.indexc > 1) {
-		ckfree((char *) sortInfo.indexv);
-	    }
-	    if (i == (objc-2)) {
-		Tcl_AppendResult(interp, "\"-index\" option must be ",
-			"followed by list index", NULL);
-		return TCL_ERROR;
-	    }
-	    /*
-	     * Take copy to prevent shimmering problems.
-	     */
-	    if (Tcl_ListObjGetElements(interp, objv[i+1],
-		    &sortInfo.indexc, &indices) != TCL_OK) {
-		return TCL_ERROR;
-	    }
-	    switch (sortInfo.indexc) {
-	    case 0:
-		sortInfo.indexv = NULL;
+	switch (index) {
+	    case 0:			/* -ascii */
+		sortInfo.sortMode = SORTMODE_ASCII;
 		break;
-	    case 1:
-		sortInfo.indexv = &sortInfo.singleIndex;
-		break;
-	    default:
-		sortInfo.indexv = (int *)
-			ckalloc(sizeof(int) * sortInfo.indexc);
-	    }
-
-	    /*
-	     * Fill the array by parsing each index.  We don't know
-	     * whether their scale is sensible yet, but we at least
-	     * perform the syntactic check here.
-	     */
-
-	    for (j=0 ; j<sortInfo.indexc ; j++) {
-		if (TclGetIntForIndex(interp, indices[j], SORTIDX_END,
-			&sortInfo.indexv[j]) != TCL_OK) {
-		    char buffer[TCL_INTEGER_SPACE];
-		    
-		    if (sortInfo.indexc > 1) {
-			ckfree((char *) sortInfo.indexv);
-		    }
-		    sprintf(buffer, "%d", j);
-		    Tcl_AddErrorInfo(interp,
-			    "\n    (-index option item number ");
-		    Tcl_AddErrorInfo(interp, buffer);
-		    Tcl_AddErrorInfo(interp, ")");
+	    case 1:			/* -command */
+		if (i == (objc-2)) {
+		    Tcl_AppendToObj(resultPtr,
+			    "\"-command\" option must be followed by comparison command",
+			    -1);
 		    return TCL_ERROR;
 		}
-	    }
-	    i++;
-	    break;
-	}
-	case LSORT_INTEGER:
-	    sortInfo.sortMode = SORTMODE_INTEGER;
-	    break;
-	case LSORT_REAL:
-	    sortInfo.sortMode = SORTMODE_REAL;
-	    break;
-	case LSORT_UNIQUE:
-	    unique = 1;
-	    break;
-	case LSORT_INDICES:
-	    indices = 1;
-	    break;
+		sortInfo.sortMode = SORTMODE_COMMAND;
+		cmdPtr = objv[i+1];
+		i++;
+		break;
+	    case 2:			/* -decreasing */
+		sortInfo.isIncreasing = 0;
+		break;
+	    case 3:			/* -dictionary */
+		sortInfo.sortMode = SORTMODE_DICTIONARY;
+		break;
+	    case 4:			/* -increasing */
+		sortInfo.isIncreasing = 1;
+		break;
+	    case 5:			/* -index */
+		if (i == (objc-2)) {
+		    Tcl_AppendToObj(resultPtr,
+			    "\"-index\" option must be followed by list index",
+			    -1);
+		    return TCL_ERROR;
+		}
+		if (TclGetIntForIndex(interp, objv[i+1], SORTIDX_END,
+			&sortInfo.index) != TCL_OK) {
+		    return TCL_ERROR;
+		}
+		i++;
+		break;
+	    case 6:			/* -integer */
+		sortInfo.sortMode = SORTMODE_INTEGER;
+		break;
+	    case 7:			/* -real */
+		sortInfo.sortMode = SORTMODE_REAL;
+		break;
+	    case 8:			/* -unique */
+		unique = 1;
+		break;
 	}
     }
-
     if (sortInfo.sortMode == SORTMODE_COMMAND) {
 	/*
 	 * The existing command is a list. We want to flatten it, append
@@ -3911,9 +3359,6 @@ Tcl_LsortObjCmd(clientData, interp, objc, objv)
 	    Tcl_DecrRefCount(newCommandPtr);
 	    Tcl_IncrRefCount(newObjPtr);
 	    Tcl_DecrRefCount(newObjPtr);
-	    if (sortInfo.indexc > 1) {
-		ckfree((char *) sortInfo.indexv);
-	    }
 	    return TCL_ERROR;
 	}
 	Tcl_ListObjAppendElement(interp, newCommandPtr, Tcl_NewObj());
@@ -3934,37 +3379,26 @@ Tcl_LsortObjCmd(clientData, interp, objc, objv)
     elementArray[length-1].nextPtr = NULL;
     elementPtr = MergeSort(elementArray, &sortInfo);
     if (sortInfo.resultCode == TCL_OK) {
-	resultPtr = Tcl_NewObj();
+	/*
+	 * Note: must clear the interpreter's result object: it could
+	 * have been set by the -command script.
+	 */
+
+	Tcl_ResetResult(interp);
+	resultPtr = Tcl_GetObjResult(interp);
 	if (unique) {
-	    if (indices) {
-		for (; elementPtr != NULL ; elementPtr = elementPtr->nextPtr) {
-		    if (elementPtr->count == 0) {
-			Tcl_ListObjAppendElement(interp, resultPtr,
-				Tcl_NewIntObj(elementPtr - &elementArray[0]));
-		    }
-		}
-	    } else {
-		for (; elementPtr != NULL; elementPtr = elementPtr->nextPtr) {
-		    if (elementPtr->count == 0) {
-			Tcl_ListObjAppendElement(interp, resultPtr,
-				elementPtr->objPtr);
-		    }
-		}
-	    }
-	} else {
-	    if (indices) {
-		for (; elementPtr != NULL ; elementPtr = elementPtr->nextPtr) {
-		    Tcl_ListObjAppendElement(interp, resultPtr,
-			    Tcl_NewIntObj(elementPtr - &elementArray[0]));
-		}
-	    } else {
-		for (; elementPtr != NULL; elementPtr = elementPtr->nextPtr){
+	    for (; elementPtr != NULL; elementPtr = elementPtr->nextPtr){
+		if (elementPtr->count == 0) {
 		    Tcl_ListObjAppendElement(interp, resultPtr,
 			    elementPtr->objPtr);
 		}
 	    }
+	} else {
+	    for (; elementPtr != NULL; elementPtr = elementPtr->nextPtr){
+		Tcl_ListObjAppendElement(interp, resultPtr,
+			elementPtr->objPtr);
+	    }
 	}
-	Tcl_SetObjResult(interp, resultPtr);
     }
     ckfree((char*) elementArray);
 
@@ -3972,9 +3406,6 @@ Tcl_LsortObjCmd(clientData, interp, objc, objv)
     if (sortInfo.sortMode == SORTMODE_COMMAND) {
 	Tcl_DecrRefCount(sortInfo.compareCmdPtr);
 	sortInfo.compareCmdPtr = NULL;
-    }
-    if (sortInfo.indexc > 1) {
-        ckfree((char *) sortInfo.indexv);
     }
     return sortInfo.resultCode;
 }
@@ -4136,31 +3567,80 @@ SortCompare(objPtr1, objPtr2, infoPtr)
     SortInfo *infoPtr;                  /* Information passed from the
 					 * top-level "lsort" command */
 {
-    int order;
+    int order, listLen, index;
+    Tcl_Obj *objPtr;
+    char buffer[TCL_INTEGER_SPACE];
 
     order = 0;
     if (infoPtr->resultCode != TCL_OK) {
 	/*
-	 * Once an error has occurred, skip any future comparisons so
-	 * as to preserve the error message in sortInterp->result.
+	 * Once an error has occurred, skip any future comparisons
+	 * so as to preserve the error message in sortInterp->result.
 	 */
-	return order;
-    }
 
-    objPtr1 = SelectObjFromSublist(objPtr1, infoPtr);
-    if (infoPtr->resultCode != TCL_OK) {
 	return order;
     }
-    objPtr2 = SelectObjFromSublist(objPtr2, infoPtr);
-    if (infoPtr->resultCode != TCL_OK) {
-	return order;
-    }
+    if (infoPtr->index != SORTIDX_NONE) {
+	/*
+	 * The "-index" option was specified.  Treat each object as a
+	 * list, extract the requested element from each list, and
+	 * compare the elements, not the lists.  "end"-relative indices
+	 * are signaled here with large negative values.
+	 */
 
+	if (Tcl_ListObjLength(infoPtr->interp, objPtr1, &listLen) != TCL_OK) {
+	    infoPtr->resultCode = TCL_ERROR;
+	    return order;
+	}
+	if (infoPtr->index < SORTIDX_NONE) {
+	    index = listLen + infoPtr->index + 1;
+	} else {
+	    index = infoPtr->index;
+	}
+
+	if (Tcl_ListObjIndex(infoPtr->interp, objPtr1, index, &objPtr)
+		!= TCL_OK) {
+	    infoPtr->resultCode = TCL_ERROR;
+	    return order;
+	}
+	if (objPtr == NULL) {
+	    objPtr = objPtr1;
+	    missingElement:
+	    TclFormatInt(buffer, infoPtr->index);
+	    Tcl_AppendStringsToObj(Tcl_GetObjResult(infoPtr->interp),
+			"element ", buffer, " missing from sublist \"",
+			Tcl_GetString(objPtr), "\"", (char *) NULL);
+	    infoPtr->resultCode = TCL_ERROR;
+	    return order;
+	}
+	objPtr1 = objPtr;
+
+	if (Tcl_ListObjLength(infoPtr->interp, objPtr2, &listLen) != TCL_OK) {
+	    infoPtr->resultCode = TCL_ERROR;
+	    return order;
+	}
+	if (infoPtr->index < SORTIDX_NONE) {
+	    index = listLen + infoPtr->index + 1;
+	} else {
+	    index = infoPtr->index;
+	}
+
+	if (Tcl_ListObjIndex(infoPtr->interp, objPtr2, index, &objPtr)
+		!= TCL_OK) {
+	    infoPtr->resultCode = TCL_ERROR;
+	    return order;
+	}
+	if (objPtr == NULL) {
+	    objPtr = objPtr2;
+	    goto missingElement;
+	}
+	objPtr2 = objPtr;
+    }
     if (infoPtr->sortMode == SORTMODE_ASCII) {
-	order = strcmp(TclGetString(objPtr1), TclGetString(objPtr2));
+	order = strcmp(Tcl_GetString(objPtr1), Tcl_GetString(objPtr2));
     } else if (infoPtr->sortMode == SORTMODE_DICTIONARY) {
 	order = DictionaryCompare(
-		TclGetString(objPtr1), TclGetString(objPtr2));
+		Tcl_GetString(objPtr1),	Tcl_GetString(objPtr2));
     } else if (infoPtr->sortMode == SORTMODE_INTEGER) {
 	long a, b;
 
@@ -4208,7 +3688,7 @@ SortCompare(objPtr1, objPtr2, infoPtr)
 		&objc, &objv);
 
 	infoPtr->resultCode = Tcl_EvalObjv(infoPtr->interp, objc, objv, 0);
-
+  
   	if (infoPtr->resultCode != TCL_OK) {
 	    Tcl_AddErrorInfo(infoPtr->interp,
 		    "\n    (-compare command)");
@@ -4222,8 +3702,8 @@ SortCompare(objPtr1, objPtr2, infoPtr)
 	if (Tcl_GetIntFromObj(infoPtr->interp,
 		Tcl_GetObjResult(infoPtr->interp), &order) != TCL_OK) {
 	    Tcl_ResetResult(infoPtr->interp);
-	    Tcl_AppendResult(infoPtr->interp,
-		    "-compare command returned non-integer result", NULL);
+	    Tcl_AppendToObj(Tcl_GetObjResult(infoPtr->interp),
+		    "-compare command returned non-integer result", -1);
 	    infoPtr->resultCode = TCL_ERROR;
 	    return order;
 	}
@@ -4364,84 +3844,4 @@ DictionaryCompare(left, right)
 	diff = secondaryDiff;
     }
     return diff;
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * SelectObjFromSublist --
- *
- *	This procedure is invoked from lsearch and SortCompare.  It is
- *	used for implementing the -index option, for the lsort and
- *	lsearch commands.
- *
- * Results:
- *      Returns NULL if a failure occurs, and sets the result in the
- *      infoPtr.  Otherwise returns the Tcl_Obj* to the item.
- *
- * Side effects:
- *      None.
- *
- * Note:
- *      No reference counting is done, as the result is only used
- *      internally and never passed directly to user code.
- *
- *----------------------------------------------------------------------
- */
-
-static Tcl_Obj*
-SelectObjFromSublist(objPtr, infoPtr)
-    Tcl_Obj *objPtr;			/* Obj to select sublist from. */
-    SortInfo *infoPtr;			/* Information passed from the
-					 * top-level "lsearch" or "lsort"
-					 * command. */
-{
-    int i;
-
-    /*
-     * Quick check for case when no "-index" option is there.
-     */
-
-    if (infoPtr->indexc == 0) {
-	return objPtr;
-    }
-
-    /*
-     * Iterate over the indices, traversing through the nested
-     * sublists as we go.
-     */
-
-    for (i=0 ; i<infoPtr->indexc ; i++) {
-	int listLen, index;
-	Tcl_Obj *currentObj;
-
-	if (Tcl_ListObjLength(infoPtr->interp, objPtr,
-		&listLen) != TCL_OK) {
-	    infoPtr->resultCode = TCL_ERROR;
-	    return NULL;
-	}
-	index = infoPtr->indexv[i];
-	/*
-	 * Adjust for end-based indexing.
-	 */
-	if (index < SORTIDX_NONE) {
-	    index += listLen + 1;
-	}
-	if (Tcl_ListObjIndex(infoPtr->interp, objPtr, index,
-		&currentObj) != TCL_OK) {
-	    infoPtr->resultCode = TCL_ERROR;
-	    return NULL;
-	}
-	if (currentObj == NULL) {
-	    char buffer[TCL_INTEGER_SPACE];
-	    TclFormatInt(buffer, index);
-	    Tcl_AppendResult(infoPtr->interp,
-		    "element ", buffer, " missing from sublist \"",
-		    TclGetString(objPtr), "\"", (char *) NULL);
-	    infoPtr->resultCode = TCL_ERROR;
-	    return NULL;
-	}
-	objPtr = currentObj;
-    }
-    return objPtr;
 }

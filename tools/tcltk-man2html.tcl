@@ -230,7 +230,6 @@ proc process-text {text} {
 	    {\(+-}	{&#177;} \
 	    {\fP}	{\fR} \
 	    {\.}	. \
-	    {\(bu}	{&#8226;} \
 	    ] $text]
     regsub -all {\\o'o\^'} $text {\&ocirc;} text; # o-circumflex in re_syntax.n
     regsub -all {\\-\\\|\\-} $text -- text;	# two hyphens
@@ -480,7 +479,7 @@ proc output-RS-list {} {
 	    return
 	}
     }
-    man-puts <DL><DD>
+    man-puts <DL><P><DD>
     while {[more-text]} {
 	set line [next-text]
 	if {[is-a-directive $line]} {
@@ -489,7 +488,7 @@ proc output-RS-list {} {
 		.RE {
 		    break
 		}
-		.SH - .SS {
+		.SH {
 		    manerror "unbalanced .RS at section end"
 		    backup-text 1
 		    break
@@ -513,7 +512,7 @@ proc output-IP-list {context code rest} {
     global manual
     if {![string length $rest]} {
 	# blank label, plain indent, no contents entry
-	man-puts <DL><DD>
+	man-puts <DL><P><DD>
 	while {[more-text]} {
 	    set line [next-text]
 	    if {[is-a-directive $line]} {
@@ -535,17 +534,13 @@ proc output-IP-list {context code rest} {
 	man-puts </DL>
     } else {
 	# labelled list, make contents
-	if {
-	    [string compare $context ".SH"] &&
-	    [string compare $context ".SS"]
-	} then {
+	if {[string compare $context ".SH"]} {
 	    man-puts <P>
 	}
 	man-puts <DL>
 	lappend manual(section-toc) <DL>
 	backup-text 1
 	set accept_RE 0
-	set para {}
 	while {[more-text]} {
 	    set line [next-text]
 	    if {[is-a-directive $line]} {
@@ -558,11 +553,9 @@ proc output-IP-list {context code rest} {
 			}
 			if {[string equal $manual(section) "ARGUMENTS"] || \
 				[regexp {^\[\d+\]$} $rest]} {
-			    man-puts "$para<DT>$rest<DD>"
-			} elseif {[string equal {&#8226;} $rest]} {
-			   man-puts "$para<DT><DD>$rest&nbsp;"
+			    man-puts "<P><DT>$rest<DD>"
 			} else {
-			    man-puts "$para<DT>[long-toc $rest]<DD>"
+			    man-puts "<P><DT>[long-toc $rest]<DD>"
 			}
 			if {[string equal $manual(name):$manual(section) \
 				"selection:DESCRIPTION"]} {
@@ -597,7 +590,7 @@ proc output-IP-list {context code rest} {
 		    .PP {
 			if {[match-text @rest1 .br @rest2 .RS]} {
 			    # yet another nroff kludge as above
-			    man-puts "$para<DT>[long-toc $rest1]"
+			    man-puts "<P><DT>[long-toc $rest1]"
 			    man-puts "<DT>[long-toc $rest2]<DD>"
 			    incr accept_RE 1
 			} elseif {[match-text @rest .RE]} {
@@ -605,7 +598,6 @@ proc output-IP-list {context code rest} {
 			    if {!$accept_RE} {
 				man-puts "</DL><P>$rest<DL>"
 				backup-text 1
-				set para {}
 				break
 			    } else {
 				man-puts "<P>$rest"
@@ -633,9 +625,8 @@ proc output-IP-list {context code rest} {
 	    } else {
 		man-puts $line
 	    }
-	    set para <P>
 	}
-	man-puts "$para</DL>"
+	man-puts <P></DL>
 	lappend manual(section-toc) </DL>
 	if {$accept_RE} {
 	    manerror "missing .RE in output-IP-list"
@@ -960,18 +951,14 @@ proc output-directive {line} {
 	.BE {
 	    # man-puts <HR>
 	}
-	.SH - .SS {
+	.SH {
 	    # drain any open lists
 	    # announce the subject
 	    set manual(section) $rest
 	    # start our own stack of stuff
 	    set manual($manual(name)-$manual(section)) {}
 	    lappend manual(has-$manual(section)) $manual(name)
-	    if {[string compare .SS $code]} {
-		man-puts "<H3>[long-toc $manual(section)]</H3>"
-	    } else {
-		man-puts "<H4>[long-toc $manual(section)]</H4>"
-	    }
+	    man-puts "<H3>[long-toc $manual(section)]</H3>"
 	    # some sections can simply free wheel their way through the text
 	    # some sections can be processed in their own loops
 	    switch -exact $manual(section) {
@@ -1004,7 +991,6 @@ proc output-directive {line} {
 			    continue
 			}
 			if {[next-op-is .SH rest]
-		         || [next-op-is .SS rest]
 		         || [next-op-is .BE rest]
 			 || [next-op-is .SO rest]} {
 			    backup-text 1
@@ -1033,7 +1019,7 @@ proc output-directive {line} {
 		}
 		{SEE ALSO} {
 		    while {[more-text]} {
-			if {[next-op-is .SH rest] || [next-op-is .SS rest]} {
+			if {[next-op-is .SH rest]} {
 			    backup-text 1
 			    return
 			}
@@ -1060,7 +1046,7 @@ proc output-directive {line} {
 		}
 		KEYWORDS {
 		    while {[more-text]} {
-			if {[next-op-is .SH rest] || [next-op-is .SS rest]} {
+			if {[next-op-is .SH rest]} {
 			    backup-text 1
 			    return
 			}
@@ -1083,7 +1069,7 @@ proc output-directive {line} {
 		}
 	    }
 	    if {[next-op-is .IP rest]} {
-		output-IP-list $code .IP $rest
+		output-IP-list .SH .IP $rest
 		return
 	    }
 	    if {[next-op-is .PP rest]} {
@@ -1388,11 +1374,11 @@ proc make-man-pages {html args} {
 			set manual(partial-text) {}
 		    }
 		    switch -exact $code {
-			.SH - .SS {
+			.SH {
 			    if {[llength $rest] == 0} {
 				gets $manual(infp) rest
 			    }
-			    lappend manual(text) "$code [unquote $rest]"
+			    lappend manual(text) ".SH [unquote $rest]"
 			}
 			.TH {
 			    lappend manual(text) "$code [unquote $rest]"
@@ -1416,9 +1402,7 @@ proc make-man-pages {html args} {
 			    lappend manual(text) ".IP [process-text [unquote [string trim $rest]]]"
 			}
 			.TP {
-			    while {[is-a-directive [set next [gets $manual(infp)]]]} {
-			    	manerror "ignoring $next after .TP"
-			    }
+			    set next [gets $manual(infp)]
 			    if {"$next" != {'}} {
 				lappend manual(text) ".IP [process-text $next]"
 			    }

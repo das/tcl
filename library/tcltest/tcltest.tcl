@@ -24,7 +24,7 @@ namespace eval tcltest {
     # When the version number changes, be sure to update the pkgIndex.tcl file,
     # and the install directory in the Makefiles.  When the minor version
     # changes (new feature) be sure to update the man page as well.
-    variable Version 2.2.7
+    variable Version 2.2.4
 
     # Compatibility support for dumb variables defined in tcltest 1
     # Do not use these.  Call [package provide Tcl] and [info patchlevel]
@@ -630,7 +630,7 @@ namespace eval tcltest {
     }
 
     # Default verbosity is to show bodies of failed tests
-    Option -verbose {body error} {
+    Option -verbose body {
 	Takes any combination of the values 'p', 's', 'b', 't' and 'e'.
 	Test suite will display all passed tests if 'p' is specified, all
 	skipped tests if 's' is specified, the bodies of failed tests if
@@ -1419,7 +1419,7 @@ proc tcltest::ProcessFlags {flagArray} {
 	RemoveAutoConfigureTraces
     } else {
 	set args $flagArray
-	while {[llength $args]>1 && [catch {eval configure $args} msg]} {
+	while {[llength $args] && [catch {eval configure $args} msg]} {
 
 	    # Something went wrong parsing $args for tcltest options
 	    # Check whether the problem is "unknown option"
@@ -1450,18 +1450,11 @@ proc tcltest::ProcessFlags {flagArray} {
 	    }
 	    set args [lrange $args 2 end]
 	}
-	if {[llength $args] == 1} {
-	    puts [errorChannel] \
-		    "missing value for option [lindex $args 0]"
-	    exit 1
-	}
     }
 
     # Call the hook
-    catch {
-        array set flag $flagArray
-        processCmdLineArgsHook [array get flag]
-    }
+    array set flag $flagArray
+    processCmdLineArgsHook [array get flag]
     return
 }
 
@@ -1501,8 +1494,8 @@ proc tcltest::ProcessCmdLineArgs {} {
 	DebugPuts 2 \
 		"    ::env(TCLTEST_OPTIONS): $::env(TCLTEST_OPTIONS)"
     }
-    if {[info exists ::argv]} {
-	DebugPuts 2 "    argv: $::argv"
+    if {[info exists argv]} {
+	DebugPuts 2 "    argv: $argv"
     }
     DebugPuts    2 "tcltest::debug              = [debug]"
     DebugPuts    2 "tcltest::testsDirectory     = [testsDirectory]"
@@ -1949,10 +1942,6 @@ proc tcltest::test {name description args} {
 
     # First, run the setup script
     set code [catch {uplevel 1 $setup} setupMsg]
-    if {$code == 1} {
-	set errorInfo(setup) $::errorInfo
-	set errorCode(setup) $::errorCode
-    }
     set setupFailure [expr {$code != 0}]
 
     # Only run the test body if the setup was successful
@@ -1971,18 +1960,10 @@ proc tcltest::test {name description args} {
 	    set testResult [uplevel 1 [list [namespace origin Eval] $command 1]]
 	}
 	foreach {actualAnswer returnCode} $testResult break
-	if {$returnCode == 1} {
-	    set errorInfo(body) $::errorInfo
-	    set errorCode(body) $::errorCode
-	}
     }
 
     # Always run the cleanup script
     set code [catch {uplevel 1 $cleanup} cleanupMsg]
-    if {$code == 1} {
-	set errorInfo(cleanup) $::errorInfo
-	set errorCode(cleanup) $::errorCode
-    }
     set cleanupFailure [expr {$code != 0}]
 
     set coreFailure 0
@@ -2096,10 +2077,6 @@ proc tcltest::test {name description args} {
     if {$setupFailure} {
 	puts [outputChannel] "---- Test setup\
 		failed:\n$setupMsg"
-	if {[info exists errorInfo(setup)]} {
-	    puts [outputChannel] "---- errorInfo(setup): $errorInfo(setup)"
-	    puts [outputChannel] "---- errorCode(setup): $errorCode(setup)"
-	}
     }
     if {$scriptFailure} {
 	if {$scriptCompare} {
@@ -2123,9 +2100,9 @@ proc tcltest::test {name description args} {
 	puts [outputChannel] "---- Return code should have been\
 		one of: $returnCodes"
 	if {[IsVerbose error]} {
-	    if {[info exists errorInfo(body)] && ([lsearch $returnCodes 1]<0)} {
-		puts [outputChannel] "---- errorInfo: $errorInfo(body)"
-		puts [outputChannel] "---- errorCode: $errorCode(body)"
+	    if {[info exists ::errorInfo]} {
+		puts [outputChannel] "---- errorInfo: $::errorInfo"
+		puts [outputChannel] "---- errorCode: $::errorCode"
 	    }
 	}
     }
@@ -2149,10 +2126,6 @@ proc tcltest::test {name description args} {
     }
     if {$cleanupFailure} {
 	puts [outputChannel] "---- Test cleanup failed:\n$cleanupMsg"
-	if {[info exists errorInfo(cleanup)]} {
-	    puts [outputChannel] "---- errorInfo(cleanup): $errorInfo(cleanup)"
-	    puts [outputChannel] "---- errorCode(cleanup): $errorCode(cleanup)"
-	}
     }
     if {$coreFailure} {
 	puts [outputChannel] "---- Core file produced while running\
@@ -2440,6 +2413,7 @@ proc tcltest::cleanupTests {{calledFromAllFile 0}} {
 	# then add current file to failFile list if any tests in this
 	# file failed
 
+	incr numTestFiles
 	if {$currentFailure \
 		&& ([lsearch -exact $failFiles $testFileName] == -1)} {
 	    lappend failFiles $testFileName
@@ -2500,10 +2474,10 @@ proc tcltest::cleanupTests {{calledFromAllFile 0}} {
 		puts "rename core file (> 1)"
 		puts [outputChannel] "produced core file! \
 			Moving file to: \
-			[file join [temporaryDirectory] core-$testFileName]"
+			[file join [temporaryDirectory] core-$name]"
 		catch {file rename -force \
 			[file join [workingDirectory] core] \
-			[file join [temporaryDirectory] core-$testFileName]
+			[file join [temporaryDirectory] core-$name]
 		} msg
 		if {[string length $msg] > 0} {
 		    PrintError "Problem renaming file: $msg"
@@ -3308,7 +3282,7 @@ namespace eval tcltest {
 		    Tcl list: $msg"
 	    return
 	}
-	if {[llength $::env(TCLTEST_OPTIONS)] % 2} {
+	if {[llength $::env(TCLTEST_OPTIONS)] < 2} {
 	    Warn "invalid TCLTEST_OPTIONS: \"$options\":\n  should be\
 		    -option value ?-option value ...?"
 	    return

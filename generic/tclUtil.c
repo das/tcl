@@ -15,18 +15,23 @@
  */
 
 #include "tclInt.h"
+#include "tclPort.h"
 
 /*
- * The absolute pathname of the executable in which this Tcl library
- * is running.
+ * The following variable holds the full path name of the binary
+ * from which this application was executed, or NULL if it isn't
+ * know.  The value of the variable is set by the procedure
+ * Tcl_FindExecutable.  The storage space is dynamically allocated.
  */
-static ProcessGlobalValue executableName = {0, 0, NULL, NULL, NULL, NULL, NULL};
+
+char *tclExecutableName = NULL;
+char *tclNativeExecutableName = NULL;
 
 /*
  * The following values are used in the flags returned by Tcl_ScanElement
- * and used by Tcl_ConvertElement.  The values TCL_DONT_USE_BRACES and
- * TCL_DONT_QUOTE_HASH are defined in tcl.h; make sure neither value
- * overlaps with any of the values below.  
+ * and used by Tcl_ConvertElement.  The value TCL_DONT_USE_BRACES is also
+ * defined in tcl.h;  make sure its value doesn't overlap with any of the
+ * values below.
  *
  * TCL_DONT_USE_BRACES -	1 means the string mustn't be enclosed in
  *				braces (e.g. it contains unmatched braces,
@@ -38,12 +43,6 @@ static ProcessGlobalValue executableName = {0, 0, NULL, NULL, NULL, NULL, NULL};
  *				enclosing the entire argument in braces.
  * BRACES_UNMATCHED -		1 means that braces aren't properly matched
  *				in the argument.
- * TCL_DONT_QUOTE_HASH -	1 means the caller insists that a leading
- * 				hash character ('#') should *not* be quoted.
- * 				This is appropriate when the caller can
- * 				guarantee the element is not the first element
- * 				of a list, so [eval] cannot mis-parse the
- * 				element as a comment.
  */
 
 #define USE_BRACES		2
@@ -68,14 +67,9 @@ TCL_DECLARE_MUTEX(precisionMutex)
  * Prototypes for procedures defined later in this file.
  */
 
-static void		ClearHash _ANSI_ARGS_((Tcl_HashTable *tablePtr));
-static void		FreeProcessGlobalValue _ANSI_ARGS_((
-			    ClientData clientData));
-static void		FreeThreadHash _ANSI_ARGS_ ((ClientData clientData));
-static Tcl_HashTable *	GetThreadHash _ANSI_ARGS_ ((Tcl_ThreadDataKey *keyPtr));
-static int		SetEndOffsetFromAny _ANSI_ARGS_((Tcl_Interp* interp,
+static void UpdateStringOfEndOffset _ANSI_ARGS_((Tcl_Obj* objPtr));
+static int SetEndOffsetFromAny _ANSI_ARGS_((Tcl_Interp* interp,
 					    Tcl_Obj* objPtr));
-static void		UpdateStringOfEndOffset _ANSI_ARGS_((Tcl_Obj* objPtr));
 
 /*
  * The following is the Tcl object type definition for an object
@@ -739,9 +733,6 @@ Tcl_ConvertCountedElement(src, length, dst, flags)
 	return 2;
     }
     lastChar = src + length;
-    if ((*src == '#') && !(flags & TCL_DONT_QUOTE_HASH)) {
-	flags |= USE_BRACES;
-    }
     if ((flags & USE_BRACES) && !(flags & TCL_DONT_USE_BRACES)) {
 	*p = '{';
 	p++;
@@ -764,17 +755,6 @@ Tcl_ConvertCountedElement(src, length, dst, flags)
 	    p += 2;
 	    src++;
 	    flags |= BRACES_UNMATCHED;
-	} else if ((*src == '#') && !(flags & TCL_DONT_QUOTE_HASH)) {
-	    /*
-	     * Leading '#' could be seen by [eval] as the start of
-	     * a comment, if on the first element of a list, so
-	     * quote it.
-	     */
-
-	    p[0] = '\\';
-	    p[1] = '#';
-	    p += 2;
-	    src++;
 	}
 	for (; src != lastChar; src++) {
 	    switch (*src) {
@@ -897,8 +877,7 @@ Tcl_Merge(argc, argv)
     result = (char *) ckalloc((unsigned) numChars);
     dst = result;
     for (i = 0; i < argc; i++) {
-	numChars = Tcl_ConvertElement(argv[i], dst, 
-		flagPtr[i] | (i==0 ? 0 : TCL_DONT_QUOTE_HASH) );
+	numChars = Tcl_ConvertElement(argv[i], dst, flagPtr[i]);
 	dst += numChars;
 	*dst = ' ';
 	dst++;
@@ -1416,43 +1395,6 @@ Tcl_StringCaseMatch(string, pattern, nocase)
 /*
  *----------------------------------------------------------------------
  *
- * TclMatchIsTrivial --
- *
- *	Test whether a particular glob pattern is a trivial pattern.
- *	(i.e. where matching is the same as equality testing).
- *
- * Results:
- *	A boolean indicating whether the pattern is free of all of the
- *	glob special chars.
- *
- * Side effects:
- *	None.
- *
- *----------------------------------------------------------------------
- */
-
-int
-TclMatchIsTrivial(pattern)
-    CONST char *pattern;
-{
-    CONST char *p = pattern;
-
-    while (1) {
-	switch (*p++) {
-	case '\0':
-	    return 1;
-	case '*':
-	case '?':
-	case '[':
-	case '\\':
-	    return 0;
-	}
-    }
-}
-
-/*
- *----------------------------------------------------------------------
- *
  * Tcl_DStringInit --
  *
  *	Initializes a dynamic string, discarding any previous contents
@@ -1614,12 +1556,6 @@ Tcl_DStringAppendElement(dsPtr, string)
 	*dst = ' ';
 	dst++;
 	dsPtr->length++;
-	/*
-	 * If we need a space to separate this element from preceding
-	 * stuff, then this element will not lead a list, and need not
-	 * have it's leading '#' quoted.
-	 */
-	flags |= TCL_DONT_QUOTE_HASH;
     }
     dsPtr->length += Tcl_ConvertCountedElement(string, strSize, dst, flags);
     return dsPtr->string;
@@ -1801,7 +1737,10 @@ Tcl_DStringGetResult(interp, dsPtr)
      * string result, then reset the object result.
      */
 
-    (void) Tcl_GetStringResult(interp);
+    if (*(iPtr->result) == 0) {
+	Tcl_SetResult(interp, TclGetString(Tcl_GetObjResult(interp)),
+	        TCL_VOLATILE);
+    }
 
     dsPtr->length = strlen(iPtr->result);
     if (iPtr->freeProc != NULL) {
@@ -2062,64 +2001,42 @@ TclNeedSpace(start, end)
     CONST char *end;		/* End of string (place where space will
 				 * be added, if appropriate). */
 {
+    Tcl_UniChar ch;
+
     /*
      * A space is needed unless either
      * (a) we're at the start of the string, or
+     * (b) the trailing characters of the string consist of one or more
+     *     open curly braces preceded by a space or extending back to
+     *     the beginning of the string.
+     * (c) the trailing characters of the string consist of a space
+     *	   preceded by a character other than backslash.
      */
+
     if (end == start) {
 	return 0;
     }
-
-    /*
-     * (b) we're at the start of a nested list-element, quoted with an
-     *     open curly brace; we can be nested arbitrarily deep, so long
-     *     as the first curly brace starts an element, so backtrack over
-     *     open curly braces that are trailing characters of the string; and
-     */
-
     end = Tcl_UtfPrev(end, start);
-    while (*end == '{') {
+    if (*end != '{') {
+	Tcl_UtfToUniChar(end, &ch);
+	/*
+	 * Direct char comparison on next line is safe as it is with
+	 * a character in the ASCII subset, and so single-byte in UTF8.
+	 */
+	if (Tcl_UniCharIsSpace(ch) && ((end == start) || (end[-1] != '\\'))) {
+	    return 0;
+	}
+	return 1;
+    }
+    do {
 	if (end == start) {
 	    return 0;
 	}
 	end = Tcl_UtfPrev(end, start);
-    }
-
-    /*
-     * (c) the trailing character of the string is already a list-element
-     *     separator (according to TclFindElement); that is, one of these
-     *     characters:
-     *     	\u0009	\t	TAB
-     *     	\u000A	\n	NEWLINE
-     *     	\u000B	\v	VERTICAL TAB
-     *     	\u000C	\f	FORM FEED
-     *     	\u000D	\r	CARRIAGE RETURN
-     *     	\u0020		SPACE
-     *     with the condition that the penultimate character is not a
-     *     backslash.
-     */
-
-    if (*end > 0x20) {
-	/*
-	 * Performance tweak.  All ASCII spaces are <= 0x20. So get
-	 * a quick answer for most characters before comparing against
-	 * all spaces in the switch below.
-	 *
-	 * NOTE: Remove this if other Unicode spaces ever get accepted
-	 * as list-element separators.
-	 */
-	return 1;
-    }
-    switch (*end) {
-	case ' ':
-        case '\t':
-        case '\n':
-        case '\r':
-        case '\v':
-        case '\f':
-	    if ((end == start) || (end[-1] != '\\')) {
-		return 0;
-	    }
+    } while (*end == '{');
+    Tcl_UtfToUniChar(end, &ch);
+    if (Tcl_UniCharIsSpace(ch)) {
+	return 0;
     }
     return 1;
 }
@@ -2365,8 +2282,10 @@ TclGetIntForIndex(interp, objPtr, endValue, indexPtr)
 	     * because this is an error-generation path anyway.
 	     */
 	    Tcl_ResetResult(interp);
-	    Tcl_AppendResult(interp, "bad index \"", bytes,
-		    "\": must be integer or end?-integer?", (char *) NULL);
+	    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+				   "bad index \"", bytes,
+				   "\": must be integer or end?-integer?",
+				   (char *) NULL);
 	    if (!strncmp(bytes, "end-", 3)) {
 		bytes += 3;
 	    }
@@ -2442,6 +2361,8 @@ SetEndOffsetFromAny(interp, objPtr)
      Tcl_Obj* objPtr;		/* Pointer to the object to parse */
 {
     int offset;			/* Offset in the "end-offset" expression */
+    Tcl_ObjType* oldTypePtr = objPtr->typePtr;
+				/* Old internal rep type of the object */
     register char* bytes;	/* String rep of the object */
     int length;			/* Length of the object's string rep */
 
@@ -2458,8 +2379,10 @@ SetEndOffsetFromAny(interp, objPtr)
 	    (size_t)((length > 3) ? 3 : length)) != 0)) {
 	if (interp != NULL) {
 	    Tcl_ResetResult(interp);
-	    Tcl_AppendResult(interp, "bad index \"", bytes,
-		    "\": must be end?-integer?", (char*) NULL);
+	    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+				   "bad index \"", bytes,
+				   "\": must be end?-integer?",
+				   (char*) NULL);
 	}
 	return TCL_ERROR;
     }
@@ -2483,8 +2406,10 @@ SetEndOffsetFromAny(interp, objPtr)
 	 */
 	if (interp != NULL) {
 	    Tcl_ResetResult(interp);
-	    Tcl_AppendResult(interp, "bad index \"", bytes,
-		    "\": must be integer or end?-integer?", (char *) NULL);
+	    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+				   "bad index \"", bytes,
+				   "\": must be integer or end?-integer?",
+				   (char *) NULL);
 	}
 	return TCL_ERROR;
     }
@@ -2494,7 +2419,10 @@ SetEndOffsetFromAny(interp, objPtr)
      * the new one.
      */
 
-    TclFreeIntRep(objPtr);
+    if ((oldTypePtr != NULL) && (oldTypePtr->freeIntRepProc != NULL)) {
+	oldTypePtr->freeIntRepProc(objPtr);
+    }
+    
     objPtr->internalRep.longValue = offset;
     objPtr->typePtr = &tclEndOffsetType;
 
@@ -2564,319 +2492,20 @@ TclCheckBadOctal(interp, value)
 /*
  *----------------------------------------------------------------------
  *
- * ClearHash --
- *      Remove all the entries in the hash table *tablePtr.
- *
- *----------------------------------------------------------------------
- */
-
-static void
-ClearHash(tablePtr)
-    Tcl_HashTable *tablePtr;
-{
-    Tcl_HashSearch search;
-    Tcl_HashEntry *hPtr;
-
-    for (hPtr = Tcl_FirstHashEntry(tablePtr, &search); hPtr != NULL;
-	    hPtr = Tcl_NextHashEntry(&search)) {
-	Tcl_Obj *objPtr = (Tcl_Obj *) Tcl_GetHashValue(hPtr);
-	Tcl_DecrRefCount(objPtr);
-	Tcl_DeleteHashEntry(hPtr);
-    }
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * GetThreadHash --
- *
- *	Get a thread-specific (Tcl_HashTable *) associated with a
- *	thread data key.
- *
- * Results:
- *	The Tcl_HashTable * corresponding to *keyPtr.  
- *
- * Side effects:
- *	The first call on a keyPtr in each thread creates a new
- *	Tcl_HashTable, and registers a thread exit handler to
- *	dispose of it.
- *
- *----------------------------------------------------------------------
- */
-
-static Tcl_HashTable *
-GetThreadHash(keyPtr)
-    Tcl_ThreadDataKey *keyPtr;
-{
-    Tcl_HashTable **tablePtrPtr = (Tcl_HashTable **)
-	    Tcl_GetThreadData(keyPtr, (int)sizeof(Tcl_HashTable *));
-    if (NULL == *tablePtrPtr) {
-	*tablePtrPtr = (Tcl_HashTable *)ckalloc(sizeof(Tcl_HashTable));
-	Tcl_CreateThreadExitHandler(FreeThreadHash, (ClientData)*tablePtrPtr);
-	Tcl_InitHashTable(*tablePtrPtr, TCL_ONE_WORD_KEYS);
-    }
-    return *tablePtrPtr;
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * FreeThreadHash --
- *	Thread exit handler used by GetThreadHash to dispose
- *	of a thread hash table.
- *
- * Side effects:
- *	Frees a Tcl_HashTable.
- *
- *----------------------------------------------------------------------
- */
-
-static void
-FreeThreadHash(clientData)
-    ClientData clientData; 
-{
-    Tcl_HashTable *tablePtr = (Tcl_HashTable *) clientData;
-    ClearHash(tablePtr);
-    Tcl_DeleteHashTable(tablePtr);
-    ckfree((char *) tablePtr);
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * FreeProcessGlobalValue --
- *	Exit handler used by Tcl(Set|Get)ProcessGlobalValue to cleanup
- *	a ProcessGlobalValue at exit.
- *
- *----------------------------------------------------------------------
- */
-
-static void
-FreeProcessGlobalValue(clientData)
-    ClientData clientData; 
-{
-    ProcessGlobalValue *pgvPtr = (ProcessGlobalValue *) clientData;
-    pgvPtr->epoch++;
-    pgvPtr->numBytes = 0;
-    ckfree(pgvPtr->value);
-    pgvPtr->value = NULL;
-    if (pgvPtr->encoding) {
-	Tcl_FreeEncoding(pgvPtr->encoding);
-	pgvPtr->encoding = NULL;
-    }
-    Tcl_MutexFinalize(&pgvPtr->mutex);
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * TclSetProcessGlobalValue --
- *
- *	Utility routine to set a global value shared by all threads in
- *	the process while keeping a thread-local copy as well.
- *
- *----------------------------------------------------------------------
- */
-void
-TclSetProcessGlobalValue(pgvPtr, newValue, encoding)
-    ProcessGlobalValue *pgvPtr;
-    Tcl_Obj *newValue;
-    Tcl_Encoding encoding;
-{
-    CONST char *bytes;
-    Tcl_HashTable *cacheMap;
-    Tcl_HashEntry *hPtr;
-    int dummy;
-
-    Tcl_MutexLock(&pgvPtr->mutex);
-    /* Fill the global string value */
-    pgvPtr->epoch++;
-    if (NULL != pgvPtr->value) {
-	ckfree(pgvPtr->value);
-    } else {
-	Tcl_CreateExitHandler(FreeProcessGlobalValue, (ClientData) pgvPtr);
-    }
-    bytes = Tcl_GetStringFromObj(newValue, &pgvPtr->numBytes);
-    pgvPtr->value = ckalloc((unsigned int) pgvPtr->numBytes + 1);
-    strcpy(pgvPtr->value, bytes);
-    if (pgvPtr->encoding) {
-	Tcl_FreeEncoding(pgvPtr->encoding);
-    }
-    pgvPtr->encoding = encoding;
-
-    /*
-     * Fill the local thread copy directly with the Tcl_Obj
-     * value to avoid loss of the intrep.  Increment newValue
-     * refCount early to handle case where we set a PGV to itself.
-     */
-    Tcl_IncrRefCount(newValue);
-    cacheMap = GetThreadHash(&pgvPtr->key);
-    ClearHash(cacheMap);
-    hPtr = Tcl_CreateHashEntry(cacheMap, (char *)pgvPtr->epoch, &dummy);
-    Tcl_SetHashValue(hPtr, (ClientData) newValue);
-    Tcl_MutexUnlock(&pgvPtr->mutex);
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * TclGetProcessGlobalValue --
- *
- *	Retrieve a global value shared among all threads of the process,
- *	preferring a thread-local copy as long as it remains valid.
- *
- * Results:
- *	Returns a (Tcl_Obj *) that holds a copy of the global value.
- *
- *----------------------------------------------------------------------
- */
-
-Tcl_Obj *
-TclGetProcessGlobalValue(pgvPtr)
-    ProcessGlobalValue *pgvPtr;
-{
-    Tcl_Obj *value = NULL;
-    Tcl_HashTable *cacheMap;
-    Tcl_HashEntry *hPtr;
-    int epoch = pgvPtr->epoch;
-
-    if (pgvPtr->encoding) {
-	Tcl_Encoding current = Tcl_GetEncoding(NULL, NULL);
-	if (pgvPtr->encoding != current) {
-
-	    /*
-	     * The system encoding has changed since the master
-	     * string value was saved.  Convert the master value
-	     * to be based on the new system encoding.  
-	     */
-
-	    Tcl_DString native, newValue;
-
-	    Tcl_MutexLock(&pgvPtr->mutex);
-	    pgvPtr->epoch++;
-	    epoch = pgvPtr->epoch;
-	    Tcl_UtfToExternalDString(pgvPtr->encoding, pgvPtr->value,
-		    pgvPtr->numBytes, &native);
-	    Tcl_ExternalToUtfDString(current, Tcl_DStringValue(&native),
-	    Tcl_DStringLength(&native), &newValue);
-	    Tcl_DStringFree(&native);
-	    ckfree(pgvPtr->value);
-	    pgvPtr->value = ckalloc((unsigned int)
-		    Tcl_DStringLength(&newValue) + 1);
-	    memcpy((VOID *) pgvPtr->value, (VOID *) Tcl_DStringValue(&newValue),
-		    (size_t) Tcl_DStringLength(&newValue) + 1);
-	    Tcl_DStringFree(&newValue);
-	    Tcl_FreeEncoding(pgvPtr->encoding);
-	    pgvPtr->encoding = current;
-	    Tcl_MutexUnlock(&pgvPtr->mutex);
-	} else {
-	    Tcl_FreeEncoding(current);
-	}
-    }
-    cacheMap = GetThreadHash(&pgvPtr->key);
-    hPtr = Tcl_FindHashEntry(cacheMap, (char *)epoch);
-    if (NULL == hPtr) {
-	int dummy;
-
-	/* No cache for the current epoch - must be a new one */
-	/* First, clear the cacheMap, as anything in it must
-	 * refer to some expired epoch.*/
-	ClearHash(cacheMap);
-
-	/* If no thread has set the shared value, call the initializer */
-	Tcl_MutexLock(&pgvPtr->mutex);
-	if (NULL == pgvPtr->value) {
-	    if (pgvPtr->proc) {
-		pgvPtr->epoch++;
-		(*(pgvPtr->proc))(&pgvPtr->value, &pgvPtr->numBytes,
-			&pgvPtr->encoding);
-		Tcl_CreateExitHandler(FreeProcessGlobalValue,
-			(ClientData) pgvPtr);
-	    }
-	}
-
-	/* Store a copy of the shared value in our epoch-indexed cache */
-	value = Tcl_NewStringObj(pgvPtr->value, pgvPtr->numBytes);
-	hPtr = Tcl_CreateHashEntry(cacheMap, (char *)pgvPtr->epoch, &dummy);
-	Tcl_MutexUnlock(&pgvPtr->mutex);
-	Tcl_SetHashValue(hPtr, (ClientData) value);
-	Tcl_IncrRefCount(value);
-    }
-    return (Tcl_Obj *) Tcl_GetHashValue(hPtr);
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * TclSetObjNameOfExecutable --
- *
- *	This procedure stores the absolute pathname of
- *	the executable file (normally as computed by
- *	TclpFindExecutable).
- *
- * Results:
- * 	None.
- *
- * Side effects:
- *	Stores the executable name.
- *
- *----------------------------------------------------------------------
- */
-
-void
-TclSetObjNameOfExecutable(name, encoding)
-    Tcl_Obj *name;
-    Tcl_Encoding encoding;
-{
-    TclSetProcessGlobalValue(&executableName, name, encoding);
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * TclGetObjNameOfExecutable --
- *
- *	This procedure retrieves the absolute pathname of the
- *	application in which the Tcl library is running, usually
- *	as previously stored by TclpFindExecutable().
- *	This procedure call is the C API equivalent to the
- *	"info nameofexecutable" command.
- *
- * Results:
- *	A pointer to an "fsPath" Tcl_Obj, or to an empty Tcl_Obj if
- *	the pathname of the application is unknown.
- *
- * Side effects:
- * 	None.
- *
- *----------------------------------------------------------------------
- */
-
-Tcl_Obj *
-TclGetObjNameOfExecutable()
-{
-    return TclGetProcessGlobalValue(&executableName);
-}
-
-/*
- *----------------------------------------------------------------------
- *
  * Tcl_GetNameOfExecutable --
  *
- *	This procedure retrieves the absolute pathname of the
- *	application in which the Tcl library is running, and
- *	returns it in string form.
- *
- * 	The returned string belongs to Tcl and should be copied
- * 	if the caller plans to keep it, to guard against it
- * 	becoming invalid.
+ *	This procedure simply returns a pointer to the internal full
+ *	path name of the executable file as computed by
+ *	Tcl_FindExecutable.  This procedure call is the C API
+ *	equivalent to the "info nameofexecutable" command.
  *
  * Results:
  *	A pointer to the internal string or NULL if the internal full
  *	path name has not been computed or unknown.
  *
  * Side effects:
- * 	None.
+ *	The object referenced by "objPtr" might be converted to an
+ *	integer object.
  *
  *----------------------------------------------------------------------
  */
@@ -2884,13 +2513,7 @@ TclGetObjNameOfExecutable()
 CONST char *
 Tcl_GetNameOfExecutable()
 {
-    int numBytes;
-    CONST char * bytes =
-	    Tcl_GetStringFromObj(TclGetObjNameOfExecutable(), &numBytes);
-    if (numBytes == 0) {
-	return NULL;
-    }
-    return bytes;
+    return tclExecutableName;
 }
 
 /*

@@ -10,7 +10,7 @@
 .TH Utf 3 "8.1" Tcl "Tcl Library Procedures"
 .BS
 .SH NAME
-Tcl_UniChar, Tcl_UniCharCaseMatch, Tcl_UniCharNcasecmp, Tcl_UniCharToUtf, Tcl_UtfToUniChar, Tcl_UniCharToUtfDString, Tcl_UtfToUniCharDString, Tcl_UniCharLen, Tcl_UniCharNcmp, Tcl_UtfCharComplete, Tcl_NumUtfChars, Tcl_UtfFindFirst, Tcl_UtfFindLast, Tcl_UtfNext, Tcl_UtfPrev, Tcl_UniCharAtIndex, Tcl_UtfAtIndex, Tcl_UtfBackslash \- routines for manipulating UTF-8 strings
+Tcl_UniChar, Tcl_UniCharCaseMatch, Tcl_UniCharNcasecmp, Tcl_UniCharToUtf, Tcl_UtfToUniChar, Tcl_UniCharToUtfDString, Tcl_UtfToUniCharDString, Tcl_UniCharLen, Tcl_UniCharNcmp, Tcl_UtfCharComplete, Tcl_NumUtfChars, Tcl_UtfFindFirst, Tcl_UtfFindLast, Tcl_UtfNext, Tcl_UtfPrev, Tcl_UniCharAtIndex, Tcl_UtfAtIndex, Tcl_UtfBackslash \- routines for manipulating UTF-8 strings.
 .SH SYNOPSIS
 .nf
 \fB#include <tcl.h>\fR
@@ -58,16 +58,16 @@ int
 \fBTcl_NumUtfChars\fR(\fIsrc, len\fR)
 .VS 8.4
 .sp
-const char *
+CONST char *
 \fBTcl_UtfFindFirst\fR(\fIsrc, ch\fR)
 .sp
-const char *
+CONST char *
 \fBTcl_UtfFindLast\fR(\fIsrc, ch\fR)
 .sp
-const char *
+CONST char *
 \fBTcl_UtfNext\fR(\fIsrc\fR)
 .sp
-const char *
+CONST char *
 \fBTcl_UtfPrev\fR(\fIsrc, start\fR)
 .VE 8.4
 .sp
@@ -75,26 +75,26 @@ Tcl_UniChar
 \fBTcl_UniCharAtIndex\fR(\fIsrc, index\fR)
 .VS 8.4
 .sp
-const char *
+CONST char *
 \fBTcl_UtfAtIndex\fR(\fIsrc, index\fR)
 .VE 8.4
 .sp
 int
 \fBTcl_UtfBackslash\fR(\fIsrc, readPtr, dst\fR)
 .SH ARGUMENTS
-.AS "const Tcl_UniChar" *uniPattern in/out
+.AS "CONST Tcl_UniChar" numChars in/out
 .AP char *buf out
 Buffer in which the UTF-8 representation of the Tcl_UniChar is stored.  At most
-\fBTCL_UTF_MAX\fR bytes are stored in the buffer.
+TCL_UTF_MAX bytes are stored in the buffer.
 .AP int ch in
 The Tcl_UniChar to be converted or examined.
 .AP Tcl_UniChar *chPtr out
 Filled with the Tcl_UniChar represented by the head of the UTF-8 string.
-.AP "const char" *src in
+.AP "CONST char" *src in
 Pointer to a UTF-8 string.
-.AP "const Tcl_UniChar" *uniStr in
+.AP "CONST Tcl_UniChar" *uniStr in
 A null-terminated Unicode string.
-.AP "const Tcl_UniChar" *uniPattern in
+.AP "CONST Tcl_UniChar" *uniPattern in
 A null-terminated Unicode string.
 .AP int len in
 The length of the UTF-8 string in bytes (not UTF-8 characters).  If
@@ -103,10 +103,10 @@ negative, all bytes up to the first null byte are used.
 The length of the Unicode string in characters.  Must be greater than or
 equal to 0.
 .AP "Tcl_DString" *dstPtr in/out
-A pointer to a previously initialized \fBTcl_DString\fR.
+A pointer to a previously-initialized \fBTcl_DString\fR.
 .AP "unsigned long" num in
 The number of characters to compare.
-.AP "const char" *start in
+.AP "CONST char" *start in
 Pointer to the beginning of a UTF-8 string.
 .AP int index in
 The index of a character (not byte) in the UTF-8 string.
@@ -115,9 +115,9 @@ If non-NULL, filled with the number of bytes in the backslash sequence,
 including the backslash character.
 .AP char *dst out
 Buffer in which the bytes represented by the backslash sequence are stored.
-At most \fBTCL_UTF_MAX\fR bytes are stored in the buffer.
-.AP int nocase in
+At most TCL_UTF_MAX bytes are stored in the buffer.
 .VS 8.4
+.AP int nocase in
 Specifies whether the match should be done case-sensitive (0) or
 case-insensitive (1).
 .VE 8.4
@@ -128,7 +128,7 @@ case-insensitive (1).
 These routines convert between UTF-8 strings and Tcl_UniChars.  A
 Tcl_UniChar is a Unicode character represented as an unsigned, fixed-size
 quantity.  A UTF-8 character is a Unicode character represented as
-a varying-length sequence of up to \fBTCL_UTF_MAX\fR bytes.  A multibyte UTF-8
+a varying-length sequence of up to TCL_UTF_MAX bytes.  A multibyte UTF-8
 sequence consists of a lead byte followed by some number of trail bytes.
 .PP
 \fBTCL_UTF_MAX\fR is the maximum number of bytes that it takes to
@@ -140,7 +140,7 @@ in \fIbuf\fR.
 .PP
 \fBTcl_UtfToUniChar\fR reads one UTF-8 character starting at \fIsrc\fR
 and stores it as a Tcl_UniChar in \fI*chPtr\fR.  The return value is the
-number of bytes read from \fIsrc\fR.  The caller must ensure that the
+number of bytes read from \fIsrc\fR..  The caller must ensure that the
 source buffer is long enough such that this routine does not run off the
 end and dereference non-existent or random memory; if the source buffer
 is known to be null-terminated, this will not happen.  If the input is
@@ -149,15 +149,15 @@ byte of \fIsrc\fR in \fI*chPtr\fR as a Tcl_UniChar between 0x0000 and
 0x00ff and return 1.  
 .PP
 \fBTcl_UniCharToUtfDString\fR converts the given Unicode string
-to UTF-8, storing the result in a previously initialized \fBTcl_DString\fR.
+to UTF-8, storing the result in a previously-initialized \fBTcl_DString\fR.
 You must specify the length of the given Unicode string.
 The return value is a pointer to the UTF-8 representation of the
 Unicode string.  Storage for the return value is appended to the
 end of the \fBTcl_DString\fR.
 .PP
 \fBTcl_UtfToUniCharDString\fR converts the given UTF-8 string to Unicode,
-storing the result in the previously initialized \fBTcl_DString\fR.
-You may either specify the length of the given UTF-8 string or "-1",
+storing the result in the previously-initialized \fBTcl_DString\fR.
+you may either specify the length of the given UTF-8 string or "-1",
 in which case \fBTcl_UtfToUniCharDString\fR uses \fBstrlen\fR to
 calculate the length.  The return value is a pointer to the Unicode
 representation of the UTF-8 string.  Storage for the return value
@@ -170,7 +170,7 @@ the number of Unicode characters (not bytes) in that string.
 .PP
 \fBTcl_UniCharNcmp\fR and \fBTcl_UniCharNcasecmp\fR correspond to
 \fBstrncmp\fR and \fBstrncasecmp\fR, respectively, for Unicode characters.
-They accept two null-terminated Unicode strings and the number of characters
+They accepts two null-terminated Unicode strings and the number of characters
 to compare.  Both strings are assumed to be at least \fIlen\fR characters
 long. \fBTcl_UniCharNcmp\fR  compares the two strings character-by-character
 according to the Unicode character ordering.  It returns an integer greater
@@ -250,7 +250,7 @@ the return pointer points to the first character in the source string.
 \fBTcl_UtfBackslash\fR is a utility procedure used by several of the Tcl
 commands.  It parses a backslash sequence and stores the properly formed
 UTF-8 character represented by the backslash sequence in the output
-buffer \fIdst\fR.  At most \fBTCL_UTF_MAX\fR bytes are stored in the buffer.
+buffer \fIdst\fR.  At most TCL_UTF_MAX bytes are stored in the buffer.
 \fBTcl_UtfBackslash\fR modifies \fI*readPtr\fR to contain the number
 of bytes in the backslash sequence, including the backslash character.
 The return value is the number of bytes stored in the output buffer.

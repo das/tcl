@@ -62,9 +62,6 @@ match \fIpattern\fR (using the matching rules of
 \fBstring match\fR) are included.
 If \fIarrayName\fR isn't the name of an array variable, or if
 the array contains no elements, then an empty list is returned.
-If traces on the array modify the list of elements, the elements 
-returned are those that exist both before and after the call to 
-\fBarray get\fR.
 .TP
 \fBarray names \fIarrayName\fR ?\fImode\fR? ?\fIpattern\fR?
 Returns a list containing the names of all of the elements in
@@ -140,40 +137,42 @@ error will be raised.  If \fIpattern\fR is omitted and \fIarrayName\fR is
 an array variable, then the command unsets the entire array.
 The command always returns an empty string.
 .VE 8.3
+
 .SH EXAMPLES
+
 .CS
-\fBarray set\fR colorcount {
-   red   1
-   green 5
-   blue  4
-   white 9
+array set colorcount {
+    red   1
+    green 5
+    blue  4
+    white 9
 }
 
-foreach {color count} [\fBarray get\fR colorcount] {
-   puts "Color: $color Count: $count"
-}
- => Color: blue Count: 4
-    Color: white Count: 9
-    Color: green Count: 5
-    Color: red Count: 1
-
-foreach color [\fBarray names\fR colorcount] {
-   puts "Color: $color Count: $colorcount($color)"
+foreach {color count} [array get colorcount] {
+    puts "Color: $color Count: $count"
 }
  => Color: blue Count: 4
     Color: white Count: 9
     Color: green Count: 5
     Color: red Count: 1
 
-foreach color [lsort [\fBarray names\fR colorcount]] {
-   puts "Color: $color Count: $colorcount($color)"
+foreach color [array names colorcount] {
+    puts "Color: $color Count: $colorcount($color)"
+}
+ => Color: blue Count: 4
+    Color: white Count: 9
+    Color: green Count: 5
+    Color: red Count: 1
+
+foreach color [lsort [array names colorcount]] {
+    puts "Color: $color Count: $colorcount($color)"
 }
  => Color: blue Count: 4
     Color: green Count: 5
     Color: red Count: 1
     Color: white Count: 9
 
-\fBarray statistics\fR colorcount
+array statistics colorcount
  => 4 entries in table, 4 buckets
     number of buckets with 0 entries: 1
     number of buckets with 1 entries: 2
