@@ -1567,7 +1567,7 @@ TestevalobjvObjCmd(dummy, interp, objc, objv)
     if (Tcl_GetIntFromObj(interp, objv[1], &evalGlobal) != TCL_OK) {
 	return TCL_ERROR;
     }
-    return Tcl_EvalObjv(interp, objc-2, objv+2, command, length,
+    return Tcl_EvalObjv(interp, objc-2, objv+2,
 	    (evalGlobal) ? TCL_EVAL_GLOBAL : 0);
 }
 
