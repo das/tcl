@@ -344,7 +344,7 @@ TclpStrftime(s, maxsize, format, t, useGMT)
 
 struct tm *
 TclpGmtime( tt )
-    TclpTime_t tt;
+    CONST TclpTime_t tt;
 {
     CONST time_t *timePtr = (CONST time_t *) tt;
 				/* Pointer to the number of seconds
@@ -371,7 +371,7 @@ TclpGmtime( tt )
  */
 struct tm*
 TclpGmtime_unix( timePtr )
-    TclpTime_t timePtr;
+    CONST TclpTime_t timePtr;
 {
     return TclpGmtime( timePtr );
 }
@@ -395,7 +395,7 @@ TclpGmtime_unix( timePtr )
 
 struct tm *
 TclpLocaltime( tt )
-    TclpTime_t tt;
+    CONST TclpTime_t tt;
 {
     CONST time_t *timePtr = (CONST time_t *) tt;
 				/* Pointer to the number of seconds
@@ -422,7 +422,7 @@ TclpLocaltime( tt )
  */
 struct tm*
 TclpLocaltime_unix( timePtr )
-    TclpTime_t timePtr;
+    CONST TclpTime_t timePtr;
 {
     return TclpLocaltime( timePtr );
 }
