@@ -287,15 +287,18 @@ extern "C" {
  * The following code is copied from winnt.h.
  * If we don't replicate it here, then <windows.h> can't be included 
  * after tcl.h, since tcl.h also defines VOID.
+ * This block is skipped under Cygwin and Mingw.
+ * 
+ * 
  */
-#ifdef __WIN32__
+#if defined(__WIN32__) && !defined(HAVE_WINNT_IGNORE_VOID)
 #ifndef VOID
 #define VOID void
 typedef char CHAR;
 typedef short SHORT;
 typedef long LONG;
 #endif
-#endif /* __WIN32__ */
+#endif /* __WIN32__ && !HAVE_WINNT_IGNORE_VOID */
 
 /*
  * Macro to use instead of "void" for arguments that must have
