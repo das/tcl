@@ -2636,6 +2636,7 @@ FreeThreadHash(clientData)
     ClientData clientData; 
 {
     Tcl_HashTable *tablePtr = (Tcl_HashTable *) clientData;
+    ClearHash(tablePtr);
     Tcl_DeleteHashTable(tablePtr);
     ckfree((char *) tablePtr);
 }
