@@ -71,6 +71,12 @@ test lindex-2.5 {error conditions} {
 test lindex-2.6 {error conditions} {
     list [catch {lindex {a "b c"def ghi} 2} msg] $msg
 } {1 {list element in quotes followed by "def" instead of space}}
+test lindex-2.7 {error conditions} {
+    list [catch {lindex 1 08} msg] $msg
+} {1 {bad index "08": must be integer or end?-integer? (looks like invalid octal number)}}
+test lindex-2.8 {error conditions} {
+    list [catch {lindex 1 end-08} msg] $msg
+} {1 {bad index "end-08": must be integer or end?-integer? (looks like invalid octal number)}}
 
 # not compiled:
 test lindex-3.1 {quoted elements} {
