@@ -133,7 +133,7 @@ Tcl_CreateThread(idPtr, proc, clientData, stackSize, flags)
 
     EnterCriticalSection(&joinLock);
 
-#if defined(__MSVCRT__) || defined(__BORLANDC__)
+#if defined(_MSC_VER) || defined(__MSVCRT__) || defined(__BORLANDC__)
     tHandle = (HANDLE) _beginthreadex(NULL, (unsigned) stackSize, proc,
 	clientData, 0, (unsigned *)idPtr);
 #else
@@ -212,7 +212,7 @@ TclpThreadExit(status)
     TclSignalExitThread (Tcl_GetCurrentThread (), status);
     LeaveCriticalSection(&joinLock);
 
-#if defined(__MSVCRT__) || defined(__BORLANDC__)
+#if defined(_MSC_VER) || defined(__MSVCRT__) || defined(__BORLANDC__)
     _endthreadex((unsigned) status);
 #else
     ExitThread((DWORD) status);
