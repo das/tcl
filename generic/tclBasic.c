@@ -2946,7 +2946,7 @@ TclInterpReady(interp)
      * it's probably because of an infinite loop somewhere.
      */
 
-    if (((iPtr->numLevels) >= iPtr->maxNestingDepth) 
+    if (((iPtr->numLevels) > iPtr->maxNestingDepth) 
 	    || (TclpCheckStackSpace() == 0)) {
 	Tcl_AppendToObj(Tcl_GetObjResult(interp),
 		"too many nested evaluations (infinite loop?)", -1); 
@@ -2963,9 +2963,7 @@ TclInterpReady(interp)
  *
  *	This procedure evaluates a Tcl command that has already been
  *	parsed into words, with one Tcl_Obj holding each word. The caller
- *      is responsible for checking that the interpreter is ready to
- *      evaluate (by calling TclInterpReady), and also to manage the
- *      iPtr->numLevels.
+ *      is responsible for managing the iPtr->numLevels.
  *
  * Results:
  *	The return value is a standard Tcl completion code such as
@@ -3013,6 +3011,10 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
     int traceCode = TCL_OK;
     int checkTraces = 1;
 
+    if (TclInterpReady(interp) == TCL_ERROR) {
+	return TCL_ERROR;
+    }
+
     if (objc == 0) {
 	return TCL_OK;
     }
@@ -3055,8 +3057,6 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
 	        Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 		    "invalid command name \"", Tcl_GetString(objv[0]), "\"",
 		    (char *) NULL);
-	        code = TCL_ERROR;
-	    } else if (TclInterpReady(interp) == TCL_ERROR) {
 	        code = TCL_ERROR;
 	    } else {
 	        iPtr->numLevels++;
@@ -3218,13 +3218,9 @@ Tcl_EvalObjv(interp, objc, objv, flags)
 	}
     }
 
-    code = TclInterpReady(interp);
-    if (code == TCL_OK) {
-	iPtr->numLevels++;
-	code = TclEvalObjvInternal(interp, objc, objv, cmdString, cmdLen,
-		flags);
-	iPtr->numLevels--;
-    }
+    iPtr->numLevels++;
+    code = TclEvalObjvInternal(interp, objc, objv, cmdString, cmdLen, flags);
+    iPtr->numLevels--;
 
     /*
      * If we are again at the top level, process any unusual 
@@ -3540,14 +3536,10 @@ Tcl_EvalEx(interp, script, numBytes, flags)
 	     * Execute the command and free the objects for its words.
 	     */
 
-	    if (TclInterpReady(interp) == TCL_ERROR) {
-		code = TCL_ERROR;
-	    } else {
-		iPtr->numLevels++;    
-		code = TclEvalObjvInternal(interp, objectsUsed, objv, 
-		        parse.commandStart, parse.commandSize, 0);
-		iPtr->numLevels--;
-	    }
+	    iPtr->numLevels++;    
+	    code = TclEvalObjvInternal(interp, objectsUsed, objv, 
+	            parse.commandStart, parse.commandSize, 0);
+	    iPtr->numLevels--;
 	    if (code != TCL_OK) {
 		if (iPtr->numLevels == 0) {
 		    if (code == TCL_RETURN) {
