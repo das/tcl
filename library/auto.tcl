@@ -130,7 +130,7 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
 	}
 	if {[info exists seen($norm)]} { continue }
 	set seen($norm) ""
-	lappend uniqdirs $norm
+	lappend uniqdirs $i
     }
     set dirs $uniqdirs
     foreach i $dirs {
