@@ -2793,12 +2793,6 @@ TclCompileStringCmd(interp, parsePtr, envPtr)
 			strncmp(str, "-nocase", (size_t) length) == 0) {
 		    nocase = 1;
 		} else {
-		    c = str[length];
-		    str[length] = '\0';
-		    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
-			    "bad option \"", str, "\": must be -nocase",
-			    (char *) NULL);
-		    str[length] = c;
 		    /* Fail at run time, not in compilation */
 		    return TCL_OUT_LINE_COMPILE;
 		}
