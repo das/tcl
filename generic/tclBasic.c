@@ -325,9 +325,11 @@ Tcl_CreateInterp()
 	char c[sizeof(short)];
 	short s;
     } order;
+#ifndef TCL_THREAD_LITERALS
 #ifdef TCL_COMPILE_STATS
     ByteCodeStats *statsPtr;
 #endif /* TCL_COMPILE_STATS */
+#endif /* TCL_THREAD_LITERALS */
 
     TclInitSubsystems(NULL);
 
@@ -378,7 +380,6 @@ Tcl_CreateInterp()
     iPtr->packageUnknown = NULL;
     iPtr->cmdCount = 0;
     iPtr->termOffset = 0;
-    TclInitLiteralTable(&(iPtr->literalTable));
     iPtr->compileEpoch = 0;
     iPtr->compiledProcPtr = NULL;
     iPtr->resolverPtr = NULL;
@@ -408,6 +409,9 @@ Tcl_CreateInterp()
 
     iPtr->execEnvPtr = TclCreateExecEnv(interp);
 
+#ifndef TCL_THREAD_LITERALS
+    TclInitLiteralTable(&(iPtr->literalTable));
+
     /*
      * Initialize the compilation and execution statistics kept for this
      * interpreter.
@@ -417,6 +421,7 @@ Tcl_CreateInterp()
     statsPtr = &(iPtr->stats);
     (VOID *) memset(statsPtr, 0, sizeof(ByteCodeStats));
 #endif /* TCL_COMPILE_STATS */    
+#endif
 
     /*
      * Initialise the stub table pointer.
@@ -1098,7 +1103,9 @@ DeleteInterpProc(interp)
      * interpreter.
      */
 
+#ifndef TCL_THREAD_LITERALS
     TclDeleteLiteralTable(interp, &(iPtr->literalTable));
+#endif
     ckfree((char *) iPtr);
 }
 

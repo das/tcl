@@ -752,6 +752,12 @@ EXTERN void		TclFinalizeAuxDataTypeTable _ANSI_ARGS_((void));
 EXTERN int		TclFindCompiledLocal _ANSI_ARGS_((char *name, 
         		    int nameChars, int create, int flags,
 			    Proc *procPtr));
+#ifdef TCL_THREAD_LITERALS
+EXTERN LiteralTable *	TclGlobalLiteralTable _ANSI_ARGS_((void));
+#ifdef TCL_COMPILE_STATS
+EXTERN ByteCodeStats *	TclGlobalByteCodeStats _ANSI_ARGS_((void));
+#endif
+#endif
 EXTERN LiteralEntry *	TclLookupLiteralEntry _ANSI_ARGS_((
 			    Tcl_Interp *interp, Tcl_Obj *objPtr));
 EXTERN int		TclFixupForwardJump _ANSI_ARGS_((
