@@ -1162,7 +1162,7 @@ typedef struct ParseValue {
 
 extern unsigned char tclTypeTable[];
 #define CHAR_TYPE(src,last) \
-	(((src)==(last))?TCL_COMMAND_END:(tclTypeTable+128)[*(src)])
+	(((src)==(last))?TCL_COMMAND_END:(tclTypeTable)[(int)(*(src) + 128)])
 
 /*
  * Possible values returned by CHAR_TYPE. Note that except for TCL_DOLLAR,

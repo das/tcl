@@ -3291,7 +3291,7 @@ TclCompileDollarVar(interp, string, lastChar, flags, envPtr)
 static int
 IsLocalScalar(varName, length)
     char *varName;		/* The name to check. */
-    int length;			/* The number of characters in the string.  */
+    int length;		/* The number of characters in the string.  */
 {
     char *p;
     char *lastChar = varName + (length - 1);
@@ -4494,7 +4494,7 @@ TclCompileForeachCmd(interp, string, lastChar, flags, envPtr)
 	numVars = varcList[i];
 	for (j = 0;  j < numVars;  j++) {
 	    char *varName = varvList[i][j];
-	    if (!IsLocalScalar(varName, strlen(varName))) {
+	    if (!IsLocalScalar(varName, (int) strlen(varName))) {
 		result = TCL_OUT_LINE_COMPILE;
 		goto done;
 	    }
