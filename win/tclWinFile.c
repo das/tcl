@@ -108,7 +108,8 @@ TclpMatchFiles(interp, separators, dirPtr, pattern, tail)
     Tcl_DString *dirPtr;	/* Contains path to directory to search. */
     char *pattern;		/* Pattern to match against. */
     char *tail;			/* Pointer to end of pattern.  Tail must
-				 * point to a location in pattern. */
+				 * point to a location in pattern. Must not
+				 * point to a static string. */
 {
     char drivePat[] = "?:\\";
     const char *message;
