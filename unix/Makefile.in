@@ -472,7 +472,7 @@ shell: tclsh
 	LIBPATH=`pwd`:${LIBPATH}; export LIBPATH; \
 	SHLIB_PATH=`pwd`:${SHLIB_PATH}; export SHLIB_PATH; \
 	TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"; export TCL_LIBRARY; \
-	./tclsh ${SCRIPT}
+	./tclsh $(SCRIPT)
 
 # The following target outputs the name of the top-level source directory
 # for Tcl (it is used by Tk's configure script, for example).  The
