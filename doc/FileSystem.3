@@ -279,7 +279,7 @@ srcPathPtr to the path name given by destPathPtr.  If the two paths
 given lie in the same filesystem (according to
 \fBTcl_FSGetFileSystemForPath\fR) then that filesystem's 'rename file'
 function is called (if it is non-NULL).  Otherwise the function returns -1
-and sets Tcl\'s errno to the 'EXDEV' posix error code (which signifies
+and sets Tcl's errno to the 'EXDEV' posix error code (which signifies
 a ``cross-domain link'').
 .PP
 \fBTcl_FSListVolumes\fR calls each filesystem which has a non-NULL 'list

@@ -879,9 +879,9 @@ tclsh all.tcl -constraints "knownBug nonPortable"
 See the \fI"Constraints"\fR section for information about using
 built-in constraints and adding new ones.
 .PP
-When tests are run from within an \'all.tcl\' file, all files with a
-\'.test\' extension are normally run.  An individual test file will be
-skipped if one of the following conditions is met:
+When tests are run from within an \fBall.tcl\fR file, all files with a
+``\fI.test\fR'' extension are normally run.  An individual test file will
+be skipped if one of the following conditions is met:
 .IP [1]
 the \fIname\fR of the test files does not match (using glob style matching)
 one or more elements in the \fBtcltest::matchFiles\fR variable
