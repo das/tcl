@@ -1628,7 +1628,8 @@ GetLexeme(infoPtr)
                 return TCL_OK;
 	    }
 	} else if (startsWithDigit || (c == '.')
-	        || (c == 'n') || (c == 'N')) {
+		|| (c == 'i') || (c == 'I')		/* Could be 'Inf' */
+	        || (c == 'n') || (c == 'N')) {		/* Could be 'NaN' */
 	    errno = 0;
 	    doubleValue = strtod(src, &termPtr);
 	    if (termPtr != src) {
