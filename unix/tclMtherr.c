@@ -35,9 +35,11 @@ extern int errno;			/* Use errno from tclExecute.c. */
  */
 
 #ifndef NEED_MATHERR
+#ifndef DJGPP
 struct exception {
     int type;
 };
+#endif
 #define DOMAIN 0
 #define SING 0
 #endif

@@ -46,6 +46,7 @@ TclpFindExecutable(argv0)
 				 * (native). */
 {
     CONST char *name, *p;
+
     struct stat statBuf;
     int length;
     Tcl_DString buffer, nameString;
@@ -135,8 +136,12 @@ TclpFindExecutable(argv0)
      * If the name starts with "/" then just copy it to tclExecutableName.
      */
 
-    gotName:
+gotName:
+#ifdef DJGPP
+    if (name[1] == ':')  {
+#else
     if (name[0] == '/')  {
+#endif
 	Tcl_ExternalToUtfDString(NULL, name, -1, &nameString);
 	tclNativeExecutableName = (char *)
 		ckalloc((unsigned) (Tcl_DStringLength(&nameString) + 1));
@@ -168,7 +173,7 @@ TclpFindExecutable(argv0)
 	    Tcl_DStringValue(&nameString));
     Tcl_DStringFree(&nameString);
     
-    done:
+done:
     Tcl_DStringFree(&buffer);
     return tclNativeExecutableName;
 }
@@ -645,6 +650,7 @@ TclpReadlink(path, linkPtr)
     Tcl_DString *linkPtr;	/* Uninitialized or free DString filled
 				 * with contents of link (UTF-8). */
 {
+#ifndef DJGPP
     char link[MAXPATHLEN];
     int length;
     CONST char *native;
@@ -660,6 +666,9 @@ TclpReadlink(path, linkPtr)
 
     Tcl_ExternalToUtfDString(NULL, link, length, linkPtr);
     return Tcl_DStringValue(linkPtr);
+#else
+	return NULL;
+#endif
 }
 
 /*

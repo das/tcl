@@ -349,6 +349,7 @@ DoCopyFile(src, dst)
     }
 
     switch ((int) (srcStatBuf.st_mode & S_IFMT)) {
+#ifndef DJGPP
         case S_IFLNK: {
 	    char link[MAXPATHLEN];
 	    int length;
@@ -363,6 +364,7 @@ DoCopyFile(src, dst)
 	    }
 	    break;
 	}
+#endif
         case S_IFBLK:
         case S_IFCHR: {
 	    if (mknod(dst, srcStatBuf.st_mode,		/* INTL: Native. */

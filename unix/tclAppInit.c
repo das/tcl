@@ -177,6 +177,10 @@ Tcl_AppInit(interp)
      * then no user-specific startup file will be run under any conditions.
      */
 
+#ifdef DJGPP
+    Tcl_SetVar(interp, "tcl_rcFileName", "~/tclsh.rc", TCL_GLOBAL_ONLY);
+#else
     Tcl_SetVar(interp, "tcl_rcFileName", "~/.tclshrc", TCL_GLOBAL_ONLY);
+#endif
     return TCL_OK;
 }
