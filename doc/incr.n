@@ -26,6 +26,29 @@ integer) is added to the value of variable \fIvarName\fR;  otherwise
 1 is added to \fIvarName\fR.
 The new value is stored as a decimal string in variable \fIvarName\fR
 and also returned as result.
+.SH EXAMPLES
+Add one to the contents of the variable \fIx\fR:
+.CS
+incr x
+.CE
+
+Add 42 to the contents of the variable \fIx\fR:
+.CS
+incr x 42
+.CE
+
+Add the contents of the variable \fIy\fR to the contents of the
+variable \fIx\fR:
+.CS
+incr x $y
+.CE
+
+Add nothing at all to the variable \fIx\fR (often useful for checking
+whether an argument to a procedure is actually numeric and generating
+an error if it is not):
+.CS
+incr x 0
+.CE
 
 .SH "SEE ALSO"
 expr(n)
