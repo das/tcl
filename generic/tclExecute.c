@@ -1052,7 +1052,7 @@ TclExecuteByteCode(interp, codePtr)
 
 	case INST_LOAD_SCALAR1:
 #ifdef TCL_COMPILE_DEBUG
-	    opnd = TclGetInt1AtPtr(pc+1);
+	    opnd = TclGetUInt1AtPtr(pc+1);
 	    DECACHE_STACK_INFO();
 	    valuePtr = TclGetIndexedScalar(interp, opnd,
 		    /*leaveErrorMsg*/ 1);
@@ -1067,8 +1067,8 @@ TclExecuteByteCode(interp, codePtr)
 	    TRACE_WITH_OBJ(("%u => ", opnd), valuePtr);
 #else /* TCL_COMPILE_DEBUG */
 	    DECACHE_STACK_INFO();
-	    valuePtr = TclGetIndexedScalar(interp, TclGetInt1AtPtr(pc+1),
-	            /*leaveErrorMsg*/ 1);
+	    opnd = TclGetUInt1AtPtr(pc+1);
+	    valuePtr = TclGetIndexedScalar(interp, opnd, /*leaveErrorMsg*/ 1);
 	    CACHE_STACK_INFO();
 	    if (valuePtr == NULL) {
 		result = TCL_ERROR;
