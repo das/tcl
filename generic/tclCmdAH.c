@@ -1830,7 +1830,7 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 				 * string. */
     int formatLen;		/* The length of the format string */
     char *endPtr;		/* Points to the last char in format array */
-    char newFormat[41];		/* A new format specifier is generated here. */
+    char newFormat[43];		/* A new format specifier is generated here. */
     int width;			/* Field width from field specifier, or 0 if
 				 * no width given. */
     int precision;		/* Field precision from field specifier, or 0
@@ -2066,9 +2066,8 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 	if (*format == 'l') {
 #ifdef TCL_PRINTF_SUPPORTS_LL
 	    useWide = 1;
-	    newPtr[0] = 'l';
-	    newPtr[1] = 'l';
-	    newPtr += 2;
+	    strcpy(newPtr, TCL_LL_MODIFIER);
+	    newPtr += TCL_LL_MODIFIER_SIZE;
 #endif
 	    format++;
 	} else if (*format == 'h') {

@@ -595,7 +595,7 @@ test execute-6.2 {Evaluate an expression in a variable; compile the first time, 
 test execute-7.0 {Wide int handling in INST_JUMP_FALSE/LAND} {longIs32bit} {
     set x 0x100000000
     expr {$x && 1}
-}
+} 1
 test execute-7.1 {Wide int handling in INST_JUMP_FALSE/LAND} {longIs32bit} {
     expr {0x100000000 && 1}
 } 1
@@ -695,8 +695,8 @@ test execute-7.29 {Wide int handling in INST_BITNOT} {longIs32bit} {
 test execute-7.30 {Wide int handling in function call} {longIs32bit} {
     set x 0x123456871234568
     incr x
-    expr {sin($x)}
-} 0.794710378899
+    expr {sin($x) == sin(double($x))}
+} 1
 test execute-7.31 {Wide int handling in abs()} {longIs32bit} {
     set x 0xa23456871234568
     incr x

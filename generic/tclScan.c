@@ -1014,8 +1014,8 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 			wideValue = (Tcl_WideInt) (*lfn)(buf, NULL, base);
 #   ifdef TCL_PRINTF_SUPPORTS_LL
 			if ((flags & SCAN_UNSIGNED) && (wideValue < 0)) {
-			    sprintf(buf, "%llu",        /* INTL: ISO digit */
-				    wideValue);
+			    /* INTL: ISO digit */
+			    sprintf(buf, "%" TCL_LL_FORMAT "u", wideValue);
 			    objPtr = Tcl_NewStringObj(buf, -1);
 			} else {
 			    objPtr = Tcl_NewWideIntObj(wideValue);
