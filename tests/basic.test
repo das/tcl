@@ -583,6 +583,20 @@ test basic-46.1 {Tcl_AllowExceptions: exception return not allowed} {
 DONE
 }}
 
+test basic-46.2 {Tcl_AllowExceptions: exception return not allowed} {
+    makeFile {
+	puts hello
+	break
+    } BREAKtest
+    set res [list [catch {exec [info nameofexecutable] BREAKtest} msg] $msg]
+    removeFile BREAKtest
+    set res
+} {1 {hello
+invoked "break" outside of a loop
+    while executing
+"break"
+    (file "BREAKtest" line 3)}}    
+
 # cleanup
 catch {eval namespace delete [namespace children :: test_ns_*]}
 catch {namespace delete george}

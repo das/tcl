@@ -3585,6 +3585,16 @@ Tcl_EvalEx(interp, script, numBytes, flags)
 		iPtr->numLevels--;
 	    }
 	    if (code != TCL_OK) {
+		if (iPtr->numLevels == 0) {
+		    if (code == TCL_RETURN) {
+			code = TclUpdateReturnInfo(iPtr);
+		    }
+		    if ((code != TCL_OK) && (code != TCL_ERROR) 
+			&& ((iPtr->evalFlags & TCL_ALLOW_EXCEPTIONS) == 0)) {
+			ProcessUnexpectedResult(interp, code);
+			code = TCL_ERROR;
+		    }
+		}
 		goto error;
 	    }
 	    for (i = 0; i < objectsUsed; i++) {
