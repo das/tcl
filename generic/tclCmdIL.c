@@ -2778,7 +2778,7 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
     int offset, allMatches, inlineReturn, negatedMatch;
     double patDouble, objDouble;
     Tcl_Obj *patObj, **listv, *listPtr, *startPtr;
-    Tcl_RegExp regexp;
+    Tcl_RegExp regexp = NULL;
     static CONST char *options[] = {
 	"-all",	    "-ascii", "-decreasing", "-dictionary",
 	"-exact",   "-glob",  "-increasing", "-inline",
