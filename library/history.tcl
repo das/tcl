@@ -166,6 +166,12 @@ proc history {args} {
 
  proc tcl::HistAdd {command {exec {}}} {
     variable history
+
+    # Do not add empty commands to the history
+    if {[string trim $command] == ""} {
+	return ""
+    }
+
     set i [incr history(nextid)]
     set history($i) $command
     set j [incr history(oldest)]
