@@ -499,7 +499,8 @@ TclpGetUserHome(name, bufferPtr)
 	    Tcl_DString ds;
 	    int nameLen, badDomain;
 	    char *domain;
-	    WCHAR *wName, *wHomeDir, *wDomain;
+	    CONST WCHAR *wName;
+	    WCHAR *wHomeDir, *wDomain;
 	    WCHAR buf[MAX_PATH];
 
 	    badDomain = 0;

@@ -140,8 +140,9 @@ TclpLoadFile(
     
     /*
      * First thing we must do is infer the package name from the sym1
-     * variable.  This is kind of dumb since the caller actually knows
-     * this value, it just doesn't give it to us.
+     * variable (by removing the "_Init" suffix).  This is kind of dumb
+     * since the caller actually knows this value, it just doesn't give
+     * it to us.
      */
     native = Tcl_UtfToExternalDString(NULL, sym1, -1, &ds);
     native[strlen(native) - 5] = 0;

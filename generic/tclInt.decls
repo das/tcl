@@ -604,7 +604,7 @@ declare 153 generic {
 #}
 
 declare 156 generic {
-    void TclRegError (Tcl_Interp *interp, char *msg, \
+    void TclRegError (Tcl_Interp *interp, CONST char *msg, \
 	    int status)
 }
 declare 157 generic {

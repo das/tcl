@@ -471,7 +471,7 @@ EXTERN Tcl_Obj *	TclGetLibraryPath _ANSI_ARGS_((void));
 /* Slot 155 is reserved */
 /* 156 */
 EXTERN void		TclRegError _ANSI_ARGS_((Tcl_Interp * interp, 
-				char * msg, int status));
+				CONST char * msg, int status));
 /* 157 */
 EXTERN Var *		TclVarTraceExists _ANSI_ARGS_((Tcl_Interp * interp, 
 				char * varName));
@@ -695,7 +695,7 @@ typedef struct TclIntStubs {
     Tcl_Obj * (*tclGetLibraryPath) _ANSI_ARGS_((void)); /* 153 */
     void *reserved154;
     void *reserved155;
-    void (*tclRegError) _ANSI_ARGS_((Tcl_Interp * interp, char * msg, int status)); /* 156 */
+    void (*tclRegError) _ANSI_ARGS_((Tcl_Interp * interp, CONST char * msg, int status)); /* 156 */
     Var * (*tclVarTraceExists) _ANSI_ARGS_((Tcl_Interp * interp, char * varName)); /* 157 */
     void (*tclSetStartupScriptFileName) _ANSI_ARGS_((CONST char * filename)); /* 158 */
     CONST char * (*tclGetStartupScriptFileName) _ANSI_ARGS_((void)); /* 159 */
