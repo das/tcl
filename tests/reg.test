@@ -940,6 +940,8 @@ m  6	&M	 {[0-6][1-2][0-3][0-6][1-6][0-6]}	010010	010010
 # temporary REG_BOSONLY kludge
 m  7	s	abc		abcd	abc
 f  8	s	abc		xabcd
+# back to normal stuff
+m  9	HLP	{(?n)^(?![t#])\S+}	"tk\n\n#\n#\nit0"	it0
 
 
 
