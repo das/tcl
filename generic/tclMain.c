@@ -377,6 +377,7 @@ Tcl_Main(argc, argv, appInitProc)
 	 */
 
 	(*mainLoopProc)();
+	mainLoopProc = NULL;
     }
     if (commandPtr != NULL) {
 	Tcl_DecrRefCount(commandPtr);
