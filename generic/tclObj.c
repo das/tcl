@@ -1236,11 +1236,7 @@ SetBooleanFromAny(interp, objPtr)
 	newBool = (objPtr->internalRep.doubleValue != 0.0);
 	goto goodBoolean;
     } else if (objPtr->typePtr == &tclWideIntType) {
-#ifdef TCL_WIDE_INT_IS_LONG
-	newBool = (objPtr->internalRep.longValue != 0);
-#else /* !TCL_WIDE_INT_IS_LONG */
-	newBool = (objPtr->internalRep.wideValue != Tcl_LongAsWide(0));
-#endif /* TCL_WIDE_INT_IS_LONG */
+	newBool = (objPtr->internalRep.wideValue != 0);
 	goto goodBoolean;
     }
 
