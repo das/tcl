@@ -1702,15 +1702,16 @@ TclExecuteByteCode(interp, codePtr)
 	    ADJUST_PC(pcAdjustment);
 
 	case INST_INCR_ARRAY_STK:
+	    valuePtr = POP_OBJECT();
 	    elemPtr = POP_OBJECT();
 	    goto doIncrStkGetIncr;
 
 	case INST_INCR_SCALAR_STK:
 	case INST_INCR_STK:
+	    valuePtr = POP_OBJECT();
 	    elemPtr = NULL;
 
 	    doIncrStkGetIncr:
-	    valuePtr = POP_OBJECT();
 	    if (valuePtr->typePtr == &tclIntType) {
 		i = valuePtr->internalRep.longValue;
 #ifndef TCL_WIDE_INT_IS_LONG
