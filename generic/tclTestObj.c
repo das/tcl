@@ -145,7 +145,7 @@ TestbignumobjCmd( clientData, interp, objc, objv )
     Tcl_Obj* CONST objv[];	/* Argument vector */
 {
 
-    char * subcmds[] = {
+    const char * subcmds[] = {
 	"set",      "get",      "mult10",      "div10", 
 	NULL
     };
