@@ -649,7 +649,7 @@ DoDeleteFile(
 	Tcl_SetErrno(ENOENT);
 	return TCL_ERROR;
     }
-    
+
     if ((*tclWinProcs->deleteFileProc)(nativePath) != FALSE) {
 	return TCL_OK;
     }
@@ -666,13 +666,16 @@ DoDeleteFile(
 
 		Tcl_SetErrno(EISDIR);
 	    } else if (attr & FILE_ATTRIBUTE_READONLY) {
-		(*tclWinProcs->setFileAttributesProc)(nativePath, 
+		int res = (*tclWinProcs->setFileAttributesProc)(nativePath, 
 			attr & ~FILE_ATTRIBUTE_READONLY);
-		if ((*tclWinProcs->deleteFileProc)(nativePath) != FALSE) {
+		if ((res != 0) && ((*tclWinProcs->deleteFileProc)(nativePath)
+			!= FALSE)) {
 		    return TCL_OK;
 		}
 		TclWinConvertError(GetLastError());
-		(*tclWinProcs->setFileAttributesProc)(nativePath, attr);
+		if (res != 0) {
+		    (*tclWinProcs->setFileAttributesProc)(nativePath, attr);
+		}
 	    }
 	}
     } else if (Tcl_GetErrno() == ENOENT) {
