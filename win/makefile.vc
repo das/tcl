@@ -159,7 +159,18 @@ PROJECT	= tcl
 !include "rules.vc"
 
 STUBPREFIX = $(PROJECT)stub
-DOTVERSION = 8.5
+
+!if [nmakehlp -g ../generic/tcl.h TCL_VERSION] == 85
+DOTVERSION	= 8.5
+!elseif [nmakehlp -g ../generic/tcl.h TCL_VERSION] == 86
+DOTVERSION	= 8.6
+!elseif [nmakehlp -g ../generic/tcl.h TCL_VERSION] == 90
+DOTVERSION	= 9.0
+!elseif [nmakehlp -g ../generic/tcl.h TCL_VERSION] == 0
+MSG =^
+Can't get version string from ../generic/tcl.h
+!error $(MSG)
+!endif
 VERSION = $(DOTVERSION:.=)
 
 DDEDOTVERSION = 1.3
