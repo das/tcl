@@ -31,7 +31,6 @@ if {[catch {
 } else {
     set ::tcltest::testConfig(installedTcl) 1
 }
-
 test unixInit-1.1 {TclpInitPlatform: ignore SIGPIPE} {unixOnly installedTcl} {
     set x {}
 
