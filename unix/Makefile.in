@@ -998,6 +998,11 @@ tclStubLib.o: $(GENERIC_DIR)/tclStubLib.c
 # Target to regenerate header files and stub files from the *.decls tables.
 #
 
+$(GENERIC_DIR)/tclStubInit.c: $(GENERIC_DIR)/tcl.decls \
+		$(GENERIC_DIR)/tclInt.decls
+	tclsh $(TOOL_DIR)/genStubs.tcl $(GENERIC_DIR) \
+		$(GENERIC_DIR)/tcl.decls $(GENERIC_DIR)/tclInt.decls
+
 genstubs:
 	tclsh $(TOOL_DIR)/genStubs.tcl $(GENERIC_DIR) \
 		$(GENERIC_DIR)/tcl.decls $(GENERIC_DIR)/tclInt.decls
