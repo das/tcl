@@ -1057,7 +1057,6 @@ dist: $(UNIX_DIR)/configure
 	cp $(UNIX_DIR)/configure $(UNIX_DIR)/configure.in \
 		$(UNIX_DIR)/tcl.m4 $(UNIX_DIR)/aclocal.m4 \
 		$(UNIX_DIR)/tclConfig.sh.in $(UNIX_DIR)/install-sh \
-		$(UNIX_DIR)/porting.notes $(UNIX_DIR)/porting.old \
 		$(UNIX_DIR)/README $(UNIX_DIR)/ldAix \
 		$(DISTDIR)/unix
 	chmod 775 $(DISTDIR)/unix/configure $(DISTDIR)/unix/configure.in
