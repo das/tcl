@@ -96,8 +96,8 @@ caller can determine the size of the stack given to the new thread and
 modify the behaviour through the supplied \fIflags\fR. The value
 \fBTCL_THREAD_STACK_DEFAULT\fR for the \fIstackSize\fR indicates that
 the default size as specified by the operating system is to be used
-for the new thread. As for the flags, currently are only the values
-\fBTCL_THREAD_NOFLAGS\fR and \fBTCL_THREAD_JOINABLE\fR defined. The
+for the new thread. As for the flags, currently only the values
+\fBTCL_THREAD_NOFLAGS\fR and \fBTCL_THREAD_JOINABLE\fR are defined. The
 first of them invokes the default behaviour with no
 specialties. Using the second value marks the new thread as
 \fIjoinable\fR. This means that another thread can wait for the such
