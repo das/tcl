@@ -85,6 +85,13 @@ typedef off_t		Tcl_SeekOffset;
 #   define Tcl_PlatformLStat		lstat
 #endif
 
+#if !HAVE_STRTOLL && defined(TCL_WIDE_INT_TYPE)
+EXTERN Tcl_WideInt	strtoll _ANSI_ARGS_((char *string,  char **endPtr,
+					     int base));
+EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((char *string,  char **endPtr,
+					      int base));
+#endif
+
 #include <sys/file.h>
 #ifdef HAVE_SYS_SELECT_H
 #   include <sys/select.h>
