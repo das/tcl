@@ -54,7 +54,7 @@ strtol(string, endPtr, base)
 				 */
 {
     register CONST char *p;
-    int result;
+    long result;
 
     /*
      * Skip any leading blanks.
