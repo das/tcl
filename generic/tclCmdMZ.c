@@ -1161,7 +1161,6 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	    break;
 	}
 	case STR_INDEX: {
-	    int index;
 	    char buf[TCL_UTF_MAX];
 	    Tcl_UniChar unichar;
 
