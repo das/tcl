@@ -2308,6 +2308,14 @@ test fCmd-28.10 {file link: linking to nonexistent path} {linkDirectory} {
     set res
 } {1 {could not create new link "abc.link" since target "abc2.doesnt" doesn't exist}}
 
+test fCmd-28.10.1 {file link: linking to nonexistent path} {linkDirectory} {
+    cd [temporaryDirectory]
+    file delete -force abc.link
+    set res [list [catch {file link doesnt/abc.link abc.dir} msg] $msg]
+    cd [workingDirectory]
+    set res
+} {1 {could not create new link "doesnt/abc.link": no such file or directory}}
+
 test fCmd-28.11 {file link: success with directory} {linkDirectory} {
     cd [temporaryDirectory]
     file delete -force abc.link
