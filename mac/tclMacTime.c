@@ -388,6 +388,9 @@ TclpGetTZName(int dst)
     register TABLE *tp;
 	long zonevalue=-TclpGetGMTOffset();
 		
+    if (gmt_isdst)
+        zonevalue += HOUR(1);
+
 	if(gmt_lastGetDateUseGMT) /* hack: if last TclpGetDate was called */
 		zonevalue=0;          /* with useGMT==1 then we're using GMT  */
 
