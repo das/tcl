@@ -693,7 +693,7 @@ test execute-7.29 {Wide int handling in INST_BITNOT} {longIs32bit} {
     expr {~ $x}
 } -81985533099853161
 test execute-7.30 {Wide int handling in function call} {longIs32bit} {
-    set x 0x123456871234568
+    set x 0x12345687123456
     incr x
     expr {sin($x) == sin(double($x))}
 } 1
