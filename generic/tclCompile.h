@@ -828,6 +828,8 @@ EXTERN void		TclVerifyLocalLiteralTable _ANSI_ARGS_((
 #endif
 EXTERN int		TclCompileVariableCmd _ANSI_ARGS_((
 			    Tcl_Interp *interp, Tcl_Parse *parsePtr, CompileEnv *envPtr));
+EXTERN int		TclWordKnownAtCompileTime _ANSI_ARGS_((
+			    Tcl_Token *tokenPtr, Tcl_Obj *valuePtr));
 
 /*
  *----------------------------------------------------------------
@@ -885,16 +887,30 @@ EXTERN int		TclCompileVariableCmd _ANSI_ARGS_((
     TclUpdateStackReqs(op, 0, envPtr)
 
 /*
- * Macro to emit an integer operand.
- * The ANSI C "prototype" for this macro is:
+ * Macros to emit an integer operand.
+ * The ANSI C "prototype" for these macros are:
  *
  * EXTERN void	TclEmitInt1 _ANSI_ARGS_((int i, CompileEnv *envPtr));
+ * EXTERN void	TclEmitInt4 _ANSI_ARGS_((int i, CompileEnv *envPtr));
  */
 
 #define TclEmitInt1(i, envPtr) \
     if ((envPtr)->codeNext == (envPtr)->codeEnd) \
         TclExpandCodeArray(envPtr); \
     *(envPtr)->codeNext++ = (unsigned char) ((unsigned int) (i))
+
+#define TclEmitInt4(i, envPtr) \
+    if (((envPtr)->codeNext + 4) > (envPtr)->codeEnd) { \
+        TclExpandCodeArray(envPtr); \
+    } \
+    *(envPtr)->codeNext++ = \
+        (unsigned char) ((unsigned int) (i) >> 24); \
+    *(envPtr)->codeNext++ = \
+        (unsigned char) ((unsigned int) (i) >> 16); \
+    *(envPtr)->codeNext++ = \
+        (unsigned char) ((unsigned int) (i) >>  8); \
+    *(envPtr)->codeNext++ = \
+        (unsigned char) ((unsigned int) (i)      )
 
 /*
  * Macros to emit an instruction with signed or unsigned integer operands.
