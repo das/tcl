@@ -643,7 +643,18 @@ TclFinalizeFilesystem() {
 	}
 	filesystemList = tmpFsRecPtr;
     }
-    /* Now filesystemList is NULL */
+    /*
+     * Now filesystemList is NULL.  Reset statics to original state.
+     */
+    statProcList = NULL;
+    accessProcList = NULL;
+    openFileChannelProcList = NULL;
+    filesystemList = &nativeFilesystemRecord;
+    filesystemIteratorsInProgress = 0;
+    filesystemWantToModify = 0;
+#ifdef TCL_THREADS
+    filesystemOkToModify = NULL;
+#endif
 }
 
 /*
