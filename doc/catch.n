@@ -80,12 +80,10 @@ above.
 .VE 8.5
 
 .SH EXAMPLES
-
 The \fBcatch\fR command may be used in an \fBif\fR to branch based on
 the success of a script.
-
 .CS
-if { [catch {open $someFile w} fid] } {
+if { [\fBcatch\fR {open $someFile w} fid] } {
     puts stderr "Could not open $someFile for writing\\n$fid"
     exit 1
 }

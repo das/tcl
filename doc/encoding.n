@@ -71,7 +71,7 @@ of the original string.  The \fBencoding\fR command can be used to
 convert this string to the expected Japanese Unicode characters.  For
 example,
 .CS
-	set s [encoding convertfrom euc-jp "\\xA4\\xCF"]
+set s [\fBencoding\fR convertfrom euc-jp "\\xA4\\xCF"]
 .CE
 would return the Unicode string "\\u306F", which is the Hiragana
 letter HA.
