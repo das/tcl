@@ -115,6 +115,9 @@ Pkgd_Init(interp)
 {
     int code;
 
+    if (Tcl_InitStubs(interp, TCL_VERSION, 1) == NULL) {
+	return TCL_ERROR;
+    }
     code = Tcl_PkgProvide(interp, "Pkgd", "7.3");
     if (code != TCL_OK) {
 	return code;
@@ -148,6 +151,9 @@ Pkgd_SafeInit(interp)
     Tcl_Interp *interp;		/* Interpreter in which the package is
 				 * to be made available. */
 {
+    if (Tcl_InitStubs(interp, TCL_VERSION, 1) == NULL) {
+	return TCL_ERROR;
+    }
     Tcl_CreateCommand(interp, "pkgd_sub", Pkgd_SubCmd, (ClientData) 0,
 	    (Tcl_CmdDeleteProc *) NULL);
     return TCL_OK;
