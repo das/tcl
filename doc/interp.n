@@ -38,7 +38,7 @@ through environment variables (the \fBenv\fR variable), which are
 normally shared among all interpreters in the application,
 .VS 8.5
 and by resource limit exceeded callbacks.
-.VE
+.VE 8.5
 Note that the
 name space for files (such as the names returned by the \fBopen\fR command)
 is no longer shared between interpreters. Explicit commands are provided to

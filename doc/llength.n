@@ -50,10 +50,8 @@ An empty list is not necessarily an empty string:
 .CE
 
 .SH "SEE ALSO"
-.VS 8.4
 list(n), lappend(n), lindex(n), linsert(n), lsearch(n), 
 lset(n), lsort(n), lrange(n), lreplace(n)
-.VE
 
 .SH KEYWORDS
 element, list, length

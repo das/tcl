@@ -41,13 +41,11 @@ a given pattern.  If it does, then \fBTcl_StringMatch\fR returns
 used for matching is the same algorithm used in the ``string match''
 Tcl command and is similar to the algorithm used by the C-shell
 for file name matching;  see the Tcl manual entry for details.
-.VS 8.1
 .PP
 In \fBTcl_StringCaseMatch\fR, the algorithm is the same, but you have
 the option to make the matching case-insensitive.  If you choose this
 (by passing \fBnocase\fR as 1), then the string and pattern are
 essentially matched in the lower case.
-.VE 8.1
 
 .SH KEYWORDS
 match, pattern, string

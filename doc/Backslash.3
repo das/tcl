@@ -30,24 +30,20 @@ the backslash character.
 
 .SH DESCRIPTION
 .PP
-.VS 8.1
 The use of \fBTcl_Backslash\fR is deprecated in favor of
 \fBTcl_UtfBackslash\fR.
 .PP
 This is a utility procedure provided for backwards compatibility with
 non-internationalized Tcl extensions.  It parses a backslash sequence and
 returns the low byte of the Unicode character corresponding to the sequence. 
-.VE
 \fBTcl_Backslash\fR modifies \fI*countPtr\fR to contain the number of
 characters in the backslash sequence.
 .PP
 See the Tcl manual entry for information on the valid backslash sequences.
 All of the sequences described in the Tcl manual entry are supported by
 \fBTcl_Backslash\fR.
-.VS 8.1 br
 .SH "SEE ALSO"
 Tcl(n), Tcl_UtfBackslash(3)
-.VE
 
 .SH KEYWORDS
 backslash, parse
