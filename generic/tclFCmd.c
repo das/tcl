@@ -792,8 +792,7 @@ FileBasename(interp, pathPtr)
 	if (objc > 0) {
 	    Tcl_ListObjIndex(NULL, splitPtr, objc-1, &resultPtr);
 	    if ((objc == 1) &&
-		    (Tcl_GetPathType(Tcl_GetString(resultPtr))
-			    != TCL_PATH_RELATIVE)) {
+	      (Tcl_FSGetPathType(resultPtr, NULL, NULL) != TCL_PATH_RELATIVE)) {
 		resultPtr = NULL;
 	    }
 	}

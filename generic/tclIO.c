@@ -876,6 +876,10 @@ Tcl_UnregisterChannel(interp, chan)
  *	in which you need to generate a pristine channel from one
  *	that has already been used.  All ordinary purposes will almost
  *	always want to use Tcl_UnregisterChannel instead.
+ *	
+ *	Provided the channel is not attached to any other interpreter,
+ *	it can then be closed with Tcl_Close, rather than with 
+ *	Tcl_UnregisterChannel.
  *
  * Results:
  *	A standard Tcl result.  If the channel is not currently registered
@@ -926,7 +930,7 @@ Tcl_DetachChannel(interp, chan)
  *----------------------------------------------------------------------
  */
 
-int
+static int
 DetachChannel(interp, chan)
     Tcl_Interp *interp;		/* Interpreter in which channel is defined. */
     Tcl_Channel chan;		/* Channel to delete. */
@@ -2823,7 +2827,7 @@ Tcl_WriteChars(chan, src, len)
  *----------------------------------------------------------------------
  */
 
-int
+static int
 DoWriteChars(chanPtr, src, len)
     Channel* chanPtr;		/* The channel to buffer output for. */
     CONST char *src;		/* UTF-8 characters to queue in output buffer. */
@@ -4274,7 +4278,7 @@ Tcl_ReadChars(chan, objPtr, toRead, appendFlag)
  *---------------------------------------------------------------------------
  */
  
-int
+static int
 DoReadChars(chanPtr, objPtr, toRead, appendFlag)
     Channel* chanPtr;		/* The channel to read. */
     Tcl_Obj *objPtr;		/* Input data is stored in this object. */
