@@ -969,7 +969,7 @@ TclCompileScript(interp, script, numBytes, envPtr)
 
 	    Tcl_ListObjAppendElement(NULL, returnCmd, errInfo);
 
-	    for (p = script; p != parse.commandStart; p++) {
+	    for (p = envPtr->source; p != parse.commandStart; p++) {
 		if (*p == '\n') {
 		    errorLine++;
 		}
