@@ -318,9 +318,11 @@ TclFinalizeEncodingSubsystem()
 	/*
 	 * Call FreeEncoding instead of doing it directly to handle refcounts
 	 * like escape encodings use.  [Bug #524674]
+	 * Make sure to call Tcl_FirstHashEntry repeatedly so that all
+	 * encodings are eventually cleaned up.
 	 */
 	FreeEncoding((Tcl_Encoding) Tcl_GetHashValue(hPtr));
-	hPtr = Tcl_NextHashEntry(&search);
+	hPtr = Tcl_FirstHashEntry(&encodingTable, &search);
     }
     Tcl_DeleteHashTable(&encodingTable);
     Tcl_MutexUnlock(&encodingMutex);
