@@ -405,7 +405,7 @@ InitSockets()
 	class.hIcon = NULL;
 	class.hCursor = NULL;
 
-	if (RegisterClassA(&class)) {
+	if (!RegisterClassA(&class)) {
 	    TclWinConvertError(GetLastError());
 	    (*winSock.WSACleanup)();
 	    goto unloadLibrary;
