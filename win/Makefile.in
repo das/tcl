@@ -212,6 +212,7 @@ GENERIC_OBJS = \
 	tclAlloc.$(OBJEXT) \
 	tclAsync.$(OBJEXT) \
 	tclBasic.$(OBJEXT) \
+	tclBigInt.$(OBJEXT) \
 	tclBinary.$(OBJEXT) \
 	tclCkalloc.$(OBJEXT) \
 	tclClock.$(OBJEXT) \

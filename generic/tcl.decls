@@ -1986,6 +1986,12 @@ declare 557 generic {
 declare 558 generic {
     Tcl_BigInt Tcl_SubtractBigInt( Tcl_BigInt bigVal1, Tcl_BigInt bigVal2 )
 }
+declare 559 generic {
+    Tcl_BigInt Tcl_MultiplyBigIntByNarrowInt( Tcl_BigInt bigVal, Tcl_NarrowInt narrowVal )
+}
+declare 560 generic {
+    Tcl_BigInt Tcl_ShiftBigInt( Tcl_BigInt bigVal, int intVal )
+}
 
 ##############################################################################
 

@@ -968,6 +968,11 @@ TclStubs tclStubs = {
     Tcl_GetIntFromBigInt, /* 553 */
     Tcl_GetWideIntFromBigInt, /* 554 */
     Tcl_CompareBigInt, /* 555 */
+    Tcl_CopyBigInt, /* 556 */
+    Tcl_AddBigInt, /* 557 */
+    Tcl_SubtractBigInt, /* 558 */
+    Tcl_MultiplyBigIntByNarrowInt, /* 559 */
+    Tcl_ShiftBigInt, /* 560 */
 };
 
 /* !END!: Do not edit above this line. */
