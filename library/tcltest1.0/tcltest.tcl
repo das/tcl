@@ -2978,9 +2978,6 @@ proc tcltest::runAllTests { {shell ""} } {
 	    incr tcltest::numTestFiles
 	    uplevel [list source $file]
 	} else {
-	    # Change to the tests directory so the value of the following
-	    # variable is set correctly when we spawn the child test processes
-	    cd $tcltest::testsDirectory
 	    set cmd [concat [list | $shell $file] [split $argv]]
 	    if {[catch {
 		incr tcltest::numTestFiles
