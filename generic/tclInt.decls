@@ -379,10 +379,9 @@ declare 100 generic {
     Tcl_Obj * TclSetIndexedScalar(Tcl_Interp *interp, int localIndex, \
 	    Tcl_Obj *objPtr, int leaveErrorMsg)
 }
-# TODO: needs to be implemented
-#  declare 101 generic {
-#      char * TclSetPreInitScript(char *string)
-#  }
+declare 101 generic {
+    char * TclSetPreInitScript(char *string)
+}
 declare 102 generic {
     void TclSetupEnv(Tcl_Interp *interp)
 }
