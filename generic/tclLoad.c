@@ -168,7 +168,8 @@ Tcl_LoadObjCmd(dummy, interp, objc, objv)
 	slaveIntName = Tcl_GetString(objv[3]);
 	target = Tcl_GetSlave(interp, slaveIntName);
 	if (target == NULL) {
-	    return TCL_ERROR;
+	    code = TCL_ERROR;
+	    goto done;
 	}
     }
 
