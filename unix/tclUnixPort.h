@@ -577,8 +577,14 @@ EXTERN char *          	TclpInetNtoa(struct in_addr);
 #	define NO_REALPATH
 #   endif
 #   ifdef HAVE_PTHREAD_ATTR_GET_NP
-#	include <pthread_np.h>
 #	define TclpPthreadGetAttrs	pthread_attr_get_np
+#	ifdef ATTRGETNP_NOT_DECLARED
+/*
+ * Assume it is in pthread_np.h if it isn't in pthread.h. [Bug 1064882]
+ * We might need to revisit this in the future. :^(
+ */
+#	    include <pthread_np.h>
+#	endif
 #   else
 #	ifdef HAVE_PTHREAD_GETATTR_NP
 #	    define TclpPthreadGetAttrs	pthread_getattr_np
