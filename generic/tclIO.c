@@ -4520,13 +4520,10 @@ Tcl_NotifyChannel(channel, mask)
     NextChannelHandler nh;
 
     /*
-     * Prevent the event handler from deleting the channel by incrementing
-     * the channel's ref count.  Case in point: ChannelEventScriptInvoker()
-     * was evaling a script (owned by the channel) which caused the channel
-     * to be closed and then the byte codes no longer existed.
+     * Preserve the channel struct in case the script closes it.
      */
      
-    Tcl_RegisterChannel((Tcl_Interp *) NULL, channel);
+    Tcl_Preserve((ClientData) channel);
 
     /*
      * If we are flushing in the background, be sure to call FlushChannel
@@ -4574,12 +4571,7 @@ Tcl_NotifyChannel(channel, mask)
 	UpdateInterest(chanPtr);
     }
 
-    /*
-     * No longer need to protect the channel from being deleted.
-     * After this point it is unsafe to use the value of "channel".
-     */
- 
-    Tcl_UnregisterChannel((Tcl_Interp *) NULL, channel);
+    Tcl_Release((ClientData) channel);
 
     nestedHandlerPtr = nh.nestedHandlerPtr;
 }

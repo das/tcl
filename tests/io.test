@@ -5169,6 +5169,31 @@ test io-34.2 {buffered data and file events, read} {
     set result
 } {1 readable 234567890 timer}
         
+test io-35.1 {Tcl_NotifyChannel and error when closing} {unixOrPc} {
+    set out [open script w]
+    puts $out {
+	puts "normal message from pipe"
+	puts stderr "error message from pipe"
+	exit 1
+    }
+    proc readit {pipe} {
+	global x result
+	if {[eof $pipe]} {
+	    set x [catch {close $pipe} line]
+	    lappend result catch $line
+	} else {
+	    gets $pipe line
+	    lappend result gets $line
+	}
+    }
+    close $out
+    set pipe [open "|$tcltest script" r]
+    fileevent $pipe readable [list readit $pipe]
+    set x ""
+    set result ""
+    vwait x
+    list $x $result
+} {1 {gets {normal message from pipe} gets {} catch {error message from pipe}}}
 
 
 removeFile fooBar
