@@ -397,8 +397,10 @@ proc msgcat::ConvertLocale {value} {
     #	(@(.*))?	# Match (optional) "modifier"; starts with @
     #	$		# Match all the way to the end
     # } $value -> language _ territory _ codeset _ modifier
-    regexp {^([^_.@]*)(_([^.@]*))?([.]([^@]*))?(@(.*))?$} $value \
-	    -> language _ territory _ codeset _ modifier
+    if {![regexp {^([^_.@]+)(_([^.@]*))?([.]([^@]*))?(@(.*))?$} $value \
+	    -> language _ territory _ codeset _ modifier]} {
+	return -code error "invalid locale '$value': empty language part"
+    }
     set ret $language
     if {[string length $territory]} {
 	append ret _$territory
@@ -417,8 +419,9 @@ proc msgcat::Init {} {
     foreach varName {LC_ALL LC_MESSAGES LANG} {
 	if {[info exists ::env($varName)] 
 		&& ![string equal "" $::env($varName)]} {
-            mclocale [ConvertLocale $::env($varName)]
-	    return
+	    if {![catch {mclocale [ConvertLocale $::env($varName)]}]} {
+		return
+	    }
 	}
     }
     #
