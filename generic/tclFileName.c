@@ -16,7 +16,7 @@
 #include "tclInt.h"
 #include "tclPort.h"
 #include "tclRegexp.h"
-#include "tclFilesystem.h" /* For TclGetPathType() */
+#include "tclFileSystem.h" /* For TclGetPathType() */
 
 /*
  * The following variable is set in the TclPlatformInit call to one
