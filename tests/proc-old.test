@@ -520,15 +520,3 @@ catch {rename t1 ""}
 catch {rename foo ""}
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-

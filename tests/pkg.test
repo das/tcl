@@ -652,15 +652,3 @@ cleanupTests
 interp delete $i
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
