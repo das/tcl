@@ -2372,9 +2372,9 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
     index = -1;
     for (i = 0; i < listc; i++) {
 	match = 0;
-	bytes = Tcl_GetStringFromObj(listv[i], &elemLen);
 	switch ((enum options) mode) {
 	    case LSEARCH_EXACT: {
+		bytes = Tcl_GetStringFromObj(listv[i], &elemLen);
 		if (length == elemLen) {
 		    match = (memcmp(bytes, patternBytes,
 			    (size_t) length) == 0);
@@ -2382,11 +2382,11 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 		break;
 	    }
 	    case LSEARCH_GLOB: {
-		match = Tcl_StringMatch(bytes, patternBytes);
+		match = Tcl_StringMatch(Tcl_GetString(listv[i]), patternBytes);
 		break;
 	    }
 	    case LSEARCH_REGEXP: {
-		match = TclRegExpMatchObj(interp, bytes, patObj);
+		match = Tcl_RegExpMatchObj(interp, listv[i], patObj);
 		if (match < 0) {
 		    return TCL_ERROR;
 		}
