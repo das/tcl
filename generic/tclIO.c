@@ -8175,7 +8175,8 @@ SetBlockMode(interp, chanPtr, mode)
  */
 
 int
-Tcl_GetChannelNames(Tcl_Interp *interp)
+Tcl_GetChannelNames(interp)
+    Tcl_Interp *interp;		/* Interp for error reporting. */
 {
     return Tcl_GetChannelNamesEx(interp, (char *) NULL);
 }
@@ -8199,7 +8200,9 @@ Tcl_GetChannelNames(Tcl_Interp *interp)
  */
 
 int
-Tcl_GetChannelNamesEx(Tcl_Interp *interp, char *pattern)
+Tcl_GetChannelNamesEx(interp, pattern)
+    Tcl_Interp *interp;		/* Interp for error reporting. */
+    char *pattern;		/* pattern to filter on. */
 {
     Channel *chanPtr;
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
