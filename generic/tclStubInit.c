@@ -349,6 +349,13 @@ TclStubs tclStubs = {
     Tcl_VarEvalVA, /* 276 */
     Tcl_WaitPid, /* 277 */
     panicVA, /* 278 */
+    Tcl_GetVersion, /* 279 */
+    use, /* 280 */
+    use, /* 281 */
+    use, /* 282 */
+    use, /* 283 */
+    use, /* 284 */
+    use, /* 285 */
 };
 
 TclStubs *tclStubsPtr = &tclStubs;
