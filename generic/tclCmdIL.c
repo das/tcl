@@ -2759,7 +2759,6 @@ Tcl_LsortObjCmd(clientData, interp, objc, objv)
 			!= TCL_OK) {
 		    return TCL_ERROR;
 		}
-		cmdPtr = objv[i+1];
 		i++;
 		break;
 	    case 6:			/* -integer */
