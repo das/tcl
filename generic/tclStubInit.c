@@ -963,6 +963,7 @@ TclStubs tclStubs = {
     Tcl_GetCommandFromObj, /* 516 */
     Tcl_GetCommandFullName, /* 517 */
     Tcl_FSEvalFileEx, /* 518 */
+    Tcl_SetExitProc, /* 519 */
 };
 
 /* !END!: Do not edit above this line. */
