@@ -175,8 +175,8 @@ typedef struct ThreadSpecificData {
 			     * socketThread has been initialized and has
 			     * started. */
     HANDLE socketListLock;  /* Win32 Event to lock the socketList */
-    SocketInfo *socketList; /* Every open socket has an entry on this
-			     * list. */
+    SocketInfo *socketList; /* Every open socket in this thread has an
+			     * entry on this list. */
 } ThreadSpecificData;
 
 static Tcl_ThreadDataKey dataKey;
@@ -276,7 +276,6 @@ InitSockets()
 	initialized = 1;
 	Tcl_CreateExitHandler(SocketExitHandler, (ClientData) NULL);
 
-	/* Try loading the win32 winsock library. */
 	winSock.hModule = LoadLibraryA("wsock32.dll");
 
 	/*
@@ -596,7 +595,9 @@ SocketThreadExitHandler(clientData)
  *	an error in interp.
  *
  * Side effects:
- *	None.
+ *	If not already prepared, initializes the TSD structure and
+ *	socket message handling thread associated to the calling thread
+ *	for the subsystem of the driver.
  *
  *----------------------------------------------------------------------
  */
