@@ -5324,8 +5324,6 @@ GetInput(chanPtr)
         nread = -1;
         result = EWOULDBLOCK;
     } else {
-        statePtr->flags &= ~CHANNEL_HAS_MORE_DATA;
-
         nread = (chanPtr->typePtr->inputProc)(chanPtr->instanceData,
 		    bufPtr->buf + bufPtr->nextAdded, toRead, &result);
     }
