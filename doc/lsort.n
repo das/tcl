@@ -10,7 +10,7 @@
 '\" 
 .so man.macros
 .TH lsort n 8.0 Tcl "Tcl Built-In Commands"
-.BScharacteristics
+.BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
 lsort \- Sort the elements of a list
