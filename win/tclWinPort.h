@@ -16,6 +16,10 @@
 #ifndef _TCLWINPORT
 #define _TCLWINPORT
 
+#ifndef _TCLINT
+#   include "tclInt.h"
+#endif
+
 #ifdef CHECK_UNICODE_CALLS
 #   define _UNICODE
 #   define UNICODE
@@ -70,6 +74,11 @@
  */
 #define INCL_WINSOCK_API_TYPEDEFS   1
 #include <winsock2.h>
+
+#ifdef BUILD_tcl
+#   undef TCL_STORAGE_CLASS
+#   define TCL_STORAGE_CLASS DLLEXPORT
+#endif /* BUILD_tcl */
 
 /*
  * Define EINPROGRESS in terms of WSAEINPROGRESS.
@@ -210,18 +219,6 @@
 #endif /* !EOVERFLOW */
 
 /*
- * Signals not known to the standard ANSI signal.h.  These are used
- * by Tcl_WaitPid() and generic/tclPosixStr.c
- */
-
-#ifndef SIGTRAP
-#   define SIGTRAP  5
-#endif
-#ifndef SIGBUS
-#   define SIGBUS   10
-#endif
-
-/*
  * Supply definitions for macros to query wait status, if not already
  * defined in header files above.
  */
@@ -237,7 +234,7 @@
 #endif
 
 #ifndef WEXITSTATUS
-#   define WEXITSTATUS(stat) (short)(((*((int *) &(stat))) >> 8) & 0xffff)
+#   define WEXITSTATUS(stat) (((*((int *) &(stat))) >> 8) & 0xff)
 #endif
 
 #ifndef WIFSIGNALED
@@ -401,9 +398,6 @@
      * LPFN_* typedefs.
      */
 #   define HAVE_NO_LPFN_DECLS
-#   if !defined(__CHAR_SIGNED__)
-#	error "You must use the -j switch to ensure char is signed."
-#   endif
 #endif
 
 /*
@@ -446,13 +440,6 @@
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #   define HAVE_PUTENV_THAT_COPIES 1
-#endif
-
-/*
- * Older version of Mingw are known to lack a MWMO_ALERTABLE define.
- */
-#if defined(HAVE_NO_MWMO_ALERTABLE)
-#   define MWMO_ALERTABLE 2
 #endif
 
 /*
@@ -502,6 +489,24 @@
 #define TclpExit		exit
 
 /*
+ * Declarations for Windows-only functions.
+ */
+
+EXTERN HANDLE	    TclWinSerialReopen _ANSI_ARGS_(( HANDLE handle,
+			CONST TCHAR *name, DWORD access));
+
+EXTERN Tcl_Channel  TclWinOpenSerialChannel _ANSI_ARGS_((HANDLE handle,
+                        char *channelName, int permissions));
+					 
+EXTERN Tcl_Channel  TclWinOpenConsoleChannel _ANSI_ARGS_((HANDLE handle,
+                        char *channelName, int permissions));
+
+EXTERN Tcl_Channel  TclWinOpenFileChannel _ANSI_ARGS_((HANDLE handle,
+                        char *channelName, int permissions, int appendMode));
+
+EXTERN TclFile TclWinMakeFile _ANSI_ARGS_((HANDLE handle));
+
+/*
  * Platform specific mutex definition used by memory allocators.
  * These mutexes are statically allocated and explicitly initialized.
  * Most modules do not use this, but instead use Tcl_Mutex types and
@@ -510,9 +515,9 @@
 
 #ifdef TCL_THREADS
 typedef CRITICAL_SECTION TclpMutex;
-MODULE_SCOPE void	TclpMutexInit _ANSI_ARGS_((TclpMutex *mPtr));
-MODULE_SCOPE void	TclpMutexLock _ANSI_ARGS_((TclpMutex *mPtr));
-MODULE_SCOPE void	TclpMutexUnlock _ANSI_ARGS_((TclpMutex *mPtr));
+EXTERN void	TclpMutexInit _ANSI_ARGS_((TclpMutex *mPtr));
+EXTERN void	TclpMutexLock _ANSI_ARGS_((TclpMutex *mPtr));
+EXTERN void	TclpMutexUnlock _ANSI_ARGS_((TclpMutex *mPtr));
 #else /* !TCL_THREADS */
 typedef int TclpMutex;
 #define	TclpMutexInit(a)
@@ -521,14 +526,20 @@ typedef int TclpMutex;
 #endif /* TCL_THREADS */
 
 #ifdef TCL_WIDE_INT_TYPE
-MODULE_SCOPE Tcl_WideInt	strtoll _ANSI_ARGS_((CONST char *string,
+EXTERN Tcl_WideInt	strtoll _ANSI_ARGS_((CONST char *string,
 					     char **endPtr, int base));
-MODULE_SCOPE Tcl_WideUInt	strtoull _ANSI_ARGS_((CONST char *string,
+EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((CONST char *string,
 					      char **endPtr, int base));
 #endif /* TCL_WIDE_INT_TYPE */
 
 #ifndef INVALID_SET_FILE_POINTER
 #define INVALID_SET_FILE_POINTER 0xFFFFFFFF
 #endif /* INVALID_SET_FILE_POINTER */
+
+#include "tclPlatDecls.h"
+#include "tclIntPlatDecls.h"
+
+#undef TCL_STORAGE_CLASS
+#define TCL_STORAGE_CLASS DLLIMPORT
 
 #endif /* _TCLWINPORT */

@@ -627,14 +627,13 @@ SocketThreadExitHandler(clientData)
 	GetExitCodeThread(tsdPtr->socketThread, &exitCode);
 	if (exitCode == STILL_ACTIVE) {
 	    PostMessage(tsdPtr->hwnd, SOCKET_TERMINATE, 0, 0);
+
 	    /*
 	     * Wait for the thread to close.  This ensures that we are
-	     * completely cleaned up before we leave this function.
-	     * If Tcl_Finalize was called from DllMain, the thread
-	     * is in a paused state so we need to timeout and continue.
+	     * completely cleaned up before we leave this function. 
 	     */
 
-	    WaitForSingleObject(tsdPtr->socketThread, 100);
+	    WaitForSingleObject(tsdPtr->socketThread, INFINITE);
 	}
 	CloseHandle(tsdPtr->socketThread);
 	tsdPtr->socketThread = NULL;
@@ -870,7 +869,7 @@ SocketEventProc(evPtr, flags)
 
 	Tcl_Time blockTime = { 0, 0 };
 	Tcl_SetMaxBlockTime(&blockTime);
-	mask |= TCL_READABLE|TCL_WRITABLE;
+	mask |= TCL_READABLE;
     } else if (events & FD_READ) {
 	fd_set readFds;
 	struct timeval timeout;
@@ -901,10 +900,6 @@ SocketEventProc(evPtr, flags)
     }
     if (events & (FD_WRITE | FD_CONNECT)) {
 	mask |= TCL_WRITABLE;
-	if (events & FD_CONNECT && infoPtr->lastError != NO_ERROR) {
-	    /* connect errors should also fire the readable handler. */
-	    mask |= TCL_READABLE;
-	}
     }
 
     if (mask) {
@@ -2193,9 +2188,7 @@ TcpGetOptionProc(instanceData, interp, optionName, dsPtr)
 	} else {
 	    Tcl_DStringAppendElement(dsPtr, "0");
 	}
-	if (len > 0) {
-	    return TCL_OK;
-	}
+	if (len > 0) return TCL_OK;
     }
 
     if (len == 0 || !strncmp(optionName, "-nagle", len)) {
@@ -2213,9 +2206,7 @@ TcpGetOptionProc(instanceData, interp, optionName, dsPtr)
 	} else {
 	    Tcl_DStringAppendElement(dsPtr, "1");
 	}
-	if (len > 0) {
-	    return TCL_OK;
-	}
+	if (len > 0) return TCL_OK;
     }
 */
 
@@ -2265,7 +2256,7 @@ TcpWatchProc(instanceData, mask)
 	    infoPtr->watchEvents |= (FD_READ|FD_CLOSE|FD_ACCEPT);
 	}
 	if (mask & TCL_WRITABLE) {
-	    infoPtr->watchEvents |= (FD_WRITE|FD_CLOSE|FD_CONNECT);
+	    infoPtr->watchEvents |= (FD_WRITE|FD_CONNECT);
 	}
       
 	/*
@@ -2469,7 +2460,7 @@ SocketProc(hwnd, message, wParam, lParam)
 			}
 
 		    } 
-		    if (infoPtr->flags & SOCKET_ASYNC_CONNECT) {
+		    if(infoPtr->flags & SOCKET_ASYNC_CONNECT) {
 			infoPtr->flags &= ~(SOCKET_ASYNC_CONNECT);
 			if (error != ERROR_SUCCESS) {
 			    TclWinConvertWSAError((DWORD) error);
@@ -2696,9 +2687,8 @@ TclpCutSockChannel(chan)
     SocketInfo **nextPtrPtr;
     int removed = 0;
 
-    if (Tcl_GetChannelType(chan) != &tcpChannelType) {
+    if (Tcl_GetChannelType(chan) != &tcpChannelType)
         return;
-    }
 
     /*
      * The initializtion of tsdPtr _after_ we have determined that we
@@ -2726,7 +2716,7 @@ TclpCutSockChannel(chan)
      */
 
     if (!removed) {
-        Tcl_Panic("file info ptr not on thread channel list");
+        panic("file info ptr not on thread channel list");
     }
 
     /*
@@ -2763,9 +2753,8 @@ TclpSpliceSockChannel(chan)
     ThreadSpecificData *tsdPtr;
     SocketInfo *infoPtr;
 
-    if (Tcl_GetChannelType(chan) != &tcpChannelType) {
+    if (Tcl_GetChannelType(chan) != &tcpChannelType)
         return;
-    }
 
     /*
      * Ensure that socket subsystem is initialized in this thread, or

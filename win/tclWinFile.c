@@ -518,8 +518,9 @@ WinReadLinkDirectory(LinkDirectory)
 					->SymbolicLinkReparseBuffer.PathBuffer);
 		    if (drive != -1) {
 			char driveSpec[3] = {
-			    drive, ':', '\0'
+			    '\0', ':', '\0'
 			};
+			driveSpec[0] = drive;
 			retVal = Tcl_NewStringObj(driveSpec,2);
 			Tcl_IncrRefCount(retVal);
 			return retVal;
