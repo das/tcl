@@ -1164,14 +1164,15 @@ allpatch: dist
 
 #
 # This target creates the HTML folder for Tcl & Tk and places it
-# in DISTDIR/html.  It uses the tcl8.1-tk8.1-man-html.tcl tool from
+# in DISTDIR/html.  It uses the tcltk-man2html.tcl tool from
 # the Tcl group's tool workspace.  It depends on the Tcl & Tk being
-# in directories called tcl8.2 & tk8.2 up two directories from the
+# in directories called tcl8.3 & tk8.3 up two directories from the
 # TOOL_DIR.
 #
 
 html: 
-	tclsh $(TOOL_DIR)/tcl8.1-tk8.1-man-html.tcl --htmldir=$(DISTDIR)/html
+	tclsh $(TOOL_DIR)/tcltk-man2html.tcl --htmldir=$(DISTDIR)/html \
+		--srcdir=$(TOP_DIR)/..
 
 #
 # Target to create a Macintosh version of the distribution.  This will
