@@ -854,11 +854,11 @@ TclpCloseFile(
 	case WIN_FILE:
 	    /*
 	     * Don't close the Win32 handle if the handle is a standard channel
-	     * during the exit process.  Otherwise, one thread may kill the
-	     * stdio of another.
+	     * during the thread exit process.  Otherwise, one thread may kill
+	     * the stdio of another.
 	     */
 
-	    if (!TclInExit() 
+	    if (!TclInThreadExit() 
 		    || ((GetStdHandle(STD_INPUT_HANDLE) != filePtr->handle)
 			    && (GetStdHandle(STD_OUTPUT_HANDLE) != filePtr->handle)
 			    && (GetStdHandle(STD_ERROR_HANDLE) != filePtr->handle))) {

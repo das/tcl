@@ -549,7 +549,7 @@ FileCloseProc(instanceData, interp)
      * Do not close standard channels while in thread-exit.
      */
 
-    if (!TclInExit()
+    if (!TclInThreadExit()
 	    || ((fsPtr->fd != 0) && (fsPtr->fd != 1) && (fsPtr->fd != 2))) {
 	if (close(fsPtr->fd) < 0) {
 	    errorCode = errno;

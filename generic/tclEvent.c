@@ -878,10 +878,6 @@ Tcl_FinalizeThread()
 	    (ThreadSpecificData *)TclThreadDataKeyGet(&dataKey);
 
     if (tsdPtr != NULL) {
-	/*
-	 * Invoke thread exit handlers first.
-	 */
-
 	tsdPtr->inExit = 1;
 
 	/*
@@ -937,10 +933,32 @@ Tcl_FinalizeThread()
 int
 TclInExit()
 {
+    return inFinalize;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclInThreadExit --
+ *
+ *	Determines if we are in the middle of thread exit-time cleanup.
+ *
+ * Results:
+ *	If we are in the middle of exiting this thread, 1, otherwise 0.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+int
+TclInThreadExit()
+{
     ThreadSpecificData *tsdPtr = (ThreadSpecificData *)
 	    TclThreadDataKeyGet(&dataKey);
     if (tsdPtr == NULL) {
-	return inFinalize;
+	return 0;
     } else {
 	return tsdPtr->inExit;
     }

@@ -243,6 +243,7 @@ TclIntStubs tclIntStubs = {
     TclpUtfNcmp2, /* 169 */
     TclCheckInterpTraces, /* 170 */
     TclCheckExecutionTraces, /* 171 */
+    TclInThreadExit, /* 172 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {

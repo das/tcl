@@ -425,7 +425,7 @@ StdIOClose(
      */
 
     fd = (int) ((FileState*)instanceData)->fileRef;
-    if (!TclInExit()) {
+    if (!TclInThreadExit()) {
 	if (fd == 0) {
 	    tsdPtr->stdinChannel = NULL;
 	} else if (fd == 1) {

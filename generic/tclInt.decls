@@ -686,6 +686,10 @@ declare 171 generic {
 	    Tcl_Obj *CONST objv[])
 }
 
+declare 172 generic {
+    int TclInThreadExit(void)
+}
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are
