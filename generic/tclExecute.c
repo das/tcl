@@ -4829,6 +4829,7 @@ TclExecuteByteCode(interp, codePtr)
 		CACHE_STACK_INFO();
 	    }
 	}
+	iPtr->flags &= ~ERR_ALREADY_LOGGED;
 
 	/*
 	 * Clear all expansions that may have started after the last

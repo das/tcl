@@ -3644,6 +3644,7 @@ Tcl_EvalEx(interp, script, numBytes, flags)
 	}
 	Tcl_LogCommandInfo(interp, script, parse.commandStart, commandLength);
     }
+    iPtr->flags &= ~ERR_ALREADY_LOGGED;
     
     for (i = 0; i < objectsUsed; i++) {
 	Tcl_DecrRefCount(objv[i]);

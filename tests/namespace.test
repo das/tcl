@@ -950,6 +950,18 @@ test namespace-25.6 {NamespaceEvalCmd, error in eval'd script} {
     (in namespace eval "::test_ns_1" script line 1)
     invoked from within
 "namespace eval test_ns_1 {xxxx}"}}
+test namespace-25.7 {NamespaceEvalCmd, error in eval'd script} {
+    list [catch {namespace eval test_ns_1 {error foo bar baz}} msg] $msg $errorInfo
+} {1 foo {bar
+    (in namespace eval "::test_ns_1" script line 1)
+    invoked from within
+"namespace eval test_ns_1 {error foo bar baz}"}}
+test namespace-25.8 {NamespaceEvalCmd, error in eval'd script} {
+    list [catch {namespace eval test_ns_1 error foo bar baz} msg] $msg $errorInfo
+} {1 foo {bar
+    (in namespace eval "::test_ns_1" script line 1)
+    invoked from within
+"namespace eval test_ns_1 error foo bar baz"}}
 catch {unset v}
 
 test namespace-26.1 {NamespaceExportCmd, no args and new ns} {
