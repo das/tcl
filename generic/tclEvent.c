@@ -836,17 +836,10 @@ Tcl_Finalize()
 
 	TclFinalizeSynchronization();
 
-	/*
-	 * We defer unloading of packages until very late 
-	 * to avoid memory access issues.  Both exit callbacks and
-	 * synchronization variables may be stored in packages.
-	 */
-
-	TclFinalizeLoad();
-	
 	/**
 	 * Finalizing the filesystem must come after anything which
-	 * might conceivably interact with the 'Tcl_FS' API.
+	 * might conceivably interact with the 'Tcl_FS' API.  This
+	 * will also unload any extensions which have been loaded.
 	 */
 	TclFinalizeFilesystem();
 
