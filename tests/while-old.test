@@ -119,15 +119,3 @@ test while-old-5.2 {while return result} {
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-

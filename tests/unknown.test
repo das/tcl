@@ -65,15 +65,3 @@ catch {rename unknown {}}
 catch {rename unknown.old unknown}
 ::tcltest::cleanupTests
 return 
-
-
-
-
-
-
-
-
-
-
-
-

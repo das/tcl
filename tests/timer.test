@@ -541,15 +541,3 @@ test timer-9.1 {AfterCleanupProc procedure} {
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
