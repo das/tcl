@@ -91,6 +91,9 @@ TclSockMinimumBuffers(sock, size)
     int size;			/* Minimum buffer size */
 {
     int current;
+    /*
+     * Should be socklen_t, but HP10.20 (g)cc chokes
+     */
     size_t len;
 
     len = sizeof(int);

@@ -264,7 +264,7 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclWinSetSockOpt, /* 7 */
     TclpGetPid, /* 8 */
     TclWinGetPlatformId, /* 9 */
-    TclWinSynchSpawn, /* 10 */
+    NULL, /* 10 */
     TclGetAndDetachPids, /* 11 */
     TclpCloseFile, /* 12 */
     TclpCreateCommandChannel, /* 13 */

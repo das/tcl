@@ -751,9 +751,10 @@ declare 8 win {
 declare 9 win {
     int TclWinGetPlatformId(void)
 }
-declare 10 win {
-    int TclWinSynchSpawn(void *args, int type, void **trans, Tcl_Pid *pidPtr)
-}
+# Removed in 8.3.1 (for Win32s only)
+#declare 10 win {
+#    int TclWinSynchSpawn(void *args, int type, void **trans, Tcl_Pid *pidPtr)
+#}
 
 # Pipe channel functions
 
