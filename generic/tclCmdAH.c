@@ -2256,7 +2256,7 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 	case 'x':
 	case 'X':
 	    if (useWide) {
-		if (Tcl_GetWideIntFromObj(interp, /* INTL: Tcl source. */
+		if (Tcl_GetWideIntFromObj(interp,	/* INTL: Tcl source. */
 			objv[objIndex], &wideValue) != TCL_OK) {
 		    goto fmtError;
 		}
@@ -2264,7 +2264,18 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 		size = 40 + precision;
 		break;
 	    }
-	    if (Tcl_GetLongFromObj(interp,	      /* INTL: Tcl source. */
+	    if (objv[objIndex]->typePtr == &tclWideIntType) {
+		/* Operation won't fail; we're typed! */
+		Tcl_GetWideIntFromObj(NULL, objv[objIndex], &wideValue);
+		if (wideValue>ULONG_MAX || wideValue<LONG_MIN) {
+		    /*
+		     * Value too big for type.  Generate an error;
+		     */
+		    Tcl_GetLongFromObj(interp, objv[objIndex], &intValue);
+		    goto fmtError;
+		}
+		intValue = Tcl_WideAsLong(wideValue);
+	    } else if (Tcl_GetLongFromObj(interp,	/* INTL: Tcl source. */
 		    objv[objIndex], &intValue) != TCL_OK) {
 		goto fmtError;
 	    }

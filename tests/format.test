@@ -505,6 +505,29 @@ test format-17.4 {testing %l with non-integer} {
     format %lf 1
 } 1.000000
 
+test format-18.1 {do not demote existing numeric values} {
+    set a 0xaaaaaaaa
+    # Ensure $a and $b are separate objects
+    set b 0xaaaa
+    append b aaaa
+
+    set result [expr {$a == $b}]
+    format %08lx $b
+    lappend result [expr {$a == $b}]
+
+    set b 0xaaaa
+    append b aaaa
+
+    lappend result [expr {$a == $b}]
+    format %08x $b
+    lappend result [expr {$a == $b}]
+} {1 1 1 1}
+test format-18.2 {do not demote existing numeric values} {
+    set a [expr {0xaaaaaaaaaa + 1}]
+    set b 0xaaaaaaaaab
+    list [catch {format %08x $a} msg] $msg [expr {$a == $b}]
+} {1 {integer value too large to represent} 1}
+
 # cleanup
 catch {unset a}
 catch {unset b}
