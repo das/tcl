@@ -209,6 +209,7 @@ GENERIC_OBJS = \
 	tclStubLib.$(OBJEXT) \
 	tclThread.$(OBJEXT) \
 	tclTimer.$(OBJEXT) \
+	tclUnicodeObj.$(OBJEXT) \
 	tclUtf.$(OBJEXT) \
 	tclUtil.$(OBJEXT) \
 	tclVar.$(OBJEXT)

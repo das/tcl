@@ -1291,7 +1291,7 @@ Tcl_SetVar2Ex(interp, part1, part2, newValuePtr, flags)
 		    oldValuePtr = varPtr->value.objPtr;
 		    Tcl_IncrRefCount(oldValuePtr); /* since var is ref */
 		}
-		Tcl_AppendToObj(oldValuePtr, bytes, length);
+		Tcl_AppendObjToObj(oldValuePtr, newValuePtr);
 	    }
 	}
     } else {
