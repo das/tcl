@@ -29,6 +29,8 @@ if {"[info commands testchannel]" != "testchannel"} {
 removeFile test1
 removeFile pipe
 
+catch {unset u}
+
 # set up a long data file for some of the following tests
 
 set f [open longfile w]
