@@ -336,6 +336,11 @@ test upvar-8.10 {upvar will create element alias for new array element} {
     array set upvarArray {}
     catch {upvar 0 upvarArray(elem) upvarArrayElemAlias}
 } {0}
+test upvar-8.11 {upvar will not create a variable that looks like an array} -body {
+    catch {unset upvarArray}
+    array set upvarArray {}
+    upvar 0 upvarArray(elem) upvarArrayElemAlias(elem)
+} -returnCodes 1 -match glob -result *
 
 if {[info commands testupvar] != {}} {
     test upvar-9.1 {Tcl_UpVar2 procedure} {

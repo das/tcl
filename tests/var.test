@@ -272,6 +272,11 @@ test var-3.10 {MakeUpvar, } {
 	set msg
     }
 } {1 1}
+test var-3.11 {MakeUpvar, my var looks like array elem} -body {
+    catch {unset aaaaa}
+    set aaaaa 789789
+    upvar #0 aaaaa foo(bar)
+} -returnCodes 1 -result {bad variable name "foo(bar)": upvar won't create a scalar variable that looks like an array element}
 
 if {[info commands testgetvarfullname] != {}} {
     test var-4.1 {Tcl_GetVariableName, global variable} {
