@@ -109,6 +109,9 @@ Tcl_PkgProvideEx(interp, name, version, clientData)
 	return TCL_OK;
     }
     if (ComparePkgVersions(pkgPtr->version, version, (int *) NULL) == 0) {
+	if (clientData != NULL) {
+	    pkgPtr->clientData = clientData;
+	}
 	return TCL_OK;
     }
     Tcl_AppendResult(interp, "conflicting versions provided for package \"",
@@ -310,15 +313,13 @@ Tcl_PkgRequireEx(interp, name, version, exact, clientDataPtr)
         if (clientDataPtr) {
 	    *clientDataPtr = pkgPtr->clientData;
 	}
-    
-        if (clientDataPtr) {
-	    *clientDataPtr = pkgPtr->clientData;
-	}
-    
 	return pkgPtr->version;
     }
     result = ComparePkgVersions(pkgPtr->version, version, &satisfies);
     if ((satisfies && !exact) || (result == 0)) {
+	if (clientDataPtr) {
+	    *clientDataPtr = pkgPtr->clientData;
+	}
 	return pkgPtr->version;
     }
     Tcl_AppendResult(interp, "version conflict for package \"",
