@@ -79,6 +79,21 @@ test info-2.4 {info body option} {
         list [info body p] [info body q]
     }
 } {{return "x=$x"} {return "y=$y"}}
+test info-2.5 {info body option, returning bytecompiled bodies} {
+    # Prior to 8.3.0 this would cause a crash because [info body]
+    # would return the bytecompiled version of foo, which the catch
+    # would then try and eval out of the foo context, accessing
+    # compiled local indices
+    catch {unset args}
+    proc foo {args} {
+	foreach v $args {
+	    upvar $v var
+	    return "variable $v existence: [info exists var]"
+	}
+    }
+    foo a
+    list [catch [info body foo] msg] $msg
+} {1 {can't read "args": no such variable}}
 
 # "info cmdcount" is no longer accurate for compiled commands!
 # The expected result for info-3.1 used to be "3" and is now "1"
