@@ -223,7 +223,7 @@ ExtractWinRoot(path, resultPtr, offset, typePtr)
 	    char *tail = (char*)&path[3];
 
 	    /* Skip separators */
-	    while (*tail && tail[0] == '/' || tail[0] == '\\') tail++;
+	    while (*tail && (tail[0] == '/' || tail[0] == '\\')) tail++;
 
 	    *typePtr = TCL_PATH_ABSOLUTE;
 	    Tcl_DStringAppend(resultPtr, path, 2);
