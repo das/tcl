@@ -368,7 +368,11 @@ Tcl_RegexpObjCmd(dummy, interp, objc, objv)
 		int start, end;
 		Tcl_Obj *objs[2];
 
-		if (i <= info.nsubs) {
+		/*
+		 * Only adjust the match area if there was a match for
+		 * that area.  (Scriptics Bug 4391/SF Bug #219232)
+		 */
+		if (i <= info.nsubs && info.matches[i].start >= 0) {
 		    start = offset + info.matches[i].start;
 		    end   = offset + info.matches[i].end;
 
