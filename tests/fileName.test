@@ -1701,7 +1701,7 @@ test filename-15.6 {unix specific globbing} {unixOnly} {
     set result [list [catch {glob ~} msg] $msg]
     set env(HOME) $temp
     set result
-} [list 0 [list [glob ~]/globTest/odd\\\[\]*?\{\}name]]
+} [list 0 [list [lindex [glob ~] 0]/globTest/odd\\\[\]*?\{\}name]]
 catch {exec rm -f globTest/odd\\\[\]*?\{\}name}
 
 # The following tests are only valid for Windows systems.
