@@ -1167,6 +1167,9 @@ TclGetDefaultStdChannel(type)
     }
 
     channel = Tcl_MakeFileChannel(handle, mode);
+    if (channel == NULL) {
+	return NULL;
+    }
 
     /*
      * Set up the normal channel options for stdio handles.
