@@ -372,9 +372,12 @@ typedef struct _stati64	Tcl_StatBuf;
  * it has no long long...
  */
 #      define TCL_WIDE_INT_IS_LONG	1
-#      define TCL_WIDE_INT_TYPE		long
 #   endif /* __WIN32__ */
-#endif
+#endif /* !TCL_WIDE_INT_TYPE & !TCL_WIDE_INT_IS_LONG */
+#ifdef TCL_WIDE_INT_IS_LONG
+#   undef TCL_WIDE_INT_TYPE
+#   define TCL_WIDE_INT_TYPE	long
+#endif /* TCL_WIDE_INT_IS_LONG */
 
 typedef TCL_WIDE_INT_TYPE		Tcl_WideInt;
 typedef unsigned TCL_WIDE_INT_TYPE	Tcl_WideUInt;
