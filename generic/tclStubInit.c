@@ -266,6 +266,8 @@ TclIntStubs tclIntStubs = {
     Tcl_GetStartupScript, /* 179 */
     TclNewListObjDirect, /* 180 */
     TclDbNewListObjDirect, /* 181 */
+    TclpLocaltime, /* 182 */
+    TclpGmtime, /* 183 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
@@ -283,8 +285,8 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclUnixWaitForFile, /* 8 */
     TclpCreateTempFile, /* 9 */
     TclpReaddir, /* 10 */
-    TclpLocaltime, /* 11 */
-    TclpGmtime, /* 12 */
+    TclpLocaltime_unix, /* 11 */
+    TclpGmtime_unix, /* 12 */
     TclpInetNtoa, /* 13 */
     TclUnixCopyFile, /* 14 */
 #endif /* UNIX */
