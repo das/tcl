@@ -313,7 +313,9 @@ test unixInit-3.1 {TclpSetInitialEncodings} -constraints {
     unset env(LANG)
 
     set enc
-} -match regexp -result ^iso8859-15?$
+} -match regexp -result [expr {
+	($tcl_platform(os) eq "Darwin") ? "^utf-8$" : "^iso8859-15?$"}]
+
 test unixInit-3.2 {TclpSetInitialEncodings} {unixOnly stdio} {
     set env(LANG) japanese
     catch {set oldlc_all $env(LC_ALL)}
