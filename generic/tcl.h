@@ -105,6 +105,7 @@ extern "C" {
  */
 
 #ifdef MAC_TCL
+#include <ConditionalMacros.h>
 #   ifndef HAS_STDARG
 #	define HAS_STDARG 1
 #   endif
@@ -225,7 +226,7 @@ extern "C" {
 # define DLLIMPORT
 # define DLLEXPORT
 #else
-# if defined(__WIN32__) && (defined(_MSC_VER) || (defined(__GNUC__) && defined(__declspec)))
+# if (defined(__WIN32__) && (defined(_MSC_VER) || (defined(__GNUC__) && defined(__declspec)))) || (defined(MAC_TCL) && FUNCTION_DECLSPEC)
 #   define DLLIMPORT __declspec(dllimport)
 #   define DLLEXPORT __declspec(dllexport)
 # else
@@ -247,7 +248,7 @@ extern "C" {
  * name of a library we are building, is set on the compile line for sources
  * that are to be placed in the library.  When this macro is set, the
  * storage class will be set to DLLEXPORT.  At the end of the header file, the
- * storage class will be reset to DLLIMPORt.
+ * storage class will be reset to DLLIMPORT.
  */
 
 #undef TCL_STORAGE_CLASS

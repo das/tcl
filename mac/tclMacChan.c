@@ -136,7 +136,7 @@ static int		StdReady _ANSI_ARGS_((ClientData instanceData,
 
 static Tcl_ChannelType consoleChannelType = {
     "file",			/* Type name. */
-    StdIOBlockMode,		/* Set blocking/nonblocking mode.*/
+    (Tcl_ChannelTypeVersion)StdIOBlockMode,		/* Set blocking/nonblocking mode.*/
     StdIOClose,			/* Close proc. */
     StdIOInput,			/* Input proc. */
     StdIOOutput,		/* Output proc. */
@@ -153,7 +153,7 @@ static Tcl_ChannelType consoleChannelType = {
 
 static Tcl_ChannelType fileChannelType = {
     "file",			/* Type name. */
-    FileBlockMode,		/* Set blocking or
+    (Tcl_ChannelTypeVersion)FileBlockMode,		/* Set blocking or
                                  * non-blocking mode.*/
     FileClose,			/* Close proc. */
     FileInput,			/* Input proc. */

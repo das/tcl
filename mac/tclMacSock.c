@@ -196,7 +196,7 @@ pascal void NotifyRoutine (
 
 static Tcl_ChannelType tcpChannelType = {
     "tcp",			/* Type name. */
-    TcpBlockMode,		/* Set blocking or
+    (Tcl_ChannelTypeVersion)TcpBlockMode,		/* Set blocking or
                                  * non-blocking mode.*/
     TcpClose,			/* Close proc. */
     TcpInput,			/* Input proc. */

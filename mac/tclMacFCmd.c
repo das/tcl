@@ -748,7 +748,7 @@ DoCopyDirectory(
         err = FSpDirCreateCompat(&tmpDirSpec, smSystemScript, &tmpDirID);
     }
     if (err == noErr) {
-	err = FSpDirectoryCopy(&srcFileSpec, &tmpDirSpec, NULL, 0, true,
+	err = FSpDirectoryCopy(&srcFileSpec, &tmpDirSpec, NULL, NULL, 0, true,
 	    	CopyErrHandler);
     }
     

@@ -650,7 +650,7 @@ declare 6 mac {
 	    Boolean createFolder, FSSpec *spec)
 }
 declare 7 mac {
-    void GetGlobalMouse(Point *mouse)
+    void GetGlobalMouseTcl(Point *mouse)
 }
 
 # The following routines are utility functions in Tcl.  They are exported
@@ -658,15 +658,15 @@ declare 7 mac {
 # however.  The first set are from the MoreFiles package.
 
 declare 8 mac {
-    pascal OSErr FSpGetDirectoryID(CONST FSSpec *spec, long *theDirID, \
+    pascal OSErr FSpGetDirectoryIDTcl(CONST FSSpec *spec, long *theDirID, \
 	    Boolean *isDirectory)
 }
 declare 9 mac {
-    pascal short FSpOpenResFileCompat(CONST FSSpec *spec, \
+    pascal short FSpOpenResFileCompatTcl(CONST FSSpec *spec, \
 	    SignedByte permission)
 }
 declare 10 mac {
-    pascal void FSpCreateResFileCompat(CONST FSSpec *spec, OSType creator, \
+    pascal void FSpCreateResFileCompatTcl(CONST FSSpec *spec, OSType creator, \
 	    OSType fileType, ScriptCode scriptTag)
 }
 

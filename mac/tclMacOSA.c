@@ -2120,7 +2120,7 @@ tclOSAStore(
 	    return TCL_ERROR;
 	}
 		
-	FSpCreateResFileCompat(&fileSpec,
+	FSpCreateResFileCompatTcl(&fileSpec,
 		'WiSH', 'osas', smSystemScript);	
 	myErr = ResError();
 	
@@ -2132,7 +2132,7 @@ tclOSAStore(
 	    goto rezEvalCleanUp;
 	}
 		
-	fileRef = FSpOpenResFileCompat(&fileSpec, fsRdWrPerm);
+	fileRef = FSpOpenResFileCompatTcl(&fileSpec, fsRdWrPerm);
 	if (fileRef == -1) {
 	    Tcl_AppendResult(interp, "Error reading the file: \"", 
 		    fileName, "\".", NULL);
@@ -2307,7 +2307,7 @@ tclOSALoad(
 	    return TCL_ERROR;
 	}
 			
-	fileRef = FSpOpenResFileCompat(&fileSpec, fsRdPerm);
+	fileRef = FSpOpenResFileCompatTcl(&fileSpec, fsRdPerm);
 	if (fileRef == -1) {
 	    Tcl_AppendResult(interp, "Error reading the file: \"", 
 		    fileName, "\".", NULL);
