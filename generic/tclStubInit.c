@@ -426,6 +426,16 @@ TclStubs tclStubs = {
     Tcl_UniCharToUtfDString, /* 354 */
     Tcl_UtfToUniCharDString, /* 355 */
     Tcl_GetRegExpFromObj, /* 356 */
+    Tcl_EvalTokens, /* 357 */
+    Tcl_FreeParse, /* 358 */
+    Tcl_LogCommandInfo, /* 359 */
+    Tcl_ParseBraces, /* 360 */
+    Tcl_ParseCommand, /* 361 */
+    Tcl_ParseExpr, /* 362 */
+    Tcl_ParseQuotedString, /* 363 */
+    Tcl_ParseVarName, /* 364 */
+    Tcl_GetCwd, /* 365 */
+    Tcl_Chdir, /* 366 */
 };
 
 TclIntStubs tclIntStubs = {
@@ -572,6 +582,7 @@ TclIntStubs tclIntStubs = {
     TclGetEnv, /* 138 */
     TclpLoadFile, /* 139 */
     TclLooksLikeInt, /* 140 */
+    TclpGetCwd, /* 141 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {

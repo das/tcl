@@ -513,7 +513,7 @@ declare 135 generic {
 # Added in 8.1:
 
 declare 137 generic {
-    int TclpChdir(CONST char *dirName)
+   int TclpChdir(CONST char *dirName)
 }
 declare 138 generic {
     char * TclGetEnv(CONST char *name, Tcl_DString *valuePtr)
@@ -527,6 +527,9 @@ declare 140 generic {
     int TclLooksLikeInt(char *bytes, int length)
 }
 
+declare 141 generic {
+    char *TclpGetCwd(Tcl_Interp *interp, Tcl_DString *cwdPtr)
+}
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are
