@@ -1698,23 +1698,22 @@ proc ::tcltest::makeFile {contents name} {
     
     DebugPuts 3 "::tcltest::makeFile: putting $contents into $name"
 
-    set fd [open [file join $::tcltest::temporaryDirectory $name] w]
+    set fullName [file join $::tcltest::temporaryDirectory $name]
+    set fd [open $fullName w]
 
     fconfigure $fd -translation lf
 
-    if {[string equal \
-	    [string index $contents [expr {[string length $contents] - 1}]] \
-	    "\n"]} {
+    if {[string equal [string index $contents end] "\n"]} {
 	puts -nonewline $fd $contents
     } else {
 	puts $fd $contents
     }
     close $fd
 
-    set fullName [file join [pwd] $name]
     if {[lsearch -exact $::tcltest::filesMade $fullName] == -1} {
 	lappend ::tcltest::filesMade $fullName
     }
+    return $fullName
 }
 
 # ::tcltest::removeFile --
