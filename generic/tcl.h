@@ -1591,6 +1591,7 @@ typedef struct Tcl_GlobTypeData {
 #define TCL_GLOB_TYPE_FILE		(1<<4)
 #define TCL_GLOB_TYPE_LINK		(1<<5)
 #define TCL_GLOB_TYPE_SOCK		(1<<6)
+#define TCL_GLOB_TYPE_MOUNT		(1<<7)
 
 #define TCL_GLOB_PERM_RONLY		(1<<0)
 #define TCL_GLOB_PERM_HIDDEN		(1<<1)
