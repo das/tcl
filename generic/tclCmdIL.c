@@ -2812,8 +2812,11 @@ SortCompare(objPtr1, objPtr2, infoPtr)
 	    order = -1;
 	}
     } else {
-	Tcl_Obj **objv, *paramObjv[2] = {objPtr1, objPtr2};
+	Tcl_Obj **objv, *paramObjv[2];
 	int objc;
+
+	paramObjv[0] = objPtr1;
+	paramObjv[1] = objPtr2;
 
   	/*
  	 * We made space in the command list for the two things to
