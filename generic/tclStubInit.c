@@ -267,6 +267,10 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclpOpenFile, /* 7 */
     TclUnixWaitForFile, /* 8 */
     TclpCreateTempFile, /* 9 */
+    TclpReaddir, /* 10 */
+    TclpLocaltime, /* 11 */
+    TclpGmtime, /* 12 */
+    TclpInetNtoa, /* 13 */
 #endif /* UNIX */
 #ifdef __WIN32__
     TclWinConvertError, /* 0 */

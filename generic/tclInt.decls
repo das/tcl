@@ -954,3 +954,21 @@ declare 9 unix {
     TclFile TclpCreateTempFile(CONST char *contents)
 }
 
+# Added in 8.4:
+
+declare 10 unix {
+    Tcl_DirEntry * TclpReaddir(DIR * dir)
+}
+
+declare 11 unix {
+    struct tm * TclpLocaltime(time_t * clock)
+}
+
+declare 12 unix {
+    struct tm * TclpGmtime(time_t * clock)
+}
+
+declare 13 unix {
+    char * TclpInetNtoa(struct in_addr addr)
+}
+
