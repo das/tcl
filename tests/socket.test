@@ -242,6 +242,12 @@ socket -server command ?-myaddr addr? port}}
 test socket-1.12 {arg parsing for socket command} {socket} {
     list [catch {socket foo badport} msg] $msg
 } {1 {expected integer but got "badport"}}
+test socket-1.13 {arg parsing for socket command} {socket} {
+list [catch {socket -async -server} msg] $msg
+} {1 {cannot set -async option for server sockets}}
+test socket-1.14 {arg parsing for socket command} {socket} {
+list [catch {socket -server foo -async} msg] $msg
+} {1 {cannot set -async option for server sockets}}
 
 set path(script) [makeFile {} script]
 
