@@ -289,7 +289,7 @@ test compile-12.2 {testing error on literal deletion} {memDebug execCommandExist
 # Special test for underestimating the maxStackSize required for a
 # compiled command. A failure will cause a segfault in the child 
 # process.
-test compile-13.1 {testing underestimate of maxStackSize in list cmd} {
+test compile-13.1 {testing underestimate of maxStackSize in list cmd} {execCommandExists} {
     set body {set x [list}
     for {set i 0} {$i < 3000} {incr i} {
 	append body " $i"

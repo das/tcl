@@ -13,6 +13,7 @@
  */
 
 #include "tcl.h"
+#include "tclPort.h"
 #ifdef NO_STDLIB_H
 #   include "../compat/stdlib.h"
 #else

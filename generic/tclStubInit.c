@@ -301,10 +301,10 @@ TclIntPlatStubs tclIntPlatStubs = {
     FSpGetDefaultDir, /* 4 */
     FSpSetDefaultDir, /* 5 */
     FSpFindFolder, /* 6 */
-    GetGlobalMouse, /* 7 */
-    FSpGetDirectoryID, /* 8 */
-    FSpOpenResFileCompat, /* 9 */
-    FSpCreateResFileCompat, /* 10 */
+    GetGlobalMouseTcl, /* 7 */
+    FSpGetDirectoryIDTcl, /* 8 */
+    FSpOpenResFileCompatTcl, /* 9 */
+    FSpCreateResFileCompatTcl, /* 10 */
     FSpLocationFromPath, /* 11 */
     FSpPathFromLocation, /* 12 */
     TclMacExitHandler, /* 13 */
@@ -318,7 +318,7 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclMacUnRegisterResourceFork, /* 21 */
     TclMacCreateEnv, /* 22 */
     TclMacFOpenHack, /* 23 */
-    NULL, /* 24 */
+    TclpGetTZName, /* 24 */
     TclMacChmod, /* 25 */
 #endif /* MAC_TCL */
 };

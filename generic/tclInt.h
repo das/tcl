@@ -1799,7 +1799,6 @@ EXTERN int		TclpFindVariable _ANSI_ARGS_((CONST char *name,
 EXTERN void		TclpFree _ANSI_ARGS_((char *ptr));
 EXTERN unsigned long	TclpGetClicks _ANSI_ARGS_((void));
 EXTERN Tcl_Channel	TclpGetDefaultStdChannel _ANSI_ARGS_((int type));
-EXTERN long		TclpGetGMTOffset _ANSI_ARGS_((void));
 EXTERN unsigned long	TclpGetSeconds _ANSI_ARGS_((void));
 EXTERN int		TclpGetTimeZone _ANSI_ARGS_((unsigned long time));
 EXTERN char *		TclpGetUserHome _ANSI_ARGS_((CONST char *name,

@@ -1137,6 +1137,7 @@ test namespace-40.1 {Ignoring namespace proc "unknown"} {
 } {global global}
 
 test namespace-41.1 {Shadowing byte-compiled commands} {
+	set res {}
     namespace eval ns {
 	set res {}
 	proc test {} {
@@ -1148,6 +1149,7 @@ test namespace-41.1 {Shadowing byte-compiled commands} {
 	}
 	lappend ::res [test]
     }
+    namespace delete ns
     set res
 } {0 1}
 

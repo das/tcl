@@ -1178,7 +1178,7 @@ test cmdAH-20.3 {Tcl_FileObjCmd: atime} {
 test cmdAH-20.4 {Tcl_FileObjCmd: atime} {
     list [catch {file atime $file notint} msg] $msg
 } {1 {expected integer but got "notint"}}
-test cmdAH-20.5 {Tcl_FileObjCmd: atime touch} {
+test cmdAH-20.5 {Tcl_FileObjCmd: atime touch} {unixOrPc} {
     if {[string equal $tcl_platform(platform) "windows"]} {
 	set old [pwd]
 	cd $::tcltest::temporaryDirectory

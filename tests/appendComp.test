@@ -355,6 +355,7 @@ catch {unset i x result y}
 catch {rename foo ""}
 catch {rename bar ""}
 catch {rename check ""}
+catch {rename bar {}}
 
 # cleanup
 ::tcltest::cleanupTests

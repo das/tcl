@@ -22,6 +22,9 @@
 
 #include "tclInt.h"
 #include "tclPort.h"
+#ifdef MAC_TCL
+#include "tclMacInt.h"
+#endif
 
 /*
  * Prototypes for procedures defined later in this file.  The last

@@ -38,7 +38,11 @@ int (*tclDummyLinkVarPtr)() = Tcl_LinkVar;
  * on some systems, so it's better just to leave it out.
  */
 
+#if !defined(MAC_TCL)
 extern int		isatty _ANSI_ARGS_((int fd));
+#else
+#include <unistd.h>
+#endif
 extern char *		strcpy _ANSI_ARGS_((char *dst, CONST char *src));
 
 static char *tclStartupScriptFileName = NULL;
