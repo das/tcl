@@ -1001,6 +1001,12 @@ TclCompileScript(interp, script, numBytes, envPtr)
 	    EnterCmdStartData(envPtr, currCmdIndex,
 	            (parse.commandStart - envPtr->source), startCodeOffset);
 
+	    if (envPtr->procPtr != NULL) {
+		cmdNsPtr = envPtr->procPtr->cmdPtr->nsPtr;
+	    } else {
+		cmdNsPtr = NULL; /* use current NS */
+	    }
+
 	    /*
 	     * Each iteration of the following loop compiles one word
 	     * from the command.
@@ -1029,12 +1035,6 @@ TclCompileScript(interp, script, numBytes, envPtr)
 		     */
 
 		    if ((wordIdx == 0) && !expand) {
-			if (envPtr->procPtr != NULL) {
-			    cmdNsPtr = envPtr->procPtr->cmdPtr->nsPtr;
-			} else {
-			    cmdNsPtr = NULL; /* use current NS */
-			}
-
 			/*
 			 * We copy the string before trying to find the command
 			 * by name.  We used to modify the string in place, but
