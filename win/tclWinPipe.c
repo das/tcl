@@ -1746,6 +1746,12 @@ BuildCommandLine(
 
     Tcl_DStringInit(&ds);
 
+    /*
+     * Prime the path.
+     */
+    
+    Tcl_DStringAppend(&ds, Tcl_DStringValue(linePtr), -1);
+    
     for (i = 0; i < argc; i++) {
 	if (i == 0) {
 	    arg = executable;

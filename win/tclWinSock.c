@@ -1435,12 +1435,13 @@ Tcl_MakeTcpClientChannel(sock)
 {
     SocketInfo *infoPtr;
     char channelName[16 + TCL_INTEGER_SPACE];
-    ThreadSpecificData *tsdPtr = 
-	(ThreadSpecificData *)TclThreadDataKeyGet(&dataKey);
+    ThreadSpecificData *tsdPtr;
 
     if (TclpHasSockets(NULL) != TCL_OK) {
 	return NULL;
     }
+
+    tsdPtr = (ThreadSpecificData *)TclThreadDataKeyGet(&dataKey);
 
     /*
      * Set kernel space buffering and non-blocking.
