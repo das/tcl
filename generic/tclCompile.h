@@ -1101,7 +1101,4 @@ MODULE_SCOPE int	TclWordKnownAtCompileTime _ANSI_ARGS_((
 #define TclMin(i, j)   ((((int) i) < ((int) j))? (i) : (j))
 #define TclMax(i, j)   ((((int) i) > ((int) j))? (i) : (j))
 
-# undef TCL_STORAGE_CLASS
-# define TCL_STORAGE_CLASS DLLIMPORT
-
 #endif /* _TCLCOMPILATION */
