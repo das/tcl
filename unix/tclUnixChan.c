@@ -429,6 +429,16 @@ FileOutputProc(instanceData, buf, toWrite, errorCodePtr)
     int written;
 
     *errorCodePtr = 0;
+
+    if (toWrite == 0) {
+      /* SF Tcl Bug 465765.
+       * Do not try to write nothing into a file. STREAM based
+       * implementations will considers this as EOF (if there is a
+       * pipe behind the file).
+       */
+
+      return 0;
+    }
     written = write(fsPtr->fd, buf, (size_t) toWrite);
     if (written > -1) {
         return written;
