@@ -913,7 +913,7 @@ tclStubInit.o: $(GENERIC_DIR)/tclStubInit.c
 tclUtil.o: $(GENERIC_DIR)/tclUtil.c
 	$(CC) -c $(CC_SWITCHES) $(GENERIC_DIR)/tclUtil.c
 
-tclUtf.o: $(GENERIC_DIR)/tclUtf.c
+tclUtf.o: $(GENERIC_DIR)/tclUtf.c $(GENERIC_DIR)/tclUniData.c
 	$(CC) -c $(CC_SWITCHES) $(GENERIC_DIR)/tclUtf.c
 
 tclVar.o: $(GENERIC_DIR)/tclVar.c
