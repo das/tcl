@@ -982,7 +982,7 @@ test tcltest-19.1 {TCLTEST_OPTIONS default} {
 	if {[info exists ::env(TCLTEST_OPTIONS)]} {
 	    set oldoptions $::env(TCLTEST_OPTIONS)
 	    unset ::env(TCLTEST_OPTIONS)
-c	} else {
+	} else {
 	    set oldoptions none
 	}
 	set ::env(TCLTEST_OPTIONS) {}
