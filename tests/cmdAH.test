@@ -784,7 +784,7 @@ test cmdAH-7.34 {Tcl_FileObjCmd: extension} {
     file extension a\\b.c\\
 } {}
 set num 35
-foreach value {a..b a...b a.c..b ..b} result {..b ...b ..b ..b} {
+foreach value {a..b a...b a.c..b ..b} result {.b .b .b .b} {
     foreach p {unix mac windows} {
 ;	test cmdAH-7.$num {Tcl_FileObjCmd: extension} "
 	    testsetplatform $p

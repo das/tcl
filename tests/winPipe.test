@@ -368,4 +368,4 @@ if {[catch {set env(TEMP) $env_temp}]} {
     unset $env(TEMP)
 }
 
-file delete big little stdout stderr nothing dummy.tcl
+file delete big little stdout stderr nothing dummy.tcl echoArgs.tcl

@@ -1031,15 +1031,12 @@ TclGetExtension(name)
     }
 
     /*
-     * Back up to the first period in a series of contiguous dots.
-     * This is needed so foo..o will be split on the first dot.
+     * In earlier versions, we used to back up to the first period in a series
+     * so that "foo..o" would be split into "foo" and "..o".  This is a
+     * confusing and usually incorrect behavior, so now we split at the last
+     * period in the name.
      */
 
-    if (p != NULL) {
-	while ((p > name) && *(p-1) == '.') {
-	    p--;
-	}
-    }
     return p;
 }
 
