@@ -1034,7 +1034,7 @@ Tcl_MakeFileChannel(rawHandle, mode)
 		GetCurrentProcess(), &dupedHandle, 0, FALSE,
 		DUPLICATE_SAME_ACCESS);
 
-	if (result != 0) {
+	if (result == 0) {
 	    /* 
 	     * Unable to make a duplicate. It's definately invalid at this
 	     * point.
