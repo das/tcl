@@ -3925,7 +3925,7 @@ Tcl_GlobalEvalObj(interp, objPtr)
 
     savedVarFramePtr = iPtr->varFramePtr;
     iPtr->varFramePtr = NULL;
-    result = Tcl_EvalObj(interp, objPtr, 0);
+    result = Tcl_EvalObj(interp, objPtr);
     iPtr->varFramePtr = savedVarFramePtr;
     return result;
 }
