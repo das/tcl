@@ -62,6 +62,18 @@ test winFile-2.2 {TclpMatchFiles: case sensitivity} {pcOnly} {
     set result
 } {globlower globlower}
 
+test winFile-3.1 {file system} {pcOnly} {
+    set res "volume types ok"
+    foreach vol [file volumes] {
+	if {![string equal [lindex [file system $vol] 1] [testvolumetype $vol]]} {
+	    set res "For $vol, we found [file system $vol]\
+	      and [testvolumetype $vol] are different"
+	    break
+	}
+    }
+    set res
+} {volume types ok}
+
 # cleanup
 ::tcltest::cleanupTests
 return

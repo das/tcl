@@ -867,7 +867,9 @@ NULL, in which case no type information will be available to users of
 the filesystem.  The 'type' is used only for informational purposes,
 and should be returned as the string representation of the Tcl_Obj
 which is returned.  A typical return value might be "networked", "zip"
-or "ftp".
+or "ftp".  The Tcl_Obj result is owned by the filesystem and so Tcl will 
+increment the refCount of that object if it wishes to retain a reference 
+to it.
 .PP
 .CS
 typedef Tcl_Obj* Tcl_FSFilesystemPathTypeProc(
