@@ -1712,7 +1712,6 @@ DictIncrCmd(interp, objc, objv)
 	}
 	if (valuePtr == NULL) {
 	    valuePtr = Tcl_NewLongObj(incrValue);
-#ifndef TCL_WIDE_INT_IS_LONG
 	} else if (valuePtr->typePtr == &tclWideIntType) {
 	    Tcl_GetWideIntFromObj(NULL, valuePtr, &wValue);
 	    if (Tcl_IsShared(valuePtr)) {
@@ -1724,7 +1723,6 @@ DictIncrCmd(interp, objc, objv)
 		}
 		goto valueAlreadyInDictionary;
 	    }
-#endif /* !TCL_WIDE_INT_IS_LONG */
 	} else if (valuePtr->typePtr == &tclIntType) {
 	    Tcl_GetLongFromObj(NULL, valuePtr, &lValue);
 	    if (Tcl_IsShared(valuePtr)) {

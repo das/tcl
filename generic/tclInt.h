@@ -1561,9 +1561,7 @@ extern Tcl_ObjType	tclStringType;
 extern Tcl_ObjType	tclArraySearchType;
 extern Tcl_ObjType	tclIndexType;
 extern Tcl_ObjType	tclNsNameType;
-#ifndef TCL_WIDE_INT_IS_LONG
 extern Tcl_ObjType	tclWideIntType;
-#endif
 
 /*
  * Variables denoting the hash key types defined in the core.
@@ -2212,6 +2210,26 @@ extern Tcl_Mutex tclObjMutex;
 
 #define TclGetString(objPtr) \
     ((objPtr)->bytes? (objPtr)->bytes : Tcl_GetString((objPtr)))
+
+/*
+ *----------------------------------------------------------------
+ * Macro used by the Tcl core to get a Tcl_WideInt value out of
+ * a Tcl_Obj of the "wideInt" type.  Different implementation on
+ * different platforms depending whether TCL_WIDE_INT_IS_LONG.
+ *----------------------------------------------------------------
+ */
+
+#ifdef TCL_WIDE_INT_IS_LONG
+#    define TclGetWide(resultVar, objPtr) \
+	(resultVar) = (objPtr)->internalRep.longValue
+#    define TclGetLongFromWide(resultVar, objPtr) \
+	(resultVar) = (objPtr)->internalRep.longValue
+#else
+#    define TclGetWide(resultVar, objPtr) \
+	(resultVar) = (objPtr)->internalRep.wideValue
+#    define TclGetLongFromWide(resultVar, objPtr) \
+	(resultVar) = Tcl_WideAsLong((objPtr)->internalRep.wideValue)
+#endif
 
 /*
  *----------------------------------------------------------------
