@@ -1682,9 +1682,9 @@ declare 480 generic {
     void Tcl_FSMountsChanged(Tcl_Filesystem *fsPtr)
 }	  
 # New function due to TIP#56
-#declare 481 generic {
-#    int Tcl_EvalTokensStandard(Tcl_Interp *interp, Tcl_Token *tokenPtr, int count)
-#}
+declare 481 generic {
+    int Tcl_EvalTokensStandard(Tcl_Interp *interp, Tcl_Token *tokenPtr, int count)
+}
  
 ##############################################################################
 

@@ -878,6 +878,7 @@ TclStubs tclStubs = {
     Tcl_FSGetPathType, /* 478 */
     Tcl_OutputBuffered, /* 479 */
     Tcl_FSMountsChanged, /* 480 */
+    Tcl_EvalTokensStandard, /* 481 */
 };
 
 /* !END!: Do not edit above this line. */

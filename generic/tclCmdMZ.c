@@ -2371,7 +2371,7 @@ Tcl_SubstObj(interp, objPtr, flags)
 	case '$':
 	    if (flags & TCL_SUBST_VARIABLES) {
 		Tcl_Parse parse;
-		Tcl_Obj *tempObj;
+		int code;
 
 		/*
 		 * Code is simpler overall if we (effectively) inline
@@ -2398,13 +2398,13 @@ Tcl_SubstObj(interp, objPtr, flags)
 		    Tcl_AppendToObj(resultObj, old, p-old);
 		}
 		p += parse.tokenPtr->size;
-		tempObj = Tcl_EvalTokens(interp, parse.tokenPtr,
-					 parse.numTokens);
-		if (tempObj == NULL) {
+		code = Tcl_EvalTokensStandard(interp, parse.tokenPtr,
+		        parse.numTokens);
+		if (code != TCL_OK) {
 		    goto errorResult;
 		}
-		Tcl_AppendObjToObj(resultObj, tempObj);
-		Tcl_DecrRefCount(tempObj);
+		Tcl_AppendObjToObj(resultObj, Tcl_GetObjResult(interp));
+		Tcl_ResetResult(interp);
 		old = p;
 	    } else {
 		p++;
