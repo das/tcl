@@ -126,6 +126,8 @@ static CmdInfo builtInCmds[] = {
         (CompileProc *) NULL,		0},
     {"lrange",		(Tcl_CmdProc *) NULL,	Tcl_LrangeObjCmd,
         (CompileProc *) NULL,		1},
+    {"lrepeat",		(Tcl_CmdProc *) NULL,	Tcl_LrepeatObjCmd,
+        (CompileProc *) NULL,		1},
     {"lreplace",	(Tcl_CmdProc *) NULL,	Tcl_LreplaceObjCmd,
         (CompileProc *) NULL,		1},
     {"lsearch",		(Tcl_CmdProc *) NULL,	Tcl_LsearchObjCmd,
