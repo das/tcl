@@ -399,8 +399,8 @@ install-libraries:
 	-@copy "$(ROOT)\library\opt\pkgIndex.tcl" "$(SCRIPT_INSTALL_DIR)\opt0.4"
 	@echo installing msgcat1.2
 	-@$(MKDIR) "$(SCRIPT_INSTALL_DIR)\msgcat1.2"
-	-@copy "$(ROOT)\library\msgcat\msgcat.tcl"   "$(SCRIPT_INSTALL_DIR)\msgcat1.0"
-	-@copy "$(ROOT)\library\msgcat\pkgIndex.tcl" "$(SCRIPT_INSTALL_DIR)\msgcat1.0"
+	-@copy "$(ROOT)\library\msgcat\msgcat.tcl"   "$(SCRIPT_INSTALL_DIR)\msgcat1.2"
+	-@copy "$(ROOT)\library\msgcat\pkgIndex.tcl" "$(SCRIPT_INSTALL_DIR)\msgcat1.2"
 	@echo installing $(TCLDDEDLLNAME)
 	-@$(MKDIR) "$(SCRIPT_INSTALL_DIR)\dde1.1"
 	-@copy "$(TCLDDEDLL)" "$(SCRIPT_INSTALL_DIR)\dde1.1"
