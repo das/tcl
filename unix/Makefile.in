@@ -354,8 +354,7 @@ GENERIC_SRCS = \
 	$(GENERIC_DIR)/tclVar.c
 
 STUB_SRCS = \
-	$(GENERIC_DIR)/tclStubLib.c \
-
+	$(GENERIC_DIR)/tclStubLib.c
 
 UNIX_HDRS = \
 	$(UNIX_DIR)/tclUnixPort.h

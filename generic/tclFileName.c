@@ -740,7 +740,7 @@ SplitMacPath(path, bufPtr)
 char *
 Tcl_JoinPath(argc, argv, resultPtr)
     int argc;
-    CONST char **argv;
+    char **argv;
     Tcl_DString *resultPtr;	/* Pointer to previously initialized DString. */
 {
     int oldLength, length, i, needsSep;
@@ -969,7 +969,7 @@ char *
 Tcl_TranslateFileName(interp, name, bufferPtr)
     Tcl_Interp *interp;		/* Interpreter in which to store error
 				 * message (if necessary). */
-    CONST char *name;		/* File name, which may begin with "~" (to
+    char *name;			/* File name, which may begin with "~" (to
 				 * indicate current user's home directory) or
 				 * "~<user>" (to indicate any user's home
 				 * directory). */

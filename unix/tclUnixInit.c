@@ -315,42 +315,34 @@ CONST char *path;		/* Path to the executable in native
 void
 TclpSetInitialEncodings()
 {
-    CONST char *locale, *encoding;
+    CONST char *encoding;
     int i;
     Tcl_Obj *pathPtr;
-    Tcl_DString ds;
+    char *langEnv;
 
     /*
-     * Retrieve the old locale setting so we can restore it when we are done.
+     * Determine the current encoding from the LC_TYPE or LANG environment
+     * variables.  We previously used setlocale() to determine the locale,
+     * but this does not work on some systems (e.g. Linux/i386 RH 5.0).
      */
 
-    Tcl_DStringInit(&ds);
-    Tcl_DStringAppend(&ds, setlocale(LC_ALL, NULL), -1);
+    langEnv = getenv("LC_CTYPE");
 
-    setlocale(LC_ALL, "");
-    locale = setlocale(LC_CTYPE, NULL);
-    if (locale == NULL) {
-	locale = "C";
+    if (langEnv == NULL || langEnv[0] == '\0') {
+	langEnv = getenv("LANG");
+    }
+    if (langEnv == NULL || langEnv[0] == '\0') {
+	langEnv = NULL;
     }
 
-    /*
-     * Default encoding if locale cannot be identified.
-     */
-     
-    encoding = "iso8859-1";
-
-    for (i = 0; localeTable[i].lang != NULL; i++) {
-	if (strcmp(localeTable[i].lang, locale) == 0) {
-	    encoding = localeTable[i].encoding;
+    encoding = "iso-8859-1";
+    if (langEnv != NULL) {
+	for (i = 0; localeTable[i].lang != NULL; i++) {
+	    if (strcmp(localeTable[i].lang, langEnv) == 0) {
+		encoding = localeTable[i].encoding;
+	    }
 	}
     }
-
-    /*
-     * Restore the locale settings.
-     */
-
-    setlocale(LC_ALL, Tcl_DStringValue(&ds));
-    Tcl_DStringFree(&ds);
 
     Tcl_SetSystemEncoding(NULL, encoding);
 
