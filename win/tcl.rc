@@ -9,14 +9,14 @@
 //
 // build-up the name suffix that defines the type of build this is.
 //
-#ifdef TCL_THREADS
+#if TCL_THREADS
 #define SUFFIX_THREADS	    "t"
 #else
 #define SUFFIX_THREADS	    ""
 #endif
 
-#ifdef DEBUG
-#define SUFFIX_DEBUG	    "d"
+#if DEBUG
+#define SUFFIX_DEBUG	    "g"
 #else
 #define SUFFIX_DEBUG	    ""
 #endif
