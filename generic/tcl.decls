@@ -1334,6 +1334,14 @@ declare 385 generic {
 declare 386 generic {
     void Tcl_SetNotifier(Tcl_NotifierProcs *notifierProcPtr)
 }
+declare 387 generic {
+    Tcl_Mutex * Tcl_GetAllocMutex(void)
+}
+declare 388 generic {
+    int Tcl_GetChannelNames(Tcl_Interp *interp)
+}
+
+
 
 ##############################################################################
 

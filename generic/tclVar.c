@@ -4668,3 +4668,67 @@ VarErrMsg(interp, part1, part2, operation, reason)
     }
     Tcl_AppendResult(interp, "\": ", reason, (char *) NULL);
 }
+
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclTraceVarExists --
+ *
+ *	This is called from info exists.  We need to trigger read
+ *	and/or array traces because they may end up creating a
+ *	variable that doesn't currently exist.
+ *
+ * Results:
+ *	A pointer to the Var structure, or NULL.
+ *
+ * Side effects:
+ *	May fill in error messages in the interp.
+ *
+ *----------------------------------------------------------------------
+ */
+
+Var *
+TclVarTraceExists(interp, varName)
+    Tcl_Interp *interp;		/* The interpreter */
+    char *varName;		/* The variable name */
+{
+    Var *varPtr;
+    Var *arrayPtr;
+    char *msg;
+
+    /*
+     * The choice of "create" flag values is delicate here, and
+     * matches the semantics of GetVar.  Things are still not perfect,
+     * however, because if you do "info exists x" you get a varPtr
+     * and therefore trigger traces.  However, if you do 
+     * "info exists x(i)", then you only get a varPtr if x is already
+     * known to be an array.  Otherwise you get NULL, and no trace
+     * is triggered.  This matches Tcl 7.6 semantics.
+     */
+
+    varPtr = TclLookupVar(interp, varName, (char *) NULL,
+            0, "access",
+            /*createPart1*/ 0, /*createPart2*/ 1, &arrayPtr);
+    if (varPtr == NULL) {
+	return NULL;
+    }
+    if ((varPtr != NULL) &&
+	    ((varPtr->tracePtr != NULL)
+	    || ((arrayPtr != NULL) && (arrayPtr->tracePtr != NULL)))) {
+	msg = CallTraces((Interp *)interp, arrayPtr, varPtr, varName,
+		(char *) NULL, TCL_TRACE_READS);
+	if (msg != NULL) {
+	    /*
+	     * If the variable doesn't exist anymore and no-one's using
+	     * it, then free up the relevant structures and hash table entries.
+	     */
+
+	    if (TclIsVarUndefined(varPtr)) {
+		CleanupVar(varPtr, arrayPtr);
+	    }
+	    return NULL;
+	}
+    }
+    return varPtr;
+}

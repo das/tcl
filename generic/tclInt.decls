@@ -560,6 +560,8 @@ declare 149 generic {
     void TclHandleRelease(TclHandle handle)
 }
 
+# Added for Tcl 8.2
+
 declare 150 generic {
     int TclRegAbout(Tcl_Interp *interp, Tcl_RegExp re)
 }
@@ -586,6 +588,9 @@ declare 155 generic {
 declare 156 generic {
     void TclRegError (Tcl_Interp *interp, char *msg, \
 	    int status)
+}
+declare 157 generic {
+    Var * TclVarTraceExists (Tcl_Interp *interp, char *varName)
 }
 
 ##############################################################################

@@ -516,6 +516,9 @@ EXTERN int		TclTestChannelEventCmd _ANSI_ARGS_((
 /* 156 */
 EXTERN void		TclRegError _ANSI_ARGS_((Tcl_Interp * interp, 
 				char * msg, int status));
+/* 157 */
+EXTERN Var *		TclVarTraceExists _ANSI_ARGS_((Tcl_Interp * interp, 
+				char * varName));
 
 typedef struct TclIntStubs {
     int magic;
@@ -710,6 +713,7 @@ typedef struct TclIntStubs {
     int (*tclTestChannelCmd) _ANSI_ARGS_((ClientData clientData, Tcl_Interp * interp, int argc, char ** argv)); /* 154 */
     int (*tclTestChannelEventCmd) _ANSI_ARGS_((ClientData clientData, Tcl_Interp * interp, int argc, char ** argv)); /* 155 */
     void (*tclRegError) _ANSI_ARGS_((Tcl_Interp * interp, char * msg, int status)); /* 156 */
+    Var * (*tclVarTraceExists) _ANSI_ARGS_((Tcl_Interp * interp, char * varName)); /* 157 */
 } TclIntStubs;
 
 #ifdef __cplusplus
@@ -1346,6 +1350,10 @@ extern TclIntStubs *tclIntStubsPtr;
 #ifndef TclRegError
 #define TclRegError \
 	(tclIntStubsPtr->tclRegError) /* 156 */
+#endif
+#ifndef TclVarTraceExists
+#define TclVarTraceExists \
+	(tclIntStubsPtr->tclVarTraceExists) /* 157 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

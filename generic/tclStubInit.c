@@ -232,6 +232,7 @@ TclIntStubs tclIntStubs = {
     TclTestChannelCmd, /* 154 */
     TclTestChannelEventCmd, /* 155 */
     TclRegError, /* 156 */
+    TclVarTraceExists, /* 157 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
@@ -780,6 +781,8 @@ TclStubs tclStubs = {
     Tcl_AppendUnicodeToObj, /* 384 */
     Tcl_RegExpMatchObj, /* 385 */
     Tcl_SetNotifier, /* 386 */
+    Tcl_GetAllocMutex, /* 387 */
+    Tcl_GetChannelNames, /* 388 */
 };
 
 /* !END!: Do not edit above this line. */

@@ -915,9 +915,7 @@ InfoExistsCmd(dummy, interp, objc, objv)
     }
 
     varName = Tcl_GetString(objv[2]);
-    varPtr = TclLookupVar(interp, varName, (char *) NULL,
-            0, "access",
-            /*createPart1*/ 0, /*createPart2*/ 0, &arrayPtr);
+    varPtr = TclVarTraceExists(interp, varName);
     if ((varPtr != NULL) && !TclIsVarUndefined(varPtr)) {
         Tcl_SetIntObj(Tcl_GetObjResult(interp), 1);
     } else {
