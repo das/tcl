@@ -47,6 +47,7 @@ typedef struct ThreadSpecificData {
 
 static Tcl_ThreadDataKey dataKey;
 
+extern TclStubs tclStubs;
 /*
  * The following static indicates the number of threads that have
  * initialized notifiers.  It controls the lifetime of the TclNotifier
