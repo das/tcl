@@ -407,19 +407,23 @@ TclHideLiteral(interp, envPtr, index)
     LiteralTable *localTablePtr = &(envPtr->localLitTable);
     int localHash, length;
     char *bytes;
+    Tcl_Obj *newObjPtr;
 
     lPtr = &(envPtr->literalArrayPtr[index]);
 
     /*
-     * We need to bump the object refcount to avoid having the object freed
-     * when we remove the last global reference.
+     * To avoid unwanted sharing we need to copy the object and remove it from
+     * the local and global literal tables.  It still has a slot in the literal
+     * array so it can be referred to by byte codes, but it will not be matched
+     * by literal searches.
      */
 
-    Tcl_IncrRefCount(lPtr->objPtr);
-      
+    newObjPtr = Tcl_DuplicateObj(lPtr->objPtr);
+    Tcl_IncrRefCount(newObjPtr);
     TclReleaseLiteral(interp, lPtr->objPtr);
+    lPtr->objPtr = newObjPtr;
 
-    bytes = Tcl_GetStringFromObj(lPtr->objPtr, &length);
+    bytes = Tcl_GetStringFromObj(newObjPtr, &length);
     localHash = (HashString(bytes, length) & localTablePtr->mask);
     nextPtrPtr = &localTablePtr->buckets[localHash];
 
