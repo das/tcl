@@ -292,7 +292,9 @@ binaries: @LIBRARIES@ $(STATIC_LIBRARIES) $(TCLSH)
 
 libraries:
 
-doc: $(ROOT_DIR)/tools/man2help.tcl $(MAN2TCL) $(TCL_DOCS)
+doc:
+
+winhelp: $(ROOT_DIR)/tools/man2help.tcl $(MAN2TCL) $(TCL_DOCS)
 	TCL_LIBRARY="$(LIBRARY_DIR)"; export TCL_LIBRARY; \
 	./$(TCLSH) "$(ROOT_DIR_NATIVE)"/tools/man2help.tcl tcl "$(VER)" $(TCL_DOCS)
 	hcw /c /e tcl.hpj
