@@ -255,6 +255,14 @@ proc http::geturl { url args } {
 	status		""
 	http            ""
     }
+    # These flags have their types verified [Bug 811170]
+    array set type {
+	-binary		boolean
+	-blocksize	integer
+	-queryblocksize integer
+	-validate	boolean
+	-timeout	integer
+    }	
     set state(charset)	$defaultCharset
     set options {-binary -blocksize -channel -command -handler -headers \
 	    -progress -query -queryblocksize -querychannel -queryprogress\
@@ -265,11 +273,10 @@ proc http::geturl { url args } {
     foreach {flag value} $args {
 	if {[regexp $pat $flag]} {
 	    # Validate numbers
-	    if {[info exists state($flag)] && \
-		    [string is integer -strict $state($flag)] && \
-		    ![string is integer -strict $value]} {
+	    if {[info exists type($flag)] && \
+		    ![string is $type($flag) -strict $value]} {
 		unset $token
-		return -code error "Bad value for $flag ($value), must be integer"
+		return -code error "Bad value for $flag ($value), must be $type($flag)"
 	    }
 	    set state($flag) $value
 	} else {
