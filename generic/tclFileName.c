@@ -1680,7 +1680,6 @@ Tcl_GlobObjCmd(dummy, interp, objc, objv)
 	    case GLOB_LAST:				/* -- */
 	        i++;
 		goto endOfForLoop;
-		break;
 	}
     }
     endOfForLoop:

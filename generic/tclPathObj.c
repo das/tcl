@@ -528,6 +528,7 @@ Tcl_FSConvertToPathType(interp, objPtr)
 	 * This code is intentionally never reached.  Once fs-optimisation
 	 * is complete, it will be removed/replaced
 	 */
+#if 0
 	if (fsPathPtr->cwdPtr == NULL) {
 	    return TCL_OK;
 	} else {
@@ -542,6 +543,7 @@ Tcl_FSConvertToPathType(interp, objPtr)
 		return Tcl_ConvertToType(interp, objPtr, &tclFsPathType);
 	    }
 	}
+#endif
     } else {
 	return Tcl_ConvertToType(interp, objPtr, &tclFsPathType);
     }
