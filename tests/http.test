@@ -444,6 +444,8 @@ test http-4.14 {http::Event} {
 # Bogus host
 
 test http-4.15 {http::Event} {
+    # This test may fail if you use a proxy server.  That is to be
+    # expected and is not a problem with Tcl.
     set code [catch {
 	set token [http::geturl not_a_host.scriptics.com -timeout 1000 -command {#}]
 	http::wait $token
