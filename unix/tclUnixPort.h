@@ -135,7 +135,12 @@ EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((CONST char *string,
  * Socket support stuff: This likely needs more work to parameterize for
  * each system.
  */
-
+#ifdef DJGPP
+/* ELOOP is defined in both WatTCP includes and DJGPP system includes*/
+#undef ELOOP
+#undef EILSEQ
+#undef EOVERFLOW
+#endif
 #include <sys/socket.h>		/* struct sockaddr, SOCK_STREAM, ... */
 #ifndef NO_UNAME
 #   include <sys/utsname.h>	/* uname system call. */
