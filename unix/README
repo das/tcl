@@ -1,6 +1,8 @@
 Tcl UNIX README
 ---------------
 
+RCS: @(#) $Id$
+
 This is the directory where you configure, compile, test, and install
 UNIX versions of Tcl.  This directory also contains source files for Tcl
 that are specific to UNIX.  Some of the files in this directory are
@@ -21,8 +23,6 @@ V.  We know that it runs on workstations from Sun, H-P, DEC, IBM, and
 SGI, as well as PCs running Linux, BSDI, and SCO UNIX.  To compile for
 a PC running Windows, see the README file in the directory ../win.  To
 compile for a Macintosh, see the README file in the directory ../mac.
-
-RCS: @(#) $Id$
 
 How To Compile And Install Tcl:
 -------------------------------
