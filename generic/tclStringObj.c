@@ -376,7 +376,7 @@ Tcl_GetCharLength(objPtr)
      */
     
     if (stringPtr->numChars == -1) {
-	register int i = 0, len = objPtr->length;
+	register int i = objPtr->length;
 	register unsigned char *str = (unsigned char *) objPtr->bytes;
 
 	/*
@@ -386,13 +386,14 @@ Tcl_GetCharLength(objPtr)
 	 stringPtr->numChars = Tcl_NumUtfChars(objPtr->bytes, objPtr->length);
 	*/
 
-	while ((i < len) && (*str < 0xC0)) { i++; str++; }
-	stringPtr->numChars = i;
-	if (i < len) {
-	    stringPtr->numChars += Tcl_NumUtfChars(objPtr->bytes + i, len - i);
+	while (i && (*str < 0xC0)) { i--; str++; }
+	stringPtr->numChars = objPtr->length - i;
+	if (i) {
+	    stringPtr->numChars += Tcl_NumUtfChars(objPtr->bytes
+		    + (objPtr->length - i), i);
 	}
 
- 	if (stringPtr->numChars == len) {
+ 	if (stringPtr->numChars == objPtr->length) {
 
 	    /*
 	     * Since we've just calculated the number of chars, and all
