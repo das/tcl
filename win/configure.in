@@ -73,6 +73,13 @@ LDFLAGS=${LDFLAGS_DEFAULT}
 TCL_DBGX=${DBGX}
 
 #--------------------------------------------------------------------
+# man2tcl needs this so that it can use errno.h
+#--------------------------------------------------------------------
+
+AC_CHECK_HEADER(errno.h, , MAN2TCLFLAGS="-DNO_ERRNO_H")
+AC_SUBST(MAN2TCLFLAGS)
+
+#--------------------------------------------------------------------
 # Perform final evaluations of variables with possible substitutions.
 #--------------------------------------------------------------------
 
@@ -132,4 +139,4 @@ AC_SUBST(LIBRARIES)
 AC_SUBST(MAKE_LIB)
 AC_SUBST(MAKE_DLL)
 
-AC_OUTPUT(Makefile tclConfig.sh)
+AC_OUTPUT(Makefile tclConfig.sh tcl.hpj)
