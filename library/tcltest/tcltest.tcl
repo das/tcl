@@ -2479,13 +2479,13 @@ proc tcltest::runTest {name description script expectedAnswer constraints} {
 	if {[string match {*[$\[]*} $constraints] != 0} {
 	    # full expression, e.g. {$foo > [info tclversion]}
 	    catch {set doTest [uplevel #0 expr $constraints]}
-	} elseif {[regexp {[^.a-zA-Z0-9 ]+} $constraints] != 0} {
+	} elseif {[regexp {[^.a-zA-Z0-9 \n\r\t]+} $constraints] != 0} {
 	    # something like {a || b} should be turned into 
 	    # $tcltest::testConstraints(a) || $tcltest::testConstraints(b).
 	    regsub -all {[.\w]+} $constraints \
 		    {$tcltest::testConstraints(&)} c
 	    catch {set doTest [eval expr $c]}
-	} else {
+	} elseif {![catch {llength $constraints}]} {
 	    # just simple constraints such as {unixOnly fonts}.
 	    set doTest 1
 	    foreach constraint $constraints {
