@@ -2683,7 +2683,6 @@ DictFilterCmd(interp, objc, objv)
 	    Tcl_DictObjNext(&search, &keyObj, &valueObj, &done);
 	}
 
-    normalResult:
 	/*
 	 * Stop holding a reference to these objects.
 	 */
