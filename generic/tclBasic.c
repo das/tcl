@@ -529,6 +529,19 @@ Tcl_CreateInterp()
 	    TclPrecTraceProc, (ClientData) NULL);
     TclpSetVariables(interp);
 
+#ifdef TCL_THREADS
+    /*
+     * The existence of the "threaded" element of the tcl_platform array indicates
+     * that this particular Tcl shell has been compiled with threads turned on.
+     * Using "info exists tcl_platform(threaded)" a Tcl script can introspect on the 
+     * interpreter level of thread safety.
+     */
+
+
+    Tcl_SetVar2(interp, "tcl_platform", "threaded", "1",
+	    TCL_GLOBAL_ONLY);
+#endif
+
     /*
      * Register Tcl's version number.
      */
