@@ -491,7 +491,7 @@ $(TMPDIR)\tclWinDde.obj : $(WINDIR)\tclWinDde.c
 # be built as DLL objects but none of the symbols should be exported
 
 $(TMPDIR)\tclStubLib.obj : $(GENERICDIR)\tclStubLib.c
-	$(cc32) $(TCL_CFLAGS) -DSTATIC_BUILD -Fo$@ $?
+	$(cc32) $(TCL_CFLAGS) -Zl -DSTATIC_BUILD -Fo$@ $?
 
 
 # Dedependency rules
