@@ -871,16 +871,19 @@ CheckVersion(interp, string)
 				 * by dots. */
 {
     char *p = string;
-
+    char prevChar;
+    
     if (!isdigit(UCHAR(*p))) {	/* INTL: digit */
 	goto error;
     }
-    for (p++; *p != 0; p++) {
-	if (!isdigit(UCHAR(*p)) && (*p != '.')) { /* INTL: digit */
+    for (prevChar = *p, p++; *p != 0; p++) {
+	if (!isdigit(UCHAR(*p)) &&
+		((*p != '.') || (prevChar == '.'))) { /* INTL: digit */
 	    goto error;
 	}
+	prevChar = *p;
     }
-    if (p[-1] != '.') {
+    if (prevChar != '.') {
 	return TCL_OK;
     }
 

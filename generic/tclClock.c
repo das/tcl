@@ -68,7 +68,7 @@ Tcl_ClockObjCmd (client, interp, objc, objv)
     char *scanStr;
     
     static char *switches[] =
-	    {"clicks", "format", "scan", "seconds", (char *) NULL};
+	{"clicks", "format", "scan", "seconds", (char *) NULL};
     static char *formatSwitches[] = {"-format", "-gmt", (char *) NULL};
     static char *scanSwitches[] = {"-base", "-gmt", (char *) NULL};
 
@@ -83,13 +83,37 @@ Tcl_ClockObjCmd (client, interp, objc, objv)
 	return TCL_ERROR;
     }
     switch (index) {
-	case 0:			/* clicks */
-	    if (objc != 2) {
-		Tcl_WrongNumArgs(interp, 2, objv, NULL);
+	case 0:	{		/* clicks */
+	    int forceMilli = 0;
+
+	    if (objc == 3) {
+		format = Tcl_GetStringFromObj(objv[2], &index);
+		if (strncmp(format, "-milliseconds",
+			(unsigned int) index) == 0) {
+		    forceMilli = 1;
+		} else {
+		    Tcl_AppendStringsToObj(resultPtr,
+			    "bad switch \"", format,
+			    "\": must be -milliseconds", (char *) NULL);
+		    return TCL_ERROR;
+		}
+	    } else if (objc != 2) {
+		Tcl_WrongNumArgs(interp, 2, objv, "?-milliseconds?");
 		return TCL_ERROR;
 	    }
-	    Tcl_SetLongObj(resultPtr, (long) TclpGetClicks());
+	    if (forceMilli) {
+		/*
+		 * We can enforce at least millisecond granularity
+		 */
+		Tcl_Time time;
+		TclpGetTime(&time);
+		Tcl_SetLongObj(resultPtr,
+			(long) (time.sec*1000 + time.usec/1000));
+	    } else {
+		Tcl_SetLongObj(resultPtr, (long) TclpGetClicks());
+	    }
 	    return TCL_OK;
+	}
 	case 1:			/* format */
 	    if ((objc < 3) || (objc > 7)) {
 		wrongFmtArgs:

@@ -78,6 +78,9 @@ test linsert-1.18 {linsert command} {
 test linsert-1.19 {linsert command} {
     linsert {} end q r
 } {q r}
+test linsert-1.20 {linsert command, use of end-int index} {
+    linsert {a b c d} end-2 e f
+} {a b e f c d}
 
 test linsert-2.1 {linsert errors} {
     list [catch linsert msg] $msg

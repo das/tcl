@@ -412,7 +412,7 @@ test timer-6.29 {Tcl_AfterCmd procedure, info option, script with NULL} {
     }
     set x "hello world"
     set id junk
-    set id [after 1 set x ab\0cd]
+    set id [after 10 set x ab\0cd]
     update
     set y [string length [lindex [lindex [after info $id] 0] 2]]
     foreach i [after info] {

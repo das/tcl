@@ -529,6 +529,9 @@ test pkg-5.3 {CheckVersion procedure} {
 test pkg-5.4 {CheckVersion procedure} {
     list [catch {package vcompare 1.2.3. 2.1} msg] $msg
 } {1 {expected version number but got "1.2.3."}}
+test pkg-5.5 {CheckVersion procedure} {
+    list [catch {package vcompare 1.2..3 2.1} msg] $msg
+} {1 {expected version number but got "1.2..3"}}
 
 test pkg-6.1 {ComparePkgVersions procedure} {
     package vcompare 1.23 1.22

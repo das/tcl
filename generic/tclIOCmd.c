@@ -350,12 +350,14 @@ Tcl_ReadObjCmd(dummy, interp, objc, objv)
         }
     }
 
-    resultPtr = Tcl_GetObjResult(interp);
+    resultPtr = Tcl_NewObj();
+    Tcl_IncrRefCount(resultPtr);
     charactersRead = Tcl_ReadChars(chan, resultPtr, toRead, 0);
     if (charactersRead < 0) {
 	Tcl_ResetResult(interp);
 	Tcl_AppendResult(interp, "error reading \"", name, "\": ",
 		Tcl_PosixError(interp), (char *) NULL);
+	Tcl_DecrRefCount(resultPtr);
 	return TCL_ERROR;
     }
     
@@ -372,6 +374,8 @@ Tcl_ReadObjCmd(dummy, interp, objc, objv)
 	    Tcl_SetObjLength(resultPtr, length - 1);
 	}
     }
+    Tcl_SetObjResult(interp, resultPtr);
+    Tcl_DecrRefCount(resultPtr);
     return TCL_OK;
 }
 

@@ -1954,8 +1954,12 @@ Tcl_LinsertObjCmd(dummy, interp, objc, objv)
      * will invalidate the list's internal representation.
      */
 
-    result = TclGetIntForIndex(interp, objv[2], /*endValue*/ INT_MAX,
-	    &index);
+    result = Tcl_ListObjLength(interp, objv[1], &len);
+    if (result != TCL_OK) {
+	return result;
+    }
+
+    result = TclGetIntForIndex(interp, objv[2], /*endValue*/ len, &index);
     if (result != TCL_OK) {
 	return result;
     }
