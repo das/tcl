@@ -1717,6 +1717,8 @@ EXTERN int		TclArraySet _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *arrayNameObj, Tcl_Obj *arrayElemObj));
 EXTERN int		TclCheckBadOctal _ANSI_ARGS_((Tcl_Interp *interp,
 			    CONST char *value));
+EXTERN void             TclCleanupLiteralTable _ANSI_ARGS_((
+                            Tcl_Interp* interp, LiteralTable* tablePtr ));
 EXTERN void		TclExpandTokenArray _ANSI_ARGS_((
 			    Tcl_Parse *parsePtr));
 EXTERN int		TclFileAttrsCmd _ANSI_ARGS_((Tcl_Interp *interp,

@@ -1002,6 +1002,7 @@ DeleteInterpProc(interp)
      * table, as it will be freed later in this function without further use.
      */
     
+    TclCleanupLiteralTable(interp, &(iPtr->literalTable));
     TclHandleFree(iPtr->handle);
     TclTeardownNamespace(iPtr->globalNsPtr);
 
