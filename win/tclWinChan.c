@@ -939,7 +939,7 @@ Tcl_MakeFileChannel(rawHandle, mode)
 	 * trouble with the MS DevStudio debugger.
 	 */
 	
-	channel = NULL
+	channel = NULL;
 	break;
 
     }
