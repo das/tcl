@@ -108,7 +108,7 @@ int
 \fBTcl_SetChannelOption\fR(\fIinterp, channel, optionName, newValue\fR)
 .sp
 .SH ARGUMENTS
-.AS Tcl_ChannelType newClientProcPtr in/out
+.AS Tcl_DString *channelName in/out
 .AP Tcl_Interp *interp in
 Used for error reporting and to look up a channel registered in it.
 .AP "const char" *fileName in
