@@ -295,6 +295,7 @@ test interp-9.3 {testing aliases for hidden commands} {
     catch {interp create a}
     a eval {proc p {} {return ENTER_A}}
     interp alias {} p a p
+    set res {}
     lappend res [list [catch p msg] $msg]
     interp hide a p
     lappend res [list [catch p msg] $msg]
