@@ -2296,6 +2296,9 @@ TclCheckBadOctal(interp, value)
 	while (isdigit(UCHAR(*p))) {	/* INTL: digit. */
 	    p++;
 	}
+	while (isspace(UCHAR(*p))) {	/* INTL: ISO space. */
+	    p++;
+	}
 	if (*p == '\0') {
 	    /* Reached end of string */
 	    if (interp != NULL) {
