@@ -10,7 +10,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclProc.c 1.116 97/10/29 18:33:24
+ * SCCS: %Z% $Id$ 
  */
 
 #include "tclInt.h"
@@ -104,26 +104,13 @@ Tcl_ProcObjCmd(dummy, interp, objc, objv)
      * procedures that have a different number of arguments, even if their
      * bodies are identical. Note that we don't use Tcl_DuplicateObj since
      * we would not want any bytecode internal representation.
-     *
-     * But if this is a precompiled bytecode object, then do not duplicate it;
-     * precompiled bytecodes are immutable, and there is no source to
-     * recompile anyway.
      */
 
     bodyPtr = objv[3];
     if (Tcl_IsShared(bodyPtr)) {
-        if (bodyPtr->typePtr == &tclByteCodeType) {
-            ByteCode *codePtr
-                = (ByteCode *) bodyPtr->internalRep.otherValuePtr;
-            if (codePtr->flags & TCL_BYTECODE_PRECOMPILED) {
-                goto skip_unshare;
-            }
-        }
-
         bytes = Tcl_GetStringFromObj(bodyPtr, &length);
         bodyPtr = Tcl_NewStringObj(bytes, length);
     }
-    skip_unshare:
 
     /*
      * Create and initialize a Proc structure for the procedure. Note that
