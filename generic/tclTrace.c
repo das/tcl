@@ -1529,7 +1529,7 @@ TclCheckInterpTraces(interp, command, numChars, cmdPtr, code,
 	return(traceCode);
     }
     
-    curLevel = ((iPtr->varFramePtr == NULL) ? 0 : iPtr->varFramePtr->level);
+    curLevel = iPtr->numLevels;
     
     active.nextPtr = iPtr->activeInterpTracePtr;
     iPtr->activeInterpTracePtr = &active;
