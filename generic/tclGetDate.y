@@ -134,6 +134,88 @@ static int	yylex _ANSI_ARGS_((void));
 
 int
 yyparse _ANSI_ARGS_((void));
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclDateCleanup --
+ *
+ *	Clean up allocated memory on process exit.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Frees the block of memory passed in as client data.
+ *
+ *----------------------------------------------------------------------
+ */
+
+static void
+TclDateCleanup( ClientData clientData )
+{
+    ckfree( (char*) clientData );
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclDateAlloc --
+ *
+ *	Special purpose allocator for the two YACC stacks.
+ *
+ * Results:
+ *	Returns a pointer to a block of memory.
+ *
+ * Side effects:
+ *	Allocates the requested number of bytes, and 
+ *	sets up to delete the allocated memory on process exit.
+ *
+ * The YACC system is set up to free memory in its stacks only by
+ * abandonment. This procedure sets up to free it explicitly on exit
+ * from Tcl, as when unloading.
+ *
+ *----------------------------------------------------------------------
+ */
+
+static char*
+TclDateAlloc( size_t n )
+{
+    char* pointer = ckalloc( n );
+    Tcl_CreateExitHandler( TclDateCleanup, (ClientData) pointer );
+    return pointer;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclDateRealloc --
+ *
+ *	Special purpose allocator for the two YACC stacks.
+ *
+ * Results:
+ *	Returns a pointer to a block of memory.
+ *
+ * Side effects:
+ *	Allocates the requested number of bytes, and 
+ *	sets up to delete the allocated memory on process exit.
+ *
+ * The YACC system is set up to free memory in its stacks only by
+ * abandonment. This procedure sets up to free it explicitly on exit
+ * from Tcl, as when unloading.
+ *
+ *----------------------------------------------------------------------
+ */
+static char*
+TclDateRealloc( char* oldPointer, size_t n )
+{
+    char* newPointer;
+    Tcl_DeleteExitHandler( TclDateCleanup, (ClientData) oldPointer );
+    newPointer = ckrealloc( oldPointer, n );
+    Tcl_CreateExitHandler( TclDateCleanup, (ClientData) newPointer );
+    return newPointer;
+}
+
 %}
 
 %union {
