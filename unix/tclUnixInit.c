@@ -58,6 +58,7 @@ typedef struct LocaleTable {
 static CONST LocaleTable localeTable[] = {
     {"ja_JP.SJIS",	"shiftjis"},
     {"ja_JP.EUC",	"euc-jp"},
+    {"ja_JP.eucJP",     "euc-jp"},
     {"ja_JP.JIS",	"iso2022-jp"},
     {"ja_JP.mscode",	"shiftjis"},
     {"ja_JP.ujis",	"euc-jp"},
