@@ -99,16 +99,22 @@ typedef struct TimeInfo {
 } TimeInfo;
 
 static TimeInfo timeInfo = {
-    { NULL }, 
-    0, 
-    0, 
-    (HANDLE) NULL, 
-    (HANDLE) NULL, 
-    (HANDLE) NULL, 
-    0, 
-    0, 
-    0, 
-    0, 
+    { NULL },
+    0,
+    0,
+    (HANDLE) NULL,
+    (HANDLE) NULL,
+    (HANDLE) NULL,
+#ifdef HAVE_CAST_TO_UNION
+    (ULARGE_INTEGER) (DWORDLONG) 0,
+    (LARGE_INTEGER) (LONGLONG) 0,
+    (LARGE_INTEGER) (LONGLONG) 0,
+#else
+    0,
+    0,
+    0,
+#endif
+    0,
     0,
     0
 };
