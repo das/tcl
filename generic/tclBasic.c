@@ -2985,7 +2985,8 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
                 traceCode = TclCheckInterpTraces(interp, command, length,
                                cmdPtr, code, TCL_TRACE_ENTER_EXEC, objc, objv);
             }
-            if (cmdPtr->flags & CMD_HAS_EXEC_TRACES && traceCode == TCL_OK) {
+            if ((cmdPtr->flags & CMD_HAS_EXEC_TRACES) 
+		    && (traceCode == TCL_OK)) {
                 traceCode = TclCheckExecutionTraces(interp, command, length,
                                cmdPtr, code, TCL_TRACE_ENTER_EXEC, objc, objv);
             }
@@ -3019,7 +3020,7 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
     /*
      * Call 'leave' command traces
      */
-    if (cmdPtr->flags & CMD_HAS_EXEC_TRACES && traceCode == TCL_OK) {
+    if ((cmdPtr->flags & CMD_HAS_EXEC_TRACES) && (traceCode == TCL_OK)) {
 	traceCode = TclCheckExecutionTraces(interp, command, length,
 		       cmdPtr, code, TCL_TRACE_LEAVE_EXEC, objc, objv);
     }

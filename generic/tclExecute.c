@@ -1331,7 +1331,7 @@ TclExecuteByteCode(interp, codePtr)
 	    } else {		
 		Command *cmdPtr;
 		cmdPtr = (Command *) Tcl_GetCommandFromObj(interp, objv[0]);
-		if (cmdPtr != NULL && cmdPtr->flags & CMD_HAS_EXEC_TRACES) {
+		if ((cmdPtr != NULL) && (cmdPtr->flags & CMD_HAS_EXEC_TRACES)) {
 		    bytes = GetSrcInfoForPc(pc, codePtr, &length);
 		}
 	    }		
