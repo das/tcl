@@ -1556,6 +1556,8 @@ EXTERN int		TclAccess _ANSI_ARGS_((CONST char *path,
 EXTERN int		TclAccessDeleteProc _ANSI_ARGS_((TclAccessProc_ *proc));
 EXTERN int		TclAccessInsertProc _ANSI_ARGS_((TclAccessProc_ *proc));
 EXTERN void		TclAllocateFreeObjects _ANSI_ARGS_((void));
+EXTERN int		TclArraySet _ANSI_ARGS_((Tcl_Interp *interp,
+			    Tcl_Obj *arrayNameObj, Tcl_Obj *arrayElemObj));
 EXTERN int		TclCleanupChildren _ANSI_ARGS_((Tcl_Interp *interp,
 			    int numPids, Tcl_Pid *pidPtr,
 			    Tcl_Channel errorChan));
@@ -1725,6 +1727,8 @@ EXTERN void		TclpFinalizeThreadDataKey _ANSI_ARGS_((
 			    Tcl_ThreadDataKey *keyPtr));
 EXTERN char *		TclpFindExecutable _ANSI_ARGS_((
 			    CONST char *argv0));
+EXTERN int		TclpFindVariable _ANSI_ARGS_((CONST char *name,
+			    int *lengthPtr));
 EXTERN void		TclpFree _ANSI_ARGS_((char *ptr));
 EXTERN unsigned long	TclpGetClicks _ANSI_ARGS_((void));
 EXTERN Tcl_Channel	TclpGetDefaultStdChannel _ANSI_ARGS_((int type));
