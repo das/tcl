@@ -34,6 +34,14 @@ static int environSize = 0;	/* Non-zero means that the environ array was
 #endif
 
 /*
+ * For MacOS X
+ */
+#if defined(__APPLE__) && defined(__DYNAMIC__)
+#include <crt_externs.h>
+char **environ = NULL;
+#endif
+
+/*
  * Declarations for local procedures defined in this file:
  */
 
@@ -78,6 +86,13 @@ TclSetupEnv(interp)
     Tcl_DString envString;
     char *p1, *p2;
     int i;
+
+    /*
+     * For MacOS X
+     */
+#if defined(__APPLE__) && defined(__DYNAMIC__)
+    environ = *_NSGetEnviron();
+#endif
 
     /*
      * Synchronize the values in the environ array with the contents
