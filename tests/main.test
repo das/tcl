@@ -7,7 +7,7 @@ if {[catch {package require tcltest 2.0.2}]} {
     return
 }
 
-namespace eval ::tcl::main::test {
+namespace eval ::tcl::test::main {
 
     namespace import ::tcltest::test
     namespace import ::tcltest::testConstraint
@@ -1172,5 +1172,5 @@ namespace eval ::tcl::main::test {
     cleanupTests
 }
 
-namespace delete ::tcl::main::test
-
+namespace delete ::tcl::test::main
+return
