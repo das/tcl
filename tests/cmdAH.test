@@ -60,7 +60,7 @@ test cmdAH-2.3 {Tcl_CdObjCmd} {
     file mkdir foo
     cd foo
     cd ~
-    set result [string match [pwd] $oldpwd]
+    set result [string equal [pwd] $oldpwd]
     file delete foo
     set env(HOME) $temp
     set result
@@ -74,7 +74,7 @@ test cmdAH-2.4 {Tcl_CdObjCmd} {
     file mkdir foo
     cd foo
     cd
-    set result [string match [pwd] $oldpwd]
+    set result [string equal [pwd] $oldpwd]
     file delete foo
     set env(HOME) $temp
     set result

@@ -1272,6 +1272,11 @@ test filename-11.21 {Tcl_GlobCmd} {
     list [catch {lsort [glob -type d -path $globname *]} msg] $msg
 } [list 0 [lsort [list $globname]]]
 
+# Get rid of file/dir if it exists, since it will have
+# been left behind by a previous failed run.
+if {[file exists $horribleglobname]} {
+    file delete -force $horribleglobname
+}
 file rename globTest $horribleglobname
 set globname $horribleglobname
 
@@ -1769,7 +1774,7 @@ test filename-16.15 {windows specific globbing} {pcOnly} {
     glob ..
 } {..}
 test filename-16.16 {windows specific globbing} {pcOnly} {
-    file tail [glob "[lindex [glob -types d -dir C:/ *] 0]/.."]
+    file tail [lindex [glob "[lindex [glob -types d -dir C:/ *] 0]/.."] 0]
 } {..}
 
 # cleanup

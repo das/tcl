@@ -1789,18 +1789,25 @@ Tcl_GlobObjCmd(dummy, interp, objc, objv)
 		    }
 		}
 		/*
-		 * Error cases
+		 * Error cases.  We re-get the interpreter's result,
+		 * just to be sure it hasn't changed, and we reset
+		 * the 'join' flag to zero, since we haven't yet
+		 * made use of it.
 		 */
 		badTypesArg:
+		resultPtr = Tcl_GetObjResult(interp);
 		Tcl_AppendToObj(resultPtr, "bad argument to \"-types\": ", -1);
 		Tcl_AppendObjToObj(resultPtr, look);
 		result = TCL_ERROR;
+		join = 0;
 		goto endOfGlob;
 		badMacTypesArg:
+		resultPtr = Tcl_GetObjResult(interp);
 		Tcl_AppendToObj(resultPtr,
 		   "only one MacOS type or creator argument"
 		   " to \"-types\" allowed", -1);
 		result = TCL_ERROR;
+		join = 0;
 		goto endOfGlob;
 	    }
 	}
