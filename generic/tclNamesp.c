@@ -4933,22 +4933,12 @@ NsEnsembleImplementationCmd(clientData, interp, objc, objv)
 
     if (ensemblePtr->unknownHandler != NULL && reparseCount++ < 1) {
 	int paramc, i;
-	Tcl_Obj **paramv, *unknownCmd;
-	char *ensName = TclGetString(objv[0]);
+	Tcl_Obj **paramv, *unknownCmd, *ensObj;
 
 	unknownCmd = Tcl_DuplicateObj(ensemblePtr->unknownHandler);
-	if (ensName[0] == ':') {
-	    Tcl_ListObjAppendElement(NULL, unknownCmd, objv[0]);
-	} else {
-	    Tcl_Obj *qualEnsembleObj =
-		Tcl_NewStringObj(Tcl_GetCurrentNamespace(interp)->fullName,-1);
-	    if (Tcl_GetCurrentNamespace(interp)->parentPtr) {
-		Tcl_AppendStringsToObj(qualEnsembleObj, "::", ensName, NULL);
-	    } else {
-		Tcl_AppendStringsToObj(qualEnsembleObj, ensName, NULL);
-	    }
-	    Tcl_ListObjAppendElement(NULL, unknownCmd, qualEnsembleObj);
-	}
+	TclNewObj(ensObj);
+	Tcl_GetCommandFullName(interp, ensemblePtr->token, ensObj);
+	Tcl_ListObjAppendElement(NULL, unknownCmd, ensObj);
 	for (i=1 ; i<objc ; i++) {
 	    Tcl_ListObjAppendElement(NULL, unknownCmd, objv[i]);
 	}

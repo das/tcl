@@ -1649,6 +1649,32 @@ test namespace-47.6 {ensemble: unknown handler} {
     while parsing result of ensemble unknown subcommand handler
     invoked from within
 "foo bar"}}
+test namespace-47.7 {ensemble: unknown handler and namespace import} {
+    namespace eval foo {
+	namespace export bar
+	namespace ensemble create -command bar -unknown ::foo::u -subcomm x
+	proc u {ens args} {
+	    global result
+	    lappend result $ens $args
+	    namespace ensemble config $ens -subcommand {x y}
+	}
+	proc x args {
+	    global result
+	    lappend result XXX $args
+	}
+	proc y args {
+	    global result
+	    lappend result YYY $args
+	}
+    }
+    namespace import foo::bar
+    set result {}
+    lappend result [catch {namespace ensemble config bar} msg] $msg
+    bar x 123
+    bar y 456
+    namespace delete foo
+    set result
+} {1 {bar is not an ensemble command} XXX 123 ::bar {y 456} YYY 456}
 
 # cleanup
 catch {rename cmd1 {}}
