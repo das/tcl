@@ -410,7 +410,7 @@ test io-6.6 {Tcl_GetsObj: loop test} {
 test io-6.7 {Tcl_GetsObj: error in input} {stdio openpipe} {
     # if (FilterInputBytes(chanPtr, &gs) != 0)
 
-    set f [open "|[list [interpreter] cat]" w+]
+    set f [open "|[list [interpreter] $path(cat)]" w+]
     puts -nonewline $f "hi\nwould"
     flush $f
     gets $f
