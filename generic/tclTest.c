@@ -2124,8 +2124,8 @@ TestMathFunc2(clientData, interp, args, resultPtr)
     ClientData clientData;		/* Integer value to return. */
     Tcl_Interp *interp;			/* Used to report errors. */
     Tcl_Value *args;			/* Points to an array of two
-					 * Tcl_Values for the two
-					 * arguments. */
+					 * Tcl_Value structs for the 
+					 * two arguments. */
     Tcl_Value *resultPtr;		/* Where to store the result. */
 {
     int result = TCL_OK;

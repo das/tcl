@@ -5881,7 +5881,8 @@ Tcl_DeleteChannelHandler(chan, proc, clientData)
 
     /*
      * Recompute the interest list for the channel, so that infinite loops
-     * will not result if Tcl_DeleteChanelHandler is called inside an event.
+     * will not result if Tcl_DeleteChannelHandler is called inside an
+     * event.
      */
 
     chanPtr->interestMask = 0;

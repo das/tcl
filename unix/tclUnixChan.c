@@ -555,7 +555,7 @@ FileWatchProc(instanceData, mask)
  *
  * FileGetHandleProc --
  *
- *	Called from Tcl_GetChannelFile to retrieve OS handles from
+ *	Called from Tcl_GetChannelHandle to retrieve OS handles from
  *	a file based channel.
  *
  * Results:
@@ -1892,7 +1892,7 @@ TcpWatchProc(instanceData, mask)
  *
  * TcpGetHandleProc --
  *
- *	Called from Tcl_GetChannelFile to retrieve OS handles from inside
+ *	Called from Tcl_GetChannelHandle to retrieve OS handles from inside
  *	a TCP socket based channel.
  *
  * Results:

@@ -17,7 +17,7 @@
 /*
  * The following structure describes a package that has been loaded
  * either dynamically (with the "load" command) or statically (as
- * indicated by a call to Tcl_PackageLoaded).  All such packages
+ * indicated by a call to TclGetLoadedPackages).  All such packages
  * are linked together into a single list for the process.  Packages
  * are never unloaded, so these structures are never freed.
  */

@@ -1125,7 +1125,7 @@ TcpInput(
  *
  * TcpGetHandle --
  *
- *	Called from Tcl_GetChannelFile to retrieve handles from inside
+ *	Called from Tcl_GetChannelHandle to retrieve handles from inside
  *	a file based channel.
  *
  * Results:

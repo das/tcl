@@ -423,7 +423,7 @@ Tcl_GetEncoding(interp, name)
  * Tcl_FreeEncoding --
  *
  *	This procedure is called to release an encoding allocated by
- *	Tcl_CreateEncodingType() or Tcl_GetEncoding().
+ *	Tcl_CreateEncoding() or Tcl_GetEncoding().
  *
  * Results:
  *	None.

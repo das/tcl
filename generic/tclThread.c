@@ -142,7 +142,7 @@ TclThreadDataKeyGet(keyPtr)
  *	None.
  *
  * Side effects:
- *	The assigned value will be returned by Tcl_ThreadDataKeyGet.
+ *	The assigned value will be returned by TclpThreadDataKeyGet.
  *
  *----------------------------------------------------------------------
  */

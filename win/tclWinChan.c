@@ -600,7 +600,7 @@ FileWatchProc(instanceData, mask)
  *
  * FileGetHandleProc --
  *
- *	Called from Tcl_GetChannelFile to retrieve OS handles from
+ *	Called from Tcl_GetChannelHandle to retrieve OS handles from
  *	a file based channel.
  *
  * Results:

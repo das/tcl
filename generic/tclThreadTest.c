@@ -53,7 +53,7 @@ static struct ThreadSpecificData *threadList;
 /*
  * An instance of the following structure contains all information that is
  * passed into a new thread when the thread is created using either the
- * "thread create" Tcl command or the Tcl_ThreadCreate() C function.
+ * "thread create" Tcl command or the TclCreateThread() C function.
  */
 
 typedef struct ThreadCtrl {

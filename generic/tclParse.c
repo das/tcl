@@ -5,7 +5,7 @@
  *	do so in a general-purpose fashion that can be used for many
  *	different purposes, including compilation, direct execution,
  *	code analysis, etc.  This file also includes a few additional
- *	procedures such as Tcl_EvalObjv, Tcl_Eval, and Tcl_Eval2, which
+ *	procedures such as Tcl_EvalObjv, Tcl_Eval, and Tcl_EvalEx, which
  *	allow scripts to be evaluated directly, without compiling.
  *
  * Copyright (c) 1997 Sun Microsystems, Inc.
@@ -2078,8 +2078,8 @@ Tcl_ParseQuotedString(interp, string, numBytes, parsePtr, append, termPtr)
  *
  * CommandComplete --
  *
- *	This procedure is shared by Tcl_CommandComplete and
- *	Tcl_ObjCommandComplete; it does all the real work of seeing
+ *	This procedure is shared by TclCommandComplete and
+ *	Tcl_ObjCommandcoComplete; it does all the real work of seeing
  *	whether a script is complete
  *
  * Results:

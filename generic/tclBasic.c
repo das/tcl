@@ -1537,7 +1537,7 @@ Tcl_CreateCommand(interp, cmdName, proc, clientData, deleteProc)
  *
  * Results:
  *	The return value is a token for the command, which can
- *	be used in future calls to Tcl_NameOfCommand.
+ *	be used in future calls to Tcl_GetCommandName.
  *
  * Side effects:
  *	If no command named "cmdName" already exists for interp, one is

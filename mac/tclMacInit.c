@@ -68,7 +68,7 @@ rename sourcePath {}";
 
 /*
  * The following structures are used to map the script/language codes of a 
- * font to the name that should be passed to Tcl_GetTextEncoding() to obtain
+ * font to the name that should be passed to Tcl_GetEncoding() to obtain
  * the encoding for that font.  The set of numeric constants is fixed and 
  * defined by Apple.
  */
@@ -224,7 +224,7 @@ GetFinderFont(int *finderID)
  *
  * Results:
  *	The return value is a string that specifies the font's encoding
- *	and that can be passed to Tcl_GetTextEncoding() to construct the
+ *	and that can be passed to Tcl_GetEncoding() to construct the
  *	encoding.  If the font's encoding could not be identified, NULL
  *	is returned.
  *

@@ -1240,7 +1240,7 @@ typedef struct Interp {
 				/* Linked list of name resolution schemes
 				 * added to this interpreter.  Schemes
 				 * are added/removed by calling
-				 * Tcl_AddInterpResolver and
+				 * Tcl_AddInterpResolvers and
 				 * Tcl_RemoveInterpResolver. */
     char *scriptFile;		/* NULL means there is no nested source
 				 * command active;  otherwise this points to
@@ -1323,7 +1323,7 @@ typedef struct Interp {
  *			installed, less priviledge than a regular interp).
  * USE_EVAL_DIRECT:	Non-zero means don't use the compiler or byte-code
  *			interpreter; instead, have Tcl_EvalObj call
- *			Tcl_EvalDirect.	 Used primarily for testing the
+ *			Tcl_EvalEx. Used primarily for testing the
  *			new parser.
  */
 

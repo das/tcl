@@ -526,8 +526,8 @@ TclWinSetInterfaces(
  *	NULL to represent that encoding.
  *
  *	On NT, some strings exchanged between Tcl and the OS are "char"
- *	oriented, while others are in Unicode.  We need two Tcl_Encodings
- *	depending on whether we are targeting a "char" or Unicode
+ *	oriented, while others are in Unicode.  We need two Tcl_Encoding
+ *	APIs depending on whether we are targeting a "char" or Unicode
  *	interface.  
  *
  *	Calling Tcl_UtfToExternal() or Tcl_ExternalToUtf() with an

@@ -909,7 +909,7 @@ resourceRef? resourceType");
 
 	    return result;
 	default:
-	    panic("Tcl_GetIndexFromObject returned unrecognized option");
+	    panic("Tcl_GetIndexFromObj returned unrecognized option");
 	    return TCL_ERROR;	/* Should never be reached. */
     }
 }

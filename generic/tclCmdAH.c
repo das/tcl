@@ -1236,7 +1236,7 @@ Tcl_FileObjCmd(dummy, interp, objc, objv)
  *
  * SplitPath --
  *
- *	Utility procedure used by Tcl_FileObjCommand() to split a path.
+ *	Utility procedure used by Tcl_FileObjCmd() to split a path.
  *	Differs from standard Tcl_SplitPath in its handling of home
  *	directories; Tcl_SplitPath preserves the "~" while this
  *	procedure computes the actual full path name.

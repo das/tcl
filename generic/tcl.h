@@ -560,7 +560,7 @@ EXTERN int		Tcl_IsShared _ANSI_ARGS_((Tcl_Obj *objPtr));
 
 /*
  * Macros and definitions that help to debug the use of Tcl objects.
- * When TCL_MEM_DEBUG is defined, the Tcl_New* declarations are 
+ * When TCL_MEM_DEBUG is defined, the Tcl_New declarations are 
  * overridden to call debugging versions of the object creation procedures.
  */
 

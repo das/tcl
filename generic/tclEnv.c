@@ -63,7 +63,7 @@ void			TclUnsetEnv _ANSI_ARGS_((CONST char *name));
  *	The interpreter is added to a list of interpreters managed
  *	by us, so that its view of envariables can be kept consistent
  *	with the view in other interpreters.  If this is the first
- *	call to Tcl_SetupEnv, then additional initialization happens,
+ *	call to TclSetupEnv, then additional initialization happens,
  *	such as copying the environment to dynamically-allocated space
  *	for ease of management.
  *

@@ -462,7 +462,7 @@ StdIOClose(
  *
  * CommonGetHandle --
  *
- *	Called from Tcl_GetChannelFile to retrieve OS handles from inside
+ *	Called from Tcl_GetChannelHandle to retrieve OS handles from inside
  *	a file based channel.
  *
  * Results:

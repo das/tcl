@@ -178,12 +178,12 @@ TclFinalizeNotifier()
  *	SetupProc and checkProc will be invoked each time that Tcl_DoOneEvent
  *	runs out of things to do.  SetupProc will be invoked before
  *	Tcl_DoOneEvent calls select or whatever else it uses to wait
- *	for events.  SetupProc typically calls functions like Tcl_WatchFile
- *	or Tcl_SetMaxBlockTime to indicate what to wait for.
+ *	for events.  SetupProc typically calls functions like
+ *	Tcl_SetMaxBlockTime to indicate what to wait for.
  *
  *	CheckProc is called after select or whatever operation was actually
  *	used to wait.  It figures out whether anything interesting actually
- *	happened (e.g. by calling Tcl_FileReady), and then calls
+ *	happened (e.g. by calling Tcl_AsyncReady), and then calls
  *	Tcl_QueueEvent to queue any events that are ready.
  *
  *	Each of these procedures is passed two arguments, e.g.

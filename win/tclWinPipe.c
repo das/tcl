@@ -931,7 +931,7 @@ TclpCloseFile(
 	    break;
 
 	default:
-	    panic("Tcl_CloseFile: unexpected file type");
+	    panic("TclpCloseFile: unexpected file type");
     }
 
     ckfree((char *) filePtr);

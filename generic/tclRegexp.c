@@ -311,7 +311,7 @@ TclRegExpExecUniChar(interp, re, wString, numChars, nmatches, flags)
     Tcl_RegExp re;		/* Compiled regular expression; returned by
 				 * a previous call to Tcl_GetRegExpFromObj */
     CONST Tcl_UniChar *wString;	/* String against which to match re. */
-    int numChars;		/* Length of string in Tcl_UniChars (must
+    int numChars;		/* Length of Tcl_UniChar string (must
 				 * be >= 0). */
     int nmatches;		/* How many subexpression matches (counting
 				 * the whole match as subexpression 0) are

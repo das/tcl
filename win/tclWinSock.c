@@ -2011,7 +2011,7 @@ TcpWatchProc(instanceData, mask)
  *
  * TcpGetProc --
  *
- *	Called from Tcl_GetChannelFile to retrieve an OS handle from inside
+ *	Called from Tcl_GetChannelHandle to retrieve an OS handle from inside
  *	a TCP socket based channel.
  *
  * Results:
