@@ -808,11 +808,11 @@ GetInterp2(interp, objc, objv)
 int
 Tcl_CreateAlias(slaveInterp, slaveCmd, targetInterp, targetCmd, argc, argv)
     Tcl_Interp *slaveInterp;	/* Interpreter for source command. */
-    char *slaveCmd;		/* Command to install in slave. */
+    CONST char *slaveCmd;	/* Command to install in slave. */
     Tcl_Interp *targetInterp;	/* Interpreter for target command. */
-    char *targetCmd;		/* Name of target command. */
+    CONST char *targetCmd;	/* Name of target command. */
     int argc;			/* How many additional arguments? */
-    char **argv;		/* These are the additional args. */
+    char * CONST *argv;		/* These are the additional args. */
 {
     Tcl_Obj *slaveObjPtr, *targetObjPtr;
     Tcl_Obj **objv;
@@ -863,9 +863,9 @@ Tcl_CreateAlias(slaveInterp, slaveCmd, targetInterp, targetCmd, argc, argv)
 int
 Tcl_CreateAliasObj(slaveInterp, slaveCmd, targetInterp, targetCmd, objc, objv)
     Tcl_Interp *slaveInterp;	/* Interpreter for source command. */
-    char *slaveCmd;		/* Command to install in slave. */
+    CONST char *slaveCmd;	/* Command to install in slave. */
     Tcl_Interp *targetInterp;	/* Interpreter for target command. */
-    char *targetCmd;		/* Name of target command. */
+    CONST char *targetCmd;	/* Name of target command. */
     int objc;			/* How many additional arguments? */
     Tcl_Obj *CONST objv[];	/* Argument vector. */
 {
@@ -906,9 +906,9 @@ int
 Tcl_GetAlias(interp, aliasName, targetInterpPtr, targetNamePtr, argcPtr,
         argvPtr)
     Tcl_Interp *interp;			/* Interp to start search from. */
-    char *aliasName;			/* Name of alias to find. */
+    CONST char *aliasName;			/* Name of alias to find. */
     Tcl_Interp **targetInterpPtr;	/* (Return) target interpreter. */
-    char **targetNamePtr;		/* (Return) name of target command. */
+    CONST char **targetNamePtr;		/* (Return) name of target command. */
     int *argcPtr;			/* (Return) count of addnl args. */
     char ***argvPtr;			/* (Return) additional arguments. */
 {
@@ -966,9 +966,9 @@ int
 Tcl_GetAliasObj(interp, aliasName, targetInterpPtr, targetNamePtr, objcPtr,
         objvPtr)
     Tcl_Interp *interp;			/* Interp to start search from. */
-    char *aliasName;			/* Name of alias to find. */
+    CONST char *aliasName;		/* Name of alias to find. */
     Tcl_Interp **targetInterpPtr;	/* (Return) target interpreter. */
-    char **targetNamePtr;		/* (Return) name of target command. */
+    CONST char **targetNamePtr;		/* (Return) name of target command. */
     int *objcPtr;			/* (Return) count of addnl args. */
     Tcl_Obj ***objvPtr;			/* (Return) additional args. */
 {
@@ -991,7 +991,7 @@ Tcl_GetAliasObj(interp, aliasName, targetInterpPtr, targetNamePtr, objcPtr,
     if (targetInterpPtr != (Tcl_Interp **) NULL) {
         *targetInterpPtr = aliasPtr->targetInterp;
     }
-    if (targetNamePtr != (char **) NULL) {
+    if (targetNamePtr != (CONST char **) NULL) {
         *targetNamePtr = Tcl_GetString(objv[0]);
     }
     if (objcPtr != (int *) NULL) {
@@ -1525,7 +1525,7 @@ AliasObjCmdDeleteProc(clientData)
 Tcl_Interp *
 Tcl_CreateSlave(interp, slavePath, isSafe)
     Tcl_Interp *interp;		/* Interpreter to start search at. */
-    char *slavePath;		/* Name of slave to create. */
+    CONST char *slavePath;	/* Name of slave to create. */
     int isSafe;			/* Should new slave be "safe" ? */
 {
     Tcl_Obj *pathPtr;
@@ -1558,7 +1558,7 @@ Tcl_CreateSlave(interp, slavePath, isSafe)
 Tcl_Interp *
 Tcl_GetSlave(interp, slavePath)
     Tcl_Interp *interp;		/* Interpreter to start search from. */
-    char *slavePath;		/* Path of slave to find. */
+    CONST char *slavePath;	/* Path of slave to find. */
 {
     Tcl_Obj *pathPtr;
     Tcl_Interp *slaveInterp;
