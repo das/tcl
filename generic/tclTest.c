@@ -848,7 +848,7 @@ TestcmdtokenCmd(dummy, interp, argc, argv)
     char **argv;			/* Argument strings. */
 {
     Tcl_Command token;
-    long int l;
+    int *l;
     char buf[30];
 
     if (argc != 3) {
@@ -859,12 +859,12 @@ TestcmdtokenCmd(dummy, interp, argc, argv)
     if (strcmp(argv[1], "create") == 0) {
 	token = Tcl_CreateCommand(interp, argv[2], CmdProc1,
 		(ClientData) "original", (Tcl_CmdDeleteProc *) NULL);
-	sprintf(buf, "%lx", (long int) token);
+	sprintf(buf, "%p", (VOID *)token);
 	Tcl_SetResult(interp, buf, TCL_VOLATILE);
     } else if (strcmp(argv[1], "name") == 0) {
 	Tcl_Obj *objPtr;
-	
-	if (sscanf(argv[2], "%lx", &l) != 1) {
+
+	if (sscanf(argv[2], "%p", &l) != 1) {
 	    Tcl_AppendResult(interp, "bad command token \"", argv[2],
 		    "\"", (char *) NULL);
 	    return TCL_ERROR;
@@ -872,7 +872,7 @@ TestcmdtokenCmd(dummy, interp, argc, argv)
 
 	objPtr = Tcl_NewObj();
 	Tcl_GetCommandFullName(interp, (Tcl_Command) l, objPtr);
-	
+
 	Tcl_AppendElement(interp,
 	        Tcl_GetCommandName(interp, (Tcl_Command) l));
 	Tcl_AppendElement(interp, Tcl_GetString(objPtr));
