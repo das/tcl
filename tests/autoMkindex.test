@@ -17,7 +17,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 
 # temporarily copy the autoMkindex.tcl file from testsDir to tmpDir
 set origMkindexFile [file join $::tcltest::testsDir autoMkindex.tcl]
-set newMkindexFile [file join $::tcltest::tmpDir autoMkindex.tcl]
+set newMkindexFile [file join $::tcltest::workingDir autoMkindex.tcl]
 if {![catch {file copy $origMkindexFile $newMkindexFile}]} {
     set removeAutoMkindex 1
 }
@@ -70,6 +70,7 @@ if {[info exists removeAutoMkindex]} {
 }
 catch {file delete -force tclIndex}
 ::tcltest::cleanupTests
+
 
 
 

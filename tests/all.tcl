@@ -15,7 +15,7 @@ if {[lsearch ::tcltest [namespace children]] == -1} {
 set ::tcltest::testSingleFile false
 
 puts stdout "Tcl $tcl_patchLevel tests running in interp:  [info nameofexecutable]"
-puts stdout "Tests running in working dir:  $::tcltest::tmpDir"
+puts stdout "Tests running in working dir:  $::tcltest::workingDir"
 if {[llength $::tcltest::skippingTests] > 0} {
     puts stdout "Skipping tests that match:  $::tcltest::skippingTests"
 }
@@ -63,6 +63,7 @@ foreach file [lsort $fileList] {
 puts stdout "\nTests ended at [eval $timeCmd]"
 ::tcltest::cleanupTests 1
 return
+
 
 
 

@@ -182,7 +182,7 @@ test unixFCmd-12.1 {GetGroupAttribute - file not found} {unixOnly notRoot} {
     catch {file delete -force -- foo.test}
     list [catch {file attributes foo.test -group} msg] $msg
 } {1 {could not read "foo.test": no such file or directory}}
-test unixFCmd-12.2 {GetGroupAttribute - file found} {
+test unixFCmd-12.2 {GetGroupAttribute - file found} {unixOnly notRoot} {
     catch {file delete -force -- foo.test}
     close [open foo.test w]
     list [catch {file attributes foo.test -group}] [file delete -force -- foo.test]
@@ -285,6 +285,7 @@ test unixFCmd-18.1 {Unix pwd} {nonPortable unixOnly notRoot} {
 cleanup
 ::tcltest::cleanupTests
 return
+
 
 
 
