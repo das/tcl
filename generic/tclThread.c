@@ -123,8 +123,8 @@ Tcl_GetThreadData(keyPtr, size)
 
     result = TclpThreadDataKeyGet(keyPtr);
     if (result == NULL) {
-	result  = (VOID *)ckalloc(size);
-	memset(result, 0, size);
+	result  = (VOID *)ckalloc((size_t)size);
+	memset(result, 0, (size_t)size);
 	TclpThreadDataKeySet(keyPtr, result);
     }
 #else
