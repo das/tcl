@@ -19,10 +19,6 @@
 #ifndef _TCL
 #define _TCL
 
-#ifdef HAVE_TCL_CONFIG_H
-#include "tclConfig.h"
-#endif
-
 /*
  * The following defines are used to indicate the various release levels.
  */

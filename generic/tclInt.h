@@ -31,6 +31,9 @@
 #ifndef _TCL
 #include "tcl.h"
 #endif
+#ifdef HAVE_TCL_CONFIG_H
+#include "tclConfig.h"
+#endif
 
 #include <stdio.h>
 
