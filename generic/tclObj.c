@@ -793,7 +793,7 @@ TclFreeObj(objPtr)
 
 	    TclPopObjToDelete(context,objToFree);
 
-	    if ((objToFre->typePtr != NULL)
+	    if ((objToFree->typePtr != NULL)
 		    && (objToFree->typePtr->freeIntRepProc != NULL)) {
 		objToFree->typePtr->freeIntRepProc(objToFree);
 	    }
