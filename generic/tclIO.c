@@ -2324,8 +2324,8 @@ FlushChannel(interp, chanPtr, calledFromAsyncFlush)
 		/*
 		 * This used to check for CHANNEL_NONBLOCKING, and panic
 		 * if the channel was blocking.  However, it appears
-		 * that setting stdin to -blocking 0 has some effect
-		 * on the stdout when it's a tty channel
+		 * that setting stdin to -blocking 0 has some effect on
+		 * the stdout when it's a tty channel (dup'ed underneath)
 		 */
 		if (!(chanPtr->flags & BG_FLUSH_SCHEDULED)) {
 		    chanPtr->flags |= BG_FLUSH_SCHEDULED;
