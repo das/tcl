@@ -1171,7 +1171,7 @@ test cmdAH-19.11 {Tcl_FileObjCmd: exists} {unixOnly notRoot} {
 catch {testsetplatform $platform}
 removeFile $gorpfile
 set gorpfile [makeFile "Test string" gorp.file]
-file attributes $gorpfile -permissions 0765
+catch {file attributes $gorpfile -permissions 0765}
 
 # atime
 
@@ -1427,7 +1427,7 @@ test cmdAH-27.3 {Tcl_FileObjCmd: size} {
 catch {testsetplatform $platform}
 removeFile $gorpfile
 set gorpfile [makeFile "Test string" gorp.file]
-file attributes $gorpfile -permissions 0765
+catch {file attributes $gorpfile -permissions 0765}
 
 test cmdAH-28.1 {Tcl_FileObjCmd: stat} {
     list [catch {file stat _bogus_} msg] $msg $errorCode
@@ -1668,7 +1668,7 @@ catch {unset platform}
 
 # Tcl_ForObjCmd is tested in for.test
 
-file attributes $dirfile -permissions 0777
+catch {file attributes $dirfile -permissions 0777}
 removeDirectory $dirfile
 removeFile $gorpfile
 # No idea how well [removeFile] copes with links...
