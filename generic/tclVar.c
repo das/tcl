@@ -641,6 +641,7 @@ TclGetIndexedScalar(interp, localIndex, leaveErrorMsg)
     Var *compiledLocals = varFramePtr->compiledLocals;
     register Var *varPtr;	/* Points to the variable's in-frame Var
 				 * structure. */
+    char *varName;		/* Name of the local variable. */
     char *msg;
 
 #ifdef TCL_COMPILE_DEBUG
@@ -660,6 +661,7 @@ TclGetIndexedScalar(interp, localIndex, leaveErrorMsg)
 #endif /* TCL_COMPILE_DEBUG */
     
     varPtr = &(compiledLocals[localIndex]);
+    varName = varPtr->name;
 
     /*
      * If varPtr is a link variable, we have a reference to some variable
@@ -677,11 +679,11 @@ TclGetIndexedScalar(interp, localIndex, leaveErrorMsg)
      */
 
     if (varPtr->tracePtr != NULL) {
-	msg = CallTraces(iPtr, /*arrayPtr*/ NULL, varPtr, varPtr->name,
-		NULL, TCL_TRACE_READS);
+	msg = CallTraces(iPtr, /*arrayPtr*/ NULL, varPtr, varName, NULL,
+		TCL_TRACE_READS);
 	if (msg != NULL) {
 	    if (leaveErrorMsg) {
-		VarErrMsg(interp, varPtr->name, NULL, "read", msg);
+		VarErrMsg(interp, varName, NULL, "read", msg);
 	    }
 	    return NULL;
 	}
@@ -699,7 +701,7 @@ TclGetIndexedScalar(interp, localIndex, leaveErrorMsg)
 	    } else {
 		msg = noSuchVar;
 	    }
-	    VarErrMsg(interp, varPtr->name, NULL, "read", msg);
+	    VarErrMsg(interp, varName, NULL, "read", msg);
 
 	}
 	return NULL;
