@@ -3006,9 +3006,7 @@ WriteBytes(chanPtr, src, srcLen)
 	    dstLen--;
 	    sawLF++;
 	}
-	if (TranslateOutputEOL(statePtr, dst, src, &dstLen, &toWrite)) {
-	    sawLF++;
-	}
+	sawLF += TranslateOutputEOL(statePtr, dst, src, &dstLen, &toWrite);
 	dstLen += savedLF;
 	savedLF = 0;
 
@@ -3106,9 +3104,7 @@ WriteChars(chanPtr, src, srcLen)
 	    stageLen--;
 	    sawLF++;
 	}
-	if (TranslateOutputEOL(statePtr, stage, src, &stageLen, &toWrite)) {
-	    sawLF++;
-	}
+	sawLF += TranslateOutputEOL(statePtr, stage, src, &stageLen, &toWrite);
 
 	stage -= savedLF;
 	stageLen += savedLF;
@@ -3173,7 +3169,7 @@ WriteChars(chanPtr, src, srcLen)
 	    /*
 	     * The following code must be executed only when result is not 0.
 	     */
-	    if ((result != 0) && ((stageRead + dstWrote) == 0)) {
+	    if (result && ((stageRead + dstWrote) == 0)) {
 		/*
 		 * We have an incomplete UTF-8 character at the end of the
 		 * staging buffer.  It will get moved to the beginning of the
@@ -3606,13 +3602,6 @@ Tcl_GetsObj(chan, objPtr)
 		for (eol = dst; eol < dstEnd; eol++) {
 		    if (*eol == '\r') {
 			eol++;
-
-			/*
-			 * If a CR is at the end of the buffer,
-			 * then check for a LF at the begining
-			 * of the next buffer.
-			 */
-
 			if (eol >= dstEnd) {
 			    int offset;
 			    
@@ -3642,7 +3631,7 @@ Tcl_GetsObj(chan, objPtr)
 		skip = 1;
 		if (statePtr->flags & INPUT_SAW_CR) {
 		    statePtr->flags &= ~INPUT_SAW_CR;
-		    if ((eol < dstEnd) && (*eol == '\n')) {
+		    if (*eol == '\n') {
 			/*
 			 * Skip the raw bytes that make up the '\n'.
 			 */
@@ -5118,8 +5107,7 @@ Tcl_Flush(chan)
      */
 
     if ((statePtr->curOutPtr != NULL)
-	    && (statePtr->curOutPtr->nextAdded >
-	            statePtr->curOutPtr->nextRemoved)) {
+	    && (statePtr->curOutPtr->nextAdded > 0)) {
         statePtr->flags |= BUFFER_READY;
     }
     
@@ -5464,18 +5452,7 @@ Tcl_Seek(chan, offset, mode)
             statePtr->flags &= (~(BG_FLUSH_SCHEDULED));
         }
     }
-
-    /*
-     * If there is data buffered in statePtr->curOutPtr then mark
-     * the channel as ready to flush before invoking FlushChannel.
-     */
-
-    if ((statePtr->curOutPtr != (ChannelBuffer *) NULL) &&
-	    (statePtr->curOutPtr->nextAdded >
-	            statePtr->curOutPtr->nextRemoved)) {
-	statePtr->flags |= BUFFER_READY;
-    }
-
+    
     /*
      * If the flush fails we cannot recover the original position. In
      * that case the seek is not attempted because we do not know where
@@ -5891,6 +5868,7 @@ Tcl_OutputBuffered(chan)
     }
     if ((statePtr->curOutPtr != (ChannelBuffer *) NULL) &&
 	(statePtr->curOutPtr->nextAdded > statePtr->curOutPtr->nextRemoved)) {
+	statePtr->flags |= BUFFER_READY;
 	bytesBuffered +=
 	    (statePtr->curOutPtr->nextAdded - statePtr->curOutPtr->nextRemoved);
     }
@@ -6415,8 +6393,10 @@ Tcl_SetChannelOption(interp, chan, optionName, newValue)
 	return TCL_OK;
     } else if ((len > 7) && (optionName[1] == 'b') &&
             (strncmp(optionName, "-buffersize", len) == 0)) {
-        Tcl_SetChannelBufferSize(chan,
-                atoi(newValue));  /* INTL: "C", UTF safe. */
+        statePtr->bufSize = atoi(newValue);	/* INTL: "C", UTF safe. */
+        if ((statePtr->bufSize < 10) || (statePtr->bufSize > (1024 * 1024))) {
+            statePtr->bufSize = CHANNELBUFFER_DEFAULT_SIZE;
+        }
     } else if ((len > 2) && (optionName[1] == 'e') &&
 	    (strncmp(optionName, "-encoding", len) == 0)) {
 	Tcl_Encoding encoding;
@@ -6870,6 +6850,18 @@ UpdateInterest(chanPtr)
 		&& (statePtr->inQueueHead->nextRemoved <
 			statePtr->inQueueHead->nextAdded)) {
 	    mask &= ~TCL_READABLE;
+
+	    /*
+	     * Andreas Kupries -- Experimental change
+	     *
+	     * Squash interest in exceptions too. Solaris may/will
+	     * generate superfluous exceptions for plain text files,
+	     * screwing up expect, which doesn't get the synthesized
+	     * readable event, or to late.
+	     */
+	    mask &= ~TCL_EXCEPTION;
+
+
 	    if (!statePtr->timer) {
 		statePtr->timer = Tcl_CreateTimerHandler(0, ChannelTimerProc,
 			(ClientData) chanPtr);
