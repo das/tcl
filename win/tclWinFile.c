@@ -1334,28 +1334,31 @@ NativeIsExec(nativePath)
     if (tclWinProcs->useWide) {
 	CONST WCHAR *path;
 	int len;
-	
+
 	path = (CONST WCHAR*)nativePath;
 	len = wcslen(path);
-	
+
 	if (len < 5) {
 	    return 0;
 	}
-	
+
 	if (path[len-4] != L'.') {
 	    return 0;
 	}
-	
-	if ((memcmp((char*)(path+len-3),L"exe",3*sizeof(WCHAR)) == 0)
-	    || (memcmp((char*)(path+len-3),L"com",3*sizeof(WCHAR)) == 0)
-	    || (memcmp((char*)(path+len-3),L"bat",3*sizeof(WCHAR)) == 0)) {
+
+	/*
+	 * Use wide-char case-insensitive comparison
+	 */
+	if ((_wcsicmp(path+len-3,L"exe") == 0)
+		|| (_wcsicmp(path+len-3,L"com") == 0)
+		|| (_wcsicmp(path+len-3,L"bat") == 0)) {
 	    return 1;
 	}
     } else {
 	CONST char *p;
-	
+
 	/* We are only looking for pure ascii */
-	
+
 	p = strrchr((CONST char*)nativePath, '.');
 	if (p != NULL) {
 	    p++;
