@@ -246,6 +246,7 @@ DllMain(hInst, reason, reserved)
 {
     switch (reason) {
     case DLL_PROCESS_ATTACH:
+	DisableThreadLibraryCalls(hInst);
 	TclWinInit(hInst);
 	return TRUE;
 
