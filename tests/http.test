@@ -246,6 +246,7 @@ test http-3.11 {http::geturl querychannel with -command} {
     set t [http::geturl $posturl -querychannel $fp -command asyncCB]
     set postResult [list PostStart]
     http::wait $t
+    close $fp
 
     lappend testRes [http::status $t] $postResult
     removeFile outdata
