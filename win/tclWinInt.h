@@ -111,6 +111,31 @@ typedef struct TclWinProcs {
 					 LPVOID, UINT,
 					 LPVOID, DWORD);
     BOOL (WINAPI *getVolumeNameForVMPProc)(CONST TCHAR*, TCHAR*, DWORD);
+    /* 
+     * These six are for the security sdk to get correct file
+     * permissions on NT, 2000, XP, etc.  On 95,98,ME they are
+     * always null.
+     */
+    BOOL (WINAPI *getFileSecurityProc)(LPCTSTR lpFileName,
+		     SECURITY_INFORMATION RequestedInformation,
+		     PSECURITY_DESCRIPTOR pSecurityDescriptor,
+		     DWORD nLength, 
+		     LPDWORD lpnLengthNeeded);
+    BOOL (WINAPI *impersonateSelfProc) (SECURITY_IMPERSONATION_LEVEL 
+		      ImpersonationLevel);
+    BOOL (WINAPI *openThreadTokenProc) (HANDLE ThreadHandle,
+		      DWORD DesiredAccess, BOOL OpenAsSelf,
+		      PHANDLE TokenHandle);
+    BOOL (WINAPI *revertToSelfProc) (void);
+    VOID (WINAPI *mapGenericMaskProc) (PDWORD AccessMask,
+		      PGENERIC_MAPPING GenericMapping);
+    BOOL (WINAPI *accessCheckProc)(PSECURITY_DESCRIPTOR pSecurityDescriptor,
+		    HANDLE ClientToken, DWORD DesiredAccess,
+		    PGENERIC_MAPPING GenericMapping,
+		    PPRIVILEGE_SET PrivilegeSet,
+		    LPDWORD PrivilegeSetLength,
+		    LPDWORD GrantedAccess,
+		    LPBOOL AccessStatus);
 } TclWinProcs;
 
 EXTERN TclWinProcs *tclWinProcs;

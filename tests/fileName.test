@@ -911,6 +911,23 @@ test filename-9.19 {Tcl_JoinPath: win} {testsetplatform} {
       [file join C:/blah {C:\foo\bar}] \
       [file join C:/blah C:/blah {C:\foo\bar}]
 } {C:/foo/bar C:/foo/bar C:/foo/bar}
+test filename-9.19.1 {Tcl_JoinPath: win} {testsetplatform} {
+    testsetplatform win
+    set res {}
+    lappend res \
+      [file join {foo\bar}] \
+      [file join C:/blah {foo\bar}] \
+      [file join C:/blah C:/blah {foo\bar}]
+} {foo/bar C:/blah/foo/bar C:/blah/foo/bar}
+test filename-9.19.2 {Tcl_JoinPath: win} {testsetplatform winOnly} {
+    testsetplatform win
+    set res {}
+    lappend res \
+      [file join {foo\bar}] \
+      [file join [pwd] {foo\bar}] \
+      [file join [pwd] [pwd] {foo\bar}]
+    string map [list [pwd] pwd] $res
+} {foo/bar pwd/foo/bar pwd/foo/bar}
 test filename-9.20 {Tcl_JoinPath: unix} {testsetplatform} {
     testsetplatform unix
     set res {}
