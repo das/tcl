@@ -957,6 +957,10 @@ case $system in
 	LD_FLAGS=""
 	LD_SEARCH_FLAGS=""
 	;;
+    OS/390-*)
+	CFLAGS_OPTIMIZE=""      # Optimizer is buggy
+	AC_DEFINE(_OE_SOCKETS)  # needed in sys/socket.h
+	;;      
     OSF1-1.0|OSF1-1.1|OSF1-1.2)
 	# OSF/1 1.[012] from OSF, and derivatives, including Paragon OSF/1
 	SHLIB_CFLAGS=""
