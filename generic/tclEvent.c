@@ -1114,9 +1114,6 @@ Tcl_VwaitObjCmd(clientData, interp, objc, objv)
     foundEvent = 1;
     while (!done && foundEvent) {
 	foundEvent = Tcl_DoOneEvent(TCL_ALL_EVENTS);
-	if (Tcl_LimitExceeded(interp)) {
-	    return TCL_ERROR;
-	}
     }
     Tcl_UntraceVar(interp, nameString,
 	    TCL_GLOBAL_ONLY|TCL_TRACE_WRITES|TCL_TRACE_UNSETS,
@@ -1203,9 +1200,6 @@ Tcl_UpdateObjCmd(clientData, interp, objc, objv)
     }
     
     while (Tcl_DoOneEvent(flags) != 0) {
-	if (Tcl_LimitExceeded(interp)) {
-	    return TCL_ERROR;
-	}
     }
 
     /*
