@@ -779,3 +779,9 @@ if { ![interp issafe] } {
 	}
     }
 }
+
+# Set up search for Tcl Modules (TIP #189).
+
+if { ![interp issafe] } {
+    source [file join [file dirname [info script]] tm.tcl]
+}
