@@ -110,18 +110,17 @@ The valid operators are listed below, grouped in decreasing order
 of precedence:
 .TP 20
 \fB\-\0\0+\0\0~\0\0!\fR
-Unary minus, unary plus, bit-wise NOT, logical NOT.  None of these operands
+Unary minus, unary plus, bit-wise NOT, logical NOT.  None of these operators
 may be applied to string operands, and bit-wise NOT may be
 applied only to integers.
 .TP 20
 \fB**\fR
 .VS 8.5
-Exponentiation.  None of these operands may be applied to string
-operands.
+Exponentiation.  Valid for any numeric operands.
 .VE 8.5
 .TP 20
 \fB*\0\0/\0\0%\fR
-Multiply, divide, remainder.  None of these operands may be
+Multiply, divide, remainder.  None of these operators may be
 applied to string operands, and remainder may be applied only
 to integers.
 The remainder will always have the same sign as the divisor and
@@ -170,7 +169,7 @@ Valid for boolean and numeric (integers or floating-point) operands only.
 If-then-else, as in C.  If \fIx\fR
 evaluates to non-zero, then the result is the value of \fIy\fR.
 Otherwise the result is the value of \fIz\fR.
-The \fIx\fR operand must have a numeric value.
+The \fIx\fR operand must have a boolean or numeric value.
 .LP
 See the C manual for more details on the results
 produced by each operator.

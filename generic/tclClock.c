@@ -224,6 +224,7 @@ TclClockMktimeObjCmd(  ClientData clientData,
     int i;
     struct tm toConvert;	/* Time to be converted */
     time_t convertedTime;	/* Time converted from mktime */
+    int localErrno;
 
     /* Convert parameters */
 
@@ -265,12 +266,14 @@ TclClockMktimeObjCmd(  ClientData clientData,
 
     TzsetIfNecessary();
     Tcl_MutexLock( &clockMutex );
+    errno = 0;
     convertedTime = mktime( &toConvert );
+    localErrno = errno;
     Tcl_MutexUnlock( &clockMutex );
 
     /* Return the converted time, or an error if conversion fails */
 
-    if ( convertedTime == -1 ) {
+    if ( localErrno != 0 ) {
 	Tcl_SetObjResult
 	    ( interp,
 	      Tcl_NewStringObj( "time value too large/small to represent", 
@@ -548,7 +551,7 @@ TclClockOldscanObjCmd( ClientData clientData, /* unused */
     Tcl_Obj *baseObjPtr = NULL;
     int useGMT = 0;
     unsigned long baseClock;
-    long clockVal;
+    unsigned long clockVal;
     long zone;
     Tcl_Obj *resultPtr;
     int dummy;

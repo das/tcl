@@ -1421,7 +1421,7 @@ typedef int (Tcl_WaitForEventProc) _ANSI_ARGS_((Tcl_Time *timePtr));
  * Bits passed to Tcl_DriverClose2Proc to indicate which side of a channel
  * should be closed.
  */
-#define TCL_CLOSE_READ		(1<<1)
+#define TCL_CLOSE_READ	(1<<1)
 #define TCL_CLOSE_WRITE	(1<<2)
 
 /*
@@ -1568,8 +1568,8 @@ typedef struct Tcl_ChannelType {
  * set the channel into blocking or nonblocking mode. They are passed
  * as arguments to the blockModeProc procedure in the above structure.
  */
-#define TCL_MODE_BLOCKING 0		/* Put channel into blocking mode. */
-#define TCL_MODE_NONBLOCKING 1		/* Put channel into nonblocking
+#define TCL_MODE_BLOCKING	0	/* Put channel into blocking mode. */
+#define TCL_MODE_NONBLOCKING	1	/* Put channel into nonblocking
 					 * mode. */
 
 /*

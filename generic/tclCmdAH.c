@@ -242,12 +242,6 @@ Tcl_CatchObjCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
 
-    /*
-     * Save a pointer to the variable name object, if any, in case the
-     * Tcl_EvalObj reallocates the bytecode interpreter's evaluation
-     * stack rendering objv invalid.
-     */
-    
     if (objc >= 3) {
 	varNamePtr = objv[2];
     }
@@ -295,16 +289,6 @@ Tcl_CatchObjCmd(dummy, interp, objc, objv)
 	    if (NULL == value) {
 		Tcl_DictObjPut(NULL, options, iPtr->returnErrorinfoKey,
 			Tcl_ObjGetVar2(interp, iPtr->execEnvPtr->errorInfo,
-			NULL, TCL_GLOBAL_ONLY));
-	    }
-	}
-
-	if (iPtr->flags & ERROR_CODE_SET) {
-	    value = NULL;
-	    Tcl_DictObjGet(NULL, options, iPtr->returnErrorcodeKey, &value);
-	    if (NULL == value) {
-		Tcl_DictObjPut(NULL, options, iPtr->returnErrorcodeKey,
-			Tcl_ObjGetVar2(interp, iPtr->execEnvPtr->errorCode,
 			NULL, TCL_GLOBAL_ONLY));
 	    }
 	}
@@ -638,8 +622,7 @@ Tcl_ErrorObjCmd(dummy, interp, objc, objv)
     }
     
     if (objc == 4) {
-	Tcl_SetVar2Ex(interp, "errorCode", NULL, objv[3], TCL_GLOBAL_ONLY);
-	iPtr->flags |= ERROR_CODE_SET;
+	Tcl_SetObjErrorCode(interp, objv[3]);
     }
     
     Tcl_SetObjResult(interp, objv[1]);

@@ -3061,12 +3061,13 @@ proc ::tcl::clock::ConvertUTCToLocalViaC { date } {
  
     # Determine the name and offset of the timezone
 
-    set delta [expr { $localSeconds - $gmtSeconds }]
-    if { $delta <= 0 } {
+    set diff [expr { $localSeconds - $gmtSeconds }]
+    if { $diff <= 0 } {
 	set signum -
-	set delta [expr { - $delta }]
+	set delta [expr { - $diff }]
     } else {
 	set signum +
+	set delta $diff
     }
     set hh [::format %02d [expr { $delta / $SecondsPerHour }]]
     set mm [::format %02d [expr { ($delta / $SecondsPerMinute )
@@ -3081,7 +3082,7 @@ proc ::tcl::clock::ConvertUTCToLocalViaC { date } {
     # Fix the dictionary
 
     dict set date localSeconds $localSeconds
-    dict set date tzOffset $delta
+    dict set date tzOffset $diff
     dict set date tzName $zoneName
     return $date
 

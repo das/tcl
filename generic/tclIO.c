@@ -5565,15 +5565,15 @@ Tcl_Seek(chan, offset, mode)
 		    offset, mode, &result);
 	} else if (offset < Tcl_LongAsWide(LONG_MIN) ||
 		offset > Tcl_LongAsWide(LONG_MAX)) {
-	    Tcl_SetErrno(EOVERFLOW);
+	    result = EOVERFLOW;
 	    curPos = Tcl_LongAsWide(-1);
 	} else {
 	    curPos = Tcl_LongAsWide((chanPtr->typePtr->seekProc) (
 		    chanPtr->instanceData, Tcl_WideAsLong(offset), mode,
 		    &result));
-	    if (curPos == Tcl_LongAsWide(-1)) {
-		Tcl_SetErrno(result);
-	    }
+	}
+	if (curPos == Tcl_LongAsWide(-1)) {
+	    Tcl_SetErrno(result);
 	}
     }
     
