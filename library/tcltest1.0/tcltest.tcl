@@ -458,13 +458,15 @@ proc ::tcltest::initConstraints {} {
 
     set ::tcltest::testConstraints(root) 0
     set ::tcltest::testConstraints(notRoot) 1
-    set user {}
     if {[string equal $tcl_platform(platform) "unix"]} {
-	catch {set user [exec whoami]}
+	set user {}
+	set id {}
+	catch {regexp {^uid=(\d+)\((\w+)\)} [exec id] dummy id user}
 	if {[string equal $user ""]} {
-	    catch {regexp {^[^(]*\(([^)]*)\)} [exec id] dummy user}
+	    catch {set user [exec whoami]}
 	}
-	if {([string equal $user "root"]) || ([string equal $user ""])} {
+	if {([string equal $user "root"]) || ([string equal $user ""]) \
+	    || ($id == 0)} {
 	    set ::tcltest::testConstraints(root) 1
 	    set ::tcltest::testConstraints(notRoot) 0
 	}
