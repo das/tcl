@@ -175,7 +175,7 @@ proc genStubs::declare {args} {
 #	None.
 
 proc genStubs::rewriteFile {file text} {
-    if {![file exist $file]} {
+    if {![file exists $file]} {
 	puts stderr "Cannot find file: $file"
 	return
     }
