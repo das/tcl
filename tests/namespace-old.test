@@ -850,15 +850,3 @@ eval namespace delete [namespace children :: test_ns_*]
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-

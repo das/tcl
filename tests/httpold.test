@@ -293,15 +293,3 @@ catch {unset data}
 close $listen
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
