@@ -96,6 +96,11 @@ test proc-1.7 {Tcl_ProcObjCmd, check that formal parameter names are not array e
             puts "$z=z, $a(1)=$a(1)"
         }} msg] $msg
 } {1 {procedure "p" has formal parameter "a(1)" that is an array element}}
+test proc-1.8 {Tcl_ProcObjCmd, check that formal parameter names are simple names} {
+    catch {rename p ""}
+    list [catch {proc p {b:a b::a} { 
+    }} msg] $msg
+} {1 {procedure "p" has formal parameter "b::a" that is not a simple name}}
 
 test proc-2.1 {TclFindProc, simple proc name and proc not in namespace} {
     catch {eval namespace delete [namespace children :: test_ns_*]}

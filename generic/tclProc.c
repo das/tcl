@@ -336,6 +336,14 @@ TclCreateProc(interp, nsPtr, procName, argsPtr, bodyPtr, procPtrPtr)
 		    ckfree((char *) fieldValues);
 		    goto procError;
 		}
+	    } else if ((*p == ':') && (*(p+1) == ':')) {
+		Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+		        "procedure \"", procName,
+		        "\" has formal parameter \"", fieldValues[0],
+			"\" that is not a simple name",
+			(char *) NULL);
+		ckfree((char *) fieldValues);
+		goto procError;
 	    }
 	    p++;
 	}
