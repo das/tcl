@@ -1036,10 +1036,17 @@ TclCompileScriptTokens(interp, tokens, lastTokenPtr, envPtr)
 
 		/*
 		 * Mark the start of the command; the proper
-		 * bytecode length will be updated later.
+		 * bytecode length will be updated later.  There
+		 * is no need to do this for the first command
+		 * in the compile env, as the check is done before
+		 * calling TclExecuteByteCode(). Remark that we
+		 * are compiling the first cmd in the environment
+		 * exactly when (savedCodeNext == 0)
 		 */
 			    
-		TclEmitInstInt4(INST_START_CMD, 0, envPtr);
+		if (savedCodeNext != 0) {
+		    TclEmitInstInt4(INST_START_CMD, 0, envPtr);
+		}
 
 		parse.numWords = numWords;
 		parse.tokenPtr = tokenPtr;
@@ -1047,13 +1054,17 @@ TclCompileScriptTokens(interp, tokens, lastTokenPtr, envPtr)
 	    }
 
 	    if (code == TCL_OK) {
-		/*
-		 * Fix the bytecode length.
-		 */
-		unsigned char *fixPtr = envPtr->codeStart + savedCodeNext + 1;
-		unsigned int fixLen = envPtr->codeNext - envPtr->codeStart
-			- savedCodeNext;
-		TclStoreInt4AtPtr(fixLen, fixPtr);
+		if (savedCodeNext != 0) {
+		    /*
+		     * Fix the bytecode length.
+		     */
+		    unsigned char *fixPtr =
+			    envPtr->codeStart + savedCodeNext + 1;
+		    unsigned int fixLen =
+			    envPtr->codeNext - envPtr->codeStart
+			    - savedCodeNext;
+		    TclStoreInt4AtPtr(fixLen, fixPtr);
+		}
 		/*
 		 * The compileProc took care of compiling the command,
 		 * so skip past the tokens for its arguments
