@@ -9,11 +9,6 @@
  *
  * Copyright (c) 1998 Lucent Technologies, Inc.
  *
- * Originally implemented by
- *   Michael J. McLennan
- *   Bell Labs Innovations for Lucent Technologies
- *   mmclennan@lucent.com
- *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
