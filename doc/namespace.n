@@ -1,6 +1,7 @@
 '\"
 '\" Copyright (c) 1993-1997 Bell Labs Innovations for Lucent Technologies
 '\" Copyright (c) 1997 Sun Microsystems, Inc.
+'\" Copyright (c) 2000 Scriptics Corporation.
 '\"
 '\" See the file "license.terms" for information on usage and redistribution
 '\" of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -99,6 +100,10 @@ and the result is evaluated.
 If \fInamespace\fR has leading namespace qualifiers
 and any leading namespaces do not exist,
 they are automatically created.
+.TP
+\fBnamespace exists\fR \fInamespace\fR
+Returns \fB1\fR if \fInamespace\fR is a valid namespace in the current
+context, returns \fB0\fR otherwise.
 .TP
 \fBnamespace export \fR?\-\fBclear\fR? ?\fIpattern pattern ...\fR?
 Specifies which commands are exported from a namespace.
