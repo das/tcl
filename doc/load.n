@@ -64,7 +64,7 @@ typedef int Tcl_PackageInitProc(Tcl_Interp *\fIinterp\fR);
 The \fIinterp\fR argument identifies the interpreter in which the
 package is to be loaded.  The initialization procedure must return
 \fBTCL_OK\fR or \fBTCL_ERROR\fR to indicate whether or not it completed
-successfully;  in the event of an error it should set \fIinterp->result\fR
+successfully;  in the event of an error it should set the interpreter's result
 to point to an error message.  The result of the \fBload\fR command
 will be the result returned by the initialization procedure.
 .PP

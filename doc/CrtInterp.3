@@ -49,10 +49,10 @@ resources associated with it, including variables, procedures, and
 application-specific command bindings, will be deleted.  After
 \fBTcl_DeleteInterp\fR returns any attempt to use \fBTcl_Eval\fR on the
 interpreter will fail and return \fBTCL_ERROR\fR. After the call to
-\fBTcl_DeleteInterp\fR it is safe to examine \fIinterp->result\fR, query or
-set the values of variables, define, undefine or retrieve procedures, and
-examine the runtime evaluation stack. See below, in the section
-\fBINTERPRETERS AND MEMORY MANAGEMENT\fR for details.
+\fBTcl_DeleteInterp\fR it is safe to examine the interpreter's result,
+query or set the values of variables, define, undefine or retrieve
+procedures, and examine the runtime evaluation stack. See below, in the
+section \fBINTERPRETERS AND MEMORY MANAGEMENT\fR for details.
 .PP
 \fBTcl_InterpDeleted\fR returns nonzero if \fBTcl_DeleteInterp\fR was
 called with \fIinterp\fR as its argument; this indicates that the
