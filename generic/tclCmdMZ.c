@@ -1057,7 +1057,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 
 	    if (objv[2]->typePtr == &tclByteArrayType) {
 
-		string1 = Tcl_GetByteArrayFromObj(objv[2], &length1);
+		string1 = (char *)Tcl_GetByteArrayFromObj(objv[2], &length1);
 
 		if (TclGetIntForIndex(interp, objv[3], length1 - 1,
 			&index) != TCL_OK) {
@@ -1605,7 +1605,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 
 	    if (objv[2]->typePtr == &tclByteArrayType) {
 
-		string1 = Tcl_GetByteArrayFromObj(objv[2], &length1);
+		string1 = (char *)Tcl_GetByteArrayFromObj(objv[2], &length1);
 
 		if (TclGetIntForIndex(interp, objv[3], length1 - 1,
 			&first) != TCL_OK) {
@@ -1623,7 +1623,8 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		}
 		if (last >= first) {
 		    int numBytes = last - first + 1;
-		    resultPtr = Tcl_NewByteArrayObj(&string1[first], numBytes);
+		    resultPtr = Tcl_NewByteArrayObj(
+				(unsigned char *) &string1[first], numBytes);
 		    Tcl_SetObjResult(interp, resultPtr);
 		}
 	    } else {
