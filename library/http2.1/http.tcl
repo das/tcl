@@ -11,7 +11,7 @@
 #
 # RCS: @(#) $Id$
 
-package provide http 2.1	;# This uses Tcl namespaces
+package provide http 2.2	;# This uses Tcl namespaces
 
 namespace eval http {
     variable http
