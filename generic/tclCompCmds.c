@@ -87,7 +87,7 @@ TclCompileAppendCmd(interp, parsePtr, envPtr)
 	return TCL_ERROR;
     } else if (numWords == 2) {
 	/*
-	 * append varName === set varName
+	 * append varName == set varName
 	 */
         return TclCompileSetCmd(interp, parsePtr, envPtr);
     } else if (numWords > 3) {
@@ -1750,9 +1750,10 @@ TclCompileLappendCmd(interp, parsePtr, envPtr)
  * Results:
  *	The return value is a standard Tcl result, which is TCL_OK if the
  *	compilation was successful.  If the command cannot be byte-compiled,
- *	TCL_OUT_LINE_COMPILE is returned.  If an error occurs then the
- *	interpreter's result contains an error message, and TCL_ERROR is
- *	returned.
+ *	TCL_OUT_LINE_COMPILE is returned, indicating that the command should
+ *	be compiled "out of line" by emitting code to invoke its command
+ *	procedure (Tcl_LassignObjCmd) at runtime, which enforces in correct
+ *	error handling.
  *
  * Side effects:
  *	Instructions are added to envPtr to execute the "lassign" command
