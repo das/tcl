@@ -121,8 +121,6 @@ static TimeInfo timeInfo = {
     0
 };
 
-CONST static FILETIME posixEpoch = { 0xD53E8000, 0x019DB1DE };
-    
 /*
  * Declarations for functions defined later in this file.
  */
@@ -228,7 +226,7 @@ TclpGetTimeZone (currentTime)
     int timeZone;
 
     tzset();
-    timeZone = _timezone / 60;
+    timeZone = timezone / 60;
 
     return timeZone;
 }
@@ -552,7 +550,7 @@ TclpGetDate(t, useGMT)
 {
     const time_t *tp = (const time_t *) t;
     struct tm *tmPtr;
-    long time;
+    time_t time;
 
     if (!useGMT) {
 	tzset();
@@ -567,7 +565,7 @@ TclpGetDate(t, useGMT)
 	    return localtime(tp);
 	}
 
-	time = *tp - _timezone;
+	time = *tp - timezone;
 	
 	/*
 	 * If we aren't near to overflowing the long, just add the bias and
@@ -588,7 +586,7 @@ TclpGetDate(t, useGMT)
 	     * Propagate seconds overflow into minutes, hours and days.
 	     */
 
-	    time = tmPtr->tm_sec - _timezone;
+	    time = tmPtr->tm_sec - timezone;
 	    tmPtr->tm_sec = (int)(time % 60);
 	    if (tmPtr->tm_sec < 0) {
 		tmPtr->tm_sec += 60;
