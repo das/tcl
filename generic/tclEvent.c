@@ -290,7 +290,7 @@ HandleBgErrors(clientData)
 		int len;
 
 		string = Tcl_GetStringFromObj(Tcl_GetObjResult(interp), &len);
-                if (strcmp(string, "\"bgerror\" is an invalid command name or ambiguous abbreviation") == 0) {
+		if (Tcl_FindCommand(interp, "bgerror", NULL, TCL_GLOBAL_ONLY) == NULL) {
                     Tcl_WriteChars(errChannel, assocPtr->firstBgPtr->errorInfo, -1);
                     Tcl_WriteChars(errChannel, "\n", -1);
                 } else {

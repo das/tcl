@@ -276,6 +276,20 @@ test event-7.4 {tkerror is nothing special anymore to tcl} {
     set errRes
 } bg:err1
 
+test event-7.5 {correct behaviour when there is no bgerror [Bug 219142]} {
+    set script {
+	after 1000 error hello
+	after 2000 set a 0
+	vwait a
+    }
+
+    list [catch {exec [info nameofexecutable] << $script} errMsg] $errMsg
+} {1 {hello
+    while executing
+"error hello"
+    ("after" script)}}
+
+
 # someday : add a test checking that 
 # when there is no bgerror, an error msg goes to stderr
 # ideally one would use sub interp and transfer a fake stderr
