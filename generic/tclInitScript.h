@@ -51,7 +51,7 @@ static char initScript[] = "if {[info proc tclInit]==\"\"} {\n\
 	}\n\
 	lappend dirs $tclDefaultLibrary\n\
 	unset tclDefaultLibrary\n\
-        set dirs [concat $dirs $tcl_libPath]
+        set dirs [concat $dirs $tcl_libPath]\n\
     }\n\
     foreach i $dirs {\n\
 	set tcl_library $i\n\
