@@ -285,31 +285,31 @@ proc pkg_mkIndex {args} {
 			if {! [info exists ::tcl::namespaces($::tcl::x)]} {
 			    namespace import -force ${::tcl::x}::*
 			}
-		    }
-		    
-		    # Figure out what commands appeared
-		    
-		    foreach ::tcl::x [info commands] {
-			set ::tcl::newCmds($::tcl::x) 1
-		    }
-		    foreach ::tcl::x $::tcl::origCmds {
-			catch {unset ::tcl::newCmds($::tcl::x)}
-		    }
-		    foreach ::tcl::x [array names ::tcl::newCmds] {
-			# reverse engineer which namespace a command comes from
-			
-			set ::tcl::abs [namespace origin $::tcl::x]
-			
-			# special case so that global names have no leading
-			# ::, this is required by the unknown command
-			
-			set ::tcl::abs [auto_qualify $::tcl::abs ::]
-			
-			if {[string compare $::tcl::x $::tcl::abs]} {
-			    # Name changed during qualification
 
-			    set ::tcl::newCmds($::tcl::abs) 1
-			    unset ::tcl::newCmds($::tcl::x)
+			# Figure out what commands appeared
+			
+			foreach ::tcl::x [info commands] {
+			    set ::tcl::newCmds($::tcl::x) 1
+			}
+			foreach ::tcl::x $::tcl::origCmds {
+			    catch {unset ::tcl::newCmds($::tcl::x)}
+			}
+			foreach ::tcl::x [array names ::tcl::newCmds] {
+			    # determine which namespace a command comes from
+			    
+			    set ::tcl::abs [namespace origin $::tcl::x]
+			    
+			    # special case so that global names have no leading
+			    # ::, this is required by the unknown command
+			    
+			    set ::tcl::abs [auto_qualify $::tcl::abs ::]
+			    
+			    if {[string compare $::tcl::x $::tcl::abs]} {
+				# Name changed during qualification
+				
+				set ::tcl::newCmds($::tcl::abs) 1
+				unset ::tcl::newCmds($::tcl::x)
+			    }
 			}
 		    }
 		}
