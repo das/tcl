@@ -1,4 +1,4 @@
-# Visual C++ 2.x and 4.0 makefile
+# Visual C++ makefile
 #
 # See the file "license.terms" for information on usage and redistribution
 # of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -46,20 +46,15 @@ link32		= "$(TOOLS32)\bin\Win64\link.exe"
 libpath32	= /LIBPATH:"$(TOOLS32)\lib\IA64"
 lib32		= "$(TOOLS32)\bin\Win64\lib.exe"
 
-!ELSE IF "$(MACHINE)" == "ALPHA"
-
-TOOLS32		= C:\Progra~1\Micros~2\vc98
-TOOLS32_rc	= C:\Progra~1\Micros~2\common\MSDev98
-
-cc32		= "$(TOOLS32)\bin\cl.exe"
-link32		= "$(TOOLS32)\bin\link.exe"
-libpath32	= /LIBPATH:"$(TOOLS32)\lib"
-lib32		= "$(TOOLS32)\bin\lib.exe"
-
 !ELSE
 
-TOOLS32		= C:\Progra~1\devstudio\vc
-TOOLS32_rc	= C:\Progra~1\devstudio\sharedide
+# Visual Studio 5 default
+#TOOLS32		= C:\Progra~1\devstudio\vc
+#TOOLS32_rc	= C:\Progra~1\devstudio\sharedide
+
+# Visual Studio 6 default
+TOOLS32		= C:\Progra~1\Microsoft Visual Studio\VC98
+TOOLS32_rc	= C:\Progra~1\Microsoft Visual Studio\common\MSDev98
 
 cc32		= "$(TOOLS32)\bin\cl.exe"
 link32		= "$(TOOLS32)\bin\link.exe"
