@@ -163,7 +163,7 @@ proc unknown args {
     # then concatenate its arguments onto the end and evaluate it.
 
     set cmd [lindex $args 0]
-    if {[regexp "^namespace\[ \t\n\]+inscope" $cmd] && [llength $cmd] == 4} {
+    if {[regexp "^:*namespace\[ \t\n\]+inscope" $cmd] && [llength $cmd] == 4} {
         set arglist [lrange $args 1 end]
 	set ret [catch {uplevel 1 ::$cmd $arglist} result]
         if {$ret == 0} {

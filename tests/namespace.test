@@ -694,12 +694,23 @@ test namespace-22.3 {NamespaceCodeCmd, arg is already scoped value} {
 } {namespace     inscope     ::test_ns_1 cmd}
 test namespace-22.4 {NamespaceCodeCmd, in :: namespace} {
     namespace code unknown
-} {namespace inscope :: unknown}
+} {::namespace inscope :: unknown}
 test namespace-22.5 {NamespaceCodeCmd, in other namespace} {
     namespace eval test_ns_1 {
         namespace code cmd
     }
-} {namespace inscope ::test_ns_1 cmd}
+} {::namespace inscope ::test_ns_1 cmd}
+test namespace-22.6 {NamespaceCodeCmd, in other namespace} { 
+    namespace eval test_ns_1 { 
+	variable v 42 
+    } 
+    namespace eval test_ns_2 { 
+	proc namespace args {} 
+    } 
+    namespace eval test_ns_2 [namespace eval test_ns_1 { 
+	namespace code {set v} 
+    }] 
+} {42} 
 
 test namespace-23.1 {NamespaceCurrentCmd, bad args} {
     catch {eval namespace delete [namespace children :: test_ns_*]}
