@@ -714,6 +714,9 @@ test execute-7.34 {Wide int handling} {longIs32bit} {
 } 1099511627776
 
 # cleanup
+if {[info commands testobj] != {}} {
+   testobj freeallvars
+}
 catch {eval namespace delete [namespace children :: test_ns_*]}
 catch {rename foo ""}
 catch {rename p ""}
