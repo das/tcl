@@ -1016,7 +1016,7 @@ TclCompileScriptTokens(interp, tokens, lastTokenPtr, envPtr)
 	    Command *cmdPtr = 
 		    (Command *) Tcl_GetCommandFromObj(interp, cmdName);
 	    int savedNumCmds = envPtr->numCommands;
-	    unsigned char *savedCodeNext = envPtr->codeNext;
+	    unsigned int savedCodeNext = envPtr->codeNext - envPtr->codeStart;
 	    int code = TCL_OUT_LINE_COMPILE;
 
 	    if ((cmdPtr != NULL) && (cmdPtr->compileProc != NULL)
@@ -1051,7 +1051,7 @@ TclCompileScriptTokens(interp, tokens, lastTokenPtr, envPtr)
 		 * so push the simple cmdName word.
 		 */
 		envPtr->numCommands = savedNumCmds;
-		envPtr->codeNext = savedCodeNext;
+		envPtr->codeNext = envPtr->codeStart + savedCodeNext;
 		TclEmitPush(objIndex, envPtr);
 		wordIndex++;
 		tokenPtr += (tokenPtr->numComponents + 1);

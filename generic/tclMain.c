@@ -455,17 +455,17 @@ Tcl_Main(argc, argv, appInitProc)
 	    break;
 	}
 
-        /*
-         * Add the newline removed by Tcl_GetsObj back to the string.
-         */
-
-	if (Tcl_IsShared(commandPtr)) {
-	    Tcl_DecrRefCount(commandPtr);
-	    commandPtr = Tcl_DuplicateObj(commandPtr);
-	    Tcl_IncrRefCount(commandPtr);
-	}
-	Tcl_AppendToObj(commandPtr, "\n", 1);
 	if (!TclObjCommandComplete(commandPtr)) {
+	    /*
+	     * Add the newline removed by Tcl_GetsObj back to the string.
+	     */
+
+	    if (Tcl_IsShared(commandPtr)) {
+		Tcl_DecrRefCount(commandPtr);
+		commandPtr = Tcl_DuplicateObj(commandPtr);
+		Tcl_IncrRefCount(commandPtr);
+	    }
+	    Tcl_AppendToObj(commandPtr, "\n", 1);
 	    prompt = PROMPT_CONTINUE;
 	    continue;
 	}
@@ -683,13 +683,13 @@ StdinProc(clientData, mask)
 	return;
     }
 
-    if (Tcl_IsShared(commandPtr)) {
-	Tcl_DecrRefCount(commandPtr);
-	commandPtr = Tcl_DuplicateObj(commandPtr);
-	Tcl_IncrRefCount(commandPtr);
-    }
-    Tcl_AppendToObj(commandPtr, "\n", 1);
     if (!TclObjCommandComplete(commandPtr)) {
+	if (Tcl_IsShared(commandPtr)) {
+	    Tcl_DecrRefCount(commandPtr);
+	    commandPtr = Tcl_DuplicateObj(commandPtr);
+	    Tcl_IncrRefCount(commandPtr);
+	}
+	Tcl_AppendToObj(commandPtr, "\n", 1);
         isPtr->prompt = PROMPT_CONTINUE;
         goto prompt;
     }

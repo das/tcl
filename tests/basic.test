@@ -521,8 +521,7 @@ test basic-46.1 {Tcl_AllowExceptions: exception return not allowed} {stdio} {
     list $res $msg
 } {1 {invoked "continue" outside of a loop
     while executing
-"continue
-"
+"continue"
 DONE
 }}
 
