@@ -2751,7 +2751,7 @@ TclExecuteByteCode(interp, codePtr)
 		    Tcl_UniChar *uni1, *uni2;
 		    uni1 = Tcl_GetUnicodeFromObj(valuePtr, &s1len);
 		    uni2 = Tcl_GetUnicodeFromObj(value2Ptr, &s2len);
-		    iResult = Tcl_UniCharNcmp(uni1, uni2,
+		    iResult = TclUniCharNcmp(uni1, uni2,
 			    (unsigned) ((s1len < s2len) ? s1len : s2len));
 		} else {
 		    /*

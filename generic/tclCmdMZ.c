@@ -1329,7 +1329,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		     * Scan forward to find the first character.
 		     */
 		    if ((*p == *ustring1) &&
-			    (Tcl_UniCharNcmp(ustring1, p,
+			    (TclUniCharNcmp(ustring1, p,
 				    (unsigned long) length1) == 0)) {
 			match = p - ustring2;
 			break;

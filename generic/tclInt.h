@@ -2359,6 +2359,23 @@ extern Tcl_Mutex tclObjMutex;
 #define TclGetString(objPtr) \
     ((objPtr)->bytes? (objPtr)->bytes : Tcl_GetString((objPtr)))
 
+/*
+ *----------------------------------------------------------------
+ * Macro used by the Tcl core to compare Unicode strings; this is
+ * more efficient on a big-endian machine, and not hurtful on a
+ * little-endian machine.
+ * The ANSI C "prototype" for this macro is:
+ *
+ * EXTERN int TclUniCharNcmp _ANSI_ARGS_((CONST Tcl_UniChar *cs,
+ *         CONST Tcl_UniChar *ct, unsigned long n));
+ *----------------------------------------------------------------
+ */
+#ifdef TCL_OPTIMIZE_UNICODE_COMPARE
+#   define TclUniCharNcmp(cs,ct,n) memcmp((cs),(ct),(n)*sizeof(Tcl_UniChar))
+#else /* !TCL_OPTIMIZE_UNICODE_COMPARE */
+#   define TclUniCharNcmp Tcl_UniCharNcmp
+#endif /* TCL_OPTIMIZE_UNICODE_COMPARE */
+
 #include "tclIntDecls.h"
 
 # undef TCL_STORAGE_CLASS

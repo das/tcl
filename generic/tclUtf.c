@@ -1351,16 +1351,23 @@ Tcl_UniCharNcmp(cs, ct, n)
     CONST Tcl_UniChar *ct;		/* Unicode string cs is compared to. */
     unsigned long n;			/* Number of unichars to compare. */
 {
+#ifdef TCL_OPTIMIZE_UNICODE_COMPARE
     /*
-     * We can't simply call 'memcmp(cs, ct, n*sizeof(Tcl_UniChar));'
-     * because that may not be lexically correct.
+     * We are definitely on a big-endian machine; memcmp() is safe
      */
-    for ( ; n != 0; n--, cs++, ct++) {
+    return memcmp(cs, ct, n*sizeof(Tcl_UniChar));
+
+#else /* !TCL_OPTIMIZE_UNICODE_COMPARE */
+    /*
+     * We can't simply call memcmp() because that is not lexically correct.
+     */
+    for ( ; n != 0; cs++, ct++, n--) {
 	if (*cs != *ct) {
 	    return (*cs - *ct);
 	}
     }
     return 0;
+#endif /* TCL_OPTIMIZE_UNICODE_COMPARE */
 }
 
 /*
