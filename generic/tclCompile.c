@@ -923,7 +923,7 @@ TclCompileScript(interp, script, numBytes, envPtr)
 		    wordIdx < parse.numWords; delta++, wordIdx++,
 		    tokenPtr += (tokenPtr->numComponents + 1)) {
 
-		if ((delta == 255)
+		if (expand && (delta == 255)
 			&& (tokenPtr->type != TCL_TOKEN_EXPAND_WORD)) {
 		    /*
 		     * Push an empty list for expansion so our delta
