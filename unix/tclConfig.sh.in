@@ -96,7 +96,8 @@ TCL_LD_FLAGS='@LDFLAGS@'
 # run-time dynamic linker where to look for shared libraries such as
 # libtcl.so.  Used when linking applications.  Only works if there
 # is a variable "LIB_RUNTIME_DIR" defined in the Makefile.
-TCL_LD_SEARCH_FLAGS='@TCL_LD_SEARCH_FLAGS@'
+TCL_CC_SEARCH_FLAGS='@CC_SEARCH_FLAGS@'
+TCL_LD_SEARCH_FLAGS='@LD_SEARCH_FLAGS@'
 
 # Additional object files linked with Tcl to provide compatibility
 # with standard facilities from ANSI C or POSIX.
