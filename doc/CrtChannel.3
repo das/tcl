@@ -405,6 +405,13 @@ behavior must be emulated in the channel driver.
 .PP
 This value can be retrieved with \fBTcl_ChannelBlockModeProc\fR, which returns
 a pointer to the function.
+.PP
+A channel driver \fBnot\fR supplying a \fIblockModeProc\fR has to be
+very, very careful. It has to tell the generic layer exactly which
+blocking mode is acceptable to it, and should this also document for
+the user so that the blocking mode of the channel is not changed to an
+inacceptable value. Any confusion here may lead the interpreter into a
+(spurious and difficult to find) deadlock.
 
 .SH "CLOSEPROC AND CLOSE2PROC"
 .PP
