@@ -1977,6 +1977,15 @@ declare 554 generic {
 declare 555 generic {
     int Tcl_CompareBigInt( Tcl_BigInt bigVal1, Tcl_BigInt bigVal2 )
 }
+declare 556 generic {
+    Tcl_BigInt Tcl_CopyBigInt( Tcl_BigInt bigVal )
+}
+declare 557 generic {
+    Tcl_BigInt Tcl_AddBigInt( Tcl_BigInt bigVal1, Tcl_BigInt bigVal2 )
+}
+declare 558 generic {
+    Tcl_BigInt Tcl_SubtractBigInt( Tcl_BigInt bigVal1, Tcl_BigInt bigVal2 )
+}
 
 ##############################################################################
 
