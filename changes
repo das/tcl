@@ -6301,6 +6301,10 @@ tables to avoid system limits (mistachkin)
 
 2004-11-15 (bug fix)[10653678] [trace variable],[trace remove] interop (porter)
 
+2004-11-16 (bug fix)[1067709] crash in [fconfigure -ttycontrol] (hobbs)
+
+2004-11-18 (new feature) configure options --enable-man-suffix (max)
+
 Doc improvements [759545,926590,935853,1017072,1018486,1022527,1027849,
 			1032243,1047928,1048005,1058446,1062647,1065732,etc.]
 Test suite expansion [1036649,1001997,etc.]
