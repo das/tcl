@@ -92,11 +92,11 @@ and calling \fBTcl_RegisterObjType\fR.
 The \fBTcl_ObjType\fR structure is defined as follows:
 .CS
 typedef struct Tcl_ObjType {
-	char *\fIname\fR;
-	Tcl_FreeInternalRepProc *\fIfreeIntRepProc\fR;
-	Tcl_DupInternalRepProc *\fIdupIntRepProc\fR;
-	Tcl_UpdateStringProc *\fIupdateStringProc\fR;
-	Tcl_SetFromAnyProc *\fIsetFromAnyProc\fR;
+        char *\fIname\fR;
+        Tcl_FreeInternalRepProc *\fIfreeIntRepProc\fR;
+        Tcl_DupInternalRepProc *\fIdupIntRepProc\fR;
+        Tcl_UpdateStringProc *\fIupdateStringProc\fR;
+        Tcl_SetFromAnyProc *\fIsetFromAnyProc\fR;
 } Tcl_ObjType;
 .CE
 .PP

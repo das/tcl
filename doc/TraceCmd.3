@@ -67,10 +67,10 @@ Whenever one of the specified operations occurs to the command,
 match the type \fBTcl_CommandTraceProc\fR:
 .CS
 typedef void Tcl_CommandTraceProc(
-	ClientData \fIclientData\fR,
+        ClientData \fIclientData\fR,
         Tcl_Interp *\fIinterp\fR,
-	CONST char *\fIoldName\fR,
-	CONST char *\fInewName\fR,
+        CONST char *\fIoldName\fR,
+        CONST char *\fInewName\fR,
         int \fIflags\fR);
 .CE
 The \fIclientData\fR and \fIinterp\fR parameters will have the same

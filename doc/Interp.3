@@ -17,9 +17,9 @@ Tcl_Interp \- client-visible fields of interpreter structures
 \fB#include <tcl.h>\fR
 .sp
 typedef struct {
-	char *\fIresult\fR;
-	Tcl_FreeProc *\fIfreeProc\fR;
-	int \fIerrorLine\fR;
+        char *\fIresult\fR;
+        Tcl_FreeProc *\fIfreeProc\fR;
+        int \fIerrorLine\fR;
 } Tcl_Interp;
 
 typedef void Tcl_FreeProc(char *\fIblockPtr\fR);

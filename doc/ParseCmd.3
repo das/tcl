@@ -212,14 +212,14 @@ of \fBTcl_EvalTokens\fR is deprecated.
 return parse information in two data structures, Tcl_Parse and Tcl_Token:
 .CS
 typedef struct Tcl_Parse {
-	CONST char *\fIcommentStart\fR;
-	int \fIcommentSize\fR;
-	CONST char *\fIcommandStart\fR;
-	int \fIcommandSize\fR;
-	int \fInumWords\fR;
-	Tcl_Token *\fItokenPtr\fR;
-	int \fInumTokens\fR;
-	...
+        CONST char *\fIcommentStart\fR;
+        int \fIcommentSize\fR;
+        CONST char *\fIcommandStart\fR;
+        int \fIcommandSize\fR;
+        int \fInumWords\fR;
+        Tcl_Token *\fItokenPtr\fR;
+        int \fInumTokens\fR;
+        ...
 } Tcl_Parse;
 
 typedef struct Tcl_Token {

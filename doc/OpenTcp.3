@@ -122,10 +122,10 @@ for the new connection and invokes \fIproc\fR with information about
 the channel.  \fIProc\fR must match the following prototype:
 .CS
 typedef void Tcl_TcpAcceptProc(
-	ClientData \fIclientData\fR,
-	Tcl_Channel \fIchannel\fR,
-	char *\fIhostName\fR,
-	int \fIport\fP);
+        ClientData \fIclientData\fR,
+        Tcl_Channel \fIchannel\fR,
+        char *\fIhostName\fR,
+        int \fIport\fP);
 .CE
 .PP
 The \fIclientData\fR argument will be the same as the \fIclientData\fR

@@ -338,16 +338,16 @@ type \fBTcl_EncodingConvertProc\fR:
 .PP
 .CS
 typedef int Tcl_EncodingConvertProc(
-	ClientData \fIclientData\fR,
-	CONST char *\fIsrc\fR, 
-	int \fIsrcLen\fR, 
-	int \fIflags\fR, 
-	Tcl_EncodingState *\fIstatePtr\fR,
-	char *\fIdst\fR, 
-	int \fIdstLen\fR, 
-	int *\fIsrcReadPtr\fR,
-	int *\fIdstWrotePtr\fR,
-	int *\fIdstCharsPtr\fR);
+        ClientData \fIclientData\fR,
+        CONST char *\fIsrc\fR, 
+        int \fIsrcLen\fR, 
+        int \fIflags\fR, 
+        Tcl_EncodingState *\fIstatePtr\fR,
+        char *\fIdst\fR, 
+        int \fIdstLen\fR, 
+        int *\fIsrcReadPtr\fR,
+        int *\fIdstWrotePtr\fR,
+        int *\fIdstCharsPtr\fR);
 .CE
 .PP
 The \fItoUtfProc\fR and \fIfromUtfProc\fR procedures are called by the
@@ -369,7 +369,7 @@ The callback procedure \fIfreeProc\fR, if non-NULL, should match the type
 \fBTcl_EncodingFreeProc\fR:
 .CS
 typedef void Tcl_EncodingFreeProc(
-	ClientData \fIclientData\fR);
+        ClientData \fIclientData\fR);
 .CE
 .PP
 This \fIfreeProc\fR function is called when the encoding is deleted.  The

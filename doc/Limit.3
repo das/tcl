@@ -165,8 +165,8 @@ following prototype:
 .PP
 .CS
 typedef void Tcl_LimitHandlerProc(
-	ClientData \fIclientData\fR,
-	Tcl_Interp *\fIinterp\fR);
+        ClientData \fIclientData\fR,
+        Tcl_Interp *\fIinterp\fR);
 .CE
 .PP
 The \fIclientData\fR argument to the handler will be whatever is
@@ -182,7 +182,7 @@ following prototype:
 .PP
 .CS
 typedef void Tcl_LimitHandlerDeleteProc(
-	ClientData \fIclientData\fR);
+        ClientData \fIclientData\fR);
 .CE
 .PP
 A limit handler may be deleted using \fBTcl_LimitRemoveHandler\fR; the
