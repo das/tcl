@@ -509,13 +509,19 @@ proc auto_execok name {
 	# NT includes the 'start' built-in
 	lappend shellBuiltins "start"
     }
+    if {[info exists env(PATHEXT)]} {
+	# Add an initial ; to have the {} extension check first.
+	set execExtensions [split ";$env(PATHEXT)" ";"]
+    } else {
+	set execExtensions [list {} .com .exe .bat]
+    }
 
     if {[lsearch -exact $shellBuiltins $name] != -1} {
 	return [set auto_execs($name) [list $env(COMSPEC) /c $name]]
     }
 
     if {[llength [file split $name]] != 1} {
-	foreach ext {{} .com .exe .bat} {
+	foreach ext $execExtensions {
 	    set file ${name}${ext}
 	    if {[file exists $file] && ![file isdirectory $file]} {
 		return [set auto_execs($name) [list $file]]
@@ -545,7 +551,7 @@ proc auto_execok name {
 	# Skip already checked directories
 	if {[info exists checked($dir)] || [string equal {} $dir]} { continue }
 	set checked($dir) {}
-	foreach ext {{} .com .exe .bat} {
+	foreach ext $execExtensions {
 	    set file [file join $dir ${name}${ext}]
 	    if {[file exists $file] && ![file isdirectory $file]} {
 		return [set auto_execs($name) [list $file]]
