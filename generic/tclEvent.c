@@ -907,6 +907,7 @@ Tcl_FinalizeThread()
 	}
 	TclFinalizeIOSubsystem();
 	TclFinalizeNotifier();
+	TclFinalizeAsync();
 
 	/*
 	 * Blow away all thread local storage blocks.
