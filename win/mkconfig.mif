@@ -27,8 +27,8 @@ INSTALLDIR	= c:\program files\tcl
 #==============================================
 
 #### Microsoft Visual C++
-TOOLSETvc32	= c:\dev\devstudio60
-TOOLSETvc32VER	= 6
+TOOLSETvc32	= c:\dev\devstudio
+TOOLSETvc32VER	= 5
 
 #### Borland C++ Builder
 TOOLSETbc32	= c:\dev\bcc55
