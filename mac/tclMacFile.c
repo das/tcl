@@ -177,10 +177,10 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 	}
 
 	if (NativeMatchType(fileNamePtr, types, paramBlock.hFileInfo,
-			    okType, okCreator) {
-	    int len;
-	    char *fname = Tcl_GetStringFromObj(pathPtr,&len);
-	    if ((len > 1) && (strchr(fname+1, ':') == NULL)) {
+			    okType, okCreator)) {
+	    int fnameLen;
+	    char *fname = Tcl_GetStringFromObj(pathPtr,&fnameLen);
+	    if ((fnameLen > 1) && (strchr(fname+1, ':') == NULL)) {
 		Tcl_ListObjAppendElement(interp, resultPtr, 
 			Tcl_NewStringObj(fname+1, fnameLen-1));
 	    } else {
@@ -292,7 +292,7 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 
 		/* Is the type acceptable? */
 		if (NativeMatchType(tempName, types, pb.hFileInfo,
-				    okType, okCreator) {
+				    okType, okCreator)) {
 		    if ((fnameLen > 1) && (strchr(fname+1, ':') == NULL)) {
 			Tcl_ListObjAppendElement(interp, resultPtr, 
 				Tcl_NewStringObj(fname+1, fnameLen-1));
@@ -405,7 +405,7 @@ NativeMatchType(
 	    return 0;
 	}
     }
-    return 1
+    return 1;
 }
 
 

@@ -288,7 +288,7 @@ test iocmd-8.15 {fconfigure command / tcp channel} {socket} {
 	set r [list [catch {fconfigure $cli -blah} msg] $msg];
 	iocmdSSHTDWN
 	set r;
-} {1 {bad option "-blah": should be one of -blocking, -buffering, -buffersize, -encoding, -eofchar, -translation, -peername, or -sockname}}
+} {1 {bad option "-blah": should be one of -blocking, -buffering, -buffersize, -encoding, -eofchar, -translation, -error, -peername, or -sockname}}
 test iocmd-8.16 {fconfigure command / tcp channel} {socket} {
 	iocmdSSETUP
 	set r [expr [lindex [fconfigure $cli -peername] 2]==$port];

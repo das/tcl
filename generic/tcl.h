@@ -404,7 +404,9 @@ typedef TCL_WIDE_INT_TYPE		Tcl_WideInt;
 typedef unsigned TCL_WIDE_INT_TYPE	Tcl_WideUInt;
 
 #ifdef TCL_WIDE_INT_IS_LONG
+#   ifndef MAC_TCL
 #   include <sys/types.h>
+#   endif
 typedef struct stat	Tcl_StatBuf;
 #   define Tcl_WideAsLong(val)		((long)(val))
 #   define Tcl_LongAsWide(val)		((long)(val))
@@ -412,7 +414,9 @@ typedef struct stat	Tcl_StatBuf;
 #   define Tcl_DoubleAsWide(val)	((long)((double)(val)))
 #else /* TCL_WIDE_INT_IS_LONG */
 #   ifndef __WIN32__
+#      ifndef MAC_TCL
 #      include <sys/types.h>
+#      endif
 #      ifdef HAVE_STRUCT_STAT64
 typedef struct stat64	Tcl_StatBuf;
 #      else
