@@ -1025,6 +1025,18 @@ test dict-22.9 {dict with command} {
     }
     set a
 } {b {c dd}}
+test dict-22.10 {dict with command: result handling tricky case} {
+    set a {b {c d}}
+    foreach i {0 1} {
+	if {$i} break
+	dict with a b {
+	    set a {}
+	    # We're checking to see if we lose this break
+	    break
+	}
+    }
+    list $i $a
+} {0 {}}
 
 # cleanup
 ::tcltest::cleanupTests

@@ -2975,8 +2975,7 @@ DictWithCmd(interp, objc, objv)
 	    if (allocdict) {
 		TclDecrRefCount(dictPtr);
 	    }
-	    TclRestoreInterpState(interp, state);
-	    return TCL_OK;
+	    return TclRestoreInterpState(interp, state);
 	}
     } else {
 	leafPtr = dictPtr;
