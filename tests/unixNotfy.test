@@ -30,7 +30,7 @@ testConstraint testthread [expr {[info commands testthread] != {}}]
 # an error.
 
 test unixNotfy-1.1 {Tcl_DeleteFileHandler} \
-    -constraints {noTk && unixOnly && !testthread} \
+    -constraints {noTk && unix && !testthread} \
     -body {
 	catch {vwait x}
 	set f [open [makeFile "" foo] w]
@@ -45,7 +45,7 @@ test unixNotfy-1.1 {Tcl_DeleteFileHandler} \
 	catch { removeFile foo }
     }
 test unixNotfy-1.2 {Tcl_DeleteFileHandler} \
-    -constraints {noTk && unixOnly && !testthread} \
+    -constraints {noTk && unix && !testthread} \
     -body {
 	catch {vwait x}
 	set f1 [open [makeFile "" foo] w]
@@ -67,7 +67,7 @@ test unixNotfy-1.2 {Tcl_DeleteFileHandler} \
     }
 
 test unixNotfy-2.1 {Tcl_DeleteFileHandler} \
-    -constraints {noTk unixOnly testthread} \
+    -constraints {noTk unix testthread} \
     -body {
 	update
 	set f [open [makeFile "" foo] w]
@@ -85,7 +85,7 @@ test unixNotfy-2.1 {Tcl_DeleteFileHandler} \
 	catch { removeFile foo }
     }
 test unixNotfy-2.2 {Tcl_DeleteFileHandler} \
-    -constraints {noTk unixOnly testthread} \
+    -constraints {noTk unix testthread} \
     -body {
 	update
 	set f1 [open [makeFile "" foo] w]

@@ -103,7 +103,7 @@ test clock-2.12 {clock clicks test, wrong num args} {
 } {1 {wrong # args: should be "clock clicks ?option?"}}
 
 # clock format
-test clock-3.1 {clock format tests} {unixOnly} {
+test clock-3.1 {clock format tests} {unix} {
     set clockval 657687766
     clock format $clockval -format {%a %b %d %I:%M:%S %p %Y} -gmt true
 } {Sun Nov 04 03:02:46 AM 1990}

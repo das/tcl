@@ -22,13 +22,13 @@ testConstraint testwinclock [llength [info commands testwinclock]]
 # The next two tests will crash on Windows if the check for negative
 # clock values is not done properly.
 
-test winTime-1.1 {TclpGetDate} {pcOnly} {
+test winTime-1.1 {TclpGetDate} {win} {
     set ::env(TZ) JST-9
     set result [clock format -1 -format %Y]
     unset ::env(TZ)
     set result
 } {1970}
-test winTime-1.2 {TclpGetDate} {pcOnly} {
+test winTime-1.2 {TclpGetDate} {win} {
     set ::env(TZ) PST8
     set result [clock format 1 -format %Y]
     unset ::env(TZ)

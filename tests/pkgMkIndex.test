@@ -674,22 +674,22 @@ test pkgMkIndex-13.1 {proc names with embedded spaces} {
 removeFile [file join pkg spacename.tcl]
 
 # Test the pkg_compareExtension helper function
-test pkgMkIndex-14.1 {pkg_compareExtension} {unixOnly} {
+test pkgMkIndex-14.1 {pkg_compareExtension} {unix} {
     pkg_compareExtension foo.so .so
 } 1
-test pkgMkIndex-14.2 {pkg_compareExtension} {unixOnly} {
+test pkgMkIndex-14.2 {pkg_compareExtension} {unix} {
     pkg_compareExtension foo.so.bar .so
 } 0
-test pkgMkIndex-14.3 {pkg_compareExtension} {unixOnly} {
+test pkgMkIndex-14.3 {pkg_compareExtension} {unix} {
     pkg_compareExtension foo.so.1 .so
 } 1
-test pkgMkIndex-14.4 {pkg_compareExtension} {unixOnly} {
+test pkgMkIndex-14.4 {pkg_compareExtension} {unix} {
     pkg_compareExtension foo.so.1.2 .so
 } 1
-test pkgMkIndex-14.5 {pkg_compareExtension} {unixOnly} {
+test pkgMkIndex-14.5 {pkg_compareExtension} {unix} {
     pkg_compareExtension foo .so
 } 0
-test pkgMkIndex-14.6 {pkg_compareExtension} {unixOnly} {
+test pkgMkIndex-14.6 {pkg_compareExtension} {unix} {
     pkg_compareExtension foo.so.1.2.bar .so
 } 0
 
