@@ -1401,6 +1401,7 @@ test filename-16.13 {windows specific globbing} {pcOnly} {
 # cleanup
 file delete -force //[info hostname]/c/globTest
 cd $temp
+file delete -force globTest
 set env(HOME) $oldhome
 testsetplatform $platform
 catch {unset oldhome platform temp result}

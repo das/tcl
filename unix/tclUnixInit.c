@@ -335,7 +335,7 @@ TclpSetInitialEncodings()
 	langEnv = NULL;
     }
 
-    encoding = "iso-8859-1";
+    encoding = "iso8859-1";
     if (langEnv != NULL) {
 	for (i = 0; localeTable[i].lang != NULL; i++) {
 	    if (strcmp(localeTable[i].lang, langEnv) == 0) {
