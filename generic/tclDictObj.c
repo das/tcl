@@ -2527,4 +2527,8 @@ Tcl_DictObjCmd(/*ignored*/ clientData, interp, objc, objv)
     case DICT_VALUES:	return DictValuesCmd(interp, objc, objv);
     }
     panic("unexpected fallthrough!");
+    /*
+     * Next line is NOT REACHED - stops compliler complaint though...
+     */
+    return TCL_ERROR;
 }
