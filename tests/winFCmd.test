@@ -962,6 +962,9 @@ test winFCmd-15.10 {SetWinFileAttributes - failing} {pcOnly cdrom} {
     cleanup
     catch {file attributes $cdfile -archive 1}
 } {1}
+test winFCmd-16.1 {Windows file normalization} {pcOnly} {
+    list [file normalize c:/] [file normalize C:/]
+} {C:/ C:/}
 
 # This block of code used to occur after the "return" call, so I'm
 # commenting it out and assuming that this code is still under construction.
