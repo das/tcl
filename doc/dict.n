@@ -268,8 +268,8 @@ foreach c {abcdefghijklmnopqrstuvwxyz} {
 
 # English locales can luckily share the "C" locale
 \fBdict set\fR capital en [\fBdict get\fR $capital C]
-\fBdict set\fR capital en_US [\fRdict get\fR $capital C]
-\fBdict set\fR capital en_GB [\fRdict get\fR $capital C]
+\fBdict set\fR capital en_US [\fBdict get\fR $capital C]
+\fBdict set\fR capital en_GB [\fBdict get\fR $capital C]
 
 # ... and so on for other supported languages ...
 

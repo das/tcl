@@ -82,7 +82,7 @@ formatted.  For example,
 .CE
 will return a string equivalent to \fBalpha\\000\\000bravoc\fR and
 .CS
-\fBbinary format a* [encoding convertto utf-8 \\u20ac]
+\fBbinary format a* [encoding convertto utf-8 \\u20ac]\fR
 .CE
 will return a string equivalent to \fB\\342\\202\\254\fR (which is the
 UTF-8 byte sequence for a Euro-currency character).
