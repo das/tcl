@@ -436,7 +436,7 @@
  */
 
 EXTERN HANDLE	    TclWinSerialReopen _ANSI_ARGS_(( HANDLE handle,
-			char *name, DWORD access));
+			CONST TCHAR *name, DWORD access));
 
 EXTERN Tcl_Channel  TclWinOpenSerialChannel _ANSI_ARGS_((HANDLE handle,
                         char *channelName, int permissions));

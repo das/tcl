@@ -1327,7 +1327,7 @@ SerialWriterThread(LPVOID arg)
 HANDLE
 TclWinSerialReopen(handle, name, access)
     HANDLE handle;
-    char *name;
+    CONST TCHAR *name;
     DWORD access;
 {
     ThreadSpecificData *tsdPtr;

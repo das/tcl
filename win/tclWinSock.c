@@ -1471,7 +1471,7 @@ Tcl_OpenTcpServer(interp, port, host, acceptProc, acceptProcData)
     Tcl_Interp *interp;			/* For error reporting - may be
                                          * NULL. */
     int port;				/* Port number to open. */
-    COSNT char *host;			/* Name of local host. */
+    CONST char *host;			/* Name of local host. */
     Tcl_TcpAcceptProc *acceptProc;	/* Callback for accepting connections
                                          * from new clients. */
     ClientData acceptProcData;		/* Data for the callback. */
