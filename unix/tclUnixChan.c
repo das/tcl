@@ -2417,6 +2417,9 @@ TclpGetDefaultStdChannel(type)
     }
 
     channel = Tcl_MakeFileChannel((ClientData) fd, mode);
+    if (channel == NULL) {
+	return NULL;
+    }
 
     /*
      * Set up the normal channel options for stdio handles.
