@@ -1936,6 +1936,8 @@ EXTERN int		TclInvokeObjectCommand _ANSI_ARGS_((
 EXTERN int		TclInvokeStringCommand _ANSI_ARGS_((
                             ClientData clientData, Tcl_Interp *interp,
                             int objc, Tcl_Obj *CONST objv[]));
+EXTERN int		TclIsLocalScalar _ANSI_ARGS_((CONST char *src,
+			    int len));
 EXTERN Proc *		TclIsProc _ANSI_ARGS_((Command *cmdPtr));
 EXTERN int		TclLooksLikeInt _ANSI_ARGS_((char *bytes,
 			    int length));
@@ -1982,7 +1984,6 @@ EXTERN int		TclpCreateProcess _ANSI_ARGS_((Tcl_Interp *interp,
 EXTERN TclFile		TclpCreateTempFile _ANSI_ARGS_((CONST char *contents));
 EXTERN int              TclpDeleteFile _ANSI_ARGS_((CONST char *path));
 EXTERN void		TclpExit _ANSI_ARGS_((int status));
-EXTERN void		TclpFinalize _ANSI_ARGS_((void));
 EXTERN void		TclpFinalizeCondition _ANSI_ARGS_((
 			    Tcl_Condition *condPtr));
 EXTERN void		TclpFinalizeMutex _ANSI_ARGS_((Tcl_Mutex *mutexPtr));

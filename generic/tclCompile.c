@@ -2180,7 +2180,7 @@ TclCreateExceptRange(type, envPtr)
  */
 
 int
-TclCreateAuxData(clientData, dupProc, freeProc, envPtr)
+TclCreateAuxData(clientData, typePtr, envPtr)
     ClientData clientData;	/* The compilation auxiliary data to store
 				 * in the new aux data record. */
     AuxDataType *typePtr;	/* Pointer to the type to attach to this AuxData */
@@ -2577,7 +2577,7 @@ TclRegisterAuxDataType(typePtr)
      * If there's already a type with the given name, remove it.
      */
 
-    hPtr = Tcl_FindHashEntry(&tsdPtr->auxDataTypeTable, typePtr->name);
+    hPtr = Tcl_FindHashEntry(&auxDataTypeTable, typePtr->name);
     if (hPtr != (Tcl_HashEntry *) NULL) {
         Tcl_DeleteHashEntry(hPtr);
     }
@@ -2586,7 +2586,7 @@ TclRegisterAuxDataType(typePtr)
      * Now insert the new object type.
      */
 
-    hPtr = Tcl_CreateHashEntry(&tsdPtr->auxDataTypeTable, typePtr->name, &new);
+    hPtr = Tcl_CreateHashEntry(&auxDataTypeTable, typePtr->name, &new);
     if (new) {
         Tcl_SetHashValue(hPtr, typePtr);
     }

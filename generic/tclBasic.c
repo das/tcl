@@ -903,7 +903,6 @@ DeleteInterpProc(interp)
     Tcl_HashEntry *hPtr;
     Tcl_HashSearch search;
     Tcl_HashTable *hTablePtr;
-    AssocData *dPtr;
     ResolverScheme *resPtr, *nextResPtr;
     int i;
 
@@ -2629,12 +2628,12 @@ Tcl_EvalObj(interp, objPtr, flags)
     if (objPtr->typePtr == &tclByteCodeType) {
 	codePtr = (ByteCode *) objPtr->internalRep.otherValuePtr;
 	
-	if ((codePtr->iPtr != iPtr)
+	if (((Interp *) *codePtr->interpHandle != iPtr)
 	        || (codePtr->compileEpoch != iPtr->compileEpoch)
 	        || (codePtr->nsPtr != namespacePtr)
 	        || (codePtr->nsEpoch != namespacePtr->resolverEpoch)) {
             if (codePtr->flags & TCL_BYTECODE_PRECOMPILED) {
-                if (codePtr->iPtr != iPtr) {
+                if ((Interp *) *codePtr->interpHandle != iPtr) {
                     panic("Tcl_EvalObj: compiled script jumped interps");
                 }
 	        codePtr->compileEpoch = iPtr->compileEpoch;
@@ -3638,7 +3637,7 @@ Tcl_ExprObj(interp, objPtr, resultPtrPtr)
 	if (((Interp *) *codePtr->interpHandle != iPtr)
 	        || (codePtr->compileEpoch != iPtr->compileEpoch)) {
             if (codePtr->flags & TCL_BYTECODE_PRECOMPILED) {
-                if (codePtr->iPtr != iPtr) {
+                if ((Interp *) *codePtr->interpHandle != iPtr) {
                     panic("Tcl_ExprObj: compiled expression jumped interps");
                 }
 	        codePtr->compileEpoch = iPtr->compileEpoch;

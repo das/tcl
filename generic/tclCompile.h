@@ -670,6 +670,8 @@ typedef struct ForeachInfo {
 				 * THE LAST FIELD IN THE STRUCTURE! */
 } ForeachInfo;
 
+extern AuxDataType		tclForeachInfoType;
+
 /*
  * Structure containing a cached pointer to a command that is the result
  * of resolving the command's name in some namespace. It is the internal
