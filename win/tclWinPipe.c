@@ -1569,6 +1569,7 @@ BuildCommandLine(
 	    Tcl_DStringAppend(&ds, "\"", 1);
 	}
     }
+    Tcl_DStringFree(linePtr);
     Tcl_WinUtfToTChar(Tcl_DStringValue(&ds), Tcl_DStringLength(&ds), linePtr);
     Tcl_DStringFree(&ds);
 }
