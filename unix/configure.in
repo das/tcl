@@ -473,12 +473,8 @@ SC_BLOCKING_STYLE
 #	building libtcl as a shared library instead of a static library.
 #--------------------------------------------------------------------
 
-if test "$TCL_SHARED_LIB_SUFFIX" = "" ; then
-    TCL_SHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}${SHLIB_SUFFIX}'
-fi
-if test "$TCL_UNSHARED_LIB_SUFFIX" = "" ; then
-    TCL_UNSHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}.a'
-fi
+TCL_UNSHARED_LIB_SUFFIX=${UNSHARED_LIB_SUFFIX}
+TCL_SHARED_LIB_SUFFIX=${SHARED_LIB_SUFFIX}
 
 SC_ENABLE_SHARED
 
