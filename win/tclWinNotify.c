@@ -14,7 +14,6 @@
  */
 
 #include "tclWinInt.h"
-#include <winsock.h>
 
 /*
  * The follwing static indicates whether this module has been initialized.
