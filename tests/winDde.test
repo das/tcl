@@ -213,7 +213,7 @@ test winDde-5.3 {check for bad arguments} -constraints {win dde} -body {
 } -returnCodes error -result {wrong # args: should be "dde execute ?-async? serviceName topicName value"}
 test winDde-5.4 {DDE eval bad arguments} -constraints {win dde} -body {
     dde eval "" "foo"
-} -returnCodes error {invalid service name ""}
+} -returnCodes error -result {invalid service name ""}
 
 # -------------------------------------------------------------------------
 
