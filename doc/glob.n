@@ -86,7 +86,8 @@ may not contain ?, *, or [] constructs.  On Windows NT, if \fIpattern\fR is
 of the form ``\fB~\fIusername\fB@\fIdomain\fR'' it refers to the home
 directory of the user whose account information resides on the specified NT
 domain server.  Otherwise, user account information is obtained from
-the local computer.  
+the local computer.  On Windows 95 and 98, \fBglob\fR accepts patterns
+like ``.../'' and ``..../'' for successively higher up parent directories.
 .VE
 
 .SH KEYWORDS

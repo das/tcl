@@ -8,7 +8,7 @@
 '\" RCS: @(#) $Id$
 '\" 
 .so man.macros
-.TH format n "" Tcl "Tcl Built-In Commands"
+.TH format n 8.1 Tcl "Tcl Built-In Commands"
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME

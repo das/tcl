@@ -714,7 +714,7 @@ A simple test file (foo.test)
 .DS
 if {[lsearch [namespace children] ::tcltest] == -1} {
     package require tcltest
-    import namespace ::tcltest::*
+    namespace import ::tcltest::*
 }
 
 test foo-1.1 {save 1 in variable name foo} {} {
@@ -729,7 +729,7 @@ A simple all.tcl
 .DS
 if {[lsearch [namespace children] ::tcltest] == -1} {
     package require tcltest
-    import namespace ::tcltest::*
+    namespace import ::tcltest::*
 }
 
 set ::tcltest::testSingleFile false
