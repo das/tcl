@@ -1280,8 +1280,10 @@ proc ::tcl::clock::FreeScan { string base timezone locale } {
 	[expr { -210866803200
 		+ ( 86400 * wide([dict get $date julianDay]) )
 		+ [dict get $date secondOfDay] }]
+    dict set date tzName $timezone
     set date [ConvertLocalToUTC $date[set date {}]]
     set seconds [dict get $date seconds]
+
 
     # Do relative times
 
@@ -1320,7 +1322,7 @@ proc ::tcl::clock::FreeScan { string base timezone locale } {
 	    [expr { -210866803200
 		    + ( 86400 * wide([dict get $date2 julianDay]) )
 		    + [dict get $date secondOfDay] }]
-	dict set date2 tzname $timezone
+	dict set date2 tzName $timezone
 	set date2 [ConvertLocalToUTC $date2[set date2 {}]]
 	set seconds [dict get $date2 seconds]
 
