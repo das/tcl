@@ -50,6 +50,24 @@ registry key names separated by backslash (\fB\e\fR) characters.
 unique abbreviation for \fIoption\fR is acceptable.  The valid options
 are:
 .TP
+.VS 8.4
+\fBregistry broadcast \fIkeyName\fR ?\fI-timeout milliseconds\fR?
+.
+Sends a broadcast message to the system and running programs to notify them
+of certain updates.  This is necessary to propagate changes to key registry
+keys like Environment.  The timeout specifies the amount of time, in
+milliseconds, to wait for applications to respond to the broadcast message.
+It defaults to 3000.  The following example demonstrates how to add a path
+to the global Environment and notify applications of the change without
+reguiring a logoff/logon step (assumes admin privileges):
+.CS
+set regPath {HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment}
+set curPath [registry get $regPath "Path"]
+registry set $regPath "Path" "$curPath;$addPath"
+registry broadcast "Environment"
+.CE
+.VE 8.4
+.TP
 \fBregistry delete \fIkeyName\fR ?\fIvalueName\fR?
 .
 If the optional \fIvalueName\fR argument is present, the specified
