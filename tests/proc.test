@@ -166,6 +166,11 @@ test proc-3.5 {TclObjInterpProc, any old result is reset before appending error 
     list [catch {p} msg] $msg
 } {1 {wrong # args: should be "p x"}}
 
+test proc-3.6 {TclObjInterpProc, proper quoting of proc name, Bug 942757} {
+    proc {a b  c} {x} {info commands 3m}
+    list [catch {{a b  c}} msg] $msg
+} {1 {wrong # args: should be "{a b  c} x"}}
+
 catch {namespace delete {expand}[namespace children :: test_ns_*]}
 catch {rename p ""}
 catch {rename {} ""}
