@@ -3140,7 +3140,7 @@ TclCompileSwitchCmd(interp, parsePtr, envPtr)
 	TclEmitOpcode(INST_POP, envPtr);
 	envPtr->currStackDepth = savedStackDepth + 1;
 	code = TclCompileScript(interp, bodyTokenArray[i+1].start,
-		bodyTokenArray[i+1].size, /*nested*/ 0, envPtr);
+		bodyTokenArray[i+1].size, envPtr);
 	if (code != TCL_OK) {
 	    ckfree((char *)argv);
 	    ckfree((char *)bodyTokenArray);

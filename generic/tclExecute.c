@@ -831,7 +831,6 @@ Tcl_ExprObj(interp, objPtr, resultPtrPtr)
 	 * and aux data items is given to the ByteCode object.
 	 */
 
-	compEnv.numSrcBytes = iPtr->termOffset;
 	TclEmitOpcode(INST_DONE, &compEnv);
 	TclInitByteCodeObj(objPtr, &compEnv);
 	TclFreeCompileEnv(&compEnv);
@@ -1037,16 +1036,7 @@ TclCompEvalObj(interp, objPtr)
 	}
     }
 
-    /*
-     * Set the interpreter's termOffset member to the offset of the
-     * character just after the last one executed. We approximate the offset
-     * of the last character executed by using the number of characters
-     * compiled. 
-     */
-
-    iPtr->termOffset = numSrcBytes;
     iPtr->flags &= ~ERR_ALREADY_LOGGED;
-
     return result;
 }
 

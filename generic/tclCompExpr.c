@@ -398,7 +398,7 @@ CompileSubExpr(exprTokenPtr, infoPtr, envPtr)
 	    
         case TCL_TOKEN_COMMAND:
 	    code = TclCompileScript(interp, tokenPtr->start+1,
-		    tokenPtr->size-2, /*nested*/ 0, envPtr);
+		    tokenPtr->size-2, envPtr);
 	    if (code != TCL_OK) {
 		goto done;
 	    }
