@@ -341,7 +341,7 @@ proc http::geturl { url args } {
 	    puts $s "Content-Type: $state(-type)"
 	    puts $s ""
 	    fconfigure $s -translation {auto binary}
-	    puts $s $state(-query)
+	    puts -nonewline $s $state(-query)
 	} else {
 	    puts $s ""
 	}
