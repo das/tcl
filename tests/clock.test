@@ -46,8 +46,8 @@ test clock-2.5 {clock clicks tests, millisecond timing test} {
     set start [clock clicks -milli]
     after 10
     set end [clock clicks -milli]
-    # assume, even with slow interp'ing, the diff is less than 60 msecs
-    expr {($end > $start) && (($end - $start) < 60)}
+    # 60 msecs seems to be the max time slice under Windows 95/98
+    expr {($end > $start) && (($end - $start) <= 60)}
 } {1}
 
 # clock format
