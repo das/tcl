@@ -49,8 +49,10 @@ static char initScript[] = "if {[info proc tclInit]==\"\"} {\n\
 	if {[info exists env(TCL_LIBRARY)]} {\n\
 	    lappend dirs $env(TCL_LIBRARY)\n\
 	}\n\
-	lappend dirs $tclDefaultLibrary\n\
-	unset tclDefaultLibrary\n\
+	catch {\n\
+	    lappend dirs $tclDefaultLibrary\n\
+	    unset tclDefaultLibrary\n\
+	}\n\
         set dirs [concat $dirs $tcl_libPath]\n\
     }\n\
     foreach i $dirs {\n\
