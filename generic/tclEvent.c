@@ -936,8 +936,12 @@ Tcl_FinalizeThread()
 int
 TclInExit()
 {
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
-    return tsdPtr->inExit;
+    ThreadSpecificData *tsdPtr = TclThreadDataKeyGet(&dataKey);
+    if (tsdPtr == NULL) {
+	return inFinalize;
+    } else {
+	return tsdPtr->inExit;
+    }
 }
 
 /*
