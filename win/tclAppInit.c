@@ -14,7 +14,8 @@
  * RCS: @(#) $Id$
  */
 
-#include "tclPort.h"
+#include "tcl.h"
+#include <windows.h>
 #include <locale.h>
 
 #ifdef TCL_TEST
