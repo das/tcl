@@ -181,7 +181,7 @@ Mask consisting of one or more of R_OK, W_OK, X_OK and F_OK.  R_OK,
 W_OK and X_OK request checking whether the file exists and  has  read,
 write and  execute  permissions, respectively.  F_OK just requests
 checking for the existence of the file.
-.AP stat *statPtr out
+.AP Tcl_StatBuf *statPtr out
 The structure that contains the result of a stat or lstat operation.
 .AP char *sym1 in
 Name of a procedure to look up in the file's symbol table
@@ -237,6 +237,10 @@ registered, the 'files' may, to give two examples, be remote (e.g.
 situated on a remote ftp server) or archived (e.g. lying inside a .zip
 archive).  Such registered filesystems provide a lookup table of
 functions to implement all or some of the functionality listed here.
+Finally, the \fBTcl_FSStat\fR and \fBTcl_FSLstat\fR calls abstract
+away from what the 'struct stat' buffer buffer is actually declared to
+be, allowing the same code to be used both on systems with and systems
+without support for files larger than 2GB in size.
 .PP
 The \fBTcl_FS...\fR are objectified and may cache internal
 representations and other path-related strings (e.g. the current

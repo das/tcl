@@ -91,13 +91,18 @@ Tcl_Stat(path, oldStyleBuf)
     if (ret != -1) {
 #ifndef TCL_WIDE_INT_IS_LONG
 #   define OUT_OF_RANGE(x) \
-	(((Tcl_WideInt)(x))<LLONG_MIN||((Tcl_WideInt)(x))>LLONG_MAX)
+	(((Tcl_WideInt)(x)) < Tcl_LongAsWide(LONG_MIN) || \
+	 ((Tcl_WideInt)(x)) > Tcl_LongAsWide(LONG_MAX))
+#   define OUT_OF_URANGE(x) \
+	(((Tcl_WideUInt)(x)) > (Tcl_WideUInt)ULONG_MAX)
 
 	/*
 	 * Perform the result-buffer overflow check manually.
+	 *
+	 * Note that ino_t/ino64_t is unsigned...
 	 */
 
-        if (OUT_OF_RANGE(buf.st_ino) || OUT_OF_RANGE(buf.st_size)
+        if (OUT_OF_URANGE(buf.st_ino) || OUT_OF_RANGE(buf.st_size)
 		|| OUT_OF_RANGE(buf.st_blocks)) {
 	    errno = EOVERFLOW;
 	    return -1;
