@@ -11,3 +11,5 @@
 
 TOOLSET	    = bc32
 MAKECMD	    = make.exe -s -N $(MAKEFLAGS) -f makefile.bc
+
+SYM	    =
