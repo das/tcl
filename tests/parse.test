@@ -691,44 +691,23 @@ test parse-15.49 {CommandComplete procedure} {
 test parse-15.50 {CommandComplete procedure} {
     info complete "abc\\\n"
 } 0
-test parse-15.51 {CommandComplete procedure} {
-    info complete "\{abc\}\{"
-} 1
+test parse-15.51 {CommandComplete procedure} "
+    info complete \"\\{abc\\}\\{\"
+" 1
 test parse-15.52 {CommandComplete procedure} {
     info complete "\"abc\"("
 } 1
-test parse-15.53 {CommandComplete procedure} {
-    parse complete " # \{"
-} 1
-test parse-15.54 {CommandComplete procedure} {
-    parse complete "foo bar;# \{"
-} 1
+test parse-15.53 {CommandComplete procedure} "
+    info complete \" # {\"
+" 1
+test parse-15.54 {CommandComplete procedure} "
+    info complete \"foo bar;# {\"
+" 1
 test parse-15.55 {CommandComplete procedure} {
-    parse complete "a\nb\n# \{\n# \{\nc\n"
+    info complete "set x [bytestring \0]; puts hi"
 } 1
 test parse-15.56 {CommandComplete procedure} {
-    parse complete "#Incomplete comment\\\n"
-} 0
-test parse-15.57 {CommandComplete procedure} {
-    parse complete "#Incomplete comment\\\nBut now it's complete.\n"
-} 1
-test parse-15.58 {CommandComplete procedure} {
-    parse complete "# Complete comment\\\\\n"
-} 1
-test parse-15.59 {CommandComplete procedure} {
-    parse complete "abc\\\n def"
-} 1
-test parse-15.60 {CommandComplete procedure} {
-    parse complete "abc\\\n "
-} 1
-test parse-15.61 {CommandComplete procedure} {
-    parse complete "abc\\\n"
-} 0
-test parse-15.62 {CommandComplete procedure} {
-    parse complete "set x [binary format H 00]; puts hi"
-} 1
-test parse-15.63 {CommandComplete procedure} {
-    parse complete "set x [binary format H 00]; {"
+    info complete "set x [bytestring \0]; \{"
 } 0
 
 

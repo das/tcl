@@ -45,7 +45,7 @@ test lsearch-2.5 {search modes} {
 } 1
 test lsearch-2.6 {search modes} {
     list [catch {lsearch -regexp {xyz bbcc *bc*} *bc*} msg] $msg
-} {1 {couldn't compile regular expression pattern: ?+* follows nothing}}
+} {1 {couldn't compile regular expression pattern: quantifier operand invalid}}
 test lsearch-2.7 {search modes} {
     lsearch -regexp {b.x ^bc xy bcx} ^bc
 } 3
