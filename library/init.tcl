@@ -52,12 +52,10 @@ if {[string compare [info library] {}]} {
 	}
     }
 }
-foreach __dir [list [file dirname [info nameofexecutable]] \
-	[file join [file dirname [file dirname \
-	[info nameofexecutable]]] lib]] {
-    if {[lsearch -exact $auto_path $__dir] < 0} {
-	lappend auto_path $__dir
-    }
+set __dir [file join [file dirname [file dirname \
+	[info nameofexecutable]]] lib]
+if {[lsearch -exact $auto_path $__dir] < 0} {
+    lappend auto_path $__dir
 }
 if {[info exist tcl_pkgPath]} {
     foreach __dir $tcl_pkgPath {
