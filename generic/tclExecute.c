@@ -918,6 +918,7 @@ TclCompEvalObj(interp, objPtr)
 	iPtr->errorLine = 1; 
 	result = tclByteCodeType.setFromAnyProc(interp, objPtr);
 	if (result != TCL_OK) {
+	    iPtr->numLevels--;
 	    return result;
 	}
 	iPtr->evalFlags = 0;
