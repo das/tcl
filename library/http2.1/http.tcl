@@ -365,7 +365,7 @@ proc http::geturl { url args } {
 	set how POST
 	# The query channel must be blocking for the async Write to
 	# work properly.
-	fconfigure $state(-querychannel) -blocking 1
+	fconfigure $state(-querychannel) -blocking 1 -translation binary
 	set contDone 0
     }
 
