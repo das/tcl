@@ -118,6 +118,9 @@ Pkga_Init(interp)
 {
     int code;
 
+    if (Tcl_InitStubs(interp, TCL_VERSION, 1) == NULL) {
+	return TCL_ERROR;
+    }
     code = Tcl_PkgProvide(interp, "Pkga", "1.0");
     if (code != TCL_OK) {
 	return code;

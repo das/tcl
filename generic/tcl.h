@@ -1294,7 +1294,7 @@ typedef unsigned short Tcl_UniChar;
  * in the stubs tables.
  */
 
-#define TCL_STUB_MAGIC 0xFCA1BACF
+#define TCL_STUB_MAGIC 0xFCA3BACF
 
 /*
  * The following function is required to be defined in all stubs aware

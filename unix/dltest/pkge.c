@@ -47,5 +47,8 @@ Pkge_Init(interp)
 				 * to be made available. */
 {
     static char script[] = "if 44 {open non_existent}";
+    if (Tcl_InitStubs(interp, TCL_VERSION, 1) == NULL) {
+	return TCL_ERROR;
+    }
     return Tcl_Eval(interp, script);
 }
