@@ -211,6 +211,13 @@ test namespace-8.6 {TclTeardownNamespace: preserve errorInfo; errorCode values} 
 } {bar
     invoked from within
 "slave eval error foo bar baz"}
+test namespace-8.7 {TclTeardownNamespace: preserve errorInfo; errorCode values} {
+    interp create slave
+    slave eval {trace add execution error leave {namespace delete :: ;#}}
+    catch {slave eval error foo bar baz}
+    interp delete slave
+    set ::errorCode
+} baz
 
 test namespace-9.1 {Tcl_Import, empty import pattern} {
     catch {namespace delete {expand}[namespace children :: test_ns_*]}
