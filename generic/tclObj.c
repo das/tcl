@@ -47,8 +47,8 @@ Tcl_Mutex tclObjMutex;
  * is shared by all new objects allocated by Tcl_NewObj.
  */
 
-static char emptyString;
-char *tclEmptyStringRep = &emptyString;
+char tclEmptyString = '\0';
+char *tclEmptyStringRep = &tclEmptyString;
 
 /*
  * Prototypes for procedures defined later in this file:

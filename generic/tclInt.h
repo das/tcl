@@ -1629,6 +1629,7 @@ extern long		tclObjsShared[TCL_MAX_SHARED_OBJ_STATS];
  */
 
 extern char *		tclEmptyStringRep;
+extern char		tclEmptyString;
 
 /*
  *----------------------------------------------------------------
