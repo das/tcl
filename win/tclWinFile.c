@@ -1413,22 +1413,24 @@ NativeAccess(nativePath, mode)
 	    goto accessError;
 	}
 	(*tclWinProcs->revertToSelfProc)();
+	
 	memset (&genMap, 0x00, sizeof (GENERIC_MAPPING));
+	
 	/* 
-	 * Fill GenericMask type according to access priveleges
-	 * we are checking.
+	 * Setup desiredAccess according to the access priveleges we
+	 * are checking.
 	 */
 	genMap.GenericAll = 0;
 	if (mode & R_OK) {
-	    genMap.GenericRead = FILE_GENERIC_READ;
+	    desiredAccess |= FILE_GENERIC_READ;
 	}
 	if (mode & W_OK) {
-	    genMap.GenericWrite = FILE_GENERIC_WRITE;
+	    desiredAccess |= FILE_GENERIC_WRITE;
 	}
 	if (mode & X_OK) {
-	    genMap.GenericExecute = FILE_GENERIC_EXECUTE;
+	    desiredAccess |= FILE_GENERIC_EXECUTE;
 	}
-	(*tclWinProcs->mapGenericMaskProc)(&desiredAccess, &genMap);
+
 	/* 
 	 * Perform access check using the token. 
 	 */

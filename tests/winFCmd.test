@@ -610,7 +610,7 @@ test winFCmd-6.11 {TclpRemoveDirectory: attr == -1} {pcOnly nt} {
     # WinXP returns EEXIST, WinNT seems to return EACCES.  No policy
     # decision has been made as to which is correct.
     regsub {E(ACCES|EXIST)} $res "EACCES or EEXIST"
-} {1 {C:/ EACCES or EEXIST}}
+} [list 1 [list [file norm /] EACCES or EEXIST]]
 test winFCmd-6.12 {TclpRemoveDirectory: errno == EACCES} {pcOnly 95} {
     cleanup
     createfile tf1
