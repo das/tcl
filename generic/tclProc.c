@@ -1837,6 +1837,6 @@ TclCompileNoOp(interp, parsePtr, envPtr)
 	} 
     }
     envPtr->currStackDepth = savedStackDepth;
-    TclEmitPush(TclRegisterLiteral(envPtr, "", 0, /*onHeap*/ 0), envPtr);
+    TclEmitPush(TclRegisterNewLiteral(envPtr, "", 0), envPtr);
     return TCL_OK;
 }

@@ -885,7 +885,7 @@ Tcl_ExprObj(interp, objPtr, resultPtrPtr)
 	 */
 	    
 	if (compEnv.codeNext == compEnv.codeStart) {
-	    TclEmitPush(TclRegisterLiteral(&compEnv, "0", 1, /*onHeap*/ 0),
+	    TclEmitPush(TclRegisterNewLiteral(&compEnv, "0", 1),
 		    &compEnv);
 	}
 

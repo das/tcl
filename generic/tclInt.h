@@ -973,6 +973,11 @@ typedef struct LiteralEntry {
 					 * entry can be freed when refCount
 					 * drops to 0. If in a local literal
 					 * table, -1. */
+    Namespace *nsPtr;                    /* Namespace in which this literal is
+					 * used. We try to avoid sharing
+					 * literal non-FQ command names among
+					 * different namespaces to reduce
+					 * shimmering.*/ 
 } LiteralEntry;
 
 typedef struct LiteralTable {
