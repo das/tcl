@@ -10,7 +10,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclPort.h 1.16 98/01/28 17:36:25
+ * RCS: @(#) $Id$
  */
 
 #ifndef _TCLPORT

@@ -10,7 +10,7 @@
 # See the file "license.terms" for information on usage and redistribution
 # of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 #
-# SCCS: @(#) append.test 1.19 97/12/24 10:40:56
+# RCS: @(#) $Id$
 
 if {[info procs test] != "test"} {source defs}
 

@@ -12,7 +12,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclNotify.c 1.23 98/02/19 13:53:03
+ * RCS: @(#) $Id$
  */
 
 #include "tclInt.h"

@@ -12,7 +12,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclCmdMZ.c 1.127 98/02/11 18:55:39
+ * RCS: @(#) $Id$
  */
 
 #include "tclInt.h"

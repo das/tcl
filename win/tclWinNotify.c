@@ -10,7 +10,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclWinNotify.c 1.20 98/02/12 19:04:16
+ * RCS: @(#) $Id$
  */
 
 #include "tclWinInt.h"

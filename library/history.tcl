@@ -2,7 +2,7 @@
 #
 # Implementation of the history command.
 #
-# SCCS: @(#) history.tcl 1.8 97/12/03 11:57:51
+# RCS: @(#) $Id$
 #
 # Copyright (c) 1997 Sun Microsystems, Inc.
 #

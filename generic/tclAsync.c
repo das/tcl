@@ -12,7 +12,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclAsync.c 1.7 98/02/04 16:21:25
+ * RCS: @(#) $Id$
  */
 
 #include "tclInt.h"

@@ -10,7 +10,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclHash.c 1.18 98/01/19 17:25:57
+ * RCS: @(#) $Id$
  */
 
 #include "tclInt.h"

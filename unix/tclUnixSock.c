@@ -8,7 +8,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclUnixSock.c 1.11 98/02/19 11:52:09
+ * RCS: @(#) $Id$
  */
 
 #include "tcl.h"

@@ -9,11 +9,14 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclMain.c 1.68 98/01/20 22:39:24
+ * RCS: @(#) $Id$
  */
 
 #include "tcl.h"
 #include "tclInt.h"
+
+# undef TCL_STORAGE_CLASS
+# define TCL_STORAGE_CLASS DLLEXPORT
 
 /*
  * The following code ensures that tclLink.c is linked whenever

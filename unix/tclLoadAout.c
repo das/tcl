@@ -14,7 +14,7 @@
  * and Design Engineering (MADE) Initiative through ARPA contract
  * F33615-94-C-4400.
  *
- * SCCS: @(#) tclLoadAout.c 1.14 98/01/12 15:28:58
+ * RCS: @(#) $Id$
  */
 
 #include "tclInt.h"

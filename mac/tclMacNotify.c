@@ -14,7 +14,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclMacNotify.c 1.39 98/02/18 11:53:32
+ * RCS: @(#) $Id$
  */
 
 #include "tclInt.h"

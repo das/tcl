@@ -10,7 +10,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclMacFile.c 1.65 98/02/19 15:08:44
+ * RCS: @(#) $Id$
  */
 
 /*
@@ -32,7 +32,7 @@
 #include <FSpCompat.h>
 
 /*
- * Static variables used by the TclMacStat function.
+ * Static variables used by the TclpStat function.
  */
 static int initialized = false;
 static long gmt_offset;
@@ -750,8 +750,8 @@ Tcl_WaitPid(
 #undef fopen
 FILE *
 TclMacFOpenHack(
-    const char *path,
-    const char *mode)
+    CONST char *path,
+    CONST char *mode)
 {
     OSErr err;
     FSSpec fileSpec;

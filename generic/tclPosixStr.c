@@ -11,7 +11,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclPosixStr.c 1.34 98/02/18 17:34:54
+ * RCS: @(#) $Id$
  */
 
 #include "tclInt.h"
