@@ -181,15 +181,3 @@ catch {rename check ""}
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
