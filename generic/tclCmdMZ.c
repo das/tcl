@@ -20,6 +20,7 @@
 #include "tclInt.h"
 #include "tclPort.h"
 #include "tclRegexp.h"
+#include "tclCompile.h"
 
 /*
  * Structure used to hold information about variable traces:
@@ -2652,7 +2653,12 @@ Tcl_SubstObj(interp, objPtr, flags)
 		    Tcl_AppendToObj(resultObj, old, p-old);
 		}
 		iPtr->evalFlags = TCL_BRACKET_TERM;
-		code = Tcl_EvalEx(interp, p+1, -1, 0);
+		iPtr->numLevels++;
+		code = TclInterpReady(interp);
+		if (code == TCL_OK) {
+		    code = Tcl_EvalEx(interp, p+1, -1, 0);
+		}
+		iPtr->numLevels--;
 		switch (code) {
 		case TCL_ERROR:
 		    goto errorResult;
