@@ -18,6 +18,11 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
+# These tests really need to be run from a writable directory, which
+# it is assumed [temporaryDirectory] is.
+set oldcwd [pwd]
+cd [temporaryDirectory]
+
 catch {file delete -force foo.dir}
 file mkdir foo.dir
 if {[catch {file attributes foo.dir -readonly 1}]} {
@@ -193,17 +198,6 @@ test macFCmd-4.7 {SetFileReadOnly - directory readonly} {macOnly notFileSharing}
 } {1 {cannot set a directory to read-only when File Sharing is turned off} {}}
 
 # cleanup
+cd $oldcwd
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-

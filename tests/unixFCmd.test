@@ -16,6 +16,11 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
+# These tests really need to be run from a writable directory, which
+# it is assumed [temporaryDirectory] is.
+set oldcwd [pwd]
+cd [temporaryDirectory]
+
 # Several tests require need to match results against the unix username
 set user {}
 if {$tcl_platform(platform) == "unix"} {
@@ -312,17 +317,6 @@ test unixFCmd-18.1 {Unix pwd} {nonPortable unixOnly notRoot} {
 
 # cleanup
 cleanup
+cd $oldcwd
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
