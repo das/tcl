@@ -561,7 +561,6 @@ Tcl_GetRegExpFromObj(interp, objPtr, flags)
     int flags;			/* Regular expression compilation flags. */
 {
     int length;
-    Tcl_ObjType *typePtr;
     TclRegexp *regexpPtr;
     char *pattern;
 
