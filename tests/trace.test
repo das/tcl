@@ -971,15 +971,3 @@ catch {unset y}
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
