@@ -83,6 +83,13 @@ static TclWinProcs asciiProcs = {
 	    WCHAR *, TCHAR **)) SearchPathA,
     (BOOL (WINAPI *)(CONST TCHAR *)) SetCurrentDirectoryA,
     (BOOL (WINAPI *)(CONST TCHAR *, DWORD)) SetFileAttributesA,
+    /* 
+     * These two function pointers will only be set when
+     * Tcl_FindExecutable is called.  If you don't ever call that
+     * function, the application will crash whenever WinTcl tries to call
+     * functions through these null pointers.  That is not a bug in Tcl
+     * -- Tcl_FindExecutable is obligatory in recent Tcl releases.
+     */
     NULL,
     NULL,
 };
@@ -122,6 +129,13 @@ static TclWinProcs unicodeProcs = {
 	    WCHAR *, TCHAR **)) SearchPathW,
     (BOOL (WINAPI *)(CONST TCHAR *)) SetCurrentDirectoryW,
     (BOOL (WINAPI *)(CONST TCHAR *, DWORD)) SetFileAttributesW,
+    /* 
+     * These two function pointers will only be set when
+     * Tcl_FindExecutable is called.  If you don't ever call that
+     * function, the application will crash whenever WinTcl tries to call
+     * functions through these null pointers.  That is not a bug in Tcl
+     * -- Tcl_FindExecutable is obligatory in recent Tcl releases.
+     */
     NULL,
     NULL,
 };

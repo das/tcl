@@ -89,6 +89,13 @@ typedef struct TclWinProcs {
 	    CONST TCHAR *, DWORD, WCHAR *, TCHAR **);
     BOOL (WINAPI *setCurrentDirectoryProc)(CONST TCHAR *);
     BOOL (WINAPI *setFileAttributesProc)(CONST TCHAR *, DWORD);
+    /* 
+     * These two function pointers will only be set when
+     * Tcl_FindExecutable is called.  If you don't ever call that
+     * function, the application will crash whenever WinTcl tries to call
+     * functions through these null pointers.  That is not a bug in Tcl
+     * -- Tcl_FindExecutable is obligatory in recent Tcl releases.
+     */
     BOOL (WINAPI *getFileAttributesExProc)(CONST TCHAR *, 
 	    GET_FILEEX_INFO_LEVELS, LPVOID);
     BOOL (WINAPI *createHardLinkProc)(CONST TCHAR*, CONST TCHAR*, 
