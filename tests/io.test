@@ -7102,6 +7102,7 @@ test io-60.1 {writing illegal utf sequences} {openpipe fileevent} {
 test io-61.1 {Reset eof state after changing the eof char} -setup {
     set datafile [makeFile {} eofchar]
     set f [open $datafile w]
+    fconfigure $f -translation binary
     puts -nonewline $f [string repeat "Ho hum\n" 11]
     puts $f =
     set line [string repeat "Ge gla " 4]
