@@ -182,10 +182,13 @@ TclFile
 TclpCreateTempFile(contents)
     CONST char *contents;	/* String to write into temp file, or NULL. */
 {
-    char fileName[L_tmpnam];
+    char fileName[L_tmpnam], *native;
+    Tcl_DString dstring;
     int fd;
 
-    tmpnam(fileName);					/* INTL: Native. */
+    if (tmpnam(fileName) == NULL) {			/* INTL: Native. */
+	return NULL;
+    }
     fd = open(fileName, O_RDWR|O_CREAT|O_TRUNC, 0666);	/* INTL: Native. */
     if (fd == -1) {
 	return NULL;
@@ -194,10 +197,13 @@ TclpCreateTempFile(contents)
     unlink(fileName);					/* INTL: Native. */
 
     if (contents != NULL) {
-	if (write(fd, contents, strlen(contents)) == -1) {
+	native = Tcl_UtfToExternalDString(NULL, contents, -1, &dstring);
+	if (write(fd, native, strlen(native)) == -1) {
 	    close(fd);
+	    Tcl_DStringFree(&dstring);
 	    return NULL;
 	}
+	Tcl_DStringFree(&dstring);
 	lseek(fd, (off_t) 0, SEEK_SET);
     }
     return MakeFile(fd);

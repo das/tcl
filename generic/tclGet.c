@@ -16,6 +16,7 @@
 
 #include "tclInt.h"
 #include "tclPort.h"
+#include "tclMath.h"
 
 
 /*
@@ -222,7 +223,7 @@ Tcl_GetDouble(interp, string, doublePtr)
         }
 	return TCL_ERROR;
     }
-    if (errno != 0) {
+    if (errno != 0 && (d == HUGE_VAL || d == -HUGE_VAL || d == 0)) {
         if (interp != (Tcl_Interp *) NULL) {
             TclExprFloatError(interp, d); 
         }

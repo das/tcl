@@ -141,6 +141,13 @@ test exec-2.4 {redirecting input from immediate source} {execCommandExists stdio
 test exec-2.5 {redirecting input from immediate source} {execCommandExists stdio} {
     exec $::tcltest::tcltest cat "<<Joined to arrows"
 } {Joined to arrows}
+test exec-2.6 {redirecting input from immediate source, with UTF} {execCommandExists stdio} {
+    # If this fails, it may give back:
+    # "\uC3\uA9\uC3\uA0\uC3\uBC\uC3\uB1"
+    # If it does, this means that the UTF -> external conversion did not 
+    # occur before writing out the temp file.
+    exec $::tcltest::tcltest cat << "\uE9\uE0\uFC\uF1"
+} "\uE9\uE0\uFC\uF1"
 
 # I/O redirection: output to file.
 
