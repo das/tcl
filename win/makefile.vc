@@ -308,9 +308,6 @@ GENERICDIR	= $(ROOT)\generic
 TOOLSDIR	= $(ROOT)\tools
 WINDIR		= $(ROOT)\win
 
-TCL_INCLUDES	= -I"$(WINDIR)" -I"$(GENERICDIR)"
-TCL_DEFINES	= $(OPTDEFINES)
-
 
 #---------------------------------------------------------------------
 # Compile flags
@@ -348,8 +345,14 @@ crt = -MT$(DBGX)
 !endif
 
 BASE_CLFAGS	= $(cflags) $(cdebug) $(crt) $(TCL_INCLUDES)
-TCL_CFLAGS	= $(BASE_CLFAGS) $(TCL_DEFINES)
 CON_CFLAGS	= $(cflags) $(cdebug) $(crt) -DCONSOLE
+TCL_INCLUDES	= -I"$(WINDIR)" -I"$(GENERICDIR)"
+
+!if $(STATIC_BUILD)
+TCL_CFLAGS	= $(BASE_CLFAGS) -DSTATIC_BUILD
+!else
+TCL_CFLAGS	= $(BASE_CLFAGS)
+!endif
 
 
 #---------------------------------------------------------------------
