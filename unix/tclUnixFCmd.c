@@ -1703,6 +1703,16 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
      * have 'realpath'.
      */
 #ifndef NO_REALPATH
+    /* 
+     * If we only had '/foo' or '/' then we never increment nextCheckpoint
+     * and we don't need or want to go through 'Realpath'.  Also, on some
+     * platforms, passing an empty string to 'Realpath' will give us the
+     * normalized pwd, which is not what we want at all!
+     */
+    if (nextCheckpoint == 0) {
+        return 0;
+    }
+
     nativePath = Tcl_UtfToExternalDString(NULL, path, nextCheckpoint, &ds);
     if (Realpath(nativePath, normPath) != NULL) {
 	/* 
