@@ -50,6 +50,8 @@ static int	ProcBodyTestInitInternal _ANSI_ARGS_((Tcl_Interp *interp,
 			int isSafe));
 static int	RegisterCommand _ANSI_ARGS_((Tcl_Interp* interp,
 			char *namespace, CONST CmdTable *cmdTablePtr));
+int             Procbodytest_Init _ANSI_ARGS_((Tcl_Interp * interp));
+int             Procbodytest_SafeInit _ANSI_ARGS_((Tcl_Interp * interp));
 
 /*
  * List of commands to create when the package is loaded; must go after the
