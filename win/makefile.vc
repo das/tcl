@@ -311,16 +311,12 @@ TCL_DEFINES	= $(OPTDEFINES)
 
 !if !$(DEBUG)
 # This cranks the optimization level to maximize speed
-!IF "$(MACHINE)" == "IA64"
 cdebug = -O2 -Gs
-!ELSE
-cdebug = -O2 -Gs -GD
-!ENDIF
-!ELSE IF "$(MACHINE)" == "IA64"
+!else if "$(MACHINE)" == "IA64"
 cdebug = -Od -Zi
-!ELSE
+!else
 cdebug = -Z7 -Od -WX
-!ENDIF
+!endif
 
 # declarations common to all compiler options
 cflags = -c -W3 -nologo -Fp$(TMP_DIR)\ -YX
