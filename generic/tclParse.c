@@ -607,7 +607,8 @@ ParseTokens(src, mask, parsePtr)
 		if (nested.tokenPtr != nested.staticTokens) {
 		    ckfree((char *) nested.tokenPtr);
 		}
-		if ((src[-1] == ']') && !nested.incomplete) {
+		if ((*nested.term != 0) && (src[-1] == ']')
+			&& !nested.incomplete) {
 		    break;
 		}
 		if (src == parsePtr->end) {
