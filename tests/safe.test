@@ -285,7 +285,7 @@ test safe-8.5 {safe source control on file} {
 	    $log \
 	    [safe::setLogCmd $prevlog; unset log] \
 	    [safe::interpDelete $i] ;
-} "1 {no such file or directory} {{ERROR for slave a : [file join [info library] blah]:no such file or directory}} {} {}"
+} [list 1 {no such file or directory} [list "ERROR for slave a : [file join [info library] blah]:no such file or directory"] {} {}]
 
 
 test safe-8.6 {safe source control on file} {
@@ -301,7 +301,7 @@ test safe-8.6 {safe source control on file} {
 	    $log \
 	    [safe::setLogCmd $prevlog; unset log] \
 	    [safe::interpDelete $i] ;
-} "1 {no such file or directory} {{ERROR for slave a : [file join [info library] blah.tcl]:no such file or directory}} {} {}"
+} [list 1 {no such file or directory} [list "ERROR for slave a : [file join [info library] blah.tcl]:no such file or directory"] {} {}]
 
 
 test safe-8.7 {safe source control on file} {
@@ -320,7 +320,7 @@ test safe-8.7 {safe source control on file} {
 	    $log \
 	    [safe::setLogCmd $prevlog; unset log] \
 	    [safe::interpDelete $i] ;
-} "1 {no such file or directory} {{ERROR for slave a : [file join [info library] xxxxxxxxxxx.tcl]:no such file or directory}} {} {}"
+} [list 1 {no such file or directory} [list "ERROR for slave a : [file join [info library] xxxxxxxxxxx.tcl]:no such file or directory"] {} {}]
 
 test safe-8.8 {safe source forbids -rsrc} {
     set i "a";

@@ -113,7 +113,7 @@ test load-4.1 {reloading package into same interpreter} [list $dll $loaded] {
 } {0 {}}
 test load-4.2 {reloading package into same interpreter} [list $dll $loaded] {
     list [catch {load [file join $testDir pkga$ext] pkgb} msg] $msg
-} "1 {file \"[file join $testDir pkga$ext\"] is already loaded for package \"Pkga\"}"
+} [list 1 "file \"[file join $testDir pkga$ext]\" is already loaded for package \"Pkga\""]
 
 test load-5.1 {file name not specified and no static package: pick default} \
 	[list $dll $loaded] {
