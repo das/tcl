@@ -2597,15 +2597,12 @@ TclDoGlob(interp, separators, headPtr, tail, types)
 	 */
 
 	Tcl_Obj *nameObj;
-	/* Used to deal with one special case pertinent to MacOS */
-	int macSpecialCase = 0;
 
 	switch (tclPlatform) {
 	    case TCL_PLATFORM_MAC: {
 		if (strchr(Tcl_DStringValue(headPtr), ':') == NULL) {
 		    Tcl_DStringAppend(headPtr, ":", 1);
 		}
-		macSpecialCase = 1;
 		break;
 	    }
 	    case TCL_PLATFORM_WINDOWS: {
