@@ -359,7 +359,7 @@ test cmdAH-8.44 {Tcl_FileObjCmd: dirname} testsetplatform {
     set result
 } {0 ~}
 test cmdAH-8.45 {Tcl_FileObjCmd: dirname} {
-    -constraints testsetplatform
+    -constraints {win testsetplatform}
     -match regexp
     -setup {
 	set temp $::env(HOME)
