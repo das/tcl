@@ -293,12 +293,6 @@ typedef int TclpMutex;
 #endif /* TCL_THREADS */
 
 /*
- * TclpFinalize is a noop on the Mac.
- */
-
-#define TclpFinalize()
-
-/*
  * The following define should really be in tclInt.h, but tclInt.h does
  * not include tclPort.h, which includes the "struct stat" definition.
  */

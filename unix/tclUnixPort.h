@@ -489,12 +489,6 @@ EXTERN int		TclpStat _ANSI_ARGS_((CONST char *path,
 			    struct stat *buf));
 
 /*
- * TclpFinalize is a noop on Unix systems.
- */
-
-#define TclpFinalize()
-
-/*
  * The following routine is only exported for testing purposes.
  */
 
