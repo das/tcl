@@ -1736,7 +1736,9 @@ DeleteScanNumberCache(numberCachePtr)
     while (hEntry != NULL) {
 	register Tcl_Obj *value = (Tcl_Obj *) Tcl_GetHashValue(hEntry);
 
-	Tcl_DecrRefCount(value);
+	if (value != NULL) {
+	    Tcl_DecrRefCount(value);
+	}
 	hEntry = Tcl_NextHashEntry(&search);
     }
     Tcl_DeleteHashTable(numberCachePtr);
