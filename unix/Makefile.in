@@ -600,7 +600,7 @@ install-doc: doc
 		    $$i > $(MAN3_INSTALL_DIR)/$$i; \
 	    chmod 444 $(MAN3_INSTALL_DIR)/$$i; \
 	    done;
-	@echo "Cross-linking top-level (.3) docs";
+	@echo "Cross-linking C API (.3) docs";
 	@$(UNIX_DIR)/mkLinks $(MAN3_INSTALL_DIR)
 	@echo "Installing command (.n) docs";
 	@cd $(TOP_DIR)/doc; for i in *.n; \
