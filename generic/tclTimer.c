@@ -224,7 +224,7 @@ Tcl_CreateTimerHandler(milliseconds, proc, clientData)
      * Compute when the event should fire.
      */
 
-    TclpGetTime(&time);
+    Tcl_GetTime(&time);
     timerHandlerPtr->time.sec = time.sec + milliseconds/1000;
     timerHandlerPtr->time.usec = time.usec + (milliseconds%1000)*1000;
     if (timerHandlerPtr->time.usec >= 1000000) {
@@ -350,7 +350,7 @@ TimerSetupProc(data, flags)
 	 * Compute the timeout for the next timer on the list.
 	 */
 
-	TclpGetTime(&blockTime);
+	Tcl_GetTime(&blockTime);
 	blockTime.sec = tsdPtr->firstTimerHandlerPtr->time.sec - blockTime.sec;
 	blockTime.usec = tsdPtr->firstTimerHandlerPtr->time.usec -
 		blockTime.usec;
@@ -401,7 +401,7 @@ TimerCheckProc(data, flags)
 	 * Compute the timeout for the next timer on the list.
 	 */
 
-	TclpGetTime(&blockTime);
+	Tcl_GetTime(&blockTime);
 	blockTime.sec = tsdPtr->firstTimerHandlerPtr->time.sec - blockTime.sec;
 	blockTime.usec = tsdPtr->firstTimerHandlerPtr->time.usec -
 		blockTime.usec;
@@ -500,7 +500,7 @@ TimerHandlerEventProc(evPtr, flags)
 
     tsdPtr->timerPending = 0;
     currentTimerId = tsdPtr->lastTimerId;
-    TclpGetTime(&time);
+    Tcl_GetTime(&time);
     while (1) {
 	nextPtrPtr = &tsdPtr->firstTimerHandlerPtr;
 	timerHandlerPtr = tsdPtr->firstTimerHandlerPtr;

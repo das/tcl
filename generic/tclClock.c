@@ -109,7 +109,7 @@ Tcl_ClockObjCmd (client, interp, objc, objv)
 		 * We can enforce at least millisecond granularity
 		 */
 		Tcl_Time time;
-		TclpGetTime(&time);
+		Tcl_GetTime(&time);
 		Tcl_SetLongObj(resultPtr,
 			(long) (time.sec*1000 + time.usec/1000));
 	    } else {

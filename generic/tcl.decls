@@ -1687,7 +1687,12 @@ declare 480 generic {
 declare 481 generic {
     int Tcl_EvalTokensStandard(Tcl_Interp *interp, Tcl_Token *tokenPtr, int count)
 }
- 
+
+# New export due to TIP#73 
+declare 482 generic {
+    void Tcl_GetTime( Tcl_Time* timeBuf )
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are

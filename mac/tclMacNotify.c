@@ -351,7 +351,7 @@ Tcl_SetTimer(
 	 * Compute when the timer should fire.
 	 */
 	
-	TclpGetTime(&notifier.timer);
+	Tcl_GetTime(&notifier.timer);
 	notifier.timer.sec += timePtr->sec;
 	notifier.timer.usec += timePtr->usec;
 	if (notifier.timer.usec >= 1000000) {

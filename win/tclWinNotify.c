@@ -521,7 +521,7 @@ Tcl_Sleep(ms)
     Tcl_Time desired;		/* Desired wakeup time */
     int sleepTime = ms;		/* Time to sleep */
 
-    TclpGetTime( &now );
+    Tcl_GetTime( &now );
     desired.sec = now.sec + ( ms / 1000 );
     desired.usec = now.usec + 1000 * ( ms % 1000 );
     if ( desired.usec > 1000000 ) {
@@ -531,7 +531,7 @@ Tcl_Sleep(ms)
 	
     for ( ; ; ) {
 	Sleep( sleepTime );
-	TclpGetTime( &now );
+	Tcl_GetTime( &now );
 	if ( now.sec > desired.sec ) {
 	    break;
 	} else if ( ( now.sec == desired.sec )

@@ -2673,17 +2673,17 @@ Tcl_TimeObjCmd(dummy, interp, objc, objv)
     
     objPtr = objv[1];
     i = count;
-    TclpGetTime(&start);
+    Tcl_GetTime(&start);
     while (i-- > 0) {
 	result = Tcl_EvalObjEx(interp, objPtr, 0);
 	if (result != TCL_OK) {
 	    return result;
 	}
     }
-    TclpGetTime(&stop);
+    Tcl_GetTime(&stop);
     
-    totalMicroSec =
-	(stop.sec - start.sec)*1000000 + (stop.usec - start.usec);
+    totalMicroSec = ( ( (double) ( stop.sec - start.sec ) ) * 1.0e6
+		      + ( stop.usec - start.usec ) );
     sprintf(buf, "%.0f microseconds per iteration",
 	((count <= 0) ? 0 : totalMicroSec/count));
     Tcl_ResetResult(interp);

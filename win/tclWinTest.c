@@ -244,7 +244,7 @@ TestwinclockCmd( ClientData dummy,
 	return TCL_ERROR;
     }
 
-    TclpGetTime( &tclTime );
+    Tcl_GetTime( &tclTime );
     GetSystemTimeAsFileTime( &sysTime );
     t1.LowPart = posixEpoch.dwLowDateTime;
     t1.HighPart = posixEpoch.dwHighDateTime;

@@ -301,9 +301,12 @@ declare 75 generic {
 declare 76 generic {
     unsigned long TclpGetSeconds(void)
 }
+
+# deprecated
 declare 77 generic {
     void TclpGetTime(Tcl_Time *time)
 }
+
 declare 78 generic {
     int TclpGetTimeZone(unsigned long time)
 }

@@ -592,7 +592,7 @@ TclCleanupByteCode(codePtr)
 		(double) (codePtr->numAuxDataItems * sizeof(AuxData));
 	statsPtr->currentCmdMapBytes -= (double) codePtr->numCmdLocBytes;
 
-	TclpGetTime(&destroyTime);
+	Tcl_GetTime(&destroyTime);
 	lifetimeSec = destroyTime.sec - codePtr->createTime.sec;
 	if (lifetimeSec > 2000) {	/* avoid overflow */
 	    lifetimeSec = 2000;
@@ -1630,7 +1630,7 @@ TclInitByteCodeObj(objPtr, envPtr)
 #ifdef TCL_COMPILE_STATS
     codePtr->structureSize = structureSize
 	    - (sizeof(size_t) + sizeof(Tcl_Time));
-    TclpGetTime(&(codePtr->createTime));
+    Tcl_GetTime(&(codePtr->createTime));
     
     RecordByteCodeStats(codePtr);
 #endif /* TCL_COMPILE_STATS */

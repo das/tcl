@@ -2255,7 +2255,7 @@ TclGetIntForIndex(interp, objPtr, endValue, indexPtr)
  *----------------------------------------------------------------------
  */
 
-void
+static void
 UpdateStringOfEndOffset( objPtr )
     register Tcl_Obj* objPtr;
 {
@@ -2452,4 +2452,30 @@ CONST char *
 Tcl_GetNameOfExecutable()
 {
     return (tclExecutableName);
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclpGetTime --
+ *
+ *	Deprecated synonym for Tcl_GetTime.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Stores current time in the buffer designated by "timePtr"
+ *
+ * This procedure is provided for the benefit of extensions written
+ * before Tcl_GetTime was exported from the library.
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+TclpGetTime( timePtr )
+    Tcl_Time* timePtr;
+{
+    Tcl_GetTime( timePtr );
 }

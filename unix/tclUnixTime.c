@@ -240,7 +240,7 @@ TclpGetTimeZone (currentTime)
 /*
  *----------------------------------------------------------------------
  *
- * TclpGetTime --
+ * Tcl_GetTime --
  *
  *	Gets the current system time in seconds and microseconds
  *	since the beginning of the epoch: 00:00 UCT, January 1, 1970.
@@ -255,7 +255,7 @@ TclpGetTimeZone (currentTime)
  */
 
 void
-TclpGetTime(timePtr)
+Tcl_GetTime(timePtr)
     Tcl_Time *timePtr;		/* Location to store time information. */
 {
     struct timeval tv;
