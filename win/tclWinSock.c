@@ -836,9 +836,9 @@ SocketEventProc(evPtr, flags)
 	if ((*winSock.select)(0, &readFds, NULL, NULL, &timeout) != 0) {
 	    mask |= TCL_READABLE;
 	} else {
+	    infoPtr->readyEvents &= ~(FD_READ);
 	    SendMessage(tsdPtr->hwnd, SOCKET_SELECT,
 		    (WPARAM) SELECT, (LPARAM) infoPtr);
-	    infoPtr->readyEvents &= ~(FD_READ);
 	}
     }
     if (events & (FD_WRITE | FD_CONNECT)) {
