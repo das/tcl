@@ -1,0 +1,13 @@
+###############################################################################
+#
+#   Make information file for the Borland 32-bit tools.
+#
+#
+#   MAKE specific syntax is allowed in this file.
+#
+###############################################################################
+# RCS: @(#) $Id$
+###############################################################################
+
+TOOLSET	    = bc32
+MAKECMD	    = make.exe -s -N $(MAKEFLAGS) -f makefile.bc

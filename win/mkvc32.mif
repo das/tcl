@@ -1,0 +1,13 @@
+###############################################################################
+#
+#   Make information file for the Microsoft Visual C++ 32-bit tools.
+#
+#
+#   NMAKE specific syntax is allowed in this file.
+#
+###############################################################################
+# RCS: @(#) $Id$
+###############################################################################
+
+TOOLSET	    = vc32
+MAKECMD	    = nmake.exe -nologo /$(MAKEFLAGS) -f makefile.vc
