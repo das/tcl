@@ -147,7 +147,7 @@ Tcl_Obj *
 Tcl_DbNewListObj(objc, objv, file, line)
     int objc;			/* Count of objects referenced by objv. */
     Tcl_Obj *CONST objv[];	/* An array of pointers to Tcl objects. */
-    char *file;			/* The name of the source file calling this
+    CONST char *file;		/* The name of the source file calling this
 				 * procedure; used for debugging. */
     int line;			/* Line number in the source file; used
 				 * for debugging. */
@@ -186,7 +186,7 @@ Tcl_Obj *
 Tcl_DbNewListObj(objc, objv, file, line)
     int objc;			/* Count of objects referenced by objv. */
     Tcl_Obj *CONST objv[];	/* An array of pointers to Tcl objects. */
-    char *file;			/* The name of the source file calling this
+    CONST char *file;		/* The name of the source file calling this
 				 * procedure; used for debugging. */
     int line;			/* Line number in the source file; used
 				 * for debugging. */

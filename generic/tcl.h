@@ -1817,8 +1817,8 @@ typedef unsigned short Tcl_UniChar;
  * linked into an application.
  */
 
-EXTERN char *		Tcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp,
-			    char *version, int exact));
+EXTERN CONST char *	Tcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp,
+			    CONST char *version, int exact));
 
 #ifndef USE_TCL_STUBS
 
