@@ -19,6 +19,8 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
+testConstraint testhashsystemhash [llength [info commands testhashsystemhash]]
+
 test misc-1.1 {error in variable ref. in command in array reference} {
     proc tstProc {} {
 	global a
