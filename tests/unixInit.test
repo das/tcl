@@ -358,10 +358,10 @@ test unixInit-7.1 {closed standard channel: Bug 772288} -constraints {
 } -body {
     set tclsh [interpreter]
     makeFile {puts [open /dev/null]} crash.tcl
-    makeFile [subst -nocommands {
+    makeFile "
 	close stdin
-	exec $tclsh crash.tcl
-    }] crashtest.tcl
+	[list exec $tclsh crash.tcl]
+    " crashtest.tcl
     exec $tclsh crashtest.tcl
 } -cleanup {
     removeFile crash.tcl

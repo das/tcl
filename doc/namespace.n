@@ -40,7 +40,7 @@ The actual pattern used is determined as follows:
 a pattern that starts with \fB::\fR is used directly,
 otherwise the namespace \fInamespace\fR
 (or the fully-qualified name of the current namespace)
-is prepended onto the the pattern.
+is prepended onto the pattern.
 .TP
 \fBnamespace code \fIscript\fR
 Captures the current namespace context for later execution

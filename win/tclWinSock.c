@@ -626,24 +626,15 @@ SocketThreadExitHandler(clientData)
 
 	GetExitCodeThread(tsdPtr->socketThread, &exitCode);
 	if (exitCode == STILL_ACTIVE) {
-	    DWORD dwWait;
 	    PostMessage(tsdPtr->hwnd, SOCKET_TERMINATE, 0, 0);
-
 	    /*
 	     * Wait for the thread to close.  This ensures that we are
-	     * completely cleaned up before we leave this function. 
+	     * completely cleaned up before we leave this function.
+	     * If Tcl_Finalize was called from DllMain, the thread
+	     * is in a paused state so we need to timeout and continue.
 	     */
 
-	    dwWait = WaitForSingleObject(tsdPtr->socketThread, 100);
-	    if (dwWait == WAIT_TIMEOUT) {
-		/*
-		 * Avoids a lock-up, just in case it is needed from an
-		 * unclean exit condition when the thread appears
-		 * running, but isn't.
-		 */
-
-		TerminateThread(tsdPtr->socketThread, EXIT_FAILURE);
-	    }
+	    WaitForSingleObject(tsdPtr->socketThread, 100);
 	}
 	CloseHandle(tsdPtr->socketThread);
 	tsdPtr->socketThread = NULL;
