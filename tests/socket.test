@@ -433,7 +433,7 @@ test socket-2.7 {echo server, one line} {socket stdio} {
     removeFile script
     set f [open script w]
     puts $f {
-	set timer [after 2000 "set x done"]
+	set timer [after 10000 "set x timeout"]
 	set f [socket -server accept 0]
 	proc accept {s a p} {
             fileevent $s readable [list echo $s]
@@ -454,7 +454,7 @@ test socket-2.7 {echo server, one line} {socket stdio} {
 	vwait x
 	after cancel $timer
 	close $f
-	puts done
+	puts $x
     }
     close $f
     set f [open "|[list $::tcltest::tcltest script]" r]
