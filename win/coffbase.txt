@@ -4,7 +4,7 @@
 ; of the DLL and the second token is the base virtual address, in hexidecimal.
 ; The third token is the maximum size of the DLL image file, including symbols.
 ;
-; Using a specified "prefered load addresses" should speed load-time by avoiding
+; Using a specified "prefered load address" should speed load-time by avoiding
 ; relocations.  It is assumed extension author will contribute their modules
 ; to this grand-master one.
 ;
