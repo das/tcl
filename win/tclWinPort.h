@@ -68,7 +68,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #undef WIN32_LEAN_AND_MEAN
-#define WIN32   /* BUGFIX: winsock2.h seems to need this */
+
 #include <winsock2.h>
 
 #ifdef BUILD_tcl
@@ -434,6 +434,9 @@
 /*
  * Declarations for Windows-only functions.
  */
+
+EXTERN HANDLE	    TclWinSerialReopen _ANSI_ARGS_(( HANDLE handle,
+			char *name, DWORD access));
 
 EXTERN Tcl_Channel  TclWinOpenSerialChannel _ANSI_ARGS_((HANDLE handle,
                         char *channelName, int permissions));

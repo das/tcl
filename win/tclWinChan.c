@@ -797,6 +797,20 @@ TclpOpenFileChannel(interp, pathPtr, modeString, permissions)
 
     switch (type) {
     case FILE_TYPE_SERIAL:
+	/*
+	 * Reopen channel for OVERLAPPED operation
+	 * Normally this shouldn't fail, because the channel exists
+	 */
+	handle = TclWinSerialReopen(handle, nativeName, accessMode);
+	if (handle == INVALID_HANDLE_VALUE) {
+	    TclWinConvertError(GetLastError());
+	    if (interp != (Tcl_Interp *) NULL) {
+		Tcl_AppendResult(interp, "couldn't reopen serial \"",
+			Tcl_GetString(pathPtr), "\": ",
+			Tcl_PosixError(interp), (char *) NULL);
+	    }
+	    return NULL;
+	}
 	channel = TclWinOpenSerialChannel(handle, channelName,
 	        channelPermissions);
 	break;
