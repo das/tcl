@@ -2450,6 +2450,7 @@ TclCallVarTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, leaveErrMsg)
     int copiedName;
     int code = TCL_OK;
     int disposeFlags = 0;
+    int saveErrFlags = iPtr->flags;
 
     /*
      * If there are already similar trace procedures active for the
@@ -2572,6 +2573,9 @@ TclCallVarTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, leaveErrMsg)
      */
 
     done:
+    if (code == TCL_OK) {
+	iPtr->flags = saveErrFlags;
+    }
     if (code == TCL_ERROR) {
 	if (leaveErrMsg) {
 	    CONST char *type = "";

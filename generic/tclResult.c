@@ -1027,13 +1027,17 @@ TclTransferResult(sourceInterp, result, targetInterp)
         
 	objPtr = Tcl_GetVar2Ex(sourceInterp, "errorInfo", NULL,
 		TCL_GLOBAL_ONLY);
-	Tcl_SetVar2Ex(targetInterp, "errorInfo", NULL, objPtr,
-		TCL_GLOBAL_ONLY);
-	((Interp *) targetInterp)->flags |= ERR_IN_PROGRESS;
+	if (objPtr) {
+	    Tcl_SetVar2Ex(targetInterp, "errorInfo", NULL, objPtr,
+		    TCL_GLOBAL_ONLY);
+	    ((Interp *) targetInterp)->flags |= ERR_IN_PROGRESS;
+	}
 
 	objPtr = Tcl_GetVar2Ex(sourceInterp, "errorCode", NULL,
 		TCL_GLOBAL_ONLY);
-	Tcl_SetObjErrorCode(targetInterp, objPtr);
+	if (objPtr) {
+	    Tcl_SetObjErrorCode(targetInterp, objPtr);
+	}
     }
 
     /* This may need examination for safety */

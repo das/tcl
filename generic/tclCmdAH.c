@@ -623,8 +623,10 @@ Tcl_ErrorObjCmd(dummy, interp, objc, objv)
     
     if (objc == 4) {
 	Tcl_SetObjErrorCode(interp, objv[3]);
+    } else {
+	Tcl_SetErrorCode(interp, "NONE", NULL);
     }
-    
+
     Tcl_SetObjResult(interp, objv[1]);
     return TCL_ERROR;
 }

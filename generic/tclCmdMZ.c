@@ -920,6 +920,8 @@ TclProcessReturn(interp, code, level, returnOpts)
 		    iPtr->returnErrorcodeKey, &valuePtr);
 	    if (valuePtr != NULL) {
 		Tcl_SetObjErrorCode(interp, valuePtr);
+	    } else {
+		Tcl_SetErrorCode(interp, "NONE", NULL);
 	    }
 
 	    valuePtr = NULL;
