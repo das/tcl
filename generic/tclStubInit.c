@@ -758,6 +758,13 @@ TclStubs tclStubs = {
     Tcl_UniCharIsPunct, /* 375 */
     Tcl_RegExpMatchObj, /* 376 */
     Tcl_RegExpGetInfo, /* 377 */
+    Tcl_NewUnicodeObj, /* 378 */
+    Tcl_SetUnicodeObj, /* 379 */
+    Tcl_GetCharLength, /* 380 */
+    Tcl_GetUniChar, /* 381 */
+    Tcl_GetUnicode, /* 382 */
+    Tcl_GetRange, /* 383 */
+    Tcl_AppendUnicodeToObj, /* 384 */
 };
 
 /* !END!: Do not edit above this line. */

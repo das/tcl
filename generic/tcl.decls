@@ -1284,7 +1284,29 @@ declare 376 generic {
 declare 377 generic {
     void Tcl_RegExpGetInfo(Tcl_RegExp regexp, Tcl_RegExpInfo *infoPtr)
 }
-
+declare 378 generic {
+    Tcl_Obj * Tcl_NewUnicodeObj(Tcl_UniChar *unicode, int numChars)
+}
+declare 379 generic {
+    void Tcl_SetUnicodeObj(Tcl_Obj *objPtr, Tcl_UniChar *unicode, \
+	    int numChars)
+}
+declare 380 generic {
+    int Tcl_GetCharLength (Tcl_Obj *objPtr)
+}
+declare 381 generic {
+    Tcl_UniChar Tcl_GetUniChar (Tcl_Obj *objPtr, int index)
+}
+declare 382 generic {
+    Tcl_UniChar * Tcl_GetUnicode (Tcl_Obj *objPtr)
+}
+declare 383 generic {
+    Tcl_Obj * Tcl_GetRange (Tcl_Obj *objPtr, int first, int last)
+}
+declare 384 generic {
+    void Tcl_AppendUnicodeToObj (register Tcl_Obj *objPtr, \
+	    Tcl_UniChar *unicode, int length)
+}
 
 ##############################################################################
 

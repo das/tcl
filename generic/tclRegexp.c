@@ -429,8 +429,8 @@ Tcl_RegExpMatchObj(interp, re, objPtr, offset, nmatches, flags)
 
     Tcl_IncrRefCount(objPtr);
 
-    udata = TclGetUnicodeFromObj(objPtr);
-    length = TclGetUnicodeLengthFromObj(objPtr);
+    udata = Tcl_GetUnicode(objPtr);
+    length = Tcl_GetCharLength(objPtr);
 
     /*
      * Save the target object so we can extract strings from it later.
