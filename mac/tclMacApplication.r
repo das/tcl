@@ -21,7 +21,7 @@
  * the version string for Tcl.
  */
 
-#define RESOURCE_INCLUDED
+#define RC_INVOKED
 #include "tcl.h"
 
 #if (TCL_RELEASE_LEVEL == 0)
