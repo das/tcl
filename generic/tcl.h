@@ -52,18 +52,18 @@ extern "C" {
  * win/README		(not patchlevel) (sections 0 and 2)
  * unix/README		(not patchlevel) (part (h))
  * unix/tcl.spec	(2 LOC Major/Minor, 1 LOC patch)
- * tests/basic.test	(1 LOC M/M)
+ * tests/basic.test	(1 LOC M/M, not patchlevel)
  * tools/tcl.hpj.in	(not patchlevel, for windows installer)
  * tools/tcl.wse.in	(for windows installer)
  * tools/tclSplash.bmp	(not patchlevel)
  */
 #define TCL_MAJOR_VERSION   8
 #define TCL_MINOR_VERSION   4
-#define TCL_RELEASE_LEVEL   TCL_ALPHA_RELEASE
-#define TCL_RELEASE_SERIAL  5
+#define TCL_RELEASE_LEVEL   TCL_BETA_RELEASE
+#define TCL_RELEASE_SERIAL  1
 
 #define TCL_VERSION	    "8.4"
-#define TCL_PATCH_LEVEL	    "8.4a5"
+#define TCL_PATCH_LEVEL	    "8.4b1"
 
 /*
  * The following definitions set up the proper options for Windows
