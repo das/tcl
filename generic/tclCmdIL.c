@@ -1836,7 +1836,7 @@ InfoVarsCmd(dummy, interp, objc, objv)
 		entryPtr = Tcl_NextHashEntry(&search);
 	    }
 	}
-    } else {
+    } else if (((Interp *)interp)->varFramePtr->procPtr != NULL) {
 	AppendLocals(interp, listPtr, simplePattern, 1);
     }
     
