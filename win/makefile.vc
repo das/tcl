@@ -179,7 +179,7 @@ DOTVERSION	= 8.6
 DOTVERSION	= 9.0
 !elseif [nmakehlp -g ../generic/tcl.h TCL_VERSION] == 0
 MSG =^
-Can't get version string from ../generic/tcl.h
+Cannot get version string from ../generic/tcl.h
 !error $(MSG)
 !endif
 VERSION = $(DOTVERSION:.=)
@@ -569,6 +569,7 @@ $(TCLOBJS)
 <<
 !endif
 
+#" for emacs font-locking.
 
 #---------------------------------------------------------------------
 # Build the windows help file.
@@ -643,6 +644,7 @@ tclConfig:
 	@echo Build tclsh first!
 !else
 	@echo Creating tclConfig.sh
+	set TCL_LIBRARY=$(ROOT)/library
 	@$(TCLSH) <<
 	set debug $(DEBUG)
 	set thread $(TCL_THREADS)
