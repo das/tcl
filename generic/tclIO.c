@@ -2321,16 +2321,18 @@ FlushChannel(interp, chanPtr, calledFromAsyncFlush)
              */
 
             if ((errorCode == EWOULDBLOCK) || (errorCode == EAGAIN)) {
-		if (chanPtr->flags & CHANNEL_NONBLOCKING) {
-		    if (!(chanPtr->flags & BG_FLUSH_SCHEDULED)) {
-			chanPtr->flags |= BG_FLUSH_SCHEDULED;
-			UpdateInterest(chanPtr);
-                    }
-                    errorCode = 0;
-                    break;
-		} else {
-		    panic("Blocking channel driver did not block on output");
-                }
+		/*
+		 * This used to check for CHANNEL_NONBLOCKING, and panic
+		 * if the channel was blocking.  However, it appears
+		 * that setting stdin to -blocking 0 has some effect
+		 * on the stdout when it's a tty channel
+		 */
+		if (!(chanPtr->flags & BG_FLUSH_SCHEDULED)) {
+		    chanPtr->flags |= BG_FLUSH_SCHEDULED;
+		    UpdateInterest(chanPtr);
+		}
+		errorCode = 0;
+		break;
             }
 
             /*

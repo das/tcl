@@ -581,7 +581,7 @@ Tcl_ScanCountedElement(string, length, flagPtr)
     if ((p == lastChar) || (*p == '{') || (*p == '"')) {
 	flags |= USE_BRACES;
     }
-    for ( ; p != lastChar; p++) {
+    for ( ; p < lastChar; p++) {
 	switch (*p) {
 	    case '{':
 		nestingLevel++;
