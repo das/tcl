@@ -92,6 +92,7 @@ static TclWinProcs asciiProcs = {
      */
     NULL,
     NULL,
+    (int (__cdecl*)(CONST TCHAR *, struct _utimbuf *)) _utime,
 };
 
 static TclWinProcs unicodeProcs = {
@@ -138,6 +139,7 @@ static TclWinProcs unicodeProcs = {
      */
     NULL,
     NULL,
+    (int (__cdecl*)(CONST TCHAR *, struct _utimbuf *)) _wutime,
 };
 
 TclWinProcs *tclWinProcs;

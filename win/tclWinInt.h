@@ -100,6 +100,9 @@ typedef struct TclWinProcs {
 	    GET_FILEEX_INFO_LEVELS, LPVOID);
     BOOL (WINAPI *createHardLinkProc)(CONST TCHAR*, CONST TCHAR*, 
 				      LPSECURITY_ATTRIBUTES);
+    
+    INT (__cdecl *utimeProc)(CONST TCHAR*, struct _utimbuf *);
+    
 } TclWinProcs;
 
 EXTERN TclWinProcs *tclWinProcs;

@@ -1369,6 +1369,22 @@ test cmdAH-24.8 {Tcl_FileObjCmd: mtime touch} {
     set modmtime [file mtime $file $newmtime]
     expr {$newmtime == $modmtime ? 1 : "$newmtime != $modmtime"}
 } 1
+test cmdAH-24.9 {Tcl_FileObjCmd: mtime touch with non-ascii chars} {
+    set oldfile $file
+    # introduce some non-ascii characters.
+    append file \u2022
+    file delete -force $file
+    file rename $oldfile $file
+    set mtime [file mtime $file]
+    after 1100; # pause a sec to notice change in mtime
+    set newmtime [clock seconds]
+    set err [catch {file mtime $file $newmtime} modmtime]
+    file rename $file $oldfile
+    if {$err} {
+	error $modmtime
+    }
+    expr {$newmtime == $modmtime ? 1 : "$newmtime != $modmtime"}
+} 1
 removeFile touch.me
 
 # owned

@@ -342,7 +342,6 @@ static Tcl_FSCreateInternalRepProc NativeCreateNativeRep;
 static Tcl_FSFileAttrStringsProc NativeFileAttrStrings;
 static Tcl_FSFileAttrsGetProc NativeFileAttrsGet;
 static Tcl_FSFileAttrsSetProc NativeFileAttrsSet;
-static Tcl_FSUtimeProc NativeUtime;
 
 /* 
  * The only reason these functions are not static is that they
@@ -396,7 +395,7 @@ static Tcl_Filesystem tclNativeFilesystem = {
     &TclpObjAccess,
     &TclpOpenFileChannel,
     &TclpMatchInDirectory,
-    &NativeUtime,
+    &TclpUtime,
 #ifndef S_IFLNK
     NULL,
 #else
@@ -4986,33 +4985,6 @@ Tcl_FSEqualPaths(firstPtr, secondPtr)
 	}
     }
     return 0;
-}
-
-/* 
- * utime wants a normalized, NOT native path.  I assume a native
- * version of 'utime' doesn't exist (at least under that name) on NT/2000.
- * If a native function does exist somewhere, then we could use:
- * 
- *   return native_utime(Tcl_FSGetNativePath(pathPtr),tval);
- *   
- * This seems rather strange when compared with stat, lstat, access, etc.
- * all of which want a native path.
- */
-static int 
-NativeUtime(pathPtr, tval)
-    Tcl_Obj *pathPtr;
-    struct utimbuf *tval;
-{
-#ifdef MAC_TCL
-    long gmt_offset=TclpGetGMTOffset();
-    struct utimbuf local_tval;
-    local_tval.actime=tval->actime+gmt_offset;
-    local_tval.modtime=tval->modtime+gmt_offset;
-    return utime(Tcl_GetString(Tcl_FSGetNormalizedPath(NULL,pathPtr)),
-		 &local_tval);
-#else
-    return utime(Tcl_GetString(Tcl_FSGetNormalizedPath(NULL,pathPtr)),tval);
-#endif
 }
 
 /* Everything from here on is contained in this obsolete ifdef */

@@ -1240,3 +1240,32 @@ TclpFilesystemPathType(pathObjPtr)
     /* All native paths are of the same type */
     return NULL;
 }
+
+/*
+ *---------------------------------------------------------------------------
+ *
+ * TclpUtime --
+ *
+ *	Set the modification date for a file.
+ *
+ * Results:
+ *	0 on success, -1 on error.
+ *
+ * Side effects:
+ *	None.
+ *
+ *---------------------------------------------------------------------------
+ */
+int 
+TclpUtime(pathPtr, tval)
+    Tcl_Obj *pathPtr;      /* File to modify */
+    struct utimbuf *tval;  /* New modification date structure */
+{
+    long gmt_offset=TclpGetGMTOffset();
+    struct utimbuf local_tval;
+    local_tval.actime=tval->actime+gmt_offset;
+    local_tval.modtime=tval->modtime+gmt_offset;
+    return utime(Tcl_GetString(Tcl_FSGetNormalizedPath(NULL,pathPtr)),
+		 &local_tval);
+}
+

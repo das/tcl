@@ -1805,6 +1805,8 @@ EXTERN int              TclpDlopen _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *pathPtr, 
 	                    Tcl_LoadHandle *loadHandle, 
 		            Tcl_FSUnloadFileProc **unloadProcPtr));
+EXTERN int              TclpUtime _ANSI_ARGS_((Tcl_Obj *pathPtr,
+					       struct utimbuf *tval));
 
 /*
  *----------------------------------------------------------------

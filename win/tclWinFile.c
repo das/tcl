@@ -2222,3 +2222,37 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
     Tcl_DStringFree(&dsNorm);
     return nextCheckpoint;
 }
+
+/*
+ *---------------------------------------------------------------------------
+ *
+ * TclpUtime --
+ *
+ *	Set the modification date for a file.
+ *
+ * Results:
+ *	0 on success, -1 on error.
+ *
+ * Side effects:
+ *	None.
+ *
+ *---------------------------------------------------------------------------
+ */
+int
+TclpUtime(pathPtr, tval)
+    Tcl_Obj *pathPtr;      /* File to modify */
+    struct utimbuf *tval;  /* New modification date structure */
+{
+    int res;
+    /* 
+     * Windows uses a slightly different structure name and, possibly,
+     * contents, so we have to copy the information over
+     */
+    struct _utimbuf buf;
+    
+    buf.actime = tval->actime;
+    buf.modtime = tval->modtime;
+    
+    res = (*tclWinProcs->utimeProc)(Tcl_FSGetNativePath(pathPtr),&buf);
+    return res;
+}
