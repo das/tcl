@@ -925,6 +925,17 @@ TclStubs tclStubs = {
     Tcl_Seek, /* 491 */
     Tcl_Tell, /* 492 */
     Tcl_ChannelWideSeekProc, /* 493 */
+    Tcl_DictObjPut, /* 494 */
+    Tcl_DictObjGet, /* 495 */
+    Tcl_DictObjRemove, /* 496 */
+    Tcl_DictObjSize, /* 497 */
+    Tcl_DictObjFirst, /* 498 */
+    Tcl_DictObjNext, /* 499 */
+    Tcl_DictObjDone, /* 500 */
+    Tcl_DictObjPutKeyList, /* 501 */
+    Tcl_DictObjRemoveKeyList, /* 502 */
+    Tcl_NewDictObj, /* 503 */
+    Tcl_DbNewDictObj, /* 504 */
 };
 
 /* !END!: Do not edit above this line. */
