@@ -46,6 +46,8 @@
 !endif
 !endif
 
+!ifndef BAILOUT
+
 #==============================================
 #  Targets.
 #==============================================
@@ -91,3 +93,4 @@ cvsupdate : $(SYM)
 	cd ..
 	set CVS_RSH=$(CVS_RSH)
 	$(CVSCMD) update $(CVS_OPTS)
+!endif
