@@ -548,12 +548,13 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 	}
     }
     endOfForLoop:
-    if (objc - idx != 4) {
+    if (objc-idx < 3 || objc-idx > 4) {
 	Tcl_WrongNumArgs(interp, 1, objv,
-		"?switches? exp string subSpec varName");
+		"?switches? exp string subSpec ?varName?");
 	return TCL_ERROR;
     }
 
+    objc -= idx;
     objv += idx;
 
     if (all && (offset == 0)
@@ -781,17 +782,24 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
     } else if (offset < wlen) {
 	Tcl_AppendUnicodeToObj(resultPtr, wstring + offset, wlen - offset);
     }
-    if (Tcl_ObjSetVar2(interp, objv[3], NULL, resultPtr, 0) == NULL) {
-	Tcl_AppendResult(interp, "couldn't set variable \"",
-		Tcl_GetString(objv[3]), "\"", (char *) NULL);
-	result = TCL_ERROR;
+    if (objc == 4) {
+	if (Tcl_ObjSetVar2(interp, objv[3], NULL, resultPtr, 0) == NULL) {
+	    Tcl_AppendResult(interp, "couldn't set variable \"",
+		    Tcl_GetString(objv[3]), "\"", (char *) NULL);
+	    result = TCL_ERROR;
+	} else {
+	    /*
+	     * Set the interpreter's object result to an integer object
+	     * holding the number of matches. 
+	     */
+
+	    Tcl_SetIntObj(Tcl_GetObjResult(interp), numMatches);
+	}
     } else {
 	/*
-	 * Set the interpreter's object result to an integer object
-	 * holding the number of matches. 
+	 * No varname supplied, so just return the modified string.
 	 */
-
-	Tcl_SetIntObj(Tcl_GetObjResult(interp), numMatches);
+	Tcl_SetObjResult(interp, resultPtr);
     }
 
     done:
