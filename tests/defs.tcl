@@ -812,14 +812,9 @@ catch {
     }
     close $f
 
-    # The following 2 lines cannot be run on Windows in Tk8.1b2
-    # This bug is logged as a pipe bug (bugID 1495).
-
-    if {($tcl_platform(platform) != "windows") || \
-	    (![info exists tk_version])} {
-	set f [open "|[list $tcltest tmp]" r]
-	close $f
-    }
+    set f [open "|[list $tcltest tmp]" r]
+    close $f
+    
     set ::tcltest::testConfig(stdio) 1
 }
 catch {file delete -force tmp}
