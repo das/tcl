@@ -142,7 +142,7 @@ TclpDlopen(interp, pathPtr, loadHandle, unloadProcPtr)
     Tcl_Interp *interp;		/* Used for error reporting. */
     Tcl_Obj *pathPtr;		/* Name of the file containing the desired
 				 * code (UTF-8). */
-    TclLoadHandle *loadHandle;	/* Filled with token for dynamically loaded
+    Tcl_LoadHandle *loadHandle;	/* Filled with token for dynamically loaded
 				 * file which will be passed back to 
 				 * (*unloadProcPtr)() to unload the file. */
     Tcl_FSUnloadFileProc **unloadProcPtr;	
@@ -327,7 +327,7 @@ TclpDlopen(interp, pathPtr, loadHandle, unloadProcPtr)
 Tcl_PackageInitProc*
 TclpFindSymbol(interp, loadHandle, symbol) 
     Tcl_Interp *interp;
-    TclLoadHandle loadHandle;
+    Tcl_LoadHandle loadHandle;
     CONST char *symbol;
 {
     /* Look up the entry point in the load module's dictionary. */
@@ -462,7 +462,7 @@ UnlinkSymbolTable ()
 
 void
 TclpUnloadFile(loadHandle)
-    TclLoadHandle loadHandle;	/* loadHandle returned by a previous call
+    Tcl_LoadHandle loadHandle;	/* loadHandle returned by a previous call
 				 * to TclpDlopen().  The loadHandle is 
 				 * a token that represents the loaded 
 				 * file. */

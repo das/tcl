@@ -1761,7 +1761,10 @@ EXTERN void		TclpInitPlatform _ANSI_ARGS_((void));
 EXTERN void		TclpInitUnlock _ANSI_ARGS_((void));
 EXTERN int              TclpLoadFile _ANSI_ARGS_((Tcl_Interp *interp, 
 				Tcl_Obj *pathPtr,
-				TclLoadHandle *loadHandle,
+				CONST char *sym1, CONST char *sym2, 
+				Tcl_PackageInitProc **proc1Ptr,
+				Tcl_PackageInitProc **proc2Ptr, 
+				ClientData *clientDataPtr,
 				Tcl_FSUnloadFileProc **unloadProcPtr));
 EXTERN Tcl_Obj*		TclpObjListVolumes _ANSI_ARGS_((void));
 EXTERN void		TclpMasterLock _ANSI_ARGS_((void));
@@ -1808,7 +1811,7 @@ EXTERN char *		TclpReadlink _ANSI_ARGS_((CONST char *fileName,
 			    Tcl_DString *linkPtr));
 EXTERN void		TclpReleaseFile _ANSI_ARGS_((TclFile file));
 EXTERN void		TclpSetVariables _ANSI_ARGS_((Tcl_Interp *interp));
-EXTERN void		TclpUnloadFile _ANSI_ARGS_((TclLoadHandle loadHandle));
+EXTERN void		TclpUnloadFile _ANSI_ARGS_((Tcl_LoadHandle loadHandle));
 EXTERN VOID *		TclpThreadDataKeyGet _ANSI_ARGS_((
 			    Tcl_ThreadDataKey *keyPtr));
 EXTERN void		TclpThreadDataKeyInit _ANSI_ARGS_((
@@ -1829,10 +1832,10 @@ EXTERN Tcl_Obj*         TclpNativeToNormalized
 EXTERN Tcl_Obj*	        TclpFilesystemPathType
 					_ANSI_ARGS_((Tcl_Obj* pathObjPtr));
 EXTERN Tcl_PackageInitProc* TclpFindSymbol _ANSI_ARGS_((Tcl_Interp *interp,
-			    TclLoadHandle loadHandle, CONST char *symbol));
+			    Tcl_LoadHandle loadHandle, CONST char *symbol));
 EXTERN int              TclpDlopen _ANSI_ARGS_((Tcl_Interp *interp, 
 			    Tcl_Obj *pathPtr, 
-	                    TclLoadHandle *loadHandle, 
+	                    Tcl_LoadHandle *loadHandle, 
 		            Tcl_FSUnloadFileProc **unloadProcPtr));
 
 /*
