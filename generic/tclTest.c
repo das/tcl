@@ -5566,38 +5566,30 @@ TestFilesystemObjCmd(dummy, interp, objc, objv)
     int		objc;
     Tcl_Obj	*CONST objv[];
 {
-    int res;
-    int onOff;
+    int res, boolVal;
+    char *msg;
     
     if (objc != 2) {
-	char *cmd = Tcl_GetString(objv[0]);
-	Tcl_AppendResult(interp, "wrong # args: should be \"", cmd,
-		" (1 or 0)\"", (char *) NULL);
+	Tcl_WrongNumArgs(interp, 1, objv, "boolean");
 	return TCL_ERROR;
     }
-    if (Tcl_GetBooleanFromObj(interp, objv[1], &onOff) != TCL_OK) {
+    if (Tcl_GetBooleanFromObj(interp, objv[1], &boolVal) != TCL_OK) {
 	return TCL_ERROR;
     }
-    if (onOff) {
+    if (boolVal) {
 	res = Tcl_FSRegister((ClientData)interp, &testReportingFilesystem);
-	if (res == TCL_OK) {
-	    Tcl_SetResult(interp, "registered", TCL_STATIC);
-	} else {
-	    Tcl_SetResult(interp, "failed", TCL_STATIC);
-	}
+	msg = (res == TCL_OK) ? "registered" : "failed";
     } else {
 	res = Tcl_FSUnregister(&testReportingFilesystem);
-	if (res == TCL_OK) {
-	    Tcl_SetResult(interp, "unregistered", TCL_STATIC);
-	} else {
-	    Tcl_SetResult(interp, "failed", TCL_STATIC);
-	}
+	msg = (res == TCL_OK) ? "unregistered" : "failed";
     }
+    Tcl_SetResult(interp, msg, TCL_VOLATILE);
     return res;
 }
 
 static int 
-TestReportInFilesystem(Tcl_Obj *pathPtr, ClientData *clientDataPtr) {
+TestReportInFilesystem(Tcl_Obj *pathPtr, ClientData *clientDataPtr)
+{
     static Tcl_Obj* lastPathPtr = NULL;
     
     if (pathPtr == lastPathPtr) {
