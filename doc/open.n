@@ -217,7 +217,9 @@ no interactions between command pipelines and the console.
 .TP
 \fBMacintosh\fR
 .
-Opening a serial port is not currently implemented under Macintosh.
+Access to the serial port is not accomplished through magic cookies passed
+to the \fIopen\fR command on the Macintosh.  Instead, you can use Sean Wood's 
+(yoda@drexel.edu) \fIDevice\fR extension for the same purpose.
 .sp
 Opening a command pipeline is not supported under Macintosh, since 
 applications do not support the concept of standard input or output.
