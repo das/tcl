@@ -63,7 +63,11 @@ How To Compile And Install Tcl:
 				if your system supports it.
 	--enable-shared		If this switch is specified, Tcl will compile
 				itself as a shared library if it can figure
-				out how to do that on this platform.
+				out how to do that on this platform.  This
+				is the default on platforms where we know
+				how to build shared libraries.
+	--disable-shared	If this switch is specified, Tcl will compile
+				itself as a static library.
     Note: be sure to use only absolute path names (those starting with "/")
     in the --prefix and --exec_prefix options.
 
