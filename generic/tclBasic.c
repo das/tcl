@@ -2581,7 +2581,6 @@ Tcl_EvalObjEx(interp, objPtr, flags)
 
     iPtr->numLevels++;
     if (iPtr->numLevels > iPtr->maxNestingDepth) {
-	iPtr->numLevels--;
 	Tcl_AppendToObj(Tcl_GetObjResult(interp),
 		"too many nested calls to Tcl_EvalObj (infinite loop?)", -1); 
 	result = TCL_ERROR;
@@ -2595,7 +2594,6 @@ Tcl_EvalObjEx(interp, objPtr, flags)
     
     if (TclpCheckStackSpace() == 0) {
 	/*NOTREACHED*/
-    	iPtr->numLevels--;
     	Tcl_AppendToObj(Tcl_GetObjResult(interp),
 		"too many nested calls to Tcl_EvalObj (infinite loop?)", -1);
 	result = TCL_ERROR;
