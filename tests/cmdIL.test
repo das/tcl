@@ -315,6 +315,24 @@ test cmdIL-4.27 {DictionaryCompare procedure, signed characters} {
     }
     set viewlist
 } [list "abc" "abc\\200"]
+test cmdIL-4.28 {DictionaryCompare procedure, chars between Z and a in ASCII} {
+    lsort -dictionary [list AA ` c CC]
+} [list ` AA c CC]
+test cmdIL-4.29 {DictionaryCompare procedure, chars between Z and a in ASCII} {
+    lsort -dictionary [list AA ` c ^ \\ CC \[ \]]
+} [list \[ \\ \] ^ ` AA c CC]
+test cmdIL-4.30 {DictionaryCompare procedure, chars between Z and a in ASCII} {
+    lsort -dictionary [list AA ` c ^ _ \\ CC \[ dude \] funky]
+} [list \[ \\ \] ^ _ ` AA c CC dude funky]
+test cmdIL-4.31 {DictionaryCompare procedure, chars between Z and a in ASCII} {
+    lsort -dictionary [list AA c ` CC]
+} [list ` AA c CC]
+test cmdIL-4.32 {DictionaryCompare procedure, chars between Z and a in ASCII} {
+    lsort -dictionary [list AA c CC `]
+} [list ` AA c CC]
+test cmdIL-4.33 {DictionaryCompare procedure, chars between Z and a in ASCII} {
+    lsort -dictionary [list AA ! c CC `]
+} [list ! ` AA c CC]
 
 # cleanup
 ::tcltest::cleanupTests
