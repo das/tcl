@@ -99,7 +99,8 @@ sub-dictionaries of the main dictionary object passed to them.
 .PP
 Tcl dictionary objects have an internal representation that supports
 efficient mapping from keys to values and which does not guarantee any
-particular ordering of keys within the dictionary.
+particular ordering of keys within the dictionary (the underlying
+basic data-structure is a hash table created with \fBTcl_InitObjHashTable\fR).
 The procedures described in this man page are used to
 create, modify, index, and iterate over dictionary objects from C code.
 .PP
