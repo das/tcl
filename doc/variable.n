@@ -58,6 +58,39 @@ and the initialization \fIvalue\fR should be left off.
 After the variable has been declared,
 elements within the array can be set using ordinary
 \fBset\fR or \fBarray\fR commands.
+.SH EXAMPLES
+Create a variable in a namespace:
+.CS
+namespace eval foo {
+    variable bar 12345
+}
+.CE
+.PP
+Create an array in a namespace:
+.CS
+namespace eval someNS {
+    variable someAry
+    array set someAry {
+        someName  someValue
+        otherName otherValue
+    }
+}
+.CE
+.PP
+Access variables in namespaces from a procedure:
+.CS
+namespace eval foo {
+    proc spong {} {
+        # Variable in this namespace
+        variable bar
+        puts "bar is $bar"
+
+        # Variable in another namespace
+        variable ::someNS::someAry
+        parray someAry
+    }
+}
+.CE
 
 .SH "SEE ALSO"
 global(n), namespace(n), upvar(n)
