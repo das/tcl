@@ -850,7 +850,7 @@ TransformSeekProc (instanceData, offset, mode, errorCodePtr)
     int         mode;		/* How to move */
     int*        errorCodePtr;	/* Location of error flag. */
 {
-    int result;
+    Tcl_WideInt result;
     TransformChannelData* dataPtr	= (TransformChannelData*) instanceData;
     Tcl_Channel           parent        = Tcl_GetStackedChannel(dataPtr->self);
     Tcl_ChannelType*      parentType	= Tcl_GetChannelType(parent);

@@ -63,6 +63,10 @@ typedef struct {
 #ifdef __sparc
 #   define STRING_AT(table, offset, index) \
 	(*((CONST char * CONST *)(((char *)(table)) + ((offset) * (index)))))
+
+#elif defined (WIN32)
+#   define STRING_AT(table, offset, index) \
+	(*((CONST char * CONST *)(((char *)(table)) + ((offset) * (index)))))
 #else
 #   define STRING_AT(table, offset, index) \
 	(*((CONST char * CONST *)(((VOID *)(table)) + (ptrdiff_t)((offset) * (index)))))
@@ -266,7 +270,7 @@ Tcl_GetIndexFromObjStruct(interp, objPtr, tablePtr, offset, msg, flags,
  	objPtr->internalRep.otherValuePtr = (VOID *) indexRep;
  	objPtr->typePtr = &tclIndexType;
     }
-    indexRep->tablePtr = tablePtr;
+    indexRep->tablePtr = (VOID*) tablePtr;
     indexRep->offset = offset;
     indexRep->index = index;
 

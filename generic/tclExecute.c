@@ -5781,7 +5781,7 @@ ExprCallMathFunc(interp, eePtr, objc, objv)
 	    Tcl_WideInt w = valuePtr->internalRep.wideValue;
 	    if (mathFuncPtr->argTypes[k] == TCL_DOUBLE) {
 		args[k].type = TCL_DOUBLE;
-		args[k].wideValue = Tcl_WideAsDouble(w);
+		args[k].wideValue = (Tcl_WideInt) Tcl_WideAsDouble(w);
 	    } else if (mathFuncPtr->argTypes[k] == TCL_INT) {
 		args[k].type = TCL_INT;
 		args[k].wideValue = Tcl_WideAsLong(w);
