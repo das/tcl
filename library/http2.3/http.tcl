@@ -227,6 +227,7 @@ proc http::geturl { url args } {
         type            text/html
         body            {}
 	status		""
+	http            ""
     }
     set options {-blocksize -channel -command -handler -headers \
 	    -progress -query -queryblocksize -querychannel -queryprogress\
@@ -331,10 +332,10 @@ proc http::geturl { url args } {
     if {$state(-timeout) > 0} {
 	fileevent $s writable [list http::Connect $token]
 	http::wait $token
+	fileevent $s writable {}
 	if {![string equal $state(status) "connect"]} {
 	    return $token
 	}
-	fileevent $s writable {}
 	set state(status) ""
     }
 
