@@ -6735,10 +6735,11 @@ ChannelTimerProc(clientData)
 	    (Tcl_ChannelBlockModeProc(chanPtr->typePtr) == NULL)) {
 	    statePtr->flags |= CHANNEL_TIMER_FEV;
 	}
-
+	Tcl_Preserve(statePtr);
 	Tcl_NotifyChannel((Tcl_Channel)chanPtr, TCL_READABLE);
 
 	statePtr->flags &= ~CHANNEL_TIMER_FEV; 
+	Tcl_Release(statePtr);
     } else {
 	statePtr->timer = NULL;
 	UpdateInterest(chanPtr);
