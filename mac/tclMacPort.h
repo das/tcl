@@ -48,6 +48,7 @@
 #elif defined(__MWERKS__)
 #   include <time.h>
 #   include <unistd.h>
+#   include <utime.h>
 
 /*
  * The following definitions are usually found if fcntl.h.
