@@ -27,16 +27,17 @@
  * The TclRegexp structure encapsulates a compiled regex_t,
  * the flags that were used to compile it, and an array of pointers
  * that are used to indicate subexpressions after a call to Tcl_RegExpExec.
+ * Note that the string and objPtr are mutually exclusive.  These values
+ * are needed by Tcl_RegExpRange in order to return pointers into the
+ * original string.
  */
 
 typedef struct TclRegexp {
     int flags;			/* Regexp compile flags. */
     regex_t re;			/* Compiled re, includes number of
 				 * subexpressions. */
-    Tcl_Obj *objPtr;		/* Last object match with this regexp, so
-				 * Tcl_RegExpRange() can convert the matches
-				 * from character indices to UTF-8 byte
-				 * offsets. */
+    CONST char *string;		/* Last string passed to Tcl_RegExpExec. */
+    Tcl_Obj *objPtr;		/* Last object passed to Tcl_RegExpExecObj. */
     regmatch_t *matches;	/* Array of indices into the Tcl_UniChar
 				 * representation of the last string matched
 				 * with this regexp to indicate the location
@@ -53,9 +54,6 @@ typedef struct TclRegexp {
 
 EXTERN int		TclRegAbout _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_RegExp re));
-EXTERN int		TclRegExpExecUniChar _ANSI_ARGS_((Tcl_Interp *interp,
-			    Tcl_RegExp re, CONST Tcl_UniChar *uniString,
-			    int numChars, int nmatches, int flags));
 EXTERN int		TclRegExpMatchObj _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *string, Tcl_Obj *patObj));
 EXTERN void		TclRegExpRangeUniChar _ANSI_ARGS_((Tcl_RegExp re,

@@ -756,7 +756,7 @@ TclStubs tclStubs = {
     Tcl_UniCharIsGraph, /* 373 */
     Tcl_UniCharIsPrint, /* 374 */
     Tcl_UniCharIsPunct, /* 375 */
-    Tcl_RegExpMatchObj, /* 376 */
+    Tcl_RegExpExecObj, /* 376 */
     Tcl_RegExpGetInfo, /* 377 */
     Tcl_NewUnicodeObj, /* 378 */
     Tcl_SetUnicodeObj, /* 379 */
@@ -765,6 +765,7 @@ TclStubs tclStubs = {
     Tcl_GetUnicode, /* 382 */
     Tcl_GetRange, /* 383 */
     Tcl_AppendUnicodeToObj, /* 384 */
+    Tcl_RegExpMatchObj, /* 385 */
 };
 
 /* !END!: Do not edit above this line. */

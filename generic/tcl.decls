@@ -1278,7 +1278,7 @@ declare 375 generic {
     int Tcl_UniCharIsPunct(int ch)
 }
 declare 376 generic {
-    int Tcl_RegExpMatchObj(Tcl_Interp *interp, Tcl_RegExp regexp, \
+    int Tcl_RegExpExecObj(Tcl_Interp *interp, Tcl_RegExp regexp, \
 	    Tcl_Obj *objPtr, int offset, int nmatches, int flags)
 }
 declare 377 generic {
@@ -1306,6 +1306,10 @@ declare 383 generic {
 declare 384 generic {
     void Tcl_AppendUnicodeToObj (register Tcl_Obj *objPtr, \
 	    Tcl_UniChar *unicode, int length)
+}
+declare 385 generic {
+    int Tcl_RegExpMatchObj(Tcl_Interp *interp, Tcl_Obj *stringObj, \
+	    Tcl_Obj *patternObj)
 }
 
 ##############################################################################
