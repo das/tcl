@@ -4970,7 +4970,7 @@ Tcl_DeleteTrace(interp, trace)
     while ( (*tracePtr2) != NULL && (*tracePtr2) != tracePtr ) {
 	tracePtr2 = &((*tracePtr2)->nextPtr);
     }
-    if ( tracePtr2 == NULL ) {
+    if ( *tracePtr2 == NULL ) {
 	return;
     }
     (*tracePtr2) = (*tracePtr2)->nextPtr;
