@@ -1347,8 +1347,7 @@ ParsePrimaryExpr(infoPtr)
 	    CONST char *term;
 	    Tcl_Token *lastTokenPtr;
 	    Tcl_Token *appendTokens = TclParseScript(src,
-		    (int) (parsePtr->end - src),
-		    (PARSE_NESTED | PARSE_USE_INTERNAL_TOKENS),
+		    (int) (parsePtr->end - src), PARSE_NESTED,
 		    &lastTokenPtr, &term);
 	    int numTokens = 1 + (int) (lastTokenPtr - appendTokens);
 
