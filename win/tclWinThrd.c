@@ -633,15 +633,10 @@ TclpFinalizeThreadData(keyPtr)
 {
     VOID *result;
     DWORD *indexPtr;
+
 #ifdef USE_THREAD_ALLOC
-    static int once = 0;
-
-    if (!once) {
-	once = 1;
-	TclWinFreeAllocCache();
-    }
+    TclWinFreeAllocCache();
 #endif
-
     if (*keyPtr != NULL) {
 	indexPtr = *(DWORD **)keyPtr;
 	result = (VOID *)TlsGetValue(*indexPtr);
@@ -1039,8 +1034,10 @@ TclWinFreeAllocCache(void)
     void *ptr;
 
     ptr = TlsGetValue(key);
-    TlsSetValue(key, NULL);
-    TclFreeAllocCache(ptr);
+    if (ptr != NULL) {
+	TlsSetValue(key, NULL);
+	TclFreeAllocCache(ptr);
+    }
 }
 
 #endif /* USE_THREAD_ALLOC */
