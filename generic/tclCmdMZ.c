@@ -107,9 +107,7 @@ Tcl_PwdObjCmd(dummy, interp, objc, objv)
  * Tcl_RegexpObjCmd --
  *
  *	This procedure is invoked to process the "regexp" Tcl command.
- *	See the user documentation for details on what it does.  The
- *	REGEXP_TEST stuff is to minimize code differences between this
- *	and the "testregexp" command.
+ *	See the user documentation for details on what it does.
  *
  * Results:
  *	A standard Tcl result.
