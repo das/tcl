@@ -250,9 +250,7 @@ Tcl_GetsObjCmd(dummy, interp, objc, objv)
     lineLen = Tcl_GetsObj(chan, linePtr);
     if (lineLen < 0) {
         if (!Tcl_Eof(chan) && !Tcl_InputBlocked(chan)) {
-	    if (objc == 3) {
-		Tcl_DecrRefCount(linePtr);
-	    }
+	    Tcl_DecrRefCount(linePtr);
 	    Tcl_ResetResult(interp);
 	    Tcl_AppendResult(interp, "error reading \"", name, "\": ",
 		    Tcl_PosixError(interp), (char *) NULL);
