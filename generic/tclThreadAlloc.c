@@ -117,7 +117,7 @@ typedef struct Cache {
  * to avoid calculating them repeatedly.
  */
 
-struct binfo {
+static struct {
     size_t blocksize;	/* Bucket blocksize. */
     int maxblocks;	/* Max blocks before move to share. */
     int nmove;		/* Num blocks to move to share. */
