@@ -1,7 +1,7 @@
 # parray:
 # Print the contents of a global array on stdout.
 #
-# SCCS: %Z% $Id$ 
+# RCS: @(#) $Id$
 #
 # Copyright (c) 1991-1993 The Regents of the University of California.
 # Copyright (c) 1994 Sun Microsystems, Inc.

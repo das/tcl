@@ -9,7 +9,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclInterp.c 1.128 97/11/05 09:35:12
+ * RCS: @(#) $Id$
  */
 
 #include <stdio.h>

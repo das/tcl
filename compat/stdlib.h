@@ -14,7 +14,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) stdlib.h 1.10 96/02/15 14:43:54
+ * RCS: @(#) $Id$
  */
 
 #ifndef _STDLIB

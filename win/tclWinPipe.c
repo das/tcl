@@ -9,7 +9,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclWinPipe.c 1.49 97/11/06 17:33:03
+ * RCS: @(#) $Id$
  */
 
 #include "tclWinInt.h"

@@ -6,7 +6,7 @@
 #
 # Copyright (c) 1996 by Sun Microsystems, Inc.
 #
-# SCCS: %Z% $Id$ 
+# RCS: @(#) $Id$
 # 
 
 #

@@ -13,7 +13,7 @@
 #             written initially with Brent Welch, itself initially
 #             based on work with Steve Uhler. Thanks them !
 #
-# SCCS: %Z% $Id$ 
+# RCS: @(#) $Id$
 
 package provide opt 0.3
 

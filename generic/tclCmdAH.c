@@ -11,7 +11,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclCmdAH.c 1.159 97/10/31 13:06:07
+ * RCS: @(#) $Id$
  */
 
 #include "tclInt.h"

@@ -9,7 +9,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclUnixFile.c 1.48 97/07/07 16:38:11
+ * RCS: @(#) $Id$
  */
 
 #include "tclInt.h"

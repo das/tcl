@@ -10,7 +10,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclMacPort.h 1.75 97/08/11 10:18:07
+ * RCS: @(#) $Id$
  */
 
 #ifndef _MACPORT

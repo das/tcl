@@ -12,7 +12,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclTest.c 1.119 97/10/31 15:57:28
+ * RCS: @(#) $Id$
  */
 
 #define TCL_TEST
