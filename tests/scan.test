@@ -42,6 +42,10 @@ test scan-1.7 {BuildCharSet, CharInSet} {
 test scan-1.8 {BuildCharSet, CharInSet} {
     list [scan def-abc {%[^c-a]} x] $x
 } {1 def-}
+test scan-1.9 {BuildCharSet, CharInSet no match} {
+    catch {unset x}
+    list [scan {= f} {= %[TF]} x] [info exists x]
+} {0 0}
 
 test scan-2.1 {ReleaseCharSet} {
     list [scan abcde {%[abc]} x] $x

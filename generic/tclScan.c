@@ -810,6 +810,12 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 		}
 		ReleaseCharSet(&cset);
 
+		if (string == end) {
+		    /*
+		     * Nothing matched the range, stop processing
+		     */
+		    goto done;
+		}
 		if (!(flags & SCAN_SUPPRESS)) {
 		    objPtr = Tcl_NewStringObj(string, end-string);
 		    Tcl_IncrRefCount(objPtr);
