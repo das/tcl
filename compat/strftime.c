@@ -104,7 +104,7 @@ static int		_secs _ANSI_ARGS_((const struct tm *t));
 static size_t		_fmt _ANSI_ARGS_((const char *format,
 			    const struct tm *t));
 
-unsigned long
+size_t
 TclpStrftime(s, maxsize, format, t)
     char *s;
     size_t maxsize;
@@ -115,12 +115,12 @@ TclpStrftime(s, maxsize, format, t)
 
     pt = s;
     if ((gsize = maxsize) < 1)
-	return (unsigned long)(0);
+	return(0);
     if (_fmt(format, t)) {
 	*pt = '\0';
-	return (unsigned long) (maxsize - gsize);
+	return(maxsize - gsize);
     }
-    return (unsigned long)(0);
+    return(0);
 }
 
 #define SUN_WEEK(t)	(((t)->tm_yday + 7 - \
