@@ -2915,7 +2915,7 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
     Interp *iPtr = (Interp *) interp;
     Var *varPtr, *arrayPtr;
     Tcl_HashEntry *hPtr;
-    Tcl_Obj *resultPtr = Tcl_GetObjResult(interp);
+    Tcl_Obj *resultPtr;
     int notArray;
     char *varName, *msg;
     int index, result;
@@ -2960,6 +2960,13 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 	    return TCL_ERROR;
 	}
     }
+
+    /*
+     * We have to wait to get the resultPtr until here because
+     * CallTraces can affect the result.
+     */
+
+    resultPtr = Tcl_GetObjResult(interp);
 
     switch (index) {
         case ARRAY_ANYMORE: {
