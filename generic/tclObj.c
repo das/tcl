@@ -156,7 +156,7 @@ Tcl_HashKeyType tclObjHashKeyType = {
  * name") argument in a Tcl command.
  */
 
-Tcl_ObjType tclCmdNameType = {
+static Tcl_ObjType tclCmdNameType = {
     "cmdName",				/* name */
     FreeCmdNameInternalRep,		/* freeIntRepProc */
     DupCmdNameInternalRep,		/* dupIntRepProc */

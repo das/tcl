@@ -30,14 +30,6 @@
  *------------------------------------------------------------------------
  */
 
-/*
- * Variable that denotes the command name Tcl object type. Objects of this
- * type cache the Command pointer that results from looking up command names
- * in the command hashtable.
- */
-
-extern Tcl_ObjType	tclCmdNameType;
-
 #ifdef TCL_COMPILE_DEBUG
 /*
  * Variable that controls whether compilation tracing is enabled and, if so,
