@@ -117,6 +117,8 @@ namespace and automatically imported:
 
     restoreState      Restore the procedure and global variable names.
 
+    threadReap	      Kill all threads except for the main thread.
+
 Please refer to the defs.tcl file for more documentation on these
 procedures.
 

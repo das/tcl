@@ -1579,26 +1579,10 @@ test socket-12.3 {testing inheritance of accepted sockets} \
 test socket-13.1 {Testing use of shared socket between two threads} \
 	{socket testthread} {
 
-    set mainthread [testthread names]
-    proc ThreadReap {} {
-	global mainthread
-	testthread errorproc ThreadNullError
-	while {[llength [testthread names]] > 1} {
-	    foreach tid [testthread names] {
-		if {$tid != $mainthread} {
-		    catch {testthread send -async $tid {testthread exit}}
-		    update
-		}
-	    }
-	}
-	testthread errorproc ThreadError
-	return [llength [testthread names]]
-    }
-
     removeFile script
+    threadReap
 
-    set f [open script w]
-    puts $f {
+    makeFile {
 	set f [socket -server accept 2828]
 	proc accept {s a p} {
             fileevent $s readable [list echo $s]
@@ -1622,16 +1606,16 @@ test socket-13.1 {Testing use of shared socket between two threads} \
 
 	# thread cleans itself up.
 	testthread exit
-    }
-    close $f
+    } script
     
     # create a thread
     set serverthread [testthread create { source script } ]
     update
     
-
+    after 1000
     set s [socket 127.0.0.1 2828]
     fconfigure $s -buffering line
+
     catch {
 	puts $s "hello"
 	gets $s result
@@ -1640,11 +1624,11 @@ test socket-13.1 {Testing use of shared socket between two threads} \
     update
 
     after 2000
-    ThreadReap
+    lappend result [threadReap]
     
     set result
 
-} hello
+} {hello 1}
 
 # cleanup
 if {[string match sock* $commandSocket] == 1} {
