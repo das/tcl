@@ -1249,7 +1249,7 @@ Tcl_MacEvalResource(
     short saveRef, fileRef = -1;
     char idStr[64];
     FSSpec fileSpec;
-    Tcl_DString buffer;
+    Tcl_DString ds, buffer;
     char *nativeName;
 
     saveRef = CurResFile();
@@ -1257,12 +1257,14 @@ Tcl_MacEvalResource(
     if (fileName != NULL) {
 	OSErr err;
 	
-	nativeName = Tcl_TranslateFileName(interp, fileName, &buffer);
-	if (nativeName == NULL) {
+	if (Tcl_TranslateFileName(interp, fileName, &buffer) == NULL) {
 	    return TCL_ERROR;
 	}
+	nativeName = Tcl_UtfToExternalDString(NULL, Tcl_DStringValue(&buffer), 
+    	    Tcl_DStringLength(&buffer), &ds);
 	err = FSpLocationFromPath(strlen(nativeName), nativeName,
                 &fileSpec);
+	Tcl_DStringFree(&ds);
 	Tcl_DStringFree(&buffer);
 	if (err != noErr) {
 	    Tcl_AppendResult(interp, "Error finding the file: \"", 
