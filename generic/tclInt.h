@@ -747,6 +747,21 @@ typedef struct ActiveInterpTrace {
 } ActiveInterpTrace;
 
 /*
+ * Flag values designating types of execution traces.
+ * See tclTrace.c for related flag values.
+ *
+ * TCL_TRACE_ENTER_EXEC         - triggers enter/enterstep traces.
+ * 				- passed to Tcl_CreateObjTrace to set up
+ *                                "enterstep" traces.
+ * TCL_TRACE_LEAVE_EXEC         - triggets leave/leavestep traces.
+ * 				- passed to Tcl_CreateObjTrace to set up
+ *                                "leavestep" traces.
+ *
+ */
+#define TCL_TRACE_ENTER_EXEC            1
+#define TCL_TRACE_LEAVE_EXEC            2
+
+/*
  * The structure below defines an entry in the assocData hash table which
  * is associated with an interpreter. The entry contains a pointer to a
  * function to call when the interpreter is deleted, and a pointer to

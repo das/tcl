@@ -2895,7 +2895,6 @@ TclCompileSwitchCmd(interp, parsePtr, envPtr)
     if (tokenStartPtr != tokenPtr[1].start+tokenPtr[1].size) {
 	ckfree((char *)argv);
 	ckfree((char *)bodyTokenArray);
-	fprintf(stderr, "BAD ASSUMPTION\n");
 	return TCL_OUT_LINE_COMPILE;
     }
 
