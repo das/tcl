@@ -1125,6 +1125,17 @@ test namespace-39.3 {NamespaceExistsCmd error} {
     list [catch {namespace exists a b} msg] $msg
 } {1 {wrong # args: should be "namespace exists name"}}
 
+test namespace-40.1 {Ignoring namespace proc "unknown"} {
+    rename unknown _unknown
+    proc unknown args {return global}
+    namespace eval ns {proc unknown args {return local}}
+    set l [list [namespace eval ns aaa bbb] [namespace eval ns aaa]]
+    rename unknown {}   
+    rename _unknown unknown
+    namespace delete ns
+    set l
+} {global global}
+
 # cleanup
 catch {rename cmd1 {}}
 catch {unset l}
