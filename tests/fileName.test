@@ -1312,12 +1312,15 @@ test filename-14.21 {asterisks, question marks, and brackets} {
 test filename-14.22 {asterisks, question marks, and brackets} {
     list [catch {glob goo/* x*z foo?q} msg] $msg
 } {1 {no files matched glob patterns "goo/* x*z foo?q"}}
-test filename-14.23 {slash globbing} {unixOrPc} {
+test filename-14.23 {slash globbing} {unixOnly} {
     glob /
 } /
+test filename-14.23.2 {slash globbing} {pcOnly} {
+    glob /
+} [file norm /]
 test filename-14.24 {slash globbing} {pcOnly} {
     glob {\\}
-} /
+} [file norm /]
 test filename-14.25 {type specific globbing} {unixOnly} {
     list [catch {lsort [glob -dir globTest -types f *]} msg] $msg
 } [list 0 [lsort [list \

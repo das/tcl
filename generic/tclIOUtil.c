@@ -3442,8 +3442,15 @@ TclGetPathType(pathPtr, filesystemPtrPtr, driveNameLengthPtr, driveNameRef)
                                          * non-NULL, then set to the
                                          * filesystem which claims this
                                          * path */  
-    int *driveNameLengthPtr;            
-    Tcl_Obj **driveNameRef;
+    int *driveNameLengthPtr;            /* If the path is absolute, and 
+                                         * this is non-NULL, then set to
+                                         * the length of the driveName */
+    Tcl_Obj **driveNameRef;             /* If the path is absolute, and
+                                         * this is non-NULL, then set to
+                                         * the name of the drive,
+                                         * network-volume which contains
+                                         * the path, already with a
+                                         * refCount for the caller.  */
 {
     FilesystemRecord *fsRecPtr;
     int pathLen;
