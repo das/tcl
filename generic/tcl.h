@@ -203,7 +203,6 @@
 #ifndef STATIC_BUILD
 # ifdef _MSC_VER
 #  define EXPORT(a,b) __declspec(dllexport) a b
-#  define DllEntryPoint DllMain
 #else
 #  ifdef __BORLANDC__
 #   define EXPORT(a,b) a _export b
