@@ -189,16 +189,15 @@ _fmt(format, t)
 #ifdef WIN32
 #define BUF_SIZ 256
     TCHAR buf[BUF_SIZ];
-    SYSTEMTIME syst = {
-	t->tm_year + 1900,
-	t->tm_mon + 1,
-	t->tm_wday,
-	t->tm_mday,
-	t->tm_hour,
-	t->tm_min,
-	t->tm_sec,
-	0,
-    };
+    SYSTEMTIME syst;
+    syst.wYear	    = t->tm_year + 1900;
+    syst.wMonth	    = t->tm_mon + 1;
+    syst.wDayOfWeek = t->tm_wday;
+    syst.wDay	    = t->tm_mday;
+    syst.wHour	    = t->tm_hour;
+    syst.wMinute    = t->tm_min;
+    syst.wSecond    = t->tm_sec;
+    syst.wMilliseconds = 0;
 #endif
     for (; *format; ++format) {
 	if (*format == '%') {
