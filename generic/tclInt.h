@@ -51,17 +51,6 @@
 #include <string.h>
 #endif
 
-#undef TCL_STORAGE_CLASS
-#ifdef BUILD_tcl
-# define TCL_STORAGE_CLASS DLLEXPORT
-#else
-# ifdef USE_TCL_STUBS
-#  define TCL_STORAGE_CLASS
-# else
-#  define TCL_STORAGE_CLASS DLLIMPORT
-# endif
-#endif
-
 /*
  * Used to tag functions that are only to be visible within the module
  * being built and not outside it (where this is supported by the
@@ -2705,9 +2694,6 @@ MODULE_SCOPE void	TclDbInitNewObj _ANSI_ARGS_((Tcl_Obj *objPtr));
 #include "tclPort.h"
 #include "tclIntDecls.h"
 #include "tclIntPlatDecls.h"
-
-# undef TCL_STORAGE_CLASS
-# define TCL_STORAGE_CLASS DLLIMPORT
 
 #endif /* _TCLINT */
 

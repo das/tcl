@@ -2316,6 +2316,13 @@ EXTERN CONST char *	Tcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp,
 
 #endif
 
+/*
+ * Public functions that are not accessible via the stubs table.
+ */
+
+EXTERN void Tcl_Main _ANSI_ARGS_((int argc, char **argv,
+	Tcl_AppInitProc *appInitProc));
+
 
 /*
  * Include the public function declarations that are accessible via
@@ -2330,13 +2337,6 @@ EXTERN CONST char *	Tcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp,
  */
 
 #include "tclPlatDecls.h"
-
-/*
- * Public functions that are not accessible via the stubs table.
- */
-
-EXTERN void Tcl_Main _ANSI_ARGS_((int argc, char **argv,
-	Tcl_AppInitProc *appInitProc));
 
 /*
  * Convenience declaration of Tcl_AppInit for backwards compatibility.
