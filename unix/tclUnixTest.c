@@ -299,7 +299,7 @@ TestfilehandlerCmd(clientData, interp, argc, argv)
     } else if (strcmp(argv[1], "wait") == 0) {
 	if (argc != 5) {
 	    Tcl_AppendResult(interp, "wrong # arguments: should be \"",
-                    argv[0], " wait index readable/writable timeout\"",
+                    argv[0], " wait index readable|writable timeout\"",
                     (char *) NULL);
 	    return TCL_ERROR;
 	}
