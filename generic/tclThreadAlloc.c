@@ -16,7 +16,7 @@
 
 #include "tclInt.h"
 
-#if defined(TCL_THREADS) && defined(USE_THREAD_ALLOC)
+#if defined(TCL_THREADS) && defined(USE_THREAD_ALLOC) && !defined(TCL_MEM_DEBUG)
 
 #ifdef WIN32
 #include "tclWinInt.h"

@@ -680,7 +680,7 @@ TclpFinalizeThreadData(keyPtr)
     DWORD *indexPtr;
     BOOL success;
 
-#ifdef USE_THREAD_ALLOC
+#if defined(USE_THREAD_ALLOC) && !defined(TCL_MEM_DEBUG)
     TclWinFreeAllocCache();
 #endif
     if (*keyPtr != NULL) {
@@ -1037,7 +1037,8 @@ TclpFinalizeCondition(condPtr)
 /*
  * Additions by AOL for specialized thread memory allocator.
  */
-#ifdef USE_THREAD_ALLOC
+
+#if defined(USE_THREAD_ALLOC) && !defined(TCL_MEM_DEBUG)
 static int once;
 static DWORD key;
 
