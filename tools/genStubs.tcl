@@ -397,8 +397,9 @@ proc genStubs::makeDecl {name decl index} {
     }
     append text $line
     
-    append text ");\n"
-    return $text
+    append text ");"
+    format "#ifndef %s_TCL_DECLARED\n#define %s_TCL_DECLARED\n%s\n#endif\n" \
+	    $fname $fname $text
 }
 
 # genStubs::makeMacro --
