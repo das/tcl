@@ -74,7 +74,7 @@ if {[info commands testthread] == "testthread" && [file exists $httpdFile]} {
 
 test http-1.1 {http::config} {
     http::config
-} {-accept */* -proxyfilter http::ProxyRequired -proxyhost {} -proxyport {} -useragent {Tcl http client package 2.0}}
+} {-accept */* -proxyfilter http::ProxyRequired -proxyhost {} -proxyport {} -useragent {Tcl http client package 2.1}}
 
 test http-1.2 {http::config} {
     http::config -proxyfilter
