@@ -223,7 +223,7 @@ typedef union TclVMWord {
 #define HPINT_MIN  (-HPINT_MAX-1)
 
 #define HP_STASH(full, n, u) \
-    (full) = (((n) << HP_SHIFT) | (u))
+    (full) = ((((TclPSizedInt) n) << HP_SHIFT) | (u))
 
 #define HP_EXTRACT(full, n, u)\
     (n) = ((full) >> HP_SHIFT);\
