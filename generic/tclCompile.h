@@ -351,9 +351,9 @@ typedef struct ByteCode {
 				 * plus 1 for each execution of the code
 				 * currently active. This structure can be
 				 * freed when refCount becomes zero. */
-    unsigned int flags;	/* flags describing state for the codebyte.
-                         * this variable holds ORed values from the
-                         * TCL_BYTECODE_ masks defined above */
+    unsigned int flags;		/* flags describing state for the codebyte.
+                                 * this variable holds ORed values from the
+                                 * TCL_BYTECODE_ masks defined above */
     char *source;		/* The source string from which this
 				 * ByteCode was compiled. Note that this
 				 * pointer is not owned by the ByteCode and
