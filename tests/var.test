@@ -453,7 +453,7 @@ test var-9.9 {behaviour of TclSetVar without TCL_LEAVE_ERR_MSG flag} {
     trace var v w readonly
     list [catch {testsetnoerr v 2} msg] $msg
 } {1 {before set}}
-
+}
 test var-10.1 {can't nest arrays with array set} {
    catch {unset arr}
    list [catch {array set arr(x) {a 1 b 2}} res] $res

@@ -211,10 +211,10 @@ test util-5.44 {Tcl_StringMatch: skip correct number of ']'} {
 } 1
 test util-5.45 {Tcl_StringMatch} {
     # if (*pattern == '\0')
-    # badly formed pattern
+    # badly formed pattern, still treats as a set
 
     string match {[a} a
-} 0
+} 1
 test util-5.46 {Tcl_StringMatch} {
     string match {a\*b} a*b
 } 1
