@@ -511,10 +511,11 @@ TclCleanupByteCode(codePtr)
     register ByteCodeData *bcDataPtr = codePtr->bcDataPtr;
 
 #ifdef TCL_COMPILE_STATS
-    if (interp != NULL) {
 #ifdef TCL_THREAD_LITERALS
+    if (1) {
 	ByteCodeStats *statsPtr = TclGlobalByteCodeStats();
 #else
+    if (interp != NULL) {
 	ByteCodeStats *statsPtr = &((Interp *) interp)->stats;
 #endif
 	Tcl_Time destroyTime;
@@ -613,18 +614,22 @@ TclCleanupByteCode(codePtr)
 		objArrayPtr++;
 	    }
 	    bcDataPtr->numLitObjects = 0;
-	} else if (interp != NULL) {
+	} else
+#ifndef TCL_THREAD_LITERALS
+	    if (interp != NULL)
+#endif
+	    {
 	    /*
-	     * If the interp has already been freed, then Tcl will have already 
-	     * forcefully released all the literals used by ByteCodes compiled
-	     * with respect to that interp.
+	     * If the interp has already been freed, then Tcl will have
+	     * already forcefully released all the literals used by ByteCodes
+	     * compiled with respect to that interp.
 	     */
 	 
 	    objArrayPtr = bcDataPtr->objArrayPtr;
 	    for (i = 0;  i < numLitObjects;  i++) {
 	        /*
-		 * TclReleaseLiteral sets a ByteCode's object array entry NULL to
-		 * indicate that it has already freed the literal.
+		 * TclReleaseLiteral sets a ByteCode's object array entry NULL
+		 * to indicate that it has already freed the literal.
 		 */
 	    
 	        if (*objArrayPtr != NULL) {
