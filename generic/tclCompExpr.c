@@ -4,7 +4,6 @@
  *	This file contains the code to compile Tcl expressions.
  *
  * Copyright (c) 1997 Sun Microsystems, Inc.
- * Copyright (c) 1998-2000 by Scriptics Corporation.
  *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -102,8 +101,6 @@ typedef struct ExprInfo {
 #define OP_QUESTY	18
 #define OP_LNOT		19
 #define OP_BITNOT	20
-#define OP_STREQ	21
-#define OP_STRNEQ	22
 
 /*
  * Table describing the expression operators. Entries in this table must
@@ -144,8 +141,6 @@ OperatorDesc operatorTable[] = {
     {"?",   0},
     {"!",   1,  INST_LNOT},
     {"~",   1,  INST_BITNOT},
-    {"eq",  2,  INST_STR_EQ},
-    {"ne",  2,  INST_STR_NEQ},
     {NULL}
 };
 
@@ -235,9 +230,11 @@ TclCompileExpr(interp, script, numBytes, envPtr)
     CompileEnv *envPtr;		/* Holds resulting instructions. */
 {
     ExprInfo info;
-    Tcl_Parse parse;
+    TYPE (Tcl_Parse) parse;
     Tcl_HashEntry *hPtr;
     int maxDepth, new, i, code;
+
+    NEWSTRUCT(Tcl_Parse,parse);
 
     /*
      * If this is the first time we've been called, initialize the table
@@ -269,7 +266,7 @@ TclCompileExpr(interp, script, numBytes, envPtr)
      */
 
     info.interp = interp;
-    info.parsePtr = &parse;
+    info.parsePtr = REF (parse);
     info.expr = script;
     info.lastChar = (script + numBytes); 
     info.hasOperators = 0;
@@ -281,14 +278,14 @@ TclCompileExpr(interp, script, numBytes, envPtr)
      */
 
     maxDepth = 0;
-    code = Tcl_ParseExpr(interp, script, numBytes, &parse);
+    code = Tcl_ParseExpr(interp, script, numBytes, REF (parse));
     if (code != TCL_OK) {
 	goto done;
     }
 
-    code = CompileSubExpr(parse.tokenPtr, &info, envPtr);
+    code = CompileSubExpr(ITEM(parse,tokenPtr), &info, envPtr);
     if (code != TCL_OK) {
-	Tcl_FreeParse(&parse);
+	Tcl_FreeParse(REF (parse));
 	goto done;
     }
     maxDepth = envPtr->maxStackDepth;
@@ -303,9 +300,10 @@ TclCompileExpr(interp, script, numBytes, envPtr)
 	
 	TclEmitOpcode(INST_TRY_CVT_TO_NUMERIC, envPtr);
     }
-    Tcl_FreeParse(&parse);
+    Tcl_FreeParse(REF (parse));
 
     done:
+    RELSTRUCT (parse);
     envPtr->maxStackDepth = maxDepth;
     envPtr->exprIsJustVarRef = info.exprIsJustVarRef;
     envPtr->exprIsComparison = info.exprIsComparison;
@@ -541,8 +539,7 @@ CompileSubExpr(exprTokenPtr, infoPtr, envPtr)
 		infoPtr->hasOperators = 1;
 		infoPtr->exprIsJustVarRef = 0;
 		infoPtr->exprIsComparison =
-		    (((opIndex >= OP_LESS) && (opIndex <= OP_NEQ))
-			    || ((opIndex >= OP_STREQ) && (opIndex <= OP_STRNEQ)));
+		        ((opIndex >= OP_LESS) && (opIndex <= OP_NEQ));
 		break;
 	    }
 	    

@@ -263,7 +263,8 @@ ValidateFormat(interp, format, numVars, totalSubs)
     int *totalSubs;		/* The number of variables that will be
 				 * required. */
 {
-#define STATIC_LIST_SIZE 16
+#define STATIC_LIST_SIZE TCL_FMT_STATIC_VALIDATE_LIST
+#define STATIC_LIST_INCR 16
     int gotXpg, gotSequential, value, i, flags;
     char *end;
     Tcl_UniChar ch;
@@ -441,7 +442,7 @@ ValidateFormat(interp, format, numVars, totalSubs)
 		if (xpgSize) {
 		    nspace = xpgSize;
 		} else {
-		    nspace += STATIC_LIST_SIZE;
+		    nspace += STATIC_LIST_INCR;
 		}
 		if (nassign == staticAssign) {
 		    nassign = (void *)ckalloc(nspace * sizeof(int));

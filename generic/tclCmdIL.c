@@ -1020,6 +1020,7 @@ InfoHostnameCmd(dummy, interp, objc, objv)
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
     char *name;
+
     if (objc != 2) {
         Tcl_WrongNumArgs(interp, 2, objv, NULL);
         return TCL_ERROR;
@@ -1599,6 +1600,7 @@ InfoScriptCmd(dummy, interp, objc, objv)
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
     Interp *iPtr = (Interp *) interp;
+
     if (objc != 2) {
         Tcl_WrongNumArgs(interp, 2, objv, NULL);
         return TCL_ERROR;
@@ -2675,7 +2677,7 @@ MergeSort(headPtr, infoPtr)
      * length 2**i.
      */
 
-#   define NUM_LISTS 30
+#   define NUM_LISTS TCL_LSORT_STATIC_MERGE_BUCKETS
     SortElement *subList[NUM_LISTS];
     SortElement *elementPtr;
     int i;

@@ -455,7 +455,8 @@ Tcl_AppendResultVA (interp, argList)
 				 * return value. */
     va_list argList;		/* Variable argument list. */
 {
-#define STATIC_LIST_SIZE 16
+#define STATIC_LIST_SIZE TCL_RESULT_APPEND_STATIC_LIST_SZ
+#define STATIC_LIST_INCR 16
     Interp *iPtr = (Interp *) interp;
     char *string, *static_list[STATIC_LIST_SIZE];
     char **args = static_list;
@@ -490,7 +491,7 @@ Tcl_AppendResultVA (interp, argList)
  	    /* 
  	     * Expand the args buffer
  	     */
- 	    nargs_space += STATIC_LIST_SIZE;
+ 	    nargs_space += STATIC_LIST_INCR;
  	    if (args == static_list) {
  	    	args = (void *)ckalloc(nargs_space * sizeof(char *));
  		for (i = 0; i < nargs; ++i) {

@@ -303,7 +303,7 @@ char *
 Tcl_HashStats(tablePtr)
     Tcl_HashTable *tablePtr;		/* Table for which to produce stats. */
 {
-#define NUM_COUNTERS 10
+#define NUM_COUNTERS TCL_STATS_COUNTERS
     int count[NUM_COUNTERS], overflow, i, j;
     double average, tmp;
     register Tcl_HashEntry *hPtr;

@@ -824,7 +824,7 @@ Tcl_Merge(argc, argv)
     int argc;			/* How many strings to merge. */
     char **argv;		/* Array of string values. */
 {
-#   define LOCAL_SIZE 20
+#   define LOCAL_SIZE TCL_MERGE_STATIC_LIST_SZ
     int localFlags[LOCAL_SIZE], *flagPtr;
     int numChars;
     char *result;

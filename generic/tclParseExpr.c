@@ -7,7 +7,6 @@
  *	code analysis, etc.
  *
  * Copyright (c) 1997 Sun Microsystems, Inc.
- * Copyright (c) 1998-2000 by Scriptics Corporation.
  *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -119,9 +118,6 @@ typedef struct ParseInfo {
 #define NOT		31
 #define BIT_NOT		32
 
-#define STREQ		33
-#define STRNEQ		34
-
 /*
  * Mapping from lexemes to strings; used for debugging messages. These
  * entries must match the order and number of the lexeme definitions above.
@@ -134,7 +130,7 @@ static char *lexemeStrings[] = {
     "*", "/", "%", "+", "-",
     "<<", ">>", "<", ">", "<=", ">=", "==", "!=",
     "&", "^", "|", "&&", "||", "?", ":",
-    "!", "~", "eq", "ne",
+    "!", "~"
 };
 #endif /* TCL_COMPILE_DEBUG */
 
@@ -724,8 +720,7 @@ ParseBitAndExpr(infoPtr)
  * ParseEqualityExpr --
  *
  *	This procedure parses a Tcl equality (inequality) expression:
- *	equalityExpr ::= relationalExpr
- *		{('==' | '!=' | 'ne' | 'eq') relationalExpr}
+ *	equalityExpr ::= relationalExpr {('==' | '!=') relationalExpr}
  *
  * Results:
  *	The return value is TCL_OK on a successful parse and TCL_ERROR
@@ -759,10 +754,9 @@ ParseEqualityExpr(infoPtr)
     }
 
     lexeme = infoPtr->lexeme;
-    while ((lexeme == EQUAL) || (lexeme == NEQ)
-	    || (lexeme == STREQ) || (lexeme == STRNEQ)) {
+    while ((lexeme == EQUAL) || (lexeme == NEQ)) {
 	operator = infoPtr->start;
-	code = GetLexeme(infoPtr); /* skip over ==, !=, 'eq' or 'ne'  */
+	code = GetLexeme(infoPtr); /* skip over == or != */
 	if (code != TCL_OK) {
 	    return code;
 	}
@@ -772,8 +766,7 @@ ParseEqualityExpr(infoPtr)
 	}
 
 	/*
-	 * Generate tokens for the subexpression and '==', '!=', 'eq' or 'ne'
-	 * operator.
+	 * Generate tokens for the subexpression and '==' or '!=' operator.
 	 */
 
 	PrependSubExprTokens(operator, 2, srcStart,
@@ -1129,9 +1122,11 @@ ParsePrimaryExpr(infoPtr)
     Tcl_Parse *parsePtr = infoPtr->parsePtr;
     Tcl_Interp *interp = parsePtr->interp;
     Tcl_Token *tokenPtr, *exprTokenPtr;
-    Tcl_Parse nested;
+    TYPE (Tcl_Parse) nested;
     char *dollarPtr, *stringStart, *termPtr, *src;
     int lexeme, exprIndex, firstIndex, numToMove, code;
+
+    NEWSTRUCT(Tcl_Parse,nested);
 
     /*
      * We simply recurse on parenthesized subexpressions.
@@ -1142,10 +1137,12 @@ ParsePrimaryExpr(infoPtr)
     if (lexeme == OPEN_PAREN) {
 	code = GetLexeme(infoPtr); /* skip over the '(' */
 	if (code != TCL_OK) {
+	  RELSTRUCT(nested);
 	    return code;
 	}
 	code = ParseCondExpr(infoPtr);
 	if (code != TCL_OK) {
+	RELSTRUCT(nested);
 	    return code;
 	}
 	if (infoPtr->lexeme != CLOSE_PAREN) {
@@ -1153,8 +1150,10 @@ ParsePrimaryExpr(infoPtr)
 	}
 	code = GetLexeme(infoPtr); /* skip over the ')' */
 	if (code != TCL_OK) {
+	RELSTRUCT(nested);
 	    return code;
 	}
+	RELSTRUCT(nested);
 	return TCL_OK;
     }
 
@@ -1209,6 +1208,7 @@ ParsePrimaryExpr(infoPtr)
 	code = Tcl_ParseVarName(interp, dollarPtr,
 	        (infoPtr->lastChar - dollarPtr), parsePtr, 1);
 	if (code != TCL_OK) {
+	RELSTRUCT(nested);
 	    return code;
 	}
 	infoPtr->next = dollarPtr + parsePtr->tokenPtr[firstIndex].size;
@@ -1228,6 +1228,7 @@ ParsePrimaryExpr(infoPtr)
 	code = Tcl_ParseQuotedString(interp, infoPtr->start,
 	        (infoPtr->lastChar - stringStart), parsePtr, 1, &termPtr);
 	if (code != TCL_OK) {
+	RELSTRUCT(nested);
 	    return code;
 	}
 	infoPtr->next = termPtr;
@@ -1284,17 +1285,18 @@ ParsePrimaryExpr(infoPtr)
 	src = infoPtr->next;
 	while (1) {
 	    if (Tcl_ParseCommand(interp, src, (parsePtr->end - src), 1,
-		    &nested) != TCL_OK) {
-		parsePtr->term = nested.term;
-		parsePtr->errorType = nested.errorType;
-		parsePtr->incomplete = nested.incomplete;
+		    REF (nested)) != TCL_OK) {
+		parsePtr->term = ITEM (nested,term);
+		parsePtr->errorType = ITEM (nested,errorType);
+		parsePtr->incomplete = ITEM (nested,incomplete);
+	RELSTRUCT(nested);
 		return TCL_ERROR;
 	    }
-	    src = (nested.commandStart + nested.commandSize);
-	    if (nested.tokenPtr != nested.staticTokens) {
-		ckfree((char *) nested.tokenPtr);
+	    src = (ITEM (nested,commandStart) + ITEM (nested,commandSize));
+	    if (ITEM (nested,tokenPtr) != ITEM (nested,staticTokens)) {
+		ckfree((char *) ITEM (nested,tokenPtr));
 	    }
-	    if ((src[-1] == ']') && !nested.incomplete) {
+	    if ((src[-1] == ']') && !ITEM (nested,incomplete)) {
 		break;
 	    }
 	    if (src == parsePtr->end) {
@@ -1305,6 +1307,7 @@ ParsePrimaryExpr(infoPtr)
 		parsePtr->term = tokenPtr->start;
 		parsePtr->errorType = TCL_PARSE_MISSING_BRACKET;
 		parsePtr->incomplete = 1;
+	RELSTRUCT(nested);
 		return TCL_ERROR;
 	    }
 	}
@@ -1325,6 +1328,7 @@ ParsePrimaryExpr(infoPtr)
 	        (infoPtr->lastChar - infoPtr->start), parsePtr, 1,
 		&termPtr);
 	if (code != TCL_OK) {
+	RELSTRUCT(nested);
 	    return code;
 	}
 	infoPtr->next = termPtr;
@@ -1376,6 +1380,7 @@ ParsePrimaryExpr(infoPtr)
 	
 	code = GetLexeme(infoPtr); /* skip over function name */
 	if (code != TCL_OK) {
+	RELSTRUCT(nested);
 	    return code;
 	}
 	if (infoPtr->lexeme != OPEN_PAREN) {
@@ -1383,18 +1388,21 @@ ParsePrimaryExpr(infoPtr)
 	}
 	code = GetLexeme(infoPtr); /* skip over '(' */
 	if (code != TCL_OK) {
+	RELSTRUCT(nested);
 	    return code;
 	}
 
 	while (infoPtr->lexeme != CLOSE_PAREN) {
 	    code = ParseCondExpr(infoPtr);
 	    if (code != TCL_OK) {
+	RELSTRUCT(nested);
 		return code;
 	    }
 	    
 	    if (infoPtr->lexeme == COMMA) {
 		code = GetLexeme(infoPtr); /* skip over , */
 		if (code != TCL_OK) {
+	RELSTRUCT(nested);
 		    return code;
 		}
 	    } else if (infoPtr->lexeme != CLOSE_PAREN) {
@@ -1417,13 +1425,16 @@ ParsePrimaryExpr(infoPtr)
     
     code = GetLexeme(infoPtr);
     if (code != TCL_OK) {
+	RELSTRUCT(nested);
 	return code;
     }
     parsePtr->term = infoPtr->next;
+	RELSTRUCT(nested);
     return TCL_OK;
 
     syntaxError:
     LogSyntaxError(infoPtr);
+	RELSTRUCT(nested);
     return TCL_ERROR;
 }
 
@@ -1742,30 +1753,7 @@ GetLexeme(infoPtr)
 	    infoPtr->lexeme = BIT_NOT;
 	    return TCL_OK;
 
-	case 'e':
-	    if (src[1] == 'q') {
-		infoPtr->lexeme = STREQ;
-		infoPtr->size = 2;
-		infoPtr->next = src+2;
-		parsePtr->term = infoPtr->next;
-		return TCL_OK;
-	    } else {
-		goto checkFuncName;
-	    }
-
-	case 'n':
-	    if (src[1] == 'e') {
-		infoPtr->lexeme = STRNEQ;
-		infoPtr->size = 2;
-		infoPtr->next = src+2;
-		parsePtr->term = infoPtr->next;
-		return TCL_OK;
-	    } else {
-		goto checkFuncName;
-	    }
-
 	default:
-	checkFuncName:
 	    offset = Tcl_UtfToUniChar(src, &ch);
 	    c = UCHAR(ch);
 	    if (isalpha(UCHAR(c))) {	/* INTL: ISO only. */

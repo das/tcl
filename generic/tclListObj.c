@@ -1006,7 +1006,7 @@ static void
 UpdateStringOfList(listPtr)
     Tcl_Obj *listPtr;		/* List object with string rep to update. */
 {
-#   define LOCAL_SIZE 20
+#   define LOCAL_SIZE TCL_MERGE_STATIC_LIST_SZ
     int localFlags[LOCAL_SIZE], *flagPtr;
     List *listRepPtr = (List *) listPtr->internalRep.otherValuePtr;
     int numElems = listRepPtr->elemCount;

@@ -895,7 +895,7 @@ char *
 TclLiteralStats(tablePtr)
     LiteralTable *tablePtr;	/* Table for which to produce stats. */
 {
-#define NUM_COUNTERS 10
+#define NUM_COUNTERS TCL_STATS_COUNTERS
     int count[NUM_COUNTERS], overflow, i, j;
     double average, tmp;
     register LiteralEntry *entryPtr;
