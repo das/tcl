@@ -665,14 +665,9 @@ typedef int (Tcl_CmdProc) _ANSI_ARGS_((ClientData clientData,
 typedef void (Tcl_CmdTraceProc) _ANSI_ARGS_((ClientData clientData,
 	Tcl_Interp *interp, int level, char *command, Tcl_CmdProc *proc,
 	ClientData cmdClientData, int argc, char *argv[]));
-typedef int (Tcl_CmdObjTraceProc) _ANSI_ARGS_(( 
-    ClientData            clientData,
-    Tcl_Interp*           interp,
-    int                   level,
-    CONST char*           command,
-    Tcl_Command           commandInfo,
-    int                   objc,
-    struct Tcl_Obj *CONST objv[] ));
+typedef int (Tcl_CmdObjTraceProc) _ANSI_ARGS_((ClientData clientData,
+	Tcl_Interp *interp, int level, CONST char *command,
+	Tcl_Command commandInfo, int objc, struct Tcl_Obj * CONST * objv));
 typedef void (Tcl_CmdObjTraceDeleteProc) _ANSI_ARGS_((ClientData clientData));
 typedef void (Tcl_DupInternalRepProc) _ANSI_ARGS_((struct Tcl_Obj *srcPtr, 
         struct Tcl_Obj *dupPtr));

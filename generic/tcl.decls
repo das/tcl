@@ -763,7 +763,7 @@ declare 214 generic {
 }
 declare 215 generic {
     void Tcl_RegExpRange(Tcl_RegExp regexp, int index,
-	    CONST char **startPtr, CONST char **endPtr)
+	    CONST84 char **startPtr, CONST84 char **endPtr)
 }
 declare 216 generic {
     void Tcl_Release(ClientData clientData)
@@ -1086,7 +1086,7 @@ declare 303 generic {
 }
 declare 304 generic {
     int Tcl_GetIndexFromObjStruct(Tcl_Interp *interp, Tcl_Obj *objPtr,
-	    CONST char **tablePtr, int offset, CONST char *msg, int flags,
+	    CONST84 char **tablePtr, int offset, CONST char *msg, int flags,
 	    int *indexPtr)
 }
 declare 305 generic {
