@@ -14,10 +14,6 @@
  * RCS: @(#) $Id$
  */
 
-#ifdef TCL_XT_TEST
-#include <X11/Intrinsic.h>
-#endif
-
 #include "tcl.h"
 
 /*
@@ -44,6 +40,7 @@ extern int		TclThread_Init _ANSI_ARGS_((Tcl_Interp *interp));
 #endif /* TCL_TEST */
 
 #ifdef TCL_XT_TEST
+extern void		XtToolkitInitialize _ANSI_ARGS_((void));
 extern int		Tclxttest_Init _ANSI_ARGS_((Tcl_Interp *interp));
 #endif
 
