@@ -555,4 +555,4 @@ AC_SUBST(MAKE_STUB_LIB)
 AC_SUBST(BUILD_DLTEST)
 AC_SUBST(TCL_PACKAGE_PATH)
 
-AC_OUTPUT(Makefile tclConfig.sh)
+AC_OUTPUT(Makefile dltest/Makefile tclConfig.sh)
