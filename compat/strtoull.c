@@ -13,7 +13,7 @@
  */
 
 #include "tcl.h"
-#include "tclPort.h"
+#include "tclInt.h"
 #include <ctype.h>
 
 /*

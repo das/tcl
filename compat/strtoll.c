@@ -13,7 +13,7 @@
  */
 
 #include "tcl.h"
-#include "tclPort.h"
+#include "tclInt.h"
 #include <ctype.h>
 
 #define TCL_WIDEINT_MAX	(((Tcl_WideUInt)Tcl_LongAsWide(-1))>>1)
