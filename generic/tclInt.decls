@@ -185,10 +185,11 @@ declare 41 generic {
 declare 42 generic {
     char *TclpGetUserHome(CONST char *name, Tcl_DString *bufferPtr)
 }
-declare 43 generic {
-    int TclGlobalInvoke(Tcl_Interp *interp, int argc, CONST84 char **argv,
-	    int flags)
-}
+# Removed in Tcl 8.5a2
+#declare 43 generic {
+#    int TclGlobalInvoke(Tcl_Interp *interp, int argc, CONST84 char **argv,
+#	    int flags)
+#}
 declare 44 generic {
     int TclGuessPackageName(CONST char *fileName, Tcl_DString *bufPtr)
 }
@@ -219,9 +220,10 @@ declare 50 generic {
 declare 51 generic {
     int TclInterpInit(Tcl_Interp *interp)
 }
-declare 52 generic {
-    int TclInvoke(Tcl_Interp *interp, int argc, CONST84 char **argv, int flags)
-}
+# Removed in Tcl 8.5a2
+#declare 52 generic {
+#    int TclInvoke(Tcl_Interp *interp, int argc, CONST84 char **argv, int flags)
+#}
 declare 53 generic {
     int TclInvokeObjectCommand(ClientData clientData, Tcl_Interp *interp,
 	    int argc, CONST84 char **argv)
@@ -270,10 +272,11 @@ declare 64 generic {
     int TclObjInvoke(Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[],
 	    int flags)
 }
-declare 65 generic {
-    int TclObjInvokeGlobal(Tcl_Interp *interp, int objc,
-	    Tcl_Obj *CONST objv[], int flags)
-}
+# Removed in Tcl 8.5a2
+#declare 65 generic {
+#    int TclObjInvokeGlobal(Tcl_Interp *interp, int objc,
+#	    Tcl_Obj *CONST objv[], int flags)
+#}
 declare 66 generic {
     int TclOpenFileChannelDeleteProc(TclOpenFileChannelProc_ *proc)
 }
