@@ -5717,7 +5717,7 @@ TclExprFloatError(interp, value)
     char *s;
 
     Tcl_ResetResult(interp);
-    if ((errno == EDOM) || (value != value)) {
+    if ((errno == EDOM) || IS_NAN(value)) {
 	s = "domain error: argument not in valid range";
 	Tcl_AppendToObj(Tcl_GetObjResult(interp), s, -1);
 	Tcl_SetErrorCode(interp, "ARITH", "DOMAIN", s, (char *) NULL);
