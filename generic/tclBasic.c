@@ -3727,6 +3727,16 @@ Tcl_EvalEx(interp, script, numBytes, flags)
 	    return TCL_OK;
 	}
     } while (bytesLeft > 0);
+
+    if (nested) {
+	/*
+	 * This nested script did not terminate in ']', it is an error.
+	 */
+	
+	code = TCL_ERROR;
+	goto error;
+    }
+    
     iPtr->termOffset = p - script;
     iPtr->varFramePtr = savedVarFramePtr;
     return TCL_OK;
