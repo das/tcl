@@ -860,10 +860,10 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 			FindExInfoStandard, &data, 
 			FindExSearchLimitToDirectories, NULL, 0);
 	}
-	Tcl_DStringFree(&ds);
 
 	if (handle == INVALID_HANDLE_VALUE) {
 	    DWORD err = GetLastError();
+	    Tcl_DStringFree(&ds);
 	    if (err == ERROR_FILE_NOT_FOUND) {
 	        /* 
 	         * We used our 'pattern' above, and matched nothing
@@ -881,6 +881,7 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 	    Tcl_DStringFree(&dsOrig);
 	    return TCL_ERROR;
 	}
+	Tcl_DStringFree(&ds);
 
 	/* 
 	 * We may use this later, so we must restore it to its
