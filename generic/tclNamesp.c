@@ -956,6 +956,20 @@ Tcl_Export(interp, namespacePtr, pattern, resetListFirst)
     }
 
     /*
+     * Make sure that we don't already have the pattern in the array
+     */
+    if (nsPtr->exportArrayPtr != NULL) {
+	for (i = 0;  i < nsPtr->numExportPatterns;  i++) {
+	    if (strcmp(pattern, nsPtr->exportArrayPtr[i]) == 0) {
+		/*
+		 * The pattern already exists in the list
+		 */
+		return TCL_OK;
+	    }
+	}
+    }
+
+    /*
      * Make sure there is room in the namespace's pattern array for the
      * new pattern.
      */
