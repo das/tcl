@@ -91,7 +91,8 @@ typedef struct FileEvent {
  * This is defined in tclMacSerial.c.
  */
 
-EXTERN Tcl_Channel TclMacOpenSerialChannel _ANSI_ARGS_((char *fileName, int *errorCode));
+EXTERN Tcl_Channel TclMacOpenSerialChannel _ANSI_ARGS_((Tcl_Interp *interp,
+	char *fileName, int *errorCode));
 
 /*
  * Static routines for this file:
@@ -777,16 +778,13 @@ TclpOpenFileChannel(
      * Look for the magic cookies that refer to the modem ports.
      */
     
-    chan = TclMacOpenSerialChannel(fileName, &errorCode);
-    if (chan == NULL) {
-        nativeName = Tcl_TranslateFileName(interp, fileName, &buffer);
-        if (nativeName == NULL) {
-	    return NULL;
-        }
-
-        chan = OpenFileChannel(nativeName, mode, permissions, &errorCode);
-        Tcl_DStringFree(&buffer);
+    nativeName = Tcl_TranslateFileName(interp, fileName, &buffer);
+    if (nativeName == NULL) {
+	return NULL;
     }
+
+    chan = OpenFileChannel(nativeName, mode, permissions, &errorCode);
+    Tcl_DStringFree(&buffer);
     
     if (chan == NULL) {
 	Tcl_SetErrno(errorCode);
