@@ -47,8 +47,11 @@ meaningful when used with \fB\-sorted\fR.
 .TP
 \fB\-dictionary\fR
 The list elements are to be compared using dictionary-style
-comparisons.  This option is only meaningful when used with
-\fB\-exact\fR or \fB\-sorted\fR.
+comparisons (see \fBlsort\fR for a fuller description).  This option
+is only meaningful when used with \fB\-exact\fR or \fB\-sorted\fR, and
+it is only distinguishable from the \fB\-ascii\fR option when
+the \fB\-sorted\fR option is given, because values are only
+dictionary-equal when exactly equal.
 .TP
 \fB\-exact\fR
 The list element must contain exactly the same string as \fIpattern\fR.
