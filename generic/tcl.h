@@ -20,13 +20,13 @@
 #define _TCL
 
 /*
- *  * For C++ compilers, use extern "C"
- *   */
+ * For C++ compilers, use extern "C"
+ */
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+    
 /*
  * The following defines are used to indicate the various release levels.
  */
@@ -43,10 +43,13 @@ extern "C" {
  * unix/configure.in	(2 LOC Major, 2 LOC minor, 1 LOC patch)
  * win/configure.in	(as above)
  * win/tcl.m4		(not patchlevel)
+ * win/makefile.vc	(not patchlevel) 2 LOC
  * win/makefile.bc	(not patchlevel) 2 LOC
- * README		(sections 0 and 2, with and without separator)
- * macosx/Tcl.pbproj/project.pbxproj (not patchlevel) 2 LOC
- * win/README.binary	(sections 0-4, with and without separator)
+ * README		(sections 0 and 2)
+ * mac/README		(2 LOC, not patchlevel)
+ * macosx/Tcl.pbproj/project.pbxproj
+ * 			(7 LOC total, 2 LOC patch)
+ * win/README.binary	(sections 0-4)
  * win/README		(not patchlevel) (sections 0 and 2)
  * unix/tcl.spec	(2 LOC Major/Minor, 1 LOC patch)
  * tests/basic.test	(1 LOC M/M, not patchlevel)
@@ -57,10 +60,10 @@ extern "C" {
 #define TCL_MAJOR_VERSION   8
 #define TCL_MINOR_VERSION   5
 #define TCL_RELEASE_LEVEL   TCL_ALPHA_RELEASE
-#define TCL_RELEASE_SERIAL  3
+#define TCL_RELEASE_SERIAL  0
 
 #define TCL_VERSION	    "8.5"
-#define TCL_PATCH_LEVEL	    "8.5a3"
+#define TCL_PATCH_LEVEL	    "8.5a0"
 
 /*
  * The following definitions set up the proper options for Windows
@@ -68,13 +71,10 @@ extern "C" {
  */
 
 #ifndef __WIN32__
-#   if defined(_WIN32) || defined(WIN32) || defined(__MINGW32__) || defined(__BORLANDC__) || (defined(__WATCOMC__) && defined(__WINDOWS_386__))
+#   if defined(_WIN32) || defined(WIN32) || defined(__MINGW32__) || defined(__BORLANDC__)
 #	define __WIN32__
 #	ifndef WIN32
 #	    define WIN32
-#	endif
-#	ifndef _WIN32
-#	    define _WIN32
 #	endif
 #   endif
 #endif
@@ -87,6 +87,23 @@ extern "C" {
 #	define STRICT
 #   endif
 #endif /* __WIN32__ */
+
+/*
+ * The following definitions set up the proper options for Macintosh
+ * compilers.  We use this method because there is no autoconf equivalent.
+ */
+
+#ifdef MAC_TCL
+#include <ConditionalMacros.h>
+#   ifndef USE_TCLALLOC
+#	define USE_TCLALLOC 1
+#   endif
+#   ifndef NO_STRERROR
+#	define NO_STRERROR 1
+#   endif
+#   define INLINE 
+#endif
+
 
 /*
  * Utility macros: STRINGIFY takes an argument and wraps it in "" (double
@@ -103,8 +120,9 @@ extern "C" {
 
 /* 
  * A special definition used to allow this header file to be included
- * from windows resource files so that they can obtain version
- * information.  RC_INVOKED is defined by default by the windows RC tool.
+ * from windows or mac resource files so that they can obtain version
+ * information.  RC_INVOKED is defined by default by the windows RC tool
+ * and manually set for macintosh.
  *
  * Resource compilers don't like all the C stuff, like typedefs and
  * procedure declarations, that occur below, so block them out.
@@ -137,16 +155,11 @@ extern "C" {
 #define Tcl_ConditionFinalize(condPtr)
 #endif /* TCL_THREADS */
 
-/*
- * Tcl's public routine Tcl_FSSeek() uses the values SEEK_SET,
- * SEEK_CUR, and SEEK_END, all #define'd by stdio.h .
- *
- * Also, many extensions need stdio.h, and they've grown accustomed
- * to tcl.h providing it for them rather than #include-ing it themselves
- * as they should, so also for their sake, we keep the #include to be
- * consistent with prior Tcl releases.
- */
-#include <stdio.h>
+
+#ifndef BUFSIZ
+#   include <stdio.h>
+#endif
+
 
 /*
  * Definitions that allow Tcl functions with variable numbers of
@@ -182,7 +195,7 @@ extern "C" {
 #   define DLLIMPORT
 #   define DLLEXPORT
 #else
-#   if (defined(__WIN32__) && (defined(_MSC_VER) || (__BORLANDC__ >= 0x0550) || defined(__LCC__) || defined(__WATCOMC__) || (defined(__GNUC__) && defined(__declspec))))
+#   if (defined(__WIN32__) && (defined(_MSC_VER) || (__BORLANDC__ >= 0x0550) || (defined(__GNUC__) && defined(__declspec)))) || (defined(MAC_TCL) && FUNCTION_DECLSPEC)
 #	define DLLIMPORT __declspec(dllimport)
 #	define DLLEXPORT __declspec(dllexport)
 #   else
@@ -341,16 +354,11 @@ typedef long LONG;
  */
 
 #if !defined(TCL_WIDE_INT_TYPE)&&!defined(TCL_WIDE_INT_IS_LONG)
-#   if defined(__GNUC__)
+#   if defined(__CYGWIN__)
 #      define TCL_WIDE_INT_TYPE long long
-#      if defined(__WIN32__) && !defined(__CYGWIN__)
-#         define TCL_LL_MODIFIER        "I64"
-#         define TCL_LL_MODIFIER_SIZE   3
-#      else
-#         define TCL_LL_MODIFIER	"L"
-#         define TCL_LL_MODIFIER_SIZE	1
-#      endif
+#      define TCL_LL_MODIFIER	"L"
 typedef struct stat	Tcl_StatBuf;
+#      define TCL_LL_MODIFIER_SIZE	1
 #   elif defined(__WIN32__)
 #      define TCL_WIDE_INT_TYPE __int64
 #      ifdef __BORLANDC__
@@ -465,15 +473,11 @@ typedef struct Tcl_Interp {
 
 typedef struct Tcl_AsyncHandler_ *Tcl_AsyncHandler;
 typedef struct Tcl_Channel_ *Tcl_Channel;
-typedef struct Tcl_ChannelTypeVersion_ *Tcl_ChannelTypeVersion;
 typedef struct Tcl_Command_ *Tcl_Command;
 typedef struct Tcl_Condition_ *Tcl_Condition;
-typedef struct Tcl_Dict_ *Tcl_Dict;
 typedef struct Tcl_EncodingState_ *Tcl_EncodingState;
 typedef struct Tcl_Encoding_ *Tcl_Encoding;
 typedef struct Tcl_Event Tcl_Event;
-typedef struct Tcl_InterpState_ *Tcl_InterpState;
-typedef struct Tcl_LoadHandle_ *Tcl_LoadHandle;
 typedef struct Tcl_Mutex_ *Tcl_Mutex;
 typedef struct Tcl_Pid_ *Tcl_Pid;
 typedef struct Tcl_RegExp_ *Tcl_RegExp;
@@ -482,6 +486,9 @@ typedef struct Tcl_ThreadId_ *Tcl_ThreadId;
 typedef struct Tcl_TimerToken_ *Tcl_TimerToken;
 typedef struct Tcl_Trace_ *Tcl_Trace;
 typedef struct Tcl_Var_ *Tcl_Var;
+typedef struct Tcl_ChannelTypeVersion_ *Tcl_ChannelTypeVersion;
+typedef struct Tcl_LoadHandle_ *Tcl_LoadHandle;
+typedef struct Tcl_Dict_ *Tcl_Dict;
 
 /*
  * Definition of the interface to procedures implementing threads.
@@ -489,7 +496,9 @@ typedef struct Tcl_Var_ *Tcl_Var;
  * 'Tcl_CreateThread' and will be called as the main fuction of
  * the new thread created by that call.
  */
-#if defined __WIN32__
+#ifdef MAC_TCL
+typedef pascal void *(Tcl_ThreadCreateProc) _ANSI_ARGS_((ClientData clientData));
+#elif defined __WIN32__
 typedef unsigned (__stdcall Tcl_ThreadCreateProc) _ANSI_ARGS_((ClientData clientData));
 #else
 typedef void (Tcl_ThreadCreateProc) _ANSI_ARGS_((ClientData clientData));
@@ -501,7 +510,10 @@ typedef void (Tcl_ThreadCreateProc) _ANSI_ARGS_((ClientData clientData));
  * differences when writing a Tcl_ThreadCreateProc.  See the NewThread
  * function in generic/tclThreadTest.c for it's usage.
  */
-#if defined __WIN32__
+#ifdef MAC_TCL
+#   define Tcl_ThreadCreateType		pascal void *
+#   define TCL_THREAD_CREATE_RETURN	return NULL
+#elif defined __WIN32__
 #   define Tcl_ThreadCreateType		unsigned __stdcall
 #   define TCL_THREAD_CREATE_RETURN	return 0
 #else
@@ -684,8 +696,6 @@ typedef void (Tcl_NamespaceDeleteProc) _ANSI_ARGS_((ClientData clientData));
 typedef int (Tcl_ObjCmdProc) _ANSI_ARGS_((ClientData clientData,
 	Tcl_Interp *interp, int objc, struct Tcl_Obj * CONST * objv));
 typedef int (Tcl_PackageInitProc) _ANSI_ARGS_((Tcl_Interp *interp));
-typedef int (Tcl_PackageUnloadProc) _ANSI_ARGS_((Tcl_Interp *interp,
-                                                 int flags));
 typedef void (Tcl_PanicProc) _ANSI_ARGS_(TCL_VARARGS(CONST char *, format));
 typedef void (Tcl_TcpAcceptProc) _ANSI_ARGS_((ClientData callbackData,
         Tcl_Channel chan, char *address, int port));
@@ -940,8 +950,7 @@ typedef struct Tcl_CmdInfo {
     Tcl_Namespace *namespacePtr; /* Points to the namespace that contains
 				  * this command. Note that Tcl_SetCmdInfo
 				  * will not change a command's namespace;
-				  * use TclRenameCommand or Tcl_Eval (of
-				  * 'rename') to do that. */
+				  * use Tcl_RenameCommand to do that. */
 
 } Tcl_CmdInfo;
 
@@ -983,18 +992,11 @@ typedef struct Tcl_DString {
 #define TCL_INTEGER_SPACE	24
 
 /*
- * Flag values passed to Tcl_ConvertElement.
- * TCL_DONT_USE_BRACES forces it not to enclose the element in braces, but
- * 	to use backslash quoting instead.
- * TCL_DONT_QUOTE_HASH disables the default quoting of the '#' character.
- * 	It is safe to leave the hash unquoted when the element is not the
- * 	first element of a list, and this flag can be used by the caller to
- * 	indicated that condition.
- * (careful!  if you change these flag values be sure to change the
- *  definitions at the front of tclUtil.c).
+ * Flag that may be passed to Tcl_ConvertElement to force it not to
+ * output braces (careful!  if you change this flag be sure to change
+ * the definitions at the front of tclUtil.c).
  */
 #define TCL_DONT_USE_BRACES	1
-#define TCL_DONT_QUOTE_HASH	8
 
 /*
  * Flag that may be passed to Tcl_GetIndexFromObj to force it to disallow
@@ -1003,24 +1005,14 @@ typedef struct Tcl_DString {
 #define TCL_EXACT	1
 
 /*
- * Flag values passed to Tcl_RecordAndEval, Tcl_EvalObj, Tcl_EvalObjv.
+ * Flag values passed to Tcl_RecordAndEval and/or Tcl_EvalObj.
  * WARNING: these bit choices must not conflict with the bit choices
  * for evalFlag bits in tclInt.h!!
- *
- * Meanings:
- *	TCL_NO_EVAL:		Just record this command
- *	TCL_EVAL_GLOBAL:	Execute script in global namespace
- *	TCL_EVAL_DIRECT:	Do not compile this script
- *	TCL_EVAL_INVOKE:	Magical Tcl_EvalObjv mode for aliases/ensembles
- *				o Run in global namespace
- *				o Cut out of error traces
- *				o Don't reset the flags controlling ensemble
- *				  error message rewriting.
  */
 #define TCL_NO_EVAL		0x10000
 #define TCL_EVAL_GLOBAL		0x20000
 #define TCL_EVAL_DIRECT		0x40000
-#define TCL_EVAL_INVOKE		0x80000
+#define TCL_EVAL_INVOKE	        0x80000
 
 /*
  * Special freeProc values that may be passed to Tcl_SetResult (see
@@ -1168,13 +1160,8 @@ struct Tcl_HashEntry {
  *				hash table will attempt to rectify this by
  *				randomising the bits and then using the upper
  *				N bits as the index into the table.
- * TCL_HASH_KEY_SYSTEM_HASH:
- *				If this flag is set then all memory internally
- *                              allocated for the hash table that is not for an
- *                              entry will use the system heap.
  */
 #define TCL_HASH_KEY_RANDOMIZE_HASH 0x1
-#define TCL_HASH_KEY_SYSTEM_HASH    0x2
 
 /*
  * Structure definition for the methods associated with a hash table
@@ -1350,10 +1337,9 @@ typedef struct Tcl_HashSearch {
  */
 
 typedef struct {
-    Tcl_HashSearch search;	/* Search struct for underlying hash table. */
-    int epoch;			/* Epoch marker for dictionary being searched,
-				 * or -1 if search has terminated. */
-    Tcl_Dict dictionaryPtr;	/* Reference to dictionary being searched. */
+    Tcl_HashSearch search;
+    int epoch;
+    Tcl_Dict dictionaryPtr;
 } Tcl_DictSearch;
 
 
@@ -1401,6 +1387,7 @@ typedef enum {
  * The following structure keeps is used to hold a time value, either as
  * an absolute time (the number of seconds from the epoch) or as an
  * elapsed time. On Unix systems the epoch is Midnight Jan 1, 1970 GMT.
+ * On Macintosh systems the epoch is Midnight Jan 1, 1904 GMT.
  */
 typedef struct Tcl_Time {
     long sec;			/* Seconds. */
@@ -1433,7 +1420,7 @@ typedef int (Tcl_WaitForEventProc) _ANSI_ARGS_((Tcl_Time *timePtr));
  * Bits passed to Tcl_DriverClose2Proc to indicate which side of a channel
  * should be closed.
  */
-#define TCL_CLOSE_READ	(1<<1)
+#define TCL_CLOSE_READ		(1<<1)
 #define TCL_CLOSE_WRITE	(1<<2)
 
 /*
@@ -1580,8 +1567,8 @@ typedef struct Tcl_ChannelType {
  * set the channel into blocking or nonblocking mode. They are passed
  * as arguments to the blockModeProc procedure in the above structure.
  */
-#define TCL_MODE_BLOCKING	0	/* Put channel into blocking mode. */
-#define TCL_MODE_NONBLOCKING	1	/* Put channel into nonblocking
+#define TCL_MODE_BLOCKING 0		/* Put channel into blocking mode. */
+#define TCL_MODE_NONBLOCKING 1		/* Put channel into nonblocking
 					 * mode. */
 
 /*
@@ -1619,7 +1606,6 @@ typedef struct Tcl_GlobTypeData {
 #define TCL_GLOB_TYPE_FILE		(1<<4)
 #define TCL_GLOB_TYPE_LINK		(1<<5)
 #define TCL_GLOB_TYPE_SOCK		(1<<6)
-#define TCL_GLOB_TYPE_MOUNT		(1<<7)
 
 #define TCL_GLOB_PERM_RONLY		(1<<0)
 #define TCL_GLOB_PERM_HIDDEN		(1<<1)
@@ -1627,11 +1613,6 @@ typedef struct Tcl_GlobTypeData {
 #define TCL_GLOB_PERM_W			(1<<3)
 #define TCL_GLOB_PERM_X			(1<<4)
 
-/*
- * Flags for the unload callback procedure
- */
-#define TCL_UNLOAD_DETACH_FROM_INTERPRETER   (1<<0)
-#define TCL_UNLOAD_DETACH_FROM_PROCESS       (1<<1)
 
 /*
  * Typedefs for the various filesystem operations:
@@ -1800,7 +1781,7 @@ typedef struct Tcl_Filesystem {
 			     * 'Tcl_FSLink()' call.  Should be
 			     * implemented only if the filesystem supports
 			     * links (reading or creating). */
-    Tcl_FSListVolumesProc *listVolumesProc;
+    Tcl_FSListVolumesProc *listVolumesProc;	    
 			    /* Function to list any filesystem volumes 
 			     * added by this filesystem.  Should be
 			     * implemented only if the filesystem adds
@@ -2078,11 +2059,6 @@ typedef struct Tcl_Token {
  *				more TCL_TOKEN_SUB_EXPR tokens for the
  *				operator's operands. NumComponents is
  *				always 0.
- * TCL_TOKEN_EXPAND_WORD -	This token is just like TCL_TOKEN_WORD
- *				except that it marks a word that began with
- *				the literal character prefix "{expand}".  This
- *				word is marked to be expanded - that is, broken
- *				into words after substitution is complete.
  */
 #define TCL_TOKEN_WORD		1
 #define TCL_TOKEN_SIMPLE_WORD	2
@@ -2092,7 +2068,6 @@ typedef struct Tcl_Token {
 #define TCL_TOKEN_VARIABLE	32
 #define TCL_TOKEN_SUB_EXPR	64
 #define TCL_TOKEN_OPERATOR	128
-#define TCL_TOKEN_EXPAND_WORD	256
 
 /*
  * Parsing error types.  On any parsing error, one of these values
@@ -2211,32 +2186,15 @@ typedef struct Tcl_Parse {
 
 /*
  * The maximum number of bytes that are necessary to represent a single
- * Unicode character in UTF-8.  The valid values should be 3 or 6 (or
- * perhaps 1 if we want to support a non-unicode enabled core).
- * If 3, then Tcl_UniChar must be 2-bytes in size (UCS-2). (default)
- * If 6, then Tcl_UniChar must be 4-bytes in size (UCS-4).
- * At this time UCS-2 mode is the default and recommended mode.
- * UCS-4 is experimental and not recommended.  It works for the core,
- * but most extensions expect UCS-2.
+ * Unicode character in UTF-8.
  */
-#ifndef TCL_UTF_MAX
 #define TCL_UTF_MAX		3
-#endif
 
 /*
  * This represents a Unicode character.  Any changes to this should
  * also be reflected in regcustom.h.
  */
-#if TCL_UTF_MAX > 3
-    /*
-     * unsigned int isn't 100% accurate as it should be a strict 4-byte
-     * value (perhaps wchar_t).  64-bit systems may have troubles.  The
-     * size of this value must be reflected correctly in regcustom.h.
-     */
-typedef unsigned int Tcl_UniChar;
-#else
 typedef unsigned short Tcl_UniChar;
-#endif
 
 /* TIP #59: The following structure is used in calls
  * 'Tcl_RegisterConfig' to provide the system with the embedded
@@ -2250,47 +2208,27 @@ typedef struct Tcl_Config {
 
 
 /*
- * Flags for TIP#143 limits, detailing which limits are active in an
- * interpreter.  Used for Tcl_{Add,Remove}LimitHandler type argument.
+ * Deprecated Tcl procedures:
  */
-
-#define TCL_LIMIT_COMMANDS	0x01
-#define TCL_LIMIT_TIME		0x02
-
-/*
- * Structure containing information about a limit handler to be called
- * when a command- or time-limit is exceeded by an interpreter.
- */
-
-typedef void (Tcl_LimitHandlerProc) _ANSI_ARGS_((ClientData clientData,
-	Tcl_Interp *interp));
-typedef void (Tcl_LimitHandlerDeleteProc) _ANSI_ARGS_((ClientData clientData));
-
-
 #ifndef TCL_NO_DEPRECATED
-
-    /*
-     * Deprecated Tcl procedures:
-     */
-
 #   define Tcl_EvalObj(interp,objPtr) \
 	Tcl_EvalObjEx((interp),(objPtr),0)
 #   define Tcl_GlobalEvalObj(interp,objPtr) \
 	Tcl_EvalObjEx((interp),(objPtr),TCL_EVAL_GLOBAL)
-
-    /*
-     * These function have been renamed. The old names are deprecated,
-     * but we define these macros for backwards compatibilty.
-     */
-
-#   define Tcl_Ckalloc Tcl_Alloc
-#   define Tcl_Ckfree Tcl_Free
-#   define Tcl_Ckrealloc Tcl_Realloc
-#   define Tcl_Return Tcl_SetResult
-#   define Tcl_TildeSubst Tcl_TranslateFileName
-#   define panic Tcl_Panic
-#   define panicVA Tcl_PanicVA
 #endif
+
+
+/*
+ * These function have been renamed. The old names are deprecated, but we
+ * define these macros for backwards compatibilty.
+ */
+#define Tcl_Ckalloc Tcl_Alloc
+#define Tcl_Ckfree Tcl_Free
+#define Tcl_Ckrealloc Tcl_Realloc
+#define Tcl_Return Tcl_SetResult
+#define Tcl_TildeSubst Tcl_TranslateFileName
+#define panic Tcl_Panic
+#define panicVA Tcl_PanicVA
 
 
 /*
@@ -2325,13 +2263,6 @@ EXTERN CONST char *	Tcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp,
 
 #endif
 
-/*
- * Public functions that are not accessible via the stubs table.
- */
-
-EXTERN void Tcl_Main _ANSI_ARGS_((int argc, char **argv,
-	Tcl_AppInitProc *appInitProc));
-
 
 /*
  * Include the public function declarations that are accessible via
@@ -2345,7 +2276,27 @@ EXTERN void Tcl_Main _ANSI_ARGS_((int argc, char **argv,
  * accessible via the stubs table.
  */
 
+/*
+ * tclPlatDecls.h can't be included here on the Mac, as we need
+ * Mac specific headers to define the Mac types used in this file,
+ * but these Mac haders conflict with a number of tk types
+ * and thus can't be included in the globally read tcl.h
+ * This header was originally added here as a fix for bug 5241
+ * (stub link error for symbols in TclPlatStubs table), as a work-
+ * around for the bug on the mac, tclMac.h is included immediately 
+ * after tcl.h in the tcl precompiled header (with DLLEXPORT set).
+ */
+
+#if !defined(MAC_TCL)
 #include "tclPlatDecls.h"
+#endif
+
+/*
+ * Public functions that are not accessible via the stubs table.
+ */
+
+EXTERN void Tcl_Main _ANSI_ARGS_((int argc, char **argv,
+	Tcl_AppInitProc *appInitProc));
 
 /*
  * Convenience declaration of Tcl_AppInit for backwards compatibility.
@@ -2363,8 +2314,8 @@ EXTERN int		Tcl_AppInit _ANSI_ARGS_((Tcl_Interp *interp));
 #endif /* RC_INVOKED */
 
 /*
- *  * end block for C++
- *   */
+ * end block for C++
+ */
 #ifdef __cplusplus
 }
 #endif

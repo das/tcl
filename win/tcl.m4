@@ -257,9 +257,6 @@ AC_DEFUN(SC_ENABLE_THREADS, [
 	# USE_THREAD_ALLOC tells us to try the special thread-based
 	# allocator that significantly reduces lock contention
 	AC_DEFINE(USE_THREAD_ALLOC)
-	# USE_THREAD_STORAGE tells us to use the new generic thread 
-	# storage subsystem. 
-	AC_DEFINE(USE_THREAD_STORAGE)
     else
 	TCL_THREADS=0
 	AC_MSG_RESULT([no (default)])
@@ -305,7 +302,12 @@ AC_DEFUN(SC_ENABLE_SYMBOLS, [
 	DBGX=""
 	AC_MSG_RESULT([no])
 
-	AC_DEFINE(TCL_CFG_OPTIMIZED)
+	# Use result from SC_CONFIG_CFLAGS to determine if
+	# optimization is truly active.
+
+	if [ $OPTIMIZING -eq 1 ]; then
+	    AC_DEFINE(TCL_CFG_OPTIMIZED)
+	fi
     else
 	CFLAGS_DEFAULT='$(CFLAGS_DEBUG)'
 	LDFLAGS_DEFAULT='$(LDFLAGS_DEBUG)'
@@ -439,7 +441,7 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	SHLIB_LD=""
 	SHLIB_LD_LIBS=""
 	LIBS=""
-	LIBS_GUI="-lgdi32 -lcomdlg32 -limm32 -lcomctl32 -lshell32 -lole32 -loleaut32 -luuid"
+	LIBS_GUI="-lgdi32 -lcomdlg32 -limm32 -lcomctl32 -lshell32"
 	STLIB_LD='${AR} cr'
 	RC_OUT=-o
 	RC_TYPE=
@@ -519,7 +521,7 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	EXTRA_CFLAGS="${extra_cflags}"
 
 	CFLAGS_DEBUG=-g
-	CFLAGS_OPTIMIZE="-O2 -fomit-frame-pointer"
+	CFLAGS_OPTIMIZE=-O
 	CFLAGS_WARNING="-Wall -Wconversion"
 	LDFLAGS_DEBUG=
 	LDFLAGS_OPTIMIZE=
@@ -595,25 +597,41 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	-I${MSSDK}/Include"
 	    RC="${MSSDK}/bin/rc.exe"
 	    CFLAGS_DEBUG="-nologo -Zi -Od ${runtime}d"
-	    CFLAGS_OPTIMIZE="-nologo -O2 ${runtime}"
+	    CFLAGS_OPTIMIZE="-nologo -O2 -Gs ${runtime}"
 	    lflags="-MACHINE:IA64 -LIBPATH:${MSSDK}/Lib/IA64 \
 	-LIBPATH:${MSSDK}/Lib/Prerelease/IA64"
 	    STLIB_LD="${MSSDK}/bin/win64/lib.exe -nologo ${lflags}"
 	    LINKBIN="${MSSDK}/bin/win64/link.exe ${lflags}"
 	else
 	    RC="rc"
-	    # -Od - no optimization
-	    # -WX - warnings as errors
 	    CFLAGS_DEBUG="-nologo -Z7 -Od -WX ${runtime}d"
-	    # -O2 - create fast code (/Og /Oi /Ot /Oy /Ob2 /Gs /GF /Gy)
-	    CFLAGS_OPTIMIZE="-nologo -O2 ${runtime}"
-	    STLIB_LD="link -lib -nologo"
-	    LINKBIN="link"
+	    CFLAGS_OPTIMIZE="-nologo -Oti -Gs -GD ${runtime}"
+	    STLIB_LD="lib -nologo"
+	    LINKBIN="link -link50compat"
+
+	    # TIP #59
+	    # A check borrowed from 'rules.vc' to determine if the
+	    # compiler actually supports optimization. If not we do
+	    # not try to use this feature.
+
+	    lines=`$(CC) -nologo -Ox -c -Zs -TC -Fdtemp nul 2>&1 | grep "D4002" | wc -l`
+
+	    for f in temp.idb temp.pdb ; do
+		if [ -f $f ]; then
+		     rm -f $f
+		fi
+	    done
+	    if [ $lines -gt 0 ]; then
+		OPTIMIZING=1
+	    else
+		OPTIMIZING=0
+		CFLAGS_OPTIMIZE="-nologo -Oti -Gs -GD ${runtime}"
+	    fi
 	fi
 
 	SHLIB_LD="${LINKBIN} -dll -nologo -incremental:no"
 	LIBS="user32.lib advapi32.lib"
-	LIBS_GUI="gdi32.lib comdlg32.lib imm32.lib comctl32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib"
+	LIBS_GUI="gdi32.lib comdlg32.lib imm32.lib comctl32.lib shell32.lib"
 	RC_OUT=-fo
 	RC_TYPE=-r
 	RC_INCLUDE=-i
@@ -624,7 +642,7 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	MAKE_EXE="\${CC} -Fe\[$]@"
 	LIBPREFIX=""
 
-	EXTRA_CFLAGS=""
+	EXTRA_CFLAGS="-YX"
 	CFLAGS_WARNING="-W3"
 	LDFLAGS_DEBUG="-debug:full -debugtype:both"
 	LDFLAGS_OPTIMIZE="-release"

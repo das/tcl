@@ -12,7 +12,7 @@
  * RCS: @(#) $Id$
  */
 
-#include "tclInt.h"
+#include "tclWinInt.h"
 
 #define SECSPERDAY (60L * 60L * 24L)
 #define SECSPERYEAR (SECSPERDAY * 365L)
@@ -121,6 +121,8 @@ static TimeInfo timeInfo = {
     0
 };
 
+CONST static FILETIME posixEpoch = { 0xD53E8000, 0x019DB1DE };
+    
 /*
  * Declarations for functions defined later in this file.
  */
@@ -226,7 +228,7 @@ TclpGetTimeZone (currentTime)
     int timeZone;
 
     tzset();
-    timeZone = timezone / 60;
+    timeZone = _timezone / 60;
 
     return timeZone;
 }
@@ -300,13 +302,8 @@ Tcl_GetTime(timePtr)
 	     * appears to fiddle with the definition of the perf counter
 	     * frequency (perhaps in an attempt to calibrate the clock?)
 	     * we use the latter rule rather than an exact match.
-	     *
-	     * We also assume (perhaps questionably) that the vendors 
-	     * have gotten their act together on Win64, so bypass all
-	     * this rubbish on that platform.
 	     */
 
-#if !defined(_WIN64)
 	    if ( timeInfo.perfCounterAvailable
 		 /* The following lines would do an exact match on
 		  * crystal frequency:
@@ -314,39 +311,8 @@ Tcl_GetTime(timePtr)
 		  * && timeInfo.nominalFreq.QuadPart != (Tcl_WideInt) 3579545
 		  */
 		 && timeInfo.nominalFreq.QuadPart > (Tcl_WideInt) 15000000 ) {
-
-		/*
-		 * As an exception, if every logical processor on the system
-		 * is on the same chip, we use the performance counter anyway,
-		 * presuming that everyone's TSC is locked to the same
-		 * oscillator.
-		 */
-
-		SYSTEM_INFO systemInfo;
-		unsigned int regs[4];
-		GetSystemInfo( &systemInfo );
-		if ( TclWinCPUID( 0, regs ) == TCL_OK
-
-		     && regs[1] == 0x756e6547 /* "Genu" */
-		     && regs[3] == 0x49656e69 /* "ineI" */
-		     && regs[2] == 0x6c65746e /* "ntel" */
-
-		     && TclWinCPUID( 1, regs ) == TCL_OK 
-
-		     && ( (regs[0] & 0x00000F00) == 0x00000F00 /* Pentium 4 */
-			  || ( (regs[0] & 0x00F00000)    /* Extended family */
-			       && (regs[3] & 0x10000000) ) ) /* Hyperthread */
-		     && ( ( ( regs[1] & 0x00FF0000 ) >> 16 ) /* CPU count */
-			  == systemInfo.dwNumberOfProcessors ) 
-
-		    ) {
-		    timeInfo.perfCounterAvailable = TRUE;
-		} else {
-		    timeInfo.perfCounterAvailable = FALSE;
-		}
-
+		timeInfo.perfCounterAvailable = FALSE;
 	    }
-#endif /* above code is Win32 only */
 
 	    /*
 	     * If the performance counter is available, start a thread to
@@ -470,11 +436,7 @@ StopCalibration( ClientData unused )
 				/* Client data is unused */
 {
     SetEvent( timeInfo.exitEvent );
-    /*
-     * If Tcl_Finalize was called from DllMain, the calibration thread
-     * is in a paused state so we need to timeout and continue.
-     */
-    WaitForSingleObject( timeInfo.calibrationThread, 100 );
+    WaitForSingleObject( timeInfo.calibrationThread, INFINITE );
     CloseHandle( timeInfo.exitEvent );
     CloseHandle( timeInfo.calibrationThread );
 }
@@ -585,11 +547,12 @@ TclpGetTZName(int dst)
 
 struct tm *
 TclpGetDate(t, useGMT)
-    CONST time_t *t;
+    TclpTime_t t;
     int useGMT;
 {
+    const time_t *tp = (const time_t *) t;
     struct tm *tmPtr;
-    time_t time;
+    long time;
 
     if (!useGMT) {
 	tzset();
@@ -600,24 +563,11 @@ TclpGetDate(t, useGMT)
 	 * algorithm ignores daylight savings time before the epoch.
 	 */
 
-	/*
-	  Hm, Borland's localtime manages to return NULL under certain
-	  circumstances (e.g. wintime.test, test 1.2). Nobody tests for this,
-	  since 'localtime' isn't supposed to do this, possibly leading to
-	  crashes.
-	  Patch: We only call this function if we are at least one day into
-	  the epoch, else we handle it ourselves (like we do for times < 0).
-	  H. Giese, June 2003
-	*/
-#ifdef __BORLANDC__
-	if (*t >= SECSPERDAY) {
-#else
-	if (*t >= 0) {
-#endif
-	    return TclpLocaltime(t);
+	if (*tp >= 0) {
+	    return localtime(tp);
 	}
 
-	time = *t - timezone;
+	time = *tp - _timezone;
 	
 	/*
 	 * If we aren't near to overflowing the long, just add the bias and
@@ -625,11 +575,11 @@ TclpGetDate(t, useGMT)
 	 * the result at the end.
 	 */
 
-	if (*t < (LONG_MAX - 2 * SECSPERDAY)
-		&& *t > (LONG_MIN + 2 * SECSPERDAY)) {
+	if (*tp < (LONG_MAX - 2 * SECSPERDAY)
+		&& *tp > (LONG_MIN + 2 * SECSPERDAY)) {
 	    tmPtr = ComputeGMT(&time);
 	} else {
-	    tmPtr = ComputeGMT(t);
+	    tmPtr = ComputeGMT(tp);
 
 	    tzset();
 
@@ -638,7 +588,7 @@ TclpGetDate(t, useGMT)
 	     * Propagate seconds overflow into minutes, hours and days.
 	     */
 
-	    time = tmPtr->tm_sec - timezone;
+	    time = tmPtr->tm_sec - _timezone;
 	    tmPtr->tm_sec = (int)(time % 60);
 	    if (tmPtr->tm_sec < 0) {
 		tmPtr->tm_sec += 60;
@@ -665,7 +615,7 @@ TclpGetDate(t, useGMT)
 	    tmPtr->tm_wday = (tmPtr->tm_wday + time) % 7;
 	}
     } else {
-	tmPtr = ComputeGMT(t);
+	tmPtr = ComputeGMT(tp);
     }
     return tmPtr;
 }
@@ -1119,66 +1069,4 @@ AccumulateSample( Tcl_WideInt perfCounter,
 	
 	return estFreq;
     }
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * TclpGmtime --
- *
- *	Wrapper around the 'gmtime' library function to make it thread
- *	safe.
- *
- * Results:
- *	Returns a pointer to a 'struct tm' in thread-specific data.
- *
- * Side effects:
- *	Invokes gmtime or gmtime_r as appropriate.
- *
- *----------------------------------------------------------------------
- */
-
-struct tm *
-TclpGmtime( timePtr )
-    CONST time_t *timePtr;	/* Pointer to the number of seconds
-				 * since the local system's epoch */
-
-{
-    /*
-     * The MS implementation of gmtime is thread safe because
-     * it returns the time in a block of thread-local storage,
-     * and Windows does not provide a Posix gmtime_r function.
-     */
-    return gmtime( timePtr );
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * TclpLocaltime --
- *
- *	Wrapper around the 'localtime' library function to make it thread
- *	safe.
- *
- * Results:
- *	Returns a pointer to a 'struct tm' in thread-specific data.
- *
- * Side effects:
- *	Invokes localtime or localtime_r as appropriate.
- *
- *----------------------------------------------------------------------
- */
-
-struct tm *
-TclpLocaltime( timePtr )
-    CONST time_t *timePtr;	/* Pointer to the number of seconds
-				 * since the local system's epoch */
-
-{
-    /*
-     * The MS implementation of localtime is thread safe because
-     * it returns the time in a block of thread-local storage,
-     * and Windows does not provide a Posix localtime_r function.
-     */
-    return localtime( timePtr );
 }

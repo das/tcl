@@ -22,7 +22,6 @@
 #define DOTREE_PRED   1     /* pre-order directory  */
 #define DOTREE_POSTD  2     /* post-order directory */
 #define DOTREE_F      3     /* regular file */
-#define DOTREE_LINK   4     /* symbolic link */
 
 /*
  * Callbacks for file attributes code.
@@ -82,27 +81,6 @@ static void *INITIAL_ESP,
             *RESTORED_EBP,
             *RESTORED_HANDLER;
 #endif /* HAVE_NO_SEH && TCL_MEM_DEBUG */
-
-#ifdef HAVE_NO_SEH
-static
-__attribute__ ((cdecl))
-EXCEPTION_DISPOSITION
-_except_dorenamefile_handler(
-    struct _EXCEPTION_RECORD *ExceptionRecord,
-    void *EstablisherFrame,
-    struct _CONTEXT *ContextRecord,
-    void *DispatcherContext);
-
-static
-__attribute__ ((cdecl))
-EXCEPTION_DISPOSITION
-_except_docopyfile_handler(
-    struct _EXCEPTION_RECORD *ExceptionRecord,
-    void *EstablisherFrame,
-    struct _CONTEXT *ContextRecord,
-    void *DispatcherContext);
-
-#endif /* HAVE_NO_SEH */
 
 /*
  * Prototype for the TraverseWinTree callback function.
@@ -202,7 +180,7 @@ DoRenameFile(
      */
 
     if (nativeSrc == NULL || nativeSrc[0] == '\0' ||
-	    nativeDst == NULL || nativeDst[0] == '\0') {
+        nativeDst == NULL || nativeDst[0] == '\0') {
 	Tcl_SetErrno(ENOENT);
 	return TCL_ERROR;
     }
@@ -224,13 +202,10 @@ DoRenameFile(
 # endif /* TCL_MEM_DEBUG */
 
     __asm__ __volatile__ (
-            "pushl %%ebp" "\n\t"
-            "pushl %0" "\n\t"
-            "pushl %%fs:0" "\n\t"
-            "movl  %%esp, %%fs:0"
-            :
-            : "r" (_except_dorenamefile_handler)
-            );
+            "pushl %ebp" "\n\t"
+            "pushl $__except_dorenamefile_handler" "\n\t"
+            "pushl %fs:0" "\n\t"
+            "movl  %esp, %fs:0");
 #else
     __try {
 #endif /* HAVE_NO_SEH */
@@ -261,15 +236,12 @@ DoRenameFile(
               "=m"(RESTORED_EBP),
               "=r"(RESTORED_HANDLER) );
 
-    if (INITIAL_ESP != RESTORED_ESP) {
-        Tcl_Panic("ESP restored incorrectly");
-    }
-    if (INITIAL_EBP != RESTORED_EBP) {
-        Tcl_Panic("EBP restored incorrectly");
-    }
-    if (INITIAL_HANDLER != RESTORED_HANDLER) {
-        Tcl_Panic("HANDLER restored incorrectly");
-    }
+    if (INITIAL_ESP != RESTORED_ESP)
+        panic("ESP restored incorrectly");
+    if (INITIAL_EBP != RESTORED_EBP)
+        panic("EBP restored incorrectly");
+    if (INITIAL_HANDLER != RESTORED_HANDLER)
+        panic("HANDLER restored incorrectly");
 # endif /* TCL_MEM_DEBUG */
 #else
     } __except (EXCEPTION_EXECUTE_HANDLER) {}
@@ -278,9 +250,8 @@ DoRenameFile(
     /*
      * Avoid using control flow statements in the SEH guarded block!
      */
-    if (retval != -1) {
+    if (retval != -1)
         return retval;
-    }
 
     TclWinConvertError(GetLastError());
 
@@ -336,8 +307,8 @@ DoRenameFile(
 	     * source path.  This is true if the prefix matches, and the next
 	     * character is either end-of-string or a directory separator
 	     */
-	    if ((strncmp(src, dst, (size_t) Tcl_DStringLength(&srcString))==0) 
-		    && (dst[Tcl_DStringLength(&srcString)] == '\\'
+	    if ((strncmp(src, dst, (size_t) Tcl_DStringLength(&srcString)) == 0) 
+		&& (dst[Tcl_DStringLength(&srcString)] == '\\'
 		    || dst[Tcl_DStringLength(&srcString)] == '/'
 		    || dst[Tcl_DStringLength(&srcString)] == '\0')) {
 		/*
@@ -504,22 +475,6 @@ DoRenameFile(
     }
     return TCL_ERROR;
 }
-
-/*
- *----------------------------------------------------------------------
- *
- * _except_dorenamefile_handler --
- *
- *	SEH exception handler for DoRenameFile.
- *
- * Results:
- *	See DoRenameFile.
- *
- * Side effects:
- *	See DoRenameFile.
- *
- *----------------------------------------------------------------------
- */
 #ifdef HAVE_NO_SEH
 static
 __attribute__ ((cdecl))
@@ -532,6 +487,8 @@ _except_dorenamefile_handler(
 {
     __asm__ __volatile__ (
             "jmp dorenamefile_reentry");
+    /* Nuke compiler warning about unused static function */
+    _except_dorenamefile_handler(NULL, NULL, NULL, NULL);
     return 0; /* Function does not return */
 }
 #endif /* HAVE_NO_SEH */
@@ -585,7 +542,7 @@ DoCopyFile(
      */
 
     if (nativeSrc == NULL || nativeSrc[0] == '\0' ||
-	    nativeDst == NULL || nativeDst[0] == '\0') {
+        nativeDst == NULL || nativeDst[0] == '\0') {
 	Tcl_SetErrno(ENOENT);
 	return TCL_ERROR;
     }
@@ -607,13 +564,10 @@ DoCopyFile(
 # endif /* TCL_MEM_DEBUG */
 
     __asm__ __volatile__ (
-            "pushl %%ebp" "\n\t"
-            "pushl %0" "\n\t"
-            "pushl %%fs:0" "\n\t"
-            "movl  %%esp, %%fs:0"
-            :
-            : "r" (_except_docopyfile_handler)
-            );
+            "pushl %ebp" "\n\t"
+            "pushl $__except_docopyfile_handler" "\n\t"
+            "pushl %fs:0" "\n\t"
+            "movl  %esp, %fs:0");
 #else
     __try {
 #endif /* HAVE_NO_SEH */
@@ -644,15 +598,12 @@ DoCopyFile(
               "=m"(RESTORED_EBP),
               "=r"(RESTORED_HANDLER) );
 
-    if (INITIAL_ESP != RESTORED_ESP) {
-        Tcl_Panic("ESP restored incorrectly");
-    }
-    if (INITIAL_EBP != RESTORED_EBP) {
-        Tcl_Panic("EBP restored incorrectly");
-    }
-    if (INITIAL_HANDLER != RESTORED_HANDLER) {
-        Tcl_Panic("HANDLER restored incorrectly");
-    }
+    if (INITIAL_ESP != RESTORED_ESP)
+        panic("ESP restored incorrectly");
+    if (INITIAL_EBP != RESTORED_EBP)
+        panic("EBP restored incorrectly");
+    if (INITIAL_HANDLER != RESTORED_HANDLER)
+        panic("HANDLER restored incorrectly");
 # endif /* TCL_MEM_DEBUG */
 #else
     } __except (EXCEPTION_EXECUTE_HANDLER) {}
@@ -661,9 +612,8 @@ DoCopyFile(
     /*
      * Avoid using control flow statements in the SEH guarded block!
      */
-    if (retval != -1) {
+    if (retval != -1)
         return retval;
-    }
 
     TclWinConvertError(GetLastError());
     if (Tcl_GetErrno() == EBADF) {
@@ -707,22 +657,6 @@ DoCopyFile(
     }
     return TCL_ERROR;
 }
-
-/*
- *----------------------------------------------------------------------
- *
- * _except_docopyfile_handler --
- *
- *	SEH exception handler for DoCopyFile.
- *
- * Results:
- *	See DoCopyFile.
- *
- * Side effects:
- *	See DoCopyFile.
- *
- *----------------------------------------------------------------------
- */
 #ifdef HAVE_NO_SEH
 static
 __attribute__ ((cdecl))
@@ -735,6 +669,7 @@ _except_docopyfile_handler(
 {
     __asm__ __volatile__ (
             "jmp docopyfile_reentry");
+    _except_docopyfile_handler(NULL,NULL,NULL,NULL);
     return 0; /* Function does not return */
 }
 #endif /* HAVE_NO_SEH */
@@ -927,13 +862,12 @@ TclpObjCopyDirectory(srcPathPtr, destPathPtr, errorPtr)
 {
     Tcl_DString ds;
     Tcl_DString srcString, dstString;
-    Tcl_Obj *normSrcPtr, *normDestPtr;
     int ret;
 
-    normSrcPtr = Tcl_FSGetNormalizedPath(NULL,srcPathPtr);
-    Tcl_WinUtfToTChar(Tcl_GetString(normSrcPtr), -1, &srcString);
-    normDestPtr = Tcl_FSGetNormalizedPath(NULL,destPathPtr);
-    Tcl_WinUtfToTChar(Tcl_GetString(normDestPtr), -1, &dstString);
+    Tcl_WinUtfToTChar(Tcl_FSGetTranslatedStringPath(NULL,srcPathPtr), 
+		      -1, &srcString);
+    Tcl_WinUtfToTChar(Tcl_FSGetTranslatedStringPath(NULL,destPathPtr), 
+		      -1, &dstString);
 
     ret = TraverseWinTree(TraversalCopy, &srcString, &dstString, &ds);
 
@@ -941,13 +875,7 @@ TclpObjCopyDirectory(srcPathPtr, destPathPtr, errorPtr)
     Tcl_DStringFree(&dstString);
 
     if (ret != TCL_OK) {
-	if (!strcmp(Tcl_DStringValue(&ds), Tcl_GetString(normSrcPtr))) {
-	    *errorPtr = srcPathPtr;
-	} else if (!strcmp(Tcl_DStringValue(&ds), Tcl_GetString(normDestPtr))) {
-	    *errorPtr = destPathPtr;
-	} else {
-	    *errorPtr = Tcl_NewStringObj(Tcl_DStringValue(&ds), -1);
-	}
+	*errorPtr = Tcl_NewStringObj(Tcl_DStringValue(&ds), -1);
 	Tcl_DStringFree(&ds);
 	Tcl_IncrRefCount(*errorPtr);
     }
@@ -990,7 +918,6 @@ TclpObjRemoveDirectory(pathPtr, recursive, errorPtr)
     Tcl_Obj **errorPtr;
 {
     Tcl_DString ds;
-    Tcl_Obj *normPtr = NULL;
     int ret;
     if (recursive) {
 	/* 
@@ -999,8 +926,8 @@ TclpObjRemoveDirectory(pathPtr, recursive, errorPtr)
 	 * optimize this case easily.
 	 */
 	Tcl_DString native;
-	normPtr = Tcl_FSGetNormalizedPath(NULL, pathPtr);
-	Tcl_WinUtfToTChar(Tcl_GetString(normPtr), -1, &native);
+	Tcl_WinUtfToTChar(Tcl_FSGetTranslatedStringPath(NULL, pathPtr), 
+			  -1, &native);
 	ret = DoRemoveDirectory(&native, recursive, &ds);
 	Tcl_DStringFree(&native);
     } else {
@@ -1010,12 +937,7 @@ TclpObjRemoveDirectory(pathPtr, recursive, errorPtr)
     if (ret != TCL_OK) {
 	int len = Tcl_DStringLength(&ds);
 	if (len > 0) {
-	    if (normPtr != NULL &&
-		    !strcmp(Tcl_DStringValue(&ds), TclGetString(normPtr))) {
-		*errorPtr = pathPtr;
-	    } else {
-		*errorPtr = Tcl_NewStringObj(Tcl_DStringValue(&ds), -1);
-	    }
+	    *errorPtr = Tcl_NewStringObj(Tcl_DStringValue(&ds), -1);
 	    Tcl_IncrRefCount(*errorPtr);
 	}
 	Tcl_DStringFree(&ds);
@@ -1034,7 +956,6 @@ DoRemoveJustDirectory(
 				 * DString filled with UTF-8 name of file
 				 * causing error. */
 {
-    DWORD attr;
     /*
      * The RemoveDirectory API acts differently under Win95/98 and NT
      * WRT NULL and "". Avoid passing these values.
@@ -1045,24 +966,13 @@ DoRemoveJustDirectory(
 	goto end;
     }
 
-    attr = (*tclWinProcs->getFileAttributesProc)(nativePath);
-
-    if (attr & FILE_ATTRIBUTE_REPARSE_POINT) {
-	/* It is a symbolic link -- remove it */
-	if (TclWinSymLinkDelete(nativePath, 0) == 0) {
-	    return TCL_OK;
-	}
-    } else {
-	/* Ordinary directory */
-	if ((*tclWinProcs->removeDirectoryProc)(nativePath) != FALSE) {
-	    return TCL_OK;
-	}
+    if ((*tclWinProcs->removeDirectoryProc)(nativePath) != FALSE) {
+	return TCL_OK;
     }
-    
     TclWinConvertError(GetLastError());
 
     if (Tcl_GetErrno() == EACCES) {
-	attr = (*tclWinProcs->getFileAttributesProc)(nativePath);
+	DWORD attr = (*tclWinProcs->getFileAttributesProc)(nativePath);
 	if (attr != 0xffffffff) {
 	    if ((attr & FILE_ATTRIBUTE_DIRECTORY) == 0) {
 		/* 
@@ -1098,7 +1008,6 @@ DoRemoveJustDirectory(
 	     * Windows 95 and Win32s report removing a non-empty directory 
 	     * as EACCES, not EEXIST.  If the directory is not empty,
 	     * change errno so caller knows what's going on.
-
 	     */
 
 	    if (TclWinGetPlatformId() != VER_PLATFORM_WIN32_NT) {
@@ -1244,16 +1153,6 @@ TraverseWinTree(
 	nativeErrfile = nativeSource;
 	goto end;
     }
-    
-    if (sourceAttr & FILE_ATTRIBUTE_REPARSE_POINT) {
-	/*
-	 * Process the symbolic link
-	 */
-
-	return (*traverseProc)(nativeSource, nativeTarget, 
-			       DOTREE_LINK, errorPtr);
-    }
-    
     if ((sourceAttr & FILE_ATTRIBUTE_DIRECTORY) == 0) {
 	/*
 	 * Process the regular file
@@ -1270,7 +1169,7 @@ TraverseWinTree(
     }
     nativeSource = (TCHAR *) Tcl_DStringValue(sourcePtr);
     handle = (*tclWinProcs->findFirstFileProc)(nativeSource, &data);
-    if (handle == INVALID_HANDLE_VALUE) {
+    if (handle == INVALID_HANDLE_VALUE) {      
 	/* 
 	 * Can't read directory
 	 */
@@ -1432,17 +1331,10 @@ TraversalCopy(
 	    }
 	    break;
 	}
-	case DOTREE_LINK: {
-	    if (TclWinSymLinkCopyDirectory(nativeSrc, nativeDst) == TCL_OK) {
-		return TCL_OK;
-	    }
-	    break;
-	}
 	case DOTREE_PRED: {
 	    if (DoCreateDirectory(nativeDst) == TCL_OK) {
 		DWORD attr = (*tclWinProcs->getFileAttributesProc)(nativeSrc);
-		if ((*tclWinProcs->setFileAttributesProc)(nativeDst, attr) 
-			!= FALSE) {
+		if ((*tclWinProcs->setFileAttributesProc)(nativeDst, attr) != FALSE) {
 		    return TCL_OK;
 		}
 		TclWinConvertError(GetLastError());
@@ -1501,12 +1393,6 @@ TraversalDelete(
 	    }
 	    break;
 	}
-	case DOTREE_LINK: {
-	    if (DoRemoveJustDirectory(nativeSrc, 0, NULL) == TCL_OK) {
-		return TCL_OK;
-	    }
-	    break;
-	}
 	case DOTREE_PRED: {
 	    return TCL_OK;
 	}
@@ -1548,8 +1434,10 @@ StatError(
 				 * error. */
 {
     TclWinConvertError(GetLastError());
-    Tcl_AppendResult(interp, "could not read \"", Tcl_GetString(fileName), 
-	    "\": ", Tcl_PosixError(interp), (char *) NULL);
+    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), 
+			   "could not read \"", Tcl_GetString(fileName), 
+			   "\": ", Tcl_PosixError(interp), 
+			   (char *) NULL);
 }
 
 /*
@@ -1611,7 +1499,7 @@ GetWinFileAttributes(
 		/* Path is pointing to the root volume */
 		attr = 0;
 	    } else if ((str[1] == ':') 
-		    && (len == 2 || (str[2] == '/' || str[2] == '\\'))) {
+		       && (len == 2 || (str[2] == '/' || str[2] == '\\'))) {
 		/* Path is of the form 'x:' or 'x:/' or 'x:\' */
 		attr = 0;
 	    }
@@ -1655,25 +1543,21 @@ ConvertFileNameFormat(
 {
     int pathc, i;
     Tcl_Obj *splitPath;
+    int result = TCL_OK;
 
     splitPath = Tcl_FSSplitPath(fileName, &pathc);
-    
+
     if (splitPath == NULL || pathc == 0) {
 	if (interp != NULL) {
-	    Tcl_AppendResult(interp, "could not read \"",
-		    Tcl_GetString(fileName), "\": no such file or directory", 
-		    (char *) NULL);
+	    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), 
+		"could not read \"", Tcl_GetString(fileName),
+		"\": no such file or directory", 
+		(char *) NULL);
 	}
+	result = TCL_ERROR;
 	goto cleanup;
     }
     
-    /*
-     * We will decrement this again at the end.  It is safer to
-     * do this in case any of the calls below retain a reference
-     * to splitPath.
-     */
-    Tcl_IncrRefCount(splitPath);
-
     for (i = 0; i < pathc; i++) {
 	Tcl_Obj *elt;
 	char *pathv;
@@ -1681,8 +1565,10 @@ ConvertFileNameFormat(
 	Tcl_ListObjIndex(NULL, splitPath, i, &elt);
 	
 	pathv = Tcl_GetStringFromObj(elt, &pathLen);
-	if ((pathv[0] == '/') || ((pathLen == 3) && (pathv[1] == ':'))
-		|| (strcmp(pathv, ".") == 0) || (strcmp(pathv, "..") == 0)) {
+	if ((pathv[0] == '/')
+		|| ((pathLen == 3) && (pathv[1] == ':'))
+		|| (strcmp(pathv, ".") == 0)
+		|| (strcmp(pathv, "..") == 0)) {
 	    /*
 	     * Handle "/", "//machine/export", "c:/", "." or ".." by just
 	     * copying the string literally.  Uppercase the drive letter,
@@ -1736,6 +1622,7 @@ ConvertFileNameFormat(
 		if (interp != NULL) {
 		    StatError(interp, fileName);
 		}
+		result = TCL_ERROR;
 		goto cleanup;
 	    }
 	    if (tclWinProcs->useWide) {
@@ -1793,27 +1680,13 @@ ConvertFileNameFormat(
     }
 
     *attributePtrPtr = Tcl_FSJoinPath(splitPath, -1);
-    
-    if (splitPath != NULL) {
-	/* 
-	 * Unfortunately, the object we will return may have its only
-	 * refCount as part of the list splitPath.  This means if
-	 * we free splitPath, the object will disappear.  So, we
-	 * have to be very careful here.  Unfortunately this means
-	 * we must manipulate the object's refCount directly.
-	 */
-	Tcl_IncrRefCount(*attributePtrPtr);
-	Tcl_DecrRefCount(splitPath);
-	--(*attributePtrPtr)->refCount;
-    }
-    return TCL_OK;
 
-  cleanup:
+cleanup:
     if (splitPath != NULL) {
 	Tcl_DecrRefCount(splitPath);
     }
   
-    return TCL_ERROR;
+    return result;
 }
 
 /*
@@ -1954,9 +1827,10 @@ CannotSetAttribute(
     Tcl_Obj *fileName,	        /* The name of the file. */
     Tcl_Obj *attributePtr)	/* The new value of the attribute. */
 {
-    Tcl_AppendResult(interp, "cannot set attribute \"",
-	    tclpFileAttrStrings[objIndex], "\" for file \"",
-	    Tcl_GetString(fileName), "\": attribute is readonly",
+    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), 
+	    "cannot set attribute \"", tclpFileAttrStrings[objIndex],
+	    "\" for file \"", Tcl_GetString(fileName), 
+	    "\": attribute is readonly", 
 	    (char *) NULL);
     return TCL_ERROR;
 }
@@ -2010,7 +1884,7 @@ TclpObjListVolumes(void)
 
 	for (i = 0; i < 26; i++) {
 	    buf[0] = (char) ('a' + i);
-	    if (GetVolumeInformationA(buf, NULL, 0, NULL, NULL, NULL, NULL, 0)
+	    if (GetVolumeInformationA(buf, NULL, 0, NULL, NULL, NULL, NULL, 0)  
 		    || (GetLastError() == ERROR_NOT_READY)) {
 		elemPtr = Tcl_NewStringObj(buf, -1);
 		Tcl_ListObjAppendElement(NULL, resultPtr, elemPtr);

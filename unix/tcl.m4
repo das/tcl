@@ -33,13 +33,6 @@ AC_DEFUN(SC_PATH_TCLCONFIG, [
 
 	    # First check to see if --with-tcl was specified.
 	    if test x"${with_tclconfig}" != x ; then
-		case ${with_tclconfig} in
-		    */tclConfig.sh )
-			if test -f ${with_tclconfig}; then
-			    AC_MSG_WARN([--with-tcl argument should refer to directory containing tclConfig.sh, not to tclConfig.sh itself])
-			    with_tclconfig=`echo ${with_tclconfig} | sed 's!/tclConfig\.sh$!!'`
-			fi ;;
-		esac
 		if test -f "${with_tclconfig}/tclConfig.sh" ; then
 		    ac_cv_c_tclconfig=`(cd ${with_tclconfig}; pwd)`
 		else
@@ -51,16 +44,10 @@ AC_DEFUN(SC_PATH_TCLCONFIG, [
 	    if test x"${ac_cv_c_tclconfig}" = x ; then
 		for i in \
 			../tcl \
-			`ls -dr ../tcl[[8-9]].[[0-9]].[[0-9]]* 2>/dev/null` \
-			`ls -dr ../tcl[[8-9]].[[0-9]] 2>/dev/null` \
 			`ls -dr ../tcl[[8-9]].[[0-9]]* 2>/dev/null` \
 			../../tcl \
-			`ls -dr ../../tcl[[8-9]].[[0-9]].[[0-9]]* 2>/dev/null` \
-			`ls -dr ../../tcl[[8-9]].[[0-9]] 2>/dev/null` \
 			`ls -dr ../../tcl[[8-9]].[[0-9]]* 2>/dev/null` \
 			../../../tcl \
-			`ls -dr ../../../tcl[[8-9]].[[0-9]].[[0-9]]* 2>/dev/null` \
-			`ls -dr ../../../tcl[[8-9]].[[0-9]] 2>/dev/null` \
 			`ls -dr ../../../tcl[[8-9]].[[0-9]]* 2>/dev/null` ; do
 		    if test -f "$i/unix/tclConfig.sh" ; then
 			ac_cv_c_tclconfig=`(cd $i/unix; pwd)`
@@ -87,8 +74,6 @@ AC_DEFUN(SC_PATH_TCLCONFIG, [
 	    if test x"${ac_cv_c_tclconfig}" = x ; then
 		for i in \
 			${srcdir}/../tcl \
-			`ls -dr ${srcdir}/../tcl[[8-9]].[[0-9]].[[0-9]]* 2>/dev/null` \
-			`ls -dr ${srcdir}/../tcl[[8-9]].[[0-9]] 2>/dev/null` \
 			`ls -dr ${srcdir}/../tcl[[8-9]].[[0-9]]* 2>/dev/null` ; do
 		    if test -f "$i/unix/tclConfig.sh" ; then
 		    ac_cv_c_tclconfig=`(cd $i/unix; pwd)`
@@ -144,13 +129,6 @@ AC_DEFUN(SC_PATH_TKCONFIG, [
 
 	    # First check to see if --with-tkconfig was specified.
 	    if test x"${with_tkconfig}" != x ; then
-		case ${with_tkconfig} in
-		    */tkConfig.sh )
-			if test -f ${with_tkconfig}; then
-			    AC_MSG_WARN([--with-tk argument should refer to directory containing tkConfig.sh, not to tkConfig.sh itself])
-			    with_tkconfig=`echo ${with_tkconfig} | sed 's!/tkConfig\.sh$!!'`
-			fi ;;
-		esac
 		if test -f "${with_tkconfig}/tkConfig.sh" ; then
 		    ac_cv_c_tkconfig=`(cd ${with_tkconfig}; pwd)`
 		else
@@ -162,16 +140,10 @@ AC_DEFUN(SC_PATH_TKCONFIG, [
 	    if test x"${ac_cv_c_tkconfig}" = x ; then
 		for i in \
 			../tk \
-			`ls -dr ../tk[[8-9]].[[0-9]].[[0-9]]* 2>/dev/null` \
-			`ls -dr ../tk[[8-9]].[[0-9]] 2>/dev/null` \
 			`ls -dr ../tk[[8-9]].[[0-9]]* 2>/dev/null` \
 			../../tk \
-			`ls -dr ../../tk[[8-9]].[[0-9]].[[0-9]]* 2>/dev/null` \
-			`ls -dr ../../tk[[8-9]].[[0-9]] 2>/dev/null` \
 			`ls -dr ../../tk[[8-9]].[[0-9]]* 2>/dev/null` \
 			../../../tk \
-			`ls -dr ../../../tk[[8-9]].[[0-9]].[[0-9]]* 2>/dev/null` \
-			`ls -dr ../../../tk[[8-9]].[[0-9]] 2>/dev/null` \
 			`ls -dr ../../../tk[[8-9]].[[0-9]]* 2>/dev/null` ; do
 		    if test -f "$i/unix/tkConfig.sh" ; then
 			ac_cv_c_tkconfig=`(cd $i/unix; pwd)`
@@ -196,8 +168,6 @@ AC_DEFUN(SC_PATH_TKCONFIG, [
 	    if test x"${ac_cv_c_tkconfig}" = x ; then
 		for i in \
 			${srcdir}/../tk \
-			`ls -dr ${srcdir}/../tk[[8-9]].[[0-9]].[[0-9]]* 2>/dev/null` \
-			`ls -dr ${srcdir}/../tk[[8-9]].[[0-9]] 2>/dev/null` \
 			`ls -dr ${srcdir}/../tk[[8-9]].[[0-9]]* 2>/dev/null` ; do
 		    if test -f "$i/unix/tkConfig.sh" ; then
 			ac_cv_c_tkconfig=`(cd $i/unix; pwd)`
@@ -265,7 +235,6 @@ AC_DEFUN(SC_LOAD_TCLCONFIG, [
 
     #
     # eval is required to do the TCL_DBGX substitution
-    # (@@@ Is this still the case?)
     #
 
     eval "TCL_LIB_FILE=\"${TCL_LIB_FILE}\""
@@ -361,7 +330,7 @@ AC_DEFUN(SC_ENABLE_SHARED, [
     else
 	AC_MSG_RESULT([static])
 	SHARED_BUILD=0
-	AC_DEFINE(STATIC_BUILD, 1, [Is this a static build?])
+	AC_DEFINE(STATIC_BUILD)
     fi
 ])
 
@@ -385,7 +354,7 @@ AC_DEFUN(SC_ENABLE_SHARED, [
 AC_DEFUN(SC_ENABLE_FRAMEWORK, [
     AC_MSG_CHECKING([how to package libraries])
     AC_ARG_ENABLE(framework,
-	[  --enable-framework      package shared libraries in MacOSX frameworks [--disable-framework]],
+	[  --enable-framework      package shared libraries in frameworks [--disable-framework]],
 	[tcl_ok=$enableval], [tcl_ok=no])
 
     if test "${enable_framework+set}" = set; then
@@ -436,28 +405,15 @@ AC_DEFUN(SC_ENABLE_THREADS, [
     AC_ARG_ENABLE(threads, [  --enable-threads        build with threads],
 	[tcl_ok=$enableval], [tcl_ok=no])
 
-    if test "$tcl_ok" = "yes" -o "${TCL_THREADS}" = 1; then
-	if test "${TCL_THREADS}" = 1; then
-	    AC_MSG_RESULT([yes (threaded core)])
-	else
-	    AC_MSG_RESULT([yes])
-	fi
+    if test "$tcl_ok" = "yes"; then
+	AC_MSG_RESULT(yes)
 	TCL_THREADS=1
-	AC_DEFINE(TCL_THREADS, 1, [Are we building with threads enabled?])
+	AC_DEFINE(TCL_THREADS)
 	# USE_THREAD_ALLOC tells us to try the special thread-based
 	# allocator that significantly reduces lock contention
-	AC_DEFINE(USE_THREAD_ALLOC, 1,
-	    [Do we want to use the threaded memory allocator?])
-	# USE_THREAD_STORAGE tells us to use the new generic thread 
-	# storage subsystem. 
-	AC_DEFINE(USE_THREAD_STORAGE, 1,
-	    [Use the generic thread storage subsystem?])
-	AC_DEFINE(_REENTRANT, 1, [Do we want the reentrant OS API?])
-	if test "`uname -s`" = "SunOS" ; then
-	    AC_DEFINE(_POSIX_PTHREAD_SEMANTICS, 1,
-		    [Do we really want to follow the standard? Yes we do!])
-	fi
-	AC_DEFINE(_THREAD_SAFE, 1, [Do we want the thread-safe OS API?])
+	AC_DEFINE(USE_THREAD_ALLOC)
+	AC_DEFINE(_REENTRANT)
+	AC_DEFINE(_THREAD_SAFE)
 	AC_CHECK_LIB(pthread,pthread_mutex_init,tcl_ok=yes,tcl_ok=no)
 	if test "$tcl_ok" = "no"; then
 	    # Check a little harder for __pthread_mutex_init in the same
@@ -497,38 +453,8 @@ AC_DEFUN(SC_ENABLE_THREADS, [
 	ac_saved_libs=$LIBS
 	LIBS="$LIBS $THREADS_LIBS"
 	AC_CHECK_FUNCS(pthread_attr_setstacksize)
-	AC_CHECK_FUNC(pthread_attr_get_np,tcl_ok=yes,tcl_ok=no)
-	if test $tcl_ok = yes ; then
-	    AC_DEFINE(HAVE_PTHREAD_ATTR_GET_NP, 1,
-		[Do we want a BSD-like thread-attribute interface?])
-	    AC_MSG_CHECKING([for pthread_attr_get_np declaration])
-	    AC_CACHE_VAL(tcl_cv_grep_pthread_attr_get_np,
-		AC_EGREP_HEADER(pthread_attr_get_np, pthread.h,
-		    tcl_cv_grep_pthread_attr_get_np=present,
-		    tcl_cv_grep_pthread_attr_get_np=missing))
-	    AC_MSG_RESULT($tcl_cv_grep_pthread_attr_get_np)
-	    if test $tcl_cv_grep_pthread_attr_get_np = missing ; then
-		AC_DEFINE(ATTRGETNP_NOT_DECLARED, 1,
-		    [Is pthread_attr_get_np() declared in <pthread.h>?])
-	    fi
-	else
-	    AC_CHECK_FUNC(pthread_getattr_np,tcl_ok=yes,tcl_ok=no)
-	    if test $tcl_ok = yes ; then
-		AC_DEFINE(HAVE_PTHREAD_GETATTR_NP, 1,
-		    [Do we want a Linux-like thread-attribute interface?])
-		AC_MSG_CHECKING([for pthread_getattr_np declaration])
-		AC_CACHE_VAL(tcl_cv_grep_pthread_getattr_np,
-		    AC_EGREP_HEADER(pthread_getattr_np, pthread.h,
-			tcl_cv_grep_pthread_getattr_np=present,
-			tcl_cv_grep_pthread_getattr_np=missing))
-		AC_MSG_RESULT($tcl_cv_grep_pthread_getattr_np)
-		if test $tcl_cv_grep_pthread_getattr_np = missing ; then
-		    AC_DEFINE(GETATTRNP_NOT_DECLARED, 1,
-			[Is pthread_getattr_np declared in <pthread.h>?])
-		fi
-	    fi
-	fi
 	LIBS=$ac_saved_libs
+	AC_CHECK_FUNCS(readdir_r)
     else
 	TCL_THREADS=0
 	AC_MSG_RESULT([no (default)])
@@ -562,8 +488,7 @@ AC_DEFUN(SC_ENABLE_THREADS, [
 #				Sets to $(CFLAGS_OPTIMIZE) if false
 #		LDFLAGS_DEFAULT	Sets to $(LDFLAGS_DEBUG) if true
 #				Sets to $(LDFLAGS_OPTIMIZE) if false
-#		DBGX		Formerly used as debug library extension;
-#				always blank now.
+#		DBGX		Debug library extension
 #
 #------------------------------------------------------------------------
 
@@ -571,30 +496,31 @@ AC_DEFUN(SC_ENABLE_SYMBOLS, [
     AC_MSG_CHECKING([for build with symbols])
     AC_ARG_ENABLE(symbols, [  --enable-symbols        build with debugging symbols [--disable-symbols]],    [tcl_ok=$enableval], [tcl_ok=no])
 # FIXME: Currently, LDFLAGS_DEFAULT is not used, it should work like CFLAGS_DEFAULT.
-    DBGX=""
     if test "$tcl_ok" = "no"; then
 	CFLAGS_DEFAULT='$(CFLAGS_OPTIMIZE)'
 	LDFLAGS_DEFAULT='$(LDFLAGS_OPTIMIZE)'
+	DBGX=""
 	AC_MSG_RESULT([no])
-	AC_DEFINE(TCL_CFG_OPTIMIZED, 1, [Is this an optimized build?])
+	AC_DEFINE(TCL_CFG_OPTIMIZED)
     else
 	CFLAGS_DEFAULT='$(CFLAGS_DEBUG)'
 	LDFLAGS_DEFAULT='$(LDFLAGS_DEBUG)'
+	DBGX=g
 	if test "$tcl_ok" = "yes"; then
 	    AC_MSG_RESULT([yes (standard debugging)])
 	fi
     fi
     AC_SUBST(CFLAGS_DEFAULT)
     AC_SUBST(LDFLAGS_DEFAULT)
-    AC_DEFINE(TCL_CFG_DEBUG, 1, [Is debugging enabled?])
+    AC_DEFINE(TCL_CFG_DEBUG)
 
     if test "$tcl_ok" = "mem" -o "$tcl_ok" = "all"; then
-	AC_DEFINE(TCL_MEM_DEBUG, 1, [Is memory debugging enabled?])
+	AC_DEFINE(TCL_MEM_DEBUG)
     fi
 
     if test "$tcl_ok" = "compile" -o "$tcl_ok" = "all"; then
-	AC_DEFINE(TCL_COMPILE_DEBUG, 1, [Is bytecode debugging enabled?])
-	AC_DEFINE(TCL_COMPILE_STATS, 1, [Are bytecode statistics enabled?])
+	AC_DEFINE(TCL_COMPILE_DEBUG)
+	AC_DEFINE(TCL_COMPILE_STATS)
     fi
 
     if test "$tcl_ok" != "yes" -a "$tcl_ok" != "no"; then
@@ -645,7 +571,7 @@ AC_DEFUN(SC_ENABLE_LANGINFO, [
 	    langinfo_ok="no (could not compile with nl_langinfo)";
 	fi
 	if test "$langinfo_ok" = "yes"; then
-	    AC_DEFINE(HAVE_LANGINFO, 1, [Do we have nl_langinfo()?])
+	    AC_DEFINE(HAVE_LANGINFO)
 	fi
     fi
     AC_MSG_RESULT([$langinfo_ok])
@@ -654,12 +580,8 @@ AC_DEFUN(SC_ENABLE_LANGINFO, [
 #--------------------------------------------------------------------
 # SC_CONFIG_MANPAGES
 #	
-#	Decide whether to use symlinks for linking the manpages,
-#	whether to compress the manpages after installation, and
-#       whether to add a package name suffix to the installed
-#       manpages to avoidfile name clashes.
-#	If compression is enabled also find out what file name suffix
-#	the given compression program is using.
+#	Decide whether to use symlinks for linking the manpages and
+#	whether to compress the manpages after installation.
 #
 # Arguments:
 #	none
@@ -669,52 +591,32 @@ AC_DEFUN(SC_ENABLE_LANGINFO, [
 #	Adds the following arguments to configure:
 #		--enable-man-symlinks
 #		--enable-man-compression=PROG
-#		--enable-man-suffix[=STRING]
 #
 #	Defines the following variable:
 #
-#	MAN_FLAGS -	The apropriate flags for installManPage
-#			according to the user's selection.
+#	MKLINKS_FLAGS -		The apropriate flags for mkLinks
+#				according to the user's selection.
 #
 #--------------------------------------------------------------------
 AC_DEFUN(SC_CONFIG_MANPAGES, [
 
 	AC_MSG_CHECKING([whether to use symlinks for manpages])
 	AC_ARG_ENABLE(man-symlinks,
-		AC_HELP_STRING([--enable-man-symlinks],
-			[use symlinks for the manpages]),
-		test "$enableval" != "no" && MAN_FLAGS="$MAN_FLAGS --symlinks",
+		[  --enable-man-symlinks   use symlinks for the manpages],
+		test "$enableval" != "no" && MKLINKS_FLAGS="$MKLINKS_FLAGS --symlinks",
 		enableval="no")
 	AC_MSG_RESULT([$enableval])
 
-	AC_MSG_CHECKING([whether to compress the manpages])
+	AC_MSG_CHECKING([compression for manpages])
 	AC_ARG_ENABLE(man-compression,
-		AC_HELP_STRING([--enable-man-compression=PROG],
-			[compress the manpages with PROG]),
-		test "$enableval" = "yes" && AC_MSG_ERROR([missing argument to --enable-man-compression])
-		test "$enableval" != "no" && MAN_FLAGS="$MAN_FLAGS --compress $enableval",
-		enableval="no")
-	AC_MSG_RESULT([$enableval])
-	if test "$enableval" != "no"; then
-		AC_MSG_CHECKING([for compressed file suffix])
-		touch TeST
-		$enableval TeST
-		Z=`ls TeST* | sed 's/^....//'`
-		rm -f TeST*
-		MAN_FLAGS="$MAN_FLAGS --extension $Z"
-		AC_MSG_RESULT([$Z])
-	fi
-
-	AC_MSG_CHECKING([whether to add a package name suffix for the manpages])
-	AC_ARG_ENABLE(man-suffix,
-		AC_HELP_STRING([--enable-man-suffix=STRING],
-			  [use STRING as a suffix to manpage file names (default: AC_PACKAGE_NAME)]),
-		test "$enableval" = "yes" && enableval="AC_PACKAGE_NAME"
-		test "$enableval" != "no" && MAN_FLAGS="$MAN_FLAGS --suffix $enableval",
+		[  --enable-man-compression=PROG
+                          compress the manpages with PROG],
+		test "$enableval" = "yes" && echo && AC_MSG_ERROR([missing argument to --enable-man-compression])
+		test "$enableval" != "no" && MKLINKS_FLAGS="$MKLINKS_FLAGS --compress $enableval",
 		enableval="no")
 	AC_MSG_RESULT([$enableval])
 
-	AC_SUBST(MAN_FLAGS)
+	AC_SUBST(MKLINKS_FLAGS)
 ])
 
 #--------------------------------------------------------------------
@@ -812,7 +714,7 @@ AC_DEFUN(SC_CONFIG_MANPAGES, [
 #			Flags used when running the compiler in debug mode
 #	CFLAGS_OPTIMIZE -
 #			Flags used when running the compiler in optimize mode
-#	CFLAGS
+#	EXTRA_CFLAGS
 #
 #--------------------------------------------------------------------
 
@@ -882,11 +784,7 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
     # Step 3: set configuration options based on system name and version.
 
     do64bit_ok=no
-    LDFLAGS_ORIG="$LDFLAGS"
-    # When ld needs options to work in 64-bit mode, put them in
-    # LDFLAGS_ARCH so they eventually end up in LDFLAGS even if [load]
-    # is disabled by the user. [Bug 1016796]
-    LDFLAGS_ARCH=""
+    EXTRA_CFLAGS=""
     TCL_EXPORT_FILE_SUFFIX=""
     UNSHARED_LIB_SUFFIX=""
     TCL_TRIM_DOTS='`echo ${VERSION} | tr -d .`'
@@ -895,7 +793,7 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
     CFLAGS_DEBUG=-g
     CFLAGS_OPTIMIZE=-O
     if test "$GCC" = "yes" ; then
-	CFLAGS_WARNING="-Wall -Wno-implicit-int"
+	CFLAGS_WARNING="-Wall -Wconversion -Wno-implicit-int"
     else
 	CFLAGS_WARNING=""
     fi
@@ -923,29 +821,8 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    LIBS="$LIBS -lc"
 	    # AIX-5 uses ELF style dynamic libraries
 	    SHLIB_CFLAGS=""
-	    # Note: need the LIBS below, otherwise Tk won't find Tcl's
-	    # symbols when dynamically loaded into tclsh.
 	    SHLIB_LD_LIBS='${LIBS}'
 	    SHLIB_SUFFIX=".so"
-
-	    DL_OBJS="tclLoadDl.o"
-
-	    LD_LIBRARY_PATH_VAR="LIBPATH"
-
-	    # Check to enable 64-bit flags for compiler/linker
-	    if test "$do64bit" = "yes" ; then
-		if test "$GCC" = "yes" ; then
-		    AC_MSG_WARN("64bit mode not supported with GCC on $system")
-		else 
-		    do64bit_ok=yes
-		    CFLAGS="$CFLAGS -q64"
-		    LDFLAGS_ARCH="-q64"
-		    RANLIB="${RANLIB} -X64"
-		    AR="${AR} -X64"
-		    SHLIB_LD_FLAGS="-b64"
-		fi
-	    fi
-
 	    if test "`uname -m`" = "ia64" ; then
 		# AIX-5 uses ELF style dynamic libraries on IA-64, but not PPC
 		SHLIB_LD="/usr/ccs/bin/ld -G -z text"
@@ -958,12 +835,34 @@ dnl AC_CHECK_TOOL(AR, ar)
 		fi
 		LD_SEARCH_FLAGS='-R ${LIB_RUNTIME_DIR}'
 	    else
-		SHLIB_LD="${TCL_SRC_DIR}/unix/ldAix /bin/ld -bhalt:4 -bM:SRE -bE:lib.exp -H512 -T512 -bnoentry ${SHLIB_LD_FLAGS}"
+		SHLIB_LD="${TCL_SRC_DIR}/unix/ldAix /bin/ld -bhalt:4 -bM:SRE -bE:lib.exp -H512 -T512 -bnoentry"
 		DL_LIBS="-ldl"
 		CC_SEARCH_FLAGS='-L${LIB_RUNTIME_DIR}'
 		LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
 		TCL_NEEDS_EXP_FILE=1
-		TCL_EXPORT_FILE_SUFFIX='${VERSION}.exp'
+		TCL_EXPORT_FILE_SUFFIX='${VERSION}\$\{DBGX\}.exp'
+	    fi
+
+	    # Note: need the LIBS below, otherwise Tk won't find Tcl's
+	    # symbols when dynamically loaded into tclsh.
+
+	    DL_OBJS="tclLoadDl.o"
+	    LDFLAGS=""
+
+	    LD_LIBRARY_PATH_VAR="LIBPATH"
+
+	    # Check to enable 64-bit flags for compiler/linker
+	    if test "$do64bit" = "yes" ; then
+		if test "$GCC" = "yes" ; then
+		    AC_MSG_WARN("64bit mode not supported with GCC on $system")
+		else 
+		    do64bit_ok=yes
+		    EXTRA_CFLAGS="-q64"
+		    LDFLAGS="-q64"
+		    RANLIB="${RANLIB} -X64"
+		    AR="${AR} -X64"
+		    SHLIB_LD_FLAGS="-b64"
+		fi
 	    fi
 	    ;;
 	AIX-*)
@@ -976,36 +875,23 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    fi
 	    LIBS="$LIBS -lc"
 	    SHLIB_CFLAGS=""
+	    SHLIB_LD="${TCL_SRC_DIR}/unix/ldAix /bin/ld -bhalt:4 -bM:SRE -bE:lib.exp -H512 -T512 -bnoentry"
 	    SHLIB_LD_LIBS='${LIBS}'
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS="-ldl"
+	    LDFLAGS=""
 	    CC_SEARCH_FLAGS='-L${LIB_RUNTIME_DIR}'
 	    LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
 	    LD_LIBRARY_PATH_VAR="LIBPATH"
 	    TCL_NEEDS_EXP_FILE=1
-	    TCL_EXPORT_FILE_SUFFIX='${VERSION}.exp'
+	    TCL_EXPORT_FILE_SUFFIX='${VERSION}\$\{DBGX\}.exp'
 
 	    # AIX v<=4.1 has some different flags than 4.2+
 	    if test "$system" = "AIX-4.1" -o "`uname -v`" -lt "4" ; then
 		AC_LIBOBJ([tclLoadAix])
 		DL_LIBS="-lld"
 	    fi
-
-	    # Check to enable 64-bit flags for compiler/linker
-	    if test "$do64bit" = "yes" ; then
-		if test "$GCC" = "yes" ; then
-		    AC_MSG_WARN("64bit mode not supported with GCC on $system")
-		else 
-		    do64bit_ok=yes
-		    CFLAGS="$CFLAGS -q64"
-		    LDFLAGS_ARCH="-q64"
-		    RANLIB="${RANLIB} -X64"
-		    AR="${AR} -X64"
-		    SHLIB_LD_FLAGS="-b64"
-		fi
-	    fi
-	    SHLIB_LD="${TCL_SRC_DIR}/unix/ldAix /bin/ld -bhalt:4 -bM:SRE -bE:lib.exp -H512 -T512 -bnoentry ${SHLIB_LD_FLAGS}"
 
 	    # On AIX <=v4 systems, libbsd.a has to be linked in to support
 	    # non-blocking file IO.  This library has to be linked in after
@@ -1022,7 +908,21 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    AC_CHECK_LIB(bsd, gettimeofday, libbsd=yes, libbsd=no)
 	    if test $libbsd = yes; then
 	    	MATH_LIBS="$MATH_LIBS -lbsd"
-	    	AC_DEFINE(USE_DELTA_FOR_TZ, 1, [Do we need a special AIX hack for timezones?])
+	    	AC_DEFINE(USE_DELTA_FOR_TZ)
+	    fi
+
+	    # Check to enable 64-bit flags for compiler/linker
+	    if test "$do64bit" = "yes" ; then
+		if test "$GCC" = "yes" ; then
+		    AC_MSG_WARN("64bit mode not supported with GCC on $system")
+		else 
+		    do64bit_ok=yes
+		    EXTRA_CFLAGS="-q64"
+		    LDFLAGS="-q64"
+		    RANLIB="${RANLIB} -X64"
+		    AR="${AR} -X64"
+		    SHLIB_LD_FLAGS="-b64"
+		fi
 	    fi
 	    ;;
 	BeOS*)
@@ -1032,6 +932,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS="-ldl"
+	    LDFLAGS=""
 
 	    #-----------------------------------------------------------
 	    # Check for inet_ntoa in -lbind, for BeOS (which also needs
@@ -1047,6 +948,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS="-ldl"
+	    LDFLAGS=""
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
 	    ;;
@@ -1057,7 +959,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS="-ldl"
-	    LDFLAGS="$LDFLAGS -export-dynamic"
+	    LDFLAGS="-export-dynamic"
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
 	    ;;
@@ -1068,13 +970,14 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS="-ldl"
+	    LDFLAGS=""
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
 	    ;;
 	HP-UX-*.11.*)
 	    # Use updated header definitions where possible
-	    AC_DEFINE(_XOPEN_SOURCE, 1, [Do we want to use the XOPEN network library?])
-	    AC_DEFINE(_XOPEN_SOURCE_EXTENDED, 1, [Do we want to use the XOPEN network library?])
+	    AC_DEFINE(_XOPEN_SOURCE)          # Use the XOPEN network library
+	    AC_DEFINE(_XOPEN_SOURCE_EXTENDED) # Use the XOPEN network library
 	    LIBS="$LIBS -lxnet"               # Use the XOPEN network library
 
 	    SHLIB_SUFFIX=".sl"
@@ -1085,20 +988,14 @@ dnl AC_CHECK_TOOL(AR, ar)
 		SHLIB_LD_LIBS='${LIBS}'
 		DL_OBJS="tclLoadShl.o"
 		DL_LIBS="-ldld"
-		LDFLAGS="$LDFLAGS -Wl,-E"
+		LDFLAGS="-Wl,-E"
 		CC_SEARCH_FLAGS='-Wl,+s,+b,${LIB_RUNTIME_DIR}:.'
 		LD_SEARCH_FLAGS='+s +b ${LIB_RUNTIME_DIR}:.'
 		LD_LIBRARY_PATH_VAR="SHLIB_PATH"
 	    fi
-	    if test "$GCC" = "yes" ; then
-		SHLIB_LD="gcc -shared"
-		SHLIB_LD_LIBS='${LIBS}'
-		LD_SEARCH_FLAGS=''
-		CC_SEARCH_FLAGS=''
-	    fi
 
 	    # Users may want PA-RISC 1.1/2.0 portable code - needs HP cc
-	    #CFLAGS="$CFLAGS +DAportable"
+	    #EXTRA_CFLAGS="+DAportable"
 
 	    # Check to enable 64-bit flags for compiler/linker
 	    if test "$do64bit" = "yes" ; then
@@ -1109,7 +1006,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 			    # 64-bit gcc in use.  Fix flags for GNU ld.
 			    do64bit_ok=yes
 			    SHLIB_LD="gcc -shared"
-			    SHLIB_LD_LIBS='${LIBS}'
+			    SHLIB_LD_LIBS=""
 			    LD_SEARCH_FLAGS=''
 			    CC_SEARCH_FLAGS=''
 			    ;;
@@ -1119,8 +1016,13 @@ dnl AC_CHECK_TOOL(AR, ar)
 		    esac
 		else
 		    do64bit_ok=yes
-		    CFLAGS="$CFLAGS +DD64"
-		    LDFLAGS_ARCH="+DD64"
+		    if test "`uname -m`" = "ia64" ; then
+			EXTRA_CFLAGS="+DD64"
+			LDFLAGS="+DD64 $LDFLAGS"
+		    else
+			EXTRA_CFLAGS="+DA2.0W"
+			LDFLAGS="+DA2.0W $LDFLAGS"
+		    fi
 		fi
 	    fi
 	    ;;
@@ -1133,7 +1035,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 		SHLIB_LD_LIBS=""
 		DL_OBJS="tclLoadShl.o"
 		DL_LIBS="-ldld"
-		LDFLAGS="$LDFLAGS -Wl,-E"
+		LDFLAGS="-Wl,-E"
 		CC_SEARCH_FLAGS='-Wl,+s,+b,${LIB_RUNTIME_DIR}:.'
 		LD_SEARCH_FLAGS='+s +b ${LIB_RUNTIME_DIR}:.'
 		LD_LIBRARY_PATH_VAR="SHLIB_PATH"
@@ -1146,10 +1048,10 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_LD_LIBS='${LIBS}'
 	    DL_OBJS="tclLoadAout.o"
 	    DL_LIBS=""
-	    LDFLAGS="$LDFLAGS -Wl,-D,08000000"
+	    LDFLAGS="-Wl,-D,08000000"
 	    CC_SEARCH_FLAGS='-L${LIB_RUNTIME_DIR}'
 	    LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
-	    SHARED_LIB_SUFFIX='${VERSION}.a'
+	    SHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}.a'
 	    ;;
 	IRIX-5.*)
 	    SHLIB_CFLAGS=""
@@ -1160,8 +1062,10 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    DL_LIBS=""
 	    CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
 	    LD_SEARCH_FLAGS='-rpath ${LIB_RUNTIME_DIR}'
+	    EXTRA_CFLAGS=""
+	    LDFLAGS=""
 	    ;;
-	IRIX-6.*)
+	IRIX-6.*|IRIX64-6.5*)
 	    SHLIB_CFLAGS=""
 	    SHLIB_LD="ld -n32 -shared -rdata_shared"
 	    SHLIB_LD_LIBS='${LIBS}'
@@ -1171,19 +1075,19 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
 	    LD_SEARCH_FLAGS='-rpath ${LIB_RUNTIME_DIR}'
 	    if test "$GCC" = "yes" ; then
-		CFLAGS="$CFLAGS -mabi=n32"
-		LDFLAGS="$LDFLAGS -mabi=n32"
+		EXTRA_CFLAGS="-mabi=n32"
+		LDFLAGS="-mabi=n32"
 	    else
 		case $system in
 		    IRIX-6.3)
 			# Use to build 6.2 compatible binaries on 6.3.
-			CFLAGS="$CFLAGS -n32 -D_OLD_TERMIOS"
+			EXTRA_CFLAGS="-n32 -D_OLD_TERMIOS"
 			;;
 		    *)
-			CFLAGS="$CFLAGS -n32"
+			EXTRA_CFLAGS="-n32"
 			;;
 		esac
-		LDFLAGS="$LDFLAGS -n32"
+		LDFLAGS="-n32"
 	    fi
 	    ;;
 	IRIX64-6.*)
@@ -1193,6 +1097,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS=""
+	    LDFLAGS=""
 	    CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
 	    LD_SEARCH_FLAGS='-rpath ${LIB_RUNTIME_DIR}'
 
@@ -1204,8 +1109,8 @@ dnl AC_CHECK_TOOL(AR, ar)
 	        else
 	            do64bit_ok=yes
 	            SHLIB_LD="ld -64 -shared -rdata_shared"
-	            CFLAGS="$CFLAGS -64"
-	            LDFLAGS_ARCH="-64"
+	            EXTRA_CFLAGS="-64"
+	            LDFLAGS="-64"
 	        fi
 	    fi
 	    ;;
@@ -1214,17 +1119,17 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_LD_LIBS='${LIBS}'
 	    SHLIB_SUFFIX=".so"
 
-	    CFLAGS_OPTIMIZE=-O2
 	    # egcs-2.91.66 on Redhat Linux 6.0 generates lots of warnings 
 	    # when you inline the string and math operations.  Turn this off to
 	    # get rid of the warnings.
-	    #CFLAGS_OPTIMIZE="${CFLAGS_OPTIMIZE} -D__NO_STRING_INLINES -D__NO_MATH_INLINES"
+
+	    CFLAGS_OPTIMIZE="${CFLAGS_OPTIMIZE} -D__NO_STRING_INLINES -D__NO_MATH_INLINES"
 
 	    if test "$have_dl" = yes; then
 		SHLIB_LD="${CC} -shared"
 		DL_OBJS="tclLoadDl.o"
 		DL_LIBS="-ldl"
-		LDFLAGS="$LDFLAGS -Wl,--export-dynamic"
+		LDFLAGS="-Wl,--export-dynamic"
 		CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
 		LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
 	    else
@@ -1232,11 +1137,12 @@ dnl AC_CHECK_TOOL(AR, ar)
 		    SHLIB_LD="ld -shared"
 		    DL_OBJS="tclLoadDld.o"
 		    DL_LIBS="-ldld"
+		    LDFLAGS=""
 		    CC_SEARCH_FLAGS=""
 		    LD_SEARCH_FLAGS=""])
 	    fi
 	    if test "`uname -m`" = "alpha" ; then
-		CFLAGS="$CFLAGS -mieee"
+		EXTRA_CFLAGS="-mieee"
 	    fi
 
 	    # The combo of gcc + glibc has a bug related
@@ -1247,11 +1153,11 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    # Disable inlining only when one of the
 	    # files in compat/*.c is being linked in.
 	    if test x"${USE_COMPAT}" != x ; then
-	        CFLAGS="$CFLAGS -fno-inline"
+	        EXTRA_CFLAGS="${EXTRA_CFLAGS} -fno-inline"
 	    fi
 
 	    # XIM peeking works under XFree86.
-	    AC_DEFINE(PEEK_XCLOSEIM, 1, [May we use XIM peeking safely?])
+	    AC_DEFINE(PEEK_XCLOSEIM)
 
 	    ;;
 	GNU*)
@@ -1263,7 +1169,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 		SHLIB_LD="${CC} -shared"
 		DL_OBJS=""
 		DL_LIBS="-ldl"
-		LDFLAGS="$LDFLAGS -Wl,--export-dynamic"
+		LDFLAGS="-Wl,--export-dynamic"
 		CC_SEARCH_FLAGS=""
 		LD_SEARCH_FLAGS=""
 	    else
@@ -1271,11 +1177,12 @@ dnl AC_CHECK_TOOL(AR, ar)
 		    SHLIB_LD="ld -shared"
 		    DL_OBJS=""
 		    DL_LIBS="-ldld"
+		    LDFLAGS=""
 		    CC_SEARCH_FLAGS=""
 		    LD_SEARCH_FLAGS=""])
 	    fi
 	    if test "`uname -m`" = "alpha" ; then
-		CFLAGS="$CFLAGS -mieee"
+		EXTRA_CFLAGS="-mieee"
 	    fi
 	    ;;
 	MP-RAS-02*)
@@ -1285,6 +1192,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS="-ldl"
+	    LDFLAGS=""
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
 	    ;;
@@ -1295,11 +1203,11 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS="-ldl"
-	    LDFLAGS="$LDFLAGS -Wl,-Bexport"
+	    LDFLAGS="-Wl,-Bexport"
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
 	    ;;
-	NetBSD-*|FreeBSD-[[1-2]].*)
+	NetBSD-*|FreeBSD-[[1-2]].*|OpenBSD-*)
 	    # Not available on all versions:  check for include file.
 	    AC_CHECK_HEADER(dlfcn.h, [
 		# NetBSD/SPARC needs -fPIC, -fpic will not do.
@@ -1309,6 +1217,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 		SHLIB_SUFFIX=".so"
 		DL_OBJS="tclLoadDl.o"
 		DL_LIBS=""
+		LDFLAGS=""
 		CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
 		LD_SEARCH_FLAGS='-rpath ${LIB_RUNTIME_DIR}'
 		AC_MSG_CHECKING(for ELF)
@@ -1318,9 +1227,9 @@ dnl AC_CHECK_TOOL(AR, ar)
 #endif
 		],
 		    AC_MSG_RESULT(yes)
-		    SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.so',
+		    SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.so',
 		    AC_MSG_RESULT(no)
-		    SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.so.1.0'
+		    SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.so.1.0'
 		)
 	    ], [
 		SHLIB_CFLAGS=""
@@ -1329,38 +1238,15 @@ dnl AC_CHECK_TOOL(AR, ar)
 		SHLIB_SUFFIX=".a"
 		DL_OBJS="tclLoadAout.o"
 		DL_LIBS=""
+		LDFLAGS=""
 		CC_SEARCH_FLAGS='-L${LIB_RUNTIME_DIR}'
 		LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
-		SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.a'
+		SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.a'
 	    ])
 
 	    # FreeBSD doesn't handle version numbers with dots.
 
-	    UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.a'
-	    TCL_LIB_VERSIONS_OK=nodots
-	    ;;
-	OpenBSD-*)
-	    SHLIB_LD="${CC} -shared"
-	    SHLIB_LD_LIBS='${LIBS}'
-	    SHLIB_SUFFIX=".so"
-	    DL_OBJS="tclLoadDl.o"
-	    DL_LIBS=""
-	    CC_SEARCH_FLAGS=""
-	    LD_SEARCH_FLAGS=""
-	    AC_MSG_CHECKING(for ELF)
-	    AC_EGREP_CPP(yes, [
-#ifdef __ELF__
-	yes
-#endif
-	    ],
-		[AC_MSG_RESULT(yes)
-		SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.so.1.0'],
-		[AC_MSG_RESULT(no)
-		SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.so.1.0']
-	    )
-
-	    # OpenBSD doesn't do version numbers with dots.
-	    UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.a'
+	    UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.a'
 	    TCL_LIB_VERSIONS_OK=nodots
 	    ;;
 	FreeBSD-*)
@@ -1371,20 +1257,20 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS=""
-	    LDFLAGS="$LDFLAGS -export-dynamic"
+	    LDFLAGS="-export-dynamic"
 	    CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
 	    LD_SEARCH_FLAGS='-rpath ${LIB_RUNTIME_DIR}'
 	    if test "${TCL_THREADS}" = "1" ; then
 		# The -pthread needs to go in the CFLAGS, not LIBS
 		LIBS=`echo $LIBS | sed s/-pthread//`
-		CFLAGS="$CFLAGS -pthread"
+		EXTRA_CFLAGS="-pthread"
 	    	LDFLAGS="$LDFLAGS -pthread"
 	    fi
 	    case $system in
 	    FreeBSD-3.*)
 	    	# FreeBSD-3 doesn't handle version numbers with dots.
-	    	UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.a'
-	    	SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.so'
+	    	UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.a'
+	    	SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.so'
 	    	TCL_LIB_VERSIONS_OK=nodots
 		;;
 	    esac
@@ -1397,18 +1283,16 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_LD_LIBS='${LIBS}'
 	    SHLIB_SUFFIX=".dylib"
 	    DL_OBJS="tclLoadDyld.o"
-	    PLAT_OBJS=\$\(MAC\_OSX_OBJS\)
+	    PLAT_OBJS="tclMacOSXBundle.o tclMacOSXFCmd.o"
 	    DL_LIBS=""
-	    LDFLAGS="$LDFLAGS -prebind"
+	    LDFLAGS="-prebind"
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
 	    CFLAGS_OPTIMIZE="-Os"
 	    LD_LIBRARY_PATH_VAR="DYLD_LIBRARY_PATH"
-	    AC_DEFINE(MAC_OSX_TCL, 1, ["Is this a Mac I see before me?"])
-	    AC_DEFINE(HAVE_CFBUNDLE, 1, [Do we have access to Mac bundles?])
-	    AC_DEFINE(USE_VFORK, 1, [Should we use vfork() instead of fork()?])
-	    AC_DEFINE(TCL_DEFAULT_ENCODING,"utf-8",
-		[Are we to override what our default encoding is?])
+	    # for compatibility with autoconf vers 2.13 :
+	    HACK=""
+	    EXTRA_CFLAGS="-DMA${HACK}C_OSX_TCL -DHAVE_CFBUNDLE -DUSE_VFORK -DTCL_DEFAULT_ENCODING=\\\"utf-8\\\""
 	    LIBS="$LIBS -framework CoreFoundation"
 	    ;;
 	NEXTSTEP-*)
@@ -1418,13 +1302,13 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadNext.o"
 	    DL_LIBS=""
+	    LDFLAGS=""
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
 	    ;;
 	OS/390-*)
-	    CFLAGS_OPTIMIZE=""		# Optimizer is buggy
-	    AC_DEFINE(_OE_SOCKETS, 1,	# needed in sys/socket.h
-		[Should OS/390 do the right thing with sockets?])
+	    CFLAGS_OPTIMIZE=""      # Optimizer is buggy
+	    AC_DEFINE(_OE_SOCKETS)  # needed in sys/socket.h
 	    ;;      
 	OSF1-1.0|OSF1-1.1|OSF1-1.2)
 	    # OSF/1 1.[012] from OSF, and derivatives, including Paragon OSF/1
@@ -1435,6 +1319,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadOSF.o"
 	    DL_LIBS=""
+	    LDFLAGS=""
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
 	    ;;
@@ -1450,6 +1335,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS=""
+	    LDFLAGS=""
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
 	    ;;
@@ -1465,23 +1351,22 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS=""
+	    LDFLAGS=""
 	    CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
 	    LD_SEARCH_FLAGS='-rpath ${LIB_RUNTIME_DIR}'
-	    if test "$GCC" = "yes" ; then
-		CFLAGS="$CFLAGS -mieee"
-            else
-		CFLAGS="$CFLAGS -DHAVE_TZSET -std1 -ieee"
+	    if test "$GCC" != "yes" ; then
+		EXTRA_CFLAGS="-DHAVE_TZSET -std1"
 	    fi
 	    # see pthread_intro(3) for pthread support on osf1, k.furukawa
 	    if test "${TCL_THREADS}" = "1" ; then
-		CFLAGS="$CFLAGS -DHAVE_PTHREAD_ATTR_SETSTACKSIZE"
-		CFLAGS="$CFLAGS -DTCL_THREAD_STACK_MIN=PTHREAD_STACK_MIN*64"
+		EXTRA_CFLAGS="${EXTRA_CFLAGS} -DHAVE_PTHREAD_ATTR_SETSTACKSIZE"
+		EXTRA_CFLAGS="${EXTRA_CFLAGS} -DTCL_THREAD_STACK_MIN=PTHREAD_STACK_MIN*64"
 		LIBS=`echo $LIBS | sed s/-lpthreads//`
 		if test "$GCC" = "yes" ; then
 		    LIBS="$LIBS -lpthread -lmach -lexc"
 		else
-		    CFLAGS="$CFLAGS -pthread"
-		    LDFLAGS="$LDFLAGS -pthread"
+		    EXTRA_CFLAGS="${EXTRA_CFLAGS} -pthread"
+		    LDFLAGS="-pthread"
 		fi
 	    fi
 
@@ -1496,6 +1381,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    DL_OBJS="tclLoadDl.o"
 	    # dlopen is in -lc on QNX
 	    DL_LIBS=""
+	    LDFLAGS=""
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
 	    ;;
@@ -1506,7 +1392,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".a"
 	    DL_OBJS="tclLoadAout.o"
 	    DL_LIBS=""
-	    LDFLAGS="$LDFLAGS -Wl,-D,08000000"
+	    LDFLAGS="-Wl,-D,08000000"
 	    CC_SEARCH_FLAGS='-L${LIB_RUNTIME_DIR}'
 	    LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
 	    ;;
@@ -1516,10 +1402,10 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    # below.
 	    if test "$GCC" = "yes" ; then
 	    	SHLIB_CFLAGS="-fPIC -melf"
-	    	LDFLAGS="$LDFLAGS -melf -Wl,-Bexport"
+	    	LDFLAGS="-melf -Wl,-Bexport"
 	    else
 	    	SHLIB_CFLAGS="-Kpic -belf"
-	    	LDFLAGS="$LDFLAGS -belf -Wl,-Bexport"
+	    	LDFLAGS="-belf -Wl,-Bexport"
 	    fi
 	    SHLIB_LD="ld -G"
 	    SHLIB_LD_LIBS=""
@@ -1536,6 +1422,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS="-ldl"
+	    LDFLAGS=""
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
 	    ;;
@@ -1546,6 +1433,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS="-ldl"
+	    LDFLAGS=""
 	    CC_SEARCH_FLAGS='-L${LIB_RUNTIME_DIR}'
 	    LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
 
@@ -1554,8 +1442,8 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    # requires an extra version number at the end of .so file names.
 	    # So, the library has to have a name like libtcl75.so.1.0
 
-	    SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.so.1.0'
-	    UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}.a'
+	    SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.so.1.0'
+	    UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.a'
 	    TCL_LIB_VERSIONS_OK=nodots
 	    ;;
 	SunOS-5.[[0-6]]*)
@@ -1563,9 +1451,8 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    # Note: If _REENTRANT isn't defined, then Solaris
 	    # won't define thread-safe library routines.
 
-	    AC_DEFINE(_REENTRANT, 1, [Do we want the reentrant OS API?])
-	    AC_DEFINE(_POSIX_PTHREAD_SEMANTICS, 1,
-		[Do we really want to follow the standard? Yes we do!])
+	    AC_DEFINE(_REENTRANT)
+	    AC_DEFINE(_POSIX_PTHREAD_SEMANTICS)
 
 	    SHLIB_CFLAGS="-KPIC"
 
@@ -1576,6 +1463,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_SUFFIX=".so"
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS="-ldl"
+	    LDFLAGS=""
 	    if test "$GCC" = "yes" ; then
 		SHLIB_LD="$CC -shared"
 		CC_SEARCH_FLAGS='-Wl,-R,${LIB_RUNTIME_DIR}'
@@ -1591,11 +1479,11 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    # Note: If _REENTRANT isn't defined, then Solaris
 	    # won't define thread-safe library routines.
 
-	    AC_DEFINE(_REENTRANT, 1, [Do we want the reentrant OS API?])
-	    AC_DEFINE(_POSIX_PTHREAD_SEMANTICS, 1,
-		[Do we really want to follow the standard? Yes we do!])
+	    AC_DEFINE(_REENTRANT)
+	    AC_DEFINE(_POSIX_PTHREAD_SEMANTICS)
 
 	    SHLIB_CFLAGS="-KPIC"
+	    LDFLAGS=""
     
 	    # Check to enable 64-bit flags for compiler/linker
 	    if test "$do64bit" = "yes" ; then
@@ -1606,11 +1494,11 @@ dnl AC_CHECK_TOOL(AR, ar)
 			else
 			    do64bit_ok=yes
 			    if test "$do64bitVIS" = "yes" ; then
-				CFLAGS="$CFLAGS -xarch=v9a"
-			    	LDFLAGS_ARCH="-xarch=v9a"
+				EXTRA_CFLAGS="-xarch=v9a"
+			    	LDFLAGS="-xarch=v9a"
 			    else
-				CFLAGS="$CFLAGS -xarch=v9"
-			    	LDFLAGS_ARCH="-xarch=v9"
+				EXTRA_CFLAGS="-xarch=v9"
+			    	LDFLAGS="-xarch=v9"
 			    fi
 			fi
 		else
@@ -1642,11 +1530,11 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    SHLIB_LD_LIBS='${LIBS}'
 	    DL_OBJS="tclLoadAout.o"
 	    DL_LIBS=""
-	    LDFLAGS="$LDFLAGS -Wl,-D,08000000"
+	    LDFLAGS="-Wl,-D,08000000"
 	    CC_SEARCH_FLAGS='-L${LIB_RUNTIME_DIR}'
 	    LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
 	    if test "$GCC" != "yes" ; then
-		CFLAGS="$CFLAGS -DHAVE_TZSET -std1"
+		EXTRA_CFLAGS="-DHAVE_TZSET -std1"
 	    fi
 	    ;;
 	UNIX_SV* | UnixWare-5*)
@@ -1660,21 +1548,26 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    # that don't grok the -Bexport option.  Test that it does.
 	    hold_ldflags=$LDFLAGS
 	    AC_MSG_CHECKING(for ld accepts -Bexport flag)
-	    LDFLAGS="$LDFLAGS -Wl,-Bexport"
-	    AC_TRY_LINK(, [int i;], [found=yes],
-			[LDFLAGS=$hold_ldflags found=no])
+	    LDFLAGS="${LDFLAGS} -Wl,-Bexport"
+	    AC_TRY_LINK(, [int i;], found=yes, found=no)
+	    LDFLAGS=$hold_ldflags
 	    AC_MSG_RESULT($found)
+	    if test $found = yes; then
+	    LDFLAGS="-Wl,-Bexport"
+	    else
+	    LDFLAGS=""
+	    fi
 	    CC_SEARCH_FLAGS=""
 	    LD_SEARCH_FLAGS=""
 	    ;;
     esac
 
     if test "$do64bit" = "yes" -a "$do64bit_ok" = "no" ; then
-	AC_MSG_WARN("64bit support being disabled -- don\'t know magic for this platform")
+    AC_MSG_WARN("64bit support being disabled -- don\'t know magic for this platform")
     fi
 
     if test "$do64bit" = "yes" -a "$do64bit_ok" = "yes" ; then
-	AC_DEFINE(TCL_CFG_DO64BIT, 1, [Is this a 64-bit build?])
+	AC_DEFINE(TCL_CFG_DO64BIT)
     fi
 
     # Step 4: If pseudo-static linking is in use (see K. B. Kenny, "Dynamic
@@ -1712,8 +1605,7 @@ dnl AC_CHECK_TOOL(AR, ar)
     ], tcl_ok=usable, tcl_ok=unusable)
 	AC_MSG_RESULT($tcl_ok)
 	if test $tcl_ok = usable; then
-	    AC_DEFINE(USE_SYS_EXEC_H, 1,
-		[Should we use <sys/exec.h> when doing dynamic loading?])
+	    AC_DEFINE(USE_SYS_EXEC_H)
 	else
 	    AC_MSG_CHECKING(a.out.h)
 	    AC_TRY_COMPILE([#include <a.out.h>],[
@@ -1730,8 +1622,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 	    ], tcl_ok=usable, tcl_ok=unusable)
 	    AC_MSG_RESULT($tcl_ok)
 	    if test $tcl_ok = usable; then
-		AC_DEFINE(USE_A_OUT_H, 1,
-		    [Should we use <a.out.h> when doing dynamic loading?])
+		AC_DEFINE(USE_A_OUT_H)
 	    else
 		AC_MSG_CHECKING(sys/exec_aout.h)
 		AC_TRY_COMPILE([#include <sys/exec_aout.h>],[
@@ -1748,8 +1639,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 		], tcl_ok=usable, tcl_ok=unusable)
 		AC_MSG_RESULT($tcl_ok)
 		if test $tcl_ok = usable; then
-		    AC_DEFINE(USE_SYS_EXEC_AOUT_H, 1,
-			[Should we use <sys/exec_aout.h> when doing dynamic loading?])
+		    AC_DEFINE(USE_SYS_EXEC_AOUT_H)
 		else
 		    DL_OBJS=""
 		fi
@@ -1775,12 +1665,11 @@ dnl AC_CHECK_TOOL(AR, ar)
 	SHLIB_SUFFIX=""
 	DL_OBJS="tclLoadNone.o"
 	DL_LIBS=""
-	LDFLAGS="$LDFLAGS_ORIG"
+	LDFLAGS=""
 	CC_SEARCH_FLAGS=""
 	LD_SEARCH_FLAGS=""
 	BUILD_DLTEST=""
     fi
-    LDFLAGS="$LDFLAGS $LDFLAGS_ARCH"
 
     # If we're running gcc, then change the C flags for compiling shared
     # libraries to the right flags for gcc, instead of those for the
@@ -1795,7 +1684,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 		    ;;
 		IRIX*)
 		    ;;
-		NetBSD-*|FreeBSD-*)
+		NetBSD-*|FreeBSD-*|OpenBSD-*)
 		    ;;
 		Rhapsody-*|Darwin-*)
 		    ;;
@@ -1813,10 +1702,10 @@ dnl AC_CHECK_TOOL(AR, ar)
     fi
 
     if test "$SHARED_LIB_SUFFIX" = "" ; then
-	SHARED_LIB_SUFFIX='${VERSION}${SHLIB_SUFFIX}'
+	SHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}${SHLIB_SUFFIX}'
     fi
     if test "$UNSHARED_LIB_SUFFIX" = "" ; then
-	UNSHARED_LIB_SUFFIX='${VERSION}.a'
+	UNSHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}.a'
     fi
 
     if test "${SHARED_BUILD}" = "1" && test "${SHLIB_SUFFIX}" != "" ; then
@@ -1879,6 +1768,7 @@ dnl        esac
     AC_SUBST(CFLAGS_DEBUG)
     AC_SUBST(CFLAGS_OPTIMIZE)
     AC_SUBST(CFLAGS_WARNING)
+    AC_SUBST(EXTRA_CFLAGS)
 
     AC_SUBST(LDFLAGS)
     AC_SUBST(LDFLAGS_DEBUG)
@@ -1894,8 +1784,6 @@ dnl        esac
     AC_SUBST(SHLIB_LD_LIBS)
     AC_SUBST(SHLIB_CFLAGS)
     AC_SUBST(SHLIB_SUFFIX)
-    AC_DEFINE_UNQUOTED(TCL_SHLIB_EXT,"${SHLIB_SUFFIX}",
-	[What is the default extension for shared libraries?])
 
     AC_SUBST(MAKE_LIB)
     AC_SUBST(MAKE_STUB_LIB)
@@ -2017,9 +1905,9 @@ int main() {
 }], tcl_cv_api_serial=sgtty, tcl_cv_api_serial=none, tcl_cv_api_serial=none)
     fi])
     case $tcl_cv_api_serial in
-	termios) AC_DEFINE(USE_TERMIOS, 1, [Use the termios API for serial lines]);;
-	termio)  AC_DEFINE(USE_TERMIO, 1, [Use the termio API for serial lines]);;
-	sgtty)   AC_DEFINE(USE_SGTTY, 1, [Use the sgtty API for serial lines]);;
+	termios) AC_DEFINE(USE_TERMIOS);;
+	termio)  AC_DEFINE(USE_TERMIO);;
+	sgtty)   AC_DEFINE(USE_SGTTY);;
     esac
     AC_MSG_RESULT($tcl_cv_api_serial)
 ])
@@ -2043,11 +1931,12 @@ int main() {
 #		NO_DIRENT_H
 #		NO_ERRNO_H
 #		NO_VALUES_H
-#		HAVE_LIMITS_H or NO_LIMITS_H
+#		NO_LIMITS_H
 #		NO_STDLIB_H
 #		NO_STRING_H
 #		NO_SYS_WAIT_H
 #		NO_DLFCN_H
+#		HAVE_UNISTD_H
 #		HAVE_SYS_PARAM_H
 #
 #		HAVE_STRING_H ?
@@ -2078,22 +1967,20 @@ closedir(d);
 ], tcl_ok=yes, tcl_ok=no)
 
     if test $tcl_ok = no; then
-	AC_DEFINE(NO_DIRENT_H, 1, [Do we have <dirent.h>?])
+	AC_DEFINE(NO_DIRENT_H)
     fi
 
     AC_MSG_RESULT($tcl_ok)
-    AC_CHECK_HEADER(errno.h, , [AC_DEFINE(NO_ERRNO_H, 1, [Do we have <errno.h>?])])
-    AC_CHECK_HEADER(float.h, , [AC_DEFINE(NO_FLOAT_H, 1, [Do we have <float.h>?])])
-    AC_CHECK_HEADER(values.h, , [AC_DEFINE(NO_VALUES_H, 1, [Do we have <values.h>?])])
-    AC_CHECK_HEADER(limits.h,
-	[AC_DEFINE(HAVE_LIMITS_H, 1, [Do we have <limits.h>?])],
-	[AC_DEFINE(NO_LIMITS_H, 1, [Do we have <limits.h>?])])
+    AC_CHECK_HEADER(errno.h, , [AC_DEFINE(NO_ERRNO_H)])
+    AC_CHECK_HEADER(float.h, , [AC_DEFINE(NO_FLOAT_H)])
+    AC_CHECK_HEADER(values.h, , [AC_DEFINE(NO_VALUES_H)])
+    AC_CHECK_HEADER(limits.h, , [AC_DEFINE(NO_LIMITS_H)])
     AC_CHECK_HEADER(stdlib.h, tcl_ok=1, tcl_ok=0)
     AC_EGREP_HEADER(strtol, stdlib.h, , tcl_ok=0)
     AC_EGREP_HEADER(strtoul, stdlib.h, , tcl_ok=0)
     AC_EGREP_HEADER(strtod, stdlib.h, , tcl_ok=0)
     if test $tcl_ok = 0; then
-	AC_DEFINE(NO_STDLIB_H, 1, [Do we have <stdlib.h>?])
+	AC_DEFINE(NO_STDLIB_H)
     fi
     AC_CHECK_HEADER(string.h, tcl_ok=1, tcl_ok=0)
     AC_EGREP_HEADER(strstr, string.h, , tcl_ok=0)
@@ -2103,14 +1990,16 @@ closedir(d);
     # set and why.
 
     if test $tcl_ok = 0; then
-	AC_DEFINE(NO_STRING_H, 1, [Do we have <string.h>?])
+	AC_DEFINE(NO_STRING_H)
     fi
 
-    AC_CHECK_HEADER(sys/wait.h, , [AC_DEFINE(NO_SYS_WAIT_H, 1, [Do we have <sys/wait.h>?])])
-    AC_CHECK_HEADER(dlfcn.h, , [AC_DEFINE(NO_DLFCN_H, 1, [Do we have <dlfcn.h>?])])
+    AC_CHECK_HEADER(sys/wait.h, , [AC_DEFINE(NO_SYS_WAIT_H)])
+    AC_CHECK_HEADER(dlfcn.h, , [AC_DEFINE(NO_DLFCN_H)])
 
     # OS/390 lacks sys/param.h (and doesn't need it, by chance).
-    AC_HAVE_HEADERS(sys/param.h)
+
+    AC_HAVE_HEADERS(unistd.h sys/param.h)
+
 ])
 
 #--------------------------------------------------------------------
@@ -2248,15 +2137,15 @@ AC_DEFUN(SC_BLOCKING_STYLE, [
 	# code (JO, 5/31/97).
 
 	OSF*)
-	    AC_DEFINE(USE_FIONBIO, 1, [Should we use FIONBIO?])
+	    AC_DEFINE(USE_FIONBIO)
 	    AC_MSG_RESULT(FIONBIO)
 	    ;;
 	SunOS-4*)
-	    AC_DEFINE(USE_FIONBIO, 1, [Should we use FIONBIO?])
+	    AC_DEFINE(USE_FIONBIO)
 	    AC_MSG_RESULT(FIONBIO)
 	    ;;
 	ULTRIX-4.*)
-	    AC_DEFINE(USE_FIONBIO, 1, [Should we use FIONBIO?])
+	    AC_DEFINE(USE_FIONBIO)
 	    AC_MSG_RESULT(FIONBIO)
 	    ;;
 	*)
@@ -2289,7 +2178,7 @@ AC_DEFUN(SC_TIME_HANDLER, [
     AC_HEADER_TIME
     AC_STRUCT_TIMEZONE
 
-    AC_CHECK_FUNCS(gmtime_r localtime_r mktime)
+    AC_CHECK_FUNCS(gmtime_r localtime_r)
 
     AC_MSG_CHECKING([tm_tzadj in struct tm])
     AC_CACHE_VAL(tcl_cv_member_tm_tzadj,
@@ -2297,7 +2186,7 @@ AC_DEFUN(SC_TIME_HANDLER, [
 	    tcl_cv_member_tm_tzadj=yes, tcl_cv_member_tm_tzadj=no))
     AC_MSG_RESULT($tcl_cv_member_tm_tzadj)
     if test $tcl_cv_member_tm_tzadj = yes ; then
-	AC_DEFINE(HAVE_TM_TZADJ, 1, [Should we use the tm_tzadj field of struct tm?])
+	AC_DEFINE(HAVE_TM_TZADJ)
     fi
 
     AC_MSG_CHECKING([tm_gmtoff in struct tm])
@@ -2306,7 +2195,7 @@ AC_DEFUN(SC_TIME_HANDLER, [
 	    tcl_cv_member_tm_gmtoff=yes, tcl_cv_member_tm_gmtoff=no))
     AC_MSG_RESULT($tcl_cv_member_tm_gmtoff)
     if test $tcl_cv_member_tm_gmtoff = yes ; then
-	AC_DEFINE(HAVE_TM_GMTOFF, 1, [Should we use the tm_gmtoff field of struct tm?])
+	AC_DEFINE(HAVE_TM_GMTOFF)
     fi
 
     #
@@ -2322,7 +2211,7 @@ AC_DEFUN(SC_TIME_HANDLER, [
 	    tcl_cv_timezone_long=yes, tcl_cv_timezone_long=no))
     AC_MSG_RESULT($tcl_cv_timezone_long)
     if test $tcl_cv_timezone_long = yes ; then
-	AC_DEFINE(HAVE_TIMEZONE_VAR, 1, [Should we use the global timezone variable?])
+	AC_DEFINE(HAVE_TIMEZONE_VAR)
     else
 	#
 	# On some systems (eg IRIX 6.2), timezone is a time_t and not a long.
@@ -2336,7 +2225,7 @@ AC_DEFUN(SC_TIME_HANDLER, [
 		tcl_cv_timezone_time=yes, tcl_cv_timezone_time=no))
 	AC_MSG_RESULT($tcl_cv_timezone_time)
 	if test $tcl_cv_timezone_time = yes ; then
-	    AC_DEFINE(HAVE_TIMEZONE_VAR, 1, [Should we use the global timezone variable?])
+	    AC_DEFINE(HAVE_TIMEZONE_VAR)
 	fi
     fi
 ])
@@ -2392,7 +2281,7 @@ AC_DEFUN(SC_BUGGY_STRTOD, [
 	    AC_MSG_RESULT(buggy)
 	    AC_LIBOBJ([fixstrtod])
 	    USE_COMPAT=1
-	    AC_DEFINE(strtod, fixstrtod, [Do we want to use the strtod() in compat?])
+	    AC_DEFINE(strtod, fixstrtod)
 	fi
     fi
 ])
@@ -2435,8 +2324,7 @@ AC_DEFUN(SC_TCL_LINK_LIBS, [
     #--------------------------------------------------------------------
 
     AC_CHECK_LIB(inet, main, [LIBS="$LIBS -linet"])
-    AC_CHECK_HEADER(net/errno.h, [
-	AC_DEFINE(HAVE_NET_ERRNO_H, 1, [Do we have <net/errno.h>?])])
+    AC_CHECK_HEADER(net/errno.h, [AC_DEFINE(HAVE_NET_ERRNO_H)])
 
     #--------------------------------------------------------------------
     #	Check for the existence of the -lsocket and -lnsl libraries.
@@ -2496,7 +2384,7 @@ AC_DEFUN(SC_TCL_EARLY_FLAG,[
 		[tcl_cv_flag_]translit($1,[A-Z],[a-z])=yes,
 		[tcl_cv_flag_]translit($1,[A-Z],[a-z])=no)))
     if test ["x${tcl_cv_flag_]translit($1,[A-Z],[a-z])[}" = "xyes"] ; then
-	AC_DEFINE($1, 1, [Add the ]$1[ flag when building])
+	AC_DEFINE($1)
 	tcl_flags="$tcl_flags $1"
     fi])
 
@@ -2542,15 +2430,14 @@ AC_DEFUN(SC_TCL_64BIT_FLAGS, [
 	# See if we should use long anyway  Note that we substitute in the
 	# type that is our current guess for a 64-bit type inside this check
 	# program, so it should be modified only carefully...
-        AC_TRY_COMPILE(,[switch (0) { 
-            case 1: case (sizeof(]${tcl_type_64bit}[)==sizeof(long)): ; 
-        }],tcl_cv_type_64bit=${tcl_type_64bit})])
+	AC_TRY_RUN([#include <unistd.h>
+	    int main() {exit(!(sizeof(]${tcl_type_64bit}[) > sizeof(long)));}
+	    ], tcl_cv_type_64bit=${tcl_type_64bit},:,:)])
     if test "${tcl_cv_type_64bit}" = none ; then
-	AC_DEFINE(TCL_WIDE_INT_IS_LONG, 1, [Are wide integers to be implemented with C 'long's?])
+	AC_DEFINE(TCL_WIDE_INT_IS_LONG)
 	AC_MSG_RESULT(using long)
     else
-	AC_DEFINE_UNQUOTED(TCL_WIDE_INT_TYPE,${tcl_cv_type_64bit},
-	    [What type should be used to define wide integers?])
+	AC_DEFINE_UNQUOTED(TCL_WIDE_INT_TYPE,${tcl_cv_type_64bit})
 	AC_MSG_RESULT(${tcl_cv_type_64bit})
 
 	# Now check for auxiliary declarations
@@ -2560,7 +2447,7 @@ AC_DEFUN(SC_TCL_64BIT_FLAGS, [
 #include <sys/dirent.h>],[struct dirent64 p;],
 		tcl_cv_struct_dirent64=yes,tcl_cv_struct_dirent64=no)])
 	if test "x${tcl_cv_struct_dirent64}" = "xyes" ; then
-	    AC_DEFINE(HAVE_STRUCT_DIRENT64, 1, [Is 'struct dirent64' in <sys/types.h>?])
+	    AC_DEFINE(HAVE_STRUCT_DIRENT64)
 	fi
 	AC_MSG_RESULT(${tcl_cv_struct_dirent64})
 
@@ -2570,26 +2457,19 @@ AC_DEFUN(SC_TCL_64BIT_FLAGS, [
 ],
 		tcl_cv_struct_stat64=yes,tcl_cv_struct_stat64=no)])
 	if test "x${tcl_cv_struct_stat64}" = "xyes" ; then
-	    AC_DEFINE(HAVE_STRUCT_STAT64, 1, [Is 'struct stat64' in <sys/stat.h>?])
+	    AC_DEFINE(HAVE_STRUCT_STAT64)
 	fi
 	AC_MSG_RESULT(${tcl_cv_struct_stat64})
 
-	AC_CHECK_FUNCS(open64 lseek64)
 	AC_MSG_CHECKING([for off64_t])
 	AC_CACHE_VAL(tcl_cv_type_off64_t,[
 	    AC_TRY_COMPILE([#include <sys/types.h>],[off64_t offset;
 ],
 		tcl_cv_type_off64_t=yes,tcl_cv_type_off64_t=no)])
-	dnl Define HAVE_TYPE_OFF64_T only when the off64_t type and the
-	dnl functions lseek64 and open64 are defined.
-	if test "x${tcl_cv_type_off64_t}" = "xyes" && \
-	        test "x${ac_cv_func_lseek64}" = "xyes" && \
-	        test "x${ac_cv_func_open64}" = "xyes" ; then
-	    AC_DEFINE(HAVE_TYPE_OFF64_T, 1, [Is off64_t in <sys/types.h>?])
-	    AC_MSG_RESULT(yes)
-	else
-	    AC_MSG_RESULT(no)
+	if test "x${tcl_cv_type_off64_t}" = "xyes" ; then
+	    AC_DEFINE(HAVE_TYPE_OFF64_T)
 	fi
+	AC_MSG_RESULT(${tcl_cv_type_off64_t})
     fi])
 
 #--------------------------------------------------------------------
@@ -2613,49 +2493,7 @@ AC_DEFUN(SC_TCL_CFG_ENCODING, [
     AC_ARG_WITH(encoding, [  --with-encoding              encoding for configuration values], with_tcencoding=${withval})
 
     if test x"${with_tcencoding}" != x ; then
-	AC_DEFINE_UNQUOTED(TCL_CFGVAL_ENCODING,"${with_tcencoding}",
-	    [What encoding should be used for embedded configuration info?])
+	AC_DEFINE_UNQUOTED(TCL_CFGVAL_ENCODING,"${with_tcencoding}")
     else
-	AC_DEFINE(TCL_CFGVAL_ENCODING,"iso8859-1",
-	    [What encoding should be used for embedded configuration info?])
+	AC_DEFINE(TCL_CFGVAL_ENCODING,"iso8859-1")
     fi])
-
-#--------------------------------------------------------------------
-# SC_TCL_CHECK_BROKEN_FUNC
-#
-#	Declare the encoding to use for embedded configuration information.
-#
-# Arguments:
-#	funcName - function to test for
-#	advancedTest - the advanced test to run if the function is present
-#
-# Results:
-#	Might cause compatability versions of the function to be used.
-#	Might affect the following vars:
-#		USE_COMPAT	(implicit)
-#
-#--------------------------------------------------------------------
-
-AC_DEFUN(SC_TCL_CHECK_BROKEN_FUNC,[
-    AC_CHECK_FUNC($1, tcl_ok=1, tcl_ok=0)
-    if test ["$tcl_ok"] = 1; then
-	AC_MSG_CHECKING([proper ]$1[ implementation])
-	AC_CACHE_VAL([tcl_cv_]$1[_unbroken],
-	    AC_TRY_RUN([[int main() {]$2[}]],[tcl_cv_]$1[_unbroken]=ok,
-		[tcl_cv_]$1[_unbroken]=broken,[tcl_cv_]$1[_unbroken]=unknown))
-	AC_MSG_RESULT([$tcl_cv_]$1[_unbroken])
-	if test ["$tcl_cv_]$1[_unbroken"] = "ok"; then
-	    tcl_ok=1
-	else
-	    tcl_ok=0
-	fi
-    fi
-    if test ["$tcl_ok"] = 0; then
-	AC_LIBOBJ($1)
-	USE_COMPAT=1
-    fi])
-
-
-# Local Variables:
-# mode: autoconf
-# End:

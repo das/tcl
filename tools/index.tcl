@@ -133,7 +133,7 @@ proc text string {
 
 proc macro {name args} {
     switch $name {
-	SH - SS {
+	SH {
 	    global state
 
 	    switch $args {

@@ -1639,14 +1639,14 @@ declare 462 generic {
     int Tcl_FSEqualPaths(Tcl_Obj* firstPtr, Tcl_Obj* secondPtr)
 }
 declare 463 generic {
-    Tcl_Obj* Tcl_FSGetNormalizedPath(Tcl_Interp *interp, Tcl_Obj* pathPtr)
+    Tcl_Obj* Tcl_FSGetNormalizedPath(Tcl_Interp *interp, Tcl_Obj* pathObjPtr)
 }
 declare 464 generic {
-    Tcl_Obj* Tcl_FSJoinToPath(Tcl_Obj *pathPtr, int objc,
+    Tcl_Obj* Tcl_FSJoinToPath(Tcl_Obj *basePtr, int objc,
 	    Tcl_Obj *CONST objv[])
 }
 declare 465 generic {
-    ClientData Tcl_FSGetInternalRep(Tcl_Obj* pathPtr,
+    ClientData Tcl_FSGetInternalRep(Tcl_Obj* pathObjPtr,
 	    Tcl_Filesystem *fsPtr)
 }
 declare 466 generic {
@@ -1660,13 +1660,13 @@ declare 468 generic {
 	    ClientData clientData)
 }
 declare 469 generic {
-    CONST char* Tcl_FSGetNativePath(Tcl_Obj* pathPtr)
+    CONST char* Tcl_FSGetNativePath(Tcl_Obj* pathObjPtr)
 }
 declare 470 generic {
-    Tcl_Obj* Tcl_FSFileSystemInfo(Tcl_Obj* pathPtr)
+    Tcl_Obj* Tcl_FSFileSystemInfo(Tcl_Obj* pathObjPtr)
 }
 declare 471 generic {
-    Tcl_Obj* Tcl_FSPathSeparator(Tcl_Obj* pathPtr)
+    Tcl_Obj* Tcl_FSPathSeparator(Tcl_Obj* pathObjPtr)
 }
 declare 472 generic {
     Tcl_Obj* Tcl_FSListVolumes(void)
@@ -1685,10 +1685,10 @@ declare 476 generic {
 	    Tcl_Obj* pathPtr)
 }
 declare 477 generic {
-    Tcl_Filesystem* Tcl_FSGetFileSystemForPath(Tcl_Obj* pathPtr)
+    Tcl_Filesystem* Tcl_FSGetFileSystemForPath(Tcl_Obj* pathObjPtr)
 }
 declare 478 generic {
-    Tcl_PathType Tcl_FSGetPathType(Tcl_Obj *pathPtr)
+    Tcl_PathType Tcl_FSGetPathType(Tcl_Obj *pathObjPtr)
 }
 # New function due to TIP#49
 declare 479 generic {
@@ -1799,132 +1799,8 @@ declare 504 generic {
 
 # New export due to TIP#59
 declare 505 generic {
-    void Tcl_RegisterConfig(Tcl_Interp* interp, CONST char* pkgName,
-	    Tcl_Config* configuration, CONST char* valEncoding)
-}
-
-# Transferred from tclInt.decls due to TIP #139
-declare 506 generic {
-    Tcl_Namespace *Tcl_CreateNamespace(Tcl_Interp *interp, CONST char *name,
-	    ClientData clientData, Tcl_NamespaceDeleteProc *deleteProc)
-}
-declare 507 generic {
-    void Tcl_DeleteNamespace(Tcl_Namespace *nsPtr)
-}
-declare 508 generic {
-    int Tcl_AppendExportList(Tcl_Interp *interp, Tcl_Namespace *nsPtr,
-	    Tcl_Obj *objPtr)
-}
-declare 509 generic {
-    int Tcl_Export(Tcl_Interp *interp, Tcl_Namespace *nsPtr,
-	    CONST char *pattern, int resetListFirst)
-}
-declare 510 generic {
-    int Tcl_Import(Tcl_Interp *interp, Tcl_Namespace *nsPtr,
-	    CONST char *pattern, int allowOverwrite)
-}
-declare 511 generic {
-    int Tcl_ForgetImport(Tcl_Interp *interp, Tcl_Namespace *nsPtr,
-	    CONST char *pattern)
-}
-declare 512 generic {
-    Tcl_Namespace *Tcl_GetCurrentNamespace(Tcl_Interp *interp)
-}
-declare 513 generic {
-    Tcl_Namespace *Tcl_GetGlobalNamespace(Tcl_Interp *interp)
-}
-declare 514 generic {
-    Tcl_Namespace *Tcl_FindNamespace(Tcl_Interp *interp, CONST char *name,
-	    Tcl_Namespace *contextNsPtr, int flags)
-}
-declare 515 generic {
-    Tcl_Command Tcl_FindCommand(Tcl_Interp *interp, CONST char *name,
-	    Tcl_Namespace *contextNsPtr, int flags)
-}
-declare 516 generic {
-    Tcl_Command Tcl_GetCommandFromObj(Tcl_Interp *interp, Tcl_Obj *objPtr)
-}
-declare 517 generic {
-    void Tcl_GetCommandFullName(Tcl_Interp *interp, Tcl_Command command,
-	    Tcl_Obj *objPtr)
-}
-
-# New export due to TIP#137
-declare 518 generic {
-    int Tcl_FSEvalFileEx(Tcl_Interp *interp, Tcl_Obj *fileName,
-            CONST char *encodingName)
-}
-
-# New export due to TIP#121
-declare 519 generic {
-    Tcl_ExitProc *Tcl_SetExitProc(Tcl_ExitProc *proc)
-}
-
-# TIP#143 API
-declare 520 generic {
-    void Tcl_LimitAddHandler(Tcl_Interp *interp, int type,
-	    Tcl_LimitHandlerProc *handlerProc, ClientData clientData,
-	    Tcl_LimitHandlerDeleteProc *deleteProc)
-}
-declare 521 generic {
-    void Tcl_LimitRemoveHandler(Tcl_Interp *interp, int type,
-	    Tcl_LimitHandlerProc *handlerProc, ClientData clientData)
-}
-declare 522 generic {
-    int Tcl_LimitReady(Tcl_Interp *interp)
-}
-declare 523 generic {
-    int Tcl_LimitCheck(Tcl_Interp *interp)
-}
-declare 524 generic {
-    int Tcl_LimitExceeded(Tcl_Interp *interp)
-}
-declare 525 generic {
-    void Tcl_LimitSetCommands(Tcl_Interp *interp, int commandLimit)
-}
-declare 526 generic {
-    void Tcl_LimitSetTime(Tcl_Interp *interp, Tcl_Time *timeLimitPtr)
-}
-declare 527 generic {
-    void Tcl_LimitSetGranularity(Tcl_Interp *interp, int type, int granularity)
-}
-declare 528 generic {
-    int Tcl_LimitTypeEnabled(Tcl_Interp *interp, int type)
-}
-declare 529 generic {
-    int Tcl_LimitTypeExceeded(Tcl_Interp *interp, int type)
-}
-declare 530 generic {
-    void Tcl_LimitTypeSet(Tcl_Interp *interp, int type)
-}
-declare 531 generic {
-    void Tcl_LimitTypeReset(Tcl_Interp *interp, int type)
-}
-declare 532 generic {
-    int Tcl_LimitGetCommands(Tcl_Interp *interp)
-}
-declare 533 generic {
-    void Tcl_LimitGetTime(Tcl_Interp *interp, Tcl_Time *timeLimitPtr)
-}
-declare 534 generic {
-    int Tcl_LimitGetGranularity(Tcl_Interp *interp, int type)
-}
-# TIP#226 API
-declare 535 generic {
-    Tcl_InterpState Tcl_SaveInterpState(Tcl_Interp *interp, int status)
-}
-declare 536 generic {
-    int Tcl_RestoreInterpState(Tcl_Interp *interp, Tcl_InterpState state)
-}
-declare 537 generic {
-    void Tcl_DiscardInterpState(Tcl_InterpState state)
-}
-# TIP#227 API
-declare 538 generic {
-    int Tcl_SetReturnOptions(Tcl_Interp *interp, Tcl_Obj *options)
-}
-declare 539 generic {
-    Tcl_Obj *Tcl_GetReturnOptions(Tcl_Interp *interp, int result)
+    void Tcl_RegisterConfig (Tcl_Interp* interp, CONST char* pkgName, Tcl_Config* configuration, \
+	CONST char* valEncoding)
 }
 
 ##############################################################################
@@ -1944,6 +1820,55 @@ declare 0 win {
 }
 declare 1 win {
     char * Tcl_WinTCharToUtf(CONST TCHAR *str, int len, Tcl_DString *dsPtr)
+}
+
+##################
+# Mac declarations
+
+# This is needed by the shells to handle Macintosh events.
+ 
+declare 0 mac {
+    void Tcl_MacSetEventProc(Tcl_MacConvertEventPtr procPtr)
+}
+
+# These routines are useful for handling using scripts from resources 
+# in the application shell
+
+declare 1 mac {
+    char * Tcl_MacConvertTextResource(Handle resource)
+}
+declare 2 mac {
+    int Tcl_MacEvalResource(Tcl_Interp *interp, CONST char *resourceName,
+	    int resourceNumber, CONST char *fileName)
+}
+declare 3 mac {
+    Handle Tcl_MacFindResource(Tcl_Interp *interp, long resourceType,
+	    CONST char *resourceName, int resourceNumber,
+	    CONST char *resFileRef, int * releaseIt)
+}
+
+# These routines support the new OSType object type (i.e. the packed 4
+# character type and creator codes).
+
+declare 4 mac {
+    int Tcl_GetOSTypeFromObj(Tcl_Interp *interp, Tcl_Obj *objPtr,
+	    OSType *osTypePtr)
+}
+declare 5 mac {
+    void Tcl_SetOSTypeObj(Tcl_Obj *objPtr, OSType osType)
+}
+declare 6 mac {
+    Tcl_Obj * Tcl_NewOSTypeObj(OSType osType)
+}
+
+# These are not in MSL 2.1.2, so we need to export them from the
+# Tcl shared library.  They are found in the compat directory.
+ 
+declare 7 mac {
+    int strncasecmp(CONST char *s1, CONST char *s2, size_t n)
+}
+declare 8 mac {
+    int strcasecmp(CONST char *s1, CONST char *s2)
 }
 
 ##################
