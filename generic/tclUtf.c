@@ -1133,9 +1133,12 @@ Tcl_UtfNcasecmp(cs, ct, n)
 	 */
 	cs += Tcl_UtfToUniChar(cs, &ch1);
 	ct += Tcl_UtfToUniChar(ct, &ch2);
-	if ((ch1 != ch2) &&
-	    (Tcl_UniCharToLower(ch1) != Tcl_UniCharToLower(ch2))) {
-	    return (ch1 - ch2);
+	if (ch1 != ch2) {
+	    ch1 = Tcl_UniCharToLower(ch1);
+	    ch2 = Tcl_UniCharToLower(ch2);
+	    if (ch1 != ch2) {
+		return (ch1 - ch2);
+	    }
 	}
     }
     return 0;
