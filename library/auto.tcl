@@ -26,10 +26,7 @@ proc auto_reset {} {
     variable ::tcl::auto_oldpath
     global auto_execs auto_index 
     foreach p [info procs] {
-	if {[info exists auto_index($p)] && ![string match auto_* $p]
-		&& ([lsearch -exact {unknown pkg_mkIndex tclPkgSetup
-			tcl_findLibrary pkg_compareExtension
-			tclPkgUnknown tcl::MacOSXPkgUnknown} $p] < 0)} {
+	if {[info exists auto_index($p)]} {
 	    rename $p {}
 	}
     }

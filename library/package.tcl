@@ -47,7 +47,7 @@ proc tcl::Pkg::CompareExtension { fileName {ext {}} } {
 	    # The current extension does not match; if it is not a numeric
 	    # value, quit, as we are only looking to ignore version number
 	    # extensions.  Otherwise we might return 1 in this case:
-	    #		pkg_compareExtension foo.so.bar .so
+	    #		tcl::Pkg::CompareExtension foo.so.bar .so
 	    # which should not match.
 
 	    if { ![string is integer -strict [string range $currExt 1 end]] } {
