@@ -162,6 +162,7 @@ static void		ExitProcEven _ANSI_ARGS_((ClientData clientData));
 static void		ExitProcOdd _ANSI_ARGS_((ClientData clientData));
 static int              GetTimesCmd _ANSI_ARGS_((ClientData clientData,
                             Tcl_Interp *interp, int argc, char **argv));
+static void		MainLoop _ANSI_ARGS_((void));
 static int              NoopCmd _ANSI_ARGS_((ClientData clientData,
                             Tcl_Interp *interp, int argc, char **argv));
 static int              NoopObjCmd _ANSI_ARGS_((ClientData clientData,
