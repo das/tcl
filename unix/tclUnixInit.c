@@ -279,6 +279,8 @@ CONST char *path;		/* Path to the executable in native
 
     /*
      * Finally, look for the library relative to the compiled-in path.
+     * This is needed when users install Tcl with an exec-prefix that
+     * is different from the prtefix.
      */
 			      
     str = defaultLibraryDir;
