@@ -1,13 +1,5 @@
 Tcl 8.4 for Macintosh
 
-by Ray Johnson
-Scriptics Corporation
-rjohnson@scriptics.com
-with major help from
-Jim Ingham
-Cygnus Solutions
-jingham@cygnus.com
-
 RCS: @(#) $Id$
 
 1. Introduction
@@ -75,4 +67,3 @@ current release notes please check this page:
 If you have comments or Bug reports send them to:
 Jim Ingham
 jingham@cygnus.com
-

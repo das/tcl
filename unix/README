@@ -123,7 +123,7 @@ information on the test suite.  Note: don't run the tests as superuser:
 this will cause several of them to fail.  If a test is failing
 consistently, please send us a bug report with as much detail as you
 can manage.  Please use the online database at
-	http://dev.scriptics.com/ticket/
+	http://tcl.sourceforge.net/
 
 The Tcl test suite is very sensitive to proper implementation of
 ANSI C library procedures such as sprintf and sscanf.  If the test
