@@ -77,8 +77,8 @@ static OpenFileChannelProc *openFileChannelProcList =
 
 #ifdef TCL_THREADS
 static Tcl_Mutex hookMutex;
-#endif
-
+#endif
+
 /*
  *---------------------------------------------------------------------------
  *
