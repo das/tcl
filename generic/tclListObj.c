@@ -235,7 +235,7 @@ Tcl_DbNewListObj(objc, objv, file, line)
 Tcl_Obj *
 TclNewListObjDirect(objc, objv)
     int objc;			/* Count of objects referenced by objv. */
-    Tcl_Obj *CONST objv[];	/* An array of pointers to Tcl objects. */
+    Tcl_Obj **objv;		/* An array of pointers to Tcl objects. */
 {
     return TclDbNewListObjDirect(objc, objv, "unknown", 0);
 }
@@ -243,7 +243,7 @@ TclNewListObjDirect(objc, objv)
 Tcl_Obj *
 TclNewListObjDirect(objc, objv)
     int objc;			/* Count of objects referenced by objv. */
-    Tcl_Obj *CONST objv[];	/* An array of pointers to Tcl objects. */
+    Tcl_Obj **objv;		/* An array of pointers to Tcl objects. */
 {
     register Tcl_Obj *listPtr;
 
@@ -276,7 +276,7 @@ TclNewListObjDirect(objc, objv)
 Tcl_Obj *
 TclDbNewListObjDirect(objc, objv, file, line)
     int objc;			/* Count of objects referenced by objv. */
-    Tcl_Obj *CONST objv[];	/* An array of pointers to Tcl objects. */
+    Tcl_Obj **objv;		/* An array of pointers to Tcl objects. */
     CONST char *file;		/* The name of the source file calling this
 				 * procedure; used for debugging. */
     int line;			/* Line number in the source file; used
@@ -311,7 +311,7 @@ TclDbNewListObjDirect(objc, objv, file, line)
 Tcl_Obj *
 TclDbNewListObjDirect(objc, objv, file, line)
     int objc;			/* Count of objects referenced by objv. */
-    Tcl_Obj *CONST objv[];	/* An array of pointers to Tcl objects. */
+    Tcl_Obj **objv;		/* An array of pointers to Tcl objects. */
     CONST char *file;		/* The name of the source file calling this
 				 * procedure; used for debugging. */
     int line;			/* Line number in the source file; used
