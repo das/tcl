@@ -10,9 +10,9 @@ Version: %{version}
 Release: 1
 Copyright: BSD
 Group: Development/Languages
-Source: ftp://ftp.scriptics.com/pub/tcl/tcl8_4/tcl%{version}.tar.gz
-URL: http://dev.scriptics.com/
-Packager: Scriptics Corporation
+Source: http://prdownloads.sourceforge.net/tcl/tcl%{version}-src.tar.gz
+URL: http://www.tcl.tk/
+Packager: Carina
 Buildroot: /var/tmp/%{name}%{version}
 
 %description
