@@ -27,6 +27,14 @@
 #endif
 
 /*
+ * The following specifies how much stack space TclpCheckStackSpace()
+ * ensures is available.  TclpCheckStackSpace() is called by Tcl_EvalObj()
+ * to help avoid overflowing the stack in the case of infinite recursion.
+ */
+
+#define TCL_WIN_STACK_THRESHOLD 0x2000
+
+/*
  * Some versions of Borland C have a define for the OSVERSIONINFO for
  * Win32s and for NT, but not for Windows 95.
  */
