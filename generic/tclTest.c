@@ -4404,6 +4404,7 @@ TestStatProc1(path, buf)
     CONST char *path;
     struct stat *buf;
 {
+    memset(buf, 0, sizeof(struct stat));
     buf->st_size = 1234;
     return ((strstr(path, "testStat1%.fil") == NULL) ? -1 : 0);
 }
@@ -4414,6 +4415,7 @@ TestStatProc2(path, buf)
     CONST char *path;
     struct stat *buf;
 {
+    memset(buf, 0, sizeof(struct stat));
     buf->st_size = 2345;
     return ((strstr(path, "testStat2%.fil") == NULL) ? -1 : 0);
 }
@@ -4424,6 +4426,7 @@ TestStatProc3(path, buf)
     CONST char *path;
     struct stat *buf;
 {
+    memset(buf, 0, sizeof(struct stat));
     buf->st_size = 3456;
     return ((strstr(path, "testStat3%.fil") == NULL) ? -1 : 0);
 }
