@@ -1655,7 +1655,9 @@ proc ::tcltest::threadReap {} {
 # Initialize the constraints and set up command line arguments 
 namespace eval tcltest {
     ::tcltest::initConstraints
-    ::tcltest::processCmdLineArgs
+    if {[namespace children ::tcltest] == {}} {
+	::tcltest::processCmdLineArgs
+    }
 }
 
 return
