@@ -38,11 +38,11 @@ test clock-2.2 {clock clicks tests} {
 test clock-2.3 {clock clicks tests} {
     list [catch {clock clicks foo} msg] $msg
 } {1 {bad switch "foo": must be -milliseconds}}
-test clock-2.3 {clock clicks tests} {
+test clock-2.4 {clock clicks tests} {
     expr [clock clicks -milliseconds]+1
     concat {}
 } {}
-test clock-2.2 {clock clicks tests, millisecond timing test} {
+test clock-2.5 {clock clicks tests, millisecond timing test} {
     set start [clock clicks -milli]
     after 10
     set end [clock clicks -milli]
