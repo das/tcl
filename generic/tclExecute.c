@@ -3989,7 +3989,7 @@ TclExecuteByteCode(interp, codePtr)
 	     * from the string rep.
 	     */
 	    int length;
-	    long i;
+	    long i;     /* Set but never used, needed in GET_WIDE_OR_INT */
 	    Tcl_WideInt w;
 	    char *s = Tcl_GetStringFromObj(valuePtr, &length);
 
@@ -5406,7 +5406,7 @@ VerifyExprObjType(interp, objPtr)
 	char *s = Tcl_GetStringFromObj(objPtr, &length);
 	
 	if (TclLooksLikeInt(s, length)) {
-	    long i;
+	    long i;     /* Set but never used, needed in GET_WIDE_OR_INT */
 	    Tcl_WideInt w;
 	    GET_WIDE_OR_INT(result, objPtr, i, w);
 	} else {

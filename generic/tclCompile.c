@@ -1634,7 +1634,9 @@ TclInitByteCodeObj(objPtr, envPtr)
     size_t codeBytes, objArrayBytes, exceptArrayBytes, cmdLocBytes;
     size_t auxDataArrayBytes, structureSize;
     register unsigned char *p;
+#ifdef TCL_COMPILE_DEBUG
     unsigned char *nextPtr;
+#endif
     int numLitObjects = envPtr->literalArrayNext;
     Namespace *namespacePtr;
     int i;
@@ -1715,8 +1717,10 @@ TclInitByteCodeObj(objPtr, envPtr)
     }
 
     p += auxDataArrayBytes;
+#ifndef TCL_COMPILE_DEBUG
+    EncodeCmdLocMap(envPtr, codePtr, (unsigned char *) p);
+#else
     nextPtr = EncodeCmdLocMap(envPtr, codePtr, (unsigned char *) p);
-#ifdef TCL_COMPILE_DEBUG
     if (((size_t)(nextPtr - p)) != cmdLocBytes) {	
 	Tcl_Panic("TclInitByteCodeObj: encoded cmd location bytes %d != expected size %d\n", (nextPtr - p), cmdLocBytes);
     }
