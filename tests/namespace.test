@@ -1674,7 +1674,7 @@ test namespace-47.7 {ensemble: unknown handler and namespace import} {
     bar y 456
     namespace delete foo
     set result
-} {1 {bar is not an ensemble command} XXX 123 ::bar {y 456} YYY 456}
+} {1 {bar is not an ensemble command} XXX 123 ::foo::bar {y 456} YYY 456}
 
 # cleanup
 catch {rename cmd1 {}}
