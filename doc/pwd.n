@@ -12,14 +12,14 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-pwd \- Return the current working directory
+pwd \- Return the absolute path of the current working directory
 .SH SYNOPSIS
 \fBpwd\fR
 .BE
 
 .SH DESCRIPTION
 .PP
-Returns the path name of the current working directory.
+Returns the absolute path name of the current working directory.
 .SH EXAMPLE
 Sometimes it is useful to change to a known directory when running
 some external command using \fBexec\fR, but it is important to keep
