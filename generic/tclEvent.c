@@ -613,8 +613,8 @@ TclSetLibraryPath(pathPtr)
 	ckfree(tclLibraryPathStr);
     }
     toDupe = Tcl_GetStringFromObj(pathPtr, &size);
-    tclLibraryPathStr = ckalloc(size+1);
-    strcpy(tclLibraryPathStr, toDupe);
+    tclLibraryPathStr = ckalloc((unsigned)size+1);
+    memcpy(tclLibraryPathStr, toDupe, (unsigned)size+1);
 }
 
 /*
