@@ -748,7 +748,7 @@ EXTERN int              TclInterpReady _ANSI_ARGS_((Tcl_Interp *interp));
  */
 
 EXTERN int		TclCompEvalObj _ANSI_ARGS_((Tcl_Interp *interp,
-			    Tcl_Obj *objPtr, int engineCall));
+			    Tcl_Obj *objPtr));
 
 /*
  *----------------------------------------------------------------
