@@ -69,6 +69,9 @@ main(argc, argv)
 #ifdef TCL_TEST
     /*
      * Pass the build time location of the tcl library (to find init.tcl)
+     *
+     * This causes a 2400b "potential" mem leak, according to purify
+     * (the obj allocation that never seems to gets deallocated)
      */
     Tcl_Obj *path;
     path = Tcl_NewStringObj(TCL_BUILDTIME_LIBRARY, -1);
