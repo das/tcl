@@ -568,6 +568,7 @@ EXTERN char *          	TclpInetNtoa(struct in_addr);
 #define readdir(x)	TclpReaddir(x)
 #define localtime(x)	TclpLocaltime(x)
 #define gmtime(x)	TclpGmtime(x)
+#undef inet_ntoa
 #define inet_ntoa(x)	TclpInetNtoa(x)
 #undef TclOSreaddir
 #define TclOSreaddir(x) TclpReaddir(x)
