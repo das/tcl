@@ -35,6 +35,8 @@
 
 TclStubs *tclStubsPtr;
 TclPlatStubs *tclPlatStubsPtr;
+TclIntStubs *tclIntStubsPtr;
+TclIntPlatStubs *tclIntPlatStubsPtr;
 
 static TclStubs *	HasStubSupport _ANSI_ARGS_((Tcl_Interp *interp));
 
@@ -96,8 +98,12 @@ Tcl_InitStubs (interp, version, exact)
 
     if (tclStubsPtr->hooks) {
 	tclPlatStubsPtr = tclStubsPtr->hooks->tclPlatStubs;
+	tclIntStubsPtr = tclStubsPtr->hooks->tclIntStubs;
+	tclIntPlatStubsPtr = tclStubsPtr->hooks->tclIntPlatStubs;
     } else {
 	tclPlatStubsPtr = NULL;
+	tclIntStubsPtr = NULL;
+	tclIntPlatStubsPtr = NULL;
     }
     
     return actualVersion;
