@@ -4267,7 +4267,7 @@ TestmainthreadCmd (dummy, interp, argc, argv)
  */
 
 static void
-MainLoop()
+MainLoop(void)
 {
     while (!exitMainLoop) {
 	Tcl_DoOneEvent(0);
