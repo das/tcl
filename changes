@@ -4762,4 +4762,4 @@ ExitThread to _endthreadex to prevent 4K mem leak
 
 1999-12-21 (bug fix) changed thread ids to longs (for 64bit systems)
 
---- Released 8.3b1, December 21, 1999 --- See ChangeLog for details ---
+--- Released 8.3b1, December 22, 1999 --- See ChangeLog for details ---
