@@ -41,7 +41,7 @@
 #define TCL_RELEASE_SERIAL  3
 
 #define TCL_VERSION	    "8.0"
-#define TCL_PATCH_LEVEL	    "8.0.3-5"
+#define TCL_PATCH_LEVEL	    "8.0.3"
 
 /*
  * The following definitions set up the proper options for Windows
