@@ -446,6 +446,13 @@
 #endif
 
 /*
+ * Older version of Mingw are known to lack a MWMO_ALERTABLE define.
+ */
+#if defined(HAVE_NO_MWMO_ALERTABLE)
+#   define MWMO_ALERTABLE 2
+#endif
+
+/*
  * The following defines wrap the system memory allocation routines for
  * use by tclAlloc.c.
  */
