@@ -132,9 +132,9 @@ main()
 
     WaitForInputIdle(pi.hProcess, 5000);
     WaitForSingleObject(pi.hProcess, INFINITE);
+    GetExitCodeProcess(pi.hProcess, &result);
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
-    result = 0;
 
     if (hFileOutput != INVALID_HANDLE_VALUE) {
 	SetFilePointer(hFileOutput, 0, 0, FILE_BEGIN);

@@ -1354,6 +1354,15 @@ ConvertFileNameFormat(
     Tcl_SplitPath(fileName, &pathc, &pathv);
     newv = (char **) ckalloc(pathc * sizeof(char *));
 
+    if (pathc == 0) {
+	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), 
+		"could not read \"", fileName,
+		"\": no such file or directory", 
+		(char *) NULL);
+	result = TCL_ERROR;
+	goto cleanup;
+    }
+    
     for (i = 0; i < pathc; i++) {
 	if ((pathv[i][0] == '/')
 		|| ((strlen(pathv[i]) == 3) && (pathv[i][1] == ':'))
