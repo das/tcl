@@ -512,6 +512,10 @@ install-libraries:
 
 install-doc:
 
+# Specifying TESTFLAGS on the command line is the standard way to pass
+# args to tcltest, ie:
+#	% make test TESTFLAGS="-verbose bps -file fileName.test"
+
 test: binaries $(TCLTEST)
 	TCL_LIBRARY="$(LIBRARY_DIR)"; export TCL_LIBRARY; \
 	./$(TCLTEST) "$(ROOT_DIR_NATIVE)/tests/all.tcl" $(TESTFLAGS) \
