@@ -1810,9 +1810,18 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 		&& (strcmp(normPath, nativePath) == 0)) {
 	    /* String is unchanged */
 	    Tcl_DStringFree(&ds);
-	    if (path[nextCheckpoint] != '\0') {
-		nextCheckpoint++;
+	    /*
+	     * Enable this to have the native FS claim normalization of
+	     * the whole path for existing files.  That would permit the
+	     * caller to declare normalization complete without calls to
+	     * additional filesystems.  Saving lots of calls is probably
+	     * worth the extra access() time here.  When no other FS's
+	     * are registered though, things are less clear.
+	     *
+	    if (0 == access(normPath, F_OK)) {
+		return pathLen;
 	    }
+	     */
 	    return nextCheckpoint;
 	}
 	
