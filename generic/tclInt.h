@@ -2127,6 +2127,8 @@ EXTERN int	TclCompileForCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
 EXTERN int	TclCompileForeachCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
+EXTERN int	TclCompileGlobalCmd _ANSI_ARGS_((Tcl_Interp *interp,
+		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
 EXTERN int	TclCompileIfCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
 EXTERN int	TclCompileIncrCmd _ANSI_ARGS_((Tcl_Interp *interp,
@@ -2148,6 +2150,10 @@ EXTERN int	TclCompileReturnCmd _ANSI_ARGS_((Tcl_Interp *interp,
 EXTERN int	TclCompileSetCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
 EXTERN int	TclCompileStringCmd _ANSI_ARGS_((Tcl_Interp *interp,
+		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
+EXTERN int	TclCompileUpvarCmd _ANSI_ARGS_((Tcl_Interp *interp,
+		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
+EXTERN int	TclCompileVariableCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
 EXTERN int	TclCompileWhileCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));

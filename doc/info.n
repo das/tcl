@@ -140,8 +140,8 @@ an empty string for the \fIinterp\fR argument.
 If \fIpattern\fR isn't specified, returns a list of all the names
 of currently-defined local variables, including arguments to the
 current procedure, if any.
-Variables defined with the \fBglobal\fR and \fBupvar\fR commands
-will not be returned.
+Variables defined with the \fBglobal\fR, \fBupvar\fR  and
+\fBvariable\fR commands will not be returned.
 If \fIpattern\fR is specified, only those names matching \fIpattern\fR
 are returned.  Matching is determined using the same rules as for
 \fBstring match\fR.
