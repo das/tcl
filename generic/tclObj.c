@@ -263,6 +263,7 @@ TclInitObjSubsystem()
     Tcl_RegisterObjType(&tclArraySearchType);
     Tcl_RegisterObjType(&tclIndexType);
     Tcl_RegisterObjType(&tclNsNameType);
+    Tcl_RegisterObjType(&tclEnsembleCmdType);
     Tcl_RegisterObjType(&tclCmdNameType);
 
 #ifdef TCL_COMPILE_STATS
