@@ -521,7 +521,6 @@ test info-16.1 {info script option} {
 test info-16.2 {info script option} {
     file tail [info sc]
 } "info.test"
-removeFile gorp.info
 set gorpfile [makeFile "info script\n" gorp.info]
 test info-16.3 {info script option} {
     list [source $gorpfile] [file tail [info script]]
