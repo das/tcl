@@ -519,27 +519,26 @@ proc setTabs {tabList} {
 	    set relative 0
 	}
 	# Always operate in relative mode for "measurement" mode
-	if {[regexp {^\\w'.*'u$} $arg]} {
-	    append tabString " 1"
-	    set last [expr {$last + 2}]
-	    continue
+	if {[regexp {^\\w'(.*)'u$} $arg content]} {
+	    set distance [string length $content]
+	} else {
+	    if {[scan $arg "%f%s" distance units] != 2} {
+		puts stderr "bad distance \"$arg\""
+		return 0
+	    }
+	    switch -- $units {
+		c {
+		    set distance [expr {$distance * $charsPerInch / 2.54}]
+		}
+		i {
+		    set distance [expr {$distance * $charsPerInch}]
+		}
+		default {
+		    puts stderr "bad units in distance \"$arg\""
+		    continue
+		}
+	    }
 	}
-	if {[scan $arg "%f%s" distance units] != 2} {
-	    puts stderr "bad distance \"$arg\""
-	    return 0
-    	}
-	switch -- $units {
-	    c	{
-		set distance [expr {$distance * $charsPerInch / 2.54}]
-	    }
-	    i	{
-		set distance [expr {$distance * $charsPerInch}]
-	    }
-	    default {
-		puts stderr "bad units in distance \"$arg\""
-		continue
-	    }
-    	}
 	# ? distance
 	if {$relative} {
 	    append tabString [format "%*s1" [expr {round($distance-1)}] " "]
