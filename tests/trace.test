@@ -2132,6 +2132,13 @@ test trace-32.1 {
     set result
 } [list [list delete foo]]
 
+test trace-33.1 {variable match with remove variable} {
+    unset -nocomplain x
+    trace variable x w foo
+    trace remove variable x write foo
+    llength [trace info variable x]
+} 0
+
 # Delete procedures when done, so we don't clash with other tests
 # (e.g. foobar will clash with 'unknown' tests).
 catch {rename foobar {}}
