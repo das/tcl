@@ -12,7 +12,7 @@
 # 
 # RCS: @(#) $Id$
 
-package provide msgcat 1.1
+package provide msgcat 1.2
 
 namespace eval msgcat {
     namespace export mc mcset mcmset mclocale mcpreferences mcunknown mcmax
