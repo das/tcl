@@ -2257,6 +2257,12 @@ UpdateStringOfWideInt(objPtr)
     register unsigned len;
     register Tcl_WideInt wideVal = objPtr->internalRep.wideValue;
 
+    /*
+     * Note that sprintf will generate a compiler warning under
+     * Mingw claiming %I64 is an unknown format specifier.
+     * Just ignore this warning. We can't use %L as the format
+     * specifier since that gets printed as a 32 bit value.
+     */
     sprintf(buffer, "%" TCL_LL_MODIFIER "d", wideVal);
     len = strlen(buffer);
     objPtr->bytes = ckalloc((unsigned) len + 1);
