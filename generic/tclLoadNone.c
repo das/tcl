@@ -35,7 +35,7 @@
  */
 
 int
-TclpLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
+TclpLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr, unloadProcPtr)
     Tcl_Interp *interp;		/* Used for error reporting. */
     Tcl_Obj *pathPtr;		/* Name of the file containing the desired
 				 * code. */
@@ -47,6 +47,7 @@ TclpLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
     ClientData *clientDataPtr;	/* Filled with token for dynamically loaded
 				 * file which will be passed back to 
 				 * TclpUnloadFile() to unload the file. */
+    Tcl_FSUnloadFileProc **unloadProcPtr;
 {
     Tcl_SetResult(interp,
 	    "dynamic loading is not currently available on this system",
