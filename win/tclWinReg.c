@@ -17,10 +17,6 @@
 #include <tclPort.h>
 #include <stdlib.h>
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#undef WIN32_LEAN_AND_MEAN
-
 /*
  * TCL_STORAGE_CLASS is set unconditionally to DLLEXPORT because the
  * Registry_Init declaration is in the source file itself, which is only
