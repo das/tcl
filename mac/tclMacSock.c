@@ -1354,7 +1354,7 @@ TcpGetOptionProc(
                                          * value; initialized by caller. */
 {
     TcpState *statePtr = (TcpState *) instanceData;
-    int doPeerName = false, doSockName = false, doAll = false;
+    int doPeerName = false, doSockName = false, doError = false, doAll = false;
     ip_addr tcpAddress;
     char buffer[128];
     OSErr err;
@@ -1392,9 +1392,33 @@ TcpGetOptionProc(
 	    doPeerName = true;
 	} else if (!strcmp(optionName, "-sockname")) {
 	    doSockName = true;
+	} else if (!strcmp(optionName, "-error")) {
+	    /* SF Bug #483575 */
+	    doError = true;
 	} else {
 	    return Tcl_BadChannelOption(interp, optionName, 
-	    		"peername sockname");
+		        "error peername sockname");
+	}
+    }
+
+    /*
+     * SF Bug #483575
+     *
+     * Return error information. Currently we ignore
+     * this option. IOW, we always return the empty
+     * string, signaling 'no error'.
+     *
+     * FIXME: Get a mac/socket expert to write a correct
+     * FIXME: implementation.
+     */
+
+    if (doAll || doError) {
+	if (doAll) {
+	    Tcl_DStringAppendElement(dsPtr, "-error");
+	    Tcl_DStringAppendElement(dsPtr, "");
+	} else {
+	    Tcl_DStringAppend (dsPtr, "");
+	    return TCL_OK;
 	}
     }
 
