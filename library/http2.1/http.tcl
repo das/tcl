@@ -332,7 +332,7 @@ proc http::geturl { url args } {
     if {$state(-timeout) > 0} {
 	fileevent $s writable [list http::Connect $token]
 	http::wait $token
-	fileevent $s writable {}
+	catch {fileevent $s writable {}}
 	if {![string equal $state(status) "connect"]} {
 	    return $token
 	}
