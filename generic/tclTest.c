@@ -27,11 +27,6 @@
  * Declare external functions used in Windows tests.
  */
 
-#if defined(__WIN32__)
-extern TclPlatformType *TclWinGetPlatform(void);
-EXTERN void		TclWinSetInterfaces(int);
-#endif
-
 /*
  * Dynamic string shared by TestdcallCmd and DelCallbackProc;  used
  * to collect the results of the various deletion callbacks.
