@@ -264,7 +264,7 @@ FormatClock(interp, clockVal, useGMT, format)
     char *format;			/* Format string */
 {
     struct tm *timeDataPtr;
-    Tcl_DString buffer, uniBuffer;
+    Tcl_DString buffer;
     int bufSize;
     char *p;
     int result;
@@ -336,8 +336,7 @@ FormatClock(interp, clockVal, useGMT, format)
 	    bufSize++;
 	}
     }
-    Tcl_DStringInit(&uniBuffer);
-    Tcl_UtfToExternalDString(NULL, format, -1, &uniBuffer);
+
     Tcl_DStringInit(&buffer);
     Tcl_DStringSetLength(&buffer, bufSize);
 
@@ -346,12 +345,11 @@ FormatClock(interp, clockVal, useGMT, format)
 #if defined(HAVE_TM_ZONE) || defined(WIN32)
     Tcl_MutexLock(&clockMutex);
 #endif
-    result = TclpStrftime(buffer.string, (unsigned int) bufSize,
-	    Tcl_DStringValue(&uniBuffer), timeDataPtr, useGMT);
+    result = TclpStrftime( buffer.string, (unsigned int) bufSize,
+			   format, timeDataPtr, useGMT);
 #if defined(HAVE_TM_ZONE) || defined(WIN32)
     Tcl_MutexUnlock(&clockMutex);
 #endif
-    Tcl_DStringFree(&uniBuffer);
 
 #if !defined(HAVE_TM_ZONE) && !defined(WIN32)
     if (useGMT) {
@@ -379,15 +377,8 @@ FormatClock(interp, clockVal, useGMT, format)
 	return TCL_ERROR;
     }
 
-    /*
-     * Convert the time to UTF from external encoding [Bug: 3345]
-     */
-    Tcl_DStringInit(&uniBuffer);
-    Tcl_ExternalToUtfDString(NULL, buffer.string, -1, &uniBuffer);
+    Tcl_SetStringObj(Tcl_GetObjResult(interp), buffer.string, -1);
 
-    Tcl_SetStringObj(Tcl_GetObjResult(interp), uniBuffer.string, -1);
-
-    Tcl_DStringFree(&uniBuffer);
     Tcl_DStringFree(&buffer);
     return TCL_OK;
 }

@@ -375,6 +375,7 @@ TclpGetDate(
  *
  * Results:
  *	Returns a pointer to a static string, or NULL on failure.
+ *	The static string is in UTF-8 encoding.
  *
  * Side effects:
  *	None.

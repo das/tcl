@@ -449,6 +449,7 @@ StopCalibration( ClientData unused )
  *
  * Results:
  *	Returns a pointer to a static string, or NULL on failure.
+ *	Return value is in UTF-8 encoding
  *
  * Side effects:
  *	None.
