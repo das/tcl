@@ -1109,11 +1109,11 @@ else
 	    cat > conftest.$ac_ext <<EOF
 #line 1111 "configure"
 #include "confdefs.h"
+#include <sys/types.h>
 #include <sys/dirent.h>
 int main() { return 0; }
 int t() {
 struct dirent64 p;
-
 ; return 0; }
 EOF
 if eval $ac_compile; then
