@@ -848,7 +848,7 @@ TclpSetVariables(interp)
     if (TclGetEnv("USERNAME", &ds) == NULL) {
 
 	if ( GetUserName( szUserName, &dwUserNameLen ) != 0 ) {
-	    Tcl_WinTCharToUtf( szUserName, dwUserNameLen, &ds );
+	    Tcl_WinTCharToUtf( szUserName, (int)dwUserNameLen, &ds );
 	}	
     }
     Tcl_SetVar2(interp, "tcl_platform", "user", Tcl_DStringValue(&ds),
