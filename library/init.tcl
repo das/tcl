@@ -18,41 +18,43 @@ if {[info commands package] == ""} {
 package require -exact Tcl 8.1
 
 # Compute the auto path to use in this interpreter.
-# (auto_path could be already set, in safe interps for instance
-#  and some variables are usually exist might not be there, proceed
-#  with caution)
+# The values on the path come from several locations:
+#
+# The environment variable TCLLIBPATH
+#
+# tcl_library, which is the directory containing this init.tcl script.
+# tclInitScript.h searches around for the directory containing this
+# init.tcl and defines tcl_library to that location before sourcing it.
+#
+# The parent directory of tcl_library. Adding the parent
+# means that packages in peer directories will be found automatically.
+#
+# tcl_pkgPath, which is set by the platform-specific initialization routines
+#	On UNIX it is compiled in
+#	On Windows it comes from the registry
+#	On Macintosh it is "Tool Command Language" in the Extensions folder
 
 if {![info exists auto_path]} {
-    if {[catch {set auto_path $env(TCLLIBPATH)}]} {
+    if {[info exist env(TCLLIBPATH)]} {
+	set auto_path $env(TCLLIBPATH)
+    } else {
 	set auto_path ""
     }
-    
-    if {[lsearch -exact $auto_path $tcl_library] < 0} {
-	lappend auto_path $tcl_library
-    }
-
-    set __dir [file dirname $tcl_library]
-
+}
+foreach __dir [list [info library] [file dirname [info library]]] {
     if {[lsearch -exact $auto_path $__dir] < 0} {
 	lappend auto_path $__dir
     }
-
-    # Add directories from the tcl_pkgPath
-    # (we might want to check the potential candidates in tcl_libPath too,
-    #  and check that those dirs refer to compatible tcl versions
-    #  (ie if they end with tcl7.6 we should prbably not add them))
-
-    if {[info exist tcl_pkgPath]} {
-	foreach __dir $tcl_pkgPath {
-	    if {[lsearch -exact $auto_path $__dir] < 0} {
-		lappend auto_path $__dir
-	    }
+}
+if {[info exist tcl_pkgPath]} {
+    foreach __dir $tcl_pkgPath {
+	if {[lsearch -exact $auto_path $__dir] < 0} {
+	    lappend auto_path $__dir
 	}
     }
-
-    unset __dir
 }
-
+unset __dir
+  
 # Windows specific end of initialization
 
 if {(![interp issafe]) && ($tcl_platform(platform) == "windows")} {

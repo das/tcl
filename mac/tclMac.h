@@ -79,10 +79,10 @@ EXTERN pascal	void	FSpCreateResFileCompat(const FSSpec *spec,
  * Mac calls.  These routines is from tclMacUtils.h.
  */
 
-EXTERN int 		FSpLocationFromPath _ANSI_ARGS_((int length, 
-		 	    CONST char *path, FSSpecPtr theSpec));
-EXTERN OSErr 		FSpPathFromLocation _ANSI_ARGS_((FSSpecPtr theSpec,
-		    	    int *length, Handle *fullPath));
+EXTERN int 	FSpLocationFromPath _ANSI_ARGS_((int length, CONST char *path,
+		    FSSpecPtr theSpec));
+EXTERN OSErr 	FSpPathFromLocation _ANSI_ARGS_((FSSpecPtr theSpec,
+		    int *length, Handle *fullPath));
 
 /*
  * These are not in MSL 2.1.2, so we need to export them from the

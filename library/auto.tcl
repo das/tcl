@@ -25,7 +25,8 @@ proc auto_reset {} {
     global auto_execs auto_index auto_oldpath
     foreach p [info procs] {
 	if {[info exists auto_index($p)] && ![string match auto_* $p]
-		&& ([lsearch -exact {unknown pkg_mkIndex tclPkgSetup tcl_findLibrary
+		&& ([lsearch -exact {unknown pkg_mkIndex tclPkgSetup
+			tcl_findLibrary pkg_compareExtension
 			tclMacPkgSearch tclPkgUnknown} $p] < 0)} {
 	    rename $p {}
 	}
@@ -50,7 +51,7 @@ proc auto_reset {} {
 
 proc tcl_findLibrary {basename version patch initScript enVarName varName} {
     upvar #0 $varName the_library
-    global env
+    global env errorInfo
 
     set dirs {}
     set errors {}
@@ -87,12 +88,12 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
         lappend dirs [file join $grandParentDir lib $basename$version]
         lappend dirs [file join $parentDir library]
         lappend dirs [file join $grandParentDir library]
-        if [string match {*[ab]*} $patch] {
+        if {[string match {*[ab]*} $patch]} {
             set ver $patch
         } else {
             set ver $version
         }
-        lappend dirs [file join $grandParentDir] $basename$ver library]
+        lappend dirs [file join $grandParentDir $basename$ver library]
         lappend dirs [file join [file dirname $grandParentDir] $basename$ver library]
     }
     foreach i $dirs {

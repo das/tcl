@@ -53,3 +53,9 @@ test autoMkindex-2.1 {commands on the autoload path can be imported} {
     interp delete $interp
     set final
 } "0 {} pub_one ::buried::pub_one pub_two ::buried::pub_two"
+
+#
+# Clean up.
+#
+
+catch {file delete tclIndex}

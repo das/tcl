@@ -188,11 +188,11 @@ WriteTextResource(
     strcpy((char *) resourceName, rsrcName);
     c2pstr((char *) resourceName);
     
-    dataHandle = NewHandle(strlen(data) + 1);
+    dataHandle = NewHandle(strlen(data));
     HLock(dataHandle);
     strcpy(*dataHandle, data);
     HUnlock(dataHandle);
-    
+     
     /*
      * Add the resource to the file and close it.
      */

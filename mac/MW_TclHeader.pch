@@ -30,7 +30,7 @@
 #pragma precompile_target "MW_TclHeader68K"
 #endif
 
-#include "tclMacCommonDefines.h"
+#include "tclMacCommonPch.h"
 
 /*
  * Place any includes below that will are needed by the majority of the
@@ -42,17 +42,6 @@
 #include "tcl.h"
 #include "tclMac.h"
 #include "tclInt.h"
-
-/*
- * These three symbols are needed by Itcl, so we must export them
- * here.  They are all from tclCompile.h, but there is no need to 
- * export that whole file...
- */
- 
-EXTERN void		TclPrintSource _ANSI_ARGS_((FILE *outFile,
-			    char *string, int maxChars));
-extern int 		tclTraceExec;
-extern int 		tclTraceCompile;
 
 #pragma export reset
 

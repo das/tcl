@@ -17,7 +17,10 @@ if {$tcl_platform(platform) != "windows"} {
 
 if {[string compare test [info procs test]] == 1} then {source defs}
 
-if [catch {package require registry}] {
+set lib [lindex [glob [file join [pwd] [file dirname \
+	[info nameofexecutable]] tclreg*.dll]] 0]
+
+if [catch {load $lib registry}] {
     puts "Unable to find the registry package. Skipping registry tests."
     return
 }
