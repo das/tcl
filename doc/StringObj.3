@@ -72,12 +72,17 @@ int
 Tcl_Obj *
 \fBTcl_ConcatObj\fR(\fIobjc, objv\fR)
 .SH ARGUMENTS
-.AS Tcl_Interp *appendObjPtr in/out
+.AS "CONST Tcl_UniChar" *appendObjPtr in/out
 .AP "CONST char" *bytes in
-Points to the first byte of an array of bytes
+.VS 8.1
+Points to the first byte of an array of UTF-8-encoded bytes
 used to set or append to a string object.
-This byte array may contain embedded null bytes
-unless \fIlength\fR is negative.
+This byte array should not contain embedded null bytes
+unless \fIlength\fR is negative.  (Applications needing null bytes
+should represent them as the two-byte sequence \fI\\700\\600\fR, use
+\fBTcl_ExternalToUtf\fR to convert, or \fBTcl_NewByteArrayObj\fR if
+the string is a collection of uninterpreted bytes.)
+.VE 8.1
 .AP int length in
 The number of bytes to copy from \fIbytes\fR when
 initializing, setting, or appending to a string object.
