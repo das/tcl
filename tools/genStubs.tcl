@@ -180,6 +180,9 @@ proc genStubs::rewriteFile {file text} {
     set in [open ${file} r]
     set out [open ${file}.new w]
 
+    # Always write out the file with LF termination
+    fconfigure $out -translation lf
+
     while {![eof $in]} {
 	set line [gets $in]
 	if {[regexp {!BEGIN!} $line]} {
