@@ -17,6 +17,8 @@
 
 # create the "tcltest" namespace for all testing variables and procedures
 
+package require Tcl 8.3
+
 namespace eval tcltest { 
 
     # Export the public tcltest procs
@@ -3481,5 +3483,5 @@ namespace eval tcltest {
     }
 }
 
-package provide tcltest 2.0
+package provide tcltest 2.0.1
 

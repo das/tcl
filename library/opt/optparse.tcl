@@ -10,7 +10,8 @@
 #
 # RCS: @(#) $Id$
 
-package provide opt 0.4.2
+package require Tcl 8
+package provide opt 0.4.3
 
 namespace eval ::tcl {
 

@@ -12,7 +12,8 @@
 # 
 # RCS: @(#) $Id$
 
-package provide msgcat 1.2.1
+package require Tcl 8.2
+package provide msgcat 1.2.2
 
 namespace eval msgcat {
     namespace export mc mcset mcmset mclocale mcpreferences mcunknown mcmax
