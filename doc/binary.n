@@ -55,7 +55,7 @@ specifiers and the arguments:
 The first argument is a list of four numbers, but because of the count
 of 3 for the associated field specifier, only the first three will be
 used. The second argument is associated with the second field
-specifier. The resulting binary string contains the four numbers 10,
+specifier. The resulting binary string contains the four numbers 1.0,
 2.0, 3.0 and 0.1.
 .PP
 Each type-count pair moves an imaginary cursor through the binary
