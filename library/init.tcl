@@ -305,11 +305,17 @@ proc auto_load {cmd {namespace {}}} {
     if {![auto_load_index]} {
 	return 0
     }
-
     foreach name $nameList {
 	if {[info exists auto_index($name)]} {
 	    uplevel #0 $auto_index($name)
-	    if {[string compare [info commands $name] ""]} {
+	    # There's a couple of ways to look for a command of a given
+	    # name.  One is to use
+	    #    info commands $name
+	    # Unfortunately, if the name has glob-magic chars in it like *
+	    # or [], it may not match.  Since we really want an exact match,
+	    # a better route is to use 
+	    #    lsearch -exact [info commands] $name
+	    if {[lsearch -exact [info commands] $name] != -1 } {
 		return 1
 	    }
 	}
