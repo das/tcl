@@ -315,6 +315,7 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclMacFOpenHack, /* 23 */
     NULL, /* 24 */
     TclMacChmod, /* 25 */
+    TclMacSetPanic, /* 26 */
 #endif /* MAC_TCL */
 };
 
@@ -673,15 +674,7 @@ TclStubs tclStubs = {
     Tcl_SetErrorCodeVA, /* 275 */
     Tcl_VarEvalVA, /* 276 */
     Tcl_WaitPid, /* 277 */
-#if !defined(__WIN32__) && !defined(MAC_TCL) /* UNIX */
     Tcl_PanicVA, /* 278 */
-#endif /* UNIX */
-#ifdef __WIN32__
-    Tcl_PanicVA, /* 278 */
-#endif /* __WIN32__ */
-#ifdef MAC_TCL
-    NULL, /* 278 */
-#endif /* MAC_TCL */
     Tcl_GetVersion, /* 279 */
     Tcl_InitMemory, /* 280 */
     Tcl_StackChannel, /* 281 */
