@@ -47,7 +47,7 @@ When matching \fIstring\fR to the patterns, use glob-style matching
 \fB\-regexp\fR
 When matching \fIstring\fR to the patterns, use regular
 expression matching
-(i.e. the same as implemented by the \fBregexp\fR command).
+(as described in the \fBre_syntax\fR reference page).
 .TP 10
 \fB\-\|\-\fR
 Marks the end of options.  The argument following this one will

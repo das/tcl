@@ -23,6 +23,8 @@ This command matches the regular expression \fIexp\fR against
 \fIstring\fR,
 and it copies \fIstring\fR to the variable whose name is
 given by \fIvarName\fR.
+(Regular expression matching is described in the \fBre_syntax\fR
+reference page.)
 If there is a match, then while copying \fIstring\fR to \fIvarName\fR
 the portion of \fIstring\fR that
 matched \fIexp\fR is replaced with \fIsubSpec\fR.
