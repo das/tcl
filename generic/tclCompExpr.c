@@ -597,8 +597,7 @@ CompileLandOrLorExpr(exprTokenPtr, opIndex, infoPtr, envPtr, endPtrPtr)
 				  * after the first subexpression. */
     JumpFixup shortCircuitFixup2;/* Used to fix up the second jump to the
 				  * short-circuit target. */
-    JumpFixup endFixup;       /* Used to fix up jumps used to convert the
-				  * first operand to 0 or 1. */
+    JumpFixup endFixup;          /* Used to fix up jumpto the end. */
     Tcl_Token *tokenPtr;
     int dist, code;
     int savedStackDepth = envPtr->currStackDepth;
