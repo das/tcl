@@ -276,7 +276,6 @@ TclSetEnv(name, value)
 	(void) Tcl_SetVar2(eiPtr->interp, "env", (char *) name,
 		(char *) value, TCL_GLOBAL_ONLY);
     }
-
 }
 
 /*
