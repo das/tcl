@@ -5413,7 +5413,7 @@ ExprCallMathFunc(interp, eePtr, objc, objv)
 	    } else if (mathFuncPtr->argTypes[k] == TCL_WIDE_INT) {
 		args[k].type = TCL_WIDE_INT;
 		args[k].wideValue = Tcl_LongAsWide(i);
-#endif /* TCL_WIDE_INT_IS_LONG */
+#endif /* !TCL_WIDE_INT_IS_LONG */
 	    } else {
 		args[k].type = TCL_INT;
 		args[k].intValue = i;
@@ -5431,7 +5431,7 @@ ExprCallMathFunc(interp, eePtr, objc, objv)
 		args[k].type = TCL_WIDE_INT;
 		args[k].wideValue = w;
 	    }
-#endif /* TCL_WIDE_INT_IS_LONG */
+#endif /* !TCL_WIDE_INT_IS_LONG */
 	} else {
 	    d = valuePtr->internalRep.doubleValue;
 	    if (mathFuncPtr->argTypes[k] == TCL_INT) {
@@ -5441,7 +5441,7 @@ ExprCallMathFunc(interp, eePtr, objc, objv)
 	    } else if (mathFuncPtr->argTypes[k] == TCL_WIDE_INT) {
 		args[k].type = TCL_WIDE_INT;
 		args[k].wideValue = Tcl_DoubleAsWide(d);
-#endif /* TCL_WIDE_INT_IS_LONG */
+#endif /* !TCL_WIDE_INT_IS_LONG */
 	    } else {
 		args[k].type = TCL_DOUBLE;
 		args[k].doubleValue = d;
@@ -5475,6 +5475,10 @@ ExprCallMathFunc(interp, eePtr, objc, objv)
     
     if (funcResult.type == TCL_INT) {
 	PUSH_OBJECT(Tcl_NewLongObj(funcResult.intValue));
+#ifndef TCL_WIDE_INT_IS_LONG
+    } else if (funcResult.type == TCL_WIDE_INT) {
+	PUSH_OBJECT(Tcl_NewWideIntObj(funcResult.wideValue));
+#endif /* !TCL_WIDE_INT_IS_LONG */
     } else {
 	d = funcResult.doubleValue;
 	if (IS_NAN(d) || IS_INF(d)) {
