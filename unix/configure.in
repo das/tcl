@@ -774,7 +774,8 @@ case $system in
 	SHLIB_LD="$fullSrcDir/ldAix /bin/ld -bhalt:4 -bM:SRE -bE:lib.exp -H512 -T512"
 	SHLIB_LD_LIBS='${LIBS}'
 	SHLIB_SUFFIX=".so"
-	DL_OBJS="tclLoadDl.o tclLoadAix.o"
+	DL_OBJS="tclLoadDl.o
+	LIBOBJS="$LIBOBJS tclLoadAix.o"
 	DL_LIBS="-lld"
 	LD_FLAGS=""
 	LD_SEARCH_FLAGS='-L${LIB_RUNTIME_DIR}'
@@ -871,7 +872,7 @@ case $system in
 	;;
     Linux*)
 	SHLIB_CFLAGS="-fPIC"
-	SHLIB_LD_LIBS="${LIBS}"
+	SHLIB_LD_LIBS='${LIBS}'
 	SHLIB_SUFFIX=".so"
 	if test "$have_dl" = yes; then
 	    SHLIB_LD="${CC} -shared"
@@ -908,7 +909,7 @@ case $system in
 	LD_FLAGS="-Wl,-Bexport"
 	LD_SEARCH_FLAGS=""
 	;;
-    NetBSD-*|FreeBSD-[12].*|OpenBSD-*)
+    NetBSD-*|FreeBSD-[[12]].*|OpenBSD-*)
 	# Not available on all versions:  check for include file.
 	AC_CHECK_HEADER(dlfcn.h, [
 	    SHLIB_CFLAGS="-fpic"
