@@ -314,10 +314,15 @@ proc http::geturl { url args } {
 	set conStat [catch {eval $defcmd $async {$host $port}} s]
     }
     if {$conStat} {
-	# something went wrong, so unset the state array and propagate the
-	# error to the caller
-	Finish $token $s
-	return $token
+	# something went wrong while trying to establish the connection
+	# The proper response is probably to give the caller a token
+	# containing error info, but that would break backwards compatibility.
+	# So, let's follow tradition and throw an exception (after unsetting
+	# the array).
+	unset $token
+	error $s
+	#Finish $token $s
+	#return $token
     }
     set state(sock) $s
 
