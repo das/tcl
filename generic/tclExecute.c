@@ -1120,7 +1120,7 @@ TclExecuteByteCode(interp, codePtr)
 				 * when to call Tcl_AsyncReady() */
     Tcl_Obj *expandNestList = NULL;
     int inst;
-    int opnd;
+    TclPSizedInt opnd;
     
     /*
      * Transfer variables - needed only between opcodes, but not
@@ -5048,7 +5048,6 @@ ValidatePcAndStackTop(codePtr, pc, stackTop, stackLowerBound, checkStack)
     TclVMWord *codeEnd = (codePtr->codeStart + codePtr->numCodeWords);
     unsigned int opCode = (unsigned int) (*pc).i;
 
-fflush(stdout);
     if (( pc < codeStart) ||  (pc > codeEnd)) {
 	fprintf(stderr, "\nBad instruction pc %p in TclExecuteByteCode\n",
 		(VOID *) pc);

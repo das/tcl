@@ -952,7 +952,7 @@ MODULE_SCOPE int	TclWordKnownAtCompileTime _ANSI_ARGS_((
     {\
 	int delta = tclInstructionTable[(op)].stackEffect;\
 	if (delta) {\
-	    if (delta == PINT_MIN) {\
+	    if (delta == INT_MIN) {\
 		delta = 1 - (i);\
 	    }\
             TclAdjustStackDepth(delta, envPtr);\
