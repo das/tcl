@@ -2445,7 +2445,15 @@ Tcl_SubstObjCmd(dummy, interp, objc, objv)
  *	implementation by Andrew Payne.  Note that if a command
  *	substitution returns TCL_CONTINUE or TCL_RETURN from its
  *	evaluation and is not completely well-formed, the results are
- *	not defined.
+ *	not defined (or at least hard to characterise.)  This fault
+ *	will be fixed at some point, but the cost of the only sane
+ *	fix (well-formedness check first) is such that you need to
+ *	"precompile and cache" to stop everyone from being hit with
+ *	the consequences every time through.  Note that the current
+ *	behaviour is not a security hole; it just restarts parsing
+ *	the string following the substitution in a mildly surprising
+ *	place, and it is a very bad idea to count on this remaining
+ *	the same in future...
  *
  * Results:
  *	A Tcl_Obj* containing the substituted string, or NULL to
