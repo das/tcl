@@ -1098,7 +1098,8 @@ TclExecuteByteCode(interp, codePtr)
     int traceInstructions = (tclTraceExec == 3);
     char cmdNameBuf[21];
 #endif
-    int instructionCount = 0;
+    int instructionCount = 0;	/* Counter that is used to work out
+				 * when to call Tcl_AsyncReady() */
 
     /*
      * The execution uses a unified stack: first the catch stack, immediately
@@ -1525,7 +1526,7 @@ TclExecuteByteCode(interp, codePtr)
 	     * TclEvalObjvInternal.
 	     */
 
-	    instructionCount = 0;
+	    instructionCount = 1;
 
 	    /*
 	     * Finally, let TclEvalObjvInternal handle the command. 
