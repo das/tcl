@@ -19,6 +19,8 @@
 #include "tclInt.h"
 #include "tclPort.h"
 
+extern TclStubs tclStubs;
+
 /*
  * For each event source (created with Tcl_CreateEventSource) there
  * is a structure of the following type:
@@ -158,6 +160,36 @@ TclFinalizeNotifier()
     }
 
     Tcl_MutexUnlock(&listLock);
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * Tcl_SetNotifier --
+ *
+ *	Install a set of alternate functions for use with the notifier.
+ #	In particular, this can be used to install the Xt-based
+ *	notifier for use with the Browser plugin.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Overstomps part of the stub vector.  This relies on hooks
+ *	added to the default procedures in case those are called
+ *	directly (i.e., not through the stub table.)
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+Tcl_SetNotifier(notifierProcPtr)
+    Tcl_NotifierProcs *notifierProcPtr;
+{
+    tclStubs.tcl_CreateFileHandler = notifierProcPtr->createFileHandlerProc;
+    tclStubs.tcl_DeleteFileHandler = notifierProcPtr->deleteFileHandlerProc;
+    tclStubs.tcl_SetTimer = notifierProcPtr->setTimerProc;
+    tclStubs.tcl_WaitForEvent = notifierProcPtr->waitForEventProc;
 }
 
 /*
