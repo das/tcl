@@ -20,7 +20,10 @@ file.
 
 You can run the tests in three ways:
 
-    (a) type "make test" in ../unix; this will run all of the tests.
+    (a) type "make test" in ../unix; this will create the tcltest
+	executable and run all of the tests.  At least "make tcltest"
+	must be run to create the tcltest executable for the other
+	options.
 
     (b) type "tcltest <testFile> ?<option> <value>?
 
