@@ -25,7 +25,6 @@
 
 static CRITICAL_SECTION masterLock;
 static int init = 0;
-static int allocOnce = 0;
 #define MASTER_LOCK  EnterCriticalSection(&masterLock)
 #define MASTER_UNLOCK  LeaveCriticalSection(&masterLock)
 
@@ -45,6 +44,7 @@ static CRITICAL_SECTION initLock;
 
 static CRITICAL_SECTION allocLock;
 static Tcl_Mutex allocLockPtr = (Tcl_Mutex) &allocLock;
+static int allocOnce = 0;
 
 #endif /* TCL_THREADS */
 
@@ -430,9 +430,11 @@ TclFinalizeLock ()
     DeleteCriticalSection(&masterLock);
     init = 0;
 #ifdef TCL_THREADS
-    DeleteCriticalSection(&allocLock);
+    if (allocOnce) {
+	DeleteCriticalSection(&allocLock);
+	allocOnce = 0;
+    }
 #endif
-    allocOnce = 0;
     /* Destroy the critical section that we are holding. */
     DeleteCriticalSection(&initLock);
 }
