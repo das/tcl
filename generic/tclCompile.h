@@ -805,7 +805,7 @@ EXTERN int		TclPrintInstruction _ANSI_ARGS_((ByteCode* codePtr,
 EXTERN void		TclPrintObject _ANSI_ARGS_((FILE *outFile,
 			    Tcl_Obj *objPtr, int maxChars));
 EXTERN void		TclPrintSource _ANSI_ARGS_((FILE *outFile,
-			    char *string, int maxChars));
+			    CONST char *string, int maxChars));
 EXTERN void		TclRegisterAuxDataType _ANSI_ARGS_((AuxDataType *typePtr));
 EXTERN int		TclRegisterLiteral _ANSI_ARGS_((CompileEnv *envPtr,
 			    char *bytes, int length, int onHeap));

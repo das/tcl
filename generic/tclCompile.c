@@ -3334,10 +3334,10 @@ TclPrintObject(outFile, objPtr, maxChars)
 void
 TclPrintSource(outFile, string, maxChars)
     FILE *outFile;		/* The file to print the source to. */
-    char *string;		/* The string to print. */
+    CONST char *string;		/* The string to print. */
     int maxChars;		/* Maximum number of chars to print. */
 {
-    register char *p;
+    register CONST char *p;
     register int i = 0;
 
     if (string == NULL) {
