@@ -2778,6 +2778,7 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
     int offset, allMatches, inlineReturn, negatedMatch;
     double patDouble, objDouble;
     Tcl_Obj *patObj, **listv, *listPtr, *startPtr;
+    Tcl_RegExp regexp;
     static CONST char *options[] = {
 	"-all",	    "-ascii", "-decreasing", "-dictionary",
 	"-exact",   "-glob",  "-increasing", "-inline",
@@ -2887,6 +2888,21 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 		startPtr = objv[i];
 		Tcl_IncrRefCount(startPtr);
 	    }
+	}
+    }
+
+    if ((enum modes) mode == REGEXP) {
+	/*
+	 * We can shimmer regexp/list if listv[i] == pattern, so get the
+	 * regexp rep before the list rep.
+	 */
+	regexp = Tcl_GetRegExpFromObj(interp, objv[objc - 1],
+		TCL_REG_ADVANCED | TCL_REG_NOSUB);
+	if (regexp == NULL) {
+	    if (startPtr) {
+		Tcl_DecrRefCount(startPtr);
+	    }
+	    return TCL_ERROR;
 	}
     }
 
@@ -3085,8 +3101,9 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 			patternBytes);
 		break;
 	    case REGEXP:
-		match = Tcl_RegExpMatchObj(interp, listv[i], patObj);
+		match = Tcl_RegExpExecObj(interp, regexp, listv[i], 0, 0, 0);
 		if (match < 0) {
+		    Tcl_DecrRefCount(patObj);
 		    if (listPtr) {
 			Tcl_DecrRefCount(listPtr);
 		    }

@@ -341,6 +341,11 @@ test lsearch-14.1 {make sure no shimmering occurs} {
     lsearch -start $x $x $x
 } 0
 
+test lsearch-15.1 {lsearch -regexp shared object} {
+    set str a
+    lsearch -regexp $str $str
+} 0
+
 # cleanup
 catch {unset res}
 catch {unset increasingIntegers}
