@@ -4863,7 +4863,6 @@ TclVarTraceExists(interp, varName)
 {
     Var *varPtr;
     Var *arrayPtr;
-    char *msg;
 
     /*
      * The choice of "create" flag values is delicate here, and
@@ -4876,27 +4875,27 @@ TclVarTraceExists(interp, varName)
      */
 
     varPtr = TclLookupVar(interp, varName, (char *) NULL,
-            0, "access",
-            /*createPart1*/ 0, /*createPart2*/ 1, &arrayPtr);
+            0, "access", /*createPart1*/ 0, /*createPart2*/ 1, &arrayPtr);
+
     if (varPtr == NULL) {
 	return NULL;
     }
-    if ((varPtr != NULL) &&
-	    ((varPtr->tracePtr != NULL)
-	    || ((arrayPtr != NULL) && (arrayPtr->tracePtr != NULL)))) {
-	msg = CallTraces((Interp *)interp, arrayPtr, varPtr, varName,
-		(char *) NULL, TCL_TRACE_READS);
-	if (msg != NULL) {
-	    /*
-	     * If the variable doesn't exist anymore and no-one's using
-	     * it, then free up the relevant structures and hash table entries.
-	     */
 
-	    if (TclIsVarUndefined(varPtr)) {
-		CleanupVar(varPtr, arrayPtr);
-	    }
-	    return NULL;
-	}
+    if ((varPtr->tracePtr != NULL)
+	    || ((arrayPtr != NULL) && (arrayPtr->tracePtr != NULL))) {
+	CallTraces((Interp *)interp, arrayPtr, varPtr, varName,
+		(char *) NULL, TCL_TRACE_READS);
     }
+
+    /*
+     * If the variable doesn't exist anymore and no-one's using
+     * it, then free up the relevant structures and hash table entries.
+     */
+
+    if (TclIsVarUndefined(varPtr)) {
+	CleanupVar(varPtr, arrayPtr);
+	return NULL;
+    }
+
     return varPtr;
 }
