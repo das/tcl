@@ -111,7 +111,7 @@ proc doing {major desc} {
 
 	if {$testbypassed != 0} {
 		puts stdout "!!! bypassed $testbypassed tests in\
-					 reg-$major, `$description'"
+					 $major, `$description'"
 	}
 
 	set prefix reg-$major
@@ -886,6 +886,7 @@ m  2	N	a?b*		abb	abb
 m  3	N	a?b*		bb	bb
 m  4	&	a*b		aab	aab
 m  5	&	^a*b		aaaab aaaab
+m  6	&M	 {[0-6][1-2][0-3][0-6][1-6][0-6]}	010010	010010
 
 
 
