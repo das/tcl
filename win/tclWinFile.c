@@ -702,10 +702,12 @@ TclpFindExecutable(argv0)
 
     if (GetModuleFileNameW(NULL, wName, MAX_PATH) == 0) {
 	GetModuleFileNameA(NULL, name, sizeof(name));
-    } else {
-	WideCharToMultiByte(CP_UTF8, 0, wName, -1, 
-		name, sizeof(name), NULL, NULL);
+	/*
+	 * Convert to WCHAR to get out of ANSI codepage
+	 */
+	MultiByteToWideChar(CP_ACP, 0, name, -1, wName, MAX_PATH);
     }
+    WideCharToMultiByte(CP_UTF8, 0, wName, -1, name, sizeof(name), NULL, NULL);
 
     tclNativeExecutableName = ckalloc((unsigned) (strlen(name) + 1));
     strcpy(tclNativeExecutableName, name);
