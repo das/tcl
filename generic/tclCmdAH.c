@@ -1441,6 +1441,8 @@ StoreStatData(interp, varName, statPtr)
     STORE_ARY("mode",  Tcl_NewIntObj(mode));
     STORE_ARY("type",  Tcl_NewStringObj(GetTypeFromMode(mode), -1));
 #undef STORE_ARY
+    Tcl_DecrRefCount(var);
+    Tcl_DecrRefCount(field);
     return TCL_OK;
 }
 
