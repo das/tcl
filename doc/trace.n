@@ -72,7 +72,8 @@ in which they appear.
 .TP
 \fBtrace add execution\fR \fIname ops command\fR
 Arrange for \fIcommand\fR to be executed whenever command \fIname\fR
-is modified in one of the ways given by the list \fIops\fR.  \fIName\fR will be
+is executed, with traces occurring at the points indicated by the list
+\fIops\fR.  \fIName\fR will be
 resolved using the usual namespace resolution rules used by
 procedures.  If the command does not exist, an error will be thrown.
 .RS
