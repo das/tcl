@@ -88,7 +88,7 @@ lower case during the matching process.
 \fB\-all\fR
 Causes the regular expression to be matched as many times as possible
 in the string, returning the total number of matches found.  If this
-is specified with match variables, they will continue information for
+is specified with match variables, they will contain information for
 the last match only.
 .TP 15
 \fB\-inline\fR
