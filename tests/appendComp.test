@@ -353,6 +353,7 @@ test appendComp-7.9 {append var does not trigger read trace} {
 
 catch {unset i x result y}
 catch {rename foo ""}
+catch {rename bar ""}
 catch {rename check ""}
 
 # cleanup

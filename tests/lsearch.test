@@ -270,6 +270,7 @@ test lsearch-9.4 {decreasing sorted ascii search} {
 
 
 # cleanup
+catch {unset res}
 ::tcltest::cleanupTests
 return
 

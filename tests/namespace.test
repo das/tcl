@@ -1138,6 +1138,7 @@ test namespace-40.1 {Ignoring namespace proc "unknown"} {
 
 test namespace-41.1 {Shadowing byte-compiled commands} {
     namespace eval ns {
+	set res {}
 	proc test {} {
 	    set ::g 0
 	}  
