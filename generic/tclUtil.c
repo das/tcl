@@ -947,7 +947,7 @@ Tcl_Backslash(src, readPtr)
  *----------------------------------------------------------------------
  */
 
-CONST char *
+char *
 Tcl_Concat(argc, argv)
     int argc;			/* Number of strings to concatenate. */
     CONST char * CONST *argv;	/* Array of strings to concatenate. */

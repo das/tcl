@@ -306,7 +306,7 @@ declare 82 generic {
     int Tcl_CommandComplete(CONST char *cmd)
 }
 declare 83 generic {
-    CONST84_RETURN char * Tcl_Concat(int argc, CONST84 char * CONST *argv)
+    char * Tcl_Concat(int argc, CONST84 char * CONST *argv)
 }
 declare 84 generic {
     int Tcl_ConvertElement(CONST char *src, char *dst, int flags)
