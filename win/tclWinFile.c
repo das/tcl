@@ -1962,11 +1962,9 @@ TclpFilesystemPathType(pathObjPtr)
  * TclpObjNormalizePath --
  *
  *	This function scans through a path specification and replaces it,
- *	in place, with a normalized version.  On Windows NT/2000/XP this
- *	means using the 'longname', and expanding any symbolic links
- *	contained within the path.  On Win95/98/ME it means using the
- *	short form of the name (because the APIs to get at the long form
- *	are much too slow).
+ *	in place, with a normalized version.  This means using the
+ *	'longname', and expanding any symbolic links contained within the
+ *	path.
  *
  * Results:
  *	The new 'nextCheckpoint' value, giving as far as we could
