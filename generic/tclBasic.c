@@ -382,6 +382,9 @@ Tcl_CreateInterp()
     Tcl_CreateObjCommand( interp,	 "::tcl::clock::clicks",
 	    TclClockClicksObjCmd,	 (ClientData) NULL,
 	    (Tcl_CmdDeleteProc*) NULL );
+    Tcl_CreateObjCommand( interp,	 "::tcl::clock::getenv",
+	    TclClockGetenvObjCmd,	 (ClientData) NULL,
+	    (Tcl_CmdDeleteProc*) NULL );
     Tcl_CreateObjCommand( interp,	 "::tcl::clock::microseconds",
 	    TclClockMicrosecondsObjCmd,	 (ClientData) NULL,
 	    (Tcl_CmdDeleteProc*) NULL );

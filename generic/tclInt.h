@@ -1956,6 +1956,8 @@ EXTERN int	Tcl_CdObjCmd _ANSI_ARGS_((ClientData clientData,
 		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int	TclClockClicksObjCmd _ANSI_ARGS_((ClientData clientData,
 		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
+EXTERN int	TclClockGetenvObjCmd _ANSI_ARGS_((ClientData clientData,
+		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int	TclClockMicrosecondsObjCmd _ANSI_ARGS_((ClientData clientData,
 		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int	TclClockMillisecondsObjCmd _ANSI_ARGS_((ClientData clientData,

@@ -47,6 +47,53 @@ static struct tm* ThreadSafeLocalTime _ANSI_ARGS_(( CONST time_t* ));
 static void TzsetIfNecessary _ANSI_ARGS_(( void ));
 
 /*
+ *----------------------------------------------------------------------
+ *
+ * TclClockGetenvObjCmd --
+ *
+ *	Tcl command that reads an environment variable from the system
+ *
+ * Usage:
+ *	::tcl::clock::getEnv NAME
+ *
+ * Parameters:
+ *	NAME - Name of the environment variable desired
+ *
+ * Results:
+ *	Returns a standard Tcl result.  Returns an error if the
+ *	variable does not exist, with a message left in the interpreter.
+ *	Returns TCL_OK and the value of the variable if the variable
+ *	does exist,
+ *
+ *----------------------------------------------------------------------
+ */
+
+int
+TclClockGetenvObjCmd( ClientData clientData,
+		      Tcl_Interp* interp,
+		      int objc,
+		      Tcl_Obj *CONST objv[] )
+{
+
+    CONST char* varName;
+    CONST char* varValue;
+    if ( objc != 2 ) {
+	Tcl_WrongNumArgs( interp, 1, objv, "name" );
+	return TCL_ERROR;
+    }
+    varName = Tcl_GetStringFromObj( objv[1], NULL );
+    varValue = getenv( varName );
+    if ( varValue == NULL ) {
+	Tcl_SetObjResult( interp,
+			  Tcl_NewStringObj( "variable not found", -1 ) );
+	return TCL_ERROR;
+    } else {
+	Tcl_SetObjResult( interp, Tcl_NewStringObj( varValue, -1 ) );
+	return TCL_OK;
+    }
+}
+
+/*
  *-------------------------------------------------------------------------
  *
  * TclClockLocaltimeObjCmd --
