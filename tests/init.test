@@ -144,7 +144,7 @@ test init-2.8 {load http::geturl (package)} {
 
 test init-3.0 {random stuff in the auto_index, should still work} {
     set auto_index(foo:::bar::blah) {
-	namespace eval foo {namespace eval bar {proc blah {} {return 1}}}
+        namespace eval foo {namespace eval bar {proc blah {} {return 1}}}
     }
     foo:::bar::blah
 } 1

@@ -81,14 +81,14 @@ test namespace-5.2 {Tcl_PopCallFrame, local vars must be deleted} {
 test namespace-6.1 {Tcl_CreateNamespace} {
     catch {eval namespace delete [namespace children :: test_ns_*]}
     list [lsort [namespace children :: test_ns_*]] \
-	 [namespace eval test_ns_1 {namespace current}] \
-	 [namespace eval test_ns_2 {namespace current}] \
-	 [namespace eval ::test_ns_3 {namespace current}] \
-	 [namespace eval ::test_ns_4 \
-             {namespace eval foo {namespace current}}] \
-	 [namespace eval ::test_ns_5 \
-             {namespace eval ::test_ns_6 {namespace current}}] \
-         [lsort [namespace children :: test_ns_*]]
+        [namespace eval test_ns_1 {namespace current}] \
+	[namespace eval test_ns_2 {namespace current}] \
+	[namespace eval ::test_ns_3 {namespace current}] \
+	[namespace eval ::test_ns_4 \
+            {namespace eval foo {namespace current}}] \
+	[namespace eval ::test_ns_5 \
+            {namespace eval ::test_ns_6 {namespace current}}] \
+        [lsort [namespace children :: test_ns_*]]
 } {{} ::test_ns_1 ::test_ns_2 ::test_ns_3 ::test_ns_4::foo ::test_ns_6 {::test_ns_1 ::test_ns_2 ::test_ns_3 ::test_ns_4 ::test_ns_5 ::test_ns_6}}
 test namespace-6.2 {Tcl_CreateNamespace, odd number of :'s in name is okay} {
     list [namespace eval :::test_ns_1::::foo {namespace current}] \

@@ -13,7 +13,7 @@
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
     package require tcltest
-	namespace import ::tcltest::*
+    namespace import ::tcltest::*
 }
 
 # Note that a failure in this test results in a crash of the executable.

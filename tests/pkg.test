@@ -14,14 +14,15 @@
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
     package require tcltest
-	namespace import ::tcltest::*
+    namespace import ::tcltest::*
 }
 
 # Do all this in a slave interp to avoid garbaging the
 # package list
 set i [interp create]
 interp eval $i [list set argv $argv]
-interp eval $i [list source [file join $::tcltest::testsDirectory defs.tcl]]
+interp eval $i [list package require tcltest]
+interp eval $i [list namespace import ::tcltest::*]
 interp eval $i {
 
 eval package forget [package names]
