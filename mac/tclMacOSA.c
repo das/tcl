@@ -209,7 +209,7 @@ Tclapplescript_Init(
      * Perform the required stubs magic...
      */
      	
-    if (!Tcl_InitStubs(interp, "8.0", 0)) {
+    if (!Tcl_InitStubs(interp, "8.2", 0)) {
 	return TCL_ERROR;
     }
 
