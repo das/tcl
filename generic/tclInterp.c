@@ -2655,9 +2655,9 @@ Tcl_LimitCheck(interp)
 	    iPtr->limit.exceeded |= TCL_LIMIT_TIME;
 	    Tcl_Preserve(interp);
 	    RunLimitHandlers(iPtr->limit.timeHandlers, interp);
-	    if (iPtr->limit.time.sec < now.sec ||
+	    if (iPtr->limit.time.sec >= now.sec ||
 		    (iPtr->limit.time.sec == now.sec &&
-		    iPtr->limit.time.usec < now.usec)) {
+		    iPtr->limit.time.usec >= now.usec)) {
 		iPtr->limit.exceeded &= ~TCL_LIMIT_TIME;
 	    } else if (iPtr->limit.exceeded & TCL_LIMIT_TIME) {
 		Tcl_ResetResult(interp);
