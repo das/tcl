@@ -1186,6 +1186,20 @@ test filename-12.9 {globbing at filesystem root} {winOnly} {
     set equal
 } {1}
 
+test filename-12.10 {globbing with volume relative paths} {winOnly} {
+    set dir [lindex [glob -type d [lindex [file volumes] 0]*] 0]
+    set pwd [pwd]
+    cd [lindex [file volumes] 0]
+    set res1 [glob -nocomplain [string range $dir 2 end]]
+    cd $pwd
+    set res2 [list $dir]
+    set equal [string equal $res1 $res2]
+    if {!$equal} {
+        lappend equal "not equal" $res1 $res2
+    }
+    set equal
+} {1}
+
 test filename-13.1 {globbing with brace substitution} {
     list [catch {glob globTest/\{\}} msg] $msg
 } "0 $globPreResult"
