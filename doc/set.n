@@ -28,48 +28,50 @@ close parenthesis, then it refers to an array element:  the characters
 before the first open parenthesis are the name of the array,
 and the characters between the parentheses are the index within the array.
 Otherwise \fIvarName\fR refers to a scalar variable.
-.PP
+Normally, \fIvarName\fR is unqualified
+(does not include the names of any containing namespaces),
+and the variable of that name in the current namespace is read or written.
 If \fIvarName\fR includes namespace qualifiers
-(in the array name if it refers to an array element), or if \fIvarName\fR
-is unqualified (does not include the names of any containing namespaces)
-but no procedure is active, 
-\fIvarName\fR refers to a namespace variable
-resolved according to the rules described under \fBNAME RESOLUTION\fR in
-the \fBnamespace\fR manual page.
+(in the array name if it refers to an array element),
+the variable in the specified namespace is read or written.
 .PP
-If a procedure is active and \fIvarName\fR is unqualified, then
-\fIvarName\fR refers to a parameter or local variable of the procedure,
-unless \fIvarName\fR was declared to resolve differently through one of the 
-\fBglobal\fR, \fBvariable\fR or \fBupvar\fR commands.
+If no procedure is active,
+then \fIvarName\fR refers to a namespace variable
+(global variable if the current namespace is the global namespace).
+If a procedure is active, then \fIvarName\fR refers to a parameter
+or local variable of the procedure unless the \fBglobal\fR command
+was invoked to declare \fIvarName\fR to be global,
+or unless a \fBvariable\fR command
+was invoked to declare \fIvarName\fR to be a namespace variable.
 .SH EXAMPLES
 Store a random number in the variable \fIr\fR:
 .CS
-\fBset\fR r [expr rand()]
+set r [expr rand()]
 .CE
-.PP
+
 Store a short message in an array element:
 .CS
-\fBset\fR anAry(msg) "Hello, World!"
+set anAry(msg) "Hello, World!"
 .CE
-.PP
+
 Store a short message in an array element specified by a variable:
 .CS
-\fBset\fR elemName "msg"
-\fBset\fR anAry($elemName) "Hello, World!"
+set elemName "msg"
+set anAry($elemName) "Hello, World!"
 .CE
-.PP
+
 Copy a value into the variable \fIout\fR from a variable whose name is
 stored in the \fIvbl\fR (note that it is often easier to use arrays in
 practice instead of doing double-dereferencing):
 .CS
-\fBset\fR in0 "small random"
-\fBset\fR in1 "large random"
-\fBset\fR vbl in[expr {rand() >= 0.5}]
-\fBset\fR out [\fBset\fR $vbl]
+set in0 "small random"
+set in1 "large random"
+set vbl in[expr {rand() >= 0.5}]
+set out [set $vbl]
 .CE
 
 .SH "SEE ALSO"
-expr(n), global(n), namespace(n), proc(n), trace(n), unset(n), upvar(n), variable(n)
+expr(n), proc(n), trace(n), unset(n)
 
 .SH KEYWORDS
 read, write, variable

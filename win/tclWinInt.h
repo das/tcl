@@ -22,7 +22,7 @@
  * to help avoid overflowing the stack in the case of infinite recursion.
  */
 
-#define TCL_WIN_STACK_THRESHOLD 0x2000
+#define TCL_WIN_STACK_THRESHOLD 0x8000
 
 #ifdef BUILD_tcl
 # undef TCL_STORAGE_CLASS

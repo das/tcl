@@ -48,9 +48,8 @@ The delayed command is formed by concatenating all the \fIscript\fR
 arguments in the same fashion as the \fBconcat\fR command.
 The command will be executed at global level (outside the context
 of any Tcl procedure).
-If an error occurs while executing the delayed command then 
-the background error will be reported by the command
-registered with \fB interp bgerror\fR.
+If an error occurs while executing the delayed command then the
+\fBbgerror\fR mechanism is used to report the error.
 The \fBafter\fR command returns an identifier that can be used
 to cancel the delayed command using \fBafter cancel\fR.
 .TP
@@ -79,8 +78,7 @@ loop is entered and there are no events to process.
 The command returns an identifier that can be used
 to cancel the delayed command using \fBafter cancel\fR.
 If an error occurs while executing the script then the
-background error will be reported by the command
-registered with \fB interp bgerror\fR.
+\fBbgerror\fR mechanism is used to report the error.
 .TP
 \fBafter info \fR?\fIid\fR?
 This command returns information about existing event handlers.
@@ -103,21 +101,24 @@ will not be executed unless the application enters the event loop.
 In applications that are not normally event-driven, such as
 \fBtclsh\fR, the event loop can be entered with the \fBvwait\fR
 and \fBupdate\fR commands.
+
 .SH "EXAMPLES"
 This defines a command to make Tcl do nothing at all for \fIN\fR
 seconds:
+
 .CS
 proc sleep {N} {
-   \fBafter\fR [expr {int($N * 1000)}]
+    after [expr {int($N * 1000)}]
 }
 .CE
-.PP
+
 This arranges for the command \fIwake_up\fR to be run in eight hours
 (providing the event loop is active at that time):
+
 .CS
-\fBafter\fR [expr {1000 * 60 * 60 * 8}] wake_up
+after [expr {1000 * 60 * 60 * 8}] wake_up
 .CE
-.PP
+
 The following command can be used to do long-running calculations (as
 represented here by \fI::my_calc::one_step\fR, which is assumed to
 return a boolean indicating whether another step should be performed)
@@ -128,17 +129,18 @@ processing steps (arranging for the next step to be done using an
 already-triggered timer event only when the event queue has been
 drained) and is useful when you want to ensure that a Tk GUI remains
 responsive during a slow task.
+
 .CS
 proc doOneStep {} {
-   if {[::my_calc::one_step]} {
-      \fBafter idle\fR [list \fBafter\fR 0 doOneStep]
-   }
+    if {[::my_calc::one_step]} {
+        after idle [list after 0 doOneStep]
+    }
 }
 doOneStep
 .CE
 
 .SH "SEE ALSO"
-concat(n), interp(n), update(n), vwait(n)
+bgerror(n), concat(n), update(n), vwait(n)
 
 .SH KEYWORDS
 cancel, delay, idle callback, sleep, time

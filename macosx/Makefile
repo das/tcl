@@ -94,7 +94,7 @@ PRODUCT_LONGVERSION	:= $(shell eval $$(grep '^TCL_PATCH_LEVEL=' ${UNIX_DIR}/conf
 				echo "${PRODUCT_VERSION}$${TCL_PATCH_LEVEL}")
 YEAR                    := $(shell date +%Y)
 
-PRIVATE_HEADERS		:= tclInt.h tclIntDecls.h tclIntPlatDecls.h
+PRIVATE_HEADERS		:= tclInt.h tclIntDecls.h tclIntPlatDecls.h tclPort.h ../unix/tclUnixPort.h
 TARGETS			:= tclsh tcltest
 TCLSH			:= tclsh${PRODUCT_VERSION}
 TCL_EXE			?= ${SYMROOT}/${TCLSH}

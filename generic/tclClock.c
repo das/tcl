@@ -101,7 +101,7 @@ Tcl_ClockObjCmd (client, interp, objc, objv)
 		    return TCL_ERROR;
 		}
 	    } else if (objc != 2) {
-		Tcl_WrongNumArgs(interp, 2, objv, "?-milliseconds?");
+		Tcl_WrongNumArgs(interp, 2, objv, "?option?");
 		return TCL_ERROR;
 	    }
 	    switch (clickType) {

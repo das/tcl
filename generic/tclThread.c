@@ -89,30 +89,18 @@ Tcl_GetThreadData(keyPtr, size)
      */
 
     if (*keyPtr == NULL) {
-#ifdef USE_THREAD_STORAGE
-	TclThreadStorageDataKeyInit(keyPtr);
-#else
 	TclpThreadDataKeyInit(keyPtr);
-#endif
     }
 
     /*
      * Initialize the key for this thread.
      */
-#ifdef USE_THREAD_STORAGE
-    result = TclThreadStorageDataKeyGet(keyPtr);
-#else
-    result = TclpThreadDataKeyGet(keyPtr);
-#endif
 
+    result = TclpThreadDataKeyGet(keyPtr);
     if (result == NULL) {
 	result  = (VOID *)ckalloc((size_t)size);
 	memset(result, 0, (size_t)size);
-#ifdef USE_THREAD_STORAGE
-  TclThreadStorageDataKeySet(keyPtr, result);
-#else
 	TclpThreadDataKeySet(keyPtr, result);
-#endif
     }
 #else
     if (*keyPtr == NULL) {
@@ -149,11 +137,7 @@ TclThreadDataKeyGet(keyPtr)
 				 * really (pthread_key_t **) */
 {
 #ifdef TCL_THREADS
-#ifdef USE_THREAD_STORAGE
-    return (VOID *)TclThreadStorageDataKeyGet(keyPtr);
-#else
     return (VOID *)TclpThreadDataKeyGet(keyPtr);
-#endif
 #else
     char *result = *(char **)keyPtr;
     return (VOID *)result;
@@ -185,17 +169,9 @@ TclThreadDataKeySet(keyPtr, data)
 {
 #ifdef TCL_THREADS
     if (*keyPtr == NULL) {
-#ifdef USE_THREAD_STORAGE
-	TclThreadStorageDataKeyInit(keyPtr);
-#else
 	TclpThreadDataKeyInit(keyPtr);
-#endif
     }
-#ifdef USE_THREAD_STORAGE
-    TclThreadStorageDataKeySet(keyPtr, data);
-#else
     TclpThreadDataKeySet(keyPtr, data);
-#endif
 #else
     *keyPtr = (Tcl_ThreadDataKey)data;
 #endif /* TCL_THREADS */
@@ -433,11 +409,7 @@ TclFinalizeThreadData()
     for (i=0 ; i<keyRecord.num ; i++) {
 	keyPtr = (Tcl_ThreadDataKey *) keyRecord.list[i];
 #ifdef TCL_THREADS
-#ifdef USE_THREAD_STORAGE
-  TclFinalizeThreadStorageData(keyPtr);
-#else
 	TclpFinalizeThreadData(keyPtr);
-#endif
 #else
 	if (*keyPtr != NULL) {
 	    ckfree((char *)*keyPtr);
@@ -477,11 +449,7 @@ TclFinalizeSynchronization()
     TclpMasterLock();
     for (i=0 ; i<keyRecord.num ; i++) {
 	keyPtr = (Tcl_ThreadDataKey *)keyRecord.list[i];
-#ifdef USE_THREAD_STORAGE
-  TclFinalizeThreadStorageDataKey(keyPtr);
-#else
 	TclpFinalizeThreadDataKey(keyPtr);
-#endif
     }
     if (keyRecord.list != NULL) {
 	ckfree((char *)keyRecord.list);
@@ -489,11 +457,6 @@ TclFinalizeSynchronization()
     }
     keyRecord.max = 0;
     keyRecord.num = 0;
-
-#ifdef USE_THREAD_STORAGE
-    /* call platform specific thread storage master cleanup */
-    TclFinalizeThreadStorage();
-#endif
 
     for (i=0 ; i<mutexRecord.num ; i++) {
 	mutexPtr = (Tcl_Mutex *)mutexRecord.list[i];

@@ -293,13 +293,22 @@ proc unknown args {
 	    return [uplevel 1 $newcmd]
 	}
 
-	set ret [catch {set cmds [info commands $name*]} msg]
+	set ret [catch {set candidates [info commands $name*]} msg]
 	if {[string equal $name "::"]} {
 	    set name ""
 	}
 	if {$ret != 0} {
 	    return -code $ret -errorcode $errorCode \
-		"error in unknown while checking if \"$name\" is a unique command abbreviation: $msg"
+		"error in unknown while checking if \"$name\" is\
+		a unique command abbreviation:\n$msg"
+	}
+	# Filter out bogus matches when $name contained
+	# a glob-special char [Bug 946952]
+	set cmds [list]
+	foreach x $candidates {
+	    if {[string range $x 0 [expr [string length $name]-1]] eq $name} {
+		lappend cmds $x
+	    }
 	}
 	if {[llength $cmds] == 1} {
 	    return [uplevel 1 [lreplace $args 0 0 $cmds]]

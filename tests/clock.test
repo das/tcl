@@ -98,6 +98,9 @@ test clock-2.11 {clock clicks test, millis align with micros} {
     expr { $t2 / 1000 == $t3 }
 } {1}
 
+test clock-2.12 {clock clicks test, wrong num args} {
+    list [catch {clock clicks foo bar} msg] $msg
+} {1 {wrong # args: should be "clock clicks ?option?"}}
 
 # clock format
 test clock-3.1 {clock format tests} {unixOnly} {

@@ -18,12 +18,6 @@
 
 #include "tclInt.h"
 
-#ifndef WIN32
-extern Tcl_Mutex *TclpNewAllocMutex(void);
-extern void *TclpGetAllocCache(void);
-extern void TclpSetAllocCache(void *);
-#endif
-
 /*
  * If range checking is enabled, an additional byte will be allocated
  * to store the magic number at the end of the requested memory.
