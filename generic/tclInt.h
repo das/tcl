@@ -2255,10 +2255,10 @@ extern Tcl_Mutex tclObjMutex;
 #define TEMP(t)          t *
 #define ITEM(var,item)   var -> item
 #define REF(var)         (var)
-#define NEWTEMP(t,var)   (var) = (t *) Tcl_Alloc(sizeof(t))
-#define RELTEMP(var)     Tcl_Free((void*)(var))
+#define NEWTEMP(t,var)   (var) = (t *) ckalloc(sizeof(t))
+#define RELTEMP(var)     ckfree((void*)(var))
 #define STRING(n,var)    char* var
-#define NEWSTR(n,var)    (var) = (char *) Tcl_Alloc(n)
+#define NEWSTR(n,var)    (var) = (char *) ckalloc(n)
 #else
 #define TEMP(t)         t
 #define ITEM(var,item)  var . item

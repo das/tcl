@@ -6039,6 +6039,8 @@ TclCompileByteCodesForExpr(interp, objPtr)
 	    TclPrintByteCodeObj(interp, objPtr);
 	}
 #endif /* TCL_COMPILE_DEBUG */
+    } else {
+        RELTEMP(compEnv);
     }
 
     return TCL_OK;
