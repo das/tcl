@@ -739,7 +739,6 @@ Tcl_AfterObjCmd(clientData, interp, objc, objv)
     int ms;
     AfterInfo *afterPtr;
     AfterAssocData *assocPtr;
-    Tcl_CmdInfo cmdInfo;
     int length;
     char *argString;
     int index;
