@@ -549,7 +549,7 @@ TclpSetVariables(interp)
     OSVERSIONINFOA osInfo;
     Tcl_DString ds;
 
-    osInfo.dwOSVersionInfoSize = sizeof(osInfo);
+    osInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOA);
     GetVersionExA(&osInfo);
 
     oemId = (OemId *) &sysInfo;

@@ -335,12 +335,15 @@ typedef float *TCHAR;
  * EDEADLK as the same value, which confuses Tcl_ErrnoId().
  */
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW32__)
 #    define environ _environ
 #    define hypot _hypot
 #    define exception _exception
 #    undef EDEADLOCK
-#endif /* _MSC_VER */
+#    if defined(__MINGW32__) && !defined(__MSVCRT__)
+#	define timezone _timezone
+#    endif
+#endif /* _MSC_VER || __MINGW32__ */
 
 /*
  *---------------------------------------------------------------------------
