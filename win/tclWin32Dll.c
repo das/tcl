@@ -79,6 +79,14 @@ _except_TclWinCPUID_detach_handler(
 
 
 /*
+ * VC++ 5.x has no 'cpuid' assembler instruction, so we
+ * must emulate it
+ */
+#if defined(_MSC_VER) && ( _MSC_VER <= 1100 )
+#define cpuid __asm __emit 0fh __asm __emit 0a2h
+#endif
+
+/*
  * The following function tables are used to dispatch to either the
  * wide-character or multi-byte versions of the operating system calls,
  * depending on whether the Unicode calls are available.
@@ -1181,7 +1189,7 @@ TclWinCPUID( unsigned int index, /* Which CPUID value to retrieve */
 	    push    ecx
 	    push    edx
 	    mov     eax, regs.dw0
-            cpuid
+	    cpuid
 	    mov     regs.dw0, eax
 	    mov     regs.dw1, ebx
 	    mov     regs.dw2, ecx
