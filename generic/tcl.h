@@ -1772,7 +1772,8 @@ typedef struct Tcl_Parse {
 #define TCL_UTF_MAX		3
 
 /*
- * This represents a Unicode character.  
+ * This represents a Unicode character.  Any changes to this should
+ * also be reflected in regcustom.h.
  */
 
 typedef unsigned short Tcl_UniChar;
