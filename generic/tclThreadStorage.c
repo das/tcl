@@ -358,7 +358,7 @@ Tcl_HashTable *
 TclThreadStorageGetHashTable(id)
     Tcl_ThreadId id;    /* Id of the thread to get the hash table for */
 {
-    int index = (int)id % STORAGE_CACHE_SLOTS;
+    int index = (unsigned int)id % STORAGE_CACHE_SLOTS;
     Tcl_HashEntry *hPtr;
     int new;
 
@@ -660,7 +660,7 @@ void
 TclFinalizeThreadStorageThread(id)
     Tcl_ThreadId id;    /* Id of the thread to finalize */
 {
-    int index = (int)id % STORAGE_CACHE_SLOTS;
+    int index = (unsigned int)id % STORAGE_CACHE_SLOTS;
     Tcl_HashTable *hashTablePtr; /* hash table for current thread */
     Tcl_HashEntry *hPtr;  /* hash entry for current thread in master table */
 
