@@ -1857,7 +1857,7 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 #   define PTR_VALUE 2
 #   define DOUBLE_VALUE 3
 #   define STRING_VALUE 4
-#   define WIDE_VALUE 4
+#   define WIDE_VALUE 5
 #   define MAX_FLOAT_SIZE 320
 
     Tcl_Obj *resultPtr;  	/* Where result is stored finally. */
