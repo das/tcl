@@ -91,8 +91,8 @@ TclSockMinimumBuffers(sock, size)
     int size;			/* Minimum buffer size */
 {
     int current;
-    int len;
-    
+    size_t len;
+
     len = sizeof(int);
     getsockopt(sock, SOL_SOCKET, SO_SNDBUF, (char *)&current, &len);
     if (current < size) {

@@ -502,8 +502,8 @@ TclGetFrame(interp, string, framePtrPtr)
 	}
 	if (level < 0) {
 	    levelError:
-	    Tcl_AppendResult(interp, "bad level \"", string, "\"",
-		    (char *) NULL);
+	    Tcl_AppendResult(interp, "bad level \"",
+		    (result ? string : "1"), "\"", (char *) NULL);
 	    return -1;
 	}
     } else if (isdigit(UCHAR(*string))) { /* INTL: digit */

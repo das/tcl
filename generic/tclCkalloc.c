@@ -451,7 +451,7 @@ Tcl_DbCkfree(ptr, file, line)
     struct mem_header *memp;
 
     if (ptr == NULL) {
-	return;
+	return 0;
     }
 
     /*
@@ -546,7 +546,7 @@ Tcl_DbCkrealloc(ptr, size, file, line)
     new = Tcl_DbCkalloc(size, file, line);
     memcpy((VOID *) new, (VOID *) ptr, (size_t) copySize);
     Tcl_DbCkfree(ptr, file, line);
-    return(new);
+    return new;
 }
 
 

@@ -453,11 +453,12 @@ Tcl_DeleteExitHandler(proc, clientData)
 	    } else {
 		prevPtr->nextPtr = exitPtr->nextPtr;
 	    }
-	    Tcl_MutexUnlock(&exitMutex);
 	    ckfree((char *) exitPtr);
-	    return;
+	    break;
 	}
     }
+    Tcl_MutexUnlock(&exitMutex);
+    return;
 }
 
 /*
