@@ -260,6 +260,7 @@ Tcl_ParseCommand(interp, string, numBytes, nested, parsePtr)
     parsePtr->tokensAvailable = NUM_STATIC_TOKENS;
     parsePtr->string = string;
     parsePtr->end = string + numBytes;
+    parsePtr->term = parsePtr->end;
     parsePtr->interp = interp;
     parsePtr->incomplete = 0;
     parsePtr->errorType = TCL_PARSE_SUCCESS;
@@ -372,6 +373,7 @@ Tcl_ParseCommand(interp, string, numBytes, nested, parsePtr)
 	    break;
 	}
 	if ((type & terminators) != 0) {
+	    parsePtr->term = src;
 	    src++;
 	    break;
 	}
@@ -455,6 +457,7 @@ Tcl_ParseCommand(interp, string, numBytes, nested, parsePtr)
 	}
 
 	if ((type & terminators) != 0) {
+	    parsePtr->term = src;
 	    src++;
 	    break;
 	}
@@ -607,7 +610,7 @@ ParseTokens(src, mask, parsePtr)
 		if (nested.tokenPtr != nested.staticTokens) {
 		    ckfree((char *) nested.tokenPtr);
 		}
-		if ((src[-1] == ']') && !nested.incomplete) {
+		if ((*nested.term == ']') && !nested.incomplete) {
 		    break;
 		}
 		if (src == parsePtr->end) {
