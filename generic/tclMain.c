@@ -55,7 +55,7 @@ typedef struct ThreadSpecificData {
 				 * terminal-like device.  Zero means it's
 				 * a file. */
 } ThreadSpecificData;
-Tcl_ThreadDataKey dataKey;
+static Tcl_ThreadDataKey dataKey;
 
 /*
  * Forward declarations for procedures defined later in this file.

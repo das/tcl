@@ -122,7 +122,7 @@ proc genStubs::hooks {names} {
 # Arguments:
 #	index		The index number of the interface.
 #	platform	The platform the interface belongs to.  Should be one
-#			of generic, win, unix, or mac.
+#			of generic, win, unix, or mac, or macosx.
 #	decl		The C function declaration, or {} for an undefined
 #			entry.
 #
@@ -221,10 +221,13 @@ proc genStubs::addPlatformGuard {plat text} {
 	    return "#ifdef __WIN32__\n${text}#endif /* __WIN32__ */\n"
 	}
 	unix {
-	    return "#if !defined(__WIN32__) && !defined(MAC_TCL) /* UNIX */\n${text}#endif /* UNIX */\n"
+	    return "#if !(defined(__WIN32__) || defined(MAC_TCL) || defined(MAC_OSX_TCL))/* UNIX */\n${text}#endif /* UNIX */\n"
 	}		    
 	mac {
 	    return "#ifdef MAC_TCL\n${text}#endif /* MAC_TCL */\n"
+	}
+	macosx {
+	    return "#ifdef MAC_OSX_TCL\n${text}#endif /* MAC_OSX_TCL */\n"
 	}
     }
     return "$text"
@@ -605,7 +608,7 @@ proc genStubs::forAllStubs {name slotProc onAll textVar \
 		append text [$slotProc $name $stubs($name,generic,$i) $i]
 		set emit 1
 	    } elseif {[llength $slots] > 0} {
-		foreach plat {unix win mac} {
+		foreach plat {unix win mac macosx} {
 		    if {[info exists stubs($name,$plat,$i)]} {
 			append text [addPlatformGuard $plat \
 				[$slotProc $name $stubs($name,$plat,$i) $i]]
@@ -623,7 +626,7 @@ proc genStubs::forAllStubs {name slotProc onAll textVar \
 	
     } else {
 	# Emit separate stubs blocks per platform
-	foreach plat {unix win mac} {
+	foreach plat {unix win mac macosx} {
 	    if {[info exists stubs($name,$plat,lastNum)]} {
 		set lastNum $stubs($name,$plat,lastNum)
 		set temp {}
