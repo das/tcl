@@ -2201,13 +2201,13 @@ EXTERN int	TclCompileWhileCmd _ANSI_ARGS_((Tcl_Interp *interp,
 	if ((objPtr)->refCount < -1) \
 	    panic("Reference count for %lx was negative: %s line %d", \
 		  (objPtr), __FILE__, __LINE__); \
-	if (((objPtr)->bytes != NULL) \
-		&& ((objPtr)->bytes != tclEmptyStringRep)) { \
-	    ckfree((char *) (objPtr)->bytes); \
-	} \
 	if (((objPtr)->typePtr != NULL) \
 		&& ((objPtr)->typePtr->freeIntRepProc != NULL)) { \
 	    (objPtr)->typePtr->freeIntRepProc(objPtr); \
+	} \
+	if (((objPtr)->bytes != NULL) \
+		&& ((objPtr)->bytes != tclEmptyStringRep)) { \
+	    ckfree((char *) (objPtr)->bytes); \
 	} \
 	ckfree((char *) (objPtr)); \
 	TclIncrObjsFreed(); \
@@ -2232,13 +2232,13 @@ EXTERN int	TclCompileWhileCmd _ANSI_ARGS_((Tcl_Interp *interp,
 
 #  define TclDecrRefCount(objPtr) \
     if (--(objPtr)->refCount <= 0) { \
-	if (((objPtr)->bytes != NULL) \
-		&& ((objPtr)->bytes != tclEmptyStringRep)) { \
-	    ckfree((char *) (objPtr)->bytes); \
-	} \
 	if (((objPtr)->typePtr != NULL) \
 		&& ((objPtr)->typePtr->freeIntRepProc != NULL)) { \
 	    (objPtr)->typePtr->freeIntRepProc(objPtr); \
+	} \
+	if (((objPtr)->bytes != NULL) \
+		&& ((objPtr)->bytes != tclEmptyStringRep)) { \
+	    ckfree((char *) (objPtr)->bytes); \
 	} \
 	ckfree((char *) (objPtr)); \
 	TclIncrObjsFreed(); \
@@ -2268,13 +2268,13 @@ extern Tcl_Mutex tclObjMutex;
 
 #  define TclDecrRefCount(objPtr) \
     if (--(objPtr)->refCount <= 0) { \
-	if (((objPtr)->bytes != NULL) \
-		&& ((objPtr)->bytes != tclEmptyStringRep)) { \
-	    ckfree((char *) (objPtr)->bytes); \
-	} \
 	if (((objPtr)->typePtr != NULL) \
 		&& ((objPtr)->typePtr->freeIntRepProc != NULL)) { \
 	    (objPtr)->typePtr->freeIntRepProc(objPtr); \
+	} \
+	if (((objPtr)->bytes != NULL) \
+		&& ((objPtr)->bytes != tclEmptyStringRep)) { \
+	    ckfree((char *) (objPtr)->bytes); \
 	} \
 	Tcl_MutexLock(&tclObjMutex); \
 	(objPtr)->internalRep.otherValuePtr = (VOID *) tclFreeObjList; \
