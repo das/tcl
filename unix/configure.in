@@ -461,10 +461,14 @@ VERSION=${TCL_VERSION}
 #	another for platform-independent scripts.
 #--------------------------------------------------------------------
 
-if test "$prefix" != "$exec_prefix"; then
-    TCL_PACKAGE_PATH="${exec_prefix}/lib ${prefix}/lib"
+if test "$FRAMEWORK_BUILD" = "1" ; then
+    TCL_PACKAGE_PATH="${prefix}/Tcl.framework/Versions/${TCL_VERSION}/Resources/Scripts"
 else
-    TCL_PACKAGE_PATH="${prefix}/lib"
+    if test "$prefix" != "$exec_prefix"; then
+        TCL_PACKAGE_PATH="${exec_prefix}/lib ${prefix}/lib"
+    else
+        TCL_PACKAGE_PATH="${prefix}/lib"
+    fi
 fi
 
 #--------------------------------------------------------------------
