@@ -932,10 +932,13 @@ EXTERN void		TclVerifyLocalLiteralTable _ANSI_ARGS_((
  */
 
 #define TclEmitPush(objIndex, envPtr) \
-    if ((objIndex) <= 255) { \
-	TclEmitInstInt1(INST_PUSH1, (objIndex), (envPtr)); \
-    } else { \
-	TclEmitInstInt4(INST_PUSH4, (objIndex), (envPtr)); \
+    {\
+        register int objIndexCopy = (objIndex);\
+        if (objIndexCopy <= 255) { \
+	    TclEmitInstInt1(INST_PUSH1, objIndexCopy, (envPtr)); \
+        } else { \
+	    TclEmitInstInt4(INST_PUSH4, objIndexCopy, (envPtr)); \
+	}\
     }
 
 /*
