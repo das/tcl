@@ -751,7 +751,7 @@ CompileRegexp(interp, string, length, flags)
      * a regexp if it has the same pattern and the same flags.
      */
 
-    for (i = 0; i < NUM_REGEXPS; i++) {
+    for (i = 0; (i < NUM_REGEXPS) && (tsdPtr->patterns[i] != NULL); i++) {
 	if ((length == tsdPtr->patLengths[i])
 		&& (tsdPtr->regexps[i]->flags == flags)
 		&& (strcmp(string, tsdPtr->patterns[i]) == 0)) {
