@@ -176,6 +176,15 @@ test error-6.1 {catch must reset error state} {
     catch {error outer [catch {error inner inner.errorInfo inner.errorCode}]}
     list $errorCode $errorInfo
 } {NONE 1}
+test error-6.2 {catch must reset error state} {
+    catch {error outer [catch {return -level 0 -code error -errorcode BUG}]}
+    list $errorCode $errorInfo
+} {NONE 1}
+test error-6.3 {catch must reset error state} {
+    set errorCode BUG
+    catch {error outer [catch set]}
+    list $errorCode $errorInfo
+} {NONE 1}
 
 # cleanup
 catch {rename p ""}
