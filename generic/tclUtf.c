@@ -1627,7 +1627,7 @@ Tcl_UniCharIsWordChar(ch)
  * Tcl_UniCharCaseMatch --
  *
  *	See if a particular Unicode string matches a particular pattern.
- *	Allows case insensitivity.  Thie is the Unicode equivalent of
+ *	Allows case insensitivity.  This is the Unicode equivalent of
  *	the char* Tcl_StringCaseMatch.
  *
  * Results:
