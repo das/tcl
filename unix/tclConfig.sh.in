@@ -68,7 +68,7 @@ TCL_SHLIB_CFLAGS='@SHLIB_CFLAGS@'
 TCL_CFLAGS_WARNING='@CFLAGS_WARNING@'
 
 # Extra flags to pass to cc:
-TCL_EXTRA_CFLAGS='@EXTRA_CFLAGS@'
+TCL_EXTRA_CFLAGS='@CFLAGS@'
 
 # Base command to use for combining object files into a shared library:
 TCL_SHLIB_LD='@SHLIB_LD@'
