@@ -123,7 +123,10 @@ if {$doTestsWithRemoteServer} {
 	    set doTestsWithRemoteServer 0
 	} else {
 	    set remoteServerIP 127.0.0.1
-	    set remoteFile [file join [pwd] remote.tcl]
+	    # Be *extra* careful in case this file is sourced from
+	    # a directory other than the current one...
+	    set remoteFile [file join [pwd] [file dirname [info script]] \
+		    remote.tcl]
 	    if {[catch {set remoteProcChan \
 				[open "|[list $::tcltest::tcltest $remoteFile \
 					-serverIsSilent \
