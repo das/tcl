@@ -4924,7 +4924,7 @@ Tcl_BadChannelOption(interp, optionName, optionList)
 {
     if (interp) {
 	CONST char *genericopt = 
-	    	"blocking buffering buffersize eofchar translation";
+	    	"blocking buffering buffersize encoding eofchar translation";
 	char **argv;
 	int  argc, i;
 	Tcl_DString ds;
