@@ -518,7 +518,7 @@ declare 133 generic {
 }
 declare 134 generic {
     size_t TclpStrftime(char *s, size_t maxsize, CONST char *format,
-	    CONST struct tm *t)
+	    CONST struct tm *t, int useGMT)
 }
 declare 135 generic {
     int TclpCheckStackSpace(void)
