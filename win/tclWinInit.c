@@ -140,6 +140,16 @@ TclpInitPlatform()
      */
 
     mainThreadId = GetCurrentThreadId();
+
+#ifdef STATIC_BUILD
+    /*
+     * If we are in a statically linked executable, then we need to
+     * explicitly initialize the Windows function tables here since
+     * DllMain() will not be invoked.
+     */
+
+    TclWinInit(GetModuleHandle(NULL));
+#endif
 }
 
 /*
