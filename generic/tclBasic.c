@@ -1893,7 +1893,7 @@ TclRenameCommand(interp, oldName, newName)
     char *newName;                      /* New command name. */
 {
     Interp *iPtr = (Interp *) interp;
-    char *newTail;
+    CONST char *newTail;
     Namespace *cmdNsPtr, *newNsPtr, *dummy1, *dummy2;
     Tcl_Command cmd;
     Command *cmdPtr;
