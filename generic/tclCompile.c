@@ -1118,6 +1118,15 @@ TclCompileScript(interp, script, numBytes, envPtr)
 			           envPtr->literalArrayPtr[objIndex].objPtr,
 				   cmdPtr);
 			}
+			if ((wordIdx == 0) && (parse.numWords == 1)) {
+			    /*
+			     * Single word script: unshare the command name to
+			     * avoid shimmering between bytecode and cmdName
+			     * representations [Bug 458361]
+			     */
+
+			    TclHideLiteral(interp, envPtr, objIndex);
+			}
 		    } else {
 			objIndex = TclRegisterNewLiteral(envPtr,
 				tokenPtr[1].start, tokenPtr[1].size);
