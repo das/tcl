@@ -4062,11 +4062,7 @@ MakeFsPathFromRelative(interp, objPtr, cwdPtr)
     Tcl_Obj *cwdPtr;		/* The object to convert. */
 {
     FsPath *fsPathPtr;
-    
-    if (objPtr->typePtr == &tclFsPathType) {
-	return TCL_OK;
-    }
-    
+
     /* Free old representation */
     if (objPtr->typePtr != NULL) {
 	if (objPtr->bytes == NULL) {
