@@ -188,6 +188,7 @@ TclIntStubs tclIntStubs = {
     TclSetByteCodeFromAny, /* 142 */
     TclAddLiteralObj, /* 143 */
     TclHideLiteral, /* 144 */
+    TclGetAuxDataType, /* 145 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {

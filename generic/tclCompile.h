@@ -740,7 +740,6 @@ EXTERN void		TclDeleteLiteralTable _ANSI_ARGS_((
 			    Tcl_Interp *interp, LiteralTable *tablePtr));
 EXTERN void		TclEmitForwardJump _ANSI_ARGS_((CompileEnv *envPtr,
 			    TclJumpType jumpType, JumpFixup *jumpFixupPtr));
-EXTERN AuxDataType *TclGetAuxDataType _ANSI_ARGS_((char *typeName));
 EXTERN ExceptionRange *	TclGetExceptionRangeForPc _ANSI_ARGS_((
 			    unsigned char *pc, int catchOnly,
 			    ByteCode* codePtr));

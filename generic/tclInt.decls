@@ -540,6 +540,9 @@ declare 144 generic {
     void TclHideLiteral(Tcl_Interp *interp, struct CompileEnv *envPtr, \
 	    int index)
 }
+declare 145 generic {
+    struct AuxDataType *TclGetAuxDataType(char *typeName)
+}
 
 ##############################################################################
 
