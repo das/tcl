@@ -83,10 +83,9 @@ static int UtfCount _ANSI_ARGS_((int ch));
 /*
  *---------------------------------------------------------------------------
  *
- * Tcl_UniCharToUtf --
+ * UtfCount --
  *
- *	Store the given Tcl_UniChar as a sequence of UTF-8 bytes in the
- *	Utf character "ch".
+ *	Find the number of bytes in the Utf character "ch".
  *
  * Results:
  *	The return values is the number of bytes in the Utf character "ch".
