@@ -99,7 +99,10 @@ proc http::config {args} {
 		set state(status) error
 	    }
 	}
-	unset state(-command)
+	if {[info exist state(-command)]} {
+	    # Command callback may already have unset our state
+	    unset state(-command)
+	}
     }
 }
 
