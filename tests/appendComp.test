@@ -14,7 +14,7 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 catch {unset x}
@@ -350,6 +350,20 @@ test appendComp-7.9 {append var does not trigger read trace} {
     }
     bar
 } {0}
+
+test appendComp-8.1 {TCL_OUT_LINE_COMPILE, not TCL_ERROR} -setup {
+    interp create slave
+} -body {
+    slave eval {
+	proc foo {} {
+	    proc append args {}
+	    append
+	}
+	foo
+    }
+} -cleanup {
+    interp delete slave
+} -result {}
 
 catch {unset i x result y}
 catch {rename foo ""}

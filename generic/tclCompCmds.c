@@ -80,11 +80,7 @@ TclCompileAppendCmd(interp, parsePtr, envPtr)
 
     numWords = parsePtr->numWords;
     if (numWords == 1) {
-	Tcl_ResetResult(interp);
-	Tcl_AppendToObj(Tcl_GetObjResult(interp),
-		"wrong # args: should be \"append varName ?value value ...?\"",
-		-1);
-	return TCL_ERROR;
+        return TCL_OUT_LINE_COMPILE;
     } else if (numWords == 2) {
 	/*
 	 * append varName == set varName
