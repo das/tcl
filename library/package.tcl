@@ -380,8 +380,8 @@ proc pkg_mkIndex {args} {
 	    if {$doVerbose} {
 		tclLog "processed $file"
 	    }
-	    interp delete $c
 	}
+	interp delete $c
     }
 
     append index "# Tcl package index file, version 1.1\n"
