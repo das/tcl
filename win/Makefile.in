@@ -128,6 +128,13 @@ SHARED_LIBRARIES 	= $(TCL_DLL_FILE) $(TCL_STUB_LIB_FILE) \
 			  $(DDE_DLL_FILE) $(REG_DLL_FILE) $(PIPE_DLL_FILE)
 STATIC_LIBRARIES	= $(TCL_LIB_FILE) $(REG_LIB_FILE) $(DDE_LIB_FILE)
 
+# TCL_EXE is the name of a tclsh executable that is available *BEFORE*
+# running make for the first time. Certain build targets (make genstubs)
+# need it to be available on the PATH. This executable should *NOT* be
+# required just to do a normal build although it can be required to run
+# make dist.
+TCL_EXE			= tclsh
+
 TCLSH			= tclsh$(VER)${EXESUFFIX}
 TCLTEST			= tcltest${EXEEXT}
 CAT32			= cat32$(EXEEXT)
@@ -581,8 +588,7 @@ $(GENERIC_DIR)/tclStubInit.c: $(GENERIC_DIR)/tcl.decls \
 	@echo "Warning: run \"make genstubs\" to regenerate tclStubInit.c"
 
 genstubs:
-	@TCL_LIBRARY="$(ROOT_DIR_NATIVE)/library"; export TCL_LIBRARY; \
-	$(TCLSH) "$(ROOT_DIR_NATIVE)\tools\genStubs.tcl" \
+	$(TCL_EXE) "$(ROOT_DIR_NATIVE)\tools\genStubs.tcl" \
 	    "$(GENERIC_DIR_NATIVE)" \
 	    "$(GENERIC_DIR_NATIVE)\tcl.decls" \
             "$(GENERIC_DIR_NATIVE)\tclInt.decls"
