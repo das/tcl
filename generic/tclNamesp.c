@@ -166,7 +166,7 @@ Tcl_ObjType tclNsNameType = {
  *	None.
  *
  * Side effects:
- *	The namespace object type is registered with the Tcl compiler.
+ *	None.
  *
  *----------------------------------------------------------------------
  */
@@ -174,7 +174,9 @@ Tcl_ObjType tclNsNameType = {
 void
 TclInitNamespaceSubsystem()
 {
-    Tcl_RegisterObjType(&tclNsNameType);
+    /*
+     * Does nothing for now.
+     */
 }
 
 /*
