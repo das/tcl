@@ -380,10 +380,14 @@ typedef struct _stati64	Tcl_StatBuf;
 #      endif /* __BORLANDC__ */
 #   else /* __WIN32__ */
 /*
- * Don't know what platform it is and configure hasn't been run!  Assume
- * it has no long long...
+ * Don't know what platform it is and configure hasn't discovered what
+ * is going on for us.  Try to guess...
  */
-#      define TCL_WIDE_INT_IS_LONG	1
+#      if (0x80000000L < 0)
+#	  define TCL_WIDE_INT_IS_LONG	1
+#      else
+#	  define TCL_WIDE_INT_TYPE long long
+#      endif
 #   endif /* __WIN32__ */
 #endif /* !TCL_WIDE_INT_TYPE & !TCL_WIDE_INT_IS_LONG */
 #ifdef TCL_WIDE_INT_IS_LONG
