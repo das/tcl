@@ -64,13 +64,6 @@ static int traceInitialized = 0;
 InstructionDesc tclInstructionTable[] = {
    /* Name stack Itype Otype  #Opnds  Operand types		  */
 
-/* Opcodes for termination.*/
-    {"done",         -1, A, V, 0,   {OPERAND_NONE}},
-	/* Finish ByteCode execution and return stktop (top stack item) */
-    {"return",	     -1, A, V, 2,    {OPERAND_INT, OPERAND_UINT}},
-	/* Compiled [return], code, level are operands; options and result
-	 * are on the stack. */
-
 /* Opcodes for stack management */
     {"push",	 +1, V, A, 1,   {OPERAND_UINT}},
 	/* Push object at ByteCode objArray[op4] */
@@ -109,6 +102,12 @@ InstructionDesc tclInstructionTable[] = {
     
 /* Opcodes for flow control and conditional branching (comparisons jump if
  * true) */
+    {"done",         -1, A, V, 0,   {OPERAND_NONE}},
+	/* Finish ByteCode execution and return stktop (top stack item) */
+    {"return",	     -1, A, V, 2,    {OPERAND_INT, OPERAND_UINT}},
+	/* Compiled [return], code, level are operands; options and result
+	 * are on the stack. */
+
     {"break",	   0, V, V, 0,   {OPERAND_NONE}},
 	/* Abort closest enclosing loop; if none, return TCL_BREAK code. */
     {"continue",   0, V, V, 0,   {OPERAND_NONE}},
