@@ -156,7 +156,6 @@ static TclWinProcs unicodeProcs = {
 
 TclWinProcs *tclWinProcs;
 static Tcl_Encoding tclWinTCharEncoding;
-Tcl_ExitProc TclWinUninit;
 
 /*
  * The following declaration is for the VC++ DLL entry point.
@@ -398,34 +397,6 @@ TclWinInit(hInst)
     }
 
     tclWinProcs = &asciiProcs;
-    Tcl_CreateExitHandler(TclWinUninit, NULL);
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * TclWinUninit --
- *
- *	Exit handler callback to remove private components used in this
- *	file.
- *
- * Results:
- *	None.
- *
- * Side effects:
- *	Tcl_WinTCharToUtf and Tcl_WinUtfToTChar will not work during
- *	the latter half of Tcl_Finalize.
- *
- *----------------------------------------------------------------------
- */
-
-void
-TclWinUninit (ClientData clientData)
-{
-    if (tclWinTCharEncoding) {
-	Tcl_FreeEncoding(tclWinTCharEncoding);
-	tclWinTCharEncoding = NULL;
-    }
 }
 
 /*
