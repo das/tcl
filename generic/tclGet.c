@@ -234,12 +234,6 @@ Tcl_GetDouble(interp, string, doublePtr)
         }
 	return TCL_ERROR;
     }
-    if (errno != 0 && (d == HUGE_VAL || d == -HUGE_VAL || d == 0)) {
-        if (interp != (Tcl_Interp *) NULL) {
-            TclExprFloatError(interp, d); 
-        }
-	return TCL_ERROR;
-    }
     while ((*end != 0) && isspace(UCHAR(*end))) { /* INTL: ISO space. */
 	end++;
     }

@@ -1677,13 +1677,6 @@ GetLexeme(infoPtr)
 	    doubleValue = TclStrToD(startPtr, &termPtr);
 	    Tcl_DStringFree(&toParse);
 	    if (termPtr != startPtr) {
-		if (errno != 0) {
-		    if (interp != NULL) {
-			TclExprFloatError(interp, doubleValue);
-		    }
-		    parsePtr->errorType = TCL_PARSE_BAD_NUMBER;
-		    return TCL_ERROR;
-		}
 		
 		/*
                  * startPtr was the start of a valid double, copied

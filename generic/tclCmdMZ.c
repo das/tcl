@@ -1506,16 +1506,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		    }
 		    errno = 0;
 		    TclStrToD(string1, (CONST char **) &stop); /* INTL: Tcl source. */
-		    if (errno == ERANGE) {
-			/*
-			 * if (errno == ERANGE), then it was an over/underflow
-			 * problem, but in this method, we only want to know
-			 * yes or no, so bad flow returns 0 (false) and sets
-			 * the failVarObj to the string length.
-			 */
-			result = 0;
-			failat = -1;
-		    } else if (stop == string1) {
+		    if (stop == string1) {
 			/*
 			 * In this case, nothing like a number was found
 			 */

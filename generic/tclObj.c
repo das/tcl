@@ -1754,12 +1754,6 @@ SetDoubleFromAny(interp, objPtr)
 	}
 	return TCL_ERROR;
     }
-    if (errno != 0) {
-	if (interp != NULL) {
-	    TclExprFloatError(interp, newDouble);
-	}
-	return TCL_ERROR;
-    }
 
     /*
      * Make sure that the string has no garbage after the end of the double.
