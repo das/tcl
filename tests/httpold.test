@@ -19,7 +19,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 }
 
 if {[catch {package require http 1.0}]} {
-    if {[info exist httpold]} {
+    if {[info exists httpold]} {
 	catch {puts "Cannot load http 1.0 package"}
 	::tcltest::cleanupTests
 	return

@@ -606,7 +606,7 @@ test binary-20.4 {Tcl_BinaryObjCmd: scan} {
 } {1 abc}
 test binary-20.5 {Tcl_BinaryObjCmd: scan} {
     catch {unset arg1}
-    list [binary scan abc a5 arg1] [info exist arg1]
+    list [binary scan abc a5 arg1] [info exists arg1]
 } {0 0}
 test binary-20.6 {Tcl_BinaryObjCmd: scan} {
     set arg1 foo
@@ -645,7 +645,7 @@ test binary-21.4 {Tcl_BinaryObjCmd: scan} {
 } {1 abc}
 test binary-21.5 {Tcl_BinaryObjCmd: scan} {
     catch {unset arg1}
-    list [binary scan abc A5 arg1] [info exist arg1]
+    list [binary scan abc A5 arg1] [info exists arg1]
 } {0 0}
 test binary-21.6 {Tcl_BinaryObjCmd: scan} {
     set arg1 foo

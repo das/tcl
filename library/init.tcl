@@ -40,7 +40,7 @@ package require -exact Tcl 8.4
 #	On Macintosh it is "Tool Command Language" in the Extensions folder
 
 if {![info exists auto_path]} {
-    if {[info exist env(TCLLIBPATH)]} {
+    if {[info exists env(TCLLIBPATH)]} {
 	set auto_path $env(TCLLIBPATH)
     } else {
 	set auto_path ""
@@ -60,7 +60,7 @@ namespace eval tcl {
     if {[lsearch -exact $::auto_path $Dir] < 0} {
 	lappend ::auto_path $Dir
     }
-    if {[info exist ::tcl_pkgPath]} {
+    if {[info exists ::tcl_pkgPath]} {
 	foreach Dir $::tcl_pkgPath {
 	    if {[lsearch -exact $::auto_path $Dir] < 0} {
 		lappend ::auto_path $Dir

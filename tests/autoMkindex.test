@@ -104,14 +104,14 @@ proc ::parent::child::test {} {}
 # Save initial state of auto_mkindex_parser
 
 auto_load auto_mkindex
-if {[info exist auto_mkindex_parser::initCommands]} {
+if {[info exists auto_mkindex_parser::initCommands]} {
     set saveCommands $auto_mkindex_parser::initCommands
 }
 proc AutoMkindexTestReset {} {
     global saveCommands
-    if {[info exist saveCommands]} {
+    if {[info exists saveCommands]} {
 	set auto_mkindex_parser::initCommands $saveCommands
-    } elseif {[info exist auto_mkindex_parser::initCommands]} {
+    } elseif {[info exists auto_mkindex_parser::initCommands]} {
 	unset auto_mkindex_parser::initCommands
     }
 }
@@ -344,7 +344,7 @@ removeDirectory pkg
 
 unset result
 AutoMkindexTestReset
-if {[info exist saveCommands]} {
+if {[info exists saveCommands]} {
     unset saveCommands
 }
 rename AutoMkindexTestReset ""
