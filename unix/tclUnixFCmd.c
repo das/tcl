@@ -230,7 +230,7 @@ DoRenameFile(src, dst)
     if (errno == EINVAL) {
 	char srcPath[MAXPATHLEN], dstPath[MAXPATHLEN];
 	DIR *dirPtr;
-	struct dirent *dirEntPtr;
+	struct dirent *dirEntPtr;			/* Not 64-bit aware */
 
 	if ((realpath((char *) src, srcPath) != NULL)	/* INTL: Native. */
 		&& (realpath((char *) dst, dstPath) != NULL) /* INTL: Native. */
@@ -779,7 +779,7 @@ TraverseUnixTree(traverseProc, sourcePtr, targetPtr, errorPtr)
     CONST char *source, *errfile;
     int result;
     Tcl_Length sourceLen, targetLen;
-    struct dirent *dirEntPtr;
+    struct dirent *dirEntPtr;				/* Not 64-bit aware */
     DIR *dirPtr;
 
     errfile = NULL;

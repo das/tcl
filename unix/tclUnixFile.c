@@ -292,7 +292,7 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
     while (1) {
         Tcl_DString utfDs;
 	char *utf;
-	struct dirent *entryPtr;
+	struct dirent *entryPtr;			/* Not 64-bit aware */
 	
 	entryPtr = readdir(d);				/* INTL: Native. */
 	if (entryPtr == NULL) {

@@ -1718,7 +1718,7 @@ BinaryProc(clientData, src, srcLen, flags, statePtr, dst, dstLen,
     *srcReadPtr = srcLen;
     *dstWrotePtr = srcLen;
     *dstCharsPtr = srcLen;
-    for ( ; --srcLen >= 0; ) {
+    for ( ; srcLen-- > 0; ) {
 	*dst++ = *src++;
     }
     return result;

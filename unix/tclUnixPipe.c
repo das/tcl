@@ -151,7 +151,7 @@ TclpOpenFile(fname, mode)
 	 */
 
 	if (mode & O_WRONLY) {
-	    lseek(fd, (off_t) 0, SEEK_END);
+	    lseek64(fd, (off64_t) 0, SEEK_END);
 	}
 
 	/*
@@ -214,7 +214,7 @@ TclpCreateTempFile(contents)
 	    return NULL;
 	}
 	Tcl_DStringFree(&dstring);
-	lseek(fd, (off_t) 0, SEEK_SET);
+	lseek64(fd, (off64_t) 0, SEEK_SET);
     }
     return MakeFile(fd);
 }

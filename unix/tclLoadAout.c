@@ -263,7 +263,14 @@ TclpLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr,
 
   (void) brk (startAddress + relocatedSize);
 
-  /* Seek to the start of the module's text */
+  /*
+   * Seek to the start of the module's text
+   *
+   * Note that this does not really work with large files (i.e. where
+   * lseek64 exists and is different to lseek), but anyone trying to
+   * dynamically load a binary that is larger than what can fit in
+   * addressable memory is in trouble anyway...
+   */
 
 #if defined(__mips) || defined(mips)
   status = lseek (relocatedFd,

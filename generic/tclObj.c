@@ -2159,7 +2159,7 @@ UpdateStringOfWideInt(objPtr)
     }
     len = (int)(buffer + (TCL_INTEGER_SPACE*2+1) - start);
     objPtr->bytes = ckalloc((unsigned) len + 1);
-    strcpy(objPtr->bytes, buffer);
+    strcpy(objPtr->bytes, start);
     objPtr->length = len;
 }
 
