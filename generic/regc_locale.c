@@ -965,12 +965,8 @@ CONST chr *x;
 CONST chr *y;
 size_t len;			/* exact length of comparison */
 {
-	size_t i;
-	CONST chr *xp;
-	CONST chr *yp;
-
-	for (xp = x, yp = y, i = len; i > 0; i--)
-		if (Tcl_UniCharToLower(*xp++) != Tcl_UniCharToLower(*yp++))
-			return 1;
-	return 0;
+    for ( ; len > 0; len--, x++, y++)
+	if ((*x != *y) && (Tcl_UniCharToLower(*x) != Tcl_UniCharToLower(*y)))
+	    return 1;
+    return 0;
 }
