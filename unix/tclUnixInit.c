@@ -174,6 +174,20 @@ TclpInitPlatform()
 #endif
 
     /*
+     * Make sure, that the standard FDs exist. [Bug 772288]
+     */
+
+    if (TclOSseek(0, (Tcl_SeekOffset) 0, SEEK_CUR) == -1 && errno == EBADF) {
+	open("/dev/null", O_RDONLY);
+    }
+    if (TclOSseek(1, (Tcl_SeekOffset) 0, SEEK_CUR) == -1 && errno == EBADF) {
+	open("/dev/null", O_WRONLY);
+    }
+    if (TclOSseek(2, (Tcl_SeekOffset) 0, SEEK_CUR) == -1 && errno == EBADF) {
+	open("/dev/null", O_WRONLY);
+    }
+
+    /*
      * The code below causes SIGPIPE (broken pipe) errors to
      * be ignored.  This is needed so that Tcl processes don't
      * die if they create child processes (e.g. using "exec" or

@@ -630,7 +630,7 @@ namespace eval tcltest {
     }
 
     # Default verbosity is to show bodies of failed tests
-    Option -verbose body {
+    Option -verbose {body error} {
 	Takes any combination of the values 'p', 's', 'b', 't' and 'e'.
 	Test suite will display all passed tests if 'p' is specified, all
 	skipped tests if 's' is specified, the bodies of failed tests if

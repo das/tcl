@@ -2187,6 +2187,7 @@ TclSubstTokens(interp, tokenPtr, count, tokensLeftPtr, flags)
     int *tokensLeftPtr;		/* If not NULL, points to memory where an
 				 * integer representing the number of tokens
 				 * left to be substituted will be written */
+    int flags;
 {
     Tcl_Obj *result;
     int code = TCL_OK;
