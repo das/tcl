@@ -774,6 +774,19 @@ TestobjCmd(clientData, interp, objc, objv)
                 varPtr[i] = NULL;
             }
         }
+    } else if ( strcmp ( subCmd, "invalidateStringRep" ) == 0 ) {
+	if ( objc != 3 ) {
+	    goto wrongNumArgs;
+	}
+	index = Tcl_GetString( objv[2] );
+	if ( GetVariableIndex( interp, index, &varIndex ) != TCL_OK ) {
+	    return TCL_ERROR;
+	}
+        if (CheckIfVarUnset(interp, varIndex)) {
+	    return TCL_ERROR;
+	}
+	Tcl_InvalidateStringRep( varPtr[varIndex] );
+	Tcl_SetObjResult( interp, varPtr[varIndex] );
     } else if (strcmp(subCmd, "newobj") == 0) {
         if (objc != 3) {
             goto wrongNumArgs;

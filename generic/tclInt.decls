@@ -7,6 +7,8 @@
 #	files
 #
 # Copyright (c) 1998-1999 by Scriptics Corporation.
+# Copyright (c) 2001 by Kevin B. Kenny.  All rights reserved.
+#
 # See the file "license.terms" for information on usage and redistribution
 # of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 # 
@@ -645,6 +647,14 @@ declare 164 generic {
 # These functions are vfs aware, but are generally only useful internally.
 declare 165 generic {
     void TclpSetInitialEncodings(void)
+}
+
+# New function due to TIP #33
+declare 166 generic {
+    int TclListObjSetElement( Tcl_Interp* interp,
+                               Tcl_Obj* listPtr, 
+                               int index,
+                               Tcl_Obj* valuePtr   )
 }
 
 ##############################################################################

@@ -3,6 +3,7 @@
  *
  * Copyright (c) 1996-1998 Sun Microsystems, Inc.
  * Copyright (c) 1998-2000 by Scriptics Corporation.
+ * Copyright (c) 2001 by Kevin B. Kenny.  All rights reserved.
  *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -525,8 +526,21 @@ typedef struct ByteCode {
 #define INST_LAPPEND_ARRAY_STK		92
 #define INST_LAPPEND_STK		93
 
+/* TIP #22 - LINDEX operator with flat arg list */
+
+#define INST_LIST_INDEX_MULTI		94
+
+/*
+ * TIP #33 - 'lset' command.  Code gen also required a Forth-like
+ *           OVER operation.
+ */
+
+#define INST_OVER                       95
+#define INST_LSET_LIST			96
+#define INST_LSET_FLAT                  97
+
 /* The last opcode */
-#define LAST_INST_OPCODE        	93
+#define LAST_INST_OPCODE        	97
 
 /*
  * Table describing the Tcl bytecode instructions: their name (for

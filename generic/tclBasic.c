@@ -8,6 +8,7 @@
  * Copyright (c) 1987-1994 The Regents of the University of California.
  * Copyright (c) 1994-1997 Sun Microsystems, Inc.
  * Copyright (c) 1998-1999 by Scriptics Corporation.
+ * Copyright (c) 2001 by Kevin B. Kenny.  All rights reserved.
  *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -130,6 +131,8 @@ static CmdInfo builtInCmds[] = {
         (CompileProc *) NULL,		1},
     {"lsearch",		(Tcl_CmdProc *) NULL,	Tcl_LsearchObjCmd,
         (CompileProc *) NULL,		1},
+    {"lset",            (Tcl_CmdProc *) NULL,   Tcl_LsetObjCmd,
+        TclCompileLsetCmd,           	1},
     {"lsort",		(Tcl_CmdProc *) NULL,	Tcl_LsortObjCmd,
         (CompileProc *) NULL,		1},
     {"namespace",	(Tcl_CmdProc *) NULL,	Tcl_NamespaceObjCmd,
@@ -2789,7 +2792,7 @@ Tcl_EvalObjEx(interp, objPtr, flags)
 		(objPtr->typePtr == &tclListType) && /* is a list... */
 		(objPtr->bytes == NULL) /* ...without a string rep */) {
 	    register List *listRepPtr =
-		(List *) objPtr->internalRep.otherValuePtr;
+		(List *) objPtr->internalRep.twoPtrValue.ptr1;
 	    result = Tcl_EvalObjv(interp, listRepPtr->elemCount,
 		    listRepPtr->elements, flags);
 	} else {
