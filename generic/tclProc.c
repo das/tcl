@@ -1228,13 +1228,13 @@ TclObjInterpProc(clientData, interp, objc, objv)
 	Tcl_IncrRefCount(objPtr);  /* local var is a reference */
     } else {
 	Tcl_Obj **desiredObjs, *argObj;	
-	ByteCode *codePtr = (ByteCode *) procPtr->bodyPtr->internalRep.otherValuePtr;		
+	ByteCode *codePtr;		
     incorrectArgs:
 	/*
 	 * Do initialise all compiled locals, to avoid problems at
 	 * DeleteLocalVars. 
 	 */
-	
+	codePtr = (ByteCode *) procPtr->bodyPtr->internalRep.otherValuePtr;
 	InitCompiledLocals(interp, codePtr, localPtr, varPtr, nsPtr);
 
         /*
