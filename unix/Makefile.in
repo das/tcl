@@ -410,6 +410,7 @@ STUB_SRCS = \
 
 UNIX_HDRS = \
 	$(UNIX_DIR)/tclUnixPort.h
+#	$(UNIX_DIR)/tclConfig.h
 
 UNIX_SRCS = \
 	$(UNIX_DIR)/tclAppInit.c \
@@ -750,6 +751,8 @@ install-private-headers: libraries
 
 Makefile: $(UNIX_DIR)/Makefile.in $(DLTEST_DIR)/Makefile.in
 	$(SHELL) config.status
+#tclConfig.h: $(UNIX_DIR)/tclConfig.h.in
+#	$(SHELL) config.status
 
 clean:
 	rm -f *.a *.o libtcl* core errs *~ \#* TAGS *.E a.out \
@@ -758,7 +761,7 @@ clean:
 
 distclean: clean
 	rm -rf Makefile config.status config.cache config.log tclConfig.sh \
-		$(PACKAGE).* prototype
+		$(PACKAGE).* prototype #tclConfig.h
 	cd dltest ; $(MAKE) distclean
 
 depend:
