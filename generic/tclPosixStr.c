@@ -339,6 +339,9 @@ Tcl_ErrnoId()
 #if defined(EOPNOTSUPP) &&  (!defined(ENOTSUP) || (ENOTSUP != EOPNOTSUPP))
 	case EOPNOTSUPP: return "EOPNOTSUPP";
 #endif
+#if defined(EOVERFLOW) && ( !defined(EFBIG) || (EOVERFLOW != EFBIG) )
+        case EOVERFLOW: return "EOVERFLOW";
+#endif
 #ifdef EPERM
 	case EPERM: return "EPERM";
 #endif
@@ -785,6 +788,9 @@ Tcl_ErrnoMsg(err)
 #endif
 #if defined(EOPNOTSUPP) &&  (!defined(ENOTSUP) || (ENOTSUP != EOPNOTSUPP))
 	case EOPNOTSUPP: return "operation not supported on socket";
+#endif
+#if defined(EOVERFLOW) && ( !defined(EFBIG) || (EOVERFLOW != EFBIG) )
+        case EOVERFLOW: return "file too big";
 #endif
 #ifdef EPERM
 	case EPERM: return "not owner";

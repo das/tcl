@@ -149,6 +149,9 @@ strtoull(string, endPtr, base)
 		goto overflow;
 	    }
 	    result = shifted + digit;
+	    if ( result < shifted ) {
+		goto overflow;
+	    }
 	    anyDigits = 1;
 	}
     } else if (base == 10) {
@@ -162,6 +165,9 @@ strtoull(string, endPtr, base)
 		goto overflow;
 	    }
 	    result = shifted + digit;
+	    if ( result < shifted ) {
+		goto overflow;
+	    }
 	    anyDigits = 1;
 	}
     } else if (base == 16) {
@@ -179,16 +185,19 @@ strtoull(string, endPtr, base)
 		goto overflow;
 	    }
 	    result = shifted + digit;
+	    if ( result < shifted ) {
+		goto overflow;
+	    }
 	    anyDigits = 1;
 	}
-    } else {
+    } else if ( base >= 2 && base <= 36 ) {
 	for ( ; ; p += 1) {
 	    digit = *p - '0';
 	    if (digit > ('z' - '0')) {
 		break;
 	    }
 	    digit = cvtIn[digit];
-	    if (digit >= base) {
+	    if (digit >= (unsigned) base) {
 		break;
 	    }
 	    shifted = result * base;
@@ -196,6 +205,9 @@ strtoull(string, endPtr, base)
 		goto overflow;
 	    }
 	    result = shifted + digit;
+	    if ( result < shifted ) {
+		goto overflow;
+	    }
 	    anyDigits = 1;
 	}
     }
@@ -235,7 +247,7 @@ strtoull(string, endPtr, base)
 		break;
 	    }
 	    digit = cvtIn[digit];
-	    if (digit >= base) {
+	    if (digit >= (unsigned) base) {
 		break;
 	    }
 	}

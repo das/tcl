@@ -152,14 +152,14 @@ strtoul(string, endPtr, base)
 	    result = (result << 4) + digit;
 	    anyDigits = 1;
 	}
-    } else {
+    } else if ( base >= 2 && base <= 36 ) {
 	for ( ; ; p += 1) {
 	    digit = *p - '0';
 	    if (digit > ('z' - '0')) {
 		break;
 	    }
 	    digit = cvtIn[digit];
-	    if (digit >= base) {
+	    if (digit >= ( (unsigned) base )) {
 		break;
 	    }
 	    result = result*base + digit;

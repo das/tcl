@@ -465,7 +465,8 @@ TestindexobjCmd(clientData, interp, objc, objv)
      * the index object, clear out the object's cached state.
      */
 
-    if (objv[3]->typePtr == &tclIndexType) {
+    if ( objv[3]->typePtr != NULL
+	 && !strcmp( "index", objv[3]->typePtr->name ) ) {
 	indexRep = (struct IndexRep *) objv[3]->internalRep.otherValuePtr;
 	if (indexRep->tablePtr == (VOID *) argv) {
 	    objv[3]->typePtr->freeIntRepProc(objv[3]);

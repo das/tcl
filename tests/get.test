@@ -48,7 +48,7 @@ test get-1.6 {Tcl_GetInt procedure} {
 if {wide(0x80000000) > wide(0)} {
     test get-1.7 {Tcl_GetInt procedure} {
 	set x 44
-	list [catch {incr x 18446744073709551616} msg] $msg $errorCode
+	list [catch {eval incr x 18446744073709551616} msg] $msg $errorCode
     } {1 {integer value too large to represent} {ARITH IOVERFLOW {integer value too large to represent}}}
     test get-1.8 {Tcl_GetInt procedure} {
 	set x 0

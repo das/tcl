@@ -82,7 +82,7 @@ strtoll(string, endPtr, base)
 	    } else if (uwResult > TCL_WIDEINT_MAX) {
 		return ~((Tcl_WideInt)TCL_WIDEINT_MAX);
 	    } else {
-		result = -uwResult;
+		result = -((Tcl_WideInt) uwResult);
 	    }
 	}
     } else {
