@@ -219,17 +219,20 @@ TclpGetTZName(int dst)
 	Tcl_ExternalToUtf(NULL, NULL, zone, len, 0, NULL, name,
 		sizeof(tsdPtr->tzName), NULL, NULL, NULL);
     }
-    if ((name[0] == '\0') 
-	    && (GetTimeZoneInformation(&tz) != TIME_ZONE_ID_UNKNOWN)) {
+    if (name[0] == '\0') {
+	if (GetTimeZoneInformation(&tz) == TIME_ZONE_ID_UNKNOWN) {
+	    /*
+	     * MSDN: On NT this is returned if DST is not used in
+	     * the current TZ
+	     */
+	    dst = 0;
+	}
 	encoding = Tcl_GetEncoding(NULL, "unicode");
 	Tcl_ExternalToUtf(NULL, encoding, 
 		(char *) ((dst) ? tz.DaylightName : tz.StandardName), -1, 
 		0, NULL, name, sizeof(tsdPtr->tzName), NULL, NULL, NULL);
 	Tcl_FreeEncoding(encoding);
     } 
-    if (name[0] == '\0') {
-	return "%Z";
-    }
     return name;
 }
 

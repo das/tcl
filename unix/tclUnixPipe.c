@@ -776,7 +776,6 @@ PipeBlockModeProc(instanceData, mode)
         if (fcntl(fd, F_SETFL, curStatus) < 0) {
             return errno;
         }
-        curStatus = fcntl(fd, F_GETFL);
     }
     if (psPtr->outFile) {
         fd = GetFd(psPtr->outFile);
