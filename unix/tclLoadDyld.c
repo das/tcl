@@ -63,10 +63,30 @@ TclpDlopen(interp, pathPtr, loadHandle, unloadProcPtr)
     const struct mach_header *dyld_lib;
     CONST char *native;
 
+    /* 
+     * First try the full path the user gave us.  This is particularly
+     * important if the cwd is inside a vfs, and we are trying to load
+     * using a relative path.
+     */
     native = Tcl_FSGetNativePath(pathPtr);
     dyld_lib = NSAddImage(native, 
-        NSADDIMAGE_OPTION_WITH_SEARCHING | 
-        NSADDIMAGE_OPTION_RETURN_ON_ERROR);
+			  NSADDIMAGE_OPTION_WITH_SEARCHING | 
+			  NSADDIMAGE_OPTION_RETURN_ON_ERROR);
+    
+    if (!dyld_lib) {
+	/* 
+	 * Let the OS loader examine the binary search path for
+	 * whatever string the user gave us which hopefully refers
+	 * to a file on the binary path
+	 */
+	Tcl_DString ds;
+	char *fileName = Tcl_GetString(pathPtr);
+	native = Tcl_UtfToExternalDString(NULL, fileName, -1, &ds);
+	dyld_lib = NSAddImage(native, 
+			      NSADDIMAGE_OPTION_WITH_SEARCHING | 
+			      NSADDIMAGE_OPTION_RETURN_ON_ERROR);
+	Tcl_DStringFree(&ds);
+    }
     
     if (!dyld_lib) {
         NSLinkEditErrors editError;
@@ -75,6 +95,7 @@ TclpDlopen(interp, pathPtr, loadHandle, unloadProcPtr)
         Tcl_AppendResult(interp, msg, (char *) NULL);
         return TCL_ERROR;
     }
+    
     dyldLoadHandle = (Tcl_DyldLoadHandle *) ckalloc(sizeof(Tcl_DyldLoadHandle));
     if (!dyldLoadHandle) return TCL_ERROR;
     dyldLoadHandle->dyld_lib = dyld_lib;
