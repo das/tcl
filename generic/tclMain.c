@@ -397,6 +397,12 @@ Tcl_Main(argc, argv, appInitProc)
     }
     sprintf(buffer, "exit %d", exitCode);
     Tcl_Eval(interp, buffer);
+#ifdef PURIFY
+    /*
+     * Not reached unless exit is redefined.
+     */
+    Tcl_DeleteInterp(interp);
+#endif
 }
 
 /*

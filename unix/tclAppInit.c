@@ -97,6 +97,13 @@ main(argc, argv)
 #endif
 
     Tcl_Main(argc, argv, TCL_LOCAL_APPINIT);
+#ifdef PURIFY
+    /*
+     * This isn't necessary - we are about to exit, but it assists in
+     * finding leaks.
+     */
+    Tcl_Finalize();
+#endif
 
     return 0;			/* Needed only to prevent compiler warning. */
 }
