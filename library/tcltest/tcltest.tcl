@@ -3468,5 +3468,5 @@ namespace eval tcltest {
     }
 }
 
-package provide tcltest 2.0.1
+package provide tcltest 2.0.2
 
