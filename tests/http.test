@@ -311,7 +311,7 @@ if {[info exists httpthread]} {
 }
 
 if {[info exist removeHttpd]} {
-    remove $httpdFile
+    removeFile $httpdFile
 }
 
 ::tcltest::cleanupTests
