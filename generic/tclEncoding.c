@@ -835,7 +835,7 @@ Tcl_ExternalToUtfDString(encoding, src, srcLen, dstPtr)
  *
  * Tcl_ExternalToUtf --
  *
- *	Convert a source buffer from the specified encoding into UTF-8,
+ *	Convert a source buffer from the specified encoding into UTF-8.
  *
  * Results:
  *	The return value is one of TCL_OK, TCL_CONVERT_MULTIBYTE,
