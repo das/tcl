@@ -274,10 +274,14 @@ static int		TtyCloseProc _ANSI_ARGS_((ClientData instanceData,
 			    Tcl_Interp *interp));
 static void		TtyGetAttributes _ANSI_ARGS_((int fd,
 			    TtyAttrs *ttyPtr));
+static int		TtyGetBaud _ANSI_ARGS_((unsigned long speed));
 static int		TtyGetOptionProc _ANSI_ARGS_((ClientData instanceData,
 			    Tcl_Interp *interp, CONST char *optionName,
 			    Tcl_DString *dsPtr));
+static unsigned long	TtyGetSpeed _ANSI_ARGS_((int baud));
 static FileState *	TtyInit _ANSI_ARGS_((int fd, int initialize));
+static void		TtyModemStatusStr _ANSI_ARGS_((int status,
+			    Tcl_DString *dsPtr));
 #if BAD_TIP35_FLUSH
 static int		TtyOutputProc _ANSI_ARGS_((ClientData instanceData,
 			    CONST char *buf, int toWrite, int *errorCode));
