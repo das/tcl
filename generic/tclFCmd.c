@@ -553,6 +553,7 @@ CopyRenameOneFile(interp, source, target, copyFlag, force)
 
     actualSource = source;
     Tcl_IncrRefCount(actualSource);
+#if 0
 #ifdef S_ISLNK
     /* 
      * To add a flag to make 'copy' copy links instead of files, we could
@@ -576,7 +577,7 @@ CopyRenameOneFile(interp, source, target, copyFlag, force)
 	} else {
 	    int counter = 0;
 	    while (1) {
-		Tcl_Obj *path = Tcl_FSLink(actualSource,NULL,0);
+		Tcl_Obj *path = Tcl_FSLink(actualSource, NULL, 0);
 		if (path == NULL) {
 		    break;
 		}
@@ -594,6 +595,7 @@ CopyRenameOneFile(interp, source, target, copyFlag, force)
 	    /* Now 'actualSource' is the correct file */
 	}
     }
+#endif
 #endif
 
     if (S_ISDIR(sourceStatBuf.st_mode)) {
