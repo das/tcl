@@ -765,15 +765,9 @@ ParseNaN( int signum,		/* Flag == 1 if minus sign has been
 
     /* 
      * Mask the hex number down to the least significant 51 bits.
-     *
-     * If the result is zero, make it 1 so that we don't return Inf
-     * instead of NaN 
      */
 
     theNaN.iv &= ( ((Tcl_WideUInt) 1) << 51 ) - 1;
-    if ( theNaN.iv == 0 ) {
-	theNaN.iv = 1;
-    }
     if ( signum ) {
 	theNaN.iv |= ((Tcl_WideUInt) 0xfff8) << 48;
     } else {
@@ -1308,4 +1302,51 @@ SafeLdExp( double fract, int expt )
 	retval = ldexp( fract, expt );
     }
     return retval;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclFormatNaN --
+ *
+ *	Makes the string representation of a "Not a Number"
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Stores the string representation in the supplied buffer,
+ *	which must be at least TCL_DOUBLE_SPACE characters.
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+TclFormatNaN( double value,	/* The Not-a-Number to format */
+	      char* buffer )	/* String representation */
+{
+#ifndef IEEE_FLOATING_POINT
+    strcpy( buffer, "NaN" );
+    return;
+#else
+
+    union {
+	double dv;
+	Tcl_WideUInt iv;
+    } bitwhack;
+
+    bitwhack.dv = value;
+    if ( bitwhack.iv & ((Tcl_WideUInt) 1 << 63 ) ) {
+	bitwhack.iv &= ~ ((Tcl_WideUInt) 1 << 63 );
+	*buffer++ = '-';
+    }
+    *buffer++ = 'N'; *buffer++ = 'a'; *buffer++ = 'N';
+    bitwhack.iv &= (((Tcl_WideUInt) 1) << 51) - 1;
+    if ( bitwhack.iv != 0 ) {
+	sprintf( buffer, "(%" TCL_LL_MODIFIER "x)", bitwhack.iv );
+    } else {
+	*buffer = '\0';
+    }
+
+#endif
 }

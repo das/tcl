@@ -1957,7 +1957,7 @@ Tcl_PrintDouble(interp, value, dst)
 	/* Handle NaN */
 
 	if ( IS_NAN( value ) ) {
-	    strcpy( dst, "NaN" );
+	    TclFormatNaN( value, dst );
 	    return;
 	}
 

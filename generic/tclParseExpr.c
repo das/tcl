@@ -1678,8 +1678,6 @@ GetLexeme(infoPtr)
 	    Tcl_DStringFree(&toParse);
 	    if (termPtr != startPtr) {
 		if (errno != 0) {
-		    fprintf( stderr, "errno = %d, doubleValue = %.17g\n",
-			     errno, doubleValue );
 		    if (interp != NULL) {
 			TclExprFloatError(interp, doubleValue);
 		    }
@@ -2080,7 +2078,7 @@ ParseMaxDoubleLength(string, end)
 	    case 'C': case 'D': case 'E': case 'F': case 'I': case 'N':
 	    case 'P': case 'X': case 'a': case 'b': case 'c': case 'd':
 	    case 'e': case 'f': case 'i': case 'n': case 'p': case 'x':
-	    case '.': case '+': case '-':
+	    case '.': case '+': case '-': case '(': case ' ': case ')':
 		p++;
 		break;
 	    default:
