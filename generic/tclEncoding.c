@@ -738,9 +738,9 @@ Tcl_CreateEncoding(typePtr)
     encodingPtr->nullSize	= typePtr->nullSize;
     encodingPtr->clientData	= typePtr->clientData;
     if (typePtr->nullSize == 1) {
-	encodingPtr->lengthProc = strlen;
+	encodingPtr->lengthProc = (LengthProc *) strlen;
     } else {
-	encodingPtr->lengthProc = unilen;
+	encodingPtr->lengthProc = (LengthProc *) unilen;
     }
     encodingPtr->refCount	= 1;
     encodingPtr->hPtr		= hPtr;

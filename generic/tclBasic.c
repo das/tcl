@@ -2642,6 +2642,13 @@ Tcl_EvalObjEx(interp, objPtr, flags)
      *
      * Precompiled objects, however, are immutable and therefore
      * they are not recompiled, even if the epoch has changed.
+     *
+     * To be pedantically correct, we should also check that the
+     * originating procPtr is the same as the current context procPtr
+     * (assuming one exists at all - none for global level).  This
+     * code is #def'ed out because [info body] was changed to never
+     * return a bytecode type object, which should obviate us from
+     * the extra checks here.
      */
 
     if (iPtr->varFramePtr != NULL) {
@@ -2655,6 +2662,10 @@ Tcl_EvalObjEx(interp, objPtr, flags)
 	
 	if (((Interp *) *codePtr->interpHandle != iPtr)
 	        || (codePtr->compileEpoch != iPtr->compileEpoch)
+#ifdef CHECK_PROC_ORIGINATION	/* [Bug: 3412 Pedantic] */
+		|| (codePtr->procPtr != NULL && !(iPtr->varFramePtr &&
+			iPtr->varFramePtr->procPtr == codePtr->procPtr))
+#endif
 	        || (codePtr->nsPtr != namespacePtr)
 	        || (codePtr->nsEpoch != namespacePtr->resolverEpoch)) {
             if (codePtr->flags & TCL_BYTECODE_PRECOMPILED) {

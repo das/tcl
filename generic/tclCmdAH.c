@@ -257,7 +257,7 @@ Tcl_CatchObjCmd(dummy, interp, objc, objv)
     if (objc == 3) {
 	varNamePtr = objv[2];
     }
-    
+
     result = Tcl_EvalObjEx(interp, objv[1], 0);
     
     if (objc == 3) {
