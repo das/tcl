@@ -2148,7 +2148,8 @@ Tcl_InitObjHashTable(tablePtr)
     register Tcl_HashTable *tablePtr;	/* Pointer to table record, which
 					 * is supplied by the caller. */
 {
-    Tcl_InitHashTableEx (tablePtr, TCL_CUSTOM_PTR_KEYS, &tclObjHashKeyType);
+    Tcl_InitCustomHashTable(tablePtr, TCL_CUSTOM_PTR_KEYS,
+	    &tclObjHashKeyType);
 }
 
 /*

@@ -339,7 +339,8 @@ typedef long LONG;
 
 /*
  * This flag controls whether binary compatability is maintained with
- * extensions built against a previous version of Tcl.
+ * extensions built against a previous version of Tcl. This is true
+ * by default.
  */
 #ifndef TCL_PRESERVE_BINARY_COMPATABILITY
 #define TCL_PRESERVE_BINARY_COMPATABILITY 1
@@ -1206,12 +1207,14 @@ typedef struct Tcl_HashSearch {
 	(*((tablePtr)->createProc))(tablePtr, key, newPtr)
 #endif
 
+#if !TCL_PRESERVE_BINARY_COMPATABILITY
 /*
  * Macro to use new extended version of Tcl_InitHashTable.
  */
 #define Tcl_InitHashTable(tablePtr, keyType) \
 	Tcl_InitHashTableEx(tablePtr, keyType, NULL)
-    
+#endif
+
 /*
  * Flag values to pass to Tcl_DoOneEvent to disable searches
  * for some kinds of events:

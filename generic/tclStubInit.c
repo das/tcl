@@ -826,7 +826,7 @@ TclStubs tclStubs = {
     Tcl_UniCharCaseMatch, /* 420 */
     Tcl_FindHashEntry, /* 421 */
     Tcl_CreateHashEntry, /* 422 */
-    Tcl_InitHashTableEx, /* 423 */
+    Tcl_InitCustomHashTable, /* 423 */
     Tcl_InitObjHashTable, /* 424 */
     Tcl_CommandTraceInfo, /* 425 */
     Tcl_TraceCommand, /* 426 */

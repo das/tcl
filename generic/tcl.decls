@@ -1466,7 +1466,7 @@ declare 422 generic {
 }
 
 declare 423 generic {
-    void Tcl_InitHashTableEx(Tcl_HashTable *tablePtr, int keyType, \
+    void Tcl_InitCustomHashTable(Tcl_HashTable *tablePtr, int keyType, \
 	    Tcl_HashKeyType *typePtr)
 }
 
