@@ -45,6 +45,14 @@ test stack-1.1 {maxNestingDepth reached on infinite recursion} {minStack2400} {
     set rv
 } {too many nested calls to Tcl_EvalObj (infinite loop?)}
 
+test stack-2.1 {maxNestingDepth reached on infinite recursion} {minStack2400} {
+    catch {rename unknown unknown_safe}
+    interp alias {} unknown {} notaknownproc
+    catch {foo} msg
+    catch {rename unknown {} ; rename unknown_safe unknown}
+    set msg
+} {too many nested calls to AliasObjCmd (infinite loop using alias?)}
+
 # cleanup
 ::tcltest::cleanupTests
 return
