@@ -751,8 +751,12 @@ EXTERN int		TclInterpReady _ANSI_ARGS_((Tcl_Interp *interp));
  *----------------------------------------------------------------
  */
 
+/*
+ * Declaration moved to the internal stubs table
+ *
 EXTERN int		TclCompEvalObj _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *objPtr));
+*/
 
 /*
  *----------------------------------------------------------------

@@ -281,6 +281,7 @@ TclIntStubs tclIntStubs = {
     TclFinalizeThreadStorage, /* 194 */
     TclFinalizeThreadStorageData, /* 195 */
     TclFinalizeThreadStorageDataKey, /* 196 */
+    TclCompEvalObj, /* 197 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {

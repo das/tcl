@@ -787,6 +787,14 @@ declare 196 generic {
      void TclFinalizeThreadStorageDataKey(Tcl_ThreadDataKey *keyPtr)
 }
 
+#
+# Added in tcl8.5a5 for compiler/executor experimentation.
+#
+declare 197 generic {
+    int TclCompEvalObj (Tcl_Interp *interp, Tcl_Obj *objPtr)
+}
+
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are
