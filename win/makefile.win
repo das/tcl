@@ -12,7 +12,6 @@
 # RCS: @(#) $Id$
 #==============================================================================
 
-
 ### Remove all '!' for MinGW..  Sorry, could find another way to do this.
 
 #==============================================
@@ -34,10 +33,14 @@
 !ifdef __MAKE__
 !include "mkbc32.mif"	# Borland Toolset
 !else
+!ifdef BUILDLIB
+			# Lcc-Win32 doesn't have an include directive...  oh well.
+!else
 !ifdef MAKE_VERSION
 !include mkmgw32.mif	# MinGW Toolset
 !else
 !error Unknown make tool.  Toolset cannot be determined.
+!endif
 !endif
 !endif
 !endif
