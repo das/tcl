@@ -298,7 +298,7 @@ Tcl_ReadObjCmd(dummy, interp, objc, objv)
 
     if ((objc != 2) && (objc != 3)) {
 	argerror:
-	Tcl_WrongNumArgs(interp, 1, objv, "channelId ?numBytes?");
+	Tcl_WrongNumArgs(interp, 1, objv, "channelId ?numChars?");
 	Tcl_AppendResult(interp, " or \"", Tcl_GetString(objv[0]),
 		" ?-nonewline? channelId\"", (char *) NULL);
 	return TCL_ERROR;
