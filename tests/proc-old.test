@@ -332,7 +332,8 @@ test proc-old-5.14 {error conditions} {
     catch tproc msg
     set errorInfo
 } {invoked "break" outside of a loop
-    while executing
+    (procedure "tproc" line 1)
+    invoked from within
 "tproc"}
 test proc-old-5.15 {error conditions} {
     proc tproc {} {
@@ -343,7 +344,8 @@ test proc-old-5.15 {error conditions} {
     catch tproc msg
     set errorInfo
 } {invoked "continue" outside of a loop
-    while executing
+    (procedure "tproc" line 1)
+    invoked from within
 "tproc"}
 test proc-old-5.16 {error conditions} {
     proc foo args {

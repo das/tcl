@@ -174,7 +174,7 @@ InitTimer()
  *	None.
  *
  * Side effects:
- *	Removes the timer and idle event sources.
+ *	Removes the timer and idle event sources and remaining events.
  *
  *----------------------------------------------------------------------
  */
@@ -183,7 +183,19 @@ static void
 TimerExitProc(clientData)
     ClientData clientData;	/* Not used. */
 {
+    ThreadSpecificData *tsdPtr =
+	(ThreadSpecificData *) TclThreadDataKeyGet(&dataKey);
+
     Tcl_DeleteEventSource(TimerSetupProc, TimerCheckProc, NULL);
+    if (tsdPtr != NULL) {
+	register TimerHandler *timerHandlerPtr;
+	timerHandlerPtr = tsdPtr->firstTimerHandlerPtr;
+	while (timerHandlerPtr != NULL) {
+	    tsdPtr->firstTimerHandlerPtr = timerHandlerPtr->nextPtr;
+	    ckfree((char *) timerHandlerPtr);
+	    timerHandlerPtr = tsdPtr->firstTimerHandlerPtr;
+	}
+    }
 }
 
 /*

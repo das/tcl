@@ -147,8 +147,8 @@ We require the string representation's byte array
 to have a null after the last byte, at offset \fIlength\fR;
 this allows string representations that do not contain null bytes
 to be treated as conventional null character-terminated C strings.
-Storage for the byte array must be allocated in the heap by \fBTcl_Alloc\fR.
-Note that \fIupdateStringProc\fRs must allocate
+Storage for the byte array must be allocated in the heap by \fBTcl_Alloc\fR
+or \fBckalloc\fR.  Note that \fIupdateStringProc\fRs must allocate
 enough storage for the string's bytes and the terminating null byte.
 The \fIupdateStringProc\fR for Tcl's builtin list type, for example,
 builds an array of strings for each element object

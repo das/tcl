@@ -29,6 +29,15 @@
  */
 
 #include "tclErrno.h"
+
+#ifndef EOVERFLOW
+#   ifdef EFBIG
+#      define EOVERFLOW	EFBIG	/* The object couldn't fit in the datatype */
+#   else /* !EFBIG */
+#      define EOVERFLOW	EINVAL	/* Better than nothing! */
+#   endif /* EFBIG */
+#endif /* !EOVERFLOW */
+
 #include <float.h>
 
 #ifdef THINK_C

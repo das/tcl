@@ -21,24 +21,24 @@ Tcl_Encoding
 void
 \fBTcl_FreeEncoding\fR(\fIencoding\fR)
 .sp
-CONST char *
+char *
 \fBTcl_ExternalToUtfDString\fR(\fIencoding, src, srcLen, dstPtr\fR)
 .sp
 int
 \fBTcl_ExternalToUtf\fR(\fIinterp, encoding, src, srcLen, flags, statePtr, dst, dstLen, srcReadPtr, dstWrotePtr, 
 	dstCharsPtr\fR)
 .sp
-CONST char * 
+char * 
 \fBTcl_UtfToExternalDString\fR(\fIencoding, src, srcLen, dstPtr\fR)
 .sp
 int
 \fBTcl_UtfToExternal\fR(\fIinterp, encoding, src, srcLen, flags, statePtr, dst, dstLen, srcReadPtr, dstWrotePtr, 
 	dstCharsPtr\fR)
 .sp
-CONST char *
+char *
 \fBTcl_WinTCharToUtf\fR(\fItsrc, srcLen, dstPtr\fR)
 .sp
-CONST TCHAR *
+TCHAR *
 \fBTcl_WinUtfToTChar\fR(\fIsrc, srcLen, dstPtr\fR)
 .sp
 CONST char *

@@ -1431,7 +1431,7 @@ ApplicationType(interp, originalName, fullName)
 	     */
 
 	    CloseHandle(hFile);
-	    if ((ext != NULL) && (strcmp(ext, ".com") == 0)) {
+	    if ((ext != NULL) && (stricmp(ext, ".com") == 0)) {
 		applType = APPL_DOS;
 		break;
 	    }

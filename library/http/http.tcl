@@ -24,7 +24,7 @@
 
 package require Tcl 8.2
 # keep this in sync with pkgIndex.tcl
-package provide http 2.4.1
+package provide http 2.4.2
 
 namespace eval http {
     variable http
@@ -198,7 +198,7 @@ proc http::reset { token {why reset} } {
     if {[info exists state(error)]} {
 	set errorlist $state(error)
 	unset state
-	eval error $errorlist
+	eval ::error $errorlist
     }
 }
 

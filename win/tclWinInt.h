@@ -102,10 +102,17 @@ EXTERN TclWinProcs *tclWinProcs;
  */
 
 EXTERN void		TclWinInit(HINSTANCE hInst);
+#if defined(TCL_THREADS) && defined(USE_THREAD_ALLOC)
+EXTERN void		TclWinFreeAllocCache(void);
+EXTERN void		TclFreeAllocCache(void *);
+EXTERN Tcl_Mutex	*TclpNewAllocMutex(void);
+EXTERN void		*TclpGetAllocCache(void);
+EXTERN void		TclpSetAllocCache(void *);
+#endif /* TCL_THREADS */
+
+#include "tclIntPlatDecls.h"
 
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT
-
-#include "tclIntPlatDecls.h"
 
 #endif	/* _TCLWININT */

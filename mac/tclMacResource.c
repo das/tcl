@@ -1248,7 +1248,7 @@ Tcl_MacEvalResource(
     short saveRef, fileRef = -1;
     char idStr[64];
     FSSpec fileSpec;
-    Tcl_DString buffer;
+    Tcl_DString ds, buffer;
     CONST char *nativeName;
 
     saveRef = CurResFile();
@@ -1256,12 +1256,14 @@ Tcl_MacEvalResource(
     if (fileName != NULL) {
 	OSErr err;
 	
-	nativeName = Tcl_TranslateFileName(interp, fileName, &buffer);
-	if (nativeName == NULL) {
+	if (Tcl_TranslateFileName(interp, fileName, &buffer) == NULL) {
 	    return TCL_ERROR;
 	}
+	nativeName = Tcl_UtfToExternalDString(NULL, Tcl_DStringValue(&buffer), 
+    	    Tcl_DStringLength(&buffer), &ds);
 	err = FSpLocationFromPath(strlen(nativeName), nativeName,
                 &fileSpec);
+	Tcl_DStringFree(&ds);
 	Tcl_DStringFree(&buffer);
 	if (err != noErr) {
 	    Tcl_AppendResult(interp, "Error finding the file: \"", 
@@ -1385,20 +1387,24 @@ Tcl_MacConvertTextResource(
 {
     int i, size;
     char *resultStr;
+    Tcl_DString dstr;
 
     size = GetResourceSizeOnDisk(resource);
     
-    resultStr = ckalloc(size + 1);
+    Tcl_ExternalToUtfDString(NULL, *resource, size, &dstr);
+
+    size = Tcl_DStringLength(&dstr) + 1;
+    resultStr = (char *) ckalloc((unsigned) size);
+    
+    memcpy((VOID *) resultStr, (VOID *) Tcl_DStringValue(&dstr), (size_t) size);
+    
+    Tcl_DStringFree(&dstr);
     
     for (i=0; i<size; i++) {
-	if ((*resource)[i] == '\r') {
+	if (resultStr[i] == '\r') {
 	    resultStr[i] = '\n';
-	} else {
-	    resultStr[i] = (*resource)[i];
 	}
     }
-    
-    resultStr[size] = '\0';
 
     return resultStr;
 }
