@@ -3300,11 +3300,16 @@ GetExceptRangeForPc(pc, catchOnly, codePtr)
     ByteCode* codePtr;		/* Points to the ByteCode in which to search
 				 * for the enclosing ExceptionRange. */
 {
-    ExceptionRange *rangeArrayPtr = codePtr->exceptArrayPtr;
+    ExceptionRange *rangeArrayPtr;
     int numRanges = codePtr->numExceptRanges;
     register ExceptionRange *rangePtr;
     int pcOffset = (pc - codePtr->codeStart);
     register int i, level;
+
+    if (numRanges == 0) {
+	return NULL;
+    }
+    rangeArrayPtr = codePtr->exceptArrayPtr;
 
     for (level = codePtr->maxExceptDepth;  level >= 0;  level--) {
 	for (i = 0;  i < numRanges;  i++) {

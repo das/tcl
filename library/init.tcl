@@ -95,7 +95,6 @@ if {(![interp issafe]) && ($tcl_platform(platform) == "windows")} {
     }
 }
 
-
 # Setup the unknown package handler
 
 package unknown tclPkgUnknown

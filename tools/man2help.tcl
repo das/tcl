@@ -78,7 +78,8 @@ proc generateHelp {basename files} {
 # file -		Name of file to translate.
 
 proc doFile {file} {
-    if [catch {eval [exec man2tcl [glob $file]]} msg] {
+    if {[catch {eval [exec man2tcl [glob $file]]} msg] &&
+	    [catch {eval [exec ./man2tcl [glob $file]]} msg]} {
 	global errorInfo
 	puts stderr $msg
 	puts "in"

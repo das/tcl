@@ -32,12 +32,6 @@ namespace eval ::safe {
 	    interpAddToAccessPath interpFindInAccessPath \
 	    setLogCmd ;
 
-# Proto/dummy declarations for auto_mkIndex
-proc ::safe::interpCreate {} {}
-proc ::safe::interpInit {} {}
-proc ::safe::interpConfigure {} {}
-
-
     ####
     #
     # Setup the arguments parsing

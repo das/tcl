@@ -27,7 +27,7 @@ if ![file readable [file join $testDir pkga$ext]] {
     return
 }
 
-if [string match *pkga* [set alreadyLoaded [info loaded {}]]] {
+if [string match *pkga* [set alreadyLoaded [info loaded]]] {
     puts "load tests have already been run once:  skipping (can't rerun)"
     return
 }
