@@ -86,9 +86,6 @@ static void		FreeNsNameInternalRep _ANSI_ARGS_((
 static int		GetNamespaceFromObj _ANSI_ARGS_((
 			    Tcl_Interp *interp, Tcl_Obj *objPtr,
 			    Tcl_Namespace **nsPtrPtr));
-static int		InvokeImportedCmd _ANSI_ARGS_((
-			    ClientData clientData, Tcl_Interp *interp,
-			    int objc, Tcl_Obj *CONST objv[]));
 static int		NamespaceChildrenCmd _ANSI_ARGS_((
 			    ClientData dummy, Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[]));
@@ -1273,7 +1270,7 @@ Tcl_Import(interp, namespacePtr, pattern, allowOverwrite)
 		dataPtr = (ImportedCmdData *)
 		        ckalloc(sizeof(ImportedCmdData));
                 importedCmd = Tcl_CreateObjCommand(interp, 
-                        Tcl_DStringValue(&ds), InvokeImportedCmd,
+                        Tcl_DStringValue(&ds), TclInvokeImportedCmd,
                         (ClientData) dataPtr, DeleteImportedCmd);
 		dataPtr->realCmdPtr = cmdPtr;
 		dataPtr->selfPtr = (Command *) importedCmd;
@@ -1438,7 +1435,7 @@ TclGetOriginalCommand(command)
 /*
  *----------------------------------------------------------------------
  *
- * InvokeImportedCmd --
+ * TclInvokeImportedCmd --
  *
  *	Invoked by Tcl whenever the user calls an imported command that
  *	was created by Tcl_Import. Finds the "real" command (in another
@@ -1454,8 +1451,8 @@ TclGetOriginalCommand(command)
  *----------------------------------------------------------------------
  */
 
-static int
-InvokeImportedCmd(clientData, interp, objc, objv)
+int
+TclInvokeImportedCmd(clientData, interp, objc, objv)
     ClientData clientData;	/* Points to the imported command's
 				 * ImportedCmdData structure. */
     Tcl_Interp *interp;		/* Current interpreter. */

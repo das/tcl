@@ -1652,6 +1652,11 @@ declare 411 generic {
 #    char* Tcl_FSGetTranslatedStringPath(Tcl_Interp *interp, Tcl_Obj* pathPtr)
 #}
 
+declare 500 generic {
+    Tcl_Interp * Tcl_CloneInterp (Tcl_Interp* srcInterp)
+}
+
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are
