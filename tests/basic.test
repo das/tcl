@@ -536,6 +536,15 @@ test basic-39.9 {Tcl_CreateObjTrace, status return unknown} {testcmdtrace} {
     list [catch {testcmdtrace resulttest {OtherStatus $x}} result] [set result]
 } {6 {}}
 
+test basic-39.10 {Tcl_CreateTrace, correct level interpretation} {testcmdtrace} {
+    proc foo {} {uplevel 1 bar}
+    proc bar {} {uplevel 1 grok}
+    proc grok {} {uplevel 1 spock}
+    proc spock {} {uplevel 1 fascinating}
+    proc fascinating {} {}
+    testcmdtrace leveltest {foo}
+} {foo {foo} {uplevel 1 bar} {uplevel 1 bar} bar {bar} {uplevel 1 grok} {uplevel 1 grok}}
+
 test basic-40.1 {Tcl_DeleteTrace} {emptyTest} {
     # the above tests have tested Tcl_DeleteTrace
 } {}
