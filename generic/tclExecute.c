@@ -6146,11 +6146,7 @@ ExprSrandFunc(interp, tosPtr, clientData)
 	return TCL_ERROR;
     }
 
-    if (valuePtr->typePtr == &tclIntType) {
-	i = valuePtr->internalRep.longValue;
-    } else if (valuePtr->typePtr == &tclWideIntType) {
-	TclGetLongFromWide(i,valuePtr);
-    } else {
+    if (Tcl_GetLongFromObj(NULL, valuePtr, &i) != TCL_OK) {
 	/*
 	 * At this point, the only other possible type is double
 	 */
