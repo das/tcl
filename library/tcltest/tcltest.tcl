@@ -23,7 +23,7 @@ namespace eval tcltest {
 
     # When the version number changes, be sure to update the pkgIndex.tcl file,
     # and the install directory in the Makefiles.
-    variable Version 2.2
+    variable Version 2.2.1
 
     # Compatibility support for dumb variables defined in tcltest 1
     # Do not use these.  Call [package provide Tcl] and [info patchlevel]
@@ -1474,6 +1474,7 @@ proc tcltest::Replace::puts {args} {
 		# return [Puts -nonewline [lindex $args end]]
 	    } else {
 		set channel [lindex $args 0]
+		set newline \n
 	    }
 	}
 	3 {
@@ -1481,6 +1482,7 @@ proc tcltest::Replace::puts {args} {
 		# Both -nonewline and channelId are specified, unless
 		# it's an error.  -nonewline is supposed to be argv[0].
 		set channel [lindex $args 1]
+		set newline ""
 	    }
 	}
     }
@@ -1488,11 +1490,11 @@ proc tcltest::Replace::puts {args} {
     if {[info exists channel]} {
 	if {[string equal $channel [[namespace parent]::outputChannel]]
 		|| [string equal $channel stdout]} {
-	    append outData [lindex $args end]\n
+	    append outData [lindex $args end]$newline
 	    return
 	} elseif {[string equal $channel [[namespace parent]::errorChannel]]
 		|| [string equal $channel stderr]} {
-	    append errData [lindex $args end]\n
+	    append errData [lindex $args end]$newline
 	    return
 	}
     }
