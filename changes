@@ -3660,3 +3660,6 @@ Thanks to Donald Porter and Tom Silva for related patches. (BW)
 of Tcl_RegisterChannel so that 1) unregistered channels do not get
 closed after their first fileevent, and 2) errors that occur during
 close in a fileevent script are actually reflected by the close command. (BW)
+
+10/30/98 (bug fix) Overhaul of pkg_mkIndex to deal with transitive
+package requires and packages split among scripts and binary files. (BW)
