@@ -18,6 +18,8 @@
 #include <locale.h>
 
 #ifdef TCL_TEST
+EXTERN int		Procbodytest_Init _ANSI_ARGS_((Tcl_Interp *interp));
+EXTERN int		Procbodytest_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN int		Tcltest_Init _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN int		TclObjTest_Init _ANSI_ARGS_((Tcl_Interp *interp));
 #endif /* TCL_TEST */
@@ -113,6 +115,11 @@ Tcl_AppInit(interp)
     if (TclObjTest_Init(interp) == TCL_ERROR) {
 	return TCL_ERROR;
     }
+    if (Procbodytest_Init(interp) == TCL_ERROR) {
+	return TCL_ERROR;
+    }
+    Tcl_StaticPackage(interp, "procbodytest", Procbodytest_Init,
+            Procbodytest_SafeInit);
 #endif /* TCL_TEST */
 
     /*

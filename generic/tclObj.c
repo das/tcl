@@ -134,6 +134,7 @@ InitTypeTable()
     Tcl_RegisterObjType(&tclStringType);
     Tcl_RegisterObjType(&tclListType);
     Tcl_RegisterObjType(&tclByteCodeType);
+    Tcl_RegisterObjType(&tclProcBodyType);
 
     tclEmptyStringRep = (char *) ckalloc((unsigned) 1);
     tclEmptyStringRep[0] = '\0';
