@@ -327,14 +327,10 @@ typedef struct ByteCode {
 				 * Proc structure; otherwise NULL. This
 				 * pointer is also not owned by the ByteCode
 				 * and must not be freed by it. */
-#ifdef TCL_COMPILE_STATS
-    int structureSize;		/* Number of bytes in the ByteCode structure
+    size_t structureSize;	/* Number of bytes in the ByteCode structure
 				 * itself. Does not include heap space for
 				 * literal Tcl objects or storage referenced
 				 * by AuxData entries. */
-    Tcl_Time createTime;	/* Absolute time when the ByteCode was
-				 * created. */
-#endif /* TCL_COMPILE_STATS */
     int numCommands;		/* Number of commands compiled. */
     int numSrcBytes;		/* Number of source bytes compiled. */
     int numCodeBytes;		/* Number of code bytes. */
@@ -394,6 +390,10 @@ typedef struct ByteCode {
 				 * are always positive. This sequence is
 				 * just after the last byte in the source
 				 * delta sequence. */
+#ifdef TCL_COMPILE_STATS
+    Tcl_Time createTime;	/* Absolute time when the ByteCode was
+				 * created. */
+#endif /* TCL_COMPILE_STATS */
 } ByteCode;
 
 /*
