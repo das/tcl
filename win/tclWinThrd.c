@@ -1038,17 +1038,20 @@ TclpFinalizeCondition(condPtr)
  * Additions by AOL for specialized thread memory allocator.
  */
 #ifdef USE_THREAD_ALLOC
+static int once;
 static DWORD key;
+
+typedef struct allocMutex {
+    Tcl_Mutex        tlock;
+    CRITICAL_SECTION wlock;
+} allocMutex;
 
 Tcl_Mutex *
 TclpNewAllocMutex(void)
 {
-    struct lock {
-        Tcl_Mutex        tlock;
-        CRITICAL_SECTION wlock;
-    } *lockPtr;
+    struct allocMutex *lockPtr;
 
-    lockPtr = malloc(sizeof(struct lock));
+    lockPtr = malloc(sizeof(struct allocMutex));
     if (lockPtr == NULL) {
 	panic("could not allocate lock");
     }
@@ -1057,10 +1060,19 @@ TclpNewAllocMutex(void)
     return &lockPtr->tlock;
 }
 
+void
+TclpFreeAllocMutex(mutex)
+    Tcl_Mutex *mutex; /* The alloc mutex to free. */
+{
+    allocMutex* lockPtr = (allocMutex*) mutex;
+    if (!lockPtr) return;
+    DeleteCriticalSection(&lockPtr->wlock);
+    free(lockPtr);
+}
+
 void *
 TclpGetAllocCache(void)
 {
-    static int once = 0;
     VOID *result;
 
     if (!once) {
@@ -1110,6 +1122,15 @@ TclWinFreeAllocCache(void)
       if (GetLastError() != NO_ERROR) {
           panic("TlsGetValue failed from TclWinFreeAllocCache!");
       }
+    }
+
+    if (once) {    
+        success = TlsFree(key);
+        if (!success) {
+            Tcl_Panic("TlsFree failed from TclWinFreeAllocCache!");
+        }
+
+        once = 0; /* reset for next time. */
     }
 }
 

@@ -897,7 +897,9 @@ Tcl_Finalize()
 	/*
 	 * There shouldn't be any malloc'ed memory after this.
 	 */
-
+#if defined(TCL_THREADS) && defined(USE_THREAD_ALLOC) && !defined(TCL_MEM_DEBUG) && !defined(PURIFY)
+	TclFinalizeThreadAlloc();
+#endif
 	TclFinalizeMemorySubsystem();
 	inFinalize = 0;
     }

@@ -949,4 +949,62 @@ GetBlocks(Cache *cachePtr, int bucket)
     return 1;
 }
 
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclFinalizeThreadAlloc --
+ *
+ *	This procedure is used to destroy all private resources used in
+ *	this file.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+TclFinalizeThreadAlloc()
+{
+    int i;
+    for (i = 0; i < NBUCKETS; ++i) {
+        TclpFreeAllocMutex(binfo[i].lockPtr); 
+        binfo[i].lockPtr = NULL;
+    }
+
+    TclpFreeAllocMutex(objLockPtr);
+    objLockPtr = NULL;
+
+    TclpFreeAllocMutex(listLockPtr);
+    listLockPtr = NULL;
+}
+
+#else
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclFinalizeThreadAlloc --
+ *
+ *	This procedure is used to destroy all private resources used in
+ *	this file.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+TclFinalizeThreadAlloc()
+{
+    Tcl_Panic("TclFinalizeThreadAlloc called when threaded memory allocator not in use.");
+}
+
 #endif /* TCL_THREADS */

@@ -2138,6 +2138,9 @@ EXTERN Tcl_Obj *TclPtrIncrVar _ANSI_ARGS_((Tcl_Interp *interp, Var *varPtr,
 
 EXTERN Tcl_Obj *TclThreadAllocObj _ANSI_ARGS_((void));
 EXTERN void TclThreadFreeObj _ANSI_ARGS_((Tcl_Obj *));
+EXTERN void TclFinalizeThreadAlloc _ANSI_ARGS_((void));
+EXTERN void TclpFreeAllocMutex _ANSI_ARGS_((Tcl_Mutex* mutex));
+
 
 #  define TclAllocObjStorage(objPtr) \
        (objPtr) = TclThreadAllocObj()
