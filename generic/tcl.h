@@ -1306,8 +1306,22 @@ typedef unsigned short Tcl_UniChar;
  * linked into an application.
  */
 
+#ifdef USE_TCL_STUBS
+
 EXTERN char *		Tcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *version, int exact));
+
+#else
+
+/*
+ * When not using stubs, make it a macro.
+ */
+
+#define Tcl_InitStubs(interp, version, exact) \
+    Tcl_PkgRequire(interp, "Tcl", version, exact)
+
+#endif
+
 
 /*
  * Include the public function declarations that are accessible via

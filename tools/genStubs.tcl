@@ -421,7 +421,7 @@ proc genStubs::makeMacro {name decl index} {
 	    append argList ")"
 	}
     }
-    append text $argList " \\\n\t(${name}StubsPtr->$lfname)$argList"
+    append text " \\\n\t(${name}StubsPtr->$lfname)"
     append text " /* $index */\n#endif\n"
     return $text
 }
@@ -850,7 +850,6 @@ proc genStubs::init {} {
     foreach name [lsort [array names interfaces]] {
 	puts "Emitting $name"
 	emitHeader $name
-	emitStubs $name
     }
 
     emitInits

@@ -465,6 +465,10 @@ extern double strtod();
 
 #define TclpExit		exit
 
+#ifdef TclpStat
+#undef TclpStat
+#endif
+
 EXTERN int		TclpLstat _ANSI_ARGS_((CONST char *path, 
 			    struct stat *buf));
 EXTERN int		TclpStat _ANSI_ARGS_((CONST char *path, 
