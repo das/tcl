@@ -455,7 +455,9 @@ static int filesystemIteratorsInProgress = 0;
  */
 static int filesystemWantToModify = 0;
 
+#ifdef TCL_THREADS
 static Tcl_Condition filesystemOkToModify = NULL;
+#endif
 
 TCL_DECLARE_MUTEX(filesystemMutex)
 
