@@ -297,6 +297,22 @@ immediately with the number of variables that were set.  If there are
 not enough arguments for all of the fields in the format string that
 consume arguments, then an error is generated.
 .PP
+It is \fBimportant\fR to note that the \fBc\fR, \fBs\fR, and \fBS\fR
+(and \fBi\fR and \fBI\fR on 64bit systems) will be scanned into
+long data size values.  In doing this, values that have their high
+bit set (0x80 for chars, 0x8000 for shorts, 0x80000000 for ints),
+will be sign extended.  Thus the following will occur:
+.CS
+\fBset signShort [binary format s1 0x8000]\fR
+\fBbinary scan $signShort s1 val; \fI# val == 0xFFFF8000\fR
+.CE
+If you want to produce an unsigned value, then you can mask the return 
+value to the desired size.  For example, to produce an unsigned short 
+value:
+.CS
+\fBset val [expr {$val & 0xFFFF}]; \fI# val == 0x8000\fR
+.CE
+.PP
 Each type-count pair moves an imaginary cursor through the binary data,
 reading bytes from the current position.  The cursor is initially
 at position 0 at the beginning of the data.  The type may be any one of
