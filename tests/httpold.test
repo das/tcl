@@ -389,13 +389,12 @@ test http-4.11 {httpEvent} {
 } {reset}
 test http-4.12 {httpEvent} {
     update
-    set token [http_get $url -timeout 1 -command {#}]
-    # This combo of update and after 10 is an effort
-    # to let enough events get through the event loop.
-    update
-    after 10
-    http_status $token
-} {timeout}
+    set x {}
+    after 500 {lappend x ok}
+    set token [http_get $url -timeout 1 -command {lappend x fail}]
+    vwait x
+    list [http_status $token] $x
+} {timeout ok}
 
 test http-5.1 {http_formatQuery} {
     http_formatQuery name1 value1 name2 "value two"
