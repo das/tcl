@@ -946,6 +946,7 @@ Tcl_MacSourceObjCmd(
     char *fileName = NULL, *rsrcName = NULL;
     long rsrcID = -1;
     char *string;
+    char *encodingName = NULL;
     int length;
 
     if (objc < 2 || objc > 4)  {
@@ -968,6 +969,10 @@ Tcl_MacSourceObjCmd(
 	if (Tcl_GetLongFromObj(interp, objv[2], &rsrcID) != TCL_OK) {
 	    return TCL_ERROR;
 	}
+    } else if (!strcmp(string, "-encoding")) {
+	if (objc != 4) 
+	    goto sourceFmtErr;
+	encodingName = Tcl_GetString(objv[2]);
     } else {
     	errStr = errBad;
     	goto sourceFmtErr;
@@ -976,13 +981,19 @@ Tcl_MacSourceObjCmd(
     if (objc == 4) {
 	fileName = Tcl_GetStringFromObj(objv[3], &length);
     }
+
+    if (encodingName) {
+	return Tcl_FSEvalFileEx(interp, fileName, encodingName);
+    }
+
     return Tcl_MacEvalResource(interp, rsrcName, rsrcID, fileName);
 	
     sourceFmtErr:
     Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), errStr, "should be \"",
 		Tcl_GetString(objv[0]), " fileName\" or \"",
 		Tcl_GetString(objv[0]),	" -rsrc name ?fileName?\" or \"", 
-		Tcl_GetString(objv[0]), " -rsrcid id ?fileName?\"",
+		Tcl_GetString(objv[0]), " -rsrcid id ?fileName?\" or \"",
+		Tcl_GetString(objv[0]), " -encoding name fileName\"",
 		(char *) NULL);
     return TCL_ERROR;
 }

@@ -187,6 +187,7 @@ foreach script {
 # The tests for Tcl_ScanObjCmd are in scan.test
 
 # Tcl_SourceObjCmd
+# More tests of Tcl_SourceObjCmd are in source.test
 
 test cmdMZ-3.1 {Tcl_SourceObjCmd: error conditions} {macOnly} {
     list [catch {source} msg] $msg
@@ -194,12 +195,16 @@ test cmdMZ-3.1 {Tcl_SourceObjCmd: error conditions} {macOnly} {
 test cmdMZ-3.2 {Tcl_SourceObjCmd: error conditions} {macOnly} {
     list [catch {source a b} msg] $msg
 } {1 {bad argument: should be "source fileName" or "source -rsrc name ?fileName?" or "source -rsrcid id ?fileName?"}}
-test cmdMZ-3.3 {Tcl_SourceObjCmd: error conditions} {unixOrPc} {
+test cmdMZ-3.3 {Tcl_SourceObjCmd: error conditions} -constraints {
+    unixOrPc
+} -body {
     list [catch {source} msg] $msg
-} {1 {wrong # args: should be "source fileName"}}
-test cmdMZ-3.4 {Tcl_SourceObjCmd: error conditions} {unixOrPc} {
+} -match glob -result {1 {wrong # args: should be "source*fileName"}}
+test cmdMZ-3.4 {Tcl_SourceObjCmd: error conditions} -constraints {
+    unixOrPc
+} -body {
     list [catch {source a b} msg] $msg
-} {1 {wrong # args: should be "source fileName"}}
+} -match glob -result {1 {wrong # args: should be "source*fileName"}}
 test cmdMZ-3.5 {Tcl_SourceObjCmd: error in script} -body {
     set file [makeFile {
 	set x 146

@@ -139,6 +139,72 @@ namespace eval ::tcl::test::main {
     } -result [list [list [encoding convertfrom [encoding system] \
 	[encoding convertto [encoding system] \u20ac]]] {} 0]\n
 
+    test Tcl_Main-1.7 {
+	Tcl_Main: startup script - -encoding option
+    } -constraints {
+	stdio
+    } -setup {
+	set script [makeFile {} script]
+	removeFile script
+	set f [open $script w]
+	fconfigure $f -encoding utf-8
+	puts $f {puts [list $argv0 $argv $tcl_interactive]}
+	puts -nonewline $f {puts [string equal \u20ac }
+	puts $f "\u20ac]"
+	close $f
+	catch {set f [open "|[list [interpreter] -encoding utf-8 script]" r]}
+    } -body {
+	read $f
+    } -cleanup {
+	close $f
+	removeFile script
+    } -result [list script {} 0]\n1\n
+
+    test Tcl_Main-1.8 {
+	Tcl_Main: startup script - -encoding option - mismatched encodings
+    } -constraints {
+	stdio
+    } -setup {
+	set script [makeFile {} script]
+	removeFile script
+	set f [open $script w]
+	fconfigure $f -encoding utf-8
+	puts $f {puts [list $argv0 $argv $tcl_interactive]}
+	puts -nonewline $f {puts [string equal \u20ac }
+	puts $f "\u20ac]"
+	close $f
+	catch {set f [open "|[list [interpreter] -encoding ascii script]" r]}
+    } -body {
+	read $f
+    } -cleanup {
+	close $f
+	removeFile script
+    } -result [list script {} 0]\n0\n
+
+    test Tcl_Main-1.9 {
+	Tcl_Main: startup script - -encoding option - no abbrevation
+    } -constraints {
+	stdio
+    } -setup {
+	set script [makeFile {} script]
+	removeFile script
+	set f [open $script w]
+	fconfigure $f -encoding utf-8
+	puts $f {puts [list $argv0 $argv $tcl_interactive]}
+	puts -nonewline $f {puts [string equal \u20ac }
+	puts $f "\u20ac]"
+	close $f
+	catch {set f [open "|[list [interpreter] -enc utf-8 script]" r+]}
+    } -body {
+	type $f {
+	    puts $argv
+	}
+	list [catch {gets $f} line] $line
+    } -cleanup {
+	close $f
+	removeFile script
+    } -result {0 {-enc utf-8 script}}
+
     # Tests Tcl_Main-2.*: application-initialization procedure
 
     test Tcl_Main-2.1 {

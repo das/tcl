@@ -719,6 +719,12 @@ declare 177 generic {
 	    CONST char *operation, CONST char *reason)
 }
 
+declare 178 generic {
+    void Tcl_SetStartupScript(Tcl_Obj *pathPtr, CONST char* encodingName)
+}
+declare 179 generic {
+    Tcl_Obj *Tcl_GetStartupScript(CONST char **encodingNamePtr)
+}
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are
