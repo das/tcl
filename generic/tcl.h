@@ -22,7 +22,6 @@
  * When version numbers change here, must also go into the following files
  * and update the version numbers:
  *
- * README
  * library/init.tcl	(only if major.minor changes, not patchlevel)
  * unix/configure.in
  * win/makefile.bc	(only if major.minor changes, not patchlevel)
@@ -45,10 +44,10 @@
 #define TCL_MAJOR_VERSION   8
 #define TCL_MINOR_VERSION   1
 #define TCL_RELEASE_LEVEL   1
-#define TCL_RELEASE_SERIAL  1
+#define TCL_RELEASE_SERIAL  2
 
 #define TCL_VERSION	    "8.1"
-#define TCL_PATCH_LEVEL	    "8.1b1"
+#define TCL_PATCH_LEVEL	    "8.1b2"
 
 /*
  * The following definitions set up the proper options for Windows
