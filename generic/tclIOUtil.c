@@ -4757,6 +4757,17 @@ Tcl_FSGetFileSystemForPath(pathObjPtr)
     Tcl_Filesystem* retVal = NULL;
     FsPath* srcFsPathPtr;
     
+    /* 
+     * If the object has a refCount of zero, we reject it.  This
+     * is to avoid possible segfaults or nondeterministic memory
+     * leaks (i.e. the user doesn't know if they should decrement
+     * the ref count on return or not).
+     */
+    
+    if (pathObjPtr->refCount == 0) {
+        return NULL;
+    }
+    
     /* Make sure pathObjPtr is of our type */
 
     if (Tcl_FSConvertToPathType(NULL, pathObjPtr) != TCL_OK) {
