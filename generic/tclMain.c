@@ -349,7 +349,7 @@ Tcl_Main(argc, argv, appInitProc)
 	    Tcl_DStringInit(&tsdPtr->command);
 	    Tcl_DStringInit(&tsdPtr->line);
 
-	    mainLoopProc();
+	    (*mainLoopProc)();
 	    mainLoopProc = NULL;
 	    break;
 	}
@@ -376,7 +376,7 @@ Tcl_Main(argc, argv, appInitProc)
 	 * events at this point.
 	 */
 
-	mainLoopProc();
+	(*mainLoopProc)();
     }
     if (commandPtr != NULL) {
 	Tcl_DecrRefCount(commandPtr);
