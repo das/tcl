@@ -378,7 +378,7 @@ TclpInitLibraryPath(path)
     AppendDllPath(pathPtr, TclWinGetTclInstance(), installLib);
 
     Tcl_ListObjGetElements(NULL, pathPtr, &objc, &objv);
-    SetDefaultLibraryDir(objv[objc-1]);
+    SetDefaultLibraryDir(Tcl_DuplicateObj(objv[objc-1]));
 
     /*
      * Look for the library relative to the executable.  This algorithm
