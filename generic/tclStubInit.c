@@ -225,6 +225,12 @@ TclIntStubs tclIntStubs = {
     TclHandleFree, /* 147 */
     TclHandlePreserve, /* 148 */
     TclHandleRelease, /* 149 */
+    TclRegAbout, /* 150 */
+    TclRegExpRangeUniChar, /* 151 */
+    TclSetLibraryPath, /* 152 */
+    TclGetLibraryPath, /* 153 */
+    TclTestChannelCmd, /* 154 */
+    TclTestChannelEventCmd, /* 155 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
@@ -268,6 +274,8 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclpCreateTempFile, /* 22 */
     TclpGetTZName, /* 23 */
     TclWinNoBackslash, /* 24 */
+    TclWinGetPlatform, /* 25 */
+    TclWinSetInterfaces, /* 26 */
 #endif /* __WIN32__ */
 #ifdef MAC_TCL
     TclpSysAlloc, /* 0 */
