@@ -354,8 +354,6 @@ proc ::tcltest::initConstraintsHook {} {}
 proc ::tcltest::initConstraints {} {
     global tcl_platform tcl_interactive tk_version
 
-    catch {unset ::tcltest::testConstraints}
-
     # The following trace procedure makes it so that we can safely refer to
     # non-existent members of the ::tcltest::testConstraints array without
     # causing an error.  Instead, reading a non-existent member will return 0.
