@@ -87,7 +87,7 @@ TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
 	    case ERROR_MOD_NOT_FOUND:
 	    case ERROR_DLL_NOT_FOUND:
 		Tcl_AppendResult(interp, "this library or a dependent library",
-			" could not be found", (char *)
+			" could not be found in library path", (char *)
 			NULL);
 		break;
 	    case ERROR_INVALID_DLL:
