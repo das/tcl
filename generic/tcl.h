@@ -1169,8 +1169,13 @@ struct Tcl_HashEntry {
  *				hash table will attempt to rectify this by
  *				randomising the bits and then using the upper
  *				N bits as the index into the table.
+ * TCL_HASH_KEY_SYSTEM_HASH:
+ *				If this flag is set then all memory internally
+ *                              allocated for the hash table that is not for an
+ *                              entry will use the system heap.
  */
 #define TCL_HASH_KEY_RANDOMIZE_HASH 0x1
+#define TCL_HASH_KEY_SYSTEM_HASH    0x2
 
 /*
  * Structure definition for the methods associated with a hash table

@@ -66,18 +66,10 @@ missing close-brace for variable name
     invoked from within
 "tstProc"}]
 
+for {set i 1} {$i<300} {incr i} {
+    test misc-2.$i {hash table with sys-alloc} "testhashsystemhash $i" OK
+}
+
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
