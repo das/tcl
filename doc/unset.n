@@ -41,7 +41,7 @@ name refers to an array element but the variable is a scalar, or the name
 refers to a variable in a non-existent namespace.
 
 .SH "SEE ALSO"
-set(n), trace(n)
+set(n), trace(n), upvar(n)
 
 .SH KEYWORDS
 remove, variable
