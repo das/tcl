@@ -645,9 +645,17 @@ TclFinalizeLoad()
     while (firstPackagePtr != NULL) {
 	pkgPtr = firstPackagePtr;
 	firstPackagePtr = pkgPtr->nextPtr;
+#if defined(TCL_UNLOAD_DLLS) || defined(__WIN32__)
+	/*
+	 * Some Unix dlls are poorly behaved - registering things like
+	 * atexit calls that can't be unregistered.  If you unload
+	 * such dlls, you get a core on exit because it wants to
+	 * call a function in the dll after it's been unloaded.
+	 */
 	if (pkgPtr->fileName[0] != '\0') {
 	    TclpUnloadFile(pkgPtr->clientData);
 	}
+#endif
 	ckfree(pkgPtr->fileName);
 	ckfree(pkgPtr->packageName);
 	ckfree((char *) pkgPtr);
