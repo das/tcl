@@ -1053,6 +1053,13 @@ typedef struct Tcl_DString {
 #define TCL_TRACE_RESULT_OBJECT  0x10000
 
 /*
+ * Flag values for ensemble commands.
+ */
+#define TCL_ENSEMBLE_PREFIX 0x02/* Flag value to say whether to allow
+				 * unambiguous prefixes of commands or to
+				 * require exact matches for command names. */
+
+/*
  * Flag values passed to command-related procedures.
  */
 
@@ -1409,6 +1416,11 @@ typedef struct Tcl_Time {
 
 typedef void (Tcl_SetTimerProc) _ANSI_ARGS_((Tcl_Time *timePtr));
 typedef int (Tcl_WaitForEventProc) _ANSI_ARGS_((Tcl_Time *timePtr));
+
+/* TIP #233 (Virtualized Time)
+ */
+typedef void (Tcl_GetTimeProc)   _ANSI_ARGS_ ((Tcl_Time* timebuf, ClientData clientData));
+typedef void (Tcl_ScaleTimeProc) _ANSI_ARGS_ ((Tcl_Time* timebuf, ClientData clientData));
 
 
 /*

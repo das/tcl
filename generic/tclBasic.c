@@ -3121,7 +3121,7 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
 	}
 	if (!(flags & TCL_EVAL_INVOKE) &&
 		(iPtr->ensembleRewrite.sourceObjs != NULL) &&
-		!TclIsEnsemble(cmdPtr)) {
+		!Tcl_IsEnsemble((Tcl_Command) cmdPtr)) {
 	    iPtr->ensembleRewrite.sourceObjs = NULL;
 	}
 	code = (*cmdPtr->objProc)(cmdPtr->objClientData, interp, objc, objv);
@@ -4699,7 +4699,7 @@ Tcl_AllowExceptions(interp)
 /*
  *----------------------------------------------------------------------
  *
- * Tcl_GetVersion
+ * Tcl_GetVersion --
  *
  *	Get the Tcl major, minor, and patchlevel version numbers and
  *      the release type.  A patch is a release type TCL_FINAL_RELEASE

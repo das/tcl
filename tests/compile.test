@@ -587,6 +587,37 @@ test compile-16.23.$noComp {
 
 }	;# End of noComp loop
 
+# These tests are messy because it wrecks the interpreter it runs in!
+# They demonstrate issues arising from [FRQ 1101710]
+test compile-17.1 {Command interpretation binding for compiled code} -constraints knownBug -setup {
+    set i [interp create]
+} -body {
+    $i eval {
+	if 1 {
+	    expr [
+		proc expr args {return substituted}
+		format {[subst compiled]}
+	    ]
+	}
+    }
+} -cleanup {
+    interp delete $i
+} -result substituted
+test compile-17.2 {Command interpretation binding for non-compiled code} -setup {
+    set i [interp create]
+} -body {
+    $i eval {
+	if 1 {
+	    [subst expr] [
+		proc expr args {return substituted}
+		format {[subst compiled]}
+	    ]
+	}
+    }
+} -cleanup {
+    interp delete $i
+} -result substituted
+
 # cleanup
 catch {rename p ""}
 catch {namespace delete test_ns_compile}
