@@ -2518,6 +2518,8 @@ CallCommandTraces(iPtr, cmdPtr, oldName, newName, flags)
     register CommandTrace *tracePtr;
     ActiveCommandTrace active;
     char *result;
+    Tcl_Obj *oldNamePtr = NULL;
+
     if (cmdPtr->flags & CMD_TRACE_ACTIVE) {
 	/* 
 	 * While a rename trace is active, we will not process any more
@@ -2554,14 +2556,26 @@ CallCommandTraces(iPtr, cmdPtr, oldName, newName, flags)
 	}
 	cmdPtr->flags |= tracePtr->flags;
 	if (oldName == NULL) {
-	    oldName = Tcl_GetCommandName((Tcl_Interp *) iPtr, 
-					 (Tcl_Command) cmdPtr);
+	    TclNewObj(oldNamePtr);
+	    Tcl_IncrRefCount(oldNamePtr);
+	    Tcl_GetCommandFullName((Tcl_Interp *) iPtr, 
+	            (Tcl_Command) cmdPtr, oldNamePtr);
+	    oldName = TclGetString(oldNamePtr);
 	}
 	Tcl_Preserve((ClientData) tracePtr);
 	(*tracePtr->traceProc)(tracePtr->clientData,
 		(Tcl_Interp *) iPtr, oldName, newName, flags);
 	cmdPtr->flags &= ~tracePtr->flags;
 	Tcl_Release((ClientData) tracePtr);
+    }
+
+    /*
+     * If a new object was created to hold the full oldName,
+     * free it now.
+     */
+
+    if (oldNamePtr != NULL) {
+	TclDecrRefCount(oldNamePtr);
     }
 
     /*
