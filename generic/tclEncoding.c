@@ -314,6 +314,7 @@ TclFinalizeEncodingSubsystem()
 
     Tcl_MutexLock(&encodingMutex);
     encodingsInitialized  = 0;
+    FreeEncoding(systemEncoding);
     hPtr = Tcl_FirstHashEntry(&encodingTable, &search);
     while (hPtr != NULL) {
 	/*
