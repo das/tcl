@@ -1496,7 +1496,11 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		     */
 		    if (TclLooksLikeInt(string1, length1)) {
 			errno = 0;
-			strtoul(string1, &stop, 0);
+#ifdef TCL_WIDE_INT_IS_LONG
+			strtoul(string1, &stop, 0); /* INTL: Tcl source. */
+#else
+			strtoull(string1, &stop, 0); /* INTL: Tcl source. */
+#endif
 			if (stop == end) {
 			    if (errno == ERANGE) {
 				result = 0;
@@ -1550,7 +1554,11 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		     */
 		    result = 0;
 		    errno = 0;
+#ifdef TCL_WIDE_INT_IS_LONG
 		    strtoul(string1, &stop, 0); /* INTL: Tcl source. */
+#else
+		    strtoull(string1, &stop, 0); /* INTL: Tcl source. */
+#endif
 		    if (errno == ERANGE) {
 			/*
 			 * if (errno == ERANGE), then it was an over/underflow
