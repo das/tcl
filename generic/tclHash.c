@@ -396,11 +396,11 @@ HashString(string)
     result = 0;
     while (1) {
 	c = *string;
-	string++;
 	if (c == 0) {
 	    break;
 	}
 	result += (result<<3) + c;
+	string++;
     }
     return result;
 }
