@@ -29,9 +29,6 @@ if {"[info commands testchannel]" != "testchannel"} {
 removeFile test1
 removeFile pipe
 
-# some tests can only be run is umask is 2
-set ::tcltest::testConfig(umask2) [expr {[exec umask] == 2}]
-
 # set up a long data file for some of the following tests
 
 set f [open longfile w]
@@ -62,7 +59,7 @@ makeFile {
     vwait forever
 } cat
 
-set thisScript [file join $::tcltest::testsDir [info script]]
+set thisScript [file join [pwd] [info script]]
 
 # These tests are disabled until we decide what to do with "unsupported0".
 #
@@ -5097,6 +5094,11 @@ test io-40.2 {POSIX open access modes: CREAT} {unixOnly} {
     close $f
     set x
 } {0600 {line 1}}
+
+# some tests can only be run is umask is 2
+# if "umask" cannot be run, the tests will be skipped.
+catch {set ::tcltest::testConfig(umask2) [expr {[exec umask] == 2}]}
+
 test io-40.3 {POSIX open access modes: CREAT} {unixOnly umask2} {
     # This test only works if your umask is 2, like ouster's.
     removeFile test3

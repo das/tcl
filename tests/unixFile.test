@@ -26,8 +26,8 @@ catch {
     set oldPath $env(PATH)
     close [open junk w]
     file attributes junk -perm 0777
-    set absPath [file join [pwd] junk]
 }
+set absPath [file join [pwd] junk]
 
 test unixFile-1.1 {Tcl_FindExecutable} {unixOnly} {
     set env(PATH) ""

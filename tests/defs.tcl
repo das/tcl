@@ -458,9 +458,10 @@ proc ::tcltest::cleanupTests {{calledFromAllFile 0}} {
 
 	# if any tests were skipped, print the constraints that kept them
 	# from running.
-	if {$::tcltest::numTests(Skipped) > 0} {
+	set constraintList [array names ::tcltest::skippedBecause]
+	if {[llength $constraintList] > 0} {
 	    puts stdout "Number of tests skipped for each constraint:"
-	    foreach constraint [lsort [array names ::tcltest::skippedBecause]] {
+	    foreach constraint [lsort $constraintList] {
 		puts stdout \
 			"\t$::tcltest::skippedBecause($constraint)\t$constraint"
 		unset ::tcltest::skippedBecause($constraint)
