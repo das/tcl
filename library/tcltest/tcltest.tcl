@@ -484,8 +484,6 @@ proc ::tcltest::initConstraints {} {
 	    "Windows 95"]
     set ::tcltest::testConstraints(98) [string equal $tcl_platform(os) \
 	    "Windows 98"]
-    set ::tcltest::testConstraints(win32s) [string equal $tcl_platform(os) \
-	    "Win32s"]
 
     # The following Constraints switches are used to mark tests that should
     # work, but have been temporarily disabled on certain platforms because
@@ -505,8 +503,6 @@ proc ::tcltest::initConstraints {} {
 
     set ::tcltest::testConstraints(pcCrash) \
 	    [expr {!$::tcltest::testConstraints(pc)}]
-    set ::tcltest::testConstraints(win32sCrash) \
-	    [expr {!$::tcltest::testConstraints(win32s)}]
     set ::tcltest::testConstraints(macCrash) \
 	    [expr {!$::tcltest::testConstraints(mac)}]
     set ::tcltest::testConstraints(unixCrash) \
