@@ -257,6 +257,8 @@ static int		TestfeventCmd _ANSI_ARGS_((ClientData dummy,
 			    Tcl_Interp *interp, int argc, CONST char **argv));
 static int		TestgetassocdataCmd _ANSI_ARGS_((ClientData dummy,
 			    Tcl_Interp *interp, int argc, CONST char **argv));
+static int		TestgetintCmd _ANSI_ARGS_((ClientData dummy,
+			    Tcl_Interp *interp, int argc, CONST char **argv));
 static int		TestgetplatformCmd _ANSI_ARGS_((ClientData dummy,
 			    Tcl_Interp *interp, int argc, CONST char **argv));
 static int		TestgetvarfullnameCmd _ANSI_ARGS_((
@@ -633,6 +635,8 @@ Tcltest_Init(interp)
 	    TestHashSystemHashCmd, (ClientData) 0, 
 	    (Tcl_CmdDeleteProc *) NULL);
     Tcl_CreateCommand(interp, "testgetassocdata", TestgetassocdataCmd,
+            (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
+    Tcl_CreateCommand(interp, "testgetint", TestgetintCmd,
             (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
     Tcl_CreateCommand(interp, "testgetplatform", TestgetplatformCmd,
 	    (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
@@ -6603,4 +6607,34 @@ TestHashSystemHashCmd(clientData, interp, objc, objv)
     Tcl_DeleteHashTable(&hash);
     Tcl_AppendResult(interp, "OK", NULL);
     return TCL_OK;
+}
+
+/*
+ * Used for testing Tcl_GetInt which is no longer used directly by the
+ * core very much.
+ */
+static int
+TestgetintCmd(dummy, interp, argc, argv)
+    ClientData dummy;
+    Tcl_Interp *interp;
+    int argc;
+    CONST char **argv;
+{
+    if (argc < 2) {
+	Tcl_SetResult(interp, "wrong # args", TCL_STATIC);
+	return TCL_ERROR;
+    } else {
+        int val,i,total=0;
+	char buf[TCL_INTEGER_SPACE];
+
+	for (i=1 ; i<argc ; i++) {
+	    if (Tcl_GetInt(interp, argv[i], &val) != TCL_OK) {
+		return TCL_ERROR;
+	    }
+	    total += val;
+	}
+	TclFormatInt(buf, total);
+	Tcl_SetResult(interp, buf, TCL_VOLATILE);
+	return TCL_OK;
+    }
 }
