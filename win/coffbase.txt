@@ -10,7 +10,7 @@
 ; the /headers option to get the "size of image" data (already in hex).  If the
 ; maximum size is too small a linker warning will occur.  Modules can overlap when
 ; they're mutually exclusive.  This info is placed in the DLL's PE header by the
-; linker when the `-base:@$(TCLDIR)\win\coffbase.txt,XXX` option is used.
+; linker with the `-base:@$(TCLDIR)\win\coffbase.txt,<key>` option.
 ;
 ; RCS: @(#) $Id$
 
