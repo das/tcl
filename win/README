@@ -1,4 +1,4 @@
-Tcl 8.1a2 for Windows
+Tcl 8.1b1 for Windows
 
 by Scott Stanton
 Scriptics Corporation
@@ -187,11 +187,10 @@ Windows version of Tcl:
   imported correctly.
 
 If you have comments or bug reports for the Windows version of Tcl,
-please direct them to:
+please use the form at:
 
-<bugs@scriptics.com>
+http://www.scriptics.com/support/bugForm.html
 
 If you have comments or bug reports for the Windows version of Tk,
-please direct them to the comp.lang.tcl newsgroup or the wintcl
-mailing list (see http://sunscript.sun.com/win/wintcl-list.html for
-more information).
+please direct them to the comp.lang.tcl newsgroup or the
+wintcl@tclconsortium.org mailing list.

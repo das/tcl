@@ -1,36 +1,14 @@
-Tcl/Tk 8.0.3 for Windows, Binary Distribution
+Tcl/Tk 8.1b1 for Windows, Binary Distribution
 
 %Z% $Id$ 
 
 1. Introduction
 --------------- 
 
-This directory contains the binary distribution of Tcl/Tk 8.0.3 for
+This directory contains the binary distribution of Tcl/Tk 8.1b1 for
 Windows.  It was compiled with Microsoft Visual C++ 5.0 using Win32
 API, so that it will run under Windows NT and Windows 95.  The
-information here corresponds to release 8.0.  This patch provides
-compatibility with [incr Tcl] 3.0.  Tcl 8.0 is a major new release
-that replaces the core of the interpreter with an on-the-fly bytecode
-compiler to improve execution speed.  It also includes several other
-new features such as namespaces and binary I/O, plus many bug fixes.
-The compiler introduces a few incompatibilities that may affect
-existing Tcl scripts; the incompatibilities are relatively obscure but
-may require modifications to some old scripts before they can run with
-this version. The compiler introduces many new C-level APIs, but the
-old APIs are still supported.  See below for more details.  This patch
-release fixes various bugs in Tcl 8.0, plus it adds a few minor
-features to support the TclPro 1.0 tool set and [incr Tcl] 3.0.
-Please check the changes file in the source release for details.
-
-This release also corresponds to Tk 8.0.3.  This is a major release with
-significant new features such as native look and feel on Macintoshes
-and PCs, a new font mechanism, application embedding, and proper
-support for Safe-Tcl.  See below for details.  There should be no
-backward incompatibilities in Tk 8.0.3 that affect scripts.
-
-Note: with this release the Tk version number skips from 4.2 to 8.0.
-The jump was made in order to synchronize the Tcl and Tk version
-numbers.
+information here corresponds to the second beta release of 8.1.
 
 2. Documentation
 ----------------
@@ -62,19 +40,231 @@ pages at other sites.  Check them out!
 ---------------
 
 The binary release is distributed as a self-extracting archive called
-tcl80.exe.  The setup program which will prompt you for an
+tcl81.exe.  The setup program which will prompt you for an
 installation directory.  It will create the installation heirarchy
 under the specified directory, and install a wish application icon
 under the program manager group of your choice.
 
-With the 8.0.3 patch release, we are no longer supporting use of
+We are no longer supporting use of
 Tcl with 16-bit versions of Windows.  Microsoft has completely dropped
 support of the Win32s subsystem.  If you still need 16-bit support,
 you can get win32s and the 16-bit thunking dll (tcl1680.dll) from the
 Scriptics web site at ftp://ftp.scriptics.com/pub/tcl/misc.
 
-4. Summary of changes in Tcl 8.0
+4. Summary of changes in Tcl 8.1
 --------------------------------
+The most important changes in Tcl 8.1 are summarized below. See
+the README and changes files in the distribution
+for more complete information on what has changed, including both feature
+changes and bug fixes.
+
+Internationalization.  Tcl has undergone a major
+revision to support international character sets:
+
+
+All strings in Tcl are now represented in UTF-8 instead of ASCII, so
+that Tcl now supports the full Unicode character set.
+The representation of ASCII characters is unchanged (in UTF-8 anything
+that looks like an ASCII character is an ASCII character), but
+characters with the high-order bit set, such as those in ISO-8859,
+are represented with multi-byte sequences, as are all Unicode
+characters with values greater than 127.  This change does not affect
+Tcl scripts but it does affect C code that parses strings.
+Tcl automatically translates between UTF-8 and the normal encoding for
+the platform during interactions with the system.
+
+In Tcl scripts the backslash sequence \u can be used to enter
+16-bit Unicode characters.  \o and \x generate
+only 8-bit characters as before.
+
+The fconfigure command now supports a -encoding
+option for specifying the encoding of an open file or socket.  Tcl will
+automatically translate between the specified encoding and UTF-8 during
+I/O.  See the directory library/encoding to find out what encodings are
+supported (eventually there will be an encoding command
+that makes this information more accessible).
+
+There are several new C APIs that support UTF-8 and various encodings.
+See the manual entry Utf.3 for procedures that
+translate between Unicode and UTF-8 and manipulate UTF-8 strings.
+See Encoding.3 for procedures that create new encodings and
+translate between encodings.  See ToUpper.3 for procedures
+that perform case conversions on UTF-8 strings.
+
+Binary data.  Binary data is handled differently in
+Tcl 8.1 than in Tcl 8.0.  Tcl 8.1 uses the UTF-8 facilities to represent
+binary data: the character value zero is represented with a multi-byte
+sequence, so that (once again) strings in Tcl 8.1 never contain null bytes.
+This means that binary data is now accepted everywhere in Tcl and Tk (in
+Tcl 8.0 the support for binary data was incomplete).
+If you have C code that needs to manipulate the bytes of binary data (as
+opposed to just passing the data through) you should use a new object
+type called "byte array".  See the manual entry ByteArrObj.3
+for information about procedures such as
+Tcl_GetByteArrayFromObj.
+New regular expressions.  Tcl 8.1 contains a brand new
+implementation of regular expressions from Henry Spencer.  This new version
+supports almost all of the Perl extensions and it also handles UTF-8 and
+binary data.
+Multi-Threading.
+Tcl 8.1 is multi-thread safe.
+Each thread can contain several Tcl interpreters, but a given interpreter
+can not be accessed from more than one thread.
+Each thread runs its own event loop, and you can post events
+to other threads. There is not yet support for tcl level use of threading
+except for a test command. (Compile tcltest and try testthread.)
+Tk 8.1 is not yet 
+multi-thread safe, and may never be due to limitations
+of Xlib.
+
+
+What's new in Tk 8.1
+
+The most important changes in Tk 8.1 are summarized below. See the
+README and changes files in the distribution
+for more complete information on what has changed, including both feature
+changes and bug fixes. 
+
+Internationalization.  Tk has undergone a major
+overhaul to support the new internationalization features of Tcl.  The
+font package has been rewritten to support arbitrary Unicode characters;
+when you specify a particular font such as "Times 12" Tk may actually
+use additional fonts to display Unicode characters that don't exist
+in the font you chose.  Tk guarantees to find a way to display any
+Unicode character regardless of the font you selected, as long as
+there is some font in the system that contains the Unicode character.
+The input method support in Tk has also been modified to support
+full Unicode characters.
+Send/DDE support.  The send
+command now works on Windows platforms.  It is implemented using DDE
+and there is a new dde command that allows Tk
+applications to use DDE to communicate with other Windows applications.
+send still doesn't work on the Macintosh.
+Embedding.  Application embedding now works on
+the Macintosh, as long as both the container and embedded application
+are in the same process.
+Configuration options.  There is a new library of
+C procedures for manipulating widget configuration options using
+Tcl_Objs instead of strings.  This should eventually make
+Tk much more efficient.  Label, button, checkbutton, radiobutton, and
+menu widgets have been modified to use the new library.  See
+SetOptions.3 for information on the new C APIs.
+More Tcl_Obj support.  Several additional C
+library procedures have been added to support Tcl_Objs.
+See the manual entries 3DBorder.3, GetAnchor.3,
+GetBitmap.3, GetColor.3, GetCursor.3,
+GetFont.3, GetJustify.3, and
+GetPixels.3.
+
+
+
+
+Incompatibilities
+
+Although the 8.1 releases involve substantial changes to the
+implementation of Tcl and Tk, the changes should introduce few
+if any compatibility problems for Tcl scripts or extensions.  Here
+are the compatibility problems that we know of:
+
+ The changes to the regular expression package required a few minor
+syntax changes in order to support all the new features:
+
+ Backslash inside brackets is an escape whereas before it was a
+literal character.  To specify a literal  \ in brackets
+you must write \\.
+ Some escapes, such as \d, \s, and
+\w, now mean special things in a bracket expression.
+Other escapes , such as \D, \S,
+\W, \A and \Z, are illegal.
+ A { followed by a digit will no longer match those
+two characters.  Instead, it will start a bound.  Such sequences
+should be rare and will often result in an error because the
+following characters will not look like a valid bound.
+ Backslash followed by an alphanumeric character is either an
+escape or an error.  Several of the new escapes were treated as literal
+characters in earlier versions of Tcl.
+ The matching order has changed slightly.  Here is an explanation
+from Henry Spencer:
+
+Both the old package and the new package find the match that starts
+earliest in the string.  Where things get tricky is when there is more
+than one possible match starting at that point, different in either
+length or internal details (that is, which subexpressions match where).
+
+The old package examines possible matches in a complex but well-defined
+order, and simply reports the first one it finds.  The new package
+examines all possible matches simultaneously, and reports the longest.
+For example, (week|wee)(night|knights) matches all of "weeknights".
+
+When two possible matches are of the same length, priority is decided
+based on getting the longest possible matches for early subexpressions,
+with later subexpressions accepting whatever they can get.  This means
+that either (wee|week)(kly|ly) or (week*)(k?ly) matches "weekly" as
+week-ly, not wee-kly.  More subtly, when .*|a.c matches "abc", the .*
+matches the whole string and the a.c doesn't even get a chance to
+participate. 
+
+When non-greedy quantifiers are used, things get more complicated.  If
+all quantifiers in a regular expression are non-greedy, the exact same
+rules apply except with "longest" replaced by "shortest" everywhere.
+When greedy and non-greedy quantifiers are mixed, it's complicated and
+difficult to explain.
+
+
+
+ The procedure Tcl_EvalObj has a new argument
+flags, and the procedure Tcl_GlobalEvalObj
+has been removed (Tcl_EvalObj now provides all of its
+functionality).
+
+ The procedures Tcl_ObjSetVar2 and
+Tcl_ObjGetVar2 have been renamed Tcl_SetObjVar2
+and Tcl_GetObjVar2 for consistency with other C APIs;
+the name arguments have been changed from objects to strings.
+
+
+Known Problems With These Releases
+
+Both the internationalization support and the new regular expression
+package are large, complicated, and young, which means there are
+likely to be lots of bugs.  We need your help in finding and fixing
+problems.  This is particularly important for internationalization,
+since we don't have the right equipment or knowledge to test
+under very many conditions.  Here are some of the most glaring bugs
+or missing features that we know of:
+
+
+ In the scan command, the %c conversion
+character doesn't properly handle characters with Unicode value greater
+than 255 (i.e., those outside the ISO-8859-1 subset).
+
+ Tcl doesn't currently handle case conversion or collation order
+properly for characters with Unicode value greater than 255 (i.e.,
+those outside the ISO-8859-1 subset).  For characters in the
+ISO-8859-1 subset, collation and case conversion should work the same
+as in Tcl 8.0.
+
+ We haven't been able to test input methods in Tk under Unix to be
+sure that the full Unicode character set is being substituted properly
+in %A substitutions.  This means that it probably doesn't
+work.  We have been able to test under Windows and the Macintosh.
+
+ In Tk, PostScript generation does not work correctly for characters
+outside the ASCII subset.
+
+ In several places in Tk, strings are not being converted from UTF-8
+to the native platform encoding before passing them to Windows and
+Macintosh library procedures.
+This includes menu text, window manager text (such as window titles),
+and text for native dialog boxes.  As a result, non-ASCII characters
+may not display properly in these cases.
+Conversion should be happening properly everywhere under Unix.
+
+ The threading for Tcl is brand new so there are likely to be
+bugs, although it is based on early work done by Richard Hipp.  
+We have done some testing on a multiprocessor Solaris machine,
+but none on Windows or other flavors of UNIX on a multiprocessor.
+
 
 Here are the most significant changes in Tcl 8.0.  In addition to these
 changes, there are several smaller changes and bug fixes.  See the file

@@ -25,7 +25,6 @@
  * README
  * library/init.tcl	(only if major.minor changes, not patchlevel)
  * unix/configure.in
- * unix/pkginfo
  * win/makefile.bc	(only if major.minor changes, not patchlevel)
  * win/makefile.vc	(only if major.minor changes, not patchlevel)
  * win/pkgIndex.tcl (for tclregNN.dll)
@@ -45,11 +44,11 @@
 
 #define TCL_MAJOR_VERSION   8
 #define TCL_MINOR_VERSION   1
-#define TCL_RELEASE_LEVEL   0
-#define TCL_RELEASE_SERIAL  2
+#define TCL_RELEASE_LEVEL   1
+#define TCL_RELEASE_SERIAL  1
 
 #define TCL_VERSION	    "8.1"
-#define TCL_PATCH_LEVEL	    "8.1a2"
+#define TCL_PATCH_LEVEL	    "8.1b1"
 
 /*
  * The following definitions set up the proper options for Windows
