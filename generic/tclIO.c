@@ -7017,7 +7017,7 @@ TclTestChannelCmd(clientData, interp, argc, argv)
     Tcl_HashSearch hSearch;	/* Search variable. */
     Tcl_HashEntry *hPtr;	/* Search variable. */
     Channel *chanPtr;		/* The actual channel. */
-    Tcl_Channel chan;		/* The opaque type. */
+    Tcl_Channel chan = NULL;	/* The opaque type. */
     size_t len;			/* Length of subcommand string. */
     int IOQueued;		/* How much IO is queued inside channel? */
     ChannelBuffer *bufPtr;	/* For iterating over queued IO. */
