@@ -832,7 +832,7 @@ proc genStubs::emitInits {} {
 #	None.
 
 proc genStubs::init {} {
-    global argv
+    global argv argv0
     variable outDir
     variable interfaces
 
