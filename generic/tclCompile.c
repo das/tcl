@@ -1203,20 +1203,35 @@ TclCompileTokens(interp, tokenPtr, count, envPtr)
 
 		/*
 		 * Either push the variable's name, or find its index in
-		 * the array of local variables in a procedure frame.
+		 * the array of local variables in a procedure frame. 
 		 */
 
-		if ((envPtr->procPtr == NULL) || hasNsQualifiers) {
-		    localVar = -1;
-		    TclEmitPush(TclRegisterLiteral(envPtr, name, nameBytes,
-		            /*onHeap*/ 0), envPtr);
-		} else {
+		localVar = -1;
+		if ((envPtr->procPtr != NULL) && !hasNsQualifiers) {
+		    int createVar = 1;
+		    char *p;
+		    
+		    if ((tokenPtr->numComponents == 1) 
+		            && (*(name + nameBytes - 1) == ')')) {
+			/*
+			 * Do not attempt to use a compiled local if the
+			 * name has a single component that looks like
+			 * an array element (see [Bug 569438]).
+			 */
+
+			for (p = name; p < name + nameBytes; p++) {
+			    if (*p == '(') {
+				createVar = 0;
+				break;
+			    }
+			}
+		    }			
 		    localVar = TclFindCompiledLocal(name, nameBytes, 
-			    /*create*/ 1, /*flags*/ 0, envPtr->procPtr);
-		    if (localVar < 0) {
-			TclEmitPush(TclRegisterLiteral(envPtr, name,
-			        nameBytes, /*onHeap*/ 0), envPtr); 
-		    }
+			        createVar, /*flags*/ 0, envPtr->procPtr);
+		}
+		if (localVar < 0) {
+		    TclEmitPush(TclRegisterLiteral(envPtr, name,
+		            nameBytes, /*onHeap*/ 0), envPtr); 
 		}
 
 		/*
