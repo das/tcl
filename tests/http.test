@@ -486,5 +486,8 @@ if {[info exists httpthread]} {
 if {[info exist removeHttpd]} {
     removeFile $httpdFile
 }
+foreach file [list outdata] {
+    catch {::tcltest::removeFile $file}
+}
 
 ::tcltest::cleanupTests
