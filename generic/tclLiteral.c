@@ -64,6 +64,35 @@ static void		RebuildLiteralTable _ANSI_ARGS_((
 			    LiteralTable *tablePtr));
 
 #ifdef TCL_THREAD_LITERALS
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * LiteralThreadExitProc --
+ *
+ *	This function is call at exit or unload time to remove the
+ *	timer and idle event sources.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Removes the timer and idle event sources.
+ *
+ *----------------------------------------------------------------------
+ */
+
+static void
+LiteralThreadExitProc(clientData)
+    ClientData clientData;
+{
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
+    if (tsdPtr->initialized) {
+	TclDeleteLiteralTable(NULL, &(tsdPtr->literalTable));
+	tsdPtr->initialized = 0;
+    }
+}
+
 /*
  *----------------------------------------------------------------------
  *
@@ -87,6 +116,7 @@ TclGlobalLiteralTable()
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
     if (!tsdPtr->initialized) {
 	TclInitLiteralTable(&(tsdPtr->literalTable));
+	Tcl_CreateThreadExitHandler(LiteralThreadExitProc, NULL);
 	tsdPtr->initialized = 1;
     }
     return &(tsdPtr->literalTable);
@@ -245,6 +275,9 @@ TclRegisterLiteral(envPtr, bytes, length, onHeap)
     LiteralTable *globalTablePtr = TclGlobalLiteralTable();
 #ifdef TCL_COMPILE_STATS
     ByteCodeStats *statsPtr = TclGlobalByteCodeStats();
+#endif
+#ifdef TCL_COMPILE_DEBUG
+    Interp *iPtr = envPtr->iPtr;
 #endif
 #else
     Interp *iPtr = envPtr->iPtr;
@@ -811,7 +844,7 @@ TclReleaseLiteral(interp, objPtr)
 		if (objPtr->typePtr == &tclByteCodeType) {
 		    codePtr = ((ByteCode *) objPtr->internalRep.otherValuePtr)->bcDataPtr;
 		    if ((codePtr->numLitObjects == 1)
-		            && (codePtr->objArrayPtr[0] == objPtr)) {			
+		            && (codePtr->objArrayPtr[0] == objPtr)) {
 			codePtr->objArrayPtr[0] = NULL;
 		    }
 		}
