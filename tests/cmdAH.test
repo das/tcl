@@ -1536,7 +1536,17 @@ test cmdAH-29.4 {Tcl_FileObjCmd: type} {unixOnly nonPortable} {
     file delete $linkfile
     set result
 } link
-test cmdAH-29.4.1 {Tcl_FileObjCmd: type} {
+if {[string equal $tcl_platform(platform) "windows"]} {
+    if {[string index $tcl_platform(osVersion) 0] >= 5 \
+      && ([lindex [file system [temporaryDirectory]] 1] == "NTFS")} {
+	tcltest::testConstraint linkDirectory 1
+    } else {
+	tcltest::testConstraint linkDirectory 0
+    }
+} else {
+    tcltest::testConstraint linkDirectory 1
+}
+test cmdAH-29.4.1 {Tcl_FileObjCmd: type} {linkDirectory} {
     set tempdir [makeDirectory temp]
     set linkdir [file join [temporaryDirectory] link.dir]
     file link -symbolic $linkdir $tempdir
