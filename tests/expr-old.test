@@ -2,7 +2,7 @@
 #
 # This file contains the original set of tests for Tcl's expr command.
 # Since the expr command is now compiled, a new set of tests covering
-# the new implementation are in the files "parseExpr.test and
+# the new implementation are in the files "parseExpr.test" and
 # "compExpr.test". Sourcing this file into Tcl runs the tests and generates
 # output for errors. No output means no errors were found.
 #
