@@ -1042,7 +1042,6 @@ SetBooleanFromAny(interp, objPtr)
     char lowerCase[10];
     int newBool, length;
     register int i;
-    double dbl;
 
     /*
      * Get the string representation. Make it up-to-date if necessary.
@@ -1098,6 +1097,24 @@ SetBooleanFromAny(interp, objPtr)
 	    goto badBoolean;
 	}
     } else {
+	double dbl;
+#ifndef TCL_WIDE_INT_IS_LONG
+	Tcl_WideInt wide = strtoll(string, &end, 0);
+	if (end != string) {
+	    /*
+	     * Make sure the string has no garbage after the end of
+	     * the wide int.
+	     */
+	    while ((end < (string+length))
+		   && isspace(UCHAR(*end))) { /* INTL: ISO only */
+		end++;
+	    }
+	    if (end == (string+length)) {
+		newBool = (wide != Tcl_LongAsWide(0));
+		goto goodBoolean;
+	    }
+	}
+#endif
         /*
          * Still might be a string containing the characters representing an
          * int or double that wasn't handled above. This would be a string
@@ -1132,6 +1149,7 @@ SetBooleanFromAny(interp, objPtr)
      * Tcl_GetStringFromObj, to use that old internalRep.
      */
 
+    goodBoolean:
     if ((oldTypePtr != NULL) &&	(oldTypePtr->freeIntRepProc != NULL)) {
 	oldTypePtr->freeIntRepProc(objPtr);
     }

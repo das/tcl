@@ -1514,7 +1514,11 @@ GetLexeme(infoPtr)
 	startsWithDigit = isdigit(UCHAR(c)); /* INTL: digit */
 	if (startsWithDigit && TclLooksLikeInt(src, -1)) {
 	    errno = 0;
+#ifdef TCL_WIDE_INT_IS_LONG
 	    (void) strtoul(src, &termPtr, 0);
+#else
+	    (void) strtoull(src, &termPtr, 0);
+#endif
 	    if (errno == ERANGE) {
 		if (interp != NULL) {
 		    char *s = "integer value too large to represent";
