@@ -1322,15 +1322,11 @@ SetBooleanFromAny(interp, objPtr)
 
     badBoolean:
     if (interp != NULL) {
-	/*
-	 * Must copy string before resetting the result in case a caller
-	 * is trying to convert the interpreter's result to a boolean.
-	 */
-	
-	char buf[100];
-	sprintf(buf, "expected boolean value but got \"%.50s\"", string);
-	Tcl_ResetResult(interp);
-	Tcl_AppendToObj(Tcl_GetObjResult(interp), buf, -1);
+	Tcl_Obj *msg =
+		Tcl_NewStringObj("expected boolean value but got \"", -1);
+	TclAppendLimitedToObj(msg, string, length, 50, "");
+	Tcl_AppendToObj(msg, "\"", -1);
+	Tcl_SetObjResult(interp, msg);
     }
     return TCL_ERROR;
 }
@@ -1601,16 +1597,11 @@ SetDoubleFromAny(interp, objPtr)
     if (end == string) {
 	badDouble:
 	if (interp != NULL) {
-	    /*
-	     * Must copy string before resetting the result in case a caller
-	     * is trying to convert the interpreter's result to an int.
-	     */
-	    
-	    char buf[100];
-	    sprintf(buf, "expected floating-point number but got \"%.50s\"",
-	            string);
-	    Tcl_ResetResult(interp);
-	    Tcl_AppendToObj(Tcl_GetObjResult(interp), buf, -1);
+	    Tcl_Obj *msg = Tcl_NewStringObj(
+		    "expected floating-point number but got \"", -1);
+	    TclAppendLimitedToObj(msg, string, length, 50, "");
+	    Tcl_AppendToObj(msg, "\"", -1);
+	    Tcl_SetObjResult(interp, msg);
 	}
 	return TCL_ERROR;
     }
@@ -1898,15 +1889,11 @@ SetIntFromAny(interp, objPtr)
     if (end == p) {
 	badInteger:
 	if (interp != NULL) {
-	    /*
-	     * Must copy string before resetting the result in case a caller
-	     * is trying to convert the interpreter's result to an int.
-	     */
-	    
-	    char buf[100];
-	    sprintf(buf, "expected integer but got \"%.50s\"", string);
-	    Tcl_ResetResult(interp);
-	    Tcl_AppendToObj(Tcl_GetObjResult(interp), buf, -1);
+	    Tcl_Obj *msg =
+		    Tcl_NewStringObj("expected integer but got \"", -1);
+	    TclAppendLimitedToObj(msg, string, length, 50, "");
+	    Tcl_AppendToObj(msg, "\"", -1);
+	    Tcl_SetObjResult(interp, msg);
 	    TclCheckBadOctal(interp, string);
 	}
 	return TCL_ERROR;
@@ -2253,15 +2240,11 @@ SetWideIntFromAny(interp, objPtr)
     if (end == p) {
 	badInteger:
 	if (interp != NULL) {
-	    /*
-	     * Must copy string before resetting the result in case a caller
-	     * is trying to convert the interpreter's result to an int.
-	     */
-	    
-	    char buf[100];
-	    sprintf(buf, "expected integer but got \"%.50s\"", string);
-	    Tcl_ResetResult(interp);
-	    Tcl_AppendToObj(Tcl_GetObjResult(interp), buf, -1);
+	    Tcl_Obj *msg =
+		    Tcl_NewStringObj("expected integer but got \"", -1);
+	    TclAppendLimitedToObj(msg, string, length, 50, "");
+	    Tcl_AppendToObj(msg, "\"", -1);
+	    Tcl_SetObjResult(interp, msg);
 	    TclCheckBadOctal(interp, string);
 	}
 	return TCL_ERROR;

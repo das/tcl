@@ -220,8 +220,12 @@ proc unknown args {
 		# construct the stack trace.
 		#
 		set cinfo $args
-		if {[string length $cinfo] > 150} {
-		    set cinfo "[string range $cinfo 0 149]..."
+		if {[string bytelength $cinfo] > 153} {
+		    set cinfo [string range $cinfo 0 152]
+		    while {[string bytelength $cinfo] > 150} {
+			set cinfo [string range $cinfo 0 end-1]
+		    }
+		    append cinfo ...
 		}
 		append cinfo "\"\n    (\"uplevel\" body line 1)"
 		append cinfo "\n    invoked from within"
@@ -253,7 +257,7 @@ proc unknown args {
 		#
 		if {$errorInfo ne "$einfo$expect"} {
 		    error "Tcl bug: unexpected stack trace in \"unknown\"" {} \
-			[list CORE UNKNOWN BADTRACE $expect $errorInfo]
+			[list CORE UNKNOWN BADTRACE $einfo $expect $errorInfo]
 		}
 		return -code error -errorcode $errorCode \
 			-errorinfo $einfo $msg

@@ -1613,10 +1613,9 @@ LogCompilationInfo(interp, script, command, length)
     int length;			/* Number of bytes in command (-1 means
 				 * use all bytes up to first null byte). */
 {
-    char buffer[200];
     register CONST char *p;
-    char *ellipsis = "";
     Interp *iPtr = (Interp *) interp;
+    Tcl_Obj *message;
 
     if (iPtr->flags & ERR_ALREADY_LOGGED) {
 	/*
@@ -1638,21 +1637,12 @@ LogCompilationInfo(interp, script, command, length)
 	}
     }
 
-    /*
-     * Create an error message to add to errorInfo, including up to a
-     * maximum number of characters of the command.
-     */
-
-    if (length < 0) {
-	length = strlen(command);
-    }
-    if (length > 150) {
-	length = 150;
-	ellipsis = "...";
-    }
-    sprintf(buffer, "\n    while compiling\n\"%.*s%s\"",
-	    length, command, ellipsis);
-    Tcl_AddObjErrorInfo(interp, buffer, -1);
+    message = Tcl_NewStringObj("\n    while compiling\n\"", -1);
+    Tcl_IncrRefCount(message);
+    TclAppendLimitedToObj(message, command, length, 153, NULL);
+    Tcl_AppendToObj(message, "\"", -1);
+    TclAppendObjToErrorInfo(interp, message);
+    Tcl_DecrRefCount(message);
 }
 
 /*

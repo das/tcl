@@ -4436,12 +4436,11 @@ ValidatePcAndStackTop(codePtr, pc, stackTop, stackLowerBound)
 	fprintf(stderr, "\nBad stack top %d at pc %u in TclExecuteByteCode (min %i, max %i)",
 		stackTop, relativePc, stackLowerBound, stackUpperBound);
 	if (cmd != NULL) {
-	    if (numChars > 100) {
-		numChars = 100;
-		ellipsis = "...";
-	    }
-	    fprintf(stderr, "\n executing %.*s%s\n", numChars, cmd,
-		    ellipsis);
+	    Tcl_Obj *message = Tcl_NewStringObj("\n executing ", -1);
+	    Tcl_IncrRefCount(message);
+	    TclAppendLimitedToObj(message, cmd, numChars, 100, NULL);
+	    fprintf(stderr,"%s\n", Tcl_GetString(message));
+	    Tcl_DecrRefCount(message);
 	} else {
 	    fprintf(stderr, "\n");
 	}

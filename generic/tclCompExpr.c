@@ -954,12 +954,10 @@ LogSyntaxError(infoPtr)
     ExprInfo *infoPtr;		/* Describes the compilation state for the
 				 * expression being compiled. */
 {
-    int numBytes = (infoPtr->lastChar - infoPtr->expr);
-    char buffer[100];
-
-    sprintf(buffer, "syntax error in expression \"%.*s\"",
-	    ((numBytes > 60)? 60 : numBytes), infoPtr->expr);
-    Tcl_ResetResult(infoPtr->interp);
-    Tcl_AppendStringsToObj(Tcl_GetObjResult(infoPtr->interp),
-	    buffer, (char *) NULL);
+    Tcl_Obj *result =
+            Tcl_NewStringObj("syntax error in expression \"", -1);
+    TclAppendLimitedToObj(result, infoPtr->expr,
+            (int)(infoPtr->lastChar - infoPtr->expr), 60, "");
+    Tcl_AppendToObj(result, "\"", -1);
+    Tcl_SetObjResult(infoPtr->interp, result);
 }

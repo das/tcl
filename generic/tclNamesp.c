@@ -3150,11 +3150,17 @@ NamespaceEvalCmd(dummy, interp, objc, objv)
         result = Tcl_EvalObjEx(interp, objPtr, TCL_EVAL_DIRECT);
     }
     if (result == TCL_ERROR) {
-        char msg[256 + TCL_INTEGER_SPACE];
-	
-        sprintf(msg, "\n    (in namespace eval \"%.200s\" script line %d)",
-            namespacePtr->fullName, interp->errorLine);
-        Tcl_AddObjErrorInfo(interp, msg, -1);
+	Tcl_Obj *errorLine = Tcl_NewIntObj(interp->errorLine);
+	Tcl_Obj *msg = Tcl_NewStringObj("\n    (in namespace eval \"", -1);
+	Tcl_IncrRefCount(errorLine);
+	Tcl_IncrRefCount(msg);
+	TclAppendLimitedToObj(msg, namespacePtr->fullName, -1, 200, "");
+	Tcl_AppendToObj(msg, "\" script line ", -1);
+	Tcl_AppendObjToObj(msg, errorLine);
+	Tcl_DecrRefCount(errorLine);
+	Tcl_AppendToObj(msg, ")", -1);
+        TclAppendObjToErrorInfo(interp, msg);
+	Tcl_DecrRefCount(msg);
     }
 
     /*

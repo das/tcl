@@ -1622,6 +1622,11 @@ extern char		tclEmptyString;
  *----------------------------------------------------------------
  */
 
+EXTERN void		TclAppendLimitedToObj _ANSI_ARGS_((Tcl_Obj *objPtr, 
+			    CONST char *bytes, int length, int limit,
+			    CONST char *ellipsis));
+EXTERN void		TclAppendObjToErrorInfo _ANSI_ARGS_((
+			    Tcl_Interp *interp, Tcl_Obj *objPtr));
 EXTERN int		TclArraySet _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *arrayNameObj, Tcl_Obj *arrayElemObj));
 EXTERN int		TclCheckBadOctal _ANSI_ARGS_((Tcl_Interp *interp,
