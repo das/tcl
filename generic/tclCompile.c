@@ -1798,10 +1798,10 @@ TclFindCompiledLocal(name, nameBytes, create, flags, procPtr)
 	localPtr->nextPtr = NULL;
 	localPtr->nameLength = nameBytes;
 	localPtr->frameIndex = localVar;
+	localPtr->flags = flags;
 	if (name == NULL) {
 	    localPtr->flags |= VAR_TEMPORARY;
 	}
-	localPtr->flags = flags;
 	localPtr->defValuePtr = NULL;
 	localPtr->resolveInfo = NULL;
 
