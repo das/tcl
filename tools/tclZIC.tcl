@@ -1383,9 +1383,9 @@ proc writeLinks { outDir } {
 	# Create code for the synonym
 
 	set linkTo $links($zoneName)
-	set sourceCmd "\n    [list loadTimeZoneFile $linkTo]\n"
+	set sourceCmd "\n    [list LoadTimeZoneFile $linkTo]\n"
 	set ifCmd [list if "!\[info exists TZData($linkTo)\]" $sourceCmd]
-	set setCmd "set tzdata(:$zoneName) \$TZData(:$linkTo)"
+	set setCmd "set TZData(:$zoneName) \$TZData(:$linkTo)"
 
 	# Write the file
 
