@@ -188,7 +188,7 @@ static CmdInfo builtInCmds[] = {
         (CompileProc *) NULL,		1},
     {"glob",		Tcl_GlobCmd,		(Tcl_ObjCmdProc *) NULL,
         (CompileProc *) NULL,		0},
-    {"open",		Tcl_OpenCmd,		(Tcl_ObjCmdProc *) NULL,
+    {"open",		(Tcl_CmdProc *) NULL,	Tcl_OpenObjCmd,
         (CompileProc *) NULL,		0},
     {"pid",		(Tcl_CmdProc *) NULL,	Tcl_PidObjCmd,
         (CompileProc *) NULL,		1},
