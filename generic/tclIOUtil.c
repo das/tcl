@@ -396,7 +396,7 @@ static FilesystemRecord nativeFilesystemRecord = {
  * For multithreading builds, change of the filesystem epoch
  * will trigger cache cleanup in all threads.
  */
-int theFilesystemEpoch = 0;
+static int theFilesystemEpoch = 0;
 
 /*
  * Stores the linked list of filesystems. A 1:1 copy of this
@@ -413,7 +413,7 @@ static Tcl_Obj* cwdPathPtr = NULL;
 static int cwdPathEpoch = 0;
 TCL_DECLARE_MUTEX(cwdMutex)
 
-Tcl_ThreadDataKey fsDataKey;
+Tcl_ThreadDataKey tclFsDataKey;
 
 /* 
  * Declare fallback support function and 
@@ -465,7 +465,7 @@ int
 TclFSCwdPointerEquals(objPtr)
     Tcl_Obj* objPtr;
 {
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&fsDataKey);
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
 
     Tcl_MutexLock(&cwdMutex);
     if (tsdPtr->cwdPathPtr == NULL
@@ -495,7 +495,7 @@ TclFSCwdPointerEquals(objPtr)
 static void
 FsRecacheFilesystemList(void)
 {
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&fsDataKey);
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
     FilesystemRecord *fsRecPtr, *tmpFsRecPtr;
 
     /* Trash the current cache */
@@ -546,7 +546,7 @@ FsRecacheFilesystemList(void)
 
 static FilesystemRecord *
 FsGetFirstFilesystem(void) {
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&fsDataKey);
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
     FilesystemRecord *fsRecPtr;
 #ifndef TCL_THREADS
     tsdPtr->filesystemEpoch = theFilesystemEpoch;
@@ -570,7 +570,7 @@ FsUpdateCwd(cwdObj)
 {
     int len;
     char *str = NULL;
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&fsDataKey);
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
 
     if (cwdObj != NULL) {
 	str = Tcl_GetStringFromObj(cwdObj, &len);
@@ -2175,7 +2175,7 @@ Tcl_Obj*
 Tcl_FSGetCwd(interp)
     Tcl_Interp *interp;
 {
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&fsDataKey);
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
     
     if (TclFSCwdPointerEquals(NULL)) {
 	FilesystemRecord *fsRecPtr;

@@ -522,7 +522,7 @@ Tcl_FSConvertToPathType(interp, objPtr)
     Tcl_Obj *objPtr;		/* Object to convert to a valid, current
 				 * path type. */
 {
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&fsDataKey);
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
 
     /* 
      * While it is bad practice to examine an object's type directly,
@@ -629,7 +629,7 @@ TclNewFSPathObj(Tcl_Obj *dirPtr, CONST char *addStrRep, int len)
 {
     FsPath *fsPathPtr;
     Tcl_Obj *objPtr;
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&fsDataKey);
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
     
     objPtr = Tcl_NewObj();
     fsPathPtr = (FsPath*)ckalloc((unsigned)sizeof(FsPath));
@@ -690,7 +690,7 @@ TclFSMakePathRelative(interp, objPtr, cwdPtr)
 {
     int cwdLen, len;
     CONST char *tempStr;
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&fsDataKey);
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
     
     if (objPtr->typePtr == &tclFsPathType) {
 	FsPath* fsPathPtr = (FsPath*) PATHOBJ(objPtr);
@@ -800,7 +800,7 @@ TclFSMakePathFromNormalized(interp, objPtr, nativeRep)
 				 * else NULL. */
 {
     FsPath *fsPathPtr;
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&fsDataKey);
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
 
     if (objPtr->typePtr == &tclFsPathType) {
 	return TCL_OK;
@@ -875,7 +875,7 @@ Tcl_FSNewNativePath(fromFilesystem, clientData)
     FsPath *fsPathPtr;
 
     FilesystemRecord *fsFromPtr;
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&fsDataKey);
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
     
     objPtr = TclFSInternalToNormalized(fromFilesystem, clientData,
                                        &fsFromPtr);
@@ -1423,7 +1423,7 @@ TclFSEnsureEpochOk(pathObjPtr, fsPtrPtr)
     Tcl_Filesystem **fsPtrPtr;
 {
     FsPath* srcFsPathPtr;
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&fsDataKey);
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
 
     /* 
      * SHOULD BE ABLE TO IMPROVE EFFICIENCY HERE.
@@ -1468,7 +1468,7 @@ TclFSSetPathDetails(pathObjPtr, fsRecPtr, clientData)
     FilesystemRecord *fsRecPtr;
     ClientData clientData;
 {
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&fsDataKey);
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
     /* We assume pathObjPtr is already of the correct type */
     FsPath* srcFsPathPtr;
     
@@ -1568,7 +1568,7 @@ SetFsPathFromAny(interp, objPtr)
     FsPath *fsPathPtr;
     Tcl_Obj *transPtr;
     char *name;
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&fsDataKey);
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
     
     if (objPtr->typePtr == &tclFsPathType) {
 	return TCL_OK;

@@ -82,8 +82,7 @@ Tcl_Obj* TclFSNormalizeAbsolutePath _ANSI_ARGS_((Tcl_Interp* interp,
  * Private shared variables for use by tclIOUtil.c and tclPathObj.c
  */
 extern Tcl_Filesystem tclNativeFilesystem;
-extern int theFilesystemEpoch;
-extern Tcl_ThreadDataKey fsDataKey;
+extern Tcl_ThreadDataKey tclFsDataKey;
 
 /* 
  * Private shared functions for use by tclIOUtil.c and tclPathObj.c
