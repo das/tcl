@@ -14,7 +14,6 @@
 
 #include "tclWinInt.h"
 
-#include <dos.h>
 #include <fcntl.h>
 #include <io.h>
 #include <sys/stat.h>
@@ -125,8 +124,14 @@ Tcl_CreateThread(idPtr, proc, clientData, stackSize, flags)
 {
     HANDLE tHandle;
 
+#if defined(__MSVCRT__) || defined(__BORLANDC__)
     tHandle = (HANDLE) _beginthreadex(NULL, (unsigned) stackSize, proc,
 	clientData, 0, (unsigned *)idPtr);
+#else
+    tHandle = CreateThread(NULL, (DWORD) stackSize,
+	    (LPTHREAD_START_ROUTINE) proc, (LPVOID) clientData,
+	    (DWORD) 0, (LPDWORD)idPtr);
+#endif
 
     if (tHandle == NULL) {
 	return TCL_ERROR;
@@ -160,7 +165,11 @@ void
 TclpThreadExit(status)
     int status;
 {
-    _endthreadex((DWORD)status);
+#if defined(__MSVCRT__) || defined(__BORLANDC__)
+    _endthreadex((unsigned) status);
+#else
+    ExitThread((DWORD) status);
+#endif
 }
 
 
