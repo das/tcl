@@ -1691,6 +1691,9 @@ Tcl_UniCharCaseMatch(string, pattern, nocase)
 	    if (p == 0) {
 		return 1;
 	    }
+	    if (nocase) {
+		p = Tcl_UniCharToLower(p);
+	    }
 	    while (1) {
 		/*
 		 * Optimization for matching - cruise through the string

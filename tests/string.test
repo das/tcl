@@ -855,6 +855,10 @@ test string-11.49 {string match, *special case} {
 test string-11.50 {string match, *special case} {
     string match "\\" "\\"
 } 0
+test string-11.51 {string match; *, -nocase and UTF-8} {
+    string match -nocase [binary format I 717316707] \
+	    [binary format I 2028036707]
+} 1
 
 
 test string-12.1 {string range} {
