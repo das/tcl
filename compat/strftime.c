@@ -55,6 +55,7 @@ static char *rcsid = "$Id$";
 #include "tclPort.h"
 
 #define TM_YEAR_BASE   1900
+#define IsLeapYear(x)   ((x % 4 == 0) && (x % 100 != 0 || x % 400 == 0))
 
 typedef struct {
     const char *abday[7];
