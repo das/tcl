@@ -180,7 +180,7 @@ Tcl_AppInit(interp)
             Procbodytest_SafeInit);
 #endif /* TCL_TEST */
 
-#if defined(STATIC_BUILD) && defined(TCL_USE_STATIC_PACKAGES)
+#if defined(STATIC_BUILD) && TCL_USE_STATIC_PACKAGES
     {
 	extern Tcl_PackageInitProc Registry_Init;
 	extern Tcl_PackageInitProc Dde_Init;
