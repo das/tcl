@@ -894,10 +894,7 @@ dist: $(UNIX_DIR)/configure
 	cp -p $(TOP_DIR)/win/pkgIndex.tcl $(DISTDIR)/win
 	cp -p $(TOP_DIR)/license.terms $(DISTDIR)/win
 	mkdir $(DISTDIR)/mac
-	sccs edit -s $(TOP_DIR)/mac/tclMacProjects.sea.hqx
-	cp -p tclMacProjects.sea.hqx $(DISTDIR)/mac
-	sccs unedit $(TOP_DIR)/mac/tclMacProjects.sea.hqx
-	rm -f tclMacProjects.sea.hqx
+	cp -p $(TOP_DIR)/mac/tclMacProjects.sea.hqx $(DISTDIR)/mac
 	cp -p $(TOP_DIR)/mac/*.c $(TOP_DIR)/mac/*.h $(TOP_DIR)/mac/*.r \
 		$(DISTDIR)/mac
 	cp -p $(TOP_DIR)/mac/porting.notes $(TOP_DIR)/mac/README $(DISTDIR)/mac
