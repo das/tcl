@@ -901,37 +901,36 @@ TclProcessReturn(interp, code, level, returnOpts)
 	Tcl_IncrRefCount(iPtr->returnOpts);
     }
 
-    if (level == 0) {
-	if (code == TCL_ERROR) {
-	    valuePtr = NULL;
-	    Tcl_DictObjGet(NULL, iPtr->returnOpts,
-		    iPtr->returnErrorinfoKey, &valuePtr);
-	    if (valuePtr != NULL) {
-		int infoLen;
-		CONST char *info = Tcl_GetStringFromObj(valuePtr, &infoLen);
-		if (infoLen) {
-		    Tcl_AddObjErrorInfo(interp, info, infoLen);
-		    iPtr->flags |= ERR_ALREADY_LOGGED;
-		}
-	    }
-	    valuePtr = NULL;
-	    Tcl_DictObjGet(NULL, iPtr->returnOpts,
-		    iPtr->returnErrorcodeKey, &valuePtr);
-	    if (valuePtr != NULL) {
-		Tcl_SetObjErrorCode(interp, valuePtr);
-	    } else {
-		Tcl_SetErrorCode(interp, "NONE", NULL);
-	    }
-
-	    valuePtr = NULL;
-	    Tcl_DictObjGet(NULL, iPtr->returnOpts,
-		    iPtr->returnErrorlineKey, &valuePtr);
-	    if (valuePtr != NULL) {
-		Tcl_GetIntFromObj(NULL, valuePtr, &iPtr->errorLine);
+    if (code == TCL_ERROR) {
+	valuePtr = NULL;
+	Tcl_DictObjGet(NULL, iPtr->returnOpts,
+		iPtr->returnErrorinfoKey, &valuePtr);
+	if (valuePtr != NULL) {
+	    int infoLen;
+	    CONST char *info = Tcl_GetStringFromObj(valuePtr, &infoLen);
+	    if (infoLen) {
+		Tcl_AddObjErrorInfo(interp, info, infoLen);
+		iPtr->flags |= ERR_ALREADY_LOGGED;
 	    }
 	}
-    } else {
-	code = TCL_RETURN;
+	valuePtr = NULL;
+	Tcl_DictObjGet(NULL, iPtr->returnOpts,
+		iPtr->returnErrorcodeKey, &valuePtr);
+	if (valuePtr != NULL) {
+	    Tcl_SetObjErrorCode(interp, valuePtr);
+	} else {
+	    Tcl_SetErrorCode(interp, "NONE", NULL);
+	}
+
+	valuePtr = NULL;
+	Tcl_DictObjGet(NULL, iPtr->returnOpts,
+		iPtr->returnErrorlineKey, &valuePtr);
+	if (valuePtr != NULL) {
+	    Tcl_GetIntFromObj(NULL, valuePtr, &iPtr->errorLine);
+	}
+    }
+    if (level != 0) {
+	return TCL_RETURN;
     }
     return code;
 }

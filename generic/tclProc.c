@@ -1471,20 +1471,6 @@ TclUpdateReturnInfo(iPtr)
 	Tcl_DictObjGet(NULL, iPtr->returnOpts, iPtr->returnCodeKey, &valuePtr);
 	Tcl_GetIntFromObj(NULL, valuePtr, &code);
     }
-    if (code == TCL_ERROR) {
-	Tcl_DictObjGet(NULL, iPtr->returnOpts,
-		iPtr->returnErrorcodeKey, &valuePtr);
-	if (valuePtr != NULL) {
-	    Tcl_SetObjErrorCode((Tcl_Interp *)iPtr, valuePtr);
-	}
-
-	Tcl_DictObjGet(NULL, iPtr->returnOpts,
-		iPtr->returnErrorinfoKey, &valuePtr);
-	if (valuePtr != NULL) {
-	    iPtr->errorInfo = valuePtr;
-	    Tcl_IncrRefCount(iPtr->errorInfo);
-	}
-    }
     return code;
 }
 
