@@ -523,6 +523,8 @@ Tcl_NewObj()
     Tcl_MutexLock(&tclObjMutex);
 #ifdef PURIFY
     objPtr = (Tcl_Obj *) Tcl_Ckalloc(sizeof(Tcl_Obj));
+#elif defined(TCL_THREADS) && defined(USE_THREAD_ALLOC)
+    objPtr = TclThreadAllocObj(); 
 #else
     if (tclFreeObjList == NULL) {
 	TclAllocateFreeObjects();
