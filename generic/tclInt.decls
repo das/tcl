@@ -740,6 +740,9 @@ declare 23 mac {
 #  declare 24 mac {
 #      int TclMacReadlink(char *path, char *buf, int size)
 #  }
+declare 24 mac {
+    char * TclpGetTZName(int isdst)
+}
 declare 25 mac {
     int TclMacChmod(char *path, int mode)
 }

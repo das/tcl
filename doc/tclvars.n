@@ -87,7 +87,7 @@ The path to the trash directory.
 \fBSTART_UP_FOLDER\fR
 The path to the start up directory.
 .TP
-\fBPWD\fR
+\fBHOME\fR
 The path to the application's default directory.
 .PP
 You can also create your own environment variables for the Macintosh.

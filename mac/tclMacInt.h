@@ -66,7 +66,8 @@
  */
 
 EXTERN char *	TclMacGetFontEncoding _ANSI_ARGS_((int fontId));
-EXTERN int	TclMacHaveThreads(void);
+EXTERN int		TclMacHaveThreads _ANSI_ARGS_((void));
+EXTERN long		TclpGetGMTOffset _ANSI_ARGS_((void));
 
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT

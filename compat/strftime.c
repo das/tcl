@@ -324,7 +324,6 @@ _fmt(format, t)
 		    if (!_conv((t->tm_year + TM_YEAR_BASE), 4, '0'))
 			return(0);
 		    continue;
-#ifndef MAC_TCL
 		case 'Z': {
 		    char *name = TclpGetTZName(t->tm_isdst);
 		    if (name && !_add(name)) {
@@ -332,7 +331,6 @@ _fmt(format, t)
 		    }
 		    continue;
 		}
-#endif
 		case '%':
 		    /*
 		     * X311J/88-090 (4.12.3.5): if conversion char is
