@@ -134,6 +134,8 @@ specified, the current date is assumed.  If the string does not contain a
 time zone mnemonic, the local time zone is assumed, unless the \fB\-gmt\fR 
 argument is true, in which case the clock value is calculated assuming
 that the specified time is relative to Greenwich Mean Time.
+\fB-gmt\fR, if specified, affects only the computed time value; it does not
+impact the interpretation of \fB-base\fR.
 .sp
 If the \fB\-base\fR flag is specified, the next argument should contain
 an integer clock value.  Only the date in this value is used, not the
