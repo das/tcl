@@ -873,6 +873,8 @@ TclStubs tclStubs = {
     Tcl_FSUnregister, /* 474 */
     Tcl_FSData, /* 475 */
     Tcl_FSGetTranslatedStringPath, /* 476 */
+    Tcl_FSGetFileSystemForPath, /* 477 */
+    Tcl_FSGetPathType, /* 478 */
 };
 
 /* !END!: Do not edit above this line. */

@@ -1554,7 +1554,8 @@ typedef int (Tcl_FSLoadFileProc) _ANSI_ARGS_((Tcl_Interp * interp,
 			    Tcl_Obj *pathPtr, char * sym1, char * sym2, 
 			    Tcl_PackageInitProc ** proc1Ptr, 
 			    Tcl_PackageInitProc ** proc2Ptr, 
-			    ClientData * clientDataPtr));
+			    ClientData * clientDataPtr,
+			    Tcl_FSUnloadFileProc **unloadProcPtr));
 typedef int (Tcl_FSPathInFilesystemProc) _ANSI_ARGS_((Tcl_Obj *pathPtr, 
 			    ClientData *clientDataPtr));
 typedef Tcl_Obj* (Tcl_FSFilesystemPathTypeProc) 
@@ -1739,12 +1740,6 @@ typedef struct Tcl_Filesystem {
 			     * implemented, Tcl will fall back on
 			     * a copy to native-temp followed by a 
 			     * Tcl_FSLoadFile on that temporary copy. */
-    Tcl_FSUnloadFileProc *unloadFileProc;	    
-			    /* Function to unload a previously 
-			     * successfully loaded file.  If load was
-			     * implemented, then this should also be
-			     * implemented, if there is any cleanup
-			     * action required. */
     Tcl_FSGetCwdProc *getCwdProc;     
 			    /* 
 			     * Function to process a 'Tcl_FSGetCwd()'

@@ -318,10 +318,13 @@ test filename-4.19 {Tcl_SplitPath} {
 	set norm [string range $norm $idx end]
 	# fix path away so all platforms are the same
 	regsub -all ":" $norm "/" norm
+	# make sure we can delete the directory we created
+	cd $oldDir
 	file delete -force $nastydir
 	set norm
     } err]
     cd $oldDir
+    catch {file delete -force tildetmp}
     list $res $err
 } {0 tildetmp/~tilde}
 

@@ -1490,6 +1490,11 @@ EXTERN ClientData	Tcl_FSData _ANSI_ARGS_((Tcl_Filesystem * fsPtr));
 /* 476 */
 EXTERN char*		Tcl_FSGetTranslatedStringPath _ANSI_ARGS_((
 				Tcl_Interp * interp, Tcl_Obj* pathPtr));
+/* 477 */
+EXTERN Tcl_Filesystem*	Tcl_FSGetFileSystemForPath _ANSI_ARGS_((
+				Tcl_Obj* pathObjPtr));
+/* 478 */
+EXTERN Tcl_PathType	Tcl_FSGetPathType _ANSI_ARGS_((Tcl_Obj * pathObjPtr));
 
 typedef struct TclStubHooks {
     struct TclPlatStubs *tclPlatStubs;
@@ -2026,6 +2031,8 @@ typedef struct TclStubs {
     int (*tcl_FSUnregister) _ANSI_ARGS_((Tcl_Filesystem * fsPtr)); /* 474 */
     ClientData (*tcl_FSData) _ANSI_ARGS_((Tcl_Filesystem * fsPtr)); /* 475 */
     char* (*tcl_FSGetTranslatedStringPath) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Obj* pathPtr)); /* 476 */
+    Tcl_Filesystem* (*tcl_FSGetFileSystemForPath) _ANSI_ARGS_((Tcl_Obj* pathObjPtr)); /* 477 */
+    Tcl_PathType (*tcl_FSGetPathType) _ANSI_ARGS_((Tcl_Obj * pathObjPtr)); /* 478 */
 } TclStubs;
 
 #ifdef __cplusplus
@@ -3973,6 +3980,14 @@ extern TclStubs *tclStubsPtr;
 #ifndef Tcl_FSGetTranslatedStringPath
 #define Tcl_FSGetTranslatedStringPath \
 	(tclStubsPtr->tcl_FSGetTranslatedStringPath) /* 476 */
+#endif
+#ifndef Tcl_FSGetFileSystemForPath
+#define Tcl_FSGetFileSystemForPath \
+	(tclStubsPtr->tcl_FSGetFileSystemForPath) /* 477 */
+#endif
+#ifndef Tcl_FSGetPathType
+#define Tcl_FSGetPathType \
+	(tclStubsPtr->tcl_FSGetPathType) /* 478 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

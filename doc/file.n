@@ -110,9 +110,12 @@ starts with a \fB\-\fR.
 .
 Removes the file or directory specified by each \fIpathname\fR argument.
 Non-empty directories will be removed only if the \fB\-force\fR option is
-specified.  Trying to delete a non-existant file is not considered an
+specified.  Trying to delete a non-existent file is not considered an
 error.  Trying to delete a read-only file will cause the file to be deleted,
-even if the \fB\-force\fR flags is not specified.  Arguments are processed
+even if the \fB\-force\fR flags is not specified.  If the \fB\-force\fR 
+option is specified on a directory, Tcl will attempt both to change
+permissions and move the current directory 'pwd' out of the given path
+if that is necessary to allow the deletion to proceed. Arguments are processed
 in the order specified, halting at the first error, if any.  A \fB\-\|\-\fR
 marks the end of switches; the argument following the \fB\-\|\-\fR will be
 treated as a \fIpathname\fR even if it starts with a \fB\-\fR.

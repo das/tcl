@@ -1667,7 +1667,13 @@ declare 475 generic {
 declare 476 generic {
     char* Tcl_FSGetTranslatedStringPath(Tcl_Interp *interp, Tcl_Obj* pathPtr)
 }
-
+declare 477 generic {
+    Tcl_Filesystem* Tcl_FSGetFileSystemForPath(Tcl_Obj* pathObjPtr)
+}
+declare 478 generic {
+    Tcl_PathType     Tcl_FSGetPathType (Tcl_Obj *pathObjPtr)
+}
+		  
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are
