@@ -29,6 +29,13 @@ AC_SUBST(CC)
 fi
 AC_C_CROSS
 
+# set the warning flags depending on whether or not we are using gcc
+if test "${GCC}" = "yes" ; then
+    CFLAGS_WARNING="-Wall -Wconversion"
+else
+    CFLAGS_WARNING=""
+fi
+
 #--------------------------------------------------------------------
 #	Supply substitutes for missing POSIX library procedures, or
 #	set flags so Tcl uses alternate procedures.
@@ -1227,6 +1234,7 @@ AC_SUBST(BUILD_DLTEST)
 AC_SUBST(CFLAGS_DEBUG)
 AC_SUBST(CFLAGS_DEFAULT)
 AC_SUBST(CFLAGS_OPTIMIZE)
+AC_SUBST(CFLAGS_WARNING)
 AC_SUBST(CFG_TCL_SHARED_LIB_SUFFIX)
 AC_SUBST(CFG_TCL_UNSHARED_LIB_SUFFIX)
 AC_SUBST(DBGX)
