@@ -2720,7 +2720,7 @@ DictFilterCmd(interp, objc, objv)
  *
  *	This function implements the "dict update" Tcl command.
  *	See the user documentation for details on what it does, and
- *	TIP#323 for the formal specification.
+ *	TIP#212 for the formal specification.
  *
  * Results:
  *	A standard Tcl result.
@@ -2844,7 +2844,7 @@ DictUpdateCmd(interp, objc, objv)
  *
  *	This function implements the "dict with" Tcl command.
  *	See the user documentation for details on what it does, and
- *	TIP#323 for the formal specification.
+ *	TIP#212 for the formal specification.
  *
  * Results:
  *	A standard Tcl result.
