@@ -735,6 +735,7 @@ declare 181 generic {
     Tcl_Obj *TclDbNewListObjDirect(int objc, Tcl_Obj **objv,
 	    CONST char *file, int line)
 }
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are

@@ -1351,7 +1351,7 @@ typedef struct Interp {
 				 * to evaluate the limit check. */
 
 	Tcl_Time time;		/* Time limit for execution within the
-				 * interpreter (in seconds from epoch). */
+				 * interpreter. */
 	LimitHandler *timeHandlers; /* Handlers to execute when the limit
 				     * is reached. */
 	int timeGranularity;	/* Mod factor used to determine how often
