@@ -33,9 +33,11 @@ test opt-1.1 {OptKeyRegister / check that auto allocation is skipping existing k
 } "$n [expr $n+1] [expr $n+2]"
 
 test opt-2.1 {OptKeyDelete} {
-    list [::tcl::OptKeyRegister {} testkey] [::tcl::OptKeyDelete testkey] \
-	    [catch {::tcl::OptKeyDelete testkey} msg] $msg;
-} {testkey {} 1 {can't unset "OptDesc(testkey)": no such element in array}}
+    list [::tcl::OptKeyRegister {} testkey] \
+	    [info exists ::tcl::OptDesc(testkey)] \
+	    [::tcl::OptKeyDelete testkey] \
+	    [info exists ::tcl::OptDesc(testkey)]
+} {testkey 1 {} 0}
 
 
 test opt-3.1 {OptParse / temp key is removed} {
