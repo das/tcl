@@ -36,7 +36,6 @@ the result of a channel creation command provided by a Tcl extension.
 .VE
 .SH EXAMPLE
 Read a line from a file channel only if it starts with \fBfoobar\fR:
-
 .CS
 # Save the offset in case we need to undo the read...
 set offset [\fBtell\fR $chan]

@@ -54,8 +54,8 @@ array set squares {
 puts "The squares are:"
 parray squares
 
-unset squares(1) squares(4) squares(6)
-unset squares(8) squares(9) squares(10)
+\fBunset\fR squares(1) squares(4) squares(6)
+\fBunset\fR squares(8) squares(9) squares(10)
 
 puts "The prime squares are:"
 parray squares
