@@ -2200,13 +2200,13 @@ EXTERN void TclThreadFreeObj _ANSI_ARGS_((Tcl_Obj *));
 
 #  define TclDecrRefCount(objPtr) \
        if (--(objPtr)->refCount <= 0) { \
-           if (((objPtr)->bytes != NULL) \
-                   && ((objPtr)->bytes != tclEmptyStringRep)) { \
-               ckfree((char *) (objPtr)->bytes); \
-           } \
            if (((objPtr)->typePtr != NULL) \
                    && ((objPtr)->typePtr->freeIntRepProc != NULL)) { \
                (objPtr)->typePtr->freeIntRepProc(objPtr); \
+           } \
+           if (((objPtr)->bytes != NULL) \
+                   && ((objPtr)->bytes != tclEmptyStringRep)) { \
+               ckfree((char *) (objPtr)->bytes); \
            } \
            TclThreadFreeObj((objPtr)); \
        }
