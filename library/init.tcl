@@ -896,7 +896,14 @@ proc pkg_mkIndex {args} {
 		    }
 		    foreach __i [array names __cmds] {
 			# reverse engineer which namespace a command comes from
+			
 			set __absolute [namespace origin $__i]
+
+			# special case so that global names have no leading
+			# ::, this is required by the unknown command
+
+			set __absolute [auto_qualify $__absolute ::]
+
 			if {[string compare $__i $__absolute] != 0} {
 			    set __cmds($__absolute) 1
 			    unset __cmds($__i)
