@@ -1106,6 +1106,7 @@ Tcl_StringMatch(string, pattern)
 				 * characters. */
 {
     int p, s;
+    CONST char *pstart = pattern;
     
     while (1) {
 	p = *pattern;
@@ -1198,7 +1199,8 @@ Tcl_StringMatch(string, pattern)
 	    }
 	    while (*pattern != ']') {
 		if (*pattern == '\0') {
-		    return 0;
+		    pattern = Tcl_UtfPrev(pattern, pstart);
+		    break;
 		}
 		pattern++;
 	    }
