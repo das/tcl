@@ -7,6 +7,7 @@
  *
  * Copyright (c) 1990-1994 The Regents of the University of California.
  * Copyright (c) 1994-1998 Sun Microsystems, Inc.
+ * Copyright (c) 2004 by Zoran Vasiljevic.
  *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -1262,6 +1263,8 @@ NewThreadProc(ClientData clientData)
     TclInitNotifier();
 
     (*threadProc)(threadClientData);
+
+    TCL_THREAD_CREATE_RETURN;
 }
 #endif
 /*
