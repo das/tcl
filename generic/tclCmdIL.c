@@ -1998,11 +1998,13 @@ InfoVarsCmd(dummy, interp, objc, objv)
 	    } else if ((nsPtr != globalNsPtr) && !specificNsInPattern) {
 		entryPtr = Tcl_FindHashEntry(&globalNsPtr->varTable,
 			simplePattern);
-		varPtr = (Var *) Tcl_GetHashValue(entryPtr);
-		if (!TclIsVarUndefined(varPtr)
-			|| TclIsVarNamespaceVar(varPtr)) {
-		    Tcl_ListObjAppendElement(interp, listPtr,
-			    Tcl_NewStringObj(simplePattern, -1));
+		if (entryPtr != NULL) {
+		    varPtr = (Var *) Tcl_GetHashValue(entryPtr);
+		    if (!TclIsVarUndefined(varPtr)
+			    || TclIsVarNamespaceVar(varPtr)) {
+			Tcl_ListObjAppendElement(interp, listPtr,
+				Tcl_NewStringObj(simplePattern, -1));
+		    }
 		}
 	    }
 	} else {
