@@ -729,7 +729,7 @@ test expr-old-32.24 {math functions in expressions} {
 
 # The following test is different for 32-bit versus 64-bit architectures.
 
-if {0x80000000 > 0} {
+if {int(0x80000000) > 0} {
     test expr-old-32.25a {math functions in expressions} {nonPortable} {
 	list [catch {expr abs(0x8000000000000000)} msg] $msg
     } {1 {integer value too large to represent}}
