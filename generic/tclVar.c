@@ -4514,6 +4514,9 @@ CallTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, resultTypePtr)
     }
     varPtr->flags |= VAR_TRACE_ACTIVE;
     varPtr->refCount++;
+    if (arrayPtr != NULL) {
+	arrayPtr->refCount++;
+    }
 
     /*
      * If the variable name hasn't been parsed into array name and
@@ -4556,7 +4559,6 @@ CallTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, resultTypePtr)
     iPtr->activeTracePtr = &active;
     Tcl_Preserve((ClientData) iPtr);
     if (arrayPtr != NULL && !(arrayPtr->flags & VAR_TRACE_ACTIVE)) {
-	arrayPtr->refCount++;
 	active.varPtr = arrayPtr;
 	for (tracePtr = arrayPtr->tracePtr;  tracePtr != NULL;
 	     tracePtr = active.nextTracePtr) {
