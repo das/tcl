@@ -393,18 +393,20 @@ test clock-6.11 {clock roll over dates} {
     clock format $time -format %j -gmt true
 } {060}
 
+test clock-7.1 {clock scan next monthname} {
+    clock format [clock scan "next june" -base [clock scan "june 1, 2000"]] \
+	    -format %m.%Y
+} "06.2001"
+test clock-7.2 {clock scan next monthname} {
+    clock format [clock scan "next july" -base [clock scan "june 1, 2000"]] \
+	    -format %m.%Y
+} "07.2000"
+test clock-7.3 {clock scan next monthname} {
+    clock format [clock scan "next may" -base [clock scan "june 1, 2000"]] \
+	    -format %m.%Y
+} "05.2001"
+
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
 
