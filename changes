@@ -3673,3 +3673,5 @@ case, so we have to test for this equality explicitly. (JI)
 11/10/98 (feature change) When compiling with Metrowerk's MSL, use the exit function from
 MSL rather than ExitToShell.  This allows MSL to clean up its temporary files. Thanks to
 Vince Darley for this improvement. (JI)
+
+----------------- Released 8.0.4, 11/20/98 -------------------------
