@@ -989,8 +989,8 @@ doing 0 "flush"
 
 # Tests resulting from bugs reported by users
 test reg-31.1 {[[:xdigit:]] behaves correctly when followed by [[:space:]]} {
-    set str {2:::DebugWin32} 
-    set re {([[:xdigit:]])([[:space:]]*)} 
+    set str {2:::DebugWin32}
+    set re {([[:xdigit:]])([[:space:]]*)}
     list [regexp $re $str match xdigit spaces] $match $xdigit $spaces
     # Code used to produce {1 2:::DebugWin32 2 :::DebugWin32} !!!
 } {1 2 2 {}}
