@@ -760,16 +760,12 @@ TcpClose(
     	closePB.tcpStream = tcpStream;
     	closePB.ioCompletion = NULL; 
     	err = PBControlSync((ParmBlkPtr) &closePB);
-    	if (err != noErr) {
-            panic("error closing async connect socket");
-    	}
-	statePtr->flags |= TCP_RELEASE;
+    	if (err == noErr) {
+	    statePtr->flags |= TCP_RELEASE;
 
-	InitMacTCPParamBlock(&statePtr->pb, TCPRelease);
-	statePtr->pb.tcpStream = statePtr->tcpStream;
-	err = PBControlSync((ParmBlkPtr) &statePtr->pb);
-	if (err != noErr) {
-            panic("error releasing async connect socket");
+	    InitMacTCPParamBlock(&statePtr->pb, TCPRelease);
+	    statePtr->pb.tcpStream = statePtr->tcpStream;
+	    err = PBControlSync((ParmBlkPtr) &statePtr->pb);
 	}
 
 	/*
@@ -779,7 +775,7 @@ TcpClose(
 
 	ckfree((char *) statePtr->pb.csParam.create.rcvBuff);
 	FreeSocketInfo(statePtr);
-	return 0;
+	return err;
     }
 
     /*
