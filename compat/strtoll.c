@@ -22,7 +22,7 @@
 /*
  *----------------------------------------------------------------------
  *
- * strtol --
+ * strtoll --
  *
  *	Convert an ASCII string into an integer.
  *
@@ -39,7 +39,11 @@
  *----------------------------------------------------------------------
  */
 
+#if TCL_WIDE_INT_IS_LONG
+long long
+#else
 Tcl_WideInt
+#endif
 strtoll(string, endPtr, base)
     CONST char *string;		/* String of ASCII digits, possibly
 				 * preceded by white space.  For bases
@@ -72,6 +76,7 @@ strtoll(string, endPtr, base)
      * Check for a sign.
      */
 
+    errno = 0;
     if (*p == '-') {
 	p += 1;
 	uwResult = strtoull(p, endPtr, base);

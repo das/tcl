@@ -54,7 +54,11 @@ static char cvtIn[] = {
  *----------------------------------------------------------------------
  */
 
+#if TCL_WIDE_INT_IS_LONG
+unsigned long long
+#else
 Tcl_WideUInt
+#endif
 strtoull(string, endPtr, base)
     CONST char *string;		/* String of ASCII digits, possibly
 				 * preceded by white space.  For bases
