@@ -2316,6 +2316,7 @@ Tcl_MakeSafe(interp)
     Tcl_UnsetVar2(interp, "tcl_platform", "os", TCL_GLOBAL_ONLY);
     Tcl_UnsetVar2(interp, "tcl_platform", "osVersion", TCL_GLOBAL_ONLY);
     Tcl_UnsetVar2(interp, "tcl_platform", "machine", TCL_GLOBAL_ONLY);
+    Tcl_UnsetVar2(interp, "tcl_platform", "user", TCL_GLOBAL_ONLY);
 
     /*
      * Unset path informations variables
