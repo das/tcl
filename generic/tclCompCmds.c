@@ -2899,8 +2899,9 @@ TclCompileSwitchCmd(interp, parsePtr, envPtr)
 	} else if ((size == 2) && (parsePtr->numWords == 4)
 		&& !strncmp(chrs, "--", 2)) {
 	    /*
-	     * If no control flag present, use glob matching.  We end up
-	     * re-checking this word, but that's the way things are...
+	     * If no control flag present, use exact matching (the default).
+	     *
+	     * We end up re-checking this word, but that's the way things are...
 	     */
 	    mode = Switch_Exact;
 	} else {
