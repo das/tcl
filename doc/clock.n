@@ -238,7 +238,11 @@ an error may result if these years are used.
 \fIISO 8601 point-in-time\fR
 An ISO 8601 point-in-time specification, such as \fICCyymmddThhmmss\fR, where
 T is the literal T, \fICCyymmdd hhmmss\fR, or 
-\fICCyymmddThh:mm:ss\fR.
+\fICCyymmddThh:mm:ss\fR.  Note that only these three formats are accepted.
+The command does \fInot\fR accept the full range of point-in-time
+specifications specified in ISO8601.  Other formats can be recognized by
+using commands such as \fBregexp\fR to extract their fields and reorganize
+them into a form accepted by the \fBclock scan\fR command.
 .TP
 \fIrelative time\fR
 A specification relative to the current time.  The format is \fInumber
