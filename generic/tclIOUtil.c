@@ -75,7 +75,7 @@ static OpenFileChannelProc defaultOpenFileChannelProc = {
 static OpenFileChannelProc *openFileChannelProcList =
 	&defaultOpenFileChannelProc;
 
-#ifdef TCL_THREAD
+#ifdef TCL_THREADS
 static Tcl_Mutex hookMutex;
 #endif
 

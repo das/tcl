@@ -46,7 +46,7 @@ static int initialized = 0;
 
 static Tcl_Obj *winRootPatternPtr = NULL;
 static Tcl_Obj *macRootPatternPtr = NULL;
-#ifdef TCL_THREAD
+#ifdef TCL_THREADS
 static Tcl_Mutex nameMutex;
 #endif
 

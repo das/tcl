@@ -21,7 +21,7 @@
 
 static Tcl_HashTable typeTable;
 static int typeTableInitialized = 0;    /* 0 means not yet initialized. */
-#ifdef TCL_THREAD
+#ifdef TCL_THREADS
 static Tcl_Mutex tableMutex;
 #endif
 
@@ -36,7 +36,7 @@ Tcl_Obj *tclFreeObjList = NULL;
  * by the TclNewObj macro, however, so must be visible.
  */
 
-#ifdef TCL_THREAD
+#ifdef TCL_THREADS
 Tcl_Mutex tclObjMutex;
 #endif
 

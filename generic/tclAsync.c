@@ -42,7 +42,7 @@ static AsyncHandler *firstHandler;	/* First handler defined for process,
 					 * or NULL if none. */
 static AsyncHandler *lastHandler;	/* Last handler or NULL. */
 
-#ifdef TCL_THREAD
+#ifdef TCL_THREADS
 static Tcl_Mutex asyncMutex;		/* Process-wide async handler lock */
 #endif
 

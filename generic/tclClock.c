@@ -22,7 +22,7 @@
  * The date parsing stuff uses lexx and has tons o statics.
  */
 
-#ifdef TCL_THREAD
+#ifdef TCL_THREADS
 static Tcl_Mutex clockMutex;
 #endif
 

@@ -80,7 +80,7 @@ static Tcl_ThreadDataKey dataKey;
  */
 
 static ThreadSpecificData *firstNotifierPtr;
-#ifdef TCL_THREAD
+#ifdef TCL_THREADS
 static Tcl_Mutex listLock;
 #endif
 

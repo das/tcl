@@ -40,7 +40,7 @@ static int spaceAvl = 0;	/* Total number of structures available
 static int inUse = 0;		/* Count of structures currently in use
 				 * in refArray. */
 #define INITIAL_SIZE 2
-#ifdef TCL_THREAD
+#ifdef TCL_THREADS
 static Tcl_Mutex preserveMutex;	/* To protect the above statics */
 #endif
 

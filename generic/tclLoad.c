@@ -53,7 +53,7 @@ typedef struct LoadedPackage {
 } LoadedPackage;
 
 /*
- * TCL_THREAD
+ * TCL_THREADS
  * There is a global list of packages that is anchored at firstPackagePtr.
  * Access to this list is governed by a mutex.
  */

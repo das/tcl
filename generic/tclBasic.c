@@ -599,7 +599,7 @@ Tcl_CallWhenDeleted(interp, proc, clientData)
 {
     Interp *iPtr = (Interp *) interp;
     static int assocDataCounter = 0;
-#ifdef TCL_THREAD
+#ifdef TCL_THREADS
     static Tcl_Mutex assocMutex;
 #endif
     int new;

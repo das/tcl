@@ -23,7 +23,7 @@
 static Tcl_HashTable auxDataTypeTable;
 static int auxDataTypeTableInitialized; /* 0 means not yet initialized. */
 
-#ifdef TCL_THREAD
+#ifdef TCL_THREADS
 static Tcl_Mutex tableMutex;
 #endif
 

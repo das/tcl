@@ -46,7 +46,7 @@
  */
 
 static long numNsCreated = 0; 
-#ifdef TCL_THREAD
+#ifdef TCL_THREADS
 static Tcl_Mutex nsMutex;
 #endif
 

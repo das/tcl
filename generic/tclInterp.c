@@ -21,7 +21,7 @@
  */
 
 static int aliasCounter = 0;
-#ifdef TCL_THREAD
+#ifdef TCL_THREADS
 static Tcl_Mutex cntMutex;
 #endif
 

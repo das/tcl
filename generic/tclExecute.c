@@ -48,7 +48,7 @@ int errno;
  */
 
 static int execInitialized = 0;
-#ifdef TCL_THREAD
+#ifdef TCL_THREADS
 static Tcl_Mutex execMutex;
 #endif
 

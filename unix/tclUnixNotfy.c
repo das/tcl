@@ -169,7 +169,7 @@ static Tcl_ThreadId notifierThread;
  * Static routines defined in this file.
  */
 
-#ifdef TCL_THREAD
+#ifdef TCL_THREADS
 static void	NotifierThreadProc _ANSI_ARGS_((ClientData clientData));
 #endif
 static int	FileHandlerEventProc _ANSI_ARGS_((Tcl_Event *evPtr,
