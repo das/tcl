@@ -1069,18 +1069,9 @@ TclObjInterpProc(clientData, interp, objc, objv)
     }
 #endif /*TCL_COMPILE_DEBUG*/
 
-    /*
-     * Tcl_EvalObjEx will increase the level count again while evaluating
-     * the body, resulting in a total level increase of 2; correct this 
-     * behaviour before evaling the body, restore afterwards.
-     */
-
-    iPtr->numLevels--;
-
     iPtr->returnCode = TCL_OK;
     procPtr->refCount++;
     result = Tcl_EvalObjEx(interp, procPtr->bodyPtr, 0);
-    iPtr->numLevels++;
     procPtr->refCount--;
     if (procPtr->refCount <= 0) {
 	TclProcCleanupProc(procPtr);

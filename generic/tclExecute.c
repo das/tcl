@@ -793,12 +793,15 @@ TclExecuteByteCode(interp, codePtr)
 		preservedStack = stackPtr;
 
 		/*
-		 * Finally, let TclEvalObjvInternal handle the command.
+		 * Finally, let TclEvalObjvInternal handle the command. As it
+		 * will increase the numLevels, decrease them here to compensate.
 		 */
 
+		iPtr->numLevels--;
 		DECACHE_STACK_INFO();
 		result = TclEvalObjvInternal(interp, objc, objv, bytes, length, 0);
 		CACHE_STACK_INFO();
+		iPtr->numLevels++;
 
 		/*
 		 * If the old stack is going to be released, it is
