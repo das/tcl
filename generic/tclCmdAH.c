@@ -306,7 +306,7 @@ Tcl_CdObjCmd(dummy, interp, objc, objv)
     int result;
 
     if (objc > 2) {
-	Tcl_WrongNumArgs(interp, 1, objv, "dirName");
+	Tcl_WrongNumArgs(interp, 1, objv, "?dirName?");
 	return TCL_ERROR;
     }
 
