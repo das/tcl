@@ -28,7 +28,7 @@ testConstraint exec [llength [info commands exec]]
 
 # This variable needs to be changed when the major or minor version number for
 # Tcl changes.
-set tclvers 8.4
+set tclvers 8.5
 
 catch {namespace delete test_ns_basic}
 catch {interp delete test_interp}

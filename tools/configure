@@ -532,7 +532,7 @@ fi
 #       not, assume that its top-level directory is a sibling of ours.
 #--------------------------------------------------------------------
 
-DEF_VER=8.4
+DEF_VER=8.5
 
 # Check whether --with-tcl or --without-tcl was given.
 if test "${with_tcl+set}" = set; then
