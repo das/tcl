@@ -545,10 +545,9 @@ TclpGetTZName(int dst)
 
 struct tm *
 TclpGetDate(t, useGMT)
-    TclpTime_t t;
+    CONST time_t t;
     int useGMT;
 {
-    const time_t *tp = (const time_t *) t;
     struct tm *tmPtr;
     time_t time;
 
@@ -571,14 +570,14 @@ TclpGetDate(t, useGMT)
 	  H. Giese, June 2003
 	*/
 #ifdef __BORLANDC__
-	if (*tp >= SECSPERDAY) {
+	if (t >= SECSPERDAY) {
 #else
-	if (*tp >= 0) {
+	if (t >= 0) {
 #endif
 	    return localtime(tp);
 	}
 
-	time = *tp - timezone;
+	time = t - timezone;
 	
 	/*
 	 * If we aren't near to overflowing the long, just add the bias and
@@ -586,11 +585,11 @@ TclpGetDate(t, useGMT)
 	 * the result at the end.
 	 */
 
-	if (*tp < (LONG_MAX - 2 * SECSPERDAY)
-		&& *tp > (LONG_MIN + 2 * SECSPERDAY)) {
+	if (t < (LONG_MAX - 2 * SECSPERDAY)
+		&& t > (LONG_MIN + 2 * SECSPERDAY)) {
 	    tmPtr = ComputeGMT(&time);
 	} else {
-	    tmPtr = ComputeGMT(tp);
+	    tmPtr = ComputeGMT(&t);
 
 	    tzset();
 
@@ -626,7 +625,7 @@ TclpGetDate(t, useGMT)
 	    tmPtr->tm_wday = (tmPtr->tm_wday + time) % 7;
 	}
     } else {
-	tmPtr = ComputeGMT(tp);
+	tmPtr = ComputeGMT(&t);
     }
     return tmPtr;
 }

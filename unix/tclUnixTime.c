@@ -287,15 +287,13 @@ Tcl_GetTime(timePtr)
 
 struct tm *
 TclpGetDate(time, useGMT)
-    TclpTime_t time;
+    CONST time_t *time;
     int useGMT;
 {
-    CONST time_t *tp = (CONST time_t *)time;
-
     if (useGMT) {
-	return ThreadSafeGMTime(tp);
+	return ThreadSafeGMTime(time);
     } else {
-	return ThreadSafeLocalTime(tp);
+	return ThreadSafeLocalTime(time);
     }
 }
 

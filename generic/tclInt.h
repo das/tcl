@@ -1525,12 +1525,6 @@ typedef struct TclFileAttrProcs {
 typedef struct TclFile_ *TclFile;
     
 /*
- * Opaque names for platform specific types.
- */
-
-typedef struct TclpTime_t_    *TclpTime_t;
-
-/*
  * The "globParameters" argument of the function TclGlob is an
  * or'ed combination of the following values:
  */

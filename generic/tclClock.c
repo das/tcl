@@ -323,7 +323,7 @@ FormatClock(interp, clockVal, useGMT, format)
 #endif
 
     tclockVal = clockVal;
-    timeDataPtr = TclpGetDate((TclpTime_t) &tclockVal, useGMT);
+    timeDataPtr = TclpGetDate(&tclockVal, useGMT);
 
     /*
      * Make a guess at the upper limit on the substituted string size
