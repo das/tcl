@@ -56,7 +56,7 @@ command is as follows:
 \fIcommand oldName newName op\fR
 .CE
 \fIOldName\fR and \fInewName\fR give the traced command's current
-(old) namename, and the name to which it is being renamed (the empty
+(old) name, and the name to which it is being renamed (the empty
 string if this is a 'delete' operation).
 \fIOp\fR indicates what operation is being performed on the
 command, and is one of \fBrename\fR or \fBdelete\fR as
