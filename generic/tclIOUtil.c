@@ -714,7 +714,7 @@ FsUpdateCwd(cwdObj)
 void
 TclFinalizeFilesystem()
 {
-    FilesystemRecord *fsRecPtr, *tmpFsRecPtr;
+    FilesystemRecord *fsRecPtr;
 
     /* 
      * Assumption that only one thread is active now.  Otherwise
@@ -734,7 +734,7 @@ TclFinalizeFilesystem()
 
     fsRecPtr = filesystemList;
     while (fsRecPtr != NULL) {
-	tmpFsRecPtr = filesystemList->nextPtr;
+	FilesystemRecord *tmpFsRecPtr = fsRecPtr->nextPtr;
 	if (fsRecPtr->fileRefCount <= 0) {
 	    /* The native filesystem is static, so we don't free it */
 	    if (fsRecPtr != &nativeFilesystemRecord) {
