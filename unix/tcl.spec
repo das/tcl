@@ -11,8 +11,8 @@ Release: 1
 Copyright: BSD
 Group: Development/Languages
 Source: ftp://ftp.scriptics.com/pub/tcl/tcl8_3/tcl%{version}.tar.gz
-URL: http://dev.scriptics.com/
-Packager: Scriptics Corporation
+URL: http://tcl.activestate.com/
+Packager: ActiveState Tool Corporation
 Buildroot: /var/tmp/%{name}%{version}
 
 %description
