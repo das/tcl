@@ -53,8 +53,16 @@ typedef struct {
     int index;				/* Selected index into table. */
 } IndexRep;
 
-#define STRING_AT(table, offset, index) \
-	(*((char **)(((VOID *)(table)) + ((offset) * (index)))))
+/*
+ * SunPro CC is annoying!
+ */
+#ifdef __sparc
+#   define STRING_AT(table, offset, index) \
+	(*((char **)(((char *)(table)) + ((offset) * (index)))))
+#else
+#   define STRING_AT(table, offset, index) \
+	(*((char **)(((VOID *)(table)) + (ptrdiff_t)((offset) * (index)))))
+#endif
 #define NEXT_ENTRY(table, offset) \
 	(&(STRING_AT(table, offset, 1)))
 #define EXPAND_OF(indexRep) \
@@ -341,8 +349,7 @@ UpdateStringOfIndex(objPtr)
     IndexRep *indexRep = (IndexRep *) objPtr->internalRep.otherValuePtr;
     register char *buf;
     register int len;
-    register char *indexStr = *(char **)
-	    (indexRep->tablePtr + (indexRep->offset * indexRep->index));
+    register char *indexStr = EXPAND_OF(indexRep);
 
     len = strlen(indexStr);
     buf = (char *) ckalloc(len + 1);
