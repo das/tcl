@@ -131,6 +131,17 @@ static void *INITIAL_ESP,
             *RESTORED_HANDLER;
 #endif /* HAVE_NO_SEH && TCL_MEM_DEBUG */
 
+#ifdef HAVE_NO_SEH
+static
+__attribute__ ((cdecl))
+EXCEPTION_DISPOSITION
+_except_makefilechannel_handler(
+    struct _EXCEPTION_RECORD *ExceptionRecord,
+    void *EstablisherFrame,
+    struct _CONTEXT *ContextRecord,
+    void *DispatcherContext);
+#endif
+
 
 /*
  *----------------------------------------------------------------------
@@ -1059,10 +1070,13 @@ Tcl_MakeFileChannel(rawHandle, mode)
         result = 0;
 
         __asm__ __volatile__ (
-            "pushl %ebp" "\n\t"
-            "pushl $__except_makefilechannel_handler" "\n\t"
-            "pushl %fs:0" "\n\t"
-            "movl  %esp, %fs:0");
+            "pushl %%ebp" "\n\t"
+            "pushl %0" "\n\t"
+            "pushl %%fs:0" "\n\t"
+            "movl  %%esp, %%fs:0"
+            :
+            : "r" (_except_makefilechannel_handler)
+            );
 #else
 	__try {
 #endif /* HAVE_NO_SEH */
@@ -1126,6 +1140,22 @@ Tcl_MakeFileChannel(rawHandle, mode)
 
     return channel;
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * _except_makefilechannel_handler --
+ *
+ *	SEH exception handler for Tcl_MakeFileChannel.
+ *
+ * Results:
+ *	See Tcl_MakeFileChannel.
+ *
+ * Side effects:
+ *	See Tcl_MakeFileChannel.
+ *
+ *----------------------------------------------------------------------
+ */
 #ifdef HAVE_NO_SEH
 static
 __attribute__ ((cdecl))
@@ -1138,8 +1168,6 @@ _except_makefilechannel_handler(
 {
     __asm__ __volatile__ (
             "jmp makefilechannel_reentry");
-    /* Nuke compiler warning about unused static function */
-    _except_makefilechannel_handler(NULL, NULL, NULL, NULL);
     return 0; /* Function does not return */
 }
 #endif
