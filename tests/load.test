@@ -14,7 +14,7 @@
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
     package require tcltest
-    namespace import ::tcltest::*
+    namespace import -force ::tcltest::*
 }
 
 # Figure out what extension is used for shared libraries on this

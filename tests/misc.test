@@ -16,7 +16,7 @@
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
     package require tcltest
-    namespace import ::tcltest::*
+    namespace import -force ::tcltest::*
 }
 
 test misc-1.1 {error in variable ref. in command in array reference} {

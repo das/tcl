@@ -12,7 +12,7 @@
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
     package require tcltest
-    namespace import ::tcltest::*
+    namespace import -force ::tcltest::*
 }
 
 if {([catch {expr T1()} msg] == 1) && ($msg == {unknown math function "T1"})} {
