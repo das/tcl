@@ -252,6 +252,10 @@ Tcl_GetTime(timePtr)
 	
     struct timeb t;
 
+    int useFtime = 1;		/* Flag == TRUE if we need to fall back
+				 * on ftime rather than using the perf
+				 * counter */
+
     /* Initialize static storage on the first trip through. */
 
     /*
@@ -360,22 +364,34 @@ Tcl_GetTime(timePtr)
 	EnterCriticalSection( &timeInfo.cs );
 
 	QueryPerformanceCounter( &curCounter );
-	curFileTime = timeInfo.lastFileTime.QuadPart
-	    + ( ( curCounter.QuadPart - timeInfo.lastCounter.QuadPart )
-		* 10000000 / timeInfo.curCounterFreq.QuadPart );
-	timeInfo.lastFileTime.QuadPart = curFileTime;
-	timeInfo.lastCounter.QuadPart = curCounter.QuadPart;
-	usecSincePosixEpoch = ( curFileTime - posixEpoch.QuadPart ) / 10;
-	timePtr->sec = (time_t) ( usecSincePosixEpoch / 1000000 );
-	timePtr->usec = (unsigned long ) ( usecSincePosixEpoch % 1000000 );
-	
-	LeaveCriticalSection( &timeInfo.cs );
+	/* 
+	 * If it appears to be more than 1.1 seconds since the last trip
+	 * through the calibration loop, the performance counter may
+	 * have jumped. Discard it. See MSDN Knowledge Base article
+	 * Q274323 for a description of the hardware problem that makes
+	 * this test necessary.
+	 */
+	if ( curCounter.QuadPart - timeInfo.lastPerfCounter
+	     < 11 * timeInfo.estPerfCounterFreq / 10 ) {
+	    
+	    curFileTime = timeInfo.lastFileTime.QuadPart
+		+ ( ( curCounter.QuadPart - timeInfo.lastCounter.QuadPart )
+		    * 10000000 / timeInfo.curCounterFreq.QuadPart );
+	    timeInfo.lastFileTime.QuadPart = curFileTime;
+	    timeInfo.lastCounter.QuadPart = curCounter.QuadPart;
+	    usecSincePosixEpoch = ( curFileTime - posixEpoch.QuadPart ) / 10;
+	    timePtr->sec = (time_t) ( usecSincePosixEpoch / 1000000 );
+	    timePtr->usec = (unsigned long ) ( usecSincePosixEpoch % 1000000 );
+	    useFtime = 0;
+	}	    
 
+	LeaveCriticalSection( &timeInfo.cs );
+    }
 	
-    } else {
+    if ( useFtime ) {
 	
 	/* High resolution timer is not available.  Just use ftime */
-	
+
 	ftime(&t);
 	timePtr->sec = t.time;
 	timePtr->usec = t.millitm * 1000;
