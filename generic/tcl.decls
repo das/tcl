@@ -1508,14 +1508,14 @@ declare 428 generic {
     char * Tcl_AttemptAlloc(unsigned int size)
 }
 declare 429 generic {
-    char * Tcl_AttemptDbCkalloc(unsigned int size, char *file, int line)
+    char * Tcl_AttemptDbCkalloc(unsigned int size, CONST char *file, int line)
 }
 declare 430 generic {
     char * Tcl_AttemptRealloc(char *ptr, unsigned int size)
 }
 declare 431 generic {
-    char * Tcl_AttemptDbCkrealloc(char *ptr, unsigned int size, char *file, 
-	int line)
+    char * Tcl_AttemptDbCkrealloc(char *ptr, unsigned int size,
+	CONST char *file, int line)
 }
 declare 432 generic {
     int Tcl_AttemptSetObjLength(Tcl_Obj *objPtr, int length)

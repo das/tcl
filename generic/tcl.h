@@ -2112,7 +2112,7 @@ typedef unsigned short Tcl_UniChar;
  * value since the stubs tables don't match.
  */
 
-#define TCL_STUB_MAGIC 0xFCA3BACF
+#define TCL_STUB_MAGIC ((int)0xFCA3BACF)
 
 /*
  * The following function is required to be defined in all stubs aware
