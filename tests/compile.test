@@ -570,6 +570,19 @@ test compile-16.22.$noComp {
     rename ReturnResults {}
 } -returnCodes ok -result [string trim [string repeat {x } 260]]
 
+test compile-16.23.$noComp {
+    Bug 1032805: defer parse error until run time
+} -body {
+    namespace eval x {
+	run {
+	    proc if {a b} {uplevel 1 [list set $a $b]}
+	    if 1 {syntax {}{}}
+	}
+    }
+} -cleanup {
+    namespace delete x
+} -returnCodes ok -result {syntax {}{}}
+
 }	;# End of noComp loop
 
 # cleanup
