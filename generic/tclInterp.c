@@ -2794,6 +2794,7 @@ Tcl_LimitRemoveHandler(interp, type, handlerProc, clientData)
 	break;
     default:
 	Tcl_Panic("unknown type of resource limit");
+	return;
     }
 
     for (; handlerPtr!=NULL ; handlerPtr=handlerPtr->nextPtr) {
