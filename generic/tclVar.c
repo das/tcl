@@ -2954,6 +2954,7 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 		namePtr = Tcl_NewStringObj(name, -1);
 		result = Tcl_ListObjAppendElement(interp, resultPtr, namePtr);
 		if (result != TCL_OK) {
+		    Tcl_DecrRefCount(resultPtr); 
 		    Tcl_DecrRefCount(namePtr); /* free unneeded name obj */
 		    return result;
 		}
