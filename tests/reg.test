@@ -850,6 +850,10 @@ m  5	P	ab??		ab	a
 m  6	P	ab??c		abc	abc
 m  7	PQ	"ab{2,4}?"	abbbb	abb
 m  8	PQ	"ab{2,4}?c"	abbbbc	abbbbc
+m  9	-	3z*		123zzzz456	3zzzz
+m 10	P	3z*?		123zzzz456	3
+m 11	-	z*4		123zzzz456	zzzz4
+m 12	P	z*?4		123zzzz456	zzzz4
 
 
 
