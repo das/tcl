@@ -552,7 +552,14 @@ proc auto_execok name {
     }
 
     if {[lsearch -exact $shellBuiltins $name] != -1} {
-	return [set auto_execs($name) [list $env(COMSPEC) /c $name]]
+	# When this is command.com for some reason on Win2K, Tcl won't
+	# exec it unless the case is right, which this corrects.  COMSPEC
+	# may not point to a real file, so do the check.
+	set cmd $env(COMSPEC)
+	if {[file exists $cmd]} {
+	    set cmd [file attributes $cmd -shortname]
+	}
+	return [set auto_execs($name) [list $cmd /c $name]]
     }
 
     if {[llength [file split $name]] != 1} {
