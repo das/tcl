@@ -193,7 +193,7 @@ Tcl_Main(argc, argv, appInitProc)
 		    Tcl_WriteChars(outChannel, "% ", 2);
 		}
 	    } else {
-		code = Tcl_EvalObj(interp, promptCmdPtr, 0);
+		code = Tcl_EvalObjEx(interp, promptCmdPtr, 0);
 		inChannel = Tcl_GetStdChannel(TCL_STDIN);
 		outChannel = Tcl_GetStdChannel(TCL_STDOUT);
 		errChannel = Tcl_GetStdChannel(TCL_STDERR);

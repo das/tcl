@@ -6040,7 +6040,7 @@ ChannelEventScriptInvoker(clientData, mask)
      */
     
     Tcl_Preserve((ClientData) interp);
-    result = Tcl_EvalObj(interp, esPtr->scriptPtr, TCL_EVAL_GLOBAL);
+    result = Tcl_EvalObjEx(interp, esPtr->scriptPtr, TCL_EVAL_GLOBAL);
 
     /*
      * On error, cause a background error and remove the channel handler
@@ -6978,7 +6978,7 @@ CopyData(csPtr, mask)
 	if (errObj) {
 	    Tcl_ListObjAppendElement(interp, cmdPtr, errObj);
 	}
-	if (Tcl_EvalObj(interp, cmdPtr, TCL_EVAL_GLOBAL) != TCL_OK) {
+	if (Tcl_EvalObjEx(interp, cmdPtr, TCL_EVAL_GLOBAL) != TCL_OK) {
 	    Tcl_BackgroundError(interp);
 	    result = TCL_ERROR;
 	}

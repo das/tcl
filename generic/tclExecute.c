@@ -964,7 +964,7 @@ TclExecuteByteCode(interp, codePtr)
 	case INST_EVAL_STK:
 	    objPtr = POP_OBJECT();
 	    DECACHE_STACK_INFO();
-	    result = Tcl_EvalObj(interp, objPtr, 0);
+	    result = Tcl_EvalObjEx(interp, objPtr, 0);
 	    CACHE_STACK_INFO();
 	    if (result == TCL_OK) {
 		/*

@@ -1491,7 +1491,7 @@ Tcl_SwitchObjCmd(dummy, interp, objc, objv)
 		break;
 	    }
 	}
-	result = Tcl_EvalObj(interp, objv[j], 0);
+	result = Tcl_EvalObjEx(interp, objv[j], 0);
 	if (result == TCL_ERROR) {
 	    char msg[100 + TCL_INTEGER_SPACE];
 
@@ -1552,7 +1552,7 @@ Tcl_TimeObjCmd(dummy, interp, objc, objv)
     i = count;
     TclpGetTime(&start);
     while (i-- > 0) {
-	result = Tcl_EvalObj(interp, objPtr, 0);
+	result = Tcl_EvalObjEx(interp, objPtr, 0);
 	if (result != TCL_OK) {
 	    return result;
 	}
@@ -1911,7 +1911,7 @@ Tcl_WhileObjCmd(dummy, interp, objc, objv)
         if (!value) {
             break;
         }
-        result = Tcl_EvalObj(interp, objv[2], 0);
+        result = Tcl_EvalObjEx(interp, objv[2], 0);
         if ((result != TCL_OK) && (result != TCL_CONTINUE)) {
             if (result == TCL_ERROR) {
                 char msg[32 + TCL_INTEGER_SPACE];

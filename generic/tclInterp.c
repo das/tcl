@@ -2015,11 +2015,11 @@ SlaveEval(interp, slaveInterp, objc, objv)
     Tcl_AllowExceptions(slaveInterp);
 
     if (objc == 1) {
-	result = Tcl_EvalObj(slaveInterp, objv[0], 0);
+	result = Tcl_EvalObjEx(slaveInterp, objv[0], 0);
     } else {
 	objPtr = Tcl_ConcatObj(objc, objv);
 	Tcl_IncrRefCount(objPtr);
-	result = Tcl_EvalObj(slaveInterp, objPtr, 0);
+	result = Tcl_EvalObjEx(slaveInterp, objPtr, 0);
 	Tcl_DecrRefCount(objPtr);
     }
     TclTransferResult(slaveInterp, result, interp);

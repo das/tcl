@@ -320,7 +320,7 @@ Tcl_EvalFile(interp, fileName)
     oldScriptFile = iPtr->scriptFile;
     iPtr->scriptFile = fileName;
     string = Tcl_GetStringFromObj(objPtr, &length);
-    result = Tcl_Eval2(interp, string, length, 0);
+    result = Tcl_EvalEx(interp, string, length, 0);
     iPtr->scriptFile = oldScriptFile;
 
     if (result == TCL_RETURN) {

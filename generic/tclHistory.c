@@ -130,7 +130,7 @@ Tcl_RecordAndEvalObj(interp, cmdPtr, flags)
     
     objPtr = Tcl_NewListObj(3, list);
     Tcl_IncrRefCount(objPtr);
-    (void) Tcl_EvalObj(interp, objPtr, TCL_EVAL_GLOBAL);
+    (void) Tcl_EvalObjEx(interp, objPtr, TCL_EVAL_GLOBAL);
     Tcl_DecrRefCount(objPtr);
 
     /*
@@ -139,7 +139,7 @@ Tcl_RecordAndEvalObj(interp, cmdPtr, flags)
 
     result = TCL_OK;
     if (!(flags & TCL_NO_EVAL)) {
-	result = Tcl_EvalObj(interp, cmdPtr, flags & TCL_EVAL_GLOBAL);
+	result = Tcl_EvalObjEx(interp, cmdPtr, flags & TCL_EVAL_GLOBAL);
     }
     return result;
 }

@@ -229,7 +229,7 @@ Tcl_IfObjCmd(dummy, interp, objc, objv)
 	i++;
 	if (i >= objc) {
 	    if (thenScriptIndex) {
-		return Tcl_EvalObj(interp, objv[thenScriptIndex], 0);
+		return Tcl_EvalObjEx(interp, objv[thenScriptIndex], 0);
 	    }
 	    return TCL_OK;
 	}
@@ -263,9 +263,9 @@ Tcl_IfObjCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
     if (thenScriptIndex) {
-	return Tcl_EvalObj(interp, objv[thenScriptIndex], 0);
+	return Tcl_EvalObjEx(interp, objv[thenScriptIndex], 0);
     }
-    return Tcl_EvalObj(interp, objv[i], 0);
+    return Tcl_EvalObjEx(interp, objv[i], 0);
 }
 
 /*
