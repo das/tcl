@@ -4172,14 +4172,17 @@ static int PretendTclpStat(path, buf)
 {
     int ret;
     Tcl_Obj *pathPtr = Tcl_NewStringObj(path, -1);
-#ifndef TCL_WIDE_INT_IS_LONG
+#ifdef TCL_WIDE_INT_IS_LONG
+    Tcl_IncrRefCount(pathPtr);
+    ret = TclpObjStat(pathPtr, buf);
+    Tcl_DecrRefCount(pathPtr);
+    return ret;
+#else /* TCL_WIDE_INT_IS_LONG */
     Tcl_StatBuf realBuf;
-#endif
     Tcl_IncrRefCount(pathPtr);
     ret = TclpObjStat(pathPtr, &realBuf);
     Tcl_DecrRefCount(pathPtr);
     if (ret != -1) {
-#ifndef TCL_WIDE_INT_IS_LONG
 #   define OUT_OF_RANGE(x) \
 	(((Tcl_WideInt)(x)) < Tcl_LongAsWide(LONG_MIN) || \
 	 ((Tcl_WideInt)(x)) > Tcl_LongAsWide(LONG_MAX))
@@ -4199,7 +4202,7 @@ static int PretendTclpStat(path, buf)
 	}
 
 #   undef OUT_OF_RANGE
-#endif /* !TCL_WIDE_INT_IS_LONG */
+#   undef OUT_OF_URANGE
 
 	/*
 	 * Copy across all supported fields, with possible type
@@ -4224,6 +4227,7 @@ static int PretendTclpStat(path, buf)
 	buf->st_blocks  = (blkcnt_t) realBuf.st_blocks;
     }
     return ret;
+#endif /* TCL_WIDE_INT_IS_LONG */
 }
 
 /* Be careful in the compares in these tests, since the Macintosh puts a  
