@@ -103,7 +103,7 @@ cause memory to be lost and the runtime stack to be corrupted.  The
 compilers to report any such attempted assignment as an error.  However,
 it is acceptable to modify the internal representation of any individual
 object argument.  For instance, the user may call
-\fBTcl_GetIntFromObject\fR on \fIobjv\fR[\fB2\fR] to obtain the integer
+\fBTcl_GetIntFromObj\fR on \fIobjv\fR[\fB2\fR] to obtain the integer
 representation of that object; that call may change the type of the object
 that \fIobjv\fR[\fB2\fR] points at, but will not change where
 \fIobjv\fR[\fB2\fR] points.

@@ -209,7 +209,7 @@ free any storage associated with the old string representation.
 Objects usually remain one type over their life,
 but occasionally an object must be converted from one type to another.
 For example, a C program might build up a string in an object
-with repeated calls to \fBTcl_StringObjAppend\fR,
+with repeated calls to \fBTcl_ObjAppend\fR,
 and then call \fBTcl_ListObjIndex\fR to extract a list element from
 the object.
 The same object holding the same string value
