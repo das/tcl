@@ -269,9 +269,12 @@ TclRegisterLiteral(envPtr, bytes, length, onHeap)
     }
 
     if (TclLooksLikeInt(bytes, length)) {
-	if (TclGetLong((Tcl_Interp *) NULL, bytes, &n) == TCL_OK) {
+	/*
+	 * From here we use the objPtr, because it is NULL terminated
+	 */
+	if (TclGetLong((Tcl_Interp *) NULL, objPtr->bytes, &n) == TCL_OK) {
 	    TclFormatInt(buf, n);
-	    if (strcmp(bytes, buf) == 0) {
+	    if (strcmp(objPtr->bytes, buf) == 0) {
 		objPtr->internalRep.longValue = n;
 		objPtr->typePtr = &tclIntType;
 	    }
