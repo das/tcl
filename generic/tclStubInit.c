@@ -322,6 +322,7 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclMacFOpenHack, /* 23 */
     TclpGetTZName, /* 24 */
     TclMacChmod, /* 25 */
+    FSpLLocationFromPath, /* 26 */
 #endif /* MAC_TCL */
 };
 

@@ -780,6 +780,10 @@ declare 24 mac {
 declare 25 mac {
     int TclMacChmod(CONST char *path, int mode)
 }
+# version of FSpLocationFromPath that doesn't resolve the last path component
+declare 26 mac {
+    int FSpLLocationFromPath(int length, CONST char *path, FSSpecPtr theSpec)
+}
 
 ############################
 # Windows specific internals
