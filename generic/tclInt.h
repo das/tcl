@@ -1668,6 +1668,7 @@ EXTERN void		TclFinalizeIOSubsystem _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeLoad _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeMemorySubsystem _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeNotifier _ANSI_ARGS_((void));
+EXTERN void		TclFinalizeAsync _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeSynchronization _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeThreadData _ANSI_ARGS_((void));
 EXTERN void		TclFindEncodings _ANSI_ARGS_((CONST char *argv0));
