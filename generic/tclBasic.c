@@ -3591,6 +3591,7 @@ Tcl_EvalEx(interp, script, numBytes, flags)
 			Tcl_AppendToObj(msg, ")", -1);
 			TclAppendObjToErrorInfo(interp, msg);
 			Tcl_DecrRefCount(msg);
+			Tcl_DecrRefCount(objv[objectsUsed]);
 			goto error;
 		    }
 		    expandRequested = 1;
