@@ -353,6 +353,19 @@ test unixInit-5.1 {Tcl_Init} {emptyTest unixOnly} {
 test unixInit-6.1 {Tcl_SourceRCFile} {emptyTest unixOnly} {
 } {}
 
+test unixInit-7.1 {closed standard channel: Bug 772288} -body {
+    set tclsh [interpreter]
+    makeFile {puts [open /dev/null]} crash.tcl
+    makeFile [subst -nocommands {
+	close stdin
+	exec $tclsh crash.tcl
+    }] crashtest.tcl
+    exec $tclsh crashtest.tcl
+} -cleanup {
+    removeFile crash.tcl
+    removeFile crashtest.tcl
+} -returnCodes 0
+
 # cleanup
 if {[info exists oldlibrary]} {
     set env(TCL_LIBRARY) $oldlibrary
