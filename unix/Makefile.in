@@ -169,6 +169,7 @@ INSTALL_DATA =		${INSTALL} -m 644
 # configure script.  You shouldn't normally need to modify any of
 # these definitions by hand.
 
+STLIB_LD = @STLIB_LD@
 SHLIB_LD = @SHLIB_LD@
 SHLIB_CFLAGS = @SHLIB_CFLAGS@
 
