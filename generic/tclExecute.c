@@ -983,11 +983,6 @@ TclCompEvalObj(interp, objPtr)
      */
 
     codePtr->refCount++;
-    if (iPtr->returnOpts != iPtr->defaultReturnOpts) {
-	Tcl_DecrRefCount(iPtr->returnOpts);
-	iPtr->returnOpts = iPtr->defaultReturnOpts;
-	Tcl_IncrRefCount(iPtr->returnOpts);
-    }
     result = TclExecuteByteCode(interp, codePtr);
     codePtr->refCount--;
     if (codePtr->refCount <= 0) {
