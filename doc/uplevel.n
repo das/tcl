@@ -72,6 +72,26 @@ describing a command that is either
 the outermost procedure call or the outermost \fBnamespace eval\fR command.
 Also, \fBuplevel #0\fR evaluates a script
 at top-level in the outermost namespace (the global namespace).
+.SH EXAMPLE
+As stated above, the \fBuplevel\fR command is useful for creating new
+control constructs.  This example shows how (without error handling)
+it can be used to create a \fBdo\fR command that is the counterpart of
+\fBwhile\fR except for always performing the test after running the
+loop body:
+.CS
+proc do {body while condition} {
+    if {$while ne "while"} {
+        error "required word missing"
+    }
+    set conditionCmd [list expr $condition]
+    while {1} {
+        uplevel 1 $body
+        if {![uplevel 1 $conditionCmd]} {
+            break
+        }
+    }
+}
+.CE
 
 .SH "SEE ALSO"
 namespace(n), upvar(n)
