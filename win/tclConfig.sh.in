@@ -82,7 +82,7 @@ TCL_EXTRA_CFLAGS='@EXTRA_CFLAGS@'
 # Base command to use for combining object files into a shared library:
 TCL_SHLIB_LD='@SHLIB_LD@'
 
-# Base command to use for combining object files into a shared library:
+# Base command to use for combining object files into a static library:
 TCL_STLIB_LD='@STLIB_LD@'
 
 # Either '$LIBS' (if dependent libraries should be included when linking
