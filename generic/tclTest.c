@@ -5199,7 +5199,6 @@ TestChannelCmd(clientData, interp, argc, argv)
     Tcl_Channel chan;		/* The opaque type. */
     size_t len;			/* Length of subcommand string. */
     int IOQueued;		/* How much IO is queued inside channel? */
-    ChannelBuffer *bufPtr;	/* For iterating over queued IO. */
     char buf[TCL_INTEGER_SPACE];/* For sprintf. */
     int mode;			/* rw mode of the channel */
     
