@@ -538,8 +538,9 @@ namespace eval ::tcl::main::test {
 	variable wait
 	fileevent $f readable \
 		[list set [namespace which -variable wait] "child exit"]
-	after 2000 [list set [namespace which -variable wait] timeout]
+	set id [after 2000 [list set [namespace which -variable wait] timeout]]
 	vwait [namespace which -variable wait]
+	after cancel $id
 	set wait
     } -cleanup {
 	if {[string equal timeout $wait]
@@ -561,8 +562,9 @@ namespace eval ::tcl::main::test {
 	variable wait
 	fileevent $f readable \
 		[list set [namespace which -variable wait] "child exit"]
-	after 2000 [list set [namespace which -variable wait] timeout]
+	set id [after 2000 [list set [namespace which -variable wait] timeout]]
 	vwait [namespace which -variable wait]
+	after cancel $id
 	set wait
     } -cleanup {
 	if {[string equal timeout $wait]
