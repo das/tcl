@@ -477,8 +477,7 @@ again:
      * Check to see if there are any messages to process.
      */
 
-    if (result == (WAIT_OBJECT_0 + 1) ||
-	    PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
+    if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
 	/*
 	 * Retrieve and dispatch the first message.
 	 */
