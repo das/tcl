@@ -2123,10 +2123,10 @@ CreateSocketAddress(sockaddrPtr, host, port)
 	}
         addr.s_addr = inet_addr(native);		/* INTL: Native. */
 	/*
-	 * 0xFFFFFFFFFFFFFFF is the pedantic way to say -1
-	 * for either 32 or 64 bits systems.
+	 * This is 0xFFFFFFFF to ensure that it compares as a 32bit -1
+	 * on either 32 or 64 bits systems.
 	 */
-        if (addr.s_addr == 0xFFFFFFFFFFFFFFF) {
+        if (addr.s_addr == 0xFFFFFFFF) {
             hostent = gethostbyname(native);		/* INTL: Native. */
             if (hostent != NULL) {
                 memcpy((VOID *) &addr,
