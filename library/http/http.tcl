@@ -853,10 +853,8 @@ proc http::formatQuery {args} {
 
     set alphanumeric	a-zA-Z0-9
     regsub -all \[^$alphanumeric\] $string {$formMap(&)} string
-    regsub -all \n $string {\\n} string
-    regsub -all \t $string {\\t} string
     regsub -all {[][{})\\]\)} $string {\\&} string
-    return [subst $string]
+    return [subst -nocommand $string]
 }
 
 # http::ProxyRequired --
