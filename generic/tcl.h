@@ -157,6 +157,37 @@
 #endif
 
 /*
+ * Macros used to declare a function to be exported by a DLL.
+ * Used by Windows, maps to no-op declarations on non-Windows systems
+ */
+
+#ifdef DLL_BUILD
+# ifdef __WIN32__
+#  ifdef _MSC_VER
+#   define DLLIMPORT __declspec(dllimport)
+#   define DLLEXPORT __declspec(dllexport)
+#  endif
+# else
+#  define DLLIMPORT
+#  define DLLEXPORT
+#  define EXPORT
+# endif
+#else
+# define DLLIMPORT
+# define DLLEXPORT
+# define EXPORT
+#endif
+
+#ifdef EXPORT
+# undef EXPORT
+#endif
+#ifdef BUILD_tcl
+# define EXPORT DLLEXPORT
+#else
+# define EXPORT DLLIMPORT
+#endif
+
+/*
  * Definitions that allow this header file to be used either with or
  * without ANSI C features like function prototypes.
  */
@@ -174,9 +205,9 @@
 #endif
 
 #ifdef __cplusplus
-#   define EXTERN extern "C"
+#   define EXTERN extern "C" EXPORT
 #else
-#   define EXTERN extern
+#   define EXTERN extern EXPORT
 #endif
 
 /*
@@ -203,28 +234,6 @@ typedef short SHORT;
 typedef long LONG;
 #endif
 #endif /* __WIN32__ */
-
-/*
- * Macro used to declare a function to be exported by a DLL.
- * Used by windows, maps to a simple declaration on non-windows systems
- */
-#ifdef __WIN32__
-# ifdef STATIC_BUILD
-#  define EXPORT(a,b) a b
-# else
-#  if defined(_MSC_VER)
-#   define EXPORT(a,b) __declspec(dllexport) a b
-#  else
-#   if defined(__BORLANDC__)
-#	 define EXPORT(a,b) a _export b
-#   else
-#	 define EXPORT(a,b) a b
-#   endif
-#  endif
-# endif
-#else
-#   define EXPORT(a,b) a b
-#endif
 
 /*
  * Miscellaneous declarations.
