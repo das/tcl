@@ -1030,5 +1030,7 @@ NotifierThreadProc(clientData)
     triggerPipe = -1;
     Tcl_ConditionNotify(&notifierCV);
     Tcl_MutexUnlock(&notifierMutex);
+
+    TclpThreadExit (0);
 }
 #endif
