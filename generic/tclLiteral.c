@@ -685,7 +685,6 @@ TclReleaseLiteral(interp, objPtr)
     Interp *iPtr = (Interp *) interp;
     LiteralTable *globalTablePtr = &(iPtr->literalTable);
     register LiteralEntry *entryPtr, *prevPtr;
-    ByteCode* codePtr;
     char *bytes;
     int length, index;
 
