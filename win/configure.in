@@ -259,6 +259,29 @@ if test "$tcl_cv_cast_to_union" = "yes"; then
 fi
 
 
+# See if declarations like FINDEX_INFO_LEVELS are
+# missing from winbase.h. This is known to be
+# a problem with VC++ 5.2.
+
+AC_CACHE_CHECK(for FINDEX_INFO_LEVELS in winbase.h,
+    tcl_cv_findex_enums,
+AC_TRY_COMPILE([
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#undef WIN32_LEAN_AND_MEAN
+],
+[
+  FINDEX_INFO_LEVELS i;
+  FINDEX_SEARCH_OPS j;
+],
+        tcl_cv_findex_enums=yes,
+        tcl_cv_findex_enums=no)
+)
+if test "$tcl_cv_findex_enums" = "no"; then
+    AC_DEFINE(HAVE_NO_FINDEX_ENUMS, 1,
+            [Defined when enums are missing from winbase.h])
+fi
+
 #--------------------------------------------------------------------
 # Determines the correct binary file extension (.o, .obj, .exe etc.)
 #--------------------------------------------------------------------

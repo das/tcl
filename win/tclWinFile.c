@@ -128,6 +128,7 @@ typedef struct {
     WCHAR  dummyBuf[MAX_PATH*3];
 } DUMMY_REPARSE_BUFFER;
 
+#ifdef HAVE_NO_FINDEX_ENUMS
 /* These two aren't in VC++ 5.2 headers */
 typedef enum _FINDEX_INFO_LEVELS {
 	FindExInfoStandard,
@@ -139,6 +140,7 @@ typedef enum _FINDEX_SEARCH_OPS {
 	FindExSearchLimitToDevices,
 	FindExSearchMaxSearchOp
 } FINDEX_SEARCH_OPS;
+#endif /* HAVE_NO_FINDEX_ENUMS */
 
 /* Other typedefs required by this code */
 
