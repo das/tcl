@@ -1392,7 +1392,8 @@ Tcl_TranslateFileName(interp, name, bufferPtr)
     Tcl_DStringInit(bufferPtr);
     Tcl_DStringAppend(bufferPtr, Tcl_GetString(transPtr), -1);
     Tcl_DecrRefCount(path);
-
+    Tcl_DecrRefCount(transPtr);
+    
     /*
      * Convert forward slashes to backslashes in Windows paths because
      * some system interfaces don't accept forward slashes.
