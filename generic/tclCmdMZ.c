@@ -4074,6 +4074,11 @@ TraceCommandProc(clientData, interp, oldName, newName, flags)
 	    /* Postpone deletion, until exec trace returns */
 	    tcmdPtr->flags = 0;
 	}
+	/* 
+	 * Decrement the refCount since the command which held our
+	 * reference (ever since we were created) has just gone away
+	 */
+	tcmdPtr->refCount--;
     }
     if ((--tcmdPtr->refCount) <= 0) {
         ckfree((char*)tcmdPtr);
