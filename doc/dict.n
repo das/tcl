@@ -209,7 +209,7 @@ for the execution of \fIbody\fR. As with \fBdict update\fR, making
 \fIdictionaryVariable\fR unreadable will make the updates to the
 dictionary be discarded, and this also happens if the contents of
 \fIdictionaryVariable\fR are adjusted so that the chain of
-dictionaries no longer exists. The result of \fBdict update\fR is
+dictionaries no longer exists. The result of \fBdict with\fR is
 (unless some kind of error occurs) the result of the evaluation of
 \fIbody\fR. Note that the mapping of values to variables does not use
 traces; changes to the \fIdictionaryVariable\fR's contents only happen
