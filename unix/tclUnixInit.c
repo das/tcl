@@ -167,7 +167,11 @@ static int Tcl_MacOSXGetLibraryPath(Tcl_Interp *interp, int maxPathLen, char *tc
 void
 TclpInitPlatform()
 {
+#ifdef DJGPP
+    tclPlatform = TCL_PLATFORM_WINDOWS;
+#else		
     tclPlatform = TCL_PLATFORM_UNIX;
+#endif
 
     /*
      * The code below causes SIGPIPE (broken pipe) errors to
