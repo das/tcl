@@ -52,6 +52,19 @@ only of the end-of-line character(s).
 The \fBeof\fR and \fBfblocked\fR commands can be used to distinguish
 these three cases.
 
+.SH "EXAMPLE"
+This example reads a file one line at a time and prints it out with
+the current line number attached to the start of each line.
+
+.CS
+set chan [open "some.file.txt"]
+set lineNumber 0
+while {[gets $chan line] >= 0} {
+    puts "[incr lineNumber]: $line"
+}
+close $chan
+.CE
+
 .SH "SEE ALSO"
 file(n), eof(n), fblocked(n), Tcl_StandardChannels(3)
 
