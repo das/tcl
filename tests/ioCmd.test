@@ -303,7 +303,7 @@ test iocmd-8.19 {fconfigure command / win tty channel} {nonPortable pcOnly} {
 	set r [list [catch {fconfigure $tty -blah blih} msg] $msg];
 	close $tty;
 	set r;
-} {1 {bad option "-blah": should be one of -blocking, -buffering, -buffersize, -encoding, -eofchar, -translation, or -mode}}
+} {1 {bad option "-blah": should be one of -blocking, -buffering, -buffersize, -encoding, -eofchar, -translation, -mode, or -pollinterval}}
 
 test iocmd-9.1 {eof command} {
     list [catch {eof} msg] $msg $errorCode
