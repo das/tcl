@@ -48,7 +48,7 @@ Pkga_EqObjCmd(dummy, interp, objc, objv)
     Tcl_Obj * CONST objv[];	/* Argument objects. */
 {
     int result;
-    CONST char *str1, str2;
+    CONST char *str1, *str2;
     int len1, len2, n;
 
     if (objc != 3) {
