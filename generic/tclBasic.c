@@ -256,8 +256,8 @@ static CmdInfo builtInCmds[] = {
  *	Tcl_DeleteInterp.
  *
  * Side effects:
- *	The command interpreter is initialized with an empty variable
- *	table and the built-in commands.
+ *	The command interpreter is initialized with the built-in commands
+ *      and with the variables documented in tclvars(n).
  *
  *----------------------------------------------------------------------
  */
