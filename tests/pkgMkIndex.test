@@ -331,6 +331,13 @@ if {[file exists $x]} {
     puts "Skipping pkgMkIndex-10.1 (index of DLL and script)"
 }
 
+# Tolerate "namespace import" at the global scope
+
+test pkgMkIndex-11.1 {conflicting namespace imports} {
+    pkgtest::runIndex pkg import.tcl
+} {0 {{fubar:1.0 {tclPkgSetup {import.tcl source ::fubar::foo}}}}}
+
+
 #
 # cleanup
 #
