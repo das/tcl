@@ -2197,6 +2197,21 @@ test trace-32.1 {
     set result
 } [list [list delete foo]]
 
+test trace-33.1 {527164: Keep -errorinfo of traces} {
+    unset -nocomplain x y
+    trace add variable x write {error foo;#}
+    trace add variable y write {set x 2;#}
+    list [catch {set y 1} msg opts] $msg [dict get $opts -errorinfo]
+} {1 {can't set "y": can't set "x": foo} {foo
+    while executing
+"error foo"
+    (write trace on "x")
+    invoked from within
+"set x 2"
+    (write trace on "y")
+    invoked from within
+"set y 1"}}
+
 # Delete procedures when done, so we don't clash with other tests
 # (e.g. foobar will clash with 'unknown' tests).
 catch {rename foobar {}}
