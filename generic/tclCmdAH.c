@@ -2203,7 +2203,14 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 		    break;
 		} else {
 		    whichValue = INT_VALUE;
-		    intValue = (int) Tcl_WideAsLong(wideValue);
+		    if (wideValue>ULONG_MAX || wideValue<LONG_MIN) {
+			/*
+			 * Value too big for type.  Generate an error.
+			 */
+			Tcl_GetLongFromObj(interp, objv[objIndex], &intValue);
+			goto fmtError;
+		    }
+		    intValue = Tcl_WideAsLong(wideValue);
 		}
 	    } else if (objv[objIndex]->typePtr == &tclIntType) {
 		Tcl_GetLongFromObj(NULL, objv[objIndex], &intValue);
