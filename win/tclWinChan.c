@@ -970,6 +970,9 @@ TclpGetDefaultStdChannel(type)
     int mode;
     char *bufMode;
     DWORD handleId;		/* Standard handle to retrieve. */
+    char dummyBuff[1];		/* Buffer for the WriteFile test */
+    DWORD dummyWritten;		/* Required parameter for WriteFile */
+
 
     switch (type) {
 	case TCL_STDIN:
@@ -999,15 +1002,26 @@ TclpGetDefaultStdChannel(type)
      * is not a console mode application, even though this is not a valid
      * handle.
      */
-    
+
     if ((handle == INVALID_HANDLE_VALUE) || (handle == 0)) {
-	return NULL;
+	return (Tcl_Channel) NULL;
     }
-    
+
+    /*
+     * Win2K BUG: GetStdHandle(STD_OUTPUT_HANDLE) can return what appears
+     * to be a valid handle.  Do an extra test with WriteFile() "touching"
+     * the handle.
+     */
+
+    if ((type == TCL_STDOUT)
+	    && !WriteFile(handle, dummyBuff, 0, &dummyWritten, NULL)) {
+	return (Tcl_Channel) NULL;
+    }
+
     channel = Tcl_MakeFileChannel(handle, mode);
 
     if (channel == NULL) {
-	return NULL;
+	return (Tcl_Channel) NULL;
     }
 
     /*
