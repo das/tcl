@@ -599,6 +599,9 @@ CopyRenameOneFile(interp, source, target, copyFlag, force)
 	}
     } else {
 	result = Tcl_FSCopyFile(source, target);
+	if ((result != TCL_OK) && (errno == EXDEV)) {
+	    result = TclCrossFilesystemCopy(interp, source, target);
+	}
 	if (result != TCL_OK) {
 	    /* 
 	     * We could examine 'errno' to double-check if the problem
