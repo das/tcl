@@ -801,7 +801,8 @@ TclFindEncodings(argv0)
  *
  * Tcl_Finalize --
  *
- *	Runs the exit handlers to allow Tcl to clean up its state.
+ *	Shut down Tcl.  First calls registered exit handlers, then
+ *	carefully shuts down various subsystems.
  *	Called by Tcl_Exit or when the Tcl shared library is being 
  *	unloaded.
  *
@@ -857,13 +858,6 @@ Tcl_Finalize()
 	Tcl_FinalizeThread();
 
 	/*
-	 * We defer unloading of packages until after any user callbacks
-	 * are invoked to avoid memory access issues.
-	 */
-
-	TclFinalizeLoad();
-
-	/*
 	 * Now finalize the Tcl execution environment.  Note that this
 	 * must be done after the exit handlers, because there are
 	 * order dependencies.
@@ -899,6 +893,14 @@ Tcl_Finalize()
 	 */
 
 	TclFinalizeSynchronization();
+
+	/*
+	 * We defer unloading of packages until very late 
+	 * to avoid memory access issues.  Both exit callbacks and
+	 * synchronization variables may be stored in packages.
+	 */
+
+	TclFinalizeLoad();
 
 	/*
 	 * There shouldn't be any malloc'ed memory after this.

@@ -633,7 +633,15 @@ TclFinalizeLoad()
 {
     LoadedPackage *pkgPtr;
 
-    Tcl_MutexLock(&packageMutex);
+    /*
+     * No synchronization here because there should just be
+     * one thread alive at this point.  Logically, 
+     * packageMutex should be grabbed at this point, but
+     * the Mutexes get finalized before the call to this routine.
+     * The only subsystem left alive at this point is the
+     * memory allocator.
+     */
+
     while (firstPackagePtr != NULL) {
 	pkgPtr = firstPackagePtr;
 	firstPackagePtr = pkgPtr->nextPtr;
@@ -644,5 +652,4 @@ TclFinalizeLoad()
 	ckfree(pkgPtr->packageName);
 	ckfree((char *) pkgPtr);
     }
-    Tcl_MutexUnlock(&packageMutex);
 }
