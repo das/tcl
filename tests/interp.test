@@ -2919,6 +2919,15 @@ test interp-32.1 { parent's working directory should
              "\{$parent\} != \{$child\}"}
 } 1
 
+test interp-33.1 {refCounting for target words of alias [Bug 730244]} {
+    # This test will panic if Bug 730244 is not fixed.
+    interp create i
+    proc test args {return $args}
+    trace add execution test enter {interp alias i alias {} ;#}
+    interp alias i alias {} test this
+    i eval alias 
+} this
+
 # cleanup
 foreach i [interp slaves] {
   interp delete $i
