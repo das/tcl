@@ -2017,7 +2017,7 @@ proc tcltest::test {name description args} {
 	}
     }
     if {$codeFailure} {
-	switch -- $code {
+	switch -- $returnCode {
 	    0 { set msg "Test completed normally" }
 	    1 { set msg "Test generated error" }
 	    2 { set msg "Test generated return exception" }
@@ -2025,7 +2025,7 @@ proc tcltest::test {name description args} {
 	    4 { set msg "Test generated continue exception" }
 	    default { set msg "Test generated exception" }
 	}
-	puts [outputChannel] "---- $msg; Return code was: $code"
+	puts [outputChannel] "---- $msg; Return code was: $returnCode"
 	puts [outputChannel] "---- Return code should have been\
 		one of: $returnCodes"
 	if {[IsVerbose error]} {

@@ -1686,6 +1686,22 @@ test tcltest-25.1 {
 	unset foo
 } -result 0
 
+test tcltest-25.2 {
+	puts -nonewline (Bug 612786)
+} -body {
+	puts -nonewline stdout bla
+	puts -nonewline stdout bla
+} -output {blabla}
+
+test tcltest-25.3 {
+	reported return code (Bug 611922)
+} -body {
+	# Buggy tcltest will generate result of 2
+	test tcltest-25.3.0 {} -body {
+	    error foo
+	}
+} -match glob -output {*generated error; Return code was: 1*}
+
 cleanupTests
 }
 
