@@ -3642,7 +3642,7 @@ Tcl_GetsObj(chan, objPtr)
 		skip = 1;
 		if (statePtr->flags & INPUT_SAW_CR) {
 		    statePtr->flags &= ~INPUT_SAW_CR;
-		    if (*eol == '\n') {
+		    if ((eol < dstEnd) && (*eol == '\n')) {
 			/*
 			 * Skip the raw bytes that make up the '\n'.
 			 */
