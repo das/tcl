@@ -330,7 +330,6 @@ AppendRegistry(
     CONST char *lib)
 {
     HKEY key;
-    char *subKey;
     LONG result;
     WCHAR wBuf[MAX_PATH + 64];
     char buf[(MAX_PATH + LIBRARY_SIZE) * TCL_UTF_MAX];
