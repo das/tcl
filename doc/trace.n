@@ -90,16 +90,16 @@ Invoke \fIcommand\fR whenever the command \fIname\fR is executed,
 just after the actual execution takes place.
 .TP
 \fBenterstep\fR
-Invoke \fIcommand\fR for every tcl command which is executed 
+Invoke \fIcommand\fR for every Tcl command which is executed 
 inside the procedure \fIname\fR, just before the actual execution
 takes place.  For example if we have 'proc foo {} { puts "hello" }',
-then a \fIenterstep\fR trace would be 
+then an \fIenterstep\fR trace would be 
 invoked just before \fIputs "hello"\fR is executed.
-Setting a \fIenterstep\fR trace on a \fIcommand\fR
+Setting an \fIenterstep\fR trace on a \fIcommand\fR
 will not result in an error and is simply ignored.
 .TP
 \fBleavestep\fR
-Invoke \fIcommand\fR for every tcl command which is executed 
+Invoke \fIcommand\fR for every Tcl command which is executed 
 inside the procedure \fIname\fR, just after the actual execution
 takes place.
 Setting a \fIleavestep\fR trace on a \fIcommand\fR

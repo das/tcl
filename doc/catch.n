@@ -28,7 +28,7 @@ regardless of any errors that might occur while executing \fIscript\fR.
 If \fIscript\fR raises an error, \fBcatch\fR will return a non-zero integer
 value corresponding to the exceptional return code returned by evaluation
 of \fIscript\fR.  Tcl defines the normal return code from script
-evalation to be zero (0), or TCL_OK.  Tcl also defines four exceptional
+evaluation to be zero (0), or TCL_OK.  Tcl also defines four exceptional
 return codes: 1 (TCL_ERROR), 2 (TCL_RETURN), 3 (TCL_BREAK),
 and 4 (TCL_CONTINUE).  Errors during evaluation of a script are indicated
 by a return code of TCL_ERROR.  The other exceptional return codes are

@@ -21,7 +21,7 @@ linsert \- Insert elements into a list
 .SH DESCRIPTION
 .PP
 This command produces a new list from \fIlist\fR by inserting all of the
-\fIelement\fR arguments just before the \fIindex\fRth element of
+\fIelement\fR arguments just before the \fIindex\fR'th element of
 \fIlist\fR.  Each \fIelement\fR argument will become a separate element of
 the new list.  If \fIindex\fR is less than or equal to zero, then the new
 elements are inserted at the beginning of the list.  If \fIindex\fR has the

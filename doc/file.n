@@ -271,7 +271,7 @@ under Windows.
 \fBfile normalize \fIname\fR
 .
 .RS
-Returns a unique normalised path representation for the file-system
+Returns a unique normalized path representation for the file-system
 object (file, directory, link, etc), whose string value can be used as a
 unique identifier for it.  A normalized path is an absolute path which has
 all '../', './' removed.  Also it is one which is in the ``standard''

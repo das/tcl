@@ -83,7 +83,7 @@ one takes precedence.  The default is \fB\-ascii\fR.
 .TP
 \fB\-ascii\fR
 The list elements are to be examined as Unicode strings (the name is
-for backward-compatability reasons.)
+for backward-compatibility reasons.)
 .TP
 \fB\-dictionary\fR
 The list elements are to be compared using dictionary-style

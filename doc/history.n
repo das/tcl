@@ -82,7 +82,7 @@ in the history list.  It is useful for things like printing the
 event number in command-line prompts.
 .TP
 \fBhistory redo \fR?\fIevent\fR?
-Re-executes the command indicated by \fIevent\fR and return its result.
+Re-executes the command indicated by \fIevent\fR and returns its result.
 \fIEvent\fR defaults to \fB\-1\fR.  This command results in history
 revision:  see below for details.
 .SH "HISTORY REVISION"
