@@ -983,7 +983,7 @@ Tcl_ParseVarName(interp, string, numBytes, parsePtr, append)
  *----------------------------------------------------------------------
  */
 
-char *
+CONST char *
 Tcl_ParseVar(interp, string, termPtr)
     Tcl_Interp *interp;			/* Context for looking up variable. */
     register char *string;		/* String containing variable name.

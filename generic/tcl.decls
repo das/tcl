@@ -947,7 +947,7 @@ declare 269 generic {
     char * Tcl_HashStats(Tcl_HashTable *tablePtr)
 }
 declare 270 generic {
-    char * Tcl_ParseVar(Tcl_Interp *interp, char *str, char **termPtr)
+    CONST char * Tcl_ParseVar(Tcl_Interp *interp, char *str, char **termPtr)
 }
 declare 271 generic {
     CONST char * Tcl_PkgPresent(Tcl_Interp *interp, CONST char *name,
@@ -1269,7 +1269,7 @@ declare 359 generic {
 }
 declare 360 generic {
     int Tcl_ParseBraces (Tcl_Interp *interp, char *string, \
-	    int numBytes, Tcl_Parse *parsePtr,int append, char **termPtr)
+	    int numBytes, Tcl_Parse *parsePtr, int append, char **termPtr)
 }
 declare 361 generic {
     int Tcl_ParseCommand (Tcl_Interp *interp, char *string, int numBytes, \
