@@ -387,14 +387,14 @@ proc msgcat::ConvertLocale {value} {
     # Convert to form: $language[_$territory][_$modifier]
     #
     # Comment out expanded RE version -- bugs alleged
-    #regexp -expanded {
+    # regexp -expanded {
     #	^		# Match all the way to the beginning
     #	([^_.@]*)	# Match "lanugage"; ends with _, ., or @
     #	(_([^.@]*))?	# Match (optional) "territory"; starts with _
     #	([.]([^@]*))?	# Match (optional) "codeset"; starts with .
     #	(@(.*))?	# Match (optional) "modifier"; starts with @
     #	$		# Match all the way to the end
-    #} $value -> language _ territory _ codeset _ modifier
+    # } $value -> language _ territory _ codeset _ modifier
     regexp {^([^_.@]*)(_([^.@]*))?([.]([^@]*))?(@(.*))?$} $value \
 	    -> language _ territory _ codeset _ modifier
     set ret $language
