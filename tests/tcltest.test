@@ -36,15 +36,15 @@ makeFile {
 test tcltest-1.1 {tcltest -help} {
     set result [catch {exec $::tcltest::tcltest test.tcl -help} msg]
     list $result [regexp Usage $msg]
-} {0 1} 
+} {1 1} 
 test tcltest-1.2 {tcltest -help -something} {
     set result [catch {exec $::tcltest::tcltest test.tcl -help -something} msg]
     list $result [regexp Usage $msg]
-} {0 1}
+} {1 1}
 test tcltest-1.3 {tcltest -h} {
     set result [catch {exec $::tcltest::tcltest test.tcl -h} msg]
     list $result [regexp Usage $msg]
-} {0 1} 
+} {1 1} 
 
 # -verbose
 test tcltest-2.0 {tcltest (verbose default - 'b')} {
