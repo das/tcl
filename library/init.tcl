@@ -171,10 +171,12 @@ proc unknown args {
 
     set cmd [lindex $args 0]
     if {[regexp "^:*namespace\[ \t\n\]+inscope" $cmd] && [llength $cmd] == 4} {
+	#return -code error "You need an {expand}"
         set arglist [lrange $args 1 end]
 	set ret [catch {uplevel 1 ::$cmd $arglist} result opts]
 	dict unset opts -errorinfo
-	return -options $opts $ret
+	dict incr opts -level
+	return -options $opts $result
     }
 
     set name [lindex $args 0]
