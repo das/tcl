@@ -229,7 +229,7 @@ TclIntStubs tclIntStubs = {
     TclpHasSockets, /* 132 */
     TclpGetDate, /* 133 */
     TclpStrftime, /* 134 */
-    TclpCheckStackSpace, /* 135 */
+    NULL, /* 135 */
     NULL, /* 136 */
     NULL, /* 137 */
     TclGetEnv, /* 138 */
