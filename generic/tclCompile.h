@@ -719,41 +719,6 @@ typedef struct ForeachInfo {
 extern AuxDataType		tclForeachInfoType;
 
 /*
- * Structure containing a cached pointer to a command that is the result
- * of resolving the command's name in some namespace. It is the internal
- * representation for a cmdName object. It contains the pointer along
- * with some information that is used to check the pointer's validity.
- */
-
-typedef struct ResolvedCmdName {
-    Command *cmdPtr;		/* A cached Command pointer. */
-    Namespace *refNsPtr;	/* Points to the namespace containing the
-				 * reference (not the namespace that
-				 * contains the referenced command). */
-    long refNsId;		/* refNsPtr's unique namespace id. Used to
-				 * verify that refNsPtr is still valid
-				 * (e.g., it's possible that the cmd's
-				 * containing namespace was deleted and a
-				 * new one created at the same address). */
-    int refNsCmdEpoch;		/* Value of the referencing namespace's
-				 * cmdRefEpoch when the pointer was cached.
-				 * Before using the cached pointer, we check
-				 * if the namespace's epoch was incremented;
-				 * if so, this cached pointer is invalid. */
-    int cmdEpoch;		/* Value of the command's cmdEpoch when this
-				 * pointer was cached. Before using the
-				 * cached pointer, we check if the cmd's
-				 * epoch was incremented; if so, the cmd was
-				 * renamed, deleted, hidden, or exposed, and
-				 * so the pointer is invalid. */
-    int refCount;		/* Reference count: 1 for each cmdName
-				 * object that has a pointer to this
-				 * ResolvedCmdName structure as its internal
-				 * rep. This structure can be freed when
-				 * refCount becomes zero. */
-} ResolvedCmdName;
-
-/*
  *----------------------------------------------------------------
  * Procedures shared among Tcl bytecode compilation and execution
  * modules but not used outside:
