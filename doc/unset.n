@@ -15,7 +15,7 @@
 .SH NAME
 unset \- Delete variables
 .SH SYNOPSIS
-\fBunset \fR?\fI\-\-\fR? ?\fI\-nocomplain\fR? ?\fIname name name ...\fR?
+\fBunset \fR?\fI\-nocomplain\fR? ?\fI\-\-\fR? ?\fIname name name ...\fR?
 .BE
 
 .SH DESCRIPTION
@@ -31,9 +31,9 @@ The \fBunset\fR command returns an empty string as result.
 .VS 8.4
 If \fI\-nocomplain\fR is specified as the first argument, any possible
 errors are suppressed.  The option may not be abbreviated, in order to
-disambiguate it from possible variable names.  \fI\-\-\fR may be specified
-prior to \fI\-nocomplain\fR to prevent it from being interpreted as an
-option.
+disambiguate it from possible variable names.  The option \fI\-\-\fR
+indicates the end of the options, and should be used if you wish to
+remove a variable with the same name as any of the options.
 .VE 8.4
 If an error occurs, any variables after the named one causing the error not
 deleted.  An error can occur when the named variable doesn't exist, or the

@@ -2611,23 +2611,29 @@ Tcl_UnsetObjCmd(dummy, interp, objc, objv)
 
     if (objc < 2) {
 	Tcl_WrongNumArgs(interp, 1, objv,
-		"?--? ?-nocomplain? ?varName varName ...?");
+		"?-nocomplain? ?--? ?varName varName ...?");
 	return TCL_ERROR;
     }
 
     /*
-     * Very simple, restrictive argument parsing.  The only options are
-     * -- and -nocomplain (which must come first to be an option).
+     * Simple, restrictive argument parsing.  The only options are --
+     * and -nocomplain (which must come first and be given exactly to
+     * be an option).
      */
     i = 1;
     name = TclGetString(objv[i]);
-    if ((name[0] == '-') && (strcmp("-nocomplain", name) == 0)) {
-	flags = 0;
-	i++;
-	name = TclGetString(objv[i]);
-    }
-    if ((name[0] == '-') && (strcmp("--", name) == 0)) {
-	i++;
+    if (name[0] == '-') {
+ 	if (strcmp("-nocomplain", name) == 0) {
+	    i++;
+ 	    if (i == objc) {
+		return TCL_OK;
+	    }
+ 	    flags = 0;
+ 	    name = TclGetString(objv[i]);
+ 	}
+ 	if (strcmp("--", name) == 0) {
+ 	    i++;
+ 	}
     }
 
     for (; i < objc;  i++) {

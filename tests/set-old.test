@@ -204,7 +204,7 @@ test set-old-7.1 {unset command} {
 } {0 0 0 1}
 test set-old-7.2 {unset command} {
     list [catch {unset} msg] $msg
-} {1 {wrong # args: should be "unset ?--? ?-nocomplain? ?varName varName ...?"}}
+} {1 {wrong # args: should be "unset ?-nocomplain? ?--? ?varName varName ...?"}}
 test set-old-7.3 {unset command} {
     catch {unset a}
     list [catch {unset a} msg] $msg
