@@ -146,6 +146,17 @@ TclFinalizeNotifier()
 {
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
     ThreadSpecificData **prevPtrPtr;
+    Tcl_Event *evPtr, *hold;
+
+    Tcl_MutexLock(&(tsdPtr->queueMutex));
+    for (evPtr = tsdPtr->firstEventPtr; evPtr != (Tcl_Event *) NULL; ) {
+	hold = evPtr;
+	evPtr = evPtr->nextPtr;
+	ckfree((char *) hold);
+    }
+    tsdPtr->firstEventPtr = NULL;
+    tsdPtr->lastEventPtr = NULL;
+    Tcl_MutexUnlock(&(tsdPtr->queueMutex));
 
     Tcl_MutexLock(&listLock);
 
