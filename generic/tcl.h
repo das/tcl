@@ -49,6 +49,8 @@ extern "C" {
  * win/README.binary
  * win/README		(only if major.minor changes, not patchlevel)
  * unix/README		(only if major.minor changes, not patchlevel)
+ * tools/tcl.hpj.in	(for windows installer)
+ * tools/tcl.wse.in	(for windows installer)
  */
 
 #define TCL_MAJOR_VERSION   8
