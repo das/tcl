@@ -1411,7 +1411,7 @@ Tcl_DStringInit(dsPtr)
  *----------------------------------------------------------------------
  */
 
-CONST char *
+char *
 Tcl_DStringAppend(dsPtr, string, length)
     Tcl_DString *dsPtr;		/* Structure describing dynamic string. */
     CONST char *string;		/* String to append.  If length is -1 then
@@ -1482,7 +1482,7 @@ Tcl_DStringAppend(dsPtr, string, length)
  *----------------------------------------------------------------------
  */
 
-CONST char *
+char *
 Tcl_DStringAppendElement(dsPtr, string)
     Tcl_DString *dsPtr;		/* Structure describing dynamic string. */
     CONST char *string;		/* String to append.  Must be

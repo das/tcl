@@ -781,7 +781,7 @@ Tcl_CreateEncoding(typePtr)
  *-------------------------------------------------------------------------
  */
 
-CONST char * 
+char * 
 Tcl_ExternalToUtfDString(encoding, src, srcLen, dstPtr)
     Tcl_Encoding encoding;	/* The encoding for the source string, or
 				 * NULL for the default system encoding. */
@@ -944,7 +944,7 @@ Tcl_ExternalToUtf(interp, encoding, src, srcLen, flags, statePtr, dst,
  *-------------------------------------------------------------------------
  */
 
-CONST char *
+char *
 Tcl_UtfToExternalDString(encoding, src, srcLen, dstPtr)
     Tcl_Encoding encoding;	/* The encoding for the converted string,
 				 * or NULL for the default system encoding. */

@@ -775,7 +775,7 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 	 * On zero matches, just ignore the offset, since it shouldn't
 	 * matter to us in this case, and the user may have skewed it.
 	 */
-	//Tcl_AppendUnicodeToObj(resultPtr, wstring, wlen);
+	/*Tcl_AppendUnicodeToObj(resultPtr, wstring, wlen);*/
 	resultPtr = objv[1];
 	Tcl_IncrRefCount(resultPtr);
     } else if (offset < wlen) {

@@ -451,8 +451,7 @@ TclpSetInitialEncodings()
 	     */
 
 	    Tcl_DStringInit(&ds);
-	    Tcl_DStringAppend(&ds, nl_langinfo(CODESET), -1);
-	    encoding = Tcl_DStringValue(&ds);
+	    encoding = Tcl_DStringAppend(&ds, nl_langinfo(CODESET), -1);
 
 	    Tcl_UtfToLower(Tcl_DStringValue(&ds));
 #ifdef HAVE_LANGINFO_DEBUG
@@ -550,9 +549,8 @@ TclpSetInitialEncodings()
 		    if (*p != '\0') {
 			Tcl_DString ds;
 			Tcl_DStringInit(&ds);
-			Tcl_DStringAppend(&ds, p, -1);
+			encoding = Tcl_DStringAppend(&ds, p, -1);
 
-			encoding = Tcl_DStringValue(&ds);
 			Tcl_UtfToLower(Tcl_DStringValue(&ds));
 			setSysEncCode = Tcl_SetSystemEncoding(NULL, encoding);
 			if (setSysEncCode != TCL_OK) {

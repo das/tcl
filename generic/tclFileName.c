@@ -1268,7 +1268,7 @@ TclpNativeJoinPath(prefix, joining)
  *----------------------------------------------------------------------
  */
 
-CONST char *
+char *
 Tcl_JoinPath(argc, argv, resultPtr)
     int argc;
     CONST char * CONST *argv;
@@ -1326,7 +1326,7 @@ Tcl_JoinPath(argc, argv, resultPtr)
  *----------------------------------------------------------------------
  */
 
-CONST char *
+char *
 Tcl_TranslateFileName(interp, name, bufferPtr)
     Tcl_Interp *interp;		/* Interpreter in which to store error
 				 * message (if necessary). */

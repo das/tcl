@@ -84,8 +84,7 @@ TclSetupEnv(interp)
 				 * managed. */
 {
     Tcl_DString envString;
-    CONST char *p1;
-    char *p2;
+    char *p1, *p2;
     int i;
 
     /*
@@ -134,8 +133,7 @@ TclSetupEnv(interp)
 	    }
 	    p2++;
 	    p2[-1] = '\0';
-	    Tcl_SetVar2(interp, "env", Tcl_DStringValue(&envString), p2,
-		   TCL_GLOBAL_ONLY);	
+	    Tcl_SetVar2(interp, "env", p1, p2, TCL_GLOBAL_ONLY);	
 	    Tcl_DStringFree(&envString);
 	}
 	Tcl_MutexUnlock(&envMutex);

@@ -421,8 +421,7 @@ TclpCreateProcess(interp, argc, argv, inputFile, outputFile, errorFile,
     newArgv = (char **) ckalloc((argc+1) * sizeof(char *));
     newArgv[argc] = NULL;
     for (i = 0; i < argc; i++) {
-	Tcl_UtfToExternalDString(NULL, argv[i], -1, &dsArray[i]);
-	newArgv[i] = Tcl_DStringValue(&dsArray[i]);
+	newArgv[i] = Tcl_UtfToExternalDString(NULL, argv[i], -1, &dsArray[i]);
     }
 
     joinThisError = errorFile && (errorFile == outputFile);

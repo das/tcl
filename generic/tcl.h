@@ -857,8 +857,8 @@ typedef struct Tcl_CmdInfo {
 
 /*
  * The structure defined below is used to hold dynamic strings.  The only
- * field that clients should use is the string field, and they should
- * never modify it.
+ * field that clients should use is the string field, accessible via the
+ * macro Tcl_DStringValue.  
  */
 
 #define TCL_DSTRING_STATIC_SIZE 200

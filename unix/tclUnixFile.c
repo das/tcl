@@ -234,8 +234,7 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 	dirName = Tcl_DStringValue(&dsOrig);
 	/* Make sure we have a trailing directory delimiter */
 	if (dirName[baseLength-1] != '/') {
-	    Tcl_DStringAppend(&dsOrig, "/", 1);
-	    dirName = Tcl_DStringValue(&dsOrig);
+	    dirName = Tcl_DStringAppend(&dsOrig, "/", 1);
 	    baseLength++;
 	}
     }
@@ -333,8 +332,7 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 		struct stat buf;
 		char *nativeEntry;
 		Tcl_DStringSetLength(&ds, nativeDirLen);
-		Tcl_DStringAppend(&ds, entryPtr->d_name, -1);
-		nativeEntry = Tcl_DStringValue(&ds);
+		nativeEntry = Tcl_DStringAppend(&ds, entryPtr->d_name, -1);
 		/* 
 		 * The native name of the file is in entryPtr->d_name.
 		 * We can use this below.

@@ -141,7 +141,7 @@ Tcl_Chdir(dirName)
 }
 
 /* Obsolete */
-CONST char *
+char *
 Tcl_GetCwd(interp, cwdPtr)
     Tcl_Interp *interp;
     Tcl_DString *cwdPtr;

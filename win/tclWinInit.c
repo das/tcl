@@ -698,8 +698,7 @@ TclpFindVariable(name, lengthPtr)
 	 * all the characters after the equal sign.
 	 */
 	
-	Tcl_ExternalToUtfDString(NULL, env, -1, &envString);
-	envUpper = Tcl_DStringValue(&envString);
+	envUpper = Tcl_ExternalToUtfDString(NULL, env, -1, &envString);
 	p1 = strchr(envUpper, '=');
 	if (p1 == NULL) {
 	    continue;

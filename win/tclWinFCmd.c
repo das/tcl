@@ -1407,9 +1407,8 @@ ConvertFileNameFormat(
 	     */
 	    Tcl_DStringInit(&ds);
 	    tempString = Tcl_GetStringFromObj(tempPath,&tempLen);
-	    Tcl_WinUtfToTChar(tempString, tempLen, &ds);
+	    nativeName = Tcl_WinUtfToTChar(tempString, tempLen, &ds);
 	    Tcl_DecrRefCount(tempPath);
-	    nativeName = Tcl_DStringValue(&ds);
 	    handle = (*tclWinProcs->findFirstFileProc)(nativeName, &data);
 	    if (handle == INVALID_HANDLE_VALUE) {
 		/*
