@@ -961,7 +961,7 @@ Tcl_FileObjCmd(dummy, interp, objc, objv)
 	    
 	    if (objc < 3 || objc > 5) {
 		Tcl_WrongNumArgs(interp, 2, objv, 
-				 "?-linktype? source ?target?");
+				 "?-linktype? linkname ?target?");
 		return TCL_ERROR;
 	    }
 	    

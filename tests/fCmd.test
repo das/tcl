@@ -2181,11 +2181,11 @@ if {[string equal $tcl_platform(platform) "windows"]} {
 
 test fCmd-28.1 {file link} {hasLinks} {
     list [catch {file link} msg] $msg
-} {1 {wrong # args: should be "file link ?-linktype? source ?target?"}}
+} {1 {wrong # args: should be "file link ?-linktype? linkname ?target?"}}
 
 test fCmd-28.2 {file link} {hasLinks} {
     list [catch {file link a b c d} msg] $msg
-} {1 {wrong # args: should be "file link ?-linktype? source ?target?"}}
+} {1 {wrong # args: should be "file link ?-linktype? linkname ?target?"}}
 
 test fCmd-28.3 {file link} {hasLinks} {
     list [catch {file link abc b c} msg] $msg
