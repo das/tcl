@@ -82,7 +82,11 @@
 #   endif
 #   if defined(TIOCSBRK) && defined(TIOCCBRK)
 #	define SETBREAK(fd, flag)		\
-		ioctl((fd), (unsigned) ((flag) ? TIOCSBRK:TIOCCBRK), NULL)
+		if (flag) {			\
+		    ioctl((fd), TIOCSBRK, NULL);\
+		} else {			\
+		    ioctl((fd), TIOCCBRK, NULL);\
+		}
 #   endif
 #   if !defined(CRTSCTS) && defined(CNEW_RTSCTS)
 #	define CRTSCTS CNEW_RTSCTS
