@@ -2699,9 +2699,8 @@ Tcl_PidObjCmd(
 	return TCL_ERROR;
     }
     if (objc == 1) {
-	resultPtr = Tcl_GetObjResult(interp);
 	wsprintfA(buf, "%lu", (unsigned long) getpid());
-	Tcl_SetStringObj(resultPtr, buf, -1);
+	Tcl_SetObjResult(interp, Tcl_NewStringObj(buf, -1));
     } else {
         chan = Tcl_GetChannel(interp, Tcl_GetStringFromObj(objv[1], NULL),
 		NULL);
@@ -2714,12 +2713,13 @@ Tcl_PidObjCmd(
 	}
 
         pipePtr = (PipeInfo *) Tcl_GetChannelInstanceData(chan);
-	resultPtr = Tcl_GetObjResult(interp);
+	resultPtr = Tcl_NewObj();
         for (i = 0; i < pipePtr->numPids; i++) {
 	    wsprintfA(buf, "%lu", TclpGetPid(pipePtr->pidPtr[i]));
 	    Tcl_ListObjAppendElement(/*interp*/ NULL, resultPtr,
 		    Tcl_NewStringObj(buf, -1));
 	}
+	Tcl_SetObjResult(interp, resultPtr);
     }
     return TCL_OK;
 }
