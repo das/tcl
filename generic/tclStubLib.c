@@ -88,6 +88,7 @@ Tcl_InitStubs (interp, version, exact)
 {
     CONST char *actualVersion = NULL;
     TclStubs *tmp;
+    TclStubs **tmpp;
 
     /*
      * We can't optimize this check by caching tclStubsPtr because
@@ -100,8 +101,10 @@ Tcl_InitStubs (interp, version, exact)
 	return NULL;
     }
 
+    /* This is needed to satisfy GCC 3.3's strict aliasing rules */
+    tmpp = &tmp;
     actualVersion = Tcl_PkgRequireEx(interp, "Tcl", version, exact,
-	    (ClientData *) &tmp);
+	    (ClientData *) tmpp);
     if (actualVersion == NULL) {
 	tclStubsPtr = NULL;
 	return NULL;

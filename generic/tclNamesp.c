@@ -3093,6 +3093,7 @@ NamespaceEvalCmd(dummy, interp, objc, objv)
 {
     Tcl_Namespace *namespacePtr;
     CallFrame frame;
+    CallFrame *framep;
     Tcl_Obj *objPtr;
     char *name;
     int length, result;
@@ -3130,7 +3131,9 @@ NamespaceEvalCmd(dummy, interp, objc, objv)
      * the command(s).
      */
 
-    result = Tcl_PushCallFrame(interp, (Tcl_CallFrame *) &frame, 
+    /* This is needed to satisfy GCC 3.3's strict aliasing rules */
+    framep = &frame;
+    result = Tcl_PushCallFrame(interp, (Tcl_CallFrame *) framep, 
             namespacePtr, /*isProcCallFrame*/ 0);
     if (result != TCL_OK) {
         return TCL_ERROR;
