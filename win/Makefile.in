@@ -255,6 +255,7 @@ GENERIC_OBJS = \
 	tclStubInit.$(OBJEXT) \
 	tclStubLib.$(OBJEXT) \
 	tclThread.$(OBJEXT) \
+	tclThreadJoin.$(OBJEXT) \
 	tclTimer.$(OBJEXT) \
 	tclUtf.$(OBJEXT) \
 	tclUtil.$(OBJEXT) \

@@ -791,6 +791,13 @@ TclStubs tclStubs = {
     Tcl_ConditionFinalize, /* 391 */
     Tcl_MutexFinalize, /* 392 */
     Tcl_CreateThread, /* 393 */
+    Tcl_JoinThread, /* 394 */
+    Tcl_IsChannelShared, /* 395 */
+    Tcl_IsChannelRegistered, /* 396 */
+    Tcl_CutChannel, /* 397 */
+    Tcl_SpliceChannel, /* 398 */
+    Tcl_ClearChannelHandlers, /* 399 */
+    Tcl_IsChannelExisting, /* 400 */
 };
 
 /* !END!: Do not edit above this line. */

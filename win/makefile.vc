@@ -178,6 +178,7 @@ TCLOBJS = \
 	$(TMPDIR)\tclStubInit.obj \
 	$(TMPDIR)\tclStubLib.obj \
 	$(TMPDIR)\tclThread.obj \
+	$(TMPDIR)\tclThreadJoin.obj \
 	$(TMPDIR)\tclTimer.obj \
 	$(TMPDIR)\tclUtf.obj \
 	$(TMPDIR)\tclUtil.obj \
