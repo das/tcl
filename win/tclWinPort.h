@@ -68,7 +68,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #undef WIN32_LEAN_AND_MEAN
-#define WIN32
+
 #include <winsock2.h>
 
 #ifdef BUILD_tcl
