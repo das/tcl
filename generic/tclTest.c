@@ -4014,7 +4014,7 @@ TestfileCmd(dummy, interp, argc, argv)
     }
 
     for (j = i; j < argc; j++) {
-        if (Tcl_FSGetTranslatedPath(interp, argv[j]) == NULL) {
+        if (Tcl_FSGetNormalizedPath(interp, argv[j]) == NULL) {
 	    return TCL_ERROR;
 	}
     }
