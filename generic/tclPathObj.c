@@ -1690,6 +1690,11 @@ Tcl_FSGetNormalizedPath(interp, pathPtr)
 		    if (drive[0] == drive_cur) {
 			absolutePath = Tcl_DuplicateObj(useThisCwd);
 			/* We have a refCount on the cwd */
+
+                        if (drive[cwdLen-1] != '/') {
+                            /* Only add a trailing '/' if needed */
+                            Tcl_AppendToObj(absolutePath, "/", 1);
+                        }
 		    } else {
 			Tcl_DecrRefCount(useThisCwd);
 			useThisCwd = NULL;
@@ -1701,12 +1706,9 @@ Tcl_FSGetNormalizedPath(interp, pathPtr)
 			 * therefore behave the same here.
 			 */
 			absolutePath = Tcl_NewStringObj(path, 2);
+                        Tcl_AppendToObj(absolutePath, "/", 1);
 		    }
 		    Tcl_IncrRefCount(absolutePath);
-		    if (drive[cwdLen-1] != '/') {
-			/* Only add a trailing '/' if needed */
-		        Tcl_AppendToObj(absolutePath, "/", 1);
-		    }
 		    Tcl_AppendToObj(absolutePath, path+2, -1);
 		}
 #endif /* __WIN32__ */
