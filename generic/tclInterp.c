@@ -2029,10 +2029,8 @@ SlaveBgerror(interp, slaveInterp, objc, objv)
     if (objc) {
 	int length;
 
-	if (TCL_ERROR == Tcl_ListObjLength(interp, objv[0], &length)) {
-	    return TCL_ERROR;
-	}
-	if (length < 1) {
+	if (TCL_ERROR == Tcl_ListObjLength(NULL, objv[0], &length) 
+		|| (length < 1)) {
 	    Tcl_AppendResult(interp, "cmdPrefix must be list of length >= 1",
 		    (char *) NULL);
 	    return TCL_ERROR;
