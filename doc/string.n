@@ -303,6 +303,17 @@ specified as for the \fBindex\fR method.  A word is considered to be any
 contiguous range of alphanumeric (Unicode letters or decimal digits)
 or underscore (Unicode connector punctuation) characters, or any
 single character other than these.
+.SH EXAMPLE
+Test if the string in the variable \fIstring\fR is a proper non-empty
+prefix of the string \fBfoobar\fR.
+.CS
+set length [string length $string]
+if {$length == 0} {
+    set isPrefix 0
+} else {
+    set isPrefix [string equal -length $string $string "foobar"]
+}
+.CE
 
 .SH "SEE ALSO"
 expr(n), list(n)
