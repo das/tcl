@@ -29,13 +29,13 @@ int *tclDummyMathPtr = (int *) matherr;
 
 
 #ifdef TCL_TEST
-EXTERN int		Procbodytest_Init _ANSI_ARGS_((Tcl_Interp *interp));
-EXTERN int		Procbodytest_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
-EXTERN int		TclObjTest_Init _ANSI_ARGS_((Tcl_Interp *interp));
-EXTERN int		Tcltest_Init _ANSI_ARGS_((Tcl_Interp *interp));
+extern int		Procbodytest_Init _ANSI_ARGS_((Tcl_Interp *interp));
+extern int		Procbodytest_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
+extern int		TclObjTest_Init _ANSI_ARGS_((Tcl_Interp *interp));
+extern int		Tcltest_Init _ANSI_ARGS_((Tcl_Interp *interp));
 #endif /* TCL_TEST */
 #ifdef TCL_XT_TEST
-EXTERN int		Tclxttest_Init _ANSI_ARGS_((Tcl_Interp *interp));
+extern int		Tclxttest_Init _ANSI_ARGS_((Tcl_Interp *interp));
 #endif
 
 /*

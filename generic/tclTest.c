@@ -217,10 +217,12 @@ static int		TestwordendObjCmd _ANSI_ARGS_((ClientData dummy,
 			    Tcl_Obj *CONST objv[]));
 
 /*
- * External (platform specific) initialization routine:
+ * External (platform specific) initialization routine, this declaration
+ * explicitly does not use EXTERN since this code does not get compiled
+ * into the library:
  */
 
-EXTERN int		TclplatformtestInit _ANSI_ARGS_((
+extern int		TclplatformtestInit _ANSI_ARGS_((
 			    Tcl_Interp *interp));
 
 /*

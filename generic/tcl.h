@@ -1072,7 +1072,6 @@ EXTERN void		Tcl_AppendToObj _ANSI_ARGS_((Tcl_Obj *objPtr,
 			    char *bytes, int length));
 EXTERN void		Tcl_AppendStringsToObj _ANSI_ARGS_(
 			    TCL_VARARGS(Tcl_Obj *,interp));
-EXTERN int		Tcl_AppInit _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN Tcl_AsyncHandler	Tcl_AsyncCreate _ANSI_ARGS_((Tcl_AsyncProc *proc,
 			    ClientData clientData));
 EXTERN void		Tcl_AsyncDelete _ANSI_ARGS_((Tcl_AsyncHandler async));
@@ -1561,6 +1560,17 @@ EXTERN int		Tcl_Write _ANSI_ARGS_((Tcl_Channel chan,
 			    char *s, int slen));
 EXTERN void		Tcl_WrongNumArgs _ANSI_ARGS_((Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[], char *message));
+
+#undef TCL_STORAGE_CLASS
+#define TCL_STORAGE_CLASS
+
+/*
+ * Convenience declaration of Tcl_AppInit for backwards compatibility.
+ * This function is not *implemented* by the tcl library, so the storage
+ * class is neither DLLEXPORT nor DLLIMPORT
+ */
+
+EXTERN int             Tcl_AppInit _ANSI_ARGS_((Tcl_Interp *interp));
 
 #endif /* RESOURCE_INCLUDED */
 
