@@ -17,6 +17,8 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
+set ::tcltest::testConstraints(notInstalledInTmp) \
+	[string match /tmp/lib/* [info library]]
 if {[info exists env(TCL_LIBRARY)]} {
     set oldlibrary $env(TCL_LIBRARY)
     unset env(TCL_LIBRARY)
@@ -201,7 +203,7 @@ test unixInit-2.7 {TclpInitLibraryPath: compiled-in library path} \
     # would need test command to get defaultLibDir and compare it to
     # [lindex $auto_path end]
 } {}
-test unixInit-2.8 {TclpInitLibraryPath: all absolute pathtype} {unixOnly} {
+test unixInit-2.8 {TclpInitLibraryPath: all absolute pathtype} {unixOnly notInstalledInTmp} {
     # Checking for Bug 219416
     # When a program that embeds the Tcl library, like tcltest, is
     # installed near the "root" of the file system, there was a problem
