@@ -1379,6 +1379,14 @@ declare 400 generic {
     int Tcl_IsChannelExisting (CONST char* channelName)
 }
 
+declare 401 generic {
+    int Tcl_UniCharNcasecmp(CONST Tcl_UniChar *cs, CONST Tcl_UniChar *ct,\
+	    unsigned long n)
+}
+declare 402 generic {
+    int Tcl_UniCharCaseMatch(CONST Tcl_UniChar *ustr, \
+	    CONST Tcl_UniChar *pattern, int nocase)
+}
 
 ##############################################################################
 

@@ -798,6 +798,8 @@ TclStubs tclStubs = {
     Tcl_SpliceChannel, /* 398 */
     Tcl_ClearChannelHandlers, /* 399 */
     Tcl_IsChannelExisting, /* 400 */
+    Tcl_UniCharNcasecmp, /* 401 */
+    Tcl_UniCharCaseMatch, /* 402 */
 };
 
 /* !END!: Do not edit above this line. */

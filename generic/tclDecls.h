@@ -1246,6 +1246,14 @@ EXTERN void		Tcl_ClearChannelHandlers _ANSI_ARGS_((
 /* 400 */
 EXTERN int		Tcl_IsChannelExisting _ANSI_ARGS_((
 				CONST char* channelName));
+/* 401 */
+EXTERN int		Tcl_UniCharNcasecmp _ANSI_ARGS_((
+				CONST Tcl_UniChar * cs, 
+				CONST Tcl_UniChar * ct, unsigned long n));
+/* 402 */
+EXTERN int		Tcl_UniCharCaseMatch _ANSI_ARGS_((
+				CONST Tcl_UniChar * ustr, 
+				CONST Tcl_UniChar * pattern, int nocase));
 
 typedef struct TclStubHooks {
     struct TclPlatStubs *tclPlatStubs;
@@ -1714,6 +1722,8 @@ typedef struct TclStubs {
     void (*tcl_SpliceChannel) _ANSI_ARGS_((Tcl_Channel channel)); /* 398 */
     void (*tcl_ClearChannelHandlers) _ANSI_ARGS_((Tcl_Channel channel)); /* 399 */
     int (*tcl_IsChannelExisting) _ANSI_ARGS_((CONST char* channelName)); /* 400 */
+    int (*tcl_UniCharNcasecmp) _ANSI_ARGS_((CONST Tcl_UniChar * cs, CONST Tcl_UniChar * ct, unsigned long n)); /* 401 */
+    int (*tcl_UniCharCaseMatch) _ANSI_ARGS_((CONST Tcl_UniChar * ustr, CONST Tcl_UniChar * pattern, int nocase)); /* 402 */
 } TclStubs;
 
 #ifdef __cplusplus
@@ -3362,6 +3372,14 @@ extern TclStubs *tclStubsPtr;
 #ifndef Tcl_IsChannelExisting
 #define Tcl_IsChannelExisting \
 	(tclStubsPtr->tcl_IsChannelExisting) /* 400 */
+#endif
+#ifndef Tcl_UniCharNcasecmp
+#define Tcl_UniCharNcasecmp \
+	(tclStubsPtr->tcl_UniCharNcasecmp) /* 401 */
+#endif
+#ifndef Tcl_UniCharCaseMatch
+#define Tcl_UniCharCaseMatch \
+	(tclStubsPtr->tcl_UniCharCaseMatch) /* 402 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
