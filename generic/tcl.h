@@ -1355,7 +1355,7 @@ typedef int	(Tcl_DriverHandlerProc) _ANSI_ARGS_((
 #   define ckalloc(x) Tcl_DbCkalloc(x, __FILE__, __LINE__)
 #   define ckfree(x)  Tcl_DbCkfree(x, __FILE__, __LINE__)
 #   define ckrealloc(x,y) Tcl_DbCkrealloc((x), (y),__FILE__, __LINE__)
-#   define attemptckalloc(x) Tcl_AttempDbCkalloc(x, __FILE__, __LINE__)
+#   define attemptckalloc(x) Tcl_AttemptDbCkalloc(x, __FILE__, __LINE__)
 #   define attemptckrealloc(x,y) Tcl_AttemptDbCkrealloc((x), (y), __FILE__, __LINE__)
 #else /* !TCL_MEM_DEBUG */
 
