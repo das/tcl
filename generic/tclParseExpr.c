@@ -1678,6 +1678,8 @@ GetLexeme(infoPtr)
 	    Tcl_DStringFree(&toParse);
 	    if (termPtr != startPtr) {
 		if (errno != 0) {
+		    fprintf( stderr, "errno = %d, doubleValue = %.17g\n",
+			     errno, doubleValue );
 		    if (interp != NULL) {
 			TclExprFloatError(interp, doubleValue);
 		    }
