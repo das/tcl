@@ -46,7 +46,7 @@ MACHINE		= IX86
 #----------------------------------------------------------
 
 ### test for optimizations
-!if [nmakehlp -c -Ox]
+!if [nmakehlp -c -Otip ]
 !message *** Compiler has 'Optimizations'
 OPTIMIZING	= 1
 !else
