@@ -23,6 +23,10 @@ Performs one of several string operations, depending on \fIoption\fR.
 The legal \fIoption\fRs (which may be abbreviated) are:
 .VS 8.1
 .TP
+\fBstring bytelength \fIstring\fR
+Returns a decimal string giving the number of bytes in the
+\fIstring\fR when represented as UTF-8.
+.TP
 \fBstring compare \fIstring1 string2\fR ?\fIlength\fR?
 .VE 8.1
 Perform a character-by-character comparison of strings \fIstring1\fR and
@@ -70,11 +74,11 @@ follows:
 The char specified at this numerical index
 .IP \fBend\fR 10
 The last char of the string.
-.IP \fBexpression\fR 10
+.IP \fIexpression\fR 10
 A Tcl expression that returns a number.
-.IP \fBend[+-]expression\fR 10
+.IP \fBend[+-]\fIexpression\fR 10
 The last char of the string plus or minus the number specified
-in the expression (ie: end-1).
+in the expression (e.g. \fBend-1\fR).
 .RE
 .VE 8.1
 If \fIcharIndex\fR is less than 0 or greater than

@@ -806,7 +806,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
     char *string1, *string2;
     int length1, length2;
     static char *options[] = {
-	"bytes",	"compare",	"equal",	"first",
+	"bytelength",	"compare",	"equal",	"first",
 	"icompare",	"iequal",	"index",
 	"last",		"length",	"map",
 	"match",	"range",	"repeat",	"replace",
@@ -815,7 +815,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	"wordend",	"wordstart",	(char *) NULL
     };
     enum options {
-	STR_BYTES,	STR_COMPARE,	STR_EQUAL,	STR_FIRST,
+	STR_BYTELENGTH,	STR_COMPARE,	STR_EQUAL,	STR_FIRST,
 	STR_ICOMPARE,	STR_IEQUAL,	STR_INDEX,
 	STR_LAST,	STR_LENGTH,	STR_MAP,
 	STR_MATCH,	STR_RANGE,	STR_REPEAT,	STR_REPLACE,
@@ -1044,18 +1044,31 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	    Tcl_SetIntObj(resultPtr, match);
 	    break;
 	}
-	case STR_BYTES:
+	case STR_BYTELENGTH:
 	case STR_LENGTH: {
 	    if (objc != 3) {
 	        Tcl_WrongNumArgs(interp, 2, objv, "string");
 		return TCL_ERROR;
 	    }
 
-	    string1 = Tcl_GetStringFromObj(objv[2], &length1);
-	    if ((enum options) index == STR_BYTES) {
+	    if ((enum options) index == STR_BYTELENGTH) {
+		string1 = Tcl_GetStringFromObj(objv[2], &length1);
 		Tcl_SetIntObj(resultPtr, length1);
 	    } else {
-		Tcl_SetIntObj(resultPtr, Tcl_NumUtfChars(string1, length1));
+		/*
+		 * If we have a ByteArray object, avoid recomputing the
+		 * string since the byte array contains one byte per
+		 * character. 
+		 */
+
+		if (objv[2]->typePtr == &tclByteArrayType) {
+		    string1 = Tcl_GetByteArrayFromObj(objv[2], &length1);
+		    Tcl_SetIntObj(resultPtr, length1);
+		} else {
+		    string1 = Tcl_GetStringFromObj(objv[2], &length1);
+		    Tcl_SetIntObj(resultPtr, Tcl_NumUtfChars(string1,
+			    length1));
+		}
 	    }
 	    break;
 	}
