@@ -1524,7 +1524,7 @@ typedef struct TclpTime_t_ *TclpTime_t;
  *----------------------------------------------------------------
  */
 
-typedef int (TclStatProc_) _ANSI_ARGS_((CONST char *path, Tcl_StatBuf *buf));
+typedef int (TclStatProc_) _ANSI_ARGS_((CONST char *path, struct stat *buf));
 typedef int (TclAccessProc_) _ANSI_ARGS_((CONST char *path, int mode));
 typedef Tcl_Channel (TclOpenFileChannelProc_) _ANSI_ARGS_((Tcl_Interp *interp,
 	char *fileName, char *modeString,
