@@ -110,7 +110,7 @@ CYGPATH			= @CYGPATH@
 
 GENERIC_DIR_NATIVE	= $(shell $(CYGPATH) '$(GENERIC_DIR)')
 WIN_DIR_NATIVE		= $(shell $(CYGPATH) '$(WIN_DIR)')
-ROOT_DIR_NATIVE		= $(shell $(CYGPATH) '$(ROOT_DIR)')
+ROOT_DIR_NATIVE		= $(shell $(CYGPATH) '$(ROOT_DIR)' | sed 's/\\*$$//' )
 
 LIBRARY_DIR   = $(shell echo '$(ROOT_DIR_NATIVE)/library' | sed 's/\\/\//g' )
 
