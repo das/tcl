@@ -2786,10 +2786,10 @@ SortCompare(objPtr1, objPtr2, infoPtr)
 	order = DictionaryCompare(
 		Tcl_GetString(objPtr1),	Tcl_GetString(objPtr2));
     } else if (infoPtr->sortMode == SORTMODE_INTEGER) {
-	int a, b;
+	long a, b;
 
-	if ((Tcl_GetIntFromObj(infoPtr->interp, objPtr1, &a) != TCL_OK)
-		|| (Tcl_GetIntFromObj(infoPtr->interp, objPtr2, &b)
+	if ((Tcl_GetLongFromObj(infoPtr->interp, objPtr1, &a) != TCL_OK)
+		|| (Tcl_GetLongFromObj(infoPtr->interp, objPtr2, &b)
 		!= TCL_OK)) {
 	    infoPtr->resultCode = TCL_ERROR;
 	    return order;
