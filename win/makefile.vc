@@ -202,12 +202,7 @@ TCLOBJS = \
 	$(TMPDIR)\tclWinThrd.obj \
 	$(TMPDIR)\tclWinTime.obj 
 
-TCLSTUBOBJS = \
-	$(TMPDIR)\tclStubLib.obj \
-	$(TMPDIR)\tclStubs.obj \
-	$(TMPDIR)\tclPlatStubs.obj \
-	$(TMPDIR)\tclIntStubs.obj \
-	$(TMPDIR)\tclIntPlatStubs.obj
+TCLSTUBOBJS = $(TMPDIR)\tclStubLib.obj \
 
 cc32		= "$(TOOLS32)\bin\cl.exe"
 link32		= "$(TOOLS32)\bin\link.exe"
@@ -510,17 +505,9 @@ $(TMPDIR)\tclWinReg.obj : $(WINDIR)\tclWinReg.c
 # The following objects are part of the stub library and should not
 # be built as DLL objects but none of the symbols should be exported
 
-$(TMPDIR)\tclStubs.obj : $(GENERICDIR)\tclStubs.c
+$(TMPDIR)\tclStubLib.obj : $(GENERICDIR)\tclStubLib.c
 	$(cc32) $(TCL_CFLAGS) -DSTATIC_BUILD -Fo$@ $?
 
-$(TMPDIR)\tclPlatStubs.obj : $(GENERICDIR)\tclPlatStubs.c
-	$(cc32) $(TCL_CFLAGS) -DSTATIC_BUILD -Fo$@ $?
-
-$(TMPDIR)\tclIntStubs.obj : $(GENERICDIR)\tclIntStubs.c
-	$(cc32) $(TCL_CFLAGS) -DSTATIC_BUILD -Fo$@ $?
-
-$(TMPDIR)\tclPlatIntStubs.obj : $(GENERICDIR)\tclPlatIntStubs.c
-	$(cc32) $(TCL_CFLAGS) -DSTATIC_BUILD -Fo$@ $?
 
 # Dedependency rules
 
