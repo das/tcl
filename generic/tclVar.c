@@ -4190,7 +4190,7 @@ CallTraces(iPtr, arrayPtr, varPtr, part1, part2, flags)
     result = NULL;
     active.nextPtr = iPtr->activeTracePtr;
     iPtr->activeTracePtr = &active;
-    if (arrayPtr != NULL) {
+    if (arrayPtr != NULL && !(arrayPtr->flags & VAR_TRACE_ACTIVE)) {
 	arrayPtr->refCount++;
 	active.varPtr = arrayPtr;
 	for (tracePtr = arrayPtr->tracePtr;  tracePtr != NULL;
