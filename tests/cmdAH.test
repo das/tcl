@@ -1434,7 +1434,7 @@ test cmdAH-28.4 {Tcl_FileObjCmd: stat} {
     catch {unset stat}
     file stat gorp.file stat
     list $stat(nlink) $stat(size) $stat(type)
-} {1 11 file}
+} {1 12 file}
 test cmdAH-28.5 {Tcl_FileObjCmd: stat} {unixOnly} {
     catch {unset stat}
     file stat gorp.file stat

@@ -15,7 +15,7 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest 2.1
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
@@ -246,7 +246,7 @@ test http-3.11 {http::geturl querychannel with -command} {
     lappend testRes [http::status $t] $postResult
     removeFile outdata
     set testRes
-} {ok 122879 {Got 122879 bytes} ok {PostStart {Got 122879 bytes}}}
+} {ok 122879 {Got 122880 bytes} ok {PostStart {Got 122880 bytes}}}
 
 # On Linux platforms when the client and server are on the same
 # host, the client is unable to read the server's response one

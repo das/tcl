@@ -1342,7 +1342,7 @@ proc tcltest::ProcessFlags {flagArray} {
 	    # Check whether the problem is "unknown option"
 	    if {[regexp {^unknown option (\S+):} $msg -> option]} {
 		# Could be this is an option the Hook knows about
-		set moreOptions [processCmdLineArgsAddFlagHook]
+		set moreOptions [processCmdLineArgsAddFlagsHook]
 		if {[lsearch -exact $moreOptions $option] == -1} {
 		    # Nope.  Report the error, including additional options,
 		    # but keep going
@@ -2897,7 +2897,11 @@ proc tcltest::makeFile {contents name {directory ""}} {
 
     set fd [open $fullName w]
     fconfigure $fd -translation lf
-    puts -nonewline $fd $contents
+    if {[string equal [string index $contents end] \n]} {
+	puts -nonewline $fd $contents
+    } else {
+	puts $fd $contents
+    }
     close $fd
 
     if {[lsearch -exact $filesMade $fullName] == -1} {
@@ -3037,7 +3041,7 @@ proc tcltest::viewFile {name {directory ""}} {
     set fullName [file join $directory $name]
     set f [open $fullName]
     fconfigure $f -translation binary
-    set data [read $f]
+    set data [read -nonewline $f]
     close $f
     return $data
 }
@@ -3284,7 +3288,7 @@ namespace eval tcltest {
 	    set required true
 	}
 	foreach hook { PrintUsageInfoHook processCmdLineArgsHook
-			processCmdLineArgsAddFlagHook } {
+			processCmdLineArgsAddFlagsHook } {
 	    if {[string equal [namespace current] [namespace qualifiers \
 		    [namespace which $hook]]]} {
 		set required true
