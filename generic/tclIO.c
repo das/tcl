@@ -2061,7 +2061,7 @@ FlushChannel(interp, chanPtr, calledFromAsyncFlush)
 
         toWrite = bufPtr->nextAdded - bufPtr->nextRemoved;
         written = (chanPtr->typePtr->outputProc) (chanPtr->instanceData,
-                (char *) bufPtr->buf + bufPtr->nextRemoved, toWrite,
+                bufPtr->buf + bufPtr->nextRemoved, toWrite,
 		&errorCode);
 
 	/*
@@ -5913,7 +5913,7 @@ Tcl_BadChannelOption(interp, optionName, optionList)
 	Tcl_DString ds;
 
 	Tcl_DStringInit(&ds);
-	Tcl_DStringAppend(&ds, (char *) genericopt, -1);
+	Tcl_DStringAppend(&ds, genericopt, -1);
 	if (optionList && (*optionList)) {
 	    Tcl_DStringAppend(&ds, " ", 1);
 	    Tcl_DStringAppend(&ds, optionList, -1);

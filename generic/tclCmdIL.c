@@ -1421,7 +1421,7 @@ InfoNameOfExecutableCmd(dummy, interp, objc, objv)
     nameOfExecutable = Tcl_GetNameOfExecutable();
     
     if (nameOfExecutable != NULL) {
-	Tcl_SetStringObj(Tcl_GetObjResult(interp), (char *)nameOfExecutable, -1);
+	Tcl_SetStringObj(Tcl_GetObjResult(interp), nameOfExecutable, -1);
     }
     return TCL_OK;
 }

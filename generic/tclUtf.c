@@ -673,7 +673,7 @@ Tcl_UtfPrev(str, start)
 	    break;
 	} 
 	if (byte >= 0xC0) {
-	    return (char *) look;
+	    return look;
 	}
 	look--;
     }

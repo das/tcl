@@ -1490,7 +1490,7 @@ TclpObjListVolumes(void)
             break;
         }
         
-        Tcl_ExternalToUtfDString(NULL, (char *) &name[1], name[0], &dstr);  
+        Tcl_ExternalToUtfDString(NULL, (CONST char *)&name[1], name[0], &dstr);
         elemPtr = Tcl_NewStringObj(Tcl_DStringValue(&dstr),
 		Tcl_DStringLength(&dstr));
         Tcl_AppendToObj(elemPtr, ":", 1);

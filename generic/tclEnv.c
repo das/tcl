@@ -637,7 +637,7 @@ ReplaceString(oldStr, newStr)
 	    ckfree((char *) environCache);
 	}
 	environCache = newCache;
-	environCache[cacheSize] = (char *) newStr;
+	environCache[cacheSize] = newStr;
 	environCache[cacheSize+1] = NULL;
 	cacheSize += 5;
     }

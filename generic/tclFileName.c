@@ -166,7 +166,7 @@ ExtractWinRoot(path, resultPtr, offset, typePtr)
 {
     if (path[0] == '/' || path[0] == '\\') {
 	/* Might be a UNC or Vol-Relative path */
-	char *host, *share, *tail;
+	CONST char *host, *share, *tail;
 	int hlen, slen;
 	if (path[1] != '/' && path[1] != '\\') {
 	    Tcl_DStringSetLength(resultPtr, offset);
@@ -174,7 +174,7 @@ ExtractWinRoot(path, resultPtr, offset, typePtr)
 	    Tcl_DStringAppend(resultPtr, "/", 1);
 	    return &path[1];
 	}
-	host = (char *)&path[2];
+	host = &path[2];
 
 	/* Skip separators */
 	while (host[0] == '/' || host[0] == '\\') host++;

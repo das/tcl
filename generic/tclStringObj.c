@@ -1221,7 +1221,7 @@ AppendUnicodeToUtfRep(objPtr, unicode, numChars)
     int numChars;	        /* Number of chars of "unicode" to convert. */
 {
     Tcl_DString dsPtr;
-    char *bytes;
+    CONST char *bytes;
     
     if (numChars < 0) {
 	numChars = 0;
@@ -1234,7 +1234,7 @@ AppendUnicodeToUtfRep(objPtr, unicode, numChars)
     }
 
     Tcl_DStringInit(&dsPtr);
-    bytes = (char *)Tcl_UniCharToUtfDString(unicode, numChars, &dsPtr);
+    bytes = Tcl_UniCharToUtfDString(unicode, numChars, &dsPtr);
     AppendUtfToUtfRep(objPtr, bytes, Tcl_DStringLength(&dsPtr));
     Tcl_DStringFree(&dsPtr);
 }

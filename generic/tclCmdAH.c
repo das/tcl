@@ -1916,7 +1916,7 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
 
-    format = (char *) Tcl_GetStringFromObj(objv[1], &formatLen);
+    format = Tcl_GetStringFromObj(objv[1], &formatLen);
     endPtr = format + formatLen;
     resultPtr = Tcl_NewObj();
     objIndex = 2;
