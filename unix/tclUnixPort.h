@@ -43,7 +43,9 @@
 #endif
 #include <pwd.h>
 #include <signal.h>
-#include <sys/param.h>
+#ifdef HAVE_SYS_PARAM_H
+#   include <sys/param.h>
+#endif
 #include <sys/types.h>
 #ifdef USE_DIRENT2_H
 #   include "../compat/dirent2.h"

@@ -734,7 +734,11 @@ Tcl_CreateEncoding(typePtr)
     encodingPtr->freeProc	= typePtr->freeProc;
     encodingPtr->nullSize	= typePtr->nullSize;
     encodingPtr->clientData	= typePtr->clientData;
-    encodingPtr->lengthProc	= (typePtr->nullSize == 1) ? strlen : unilen;
+    if (typePtr->nullSize == 1) {
+	encodingPtr->lengthProc = strlen;
+    } else {
+	encodingPtr->lengthProc = unilen;
+    }
     encodingPtr->refCount	= 1;
     encodingPtr->hPtr		= hPtr;
     Tcl_SetHashValue(hPtr, encodingPtr);

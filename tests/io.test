@@ -6411,14 +6411,14 @@ test io-52.8 {TclCopyChannel} {stdio} {
     removeFile pipe
     set f1 [open pipe w]
     fconfigure $f1 -translation lf
-    puts $f1 [subst {
+    puts $f1 "
 	puts ready
 	gets stdin
-	set f1 \[open $thisScript r\]
+	set f1 \[open [list $thisScript] r\]
 	fconfigure \$f1 -translation lf
 	puts \[read \$f1 100\]
 	close \$f1
-    }]
+    "
     close $f1
     set f1 [open "|[list $tcltest pipe]" r+]
     fconfigure $f1 -translation lf
