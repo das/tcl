@@ -29,6 +29,7 @@ puts $f {
 	puts -nonewline " $str"
     }
     puts {}
+    exit
 }
 close $f
 
@@ -51,6 +52,7 @@ puts $f {
 	    close $f
 	}
     }
+    exit
 }
 close $f
 
@@ -61,6 +63,7 @@ puts $f {
     set words [regsub -all "\[^ \t\n]+" $data {} dummy]
     set chars [string length $data]
     puts [format "%8.d%8.d%8.d" $lines $words $chars]
+    exit
 }
 close $f
 
@@ -85,12 +88,14 @@ puts $f {
 	}
 	lappend newcmd $arg
     }
+    exit
 }
 close $f
 
 set f [open sleep w]
 puts $f {
     after [expr $argv*1000]
+    exit
 }
 close $f
 
