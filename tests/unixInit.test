@@ -14,7 +14,7 @@
 
 package require tcltest 2
 namespace import -force ::tcltest::*
-
+catch {unset path}
 if {[info exists env(TCL_LIBRARY)]} {
     set oldlibrary $env(TCL_LIBRARY)
     unset env(TCL_LIBRARY)
