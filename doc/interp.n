@@ -333,7 +333,7 @@ For more details on hidden commands, see HIDDEN COMMANDS, below.
 \fIslave \fBhide \fIexposedCmdName\fR ?\fIhiddenCmdName\fR?
 This command hides the exposed command \fIexposedCmdName\fR, renaming it to 
 the hidden command \fIhiddenCmdName\fR, or keeping the same name if the
-the argument is not given, in the \fIslave\fR interpreter.
+argument is not given, in the \fIslave\fR interpreter.
 If a hidden command with the targeted name already exists, this command
 fails.
 Currently both \fIexposedCmdName\fR and \fIhiddenCmdName\fR can 
