@@ -433,6 +433,10 @@ that were stored in \fIreadObjPtr\fR.  If an error occurs while reading, the
 return value is \-1 and \fBTcl_ReadChars\fR records a POSIX error code that
 can be retrieved with \fBTcl_GetErrno\fR.
 .PP
+Setting \fIcharsToRead\fR to \fB-1\fR will cause the command to read
+all characters currently available (non-blocking) or everything until
+eof (blocking mode).
+.PP
 The return value may be smaller than the value to read, indicating that less
 data than requested was available.  This is called a \fIshort read\fR.  In
 blocking mode, this can only happen on an end-of-file.  In nonblocking mode,
