@@ -4011,6 +4011,11 @@ Tcl_EvalObjEx(interp, objPtr, flags)
 		objv = (Tcl_Obj **) ckalloc(objc*sizeof(Tcl_Obj *));
 	    }
 #undef TEOE_PREALLOC
+	    /*
+	     * Copy the list elements here, to avoid a segfault if objPtr
+	     * loses its List internal rep [Bug 1119369]
+	     */
+	    
 	    for (i=0; i < objc; i++) {
 		objv[i] = listRepPtr->elements[i];
 		Tcl_IncrRefCount(objv[i]);
