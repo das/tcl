@@ -1282,7 +1282,7 @@ GetOpenMode(
 					 * "RDONLY CREAT". */
 {
     int mode, modeArgc, c, i, gotRW;
-    char **modeArgv, *flag;
+    CONST char **modeArgv, *flag;
 
     /*
      * Check for the simpler fopen-like access modes (e.g. "r").  They

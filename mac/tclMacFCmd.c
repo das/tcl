@@ -1024,7 +1024,7 @@ GetFileSpecs(
     Boolean *pathIsDirectoryPtr)/* Set to true if path is itself a directory,
     				 * otherwise false. */
 {
-    char *dirName;
+    CONST char *dirName;
     OSErr err;
     int argc;
     CONST char **argv;

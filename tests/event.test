@@ -276,7 +276,9 @@ test event-7.4 {tkerror is nothing special anymore to tcl} {
     set errRes
 } bg:err1
 
-test event-7.5 {correct behaviour when there is no bgerror [Bug 219142]} {
+testConstraint exec [llength [info commands exec]]
+
+test event-7.5 {correct behaviour when there is no bgerror [Bug 219142]} {exec} {
     set script {
 	after 1000 error hello
 	after 2000 set a 0

@@ -197,7 +197,7 @@ EXTERN FILE *		TclMacFOpenHack _ANSI_ARGS_((CONST char * path,
 /* 24 */
 EXTERN char *		TclpGetTZName _ANSI_ARGS_((int isdst));
 /* 25 */
-EXTERN int		TclMacChmod _ANSI_ARGS_((char * path, int mode));
+EXTERN int		TclMacChmod _ANSI_ARGS_((CONST char * path, int mode));
 #endif /* MAC_TCL */
 
 typedef struct TclIntPlatStubs {
@@ -272,7 +272,7 @@ typedef struct TclIntPlatStubs {
     int (*tclMacCreateEnv) _ANSI_ARGS_((void)); /* 22 */
     FILE * (*tclMacFOpenHack) _ANSI_ARGS_((CONST char * path, CONST char * mode)); /* 23 */
     char * (*tclpGetTZName) _ANSI_ARGS_((int isdst)); /* 24 */
-    int (*tclMacChmod) _ANSI_ARGS_((char * path, int mode)); /* 25 */
+    int (*tclMacChmod) _ANSI_ARGS_((CONST char * path, int mode)); /* 25 */
 #endif /* MAC_TCL */
 } TclIntPlatStubs;
 

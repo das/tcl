@@ -780,7 +780,7 @@ declare 24 mac {
     char * TclpGetTZName(int isdst)
 }
 declare 25 mac {
-    int TclMacChmod(char *path, int mode)
+    int TclMacChmod(CONST char *path, int mode)
 }
 
 ############################
