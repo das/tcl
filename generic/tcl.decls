@@ -1199,7 +1199,7 @@ declare 352 generic {
     int Tcl_UniCharLen(Tcl_UniChar *str)
 }
 declare 353 generic {
-    int Tcl_UniCharNcmp(const Tcl_UniChar *cs, const Tcl_UniChar *ct, size_t n)
+    int Tcl_UniCharNcmp(CONST Tcl_UniChar *cs, CONST Tcl_UniChar *ct, size_t n)
 }
 declare 354 generic {
     char * Tcl_UniCharToUtfDString(CONST Tcl_UniChar *string, int numChars, \
