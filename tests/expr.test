@@ -902,7 +902,7 @@ test expr-26.7 {'ni' operator} {expr {"" ni ""}} 1
 proc testIEEE {} {
     variable ieeeValues
     binary scan [binary format dd -1.0 1.0] c* c
-    switch -exact $c {
+    switch -exact -- $c {
 	{0 0 0 0 0 0 -16 -65 0 0 0 0 0 0 -16 63} {
 	    # little endian
 	    binary scan \x00\x00\x00\x00\x00\x00\xf0\xff d \
