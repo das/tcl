@@ -118,7 +118,7 @@ will be accepted.
 .PP
 If \fIport\fR is specified as zero, the operating system will allocate
 an unused port for use as a server socket.  The port number actually
-allocated my be retrieved from the created server socket using the
+allocated may be retrieved from the created server socket using the
 \fBfconfigure\fR command to retrieve the \fB\-sockname\fR option as
 described below.
 

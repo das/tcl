@@ -37,6 +37,10 @@ namespace eval ::safe {
     #
     ####
 
+    # Make sure that our temporary variable is local to this
+    # namespace.  [Bug 981733]
+    variable temp
+
     # Share the descriptions
     set temp [::tcl::OptKeyRegister {
 	{-accessPath -list {} "access path for the slave"}
@@ -321,7 +325,7 @@ namespace eval ::safe {
 
 	# determine and store the access path if empty
 	if {[string equal "" $access_path]} {
-	    set access_path [uplevel #0 set auto_path]
+	    set access_path [uplevel \#0 set auto_path]
 	    # Make sure that tcl_library is in auto_path
 	    # and at the first position (needed by setAccessPath)
 	    set where [lsearch -exact $access_path [info library]]

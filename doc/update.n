@@ -61,7 +61,7 @@ while {!$done} {
 .CE
 
 .SH "SEE ALSO"
-after(n), interp(n)
+after(n), bgerror(n)
 
 .SH KEYWORDS
 event, flush, handler, idle, update

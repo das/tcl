@@ -34,6 +34,7 @@ cd /tmp
 exec tar -xf $tarFile
 cd $savedDir
 .CE
+
 .SH "SEE ALSO"
 file(n), cd(n), glob(n), filename(n)
 

@@ -60,13 +60,13 @@ void
 void
 \fBTcl_LimitRemoveHandler\fR(\fIinterp, type, handlerProc, clientData\fR)
 .SH ARGUMENTS
-.AS Tcl_LimitHandlerDeleteProc commandLimit in/out
+.AS Tcl_LimitHandlerDeleteProc commandLimit
 .AP Tcl_Interp *interp in
 Interpreter that the limit being managed applies to or that will have
 its limits checked.
 .AP int type in
-The type of limit that the operation refers to.  This must be either
-\fBTCL_LIMIT_COMMANDS\fR or \fBTCL_LIMIT_TIME\fR.
+The type of limit that the operation refers to.  Must be either
+TCL_LIMIT_COMMANDS or TCL_LIMIT_TIME.
 .AP int commandLimit in
 The maximum number of commands (as reported by \fBinfo cmdcount\fR)
 that may be executed in the interpreter.
@@ -123,8 +123,8 @@ interpreter (typically a master interpreter) to handle the error.
 .SH "LIMIT CHECKING API"
 .PP
 To check the resource limits for an interpreter, call
-\fBTcl_LimitCheck\fR, which returns \fBTCL_OK\fR if the limit was not
-exceeded (after processing callbacks) and \fBTCL_ERROR\fR if the limit was
+\fBTcl_LimitCheck\fR, which returns TCL_OK if the limit was not
+exceeded (after processing callbacks) and TCL_ERROR if the limit was
 exceeded (in which case an error message is also placed in the
 interpreter result).  That function should only be called when
 \fBTcl_LimitReady\fR returns non-zero so that granularity policy is
@@ -148,7 +148,7 @@ call \fBTcl_LimitTypeSet\fR, and to disable a limit call
 The level of a command limit may be set using
 \fBTcl_LimitSetCommands\fR, and retrieved using
 \fBTcl_LimitGetCommands\fR.  Similarly for a time limit with
-\fBTcl_LimitSetTime\fR and \fBTcl_LimitGetTime\fR respectively, but
+\fRTcl_LimitSetTime\fR and \fBTcl_LimitGetTime\fR respectively, but
 with that API the time limit is copied from and to the Tcl_Time
 structure that the \fItimeLimitPtr\fR argument points to.
 .PP
@@ -165,8 +165,8 @@ following prototype:
 .PP
 .CS
 typedef void Tcl_LimitHandlerProc(
-        ClientData \fIclientData\fR,
-        Tcl_Interp *\fIinterp\fR);
+	ClientData \fIclientData\fR,
+	Tcl_Interp *\fIinterp\fR);
 .CE
 .PP
 The \fIclientData\fR argument to the handler will be whatever is
@@ -175,14 +175,14 @@ and the \fIinterp\fR is the interpreter that had its limit exceeded.
 .PP
 The \fIdeleteProc\fR argument to \fBTcl_LimitAddHandler\fR is a
 function to call to delete the \fIclientData\fR value.  It may be
-\fBTCL_STATIC\fR or NULL if no deletion action is necessary, or
-\fBTCL_DYNAMIC\fR if all that is necessary is to free the structure with
+TCL_STATIC or NULL if no deletion action is necessary, or TCL_DYNAMIC
+if all that is necessary is to free the structure with
 \fBTcl_Free\fR.  Otherwise, it should refer to a function with the
 following prototype:
 .PP
 .CS
 typedef void Tcl_LimitHandlerDeleteProc(
-        ClientData \fIclientData\fR);
+	ClientData \fIclientData\fR);
 .CE
 .PP
 A limit handler may be deleted using \fBTcl_LimitRemoveHandler\fR; the
@@ -190,7 +190,7 @@ handler removed will be the first one found (out of the handlers added
 with \fBTcl_LimitAddHandler\fR) with exactly matching \fItype\fR,
 \fIhandlerProc\fR and \fIclientData\fR arguments.  This function
 always invokes the \fIdeleteProc\fR on the \fIclientData\fR (unless
-the \fIdeleteProc\fR was NULL or \fBTCL_STATIC\fR).
+the \fIdeleteProc\fR was NULL or TCL_STATIC).
 
 .SH KEYWORDS
 interpreter, resource, limit, commands, time, callback

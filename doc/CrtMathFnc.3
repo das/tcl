@@ -21,17 +21,18 @@ void
 .sp
 .VS 8.4
 int
-\fBTcl_GetMathFuncInfo\fR(\fIinterp, name, numArgsPtr, argTypesPtr, procPtr,
-                    clientDataPtr\fR)
+\fBTcl_GetMathFuncInfo\fR(\fIinterp, name, numArgsPtr, argTypesPtr, procPtr, clientDataPtr\fR)
 .sp
 Tcl_Obj *
 \fBTcl_ListMathFuncs\fR(\fIinterp, pattern\fR)
 .VE
 .SH ARGUMENTS
-.AS Tcl_ValueType *clientDataPtr out
+.AS Tcl_ValueType *clientDataPtr
 .AP Tcl_Interp *interp in
 Interpreter in which new function will be defined.
-.AP "const char" *name in
+.VS 8.4
+.AP "CONST char" *name in
+.VE
 Name for new function.
 .AP int numArgs in
 Number of arguments to new function;  also gives size of \fIargTypes\fR array.
@@ -57,7 +58,7 @@ implemented directly in bytecode).
 Points to a variable that will be set to contain the clientData
 argument passed to \fITcl_CreateMathFunc\fR when the function was
 created if the function is not implemented directly in bytecode.
-.AP "const char" *pattern in
+.AP "CONST char" *pattern in
 Pattern to match against function names so as to filter them (by
 passing to \fITcl_StringMatch\fR), or NULL to not apply any filter.
 .BE
@@ -74,8 +75,8 @@ is created.  If it does exist, then the existing function is replaced.
 \fINumArgs\fR and \fIargTypes\fR describe the arguments to the function.
 Each entry in the \fIargTypes\fR array must be
 .VS 8.4
-one of \fBTCL_INT\fR, \fBTCL_DOUBLE\fR, \fBTCL_WIDE_INT\fR,
-or \fBTCL_EITHER\fR to indicate whether the corresponding argument must be an
+one of TCL_INT, TCL_DOUBLE, TCL_WIDE_INT,
+or TCL_EITHER to indicate whether the corresponding argument must be an
 integer, a double-precision floating value, a wide (64-bit) integer,
 or any, respectively.
 .VE 8.4
@@ -85,10 +86,10 @@ Whenever the function is invoked in an expression Tcl will invoke
 the type \fBTcl_MathProc\fR:
 .CS
 typedef int Tcl_MathProc(
-        ClientData \fIclientData\fR,
-        Tcl_Interp *\fIinterp\fR,
-        Tcl_Value *\fIargs\fR,
-        Tcl_Value *\fIresultPtr\fR);
+	ClientData \fIclientData\fR,
+	Tcl_Interp *\fIinterp\fR,
+	Tcl_Value *\fIargs\fR,
+	Tcl_Value *\fIresultPtr\fR);
 .CE
 .PP
 When \fIproc\fR is invoked the \fIclientData\fR and \fIinterp\fR
@@ -98,18 +99,18 @@ which describe the actual arguments to the function:
 .VS 8.4
 .CS
 typedef struct Tcl_Value {
-        Tcl_ValueType \fItype\fR;
-        long \fIintValue\fR;
-        double \fIdoubleValue\fR;
-        Tcl_WideInt \fIwideValue\fR;
+	Tcl_ValueType \fItype\fR;
+	long \fIintValue\fR;
+	double \fIdoubleValue\fR;
+	Tcl_WideInt \fIwideValue\fR;
 } Tcl_Value;
 .CE
 .PP
 The \fItype\fR field indicates the type of the argument and is
-one of \fBTCL_INT\fR, \fBTCL_DOUBLE\fR or \fBTCL_WIDE_INT\fR.
+one of TCL_INT, TCL_DOUBLE or TCL_WIDE_INT.
 .VE 8.4
 It will match the \fIargTypes\fR value specified for the function unless
-the \fIargTypes\fR value was \fBTCL_EITHER\fR. Tcl converts
+the \fIargTypes\fR value was TCL_EITHER. Tcl converts
 the argument supplied in the expression to the type requested in
 \fIargTypes\fR, if that is necessary.
 Depending on the value of the \fItype\fR field, the \fIintValue\fR,
@@ -123,12 +124,12 @@ in \fIresultPtr->intValue\fR or as a floating value in
 \fIresultPtr->doubleValue\fR.
 It should set also \fIresultPtr->type\fR to one of
 .VS 8.4
-\fBTCL_INT\fR, \fBTCL_DOUBLE\fR or \fBTCL_WIDE_INT\fR
+TCL_INT, TCL_DOUBLE or TCL_WIDE_INT
 .VE 8.4
 to indicate which value was set.
-Under normal circumstances \fIproc\fR should return \fBTCL_OK\fR.
+Under normal circumstances \fIproc\fR should return TCL_OK.
 If an error occurs while executing the function, \fIproc\fR should
-return \fBTCL_ERROR\fR and leave an error message in the interpreter's result.
+return TCL_ERROR and leave an error message in the interpreter's result.
 .PP
 .VS 8.4
 \fBTcl_GetMathFuncInfo\fR retrieves the values associated with

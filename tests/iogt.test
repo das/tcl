@@ -489,7 +489,7 @@ test iogt-2.0 {basic I/O going through transform} testchannel {
 } {1 71 71}
 
 
-test iogt-2.1 {basic I/O, operation trail} {testchannel unixOnly} {
+test iogt-2.1 {basic I/O, operation trail} {testchannel unix} {
     set fin  [open $path(dummy)    r]
     set fout [open $path(dummyout) w]
 
@@ -539,7 +539,7 @@ write
 flush/write
 delete/write}
 
-test iogt-2.2 {basic I/O, data trail} {testchannel unixOnly} {
+test iogt-2.2 {basic I/O, data trail} {testchannel unix} {
     set fin  [open $path(dummy)    r]
     set fout [open $path(dummyout) w]
 
@@ -594,7 +594,7 @@ flush/write {} {}
 delete/write {} *ignored*}
 
 
-test iogt-2.3 {basic I/O, mixed trail} {testchannel unixOnly} {
+test iogt-2.3 {basic I/O, mixed trail} {testchannel unix} {
     set fin  [open $path(dummy)    r]
     set fout [open $path(dummyout) w]
 

@@ -64,8 +64,8 @@ this release, you will need to use the appropriate .lib file for your
 compiler.  In the lib directory of the installation directory, there
 are library files for the Microsoft Visual C++ compiler:
 
-	tcl84.lib
-	tk84.lib
+	tcl85.lib
+	tk85.lib
 
 5. Building dynamically loadable extensions
 --------------------------------------------

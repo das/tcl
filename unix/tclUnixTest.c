@@ -446,6 +446,7 @@ TestfindexecutableCmd(clientData, interp, argc, argv)
 {
     char *oldName;
     char *oldNativeName;
+    int oldDone;
 
     if (argc != 2) {
 	Tcl_AppendResult(interp, "wrong # arguments: should be \"", argv[0],
@@ -455,9 +456,11 @@ TestfindexecutableCmd(clientData, interp, argc, argv)
 
     oldName       = tclExecutableName;
     oldNativeName = tclNativeExecutableName;
+    oldDone       = tclFindExecutableSearchDone;
 
     tclExecutableName       = NULL;
     tclNativeExecutableName = NULL;
+    tclFindExecutableSearchDone = 0;
 
     Tcl_FindExecutable(argv[1]);
     if (tclExecutableName != NULL) {
@@ -468,8 +471,9 @@ TestfindexecutableCmd(clientData, interp, argc, argv)
 	ckfree(tclNativeExecutableName);
     }
 
-    tclExecutableName       = oldName;
-    tclNativeExecutableName = oldNativeName;
+    tclExecutableName           = oldName;
+    tclNativeExecutableName     = oldNativeName;
+    tclFindExecutableSearchDone = oldDone;
 
     return TCL_OK;
 }

@@ -25,6 +25,7 @@
 
 char *tclExecutableName = NULL;
 char *tclNativeExecutableName = NULL;
+int tclFindExecutableSearchDone = 0;
 
 /*
  * The following values are used in the flags returned by Tcl_ScanElement

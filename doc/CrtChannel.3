@@ -25,7 +25,7 @@ ClientData
 Tcl_ChannelType *
 \fBTcl_GetChannelType\fR(\fIchannel\fR)
 .sp
-const char *
+CONST char *
 \fBTcl_GetChannelName\fR(\fIchannel\fR)
 .sp
 int
@@ -35,9 +35,6 @@ int
 Tcl_ThreadId
 \fBTcl_GetChannelThread\fR(\fIchannel\fR)
 .VE 8.4
-.sp
-int
-\fBTcl_GetChannelMode\fR(\fIchannel\fR)
 .sp
 int
 \fBTcl_GetChannelBufferSize\fR(\fIchannel\fR)
@@ -72,7 +69,7 @@ void
 int
 \fBTcl_ChannelBuffered\fR(\fIchannel\fR)
 .sp
-const char *
+CONST char *
 \fBTcl_ChannelName\fR(\fItypePtr\fR)
 .sp
 Tcl_ChannelTypeVersion
@@ -120,11 +117,11 @@ Tcl_DriverHandlerProc *
 \fBTcl_ChannelHandlerProc\fR(\fItypePtr\fR)
 .sp
 .SH ARGUMENTS
-.AS Tcl_ChannelType *channelName
+.AS Tcl_ChannelType *channelName in
 .AP Tcl_ChannelType *typePtr in
 Points to a structure containing the addresses of procedures that
 can be called to perform I/O and other functions on the channel.
-.AP "const char" *channelName in
+.AP "CONST char" *channelName in
 The name of this channel, such as \fBfile3\fR; must not be in use
 by any other channel. Can be NULL, in which case the channel is
 created without a name.
@@ -150,9 +147,9 @@ and \fBTCL_EXCEPTION\fR that indicates events that have occurred on
 this channel.
 .AP Tcl_Interp *interp in
 Current interpreter. (can be NULL)
-.AP "const char" *optionName in
+.AP "CONST char" *optionName in
 Name of the invalid option.
-.AP "const char" *optionList in
+.AP "CONST char" *optionList in
 Specific options list (space separated words, without "-") 
 to append to the standard generic options list.
 Can be NULL for generic options error message only.
@@ -177,7 +174,7 @@ driver provides a \fBTcl_ChannelType\fR structure containing pointers to
 functions implementing the various operations used by the generic layer to
 communicate with the channel driver. The \fBTcl_ChannelType\fR structure
 and the functions referenced by it are described in the section
-\fBTCL_CHANNELTYPE\fR, below.
+TCL_CHANNELTYPE, below.
 .PP
 Second, channel drivers usually provide a Tcl command to create
 instances of that type of channel. For example, the Tcl \fBopen\fR
@@ -204,7 +201,7 @@ structure to perform operations on the channel.
 \fItypePtr\fR and \fIinstanceData\fR with it. The channel is opened in the
 mode indicated by \fImask\fR.
 For a discussion of channel drivers, their operations and the
-\fBTcl_ChannelType\fR structure, see the section \fBTCL_CHANNELTYPE\fR, below.
+\fBTcl_ChannelType\fR structure, see the section TCL_CHANNELTYPE, below.
 .PP
 \fBTcl_CreateChannel\fR interacts with the code managing the standard
 channels. Once a standard channel was initialized either through a
@@ -299,6 +296,7 @@ Application to a channel registered in some interpreter is not allowed.
 scripts associated with the specified \fIchannel\fR, thus shutting
 down all event processing for this channel.
 .VE 8.4
+
 .SH TCL_CHANNELTYPE
 .PP
 A channel driver provides a \fBTcl_ChannelType\fR structure that contains
@@ -311,21 +309,21 @@ details about the old structure.
 The \fBTcl_ChannelType\fR structure contains the following fields:
 .CS
 typedef struct Tcl_ChannelType {
-        char *\fItypeName\fR;
-        Tcl_ChannelTypeVersion \fIversion\fR;
-        Tcl_DriverCloseProc *\fIcloseProc\fR;
-        Tcl_DriverInputProc *\fIinputProc\fR;
-        Tcl_DriverOutputProc *\fIoutputProc\fR;
-        Tcl_DriverSeekProc *\fIseekProc\fR;
-        Tcl_DriverSetOptionProc *\fIsetOptionProc\fR;
-        Tcl_DriverGetOptionProc *\fIgetOptionProc\fR;
-        Tcl_DriverWatchProc *\fIwatchProc\fR;
-        Tcl_DriverGetHandleProc *\fIgetHandleProc\fR;
-        Tcl_DriverClose2Proc *\fIclose2Proc\fR;
-        Tcl_DriverBlockModeProc *\fIblockModeProc\fR;
-        Tcl_DriverFlushProc *\fIflushProc\fR;
-        Tcl_DriverHandlerProc *\fIhandlerProc\fR;
-        Tcl_DriverWideSeekProc *\fIwideSeekProc\fR;
+	char *\fItypeName\fR;
+	Tcl_ChannelTypeVersion \fIversion\fR;
+	Tcl_DriverCloseProc *\fIcloseProc\fR;
+	Tcl_DriverInputProc *\fIinputProc\fR;
+	Tcl_DriverOutputProc *\fIoutputProc\fR;
+	Tcl_DriverSeekProc *\fIseekProc\fR;
+	Tcl_DriverSetOptionProc *\fIsetOptionProc\fR;
+	Tcl_DriverGetOptionProc *\fIgetOptionProc\fR;
+	Tcl_DriverWatchProc *\fIwatchProc\fR;
+	Tcl_DriverGetHandleProc *\fIgetHandleProc\fR;
+	Tcl_DriverClose2Proc *\fIclose2Proc\fR;
+	Tcl_DriverBlockModeProc *\fIblockModeProc\fR;	
+	Tcl_DriverFlushProc *\fIflushProc\fR;	
+	Tcl_DriverHandlerProc *\fIhandlerProc\fR;	
+	Tcl_DriverWideSeekProc *\fIwideSeekProc\fR;
 } Tcl_ChannelType;
 .CE
 .PP
@@ -355,7 +353,8 @@ The change to the structures was made in such a way that standard channel
 types are binary compatible.  However, channel types that use stacked
 channels (i.e. TLS, Trf) have new versions to correspond to the above change
 since the previous code for stacked channels had problems.
-.SS TYPENAME
+
+.SH TYPENAME
 .PP
 The \fItypeName\fR field contains a null-terminated string that
 identifies the type of the device implemented by this driver, e.g.
@@ -363,7 +362,8 @@ identifies the type of the device implemented by this driver, e.g.
 .PP
 This value can be retrieved with \fBTcl_ChannelName\fR, which returns
 a pointer to the string.
-.SS VERSION
+
+.SH VERSION
 .PP
 The \fIversion\fR field should be set to \fBTCL_CHANNEL_VERSION_2\fR.
 If it is not set to this value \fBTCL_CHANNEL_VERSION_3\fR, then this
@@ -377,7 +377,8 @@ This value can be retrieved with \fBTcl_ChannelVersion\fR, which returns
 one of \fBTCL_CHANNEL_VERSION_3\fR,
 .VE 8.4
 \fBTCL_CHANNEL_VERSION_2\fR or \fBTCL_CHANNEL_VERSION_1\fR.
-.SS BLOCKMODEPROC
+
+.SH BLOCKMODEPROC
 .PP
 The \fIblockModeProc\fR field contains the address of a function called by
 the generic layer to set blocking and nonblocking mode on the device.
@@ -385,8 +386,8 @@ the generic layer to set blocking and nonblocking mode on the device.
 .PP
 .CS
 typedef int Tcl_DriverBlockModeProc(
-        ClientData \fIinstanceData\fR,
-        int \fImode\fR);
+	ClientData \fIinstanceData\fR,
+	int \fImode\fR);
 .CE
 .PP
 The \fIinstanceData\fR is the same as the value passed to
@@ -412,7 +413,8 @@ blocking mode is acceptable to it, and should this also document for
 the user so that the blocking mode of the channel is not changed to an
 inacceptable value. Any confusion here may lead the interpreter into a
 (spurious and difficult to find) deadlock.
-.SS "CLOSEPROC AND CLOSE2PROC"
+
+.SH "CLOSEPROC AND CLOSE2PROC"
 .PP
 The \fIcloseProc\fR field contains the address of a function called by the
 generic layer to clean up driver-related information when the channel is
@@ -420,8 +422,8 @@ closed. \fICloseProc\fR must match the following prototype:
 .PP
 .CS
 typedef int Tcl_DriverCloseProc(
-        ClientData \fIinstanceData\fR,
-        Tcl_Interp *\fIinterp\fR);
+	ClientData \fIinstanceData\fR,
+	Tcl_Interp *\fIinterp\fR);
 .CE
 .PP
 The \fIinstanceData\fR argument is the same as the value provided to
@@ -442,9 +444,9 @@ following prototype:
 .PP
 .CS
 typedef int Tcl_DriverClose2Proc(
-        ClientData \fIinstanceData\fR,
-        Tcl_Interp *\fIinterp\fR,
-        int \fIflags\fR);
+	ClientData \fIinstanceData\fR,
+	Tcl_Interp *\fIinterp\fR,
+	int \fIflags\fR);
 .CE
 .PP
 The \fIclose2Proc\fR will be called with \fIflags\fR set to an OR'ed
@@ -465,7 +467,8 @@ in the interpreter's result.
 The \fIcloseProc\fR and \fIclose2Proc\fR values can be retrieved with
 \fBTcl_ChannelCloseProc\fR or \fBTcl_ChannelClose2Proc\fR, which
 return a pointer to the respective function.
-.SS INPUTPROC
+
+.SH INPUTPROC
 .PP
 The \fIinputProc\fR field contains the address of a function called by the
 generic layer to read data from the file or device and store it in an
@@ -473,10 +476,10 @@ internal buffer. \fIInputProc\fR must match the following prototype:
 .PP
 .CS
 typedef int Tcl_DriverInputProc(
-        ClientData \fIinstanceData\fR,
-        char *\fIbuf\fR,
-        int \fIbufSize\fR,
-        int *\fIerrorCodePtr\fR);
+	ClientData \fIinstanceData\fR,
+	char *\fIbuf\fR,
+	int \fIbufSize\fR,
+	int *\fIerrorCodePtr\fR);
 .CE
 .PP
 \fIInstanceData\fR is the same as the value passed to
@@ -509,7 +512,8 @@ blocking.
 .PP
 This value can be retrieved with \fBTcl_ChannelInputProc\fR, which returns
 a pointer to the function.
-.SS OUTPUTPROC
+
+.SH OUTPUTPROC
 .PP
 The \fIoutputProc\fR field contains the address of a function called by the
 generic layer to transfer data from an internal buffer to the output device.
@@ -517,10 +521,10 @@ generic layer to transfer data from an internal buffer to the output device.
 .PP
 .CS
 typedef int Tcl_DriverOutputProc(
-        ClientData \fIinstanceData\fR,
-        const char *\fIbuf\fR,
-        int \fItoWrite\fR,
-        int *\fIerrorCodePtr\fR);
+	ClientData \fIinstanceData\fR,
+	CONST char *\fIbuf\fR,
+	int \fItoWrite\fR,
+	int *\fIerrorCodePtr\fR);
 .CE
 .PP
 \fIInstanceData\fR is the same as the value passed to
@@ -547,7 +551,8 @@ without writing any data.
 .PP
 This value can be retrieved with \fBTcl_ChannelOutputProc\fR, which returns
 a pointer to the function.
-.SS "SEEKPROC AND WIDESEEKPROC"
+
+.SH "SEEKPROC AND WIDESEEKPROC"
 .PP
 The \fIseekProc\fR field contains the address of a function called by the
 generic layer to move the access point at which subsequent input or output
@@ -556,10 +561,10 @@ prototype:
 .PP
 .CS
 typedef int Tcl_DriverSeekProc(
-        ClientData \fIinstanceData\fR,
-        long \fIoffset\fR,
-        int \fIseekMode\fR,
-        int *\fIerrorCodePtr\fR);
+	ClientData \fIinstanceData\fR,
+	long \fIoffset\fR,
+	int \fIseekMode\fR,
+	int *\fIerrorCodePtr\fR);
 .CE
 .PP
 The \fIinstanceData\fR argument is the same as the value given to
@@ -587,10 +592,10 @@ following prototype:
 .PP
 .CS
 typedef Tcl_WideInt Tcl_DriverWideSeekProc(
-        ClientData \fIinstanceData\fR,
-        Tcl_WideInt \fIoffset\fR,
-        int \fIseekMode\fR,
-        int *\fIerrorCodePtr\fR);
+	ClientData \fIinstanceData\fR,
+	Tcl_WideInt \fIoffset\fR,
+	int \fIseekMode\fR,
+	int *\fIerrorCodePtr\fR);
 .CE
 .PP
 The arguments and return values mean the same thing as with
@@ -602,7 +607,8 @@ The \fIseekProc\fR value can be retrieved with
 and similarly the \fIwideSeekProc\fR can be retrieved with
 \fBTcl_ChannelWideSeekProc\fR.
 .VE 8.4
-.SS SETOPTIONPROC
+
+.SH SETOPTIONPROC
 .PP
 The \fIsetOptionProc\fR field contains the address of a function called by
 the generic layer to set a channel type specific option on a channel.
@@ -610,10 +616,10 @@ the generic layer to set a channel type specific option on a channel.
 .PP
 .CS
 typedef int Tcl_DriverSetOptionProc(
-        ClientData \fIinstanceData\fR,
-        Tcl_Interp *\fIinterp\fR,
-        const char *\fIoptionName\fR,
-        const char *\fInewValue\fR);
+	ClientData \fIinstanceData\fR,
+	Tcl_Interp *\fIinterp\fR,
+	CONST char *\fIoptionName\fR,
+	CONST char *\fInewValue\fR);
 .CE
 .PP
 \fIoptionName\fR is the name of an option to set, and \fInewValue\fR is
@@ -643,7 +649,8 @@ error code.
 .PP
 This value can be retrieved with \fBTcl_ChannelSetOptionProc\fR, which returns
 a pointer to the function.
-.SS GETOPTIONPROC
+
+.SH GETOPTIONPROC
 .PP
 The \fIgetOptionProc\fR field contains the address of a function called by
 the generic layer to get the value of a channel type specific option on a
@@ -651,10 +658,10 @@ channel. \fIgetOptionProc\fR must match the following prototype:
 .PP
 .CS
 typedef int Tcl_DriverGetOptionProc(
-        ClientData \fIinstanceData\fR,
-        Tcl_Interp *\fIinterp\fR,
-        const char *\fIoptionName\fR,
-        Tcl_DString *\fIoptionValue\fR);
+	ClientData \fIinstanceData\fR,
+	Tcl_Interp *\fIinterp\fR,
+	CONST char *\fIoptionName\fR,
+	Tcl_DString *\fIoptionValue\fR);
 .CE
 .PP
 \fIOptionName\fR is the name of an option supported by this type of
@@ -680,7 +687,8 @@ specific options.
 .PP
 This value can be retrieved with \fBTcl_ChannelGetOptionProc\fR, which returns
 a pointer to the function.
-.SS WATCHPROC
+
+.SH WATCHPROC
 .PP
 The \fIwatchProc\fR field contains the address of a function called
 by the generic layer to initialize the event notification mechanism to
@@ -689,8 +697,8 @@ notice events of interest on this channel.
 .PP
 .CS
 typedef void Tcl_DriverWatchProc(
-        ClientData \fIinstanceData\fR,
-        int \fImask\fR);
+	ClientData \fIinstanceData\fR,
+	int \fImask\fR);
 .CE
 .PP
 The \fIinstanceData\fR is the same as the value passed to
@@ -712,7 +720,8 @@ details on how to queue an event.
 .PP
 This value can be retrieved with \fBTcl_ChannelWatchProc\fR, which returns
 a pointer to the function.
-.SS GETHANDLEPROC
+
+.SH GETHANDLEPROC
 .PP
 The \fIgetHandleProc\fR field contains the address of a function called by
 the generic layer to retrieve a device-specific handle from the channel.
@@ -720,9 +729,9 @@ the generic layer to retrieve a device-specific handle from the channel.
 .PP
 .CS
 typedef int Tcl_DriverGetHandleProc(
-        ClientData \fIinstanceData\fR,
-        int \fIdirection\fR,
-        ClientData *\fIhandlePtr\fR);
+	ClientData \fIinstanceData\fR,
+	int \fIdirection\fR,
+	ClientData *\fIhandlePtr\fR);
 .CE
 .PP
 \fIInstanceData\fR is the same as the value passed to
@@ -741,7 +750,8 @@ device handles, the function should return \fBTCL_ERROR\fR.
 .PP
 This value can be retrieved with \fBTcl_ChannelGetHandleProc\fR, which returns
 a pointer to the function.
-.SS FLUSHPROC
+
+.SH FLUSHPROC
 .PP
 The \fIflushProc\fR field is currently reserved for future use.
 It should be set to NULL.
@@ -749,12 +759,13 @@ It should be set to NULL.
 .PP
 .CS
 typedef int Tcl_DriverFlushProc(
-        ClientData \fIinstanceData\fR);
+	ClientData \fIinstanceData\fR);
 .CE
 .PP
 This value can be retrieved with \fBTcl_ChannelFlushProc\fR, which returns
 a pointer to the function.
-.SS HANDLERPROC
+
+.SH HANDLERPROC
 .PP
 The \fIhandlerProc\fR field contains the address of a function called by
 the generic layer to notify the channel that an event occurred.  It should
@@ -764,8 +775,8 @@ that occur on the underlying (stacked) channel.
 .PP
 .CS
 typedef int Tcl_DriverHandlerProc(
-        ClientData \fIinstanceData\fR,
-        int \fIinterestMask\fR);
+	ClientData \fIinstanceData\fR,
+	int \fIinterestMask\fR);
 .CE
 .PP
 \fIInstanceData\fR is the same as the value passed to \fBTcl_CreateChannel\fR
@@ -775,6 +786,7 @@ type of event occurred on this channel.
 .PP
 This value can be retrieved with \fBTcl_ChannelHandlerProc\fR, which returns
 a pointer to the function.
+
 .SH TCL_BADCHANNELOPTION
 .PP
 This procedure generates a "bad option" error message in an
@@ -791,36 +803,35 @@ The message has the form
 .CS
     bad option "blah": should be one of 
     <...generic options...>+<...specific options...>
-.CE
 so you get for instance:
-.CS
     bad option "-blah": should be one of -blocking,
     -buffering, -buffersize, -eofchar, -translation,
     -peername, or -sockname
-.CE
 when called with \fIoptionList\fR="peername sockname"
-.PP
+.CE
 ``blah'' is the \fIoptionName\fR argument and ``<specific options>''
 is a space separated list of specific option words.
 The function takes good care of inserting minus signs before
 each option, commas after, and an ``or'' before the last option.
+
 .SH "OLD CHANNEL TYPES"
+
 The original (8.3.1 and below) \fBTcl_ChannelType\fR structure contains
 the following fields:
 .PP
 .CS
 typedef struct Tcl_ChannelType {
-        char *\fItypeName\fR;
-        Tcl_DriverBlockModeProc *\fIblockModeProc\fR;
-        Tcl_DriverCloseProc *\fIcloseProc\fR;
-        Tcl_DriverInputProc *\fIinputProc\fR;
-        Tcl_DriverOutputProc *\fIoutputProc\fR;
-        Tcl_DriverSeekProc *\fIseekProc\fR;
-        Tcl_DriverSetOptionProc *\fIsetOptionProc\fR;
-        Tcl_DriverGetOptionProc *\fIgetOptionProc\fR;
-        Tcl_DriverWatchProc *\fIwatchProc\fR;
-        Tcl_DriverGetHandleProc *\fIgetHandleProc\fR;
-        Tcl_DriverClose2Proc *\fIclose2Proc\fR;
+	char *\fItypeName\fR;
+	Tcl_DriverBlockModeProc *\fIblockModeProc\fR;	
+	Tcl_DriverCloseProc *\fIcloseProc\fR;
+	Tcl_DriverInputProc *\fIinputProc\fR;
+	Tcl_DriverOutputProc *\fIoutputProc\fR;
+	Tcl_DriverSeekProc *\fIseekProc\fR;
+	Tcl_DriverSetOptionProc *\fIsetOptionProc\fR;
+	Tcl_DriverGetOptionProc *\fIgetOptionProc\fR;
+	Tcl_DriverWatchProc *\fIwatchProc\fR;
+	Tcl_DriverGetHandleProc *\fIgetHandleProc\fR;
+	Tcl_DriverClose2Proc *\fIclose2Proc\fR;
 } Tcl_ChannelType;
 .CE
 .PP
@@ -837,20 +848,20 @@ contained the following fields:
 .PP
 .CS
 typedef struct Tcl_ChannelType {
-        char *\fItypeName\fR;
-        Tcl_ChannelTypeVersion \fIversion\fR;
-        Tcl_DriverCloseProc *\fIcloseProc\fR;
-        Tcl_DriverInputProc *\fIinputProc\fR;
-        Tcl_DriverOutputProc *\fIoutputProc\fR;
-        Tcl_DriverSeekProc *\fIseekProc\fR;
-        Tcl_DriverSetOptionProc *\fIsetOptionProc\fR;
-        Tcl_DriverGetOptionProc *\fIgetOptionProc\fR;
-        Tcl_DriverWatchProc *\fIwatchProc\fR;
-        Tcl_DriverGetHandleProc *\fIgetHandleProc\fR;
-        Tcl_DriverClose2Proc *\fIclose2Proc\fR;
-        Tcl_DriverBlockModeProc *\fIblockModeProc\fR;
-        Tcl_DriverFlushProc *\fIflushProc\fR;
-        Tcl_DriverHandlerProc *\fIhandlerProc\fR;
+	char *\fItypeName\fR;
+	Tcl_ChannelTypeVersion \fIversion\fR;
+	Tcl_DriverCloseProc *\fIcloseProc\fR;
+	Tcl_DriverInputProc *\fIinputProc\fR;
+	Tcl_DriverOutputProc *\fIoutputProc\fR;
+	Tcl_DriverSeekProc *\fIseekProc\fR;
+	Tcl_DriverSetOptionProc *\fIsetOptionProc\fR;
+	Tcl_DriverGetOptionProc *\fIgetOptionProc\fR;
+	Tcl_DriverWatchProc *\fIwatchProc\fR;
+	Tcl_DriverGetHandleProc *\fIgetHandleProc\fR;
+	Tcl_DriverClose2Proc *\fIclose2Proc\fR;
+	Tcl_DriverBlockModeProc *\fIblockModeProc\fR;	
+	Tcl_DriverFlushProc *\fIflushProc\fR;	
+	Tcl_DriverHandlerProc *\fIhandlerProc\fR;	
 } Tcl_ChannelType;
 .CE
 .PP

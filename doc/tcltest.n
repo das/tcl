@@ -683,7 +683,7 @@ that match any of the patterns in [\fBconfigure -file\fR] and
 match none of the patterns in [\fBconfigure -notfile\fR] is generated
 and sorted.  Then each file will be evaluated in turn.  If
 [\fBconfigure -singleproc\fR] is true, then each file will
-be [\fBsource\fR]d in the caller's context.  If if is false,
+be [\fBsource\fR]d in the caller's context.  If it is false,
 then a copy of [\fBinterpreter\fR] will be [\fBexec\fR]d to
 evaluate each file.  The multi-process operation is useful
 when testing can cause errors so severe that a process 

@@ -60,7 +60,7 @@ keys like Environment.  The timeout specifies the amount of time, in
 milliseconds, to wait for applications to respond to the broadcast message.
 It defaults to 3000.  The following example demonstrates how to add a path
 to the global Environment and notify applications of the change without
-reguiring a logoff/logon step (assumes admin privileges):
+requiring a logoff/logon step (assumes admin privileges):
 .CS
 set regPath {HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment}
 set curPath [registry get $regPath "Path"]

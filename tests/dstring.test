@@ -323,6 +323,8 @@ test dstring-6.5 {Tcl_DStringGetResult} testdstring {
 } {{} {This is a specially-allocated stringz}}
 
 # cleanup
-testdstring free
+if {[testConstraint testdstring]} {
+    testdstring free
+}
 ::tcltest::cleanupTests
 return

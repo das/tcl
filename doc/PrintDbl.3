@@ -18,7 +18,7 @@ Tcl_PrintDouble \- Convert floating value to string
 .sp
 \fBTcl_PrintDouble\fR(\fIinterp, value, dst\fR)
 .SH ARGUMENTS
-.AS Tcl_Interp *interp out
+.AS Tcl_Interp *interp
 .AP Tcl_Interp *interp in
 .VS
 Before Tcl 8.0, the \fBtcl_precision\fR variable in this interpreter
@@ -30,7 +30,7 @@ that is now shared by all interpreters.
 Floating-point value to be converted.
 .AP char *dst out
 Where to store the string representing \fIvalue\fR.  Must have at
-least \fBTCL_DOUBLE_SPACE\fR characters of storage.
+least TCL_DOUBLE_SPACE characters of storage.
 .BE
 
 .SH DESCRIPTION

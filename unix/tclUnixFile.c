@@ -54,9 +54,10 @@ TclpFindExecutable(argv0)
     if (argv0 == NULL) {
 	return NULL;
     }
-    if (tclNativeExecutableName != NULL) {
+    if (tclFindExecutableSearchDone) {
 	return tclNativeExecutableName;
     }
+    tclFindExecutableSearchDone = 1;
 
     Tcl_DStringInit(&buffer);
 
@@ -377,8 +378,12 @@ NativeMatchType(
 	    /* 
 	     * readonly means that there are NO write permissions
 	     * (even for user), but execute is OK for anybody
+	     * OR that the user immutable flag is set (where supported).
 	     */
 	    if (((types->perm & TCL_GLOB_PERM_RONLY) &&
+#if defined(HAVE_CHFLAGS) && defined(UF_IMMUTABLE)
+			!(buf.st_flags & UF_IMMUTABLE) &&
+#endif
 			(buf.st_mode & (S_IWOTH|S_IWGRP|S_IWUSR))) ||
 		((types->perm & TCL_GLOB_PERM_R) &&
 			(access(nativeEntry, R_OK) != 0)) ||

@@ -18,10 +18,10 @@ int
 \fBTcl_GetOpenFile\fR(\fIinterp, string, write, checkUsage, filePtr\fR)
 .sp
 .SH ARGUMENTS
-.AS Tcl_Interp checkUsage out
+.AS Tcl_Interp checkUsage
 .AP Tcl_Interp *interp in
 Tcl interpreter from which file handle is to be obtained.
-.AP "const char" *string in
+.AP "CONST char" *string in
 String identifying channel, such as \fBstdin\fR or \fBfile4\fR.
 .AP int write in
 Non-zero means the file will be used for writing, zero means it will
@@ -45,10 +45,10 @@ be used for reading or writing.
 In some cases, such as a channel that connects to a pipeline of
 subprocesses, different FILE pointers will be returned for reading
 and writing.
-\fBTcl_GetOpenFile\fR normally returns \fBTCL_OK\fR.
+\fBTcl_GetOpenFile\fR normally returns TCL_OK.
 If an error occurs in \fBTcl_GetOpenFile\fR (e.g. \fIstring\fR didn't
 make any sense or \fIcheckUsage\fR was set and the file wasn't opened
-for the access specified by \fIwrite\fR) then \fBTCL_ERROR\fR is returned
+for the access specified by \fIwrite\fR) then TCL_ERROR is returned
 and the interpreter's result will contain an error message.
 In the current implementation \fIcheckUsage\fR is ignored and consistency
 checks are always performed.

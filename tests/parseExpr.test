@@ -519,10 +519,10 @@ test parseExpr-16.7 {GetLexeme procedure, double lexeme} testexprparser {
 test parseExpr-16.8 {GetLexeme procedure, double lexeme} testexprparser {
     testexprparser {.123} -1
 } {- {} 0 subexpr .123 1 text .123 0 {}}
-test parseExpr-16.9 {GetLexeme procedure, double lexeme} {testexprparser nonPortable unixOnly} {
+test parseExpr-16.9 {GetLexeme procedure, double lexeme} {testexprparser nonPortable unix} {
     testexprparser {nan} -1
 } {- {} 0 subexpr nan 1 text nan 0 {}}
-test parseExpr-16.10 {GetLexeme procedure, double lexeme} {testexprparser nonPortable unixOnly} {
+test parseExpr-16.10 {GetLexeme procedure, double lexeme} {testexprparser nonPortable unix} {
     testexprparser {NaN} -1
 } {- {} 0 subexpr NaN 1 text NaN 0 {}}
 test parseExpr-16.11 {GetLexeme procedure, bad double lexeme too big} testexprparser {

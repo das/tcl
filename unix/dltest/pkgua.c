@@ -51,7 +51,7 @@ PkguaInitTokensHashTable(void)
     interpTokenMapInitialised = 1;
 }
 
-static int
+void 
 PkguaFreeTokensHashTable(void)
 {
     Tcl_HashSearch search;
@@ -126,7 +126,7 @@ PkguaEqObjCmd(dummy, interp, objc, objv)
 {
     int result;
     CONST char *str1, *str2;
-    int len1, len2, n;
+    int len1, len2;
 
     if (objc != 3) {
 	Tcl_WrongNumArgs(interp, 1, objv,  "string1 string2");

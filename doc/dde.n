@@ -58,7 +58,7 @@ unique. The command's result will be the name actually used. The
 \fI-force\fR option is used to force registration of precisely the
 given \fItopic\fR name.
 .IP
-The \fI-handler\fR option specifies a tcl procedure that will be called to
+The \fI-handler\fR option specifies a Tcl procedure that will be called to
 process calls to the dde server. If the package has been loaded into a
 safe interpreter then a \fI-handler\fR procedure must be defined. The
 procedure is called with all the arguments provided by the remote
