@@ -324,7 +324,7 @@ function.
 given lie in the same filesystem (according to
 \fBTcl_FSGetFileSystemForPath\fR) then that filesystem's 'rename file'
 function is called (if it is non-NULL).  Otherwise the function returns -1
-and sets the \Berrno\fR global C variable to the 'EXDEV' POSIX error
+and sets the \fBerrno\fR global C variable to the 'EXDEV' POSIX error
 code (which signifies a 'cross-domain link').
 .PP
 \fBTcl_FSListVolumes\fR calls each filesystem which has a non-NULL 'list
