@@ -85,9 +85,9 @@ the actions associated with the asynchronous event.
 type \fBTcl_AsyncProc\fR:
 .CS
 typedef int Tcl_AsyncProc(
-	ClientData \fIclientData\fR,
-	Tcl_Interp *\fIinterp\fR,
-	int \fIcode\fR);
+        ClientData \fIclientData\fR,
+        Tcl_Interp *\fIinterp\fR,
+        int \fIcode\fR);
 .CE
 The \fIclientData\fR will be the same as the \fIclientData\fR
 argument passed to \fBTcl_AsyncCreate\fR when the handler was

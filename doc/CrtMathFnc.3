@@ -21,18 +21,17 @@ void
 .sp
 .VS 8.4
 int
-\fBTcl_GetMathFuncInfo\fR(\fIinterp, name, numArgsPtr, argTypesPtr, procPtr, clientDataPtr\fR)
+\fBTcl_GetMathFuncInfo\fR(\fIinterp, name, numArgsPtr, argTypesPtr, procPtr,
+                    clientDataPtr\fR)
 .sp
 Tcl_Obj *
 \fBTcl_ListMathFuncs\fR(\fIinterp, pattern\fR)
 .VE
 .SH ARGUMENTS
-.AS Tcl_ValueType *clientDataPtr
+.AS Tcl_ValueType *clientDataPtr out
 .AP Tcl_Interp *interp in
 Interpreter in which new function will be defined.
-.VS 8.4
 .AP "CONST char" *name in
-.VE
 Name for new function.
 .AP int numArgs in
 Number of arguments to new function;  also gives size of \fIargTypes\fR array.
@@ -86,10 +85,10 @@ Whenever the function is invoked in an expression Tcl will invoke
 the type \fBTcl_MathProc\fR:
 .CS
 typedef int Tcl_MathProc(
-	ClientData \fIclientData\fR,
-	Tcl_Interp *\fIinterp\fR,
-	Tcl_Value *\fIargs\fR,
-	Tcl_Value *\fIresultPtr\fR);
+        ClientData \fIclientData\fR,
+        Tcl_Interp *\fIinterp\fR,
+        Tcl_Value *\fIargs\fR,
+        Tcl_Value *\fIresultPtr\fR);
 .CE
 .PP
 When \fIproc\fR is invoked the \fIclientData\fR and \fIinterp\fR
@@ -99,10 +98,10 @@ which describe the actual arguments to the function:
 .VS 8.4
 .CS
 typedef struct Tcl_Value {
-	Tcl_ValueType \fItype\fR;
-	long \fIintValue\fR;
-	double \fIdoubleValue\fR;
-	Tcl_WideInt \fIwideValue\fR;
+        Tcl_ValueType \fItype\fR;
+        long \fIintValue\fR;
+        double \fIdoubleValue\fR;
+        Tcl_WideInt \fIwideValue\fR;
 } Tcl_Value;
 .CE
 .PP

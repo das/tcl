@@ -32,7 +32,8 @@ int
 \fBTcl_DictObjSize\fR(\fIinterp, dictPtr, sizePtr\fR)
 .sp
 int
-\fBTcl_DictObjFirst\fR(\fIinterp, dictPtr, searchPtr, keyPtrPtr, valuePtrPtr, donePtr\fR)
+\fBTcl_DictObjFirst\fR(\fIinterp, dictPtr, searchPtr,
+                 keyPtrPtr, valuePtrPtr, donePtr\fR)
 .sp
 void
 \fBTcl_DictObjNext\fR(\fIsearchPtr, keyPtrPtr, valuePtrPtr, donePtr\fR)
@@ -46,7 +47,7 @@ int
 int
 \fBTcl_DictObjRemoveKeyList\fR(\fIinterp, dictPtr, keyc, keyv\fR)
 .SH ARGUMENTS
-.AS Tcl_DictSearch "**valuePtrPtr" out
+.AS Tcl_DictSearch "**valuePtrPtr" in/out
 .AP Tcl_Interp *interp in
 If an error occurs while converting an object to be a dictionary object,
 an error message is left in the interpreter's result object

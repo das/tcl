@@ -25,7 +25,7 @@ Tcl_Channel
 \fBTcl_OpenTcpServer\fR(\fIinterp, port, myaddr, proc, clientData\fR)
 .sp
 .SH ARGUMENTS
-.AS Tcl_ChannelType newClientProcPtr in
+.AS Tcl_TcpAcceptProc clientData
 .AP Tcl_Interp *interp in
 Tcl interpreter to use for error reporting.  If non-NULL and an
 error occurs, an error message is left in the interpreter's result.

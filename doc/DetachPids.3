@@ -21,18 +21,18 @@ Tcl_DetachPids, Tcl_ReapDetachedProcs, Tcl_WaitPid \- manage child processes in 
 \fBTcl_ReapDetachedProcs\fR()
 .sp
 Tcl_Pid
-\fBTcl_WaitPid\fR(\fIpid, statPtr, options\fR)
+\fBTcl_WaitPid\fR(\fIpid, statusPtr, options\fR)
 .SH ARGUMENTS
-.AS int *statusPtr
+.AS Tcl_Pid *statusPtr out
 .AP int numPids in
 Number of process ids contained in the array pointed to by \fIpidPtr\fR.
 .AP int *pidPtr in
 Address of array containing \fInumPids\fR process ids.
 .AP Tcl_Pid pid in
 The id of the process (pipe) to wait for.
-.AP int* statPtr out
+.AP int *statusPtr out
 The result of waiting on a process (pipe). Either 0 or ECHILD.
-.AP int options
+.AP int options in
 The options controlling the wait. WNOHANG specifies not to wait when
 checking the process.
 .BE

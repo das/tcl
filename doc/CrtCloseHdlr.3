@@ -22,7 +22,7 @@ void
 \fBTcl_DeleteCloseHandler\fR(\fIchannel, proc, clientData\fR)
 .sp
 .SH ARGUMENTS
-.AS Tcl_CloseProc callbackData in
+.AS Tcl_CloseProc clientData
 .AP Tcl_Channel channel in
 The channel for which to create or delete a close callback.
 .AP Tcl_CloseProc *proc in
@@ -40,7 +40,7 @@ Arbitrary one-word value to pass to \fIproc\fR.
 .PP
 .CS
 typedef void Tcl_CloseProc(
-	ClientData \fIclientData\fR);
+        ClientData \fIclientData\fR);
 .CE
 .PP
 The \fIclientData\fR is the same as the value provided in the call to

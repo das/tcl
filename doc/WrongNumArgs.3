@@ -17,14 +17,14 @@ Tcl_WrongNumArgs \- generate standard error message for wrong number of argument
 .sp
 \fBTcl_WrongNumArgs\fR(\fIinterp, objc, objv, message\fR)
 .SH ARGUMENTS
-.AS Tcl_Interp "*CONST objv[]"
+.AS "Tcl_Obj *CONST" *message
 .AP Tcl_Interp interp in
 Interpreter in which error will be reported: error message gets stored
 in its result object.
 .AP int objc in
 Number of leading arguments from \fIobjv\fR to include in error
 message.
-.AP Tcl_Obj "*CONST\ objv[]" in
+.AP "Tcl_Obj *CONST" objv[] in
 Arguments to command that had the wrong number of arguments.
 .AP "CONST char" *message in
 Additional error information to print after leading arguments

@@ -23,10 +23,8 @@ Tcl_CreateFileHandler, Tcl_DeleteFileHandler \- associate procedure callbacks wi
 .VE
 .SH ARGUMENTS
 .AS Tcl_FileProc clientData
-.VS
 .AP int fd in
 Unix file descriptor for an open file or device.
-.VE
 .AP int mask in
 Conditions under which \fIproc\fR should be called:
 OR-ed combination of \fBTCL_READABLE\fR, \fBTCL_WRITABLE\fR,
@@ -59,8 +57,8 @@ as \fBvwait\fR.
 type \fBTcl_FileProc\fR:
 .CS
 typedef void Tcl_FileProc(
-	ClientData \fIclientData\fR,
-	int \fImask\fR);
+        ClientData \fIclientData\fR,
+        int \fImask\fR);
 .CE
 The \fIclientData\fR parameter to \fIproc\fR is a copy
 of the \fIclientData\fR

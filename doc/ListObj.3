@@ -38,7 +38,7 @@ int
 int
 \fBTcl_ListObjReplace\fR(\fIinterp, listPtr, first, count, objc, objv\fR)
 .SH ARGUMENTS
-.AS Tcl_Interp "*CONST objv[]" out
+.AS "Tcl_Obj *CONST" *elemListPtr in/out
 .AP Tcl_Interp *interp in
 If an error occurs while converting an object to be a list object,
 an error message is left in the interpreter's result object
@@ -74,7 +74,7 @@ and \fBTcl_ListObjReplace\fR will insert into \fIlistPtr\fR.
 For \fBTcl_SetListObj\fR,
 the number of Tcl objects to insert into \fIobjPtr\fR.
 .VS
-.AP Tcl_Obj	"*CONST\ objv[]" in
+.AP "Tcl_Obj *CONST" objv[] in
 An array of pointers to objects.
 \fBTcl_NewListObj\fR will insert these objects into a new list object
 and \fBTcl_ListObjReplace\fR will insert them into an existing \fIlistPtr\fR.

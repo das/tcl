@@ -22,9 +22,10 @@ int
 int
 \fBTcl_StringCaseMatch\fR(\fIstring\fR, \fIpattern\fR, \fInocase\fR)
 .SH ARGUMENTS
-.AP char *string in
+.AS "CONST char" *pattern
+.AP "CONST char" *string in
 String to test.
-.AP char *pattern in
+.AP "CONST char" *pattern in
 Pattern to match against string.  May contain special
 characters from the set *?\e[].
 .AP int nocase in
