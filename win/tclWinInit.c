@@ -68,9 +68,9 @@ typedef struct {
  */
 
 
-#define NUMPLATFORMS 3
+#define NUMPLATFORMS 4
 static char* platforms[NUMPLATFORMS] = {
-    "Win32s", "Windows 95", "Windows NT"
+    "Win32s", "Windows 95", "Windows NT", "Windows CE"
 };
 
 #define NUMPROCESSORS 9
