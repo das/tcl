@@ -1056,7 +1056,7 @@ SetBooleanFromAny(interp, objPtr)
 	 * (Int handling added because of Bug 548686)
 	 */
 
-	intValue = strtol(string, &end);
+	intValue = strtol(string, &end, 0);
 	if (end != string) {
 	    /*
 	     * Make sure the string has no garbage after the end of
