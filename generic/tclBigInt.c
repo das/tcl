@@ -31,7 +31,7 @@ typedef struct BigInt {
 
     size_t len;			/* Number of values in the array */
     int signum;			/* Sign of the integer */
-    Tcl_NarrowUInt v[0];	/* Little-endian array containing
+    Tcl_NarrowUInt v[1];	/* Little-endian array containing
 				 * the absolute value of the integer */
 
 } BigInt;
@@ -61,7 +61,7 @@ typedef struct BigInt {
 
 #define NewBigInt(n) \
     ( (BigInt*) ( ckalloc( sizeof( BigInt ) \
-                  + (n) * sizeof( Tcl_NarrowUInt ) ) ) )
+                  + ((n)-1) * sizeof( Tcl_NarrowUInt ) ) ) )
 
 /*
  * Static functions defined in this file
