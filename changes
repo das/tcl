@@ -6039,6 +6039,8 @@ in this changeset (new minor version) rather than bug fixes:
  * [TIP #139] documented portions of Tcl's namespace C APIs
 
  * [TIP #148] correct [list]-quoting of the '#' character
+     *** POTENTIAL INCOMPATIBILITY *** 
+   For scripts that assume a particular (buggy) string rep for lists.
 
  * [TIP #156] add "root locale" to msgcat
 => msgcat 1.4
