@@ -479,8 +479,13 @@ proc auto_mkindex_parser::fullname {name} {
 auto_mkindex_parser::command proc {name args} {
     variable index
     variable scriptFile
+    # Do some fancy reformatting on the "source" call to handle platform
+    # differences with respect to pathnames.  Use format just so that the
+    # command is a little easier to read (otherwise it'd be full of 
+    # backslashed dollar signs, etc.
     append index [list set auto_index([fullname $name])] \
-	    " \[list source \[file join \$dir [list $scriptFile]\]\]\n"
+	    [format { [list source [file join $dir %s]]} \
+	    [file split $scriptFile]] "\n"
 }
 
 # Conditionally add support for Tcl byte code files.  There are some
@@ -506,8 +511,12 @@ auto_mkindex_parser::hook {
 	auto_mkindex_parser::commandInit tbcload::bcproc {name args} {
 	    variable index
 	    variable scriptFile
+	    # Do some nice reformatting of the "source" call, to get around
+	    # path differences on different platforms.  We use the format
+	    # command just so that the code is a little easier to read.
 	    append index [list set auto_index([fullname $name])] \
-		    " \[list source \[file join \$dir [list $scriptFile]\]\]\n"
+		    [format { [list source [file join $dir %s]]} \
+		    [file split $scriptFile]] "\n"
 	}
     }
 }

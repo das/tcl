@@ -176,6 +176,17 @@ test autoMkindex-3.3 {auto_mkindex_parser::command} {knownBug} {
     list [lvalue $::result *mycmd4*] [lvalue $::result *mycmd5*] [lvalue $::result *mycmd6*]
 } "{::buried::mycmd4 $element} {::buried::mycmd5 $element} {mycmd6 $element}"
 
+test autoMkindex-4.1 {platform indenpendant source commands} {
+    file delete tclIndex
+    auto_mkindex . pkg/samename.tcl
+    set f [open tclIndex r]
+    set dat [split [string trim [read $f]] "\n"]
+    set len [llength $dat]
+    set result [lsort [lrange $dat [expr {$len-2}] [expr {$len-1}]]]
+    close $f
+    set result
+} {{set auto_index(::college::team) [list source [file join $dir pkg samename.tcl]]} {set auto_index(::pro::team) [list source [file join $dir pkg samename.tcl]]}}
+
 # Clean up.
 
 unset result
