@@ -832,13 +832,13 @@ DoRemoveJustDirectory(
 	     */
 
 	    if (TclWinGetPlatformId() != VER_PLATFORM_WIN32_NT) {
-		char *path, *find;
+		CONST char *path, *find;
 		HANDLE handle;
 		WIN32_FIND_DATAA data;
 		Tcl_DString buffer;
 		int len;
 
-		path = (char *) nativePath;
+		path = (CONST char *) nativePath;
 
 		Tcl_DStringInit(&buffer);
 		len = strlen(path);

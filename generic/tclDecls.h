@@ -1392,7 +1392,8 @@ EXTERN int		Tcl_FSCreateDirectory _ANSI_ARGS_((Tcl_Obj * pathPtr));
 EXTERN int		Tcl_FSDeleteFile _ANSI_ARGS_((Tcl_Obj * pathPtr));
 /* 444 */
 EXTERN int		Tcl_FSLoadFile _ANSI_ARGS_((Tcl_Interp * interp, 
-				Tcl_Obj * pathPtr, char * sym1, char * sym2, 
+				Tcl_Obj * pathPtr, CONST char * sym1, 
+				CONST char * sym2, 
 				Tcl_PackageInitProc ** proc1Ptr, 
 				Tcl_PackageInitProc ** proc2Ptr, 
 				ClientData * clientDataPtr, 
@@ -2009,7 +2010,7 @@ typedef struct TclStubs {
     int (*tcl_FSCopyDirectory) _ANSI_ARGS_((Tcl_Obj * srcPathPtr, Tcl_Obj * destPathPtr, Tcl_Obj ** errorPtr)); /* 441 */
     int (*tcl_FSCreateDirectory) _ANSI_ARGS_((Tcl_Obj * pathPtr)); /* 442 */
     int (*tcl_FSDeleteFile) _ANSI_ARGS_((Tcl_Obj * pathPtr)); /* 443 */
-    int (*tcl_FSLoadFile) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Obj * pathPtr, char * sym1, char * sym2, Tcl_PackageInitProc ** proc1Ptr, Tcl_PackageInitProc ** proc2Ptr, ClientData * clientDataPtr, Tcl_FSUnloadFileProc ** unloadProcPtr)); /* 444 */
+    int (*tcl_FSLoadFile) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Obj * pathPtr, CONST char * sym1, CONST char * sym2, Tcl_PackageInitProc ** proc1Ptr, Tcl_PackageInitProc ** proc2Ptr, ClientData * clientDataPtr, Tcl_FSUnloadFileProc ** unloadProcPtr)); /* 444 */
     int (*tcl_FSMatchInDirectory) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Obj * result, Tcl_Obj * pathPtr, char * pattern, Tcl_GlobTypeData * types)); /* 445 */
     Tcl_Obj* (*tcl_FSLink) _ANSI_ARGS_((Tcl_Obj * pathPtr, Tcl_Obj * toPtr)); /* 446 */
     int (*tcl_FSRemoveDirectory) _ANSI_ARGS_((Tcl_Obj * pathPtr, int recursive, Tcl_Obj ** errorPtr)); /* 447 */

@@ -180,9 +180,9 @@ write and  execute  permissions, respectively.  F_OK just requests
 checking for the existence of the file.
 .AP stat *statPtr out
 The structure that contains the result of a stat or lstat operation.
-.AP char *sym1 in
+.AP "CONST char" *sym1 in
 Name of a procedure to look up in the file's symbol table
-.AP char *sym2 in
+.AP "CONST char" *sym2 in
 Name of a procedure to look up in the file's symbol table
 .AP Tcl_PackageInitProc **proc1Ptr out
 Filled with the init function for this code.
@@ -1150,8 +1150,8 @@ entirely.
 typedef int Tcl_FSLoadFileProc(
 	Tcl_Interp * \fIinterp\fR, 
 	Tcl_Obj *\fIpathPtr\fR, 
-	char * \fIsym1\fR, 
-	char * \fIsym2\fR, 
+	CONST char * \fIsym1\fR, 
+	CONST char * \fIsym2\fR, 
 	Tcl_PackageInitProc ** \fIproc1Ptr\fR, 
 	Tcl_PackageInitProc ** \fIproc2Ptr\fR, 
 	ClientData * \fIclientDataPtr\fR,

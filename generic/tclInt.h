@@ -1790,7 +1790,8 @@ EXTERN void		TclpInitLock _ANSI_ARGS_((void));
 EXTERN void		TclpInitPlatform _ANSI_ARGS_((void));
 EXTERN void		TclpInitUnlock _ANSI_ARGS_((void));
 EXTERN int              TclpLoadFile _ANSI_ARGS_((Tcl_Interp *interp, 
-				Tcl_Obj *pathPtr, char *sym1, char *sym2, 
+				Tcl_Obj *pathPtr,
+				CONST char *sym1, CONST char *sym2, 
 				Tcl_PackageInitProc **proc1Ptr,
 				Tcl_PackageInitProc **proc2Ptr, 
 				ClientData *clientDataPtr,

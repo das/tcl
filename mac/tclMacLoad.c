@@ -101,7 +101,8 @@ TclpLoadFile(
     Tcl_Interp *interp,		/* Used for error reporting. */
     Tcl_Obj *pathPtr,		/* Name of the file containing the desired
 				 * code. */
-    char *sym1, char *sym2,	/* Names of two procedures to look up in
+    CONST char *sym1,
+    CONST char *sym2,		/* Names of two procedures to look up in
 				 * the file's symbol table. */
     Tcl_PackageInitProc **proc1Ptr,
     Tcl_PackageInitProc **proc2Ptr,
