@@ -160,7 +160,9 @@ TclFinalizeNotifier()
 
     Tcl_MutexLock(&listLock);
 
-    tclStubs.tcl_FinalizeNotifier(tsdPtr->clientData);
+    if (tclStubs.tcl_FinalizeNotifier) {
+	tclStubs.tcl_FinalizeNotifier(tsdPtr->clientData);
+    }
     Tcl_MutexFinalize(&(tsdPtr->queueMutex));
     for (prevPtrPtr = &firstNotifierPtr; *prevPtrPtr != NULL;
 	 prevPtrPtr = &((*prevPtrPtr)->nextPtr)) {
@@ -721,7 +723,9 @@ Tcl_SetServiceMode(mode)
 
     oldMode = tsdPtr->serviceMode;
     tsdPtr->serviceMode = mode;
-    tclStubs.tcl_ServiceModeHook(mode);
+    if (tclStubs.tcl_ServiceModeHook) {
+	tclStubs.tcl_ServiceModeHook(mode);
+    }
     return oldMode;
 }
 
@@ -1087,7 +1091,9 @@ Tcl_ThreadAlert(threadId)
     Tcl_MutexLock(&listLock);
     for (tsdPtr = firstNotifierPtr; tsdPtr; tsdPtr = tsdPtr->nextPtr) {
 	if (tsdPtr->threadId == threadId) {
-	    tclStubs.tcl_AlertNotifier(tsdPtr->clientData);
+	    if (tclStubs.tcl_AlertNotifier) {
+		tclStubs.tcl_AlertNotifier(tsdPtr->clientData);
+	    }
 	    break;
 	}
     }
