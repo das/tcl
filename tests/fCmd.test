@@ -869,7 +869,7 @@ test fCmd-9.14.1 {file rename: comprehensive: dir into self} {notRoot} {
     file rename td1x td1
     set msg "ok"
 } {ok}
-test fCmd-9.14.2 {file rename: comprehensive: dir into self} {notRoot} {
+test fCmd-9.14.2 {file rename: comprehensive: dir into self} {nonPortable notRoot} {
     cleanup
     file mkdir td1
     set dir [pwd]
