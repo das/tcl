@@ -795,15 +795,6 @@ Tcl_Finalize()
 	Tcl_MutexUnlock(&exitMutex);
 
 	/*
-	 * Clean up the library path now, before we invalidate thread-local
-	 * storage.
-	 */
-	if (tsdPtr->tclLibraryPath != NULL) {
-	    Tcl_DecrRefCount(tsdPtr->tclLibraryPath);
-	    tsdPtr->tclLibraryPath = NULL;
-	}
-
-	/*
 	 * Clean up after the current thread now, after exit handlers.
 	 * In particular, the testexithandler command sets up something
 	 * that writes to standard output, which gets closed.
@@ -908,6 +899,16 @@ Tcl_FinalizeThread()
 	TclFinalizeIOSubsystem();
 	TclFinalizeNotifier();
 	TclFinalizeAsync();
+
+	/*
+	 * Clean up the library path now, before we invalidate thread-local
+	 * storage.
+	 */
+
+	if (tsdPtr->tclLibraryPath != NULL) {
+	    Tcl_DecrRefCount(tsdPtr->tclLibraryPath);
+	    tsdPtr->tclLibraryPath = NULL;
+	}
 
 	/*
 	 * Blow away all thread local storage blocks.
