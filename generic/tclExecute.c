@@ -2741,12 +2741,12 @@ TclExecuteByteCode(interp, codePtr)
 		    iResult = memcmp(s1, s2,
 			    (size_t) ((s1len < s2len) ? s1len : s2len));
 		} else if (((valuePtr->typePtr == &tclStringType)
-			&& (valuePtr->bytes == NULL))
-			|| ((value2Ptr->typePtr == &tclStringType)
-				&& (value2Ptr->bytes == NULL))) {
+			&& (value2Ptr->typePtr == &tclStringType))) {
 		    /*
-		     * Do a unicode-specific comparison if one of the args
-		     * only has the unicode rep.
+		     * Do a unicode-specific comparison if both of the args
+		     * are of String type.  In benchmark testing this proved
+		     * the most efficient check between the unicode and
+		     * string comparison operations.
 		     */
 		    Tcl_UniChar *uni1, *uni2;
 		    uni1 = Tcl_GetUnicodeFromObj(valuePtr, &s1len);

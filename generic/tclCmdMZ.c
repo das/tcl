@@ -1215,15 +1215,13 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		string1 = (char*) Tcl_GetByteArrayFromObj(objv[0], &length1);
 		string2 = (char*) Tcl_GetByteArrayFromObj(objv[1], &length2);
 		strCmpFn = memcmp;
-	    } else if (((objv[0]->typePtr == &tclStringType)
-		    && (objv[0]->bytes == NULL))
-		    || ((objv[1]->typePtr == &tclStringType)
-			    && (objv[1]->bytes == NULL))) {
+	    } else if ((objv[0]->typePtr == &tclStringType)
+		    && (objv[1]->typePtr == &tclStringType)) {
 		/*
-		 * Use UNICODE versions of string comparisons since that
-		 * won't cause undue type conversions and we can work with
-		 * characters all of a fixed size (much faster.), but only
-		 * when one of the objects is a pure UNICODE object.
+		 * Do a unicode-specific comparison if both of the args
+		 * are of String type.  In benchmark testing this proved
+		 * the most efficient check between the unicode and
+		 * string comparison operations.
 		 */
 		string1 = (char*) Tcl_GetUnicodeFromObj(objv[0], &length1);
 		string2 = (char*) Tcl_GetUnicodeFromObj(objv[1], &length2);
