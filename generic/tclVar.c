@@ -3824,8 +3824,8 @@ Tcl_VariableObjCmd(dummy, interp, objc, objv)
 
 	    for (tail = cp = varName;  *cp != '\0'; ) {
 		if (*cp++ == ':') {
-		    while (*cp++ == ':') {
-			tail = cp;
+		    while (*cp == ':') {
+			tail = ++cp;
 		    }
 		}
 	    }
