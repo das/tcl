@@ -248,14 +248,6 @@ extern char **environ;
 #define TclSetSystemEnv(a,b)
 #define tzset()
 
-/*
- * The following defines replace the Macintosh version of the POSIX
- * functions "stat" and "access".  The various compilier vendors
- * don't implement this function well nor consistantly.
- */
-/* int TclpStat(const char *path, struct stat *bufPtr); */
-int TclpLstat(const char *path, struct stat *bufPtr);
-
 char *TclpFindExecutable(const char *argv0);
 int TclpFindVariable(CONST char *name, int *lengthPtr);
 

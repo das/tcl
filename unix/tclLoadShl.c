@@ -47,9 +47,9 @@
  */
 
 int
-TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
+TclpLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
     Tcl_Interp *interp;		/* Used for error reporting. */
-    char *fileName;		/* Name of the file containing the desired
+    Tcl_Obj *pathPtr;		/* Name of the file containing the desired
 				 * code. */
     char *sym1, *sym2;		/* Names of two procedures to look up in
 				 * the file's symbol table. */
@@ -62,7 +62,8 @@ TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
 {
     shl_t handle;
     Tcl_DString newName;
-
+    char *fileName = Tcl_GetString(pathPtr);
+    
     /*
      * The flags below used to be BIND_IMMEDIATE; they were changed at
      * the suggestion of Wolfgang Kechel (wolfgang@prs.de): "This

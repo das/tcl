@@ -420,7 +420,6 @@ typedef float *TCHAR;
  */
 
 #define TclpExit		exit
-#define TclpLstat		TclpStat
 
 /*
  * Declarations for Windows-only functions.

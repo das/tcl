@@ -57,9 +57,9 @@
  */
 
 int
-TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
+TclpLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
     Tcl_Interp *interp;		/* Used for error reporting. */
-    char *fileName;		/* Name of the file containing the desired
+    Tcl_Obj *pathPtr;		/* Name of the file containing the desired
 				 * code. */
     char *sym1, *sym2;		/* Names of two procedures to look up in
 				 * the file's symbol table. */
@@ -74,15 +74,15 @@ TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
     Tcl_DString newName, ds;
     char *native;
 
-    native = Tcl_UtfToExternalDString(NULL, fileName, -1, &ds);
+    native = Tcl_FSGetNativePath(pathPtr);
     handle = dlopen(native, RTLD_NOW | RTLD_GLOBAL);	/* INTL: Native. */
-    Tcl_DStringFree(&ds);
     
     *clientDataPtr = (ClientData) handle;
     
     if (handle == NULL) {
-	Tcl_AppendResult(interp, "couldn't load file \"", fileName,
-		"\": ", dlerror(), (char *) NULL);
+	Tcl_AppendResult(interp, "couldn't load file \"", 
+			 Tcl_GetString(pathPtr),
+			 "\": ", dlerror(), (char *) NULL);
 	return TCL_ERROR;
     }
 

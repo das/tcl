@@ -60,9 +60,9 @@
  */
 
 int
-TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
+TclpLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
     Tcl_Interp *interp;		/* Used for error reporting. */
-    char *fileName;		/* Name of the file containing the desired
+    Tcl_Obj *pathPtr;		/* Name of the file containing the desired
 				 * code. */
     char *sym1, *sym2;		/* Names of two procedures to look up in
 				 * the file's symbol table. */
@@ -75,7 +75,8 @@ TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
 {
     ldr_module_t lm;
     char *pkg;
-
+    char *fileName = Tcl_GetString(pathPtr);
+    
     lm = (Tcl_PackageInitProc *) load(fileName, LDR_NOFLAGS);
     if (lm == LDR_NULL_MODULE) {
 	Tcl_AppendResult(interp, "couldn't load file \"", fileName,

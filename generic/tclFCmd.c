@@ -544,8 +544,8 @@ CopyRenameOneFile(interp, source, target, copyFlag, force)
 	/*
 	 * The rename failed because the move was across file systems.
 	 * Fall through to copy file and then remove original.  Note that
-	 * the low-level TclpRenameFile is allowed to implement
-	 * cross-filesystem moves itself.
+	 * the low-level Tcl_FSRenameFileProc in the filesystem is allowed 
+	 * to implement cross-filesystem moves itself, if it desires.
 	 */
     }
 
