@@ -466,6 +466,11 @@ test expr-13.16 {CompileUnaryExpr: error in primary expr} {
     catch {expr [set]} msg
     set msg
 } {wrong # args: should be "set varName ?newValue?"}
+test expr-13.17 {CompileUnaryExpr: negating non-numeric boolean literals} {
+    set a1 yes; set a0 no; set b1 true; set b0 false
+    list [expr {!$a1}] [expr {!$a0}] [expr {!$b1}] [expr {!$b0}]
+} {0 1 0 1}
+
 test expr-14.1 {CompilePrimaryExpr: literal primary} {expr 1} 1
 test expr-14.2 {CompilePrimaryExpr: literal primary} {expr 123} 123
 test expr-14.3 {CompilePrimaryExpr: literal primary} {expr 0xff} 255
