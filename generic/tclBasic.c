@@ -984,6 +984,15 @@ DeleteInterpProc(interp)
     TclHandleFree(iPtr->handle);
 
     /*
+     * Shut down all limit handler callback scripts that call back
+     * into this interpreter.  Then eliminate all limit handlers for
+     * this interpreter.
+     */
+
+    TclDecommissionLimitCallbacks(interp);
+    TclLimitRemoveAllHandlers(interp);
+
+    /*
      * Dismantle everything in the global namespace except for the
      * "errorInfo" and "errorCode" variables. These remain until the
      * namespace is actually destroyed, in case any errors occur.
@@ -2118,7 +2127,7 @@ TclRenameCommand(interp, oldName, newName)
  *
  *	Modifies various information about a Tcl command. Note that
  *	this procedure will not change a command's namespace; use
- *	Tcl_RenameCommand to do that. Also, the isNativeObjectProc
+ *	TclRenameCommand to do that. Also, the isNativeObjectProc
  *	member of *infoPtr is ignored.
  *
  * Results:
@@ -2157,7 +2166,7 @@ Tcl_SetCommandInfo(interp, cmdName, infoPtr)
  *
  *	Modifies various information about a Tcl command. Note that
  *	this procedure will not change a command's namespace; use
- *	Tcl_RenameCommand to do that. Also, the isNativeObjectProc
+ *	TclRenameCommand to do that. Also, the isNativeObjectProc
  *	member of *infoPtr is ignored.
  *
  * Results:

@@ -367,6 +367,18 @@ test cmdAH-8.45 {Tcl_FileObjCmd: dirname} testsetplatform {
     set env(HOME) $temp
     set result
 } {0 /homewontexist}
+test cmdAH-8.46 {Tcl_FileObjCmd: dirname} {
+    set f [file normalize [info nameof]]
+    file exists $f
+    set res1 [file dirname [file join $f foo/bar]]
+    set res2 [file dirname "${f}/foo/bar"]
+    if {$res1 eq $res2} {
+	set res "ok"
+    } else {
+        set res "file dirname problem, $res1, $res2 not equal"
+    }
+    set res
+} {ok}
 
 # tail
 

@@ -33,21 +33,21 @@ proc main {} {
     # ... put the real main code in here ...
 }
 
-if {[catch {main} msg options]} {
+if {[catch {main} msg]} {
     puts stderr "unexpected script error: $msg"
     if {[info exist env(DEBUG)]} {
         puts stderr "---- BEGIN TRACE ----"
-        puts stderr [dict get $options -errorinfo]
+        puts stderr $errorInfo
         puts stderr "---- END TRACE ----"
     }
 
     # Reserve code 1 for "expected" error exits...
-    \fBexit\fR 2
+    exit 2
 }
 .CE
 
 .SH "SEE ALSO"
-exec(n)
+exec(n), tclvars(n)
 
 .SH KEYWORDS
 exit, process

@@ -5,10 +5,8 @@
 #
 # Copyright (c) 1996 by Sun Microsystems, Inc.
 #
-# $Id$
+# SCCS: @(#) man2html2.tcl 1.2 96/03/21 10:48:30
 #
-
-package require Tcl 8.4
 
 # Global variables used by these scripts:
 #
@@ -78,7 +76,7 @@ proc initGlobals {} {
 proc beginFont font {
     global curFont file fontStart
 
-    if {$curFont eq $font} {
+    if {$curFont == $font} {
 	return
     }
     endFont
@@ -97,9 +95,9 @@ proc beginFont font {
 proc endFont {} {
     global curFont file fontEnd
 
-    if {$curFont ne ""} {
-	puts -nonewline $file $fontEnd($curFont)
-	set curFont ""
+    if {$curFont != ""} {
+    puts -nonewline $file $fontEnd($curFont)
+    set curFont ""
     }
 }
 
@@ -128,10 +126,10 @@ proc text string {
     regsub -all {&} $string {\&amp;}  string
     regsub -all {<} $string {\&lt;}  string
     regsub -all {>} $string {\&gt;}  string
-    regsub -all \"  $string {\&quot;}  string
+    regsub -all {"} $string {\&quot;}  string
     switch $textState {
 	REF { 
-	    if {$inDT eq ""} {
+	    if {$inDT == {}} {
 		set string [insertRef $string]
 	    }
 	}
@@ -163,7 +161,7 @@ proc insertRef string {
     global NAME_file self
     set path {}
     if ![catch {set ref $NAME_file([string trim $string])} ] {
-	if {"$ref.html" ne $self} {
+	if {"$ref.html" != $self} {
 	    set string "<A HREF=\"${path}$ref.html\">$string</A>"
 #	    puts "insertRef: $self $ref.html ---$string--"
 	}
@@ -310,7 +308,7 @@ proc macro {name args} {
 	    SHmacro $args
 	}
 	SS {
-	    SHmacro $args subsection
+	    SSmacro $args subsection
 	}
 	SO {
 	    global noFillCount inPRE file
@@ -323,12 +321,12 @@ proc macro {name args} {
 	    font B
 	}
 	so {
-	    if {$args ne "man.macros"} {
+	    if {$args != "man.macros"} {
 		puts stderr "Unknown macro: .$name [join $args " "]"
 	    }
 	}
 	sp {					;# needs work
-	    if {$args eq ""} {
+	    if {$args == ""} {
 		set count 1
 	    } else {
 		set count [lindex $args 0]
@@ -391,13 +389,13 @@ proc font type {
 	P -
 	R {
 	    endFont
-	    if {$textState eq "REF"} {
+	    if {$textState == "REF"} {
 		set textState INSERT
 	    }
 	}
 	B {
 	    beginFont Code
-	    if {$textState eq "INSERT"} {
+	    if {$textState == "INSERT"} {
 		set textState REF
 	    }
 	}
@@ -424,7 +422,7 @@ proc font type {
 
 proc formattedText text {
 #	puts "formattedText: $text"
-    while {$text ne ""} {
+    while {$text != ""} {
 	set index [string first \\ $text]
 	if {$index < 0} {
 	    text $text
@@ -468,7 +466,7 @@ proc formattedText text {
 
 proc dash {} {
     global textState charCnt
-    if {$textState eq "NAME"} {
+    if {$textState == "NAME"} {
     	set textState 0
     }
     incr charCnt
@@ -508,49 +506,34 @@ proc tab {} {
 proc setTabs {tabList} {
     global file breakPending tabString
 
-    # puts "setTabs: --$tabList--"
+#	puts "setTabs: --$tabList--"
     set last 0
     set tabString {}
     set charsPerInch 14.
     set numTabs [llength $tabList]
     foreach arg $tabList {
-	if {[string match +* $arg]} {
-	    set relative 1
-	    set arg [string range $arg 1 end]
-	} else {
-	    set relative 0
-	}
-	# Always operate in relative mode for "measurement" mode
-	if {[regexp {^\\w'(.*)'u$} $arg content]} {
-	    set distance [string length $content]
-	} else {
-	    if {[scan $arg "%f%s" distance units] != 2} {
-		puts stderr "bad distance \"$arg\""
-		return 0
+	if {[scan $arg "%f%s" distance units] != 2} {
+	    puts stderr "bad distance \"$arg\""
+	    return 0
+    	}
+	switch -- $units {
+	    c	{
+		set distance [expr $distance * $charsPerInch / 2.54 ]
 	    }
-	    switch -- $units {
-		c {
-		    set distance [expr {$distance * $charsPerInch / 2.54}]
-		}
-		i {
-		    set distance [expr {$distance * $charsPerInch}]
-		}
-		default {
-		    puts stderr "bad units in distance \"$arg\""
-		    continue
-		}
+	    i	{
+		set distance [expr $distance * $charsPerInch]
 	    }
-	}
-	# ? distance
-	if {$relative} {
-	    append tabString [format "%*s1" [expr {round($distance-1)}] " "]
-	    set last [expr {$last + $distance}]
-	} else {
-	    append tabString [format "%*s1" [expr {round($distance-$last-1)}] " "]
-	    set last $distance
-	}
+	    default {
+		puts stderr "bad units in distance \"$arg\""
+		continue
+	    }
+    	}
+#		? distance
+    	lappend tabString [format "%*s1" [expr round($distance-$last-1)] " "]
+    	set last $distance
     }
-    # puts "setTabs: --$tabString--"
+    set tabString [join $tabString {}]
+#	puts "setTabs: --$tabString--"
 }
 
 
@@ -581,7 +564,7 @@ proc lineBreak {} {
 proc newline {} {
     global noFillCount file inDT inPRE charCnt
 
-    if {$inDT ne ""} {
+    if {$inDT != {} } {
     	puts $file "\n$inDT"
     	set inDT {}
     } elseif {$noFillCount == 0 || $inPRE == 1} {
@@ -663,7 +646,7 @@ proc SHmacro {argList {style section}} {
     nest reset
 
     set tag H3
-    if {$style eq "subsection"} {
+    if {[string compare "subsection" $level] == 0} {
 	set tag H4
     }
     puts -nonewline $file "<$tag>"
@@ -693,12 +676,11 @@ proc SHmacro {argList {style section}} {
 # of the following forms:
 #
 # .IP [1]			Translate to a "1Step" paragraph.
-# .IP [x] (x > 1)		Translate to a "Step" paragraph.
+# .IP [x] (x > 1)	Translate to a "Step" paragraph.
 # .IP				Translate to a "Bullet" paragraph.
-# .IP \(bu			Translate to a "Bullet" paragraph.
-# .IP text count		Translate to a FirstBody paragraph with special
-#				indent and tab stop based on "count", and tab
-#				after "text".
+# .IP text count	Translate to a FirstBody paragraph with special
+#					indent and tab stop based on "count", and tab after
+#					"text".
 #
 # Arguments:
 # argList -		List of arguments to the .IP macro.
@@ -714,20 +696,15 @@ proc IPmacro argList {
     	nest para UL LI
 	return
     }
-    # Special case for alternative mechanism for declaring bullets
-    if {[lindex $argList 0] eq "\\(bu"} {
-	nest para UL LI
-	return
-    }
     if {$length == 1} {
     	nest para OL LI
-	return
-    }
+	    return
+	}
     if {$length > 1} {
     	nest para DL DT
-	formattedText [lindex $argList 0]
-	puts $file "\n<DD>"
-	return
+	    formattedText [lindex $argList 0]
+	    puts $file "\n<DD>"
+	    return
     }
     puts stderr "Bad .IP macro: .IP [join $argList " "]"
 }
@@ -805,7 +782,7 @@ proc THmacro {argList} {
 proc newPara {} {
     global file nestStk
 	
-    if {[lindex $nestStk end] ne "NEW"} {
+    if {[lindex $nestStk end] != "NEW" } {
 	nest decr    
     }
     puts -nonewline $file "<P>"
@@ -823,16 +800,16 @@ proc newPara {} {
 # listStart -		begin list tag: OL, UL, DL.
 # listItem -		item tag:       LI, LI, DT.
 
-proc nest {op {listStart "NEW"} {listItem ""} } {
+proc nest {op {listStart "NEW"} {listItem {} } } {
     global file nestStk inDT charCnt
 #	puts "nest: $op $listStart $listItem"
     switch $op {
 	para {
 	    set top [lindex $nestStk end]
-	    if {$top eq "NEW"} {
+	    if {$top == "NEW" } {
 		set nestStk [lreplace $nestStk end end $listStart]
 		puts $file "<$listStart>"
-	    } elseif {$top ne $listStart} {
+	    } elseif {$top != $listStart} {
 		puts stderr "nest para: bad stack"
 		exit 1
 	    }
@@ -848,7 +825,7 @@ proc nest {op {listStart "NEW"} {listItem ""} } {
 		set nestStk NEW
 	    }
 	    set tag [lindex $nestStk end]
-	    if {$tag ne "NEW"} {
+	    if {$tag != "NEW"} {
 		puts $file "</$tag>"
 	    }
 	    set nestStk [lreplace $nestStk end end]
@@ -897,3 +874,6 @@ proc do fileName {
     puts $file "</BODY></HTML>"
     close $file
 }
+
+
+

@@ -493,7 +493,9 @@ extern char **environ;
  * up being too many conflicts with slightly-different prototypes.
  */
 
+#ifdef NO_STDLIB_H
 extern double strtod();
+#endif
 
 /*
  * There is no platform-specific panic routine for Unix in the Tcl internals.

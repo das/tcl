@@ -73,6 +73,7 @@ static int		DictValuesCmd _ANSI_ARGS_((Tcl_Interp *interp,
 static void		DupDictInternalRep _ANSI_ARGS_((Tcl_Obj *srcPtr,
 			    Tcl_Obj *copyPtr));
 static void		FreeDictInternalRep _ANSI_ARGS_((Tcl_Obj *dictPtr));
+static void		InvalidateDictChain _ANSI_ARGS_((Tcl_Obj *dictObj));
 static int		SetDictFromAny _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *objPtr));
 static void		UpdateStringOfDict _ANSI_ARGS_((Tcl_Obj *dictPtr));

@@ -923,7 +923,8 @@ typedef struct Tcl_CmdInfo {
     Tcl_Namespace *namespacePtr; /* Points to the namespace that contains
 				  * this command. Note that Tcl_SetCmdInfo
 				  * will not change a command's namespace;
-				  * use Tcl_RenameCommand to do that. */
+				  * use TclRenameCommand or Tcl_Eval (of
+				  * 'rename') to do that. */
 
 } Tcl_CmdInfo;
 

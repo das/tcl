@@ -21,9 +21,6 @@ foreach i [interp slaves] {
     interp delete $i
 }
 
-set saveAutoPath $::auto_path
-set ::auto_path [info library]
-
 # Force actual loading of the safe package 
 # because we use un exported (and thus un-autoindexed) APIs
 # in this test result arguments:
@@ -54,9 +51,8 @@ test safe-1.3 {safe::interpInit syntax} {
     slave name () name of the slave}}
 
 
-test safe-2.1 {creating interpreters, should have no aliases} emptyTest {
-    # Disabled this test.  It tests nothing sensible.  [Bug 999612]
-    # interp aliases
+test safe-2.1 {creating interpreters, should have no aliases} {
+    interp aliases
 } ""
 test safe-2.2 {creating interpreters, should have no aliases} {
     catch {safe::interpDelete a}
@@ -65,13 +61,13 @@ test safe-2.2 {creating interpreters, should have no aliases} {
     safe::interpDelete a
     set l
 } ""
-test safe-2.3 {creating safe interpreters, should have no unexpected aliases} {
+test safe-2.3 {creating safe interpreters, should have no aliases} {
     catch {safe::interpDelete a}
     interp create a -safe
     set l [a aliases]
     interp delete a
     set l
-} {clock}
+} ""
 
 test safe-3.1 {calling safe::interpInit is safe} {
     catch {safe::interpDelete a}
@@ -87,7 +83,7 @@ test safe-3.2 {calling safe::interpCreate on trusted interp} {
     set l [lsort [a aliases]]
     safe::interpDelete a
     set l
-} {clock encoding exit file load source}
+} {encoding exit file load source}
 test safe-3.3 {calling safe::interpCreate on trusted interp} {
     catch {safe::interpDelete a}
     safe::interpCreate a
@@ -481,7 +477,6 @@ test safe-11.8 {testing safe encoding} {
 } {1 {wrong # args: should be "encoding convertto ?encoding? data"} {}}
 
 
-set ::auto_path $saveAutoPath
 # cleanup
 ::tcltest::cleanupTests
 return

@@ -1797,6 +1797,8 @@ EXTERN int		TclCheckBadOctal _ANSI_ARGS_((Tcl_Interp *interp,
 			    CONST char *value));
 EXTERN int		TclEvalScriptTokens _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Token *tokenPtr, int length, int flags));
+EXTERN void		TclDecommissionLimitCallbacks _ANSI_ARGS_((
+			    Tcl_Interp *interp));
 EXTERN int		TclFileAttrsCmd _ANSI_ARGS_((Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[]));
 EXTERN int		TclFileCopyCmd _ANSI_ARGS_((Tcl_Interp *interp, 
@@ -1834,6 +1836,7 @@ EXTERN void             TclInitEmbeddedConfigurationInformation
                             _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN void		TclInitEncodingSubsystem _ANSI_ARGS_((void));
 EXTERN void		TclInitIOSubsystem _ANSI_ARGS_((void));
+EXTERN void		TclInitLimitSupport _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN void		TclInitNamespaceSubsystem _ANSI_ARGS_((void));
 EXTERN void		TclInitNotifier _ANSI_ARGS_((void));
 EXTERN void		TclInitObjSubsystem _ANSI_ARGS_((void));
@@ -1842,7 +1845,8 @@ EXTERN int		TclIsLocalScalar _ANSI_ARGS_((CONST char *src,
 			    int len));
 EXTERN int              TclJoinThread _ANSI_ARGS_((Tcl_ThreadId id,
 			    int* result));
-EXTERN void		TclInitLimitSupport _ANSI_ARGS_((Tcl_Interp *interp));
+EXTERN void		TclLimitRemoveAllHandlers _ANSI_ARGS_((
+			    Tcl_Interp *interp));
 EXTERN Tcl_Obj *	TclLindexList _ANSI_ARGS_((Tcl_Interp* interp,
 						   Tcl_Obj* listPtr,
 						   Tcl_Obj* argPtr ));

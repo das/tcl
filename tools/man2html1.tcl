@@ -8,8 +8,6 @@
 # SCCS: @(#) man2html1.tcl 1.2 96/03/21 10:48:29
 #
 
-package require Tcl 8.4
-
 # Global variables used by these scripts:
 #
 # state -	state variable that controls action of text proc.
@@ -29,6 +27,7 @@ package require Tcl 8.4
 # inDT -	in dictionary term. 
 
 
+
 # text --
 #
 # This procedure adds entries to the hypertext arrays NAME_file
@@ -39,6 +38,7 @@ package require Tcl 8.4
 #
 # Arguments:
 # string -		Text to index.
+
 
 proc text string {
     global state curFile NAME_file KEY_file inDT
@@ -80,7 +80,7 @@ proc macro {name args} {
 
 	    switch $args {
 		NAME {
-		    if {$state eq "INIT"} {
+		    if {$state == "INIT" } {
 			set state NAME
 		    }
 		}
@@ -100,13 +100,14 @@ proc macro {name args} {
 	    set inDT 0
 	    set state INIT
 	    if {[llength $args] != 5} {
-		set args [join $args " "]
-		puts stderr "Bad .TH macro: .$name $args"
+		    set args [join $args " "]
+		    puts stderr "Bad .TH macro: .$name $args"
 	    }
 	    set lib [lindex $args 3]				;# Tcl or Tk
 	}
     }
 }
+
 
 
 # dash --
@@ -119,10 +120,11 @@ proc macro {name args} {
 
 proc dash {} {
     global state
-    if {$state eq "NAME"} {
+    if {$state == "NAME"} {
 	set state DASH
     }
 }
+
 
 
 # newline --
@@ -137,6 +139,8 @@ proc newline {} {
     global inDT
     set inDT 0
 }
+
+
 
 
 # initGlobals, tab, font, char, macro2 --
@@ -180,14 +184,14 @@ proc doListing {file pattern} {
 	return
     }
     incr max_len
-    set ncols [expr {90/$max_len}]
-    set nrows [expr {int(ceil([llength $type] / double($ncols)))} ]
+    set ncols [expr 90/$max_len]
+    set nrows [expr int( ceil( [llength $type] / $ncols. ) ) ]
 
 #	? max_len ncols nrows
 
     set index 0
     foreach f $type {
-	lappend row([expr {$index % $nrows}]) $f
+	lappend row([expr $index % $nrows]) $f
 	incr index
     }
 
@@ -211,9 +215,8 @@ proc doListing {file pattern} {
 #
 # Arguments:
 # file -		name of the contents file.
-# packageName -		string used in the title and sub-heads of the HTML
-#			page. Normally name of the package without version
-#			numbers.
+# packageName -	string used in the title and sub-heads of the HTML page. Normally
+#				name of the package without version numbers.
 
 proc doContents {file packageName} {
     global footer
@@ -234,6 +237,8 @@ proc doContents {file packageName} {
     puts $file "</BODY></HTML>"
     close $file
 }
+
+
 
 
 # do --
@@ -261,3 +266,4 @@ proc do fileName {
 	exit 1
     }
 }
+

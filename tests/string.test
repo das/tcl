@@ -21,8 +21,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 
 # Some tests require the testobj command
 
-set ::tcltest::testConstraints(testobj) \
-	[expr {[info commands testobj] != {}}]
+testConstraint testobj [expr {[info commands testobj] != {}}]
 
 test string-1.1 {error conditions} {
     list [catch {string gorp a b} msg] $msg

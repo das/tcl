@@ -28,8 +28,8 @@ test timer-1.1 {Tcl_CreateTimerHandler procedure} {
     foreach i {100 200 1000 50 150} {
 	after $i lappend x $i
     }
-    after 200 set done 1
-    vwait done
+    after 200
+    update
     set x
 } {50 100 150 200}
 
@@ -38,13 +38,13 @@ test timer-2.1 {Tcl_DeleteTimerHandler procedure} {
 	after cancel $i
     }
     set x ""
-    foreach i {100 200 1000 50 150} {
+    foreach i {100 200 300 50 150} {
 	after $i lappend x $i
     }
     after cancel lappend x 150
     after cancel lappend x 50
-    after 200 set done 1
-    vwait done
+    after 200
+    update
     set x
 } {100 200}
 
@@ -455,22 +455,20 @@ test timer-8.1 {AfterProc procedure} {
     }
     list [foo] $x
 } {untouched after}
-test timer-8.2 {AfterProc procedure} -setup {
-    variable x empty
-    proc myHandler {msg options} {
-	variable x [list $msg [dict get $options -errorinfo]]
+test timer-8.2 {AfterProc procedure} {
+    catch {rename bgerror {}}
+    proc bgerror msg {
+	global x errorInfo
+	set x [list $msg $errorInfo]
     }
-    set handler [interp bgerror {}]
-    interp bgerror {} [namespace which myHandler]
-} -body {
+    set x empty
     after 100 {error "After error"}
     after 200
     set y $x
     update
+    catch {rename bgerror {}}
     list $y $x
-} -cleanup {
-    interp bgerror {} $handler
-} -result {empty {{After error} {After error
+} {empty {{After error} {After error
     while executing
 "error "After error""
     ("after" script)}}}
@@ -539,18 +537,6 @@ test timer-9.1 {AfterCleanupProc procedure} {
     update
     set x
 } {before after2 after4}
-
-test timer-10.1 {Bug 1016167: [after] overwrites imports} -setup {
-    interp create slave
-    slave eval namespace export after
-    slave eval namespace eval foo namespace import ::after
-} -body {
-    slave eval foo::after 1
-    slave eval namespace origin foo::after
-} -cleanup {
-    # Bug will cause crash here; would cause failure otherwise
-    interp delete slave
-} -result ::after
 
 # cleanup
 ::tcltest::cleanupTests

@@ -81,7 +81,7 @@ static int		TestalarmCmd _ANSI_ARGS_((ClientData dummy,
 			    Tcl_Interp *interp, int argc, CONST char **argv));
 static int		TestgotsigCmd _ANSI_ARGS_((ClientData dummy,
 			    Tcl_Interp *interp, int argc, CONST char **argv));
-static void 		AlarmHandler _ANSI_ARGS_(());
+static void		AlarmHandler _ANSI_ARGS_((int signum));
 
 /*
  *----------------------------------------------------------------------
@@ -671,7 +671,8 @@ TestalarmCmd(clientData, interp, argc, argv)
  */
 
 static void
-AlarmHandler()
+AlarmHandler(signum)
+    int signum;
 {
     gotsig = "1";
 }
