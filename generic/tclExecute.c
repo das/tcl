@@ -4781,6 +4781,20 @@ TclExecuteByteCode(interp, codePtr)
 		iPtr->flags |= ERR_ALREADY_LOGGED;
 	    }
 	}
+
+	/*
+	 * Clear all expansions that may have started after the last
+	 * INST_BEGIN_CATCH. 
+	 */
+
+	while ((expandNestList != NULL) && ((catchTop == initCatchTop) ||
+		((ptrdiff_t) eePtr->stackPtr[catchTop] <=
+			(ptrdiff_t) expandNestList->internalRep.twoPtrValue.ptr1))) {
+	    Tcl_Obj *objPtr = expandNestList->internalRep.twoPtrValue.ptr2;
+	    TclDecrRefCount(expandNestList);
+	    expandNestList = objPtr;
+	}
+
 	/*
 	 * We must not catch an exceeded limit.  Instead, it blows
 	 * outwards until we either hit another interpreter (presumably
