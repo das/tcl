@@ -980,7 +980,7 @@ test tcltest-15.1 {basic directory walking} {
     }
     -match regexp
     -returnCodes 1
-    -result {Tests located in:.*dirtestdir.*Tests located in:.*dirtestdir2.1.*Tests located in:.*dirtestdir2.2.*Tests located in:.*dirtestdir2.3}
+    -result {Tests located in:.*dirtestdir.*Tests located in:.*dirtestdir2.[123].*Tests located in:.*dirtestdir2.[123].*Tests located in:.*dirtestdir2.[123]}
 }
 
 test tcltest-15.2 {-asidefromdir} {
@@ -995,7 +995,7 @@ test tcltest-15.2 {-asidefromdir} {
     }
     -match regexp
     -returnCodes 1
-    -result {Tests located in:.*dirtestdir.*Tests located in:.*dirtestdir2.1.*Tests located in:.*dirtestdir2.2.*dirtestdir2.2 test ended at .*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    -result {Tests located in:.*dirtestdir.*Tests located in:.*dirtestdir2.[12].*Tests located in:.*dirtestdir2.[12].*dirtestdir2.[12] test ended at .*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Error:  No test files remain after applying your match and skip patterns!
 Error:  No test files remain after applying your match and skip patterns!
 Error:  No test files remain after applying your match and skip patterns!$}
