@@ -1498,7 +1498,7 @@ test interp-20.45 {interp hide vs namespaces} {
     set l [list [catch {interp hide a foo::x} msg] $msg]
     interp delete a
     set l
-} {1 {cannot use namespace qualifiers as hidden commandtoken (rename)}}
+} {1 {cannot use namespace qualifiers in hidden command token (rename)}}
 test interp-20.46 {interp hide vs namespaces} {
     catch {interp delete a}
     interp create a
@@ -1519,7 +1519,7 @@ test interp-20.47 {interp hide vs namespaces} {
     set l [list [catch {interp hide a x foo::x} msg] $msg]
     interp delete a
     set l
-} {1 {cannot use namespace qualifiers as hidden commandtoken (rename)}}
+} {1 {cannot use namespace qualifiers in hidden command token (rename)}}
 test interp-20.48 {interp hide vs namespaces} {
     catch {interp delete a}
     interp create a
@@ -1530,7 +1530,7 @@ test interp-20.48 {interp hide vs namespaces} {
     set l [list [catch {interp hide a foo::x bar::x} msg] $msg]
     interp delete a
     set l
-} {1 {cannot use namespace qualifiers as hidden commandtoken (rename)}}
+} {1 {cannot use namespace qualifiers in hidden command token (rename)}}
 
 test interp-21.1 {interp hidden} {
     interp hidden {}

@@ -1167,8 +1167,8 @@ Tcl_HideCommand(interp, cmdName, hiddenCmdToken)
 
     if (strstr(hiddenCmdToken, "::") != NULL) {
         Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
-                "cannot use namespace qualifiers as hidden command",
-		"token (rename)", (char *) NULL);
+                "cannot use namespace qualifiers in hidden command",
+		" token (rename)", (char *) NULL);
         return TCL_ERROR;
     }
 
