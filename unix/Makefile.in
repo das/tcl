@@ -270,6 +270,7 @@ GENERIC_HDRS = \
 
 GENERIC_SRCS = \
 	$(GENERIC_DIR)/regexp.c \
+	$(GENERIC_DIR)/tclAlloc.c \
 	$(GENERIC_DIR)/tclAsync.c \
 	$(GENERIC_DIR)/tclBasic.c \
 	$(GENERIC_DIR)/tclBinary.c \
@@ -642,6 +643,9 @@ regexp.o: $(GENERIC_DIR)/regexp.c
 
 tclAppInit.o: $(UNIX_DIR)/tclAppInit.c
 	$(CC) -c $(CC_SWITCHES) $(UNIX_DIR)/tclAppInit.c
+
+tclAlloc.o: $(GENERIC_DIR)/tclAlloc.c
+	$(CC) -c $(CC_SWITCHES) $(GENERIC_DIR)/tclAlloc.c
 
 tclAsync.o: $(GENERIC_DIR)/tclAsync.c
 	$(CC) -c $(CC_SWITCHES) $(GENERIC_DIR)/tclAsync.c
