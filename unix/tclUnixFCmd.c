@@ -1692,7 +1692,7 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 	    nextCheckpoint = currentPathEndPosition - path;
 	} else if (cur == 0) {
 	    /* Reached end of string */
-	    nextCheckpoint = pathLen;
+	    /* nextCheckpoint = pathLen; */
 	    break;
 	}
 	currentPathEndPosition++;

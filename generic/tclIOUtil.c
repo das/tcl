@@ -4485,11 +4485,11 @@ NativeDupInternalRep(clientData)
 	len = sizeof(WCHAR) + (wcslen((CONST WCHAR*)clientData) * sizeof(WCHAR));
     } else {
 	/* ansi representation when running on 95/98/ME */
-	len = sizeof(CHAR) + (strlen((CONST CHAR*)clientData) * sizeof(CHAR));
+	len = sizeof(char) + (strlen((CONST char*)clientData) * sizeof(char));
     }
 #else
     /* ansi representation when running on Unix/MacOS */
-    len = sizeof(CHAR) + (strlen((CONST CHAR*)clientData) * sizeof(CHAR));
+    len = sizeof(char) + (strlen((CONST char*)clientData) * sizeof(char));
 #endif
     
     copy = (ClientData) ckalloc(len);
