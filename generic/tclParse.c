@@ -1592,6 +1592,7 @@ Tcl_ParseVarName(interp, string, numBytes, parsePtr, append)
     unsigned char c;
     int varIndex, offset;
     Tcl_UniChar ch;
+    unsigned array;
 
     if (numBytes >= 0) {
 	end = string + numBytes;
@@ -1698,12 +1699,17 @@ Tcl_ParseVarName(interp, string, numBytes, parsePtr, append)
 	    }
 	    break;
 	}
+
+	/*
+	 * Support for empty array names here.
+	 */
+	array = ((src != end) && (*src == '('));
 	tokenPtr->size = src - tokenPtr->start;
-	if (tokenPtr->size == 0) {
+	if (tokenPtr->size == 0 && !array) {
 	    goto justADollarSign;
 	}
 	parsePtr->numTokens++;
-	if ((src != end) && (*src == '(')) {
+	if (array) {
 	    /*
 	     * This is a reference to an array element.  Call
 	     * ParseTokens recursively to parse the element name,
