@@ -4195,3 +4195,10 @@ global variables.
       to ../tests.
 (hirschl)
 *** POTENTIAL INCOMPATIBILITY ***
+
+3/23/99 (feature change) Test suite now uses "tcltest" namespace to
+define the test procedure and other auxiliary procedures as well as
+global variables.  The previously chosen "test" namespace was thought
+to be too generic and likely to create conflits.
+(hirschl)
+*** POTENTIAL INCOMPATIBILITY ***
