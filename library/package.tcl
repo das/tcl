@@ -753,11 +753,4 @@ proc ::tcl::Pkg::Create {args} {
     return $cmdline
 }
 
-# Change this to
-#	 interp alias {} ::pkg::create {} ::tcl::Pkg::Create 
-# as soon as safe-2.1 accepts it.
-namespace eval pkg {
-    proc create args {
-	uplevel 1 ::tcl::Pkg::Create $args
-    }
-}
+interp alias {} ::pkg::create {} ::tcl::Pkg::Create 
