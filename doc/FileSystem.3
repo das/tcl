@@ -1092,6 +1092,21 @@ Note that if no matches are found, that simply leads to an empty
 result --- errors are only signaled for actual file or filesystem
 problems which may occur during the matching process.
 .PP
+The \fBTcl_GlobTypeData\fR structure passed in the \fItypes\fR 
+parameter contains the following fields:
+.CS
+typedef struct Tcl_GlobTypeData {
+	/* Corresponds to bcdpfls as in 'find -t' */
+	int \fItype\fR;
+	/* Corresponds to file permissions */
+	int \fIperm\fR;
+	/* Acceptable mac type */
+	Tcl_Obj *\fImacType\fR;
+	/* Acceptable mac creator */
+	Tcl_Obj *\fImacCreator\fR;
+} Tcl_GlobTypeData;
+.CE
+.PP
 There are two specific cases which it is important to handle correctly,
 both when \fItypes\fR is non-NULL. The two cases are when \fItypes->types
 & TCL_GLOB_TYPE_DIR\fR or \fItypes->types & TCL_GLOB_TYPE_MOUNT\fR are
