@@ -257,6 +257,22 @@ test clock-4.32 {clock scan, relative minutes} {
 test clock-4.33 {clock scan, relative minutes} {
     clock scan "now -1 minute" -base 946627200
 } 946627140
+test clock-4.34 {clock scan, day of week} {
+    clock format [clock scan "wednesday" -base [clock scan 20000112]] \
+	    -format {%b %d, %Y}
+} "Jan 12, 2000"
+test clock-4.35 {clock scan, next day of week} {
+    clock format [clock scan "next wednesday" -base [clock scan 20000112]] \
+	    -format {%b %d, %Y}
+} "Jan 19, 2000"
+test clock-4.36 {clock scan, day of week} {
+    clock format [clock scan "thursday" -base [clock scan 20000112]] \
+	    -format {%b %d, %Y}
+} "Jan 13, 2000"
+test clock-4.37 {clock scan, next day of week} {
+    clock format [clock scan "next thursday" -base [clock scan 20000112]] \
+	    -format {%b %d, %Y}
+} "Jan 20, 2000"
 
 # clock seconds
 test clock-5.1 {clock seconds tests} {
