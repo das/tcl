@@ -65,6 +65,12 @@ This is the default.
 \fB\-decreasing\fR
 Sort the list in decreasing order (``largest'' items first).
 .TP 20
+\fB\-indices\fR
+.VS "8.5 (TIP#217)"
+Return a list of indices into \fIlist\fR in sorted order instead of
+the values themselves.
+.VE "8.5 (TIP#217)"
+.TP 20
 \fB\-index\0\fIindexList\fR
 If this option is specified, each of the elements of \fIlist\fR must
 itself be a proper Tcl sublist.  Instead of sorting based on whole
