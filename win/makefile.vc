@@ -399,26 +399,26 @@ install-binaries: $(TCLSH)
 	@copy $(TCLSH) $(BIN_INSTALL_DIR)
 
 install-libraries:
-	@mkd $(LIB_INSTALL_DIR)
-	@mkd $(INCLUDE_INSTALL_DIR)
-	@mkd $(SCRIPT_INSTALL_DIR)
-	@mkd $(SCRIPT_INSTALL_DIR)\http1.0
-	@copy $(ROOT)\library\http1.0\http.tcl $(SCRIPT_INSTALL_DIR)\http1.0
-	@copy $(ROOT)\library\http1.0\pkgIndex.tcl $(SCRIPT_INSTALL_DIR)\http1.0
-	@mkd $(SCRIPT_INSTALL_DIR)\http2.0
-	@copy $(ROOT)\library\http2.0\http.tcl $(SCRIPT_INSTALL_DIR)\http2.0
-	@copy $(ROOT)\library\http2.0\pkgIndex.tcl $(SCRIPT_INSTALL_DIR)\http2.0
-	@mkd $(SCRIPT_INSTALL_DIR)\opt0.1
-	@copy $(ROOT)\library\opt0.1\optparse.tcl $(SCRIPT_INSTALL_DIR)\opt0.1
-	@copy $(ROOT)\library\opt0.1\pkgIndex.tcl $(SCRIPT_INSTALL_DIR)\opt0.1
-	@copy $(GENERICDIR)\tcl.h $(INCLUDE_INSTALL_DIR)
-	@copy $(ROOT)\library\history.tcl $(SCRIPT_INSTALL_DIR)
-	@copy $(ROOT)\library\init.tcl $(SCRIPT_INSTALL_DIR)
-	@copy $(ROOT)\library\ldAout.tcl $(SCRIPT_INSTALL_DIR)
-	@copy $(ROOT)\library\parray.tcl $(SCRIPT_INSTALL_DIR)
-	@copy $(ROOT)\library\safe.tcl $(SCRIPT_INSTALL_DIR)
-	@copy $(ROOT)\library\tclIndex $(SCRIPT_INSTALL_DIR)
-	@copy $(ROOT)\library\word.tcl $(SCRIPT_INSTALL_DIR)
+	-@mkd $(LIB_INSTALL_DIR)
+	-@mkd $(INCLUDE_INSTALL_DIR)
+	-@mkd $(SCRIPT_INSTALL_DIR)
+	-@mkd $(SCRIPT_INSTALL_DIR)\http1.0
+	-@copy $(ROOT)\library\http1.0\http.tcl $(SCRIPT_INSTALL_DIR)\http1.0
+	-@copy $(ROOT)\library\http1.0\pkgIndex.tcl $(SCRIPT_INSTALL_DIR)\http1.0
+	-@mkd $(SCRIPT_INSTALL_DIR)\http2.0
+	-@copy $(ROOT)\library\http2.0\http.tcl $(SCRIPT_INSTALL_DIR)\http2.0
+	-@copy $(ROOT)\library\http2.0\pkgIndex.tcl $(SCRIPT_INSTALL_DIR)\http2.0
+	-@mkd $(SCRIPT_INSTALL_DIR)\opt0.1
+	-@copy $(ROOT)\library\opt0.1\optparse.tcl $(SCRIPT_INSTALL_DIR)\opt0.1
+	-@copy $(ROOT)\library\opt0.1\pkgIndex.tcl $(SCRIPT_INSTALL_DIR)\opt0.1
+	-@copy $(GENERICDIR)\tcl.h $(INCLUDE_INSTALL_DIR)
+	-@copy $(ROOT)\library\history.tcl $(SCRIPT_INSTALL_DIR)
+	-@copy $(ROOT)\library\init.tcl $(SCRIPT_INSTALL_DIR)
+	-@copy $(ROOT)\library\ldAout.tcl $(SCRIPT_INSTALL_DIR)
+	-@copy $(ROOT)\library\parray.tcl $(SCRIPT_INSTALL_DIR)
+	-@copy $(ROOT)\library\safe.tcl $(SCRIPT_INSTALL_DIR)
+	-@copy $(ROOT)\library\tclIndex $(SCRIPT_INSTALL_DIR)
+	-@copy $(ROOT)\library\word.tcl $(SCRIPT_INSTALL_DIR)
 
 #
 # Special case object file targets
