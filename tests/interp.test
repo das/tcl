@@ -1701,7 +1701,7 @@ test interp-23.3 {testing hiding vs aliases} {macOnly} {
     lappend l [lsort [interp hidden a]]
     interp delete a
     set l
-} {{beep cd echo exit fconfigure file glob load ls open pwd socket source} bar {beep cd echo exit fconfigure file glob load ls open pwd socket source} bar {bar beep cd echo exit fconfigure file glob load ls open pwd socket source} {} {beep cd echo exit fconfigure file glob load ls open pwd socket source}} 
+} {{beep cd echo encoding exit fconfigure file glob load ls open pwd socket source} bar {beep cd echo encoding exit fconfigure file glob load ls open pwd socket source} bar {bar beep cd echo encoding exit fconfigure file glob load ls open pwd socket source} {} {beep cd echo encoding exit fconfigure file glob load ls open pwd socket source}} 
 
 test interp-24.1 {result resetting on error} {
     catch {interp delete a}
