@@ -425,7 +425,7 @@ test http-4.14 {http::Event} {
 	http::status $token
     } err]
     # error code varies among platforms.
-    list $code [string match "connect failed*" $err]
+    list $code [regexp {(connect failed|couldn't open socket)} $err]
 } {1 1}
 
 # Bogus host
