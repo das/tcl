@@ -931,7 +931,7 @@ TclCompileScript(interp, script, numBytes, envPtr)
 		     */
 		    objIndex = TclRegisterNewLiteral(envPtr, "", 0);
 		    TclEmitPush(objIndex, envPtr);
-		    Tcl_DStringAppend(&deltaList, &delta, 1);
+		    Tcl_DStringAppend(&deltaList, (CONST char *)&delta, 1);
 		    delta = 1;
 		}
 
