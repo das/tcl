@@ -71,7 +71,7 @@ Tcl_GetHostName()
 #else
     char buffer[sizeof(hostname)];
 #endif
-    char *native;
+    CONST char *native;
 
     Tcl_MutexLock(&hostMutex);
     if (hostnameInited) {
