@@ -1656,9 +1656,6 @@ ProcBodyUpdateString(objPtr)
  * Results:
  *	The return value is TCL_OK, indicating successful compilation.
  *
- *	envPtr->maxStackDepth is updated with the maximum number of stack
- *	elements needed to execute the command.
- *
  * Side effects:
  *	Instructions are added to envPtr to execute a noOp at runtime.
  *
@@ -1674,11 +1671,13 @@ TclCompileNoOp(interp, parsePtr, envPtr)
 {
     Tcl_Token *tokenPtr;
     int i, code;
+    int savedStackDepth = envPtr->currStackDepth;
 
-    envPtr->maxStackDepth = 1;
     tokenPtr = parsePtr->tokenPtr;
     for(i = 1; i < parsePtr->numWords; i++) {
 	tokenPtr = tokenPtr + tokenPtr->numComponents + 1;
+	envPtr->currStackDepth = savedStackDepth;
+
 	if (tokenPtr->type != TCL_TOKEN_SIMPLE_WORD) { 
 	    code = TclCompileTokens(interp, tokenPtr+1,
 	            tokenPtr->numComponents, envPtr);
@@ -1688,6 +1687,7 @@ TclCompileNoOp(interp, parsePtr, envPtr)
 	    TclEmitOpcode(INST_POP, envPtr);
 	} 
     }
+    envPtr->currStackDepth = savedStackDepth;
     TclEmitPush(TclRegisterLiteral(envPtr, "", 0, /*onHeap*/ 0), envPtr);
     return TCL_OK;
 }
