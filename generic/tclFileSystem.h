@@ -86,11 +86,15 @@ extern Tcl_Filesystem tclNativeFilesystem;
 extern Tcl_ThreadDataKey tclFsDataKey;
 
 /* 
- * Private shared functions for use by tclIOUtil.c and tclPathObj.c
+ * Private shared functions for use by tclIOUtil.c, tclPathObj.c
+ * and tclFileName.c
  */
 Tcl_PathType     TclFSGetPathType  _ANSI_ARGS_((Tcl_Obj *pathPtr, 
 			    Tcl_Filesystem **filesystemPtrPtr, 
 			    int *driveNameLengthPtr));
+Tcl_PathType     TclFSNonnativePathType  _ANSI_ARGS_((CONST char *pathPtr, 
+			    int pathLen, Tcl_Filesystem **filesystemPtrPtr, 
+			    int *driveNameLengthPtr, Tcl_Obj **driveNameRef));
 Tcl_PathType     TclGetPathType  _ANSI_ARGS_((Tcl_Obj *pathPtr, 
 			    Tcl_Filesystem **filesystemPtrPtr, 
 			    int *driveNameLengthPtr, Tcl_Obj **driveNameRef));

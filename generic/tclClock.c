@@ -313,7 +313,7 @@ FormatClock(interp, clockVal, useGMT, format)
         } else {
             savedTZEnv = NULL;
 	}
-        Tcl_SetVar2(interp, "env", "TZ", "GMT", TCL_GLOBAL_ONLY);
+        Tcl_SetVar2(interp, "env", "TZ", "GMT0", TCL_GLOBAL_ONLY);
         savedTimeZone = timezone;
         timezone = 0;
         tzset();

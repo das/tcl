@@ -29,13 +29,14 @@ so that \fBeval\fR may be used to execute the resulting list, with
 its arguments.  \fBList\fR produces slightly different results than
 \fBconcat\fR:  \fBconcat\fR removes one level of grouping before forming
 the list, while \fBlist\fR works directly from the original arguments.
-For example, the command
+.SH EXAMPLE
+The command
 .CS
-\fBlist a b {c d e} {f {g h}}\fR
+list a b "c d e  " "  f {g h}"
 .CE
 will return
 .CS
-\fBa b {c d e} {f {g h}}\fR
+\fBa b {c d e  } {  f {g h}}\fR
 .CE
 while \fBconcat\fR with the same arguments will return
 .CS

@@ -901,6 +901,10 @@ SocketEventProc(evPtr, flags)
     }
     if (events & (FD_WRITE | FD_CONNECT)) {
 	mask |= TCL_WRITABLE;
+	if (events & FD_CONNECT && infoPtr->lastError != NO_ERROR) {
+	    /* connect errors should also fire the readable handler. */
+	    mask |= TCL_READABLE;
+	}
     }
 
     if (mask) {
@@ -2461,7 +2465,7 @@ SocketProc(hwnd, message, wParam, lParam)
 			}
 
 		    } 
-		    if(infoPtr->flags & SOCKET_ASYNC_CONNECT) {
+		    if (infoPtr->flags & SOCKET_ASYNC_CONNECT) {
 			infoPtr->flags &= ~(SOCKET_ASYNC_CONNECT);
 			if (error != ERROR_SUCCESS) {
 			    TclWinConvertWSAError((DWORD) error);

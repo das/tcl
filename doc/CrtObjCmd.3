@@ -39,7 +39,7 @@ int
 .VE
 .sp
 .VS 8.4
-const char *
+CONST char *
 .VE
 \fBTcl_GetCommandName\fR(\fIinterp, token\fR)
 .sp
@@ -49,10 +49,12 @@ void
 Tcl_Command
 \fBTcl_GetCommandFromObj\fR(\fIinterp, objPtr\fR)
 .SH ARGUMENTS
-.AS Tcl_CmdDeleteProc *deleteProc in/out
+.AS Tcl_ObjCmdProc *deleteProc in/out
 .AP Tcl_Interp *interp in
 Interpreter in which to create a new command or that contains a command.
+.VS 8.4
 .AP char *cmdName in
+.VE
 Name of command.
 .AP Tcl_ObjCmdProc *proc in
 Implementation of the new command: \fIproc\fR will be called whenever
@@ -96,11 +98,11 @@ and it returns NULL.
 \fBTcl_ObjCmdProc\fR:
 .CS
 typedef int Tcl_ObjCmdProc(
-        ClientData \fIclientData\fR,
-        Tcl_Interp *\fIinterp\fR,
-        int \fIobjc\fR,
+	ClientData \fIclientData\fR,
+	Tcl_Interp *\fIinterp\fR,
+	int \fIobjc\fR,
 .VS
-        Tcl_Obj *const \fIobjv\fR[]);
+	Tcl_Obj *CONST \fIobjv\fR[]);
 .CE
 When \fIproc\fR is invoked, the \fIclientData\fR and \fIinterp\fR parameters
 will be copies of the \fIclientData\fR and \fIinterp\fR arguments given to
@@ -168,8 +170,7 @@ application an opportunity to release any structures associated
 with the command.  \fIDeleteProc\fR should have arguments and
 result that match the type \fBTcl_CmdDeleteProc\fR:
 .CS
-typedef void Tcl_CmdDeleteProc(
-        ClientData \fIclientData\fR);
+typedef void Tcl_CmdDeleteProc(ClientData \fIclientData\fR);
 .CE
 The \fIclientData\fR argument will be the same as the \fIclientData\fR
 argument passed to \fBTcl_CreateObjCommand\fR.
@@ -207,14 +208,14 @@ pointed to by \fIinfoPtr\fR and returns 1.
 A \fBTcl_CmdInfo\fR structure has the following fields:
 .CS
 typedef struct Tcl_CmdInfo {
-    int \fIisNativeObjectProc\fR;
-    Tcl_ObjCmdProc *\fIobjProc\fR;
-    ClientData \fIobjClientData\fR;
-    Tcl_CmdProc *\fIproc\fR;
-    ClientData \fIclientData\fR;
-    Tcl_CmdDeleteProc *\fIdeleteProc\fR;
-    ClientData \fIdeleteData\fR;
-    Tcl_Namespace *\fInamespacePtr\fR;
+    int isNativeObjectProc;
+    Tcl_ObjCmdProc *objProc;
+    ClientData objClientData;
+    Tcl_CmdProc *proc;
+    ClientData clientData;
+    Tcl_CmdDeleteProc *deleteProc;
+    ClientData deleteData;
+    Tcl_Namespace *namespacePtr;
 } Tcl_CmdInfo;
 .CE
 The \fIisNativeObjectProc\fR field has the value 1
@@ -289,7 +290,7 @@ owned by Tcl and is only guaranteed to retain its value as long as the
 command isn't deleted or renamed;  callers should copy the string if
 they need to keep it for a long time.
 .PP
-\fBTcl_GetCommandFullName\fR produces the fully qualified name
+\fBTcl_GetCommandFullName\fR produces the fully-qualified name
 of a command from a command token.  
 The name, including all namespace prefixes,
 is appended to the object specified by \fIobjPtr\fP.

@@ -173,6 +173,27 @@ test clock-3.13 {clock format with non-ASCII character in the format string} {
     set res
 } "\u00c4"
 
+# Bug 942078
+
+test clock-3.14 {change of time zone} -setup {
+    catch { unset oldTZ }
+    if { [info exists env(TZ)] } {
+	set oldTZ $env(TZ)
+    }
+} -body {
+    set env(TZ) PST8PDT
+    set s [clock format 0 -format %H%M]
+    set env(TZ) GMT0
+    append s -[clock format 0 -format %H%M]
+} -cleanup {
+    if { [info exists oldTZ] } {
+	set env(TZ) $oldTZ
+	unset oldTZ
+    } else {
+	unset env(TZ)
+    }
+} -result {1600-0000}
+
 # clock scan
 test clock-4.1 {clock scan tests} {
     list [catch {clock scan} msg] $msg

@@ -29,6 +29,16 @@ continues with the next iteration of the loop.
 Catch exceptions are also handled in a few other situations, such
 as the \fBcatch\fR command and the outermost scripts of procedure
 bodies.
+.SH EXAMPLE
+Print a line for each of the integers from 0 to 10 \fIexcept\fR 5:
+.CS
+for {set x 0} {$x<10} {incr x} {
+   if {$x == 5} {
+      continue
+   }
+   puts "x is $x"
+}
+.CE
 
 .SH "SEE ALSO"
 break(n), for(n), foreach(n), return(n), while(n)

@@ -256,7 +256,18 @@ Tcl_CatchObjCmd(dummy, interp, objc, objv)
     }
 
     result = Tcl_EvalObjEx(interp, objv[1], 0);
-    
+
+    /*
+     * We disable catch in interpreters where the limit has been exceeded.
+     */
+    if (Tcl_LimitExceeded(interp)) {
+	char msg[32 + TCL_INTEGER_SPACE];
+
+	sprintf(msg, "\n    (\"catch\" body line %d)", interp->errorLine);
+	Tcl_AddErrorInfo(interp, msg);
+	return TCL_ERROR;
+    }
+
     if (objc >= 3) {
 	if (NULL == Tcl_ObjSetVar2(interp, varNamePtr, NULL,
 		Tcl_GetObjResult(interp), 0)) {
