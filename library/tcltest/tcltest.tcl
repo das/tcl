@@ -406,11 +406,19 @@ namespace eval tcltest {
 	variable OptionControlledVariables
 	set Usage($option) $usage
 	set Verify($option) $verify
-	set Option($option) [$verify $value]
+	if {[catch {$verify $value} msg]} {
+	    return -code error $msg
+	} else {
+	    set Option($option) $msg
+	}
 	if {[string length $varName]} {
 	    variable $varName
 	    if {[info exists $varName]} {
-		set Option($option) [$verify [set $varName]]
+		if {[catch {$verify [set $varName]} msg]} {
+		    return -code error $msg
+		} else {
+		    set Option($option) $msg
+		}
 		unset $varName
 	    }
 	    namespace eval [namespace current] \
@@ -658,7 +666,7 @@ namespace eval tcltest {
     # Tests should not rely on the current working directory.
     # Files that are part of the test suite should be accessed relative
     # to [testsDirectory]
-    Option -testdir [file join [file dirname [info script]] .. ..  tests] {
+    Option -testdir [workingDirectory] {
 	Search tests in the specified directory.
     } AcceptDirectory testsDirectory
     trace variable Option(-testdir) w \
