@@ -25,8 +25,9 @@
 
 static CRITICAL_SECTION masterLock;
 static int init = 0;
-#define MASTER_LOCK  EnterCriticalSection(&masterLock)
-#define MASTER_UNLOCK  LeaveCriticalSection(&masterLock)
+#define MASTER_LOCK TclpMasterLock() 
+#define MASTER_UNLOCK TclpMasterUnlock() 
+
 
 /*
  * This is the master lock used to serialize initialization and finalization
@@ -427,13 +428,14 @@ TclFinalizeLock ()
 {
     MASTER_LOCK;
     DeleteCriticalSection(&joinLock);
+    /* Destroy the critical section that we are holding! */
     DeleteCriticalSection(&masterLock);
     init = 0;
 #ifdef TCL_THREADS
     DeleteCriticalSection(&allocLock);
     allocOnce = 0;
 #endif
-    /* Destroy the critical section that we are holding. */
+    /* Destroy the critical section that we are holding! */
     DeleteCriticalSection(&initLock);
 }
 
