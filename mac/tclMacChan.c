@@ -586,11 +586,10 @@ StdIOOutput(
 
 static Tcl_WideInt
 StdIOSeek(
-    ClientData instanceData,			/* Unused. */
-    long offset,				/* Offset to seek to. */
-    int mode,					/* Relative to where
-                                                 * should we seek? */
-    int *errorCodePtr)				/* To store error code. */
+    ClientData instanceData,	/* Unused. */
+    Tcl_WideInt offset,		/* Offset to seek to. */
+    int mode,			/* Relative to where should we seek? */
+    int *errorCodePtr)		/* To store error code. */
 {
     int newLoc;
     int fd;
@@ -1129,10 +1128,9 @@ FileOutput(
 static Tcl_WideInt
 FileSeek(
     ClientData instanceData,	/* Unused. */
-    long offset,				/* Offset to seek to. */
-    int mode,					/* Relative to where
-                                 * should we seek? */
-    int *errorCodePtr)			/* To store error code. */
+    Tcl_WideInt offset,		/* Offset to seek to. */
+    int mode,			/* Relative to where should we seek? */
+    int *errorCodePtr)		/* To store error code. */
 {
     FileState *fileState = (FileState *) instanceData;
     IOParam pb;

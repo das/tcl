@@ -90,7 +90,7 @@ static int		FileInputProc _ANSI_ARGS_((ClientData instanceData,
 static int		FileOutputProc _ANSI_ARGS_((ClientData instanceData,
 			    char *buf, int toWrite, int *errorCode));
 static Tcl_WideInt	FileSeekProc _ANSI_ARGS_((ClientData instanceData,
-			    long offset, int mode, int *errorCode));
+			    Tcl_WideInt offset, int mode, int *errorCode));
 static void		FileSetupProc _ANSI_ARGS_((ClientData clientData,
 			    int flags));
 static void		FileWatchProc _ANSI_ARGS_((ClientData instanceData,
@@ -433,11 +433,10 @@ FileCloseProc(instanceData, interp)
 
 static Tcl_WideInt
 FileSeekProc(instanceData, offset, mode, errorCodePtr)
-    ClientData instanceData;			/* File state. */
-    long offset;				/* Offset to seek to. */
-    int mode;					/* Relative to where
-                                                 * should we seek? */
-    int *errorCodePtr;				/* To store error code. */
+    ClientData instanceData;	/* File state. */
+    Tcl_WideInt offset;		/* Offset to seek to. */
+    int mode;			/* Relative to where should we seek? */
+    int *errorCodePtr;		/* To store error code. */
 {
     FileInfo *infoPtr = (FileInfo *) instanceData;
     DWORD moveMethod;
