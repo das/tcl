@@ -1973,6 +1973,18 @@ declare 551 generic {
     int Tcl_GetEnsembleNamespace(Tcl_Interp *interp, Tcl_Command token,
 	    Tcl_Namespace **namespacePtrPtr)
 }
+# TIP#233 (Virtualized Time)
+declare 552 generic {
+    void Tcl_SetTimeProc (Tcl_GetTimeProc* getProc,
+	    Tcl_ScaleTimeProc* scaleProc,
+	    ClientData clientData)
+}
+declare 553 generic {
+    void Tcl_QueryTimeProc (Tcl_GetTimeProc** getProc,
+	    Tcl_ScaleTimeProc** scaleProc,
+	    ClientData* clientData)
+}
+
 
 ##############################################################################
 

@@ -1742,6 +1742,14 @@ MODULE_SCOPE char *	tclMemDumpFileName;
 MODULE_SCOPE TclPlatformType tclPlatform;
 MODULE_SCOPE Tcl_NotifierProcs tclOriginalNotifier;
 
+/* TIP #233 (Virtualized Time)
+ * Data for the time hooks, if any.
+ */
+
+MODULE_SCOPE Tcl_GetTimeProc*   tclGetTimeProcPtr;
+MODULE_SCOPE Tcl_ScaleTimeProc* tclScaleTimeProcPtr;
+MODULE_SCOPE ClientData         tclTimeClientData;
+
 /*
  * Variables denoting the Tcl object types defined in the core.
  */

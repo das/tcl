@@ -1417,6 +1417,11 @@ typedef struct Tcl_Time {
 typedef void (Tcl_SetTimerProc) _ANSI_ARGS_((Tcl_Time *timePtr));
 typedef int (Tcl_WaitForEventProc) _ANSI_ARGS_((Tcl_Time *timePtr));
 
+/* TIP #233 (Virtualized Time)
+ */
+typedef void (Tcl_GetTimeProc)   _ANSI_ARGS_ ((Tcl_Time* timebuf, ClientData clientData));
+typedef void (Tcl_ScaleTimeProc) _ANSI_ARGS_ ((Tcl_Time* timebuf, ClientData clientData));
+
 
 /*
  * Bits to pass to Tcl_CreateFileHandler and Tcl_CreateChannelHandler
