@@ -833,7 +833,7 @@ TclFreeObj(objPtr)
     }
 
     if (ObjDeletePending(context)) {
-	TclPushObjToDelete(context, objPtr);
+	PushObjToDelete(context, objPtr);
     } else {
 	if ((typePtr != NULL) && (typePtr->freeIntRepProc != NULL)) {
 	    ObjDeletionLock(context);
