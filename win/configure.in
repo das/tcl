@@ -12,6 +12,13 @@ TCL_MINOR_VERSION=4
 TCL_PATCH_LEVEL="a1"
 VER=$TCL_MAJOR_VERSION$TCL_MINOR_VERSION
 
+if test "${prefix}" = "NONE"; then
+    prefix=/usr/local
+fi
+if test "${exec_prefix}" = "NONE"; then
+    exec_prefix=$prefix
+fi
+
 #--------------------------------------------------------------------
 # Check whether --enable-gcc or --disable-gcc was given.  Do this 
 # before AC_PROG_CC and AC_CYGWIN are called so the compiler can 
@@ -93,10 +100,23 @@ TCL_SHARED_LIB_SUFFIX="\${NODOT_VERSION}${DLLSUFFIX}"
 TCL_UNSHARED_LIB_SUFFIX="\${NODOT_VERSION}${LIBSUFFIX}"
 TCL_EXPORT_FILE_SUFFIX="\${NODOT_VERSION}${LIBSUFFIX}"
 
-eval "TCL_SRC_DIR=`cd $srcdir/..; pwd`"
-eval "TCL_STUB_LIB_FILE=${LIBPREFIX}tclstub$VER${LIBSUFFIX}"
-eval "TCL_DLL_FILE=tcl$VER${DLLSUFFIX}"
+eval "TCL_SRC_DIR=\"`cd $srcdir/..; pwd`\""
+
+eval "TCL_DLL_FILE=tcl${VER}${DLLSUFFIX}"
+
 eval "TCL_LIB_FILE=${LIBPREFIX}tcl$VER${LIBSUFFIX}"
+# FIMXE: These variables decls are missing
+#TCL_LIB_FLAG
+#TCL_BUILD_LIB_SPEC
+#TCL_LIB_SPEC
+
+# FIXME: We use LIBSUFFIX (includes ${TCL_DBGX} not g), is that right?
+eval "TCL_STUB_LIB_FILE=\"${LIBPREFIX}tclstub${VER}${LIBSUFFIX}\""
+eval "TCL_STUB_LIB_FLAG=\"-ltclstub${VER}${LIBSUFFIX}\""
+eval "TCL_BUILD_STUB_LIB_SPEC=\"-L`pwd` ${TCL_STUB_LIB_FLAG}\""
+eval "TCL_STUB_LIB_SPEC=\"-L${exec_prefix}/lib ${TCL_STUB_LIB_FLAG}\""
+eval "TCL_BUILD_STUB_LIB_PATH=\"`pwd`/${TCL_STUB_LIB_FILE}\""
+eval "TCL_STUB_LIB_PATH=\"${exec_prefix}/lib/${TCL_STUB_LIB_FILE}\""
 
 eval "DLLSUFFIX=${DLLSUFFIX}"
 eval "LIBPREFIX=${LIBPREFIX}"
@@ -112,8 +132,15 @@ AC_SUBST(TCL_MAJOR_VERSION)
 AC_SUBST(TCL_MINOR_VERSION)
 AC_SUBST(TCL_PATCH_LEVEL)
 AC_SUBST(TCL_LIB_FILE)
+AC_SUBST(TCL_LIB_FLAG)
 AC_SUBST(TCL_DLL_FILE)
 AC_SUBST(TCL_STUB_LIB_FILE)
+AC_SUBST(TCL_STUB_LIB_FLAG)
+AC_SUBST(TCL_BUILD_STUB_LIB_SPEC)
+AC_SUBST(TCL_STUB_LIB_SPEC)
+AC_SUBST(TCL_BUILD_STUB_LIB_PATH)
+AC_SUBST(TCL_STUB_LIB_PATH)
+
 AC_SUBST(TCL_SRC_DIR)
 AC_SUBST(TCL_BIN_DIR)
 AC_SUBST(TCL_DBGX)
