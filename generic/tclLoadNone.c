@@ -18,7 +18,7 @@
 /*
  *----------------------------------------------------------------------
  *
- * TclpLoadFile --
+ * TclpDlopen --
  *
  *	This procedure is called to carry out dynamic loading of binary
  *	code;  it is intended for use only on systems that don't support
@@ -53,6 +53,21 @@ TclpDlopen(interp, pathPtr, loadHandle, unloadProcPtr)
     return TCL_ERROR;
 }
 
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclpFindSymbol --
+ *
+ *	Looks up a symbol, by name, through a handle associated with
+ *	a previously loaded piece of code (shared library).
+ *
+ * Results:
+ *	Returns a pointer to the function associated with 'symbol' if
+ *	it is found.  Otherwise returns NULL and may leave an error
+ *	message in the interp's result.
+ *
+ *----------------------------------------------------------------------
+ */
 Tcl_PackageInitProc*
 TclpFindSymbol(interp, loadHandle, symbol) 
     Tcl_Interp *interp;
@@ -111,10 +126,10 @@ TclGuessPackageName(fileName, bufPtr)
  */
 
 void
-TclpUnloadFile(clientData)
-    ClientData clientData;    /* ClientData returned by a previous call
-			       * to TclpLoadFile().  The clientData is 
-			       * a token that represents the loaded 
-			       * file. */
+TclpUnloadFile(loadHandle)
+    TclLoadHandle loadHandle;	/* loadHandle returned by a previous call
+				 * to TclpDlopen().  The loadHandle is 
+				 * a token that represents the loaded 
+				 * file. */
 {
 }

@@ -20,17 +20,14 @@
 /*
  *----------------------------------------------------------------------
  *
- * TclpLoadFile --
+ * TclpDlopen --
  *
  *	Dynamically loads a binary code file into memory and returns
- *	the addresses of two procedures within that file, if they
- *	are defined.
+ *	a handle to the new code.
  *
  * Results:
  *	A standard Tcl completion code.  If an error occurs, an error
- *	message is left in the interp's result.  *proc1Ptr and *proc2Ptr
- *	are filled in with the addresses of the symbols given by
- *	*sym1 and *sym2, or NULL if those symbols can't be found.
+ *	message is left in the interp's result.
  *
  * Side effects:
  *	New code suddenly appears in memory.
@@ -72,6 +69,21 @@ TclpDlopen(interp, pathPtr, loadHandle, unloadProcPtr)
   return TCL_OK;
 }
 
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclpFindSymbol --
+ *
+ *	Looks up a symbol, by name, through a handle associated with
+ *	a previously loaded piece of code (shared library).
+ *
+ * Results:
+ *	Returns a pointer to the function associated with 'symbol' if
+ *	it is found.  Otherwise returns NULL and may leave an error
+ *	message in the interp's result.
+ *
+ *----------------------------------------------------------------------
+ */
 Tcl_PackageInitProc*
 TclpFindSymbol(interp, loadHandle, symbol) 
     Tcl_Interp *interp;
@@ -106,9 +118,9 @@ TclpFindSymbol(interp, loadHandle, symbol)
  */
 
 void
-TclpUnloadFile(clientData)
-    ClientData clientData;	/* ClientData returned by a previous call
-				 * to TclpLoadFile().  The clientData is 
+TclpUnloadFile(loadHandle)
+    TclLoadHandle loadHandle;	/* loadHandle returned by a previous call
+				 * to TclpDlopen().  The loadHandle is 
 				 * a token that represents the loaded 
 				 * file. */
 {

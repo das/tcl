@@ -1564,7 +1564,6 @@ typedef struct TclFile_ *TclFile;
  */
 
 typedef struct TclpTime_t_    *TclpTime_t;
-typedef struct TclLoadHandle_ *TclLoadHandle;
 
 /*
  * The "globParameters" argument of the function TclGlob is an
@@ -1812,7 +1811,7 @@ EXTERN char *		TclpReadlink _ANSI_ARGS_((CONST char *fileName,
 			    Tcl_DString *linkPtr));
 EXTERN void		TclpReleaseFile _ANSI_ARGS_((TclFile file));
 EXTERN void		TclpSetVariables _ANSI_ARGS_((Tcl_Interp *interp));
-EXTERN void		TclpUnloadFile _ANSI_ARGS_((ClientData clientData));
+EXTERN void		TclpUnloadFile _ANSI_ARGS_((TclLoadHandle loadHandle));
 EXTERN VOID *		TclpThreadDataKeyGet _ANSI_ARGS_((
 			    Tcl_ThreadDataKey *keyPtr));
 EXTERN void		TclpThreadDataKeyInit _ANSI_ARGS_((

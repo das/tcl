@@ -459,7 +459,7 @@ typedef struct Tcl_TimerToken_ *Tcl_TimerToken;
 typedef struct Tcl_Trace_ *Tcl_Trace;
 typedef struct Tcl_Var_ *Tcl_Var;
 typedef struct Tcl_ChannelTypeVersion_ *Tcl_ChannelTypeVersion;
-
+typedef struct TclLoadHandle_ *TclLoadHandle;
 
 /*
  * Definition of the interface to procedures implementing threads.
@@ -1598,7 +1598,7 @@ typedef int (Tcl_FSRemoveDirectoryProc) _ANSI_ARGS_((Tcl_Obj *pathPtr,
 			    int recursive, Tcl_Obj **errorPtr));
 typedef int (Tcl_FSRenameFileProc) _ANSI_ARGS_((Tcl_Obj *srcPathPtr,
 			    Tcl_Obj *destPathPtr));
-typedef void (Tcl_FSUnloadFileProc) _ANSI_ARGS_((ClientData clientData));
+typedef void (Tcl_FSUnloadFileProc) _ANSI_ARGS_((TclLoadHandle loadHandle));
 typedef Tcl_Obj* (Tcl_FSListVolumesProc) _ANSI_ARGS_((void));
 /* We have to declare the utime structure here. */
 struct utimbuf;
