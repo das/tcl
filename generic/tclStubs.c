@@ -3263,5 +3263,26 @@ Tcl_ServiceModeHook(mode)
     (tclStubsPtr->tcl_ServiceModeHook)(mode);
 }
 
+/* Slot 345 */
+Tcl_Channel
+Tcl_ReplaceChannel(interp, typePtr, instanceData, mask, prevChan)
+    Tcl_Interp * interp;
+    Tcl_ChannelType * typePtr;
+    ClientData instanceData;
+    int mask;
+    Tcl_Channel prevChan;
+{
+    return (tclStubsPtr->tcl_ReplaceChannel)(interp, typePtr, instanceData, mask, prevChan);
+}
+
+/* Slot 346 */
+void
+Tcl_UndoReplaceChannel(interp, chan)
+    Tcl_Interp * interp;
+    Tcl_Channel chan;
+{
+    (tclStubsPtr->tcl_UndoReplaceChannel)(interp, chan);
+}
+
 
 /* !END!: Do not edit above this line. */
