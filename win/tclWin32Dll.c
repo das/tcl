@@ -512,6 +512,30 @@ TclWinSetInterfaces(
 /*
  *---------------------------------------------------------------------------
  *
+ * TclWinResetInterfaces --
+ *
+ *	Called during finalization to reset us to a safe state for reuse.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	None.
+ *
+ *---------------------------------------------------------------------------
+ */
+
+void
+TclWinResetInterfaces()
+{
+    Tcl_FreeEncoding(tclWinTCharEncoding);
+    tclWinTCharEncoding = NULL;
+    tclWinProcs = &asciiProcs;
+}
+
+/*
+ *---------------------------------------------------------------------------
+ *
  * Tcl_WinUtfToTChar, Tcl_WinTCharToUtf --
  *
  *	Convert between UTF-8 and Unicode when running Windows NT or 

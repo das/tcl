@@ -294,6 +294,7 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclWinGetPlatform, /* 25 */
     TclWinSetInterfaces, /* 26 */
     TclWinFlushDirtyChannels, /* 27 */
+    TclWinResetInterfaces, /* 28 */
 #endif /* __WIN32__ */
 #ifdef MAC_TCL
     TclpSysAlloc, /* 0 */

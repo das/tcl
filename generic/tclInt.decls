@@ -915,6 +915,12 @@ declare 27 win {
     void TclWinFlushDirtyChannels (void)
 }
 
+# Added in 8.4.2
+
+declare 28 win {
+    void TclWinResetInterfaces(void)
+}
+
 #########################
 # Unix specific internals
 

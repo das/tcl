@@ -461,7 +461,34 @@ ToUtf(
     *dst = '\0';
     return (int) (dst - start);
 }
+
+/*
+ *---------------------------------------------------------------------------
+ *
+ * WinEncodingsCleanup --
+ *
+ *	Reset information to its original state in finalization to
+ *	allow for reinitialization to be possible.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Static information reset to startup state.
+ *
+ *---------------------------------------------------------------------------
+ */
 
+static void
+WinEncodingsCleanup(ClientData clientData)
+{
+    TclWinResetInterfaces();
+    libraryPathEncodingFixed = 0;
+    if (binaryEncoding != NULL) {
+	Tcl_FreeEncoding(binaryEncoding);
+	binaryEncoding = NULL;
+    }
+}
 
 /*
  *---------------------------------------------------------------------------
@@ -538,6 +565,8 @@ TclpSetInitialEncodings()
 	encoding = "iso8859-1";
 	binaryEncoding = Tcl_GetEncoding(NULL, encoding);
     }
+
+    Tcl_CreateExitHandler(WinEncodingsCleanup, NULL);
 }
 
 /*
