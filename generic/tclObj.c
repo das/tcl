@@ -1,5 +1,5 @@
 /* 
- * Obj.c --
+ * tclObj.c --
  *
  *	This file contains Tcl object-related procedures that are used by
  * 	many Tcl commands.
@@ -36,7 +36,7 @@ Tcl_Obj *tclFreeObjList = NULL;
  */
 
 #ifdef TCL_THREADS
-Tcl_Mutex ObjMutex;
+Tcl_Mutex tclObjMutex;
 #endif
 
 /*
@@ -167,7 +167,7 @@ TclInitObjSubsystem()
     Tcl_RegisterObjType(&tclProcBodyType);
 
 #ifdef TCL_COMPILE_STATS
-    Tcl_MutexLock(&ObjMutex);
+    Tcl_MutexLock(&tclObjMutex);
     ObjsAlloced = 0;
     ObjsFreed = 0;
     {
@@ -176,7 +176,7 @@ TclInitObjSubsystem()
 	    ObjsShared[i] = 0;
 	}
     }
-    Tcl_MutexUnlock(&ObjMutex);
+    Tcl_MutexUnlock(&tclObjMutex);
 #endif
 }
 
@@ -207,9 +207,9 @@ TclFinalizeCompExecEnv()
         typeTableInitialized = 0;
     }
     Tcl_MutexUnlock(&tableMutex);
-    Tcl_MutexLock(&ObjMutex);
+    Tcl_MutexLock(&tclObjMutex);
     tclFreeObjList = NULL;
-    Tcl_MutexUnlock(&ObjMutex);
+    Tcl_MutexUnlock(&tclObjMutex);
 
     TclFinalizeCompilation();
     TclFinalizeExecution();
@@ -441,7 +441,7 @@ Tcl_NewObj()
      * we maintain.
      */
 
-    Tcl_MutexLock(&ObjMutex);
+    Tcl_MutexLock(&tclObjMutex);
     if (tclFreeObjList == NULL) {
 	TclAllocateFreeObjects();
     }
@@ -455,7 +455,7 @@ Tcl_NewObj()
 #ifdef TCL_COMPILE_STATS
     ObjsAlloced++;
 #endif /* TCL_COMPILE_STATS */
-    Tcl_MutexUnlock(&ObjMutex);
+    Tcl_MutexUnlock(&tclObjMutex);
     return objPtr;
 }
 #endif /* TCL_MEM_DEBUG */
@@ -510,9 +510,9 @@ Tcl_DbNewObj(file, line)
     objPtr->length   = 0;
     objPtr->typePtr  = NULL;
 #ifdef TCL_COMPILE_STATS
-    Tcl_MutexLock(&ObjMutex);
+    Tcl_MutexLock(&tclObjMutex);
     ObjsAlloced++;
-    Tcl_MutexUnlock(&ObjMutex);
+    Tcl_MutexUnlock(&tclObjMutex);
 #endif /* TCL_COMPILE_STATS */
     return objPtr;
 }
@@ -626,7 +626,7 @@ TclFreeObj(objPtr)
      * Tcl_Obj structs we maintain.
      */
 
-    Tcl_MutexLock(&ObjMutex);
+    Tcl_MutexLock(&tclObjMutex);
 #ifdef TCL_MEM_DEBUG
     ckfree((char *) objPtr);
 #else
@@ -637,7 +637,7 @@ TclFreeObj(objPtr)
 #ifdef TCL_COMPILE_STATS
     ObjsFreed++;
 #endif /* TCL_COMPILE_STATS */
-    Tcl_MutexUnlock(&ObjMutex);
+    Tcl_MutexUnlock(&tclObjMutex);
 }
 
 /*
@@ -2112,7 +2112,7 @@ Tcl_DbIsShared(objPtr, file, line)
     }
 #endif
 #ifdef TCL_COMPILE_STATS
-    Tcl_MutexLock(&ObjMutex);
+    Tcl_MutexLock(&tclObjMutex);
     if ((objPtr)->refCount <= 1) {
 	ObjsShared[1]++;
     } else if ((objPtr)->refCount < TCL_MAX_SHARED_OBJ_STATS) {
@@ -2120,7 +2120,7 @@ Tcl_DbIsShared(objPtr, file, line)
     } else {
 	ObjsShared[0]++;
     }
-    Tcl_MutexUnlock(&ObjMutex);
+    Tcl_MutexUnlock(&tclObjMutex);
 #endif
     return ((objPtr)->refCount > 1);
 }

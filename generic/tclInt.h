@@ -2121,6 +2121,7 @@ EXTERN int	TclCompileWhileCmd _ANSI_ARGS_((Tcl_Interp *interp,
 #else /* not TCL_MEM_DEBUG */
 
 #ifdef TCL_THREADS
+/* declared in tclObj.c */
 extern Tcl_Mutex tclObjMutex;
 #endif
 
