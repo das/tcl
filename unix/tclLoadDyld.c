@@ -151,6 +151,11 @@ TclpFindSymbol(interp, loadHandle, symbol)
 	    dyldModuleHandle->nextModuleHandle = dyldLoadHandle->firstModuleHandle;
 	    dyldLoadHandle->firstModuleHandle = dyldModuleHandle;
 	}
+    } else {
+        NSLinkEditErrors editError;
+        char *name, *msg;
+        NSLinkEditError(&editError, &errno, &name, &msg);
+        Tcl_AppendResult(interp, msg, (char *) NULL);
     }
     Tcl_DStringFree(&newName);
     Tcl_DStringFree(&ds);
