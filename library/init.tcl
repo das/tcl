@@ -501,9 +501,10 @@ proc auto_import {pattern} {
     auto_load_index
 
     foreach pattern $patternList {
-        foreach name [array names auto_index] {
-            if {[string match $pattern $name] && \
-		    [string equal "" [info commands $name]]} {
+        foreach name [array names auto_index $pattern] {
+            if {[string equal "" [info commands $name]]
+		    && [string equal [namespace qualifiers $pattern] \
+				     [namespace qualifiers $name]]} {
                 uplevel #0 $auto_index($name)
             }
         }
