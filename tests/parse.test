@@ -709,6 +709,9 @@ test parse-15.55 {CommandComplete procedure} {
 test parse-15.56 {CommandComplete procedure} {
     info complete "set x [bytestring \0]; \{"
 } 0
+test parse-15.57 {CommandComplete procedure} {
+    info complete "# Comment should be complete command"
+} 1
 
 
 catch {unset a}

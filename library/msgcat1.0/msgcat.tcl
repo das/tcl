@@ -48,7 +48,8 @@ proc msgcat::mc {src} {
 	}
     }
     # we have not found the translation
-    return [mcunknown $::msgcat::locale $src]
+    return [uplevel 1 [list [namespace origin mcunknown] \
+	    $::msgcat::locale $src]]
 }
 
 # msgcat::mclocale --
@@ -77,7 +78,7 @@ proc msgcat::mclocale {args} {
 	foreach part [split $args _] {
 	    set word [string trimleft "${word}_${part}" _]
 	    set ::msgcat::loclist \
-                    [linsert $::msgcat::loclist 0 $word]
+                    [linsert $::msgcat::loclist 0 [string tolower $word]]
 	}
     }
     return $::msgcat::locale
@@ -141,7 +142,7 @@ proc msgcat::mcset {locale src {dest ""}} {
 
     set ns [uplevel {namespace current}]
 
-    set ::msgcat::msgs($locale,$ns,$src) $dest
+    set ::msgcat::msgs([string tolower $locale],$ns,$src) $dest
     return $dest
 }
 
