@@ -533,9 +533,9 @@ FileWideSeekProc(instanceData, offset, mode, errorCodePtr)
         moveMethod = FILE_END;
     }
 
-    newPosHigh = (LONG)(offset >> 32);
-    newPos = SetFilePointer(infoPtr->handle, Tcl_WideAsLong(offset), &newPosHigh,
-			    moveMethod);
+    newPosHigh = Tcl_WideAsLong(offset >> 32);
+    newPos = SetFilePointer(infoPtr->handle, Tcl_WideAsLong(offset),
+	    &newPosHigh, moveMethod);
     if (newPos == INVALID_SET_FILE_POINTER) {
 	DWORD winError = GetLastError();
 	if (winError != NO_ERROR) {
@@ -544,7 +544,7 @@ FileWideSeekProc(instanceData, offset, mode, errorCodePtr)
 	    return -1;
 	}
     }
-    return ((Tcl_WideInt) newPos) | (((Tcl_WideInt) newPosHigh) << 32);
+    return (Tcl_LongAsWide(newPos) | (Tcl_LongAsWide(newPosHigh) << 32));
 }
 
 /*
