@@ -419,7 +419,6 @@ Tcl_CreateInterp()
 	mathFuncPtr->builtinFuncIndex = i;
 	i++;
     }
-    iPtr->flags |= EXPR_INITIALIZED;
 
     /*
      * Do Multiple/Safe Interps Tcl init stuff

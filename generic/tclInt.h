@@ -1404,8 +1404,6 @@ typedef struct Interp {
  *			called to record information for the current
  *			error.	Zero means Tcl_Eval must clear the
  *			errorCode variable if an error is returned.
- * EXPR_INITIALIZED:	Non-zero means initialization specific to
- *			expressions has	been carried out.
  * DONT_COMPILE_CMDS_INLINE: Non-zero means that the bytecode compiler
  *			should not compile any commands into an inline
  *			sequence of instructions. This is set 1, for
@@ -1425,7 +1423,6 @@ typedef struct Interp {
 #define ERR_IN_PROGRESS			    2
 #define ERR_ALREADY_LOGGED		    4
 #define ERROR_CODE_SET			    8
-#define EXPR_INITIALIZED		 0x10
 #define DONT_COMPILE_CMDS_INLINE	 0x20
 #define RAND_SEED_INITIALIZED		 0x40
 #define SAFE_INTERP			 0x80
