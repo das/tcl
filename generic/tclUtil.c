@@ -1937,6 +1937,7 @@ Tcl_PrintDouble(interp, value, dst)
     char *p, c;
     int prec;
     int exp;
+    int signum;
     char buffer[TCL_DOUBLE_SPACE];
     Tcl_UniChar ch;
 
@@ -1960,37 +1961,23 @@ Tcl_PrintDouble(interp, value, dst)
 	    return;
 	}
 
-	/* Handle -0.0 if the machine does it. */
-
-#ifdef _MSC_VER
-	if ( _fpclass( value ) == _FPCLASS_NZ ) {
-	    strcpy( dst, "-0.0" );
-	    return;
-	}
-#endif
-
-	/* Handle negative values */
-
-#ifdef signbit
-	if ( signbit(value) )
-#else
-	if ( value < 0 ) 
-#endif
-	    {
-		*dst++ = '-';
-		value = -value;
-	    }
-
 	/* Handle infinities */
 
 	if ( IS_INF( value ) ) {
-	    strcpy( dst, "Inf" );
+	    if ( value < 0 ) {
+		strcpy( dst, "-Inf" );
+	    } else {
+		strcpy( dst, "Inf" );
+	    }
 	    return;
 	}
 
 	/* Ordinary (normal and denormal) values */
 
-	exp = TclDoubleDigits( buffer, value );
+	exp = TclDoubleDigits( buffer, value, &signum );
+	if ( signum ) {
+	    *dst++ = '-';
+	}
 	prec = strlen( buffer );
 	p = buffer;
 	if ( exp < -3 || exp > 17 ) {
