@@ -4803,7 +4803,7 @@ test io-38.2 {Tcl_SetChannelBufferSize, Tcl_GetChannelBufferSize} {
     lappend l [fconfigure $f -buffersize]
     close $f
     set l
-} {4096 10000 4096 4096 4096 100000 4096}
+} {4096 10000 10000 10000 10000 100000 100000}
 
 test io-38.3 {Tcl_SetChannelBufferSize, changing buffersize between reads} {
     # This test crashes the interp if Bug #427196 is not fixed
