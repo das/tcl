@@ -5328,9 +5328,8 @@ ExprRoundFunc(interp, eePtr, clientData)
 {
     Tcl_Obj **stackPtr;        /* Cached evaluation stack base pointer. */
     register int stackTop;	/* Cached top index of evaluation stack. */
-    Tcl_Obj *valuePtr;
-    long iResult;
-    double d, temp;
+    Tcl_Obj *valuePtr, *resPtr;
+    double d;
     int result;
 
     /*
@@ -5350,57 +5349,56 @@ ExprRoundFunc(interp, eePtr, clientData)
 	result = TCL_ERROR;
 	goto done;
     }
-    
-    if (valuePtr->typePtr == &tclIntType) {
-	iResult = valuePtr->internalRep.longValue;
-    } else if (valuePtr->typePtr == &tclWideIntType) {
-	Tcl_WideInt w;
-	TclGetWide(w,valuePtr);
-	PUSH_OBJECT(Tcl_NewWideIntObj(w));
-	goto done;
+
+    if ((valuePtr->typePtr == &tclIntType) ||
+	    (valuePtr->typePtr == &tclWideIntType)) {
+	result = TCL_OK;
+	resPtr = valuePtr;
     } else {
 	d = valuePtr->internalRep.doubleValue;
 	if (d < 0.0) {
-	    if (d <= (((double) (long) LONG_MIN) - 0.5)) {
-		tooLarge:
-		Tcl_ResetResult(interp);
-		Tcl_AppendToObj(Tcl_GetObjResult(interp),
-		        "integer value too large to represent", -1);
-		Tcl_SetErrorCode(interp, "ARITH", "IOVERFLOW",
-			"integer value too large to represent",
-			(char *) NULL);
-		result = TCL_ERROR;
-		goto done;
-	    }
-	    temp = (long) (d - 0.5);
-	} else {
-	    if (d >= (((double) LONG_MAX + 0.5))) {
+	    if (d <= Tcl_WideAsDouble(LLONG_MIN)-0.5) {
 		goto tooLarge;
+	    } else if (d <= (((double) (long) LONG_MIN) - 0.5)) {
+		resPtr = Tcl_NewWideIntObj(Tcl_DoubleAsWide(d - 0.5));
+	    } else {
+		resPtr = Tcl_NewLongObj((long) (d - 0.5));
+	    }			    
+	} else {
+	    if (d >= Tcl_WideAsDouble(LLONG_MAX)+0.5) {
+		goto tooLarge;
+	    } else if (d >= (((double) LONG_MAX + 0.5))) {
+		resPtr = Tcl_NewWideIntObj(Tcl_DoubleAsWide(d + 0.5));
+	    } else {
+		resPtr = Tcl_NewLongObj((long) (d + 0.5));
 	    }
-	    temp = (long) (d + 0.5);
 	}
-	if (IS_NAN(temp) || IS_INF(temp)) {
-	    TclExprFloatError(interp, temp);
-	    result = TCL_ERROR;
-	    goto done;
-	}
-	iResult = (long) temp;
     }
 
     /*
-     * Push a Tcl object with the result.
+     * Push the result object and free the argument Tcl_Obj.
      */
+
+    PUSH_OBJECT(resPtr);
     
-    PUSH_OBJECT(Tcl_NewLongObj(iResult));
-
-    /*
-     * Reflect the change to stackTop back in eePtr.
-     */
-
     done:
     TclDecrRefCount(valuePtr);
     DECACHE_STACK_INFO();
     return result;
+
+    /*
+     * Error return: result cannot be represented as an integer.
+     */
+    
+    tooLarge:
+    Tcl_ResetResult(interp);
+    Tcl_AppendToObj(Tcl_GetObjResult(interp),
+	    "integer value too large to represent", -1);
+    Tcl_SetErrorCode(interp, "ARITH", "IOVERFLOW",
+	    "integer value too large to represent",
+	    (char *) NULL);
+    result = TCL_ERROR;
+    goto done;
 }
 
 static int
