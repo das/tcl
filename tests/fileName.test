@@ -230,7 +230,7 @@ test filename-4.19 {Tcl_SplitPath} {
 	set norm
     } err]
     cd $oldDir
-    catch {file delete -force tildetmp}
+    catch {file delete -force [file join [temporaryDirectory] tildetmp]}
     list $res $err
 } {0 tildetmp/~tilde}
 

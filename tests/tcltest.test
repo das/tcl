@@ -1752,7 +1752,7 @@ test tcltest-26.1 {Bug/RFE 1017151} -setup {
 	tcltest::cleanupTests
     } test.tcl
 } -body {
-    slave msg test.tcl
+    slave msg [file join [temporaryDirectory] test.tcl]
     set msg
 } -cleanup {
     removeFile test.tcl
@@ -1772,7 +1772,7 @@ test tcltest-26.2 {Bug/RFE 1017151} -setup {
 	tcltest::cleanupTests
     } test.tcl
 } -body {
-    slave msg test.tcl
+    slave msg [file join [temporaryDirectory] test.tcl]
     set msg
 } -cleanup {
     removeFile test.tcl

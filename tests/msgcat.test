@@ -396,7 +396,8 @@ namespace eval ::msgcat::test {
         } else {
 	    set msg [string tolower $loc]
 	}
-	makeFile [list ::msgcat::mcset $loc abc abc-$loc] $msg.msg msgdir
+	makeFile [list ::msgcat::mcset $loc abc abc-$loc] $msg.msg \
+		[file join [temporaryDirectory] msgdir]
     }
     variable count 1
     foreach loc {foo foo_BAR foo_BAR_baz} {
