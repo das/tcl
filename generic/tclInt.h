@@ -1862,6 +1862,9 @@ EXTERN int		TclInvokeImportedCmd _ANSI_ARGS_((
 			    ClientData clientData, Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[]));
 
+EXTERN void		TclFreeCmdNameInternalRep _ANSI_ARGS_((
+			    Tcl_Obj *objPtr));
+
 /*
  *----------------------------------------------------------------
  * Command procedures in the generic core:
