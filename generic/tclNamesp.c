@@ -2072,7 +2072,7 @@ Tcl_Var
 Tcl_FindNamespaceVar(interp, name, contextNsPtr, flags)
     Tcl_Interp *interp;		 /* The interpreter in which to find the
 				  * variable. */
-    char *name;			 /* Variable's name. If it starts with "::",
+    CONST char *name;		 /* Variable's name. If it starts with "::",
 				  * will be looked up in global namespace.
 				  * Else, looked up first in contextNsPtr
 				  * (current namespace if contextNsPtr is

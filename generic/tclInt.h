@@ -91,11 +91,11 @@ typedef struct Tcl_ResolvedVarInfo {
 
 
 typedef int (Tcl_ResolveCompiledVarProc) _ANSI_ARGS_((
-    Tcl_Interp* interp, char* name, int length,
+    Tcl_Interp* interp, CONST char* name, int length,
     Tcl_Namespace *context, Tcl_ResolvedVarInfo **rPtr));
 
 typedef int (Tcl_ResolveVarProc) _ANSI_ARGS_((
-    Tcl_Interp* interp, char* name, Tcl_Namespace *context,
+    Tcl_Interp* interp, CONST char* name, Tcl_Namespace *context,
     int flags, Tcl_Var *rPtr));
 
 typedef int (Tcl_ResolveCmdProc) _ANSI_ARGS_((Tcl_Interp* interp,

@@ -237,7 +237,7 @@ declare 55 generic {
 #  }
 declare 58 generic {
     Var * TclLookupVar(Tcl_Interp *interp, char *part1, CONST char *part2,
-	    int flags, char *msg, int createPart1, int createPart2,
+	    int flags, CONST char *msg, int createPart1, int createPart2,
 	    Var **arrayPtrPtr)
 }
 # Replaced by Tcl_FSMatchInDirectory in 8.4
@@ -467,7 +467,7 @@ declare 119 generic {
 	    Tcl_ResolverInfo *resInfo)
 }
 declare 120 generic {
-    Tcl_Var Tcl_FindNamespaceVar(Tcl_Interp *interp, char *name,
+    Tcl_Var Tcl_FindNamespaceVar(Tcl_Interp *interp, CONST char *name,
 	    Tcl_Namespace *contextNsPtr, int flags)
 }
 declare 121 generic {
