@@ -22,7 +22,7 @@ indexPtr\fR)
 .sp
 int
 \fBTcl_GetIndexFromObjStruct\fR(\fIinterp, objPtr, structTablePtr, offset,
-msg, flags, indexPtr\fR)
+                          msg, flags, indexPtr\fR)
 .VE
 .SH ARGUMENTS
 .AS "const char" *structTablePtr in/out
@@ -40,11 +40,9 @@ by a NULL string pointer.
 An array of arbitrary type, typically some \fBstruct\fP type.
 The first member of the structure must be a null-terminated string.
 The size of the structure is given by \fIoffset\fP.
-.VS
 .AP int offset in
 The offset to add to structTablePtr to get to the next entry.
 The end of the array is marked by a NULL string pointer.
-.VE
 .AP "const char" *msg in
 Null-terminated string describing what is being looked up, such as
 \fBoption\fR.  This string is included in error messages.

@@ -257,8 +257,8 @@ There are some things, pointers for example which don't hash well
 because they do not use the lower bits. If this flag is set then the
 hash table will attempt to rectify this by randomizing the bits and 
 then using the upper N bits as the index into the table.
-.VS 8.5 br
 .IP \fBTCL_HASH_KEY_SYSTEM_HASH\fR 25
+.VS 8.5
 This flag forces Tcl to use the memory allocation 
 procedures provided by the operating system when allocating
 and freeing memory used to store the hash table data structures,
