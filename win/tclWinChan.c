@@ -668,7 +668,7 @@ TclpOpenFileChannel(interp, pathPtr, modeString, permissions)
     Tcl_Channel channel = 0;
     int seekFlag, mode, channelPermissions;
     DWORD accessMode, createMode, shareMode, flags, consoleParams, type;
-    TCHAR *nativeName;
+    CONST TCHAR *nativeName;
     DCB dcb;
     HANDLE handle;
     char channelName[16 + TCL_INTEGER_SPACE];

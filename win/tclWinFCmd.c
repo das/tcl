@@ -1303,7 +1303,7 @@ GetWinFileAttributes(
     Tcl_Obj **attributePtrPtr)	/* A pointer to return the object with. */
 {
     DWORD result;
-    TCHAR *nativeName;
+    CONST TCHAR *nativeName;
 
     nativeName = Tcl_FSGetNativePath(fileName);
     result = (*tclWinProcs->getFileAttributesProc)(nativeName);
@@ -1583,7 +1583,7 @@ SetWinFileAttributes(
     DWORD fileAttributes;
     int yesNo;
     int result;
-    TCHAR *nativeName;
+    CONST TCHAR *nativeName;
 
     nativeName = Tcl_FSGetNativePath(fileName);
     fileAttributes = (*tclWinProcs->getFileAttributesProc)(nativeName);
