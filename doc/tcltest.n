@@ -976,10 +976,10 @@ namespace eval ::example::test {
     testConstraint X [expr {...}]
     variable SETUP {#common setup code}
     variable CLEANUP {#common cleanup code}
-    test example-1 {} -setup $SETUP {
+    test example-1 {} -setup $SETUP -body {
 	# First test
     } -cleanup $CLEANUP -result {...}
-    test example-2 {} -constraints X -setup $SETUP {
+    test example-2 {} -constraints X -setup $SETUP -body {
 	# Second test; constrained
     } -cleanup $CLEANUP -result {...}
     test example-3 {} {
