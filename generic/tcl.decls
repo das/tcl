@@ -1166,6 +1166,12 @@ declare 341 generic {
 declare 342 generic {
     void Tcl_SetDefaultEncodingDir(char *path)
 }
+declare 343 generic {
+    void Tcl_AlertNotifier(ClientData clientData)
+}
+declare 344 generic {
+    void Tcl_ServiceModeHook(int mode)
+}
 
 ##############################################################################
 

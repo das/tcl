@@ -412,6 +412,8 @@ TclStubs tclStubs = {
     Tcl_GetString, /* 340 */
     Tcl_GetDefaultEncodingDir, /* 341 */
     Tcl_SetDefaultEncodingDir, /* 342 */
+    Tcl_AlertNotifier, /* 343 */
+    Tcl_ServiceModeHook, /* 344 */
 };
 
 TclStubs *tclStubsPtr = &tclStubs;

@@ -3247,5 +3247,21 @@ Tcl_SetDefaultEncodingDir(path)
     (tclStubsPtr->tcl_SetDefaultEncodingDir)(path);
 }
 
+/* Slot 343 */
+void
+Tcl_AlertNotifier(clientData)
+    ClientData clientData;
+{
+    (tclStubsPtr->tcl_AlertNotifier)(clientData);
+}
+
+/* Slot 344 */
+void
+Tcl_ServiceModeHook(mode)
+    int mode;
+{
+    (tclStubsPtr->tcl_ServiceModeHook)(mode);
+}
+
 
 /* !END!: Do not edit above this line. */

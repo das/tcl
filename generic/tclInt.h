@@ -1898,7 +1898,6 @@ EXTERN int		TclOpenFileChannelInsertProc _ANSI_ARGS_((
 			    TclOpenFileChannelProc_ *proc));
 EXTERN int		TclpAccess _ANSI_ARGS_((CONST char *filename,
 			    int mode));
-EXTERN void		TclpAlertNotifier _ANSI_ARGS_((ClientData clientData));
 EXTERN char *		TclpAlloc _ANSI_ARGS_((unsigned int size));
 EXTERN int		TclpCheckStackSpace _ANSI_ARGS_((void));
 EXTERN int		TclpCloseFile _ANSI_ARGS_((TclFile file));

@@ -278,7 +278,7 @@ Tcl_FinalizeNotifier(clientData)
 /*
  *----------------------------------------------------------------------
  *
- * TclpAlertNotifier --
+ * Tcl_AlertNotifier --
  *
  *	Wake up the specified notifier from any thread. This routine
  *	is called by the platform independent notifier code whenever
@@ -297,7 +297,7 @@ Tcl_FinalizeNotifier(clientData)
  */
 
 void
-TclpAlertNotifier(clientData)
+Tcl_AlertNotifier(clientData)
     ClientData clientData;
 {
 #ifdef TCL_THREADS
@@ -336,6 +336,29 @@ Tcl_SetTimer(timePtr)
      * because the only event loop is via Tcl_DoOneEvent, which passes
      * timeout values to Tcl_WaitForEvent.
      */
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * Tcl_ServiceModeHook --
+ *
+ *	This function is invoked whenever the service mode changes.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+Tcl_ServiceModeHook(mode)
+    int mode;			/* Either TCL_SERVICE_ALL, or
+				 * TCL_SERVICE_NONE. */
+{
 }
 
 /*
