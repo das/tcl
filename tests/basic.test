@@ -438,6 +438,24 @@ test basic-26.1 {Tcl_EvalObj: preserve object while evaling it} -setup {
     rename myHandler {}
 } -result "foo\n    while executing\n\"error foo\""
 
+test basic-26.2 {Tcl_EvalObjEx, pure-list branch: preserve "objv"} {
+    #
+    # Follow the pure-list branch in a manner that
+    #   a - the pure-list internal rep is destroyed by shimmering
+    #   b - the command returns an error
+    # As the error code in Tcl_EvalObjv accesses the list elements, this will
+    # cause a segfault if [Bug 1119369] has not been fixed.
+    #
+
+    set SRC [list foo 1] ;# pure-list command 
+    proc foo str {
+	# Shimmer pure-list to cmdName, cleanup and error
+	proc $::SRC {} {}; $::SRC
+	error "BAD CALL"
+    }
+    catch {eval $SRC}
+} 1
+
 test basic-27.1 {Tcl_ExprLong} {emptyTest} {
 } {}
 
