@@ -809,6 +809,9 @@ TclStubs tclStubs = {
     Tcl_CreateHashEntry, /* 404 */
     Tcl_InitHashTableEx, /* 405 */
     Tcl_InitObjHashTable, /* 406 */
+    Tcl_CommandTraceInfo, /* 407 */
+    Tcl_TraceCommand, /* 408 */
+    Tcl_UntraceCommand, /* 409 */
 };
 
 /* !END!: Do not edit above this line. */

@@ -1406,6 +1406,18 @@ declare 405 generic {
 declare 406 generic {
     void Tcl_InitObjHashTable(Tcl_HashTable *tablePtr)
 }
+declare 407 generic {
+    ClientData Tcl_CommandTraceInfo(Tcl_Interp *interp, char *varName, \
+	    int flags, Tcl_CommandTraceProc *procPtr, ClientData prevClientData)
+}
+declare 408 generic {
+    int Tcl_TraceCommand(Tcl_Interp *interp, char *varName, int flags, \
+		Tcl_CommandTraceProc *proc, ClientData clientData)
+}
+declare 409 generic {
+    void Tcl_UntraceCommand(Tcl_Interp *interp, char *varName, int flags, \
+		Tcl_CommandTraceProc *proc, ClientData clientData)
+}
 
 ##############################################################################
 
