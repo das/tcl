@@ -1567,10 +1567,10 @@ proc ::tcltest::test {name description script expectedAnswer args} {
 
 proc ::tcltest::getMatchingFiles {args} {
     set matchingFiles {}
-    if {[llength $args] > 0} {
+    if {[llength $args]} {
 	set searchDirectory $args
     } else {
-	set searchDirectory $::tcltest::testsDirectory
+	set searchDirectory [list $::tcltest::testsDirectory]
     }
     # Find the matching files in the list of directories and then remove the
     # ones that match the skip pattern
@@ -1580,7 +1580,7 @@ proc ::tcltest::getMatchingFiles {args} {
 	    set matchFileList [concat $matchFileList \
 		    [glob -nocomplain [file join $directory $match]]]
 	}
-	if {$::tcltest::skipFiles != {}} {
+	if {[string compare {} $::tcltest::skipFiles]} {
 	    set skipFileList {}
 	    foreach skip $::tcltest::skipFiles {
 		set skipFileList [concat $skipFileList \
@@ -1593,12 +1593,12 @@ proc ::tcltest::getMatchingFiles {args} {
 			(![string match l.*.test [file tail $file]])} {
 		    lappend matchingFiles $file
 		}
-	    }   
+	    }
 	} else {
 	    set matchingFiles [concat $matchingFiles $matchFileList]
 	}
     }
-    if {$matchingFiles == {}} {
+    if {[string equal $matchingFiles {}]} {
 	::tcltest::PrintError "No test files remain after applying \
 		your match and skip patterns!"
     }
