@@ -1393,7 +1393,7 @@ FormatNumber(interp, type, src, cursorPtr)
     Tcl_Obj *src;		/* Number to format. */
     unsigned char **cursorPtr;	/* Pointer to index into destination buffer. */
 {
-    int value;
+    long value;
     double dvalue;
 
     if ((type == 'd') || (type == 'f')) {
@@ -1426,7 +1426,7 @@ FormatNumber(interp, type, src, cursorPtr)
 	    *cursorPtr += sizeof(float);
 	}
     } else {
-	if (Tcl_GetIntFromObj(interp, src, &value) != TCL_OK) {
+	if (Tcl_GetLongFromObj(interp, src, &value) != TCL_OK) {
 	    return TCL_ERROR;
 	}
 	if (type == 'c') {
