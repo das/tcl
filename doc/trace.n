@@ -1,6 +1,7 @@
 '\"
 '\" Copyright (c) 1993 The Regents of the University of California.
 '\" Copyright (c) 1994-1996 Sun Microsystems, Inc.
+'\" Copyright (c) 2000 Ajuba Solutions.
 '\"
 '\" See the file "license.terms" for information on usage and redistribution
 '\" of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -177,6 +178,7 @@ Unsetting an element of array will remove any traces on that element,
 but will not remove traces on the overall array.
 .PP
 This command returns an empty string.
+.RE
 .RE
 .TP
 \fBtrace remove \fItype name opList command\fR
