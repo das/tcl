@@ -27,6 +27,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "tclInt.h"
+#include "tclMacInt.h"
+
 /*
  * constants for panic dialog
  */
@@ -59,7 +62,7 @@ static void		MacPanic _ANSI_ARGS_(TCL_VARARGS(CONST char *, format));
 
         /* VARARGS ARGSUSED */
 static void
-MacPanic TCL_VARARGS_DEF(CONST char *, arg1)
+MacPanic TCL_VARARGS_DEF(CONST char *, format)
 {
     va_list varg;
     char msg[256];

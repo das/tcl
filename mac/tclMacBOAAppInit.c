@@ -75,7 +75,6 @@ main(
 {
     char *newArgv[3];
     
-    TclMacSetPanic();
     if (MacintoshInit()  != TCL_OK) {
 	Tcl_Exit(1);
     }

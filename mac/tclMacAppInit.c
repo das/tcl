@@ -64,7 +64,6 @@ main(
 {
     char *newArgv[2];
     
-    TclMacSetPanic();
     if (MacintoshInit()  != TCL_OK) {
 	Tcl_Exit(1);
     }
@@ -205,6 +204,8 @@ MacintoshInit()
     InitCursor();
 		
 #endif
+
+    TclMacSetPanic();
 
     Tcl_MacSetEventProc((Tcl_MacConvertEventPtr) SIOUXHandleOneEvent);
     
