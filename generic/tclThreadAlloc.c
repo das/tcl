@@ -276,11 +276,7 @@ TclFreeAllocCache(void *arg)
     *nextPtrPtr = cachePtr->nextPtr;
     cachePtr->nextPtr = NULL;
     Tcl_MutexUnlock(listLockPtr);
-#ifdef WIN32
-    TlsFree((DWORD) cachePtr);
-#else
     free(cachePtr);
-#endif
 }
 
 
