@@ -4291,10 +4291,13 @@ CloneVariable (interp, ns, varSrcPtr, varName, fixup)
     varNew->nsPtr     = ns;
     varNew->tracePtr  = NULL; /* Traces are not cloned */
     varNew->searchPtr = NULL;
-    varNew->refCount  = 1;    /* Namespace variable */
+    varNew->refCount  = 0;    /* Basic reference count */
     varNew->name      = NULL; /* Variable contained in hashtable of namespace. */
     varNew->flags     = varSrcPtr->flags;
 
+    if (varNew->flags & VAR_NAMESPACE_VAR) {
+      varNew->refCount++;
+    }
     if (varSrcPtr->flags & VAR_SCALAR) {
         /*
 	 * We share the object used as the contents of the scalar

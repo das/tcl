@@ -28,6 +28,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
+set ::___________________test 0
 
 proc foo {} {
     # Have a compiled local variable.
