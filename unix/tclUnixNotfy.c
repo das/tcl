@@ -864,7 +864,7 @@ NotifierThreadProc(clientData)
     fd_set writableMask;
     fd_set exceptionalMask;
     int fds[2];
-    int i, status, numFdBits, receivePipe;
+    int i, status, numFdBits = 0, receivePipe;
     long found;
     struct timeval poll = {0., 0.}, *timePtr;
     char buf[2];
@@ -996,7 +996,7 @@ NotifierThreadProc(clientData)
 		    found = 1;
 		}
 	    }
-			       
+
             if (found || (tsdPtr->pollState & POLL_DONE)) {
                 tsdPtr->eventReady = 1;
 		if (tsdPtr->onList) {
@@ -1006,7 +1006,7 @@ NotifierThreadProc(clientData)
 		     * continuously spining on select until the other
 		     * threads runs and services the file event.
 		     */
-	    
+
 		    if (tsdPtr->prevPtr) {
 			tsdPtr->prevPtr->nextPtr = tsdPtr->nextPtr;
 		    } else {
@@ -1023,7 +1023,7 @@ NotifierThreadProc(clientData)
             }
         }
 	Tcl_MutexUnlock(&notifierMutex);
-	
+
 	/*
 	 * Consume the next byte from the notifier pipe if the pipe was
 	 * readable.  Note that there may be multiple bytes pending, but
