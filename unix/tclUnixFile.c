@@ -735,9 +735,30 @@ TclpObjLink(pathPtr, toPtr, linkAction)
 	 * create these.
 	 */
 	if (linkAction & TCL_CREATE_SYMBOLIC_LINK) {
-	    if (symlink(target, src) != 0) return NULL;
+	    int targetLen;
+	    Tcl_DString ds;
+	    Tcl_Obj *transPtr;
+	    /* 
+	     * Now we don't want to link to the absolute, normalized path.
+	     * Relative links are quite acceptable, as are links to '~user',
+	     * for example.
+	     */
+	    transPtr = Tcl_FSGetTranslatedPath(NULL, toPtr);
+	    if (transPtr == NULL) {
+		return NULL;
+	    }
+	    target = Tcl_GetStringFromObj(transPtr, &targetLen);
+	    target = Tcl_UtfToExternalDString(NULL, target, targetLen, &ds);
+	    Tcl_DecrRefCount(transPtr);
+	    
+	    if (symlink(target, src) != 0) {
+	        toPtr = NULL;
+	    }
+	    Tcl_DStringFree(&ds);
 	} else if (linkAction & TCL_CREATE_HARD_LINK) {
-	    if (link(target, src) != 0) return NULL;
+	    if (link(target, src) != 0) {
+		return NULL;
+	    }
 	} else {
 	    errno = ENODEV;
 	    return NULL;

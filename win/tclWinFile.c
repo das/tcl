@@ -218,7 +218,7 @@ WinLink(LinkSource, LinkTarget, linkAction)
 	return -1;
     }
 
-    /* Get the full path referenced by the directory */
+    /* Get the full path referenced by the source file/directory */
     if (!(*tclWinProcs->getFullPathNameProc)(LinkSource, 
 			  MAX_PATH, tempFileName, &tempFilePart)) {
 	/* Invalid file */
