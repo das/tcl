@@ -22,7 +22,7 @@
 #endif
 
 #if defined(__WIN32__)
-#   include "tclWinPort.h"
+#   include "../win/tclWinPort.h"
 #else
 #   include "tclUnixPort.h"
 #endif
