@@ -668,7 +668,10 @@ test set-old-8.52 {array command, array names -glob} {
     set a(-exact) 1
     list [catch {array names a -glob} msg] $msg
 } {0 -glob}
-
+test set-old-8.53 {array command, array statistics on a non-array} {
+	catch {unset a}
+	list [catch {array statistics a} msg] $msg
+} [list 1 "\"a\" isn't an array"]
 
 test set-old-9.1 {ids for array enumeration} {
     catch {unset a}

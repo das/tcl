@@ -3228,6 +3228,11 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 
 	case ARRAY_STATISTICS: {
 	    char *stats;
+
+	    if (notArray) {
+		goto error;
+	    }
+
 	    stats = Tcl_HashStats(varPtr->value.tablePtr);
 	    if (stats != NULL) {
 		Tcl_SetResult(interp, stats, TCL_VOLATILE);
