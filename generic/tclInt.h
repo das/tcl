@@ -1653,7 +1653,7 @@ EXTERN int		TclCreatePipeline _ANSI_ARGS_((Tcl_Interp *interp,
 			    TclFile *inPipePtr, TclFile *outPipePtr,
 			    TclFile *errFilePtr));
 EXTERN int		TclCreateProc _ANSI_ARGS_((Tcl_Interp *interp,
-			    Namespace *nsPtr, char *procName,
+			    Namespace *nsPtr, CONST char *procName,
 			    Tcl_Obj *argsPtr, Tcl_Obj *bodyPtr,
 			    Proc **procPtrPtr));
 EXTERN void		TclDeleteCompiledLocalVars _ANSI_ARGS_((

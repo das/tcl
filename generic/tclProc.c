@@ -67,7 +67,8 @@ Tcl_ProcObjCmd(dummy, interp, objc, objv)
 {
     register Interp *iPtr = (Interp *) interp;
     Proc *procPtr;
-    char *fullName, *procName;
+    char *fullName;
+    CONST char *procName;
     Namespace *nsPtr, *altNsPtr, *cxtNsPtr;
     Tcl_Command cmd;
     Tcl_DString ds;
@@ -175,7 +176,7 @@ int
 TclCreateProc(interp, nsPtr, procName, argsPtr, bodyPtr, procPtrPtr)
     Tcl_Interp *interp;         /* interpreter containing proc */
     Namespace *nsPtr;           /* namespace containing this proc */
-    char *procName;             /* unqualified name of this proc */
+    CONST char *procName;       /* unqualified name of this proc */
     Tcl_Obj *argsPtr;           /* description of arguments */
     Tcl_Obj *bodyPtr;           /* command body */
     Proc **procPtrPtr;          /* returns:  pointer to proc data */

@@ -62,7 +62,8 @@ declare 9 {unix win} {
 	    TclFile *errFilePtr)
 }
 declare 10 generic {
-    int TclCreateProc(Tcl_Interp *interp, Namespace *nsPtr, char *procName, \
+    int TclCreateProc(Tcl_Interp *interp, Namespace *nsPtr, 
+            CONST char *procName,
 	    Tcl_Obj *argsPtr, Tcl_Obj *bodyPtr, Proc **procPtrPtr)
 }
 declare 11 generic {
