@@ -59,7 +59,7 @@ proc generateHelp {basename files} {
 
     set file [open [file join [file dirname [info script]] $basename.rtf] w]
     fconfigure $file -translation crlf
-    puts $file "\{\\rtf1\\ansi \\deff0\\deflang1033\{\\fonttbl\{\\f0\\froman\\fcharset0\\fprq2 Times New Roman\;\}\}"
+    puts $file "\{\\rtf1\\ansi \\deff0\\deflang1033\{\\fonttbl\{\\f0\\froman\\fcharset0\\fprq2 Times New Roman\;\}\{\\f1\\fmodern\\fcharset0\\fprq1 Courier New\;\}\}"
     foreach f $files {
 	puts "Pass 2 -- $f"
 	flush stdout
