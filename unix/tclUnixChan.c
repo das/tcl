@@ -1132,10 +1132,25 @@ TtyParseMode(interp, mode, speedPtr, parityPtr, dataPtr, stopPtr)
 	}
 	return TCL_ERROR;
     }
-    if (strchr("noems", parity) == NULL) {
+    /*
+     * Only allow setting mark/space parity on platforms that support it
+     * [Bug: 5089]
+     */
+    if (strchr(
+#if defined(PAREXT) || defined(USE_TERMIO)
+	"noems",
+#else
+	"noe",
+#endif
+	parity) == NULL) {
 	if (interp != NULL) {
 	    Tcl_AppendResult(interp, bad,
-		    " parity: should be n, o, e, m, or s", NULL);
+#if defined(PAREXT) || defined(USE_TERMIO)
+		    " parity: should be n, o, e, m, or s",
+#else
+		    " parity: should be n, o, or e",
+#endif
+		    NULL);
 	}
 	return TCL_ERROR;
     }
