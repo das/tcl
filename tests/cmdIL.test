@@ -498,6 +498,10 @@ test cmdIL-6.12 {lassign command - memory leak testing} -setup {
     rename getbytes {}
     rename stress {}
 }
+test cmdIL-6.13 {lassign command - shimmering protection} {
+    set x {a b c}
+    list [lassign $x $x y] $x [set $x] $y
+} {c {a b c} a b}
 
 # cleanup
 ::tcltest::cleanupTests
