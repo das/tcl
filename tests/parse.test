@@ -813,6 +813,46 @@ test parse-18.21 {Tcl_SubstObj, exception handling} {
     } msg] $msg
 } [list 1 "extra characters after close-brace"]
 
+test parse-18.22 {Tcl_SubstObj, side effects} {
+    set a 0
+    list [subst {foo[incr a]bar}] $a
+} [list foo1bar 1]
+test parse-18.23 {Tcl_SubstObj, side effects} {
+    set a 0
+    list [subst {foo[incr a; incr a]bar}] $a
+} [list foo2bar 2]
+test parse-18.24 {Tcl_SubstObj, side effects} {
+    set a 0
+    list [subst {foo[incr a; break; incr a]bar}] $a
+} [list foo 1]
+test parse-18.25 {Tcl_SubstObj, side effects} {
+    set a 0
+    list [subst {foo[incr a; continue; incr a]bar}] $a
+} [list foobar 1]
+test parse-18.26 {Tcl_SubstObj, side effects} {
+    set a 0
+    list [subst {foo[incr a; return; incr a]bar}] $a
+} [list foobar 1]
+test parse-18.27 {Tcl_SubstObj, side effects} {
+    set a 0
+    list [subst {foo[incr a; return -code 10; incr a]bar}] $a
+} [list foobar 1]
+test parse-18.28 {Tcl_SubstObj, side effects} {
+    set a 0
+    catch {subst {foo[incr a; parse error {}{}; incr a]bar}}
+    set a
+} 1
+test parse-18.29 {Tcl_SubstObj, side effects} {
+    set a 0
+    catch {subst {foo[incr a; incr a; parse error {}{}]bar}}
+    set a
+} 2
+test parse-18.30 {Tcl_SubstObj, side effects} {
+    set a 0
+    catch {subst {foo[incr a; incr a parse error {}{}]bar}}
+    set a
+} 1
+
 # cleanup
 catch {unset a}
 ::tcltest::cleanupTests
