@@ -1199,7 +1199,7 @@ ParsePrimaryExpr(infoPtr)
 	exprTokenPtr->size = infoPtr->size;
 	exprTokenPtr->numComponents = 1;
 	break;
-	
+
     case DOLLAR:
 	/*
 	 * $var variable reference.
@@ -1406,7 +1406,7 @@ ParsePrimaryExpr(infoPtr)
 	exprTokenPtr->size = (infoPtr->next - exprTokenPtr->start);
 	exprTokenPtr->numComponents = parsePtr->numTokens - firstIndex;
 	break;
-	
+
     default:
 	goto syntaxError;
     }
@@ -1778,6 +1778,50 @@ GetLexeme(infoPtr)
 		infoPtr->size = (src - infoPtr->start);
 		infoPtr->next = src;
 		parsePtr->term = infoPtr->next;
+		/*
+		 * Check for boolean literals (true, false, yes, no, on, off)
+		 */
+		switch (infoPtr->start[0]) {
+		case 'f':
+		    if (infoPtr->size == 5 &&
+			strncmp("false", infoPtr->start, 5) == 0) {
+			infoPtr->lexeme = LITERAL;
+			return TCL_OK;
+		    }
+		    break;
+		case 'n':
+		    if (infoPtr->size == 2 &&
+			strncmp("no", infoPtr->start, 2) == 0) {
+			infoPtr->lexeme = LITERAL;
+			return TCL_OK;
+		    }
+		    break;
+		case 'o':
+		    if (infoPtr->size == 3 &&
+			strncmp("off", infoPtr->start, 3) == 0) {
+			infoPtr->lexeme = LITERAL;
+			return TCL_OK;
+		    } else if (infoPtr->size == 2 &&
+			strncmp("on", infoPtr->start, 2) == 0) {
+			infoPtr->lexeme = LITERAL;
+			return TCL_OK;
+		    }
+		    break;
+		case 't':
+		    if (infoPtr->size == 4 &&
+			strncmp("true", infoPtr->start, 4) == 0) {
+			infoPtr->lexeme = LITERAL;
+			return TCL_OK;
+		    }
+		    break;
+		case 'y':
+		    if (infoPtr->size == 3 &&
+			strncmp("yes", infoPtr->start, 3) == 0) {
+			infoPtr->lexeme = LITERAL;
+			return TCL_OK;
+		    }
+		    break;
+		}
 		return TCL_OK;
 	    }
 	    infoPtr->lexeme = UNKNOWN;
