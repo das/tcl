@@ -37,7 +37,7 @@ TCL_DECLARE_MUTEX(socketMutex)
 
 
 /*
- * Mingw and Cygwin may not have LPFN_* typedefs.
+ * Mingw, Cygwin and OpenWatcom may not have LPFN_* typedefs.
  */
 
 #ifdef HAVE_NO_LPFN_DECLS
