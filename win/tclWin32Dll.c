@@ -445,10 +445,10 @@ TclpCheckStackSpace()
      * exception if the stack pointer is set below the bottom of the stack.
      */
 
-    try {
+    __try {
 	alloca(TCL_WIN_STACK_THRESHOLD);
 	return 1;
-    } except (1) {}
+    } __except (1) {}
 
     return 0;
 }

@@ -195,11 +195,11 @@ DoRenameFile(
      * char block device.
      */
 
-    try {
+    __try {
 	if ((*tclWinProcs->moveFileProc)(nativeSrc, nativeDst) != FALSE) {
 	    return TCL_OK;
 	}
-    } except (-1) {}
+    } __except (-1) {}
 
     TclWinConvertError(GetLastError());
 
@@ -484,11 +484,11 @@ DoCopyFile(
      * block device.
      */
 
-    try {
+    __try {
 	if ((*tclWinProcs->copyFileProc)(nativeSrc, nativeDst, 0) != FALSE) {
 	    return TCL_OK;
 	}
-    } except (-1) {}
+    } __except (-1) {}
 
     TclWinConvertError(GetLastError());
     if (Tcl_GetErrno() == EBADF) {
