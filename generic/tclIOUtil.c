@@ -642,13 +642,7 @@ TclFSEpochOk (filesystemEpoch)
     int filesystemEpoch; 
 {
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
-#ifndef TCL_THREADS
-    tsdPtr->filesystemEpoch = theFilesystemEpoch;
-#else
-    Tcl_MutexLock(&filesystemMutex);
-    tsdPtr->filesystemEpoch = theFilesystemEpoch;
-    Tcl_MutexUnlock(&filesystemMutex);
-#endif
+    (void) FsGetFirstFilesystem();
     return (filesystemEpoch == tsdPtr->filesystemEpoch);
 }
 
