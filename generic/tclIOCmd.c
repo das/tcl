@@ -227,7 +227,7 @@ Tcl_GetsObjCmd(dummy, interp, objc, objv)
     int lineLen;			/* Length of line just read. */
     int mode;				/* Mode in which channel is opened. */
     char *name;
-    Tcl_Obj *resultPtr, *linePtr;
+    Tcl_Obj *linePtr;
 
     if ((objc != 2) && (objc != 3)) {
 	Tcl_WrongNumArgs(interp, 1, objv, "channelId ?varName?");
