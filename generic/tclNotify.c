@@ -818,7 +818,7 @@ Tcl_DoOneEvent(flags)
      * The first thing we do is to service any asynchronous event
      * handlers.
      */
-    
+
     if (Tcl_AsyncReady()) {
 	(void) Tcl_AsyncInvoke((Tcl_Interp *) NULL, 0);
 	return 1;
@@ -827,7 +827,7 @@ Tcl_DoOneEvent(flags)
     /*
      * No event flags is equivalent to TCL_ALL_EVENTS.
      */
-    
+
     if ((flags & TCL_ALL_EVENTS) == 0) {
 	flags |= TCL_ALL_EVENTS;
     }
@@ -864,7 +864,7 @@ Tcl_DoOneEvent(flags)
 	 */
 
 	if (Tcl_ServiceEvent(flags)) {
-	    result = 1;	    
+	    result = 1;
 	    break;
 	}
 
