@@ -637,6 +637,8 @@ DdeServerProc (
 	    if (convPtr != NULL) {
 		Tcl_IncrRefCount(returnPackagePtr);
 		convPtr->returnPackagePtr = returnPackagePtr;
+	    } else {
+		Tcl_DecrRefCount(returnPackagePtr);
 	    }
 	    Tcl_DecrRefCount(ddeObjectPtr);
 	    if (returnPackagePtr == NULL) {
