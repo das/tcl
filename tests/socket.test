@@ -124,9 +124,9 @@ if {$doTestsWithRemoteServer} {
 	    set doTestsWithRemoteServer 0
 	} else {
 	    set remoteServerIP 127.0.0.1
-	    #set remoteFile [file join $::test::testsDir remote.tcl]
+	    set remoteFile [file join [pwd] remote.tcl]
 	    if {[catch {set remoteProcChan \
-				[open "|[list $tcltest remote.tcl \
+				[open "|[list $tcltest $remoteFile \
 					-serverIsSilent \
 					-port $remoteServerPort \
 					-address $remoteServerIP]" \
@@ -1583,12 +1583,12 @@ test socket-12.3 {testing inheritance of accepted sockets} {doTestsWithRemoteSer
 } {accepted socket was not inherited}
 
 # cleanup
-catch {close $commandSocket}
-catch {close $remoteProcChan}
 if {[string match sock* $commandSocket] == 1} {
    puts $commandSocket exit
    flush $commandSocket
 }
+catch {close $commandSocket}
+catch {close $remoteProcChan}
 ::test::cleanupTests
 flush stdout
 

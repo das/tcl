@@ -15,13 +15,15 @@ if {[lsearch [namespace children] ::test] == -1} {
 }
 
 # temporarily copy the pkg and pkg1 dirs from testsDir to tmpDir
-set origPkgDir [file join $::test::testsDir pkg]
-set newPkgDir [file join $::test::tmpDir pkg]
-if {![catch {file copy $origPkgDir $newPkgDir}]} {
-    set removePkgDir 1
-}
-if {![catch {file copy "${origPkgDir}1" "${newPkgDir}1"}]} {
-    set removePkg1Dir 1
+if {"$::test::testsDir" != "$::test::tmpDir"} {
+    set origPkgDir [file join $::test::testsDir pkg]
+    set newPkgDir [file join $::test::tmpDir pkg]
+    if {![catch {file copy $origPkgDir $newPkgDir}]} {
+	set removePkgDir 1
+    }
+    if {![catch {file copy "${origPkgDir}1" "${newPkgDir}1"}]} {
+	set removePkg1Dir 1
+    }
 }
 
 # Add the pkg1 directory to auto_path, so that its packages can be found.

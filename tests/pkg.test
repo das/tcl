@@ -630,12 +630,12 @@ test pkg-7.18 {Tcl_PackageCmd procedure, "present" option} {
 
 set auto_path $oldPath
 package unknown $oldPkgUnknown
-::test::cleanupTests
 concat
 
 }
 
 # cleanup
 interp delete $i
+::test::cleanupTests
 return
 
