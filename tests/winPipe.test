@@ -173,6 +173,7 @@ test winpipe-1.22 {Checking command.com for Win95/98 hanging} {95 stdio} {
     exec command.com /c dir /b
     set result 1
 } 1
+file delete more
 
 test winpipe-4.1 {Tcl_WaitPid} {nt stdio cat32} {
     proc readResults {f} {
