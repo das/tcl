@@ -3628,8 +3628,7 @@ NamespaceWhichCmd(dummy, interp, objc, objv)
         arg = Tcl_GetString(objv[argIndex]);
 	variable = Tcl_FindNamespaceVar(interp, arg, (Tcl_Namespace *) NULL,
 		/*flags*/ 0);
-        if (variable != (Tcl_Var) NULL
-		&& !TclIsVarUndefined((Var *)variable)) {
+        if (variable != (Tcl_Var) NULL) {
             Tcl_GetVariableFullName(interp, variable, Tcl_GetObjResult(interp));
         }
         break;

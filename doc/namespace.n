@@ -228,7 +228,10 @@ For example, if \fIname\fR does not exist in the current namespace
 but does exist in the global namespace,
 this command returns a fully-qualified name in the global namespace.
 If the command or variable does not exist,
-this command returns an empty string.
+this command returns an empty string.  If the variable has been
+created but not defined, such as with the \fBvariable\fR command
+or through a \fBtrace\fR on the variable, this command will return the 
+fully-qualified name of the variable.
 If no flag is given, \fIname\fR is treated as a command name.
 See the section \fBNAME RESOLUTION\fR below for an explanation of
 the rules regarding name resolution.
