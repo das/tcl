@@ -19,7 +19,26 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 }
 
 if { $::tcl_platform(platform) eq {windows} } {
-    package require registry
+    if { [catch { package require registry 1.1 }] } {
+	
+	# HIDEOUS KLUDGE: [package require registry 1.1] has failed.
+	# This failure likely means that we're running in Tcl's build
+	# directory instead of the install directory.  We recover by
+	# trying to load tclreg*.dll directly.
+	
+	if { [catch { 
+	    load [lindex \
+		      [glob -directory \
+			   [file join \
+				[pwd] \
+				[file dirname [info nameofexecutable]]] \
+			   tclReg*.dll] \
+		      0] registry
+	}] } {
+	    # Still no registry!
+	    namespace eval ::tcl::clock [set NoRegistry {}]
+	}
+    }
 }
 package require msgcat 1.4
 
