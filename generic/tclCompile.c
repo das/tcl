@@ -929,12 +929,19 @@ TclCompileScript(interp, script, numBytes, envPtr)
 			        && (cmdPtr->compileProc != NULL)
 			        && !(cmdPtr->flags & CMD_HAS_EXEC_TRACES)
 			        && !(iPtr->flags & DONT_COMPILE_CMDS_INLINE)) {
+			    int savedNumCmds = envPtr->numCommands;
+
 			    code = (*(cmdPtr->compileProc))(interp, &parse,
 			            envPtr);
 			    if (code == TCL_OK) {
 				goto finishCommand;
 			    } else if (code == TCL_OUT_LINE_COMPILE) {
-				/* do nothing */
+				/*
+				 * Restore numCommands to its correct value, removing
+				 * any commands compiled before TCL_OUT_LINE_COMPILE
+				 * [Bug 705406]
+				 */
+				envPtr->numCommands = savedNumCmds;
 			    } else { /* an error */
 				/*
 				 * There was a compilation error, the last
