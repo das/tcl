@@ -12,7 +12,7 @@
 # RCS: @(#) $Id$
 #==============================================================================
 
-### Remove all '!' for MinGW..  Sorry, could find another way to do this.
+### Remove all '!' for MinGW..  Sorry, couldn't find another way to do this.
 
 #==============================================
 # Load the user info.
