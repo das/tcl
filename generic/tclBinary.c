@@ -1588,7 +1588,7 @@ ScanNumber(buffer, type, numberCachePtrPtr)
 				 * different numbers have been scanned. */
 {
     long value;
-    Tcl_WideInt wvalue;
+    Tcl_WideUInt uwvalue;
 
     /*
      * We cannot rely on the compiler to properly sign extend integer values
@@ -1678,25 +1678,25 @@ ScanNumber(buffer, type, numberCachePtrPtr)
 		}
 	    }
 	case 'w':
-	    value = (long) (buffer[4] 
-		    | (buffer[5] << 8)
-		    | (buffer[6] << 16)
-		    | (buffer[7] << 24));
-	    wvalue = ((Tcl_WideInt) value) << 32 | (buffer[0] 
-		    | (buffer[1] << 8)
-		    | (buffer[2] << 16)
-		    | (buffer[3] << 24));
-	    return Tcl_NewWideIntObj(wvalue);
+	    uwvalue =  ((Tcl_WideUInt) buffer[0])
+		    | (((Tcl_WideUInt) buffer[1]) << 8)
+		    | (((Tcl_WideUInt) buffer[2]) << 16)
+		    | (((Tcl_WideUInt) buffer[3]) << 24)
+		    | (((Tcl_WideUInt) buffer[4]) << 32)
+		    | (((Tcl_WideUInt) buffer[5]) << 40)
+		    | (((Tcl_WideUInt) buffer[6]) << 48)
+		    | (((Tcl_WideUInt) buffer[7]) << 56);
+	    return Tcl_NewWideIntObj((Tcl_WideInt) uwvalue);
 	case 'W':
-	    value = (long) (buffer[3] 
-		    | (buffer[2] << 8)
-		    | (buffer[1] << 16)
-		    | (buffer[0] << 24));
-	    wvalue = ((Tcl_WideInt) value) << 32 | (buffer[7] 
-		    | (buffer[6] << 8)
-		    | (buffer[5] << 16)
-		    | (buffer[4] << 24));
-	    return Tcl_NewWideIntObj(wvalue);
+	    uwvalue =  ((Tcl_WideUInt) buffer[7])
+		    | (((Tcl_WideUInt) buffer[6]) << 8)
+		    | (((Tcl_WideUInt) buffer[5]) << 16)
+		    | (((Tcl_WideUInt) buffer[4]) << 24)
+		    | (((Tcl_WideUInt) buffer[3]) << 32)
+		    | (((Tcl_WideUInt) buffer[2]) << 40)
+		    | (((Tcl_WideUInt) buffer[1]) << 48)
+		    | (((Tcl_WideUInt) buffer[0]) << 56);
+	    return Tcl_NewWideIntObj((Tcl_WideInt) uwvalue);
 	case 'f': {
 	    float fvalue;
 	    memcpy((VOID *) &fvalue, (VOID *) buffer, sizeof(float));
