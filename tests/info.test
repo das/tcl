@@ -137,7 +137,7 @@ test info-5.3 {info complete option} {
 test info-5.4 {info complete option} {
     info complete {[a [b] }
 } 0
-test info-5.5 {info complete option} {knownBug} {
+test info-5.5 {info complete option} {
     info complete {[a [b]}
 } 0
 
