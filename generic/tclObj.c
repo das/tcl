@@ -400,12 +400,15 @@ Tcl_NewObj()
      */
 
     Tcl_MutexLock(&tclObjMutex);
+#ifdef PURIFY
+    objPtr = (Tcl_Obj *) Tcl_Ckalloc(sizeof(Tcl_Obj));
+#else
     if (tclFreeObjList == NULL) {
 	TclAllocateFreeObjects();
     }
     objPtr = tclFreeObjList;
     tclFreeObjList = (Tcl_Obj *) tclFreeObjList->internalRep.otherValuePtr;
-    
+#endif    
     objPtr->refCount = 0;
     objPtr->bytes    = tclEmptyStringRep;
     objPtr->length   = 0;
@@ -582,7 +585,7 @@ TclFreeObj(objPtr)
      */
 
     Tcl_MutexLock(&tclObjMutex);
-#ifdef TCL_MEM_DEBUG
+#if defined(TCL_MEM_DEBUG) || defined(PURIFY)
     ckfree((char *) objPtr);
 #else
     objPtr->internalRep.otherValuePtr = (VOID *) tclFreeObjList;
