@@ -54,7 +54,7 @@ extern "C" {
  */
 
 #define TCL_MAJOR_VERSION   8
-#define TCL_MINOR_VERSION   1
+#define TCL_MINOR_VERSION   2
 #define TCL_RELEASE_LEVEL   TCL_BETA_RELEASE
 #define TCL_RELEASE_SERIAL  1
 
