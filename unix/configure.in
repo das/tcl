@@ -432,7 +432,7 @@ else
     # Replace DBGX with TCL_DBGX
     eval "TCL_EXP_FILE=\"${TCL_EXP_FILE}\""
     
-    if test "$using_gcc" = "yes" ; then
+    if test "$GCC" = "yes" ; then
 	TCL_BUILD_LIB_SPEC="-Wl,-bI:`pwd`/${TCL_BUILD_EXP_FILE} -L`pwd`"
 	TCL_LIB_SPEC="-Wl,-bI:${exec_prefix}/lib/${TCL_EXP_FILE} -L`pwd`"    
     else
