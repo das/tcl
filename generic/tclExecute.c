@@ -1424,6 +1424,20 @@ TclExecuteByteCode(interp, codePtr)
 	    opnd = TclGetUInt1AtPtr(pc+1);
 
 	    /*
+	     * Peephole optimisation for appending an empty string.
+	     * This enables replacing 'K $x [set x{}]' by '$x[set x{}]'
+	     * for fastest execution.
+	     */
+
+	    if (opnd == 2) {
+		Tcl_GetStringFromObj(*tosPtr, &length);
+		if (length == 0) {
+		    /* Just drop the top item from the stack */
+		    NEXT_INST_F(2, 1, 0);
+		}
+	    }	    
+	    
+            /*
 	     * Concatenate strings (with no separators) from the top
 	     * opnd items on the stack starting with the deepest item.
 	     * First, determine how many characters are needed.
