@@ -984,6 +984,7 @@ typedef struct Tcl_DString {
 #define TCL_NO_EVAL		0x10000
 #define TCL_EVAL_GLOBAL		0x20000
 #define TCL_EVAL_DIRECT		0x40000
+#define TCL_EVAL_NO_TRACEBACK	0x80000
 
 /*
  * Special freeProc values that may be passed to Tcl_SetResult (see

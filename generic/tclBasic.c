@@ -2876,7 +2876,7 @@ TclInterpReady(interp)
     if (((iPtr->numLevels) >= iPtr->maxNestingDepth) 
 	    || (TclpCheckStackSpace() == 0)) {
 	Tcl_AppendToObj(Tcl_GetObjResult(interp),
-		"too many nested calls to Tcl_Eval (infinite loop?)", -1); 
+		"too many nested evaluations (infinite loop?)", -1); 
 	return TCL_ERROR;
     }
 
@@ -3101,8 +3101,8 @@ Tcl_EvalObjv(interp, objc, objv, flags)
 				 * the words that make up the command. */
     int flags;			/* Collection of OR-ed bits that control
 				 * the evaluation of the script.  Only
-				 * TCL_EVAL_GLOBAL is currently
-				 * supported. */
+				 * TCL_EVAL_GLOBAL and TCL_EVAL_NO_TRACEBACK
+				 * are  currently supported. */
 {
     Interp *iPtr = (Interp *)interp;
     Trace *tracePtr;
@@ -3158,7 +3158,7 @@ Tcl_EvalObjv(interp, objc, objv, flags)
 	}
     }
 	    
-    if (code == TCL_ERROR) {
+    if ((code == TCL_ERROR) && !(flags & TCL_EVAL_NO_TRACEBACK)) {
 
 	/* 
 	 * If there was an error, a command string will be needed for the 
