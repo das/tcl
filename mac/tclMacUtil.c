@@ -322,7 +322,11 @@ FSpLocationFromPathAlias(
 	if (err != noErr) return err;
 	lastFileSpec=*fileSpecPtr;
 	err = ResolveAliasFile(fileSpecPtr, true, &isDirectory, &wasAlias);
-	if (err != noErr) return err;
+	if (err != noErr) {
+	    /* ignore alias resolve errors on last path component */
+	    if (pos < length) return err;
+	    else *fileSpecPtr=lastFileSpec;
+	}
 	FSpGetDirectoryID(fileSpecPtr, &dirID, &isDirectory);
 	vRefNum = fileSpecPtr->vRefNum;
 	cur = pos;

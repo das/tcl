@@ -801,7 +801,10 @@ OpenFileChannel(
     short fileRef;
     FileState *fileState;
     char channelName[16 + TCL_INTEGER_SPACE];
+    ThreadSpecificData *tsdPtr;
     
+    tsdPtr = FileInit();
+
     /*
      * Note we use fsRdWrShPerm instead of fsRdWrPerm which allows shared
      * writes on a file.  This isn't common on a mac but is common with 
@@ -874,6 +877,8 @@ OpenFileChannel(
     }
 
     fileState->fileChan = chan;
+    fileState->nextPtr = tsdPtr->firstFilePtr;
+    tsdPtr->firstFilePtr = fileState;
     fileState->volumeRef = fileSpec.vRefNum;
     fileState->fileRef = fileRef;
     fileState->pending = 0;
@@ -1195,34 +1200,12 @@ CommonWatch(
                                          * combination of TCL_READABLE,
                                          * TCL_WRITABLE and TCL_EXCEPTION. */
 {
-    FileState **nextPtrPtr, *ptr;
     FileState *infoPtr = (FileState *) instanceData;
-    int oldMask = infoPtr->watchMask;
-    ThreadSpecificData *tsdPtr;
-
-    tsdPtr = FileInit();
+    Tcl_Time blockTime = { 0, 0 };
 
     infoPtr->watchMask = mask;
     if (infoPtr->watchMask) {
-	if (!oldMask) {
-	    infoPtr->nextPtr = tsdPtr->firstFilePtr;
-	    tsdPtr->firstFilePtr = infoPtr;
-	}
-    } else {
-	if (oldMask) {
-	    /*
-	     * Remove the file from the list of watched files.
-	     */
-
-	    for (nextPtrPtr = &(tsdPtr->firstFilePtr), ptr = *nextPtrPtr;
-		 ptr != NULL;
-		 nextPtrPtr = &ptr->nextPtr, ptr = *nextPtrPtr) {
-		if (infoPtr == ptr) {
-		    *nextPtrPtr = ptr->nextPtr;
-		    break;
-		}
-	    }
-	}
+	Tcl_SetMaxBlockTime(&blockTime);
     }
 }
 

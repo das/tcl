@@ -77,6 +77,10 @@
 
 #endif	/* __MWERKS__ */
 
+#if defined(S_IFBLK) && !defined(S_ISLNK)
+#define S_ISLNK(m)	(((m)&(S_IFMT)) == (S_IFLNK))
+#endif
+
 /*
  * Many signals are not supported on the Mac and are thus not defined in
  * <signal.h>.  They are defined here so that Tcl will compile with less

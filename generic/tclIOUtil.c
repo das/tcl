@@ -4020,6 +4020,18 @@ TclNewFSPathObj(Tcl_Obj *dirPtr, CONST char *addStrRep, int len)
     objPtr = Tcl_NewObj();
     fsPathPtr = (FsPath*)ckalloc((unsigned)sizeof(FsPath));
     
+    if (tclPlatform == TCL_PLATFORM_MAC) {
+	/* 
+	 * Mac relative paths may begin with a directory separator ':'.
+	 * If present, we need to skip this ':' because we assume that
+	 * we can join dirPtr and addStrRep by concatenating them as
+	 * strings (and we ensure that dirPtr is terminated by a ':').
+	 */
+	if (addStrRep[0] == ':') {
+	    addStrRep++;
+	    len--;
+	}
+    }
     /* Setup the path */
     fsPathPtr->translatedPathPtr = NULL;
     fsPathPtr->normPathPtr = Tcl_NewStringObj(addStrRep, len);
