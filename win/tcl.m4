@@ -20,13 +20,13 @@
 AC_DEFUN(SC_PATH_TCLCONFIG, [
     AC_MSG_CHECKING([the location of tclConfig.sh])
 
-    if test -d ../../tcl8.4$1/win;  then
-	TCL_BIN_DIR_DEFAULT=../../tcl8.4$1/win
+    if test -d ../../tcl8.3$1/win;  then
+	TCL_BIN_DIR_DEFAULT=../../tcl8.3$1/win
     else
-	TCL_BIN_DIR_DEFAULT=../../tcl8.4/win
+	TCL_BIN_DIR_DEFAULT=../../tcl8.3/win
     fi
     
-    AC_ARG_WITH(tcl, [  --with-tcl=DIR          use Tcl 8.4 binaries from DIR],
+    AC_ARG_WITH(tcl, [  --with-tcl=DIR          use Tcl 8.3 binaries from DIR],
 	    TCL_BIN_DIR=$withval, TCL_BIN_DIR=`cd $TCL_BIN_DIR_DEFAULT; pwd`)
     if test ! -d $TCL_BIN_DIR; then
 	AC_MSG_ERROR(Tcl directory $TCL_BIN_DIR does not exist)
@@ -58,13 +58,13 @@ AC_DEFUN(SC_PATH_TCLCONFIG, [
 AC_DEFUN(SC_PATH_TKCONFIG, [
     AC_MSG_CHECKING([the location of tkConfig.sh])
 
-    if test -d ../../tk8.4$1/win;  then
-	TK_BIN_DIR_DEFAULT=../../tk8.4$1/win
+    if test -d ../../tk8.3$1/win;  then
+	TK_BIN_DIR_DEFAULT=../../tk8.3$1/win
     else
-	TK_BIN_DIR_DEFAULT=../../tk8.4/win
+	TK_BIN_DIR_DEFAULT=../../tk8.3/win
     fi
     
-    AC_ARG_WITH(tk, [  --with-tk=DIR          use Tk 8.4 binaries from DIR],
+    AC_ARG_WITH(tk, [  --with-tk=DIR          use Tk 8.3 binaries from DIR],
 	    TK_BIN_DIR=$withval, TK_BIN_DIR=`cd $TK_BIN_DIR_DEFAULT; pwd`)
     if test ! -d $TK_BIN_DIR; then
 	AC_MSG_ERROR(Tk directory $TK_BIN_DIR does not exist)
@@ -73,7 +73,7 @@ AC_DEFUN(SC_PATH_TKCONFIG, [
 	AC_MSG_ERROR(There is no tkConfig.sh in $TK_BIN_DIR:  perhaps you did not specify the Tk *build* directory (not the toplevel Tk directory) or you forgot to configure Tk?)
     fi
 
-    AC_MSG_RESULT($TK_BIN_DIR/tkConfig.sh)
+    AC_MSG_RESULT([$TK_BIN_DIR/tkConfig.sh])
 ])
 
 #------------------------------------------------------------------------
@@ -165,6 +165,10 @@ AC_DEFUN(SC_LOAD_TKCONFIG, [
 #
 #	Sets the following vars:
 #		CC	Command to use for the compiler
+#		AR	Comman for the archive tool
+#		RANLIB	Command for the archive indexing tool
+#		RC	Command for the resource compiler
+#
 #------------------------------------------------------------------------
 
 AC_DEFUN(SC_ENABLE_GCC, [
@@ -272,7 +276,7 @@ AC_DEFUN(SC_ENABLE_THREADS, [
 	AC_DEFINE(TCL_THREADS)
     else
 	TCL_THREADS=0
-	AC_MSG_RESULT(no (default))
+	AC_MSG_RESULT([no (default)])
     fi
 ])
 
@@ -335,7 +339,7 @@ AC_DEFUN(SC_ENABLE_SYMBOLS, [
 #
 # Results:
 #
-#	Defines the following vars for all compilers:
+#	Can the following vars:
 #		EXTRA_CFLAGS
 #		CFLAGS_DEBUG
 #		CFLAGS_OPTIMIZE
@@ -349,12 +353,13 @@ AC_DEFUN(SC_ENABLE_SYMBOLS, [
 #		PATHTYPE
 #		VPSEP
 #		CYGPATH
-#
-#	Defines the following vars for non-gcc compilers
 #		SHLIB_LD
 #		SHLIB_LD_LIBS
 #		LIBS
 #		AR
+#		RC
+#		RES
+#
 #		MAKE_LIB
 #		MAKE_EXE
 #		MAKE_DLL
@@ -507,7 +512,8 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	    # dynamic
             AC_MSG_RESULT([using shared flags])
 	    runtime=-MD
-	    MAKE_DLL="\${SHLIB_LD} \${SHLIB_LD_LIBS} \$(LDFLAGS) -out:\[$]@"
+	    # Add SHLIB_LD_LIBS to the Make rule, not here.
+	    MAKE_DLL="\${SHLIB_LD} \$(LDFLAGS) -out:\[$]@"
 	    LIBSUFFIX="\${DBGX}.lib"
 	    DLLSUFFIX="\${DBGX}.dll"
 	    EXESUFFIX="\${DBGX}.exe"
@@ -551,13 +557,13 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 #------------------------------------------------------------------------
 
 AC_DEFUN(SC_WITH_TCL, [
-    if test -d ../../tcl8.4$1/win;  then
-	TCL_BIN_DEFAULT=../../tcl8.4$1/win
+    if test -d ../../tcl8.3$1/win;  then
+	TCL_BIN_DEFAULT=../../tcl8.3$1/win
     else
-	TCL_BIN_DEFAULT=../../tcl8.4/win
+	TCL_BIN_DEFAULT=../../tcl8.3/win
     fi
     
-    AC_ARG_WITH(tcl, [  --with-tcl=DIR          use Tcl 8.4 binaries from DIR],
+    AC_ARG_WITH(tcl, [  --with-tcl=DIR          use Tcl 8.3 binaries from DIR],
 	    TCL_BIN_DIR=$withval, TCL_BIN_DIR=`cd $TCL_BIN_DEFAULT; pwd`)
     if test ! -d $TCL_BIN_DIR; then
 	AC_MSG_ERROR(Tcl directory $TCL_BIN_DIR does not exist)
@@ -570,3 +576,50 @@ AC_DEFUN(SC_WITH_TCL, [
     AC_SUBST(TCL_BIN_DIR)
 ])
 
+# FIXME : SC_PROG_TCLSH should really look for the installed tclsh and
+# not the build version. If we want to use the build version in the
+# tk script, it is better to hardcode that!
+
+#------------------------------------------------------------------------
+# SC_PROG_TCLSH
+#	Locate a tclsh shell in the following directories:
+#		${exec_prefix}/bin
+#		${prefix}/bin
+#		${TCL_BIN_DIR}
+#		${TCL_BIN_DIR}/../bin
+#		${PATH}
+#
+# Arguments
+#	none
+#
+# Results
+#	Subst's the following values:
+#		TCLSH_PROG
+#------------------------------------------------------------------------
+
+AC_DEFUN(SC_PROG_TCLSH, [
+    AC_MSG_CHECKING([for tclsh])
+
+    AC_CACHE_VAL(ac_cv_path_tclsh, [
+	search_path=`echo ${exec_prefix}/bin:${prefix}/bin:${TCL_BIN_DIR}:${TCL_BIN_DIR}/../bin:${PATH} | sed -e 's/:/ /g'`
+	for dir in $search_path ; do
+	    for j in `ls -r $dir/tclsh[[8-9]]*.exe 2> /dev/null` \
+		    `ls -r $dir/tclsh* 2> /dev/null` ; do
+		if test x"$ac_cv_path_tclsh" = x ; then
+		    if test -f "$j" ; then
+			ac_cv_path_tclsh=$j
+			break
+		    fi
+		fi
+	    done
+	done
+    ])
+
+    if test -f "$ac_cv_path_tclsh" ; then
+	TCLSH_PROG=$ac_cv_path_tclsh
+	AC_MSG_RESULT($TCLSH_PROG)
+    else
+	AC_MSG_ERROR(No tclsh found in PATH:  $search_path)
+    fi
+    AC_SUBST(TCLSH_PROG)
+])
