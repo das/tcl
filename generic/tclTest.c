@@ -2746,7 +2746,7 @@ TestregexpObjCmd(dummy, interp, objc, objv)
  *----------------------------------------------------------------------
  */
 
-static VOID
+static void
 TestregexpXflags(string, length, cflagsPtr, eflagsPtr)
     char *string;		/* The string of flags. */
     int length;			/* The length of the string in bytes. */
