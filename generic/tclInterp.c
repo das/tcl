@@ -1191,6 +1191,7 @@ AliasCreate(interp, slaveInterp, masterInterp, namePtr, targetNamePtr,
 	Command *cmdPtr;
 	
 	Tcl_DecrRefCount(aliasPtr->namePtr);
+	Tcl_DecrRefCount(targetNamePtr);
 	for (i = 0; i < objc; i++) {
 	    Tcl_DecrRefCount(objv[i]);
 	}
