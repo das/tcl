@@ -1208,9 +1208,6 @@ EXTERN int		Tcl_RegExpMatchObj _ANSI_ARGS_((Tcl_Interp * interp,
 /* 386 */
 EXTERN void		Tcl_SetNotifier _ANSI_ARGS_((
 				Tcl_NotifierProcs * notifierProcPtr));
-/* 387 */
-EXTERN int		Tcl_RegExpMatchObj _ANSI_ARGS_((Tcl_Interp * interp, 
-				char * string, Tcl_Obj * patObj));
 
 typedef struct TclStubHooks {
     struct TclPlatStubs *tclPlatStubs;
@@ -1665,7 +1662,6 @@ typedef struct TclStubs {
     void (*tcl_AppendUnicodeToObj) _ANSI_ARGS_((register Tcl_Obj * objPtr, Tcl_UniChar * unicode, int length)); /* 384 */
     int (*tcl_RegExpMatchObj) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Obj * stringObj, Tcl_Obj * patternObj)); /* 385 */
     void (*tcl_SetNotifier) _ANSI_ARGS_((Tcl_NotifierProcs * notifierProcPtr)); /* 386 */
-    int (*tcl_RegExpMatchObj) _ANSI_ARGS_((Tcl_Interp * interp, char * string, Tcl_Obj * patObj)); /* 387 */
 } TclStubs;
 
 #ifdef __cplusplus
@@ -3258,10 +3254,6 @@ extern TclStubs *tclStubsPtr;
 #ifndef Tcl_SetNotifier
 #define Tcl_SetNotifier \
 	(tclStubsPtr->tcl_SetNotifier) /* 386 */
-#endif
-#ifndef Tcl_RegExpMatchObj
-#define Tcl_RegExpMatchObj \
-	(tclStubsPtr->tcl_RegExpMatchObj) /* 387 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
