@@ -84,6 +84,16 @@ test regexp-2.8 {getting substrings back from regexp} {
     set match {}
     list [regexp {^a*b} aaaab match] $match
 } {1 aaaab}
+test regexp-2.9 {getting substrings back from regexp} {
+    set foo {}
+    set f2 {}
+    list [regexp f\352te(b*)c f\352tebbbbc foo f2] $foo $f2
+} [list 1 f\352tebbbbc bbbb]
+test regexp-2.10 {getting substrings back from regexp} {
+    set foo {}
+    set f2 {}
+    list [regexp f\352te(b*)c eff\352tebbbbc foo f2] $foo $f2
+} [list 1 f\352tebbbbc bbbb]
 
 test regexp-3.1 {-indices option to regexp} {
     set foo {}
