@@ -2520,12 +2520,12 @@ TclExecuteByteCode(interp, codePtr)
 	char *s;
 	Tcl_ObjType *t1Ptr, *t2Ptr;
 	Tcl_Obj *valuePtr, *value2Ptr;
+	Tcl_WideInt w;
 	
 	value2Ptr = *tosPtr;
 	valuePtr  = *(tosPtr - 1);
 	t1Ptr = valuePtr->typePtr;
 	t2Ptr = value2Ptr->typePtr;
-	Tcl_WideInt w;
 
 	if ((t1Ptr == &tclIntType) || (t1Ptr == &tclBooleanType)) {
 	    i1 = (valuePtr->internalRep.longValue != 0);
@@ -3095,9 +3095,9 @@ TclExecuteByteCode(interp, codePtr)
 	 */
 	int index, length;
 	char *bytes;
-	bytes = NULL; /* lint */
 	Tcl_Obj *valuePtr, *value2Ptr;
 	
+	bytes = NULL; /* lint */
 	value2Ptr = *tosPtr;
 	valuePtr = *(tosPtr - 1);
 
