@@ -1782,9 +1782,9 @@ proc tcltest::test {name description args} {
 	    }
 	    foreach item {constraints match setup body cleanup \
 		    result returnCodes output errorOutput} {
-		if {[info exists testAttributes([subst -$item])]} {
-		    set testAttributes([subst -$item]) [uplevel 1 \
-			    ::concat $testAttributes([subst -$item])]
+		if {[info exists testAttributes(-$item)]} {
+		    set testAttributes(-$item) [uplevel 1 \
+			    ::concat $testAttributes(-$item)]
 		}
 	    }
 	} else {
