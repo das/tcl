@@ -909,7 +909,7 @@ EXTERN Tcl_Channel	Tcl_StackChannel _ANSI_ARGS_((Tcl_Interp * interp,
 				ClientData instanceData, int mask, 
 				Tcl_Channel prevChan));
 /* 282 */
-EXTERN void		Tcl_UnstackChannel _ANSI_ARGS_((Tcl_Interp * interp, 
+EXTERN int		Tcl_UnstackChannel _ANSI_ARGS_((Tcl_Interp * interp, 
 				Tcl_Channel chan));
 /* 283 */
 EXTERN Tcl_Channel	Tcl_GetStackedChannel _ANSI_ARGS_((Tcl_Channel chan));
@@ -1229,31 +1229,11 @@ EXTERN int		Tcl_CreateThread _ANSI_ARGS_((Tcl_ThreadId * idPtr,
 				ClientData clientData, int stackSize, 
 				int flags));
 /* 394 */
-EXTERN int		Tcl_JoinThread _ANSI_ARGS_((Tcl_ThreadId id, 
-				int* result));
+EXTERN int		Tcl_ReadRaw _ANSI_ARGS_((Tcl_Channel chan, 
+				char * dst, int bytesToRead));
 /* 395 */
-EXTERN int		Tcl_IsChannelShared _ANSI_ARGS_((Tcl_Channel channel));
-/* 396 */
-EXTERN int		Tcl_IsChannelRegistered _ANSI_ARGS_((
-				Tcl_Interp* interp, Tcl_Channel channel));
-/* 397 */
-EXTERN void		Tcl_CutChannel _ANSI_ARGS_((Tcl_Channel channel));
-/* 398 */
-EXTERN void		Tcl_SpliceChannel _ANSI_ARGS_((Tcl_Channel channel));
-/* 399 */
-EXTERN void		Tcl_ClearChannelHandlers _ANSI_ARGS_((
-				Tcl_Channel channel));
-/* 400 */
-EXTERN int		Tcl_IsChannelExisting _ANSI_ARGS_((
-				CONST char* channelName));
-/* 401 */
-EXTERN int		Tcl_UniCharNcasecmp _ANSI_ARGS_((
-				CONST Tcl_UniChar * cs, 
-				CONST Tcl_UniChar * ct, unsigned long n));
-/* 402 */
-EXTERN int		Tcl_UniCharCaseMatch _ANSI_ARGS_((
-				CONST Tcl_UniChar * ustr, 
-				CONST Tcl_UniChar * pattern, int nocase));
+EXTERN int		Tcl_WriteRaw _ANSI_ARGS_((Tcl_Channel chan, 
+				char * src, int srcLen));
 
 typedef struct TclStubHooks {
     struct TclPlatStubs *tclPlatStubs;
@@ -1603,7 +1583,7 @@ typedef struct TclStubs {
     void (*tcl_GetVersion) _ANSI_ARGS_((int * major, int * minor, int * patchLevel, int * type)); /* 279 */
     void (*tcl_InitMemory) _ANSI_ARGS_((Tcl_Interp * interp)); /* 280 */
     Tcl_Channel (*tcl_StackChannel) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_ChannelType * typePtr, ClientData instanceData, int mask, Tcl_Channel prevChan)); /* 281 */
-    void (*tcl_UnstackChannel) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Channel chan)); /* 282 */
+    int (*tcl_UnstackChannel) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Channel chan)); /* 282 */
     Tcl_Channel (*tcl_GetStackedChannel) _ANSI_ARGS_((Tcl_Channel chan)); /* 283 */
     void *reserved284;
     void *reserved285;
@@ -1715,15 +1695,8 @@ typedef struct TclStubs {
     void (*tcl_ConditionFinalize) _ANSI_ARGS_((Tcl_Condition * condPtr)); /* 391 */
     void (*tcl_MutexFinalize) _ANSI_ARGS_((Tcl_Mutex * mutex)); /* 392 */
     int (*tcl_CreateThread) _ANSI_ARGS_((Tcl_ThreadId * idPtr, Tcl_ThreadCreateProc proc, ClientData clientData, int stackSize, int flags)); /* 393 */
-    int (*tcl_JoinThread) _ANSI_ARGS_((Tcl_ThreadId id, int* result)); /* 394 */
-    int (*tcl_IsChannelShared) _ANSI_ARGS_((Tcl_Channel channel)); /* 395 */
-    int (*tcl_IsChannelRegistered) _ANSI_ARGS_((Tcl_Interp* interp, Tcl_Channel channel)); /* 396 */
-    void (*tcl_CutChannel) _ANSI_ARGS_((Tcl_Channel channel)); /* 397 */
-    void (*tcl_SpliceChannel) _ANSI_ARGS_((Tcl_Channel channel)); /* 398 */
-    void (*tcl_ClearChannelHandlers) _ANSI_ARGS_((Tcl_Channel channel)); /* 399 */
-    int (*tcl_IsChannelExisting) _ANSI_ARGS_((CONST char* channelName)); /* 400 */
-    int (*tcl_UniCharNcasecmp) _ANSI_ARGS_((CONST Tcl_UniChar * cs, CONST Tcl_UniChar * ct, unsigned long n)); /* 401 */
-    int (*tcl_UniCharCaseMatch) _ANSI_ARGS_((CONST Tcl_UniChar * ustr, CONST Tcl_UniChar * pattern, int nocase)); /* 402 */
+    int (*tcl_ReadRaw) _ANSI_ARGS_((Tcl_Channel chan, char * dst, int bytesToRead)); /* 394 */
+    int (*tcl_WriteRaw) _ANSI_ARGS_((Tcl_Channel chan, char * src, int srcLen)); /* 395 */
 } TclStubs;
 
 #ifdef __cplusplus
@@ -3345,41 +3318,13 @@ extern TclStubs *tclStubsPtr;
 #define Tcl_CreateThread \
 	(tclStubsPtr->tcl_CreateThread) /* 393 */
 #endif
-#ifndef Tcl_JoinThread
-#define Tcl_JoinThread \
-	(tclStubsPtr->tcl_JoinThread) /* 394 */
+#ifndef Tcl_ReadRaw
+#define Tcl_ReadRaw \
+	(tclStubsPtr->tcl_ReadRaw) /* 394 */
 #endif
-#ifndef Tcl_IsChannelShared
-#define Tcl_IsChannelShared \
-	(tclStubsPtr->tcl_IsChannelShared) /* 395 */
-#endif
-#ifndef Tcl_IsChannelRegistered
-#define Tcl_IsChannelRegistered \
-	(tclStubsPtr->tcl_IsChannelRegistered) /* 396 */
-#endif
-#ifndef Tcl_CutChannel
-#define Tcl_CutChannel \
-	(tclStubsPtr->tcl_CutChannel) /* 397 */
-#endif
-#ifndef Tcl_SpliceChannel
-#define Tcl_SpliceChannel \
-	(tclStubsPtr->tcl_SpliceChannel) /* 398 */
-#endif
-#ifndef Tcl_ClearChannelHandlers
-#define Tcl_ClearChannelHandlers \
-	(tclStubsPtr->tcl_ClearChannelHandlers) /* 399 */
-#endif
-#ifndef Tcl_IsChannelExisting
-#define Tcl_IsChannelExisting \
-	(tclStubsPtr->tcl_IsChannelExisting) /* 400 */
-#endif
-#ifndef Tcl_UniCharNcasecmp
-#define Tcl_UniCharNcasecmp \
-	(tclStubsPtr->tcl_UniCharNcasecmp) /* 401 */
-#endif
-#ifndef Tcl_UniCharCaseMatch
-#define Tcl_UniCharCaseMatch \
-	(tclStubsPtr->tcl_UniCharCaseMatch) /* 402 */
+#ifndef Tcl_WriteRaw
+#define Tcl_WriteRaw \
+	(tclStubsPtr->tcl_WriteRaw) /* 395 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

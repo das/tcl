@@ -987,7 +987,7 @@ declare 281 generic {
 	    int mask, Tcl_Channel prevChan)
 }
 declare 282 generic {
-    void Tcl_UnstackChannel(Tcl_Interp *interp, Tcl_Channel chan)
+    int Tcl_UnstackChannel(Tcl_Interp *interp, Tcl_Channel chan)
 }
 declare 283 generic {
     Tcl_Channel Tcl_GetStackedChannel(Tcl_Channel chan)
@@ -1357,35 +1357,12 @@ declare 393 generic {
     int Tcl_CreateThread (Tcl_ThreadId *idPtr, Tcl_ThreadCreateProc proc, \
 	    ClientData clientData, int stackSize, int flags)
 }
+
 declare 394 generic {
-    int Tcl_JoinThread (Tcl_ThreadId id, int* result)
+    int Tcl_ReadRaw (Tcl_Channel chan, char *dst, int bytesToRead)
 }
 declare 395 generic {
-    int Tcl_IsChannelShared (Tcl_Channel channel)
-}
-declare 396 generic {
-    int Tcl_IsChannelRegistered (Tcl_Interp* interp, Tcl_Channel channel)
-}
-declare 397 generic {
-    void Tcl_CutChannel (Tcl_Channel channel)
-}
-declare 398 generic {
-    void Tcl_SpliceChannel (Tcl_Channel channel)
-}
-declare 399 generic {
-    void Tcl_ClearChannelHandlers (Tcl_Channel channel)
-}
-declare 400 generic {
-    int Tcl_IsChannelExisting (CONST char* channelName)
-}
-
-declare 401 generic {
-    int Tcl_UniCharNcasecmp(CONST Tcl_UniChar *cs, CONST Tcl_UniChar *ct,\
-	    unsigned long n)
-}
-declare 402 generic {
-    int Tcl_UniCharCaseMatch(CONST Tcl_UniChar *ustr, \
-	    CONST Tcl_UniChar *pattern, int nocase)
+    int Tcl_WriteRaw (Tcl_Channel chan, char *src, int srcLen)
 }
 
 ##############################################################################

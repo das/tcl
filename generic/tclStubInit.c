@@ -229,14 +229,13 @@ TclIntStubs tclIntStubs = {
     TclRegExpRangeUniChar, /* 151 */
     TclSetLibraryPath, /* 152 */
     TclGetLibraryPath, /* 153 */
-    NULL, /* 154 */
-    NULL, /* 155 */
+    TclTestChannelCmd, /* 154 */
+    TclTestChannelEventCmd, /* 155 */
     TclRegError, /* 156 */
     TclVarTraceExists, /* 157 */
     TclSetStartupScriptFileName, /* 158 */
     TclGetStartupScriptFileName, /* 159 */
     TclpMatchFilesTypes, /* 160 */
-    TclChannelEventScriptInvoker, /* 161 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
@@ -792,15 +791,8 @@ TclStubs tclStubs = {
     Tcl_ConditionFinalize, /* 391 */
     Tcl_MutexFinalize, /* 392 */
     Tcl_CreateThread, /* 393 */
-    Tcl_JoinThread, /* 394 */
-    Tcl_IsChannelShared, /* 395 */
-    Tcl_IsChannelRegistered, /* 396 */
-    Tcl_CutChannel, /* 397 */
-    Tcl_SpliceChannel, /* 398 */
-    Tcl_ClearChannelHandlers, /* 399 */
-    Tcl_IsChannelExisting, /* 400 */
-    Tcl_UniCharNcasecmp, /* 401 */
-    Tcl_UniCharCaseMatch, /* 402 */
+    Tcl_ReadRaw, /* 394 */
+    Tcl_WriteRaw, /* 395 */
 };
 
 /* !END!: Do not edit above this line. */
