@@ -6023,8 +6023,9 @@ DupNsVarName(srcPtr, dupPtr)
  * INTERNALREP DEFINITION:
  *   twoPtrValue.ptr1 = pointer to the array name Tcl_Obj
  *                      (NULL if scalar)
- *   twoPtrValue.ptr2 = pointer to the element name Tcl_Obj
- *                      (NULL if scalar)
+ *   twoPtrValue.ptr2 = pointer to the element name string
+ *                      (owned by this Tcl_Obj), or NULL if 
+ *                      it is a scalar variable
  */
 
 static void 
