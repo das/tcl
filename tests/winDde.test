@@ -98,7 +98,11 @@ proc createChildProcess { ddeServerName {handler {}}} {
 	puts ready
         flush stdout
 	vwait done
-	update
+	# allow enough time for the calling process to
+	# claim all results, to avoid spurious "server did
+	# not respond"
+	after 200 { set reallyDone 1 }
+	vwait reallyDone
 	exit
     }
     close $f
