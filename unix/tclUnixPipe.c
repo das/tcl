@@ -353,7 +353,7 @@ TclpCreateProcess(interp, argc, argv, inputFile, outputFile, errorFile,
     }
 
     /*
-     * We need to allocate and convert this before the (v)fork
+     * We need to allocate and convert this before the fork
      * so it is properly deallocated later
      */
     dsArray = (Tcl_DString *) ckalloc(argc * sizeof(Tcl_DString));
@@ -364,7 +364,7 @@ TclpCreateProcess(interp, argc, argv, inputFile, outputFile, errorFile,
     }
 
     joinThisError = (errorFile == outputFile);
-    pid = vfork();
+    pid = fork();
     if (pid == 0) {
 	fd = GetFd(errPipeOut);
 

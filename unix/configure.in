@@ -334,16 +334,6 @@ if test $tcl_ok = yes; then
 fi
 
 #--------------------------------------------------------------------
-# Check to see whether the system provides a vfork kernel call.
-# If not, then use fork instead.  Also, check for a problem with
-# vforks and signals that can cause core dumps if a vforked child
-# resets a signal handler.  If the problem exists, then use fork
-# instead of vfork.
-#--------------------------------------------------------------------
-
-SC_HAVE_VFORK
-
-#--------------------------------------------------------------------
 #	Check whether there is an strncasecmp function on this system.
 #	This is a bit tricky because under SCO it's in -lsocket and
 #	under Sequent Dynix it's in -linet.
