@@ -2611,11 +2611,9 @@ CallCommandTraces(iPtr, cmdPtr, oldName, newName, flags)
                                  * must get the name from cmdPtr */
     CONST char *newName;        /* Command's new name, or NULL if
                                  * the command is not being renamed */
-    int flags;			/* Flags passed to trace procedures:
-				 * indicates what's happening to command,
-				 * plus other stuff like TCL_GLOBAL_ONLY,
-				 * TCL_NAMESPACE_ONLY, and
-				 * TCL_INTERP_DESTROYED. */
+    int flags;			/* Flags indicating the type of traces
+				 * to trigger, either TCL_TRACE_DELETE
+				 * or TCL_TRACE_RENAME. */
 {
     register CommandTrace *tracePtr;
     ActiveCommandTrace active;
