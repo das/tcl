@@ -287,7 +287,7 @@ Tcl_DbNewStringObj(bytes, length, file, line)
 /*
  *---------------------------------------------------------------------------
  *
- * TclNewUnicodeObj --
+ * Tcl_NewUnicodeObj --
  *
  *	This procedure is creates a new String object and initializes
  *	it from the given Unicode String.  If the Utf String is the same size
@@ -595,8 +595,7 @@ Tcl_GetUnicodeFromObj(objPtr, lengthPtr)
 
 Tcl_Obj *
 Tcl_GetRange(objPtr, first, last)
-   
- Tcl_Obj *objPtr;		/* The Tcl object to find the range of. */
+    Tcl_Obj *objPtr;		/* The Tcl object to find the range of. */
     int first;			/* First index of the range. */
     int last;			/* Last index of the range. */
 {
