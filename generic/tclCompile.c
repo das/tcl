@@ -52,7 +52,7 @@ static int traceInitialized = 0;
  * existence of a procedure call frame to distinguish these.
  */
 
-InstructionDesc instructionTable[] = {
+InstructionDesc tclInstructionTable[] = {
    /* Name	      Bytes stackEffect #Opnds Operand types	Stack top, next	  */
     {"done",		  1,   -1,        0,   {OPERAND_NONE}},
 	/* Finish ByteCode execution and return stktop (top stack item) */
@@ -2518,7 +2518,7 @@ TclFixupForwardJump(envPtr, jumpFixupPtr, jumpDist, distThreshold)
  *
  * Results:
  *	Returns a pointer to the global instruction table, same as the
- *	expression (&instructionTable[0]).
+ *	expression (&tclInstructionTable[0]).
  *
  * Side effects:
  *	None.
@@ -2529,7 +2529,7 @@ TclFixupForwardJump(envPtr, jumpFixupPtr, jumpDist, distThreshold)
 void * /* == InstructionDesc* == */
 TclGetInstructionTable()
 {
-    return &instructionTable[0];
+    return &tclInstructionTable[0];
 }
 
 /*
@@ -3186,7 +3186,7 @@ TclPrintInstruction(codePtr, pc)
 {
     Proc *procPtr = codePtr->procPtr;
     unsigned char opCode = *pc;
-    register InstructionDesc *instDesc = &instructionTable[opCode];
+    register InstructionDesc *instDesc = &tclInstructionTable[opCode];
     unsigned char *codeStart = codePtr->codeStart;
     unsigned int pcOffset = (pc - codeStart);
     int opnd, i, j;

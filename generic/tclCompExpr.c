@@ -110,7 +110,7 @@ typedef struct OperatorDesc {
 				 * Ignored if numOperands is 0. */
 } OperatorDesc;
 
-OperatorDesc operatorTable[] = {
+static OperatorDesc operatorTable[] = {
     {"*",   2,  INST_MULT},
     {"/",   2,  INST_DIV},
     {"%",   2,  INST_MOD},

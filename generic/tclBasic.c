@@ -482,7 +482,7 @@ Tcl_CreateInterp()
      */
 
     i = 0;
-    for (builtinFuncPtr = builtinFuncTable;  builtinFuncPtr->name != NULL;
+    for (builtinFuncPtr = tclBuiltinFuncTable;  builtinFuncPtr->name != NULL;
 	    builtinFuncPtr++) {
 	Tcl_CreateMathFunc((Tcl_Interp *) iPtr, builtinFuncPtr->name,
 		builtinFuncPtr->numArgs, builtinFuncPtr->argTypes,

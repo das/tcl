@@ -729,8 +729,6 @@ TclpObjLink(pathPtr, toPtr, linkAction)
     Tcl_Obj *toPtr;
     int linkAction;
 {
-    extern Tcl_Filesystem nativeFilesystem;
-
     if (toPtr != NULL) {
 	CONST char *src = Tcl_FSGetNativePath(pathPtr);
 	CONST char *target = Tcl_FSGetNativePath(toPtr);
@@ -784,7 +782,7 @@ TclpObjLink(pathPtr, toPtr, linkAction)
 	strncpy(native, link, (unsigned)length);
 	native[length] = '\0';
 	
-	linkPtr = Tcl_FSNewNativePath(&nativeFilesystem, native);
+	linkPtr = Tcl_FSNewNativePath(&tclNativeFilesystem, native);
 	if (linkPtr != NULL) {
 	    Tcl_IncrRefCount(linkPtr);
 	}

@@ -161,7 +161,6 @@ static int WinLink(CONST TCHAR* LinkSource, CONST TCHAR* LinkTarget,
 		   int linkAction);
 static int WinSymLinkDirectory(CONST TCHAR* LinkDirectory, 
 			       CONST TCHAR* LinkTarget);
-extern Tcl_Filesystem nativeFilesystem;
 
 
 /*
@@ -464,7 +463,7 @@ WinReadLinkDirectory(LinkDirectory)
 		   (VOID*)reparseBuffer->SymbolicLinkReparseBuffer.PathBuffer,
 		   len);
 	    
-	    retVal = Tcl_FSNewNativePath(&nativeFilesystem, clientData);
+	    retVal = Tcl_FSNewNativePath(&tclNativeFilesystem, clientData);
 	    Tcl_IncrRefCount(retVal);
 	    return retVal;
 	}

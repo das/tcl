@@ -1613,6 +1613,7 @@ extern char *			tclDefaultEncodingDir;
 extern Tcl_ChannelType		tclFileChannelType;
 extern char *			tclMemDumpFileName;
 extern TclPlatformType		tclPlatform;
+extern Tcl_Filesystem		tclNativeFilesystem;
 
 /*
  * Variables denoting the Tcl object types defined in the core.
