@@ -299,6 +299,10 @@ TclIntStubs tclIntStubs = {
     TclpFindExecutable, /* 212 */
     TclGetObjNameOfExecutable, /* 213 */
     TclSetObjNameOfExecutable, /* 214 */
+    TclStackAlloc, /* 215 */
+    TclStackFree, /* 216 */
+    TclPushStackFrame, /* 217 */
+    TclPopStackFrame, /* 218 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {

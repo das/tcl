@@ -4145,22 +4145,22 @@ TclObjInvokeNamespace(interp, objc, objv, nsPtr, flags)
 				 * TCL_INVOKE_NO_UNKNOWN, or
 				 * TCL_INVOKE_NO_TRACEBACK. */
 {
-    Tcl_CallFrame frame;
     int result;
+    Tcl_CallFrame *framePtr;
 
     /*
      * Make the specified namespace the current namespace and invoke
      * the command.
      */
 
-    result = Tcl_PushCallFrame(interp, &frame, nsPtr, /*isProcCallFrame*/ 0);
+    result = TclPushStackFrame(interp, &framePtr, nsPtr, /*isProcCallFrame*/ 0);
     if (result != TCL_OK) {
         return TCL_ERROR;
     }
 
     result = TclObjInvoke(interp, objc, objv, flags);
 
-    Tcl_PopCallFrame(interp);
+    TclPopStackFrame(interp);
     return result;
 }
 
