@@ -1499,18 +1499,11 @@ InfoNameOfExecutableCmd(dummy, interp, objc, objv)
     int objc;			/* Number of arguments. */
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
-    CONST char *nameOfExecutable;
-
     if (objc != 2) {
 	Tcl_WrongNumArgs(interp, 2, objv, NULL);
 	return TCL_ERROR;
     }
-
-    nameOfExecutable = Tcl_GetNameOfExecutable();
-
-    if (nameOfExecutable != NULL) {
-	Tcl_SetObjResult(interp, Tcl_NewStringObj(nameOfExecutable, -1));
-    }
+    Tcl_SetObjResult(interp, TclGetObjNameOfExecutable());
     return TCL_OK;
 }
 

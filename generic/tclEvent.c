@@ -898,11 +898,6 @@ Tcl_Finalize()
 	 */
 	TclFinalizeEncodingSubsystem();
 
-	if (tclNativeExecutableName != NULL) {
-	    ckfree(tclNativeExecutableName);
-	    tclNativeExecutableName = NULL;
-	}
-	
 	Tcl_SetPanicProc(NULL);
 
 	/*

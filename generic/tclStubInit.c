@@ -296,6 +296,9 @@ TclIntStubs tclIntStubs = {
     TclGetEncodingSearchPath, /* 209 */
     TclSetEncodingSearchPath, /* 210 */
     TclpGetEncodingNameFromEnvironment, /* 211 */
+    TclpFindExecutable, /* 212 */
+    TclGetObjNameOfExecutable, /* 213 */
+    TclSetObjNameOfExecutable, /* 214 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {

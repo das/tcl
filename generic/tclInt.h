@@ -1913,8 +1913,6 @@ MODULE_SCOPE int	TclpThreadCreate _ANSI_ARGS_((
 			    int stackSize, int flags));
 MODULE_SCOPE void	TclpFinalizeThreadDataKey _ANSI_ARGS_((
 			    Tcl_ThreadDataKey *keyPtr));
-MODULE_SCOPE void	TclpFindExecutable _ANSI_ARGS_((
-			    CONST char *argv0));
 MODULE_SCOPE int	TclpFindVariable _ANSI_ARGS_((CONST char *name,
 			    int *lengthPtr));
 MODULE_SCOPE void	TclpInitLibraryPath _ANSI_ARGS_((char **valuePtr,
@@ -1987,7 +1985,8 @@ MODULE_SCOPE void	TclRemoveScriptLimitCallbacks _ANSI_ARGS_((
 MODULE_SCOPE void	TclSetBgErrorHandler _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *cmdPrefix));
 MODULE_SCOPE void	TclSetProcessGlobalValue _ANSI_ARGS_ ((
-			    ProcessGlobalValue *pgvPtr, Tcl_Obj *newValue));
+			    ProcessGlobalValue *pgvPtr, Tcl_Obj *newValue,
+			    Tcl_Encoding encoding));
 MODULE_SCOPE VOID	TclSignalExitThread _ANSI_ARGS_((Tcl_ThreadId id,
 			    int result));
 MODULE_SCOPE int	TclSubstTokens _ANSI_ARGS_((Tcl_Interp *interp,

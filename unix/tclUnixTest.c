@@ -426,7 +426,7 @@ TestfilewaitCmd(clientData, interp, argc, argv)
  * TestfindexecutableCmd --
  *
  *	This procedure implements the "testfindexecutable" command. It is
- *	used to test Tcl_FindExecutable.
+ *	used to test TclpFindExecutable.
  *
  * Results:
  *	A standard Tcl result.
@@ -444,8 +444,7 @@ TestfindexecutableCmd(clientData, interp, argc, argv)
     int argc;				/* Number of arguments. */
     CONST char **argv;			/* Argument strings. */
 {
-    char *oldNativeName;
-    int oldDone;
+    Tcl_Obj *saveName;
 
     if (argc != 2) {
 	Tcl_AppendResult(interp, "wrong # arguments: should be \"", argv[0],
@@ -453,22 +452,14 @@ TestfindexecutableCmd(clientData, interp, argc, argv)
 	return TCL_ERROR;
     }
 
-    oldNativeName = tclNativeExecutableName;
-    oldDone       = tclFindExecutableSearchDone;
+    saveName = TclGetObjNameOfExecutable();
+    Tcl_IncrRefCount(saveName);
 
-    tclNativeExecutableName = NULL;
-    tclFindExecutableSearchDone = 0;
+    TclpFindExecutable(argv[1]);
+    Tcl_SetObjResult(interp, TclGetObjNameOfExecutable());
 
-    Tcl_GetNameOfExecutable();
-    Tcl_FindExecutable(argv[1]);
-    Tcl_SetResult(interp, (char *) Tcl_GetNameOfExecutable(), TCL_VOLATILE);
-    if (tclNativeExecutableName != NULL) {
-	ckfree(tclNativeExecutableName);
-    }
-
-    tclNativeExecutableName     = oldNativeName;
-    tclFindExecutableSearchDone = oldDone;
-
+    TclSetObjNameOfExecutable(saveName, NULL);
+    Tcl_DecrRefCount(saveName);
     return TCL_OK;
 }
 

@@ -850,6 +850,15 @@ declare 210 generic {
 declare 211 generic {
     CONST char * TclpGetEncodingNameFromEnvironment(Tcl_DString *bufPtr)
 }
+declare 212 generic {
+    void TclpFindExecutable(CONST char *argv0)
+}
+declare 213 generic {
+    Tcl_Obj * TclGetObjNameOfExecutable(void)
+}
+declare 214 generic {
+    void TclSetObjNameOfExecutable(Tcl_Obj *name, Tcl_Encoding encoding)
+}
 
 ##############################################################################
 
