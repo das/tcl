@@ -17,8 +17,8 @@
 #endif /* _TCLINT */
 
 #ifdef BUILD_tcl
-# undef EXPORT
-# define EXPORT DLLEXPORT
+# undef TCL_STORAGE_CLASS
+# define TCL_STORAGE_CLASS DLLEXPORT
 #endif
 
 /*
@@ -1048,7 +1048,7 @@ EXTERN void		TclRegisterAuxDataType _ANSI_ARGS_((AuxDataType *typePtr));
 
 #define MAX_JUMP_DIST   5000
 
-#undef EXPORT
-#define EXPORT DLLIMPORT
+# undef TCL_STORAGE_CLASS
+# define TCL_STORAGE_CLASS DLLIMPORT
 
 #endif /* _TCLCOMPILATION */

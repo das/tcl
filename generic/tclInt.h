@@ -58,8 +58,8 @@
 #endif
 
 #ifdef BUILD_tcl
-# undef EXPORT
-# define EXPORT DLLEXPORT
+# undef TCL_STORAGE_CLASS
+# define TCL_STORAGE_CLASS DLLEXPORT
 #endif
 
 /*
@@ -2097,8 +2097,8 @@ EXTERN void		Tcl_SetNamespaceResolvers _ANSI_ARGS_((
 			    Tcl_ResolveVarProc *varProc,
 			    Tcl_ResolveCompiledVarProc *compiledVarProc));
 
-#undef EXPORT
-#define EXPORT DLLIMPORT
+# undef TCL_STORAGE_CLASS
+# define TCL_STORAGE_CLASS DLLIMPORT
 
 #endif /* _TCLINT */
 
