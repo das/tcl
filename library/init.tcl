@@ -113,6 +113,17 @@ if {(![interp issafe]) && [string equal $tcl_platform(platform) "windows"]} {
 
 package unknown tclPkgUnknown
 
+if {![interp issafe]} {
+    # setup platform specific unknown package handlers
+    if {[string equal $::tcl_platform(platform) "unix"] && \
+	    [string equal $::tcl_platform(os) "Darwin"]} {
+	package unknown [list tcl::MacOSXPkgUnknown [package unknown]]
+    }
+    if {[string equal $::tcl_platform(platform) "macintosh"]} {
+	package unknown [list tcl::MacPkgUnknown [package unknown]]
+    }
+}
+
 # Conditionalize for presence of exec.
 
 if {[llength [info commands exec]] == 0} {

@@ -28,7 +28,8 @@ proc auto_reset {} {
 	if {[info exists auto_index($p)] && ![string match auto_* $p]
 		&& ([lsearch -exact {unknown pkg_mkIndex tclPkgSetup
 			tcl_findLibrary pkg_compareExtension
-			tclMacPkgSearch tclPkgUnknown} $p] < 0)} {
+			tclPkgUnknown tcl::MacOSXPkgUnknown
+			tcl::MacPkgUnknown} $p] < 0)} {
 	    rename $p {}
 	}
     }
