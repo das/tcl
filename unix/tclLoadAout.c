@@ -262,10 +262,10 @@ TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
 
 #if defined(__mips) || defined(mips)
   status = lseek (relocatedFd,
-		  N_TXTOFF (relocatedHead.ex_f, relocatedHead.ex_o),
-		  SEEK_SET);
+	  (off_t) N_TXTOFF (relocatedHead.ex_f, relocatedHead.ex_o),
+	  SEEK_SET);
 #else
-  status = lseek (relocatedFd, N_TXTOFF (relocatedHead), SEEK_SET);
+  status = lseek (relocatedFd, (off_t) N_TXTOFF (relocatedHead), SEEK_SET);
 #endif
   if (status < 0) {
     goto ioError;

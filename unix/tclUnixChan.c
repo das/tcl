@@ -502,7 +502,7 @@ FileSeekProc(instanceData, offset, mode, errorCodePtr)
     FileState *fsPtr = (FileState *) instanceData;
     int newLoc;
 
-    newLoc = lseek(fsPtr->fd, offset, mode);
+    newLoc = lseek(fsPtr->fd, (off_t) offset, mode);
 
     *errorCodePtr = (newLoc == -1) ? errno : 0;
     return newLoc;
