@@ -210,7 +210,10 @@ GetDefaultLibraryDir()
     }
 
     if (NULL == defaultLibraryDir) {
-Tcl_Panic("Called GetDLD before SetDLD!");
+	/*
+	 * Careful here.  This may be bogus, calling TclpInitLibraryPath
+	 * when not in TclpInitLock.  OTOH, this branch shouldn't happen.
+	 */
 	TclpInitLibraryPath(NULL);
 	if (NULL != *savedDirectoryPtr) {
 	    return *savedDirectoryPtr;
