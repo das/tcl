@@ -980,8 +980,6 @@ DeleteInterpProc(interp)
         Tcl_Panic("DeleteInterpProc called on interpreter not marked deleted");
     }
 
-    TclHandleFree(iPtr->handle);
-
     /*
      * Shut down all limit handler callback scripts that call back
      * into this interpreter.  Then eliminate all limit handlers for
@@ -998,9 +996,13 @@ DeleteInterpProc(interp)
      *   
      * Dismantle the namespace here, before we clear the assocData. If any
      * background errors occur here, they will be deleted below.
+     *
+     * Dismantle the namespace before freeing the iPtr->handle, to insure
+     * that non-shared literals are freed properly [Bug 983660].
      */
     
     TclTeardownNamespace(iPtr->globalNsPtr);
+    TclHandleFree(iPtr->handle);
 
     /*
      * Delete all the hidden commands.
