@@ -27,14 +27,15 @@ namespace eval tcltest {
     # Export the public tcltest procs
     namespace export bytestring cleanupTests customMatch debug errorChannel \
 	    errorFile interpreter limitConstraints loadFile loadScript \
-	    loadTestedCommands mainThread makeDirectory makeFile match \
+	    loadTestedCommands makeDirectory makeFile match \
 	    matchDirectories matchFiles normalizeMsg normalizePath \
 	    outputChannel outputFile preserveCore removeDirectory \
 	    removeFile runAllTests singleProcess skip skipDirectories \
 	    skipFiles temporaryDirectory test testConstraint \
-	    testsDirectory threadReap verbose viewFile workingDirectory
+	    testsDirectory verbose viewFile workingDirectory
     # Export the tcltest 1 compatibility procs
-    namespace export getMatchingFiles restoreState saveState
+    namespace export getMatchingFiles mainThread restoreState saveState \
+	    threadReap
 
     proc Default {varName value} {
 	variable $varName
