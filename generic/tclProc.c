@@ -601,8 +601,13 @@ Tcl_UplevelObjCmd(dummy, interp, objc, objv)
      */
 
     if (objc == 1) {
-	result = Tcl_EvalObjEx(interp, objv[0], 0);
+	result = Tcl_EvalObjEx(interp, objv[0], TCL_EVAL_DIRECT);
     } else {
+	/*
+	 * More than one argument: concatenate them together with spaces
+	 * between, then evaluate the result.  Tcl_EvalObjEx will delete
+	 * the object when it decrements its refcount after eval'ing it.
+	 */
 	Tcl_Obj *objPtr;
 
 	objPtr = Tcl_ConcatObj(objc, objv);

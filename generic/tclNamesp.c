@@ -2909,13 +2909,12 @@ NamespaceEvalCmd(dummy, interp, objc, objv)
     if (objc == 4) {
         result = Tcl_EvalObjEx(interp, objv[3], 0);
     } else {
-        objPtr = Tcl_ConcatObj(objc-3, objv+3);
-
-	/* 
-	 * Tcl_EvalObj will delete the object when it decrements its
-	 * refcount after eval'ing it.
+	/*
+	 * More than one argument: concatenate them together with spaces
+	 * between, then evaluate the result.  Tcl_EvalObjEx will delete
+	 * the object when it decrements its refcount after eval'ing it.
 	 */
-
+        objPtr = Tcl_ConcatObj(objc-3, objv+3);
         result = Tcl_EvalObjEx(interp, objPtr, TCL_EVAL_DIRECT);
     }
     if (result == TCL_ERROR) {

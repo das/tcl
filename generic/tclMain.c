@@ -291,7 +291,9 @@ Tcl_Main(argc, argv, appInitProc)
 	inChannel = Tcl_GetStdChannel(TCL_STDIN);
 	outChannel = Tcl_GetStdChannel(TCL_STDOUT);
 	errChannel = Tcl_GetStdChannel(TCL_STDERR);
-	Tcl_SetObjLength(commandPtr, 0);
+	Tcl_DecrRefCount(commandPtr);
+	commandPtr = Tcl_NewObj();
+	Tcl_IncrRefCount(commandPtr);
 	if (code != TCL_OK) {
 	    if (errChannel) {
 		Tcl_WriteObj(errChannel, Tcl_GetObjResult(interp));

@@ -1700,8 +1700,7 @@ TclFindCompiledLocal(name, nameBytes, create, flags, procPtr)
 	for (i = 0;  i < localCt;  i++) {
 	    if (!TclIsVarTemporary(localPtr)) {
 		char *localName = localPtr->name;
-		if ((name[0] == localName[0])
-	                && (nameBytes == localPtr->nameLength)
+		if ((nameBytes == localPtr->nameLength)
 	                && (strncmp(name, localName, (unsigned) nameBytes) == 0)) {
 		    return i;
 		}

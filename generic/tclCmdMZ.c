@@ -995,7 +995,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	    }
 
 	    if ((enum options) index == STR_EQUAL) {
-		Tcl_SetIntObj(resultPtr, (match) ? 0 : 1);
+		Tcl_SetBooleanObj(resultPtr, (match) ? 0 : 1);
 	    } else {
 		Tcl_SetIntObj(resultPtr, ((match > 0) ? 1 :
 					  (match < 0) ? -1 : 0));

@@ -613,17 +613,15 @@ Tcl_EvalObjCmd(dummy, interp, objc, objv)
     }
     
     if (objc == 2) {
-	result = Tcl_EvalObjEx(interp, objv[1], 0);
+	result = Tcl_EvalObjEx(interp, objv[1], TCL_EVAL_DIRECT);
     } else {
 	/*
 	 * More than one argument: concatenate them together with spaces
-	 * between, then evaluate the result.
+	 * between, then evaluate the result.  Tcl_EvalObjEx will delete
+	 * the object when it decrements its refcount after eval'ing it.
 	 */
-    
-	objPtr = Tcl_ConcatObj(objc-1, objv+1);
-	Tcl_IncrRefCount(objPtr);
-	result = Tcl_EvalObjEx(interp, objPtr, 0);
-	Tcl_DecrRefCount(objPtr);
+    	objPtr = Tcl_ConcatObj(objc-1, objv+1);
+	result = Tcl_EvalObjEx(interp, objPtr, TCL_EVAL_DIRECT);
     }
     if (result == TCL_ERROR) {
 	char msg[32 + TCL_INTEGER_SPACE];
