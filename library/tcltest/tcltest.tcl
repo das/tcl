@@ -2806,8 +2806,9 @@ proc tcltest::getMatchingFiles { {searchDirectory ""} } {
     set matchingFiles {}
 
     # Find the matching files in the list of directories and then remove the
-    # ones that match the skip pattern
-    foreach directory $searchDirectory {
+    # ones that match the skip pattern. Passing a list to foreach is required
+    # so that a patch like D:\Foo\Bar does not get munged into D:FooBar.
+    foreach directory [list $searchDirectory] {
 	set matchFileList {}
 	foreach match $tcltest::matchFiles {
 	    set matchFileList [concat $matchFileList \
