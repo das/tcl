@@ -14,13 +14,6 @@
  * RCS: @(#) $Id$
  */
 
-/*
- * The core stores all its #defs in config.h for clarity...
- */
-#ifdef HAVE_CONFIG_H
-#include "tclConfig.h"
-#endif
-
 #include "tcl.h"
 
 #ifdef TCL_TEST
