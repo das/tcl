@@ -393,7 +393,7 @@ declare 104 generic {
     int TclSockMinimumBuffers(int sock, int size)
 }
 declare 105 generic {
-    int TclStat(CONST char *path, TclStat_ *buf)
+    int TclStat(CONST char *path, struct stat *buf)
 }
 declare 106 generic {
     int TclStatDeleteProc(TclStatProc_ *proc)

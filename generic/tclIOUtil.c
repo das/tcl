@@ -446,7 +446,7 @@ Tcl_PosixError(interp)
 int
 TclStat(path, buf)
     CONST char *path;		/* Path of file to stat (in current CP). */
-    TclStat_ *buf;		/* Filled with results of stat call. */
+    struct stat *buf;		/* Filled with results of stat call. */
 {
     StatProc *statProcPtr;
     int retVal = -1;

@@ -365,6 +365,13 @@ typedef struct Tcl_Trace_ *Tcl_Trace;
 typedef struct Tcl_Var_ *Tcl_Var;
 
 /*
+ * Picky compilers complain if this typdef doesn't appear before the
+ * struct's reference in tclDecls.h.
+ */
+
+typedef struct stat *Tcl_Stat_;
+
+/*
  * When a TCL command returns, the interpreter contains a result from the
  * command. Programmers are strongly encouraged to use one of the
  * procedures Tcl_GetObjResult() or Tcl_GetStringResult() to read the

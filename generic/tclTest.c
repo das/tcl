@@ -270,11 +270,11 @@ static int		TestsetrecursionlimitCmd _ANSI_ARGS_((
 static int		TeststaticpkgCmd _ANSI_ARGS_((ClientData dummy,
 			    Tcl_Interp *interp, int argc, char **argv));
 static int		TestStatProc1 _ANSI_ARGS_((CONST char *path,
-			    TclStat_ *buf));
+			    struct stat *buf));
 static int		TestStatProc2 _ANSI_ARGS_((CONST char *path,
-			    TclStat_ *buf));
+			    struct stat *buf));
 static int		TestStatProc3 _ANSI_ARGS_((CONST char *path,
-			    TclStat_ *buf));
+			    struct stat *buf));
 static int		TeststatprocCmd _ANSI_ARGS_((ClientData dummy,
 			    Tcl_Interp *interp, int argc, char **argv));
 static int		TesttranslatefilenameCmd _ANSI_ARGS_((ClientData dummy,
@@ -3962,7 +3962,7 @@ TeststatprocCmd (dummy, interp, argc, argv)
 static int
 TestStatProc1(path, buf)
     CONST char *path;
-    TclStat_ *buf;
+    struct stat *buf;
 {
     buf->st_size = 1234;
     return ((strstr(path, "testStat1%.fil") == NULL) ? -1 : 0);
@@ -3972,7 +3972,7 @@ TestStatProc1(path, buf)
 static int
 TestStatProc2(path, buf)
     CONST char *path;
-    TclStat_ *buf;
+    struct stat *buf;
 {
     buf->st_size = 2345;
     return ((strstr(path, "testStat2%.fil") == NULL) ? -1 : 0);
@@ -3982,7 +3982,7 @@ TestStatProc2(path, buf)
 static int
 TestStatProc3(path, buf)
     CONST char *path;
-    TclStat_ *buf;
+    struct stat *buf;
 {
     buf->st_size = 3456;
     return ((strstr(path, "testStat3%.fil") == NULL) ? -1 : 0);

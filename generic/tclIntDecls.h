@@ -327,7 +327,7 @@ EXTERN int		TclSockMinimumBuffers _ANSI_ARGS_((int sock,
 				int size));
 /* 105 */
 EXTERN int		TclStat _ANSI_ARGS_((CONST char * path, 
-				TclStat_ * buf));
+				struct stat * buf));
 /* 106 */
 EXTERN int		TclStatDeleteProc _ANSI_ARGS_((TclStatProc_ * proc));
 /* 107 */
@@ -554,7 +554,7 @@ typedef struct TclIntStubs {
     void (*tclSetupEnv) _ANSI_ARGS_((Tcl_Interp * interp)); /* 102 */
     int (*tclSockGetPort) _ANSI_ARGS_((Tcl_Interp * interp, char * str, char * proto, int * portPtr)); /* 103 */
     int (*tclSockMinimumBuffers) _ANSI_ARGS_((int sock, int size)); /* 104 */
-    int (*tclStat) _ANSI_ARGS_((CONST char * path, TclStat_ * buf)); /* 105 */
+    int (*tclStat) _ANSI_ARGS_((CONST char * path, struct stat * buf)); /* 105 */
     int (*tclStatDeleteProc) _ANSI_ARGS_((TclStatProc_ * proc)); /* 106 */
     int (*tclStatInsertProc) _ANSI_ARGS_((TclStatProc_ * proc)); /* 107 */
     void (*tclTeardownNamespace) _ANSI_ARGS_((Namespace * nsPtr)); /* 108 */
@@ -974,7 +974,7 @@ extern TclIntStubs *tclIntStubsPtr;
 #endif
 #ifndef TclSetPreInitScript
 #define TclSetPreInitScript \
- 	(tclIntStubsPtr->tclSetPreInitScript) /* 101 */
+	(tclIntStubsPtr->tclSetPreInitScript) /* 101 */
 #endif
 #ifndef TclSetupEnv
 #define TclSetupEnv \

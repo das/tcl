@@ -436,6 +436,8 @@ TclStubs tclStubs = {
     Tcl_ParseVarName, /* 364 */
     Tcl_GetCwd, /* 365 */
     Tcl_Chdir, /* 366 */
+    Tcl_Access, /* 367 */
+    Tcl_Stat, /* 368 */
 };
 
 TclIntStubs tclIntStubs = {

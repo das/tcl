@@ -2157,4 +2157,51 @@ Tcl_Chdir(dirName)
 {
     return TclpChdir(dirName);
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * Tcl_Access --
+ *
+ *	This function replaces the library version of access().
+ *
+ * Results:
+ *	See access() documentation.
+ *
+ * Side effects:
+ *	See access() documentation.
+ *
+ *----------------------------------------------------------------------
+ */
 
+int
+Tcl_Access(path, mode)
+    CONST char *path;		/* Path of file to access (UTF-8). */
+    int mode;			/* Permission setting. */
+{
+    return TclpAccess(path, mode);
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * Tcl_Stat --
+ *
+ *	This function replaces the library version of stat().
+ *
+ * Results:
+ *	See stat() documentation.
+ *
+ * Side effects:
+ *	See stat() documentation.
+ *
+ *----------------------------------------------------------------------
+ */
+
+int
+Tcl_Stat(path, bufPtr)
+    CONST char *path;		/* Path of file to stat (in UTF-8). */
+    struct stat *bufPtr;	/* Filled with results of stat call. */
+{
+    return TclpStat(path, bufPtr);
+}

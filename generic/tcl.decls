@@ -1250,6 +1250,12 @@ declare 365 generic {
 declare 366 generic {
    int Tcl_Chdir(CONST char *dirName)
 }
+declare 367 generic {
+   int Tcl_Access(CONST char *path, int mode)
+}
+declare 368 generic {
+    int Tcl_Stat(CONST char *path, struct stat *bufPtr)
+}
 
 ##############################################################################
 

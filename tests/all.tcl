@@ -9,7 +9,7 @@
 # 
 # RCS: @(#) $Id$
 
-if {[lsearch ::tcltest [namespace children]] == -1} {
+if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 set ::tcltest::testSingleFile false
