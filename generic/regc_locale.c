@@ -634,7 +634,7 @@ int cases;			/* all cases? */
 	struct cvec *cv;
 
 	/* crude fake equivalence class for testing */
-	if ((v->cflags&REG_FAKEEC) && c == 'x') {
+	if ((v->cflags&REG_FAKE) && c == 'x') {
 		cv = getcvec(v, 4, 0, 0);
 		addchr(cv, (chr)'x');
 		addchr(cv, (chr)'y');

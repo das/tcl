@@ -642,7 +642,8 @@ TclRegAbout(interp, re)
 	{REG_ULOCALE,		"REG_ULOCALE"},
 	{REG_UEMPTYMATCH,	"REG_UEMPTYMATCH"},
 	{REG_UIMPOSSIBLE,	"REG_UIMPOSSIBLE"},
-	 {0,			""}
+	{REG_USHORTEST,		"REG_USHORTEST"},
+	{0,			""}
     };
     struct infoname *inf;
     int n;
