@@ -12,6 +12,7 @@
 memory \- Control Tcl memory debugging capabilities.
 .SH SYNOPSIS
 \fBmemory \fIoption \fR?\fIarg arg ...\fR?
+.BE
 
 .SH DESCRIPTION
 .PP
