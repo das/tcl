@@ -2512,6 +2512,7 @@ TclExecuteByteCode(interp, codePtr)
 		 */
 		
 		double d;
+		int boolvar;
 		Tcl_ObjType *tPtr;
 		
 		valuePtr = POP_OBJECT();
@@ -2529,6 +2530,11 @@ TclExecuteByteCode(interp, codePtr)
 			} else {
 			    result = Tcl_GetDoubleFromObj((Tcl_Interp *) NULL,
 				    valuePtr, &d);
+			}
+			if (result == TCL_ERROR && *pc == INST_LNOT) {
+			    result = Tcl_GetBooleanFromObj((Tcl_Interp *)NULL,
+				    valuePtr, &boolvar);
+			    i = (long)boolvar; /* i is long, not int! */
 			}
 			if (result != TCL_OK) {
 			    TRACE(("\"%.20s\" => ILLEGAL TYPE %s\n",
