@@ -906,6 +906,8 @@ TclpGetPid(
 {
     ProcInfo *infoPtr;
 
+    PipeInit();
+
     Tcl_MutexLock(&pipeMutex);
     for (infoPtr = procList; infoPtr != NULL; infoPtr = infoPtr->nextPtr) {
 	if (infoPtr->hProcess == (HANDLE) pid) {
@@ -2485,7 +2487,7 @@ Tcl_WaitPid(
     int *statPtr,
     int options)
 {
-    ProcInfo *infoPtr, **prevPtrPtr;
+    ProcInfo *infoPtr = NULL, **prevPtrPtr;
     DWORD flags;
     Tcl_Pid result;
     DWORD ret, exitCode;
@@ -2502,7 +2504,7 @@ Tcl_WaitPid(
     }
 
     /*
-     * Find the process on the process list.
+     * Find the process and cut it from the process list.
      */
 
     Tcl_MutexLock(&pipeMutex);
@@ -2510,6 +2512,7 @@ Tcl_WaitPid(
     for (infoPtr = procList; infoPtr != NULL;
 	    prevPtrPtr = &infoPtr->nextPtr, infoPtr = infoPtr->nextPtr) {
 	 if (infoPtr->hProcess == (HANDLE) pid) {
+	    *prevPtrPtr = infoPtr->nextPtr;
 	    break;
 	}
     }
@@ -2539,6 +2542,13 @@ Tcl_WaitPid(
     if (ret == WAIT_TIMEOUT) {
 	*statPtr = 0;
 	if (options & WNOHANG) {
+	    /*
+	     * Re-insert this infoPtr back on the list.
+	     */
+	    Tcl_MutexLock(&pipeMutex);
+	    infoPtr->nextPtr = procList;
+	    procList = infoPtr;
+	    Tcl_MutexUnlock(&pipeMutex);
 	    return 0;
 	} else {
 	    result = 0;
@@ -2601,11 +2611,10 @@ Tcl_WaitPid(
     }
 
     /*
-     * Remove the process from the process list and close the process handle.
+     * Officially close the process handle.
      */
 
     CloseHandle(infoPtr->hProcess);
-    *prevPtrPtr = infoPtr->nextPtr;
     ckfree((char*)infoPtr);
 
     return result;
