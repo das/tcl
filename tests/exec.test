@@ -586,6 +586,16 @@ test exec-17.1 { inheriting standard I/O } {execCommandExists stdio} {
 } {{foobar
 }}
 
+test exec-18.1 { exec cat deals with weird file names} {execCommandExists} {
+    set f "foo\[\{blah"
+    set fout [open $f w]
+    puts $fout "contents"
+    close $fout
+    set res [list [catch {exec cat $f} msg] $msg]
+    file delete $f
+    set res
+} {0 contents}
+
 # cleanup
 file delete script gorp.file gorp.file2
 file delete echo cat wc sh sleep exit
