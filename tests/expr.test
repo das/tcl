@@ -5127,6 +5127,23 @@ test expr-28.1014 {input floating-point conversion} {ieeeFloatingPoint} {
     convertToDouble -93501703572661982E-26
 } 0xbe10103f97ea6e13
 
+test expr-29.1 {smallest representible number} {ieeeFloatingPoint} {
+    list [catch {convertToDouble 4.9406564584124654e-324} result] \
+	$result \
+	[catch {convertToDouble 2.4703282292062325e-324} result] \
+	$result \
+	[catch {convertToDouble 2.4703282292062307e-324} result] \
+	$result
+} {0 0x0000000000000001 0 0x0000000000000001 1 {floating-point value too small to represent}}
+test expr-29.2 {smallest representible number} {ieeeFloatingPoint} {
+    list [catch {convertToDouble -4.9406564584124654e-324} result] \
+	$result \
+	[catch {convertToDouble -2.4703282292062325e-324} result] \
+	$result \
+	[catch {convertToDouble -2.4703282292062307e-324} result] \
+	$result
+} {0 0x8000000000000001 0 0x8000000000000001 1 {floating-point value too small to represent}}
+
 # cleanup
 if {[info exists a]} {
     unset a
