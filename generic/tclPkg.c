@@ -794,7 +794,7 @@ Tcl_PackageObjCmd(dummy, interp, objc, objv)
 	    break;
 	}
 	default: {
-	    panic("Tcl_PackageObjCmd: bad option index to pkgOptions");
+	    Tcl_Panic("Tcl_PackageObjCmd: bad option index to pkgOptions");
 	}
     }
     return TCL_OK;

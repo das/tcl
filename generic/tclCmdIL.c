@@ -2693,7 +2693,7 @@ Tcl_LrepeatObjCmd(dummy, interp, objc, objv)
      * We allocate using attemptckalloc() because if we ask for
      * something big but can't get it, we've still got a high chance
      * of having a proper failover strategy.  If *that* fails to get
-     * memory, panic() will happen just a few lines lower...
+     * memory, Tcl_Panic() will happen just a few lines lower...
      */
 
     if ((unsigned)elementCount > INT_MAX/sizeof(Tcl_Obj *)/objc) {

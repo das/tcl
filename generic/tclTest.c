@@ -4010,7 +4010,7 @@ TestpanicCmd(dummy, interp, argc, argv)
      */
 
     argString = Tcl_Merge(argc-1, argv+1);
-    panic(argString);
+    Tcl_Panic(argString);
     ckfree((char *)argString);
  
     return TCL_OK;
@@ -5767,7 +5767,7 @@ TestChannelEventCmd(dummy, interp, argc, argv)
                 /* Empty loop body. */
             }
             if (prevEsPtr == (EventScriptRecord *) NULL) {
-                panic("TestChannelEventCmd: damaged event script list");
+                Tcl_Panic("TestChannelEventCmd: damaged event script list");
             }
             prevEsPtr->nextPtr = esPtr->nextPtr;
         }

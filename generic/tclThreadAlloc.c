@@ -209,7 +209,7 @@ GetCache(void)
     if (cachePtr == NULL) {
     	cachePtr = calloc(1, sizeof(Cache));
     	if (cachePtr == NULL) {
-	    panic("alloc: could not allocate new cache");
+	    Tcl_Panic("alloc: could not allocate new cache");
     	}
     	Tcl_MutexLock(listLockPtr);
     	cachePtr->nextPtr = firstCachePtr;
@@ -535,7 +535,7 @@ TclThreadAllocObj(void)
 	    cachePtr->nobjs = nmove = NOBJALLOC;
 	    newObjsPtr = malloc(sizeof(Tcl_Obj) * nmove);
 	    if (newObjsPtr == NULL) {
-		panic("alloc: could not allocate %d new objects", nmove);
+		Tcl_Panic("alloc: could not allocate %d new objects", nmove);
 	    }
 	    while (--nmove >= 0) {
 		objPtr = &newObjsPtr[nmove];
@@ -742,7 +742,7 @@ Ptr2Block(char *ptr)
 	|| ((unsigned char *) ptr)[blockPtr->b_reqsize] != MAGIC
 #endif
 	|| blockPtr->b_magic2 != MAGIC) {
-	panic("alloc: invalid block: %p: %x %x %x\n",
+	Tcl_Panic("alloc: invalid block: %p: %x %x %x\n",
 	    blockPtr, blockPtr->b_magic1, blockPtr->b_magic2,
 	    ((unsigned char *) ptr)[blockPtr->b_reqsize]);
     }

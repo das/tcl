@@ -2013,7 +2013,7 @@ UpdateStringOfFsPath(objPtr)
     Tcl_Obj *copy;
     
     if (PATHFLAGS(objPtr) == 0 || fsPathPtr->cwdPtr == NULL) {
-	panic("Called UpdateStringOfFsPath with invalid object");
+	Tcl_Panic("Called UpdateStringOfFsPath with invalid object");
     }
     
     copy = Tcl_DuplicateObj(fsPathPtr->cwdPtr);

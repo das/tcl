@@ -140,8 +140,8 @@ static	unsigned int nmalloc[NBUCKETS+1];
 #endif
 
 #if defined(DEBUG) || defined(RCHECK)
-#define	ASSERT(p)   if (!(p)) panic(# p)
-#define RANGE_ASSERT(p) if (!(p)) panic(# p)
+#define	ASSERT(p)   if (!(p)) Tcl_Panic(# p)
+#define RANGE_ASSERT(p) if (!(p)) Tcl_Panic(# p)
 #else
 #define	ASSERT(p)
 #define RANGE_ASSERT(p)

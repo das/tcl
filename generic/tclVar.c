@@ -3345,7 +3345,7 @@ ObjMakeUpvar(interp, framePtr, otherP1Ptr, otherP2, otherFlags, myName, myFlags,
 
     if (index >= 0) {
 	if (!varFramePtr->isProcCallFrame) {
-	    panic("ObjMakeUpvar called with an index outside from a proc.\n");
+	    Tcl_Panic("ObjMakeUpvar called with an index outside from a proc.\n");
 	}
 	varPtr = &(varFramePtr->compiledLocals[index]);
     } else {
@@ -4686,7 +4686,7 @@ UpdateParsedVarName(objPtr)
 	 * This is a parsed scalar name: what is it
 	 * doing here?
 	 */
-	panic("ERROR: scalar parsedVarName without a string rep.\n");
+	Tcl_Panic("ERROR: scalar parsedVarName without a string rep.\n");
     }
     part1 = Tcl_GetStringFromObj(arrayPtr, &len1);
     len2 = strlen(part2);

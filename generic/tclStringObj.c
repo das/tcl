@@ -707,7 +707,7 @@ Tcl_SetStringObj(objPtr, bytes, length)
      */
 
     if (Tcl_IsShared(objPtr)) {
-	panic("Tcl_SetStringObj called with shared object");
+	Tcl_Panic("Tcl_SetStringObj called with shared object");
     }
 
     /*
@@ -761,7 +761,7 @@ Tcl_SetObjLength(objPtr, length)
     String *stringPtr;
 
     if (Tcl_IsShared(objPtr)) {
-	panic("Tcl_SetObjLength called with shared object");
+	Tcl_Panic("Tcl_SetObjLength called with shared object");
     }
     SetStringFromAny(NULL, objPtr);
     
@@ -856,7 +856,7 @@ Tcl_AttemptSetObjLength(objPtr, length)
     String *stringPtr;
 
     if (Tcl_IsShared(objPtr)) {
-	panic("Tcl_AttemptSetObjLength called with shared object");
+	Tcl_Panic("Tcl_AttemptSetObjLength called with shared object");
     }
     SetStringFromAny(NULL, objPtr);
         
@@ -1024,7 +1024,7 @@ TclAppendLimitedToObj(objPtr, bytes, length, limit, ellipsis)
     int toCopy = 0;
 
     if (Tcl_IsShared(objPtr)) {
-	panic("TclAppendLimitedToObj called with shared object");
+	Tcl_Panic("TclAppendLimitedToObj called with shared object");
     }
 
     SetStringFromAny(NULL, objPtr);
@@ -1127,7 +1127,7 @@ Tcl_AppendUnicodeToObj(objPtr, unicode, length)
     String *stringPtr;
 
     if (Tcl_IsShared(objPtr)) {
-	panic("Tcl_AppendUnicodeToObj called with shared object");
+	Tcl_Panic("Tcl_AppendUnicodeToObj called with shared object");
     }
 
     if (length == 0) {
@@ -1504,7 +1504,7 @@ Tcl_AppendStringsToObjVA (objPtr, argList)
     int nargs, i;
 
     if (Tcl_IsShared(objPtr)) {
-	panic("Tcl_AppendStringsToObj called with shared object");
+	Tcl_Panic("Tcl_AppendStringsToObj called with shared object");
     }
 
     SetStringFromAny(NULL, objPtr);

@@ -135,7 +135,7 @@ TclSetAppContext(appContext)
              * after initialization, so we panic.
              */
         
-            panic("TclSetAppContext:  multiple application contexts");
+            Tcl_Panic("TclSetAppContext:  multiple application contexts");
 
         }
     } else {

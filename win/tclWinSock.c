@@ -2726,7 +2726,7 @@ TclpCutSockChannel(chan)
      */
 
     if (!removed) {
-        panic("file info ptr not on thread channel list");
+        Tcl_Panic("file info ptr not on thread channel list");
     }
 
     /*

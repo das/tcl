@@ -1002,7 +1002,7 @@ ParseTokens(src, numBytes, mask, flags, parsePtr)
 	    parsePtr->numTokens++;
 	    src++; numBytes--;
 	} else {
-	    panic("ParseTokens encountered unknown character");
+	    Tcl_Panic("ParseTokens encountered unknown character");
 	}
     }
     if (parsePtr->numTokens == originalTokens) {

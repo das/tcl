@@ -220,7 +220,7 @@ QueryConfigObjCmd(clientData, interp, objc, objv)
     pDB = GetConfigDict(interp);
     res = Tcl_DictObjGet(interp, pDB, pkgName, &pkgDict);
     if (res!=TCL_OK || pkgDict==NULL) {
-        /* Maybe a panic is better, because the package data has to be present */
+        /* Maybe a Tcl_Panic is better, because the package data has to be present */
         Tcl_SetObjResult(interp, Tcl_NewStringObj("package not known", -1));
 	return TCL_ERROR;
     }

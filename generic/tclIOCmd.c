@@ -997,7 +997,7 @@ Tcl_OpenObjCmd(notUsed, interp, objc, objv)
 		    flags |= (TCL_STDIN | TCL_STDOUT);
 		    break;
 		default:
-		    panic("Tcl_OpenCmd: invalid mode value");
+		    Tcl_Panic("Tcl_OpenCmd: invalid mode value");
 		    break;
 	    }
 	    chan = Tcl_OpenCommandChannel(interp, cmdObjc, cmdArgv, flags);
@@ -1103,7 +1103,7 @@ RegisterTcpServerInterpCleanup(interp, acceptCallbackPtr)
     }
     hPtr = Tcl_CreateHashEntry(hTblPtr, (char *) acceptCallbackPtr, &new);
     if (!new) {
-        panic("RegisterTcpServerCleanup: damaged accept record table");
+        Tcl_Panic("RegisterTcpServerCleanup: damaged accept record table");
     }
     Tcl_SetHashValue(hPtr, (ClientData) acceptCallbackPtr);
 }
@@ -1386,7 +1386,7 @@ Tcl_SocketObjCmd(notUsed, interp, objc, objv)
 		break;
 	    }
 	    default: {
-		panic("Tcl_SocketObjCmd: bad option index to SocketOptions");
+		Tcl_Panic("Tcl_SocketObjCmd: bad option index to SocketOptions");
 	    }
 	}
     }

@@ -107,7 +107,7 @@ Tcl_InitNotifier()
 	class.hCursor = NULL;
 
 	if (!RegisterClassA(&class)) {
-	    panic("Unable to register TclNotifier window class");
+	    Tcl_Panic("Unable to register TclNotifier window class");
 	}
     }
     notifierCount++;

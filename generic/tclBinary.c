@@ -265,7 +265,7 @@ Tcl_SetByteArrayObj(objPtr, bytes, length)
     ByteArray *byteArrayPtr;
 
     if (Tcl_IsShared(objPtr)) {
-	panic("Tcl_SetByteArrayObj called with shared object");
+	Tcl_Panic("Tcl_SetByteArrayObj called with shared object");
     }
     typePtr = objPtr->typePtr;
     if ((typePtr != NULL) && (typePtr->freeIntRepProc != NULL)) {
@@ -347,7 +347,7 @@ Tcl_SetByteArrayLength(objPtr, length)
     ByteArray *byteArrayPtr, *newByteArrayPtr;
     
     if (Tcl_IsShared(objPtr)) {
-	panic("Tcl_SetObjLength called with shared object");
+	Tcl_Panic("Tcl_SetObjLength called with shared object");
     }
     if (objPtr->typePtr != &tclByteArrayType) {
 	SetByteArrayFromAny(NULL, objPtr);

@@ -2764,7 +2764,7 @@ GetTableEncoding(dataPtr, state)
 	encodingPtr = (Encoding *) Tcl_GetEncoding(NULL, subTablePtr->name);
 	if ((encodingPtr == NULL) 
 		|| (encodingPtr->toUtfProc != TableToUtfProc)) {
-	    panic("EscapeToUtfProc: invalid sub table");
+	    Tcl_Panic("EscapeToUtfProc: invalid sub table");
 	}
 	subTablePtr->encodingPtr = encodingPtr;
     }

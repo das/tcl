@@ -936,7 +936,7 @@ processInteger:
 	    break;
 	}
 	default: {
-	    panic("Tcl_AfterObjCmd: bad subcommand index to afterSubCmds");
+	    Tcl_Panic("Tcl_AfterObjCmd: bad subcommand index to afterSubCmds");
 	}
     }
     return TCL_OK;

@@ -371,7 +371,7 @@ TclCompileCatchCmd(interp, parsePtr, envPtr)
      */
 
     if (TclFixupForwardJumpToHere(envPtr, &jumpFixup, 127)) {
-	panic("TclCompileCatchCmd: bad jump distance %d\n",
+	Tcl_Panic("TclCompileCatchCmd: bad jump distance %d\n",
 		(envPtr->codeNext - envPtr->codeStart) - jumpFixup.codeOffset);
     }
     TclEmitOpcode(INST_END_CATCH, envPtr);
@@ -1447,7 +1447,7 @@ TclCompileIfCmd(interp, parsePtr, envPtr)
 		jumpFalseDist += 3;
 		TclStoreInt4AtPtr(jumpFalseDist, (ifFalsePc + 1));
 	    } else {
-		panic("TclCompileIfCmd: unexpected opcode updating ifFalse jump");
+		Tcl_Panic("TclCompileIfCmd: unexpected opcode updating ifFalse jump");
 	    }
 	}
     }
@@ -3061,7 +3061,7 @@ TclCompileSwitchCmd(interp, parsePtr, envPtr)
 		TclEmitInstInt1(INST_STR_MATCH, /*nocase*/0, envPtr);
 		break;
 	    default:
-		panic("unknown switch mode: %d",mode);
+		Tcl_Panic("unknown switch mode: %d",mode);
 	    }
 	    /*
 	     * Process fall-through clauses here...

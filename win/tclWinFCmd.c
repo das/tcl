@@ -238,11 +238,11 @@ DoRenameFile(
               "=r"(RESTORED_HANDLER) );
 
     if (INITIAL_ESP != RESTORED_ESP)
-        panic("ESP restored incorrectly");
+        Tcl_Panic("ESP restored incorrectly");
     if (INITIAL_EBP != RESTORED_EBP)
-        panic("EBP restored incorrectly");
+        Tcl_Panic("EBP restored incorrectly");
     if (INITIAL_HANDLER != RESTORED_HANDLER)
-        panic("HANDLER restored incorrectly");
+        Tcl_Panic("HANDLER restored incorrectly");
 # endif /* TCL_MEM_DEBUG */
 #else
     } __except (EXCEPTION_EXECUTE_HANDLER) {}
@@ -600,11 +600,11 @@ DoCopyFile(
               "=r"(RESTORED_HANDLER) );
 
     if (INITIAL_ESP != RESTORED_ESP)
-        panic("ESP restored incorrectly");
+        Tcl_Panic("ESP restored incorrectly");
     if (INITIAL_EBP != RESTORED_EBP)
-        panic("EBP restored incorrectly");
+        Tcl_Panic("EBP restored incorrectly");
     if (INITIAL_HANDLER != RESTORED_HANDLER)
-        panic("HANDLER restored incorrectly");
+        Tcl_Panic("HANDLER restored incorrectly");
 # endif /* TCL_MEM_DEBUG */
 #else
     } __except (EXCEPTION_EXECUTE_HANDLER) {}
