@@ -733,46 +733,38 @@ TclAllocateFreeObjects()
  *----------------------------------------------------------------------
  */
 
+#ifdef TCL_MEM_DEBUG
 void
 TclFreeObj(objPtr)
     register Tcl_Obj *objPtr;	/* The object to be freed. */
 {
     register Tcl_ObjType *typePtr = objPtr->typePtr;
 
-#ifdef TCL_MEM_DEBUG
     if ((objPtr)->refCount < -1) {
 	Tcl_Panic("Reference count for %lx was negative", objPtr);
     }
-#endif /* TCL_MEM_DEBUG */
 
     if ((typePtr != NULL) && (typePtr->freeIntRepProc != NULL)) {
 	typePtr->freeIntRepProc(objPtr);
     }
     Tcl_InvalidateStringRep(objPtr);
 
-    /*
-     * If debugging Tcl's memory usage, deallocate the object using ckfree.
-     * Otherwise, deallocate it by adding it onto the list of free
-     * Tcl_Obj structs we maintain.
-     */
-
-#if defined(TCL_MEM_DEBUG) || defined(PURIFY)
     Tcl_MutexLock(&tclObjMutex);
     ckfree((char *) objPtr);
     Tcl_MutexUnlock(&tclObjMutex);
-#elif defined(TCL_THREADS) && defined(USE_THREAD_ALLOC)
-    TclThreadFreeObj(objPtr);
-#else
-    Tcl_MutexLock(&tclObjMutex);
-    objPtr->internalRep.otherValuePtr = (VOID *) tclFreeObjList;
-    tclFreeObjList = objPtr;
-    Tcl_MutexUnlock(&tclObjMutex);
-#endif /* TCL_MEM_DEBUG */
-
 #ifdef TCL_COMPILE_STATS
     tclObjsFreed++;
 #endif /* TCL_COMPILE_STATS */
 }
+#else /* TCL_MEM_DEBUG */
+
+void
+TclFreeObj(objPtr)
+    register Tcl_Obj *objPtr;	/* The object to be freed. */
+{
+    TclFreeObjMacro(objPtr);
+}
+#endif
 
 /*
  *----------------------------------------------------------------------
