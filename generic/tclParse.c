@@ -1840,7 +1840,7 @@ Tcl_SubstObj(interp, objPtr, flags)
 			Tcl_FreeParse(&nested);
 			p = nested.term + (nested.term < nested.end);
 			length = nested.end - p;
-			if (length == 0) {
+			if ((length == 0) && (nested.term == nested.end)) {
 			    /*
 			     * If we run out of string, blame the missing
 			     * close bracket on the last command, and do
