@@ -1667,7 +1667,7 @@ test namespace-47.7 {ensemble: unknown handler and namespace import} {
 	    lappend result YYY $args
 	}
     }
-    namespace import foo::bar
+    namespace import -force foo::bar
     set result {}
     lappend result [catch {namespace ensemble config bar} msg] $msg
     bar x 123
