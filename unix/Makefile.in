@@ -562,6 +562,7 @@ topDirName:
 
 gendate:
 	bison --output-file=$(GENERIC_DIR)/tclDate.c \
+	--no-lines \
 	--name-prefix=TclDate \
 	$(GENERIC_DIR)/tclGetDate.y
 

@@ -468,6 +468,7 @@ tclStubLib.${OBJEXT}: tclStubLib.c
 gendate:
 	bison --output-file=$(GENERIC_DIR)/tclDate.c \
 	--name-prefix=TclDate \
+	--no-lines \
 	$(GENERIC_DIR)/tclGetDate.y
 
 install: all install-binaries install-libraries install-doc
