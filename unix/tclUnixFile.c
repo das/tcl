@@ -386,7 +386,19 @@ NativeMatchType(
 	    if (types->perm == 0) {
 		/* We haven't yet done a stat on the file */
 		if (TclOSstat(nativeEntry, &buf) != 0) {
-		    /* Posix error occurred */
+		    /* 
+		     * Posix error occurred.  The only ok
+		     * case is if this is a link to a nonexistent
+		     * file, and the user did 'glob -l'. So
+		     * we check that here:
+		     */
+		    if (types->type & TCL_GLOB_TYPE_LINK) {
+			if (TclOSlstat(nativeEntry, &buf) == 0) {
+			    if (S_ISLNK(buf.st_mode)) {
+				return 1;
+			    }
+			}
+		    }
 		    return 0;
 		}
 	    }
