@@ -299,16 +299,6 @@ Tcl_CatchObjCmd(dummy, interp, objc, objv)
 	    }
 	}
 
-	if (iPtr->flags & ERROR_CODE_SET) {
-	    value = NULL;
-	    Tcl_DictObjGet(NULL, options, iPtr->returnErrorcodeKey, &value);
-	    if (NULL == value) {
-		Tcl_DictObjPut(NULL, options, iPtr->returnErrorcodeKey,
-			Tcl_ObjGetVar2(interp, iPtr->execEnvPtr->errorCode,
-			NULL, TCL_GLOBAL_ONLY));
-	    }
-	}
-
 	if (result == TCL_ERROR) {
 	    value = NULL;
 	    Tcl_DictObjGet(NULL, options, iPtr->returnErrorcodeKey, &value);
@@ -638,8 +628,7 @@ Tcl_ErrorObjCmd(dummy, interp, objc, objv)
     }
     
     if (objc == 4) {
-	Tcl_SetVar2Ex(interp, "errorCode", NULL, objv[3], TCL_GLOBAL_ONLY);
-	iPtr->flags |= ERROR_CODE_SET;
+	Tcl_SetObjErrorCode(interp, objv[3]);
     }
     
     Tcl_SetObjResult(interp, objv[1]);

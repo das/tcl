@@ -3308,6 +3308,9 @@ Tcl_LogCommandInfo(interp, script, command, length)
     Tcl_AppendToObj(message, "\"", -1);
     TclAppendObjToErrorInfo(interp, message);
     Tcl_DecrRefCount(message);
+    if (!(iPtr->flags & ERROR_CODE_SET)) {
+	Tcl_SetErrorCode(interp, "NONE", NULL);
+    }
     iPtr->flags &= ~ERR_ALREADY_LOGGED;
 }
 
@@ -4766,11 +4769,15 @@ Tcl_AddObjErrorInfo(interp, message, length)
 	/*
 	 * If the errorCode variable wasn't set by the code that generated
 	 * the error, set it to "NONE".
+	 *
+	 * NOTE: The main check for setting the default value of
+	 * errorCode to NONE is in Tcl_LogCommandInfo.  This one
+	 * should go away, but currently it's taking care of setting
+	 * up errorCode after compile errors.
 	 */
 
 	if (!(iPtr->flags & ERROR_CODE_SET)) {
-	    Tcl_ObjSetVar2(interp, iPtr->execEnvPtr->errorCode, NULL, 
-	            Tcl_NewStringObj("NONE", -1), TCL_GLOBAL_ONLY);
+	    Tcl_SetErrorCode(interp, "NONE", NULL);
 	}
     }
 

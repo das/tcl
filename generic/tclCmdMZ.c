@@ -919,9 +919,7 @@ TclProcessReturn(interp, code, level, returnOpts)
 	    Tcl_DictObjGet(NULL, iPtr->returnOpts,
 		    iPtr->returnErrorcodeKey, &valuePtr);
 	    if (valuePtr != NULL) {
-		Tcl_SetVar2Ex(interp, "errorCode", NULL,
-			valuePtr, TCL_GLOBAL_ONLY);
-		iPtr->flags |= ERROR_CODE_SET;
+		Tcl_SetObjErrorCode(interp, valuePtr);
 	    }
 	}
     } else {
