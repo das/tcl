@@ -458,7 +458,7 @@ as \fIcount\fR 32-bit signed integers represented in big-endian byte
 order.  For example,
 .RS
 .CS
-\fBbinary \\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x07\\xff\\xff\\xff\\xf0 I2I* var1 var2\fR
+\fBbinary scan \\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x07\\xff\\xff\\xff\\xf0 I2I* var1 var2\fR
 .CE
 will return \fB2\fR with \fB5 7\fR stored in \fBvar1\fR and \fB-16\fR
 stored in \fBvar2\fR.
