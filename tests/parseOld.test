@@ -1,4 +1,4 @@
-\\\\\# Commands covered:  set (plus basic command syntax).  Also tests the
+# Commands covered:  set (plus basic command syntax).  Also tests the
 # procedures in the file tclOldParse.c.  This set of tests is an old
 # one that predates the new parser in Tcl 8.1.
 #
