@@ -28,11 +28,11 @@
  * needed by stdlib.h in some configurations.
  */
 
-#ifndef _TCL
-#include "tcl.h"
-#endif
 #ifdef HAVE_TCL_CONFIG_H
 #include "tclConfig.h"
+#endif
+#ifndef _TCL
+#include "tcl.h"
 #endif
 
 #include <stdio.h>
