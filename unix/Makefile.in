@@ -1103,7 +1103,7 @@ dist: $(UNIX_DIR)/configure
 	    $(TOP_DIR)/tools/configure.in \
 	    $(TOP_DIR)/tools/*.tcl \
 	    $(TOP_DIR)/tools/man2tcl.c \
-	    $(TOP_DIR)/tools/tcl.wse \
+	    $(TOP_DIR)/tools/tcl.wse.in \
 	    $(TOP_DIR)/tools/*.bmp \
 	    $(TOP_DIR)/tools/tcl.hpj.in \
 		$(DISTDIR)/tools
