@@ -2068,7 +2068,8 @@ proc tcltest::test {name description args} {
 	incr tcltest::testLevel -1
 	return 1
     } elseif {([string index [lindex $args 0] 0] == "-") || ([llength $args] == 1)} {
-	if {[llength args] == 1} {
+	
+	if {[llength $args] == 1} {
 	    set list [substArguments [lindex $args 0]]
 	    foreach {element value} $list { 
 		set testAttributes($element) $value
