@@ -28,8 +28,8 @@ test timer-1.1 {Tcl_CreateTimerHandler procedure} {
     foreach i {100 200 1000 50 150} {
 	after $i lappend x $i
     }
-    after 200
-    update
+    after 200 set done 1
+    vwait done
     set x
 } {50 100 150 200}
 
@@ -38,13 +38,13 @@ test timer-2.1 {Tcl_DeleteTimerHandler procedure} {
 	after cancel $i
     }
     set x ""
-    foreach i {100 200 300 50 150} {
+    foreach i {100 200 1000 50 150} {
 	after $i lappend x $i
     }
     after cancel lappend x 150
     after cancel lappend x 50
-    after 200
-    update
+    after 200 set done 1
+    vwait done
     set x
 } {100 200}
 
