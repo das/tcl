@@ -93,7 +93,7 @@ library is to be unloaded.  The unload procedure must return
 successfully;  in the event of an error it should set the interpreter's result
 to point to an error message.  In this case, the result of the
 \fBunload\fR command will be the result returned by the unload procedure.
-.CE
+.PP
 The \fIflags\fR argument can be either \fBTCL_UNLOAD_DETACH_FROM_INTERPRETER\fR
 or \fBTCL_UNLOAD_DETACH_FROM_PROCESS\fR. In case the library will remain
 attached to the process after the unload procedure returns (i.e. because

@@ -50,8 +50,8 @@ registry key names separated by backslash (\fB\e\fR) characters.
 \fIOption\fR indicates what to do with the registry key name.  Any
 unique abbreviation for \fIoption\fR is acceptable.  The valid options
 are:
-.TP
 .VS 8.4
+.TP
 \fBregistry broadcast \fIkeyName\fR ?\fI-timeout milliseconds\fR?
 .
 Sends a broadcast message to the system and running programs to notify them
