@@ -2056,7 +2056,8 @@ TesteventObjCmd( ClientData unused,      /* Not used */
 	NULL
     };
     int posIndex;		/* Index of the chosen position */
-    static CONST int posNum[] = { /* Interpretation of the chosen position */
+    static CONST Tcl_QueuePosition posNum[] = { 
+				/* Interpretation of the chosen position */
 	TCL_QUEUE_HEAD,
 	TCL_QUEUE_TAIL,
 	TCL_QUEUE_MARK
