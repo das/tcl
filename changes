@@ -3929,3 +3929,7 @@ tables. (stanton)
 10/21/98 (new feature) Added an "encoding" command to facilitate
 translations of strings between different character encodings.  See
 the encoding.n manual entry for more details. (stanton)
+
+11/3/98 (bug fix) The regular expression character classification
+syntax now includes Unicode characters in the supported
+classes. (stanton)
