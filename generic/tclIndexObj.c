@@ -249,10 +249,7 @@ Tcl_GetIndexFromObjStruct(interp, objPtr, tablePtr, offset, msg, flags,
     if (objPtr->typePtr == &tclIndexType) {
  	indexRep = (IndexRep *) objPtr->internalRep.otherValuePtr;
     } else {
- 	if ((objPtr->typePtr != NULL)
-		&& (objPtr->typePtr->freeIntRepProc != NULL)) {
- 	    objPtr->typePtr->freeIntRepProc(objPtr);
- 	}
+	TclFreeIntRep(objPtr);
  	indexRep = (IndexRep *) ckalloc(sizeof(IndexRep));
  	objPtr->internalRep.otherValuePtr = (VOID *) indexRep;
  	objPtr->typePtr = &tclIndexType;

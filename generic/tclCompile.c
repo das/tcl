@@ -1732,10 +1732,7 @@ TclInitByteCodeObj(objPtr, envPtr)
      * compiled ByteCode.
      */
 	    
-    if ((objPtr->typePtr != NULL) &&
-	    (objPtr->typePtr->freeIntRepProc != NULL)) {
-	(*objPtr->typePtr->freeIntRepProc)(objPtr);
-    }
+    TclFreeIntRep(objPtr);
     objPtr->internalRep.otherValuePtr = (VOID *) codePtr;
     objPtr->typePtr = &tclByteCodeType;
 }

@@ -841,10 +841,7 @@ ResetObjResult(iPtr)
 	}
 	objResultPtr->bytes  = tclEmptyStringRep;
 	objResultPtr->length = 0;
-	if ((objResultPtr->typePtr != NULL)
-	        && (objResultPtr->typePtr->freeIntRepProc != NULL)) {
-	    objResultPtr->typePtr->freeIntRepProc(objResultPtr);
-	}
+	TclFreeIntRep(objResultPtr);
 	objResultPtr->typePtr = (Tcl_ObjType *) NULL;
     }
 }

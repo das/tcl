@@ -2410,8 +2410,6 @@ SetEndOffsetFromAny(interp, objPtr)
      Tcl_Obj* objPtr;		/* Pointer to the object to parse */
 {
     int offset;			/* Offset in the "end-offset" expression */
-    Tcl_ObjType* oldTypePtr = objPtr->typePtr;
-				/* Old internal rep type of the object */
     register char* bytes;	/* String rep of the object */
     int length;			/* Length of the object's string rep */
 
@@ -2468,10 +2466,7 @@ SetEndOffsetFromAny(interp, objPtr)
      * the new one.
      */
 
-    if ((oldTypePtr != NULL) && (oldTypePtr->freeIntRepProc != NULL)) {
-	oldTypePtr->freeIntRepProc(objPtr);
-    }
-    
+    TclFreeIntRep(objPtr);
     objPtr->internalRep.longValue = offset;
     objPtr->typePtr = &tclEndOffsetType;
 

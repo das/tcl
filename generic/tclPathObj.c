@@ -1204,9 +1204,7 @@ TclFSMakePathRelative(interp, pathPtr, cwdPtr)
 		    }
 		    pathPtr->typePtr->updateStringProc(pathPtr);
 		}
-		if ((pathPtr->typePtr->freeIntRepProc) != NULL) {
-		    (*pathPtr->typePtr->freeIntRepProc)(pathPtr);
-		}
+		TclFreeIntRep(pathPtr);
 	    }
 
 	    fsPathPtr = (FsPath*)ckalloc((unsigned)sizeof(FsPath));
@@ -1308,9 +1306,7 @@ TclFSMakePathFromNormalized(interp, pathPtr, nativeRep)
 	    }
 	    pathPtr->typePtr->updateStringProc(pathPtr);
 	}
-	if ((pathPtr->typePtr->freeIntRepProc) != NULL) {
-	    (*pathPtr->typePtr->freeIntRepProc)(pathPtr);
-	}
+	TclFreeIntRep(pathPtr);
     }
 
     fsPathPtr = (FsPath*)ckalloc((unsigned)sizeof(FsPath));
@@ -1384,9 +1380,7 @@ Tcl_FSNewNativePath(fromFilesystem, clientData)
 	    }
 	    pathPtr->typePtr->updateStringProc(pathPtr);
 	}
-	if ((pathPtr->typePtr->freeIntRepProc) != NULL) {
-	    (*pathPtr->typePtr->freeIntRepProc)(pathPtr);
-	}
+	TclFreeIntRep(pathPtr);
     }
     
     fsPathPtr = (FsPath*)ckalloc((unsigned)sizeof(FsPath));
@@ -2252,9 +2246,7 @@ SetFsPathFromAny(interp, pathPtr)
     /*
      * Free old representation before installing our new one.
      */
-    if (pathPtr->typePtr != NULL && pathPtr->typePtr->freeIntRepProc != NULL) {
-	(pathPtr->typePtr->freeIntRepProc)(pathPtr);
-    }
+    TclFreeIntRep(pathPtr);
     PATHOBJ(pathPtr) = (VOID *) fsPathPtr;
     PATHFLAGS(pathPtr) = 0;
     pathPtr->typePtr = &tclFsPathType;

@@ -2477,6 +2477,22 @@ EXTERN void	TclDbInitNewObj _ANSI_ARGS_((Tcl_Obj *objPtr));
 
 /*
  *----------------------------------------------------------------
+ * Macro used by the Tcl core to clean out an object's internal
+ * representation.  Does not actually reset the rep's bytes.
+ * The ANSI C "prototype" for this macro is:
+ *
+ * EXTERN void  TclFreeIntRep _ANSI_ARGS_((Tcl_Obj *objPtr));
+ *----------------------------------------------------------------
+ */
+
+#define TclFreeIntRep(objPtr) \
+    if ((objPtr)->typePtr != NULL && \
+	    (objPtr)->typePtr->freeIntRepProc != NULL) { \
+	(objPtr)->typePtr->freeIntRepProc(objPtr); \
+    }
+
+/*
+ *----------------------------------------------------------------
  * Macro used by the Tcl core to get a Tcl_WideInt value out of
  * a Tcl_Obj of the "wideInt" type.  Different implementation on
  * different platforms depending whether TCL_WIDE_INT_IS_LONG.
