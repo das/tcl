@@ -2756,6 +2756,7 @@ TclGetNamespaceFromObj(interp, objPtr, nsPtrPtr)
  *	    namespace code arg
  *	    namespace current
  *	    namespace delete ?name name...?
+ *	    namespace ensemble subcommand ?arg...?
  *	    namespace eval name arg ?arg...?
  *	    namespace exists name
  *	    namespace export ?-clear? ?pattern pattern...?
