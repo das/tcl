@@ -836,6 +836,7 @@ TclStubs tclStubs = {
     Tcl_AttemptRealloc, /* 430 */
     Tcl_AttemptDbCkrealloc, /* 431 */
     Tcl_AttemptSetObjLength, /* 432 */
+    Tcl_GetChannelThread, /* 433 */
 };
 
 /* !END!: Do not edit above this line. */

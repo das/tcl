@@ -233,6 +233,8 @@ typedef struct ChannelState {
 				 * long as the channel state. Never NULL. */
     struct ChannelState *nextCSPtr;
 				/* Next in list of channels currently open. */
+    Tcl_ThreadId managingThread; /* TIP #10: Id of the thread managing
+				  * this stack of channels. */
 } ChannelState;
     
 /*

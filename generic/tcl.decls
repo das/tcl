@@ -1501,6 +1501,9 @@ declare 431 generic {
 declare 432 generic {
     int Tcl_AttemptSetObjLength(Tcl_Obj *objPtr, int length)
 }
+declare 433 generic {
+    Tcl_ThreadId Tcl_GetChannelThread(Tcl_Channel channel)
+}
 
 ##############################################################################
 

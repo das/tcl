@@ -4517,6 +4517,18 @@ TestChannelCmd(clientData, interp, argc, argv)
         return TCL_OK;
     }
     
+    if ((cmdName[0] == 'm') && (strncmp(cmdName, "mthread", len) == 0)) {
+        if (argc != 3) {
+            Tcl_AppendResult(interp, "channel name required",
+                    (char *) NULL);
+            return TCL_ERROR;
+        }
+
+        TclFormatInt(buf, Tcl_GetChannelThread (chan));
+        Tcl_AppendResult(interp, buf, (char *) NULL);
+        return TCL_OK;
+    }
+
     if ((cmdName[0] == 'n') && (strncmp(cmdName, "name", len) == 0)) {
         if (argc != 3) {
             Tcl_AppendResult(interp, "channel name required",
