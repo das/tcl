@@ -131,7 +131,7 @@ Find the first occurrence of a word starting with \fBfoo\fR in a
 string that is not actually an instance of \fBfoobar\fR, and get the
 letters following it up to the end of the word into a variable:
 .CS
-regexp {\\<foo(?!bar\\>)(\w*)} $string -> restOfWord
+regexp {\\<foo(?!bar\\>)(\\w*)} $string -> restOfWord
 .CE
 Note that the whole matched substring has been placed in the variable
 \fB\->\fR which is a name chosen to look nice given that we are not
