@@ -137,12 +137,6 @@ extern "C" {
 #define Tcl_ConditionFinalize(condPtr)
 #endif /* TCL_THREADS */
 
-
-#ifndef BUFSIZ
-#   include <stdio.h>
-#endif
-
-
 /*
  * Definitions that allow Tcl functions with variable numbers of
  * arguments to be used with either varargs.h or stdarg.h.  TCL_VARARGS

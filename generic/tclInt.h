@@ -1559,7 +1559,6 @@ typedef Tcl_ObjCmdProc *TclObjCmdProcType;
 extern char *			tclExecutableName;
 extern char *			tclNativeExecutableName;
 extern char *			tclDefaultEncodingDir;
-extern Tcl_ChannelType		tclFileChannelType;
 extern char *			tclMemDumpFileName;
 extern TclPlatformType		tclPlatform;
 extern Tcl_NotifierProcs	tclOriginalNotifier;
