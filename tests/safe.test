@@ -62,13 +62,13 @@ test safe-2.2 {creating interpreters, should have no aliases} {
     safe::interpDelete a
     set l
 } ""
-test safe-2.3 {creating safe interpreters, should have no aliases} {
+test safe-2.3 {creating safe interpreters, should have no unexpected aliases} {
     catch {safe::interpDelete a}
     interp create a -safe
     set l [a aliases]
     interp delete a
     set l
-} ""
+} {clock}
 
 test safe-3.1 {calling safe::interpInit is safe} {
     catch {safe::interpDelete a}
@@ -84,7 +84,7 @@ test safe-3.2 {calling safe::interpCreate on trusted interp} {
     set l [lsort [a aliases]]
     safe::interpDelete a
     set l
-} {encoding exit file load source}
+} {clock encoding exit file load source}
 test safe-3.3 {calling safe::interpCreate on trusted interp} {
     catch {safe::interpDelete a}
     safe::interpCreate a

@@ -2003,6 +2003,8 @@ SlaveCreate(interp, pathPtr, safe)
     char *path;
     int new, objc;
     Tcl_Obj **objv;
+    Tcl_Obj* clockObj;
+    int status;
 
     if (Tcl_ListObjGetElements(interp, pathPtr, &objc, &objv) != TCL_OK) {
 	return NULL;
@@ -2071,10 +2073,23 @@ SlaveCreate(interp, pathPtr, safe)
      */
     InheritLimitsFromMaster(slaveInterp, masterInterp);
 
+    if ( safe ) {
+	clockObj = Tcl_NewStringObj( "clock", -1 );
+	Tcl_IncrRefCount( clockObj );
+	status = AliasCreate( interp, slaveInterp, masterInterp,
+			      clockObj, clockObj, 0, (Tcl_Obj *CONST *) NULL );
+	Tcl_DecrRefCount( clockObj );
+	if ( status != TCL_OK ) {
+	    goto error2;
+	}
+    }
+    
+
     return slaveInterp;
 
-    error:
+ error:
     TclTransferResult(slaveInterp, TCL_ERROR, interp);
+ error2:
     Tcl_DeleteInterp(slaveInterp);
 
     return NULL;
