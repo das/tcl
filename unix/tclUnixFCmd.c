@@ -471,11 +471,17 @@ TclUnixCopyFile(src, dst, statBufPtr, dontCopyAtts)
     char *buffer;      /* Data buffer for copy */
     size_t nread;
 
-    if ((srcFd = TclOSopen(src, O_RDONLY, 0)) < 0) {	/* INTL: Native. */
+#ifdef DJGPP
+#define BINMODE |O_BINARY
+#else
+#define BINMODE
+#endif
+
+    if ((srcFd = TclOSopen(src, O_RDONLY BINMODE, 0)) < 0) {	/* INTL: Native. */
 	return TCL_ERROR;
     }
 
-    dstFd = TclOSopen(dst, O_CREAT|O_TRUNC|O_WRONLY,	/* INTL: Native. */
+    dstFd = TclOSopen(dst, O_CREAT|O_TRUNC|O_WRONLY BINMODE,	/* INTL: Native. */
 	    statBufPtr->st_mode);
     if (dstFd < 0) {
 	close(srcFd); 

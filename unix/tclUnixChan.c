@@ -1785,6 +1785,9 @@ TclpOpenFileChannel(interp, pathPtr, mode, permissions)
     if (native == NULL) {
 	return NULL;
     }
+#ifdef DJGPP
+	mode |= O_BINARY;
+#endif		
     fd = TclOSopen(native, mode, permissions);
 #ifdef SUPPORTS_TTY
     ctl_tty = (strcmp (native, "/dev/tty") == 0);
