@@ -232,6 +232,9 @@ DllEntryPoint(hInst, reason, reserved)
  *
  * Side effects:
  *	Establishes 32-to-16 bit thunk and initializes sockets library.
+ *	This might call some sycronization functions, but MSDN
+ *	documentation states: "Waiting on synchronization objects in
+ *	DllMain can cause a deadlock."
  *
  *----------------------------------------------------------------------
  */
@@ -247,8 +250,16 @@ DllMain(hInst, reason, reserved)
 	return TRUE;
 
     case DLL_PROCESS_DETACH:
-	if (hInst == hInstance) {
-	    Tcl_Finalize();
+	/*
+	 * Protect the call to Tcl_Finalize.  The OS could be unloading
+	 * us from an exception handler and the state of the stack might
+	 * be unstable.
+	 */
+
+	__try {
+  	    Tcl_Finalize();
+	} __except (EXCEPTION_EXECUTE_HANDLER) {
+	    /* empty handler body. */
 	}
 	break;
     }
