@@ -27,6 +27,8 @@
  * unix/configure.in
  * win/makefile.bc	(only if major.minor changes, not patchlevel)
  * win/makefile.vc	(only if major.minor changes, not patchlevel)
+ * win/README
+ * win/README.binary
  *
  * The release level should be  0 for alpha, 1 for beta, and 2 for
  * final/patch.  The release serial value is the number that follows the
