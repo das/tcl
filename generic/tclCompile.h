@@ -730,6 +730,16 @@ EXTERN int		TclEvalObjvInternal _ANSI_ARGS_((Tcl_Interp *interp, int objc,
 			    int flags));
 EXTERN int              TclInterpReady _ANSI_ARGS_((Tcl_Interp *interp));
 
+
+/*
+ *----------------------------------------------------------------
+ * Procedures exported by the engine to be used by tclBasic.c
+ *----------------------------------------------------------------
+ */
+
+EXTERN int		TclCompEvalObj _ANSI_ARGS_((Tcl_Interp *interp,
+			    Tcl_Obj *objPtr, int engineCall));
+
 /*
  *----------------------------------------------------------------
  * Procedures shared among Tcl bytecode compilation and execution
@@ -766,8 +776,6 @@ EXTERN void		TclEmitForwardJump _ANSI_ARGS_((CompileEnv *envPtr,
 EXTERN ExceptionRange *	TclGetExceptionRangeForPc _ANSI_ARGS_((
 			    unsigned char *pc, int catchOnly,
 			    ByteCode* codePtr));
-EXTERN int		TclExecuteByteCode _ANSI_ARGS_((Tcl_Interp *interp,
-			    ByteCode *codePtr));
 EXTERN void		TclExpandJumpFixupArray _ANSI_ARGS_((
                             JumpFixupArray *fixupArrayPtr));
 EXTERN void		TclFinalizeAuxDataTypeTable _ANSI_ARGS_((void));
