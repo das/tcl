@@ -1784,8 +1784,8 @@ EXTERN int	Tcl_LsortObjCmd _ANSI_ARGS_((ClientData clientData,
 		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int	Tcl_NamespaceObjCmd _ANSI_ARGS_((ClientData clientData,
 		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
-EXTERN int	Tcl_OpenCmd _ANSI_ARGS_((ClientData clientData,
-		    Tcl_Interp *interp, int argc, char **argv));
+EXTERN int	Tcl_OpenObjCmd _ANSI_ARGS_((ClientData clientData,
+		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int	Tcl_PackageCmd _ANSI_ARGS_((ClientData clientData,
 		    Tcl_Interp *interp, int argc, char **argv));
 EXTERN int	Tcl_PidObjCmd _ANSI_ARGS_((ClientData clientData,
