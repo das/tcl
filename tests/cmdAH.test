@@ -629,14 +629,14 @@ test cmdAH-10.34 {Tcl_FileObjCmd: rootname} testsetplatform {
 } a\\b.c\\
 set num 35
 foreach outer { {} a .a a. a.a } {
-  foreach inner { {} a .a a. a.a } {
-    set thing [format %s/%s $outer $inner]
-;   test cmdAH-10.$num {Tcl_FileObjCmd: rootname and extension options} testsetplatform {
-	testsetplatform unix
-	format %s%s [file rootname $thing] [file ext $thing]
-    } $thing
-    set num [expr $num+1]
-  }
+    foreach inner { {} a .a a. a.a } {
+	set thing [format %s/%s $outer $inner]
+	;test cmdAH-10.$num {Tcl_FileObjCmd: rootname and extension options} testsetplatform "
+	    testsetplatform unix
+	    format %s%s [file rootname $thing] [file ext $thing]
+	" $thing
+	incr num
+    }
 }
 
 # extension
@@ -732,7 +732,7 @@ test cmdAH-11.34 {Tcl_FileObjCmd: extension} testsetplatform {
 set num 35
 foreach value {a..b a...b a.c..b ..b} result {.b .b .b .b} {
     foreach p {unix windows} {
-;	test cmdAH-11.$num {Tcl_FileObjCmd: extension} testsetplatform "
+	;test cmdAH-11.$num {Tcl_FileObjCmd: extension} testsetplatform "
 	    testsetplatform $p
 	    file extension $value
 	" $result
