@@ -18,7 +18,9 @@
 
 #include "tclInt.h"
 
-#ifndef WIN32
+#ifdef WIN32
+#include "tclWinInt.h"
+#else
 extern Tcl_Mutex *TclpNewAllocMutex(void);
 extern void *TclpGetAllocCache(void);
 extern void TclpSetAllocCache(void *);
