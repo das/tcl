@@ -1120,7 +1120,7 @@ TclWinCPUID( unsigned int index, /* Which CPUID value to retrieve */
 #  endif
 
 
-#elif defined(_MSC_VER)
+#elif defined(_MSC_VER) && !defined(_WIN64)
 
     /* Define a structure in the stack frame to hold the registers */
 
@@ -1163,7 +1163,7 @@ TclWinCPUID( unsigned int index, /* Which CPUID value to retrieve */
 
 #else
 				/* Don't know how to do assembly code for
-				 * this compiler */
+				 * this compiler and/or architecture */
 #endif
     return status;
 }
