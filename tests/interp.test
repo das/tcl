@@ -2913,6 +2913,22 @@ test interp-34.3 {basic test of limits - pure bytecode loop} -body {
 } -returnCodes error -result {time limit exceeded} -cleanup {
     interp delete $i
 }
+test interp-34.3.1 {basic test of limits - pure bytecode loop} -body {
+    set i [interp create]
+    $i eval {
+	proc foobar {} {
+	    set while while
+	    $while {1} {
+		# No bytecode at all here...
+	    }
+	}
+    }
+    # We use a time limit here; command limits don't trap this case
+    $i limit time -seconds [expr {[clock seconds]+2}]
+    $i eval foobar
+} -returnCodes error -result {time limit exceeded} -cleanup {
+    interp delete $i
+}
 test interp-34.4 {limits with callbacks: extending limits} -setup {
     set i [interp create]
     set a 0
