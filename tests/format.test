@@ -522,7 +522,7 @@ test format-18.1 {do not demote existing numeric values} {
     format %08x $b
     lappend result [expr {$a == $b}]
 } {1 1 1 1}
-test format-18.2 {do not demote existing numeric values} {
+test format-18.2 {do not demote existing numeric values} {wideIntExpressions} {
     set a [expr {0xaaaaaaaaaa + 1}]
     set b 0xaaaaaaaaab
     list [catch {format %08x $a} msg] $msg [expr {$a == $b}]
