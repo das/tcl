@@ -368,7 +368,7 @@ ThreadSafeGMTime( timePtr )
     gmtime_r( timePtr, tmPtr );
 #else
     Tcl_MutexLock( & tmMutex );
-    *tmPtr = gmtime( timePtr );
+    *tmPtr = *gmtime( timePtr );
     Tcl_MutexUnlock( &tmMutex );
 #endif    
     return tmPtr;
@@ -409,7 +409,7 @@ ThreadSafeLocalTime( timePtr )
     localtime_r( timePtr, tmPtr );
 #else
     Tcl_MutexLock( & tmMutex );
-    *tmPtr = localtime( timePtr );
+    *tmPtr = *localtime( timePtr );
     Tcl_MutexUnlock( &tmMutex );
 #endif    
     return tmPtr;
