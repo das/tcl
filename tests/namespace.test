@@ -1488,6 +1488,7 @@ test namespace-46.3 {ensemble: implementation errors} {
     set result {}
     lappend result [catch { ns } msg] $msg
     ns a [ns b 10]
+    catch {rename p {}}
     rename ns p
     p a [p b 3000]
     lappend result $ns::count

@@ -109,6 +109,7 @@ child eval {
 }
 test unload-3.1 {basic loading of non-unloadable package in a safe interpreter, with package name conversion} \
 	[list $dll $loaded] {
+    catch {rename pkgb_sub {}}
     load [file join $testDir pkgb$ext] pKgB child
     list [child eval pkgb_sub 44 13] [catch {child eval pkgb_unsafe} msg] $msg \
          [catch {pkgb_sub 12 10} msg2] $msg2
