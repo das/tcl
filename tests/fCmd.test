@@ -2366,6 +2366,10 @@ test fCmd-28.18 {file link: glob -type d} {linkDirectory} {
     set res
 } [lsort [list abc.link abc.dir abc2.dir]]
 
+test fCmd-29.1 {weird memory corruption fault} {
+    catch {set res [open [file join ~a_totally_bogus_user_id/foo bar]]}
+} 1
+
 cd [temporaryDirectory]
 file delete -force abc.link
 cd [workingDirectory]
