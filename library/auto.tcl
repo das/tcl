@@ -32,7 +32,7 @@ proc auto_reset {} {
 	    if {[lsearch -exact {
 		::unknown ::pkg_mkIndex ::tclPkgSetup ::tcl_findLibrary
 		::pkg_compareExtension ::tclPkgUnknown ::tcl::MacOSXPkgUnknown
-		::tcl::MacPkgUnknown} $fqcn] != -1)} {continue}
+		::tcl::MacPkgUnknown} $fqcn] != -1} {continue}
             rename $fqcn {}
         }
     }
