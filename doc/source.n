@@ -20,10 +20,6 @@ source \- Evaluate a file or resource as a Tcl script
 .VS 8.5
 \fBsource\fR \fB\-encoding \fIencodingName fileName\fR
 .VE 8.5
-.sp
-\fBsource\fR \fB\-rsrc \fIresourceName \fR?\fIfileName\fR?
-.sp
-\fBsource\fR \fB\-rsrcid \fIresourceId \fR?\fIfileName\fR?
 .BE
 
 .SH DESCRIPTION
