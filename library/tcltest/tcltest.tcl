@@ -2479,10 +2479,10 @@ proc tcltest::cleanupTests {{calledFromAllFile 0}} {
 		puts "rename core file (> 1)"
 		puts [outputChannel] "produced core file! \
 			Moving file to: \
-			[file join [temporaryDirectory] core-$name]"
+			[file join [temporaryDirectory] core-$testFileName]"
 		catch {file rename -force \
 			[file join [workingDirectory] core] \
-			[file join [temporaryDirectory] core-$name]
+			[file join [temporaryDirectory] core-$testFileName]
 		} msg
 		if {[string length $msg] > 0} {
 		    PrintError "Problem renaming file: $msg"
