@@ -2075,7 +2075,7 @@ SetWideIntFromAny(interp, objPtr)
 	     */
 	    
 	    char buf[100];
-	    sprintf(buf, "expected wide integer but got \"%.50s\"", string);
+	    sprintf(buf, "expected integer but got \"%.50s\"", string);
 	    Tcl_ResetResult(interp);
 	    Tcl_AppendToObj(Tcl_GetObjResult(interp), buf, -1);
 	    TclCheckBadOctal(interp, string);
