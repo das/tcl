@@ -117,7 +117,7 @@ Tcl_ClockObjCmd (client, interp, objc, objv)
 		break;
 	    case 2:		/* native clicks */
 		Tcl_SetWideIntObj( resultPtr,
-				   TclpGetClicks() );
+				   (Tcl_WideInt) TclpGetClicks() );
 		break;
 	    }
 
