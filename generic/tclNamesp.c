@@ -272,40 +272,6 @@ static void		DupEnsembleCmdRep _ANSI_ARGS_((Tcl_Obj *objPtr,
 static void		StringOfEnsembleCmdRep _ANSI_ARGS_((Tcl_Obj *objPtr));
 
 /*
- * These declarations to eventually move to tclInt.decls
- */
-Tcl_Command		TclMakeEnsembleCmd _ANSI_ARGS_((
-			    Tcl_Interp *interp, CONST char *name,
-			    Tcl_Namespace *namespacePtr, int flags));
-Tcl_Command		TclFindEnsemble _ANSI_ARGS_((Tcl_Interp *interp,
-			    Tcl_Obj *cmdNameObj, int flags));
-int			TclSetEnsembleSubcommandList _ANSI_ARGS_((
-			    Tcl_Interp *interp, Tcl_Command token,
-			    Tcl_Obj *subcmdList));
-int			TclSetEnsembleMappingDict _ANSI_ARGS_((
-			    Tcl_Interp *interp, Tcl_Command token,
-			    Tcl_Obj *mapDict));
-int			TclSetEnsembleUnknownHandler _ANSI_ARGS_((
-			    Tcl_Interp *interp, Tcl_Command token,
-			    Tcl_Obj *unknownList));
-int			TclSetEnsembleFlags _ANSI_ARGS_((Tcl_Interp *interp,
-			    Tcl_Command token, int flags));
-int			TclGetEnsembleSubcommandList _ANSI_ARGS_((
-			    Tcl_Interp *interp, Tcl_Command token,
-			    Tcl_Obj **subcmdList));
-int			TclGetEnsembleMappingDict _ANSI_ARGS_((
-			    Tcl_Interp *interp, Tcl_Command token,
-			    Tcl_Obj **mapDict));
-int			TclGetEnsembleUnknownHandler _ANSI_ARGS_((
-			    Tcl_Interp *interp, Tcl_Command token,
-			    Tcl_Obj **unknownList));
-int			TclGetEnsembleFlags _ANSI_ARGS_((Tcl_Interp *interp,
-			    Tcl_Command token, int *flags));
-int			TclGetEnsembleNamespace _ANSI_ARGS_((
-			    Tcl_Interp *interp, Tcl_Command token,
-			    Tcl_Namespace **namespacePtrPtr));
-
-/*
  * This structure defines a Tcl object type that contains a
  * namespace reference.  It is used in commands that take the
  * name of a namespace as an argument.  The namespace reference
