@@ -11,14 +11,7 @@
 #
 # RCS: @(#) $Id$
 
-
-TCL_SRC_DIR="@TCL_SRC_DIR@"
-TCL_LIB_FILE="@TCL_LIB_FILE@"
 TCL_DLL_FILE="@TCL_DLL_FILE@"
-TCL_STUB_LIB_FILE="@TCL_STUB_LIB_FILE@"
-
-
-
 
 # Tcl's version number.
 TCL_VERSION='@TCL_VERSION@'
