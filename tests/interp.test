@@ -17,6 +17,8 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
+testConstraint testinterpdelete [llength [info commands testinterpdelete]]
+
 set hidden_cmds {cd encoding exec exit fconfigure file glob load open pwd socket source}
 
 foreach i [interp slaves] {
@@ -674,7 +676,6 @@ test interp-17.5 {alias loop prevention} {
 # the bugs as a core dump.
 #
 
-testCosntraint testinterpdelete [llength [info commands testinterpdelete]]
 test interp-18.1 {testing Tcl_DeleteInterp vs slaves} testinterpdelete {
     list [catch {testinterpdelete} msg] $msg
 } {1 {wrong # args: should be "testinterpdelete path"}}
