@@ -1,4 +1,3 @@
-Executing ssh-askpass to query the password...
 /* 
  * tclExecute.c --
  *
