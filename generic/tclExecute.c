@@ -726,7 +726,9 @@ TclExecuteByteCode(interp, codePtr)
 				 /* Reference to memory block containing
 				  * objv array (must be kept live throughout
 				  * trace and command invokations.) */
-
+#ifdef TCL_COMPILE_DEBUG
+		char cmdNameBuf[21];
+#endif
 		objv = &(stackPtr[stackTop - (objc-1)]);
 
 #ifdef TCL_COMPILE_DEBUG
