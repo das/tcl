@@ -1024,8 +1024,8 @@ SetBooleanFromAny(interp, objPtr)
 	if (c & 0x80) {
 	    goto badBoolean;
 	}
-	if (isupper(UCHAR(c))) { /* INTL: ISO only. */
-	    c = (char) UCHAR(tolower(UCHAR(c))); /* INTL: ISO only. */
+	if (Tcl_UniCharIsUpper(UCHAR(c))) {
+	    c = (char) Tcl_UniCharToLower(UCHAR(c));
 	}
 	lowerCase[i] = c;
     }
