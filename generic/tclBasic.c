@@ -541,6 +541,9 @@ Tcl_CreateInterp()
 	    ((order.c[0] == 1) ? "littleEndian" : "bigEndian"),
 	    TCL_GLOBAL_ONLY);
 
+    Tcl_SetVar2Ex(interp, "tcl_platform", "wordSize",
+	    Tcl_NewLongObj((long) sizeof(long)), TCL_GLOBAL_ONLY);
+
     /*
      * Set up other variables such as tcl_version and tcl_library
      */

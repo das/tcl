@@ -245,10 +245,6 @@ retrieve any relevant information.  In addition, extensions
 and applications may add additional values to the array.  The
 predefined elements are:
 
-
-
-
-
 .RS
 .VS
 .TP
@@ -295,6 +291,12 @@ This identifies the
 current user based on the login information available on the platform.
 This comes from the USER or LOGNAME environment variable on Unix,
 and the value from GetUserName on Windows and Macintosh.
+.TP
+\fBwordSize\fR
+.VS 8.4
+This gives the size of the native-machine word in bytes (strictly, it
+is same as the result of evaluating \fIsizeof(long)\fR in C.)
+.VE 8.4
 .RE
 .TP
 \fBtcl_precision\fR

@@ -2467,7 +2467,7 @@ TclDoGlob(interp, separators, headPtr, tail, types)
 	 */
 
 	Tcl_Obj *nameObj;
-	struct stat buf;
+	Tcl_StatBuf buf;
 	/* Used to deal with one special case pertinent to MacOS */
 	int macSpecialCase = 0;
 
@@ -2596,4 +2596,28 @@ TclFileDirname(interp, pathPtr)
     Tcl_IncrRefCount(splitResultPtr);
     Tcl_DecrRefCount(splitPtr);
     return splitResultPtr;
+}
+
+/*
+ *---------------------------------------------------------------------------
+ *
+ * Tcl_AllocStatBuf
+ *
+ *     This procedure allocates a Tcl_StatBuf on the heap.  It exists
+ *     so that extensions may be used unchanged on systems where
+ *     largefile support is optional.
+ *
+ * Results:
+ *     A pointer to a Tcl_StatBuf which may be deallocated by being
+ *     passed to ckfree().
+ *
+ * Side effects:
+ *      None.
+ *
+ *---------------------------------------------------------------------------
+ */
+
+Tcl_StatBuf *
+Tcl_AllocStatBuf() {
+    return (Tcl_StatBuf *) ckalloc(sizeof(Tcl_StatBuf));
 }

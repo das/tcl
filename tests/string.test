@@ -274,7 +274,7 @@ proc largest_int {} {
     # so we can test for overflow properly below on >32 bit systems
     set int 1
     set exp 7; # assume we get at least 8 bits
-    while {$int > 0} { set int [expr {1 << [incr exp]}] }
+    while {$int > 0} { set int [expr {wide(1) << [incr exp]}] }
     return [expr {$int-1}]
 }
 

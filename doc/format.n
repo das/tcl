@@ -131,7 +131,10 @@ which must be \fBh\fR or \fBl\fR.
 If it is \fBh\fR it specifies that the numeric value should be
 truncated to a 16-bit value before converting.
 This option is rarely useful.
-The \fBl\fR modifier is ignored.
+.VS 8.4
+If it is \fBl\fR it specifies that the numeric value should be (at
+least) a 64-bit value.
+.VE
 .PP
 The last thing in a conversion specifier is an alphabetic character
 that determines what kind of conversion to perform.

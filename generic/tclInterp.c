@@ -12,9 +12,9 @@
  * RCS: @(#) $Id$
  */
 
-#include <stdio.h>
 #include "tclInt.h"
 #include "tclPort.h"
+#include <stdio.h>
 
 /*
  * Counter for how many aliases were created (global)

@@ -43,7 +43,11 @@ _matherr(xPtr)
     if (!TclMathInProgress()) {
 	return 0;
     }
-    if ((xPtr->type == DOMAIN) || (xPtr->type == SING)) {
+    if ((xPtr->type == DOMAIN)
+#ifdef __BORLANDC__
+	    || (xPtr->type == TLOSS)
+#endif
+	    || (xPtr->type == SING)) {
 	errno = EDOM;
     } else {
 	errno = ERANGE;

@@ -282,7 +282,7 @@ WIN_OBJS = \
 	tclWinTime.$(OBJEXT) 
 
 COMPAT_OBJS = \
-	strftime.$(OBJEXT)
+	strftime.$(OBJEXT) strtoll.$(OBJEXT) strtoull.$(OBJEXT)
 
 PIPE_OBJS = stub16.$(OBJEXT)
 
