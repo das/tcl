@@ -10,10 +10,10 @@
 #
 # RCS: @(#) $Id$
 
-package require Tcl 8
+package require Tcl 8.2
 # When this version number changes, update the pkgIndex.tcl file
 # and the install directory in the Makefiles.
-package provide opt 0.4.4
+package provide opt 0.4.5
 
 namespace eval ::tcl {
 
@@ -811,15 +811,15 @@ proc ::tcl::OptCheckType {arg type {typeArgs ""}} {
         }
     }
 
-    # Auto magic lasy type determination
+    # Auto magic lazy type determination
     proc OptGuessType {arg} {
-        if {[regexp -nocase {^(true|false)$} $arg]} {
+ 	 if { $arg == "true" || $arg == "false" } {
             return boolean
         }
-        if {[regexp {^(-+)?[0-9]+$} $arg]} {
+        if {[string is integer $arg]} {
             return int
         }
-        if {![catch {expr {double($arg)}}]} {
+        if {[string is double $arg]} {
             return float
         }
         return string

@@ -673,7 +673,7 @@ proc ::safe::setLogCmd {args} {
     proc TranslatePath {slave path} {
 	# somehow strip the namespaces 'functionality' out (the danger
 	# is that we would strip valid macintosh "../" queries... :
-	if {[regexp {(::)|(\.\.)} $path]} {
+	if {[string match "*::*" $path] || [string match "*..*" $path]} {
 	    error "invalid characters in path $path"
 	}
 	set n [expr {[Set [PathNumberName $slave]]-1}]

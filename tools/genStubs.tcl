@@ -184,7 +184,7 @@ proc genStubs::rewriteFile {file text} {
 
     while {![eof $in]} {
 	set line [gets $in]
-	if {[regexp {!BEGIN!} $line]} {
+	if {[string match "*!BEGIN!*" $line]} {
 	    break
 	}
 	puts $out $line
@@ -193,7 +193,7 @@ proc genStubs::rewriteFile {file text} {
     puts $out $text
     while {![eof $in]} {
 	set line [gets $in]
-	if {[regexp {!END!} $line]} {
+	if {[string match "*!END!*" $line]} {
 	    break
 	}
     }

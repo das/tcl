@@ -256,8 +256,7 @@ proc history {args} {
 	if {![info exists history($i)]} {
 	    continue
 	}
-	set cmd [string trimright $history($i) \ \n]
-	regsub -all \n $cmd "\n\t" cmd
+        set cmd [string map [list \n \n\t] [string trimright $history($i) \ \n]]
 	append result $newline[format "%6d  %s" $i $cmd]
 	set newline \n
     }
