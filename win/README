@@ -12,6 +12,9 @@ that are specific to Microsoft Windows.
 The information in this file is maintained on the web at:
 	http://www.purl.org/tcl/home/doc/howto/compile.html#win
 
+The above URL includes a lengthy discussion of compiler macros necessary
+when compiling Tcl extensions that will be dynamically loaded.
+
 2. Compiling Tcl
 ----------------
 
@@ -44,23 +47,15 @@ find them.  Tcl looks in one of following places for the library files:
 
 	1) The path specified in the environment variable "TCL_LIBRARY".
 
-	2) In the lib\tcl8.4 directory under the installation directory
-	   as specified in the registry:
-
-		HKEY_LOCAL_MACHINE\SOFTWARE\Scriptics\Tcl\8.4
-
-	3) Relative to the directory containing the current .exe.
-	    Tcl will look for a directory "..\lib\tcl8.4" relative to the
-	    directory containing the currently running .exe.
+	2) Relative to the directory containing the current .exe.
+	   Tcl will look for a directory "..\lib\tcl8.4" relative to the
+	   directory containing the currently running .exe.
 
 Note that in order to run tclsh84.exe, you must ensure that tcl84.dll
 and tclpip84.dll are on your path, in the system directory, or in the 
 directory containing tclsh84.exe.
 
 Note: Tcl no longer provides support for Win32s.
-
-This page includes a lengthy discussion of compiler macros necessary
-when compiling Tcl extensions that will be dynamically loaded.
 
 3. Test suite
 -------------
