@@ -12,7 +12,7 @@
  */
 
 #include "tclInt.h"
-#include "TclUtf.h"
+#include "tclUtf.h"
 
 /*
  * The following macros are used for fast character category tests.  The
