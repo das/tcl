@@ -609,6 +609,7 @@ typedef void (Tcl_CommandTraceProc) _ANSI_ARGS_((ClientData clientData,
 typedef void (Tcl_CreateFileHandlerProc) _ANSI_ARGS_((int fd, int mask,
 	Tcl_FileProc *proc, ClientData clientData));
 typedef void (Tcl_DeleteFileHandlerProc) _ANSI_ARGS_((int fd));
+typedef void (Tcl_MainLoopProc) _ANSI_ARGS_((void));
 
 /*
  * The following structure represents a type of object, which is a

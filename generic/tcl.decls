@@ -992,9 +992,13 @@ declare 282 generic {
 declare 283 generic {
     Tcl_Channel Tcl_GetStackedChannel(Tcl_Channel chan)
 }
+
+# 284 was reserved, but added in 8.4a2
+declare 284 generic {
+    void Tcl_SetMainLoop(Tcl_MainLoopProc *proc)
+}
+
 # Reserved for future use (8.0.x vs. 8.1)
-#  declare 284 generic {
-#  }
 #  declare 285 generic {
 #  }
 

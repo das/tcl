@@ -687,7 +687,7 @@ TclStubs tclStubs = {
     Tcl_StackChannel, /* 281 */
     Tcl_UnstackChannel, /* 282 */
     Tcl_GetStackedChannel, /* 283 */
-    NULL, /* 284 */
+    Tcl_SetMainLoop, /* 284 */
     NULL, /* 285 */
     Tcl_AppendObjToObj, /* 286 */
     Tcl_CreateEncoding, /* 287 */
