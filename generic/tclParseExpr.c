@@ -1918,7 +1918,9 @@ TclParseInteger(string, numBytes)
 	if (scanned) {
 	    return scanned + 2;
 	}
-	return 0;
+
+	/* Recognize the 0 as valid integer, but x is left behind */
+	return 1;
     }
     while (numBytes && isdigit(UCHAR(*p))) {	/* INTL: digit */
 	numBytes--; p++;
