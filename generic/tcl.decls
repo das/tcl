@@ -1457,7 +1457,7 @@ declare 411 generic {
 
 # Introduced in 8.4a2
 declare 412 generic {
-    int Tcl_JoinThread(Tcl_ThreadId id, int* result)
+    int Tcl_JoinThread(Tcl_ThreadId threadId, int* result)
 }
 declare 413 generic {
     int Tcl_IsChannelShared(Tcl_Channel channel)
