@@ -1515,7 +1515,7 @@ Tcl_FcopyObjCmd(dummy, interp, objc, objv)
     }
     if ((mode & TCL_READABLE) == 0) {
 	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), "channel \"",
-		Tcl_GetString(objv[1]), 
+		arg, 
                 "\" wasn't opened for reading", (char *) NULL);
         return TCL_ERROR;
     }
@@ -1526,7 +1526,7 @@ Tcl_FcopyObjCmd(dummy, interp, objc, objv)
     }
     if ((mode & TCL_WRITABLE) == 0) {
 	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), "channel \"",
-		Tcl_GetString(objv[1]), 
+		arg, 
                 "\" wasn't opened for writing", (char *) NULL);
         return TCL_ERROR;
     }
