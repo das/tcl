@@ -489,6 +489,12 @@ Tcl_InterpObjCmd(clientData, interp, objc, objv)
 		slaveInterp = GetInterp(interp, objv[i]);
 		if (slaveInterp == NULL) {
 		    return TCL_ERROR;
+		} else if (slaveInterp == interp) {
+		    Tcl_ResetResult(interp);
+		    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+			    "cannot delete the current interpreter",
+			    (char *) NULL);
+		    return TCL_ERROR;
 		}
 		iiPtr = (InterpInfo *) ((Interp *) slaveInterp)->interpInfo;
 		Tcl_DeleteCommandFromToken(iiPtr->slave.masterInterp,
