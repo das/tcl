@@ -75,7 +75,7 @@ typedef struct TcpState {
 				    * TCL_WRITABLE as set by an asynchronous
 				    * event handler. */
     int watchMask;		   /* OR'ed combination of TCL_READABLE and
-				    * TCL_WRITABLE as set by Tcl_WatchFile. */
+				    * TCL_WRITABLE as set by TcpWatch. */
     Tcl_TcpAcceptProc *acceptProc; /* Proc to call on accept. */
     ClientData acceptProcData;	   /* The data for the accept proc. */
     wdsEntry dataSegment[2];       /* List of buffers to be written async. */
