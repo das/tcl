@@ -100,6 +100,7 @@ TCL_THREADS	= 0
 DEBUG		= 0
 PROFILE		= 0
 MSVCRT		= 0
+LOIMPACT	= 0
 TCL_LINKWITHEXTENSIONS	= 0
 !else
 !if ![echo $(OPTS) | find /i "static" > nul]
@@ -138,13 +139,19 @@ PROFILE		= 1
 !else
 PROFILE		= 0
 !endif
+!if ![echo $(OPTS) | find /i "loimpact" > nul]
+!message *** Doing loimpact
+LOIMPACT	= 1
+!else
+LOIMPACT	= 0
+!endif
 !endif
 
 
 !if !$(STATIC_BUILD)
 # Make sure we don't build overly fat DLLs.
 MSVCRT		= 1
-# Shouldn't statically put the extensions inside the shell when dynamic.
+# We shouldn't statically put the extensions inside the shell when dynamic.
 TCL_LINKWITHEXTENSIONS = 0
 !endif
 
