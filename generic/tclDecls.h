@@ -912,7 +912,7 @@ EXTERN Tcl_Channel	Tcl_StackChannel _ANSI_ARGS_((Tcl_Interp * interp,
 EXTERN void		Tcl_UnstackChannel _ANSI_ARGS_((Tcl_Interp * interp, 
 				Tcl_Channel chan));
 /* 283 */
-EXTERN void		Tcl_GetStackedChannel _ANSI_ARGS_((Tcl_Channel chan));
+EXTERN Tcl_Channel	Tcl_GetStackedChannel _ANSI_ARGS_((Tcl_Channel chan));
 /* Slot 284 is reserved */
 /* Slot 285 is reserved */
 /* 286 */
@@ -1555,7 +1555,7 @@ typedef struct TclStubs {
     void (*tcl_InitMemory) _ANSI_ARGS_((Tcl_Interp * interp)); /* 280 */
     Tcl_Channel (*tcl_StackChannel) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_ChannelType * typePtr, ClientData instanceData, int mask, Tcl_Channel prevChan)); /* 281 */
     void (*tcl_UnstackChannel) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Channel chan)); /* 282 */
-    void (*tcl_GetStackedChannel) _ANSI_ARGS_((Tcl_Channel chan)); /* 283 */
+    Tcl_Channel (*tcl_GetStackedChannel) _ANSI_ARGS_((Tcl_Channel chan)); /* 283 */
     void *reserved284;
     void *reserved285;
     void (*tcl_AppendObjToObj) _ANSI_ARGS_((Tcl_Obj * objPtr, Tcl_Obj * appendObjPtr)); /* 286 */

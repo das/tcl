@@ -990,7 +990,7 @@ declare 282 generic {
     void Tcl_UnstackChannel(Tcl_Interp *interp, Tcl_Channel chan)
 }
 declare 283 generic {
-    void Tcl_GetStackedChannel(Tcl_Channel chan)
+    Tcl_Channel Tcl_GetStackedChannel(Tcl_Channel chan)
 }
 # Reserved for future use (8.0.x vs. 8.1)
 #  declare 284 generic {
