@@ -1483,8 +1483,7 @@ SetPermissionsAttribute(interp, objIndex, fileName, attributePtr)
 
 	if (GetModeFromPermString(NULL, modeStringPtr, &newMode) != TCL_OK) {
 	    if (interp != NULL) {
-		Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
-			"unknown permission string format \"",
+		Tcl_AppendResult(interp, "unknown permission string format \"",
 			modeStringPtr, "\"", (char *) NULL);
 	    }
 	    return TCL_ERROR;
@@ -1495,8 +1494,7 @@ SetPermissionsAttribute(interp, objIndex, fileName, attributePtr)
     result = chmod(native, newMode);		/* INTL: Native. */
     if (result != 0) {
 	if (interp != NULL) {
-	    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
-		    "could not set permissions for file \"", 
+	    Tcl_AppendResult(interp, "could not set permissions for file \"", 
 		    Tcl_GetString(fileName), "\": ",
 		    Tcl_PosixError(interp), (char *) NULL);
 	}
@@ -1974,8 +1972,7 @@ SetReadOnlyAttribute(interp, objIndex, fileName, attributePtr)
     result = chflags(native, statBuf.st_flags);		/* INTL: Native. */
     if (result != 0) {
 	if (interp != NULL) {
-	    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
-		    "could not set flags for file \"", 
+	    Tcl_AppendResult(interp, "could not set flags for file \"", 
 		    Tcl_GetString(fileName), "\": ", Tcl_PosixError(interp),
 		    (char *) NULL);
 	}
