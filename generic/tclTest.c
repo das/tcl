@@ -586,7 +586,15 @@ AsyncHandlerProc(clientData, interp, code)
     listArgv[2] = string;
     listArgv[3] = NULL;
     cmd = Tcl_Merge(3, listArgv);
-    code = Tcl_Eval(interp, cmd);
+    if (interp != NULL) {
+	code = Tcl_Eval(interp, cmd);
+    } else {
+	/*
+	 * this should not happen, but by definition of how async
+	 * handlers are invoked, it's possible.  Better error
+	 * checking is needed here.
+	 */
+    }
     ckfree(cmd);
     return code;
 }

@@ -797,9 +797,11 @@ declare 19 win {
 declare 20 win {
     void TclWinAddProcess(HANDLE hProcess, DWORD id)
 }
-declare 21 win {
-    void TclpAsyncMark(Tcl_AsyncHandler async)
-}
+
+# removed permanently for 8.4
+#declare 21 win {
+#    void TclpAsyncMark(Tcl_AsyncHandler async)
+#}
 
 # Added in 8.1:
 declare 22 win {
