@@ -176,6 +176,7 @@ Tcl_AppInit(interp)
     {
 	extern Tcl_PackageInitProc Registry_Init;
 	extern Tcl_PackageInitProc Dde_Init;
+	extern Tcl_PackageInitProc Dde_SafeInit;
 
 	if (Registry_Init(interp) == TCL_ERROR) {
 	    return TCL_ERROR;
@@ -185,7 +186,7 @@ Tcl_AppInit(interp)
 	if (Dde_Init(interp) == TCL_ERROR) {
 	    return TCL_ERROR;
 	}
-	Tcl_StaticPackage(interp, "dde", Dde_Init, NULL);
+	Tcl_StaticPackage(interp, "dde", Dde_Init, Dde_SafeInit);
    }
 #endif
 
