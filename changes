@@ -3677,6 +3677,11 @@ Vince Darley for this improvement. (JI)
 
 ----------------- Released 8.0.4, 11/20/98 -------------------------
 
+12/3/98 (bug fix) Windows NT creates sockets so they are inheritable
+by default.  Fixed socket code so it turns off this bit right after
+creation so sockets aren't kept open by exec'ed processes. [Bug: 892]
+Thanks to Kevin Kenny for this fix.  (SS)
+
 ======== Changes for 8.0 go above this line ========
 ======== Changes for 8.1 go below this line ========
 
