@@ -170,12 +170,10 @@
 # else
 #  define DLLIMPORT
 #  define DLLEXPORT
-#  define EXPORT
 # endif
 #else
 # define DLLIMPORT
 # define DLLEXPORT
-# define EXPORT
 #endif
 
 #ifdef EXPORT
