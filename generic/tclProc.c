@@ -70,7 +70,6 @@ Tcl_ProcObjCmd(dummy, interp, objc, objv)
     Namespace *nsPtr, *altNsPtr, *cxtNsPtr;
     Tcl_Command cmd;
     Tcl_DString ds;
-    int result;
 
     if (objc != 4) {
 	Tcl_WrongNumArgs(interp, 1, objv, "name args body");
@@ -84,12 +83,9 @@ Tcl_ProcObjCmd(dummy, interp, objc, objv)
      */
     
     fullName = Tcl_GetStringFromObj(objv[1], (int *) NULL);
-    result = TclGetNamespaceForQualName(interp, fullName,
-	    (Namespace *) NULL, TCL_LEAVE_ERR_MSG,
-            &nsPtr, &altNsPtr, &cxtNsPtr, &procName);
-    if (result != TCL_OK) {
-        return result;
-    }
+    TclGetNamespaceForQualName(interp, fullName, (Namespace *) NULL,
+       /*flags*/ 0, &nsPtr, &altNsPtr, &cxtNsPtr, &procName);
+
     if (nsPtr == NULL) {
         Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 		"can't create procedure \"", fullName,

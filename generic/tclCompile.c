@@ -3879,7 +3879,7 @@ TclCompileExprCmd(interp, string, lastChar, flags, envPtr)
 
     /*
      * Scan the concatenated expression's characters looking for any
-     * '['s or (for now) '\'s. If any are found, just call the expr cmd
+     * '['s or '\'s or '$'s. If any are found, just call the expr cmd
      * at runtime.
      */
     
@@ -3888,7 +3888,7 @@ TclCompileExprCmd(interp, string, lastChar, flags, envPtr)
     last = first + (Tcl_DStringLength(&buffer) - 1);
     for (p = first;  p <= last;  p++) {
 	c = *p;
-	if ((c == '[') || (c == '\\')) {
+	if ((c == '[') || (c == '\\') || (c == '$')) {
 	    inlineCode = 0;
 	    break;
 	}
