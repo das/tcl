@@ -48,15 +48,6 @@ Tcl_Mutex tclObjMutex;
 static char emptyString;
 char *tclEmptyStringRep = &emptyString;
 
-/*
- * The number of Tcl objects ever allocated (by Tcl_NewObj) and freed
- * (by TclFreeObj).
- */
-
-#ifdef TCL_COMPILE_STATS
-long tclObjsAlloced = 0;
-long tclObjsFreed = 0;
-#endif /* TCL_COMPILE_STATS */
 
 /*
  * Prototypes for procedures defined later in this file:
