@@ -340,7 +340,9 @@ The \fIextendStart\fR field in \fBTcl_RegExpInfo\fR is only set if the
 character in the string where a match could occur.  If a match was
 found, this will be the same as the beginning of the current match.
 If no match was found, then it indicates the earliest point at which a
-match might occur if additional text is appended to the string.
+match might occur if additional text is appended to the string.  If it
+is no match is possible even with further text, this field will be set 
+to -1.
 .VE 8.1
 .SH "SEE ALSO"
 re_syntax(n)

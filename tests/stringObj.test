@@ -415,6 +415,17 @@ test stringObj-13.6 {Tcl_GetCharLength with mixed width chars} {
     list [string length $a] [string length $a]
 } {10 10}
 
+test stringObj-14.1 {Tcl_SetObjLength on pure unicode object} {knownBug} {
+    teststringobj set 1 foo
+    teststringobj getunicode 1
+    teststringobj append 1 bar -1
+    teststringobj getunicode 1
+    teststringobj append 1 bar -1
+    teststringobj setlength 1 0
+    teststringobj append 1 bar -1
+    teststringobj get 1
+} {bar}
+
 testobj freeallvars
 
 # cleanup

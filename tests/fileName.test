@@ -1816,6 +1816,13 @@ test filename-16.16 {windows specific globbing} {pcOnly} {
     file tail [lindex [glob "[lindex [glob -types d -dir C:/ *] 0]/.."] 0]
 } {..}
 
+test filename-17.1 {windows specific special files} {testsetplatform} {
+    testsetplatform win
+    list [file pathtype com1] [file pathtype con] [file pathtype lpt3] \
+      [file pathtype prn] [file pathtype nul] [file pathtype aux] \
+      [file pathtype foo]
+} {absolute absolute absolute absolute absolute absolute relative}
+
 # cleanup
 catch {file delete -force C:/globTest}
 file delete -force globTest
