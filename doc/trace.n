@@ -88,6 +88,7 @@ the \fBarray\fR command, provided that \fIname\fR is not a scalar
 variable at the time that the \fBarray\fR command is invoked.  If
 \fIname\fR is a scalar variable, the access via the \fBarray\fR
 command will not trigger the trace.
+.TP
 \fBread\fR
 Invoke \fIcommand\fR whenever the variable is read.
 .TP
