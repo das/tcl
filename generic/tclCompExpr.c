@@ -276,7 +276,7 @@ TclCompileExpr(interp, script, numBytes, envPtr)
 	 * floating-point numbers.
 	 */
 	
-	TclEmitOpcode(INST_TRY_CVT_TO_NUMERIC, envPtr);
+	TclEmitInst0(INST_TRY_CVT_TO_NUMERIC, envPtr);
     }
     Tcl_FreeParse(&parse);
 
@@ -459,7 +459,7 @@ CompileSubExpr(exprTokenPtr, infoPtr, envPtr)
 		    }
 		    tokenPtr += (tokenPtr->numComponents + 1);
 		}
-		TclEmitOpcode(opDescPtr->instruction, envPtr);
+		TclEmitInst0(opDescPtr->instruction, envPtr);
 		infoPtr->hasOperators = 1;
 		break;
 	    }
@@ -486,7 +486,7 @@ CompileSubExpr(exprTokenPtr, infoPtr, envPtr)
 		    afterSubexprPtr = exprTokenPtr
 			    + exprTokenPtr->numComponents+1;
 		    if (tokenPtr == afterSubexprPtr) {
-			TclEmitOpcode(((opIndex==OP_PLUS)?
+			TclEmitInst0(((opIndex==OP_PLUS)?
 			        INST_UPLUS : INST_UMINUS),
 			        envPtr);
 			break;
@@ -501,7 +501,7 @@ CompileSubExpr(exprTokenPtr, infoPtr, envPtr)
 			goto done;
 		    }
 		    tokenPtr += (tokenPtr->numComponents + 1);
-		    TclEmitOpcode(((opIndex==OP_PLUS)? INST_ADD : INST_SUB),
+		    TclEmitInst0(((opIndex==OP_PLUS)? INST_ADD : INST_SUB),
 			    envPtr);
 		    break;
 
@@ -734,7 +734,7 @@ CompileCondExpr(exprTokenPtr, infoPtr, envPtr, endPtrPtr)
     }
     tokenPtr += (tokenPtr->numComponents + 1);
     if (!infoPtr->hasOperators) {
-	TclEmitOpcode(INST_TRY_CVT_TO_NUMERIC, envPtr);
+	TclEmitInst0(INST_TRY_CVT_TO_NUMERIC, envPtr);
     }
 
     /*
@@ -762,7 +762,7 @@ CompileCondExpr(exprTokenPtr, infoPtr, envPtr, endPtrPtr)
     }
     tokenPtr += (tokenPtr->numComponents + 1);
     if (!infoPtr->hasOperators) {
-	TclEmitOpcode(INST_TRY_CVT_TO_NUMERIC, envPtr);
+	TclEmitInst0(INST_TRY_CVT_TO_NUMERIC, envPtr);
     }
 
     /*
@@ -890,11 +890,11 @@ CompileMathFuncCall(exprTokenPtr, funcName, infoPtr, envPtr, endPtrPtr)
 	if (envPtr->maxStackDepth < envPtr->currStackDepth) {
 	    envPtr->maxStackDepth = envPtr->currStackDepth;
 	}
-	TclEmitInstInt(INST_CALL_BUILTIN_FUNC,
+	TclEmitInst1(INST_CALL_BUILTIN_FUNC,
 	        mathFuncPtr->builtinFuncIndex, envPtr);
 	envPtr->currStackDepth -= mathFuncPtr->numArgs;
     } else {
-	TclEmitInstInt(INST_CALL_FUNC, (mathFuncPtr->numArgs+1), envPtr);
+	TclEmitInst1(INST_CALL_FUNC, (mathFuncPtr->numArgs+1), envPtr);
     }
     *endPtrPtr = afterSubexprPtr;
 

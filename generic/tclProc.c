@@ -1839,7 +1839,7 @@ TclCompileNoOp(interp, parsePtr, envPtr)
 	if (tokenPtr->type != TCL_TOKEN_SIMPLE_WORD) { 
 	    TclCompileTokens(interp, tokenPtr+1, tokenPtr->numComponents,
 		    envPtr);
-	    TclEmitOpcode(INST_POP, envPtr);
+	    TclEmitInst0(INST_POP, envPtr);
 	} 
     }
     envPtr->currStackDepth = savedStackDepth;
