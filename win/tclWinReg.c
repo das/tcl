@@ -45,7 +45,7 @@
  * to the system predefined keys.
  */
 
-static char *rootKeyNames[] = {
+static CONST char *rootKeyNames[] = {
     "HKEY_LOCAL_MACHINE", "HKEY_USERS", "HKEY_CLASSES_ROOT",
     "HKEY_CURRENT_USER", "HKEY_CURRENT_CONFIG",
     "HKEY_PERFORMANCE_DATA", "HKEY_DYN_DATA", NULL
@@ -63,7 +63,7 @@ static HKEY rootKeys[] = {
  * mapping.
  */
 
-static char *typeNames[] = {
+static CONST char *typeNames[] = {
     "none", "sz", "expand_sz", "binary", "dword",
     "dword_big_endian", "link", "multi_sz", "resource_list", NULL
 };
@@ -254,8 +254,9 @@ RegistryObjCmd(
     int index;
     char *errString;
 
-    static char *subcommands[] = { "delete", "get", "keys", "set", "type",
-				   "values", (char *) NULL };
+    static CONST char *subcommands[] = {
+	"delete", "get", "keys", "set", "type", "values", (char *) NULL
+    };
     enum SubCmdIdx { DeleteIdx, GetIdx, KeysIdx, SetIdx, TypeIdx, ValuesIdx };
 
     if (objc < 2) {
