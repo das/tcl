@@ -493,7 +493,7 @@ test trace-8.8 {error returns from traces} {
     }
     catch {unset ::x ::y}
     set x junk
-    trace add variable ::x write [list junk $x]
+    trace add variable ::x write [list foo $x]
     for {set y 0} {$y<100} {incr y} {
 	catch {set x junk}
     }
