@@ -10,7 +10,7 @@ version of Tcl.  This directory also contains source files for Tcl
 that are specific to Microsoft Windows.
 
 The information in this file is maintained on the web at:
-	http://www.purl.org/tcl/home/doc/howto/compile.html#win
+	http://www.tcl.tk/doc/howto/compile.html#win
 
 The above URL includes a lengthy discussion of compiler macros necessary
 when compiling Tcl extensions that will be dynamically loaded.
