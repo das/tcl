@@ -6447,8 +6447,19 @@ Tcl_SetChannelOption(interp, chan, optionName, newValue)
 	return TCL_OK;
     } else if ((len > 7) && (optionName[1] == 'b') &&
             (strncmp(optionName, "-buffersize", len) == 0)) {
-        Tcl_SetChannelBufferSize(chan,
-                atoi(newValue));  /* INTL: "C", UTF safe. */
+	int newBufferSize;
+	if (Tcl_GetInt(interp, newValue, &newBufferSize) == TCL_ERROR) {
+	    return TCL_ERROR;
+	}
+	if (newBufferSize < 10 || newBufferSize > (1024 * 1024)) {
+	    if (interp) {
+		Tcl_AppendResult(interp, "bad value for -buffersize: ",
+			"must not be less than 10 or greater than 1Mbyte.",
+			NULL);
+	    }
+	    return TCL_ERROR;
+	}
+        Tcl_SetChannelBufferSize(chan, newBufferSize);
     } else if ((len > 2) && (optionName[1] == 'e') &&
 	    (strncmp(optionName, "-encoding", len) == 0)) {
 	Tcl_Encoding encoding;
