@@ -154,8 +154,6 @@ static int              NoopObjCmd _ANSI_ARGS_((ClientData clientData,
 			    Tcl_Obj *CONST objv[]));
 static void		PrintParse _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Parse *parsePtr));
-static int		RegGetCompFlags _ANSI_ARGS_((char *s));
-static int		RegGetExecFlags _ANSI_ARGS_((char *s));
 static void		SpecialFree _ANSI_ARGS_((char *blockPtr));
 static int		StaticInitProc _ANSI_ARGS_((Tcl_Interp *interp));
 static int		TestaccessprocCmd _ANSI_ARGS_((ClientData dummy,

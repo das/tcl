@@ -59,7 +59,9 @@ static char precisionString[10] = "12";
 static char precisionFormat[10] = "%.12g";
 				/* The format string actually used in calls
 				 * to sprintf. */
+#ifdef TCL_THREAD
 static Tcl_Mutex precisionMutex;
+#endif
 
 
 /*
@@ -1687,7 +1689,7 @@ Tcl_PrintDouble(interp, value, dst)
     for (p = dst; *p != 0; ) {
 	p += Tcl_UtfToUniChar(p, &ch);
 	c = UCHAR(ch);
-	if ((c == '.') || isalpha(c)) {	/* INTL: ISO only. */
+	if ((c == '.') || isalpha(UCHAR(c))) {	/* INTL: ISO only. */
 	    return;
 	}
     }

@@ -41,7 +41,10 @@ typedef struct AsyncHandler {
 static AsyncHandler *firstHandler;	/* First handler defined for process,
 					 * or NULL if none. */
 static AsyncHandler *lastHandler;	/* Last handler or NULL. */
+
+#ifdef TCL_THREAD
 static Tcl_Mutex asyncMutex;		/* Process-wide async handler lock */
+#endif
 
 /*
  * The variable below is set to 1 whenever a handler becomes ready and

@@ -18,7 +18,9 @@
 #include "tclInt.h"
 #include "tclPort.h"
 
+#ifdef TCL_THREAD
 static Tcl_Mutex envMutex;	/* To serialize access to environ */
+#endif
 
 static int cacheSize = 0;	/* Number of env strings in environCache. */
 static char **environCache = NULL;

@@ -22,7 +22,10 @@
  
 static Tcl_HashTable auxDataTypeTable;
 static int auxDataTypeTableInitialized; /* 0 means not yet initialized. */
+
+#ifdef TCL_THREAD
 static Tcl_Mutex tableMutex;
+#endif
 
 /*
  * Variable that controls whether compilation tracing is enabled and, if so,

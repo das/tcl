@@ -48,7 +48,9 @@ int errno;
  */
 
 static int execInitialized = 0;
+#ifdef TCL_THREAD
 static Tcl_Mutex execMutex;
+#endif
 
 /*
  * Variable that controls whether execution tracing is enabled and, if so,

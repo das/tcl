@@ -165,7 +165,9 @@ TclpGetTimeZone (currentTime)
 #if defined(HAVE_TIMEZONE_VAR) && !defined (TCL_GOT_TIMEZONE)
 #   define TCL_GOT_TIMEZONE
     static int setTZ = 0;
+#ifdef TCL_THREAD
     static Tcl_Mutex tzMutex;
+#endif
     int        timeZone;
 
     Tcl_MutexLock(&tzMutex);

@@ -108,7 +108,10 @@ typedef struct ExprInfo {
  */
 
 static int opTableInitialized = 0; /* 0 means not yet initialized. */
+
+#ifdef TCL_THREAD
 static Tcl_Mutex opMutex;
+#endif
 
 typedef struct OperatorDesc {
     char *name;			/* Name of the operator. */

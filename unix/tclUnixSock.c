@@ -41,7 +41,9 @@
 
 static char hostname[TCL_HOSTNAME_LEN + 1];
 static int  hostnameInited = 0;
+#ifdef TCL_THREAD
 static Tcl_Mutex hostMutex;
+#endif
 
 
 /*

@@ -1714,9 +1714,9 @@ GetLexeme(infoPtr)
 	default:
 	    offset = Tcl_UtfToUniChar(src, &ch);
 	    c = UCHAR(ch);
-	    if (isalpha(c)) {	/* INTL: ISO only. */
+	    if (isalpha(UCHAR(c))) {	/* INTL: ISO only. */
 		infoPtr->lexeme = FUNC_NAME;
-		while (isalnum(c) || (c == '_')) { /* INTL: ISO only. */
+		while (isalnum(UCHAR(c)) || (c == '_')) { /* INTL: ISO only. */
 		    src += offset;
 		    offset = Tcl_UtfToUniChar(src, &ch);
 		    c = UCHAR(ch);

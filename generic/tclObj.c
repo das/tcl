@@ -21,7 +21,9 @@
 
 static Tcl_HashTable typeTable;
 static int typeTableInitialized = 0;    /* 0 means not yet initialized. */
+#ifdef TCL_THREAD
 static Tcl_Mutex tableMutex;
+#endif
 
 /*
  * Head of the list of free Tcl_Objs we maintain.
@@ -34,7 +36,9 @@ Tcl_Obj *tclFreeObjList = NULL;
  * by the TclNewObj macro, however, so must be visible.
  */
 
+#ifdef TCL_THREAD
 Tcl_Mutex tclObjMutex;
+#endif
 
 /*
  * Pointer to a heap-allocated string of length zero that the Tcl core uses

@@ -572,7 +572,7 @@ chr *endp;			/* just past the end of the name */
 int cases;			/* case-independent? */
 {
     size_t len;
-    struct cvec *cv;
+    struct cvec *cv = NULL;
     Tcl_DString ds;
     char *np, **namePtr;
     int i, index;

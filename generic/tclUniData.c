@@ -617,5 +617,5 @@ enum {
  * Unicode character tables.
  */
 
-#define GetUniCharInfo(ch) (groups[groupMap[(pageMap[(((int)(ch)) & 0xffff) >> OFFSET_BITS] << OFFSET_BITS) | ((ch) & ((1 << OFFSET_BITS)-1))]])
+#define GetUniCharInfo(ch) (groups[(int)groupMap[(int)((pageMap[(((int)(ch)) & 0xffff) >> OFFSET_BITS] << OFFSET_BITS) | ((ch) & ((1 << OFFSET_BITS)-1)))]])
 

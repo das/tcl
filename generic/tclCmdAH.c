@@ -2211,7 +2211,7 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 
 		    size = Tcl_UtfAtIndex(ptrValue, stringLen) - ptrValue; 
 		    if (size) {
-			memcpy(ptr, ptrValue, size);
+			memcpy(ptr, ptrValue, (size_t) size);
 			ptr += size;
 		    }
 		    while (pad > 0) {

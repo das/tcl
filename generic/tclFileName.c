@@ -46,7 +46,9 @@ static int initialized = 0;
 
 static Tcl_Obj *winRootPatternPtr = NULL;
 static Tcl_Obj *macRootPatternPtr = NULL;
+#ifdef TCL_THREAD
 static Tcl_Mutex nameMutex;
+#endif
 
 /*
  * The following variable is set in the TclPlatformInit call to one

@@ -76,7 +76,9 @@ typedef struct ExitHandler {
 static ExitHandler *firstExitPtr = NULL;
 				/* First in list of all exit handlers for
 				 * application. */
+#ifdef TCL_THREAD
 static Tcl_Mutex exitMutex;
+#endif
 
 /*
  * This variable is set to 1 when Tcl_Finalize is called, and at the end of

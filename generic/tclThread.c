@@ -127,8 +127,8 @@ Tcl_GetThreadData(keyPtr, size)
     }
 #else
     if (*keyPtr == NULL) {
-	result = (VOID *)ckalloc(size);
-	memset((char *)result, 0, size);
+	result = (VOID *)ckalloc((size_t)size);
+	memset((char *)result, 0, (size_t)size);
 	*keyPtr = (Tcl_ThreadDataKey)result;
 	TclRememberDataKey(keyPtr);
     }

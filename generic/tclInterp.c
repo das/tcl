@@ -21,7 +21,9 @@
  */
 
 static int aliasCounter = 0;
+#ifdef TCL_THREAD
 static Tcl_Mutex cntMutex;
+#endif
 
 /*
  * struct Alias:

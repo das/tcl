@@ -21,7 +21,10 @@
 /*
  * The date parsing stuff uses lexx and has tons o statics.
  */
+
+#ifdef TCL_THREAD
 static Tcl_Mutex clockMutex;
+#endif
 
 /*
  * Function prototypes for local procedures in this file:

@@ -55,7 +55,7 @@
 #define TYPE_CLOSE_BRACK	0x20
 #define TYPE_BRACE		0x40
 
-#define CHAR_TYPE(c) (typeTable+128)[c]
+#define CHAR_TYPE(c) (typeTable+128)[(int)(c)]
 
 char typeTable[] = {
     /*
