@@ -14,6 +14,7 @@
 
 #include "tclInt.h"
 #include "tclPort.h"
+#include <locale.h>
 #define TM_YEAR_BASE 1900
 #define IsLeapYear(x)   ((x % 4 == 0) && (x % 100 != 0 || x % 400 == 0))
 
@@ -332,6 +333,7 @@ TclpStrftime(s, maxsize, format, t, useGMT)
 		(((t->tm_hour * 60) + t->tm_min)/144));
 	return(strlen(s));
     }
+    setlocale(LC_TIME, "");
     return strftime(s, maxsize, format, t);
 }
 

@@ -12,6 +12,8 @@
 #
 # RCS: @(#) $Id$
 
+set env(LC_TIME) POSIX
+
 if {[lsearch [namespace children] ::tcltest] == -1} {
     package require tcltest
     namespace import -force ::tcltest::*
