@@ -231,6 +231,7 @@ TclIntStubs tclIntStubs = {
     TclGetLibraryPath, /* 153 */
     TclTestChannelCmd, /* 154 */
     TclTestChannelEventCmd, /* 155 */
+    TclRegError, /* 156 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
@@ -779,6 +780,7 @@ TclStubs tclStubs = {
     Tcl_AppendUnicodeToObj, /* 384 */
     Tcl_RegExpMatchObj, /* 385 */
     Tcl_SetNotifier, /* 386 */
+    Tcl_RegExpMatchObj, /* 387 */
 };
 
 /* !END!: Do not edit above this line. */

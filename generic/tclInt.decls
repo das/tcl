@@ -583,6 +583,10 @@ declare 155 generic {
     int TclTestChannelEventCmd(ClientData clientData, \
 	    Tcl_Interp *interp, int argc, char **argv)
 }
+declare 156 generic {
+    void TclRegError (Tcl_Interp *interp, char *msg, \
+	    int status)
+}
 
 ##############################################################################
 

@@ -1618,7 +1618,6 @@ EXTERN int		TclGetIntForIndex _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *objPtr, int endValue, int *indexPtr));
 EXTERN Tcl_Obj *	TclGetIndexedScalar _ANSI_ARGS_((Tcl_Interp *interp,
 			    int localIndex, int leaveErrorMsg));
-EXTERN Tcl_Obj *	TclGetLibraryPath _ANSI_ARGS_((void));
 EXTERN int		TclGetLong _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *string, long *longPtr));
 EXTERN int		TclGetLoadedPackages _ANSI_ARGS_((
@@ -1786,7 +1785,6 @@ EXTERN Tcl_Obj *	TclSetElementOfIndexedArray _ANSI_ARGS_((
 			    Tcl_Interp *interp, int localIndex,
 			    Tcl_Obj *elemPtr, Tcl_Obj *objPtr,
 			    int leaveErrorMsg));
-EXTERN void		TclSetLibraryPath _ANSI_ARGS_((Tcl_Obj *pathPtr));
 EXTERN Tcl_Obj *	TclSetIndexedScalar _ANSI_ARGS_((Tcl_Interp *interp,
 			    int localIndex, Tcl_Obj *objPtr,
 			    int leaveErrorMsg));
@@ -1801,11 +1799,6 @@ EXTERN int		TclStat _ANSI_ARGS_((CONST char *path,
 EXTERN int		TclStatDeleteProc _ANSI_ARGS_((TclStatProc_ *proc));
 EXTERN int		TclStatInsertProc _ANSI_ARGS_((TclStatProc_ *proc));
 EXTERN void		TclTeardownNamespace _ANSI_ARGS_((Namespace *nsPtr));
-EXTERN int		TclTestChannelCmd _ANSI_ARGS_((ClientData clientData,
-			    Tcl_Interp *interp, int argc, char **argv));
-EXTERN int		TclTestChannelEventCmd _ANSI_ARGS_((
-			    ClientData clientData, Tcl_Interp *interp,
-			    int argc, char **argv));
 EXTERN void		TclTransferResult _ANSI_ARGS_((Tcl_Interp *sourceInterp,
 			    int result, Tcl_Interp *targetInterp));
 EXTERN int		TclUpdateReturnInfo _ANSI_ARGS_((Interp *iPtr));

@@ -616,9 +616,9 @@ typedef struct Tcl_Obj {
  * expression that is expensive to compute or has side effects.
  */
 
-EXTERN void		Tcl_IncrRefCount _ANSI_ARGS_((Tcl_Obj *objPtr));
-EXTERN void		Tcl_DecrRefCount _ANSI_ARGS_((Tcl_Obj *objPtr));
-EXTERN int		Tcl_IsShared _ANSI_ARGS_((Tcl_Obj *objPtr));
+void		Tcl_IncrRefCount _ANSI_ARGS_((Tcl_Obj *objPtr));
+void		Tcl_DecrRefCount _ANSI_ARGS_((Tcl_Obj *objPtr));
+int		Tcl_IsShared _ANSI_ARGS_((Tcl_Obj *objPtr));
 
 #ifdef TCL_MEM_DEBUG
 #   define Tcl_IncrRefCount(objPtr) \

@@ -48,22 +48,4 @@ typedef struct TclRegexp {
 				 * compiled regexp. */
 } TclRegexp;
 
-/*
- * Functions exported for use within the rest of Tcl.
- */
-
-EXTERN int		TclRegAbout _ANSI_ARGS_((Tcl_Interp *interp,
-			    Tcl_RegExp re));
-EXTERN int		TclRegExpMatchObj _ANSI_ARGS_((Tcl_Interp *interp,
-			    char *string, Tcl_Obj *patObj));
-EXTERN void		TclRegExpRangeUniChar _ANSI_ARGS_((Tcl_RegExp re,
-			    int index, int *startPtr, int *endPtr));
-
-/*
- * Functions exported from the regexp package for the test package to use.
- */
-
-EXTERN void		TclRegError _ANSI_ARGS_((Tcl_Interp *interp, char *msg,
-			    int status));
-
 #endif /* _TCLREGEXP */

@@ -1335,6 +1335,11 @@ declare 386 generic {
     void Tcl_SetNotifier(Tcl_NotifierProcs *notifierProcPtr)
 }
 
+declare 387 generic {
+    int Tcl_RegExpMatchObj (Tcl_Interp *interp, \
+	    char *string, Tcl_Obj *patObj)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are
