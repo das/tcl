@@ -1648,8 +1648,8 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		if (first < 0) {
 		    first = 0;
 		}
-		if (last >= length1 - 1) {
-		    last = length1 - 1;
+		if (last >= length2) {
+		    last = length2;
 		}
 		if (last >= first) {
 		    resultPtr = Tcl_GetRange(objv[2], first, last);

@@ -835,6 +835,9 @@ test string-12.19 {string range, bytearray object} {
     set r2 [string range $b 1 6]
     string compare $r1 $r2
 } 0
+test string-12.20 {string range, out of bounds indices} {
+    string range \u00ff 0 1
+} \u00ff
 
 test string-13.1 {string repeat} {
     list [catch {string repeat} msg] $msg
