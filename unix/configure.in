@@ -28,7 +28,6 @@ TCL_SRC_DIR=`cd $srcdir/..; pwd`
 
 AC_PROG_RANLIB
 SC_ENABLE_GCC
-AC_C_CROSS
 AC_HAVE_HEADERS(unistd.h limits.h)
 
 #------------------------------------------------------------------------
