@@ -35,9 +35,9 @@ if {$fileIndex > 0} {
     set globPattern [file join $::test::testsDir [lindex $argv $fileIndex]]
     puts stdout "Sourcing files that match:  $globPattern"
 } elseif {$tcl_platform(os) == "Win32s"} {
-    set [file join $::test::testsDir globPattern *.tes]
+    set globPattern [file join $::test::testsDir *.tes]
 } else {
-    set [file join $::test::testsDir globPattern *.test]
+    set globPattern [file join $::test::testsDir *.test]
 }
 set fileList [glob -nocomplain $globPattern]
 if {[llength $fileList] < 1} {
