@@ -3924,16 +3924,7 @@ TestsetobjerrorcodeCmd(dummy, interp, objc, objv)
     int objc;			/* Number of arguments. */
     Tcl_Obj *CONST objv[];	/* The argument objects. */
 {
-    Tcl_Obj *listObjPtr;
-
-    if (objc > 1) {
-	listObjPtr = Tcl_ConcatObj(objc - 1, objv + 1);
-    } else {
-	listObjPtr = Tcl_NewObj();
-    }
-    Tcl_IncrRefCount(listObjPtr);
-    Tcl_SetObjErrorCode(interp, listObjPtr);
-    Tcl_DecrRefCount(listObjPtr);
+    Tcl_SetObjErrorCode(interp, Tcl_ConcatObj(objc - 1, objv + 1));
     return TCL_ERROR;
 }
 
