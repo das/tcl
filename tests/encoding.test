@@ -520,16 +520,16 @@ foreach from {cp932 shiftjis euc-jp iso2022-jp} {
 	    cd [temporaryDirectory]
 	    set f [open $from.chars]
 	    fconfigure $f -encoding $from
-	    set out [open $from.$to.out w]
+	    set out [open $from.$to.tcltestout w]
 	    fconfigure $out -encoding $to
 	    puts -nonewline $out [read $f]
 	    close $out
 	    close $f
 	    
-	    # then compare $to.chars <=> $from.to.out as binary.
+	    # then compare $to.chars <=> $from.to.tcltestout as binary.
 	    set fa [open $to.chars]
 	    fconfigure $fa -encoding binary
-	    set fb [open $from.$to.out]
+	    set fb [open $from.$to.tcltestout]
 	    fconfigure $fb -encoding binary
 	    set diff [channel-diff $fa $fb]
 	    close $fa
@@ -541,7 +541,7 @@ foreach from {cp932 shiftjis euc-jp iso2022-jp} {
     }
 }
 
-eval [list file delete] [glob -directory [temporaryDirectory] *.chars *.out]
+eval [list file delete] [glob -directory [temporaryDirectory] *.chars *.tcltestout]
 # ===> Cut here <===
 
 # EscapeFreeProc, GetTableEncoding, unilen
