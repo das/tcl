@@ -92,6 +92,8 @@ AC_PROG_MAKE_SET
 # Perform additinal compiler tests.
 #--------------------------------------------------------------------
 
+SC_TCL_64BIT_FLAGS
+
 dnl Currently AC_CYGWIN is disabled since it invokes AC_CANONICAL_HOST
 dnl under autoconf 2.5X.
 dnl
