@@ -618,13 +618,19 @@ TclpSetVariables(interp)
 	}
     }
 
+    /*
+     * Initialize the user name from the environment first, since this is much
+     * faster than asking the system.
+     */
+
     Tcl_DStringSetLength(&ds, 100);
-    if (GetUserName(Tcl_DStringValue(&ds), &Tcl_DStringLength(&ds)) != 0) {
-	Tcl_SetVar2(interp, "tcl_platform", "user", Tcl_DStringValue(&ds),
-		TCL_GLOBAL_ONLY);
-    } else {
-	Tcl_SetVar2(interp, "tcl_platform", "user", "", TCL_GLOBAL_ONLY);
+    if (TclGetEnv("USERNAME", &ds) == NULL) {
+	if (GetUserName(Tcl_DStringValue(&ds), &Tcl_DStringLength(&ds)) == 0) {
+	    Tcl_DStringSetLength(&ds, 0);
+	}
     }
+    Tcl_SetVar2(interp, "tcl_platform", "user", Tcl_DStringValue(&ds),
+	    TCL_GLOBAL_ONLY);
     Tcl_DStringFree(&ds);
 }
 
