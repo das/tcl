@@ -313,6 +313,7 @@ TclFinalizeEncodingSubsystem()
 
     Tcl_MutexLock(&encodingMutex);
     encodingsInitialized  = 0;
+    FreeEncoding(systemEncoding);
     hPtr = Tcl_FirstHashEntry(&encodingTable, &search);
     while (hPtr != NULL) {
 	/*
@@ -324,7 +325,6 @@ TclFinalizeEncodingSubsystem()
 	FreeEncoding((Tcl_Encoding) Tcl_GetHashValue(hPtr));
 	hPtr = Tcl_FirstHashEntry(&encodingTable, &search);
     }
-    FreeEncoding(systemEncoding);
     Tcl_DeleteHashTable(&encodingTable);
     Tcl_MutexUnlock(&encodingMutex);
 }
