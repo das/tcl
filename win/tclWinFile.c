@@ -2433,9 +2433,18 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 		  && (data.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT)) {
 		    Tcl_Obj *to = WinReadLinkDirectory(nativePath);
 		    if (to != NULL) {
-			/* Read the reparse point ok */
-			/* Tcl_GetStringFromObj(to, &pathLen); */
-			nextCheckpoint = 0; /* pathLen */
+			/* 
+			 * Read the reparse point ok.  Now, reparse
+			 * points need not be normalized, otherwise
+			 * we could use: 
+			 * 
+			 * Tcl_GetStringFromObj(to, &pathLen); 
+			 * nextCheckpoint = pathLen
+			 * 
+			 * So, instead we have to start from the
+			 * beginning.
+			 */
+			nextCheckpoint = 0;
 			Tcl_AppendToObj(to, currentPathEndPosition, -1);
 			/* Convert link to forward slashes */
 			for (path = Tcl_GetString(to); *path != 0; path++) {
