@@ -340,7 +340,7 @@ if {[catch {exec grep foo bar.txt} results]} {
 }
 .CE
 
-When translating a command from a Unix shell invokation, care should
+When translating a command from a Unix shell invocation, care should
 be taken over the fact that single quote characters have no special
 significance to Tcl.  Thus:
 .CS
@@ -351,7 +351,7 @@ would be translated into something like:
 exec awk {{sum += $1} END {print sum}} numbers.list
 .CE
 
-If you are converting invokations involving shell globbing, you should
+If you are converting invocations involving shell globbing, you should
 remember that Tcl does not handle globbing or expand things into
 multiple arguments by default.  Instead you should write things like
 this:
