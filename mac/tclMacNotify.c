@@ -43,6 +43,13 @@ extern pascal QHdrPtr GetEventQueue(void)
 #endif
 
 /*
+ * Need this for replacing Tcl_SetTimer and Tcl_WaitForEvent defined 
+ * in THIS file with ones defined in the stub table.
+ */
+ 
+extern TclStubs tclStubs;
+
+/*
  * The follwing static indicates whether this module has been initialized.
  */
 
