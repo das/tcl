@@ -796,6 +796,7 @@ TclStubs tclStubs = {
     Tcl_ReadRaw, /* 394 */
     Tcl_WriteRaw, /* 395 */
     Tcl_GetTopChannel, /* 396 */
+    Tcl_ChannelBuffered, /* 397 */
 };
 
 /* !END!: Do not edit above this line. */

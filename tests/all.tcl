@@ -20,6 +20,9 @@ set ::tcltest::testsDirectory [file dir [info script]]
 # We need to ensure that the testsDirectory is absolute
 ::tcltest::normalizePath ::tcltest::testsDirectory
 
+set ::tcltest::matchFiles iogt*.test
+set ::tcltest::match      iogt-3.0x
+
 puts stdout "Tcl $tcl_patchLevel tests running in interp:  [info nameofexecutable]"
 puts stdout "Tests running in working dir:  $::tcltest::testsDirectory"
 if {[llength $::tcltest::skip] > 0} {

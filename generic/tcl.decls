@@ -1367,6 +1367,9 @@ declare 395 generic {
 declare 396 generic {
     Tcl_Channel Tcl_GetTopChannel (Tcl_Channel chan)
 }
+declare 397 generic {
+    int Tcl_ChannelBuffered (Tcl_Channel chan)
+}
 
 ##############################################################################
 

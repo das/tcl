@@ -139,6 +139,13 @@ typedef struct Channel {
 				 * channels.  See Tcl_StackChannel. */
     struct Channel *upChanPtr;	/* Refers to the channel above stacked this
 				 * one. NULL for the top most channel. */
+
+    /*
+     * Intermediate buffers to hold pre-read data for consumption by a
+     * newly stacked transformation. See 'Tcl_StackChannel'.
+     */
+    ChannelBuffer *inQueueHead;	/* Points at first buffer in input queue. */
+    ChannelBuffer *inQueueTail;	/* Points at last buffer in input queue. */
 } Channel;
 
 /*
