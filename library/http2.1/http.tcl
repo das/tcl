@@ -448,9 +448,8 @@ proc http::cleanup {token} {
     }
     if {[string equal $state(state) "header"]} {
 	if {[catch {gets $s line} n]} {
-	    Finish $token $err
-	}
-	if {$n == 0} {
+	    Finish $token $n
+	} elseif {$n == 0} {
 	    set state(state) body
 	    if {![regexp -nocase ^text $state(type)]} {
 		# Turn off conversions for non-text data
