@@ -14,6 +14,7 @@
  * RCS: @(#) $Id$
  */
 
+#include <stddef.h>
 #include "tclInt.h"
 #include "tclCompile.h"
 
@@ -1545,7 +1546,7 @@ TclExecuteByteCode(interp, codePtr)
 		objPtr = expandNestList;
 		expandNestList = (Tcl_Obj *) objPtr->internalRep.twoPtrValue.ptr2;
 		objc = tosPtr - eePtr->stackPtr 
-		        - (int) objPtr->internalRep.twoPtrValue.ptr1;
+		        - (ptrdiff_t) objPtr->internalRep.twoPtrValue.ptr1;
 		TclDecrRefCount(objPtr);
 	    }
 		
@@ -4824,7 +4825,7 @@ TclExecuteByteCode(interp, codePtr)
 	 */
 
 	processCatch:
-	while (tosPtr > (int) (eePtr->stackPtr[catchTop]) + eePtr->stackPtr) {
+	while (tosPtr > ((ptrdiff_t) (eePtr->stackPtr[catchTop])) + eePtr->stackPtr) {
 	    valuePtr = POP_OBJECT();
 	    TclDecrRefCount(valuePtr);
 	}
