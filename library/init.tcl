@@ -189,6 +189,14 @@ proc unknown args {
     # may get modified if caught errors occur below.  The variables will
     # be restored just before re-executing the missing command.
 
+    # Safety check in case something unsets the variables 
+    # ::errorInfo or ::errorCode.  [Bug 1063707]
+    if {![info exists errorCode]} {
+	set errorCode ""
+    }
+    if {![info exists errorInfo]} {
+	set errorInfo ""
+    }
     set savedErrorCode $errorCode
     set savedErrorInfo $errorInfo
     set name [lindex $args 0]
