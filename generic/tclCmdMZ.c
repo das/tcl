@@ -1857,8 +1857,8 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	    break;
 	}
 	case STR_MAP: {
-	    int mapElemc, nocase = 0;
-	    Tcl_Obj **mapElemv;
+	    int mapElemc, nocase = 0, copySource = 0;
+	    Tcl_Obj **mapElemv, *sourceObj;
 	    Tcl_UniChar *ustring1, *ustring2, *p, *end;
 	    int (*strCmpFn)_ANSI_ARGS_((CONST Tcl_UniChar*,
 					CONST Tcl_UniChar*, unsigned long));
@@ -1898,13 +1898,26 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		Tcl_SetStringObj(resultPtr, "char map list unbalanced", -1);
 		return TCL_ERROR;
 	    }
-	    objc--;
 
-	    ustring1 = Tcl_GetUnicodeFromObj(objv[objc], &length1);
+	    /*
+	     * Take a copy of the source string object if it is the
+	     * same as the map string to cut out nasty sharing
+	     * crashes. [Bug 1018562]
+	     */
+	    if (objv[objc-2] == objv[objc-1]) {
+		sourceObj = Tcl_DuplicateObj(objv[objc-1]);
+		copySource = 1;
+	    } else {
+		sourceObj = objv[objc-1];
+	    }
+	    ustring1 = Tcl_GetUnicodeFromObj(sourceObj, &length1);
 	    if (length1 == 0) {
 		/*
 		 * Empty input string, just stop now
 		 */
+		if (copySource) {
+		    Tcl_DecrRefCount(sourceObj);
+		}
 		break;
 	    }
 	    end = ustring1 + length1;
@@ -2023,6 +2036,9 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		 * Put the rest of the unmapped chars onto result
 		 */
 		Tcl_AppendUnicodeToObj(resultPtr, p, ustring1 - p);
+	    }
+	    if (copySource) {
+		Tcl_DecrRefCount(sourceObj);
 	    }
 	    break;
 	}
