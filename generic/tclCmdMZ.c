@@ -1634,8 +1634,8 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	    int mapElemc, nocase = 0;
 	    Tcl_Obj **mapElemv;
 	    Tcl_UniChar *ustring1, *ustring2, *p, *end;
-	    int (*strCmpFn)(CONST Tcl_UniChar*, CONST Tcl_UniChar*,
-		    unsigned long);
+	    int (*strCmpFn)_ANSI_ARGS_((CONST Tcl_UniChar*,
+					CONST Tcl_UniChar*, unsigned long));
 
 	    if (objc < 4 || objc > 5) {
 	        Tcl_WrongNumArgs(interp, 2, objv, "?-nocase? charMap string");
