@@ -314,7 +314,7 @@ Tcl_CreateInterp()
     Tcl_InitHashTable(&iPtr->mathFuncTable, TCL_STRING_KEYS);
 
     iPtr->numLevels = 0;
-    iPtr->maxNestingDepth = 1000;
+    iPtr->maxNestingDepth = MAX_NESTING_DEPTH;
     iPtr->framePtr = NULL;
     iPtr->varFramePtr = NULL;
     iPtr->activeTracePtr = NULL;
