@@ -386,7 +386,7 @@ typedef struct _stati64	Tcl_StatBuf;
 #      ifdef NO_LIMITS_H
 #	  error please define either TCL_WIDE_INT_TYPE or TCL_WIDE_INT_IS_LONG
 #      else /* !NO_LIMITS_H */
-#	  include <limit.h>
+#	  include <limits.h>
 #	  if (INT_MAX < LONG_MAX)
 #	     define TCL_WIDE_INT_IS_LONG	1
 #	  else
