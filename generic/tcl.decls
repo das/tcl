@@ -589,7 +589,7 @@ declare 166 generic {
 # generic interface, so we inlcude it here for compatibility reasons.
 
 declare 167 unix {
-    int Tcl_GetOpenFile(Tcl_Interp *interp, char *str, int write, \
+    int Tcl_GetOpenFile(Tcl_Interp *interp, char *str, int forWriting, \
 	    int checkUsage, ClientData *filePtr)
 }
 
