@@ -418,7 +418,7 @@ test lsearch-20.2 {lsearch -index option, malformed index} {
 } {1 {bad index "foo": must be integer or end?-integer?}}
 test lsearch-20.3 {lsearch -index option, malformed index} {
     list [catch {lsearch -index \{ {{a c} {a b} {a a}} a} msg] $msg
-} [list 1 "argument \"\{\" given to -index is invalid"]
+} {1 {unmatched open brace in list}}
 
 # cleanup
 catch {unset res}
