@@ -67,7 +67,7 @@ proc msgcat::mc {src args} {
     }
     # we have not found the translation
     return [uplevel 1 [list [namespace origin mcunknown] \
-	    $::msgcat::locale $src]]
+	    $::msgcat::locale $src] $args]
 }
 
 # msgcat::mclocale --
