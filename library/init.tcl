@@ -179,6 +179,8 @@ proc unknown args {
 	return -options $opts $result
     }
 
+    set savedErrorCode $::errorCode
+    set savedErrorInfo $::errorInfo
     set name [lindex $args 0]
     if {![info exists auto_noload]} {
 	#
@@ -201,6 +203,8 @@ proc unknown args {
 	    unset UnknownPending
 	}
 	if {$msg} {
+	    set ::errorCode $savedErrorCode
+	    set ::errorInfo $savedErrorInfo
 	    set code [catch {uplevel 1 $args} msg opts]
 	    if {$code ==  1} {
 		#
