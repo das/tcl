@@ -5324,28 +5324,15 @@ TestChannelCmd(clientData, interp, argc, argv)
         } else if (statePtr->outputTranslation == TCL_TRANSLATE_CRLF) {
             Tcl_AppendElement(interp, "crlf");
         }
-        for (IOQueued = 0, bufPtr = statePtr->inQueueHead;
-	     bufPtr != (ChannelBuffer *) NULL;
-	     bufPtr = bufPtr->nextPtr) {
-            IOQueued += bufPtr->nextAdded - bufPtr->nextRemoved;
-        }
+        IOQueued = Tcl_InputBuffered(chan);
         TclFormatInt(buf, IOQueued);
         Tcl_AppendElement(interp, buf);
         
-        IOQueued = 0;
-        if (statePtr->curOutPtr != (ChannelBuffer *) NULL) {
-            IOQueued = statePtr->curOutPtr->nextAdded -
-                statePtr->curOutPtr->nextRemoved;
-        }
-        for (bufPtr = statePtr->outQueueHead;
-	     bufPtr != (ChannelBuffer *) NULL;
-	     bufPtr = bufPtr->nextPtr) {
-            IOQueued += (bufPtr->nextAdded - bufPtr->nextRemoved);
-        }
+        IOQueued = Tcl_OutputBuffered(chan);
         TclFormatInt(buf, IOQueued);
         Tcl_AppendElement(interp, buf);
         
-        TclFormatInt(buf, (int)Tcl_Tell((Tcl_Channel) chanPtr));
+        TclFormatInt(buf, (int)Tcl_Tell(chan));
         Tcl_AppendElement(interp, buf);
 
         TclFormatInt(buf, statePtr->refCount);
@@ -5361,12 +5348,7 @@ TestChannelCmd(clientData, interp, argc, argv)
                     (char *) NULL);
             return TCL_ERROR;
         }
-        
-        for (IOQueued = 0, bufPtr = statePtr->inQueueHead;
-	     bufPtr != (ChannelBuffer *) NULL;
-	     bufPtr = bufPtr->nextPtr) {
-            IOQueued += bufPtr->nextAdded - bufPtr->nextRemoved;
-        }
+        IOQueued = Tcl_InputBuffered(chan);
         TclFormatInt(buf, IOQueued);
         Tcl_AppendResult(interp, buf, (char *) NULL);
         return TCL_OK;
@@ -5457,16 +5439,7 @@ TestChannelCmd(clientData, interp, argc, argv)
             return TCL_ERROR;
         }
 
-        IOQueued = 0;
-        if (statePtr->curOutPtr != (ChannelBuffer *) NULL) {
-            IOQueued = statePtr->curOutPtr->nextAdded -
-                statePtr->curOutPtr->nextRemoved;
-        }
-        for (bufPtr = statePtr->outQueueHead;
-	     bufPtr != (ChannelBuffer *) NULL;
-	     bufPtr = bufPtr->nextPtr) {
-            IOQueued += (bufPtr->nextAdded - bufPtr->nextRemoved);
-        }
+        IOQueued = Tcl_OutputBuffered(chan);
         TclFormatInt(buf, IOQueued);
         Tcl_AppendResult(interp, buf, (char *) NULL);
         return TCL_OK;
