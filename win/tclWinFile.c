@@ -2505,12 +2505,20 @@ TclpUtime(pathPtr, tval)
     struct utimbuf *tval;  /* New modification date structure */
 {
     int res;
+#ifndef __BORLANDC__
     /* 
      * Windows uses a slightly different structure name and, possibly,
      * contents, so we have to copy the information over
      */
     struct _utimbuf buf;
-    
+#else
+    /*
+     * Borland's compiler does not, but we still copy the content into a
+     * local variable using the 'generic' name
+     */
+    struct utimbuf buf;
+#endif
+
     buf.actime = tval->actime;
     buf.modtime = tval->modtime;
     
