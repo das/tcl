@@ -2517,8 +2517,8 @@ Tcl_TimeObjCmd(dummy, interp, objc, objv)
     }
     TclpGetTime(&stop);
     
-    totalMicroSec =
-	(stop.sec - start.sec)*1000000 + (stop.usec - start.usec);
+    totalMicroSec = ( (double) ( stop.sec - start.sec ) * 1.0e6
+		      + ( stop.usec - start.usec ) );
     sprintf(buf, "%.0f microseconds per iteration",
 	((count <= 0) ? 0 : totalMicroSec/count));
     Tcl_ResetResult(interp);
