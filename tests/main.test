@@ -221,7 +221,10 @@ namespace eval ::tcl::test::main {
     } -constraints {
 	exec
     } -setup {
-	catch {removeFile no-such-file}
+	if {[file exists no-such-file]} {
+	    error "Can't run test Tcl_Main-3.1\
+		    where a file named \"no-such-file\" exists"
+	}
     } -body {
 	set code [catch {exec [interpreter] no-such-file >& result} result]
 	set f [open result]
