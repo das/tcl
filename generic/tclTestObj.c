@@ -207,7 +207,6 @@ TestbignumobjCmd( clientData, interp, objc, objv )
 	    } else {
 		SetVarToObj(varIndex, Tcl_NewBignumObj(&bignumValue));
 	    }
-	    mp_clear( &bignumValue );
 	    break;
 	    
 	case BIGNUM_GET:
@@ -233,19 +232,20 @@ TestbignumobjCmd( clientData, interp, objc, objv )
 		return TCL_ERROR;
 	    }
 	    if ( mp_init( &newValue ) != MP_OKAY 
-		 || ( mp_mul_d( &bignumValue, 10, &newValue )
-		      != MP_OKAY ) ) {
+		 || ( mp_mul_d( &bignumValue, 10, &newValue ) != MP_OKAY ) ) {
+		mp_clear( &bignumValue );
+		mp_clear( &newValue );
 		Tcl_SetObjResult( interp,
 				  Tcl_NewStringObj( "error in mp_mul_d",
 						    -1 ) );
 		return TCL_ERROR;
 	    }
+	    mp_clear( &bignumValue );
 	    if ( !Tcl_IsShared( varPtr[varIndex] ) ) {
 		Tcl_SetBignumObj( varPtr[varIndex], &newValue );
 	    } else {
 		SetVarToObj( varIndex, Tcl_NewBignumObj( &newValue ) );
 	    }
-	    mp_clear( &newValue );
 	    break;
 
 	case BIGNUM_DIV10:
@@ -263,17 +263,19 @@ TestbignumobjCmd( clientData, interp, objc, objv )
 	    if ( mp_init( &newValue ) != MP_OKAY 
 		 || ( mp_div_d( &bignumValue, 10, &newValue, NULL )
 		      != MP_OKAY ) ) {
+		mp_clear( &bignumValue );
+		mp_clear( &newValue );
 		Tcl_SetObjResult( interp,
 				  Tcl_NewStringObj( "error in mp_div_d",
 						    -1 ) );
 		return TCL_ERROR;
 	    }
+	    mp_clear( &bignumValue );
 	    if ( !Tcl_IsShared( varPtr[varIndex] ) ) {
 		Tcl_SetBignumObj( varPtr[varIndex], &newValue );
 	    } else {
 		SetVarToObj( varIndex, Tcl_NewBignumObj( &newValue ) );
 	    }
-	    mp_clear( &newValue );
 	}
 
     Tcl_SetObjResult( interp, varPtr[varIndex] );
