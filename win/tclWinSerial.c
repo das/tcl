@@ -1034,7 +1034,7 @@ SerialOutputProc(
         infoPtr->toWrite = toWrite;
         ResetEvent(infoPtr->evWritable);
         SetEvent(infoPtr->evStartWriter);
-        bytesWritten = toWrite;
+        bytesWritten = (DWORD) toWrite;
 
     } else {
         /*
@@ -1045,7 +1045,7 @@ SerialOutputProc(
                 &bytesWritten, &infoPtr->osWrite) ) {
             goto writeError;
         }
-        if (bytesWritten != toWrite) {
+        if (bytesWritten != (DWORD) toWrite) {
             /* Write timeout */
             infoPtr->lastError |= CE_PTO;
             errno = EIO;
@@ -1053,7 +1053,7 @@ SerialOutputProc(
         }
     }
 
-    return bytesWritten;
+    return (int) bytesWritten;
 
 writeError:
     TclWinConvertError(GetLastError());
