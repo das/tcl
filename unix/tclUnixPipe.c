@@ -817,6 +817,8 @@ PipeBlockModeProc(instanceData, mode)
     }
 #endif	/* USE_FIONBIO */
     
+    psPtr->isNonBlocking = (mode == TCL_MODE_NONBLOCKING);
+
     return 0;
 }
 
