@@ -413,7 +413,7 @@ proc ::tcltest::cleanupTests {{calledFromAllFile 0}} {
 
 	foreach file $::tcltest::filesMade {
 	    if {[file exists $file]} {
-		#catch {file delete -force $file}
+		catch {file delete -force $file}
 	    }
 	}
 	set currentFiles {}
