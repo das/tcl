@@ -114,7 +114,8 @@ it immediately upon \fBpackage require\fR.
 \fB\-load \fIpkgPat\fR
 The index process will pre-load any packages that exist in the
 current interpreter and match \fIpkgPat\fP into the slave interpreter used to
-generate the index.  The pattern match uses string match rules.
+generate the index.  The pattern match uses string match rules, but without
+making case distinctions.
 See COMPLEX CASES below.
 .TP 15
 \fB\-verbose\fR

@@ -176,7 +176,7 @@ proc pkg_mkIndex {args} {
 	    }
 	}
 	foreach pkg [info loaded] {
-	    if {! [string match $loadPat [lindex $pkg 1]]} {
+	    if {! [string match -nocase $loadPat [lindex $pkg 1]]} {
 		continue
 	    }
 	    if {$doVerbose} {
