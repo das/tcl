@@ -1279,6 +1279,7 @@ ParsePrimaryExpr(infoPtr)
 	    if (Tcl_ParseCommand(interp, src, (parsePtr->end - src), 1,
 		    &nested) != TCL_OK) {
 		parsePtr->term = nested.term;
+		parsePtr->errorType = nested.errorType;
 		parsePtr->incomplete = nested.incomplete;
 		return TCL_ERROR;
 	    }
@@ -1295,6 +1296,7 @@ ParsePrimaryExpr(infoPtr)
 			    TCL_STATIC);
 		}
 		parsePtr->term = tokenPtr->start;
+		parsePtr->errorType = TCL_PARSE_MISSING_BRACKET;
 		parsePtr->incomplete = 1;
 		return TCL_ERROR;
 	    }
@@ -1514,6 +1516,7 @@ GetLexeme(infoPtr)
 		    Tcl_SetErrorCode(interp, "ARITH", "IOVERFLOW", s,
 			    (char *) NULL);
 		}
+		parsePtr->errorType = TCL_PARSE_BAD_NUMBER;
 		return TCL_ERROR;
 	    }
  	    if (termPtr != src) {
@@ -1537,6 +1540,7 @@ GetLexeme(infoPtr)
 		    if (interp != NULL) {
 			TclExprFloatError(interp, doubleValue);
 		    }
+		    parsePtr->errorType = TCL_PARSE_BAD_NUMBER;
 		    return TCL_ERROR;
 		}
 		
@@ -1823,4 +1827,6 @@ LogSyntaxError(infoPtr)
 	    ((numBytes > 60)? 60 : numBytes), infoPtr->originalExpr);
     Tcl_AppendStringsToObj(Tcl_GetObjResult(infoPtr->parsePtr->interp),
 	    buffer, (char *) NULL);
+    infoPtr->parsePtr->errorType = TCL_PARSE_SYNTAX;
+    infoPtr->parsePtr->term = infoPtr->start;
 }

@@ -322,7 +322,6 @@ tcltest:    setup $(TCLTEST) dlls $(CAT16) $(CAT32)
 plugin:	    setup $(TCLPLUGINDLL) $(TCLSHP)
 install:    install-binaries install-libraries
 test:	    setup $(TCLTEST) dlls $(CAT16) $(CAT32)
-	copy $(WINDIR)\pkgIndex.tcl $(OUTDIR)
 	set TCL_LIBRARY=$(ROOT)/library
 	$(TCLTEST) << "$(TCLREGDLL)"
 		load [lindex $$argv 0] registry
