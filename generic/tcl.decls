@@ -1347,7 +1347,12 @@ declare 390 generic {
     int Tcl_ProcObjCmd(ClientData clientData, Tcl_Interp *interp, \
 	    int objc, Tcl_Obj *CONST objv[])
 }
-
+declare 391 generic {
+    void Tcl_ConditionFinalize (Tcl_Condition *condPtr)
+}
+declare 392 generic {
+    void Tcl_MutexFinalize (Tcl_Mutex *mutex)
+}
 
 ##############################################################################
 

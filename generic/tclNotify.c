@@ -150,7 +150,7 @@ TclFinalizeNotifier()
     Tcl_MutexLock(&listLock);
 
     Tcl_FinalizeNotifier(tsdPtr->clientData);
-    TclFinalizeMutex(&(tsdPtr->queueMutex));
+    Tcl_MutexFinalize(&(tsdPtr->queueMutex));
     for (prevPtrPtr = &firstNotifierPtr; *prevPtrPtr != NULL;
 	 prevPtrPtr = &((*prevPtrPtr)->nextPtr)) {
 	if (*prevPtrPtr == tsdPtr) {

@@ -372,7 +372,7 @@ TclCreateThread(interp, script)
 
     Tcl_ConditionWait(&ctrl.condWait, &threadMutex, NULL);
     Tcl_MutexUnlock(&threadMutex);
-    TclFinalizeCondition(&ctrl.condWait);
+    Tcl_ConditionFinalize(&ctrl.condWait);
     Tcl_SetObjResult(interp, Tcl_NewLongObj((long)id));
     return TCL_OK;
 }
@@ -764,7 +764,7 @@ TclThreadSend(interp, id, script, wait)
 	}
     }
     Tcl_SetResult(interp, resultPtr->result, TCL_DYNAMIC);
-    TclFinalizeCondition(&resultPtr->done);
+    Tcl_ConditionFinalize(&resultPtr->done);
     code = resultPtr->code;
 
     ckfree((char *) resultPtr);

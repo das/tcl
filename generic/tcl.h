@@ -163,8 +163,10 @@ extern "C" {
 #ifndef TCL_THREADS
 #define Tcl_MutexLock(mutexPtr)
 #define Tcl_MutexUnlock(mutexPtr)
+#define Tcl_MutexFinalize(mutexPtr)
 #define Tcl_ConditionNotify(condPtr)
 #define Tcl_ConditionWait(condPtr, mutexPtr, timePtr)
+#define Tcl_ConditionFinalize(condPtr)
 #endif /* TCL_THREADS */
 
 /* 

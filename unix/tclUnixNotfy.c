@@ -272,7 +272,7 @@ Tcl_FinalizeNotifier(clientData)
      * Clean up any synchronization objects in the thread local storage.
      */
 
-    TclFinalizeCondition(&(tsdPtr->waitCV));
+    Tcl_ConditionFinalize(&(tsdPtr->waitCV));
 
     Tcl_MutexUnlock(&notifierMutex);
 #endif

@@ -788,6 +788,8 @@ TclStubs tclStubs = {
     Tcl_GetChannelNames, /* 388 */
     Tcl_GetChannelNamesEx, /* 389 */
     Tcl_ProcObjCmd, /* 390 */
+    Tcl_FinalizeCondition, /* 391 */
+    Tcl_FinalizeMutex, /* 392 */
 };
 
 /* !END!: Do not edit above this line. */

@@ -1623,8 +1623,6 @@ EXTERN int		TclFileRenameCmd _ANSI_ARGS_((Tcl_Interp *interp,
 			    int argc, char **argv)) ;
 EXTERN void		TclFinalizeAllocSubsystem _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeCompExecEnv _ANSI_ARGS_((void));
-EXTERN void		TclFinalizeCondition _ANSI_ARGS_((
-			    Tcl_Condition *condPtr));
 EXTERN void		TclFinalizeCompilation _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeEncodingSubsystem _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeEnvironment _ANSI_ARGS_((void));
@@ -1632,7 +1630,6 @@ EXTERN void		TclFinalizeExecution _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeIOSubsystem _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeLoad _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeMemorySubsystem _ANSI_ARGS_((void));
-EXTERN void		TclFinalizeMutex _ANSI_ARGS_((Tcl_Mutex *mutex));
 EXTERN void		TclFinalizeNotifier _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeSynchronization _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeThreadData _ANSI_ARGS_((void));
