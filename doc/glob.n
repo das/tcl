@@ -26,6 +26,7 @@ of the \fIpattern\fR arguments.
 If the initial arguments to \fBglob\fR start with \fB\-\fR then
 they are treated as switches.  The following switches are
 currently supported:
+.VS 8.3
 .TP
 \fB\-directory\fR \fIdirectory\fR
 Search for files which match the given patterns starting in the given
@@ -38,10 +39,12 @@ whose names may contain glob-sensitive characters.
 \fB\-join\fR
 The remaining pattern arguments are treated as a single pattern
 obtained by joining the arguments with directory separators.
+.VE 8.3
 .TP
 \fB\-nocomplain\fR
 Allows an empty list to be returned without error;  without this
 switch an error is returned if the result list would be empty.
+.VS 8.3
 .TP
 \fB\-path\fR \fIpathPrefix\fR
 Search for files with the given \fIpathPrefix\fR where the rest of the name
@@ -75,9 +78,6 @@ the Unix find command:
 \fIp\fR (named pipe),
 or \fIs\fR (socket), where multiple types may be specified in the list.
 \fBGlob\fR will return all files which match at least one of the types given.
-Note that symbolic links will be returned both if \fB\-types l\fR is given, 
-or if the target of a link matches the requested type.  So, a link to
-a directory will be returned if \fB\-types d\fR was specified.
 .RS
 .PP
 The second form specifies types where all the types given must match.
@@ -102,6 +102,7 @@ The following are equivalent:
 except that the first case doesn't return the trailing ``/'' and
 is more platform independent.
 .RE
+.VE 8.3
 .TP
 \fB\-\|\-\fR
 Marks the end of switches.  The argument following this one will
@@ -155,6 +156,7 @@ start with a tilde ``~'' (for example through \fBglob *\fR or
 ``./''.  This means care must be taken if those names are later to
 be used with \fBfile join\fR, to avoid them being interpreted as
 absolute paths pointing to a given user's home directory.
+
 .SH "PORTABILITY ISSUES"
 .PP
 Unlike other Tcl commands that will accept both network and native
@@ -182,27 +184,13 @@ interpreted as a wildcard character. One solution to this problem is
 to use the Unix style forward slash as a path separator. Windows style 
 paths can be converted to Unix style paths with the command \fBfile
 join $path\fR (or \fBfile normalize $path\fR in Tcl 8.4). 
-.SH EXAMPLES
-Find all the Tcl files in the current directory:
-.CS
-\fBglob\fR *.tcl
-.CE
-.PP
-Find all the Tcl files in the user's home directory, irrespective of
-what the current directory is:
-.CS
-\fBglob\fR \-directory ~ *.tcl
-.CE
-.PP
-Find all subdirectories of the current directory:
-.CS
-\fBglob\fR \-type d *
-.CE
-.PP
-Find all files whose name contains an "a", a "b" or the sequence "cde":
-.CS
-\fBglob\fR \-type f *{a,b,cde}*
-.CE
+.TP 
+\fBMacintosh\fR 
+. 
+When using the options, \fB\-directory\fR, \fB\-join\fR or \fB\-path\fR, glob
+assumes the directory separator for the entire pattern is the standard
+``:''.  When not using these options, glob examines each pattern argument
+and uses ``/'' unless the pattern contains a ``:''.
 
 .SH "SEE ALSO"
 file(n)

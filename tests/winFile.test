@@ -27,22 +27,16 @@ if {[info commands ::testvolumetype] == ""} {
 	tcltest::testConstraint notNTFS 1
     }
 }
-if {[string equal $::tcl_platform(os) "Windows NT"] &&
-	    $::tcl_platform(osVersion) >= 5.0} {
-    tcltest::testConstraint win2000 1
-} else {
-    tcltest::testConstraint win2000 0
-}
 
-test winFile-1.1 {TclpGetUserHome} {win} {
+test winFile-1.1 {TclpGetUserHome} {pcOnly} {
     list [catch {glob ~nosuchuser} msg] $msg
 } {1 {user "nosuchuser" doesn't exist}}
-test winFile-1.2 {TclpGetUserHome} {win nt nonPortable} {
+test winFile-1.2 {TclpGetUserHome} {pcOnly nt nonPortable} {
     # The administrator account should always exist.
 
     catch {glob ~administrator}
 } {0}
-test winFile-1.3 {TclpGetUserHome} {win 95} {
+test winFile-1.3 {TclpGetUserHome} {pcOnly 95} {
     # Find some user in system.ini and then see if they have a home.
 
     set f [open $::env(windir)/system.ini]
@@ -61,24 +55,25 @@ test winFile-1.3 {TclpGetUserHome} {win 95} {
     close $f
     set x
 } {0}
-test winFile-1.4 {TclpGetUserHome} {win nt nonPortable} {
+test winFile-1.4 {TclpGetUserHome} {pcOnly nt nonPortable} {
     catch {glob ~stanton@workgroup}
 } {0}
 
-test winFile-2.1 {TclpMatchFiles: case sensitivity} {win} {
+test winFile-2.1 {TclpMatchFiles: case sensitivity} {pcOnly} {
     makeFile {} GlobCapS
     set result [list [glob -nocomplain GlobC*] [glob -nocomplain globc*]]
     removeFile GlobCapS
     set result
 } {GlobCapS GlobCapS}
-test winFile-2.2 {TclpMatchFiles: case sensitivity} {win} {
+
+test winFile-2.2 {TclpMatchFiles: case sensitivity} {pcOnly} {
     makeFile {} globlower
     set result [list [glob -nocomplain globl*] [glob -nocomplain gLOBl*]]
     removeFile globlower
     set result
 } {globlower globlower}
 
-test winFile-3.1 {file system} {win} {
+test winFile-3.1 {file system} {pcOnly} {
     set res "volume types ok"
     foreach vol [file volumes] {
 	# Have to catch in case there is a removable drive (CDROM, floppy)
@@ -166,7 +161,7 @@ close [open $fname w]
 test winFile-4.0 {
     Enhanced NTFS user/group permissions: test no acccess
 } -constraints {
-    win nt notNTFS win2000
+    notNTFS pcOnly nt
 } -setup {
     set owner [getuser $fname]
     set user $::env(USERDOMAIN)\\$::env(USERNAME)
@@ -178,10 +173,11 @@ test winFile-4.0 {
     cacls $fname /E /P $user:N
     test_access $fname 0 0
 } -result {}
+
 test winFile-4.1 {
     Enhanced NTFS user/group permissions: test readable only
 } -constraints {
-    win nt notNTFS
+    notNTFS pcOnly nt
 } -setup {
     set user $::env(USERDOMAIN)\\$::env(USERNAME)
 } -body {
@@ -189,10 +185,11 @@ test winFile-4.1 {
     cacls $fname /E /G $user:R
     test_access $fname 1 0
 } -result {}
+
 test winFile-4.2 {
     Enhanced NTFS user/group permissions: test writable only
 } -constraints {
-    win nt notNTFS
+    notNTFS pcOnly nt
 } -setup {
     set user $::env(USERDOMAIN)\\$::env(USERNAME)
 } -body {
@@ -201,10 +198,11 @@ test winFile-4.2 {
     cacls $fname /E /G $user:W
     test_access $fname 0 1
 } -result {}
+
 test winFile-4.3 {
     Enhanced NTFS user/group permissions: test read+write
 } -constraints {
-    win nt notNTFS
+    notNTFS pcOnly nt
 } -setup {
     set user $::env(USERDOMAIN)\\$::env(USERNAME)
 } -body {
@@ -214,10 +212,11 @@ test winFile-4.3 {
     cacls $fname /E /G $user:W
     test_access $fname 1 1
 } -result {}
+
 test winFile-4.4 {
     Enhanced NTFS user/group permissions: test full access
 } -constraints {
-    win nt notNTFS
+    notNTFS pcOnly nt
 } -setup {
     set user $::env(USERDOMAIN)\\$::env(USERNAME)
 } -body {
@@ -232,3 +231,15 @@ file delete $fname
 # cleanup
 ::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
+
+

@@ -424,7 +424,7 @@ Tcl_PushCallFrame(interp, callFramePtr, namespacePtr, isProcCallFrame)
     } else {
         nsPtr = (Namespace *) namespacePtr;
         if (nsPtr->flags & NS_DEAD) {
-	    panic("Trying to push call frame for dead namespace");
+	    Tcl_Panic("Trying to push call frame for dead namespace");
 	    /*NOTREACHED*/
         }
     }
@@ -1691,7 +1691,7 @@ DeleteImportedCmd(clientData)
 	prevPtr = refPtr;
     }
 	
-    panic("DeleteImportedCmd: did not find cmd in real cmd's list of import references");
+    Tcl_Panic("DeleteImportedCmd: did not find cmd in real cmd's list of import references");
 }
 
 /*
@@ -1955,7 +1955,7 @@ TclGetNamespaceForQualName(interp, qualName, cxtNsPtr, flags,
                 Tcl_PopCallFrame(interp);
 
                 if (nsPtr == NULL) {
-                    panic("Could not create namespace '%s'", nsName);
+                    Tcl_Panic("Could not create namespace '%s'", nsName);
                 }
             } else {		/* namespace not found and wasn't created */
                 nsPtr = NULL;
@@ -4731,7 +4731,7 @@ NamespaceEnsembleCmd(dummy, interp, objc, objv)
     }
 
     default:
-	panic("unexpected ensemble command");
+	Tcl_Panic("unexpected ensemble command");
     }
     return TCL_OK;
 }
@@ -4894,7 +4894,7 @@ NsEnsembleImplementationCmd(clientData, interp, objc, objv)
 	}
 	hPtr = Tcl_FindHashEntry(&ensemblePtr->subcommandTable, fullName);
 	if (hPtr == NULL) {
-	    panic("full name %s not found in supposedly synchronized hash",
+	    Tcl_Panic("full name %s not found in supposedly synchronized hash",
 		    fullName);
 	}
 	prefixObj = (Tcl_Obj *) Tcl_GetHashValue(hPtr);

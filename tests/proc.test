@@ -20,12 +20,6 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
-if {[catch {package require procbodytest}]} {
-    testConstraint procbodytest 0
-} else {
-    testConstraint procbodytest 1
-}
-
 catch {namespace delete {expand}[namespace children :: test_ns_*]}
 catch {rename p ""}
 catch {rename {} ""}
@@ -172,16 +166,17 @@ test proc-3.5 {TclObjInterpProc, any old result is reset before appending error 
     list [catch {p} msg] $msg
 } {1 {wrong # args: should be "p x"}}
 
-test proc-3.6 {TclObjInterpProc, proper quoting of proc name, Bug 942757} {
-    proc {a b  c} {x} {info commands 3m}
-    list [catch {{a b  c}} msg] $msg
-} {1 {wrong # args: should be "{a b  c} x"}}
-
 catch {namespace delete {expand}[namespace children :: test_ns_*]}
 catch {rename p ""}
 catch {rename {} ""}
-catch {rename {a b  c} {}}
 catch {unset msg}
+
+if {[catch {package require procbodytest}]} {
+    puts "This application couldn't load the \"procbodytest\" package, so I"
+    puts "can't test creation of procs whose bodies have type \"procbody\"."
+    ::tcltest::cleanupTests
+    return
+}
 
 catch {rename p ""}
 catch {rename t ""}
@@ -191,7 +186,7 @@ catch {rename t ""}
 # is executed, so that the Proc struct is populated correctly (CompiledLocals
 # are added at compile time).
 
-test proc-4.1 {TclCreateProc, procbody obj} procbodytest {
+test proc-4.1 {TclCreateProc, procbody obj} {
     catch {
 	proc p x {return "$x:$x"}
 	set rv [p P]
@@ -203,7 +198,8 @@ test proc-4.1 {TclCreateProc, procbody obj} procbodytest {
     catch {rename t ""}
     set result
 } {P:P T:T}
-test proc-4.2 {TclCreateProc, procbody obj, use compiled locals} procbodytest {
+
+test proc-4.2 {TclCreateProc, procbody obj, use compiled locals} {
     catch {
 	proc p x {
 	    set y [string tolower $x]
@@ -218,7 +214,8 @@ test proc-4.2 {TclCreateProc, procbody obj, use compiled locals} procbodytest {
     catch {rename t ""}
     set result
 } {P:p T:t}
-test proc-4.3 {TclCreateProc, procbody obj, too many args} procbodytest {
+
+test proc-4.3 {TclCreateProc, procbody obj, too many args} {
     catch {
 	proc p x {
 	    set y [string tolower $x]
@@ -233,7 +230,8 @@ test proc-4.3 {TclCreateProc, procbody obj, too many args} procbodytest {
     catch {rename t ""}
     set result
 } {procedure "t": arg list contains 3 entries, precompiled header expects 1}
-test proc-4.4 {TclCreateProc, procbody obj, inconsitent arg name} procbodytest {
+
+test proc-4.4 {TclCreateProc, procbody obj, inconsitent arg name} {
     catch {
 	proc p {x y z} {
 	    set v [join [list $x $y $z]]
@@ -249,7 +247,8 @@ test proc-4.4 {TclCreateProc, procbody obj, inconsitent arg name} procbodytest {
     catch {rename t ""}
     set result
 } {procedure "t": formal parameter 1 is inconsistent with precompiled body}
-test proc-4.5 {TclCreateProc, procbody obj, inconsitent arg default type} procbodytest {
+
+test proc-4.5 {TclCreateProc, procbody obj, inconsitent arg default type} {
     catch {
 	proc p {x y {z Z}} {
 	    set v [join [list $x $y $z]]
@@ -265,7 +264,8 @@ test proc-4.5 {TclCreateProc, procbody obj, inconsitent arg default type} procbo
     catch {rename t ""}
     set result
 } {procedure "t": formal parameter 2 is inconsistent with precompiled body}
-test proc-4.6 {TclCreateProc, procbody obj, inconsitent arg default type} procbodytest {
+
+test proc-4.6 {TclCreateProc, procbody obj, inconsitent arg default type} {
     catch {
 	proc p {x y z} {
 	    set v [join [list $x $y $z]]
@@ -281,7 +281,8 @@ test proc-4.6 {TclCreateProc, procbody obj, inconsitent arg default type} procbo
     catch {rename t ""}
     set result
 } {procedure "t": formal parameter 2 is inconsistent with precompiled body}
-test proc-4.7 {TclCreateProc, procbody obj, inconsitent arg default value} procbodytest {
+
+test proc-4.7 {TclCreateProc, procbody obj, inconsitent arg default value} {
     catch {
 	proc p {x y {z Z}} {
 	    set v [join [list $x $y $z]]
@@ -324,47 +325,20 @@ test proc-6.1 {ProcessProcResultCode: Bug 647307 (negative return code)} {
     set result
 } -5
 
-test proc-7.1 {Redefining a compiled cmd: Bug 729692} {
-    proc bar args {}
-    proc foo {} {
-	proc bar args {return bar}
-	bar
-    }
-    foo
-} bar
-
-test proc-7.2 {Shadowing a compiled cmd: Bug 729692} {
-    namespace eval ugly {}
-    proc ugly::foo {} {
-	proc set args {return bar}
-	set x 1
-    }
-    set res [list [catch {ugly::foo} msg] $msg]
-    namespace delete ugly
-    set res
-} {0 bar}
-
-test proc-7.3 {Returning loop exception from redefined cmd: Bug 729692} {
-    namespace eval ugly {}
-    proc ugly::foo {} {
-	set i 0
-	while { 1 } {
-	    if { [incr i] > 3 } {
-		proc continue {} {return -code break}
-	    }
-	    continue
-	}
-	return $i
-    }
-    set res [list [catch {ugly::foo} msg] $msg]
-    namespace delete ugly
-    set res
-} {0 4}
-
-
-
 # cleanup
 catch {rename p ""}
 catch {rename t ""}
 ::tcltest::cleanupTests
 return
+
+
+
+
+
+
+
+
+
+
+
+

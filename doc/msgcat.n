@@ -13,9 +13,9 @@
 .SH NAME
 msgcat \- Tcl message catalog
 .SH SYNOPSIS
-\fBpackage require Tcl 8.5\fR
+\fBpackage require Tcl 8.2\fR
 .sp
-\fBpackage require msgcat 1.4.1\fR
+\fBpackage require msgcat 1.4\fR
 .sp
 \fB::msgcat::mc \fIsrc-string\fR ?\fIarg arg ...\fR?
 .sp
@@ -48,6 +48,7 @@ the message catalog.
 Use of the message catalog is optional by any application
 or package, but is encouraged if the application or package
 wishes to be enabled for multi-lingual applications.
+
 .SH COMMANDS
 .TP
 \fB::msgcat::mc \fIsrc-string\fR ?\fIarg arg ...\fR?
@@ -55,7 +56,7 @@ Returns a translation of \fIsrc-string\fR according to the
 user's current locale.  If additional arguments past \fIsrc-string\fR
 are given, the \fBformat\fR command is used to substitute the
 additional arguments in the translation of \fIsrc-string\fR.
-.PP
+
 \fB::msgcat::mc\fR will search the messages defined
 in the current namespace for a translation of \fIsrc-string\fR; if
 none is found, it will search in the parent of the current namespace,
@@ -90,9 +91,9 @@ Returns an ordered list of the locales preferred by
 the user, based on the user's language specification.
 The list is ordered from most specific to least
 preference.  The list is derived from the current
-locale set in msgcat by \fB::msgcat::mclocale\fR, and
+locale set in msgcat by \fBmsgcat::mclocale\fR, and
 cannot be set independently.  For example, if the
-current locale is en_US_funky, then \fB::msgcat::mcpreferences\fR
+current locale is en_US_funky, then \fBmsgcat::mcpreferences\fR
 .VS 1.4
 returns \fB{en_US_funky en_US en {}}\fR.
 .VE
@@ -103,7 +104,7 @@ the language specifications returned by \fB::msgcat::mcpreferences\fR
 (note that these are all lowercase), extended by the file
 extension ``.msg''.  Each matching file is 
 read in order, assuming a UTF-8 encoding.  The file contents are
-then evaluated as a Tcl script.  This means that Unicode characters
+then evaluated as a Tcl script.  This means that non-Latin characters
 may be present in the message file either directly in their UTF-8
 encoded form, or by use of the backslash-u quoting recognized by Tcl
 evaluation.  The number of message files which matched the specification
@@ -121,8 +122,8 @@ Sets the translation for multiple source strings in
 namespace.
 \fIsrc-trans-list\fR must have an even number of elements and is in
 the form {\fIsrc-string translate-string\fR ?\fIsrc-string
-translate-string ...\fR?} \fB::msgcat::mcmset\fR can be significantly
-faster than multiple invocations of \fB::msgcat::mcset\fR. The function
+translate-string ...\fR?} \fBmsgcat::mcmset\fR can be significantly
+faster than multiple invocations of \fBmsgcat::mcset\fR. The function
 returns the number of translations set.
 .TP
 \fB::msgcat::mcunknown \fIlocale src-string\fR
@@ -135,6 +136,7 @@ string.  The \fB::msgcat::mcunknown\fR procedure is invoked at the
 same stack context as the call to \fB::msgcat::mc\fR.  The return value
 of \fB::msgcat::mcunknown\fR is used as the return value for the call
 to \fB::msgcat::mc\fR.  
+
 .SH "LOCALE SPECIFICATION"
 .PP
 The locale is specified to \fBmsgcat\fR by a locale string
@@ -155,7 +157,7 @@ initial locale.  The value is parsed according to the XPG4 pattern
 language[_country][.codeset][@modifier]
 .CE
 to extract its parts.  The initial locale is then set by calling
-\fB::msgcat::mclocale\fR with the argument 
+\fBmsgcat::mclocale\fR with the argument 
 .CS
 language[_country][_modifier]
 .CE
@@ -174,6 +176,7 @@ en_GB_Funky, the locales ``en_GB_Funky'', ``en_GB'', ``en'' and ``''
 are searched in order until a matching translation
 string is found.  If no translation string is available, then
 \fB::msgcat::unknown\fR is called.
+
 .SH "NAMESPACES AND MESSAGE CATALOGS"
 .PP
 Strings stored in the message catalog are stored relative
@@ -185,12 +188,10 @@ error.
 .PP
 For example, executing the code
 .CS
-\fB::msgcat::mcset\fR en hello "hello from ::"
-namespace eval foo {
-   \fB::msgcat::mcset\fR en hello "hello from ::foo"
-}
-puts [\fB::msgcat::mc\fR hello]
-namespace eval foo {puts [\fB::msgcat::mc\fR hello]}
+mcset en hello "hello from ::"
+namespace eval foo {mcset en hello "hello from ::foo"}
+puts [mc hello]
+namespace eval foo {puts [mc hello]}
 .CE
 will print
 .CS
@@ -206,20 +207,19 @@ to "inherit" messages from their parent namespace.
 .PP
 For example, executing (in the ``en'' locale) the code 
 .CS
-\fB::msgcat::mcset\fR en m1 ":: message1"
-\fB::msgcat::mcset\fR en m2 ":: message2"
-\fB::msgcat::mcset\fR en m3 ":: message3"
+mcset en m1 ":: message1"
+mcset en m2 ":: message2"
+mcset en m3 ":: message3"
 namespace eval ::foo {
-   \fB::msgcat::mcset\fR en m2 "::foo message2"
-   \fB::msgcat::mcset\fR en m3 "::foo message3"
+    mcset en m2 "::foo message2"
+    mcset en m3 "::foo message3"
 }
 namespace eval ::foo::bar {
-   \fB::msgcat::mcset\fR en m3 "::foo::bar message3"
+    mcset en m3 "::foo::bar message3"
 }
-namespace import \fB::msgcat::mc\fR
-puts "[\fBmc\fR m1]; [\fBmc\fR m2]; [\fBmc\fR m3]"
-namespace eval ::foo {puts "[\fBmc\fR m1]; [\fBmc\fR m2]; [\fBmc\fR m3]"}
-namespace eval ::foo::bar {puts "[\fBmc\fR m1]; [\fBmc\fR m2]; [\fBmc\fR m3]"}
+puts "[mc m1]; [mc m2]; [mc m3]"
+namespace eval ::foo {puts "[mc m1]; [mc m2]; [mc m3]"}
+namespace eval ::foo::bar {puts "[mc m1]; [mc m2]; [mc m3]"}
 .CE
 will print
 .CS
@@ -227,6 +227,7 @@ will print
 :: message1; ::foo message2; ::foo message3
 :: message1; ::foo message2; ::foo::bar message3
 .CE
+
 .SH "LOCATION AND FORMAT OF MESSAGE FILES"
 .PP
 Message files can be located in any directory, subject
@@ -254,9 +255,10 @@ so that all source strings are tied to the namespace of
 the package. For example, a short \fBes.msg\fR might contain:
 .CS
 namespace eval ::mypackage {
-   \fB::msgcat::mcset\fR es "Free Beer!" "Cerveza Gracias!"
+    ::msgcat::mcset es "Free Beer!" "Cerveza Gracias!"
 }
 .CE
+
 .SH "RECOMMENDED MESSAGE SETUP FOR PACKAGES"
 .PP
 If a package is installed into a subdirectory of the
@@ -272,8 +274,9 @@ Copy your *.msg files into that directory.
 initialization script:
 .CS
 # load language files, stored in msgs subdirectory
-\fB::msgcat::mcload\fR [file join [file dirname [info script]] msgs]
+::msgcat::mcload [file join [file dirname [info script]] msgs]
 .CE
+
 .SH "POSITIONAL CODES FOR FORMAT AND SCAN COMMANDS"
 .PP
 It is possible that a message string used as an argument
@@ -295,6 +298,7 @@ format "In location %2\\$s we produced %1\\$d units" $num $city
 .PP
 Similarly, positional parameters can be used with \fBscan\fR to
 extract values from internationalized strings.
+
 .SH CREDITS
 .PP
 The message catalog code was developed by Mark Harrison.

@@ -14,12 +14,8 @@
  */
 
 #include "tclInt.h"
-
-#ifdef TCL_NO_MATH
-#define fabs(x) (x<0 ? -x : x)
-#else
+#include "tclPort.h"
 #include <math.h>
-#endif
 
 /*
  * The following constants are used by GetFormatSpec to indicate various
@@ -67,9 +63,6 @@ static int		SetByteArrayFromAny _ANSI_ARGS_((Tcl_Interp *interp,
 static void		UpdateStringOfByteArray _ANSI_ARGS_((Tcl_Obj *listPtr));
 static void		DeleteScanNumberCache _ANSI_ARGS_((
 			    Tcl_HashTable *numberCachePtr));
-static int		NeedReversing _ANSI_ARGS_((int format));
-static void		CopyNumber _ANSI_ARGS_((CONST void *from, void *to,
-			    unsigned int length, int type));
 
 /*
  * The following object type represents an array of bytes.  An array of
@@ -130,7 +123,7 @@ typedef struct ByteArray {
 
 
 /*
- *----------------------------------------------------------------------
+ *---------------------------------------------------------------------------
  *
  * Tcl_NewByteArrayObj --
  *
@@ -145,7 +138,7 @@ typedef struct ByteArray {
  * Side effects:
  *	Memory allocated for new object and copy of byte array argument.
  *
- *----------------------------------------------------------------------
+ *---------------------------------------------------------------------------
  */
 
 #ifdef TCL_MEM_DEBUG
@@ -180,7 +173,7 @@ Tcl_NewByteArrayObj(bytes, length)
 #endif /* TCL_MEM_DEBUG */
 
 /*
- *----------------------------------------------------------------------
+ *---------------------------------------------------------------------------
  *
  * Tcl_DbNewByteArrayObj --
  *
@@ -202,7 +195,7 @@ Tcl_NewByteArrayObj(bytes, length)
  * Side effects:
  *	Memory allocated for new object and copy of byte array argument.
  *
- *----------------------------------------------------------------------
+ *---------------------------------------------------------------------------
  */
 
 #ifdef TCL_MEM_DEBUG
@@ -268,12 +261,16 @@ Tcl_SetByteArrayObj(objPtr, bytes, length)
     int length;			/* Length of the array of bytes, which must
 				 * be >= 0. */
 {
+    Tcl_ObjType *typePtr;
     ByteArray *byteArrayPtr;
 
     if (Tcl_IsShared(objPtr)) {
 	Tcl_Panic("Tcl_SetByteArrayObj called with shared object");
     }
-    TclFreeIntRep(objPtr);
+    typePtr = objPtr->typePtr;
+    if ((typePtr != NULL) && (typePtr->freeIntRepProc != NULL)) {
+	(*typePtr->freeIntRepProc)(objPtr);
+    }
     Tcl_InvalidateStringRep(objPtr);
 
     byteArrayPtr = (ByteArray *) ckalloc(BYTEARRAY_SIZE(length));
@@ -339,7 +336,7 @@ Tcl_GetByteArrayFromObj(objPtr, lengthPtr)
  *	new array; new bytes are undefined.  When shrinking, the
  *	old array is truncated to the specified length.
  *
- *----------------------------------------------------------------------
+ *---------------------------------------------------------------------------
  */
 
 unsigned char *
@@ -373,7 +370,7 @@ Tcl_SetByteArrayLength(objPtr, length)
 }
 
 /*
- *----------------------------------------------------------------------
+ *---------------------------------------------------------------------------
  *
  * SetByteArrayFromAny --
  *
@@ -385,7 +382,7 @@ Tcl_SetByteArrayLength(objPtr, length)
  * Side effects:
  *	A ByteArray object is stored as the internal rep of objPtr.
  *
- *----------------------------------------------------------------------
+ *---------------------------------------------------------------------------
  */
 
 static int
@@ -393,13 +390,15 @@ SetByteArrayFromAny(interp, objPtr)
     Tcl_Interp *interp;		/* Not used. */
     Tcl_Obj *objPtr;		/* The object to convert to type ByteArray. */
 {
+    Tcl_ObjType *typePtr;
     int length;
     char *src, *srcEnd;
     unsigned char *dst;
     ByteArray *byteArrayPtr;
     Tcl_UniChar ch;
     
-    if (objPtr->typePtr != &tclByteArrayType) {
+    typePtr = objPtr->typePtr;
+    if (typePtr != &tclByteArrayType) {
 	src = Tcl_GetStringFromObj(objPtr, &length);
 	srcEnd = src + length;
 
@@ -412,7 +411,9 @@ SetByteArrayFromAny(interp, objPtr)
 	byteArrayPtr->used = dst - byteArrayPtr->bytes;
 	byteArrayPtr->allocated = length;
 
-	TclFreeIntRep(objPtr);
+	if ((typePtr != NULL) && (typePtr->freeIntRepProc) != NULL) {
+	    (*typePtr->freeIntRepProc)(objPtr);
+	}
 	objPtr->typePtr = &tclByteArrayType;
 	SET_BYTEARRAY(objPtr, byteArrayPtr);
     }
@@ -444,7 +445,7 @@ FreeByteArrayInternalRep(objPtr)
 }
 
 /*
- *----------------------------------------------------------------------
+ *---------------------------------------------------------------------------
  *
  * DupByteArrayInternalRep --
  *
@@ -458,7 +459,7 @@ FreeByteArrayInternalRep(objPtr)
  * Side effects:
  *	Allocates memory.
  *
- *----------------------------------------------------------------------
+ *---------------------------------------------------------------------------
  */
 
 static void
@@ -483,7 +484,7 @@ DupByteArrayInternalRep(srcPtr, copyPtr)
 }
 
 /*
- *----------------------------------------------------------------------
+ *---------------------------------------------------------------------------
  *
  * UpdateStringOfByteArray --
  *
@@ -501,7 +502,7 @@ DupByteArrayInternalRep(srcPtr, copyPtr)
  *	The object becomes a string object -- the internal rep is
  *	discarded and the typePtr becomes NULL.
  *
- *----------------------------------------------------------------------
+ *---------------------------------------------------------------------------
  */
 
 static void
@@ -575,7 +576,7 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 				 * character. */
     char *format;		/* Pointer to current position in format
 				 * string. */
-    Tcl_Obj *resultPtr = NULL;	/* Object holding result buffer. */
+    Tcl_Obj *resultPtr;		/* Object holding result buffer. */
     unsigned char *buffer;	/* Start of result buffer. */
     unsigned char *cursor;	/* Current position within result buffer. */
     unsigned char *maxPos;	/* Greatest position within result buffer that
@@ -655,32 +656,25 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 			size = 1;
 			goto doNumbers;
 		    }
-		    case 't':
 		    case 's':
 		    case 'S': {
 			size = 2;
 			goto doNumbers;
 		    }
-		    case 'n':
 		    case 'i':
 		    case 'I': {
 			size = 4;
 			goto doNumbers;
 		    }
-		    case 'm':
 		    case 'w':
 		    case 'W': {
 			size = 8;
 			goto doNumbers;
 		    }
-		    case 'r':
-		    case 'R':
 		    case 'f': {
 			size = sizeof(float);
 			goto doNumbers;
 		    }
-		    case 'q':
-		    case 'Q':
 		    case 'd': {
 			size = sizeof(double);
 			
@@ -709,7 +703,7 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 			    if (count == BINARY_ALL) {
 				count = listc;
 			    } else if (count > listc) {
-				Tcl_AppendResult(interp, 
+			        Tcl_AppendResult(interp, 
 					"number of elements in list does not match count",
 					(char *) NULL);
 				return TCL_ERROR;
@@ -774,7 +768,7 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 	     * number of bytes and filling with nulls.
 	     */
 
-	    resultPtr = Tcl_NewObj();
+	    resultPtr = Tcl_GetObjResult(interp);
 	    buffer = Tcl_SetByteArrayLength(resultPtr, length);
 	    memset((VOID *) buffer, 0, (size_t) length);
 
@@ -816,7 +810,7 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 			    memcpy((VOID *) cursor, (VOID *) bytes,
 				    (size_t) length);
 			    memset((VOID *) (cursor + length), pad,
-				    (size_t) (count - length));
+			            (size_t) (count - length));
 			}
 			cursor += count;
 			break;
@@ -953,20 +947,13 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 			break;
 		    }
 		    case 'c':
-		    case 't':
 		    case 's':
 		    case 'S':
-		    case 'n':
 		    case 'i':
 		    case 'I':
-		    case 'm':
 		    case 'w':
 		    case 'W':
-		    case 'r':
-		    case 'R':
 		    case 'd':
-		    case 'q':
-		    case 'Q':
 		    case 'f': {
 			int listc, i;
 			Tcl_Obj **listv;
@@ -1033,7 +1020,6 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 		    }
 		}
 	    }
-	    Tcl_SetObjResult(interp, resultPtr);
 	    break;
 	}
 	case BINARY_SCAN: {
@@ -1222,32 +1208,25 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 			size = 1;
 			goto scanNumber;
 		    }
-		    case 't':
 		    case 's':
 		    case 'S': {
 			size = 2;
 			goto scanNumber;
 		    }
-		    case 'n':
 		    case 'i':
 		    case 'I': {
 			size = 4;
 			goto scanNumber;
 		    }
-		    case 'm':
 		    case 'w':
 		    case 'W': {
 			size = 8;
 			goto scanNumber;
 		    }
-		    case 'r':
-		    case 'R':
 		    case 'f': {
 			size = sizeof(float);
 			goto scanNumber;
 		    }
-		    case 'q':
-		    case 'Q':
 		    case 'd': {
 			unsigned char *src;
 
@@ -1343,7 +1322,8 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 	     */
 
 	    done:
-	    Tcl_SetObjResult(interp, Tcl_NewLongObj(arg - 4));
+	    Tcl_ResetResult(interp);
+	    Tcl_SetLongObj(Tcl_GetObjResult(interp), arg - 4);
 	    DeleteScanNumberCache(numberCachePtr);
 	    break;
 	}
@@ -1352,7 +1332,7 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 
     badValue:
     Tcl_ResetResult(interp);
-    Tcl_AppendResult(interp, "expected ", errorString,
+    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), "expected ", errorString,
 	    " string but got \"", errorValue, "\" instead", NULL);
     return TCL_ERROR;
 
@@ -1443,135 +1423,6 @@ GetFormatSpec(formatPtr, cmdPtr, countPtr)
 /*
  *----------------------------------------------------------------------
  *
- * NeedReversing --
- *
- *	This routine determines, if bytes of a number need to be
- *	reversed.  This depends on the endiannes of the machine and
- *	the desired format.  It is in effect a table (whose contents
- *	depend on the endianness of the system) describing whether a
- *	value needs reversing or not.  Anyone porting the code to a
- *	big-endian platform should take care to make sure that they
- *	define WORDS_BIGENDIAN though this is already done by
- *	configure for the Unix build; little-endian platforms
- *	(including Windows) don't need to do anything.
- *
- * Results:
- *	1 if reversion is required, 0 if not.
- *
- * Side effects:
- *	None
- *   
- *----------------------------------------------------------------------
- */
-
-static int 
-NeedReversing(format)
-    int format;
-{
-    switch (format) {
-	/* native floats and doubles: never reverse */
-    case 'd':
-    case 'f':
-	/* big endian ints: never reverse */
-    case 'I':
-    case 'S':
-    case 'W':
-#ifdef WORDS_BIGENDIAN
-	/* native ints: reverse if we're little-endian */
-    case 'n':
-    case 't':
-    case 'm':
-	/* f+d: reverse if we're little-endian */
-    case 'Q':
-    case 'R':
-#else /* !WORDS_BIGENDIAN */
-	/* small endian floats: reverse if we're big-endian */
-    case 'q':
-    case 'r':
-#endif /* WORDS_BIGENDIAN */
-	return 0;
-
-#ifdef WORDS_BIGENDIAN
-	/* small endian floats: reverse if we're big-endian */
-    case 'q':
-    case 'r':
-#else /* !WORDS_BIGENDIAN */
-	/* native ints: reverse if we're little-endian */
-    case 'n':
-    case 't':
-    case 'm':
-	/* f+d: reverse if we're little-endian */
-    case 'Q':
-    case 'R':
-#endif /* WORDS_BIGENDIAN */
-	/* small endian ints: always reverse */
-    case 'i':
-    case 's':
-    case 'w':
-	return 1;
-    }
-
-    Tcl_Panic("unexpected fall-through");
-    return 0;
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * CopyNumber --
- *
- *	This routine is called by FormatNumber and ScanNumber to copy
- *	a floating-point number.  If required, bytes are reversed
- *	while copying.  The behaviour is only fully defined when used
- *	with IEEE float and double values (guaranteed to be 4 and 8
- *	bytes long, respectively.)
- *
- * Results:
- *	None
- *
- * Side effects:
- *	Copies length bytes
- *
- *----------------------------------------------------------------------
- */
-
-static void 
-CopyNumber(from, to, length, type)
-    CONST void *from;		/* source */
-    void *to;			/* destination */
-    unsigned int length;	/* Number of bytes to copy */
-    int type;			/* What type of thing are we copying? */
-{
-    if (NeedReversing(type)) {
-	CONST unsigned char *fromPtr = (CONST unsigned char *) from;
-	unsigned char *toPtr = (unsigned char *) to;
-
-	switch (length) {
-	case 4:
-	    toPtr[0] = fromPtr[3];
-	    toPtr[1] = fromPtr[2];
-	    toPtr[2] = fromPtr[1];
-	    toPtr[3] = fromPtr[0];
-	    break;
-	case 8:
-	    toPtr[0] = fromPtr[7];
-	    toPtr[1] = fromPtr[6];
-	    toPtr[2] = fromPtr[5];
-	    toPtr[3] = fromPtr[4];
-	    toPtr[4] = fromPtr[3];
-	    toPtr[5] = fromPtr[2];
-	    toPtr[6] = fromPtr[1];
-	    toPtr[7] = fromPtr[0];
-	    break;
-	}
-    } else {
-	memcpy(to, from, length); 
-    }
-}
-
-/*
- *----------------------------------------------------------------------
- *
  * FormatNumber --
  *
  *	This routine is called by Tcl_BinaryObjCmd to format a number
@@ -1597,59 +1448,50 @@ FormatNumber(interp, type, src, cursorPtr)
     long value;
     double dvalue;
     Tcl_WideInt wvalue;
-    float fvalue;
 
     switch (type) {
     case 'd':
-    case 'q':
-    case 'Q':
-	/*
-	 * Double-precision floating point values.
-	 */
-
-	if (Tcl_GetDoubleFromObj(interp, src, &dvalue) != TCL_OK) {
-	    return TCL_ERROR;
-	}
-	CopyNumber(&dvalue, *cursorPtr, sizeof(double), type);
-	*cursorPtr += sizeof(double);
-	return TCL_OK;
-
     case 'f':
-    case 'r':
-    case 'R':
 	/*
-	 * Single-precision floating point values.
+	 * For floating point types, we need to copy the data using
+	 * memcpy to avoid alignment issues.
 	 */
 
 	if (Tcl_GetDoubleFromObj(interp, src, &dvalue) != TCL_OK) {
 	    return TCL_ERROR;
 	}
-
-	/*
-	 * Because some compilers will generate floating point exceptions
-	 * on an overflow cast (e.g. Borland), we restrict the values
-	 * to the valid range for float.
-	 */
-
-	if (fabs(dvalue) > (double)FLT_MAX) {
-	    fvalue = (dvalue >= 0.0) ? FLT_MAX : -FLT_MAX;
+	if (type == 'd') {
+	    memcpy((VOID *) *cursorPtr, (VOID *) &dvalue, sizeof(double));
+	    *cursorPtr += sizeof(double);
 	} else {
-	    fvalue = (float) dvalue;
+	    float fvalue;
+
+	    /*
+	     * Because some compilers will generate floating point exceptions
+	     * on an overflow cast (e.g. Borland), we restrict the values
+	     * to the valid range for float.
+	     */
+
+	    if (fabs(dvalue) > (double)FLT_MAX) {
+		fvalue = (dvalue >= 0.0) ? FLT_MAX : -FLT_MAX;
+	    } else {
+		fvalue = (float) dvalue;
+	    }
+	    memcpy((VOID *) *cursorPtr, (VOID *) &fvalue, sizeof(float));
+	    *cursorPtr += sizeof(float);
 	}
-	CopyNumber(&fvalue, *cursorPtr, sizeof(float), type);
-	*cursorPtr += sizeof(float);
 	return TCL_OK;
 
 	/*
-	 * 64-bit integer values.
+	 * Next cases separate from other integer cases because we
+	 * need a different API to get a wide.
 	 */
     case 'w':
     case 'W':
-    case 'm':
 	if (Tcl_GetWideIntFromObj(interp, src, &wvalue) != TCL_OK) {
 	    return TCL_ERROR;
 	}
-	if (NeedReversing(type)) {
+	if (type == 'w') {
 	    *(*cursorPtr)++ = (unsigned char) wvalue;
 	    *(*cursorPtr)++ = (unsigned char) (wvalue >> 8);
 	    *(*cursorPtr)++ = (unsigned char) (wvalue >> 16);
@@ -1669,60 +1511,30 @@ FormatNumber(interp, type, src, cursorPtr)
 	    *(*cursorPtr)++ = (unsigned char) wvalue;
 	}
 	return TCL_OK;
-
-	/*
-	 * 32-bit integer values.
-	 */
-    case 'i':
-    case 'I':
-    case 'n':
-	if (Tcl_GetLongFromObj(interp, src, &value) != TCL_OK) {
-	    return TCL_ERROR;
-	}
-	if (NeedReversing(type)) {
-	    *(*cursorPtr)++ = (unsigned char) value;
-	    *(*cursorPtr)++ = (unsigned char) (value >> 8);
-	    *(*cursorPtr)++ = (unsigned char) (value >> 16);
-	    *(*cursorPtr)++ = (unsigned char) (value >> 24);
-	} else {
-	    *(*cursorPtr)++ = (unsigned char) (value >> 24);
-	    *(*cursorPtr)++ = (unsigned char) (value >> 16);
-	    *(*cursorPtr)++ = (unsigned char) (value >> 8);
-	    *(*cursorPtr)++ = (unsigned char) value;
-	}
-	return TCL_OK;
-
-	/*
-	 * 16-bit integer values.
-	 */
-    case 's':
-    case 'S':
-    case 't':
-	if (Tcl_GetLongFromObj(interp, src, &value) != TCL_OK) {
-	    return TCL_ERROR;
-	}
-	if (NeedReversing(type)) {
-	    *(*cursorPtr)++ = (unsigned char) value;
-	    *(*cursorPtr)++ = (unsigned char) (value >> 8);
-	} else {
-	    *(*cursorPtr)++ = (unsigned char) (value >> 8);
-	    *(*cursorPtr)++ = (unsigned char) value;
-	}
-	return TCL_OK;
-
-	/*
-	 * 8-bit integer values.
-	 */
-    case 'c':
-	if (Tcl_GetLongFromObj(interp, src, &value) != TCL_OK) {
-	    return TCL_ERROR;
-	}
-	*(*cursorPtr)++ = (unsigned char) value;
-	return TCL_OK;
-      
     default:
-	Tcl_Panic("unexpected fallthrough");
-	return TCL_ERROR;
+	if (Tcl_GetLongFromObj(interp, src, &value) != TCL_OK) {
+	    return TCL_ERROR;
+	}
+	if (type == 'c') {
+	    *(*cursorPtr)++ = (unsigned char) value;
+	} else if (type == 's') {
+	    *(*cursorPtr)++ = (unsigned char) value;
+	    *(*cursorPtr)++ = (unsigned char) (value >> 8);
+	} else if (type == 'S') {
+	    *(*cursorPtr)++ = (unsigned char) (value >> 8);
+	    *(*cursorPtr)++ = (unsigned char) value;
+	} else if (type == 'i') {
+	    *(*cursorPtr)++ = (unsigned char) value;
+	    *(*cursorPtr)++ = (unsigned char) (value >> 8);
+	    *(*cursorPtr)++ = (unsigned char) (value >> 16);
+	    *(*cursorPtr)++ = (unsigned char) (value >> 24);
+	} else if (type == 'I') {
+	    *(*cursorPtr)++ = (unsigned char) (value >> 24);
+	    *(*cursorPtr)++ = (unsigned char) (value >> 16);
+	    *(*cursorPtr)++ = (unsigned char) (value >> 8);
+	    *(*cursorPtr)++ = (unsigned char) value;
+	}
+	return TCL_OK;
     }
 }
 
@@ -1756,8 +1568,6 @@ ScanNumber(buffer, type, numberCachePtrPtr)
 				 * different numbers have been scanned. */
 {
     long value;
-    float fvalue;
-    double dvalue;
     Tcl_WideUInt uwvalue;
 
     /*
@@ -1769,114 +1579,92 @@ ScanNumber(buffer, type, numberCachePtrPtr)
      */
 
     switch (type) {
-    case 'c':
-	/*
-	 * Characters need special handling.  We want to produce a
-	 * signed result, but on some platforms (such as AIX) chars
-	 * are unsigned.  To deal with this, check for a value that
-	 * should be negative but isn't.
-	 */
+	case 'c':
+	    /*
+	     * Characters need special handling.  We want to produce a
+	     * signed result, but on some platforms (such as AIX) chars
+	     * are unsigned.  To deal with this, check for a value that
+	     * should be negative but isn't.
+	     */
 
-	value = buffer[0];
-	if (value & 0x80) {
-	    value |= -0x100;
-	}
-	goto returnNumericObject;
+	    value = buffer[0];
+	    if (value & 0x80) {
+		value |= -0x100;
+	    }
+	    goto returnNumericObject;
 
-	/*
-	 * 16-bit numeric values.  We need the sign extension trick
-	 * (see above) here as well.
-	 */
-
-    case 's':
-    case 'S':
-    case 't':
-	if (NeedReversing(type)) {
+	case 's':
 	    value = (long) (buffer[0] + (buffer[1] << 8));
-	} else {
+	    goto shortValue;
+	case 'S':
 	    value = (long) (buffer[1] + (buffer[0] << 8));
-	}
-	if (value & 0x8000) {
-	    value |= -0x10000;
-	}
-	goto returnNumericObject;
+	    shortValue:
+	    if (value & 0x8000) {
+		value |= -0x10000;
+	    }
+	    goto returnNumericObject;
 
-	/*
-	 * 32-bit numeric values.
-	 */
-
-    case 'i':
-    case 'I':
-    case 'n':
-	if (NeedReversing(type)) {
+	case 'i':
 	    value = (long) (buffer[0] 
 		    + (buffer[1] << 8)
 		    + (buffer[2] << 16)
 		    + (buffer[3] << 24));
-	} else {
+	    goto intValue;
+	case 'I':
 	    value = (long) (buffer[3]
 		    + (buffer[2] << 8)
 		    + (buffer[1] << 16)
 		    + (buffer[0] << 24));
-	}
+	    intValue:
+	    /*
+	     * Check to see if the value was sign extended properly on
+	     * systems where an int is more than 32-bits.
+	     */
 
-	/*
-	 * Check to see if the value was sign extended properly on
-	 * systems where an int is more than 32-bits.
-	 */
-
-	if ((value & (((unsigned int)1)<<31)) && (value > 0)) {
-	    value -= (((unsigned int)1)<<31);
-	    value -= (((unsigned int)1)<<31);
-	}
-
-    returnNumericObject:
-
-	if (*numberCachePtrPtr == NULL) {
-	    return Tcl_NewLongObj(value);
-	} else {
-	    register Tcl_HashTable *tablePtr = *numberCachePtrPtr;
-	    register Tcl_HashEntry *hPtr;
-	    int isNew;
-
-	    hPtr = Tcl_CreateHashEntry(tablePtr, (char *)value, &isNew);
-	    if (!isNew) {
-		return (Tcl_Obj *) Tcl_GetHashValue(hPtr);
+	    if ((value & (((unsigned int)1)<<31)) && (value > 0)) {
+		value -= (((unsigned int)1)<<31);
+		value -= (((unsigned int)1)<<31);
 	    }
-	    if (tablePtr->numEntries > BINARY_SCAN_MAX_CACHE) {
-
-		/*
-		 * We've overflowed the cache!  Someone's parsing a
-		 * LOT of varied binary data in a single call!  Bail
-		 * out by switching back to the old behaviour for the
-		 * rest of the scan.
-		 *
-		 * Note that anyone just using the 'c' conversion (for
-		 * bytes) cannot trigger this.
-		 */
-
-		DeleteScanNumberCache(tablePtr);
-		*numberCachePtrPtr = NULL;
+	    returnNumericObject:
+	    if (*numberCachePtrPtr == NULL) {
 		return Tcl_NewLongObj(value);
 	    } else {
-		register Tcl_Obj *objPtr = Tcl_NewLongObj(value);
+		register Tcl_HashTable *tablePtr = *numberCachePtrPtr;
+		register Tcl_HashEntry *hPtr;
+		int isNew;
 
-		Tcl_IncrRefCount(objPtr);
-		Tcl_SetHashValue(hPtr, (ClientData) objPtr);
-		return objPtr;
+		hPtr = Tcl_CreateHashEntry(tablePtr, (char *)value, &isNew);
+		if (!isNew) {
+		    return (Tcl_Obj *) Tcl_GetHashValue(hPtr);
+		}
+		if (tablePtr->numEntries > BINARY_SCAN_MAX_CACHE) {
+		    /*
+		     * We've overflowed the cache!  Someone's parsing
+		     * a LOT of varied binary data in a single call!
+		     * Bail out by switching back to the old behaviour
+		     * for the rest of the scan.
+		     *
+		     * Note that anyone just using the 'c' conversion
+		     * (for bytes) cannot trigger this.
+		     */
+		    DeleteScanNumberCache(tablePtr);
+		    *numberCachePtrPtr = NULL;
+		    return Tcl_NewLongObj(value);
+		} else {
+		    register Tcl_Obj *objPtr = Tcl_NewLongObj(value);
+
+		    Tcl_IncrRefCount(objPtr);
+		    Tcl_SetHashValue(hPtr, (ClientData) objPtr);
+		    return objPtr;
+		}
 	    }
-	}
 
-	/*
-	 * Do not cache wide (64-bit) values; they are already too
-	 * large to use as keys.
-	 */
-
-    case 'w':
-    case 'W':
-    case 'm':
-	if (NeedReversing(type)) {
-	    uwvalue = ((Tcl_WideUInt) buffer[0])
+	    /*
+	     * Do not cache wide values; they are already too large to
+	     * use as keys.
+	     */
+	case 'w':
+	    uwvalue =  ((Tcl_WideUInt) buffer[0])
 		    | (((Tcl_WideUInt) buffer[1]) << 8)
 		    | (((Tcl_WideUInt) buffer[2]) << 16)
 		    | (((Tcl_WideUInt) buffer[3]) << 24)
@@ -1884,8 +1672,9 @@ ScanNumber(buffer, type, numberCachePtrPtr)
 		    | (((Tcl_WideUInt) buffer[5]) << 40)
 		    | (((Tcl_WideUInt) buffer[6]) << 48)
 		    | (((Tcl_WideUInt) buffer[7]) << 56);
-	} else {
-	    uwvalue = ((Tcl_WideUInt) buffer[7])
+	    return Tcl_NewWideIntObj((Tcl_WideInt) uwvalue);
+	case 'W':
+	    uwvalue =  ((Tcl_WideUInt) buffer[7])
 		    | (((Tcl_WideUInt) buffer[6]) << 8)
 		    | (((Tcl_WideUInt) buffer[5]) << 16)
 		    | (((Tcl_WideUInt) buffer[4]) << 24)
@@ -1893,34 +1682,23 @@ ScanNumber(buffer, type, numberCachePtrPtr)
 		    | (((Tcl_WideUInt) buffer[2]) << 40)
 		    | (((Tcl_WideUInt) buffer[1]) << 48)
 		    | (((Tcl_WideUInt) buffer[0]) << 56);
+	    return Tcl_NewWideIntObj((Tcl_WideInt) uwvalue);
+
+	    /*
+	     * Do not cache double values; they are already too large
+	     * to use as keys and the values stored are utterly
+	     * incompatible too.
+	     */
+	case 'f': {
+	    float fvalue;
+	    memcpy((VOID *) &fvalue, (VOID *) buffer, sizeof(float));
+	    return Tcl_NewDoubleObj(fvalue);
 	}
-	return Tcl_NewWideIntObj((Tcl_WideInt) uwvalue);
-
-	/*
-	 * Do not cache double values; they are already too large to
-	 * use as keys and the values stored are utterly incompatible
-	 * with the integer part of the cache.
-	 */
-
-	/*
-	 * 32-bit IEEE single-precision floating point.
-	 */
-
-    case 'f':
-    case 'R':
-    case 'r':
-	CopyNumber(buffer, &fvalue, sizeof(float), type);
-	return Tcl_NewDoubleObj(fvalue);
-
-	/*
-	 * 64-bit IEEE double-precision floating point.
-	 */
-
-    case 'd':
-    case 'Q':
-    case 'q':
-	CopyNumber(buffer, &dvalue, sizeof(double), type);
-	return Tcl_NewDoubleObj(dvalue);
+	case 'd': {
+	    double dvalue;
+	    memcpy((VOID *) &dvalue, (VOID *) buffer, sizeof(double));
+	    return Tcl_NewDoubleObj(dvalue);
+	}
     }
     return NULL;
 }

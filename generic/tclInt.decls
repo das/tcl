@@ -75,10 +75,11 @@ declare 11 generic {
 declare 12 generic {
     void TclDeleteVars(Interp *iPtr, Tcl_HashTable *tablePtr)
 }
-declare 13 generic {
-    int TclDoGlob(Tcl_Interp *interp, char *separators,
-	    Tcl_DString *headPtr, char *tail, Tcl_GlobTypeData *types)
-}
+# Removed in 8.5
+#declare 13 generic {
+#    int TclDoGlob(Tcl_Interp *interp, char *separators,
+#	    Tcl_DString *headPtr, char *tail, Tcl_GlobTypeData *types)
+#}
 declare 14 generic {
     void TclDumpMemoryInfo(FILE *outFile)
 }
@@ -140,7 +141,7 @@ declare 28 generic {
 #      char *TclGetEnv(CONST char *name)
 #  }
 declare 31 generic {
-    char *TclGetExtension(char *name)
+    CONST char *TclGetExtension(CONST char *name)
 }
 declare 32 generic {
     int TclGetFrame(Tcl_Interp *interp, CONST char *str,
@@ -527,9 +528,9 @@ declare 134 generic {
     size_t TclpStrftime(char *s, size_t maxsize, CONST char *format,
 	    CONST struct tm *t, int useGMT)
 }
-declare 135 generic {
-    int TclpCheckStackSpace(void)
-}
+#declare 135 generic {
+#    int TclpCheckStackSpace(void)
+#}
 
 # Added in 8.1:
 
@@ -724,6 +725,15 @@ declare 178 generic {
 }
 declare 179 generic {
     Tcl_Obj *Tcl_GetStartupScript(CONST char **encodingNamePtr)
+}
+
+# Allocate lists without copying arrays
+declare 180 generic {
+    Tcl_Obj *TclNewListObjDirect(int objc, Tcl_Obj **objv)
+}
+declare 181 generic {
+    Tcl_Obj *TclDbNewListObjDirect(int objc, Tcl_Obj **objv,
+	    CONST char *file, int line)
 }
 ##############################################################################
 

@@ -12,6 +12,7 @@
  */
 
 #include "tclInt.h"
+#include "tclPort.h"
 
 /*
  * Callback structure for accept callback in a TCP server.
@@ -101,7 +102,7 @@ Tcl_PutsObjCmd(dummy, interp, objc, objv)
 	    int length;
 
 	    arg = Tcl_GetStringFromObj(objv[3], &length);
-	    if ((length != 9) || (strncmp(arg, "nonewline", (size_t) length) != 0)) {
+	    if (strncmp(arg, "nonewline", (size_t) length) != 0) {
 		Tcl_AppendResult(interp, "bad argument \"", arg,
 				 "\": should be \"nonewline\"",
 				 (char *) NULL);
@@ -227,7 +228,7 @@ Tcl_GetsObjCmd(dummy, interp, objc, objv)
     int lineLen;			/* Length of line just read. */
     int mode;				/* Mode in which channel is opened. */
     char *name;
-    Tcl_Obj *linePtr;
+    Tcl_Obj *resultPtr, *linePtr;
 
     if ((objc != 2) && (objc != 3)) {
 	Tcl_WrongNumArgs(interp, 1, objv, "channelId ?varName?");
@@ -263,7 +264,8 @@ Tcl_GetsObjCmd(dummy, interp, objc, objv)
 	    Tcl_DecrRefCount(linePtr);
             return TCL_ERROR;
         }
-	Tcl_SetObjResult(interp, Tcl_NewIntObj(lineLen));
+	resultPtr = Tcl_GetObjResult(interp);
+	Tcl_SetIntObj(resultPtr, lineLen);
         return TCL_OK;
     } else {
 	Tcl_SetObjResult(interp, linePtr);
@@ -496,7 +498,7 @@ Tcl_TellObjCmd(clientData, interp, objc, objv)
     if (chan == (Tcl_Channel) NULL) {
 	return TCL_ERROR;
     }
-    Tcl_SetObjResult(interp, Tcl_NewWideIntObj(Tcl_Tell(chan)));
+    Tcl_SetWideIntObj(Tcl_GetObjResult(interp), Tcl_Tell(chan));
     return TCL_OK;
 }
 
@@ -556,10 +558,6 @@ Tcl_CloseObjCmd(clientData, interp, objc, objv)
 	int len;
 	
 	resultPtr = Tcl_GetObjResult(interp);
-	if (Tcl_IsShared(resultPtr)) {
-	    resultPtr = Tcl_DuplicateObj(resultPtr);
-	    Tcl_SetObjResult(interp, resultPtr);
-	}
 	string = Tcl_GetStringFromObj(resultPtr, &len);
         if ((len > 0) && (string[len - 1] == '\n')) {
 	    Tcl_SetObjLength(resultPtr, len - 1);
@@ -682,7 +680,7 @@ Tcl_EofObjCmd(unused, interp, objc, objv)
 	return TCL_ERROR;
     }
 
-    Tcl_SetObjResult(interp, Tcl_NewBooleanObj(Tcl_Eof(chan)));
+    Tcl_SetBooleanObj(Tcl_GetObjResult(interp), Tcl_Eof(chan));
     return TCL_OK;
 }
 
@@ -711,6 +709,14 @@ Tcl_ExecObjCmd(dummy, interp, objc, objv)
     int objc;				/* Number of arguments. */
     Tcl_Obj *CONST objv[];		/* Argument objects. */
 {
+#ifdef MAC_TCL
+
+    Tcl_AppendResult(interp, "exec not implemented under Mac OS",
+		(char *)NULL);
+    return TCL_ERROR;
+
+#else /* !MAC_TCL */
+
     /*
      * This procedure generates an argv array for the string arguments. It
      * starts out with stack-allocated space but uses dynamically-allocated
@@ -834,7 +840,8 @@ Tcl_ExecObjCmd(dummy, interp, objc, objv)
      */
 
     result = Tcl_Close(interp, chan);
-    Tcl_AppendObjToObj(resultPtr, Tcl_GetObjResult(interp));
+    string = Tcl_GetStringFromObj(Tcl_GetObjResult(interp), &length);
+    Tcl_AppendToObj(resultPtr, string, length);
 
     /*
      * If the last character of the result is a newline, then remove
@@ -850,6 +857,7 @@ Tcl_ExecObjCmd(dummy, interp, objc, objv)
     Tcl_SetObjResult(interp, resultPtr);
 
     return result;
+#endif /* !MAC_TCL */
 }
 
 /*
@@ -893,12 +901,12 @@ Tcl_FblockedObjCmd(unused, interp, objc, objv)
         return TCL_ERROR;
     }
     if ((mode & TCL_READABLE) == 0) {
-	Tcl_AppendResult(interp, "channel \"",
+	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), "channel \"",
 		arg, "\" wasn't opened for reading", (char *) NULL);
         return TCL_ERROR;
     }
         
-    Tcl_SetObjResult(interp, Tcl_NewBooleanObj(Tcl_InputBlocked(chan)));
+    Tcl_SetBooleanObj(Tcl_GetObjResult(interp), Tcl_InputBlocked(chan));
     return TCL_OK;
 }
 
@@ -960,6 +968,12 @@ Tcl_OpenObjCmd(notUsed, interp, objc, objv)
     if (!pipeline) {
         chan = Tcl_FSOpenFileChannel(interp, objv[1], modeString, prot);
     } else {
+#ifdef MAC_TCL
+	Tcl_AppendResult(interp,
+		"command pipelines not supported on Macintosh OS",
+		(char *)NULL);
+	return TCL_ERROR;
+#else
 	int mode, seekFlag, cmdObjc;
 	CONST char **cmdArgv;
 
@@ -989,6 +1003,7 @@ Tcl_OpenObjCmd(notUsed, interp, objc, objv)
 	    chan = Tcl_OpenCommandChannel(interp, cmdObjc, cmdArgv, flags);
 	}
         ckfree((char *) cmdArgv);
+#endif
     }
     if (chan == (Tcl_Channel) NULL) {
         return TCL_ERROR;
@@ -1499,7 +1514,8 @@ Tcl_FcopyObjCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
     if ((mode & TCL_READABLE) == 0) {
-	Tcl_AppendResult(interp, "channel \"", arg, 
+	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), "channel \"",
+		Tcl_GetString(objv[1]), 
                 "\" wasn't opened for reading", (char *) NULL);
         return TCL_ERROR;
     }
@@ -1509,7 +1525,8 @@ Tcl_FcopyObjCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
     if ((mode & TCL_WRITABLE) == 0) {
-	Tcl_AppendResult(interp, "channel \"", arg, 
+	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), "channel \"",
+		Tcl_GetString(objv[1]), 
                 "\" wasn't opened for writing", (char *) NULL);
         return TCL_ERROR;
     }

@@ -17,7 +17,9 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 }
 
 
-test winConsole-1.1 {Console file channel: non-blocking gets} {win interactive} {
+test winConsole-1.1 {Console file channel: non-blocking gets} \
+	{pcOnly interactive} {
+    
     set oldmode [fconfigure stdin]
 
     puts stdout "Enter abcdef<return> now: " nonewline

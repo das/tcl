@@ -8,7 +8,6 @@
  *	that appears in tclHash.c.
  *
  * Copyright (c) 1997-1998 Sun Microsystems, Inc.
- * Copyright (c) 2004 by Kevin B. Kenny.  All rights reserved.
  *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -18,6 +17,7 @@
 
 #include "tclInt.h"
 #include "tclCompile.h"
+#include "tclPort.h"
 /*
  * When there are this many entries per bucket, on average, rebuild
  * a literal's hash table to make it larger.
@@ -79,84 +79,10 @@ TclInitLiteralTable(tablePtr)
 /*
  *----------------------------------------------------------------------
  *
- * TclCleanupLiteralTable --
- *
- *	This procedure frees the internal representation of every
- *	literal in a literal table.  It is called prior to deleting
- *	an interp, so that variable refs will be cleaned up properly.
- *
- * Results:
- *	None.
- *
- * Side effects:
- *	Each literal in the table has its internal representation freed.
- *
- *----------------------------------------------------------------------
- */
-
-void
-TclCleanupLiteralTable( interp, tablePtr )
-    Tcl_Interp* interp;         /* Interpreter containing literals to purge */
-    LiteralTable* tablePtr;     /* Points to the literal table being cleaned */
-{
-    int i;
-    LiteralEntry* entryPtr;     /* Pointer to the current entry in the
-                                 * hash table of literals */
-    LiteralEntry* nextPtr;      /* Pointer to the next entry in tbe
-                                 * bucket */
-    Tcl_Obj* objPtr;            /* Pointer to a literal object whose internal
-                                 * rep is being freed */
-    Tcl_ObjType* typePtr;       /* Pointer to the object's type */
-    int didOne;                 /* Flag for whether we've removed a literal
-                                 * in the current bucket */
-
-#ifdef TCL_COMPILE_DEBUG
-    TclVerifyGlobalLiteralTable( (Interp*) interp );
-#endif /* TCL_COMPILE_DEBUG */
-
-    for ( i = 0; i < tablePtr->numBuckets; i++ ) {
-
-        /* 
-         * It is tempting simply to walk each hash bucket once and
-         * delete the internal representations of each literal in turn.
-         * It's also wrong.  The problem is that freeing a literal's
-         * internal representation can delete other literals to which
-         * it refers, making nextPtr invalid.  So each time we free an
-         * internal rep, we start its bucket over again.
-         */
-        didOne = 1;
-        while ( didOne ) {
-            didOne = 0;
-            entryPtr = tablePtr->buckets[i];
-            while ( entryPtr != NULL ) {
-                objPtr = entryPtr->objPtr;
-                nextPtr = entryPtr->nextPtr;
-                typePtr = objPtr->typePtr;
-                if ( ( typePtr != NULL )
-                     && ( typePtr->freeIntRepProc != NULL ) ) {
-                    if ( objPtr->bytes == NULL ) {
-                      Tcl_Panic( "literal without a string rep" );
-                    }
-                    objPtr->typePtr = NULL;
-                    typePtr->freeIntRepProc( objPtr );
-                    didOne = 1;
-                } else {
-                    entryPtr = nextPtr;
-                }
-            }
-        }
-    }
-}
-	    
-
-/*
- *----------------------------------------------------------------------
- *
  * TclDeleteLiteralTable --
  *
  *	This procedure frees up everything associated with a literal table
- *	except for the table's structure itself. It is called when the
- *	interpreter is deleted.
+ *	except for the table's structure itself.
  *
  * Results:
  *	None.
@@ -176,10 +102,9 @@ TclDeleteLiteralTable(interp, tablePtr)
 				 * referenced by the table to delete. */
     LiteralTable *tablePtr;	/* Points to the literal table to delete. */
 {
-    LiteralEntry *entryPtr, *nextPtr;
-    Tcl_Obj *objPtr;
-    int i;
-    
+    LiteralEntry *entryPtr;
+    int i, start;
+
     /*
      * Release remaining literals in the table. Note that releasing a
      * literal might release other literals, modifying the table, so we
@@ -190,26 +115,18 @@ TclDeleteLiteralTable(interp, tablePtr)
     TclVerifyGlobalLiteralTable((Interp *) interp);
 #endif /*TCL_COMPILE_DEBUG*/
 
-    /*
-     * We used to call TclReleaseLiteral for each literal in the table, which
-     * is rather inefficient as it causes one lookup-by-hash for each
-     * reference to the literal.
-     * We now rely at interp-deletion on each bytecode object to release its
-     * references to the literal Tcl_Obj without requiring that it updates the
-     * global table itself, and deal here only with the table.
-     */
-
-    for (i = 0;  i < tablePtr->numBuckets;  i++) {
-	entryPtr = tablePtr->buckets[i];
-	while (entryPtr != NULL) {
-	    objPtr = entryPtr->objPtr;
-	    TclDecrRefCount(objPtr);
-	    nextPtr = entryPtr->nextPtr;
-	    ckfree((char *) entryPtr);
-	    entryPtr = nextPtr;
+    start = 0;
+    while (tablePtr->numEntries > 0) {
+	for (i = start;  i < tablePtr->numBuckets;  i++) {
+	    entryPtr = tablePtr->buckets[i];
+	    if (entryPtr != NULL) {
+		TclReleaseLiteral(interp, entryPtr->objPtr);
+		start = i;
+		break;
+	    }
 	}
     }
-    
+
     /*
      * Free up the table's bucket array if it was dynamically allocated.
      */
@@ -238,17 +155,17 @@ TclDeleteLiteralTable(interp, tablePtr)
  *	in the global table. We then add a reference to the shared
  *	literal in the CompileEnv's literal array. 
  *
- *	If LITERAL_ON_HEAP is set in flags, this procedure is given ownership
- *	of the string: if an object is created then its string representation
- *	is set directly from string, otherwise the string is freed. Typically,
- *	a caller sets LITERAL_ON_HEAP if "string" is an already heap-allocated
- *	buffer holding the result of backslash substitutions.
+ *	If onHeap is 1, this procedure is given ownership of the string: if
+ *	an object is created then its string representation is set directly
+ *	from string, otherwise the string is freed. Typically, a caller sets
+ *	onHeap 1 if "string" is an already heap-allocated buffer holding the
+ *	result of backslash substitutions.
  *
  *----------------------------------------------------------------------
  */
 
 int
-TclRegisterLiteral(envPtr, bytes, length, flags)
+TclRegisterLiteral(envPtr, bytes, length, onHeap)
     CompileEnv *envPtr;		/* Points to the CompileEnv in whose object
 				 * array an object is found or created. */
     register char *bytes;	/* Points to string for which to find or
@@ -257,11 +174,9 @@ TclRegisterLiteral(envPtr, bytes, length, flags)
     int length;			/* Number of bytes in the string. If < 0,
 				 * the string consists of all bytes up to
 				 * the first null character. */
-    int flags;			/* If LITERAL_ON_HEAP then the caller already
-				 * malloc'd bytes and ownership is passed to
-				 * this procedure. If LITERAL_NS_SCOPE then
-				 * the literal shouldnot be shared accross
-				 * namespaces. */
+    int onHeap;			/* If 1 then the caller already malloc'd
+				 * bytes and ownership is passed to this
+				 * procedure. */
 {
     Interp *iPtr = envPtr->iPtr;
     LiteralTable *globalTablePtr = &(iPtr->literalTable);
@@ -272,7 +187,6 @@ TclRegisterLiteral(envPtr, bytes, length, flags)
     int localHash, globalHash, objIndex;
     long n;
     char buf[TCL_INTEGER_SPACE];
-    Namespace *nsPtr;
 
     if (length < 0) {
 	length = (bytes? strlen(bytes) : 0);
@@ -292,7 +206,7 @@ TclRegisterLiteral(envPtr, bytes, length, flags)
 		|| ((objPtr->bytes[0] == bytes[0])
 			&& (memcmp(objPtr->bytes, bytes, (unsigned) length)
 				== 0)))) {
-	    if (flags & LITERAL_ON_HEAP) {
+	    if (onHeap) {
 		ckfree(bytes);
 	    }
 	    objIndex = (localPtr - envPtr->literalArrayPtr);
@@ -305,28 +219,15 @@ TclRegisterLiteral(envPtr, bytes, length, flags)
     }
 
     /*
-     * The literal is new to this CompileEnv. Should it be shared accross
-     * namespaces? If it is a fully qualified name, the namespace
-     * specification is not needed to avoid sharing.
-     */
-
-    if ((flags & LITERAL_NS_SCOPE) && iPtr->varFramePtr
-	    && ((length <2) || (bytes[0] != ':') || (bytes[1] != ':'))) {
-	nsPtr = iPtr->varFramePtr->nsPtr;
-    } else {
-	nsPtr = NULL;
-    }
-
-    /*
-     * Is it in the interpreter's global literal table?
+     * The literal is new to this CompileEnv. Is it in the interpreter's
+     * global literal table?
      */
 
     globalHash = (hash & globalTablePtr->mask);
     for (globalPtr = globalTablePtr->buckets[globalHash];
 	 globalPtr != NULL;  globalPtr = globalPtr->nextPtr) {
 	objPtr = globalPtr->objPtr;
-	if ((globalPtr->nsPtr == nsPtr)
-		&& (objPtr->length == length) && ((length == 0)
+	if ((objPtr->length == length) && ((length == 0)
 		|| ((objPtr->bytes[0] == bytes[0])
 			&& (memcmp(objPtr->bytes, bytes, (unsigned) length)
 				== 0)))) {
@@ -335,7 +236,7 @@ TclRegisterLiteral(envPtr, bytes, length, flags)
 	     * local literal array.
 	     */
 	    
-	    if (flags & LITERAL_ON_HEAP) {
+	    if (onHeap) {
 		ckfree(bytes);
 	    }
 	    objIndex = AddLocalLiteralEntry(envPtr, globalPtr, localHash);
@@ -359,7 +260,7 @@ TclRegisterLiteral(envPtr, bytes, length, flags)
 
     TclNewObj(objPtr);
     Tcl_IncrRefCount(objPtr);
-    if (flags & LITERAL_ON_HEAP) {
+    if (onHeap) {
 	objPtr->bytes = bytes;
 	objPtr->length = length;
     } else {
@@ -389,7 +290,6 @@ TclRegisterLiteral(envPtr, bytes, length, flags)
     globalPtr = (LiteralEntry *) ckalloc((unsigned) sizeof(LiteralEntry));
     globalPtr->objPtr = objPtr;
     globalPtr->refCount = 0;
-    globalPtr->nsPtr = nsPtr;
     globalPtr->nextPtr = globalTablePtr->buckets[globalHash];
     globalTablePtr->buckets[globalHash] = globalPtr;
     globalTablePtr->numEntries++;
@@ -776,6 +676,7 @@ TclReleaseLiteral(interp, objPtr)
     Interp *iPtr = (Interp *) interp;
     LiteralTable *globalTablePtr = &(iPtr->literalTable);
     register LiteralEntry *entryPtr, *prevPtr;
+    ByteCode* codePtr;
     char *bytes;
     int length, index;
 
@@ -812,6 +713,22 @@ TclReleaseLiteral(interp, objPtr)
 
 		TclDecrRefCount(objPtr);
 
+		/*
+		 * Check if the LiteralEntry is only being kept alive by 
+		 * a circular reference from a ByteCode stored as its 
+		 * internal rep. In that case, set the ByteCode object array 
+		 * entry NULL to signal to TclCleanupByteCode to not try to 
+		 * release this about to be freed literal again.
+		 */
+	    
+		if (objPtr->typePtr == &tclByteCodeType) {
+		    codePtr = (ByteCode *) objPtr->internalRep.otherValuePtr;
+		    if ((codePtr->numLitObjects == 1)
+		            && (codePtr->objArrayPtr[0] == objPtr)) {			
+			codePtr->objArrayPtr[0] = NULL;
+		    }
+		}
+
 #ifdef TCL_COMPILE_STATS
 		iPtr->stats.currentLitStringBytes -= (double) (length + 1);
 #endif /*TCL_COMPILE_STATS*/
@@ -819,7 +736,7 @@ TclReleaseLiteral(interp, objPtr)
 	    break;
 	}
     }
-
+    
     /*
      * Remove the reference corresponding to the local literal table
      * entry.
@@ -872,8 +789,8 @@ HashString(bytes, length)
      */
 
     result = 0;
-    for (i=0 ; i<length ; i++) {
-	result += (result<<3) + bytes[i];
+    for (i = 0;  i < length;  i++) {
+	result += (result<<3) + *bytes++;
     }
     return result;
 }

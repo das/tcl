@@ -19,8 +19,6 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
-testConstraint testhashsystemhash [llength [info commands testhashsystemhash]]
-
 test misc-1.1 {error in variable ref. in command in array reference} {
     proc tstProc {} {
 	global a
@@ -57,20 +55,19 @@ test misc-1.2 {error in variable ref. in command in array reference} {
 } [subst -novariables -nocommands {1
 missing close-brace for variable name
 missing close-brace for variable name
-    while executing
+    while compiling
 "set tst $a([winfo name $\{zz)
 	# this is a bogus comment
 	# this is a bogus comment
 	# this is a bogus comment
 	# this is a bogus comment
 	# this is a ..."
-    (procedure "tstProc" line 4)
+    (compiling body of proc "tstProc", line 4)
     invoked from within
 "tstProc"}]
 
 for {set i 1} {$i<300} {incr i} {
-    test misc-2.$i {hash table with sys-alloc} testhashsystemhash \
-	    "testhashsystemhash $i" OK
+    test misc-2.$i {hash table with sys-alloc} "testhashsystemhash $i" OK
 }
 
 # cleanup

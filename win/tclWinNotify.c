@@ -13,7 +13,7 @@
  * RCS: @(#) $Id$
  */
 
-#include "tclInt.h"
+#include "tclWinInt.h"
 
 /*
  * The follwing static indicates whether this module has been initialized.
@@ -458,19 +458,11 @@ Tcl_WaitForEvent(
     if (!PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
 	/*
 	 * Wait for something to happen (a signal from another thread, a
-	 * message, or timeout) or loop servicing asynchronous procedure
-	 * calls queued to this thread.
+	 * message, or timeout).
 	 */
 
-again:
-	result = MsgWaitForMultipleObjectsEx(1, &tsdPtr->event, timeout,
-		QS_ALLINPUT, MWMO_ALERTABLE);
-	if (result == WAIT_IO_COMPLETION) {
-	    goto again;
-	} else if (result == WAIT_FAILED) {
-	    status = -1;
-	    goto end;
-	}
+	result = MsgWaitForMultipleObjects(1, &tsdPtr->event, FALSE, timeout,
+		QS_ALLINPUT);
     }
 
     /*
@@ -507,7 +499,6 @@ again:
 	status = 0;
     }
 
-end:
     ResetEvent(tsdPtr->event);
     return status;
 }

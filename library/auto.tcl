@@ -23,10 +23,13 @@
 # None.
 
 proc auto_reset {} {
-    variable ::tcl::auto_oldpath
-    global auto_execs auto_index 
+    global auto_execs auto_index auto_oldpath
     foreach p [info procs] {
-	if {[info exists auto_index($p)]} {
+	if {[info exists auto_index($p)] && ![string match auto_* $p]
+		&& ([lsearch -exact {unknown pkg_mkIndex tclPkgSetup
+			tcl_findLibrary pkg_compareExtension
+			tclPkgUnknown tcl::MacOSXPkgUnknown
+			tcl::MacPkgUnknown} $p] < 0)} {
 	    rename $p {}
 	}
     }
@@ -51,57 +54,35 @@ proc auto_reset {} {
 
 proc tcl_findLibrary {basename version patch initScript enVarName varName} {
     upvar #0 $varName the_library
-    global env
+    global env errorInfo
 
     set dirs {}
     set errors {}
 
     # The C application may have hardwired a path, which we honor
-
+    
     set variableSet [info exists the_library]
-    if {$variableSet && $the_library ne ""} {
+    if {$variableSet && [string compare $the_library {}]} {
 	lappend dirs $the_library
     } else {
 
 	# Do the canonical search
 
-	# 1. From an environment variable, if it exists.
-	#    Placing this first gives the end-user ultimate control
-	#    to work-around any bugs, or to customize.
+	# 1. From an environment variable, if it exists
 
         if {[info exists env($enVarName)]} {
             lappend dirs $env($enVarName)
         }
 
-	# 2. In the package script directory registered within
-	#    the configuration of the package itself.
+	# 2. Relative to the Tcl library
 
-	if {[catch {
-	    ::${basename}::pkgconfig get scriptdir,runtime
-	} value] == 0} {
-	    lappend dirs $value
-	}
-
-	# 3. Relative to auto_path directories.  This checks relative to the
-	# Tcl library as well as allowing loading of libraries added to the
-	# auto_path that is not relative to the core library or binary paths.
-	foreach d $::auto_path {
-	    lappend dirs [file join $d $basename$version]
-	    if {$::tcl_platform(platform) eq "unix"
-		&& $::tcl_platform(os) eq "Darwin"} {
-		# 4. On MacOSX, check the Resources/Scripts subdir too
-		lappend dirs [file join $d $basename$version Resources Scripts]
-	    }
-	}
+        lappend dirs [file join [file dirname [info library]] \
+		$basename$version]
 
 	# 3. Various locations relative to the executable
 	# ../lib/foo1.0		(From bin directory in install hierarchy)
 	# ../../lib/foo1.0	(From bin/arch directory in install hierarchy)
 	# ../library		(From unix directory in build hierarchy)
-	#
-	# Remaining locations are out of date (when relevant, they ought
-	# to be covered by the $::auto_path seach above) and disabled.
-	#
 	# ../../library		(From unix/arch directory in build hierarchy)
 	# ../../foo1.0.1/library
 	#		(From unix directory in parallel build hierarchy)
@@ -113,30 +94,20 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
         lappend dirs [file join $parentDir lib $basename$version]
         lappend dirs [file join $grandParentDir lib $basename$version]
         lappend dirs [file join $parentDir library]
-	if {0} {
-	    lappend dirs [file join $grandParentDir library]
-	    lappend dirs [file join $grandParentDir $basename$patch library]
-	    lappend dirs [file join [file dirname $grandParentDir] \
-			      $basename$patch library]
+        lappend dirs [file join $grandParentDir library]
+        lappend dirs [file join $grandParentDir $basename$patch library]
+        lappend dirs [file join [file dirname $grandParentDir] \
+		$basename$patch library]
+
+	# 4. On MacOSX, check the directories in the tcl_pkgPath
+	if {[string equal $::tcl_platform(platform) "unix"] && \
+		[string equal $::tcl_platform(os) "Darwin"]} {
+	    foreach d $::tcl_pkgPath {
+		lappend dirs [file join $d $basename$version]
+		lappend dirs [file join $d $basename$version Resources Scripts]
+	    }
 	}
     }
-    # uniquify $dirs in order
-    array set seen {}
-    foreach i $dirs {
-	# Take note that the [file normalize] below has been noted to
-	# cause difficulties for the freewrap utility.  See Bug 1072136.
-	# Until freewrap resolves the matter, one might work around the
-	# problem by disabling that branch.
-	if {[interp issafe]} {
-	    set norm $i
-	} else {
-	    set norm [file normalize $i]
-	}
-	if {[info exists seen($norm)]} { continue }
-	set seen($norm) ""
-	lappend uniqdirs $i
-    }
-    set dirs $uniqdirs
     foreach i $dirs {
         set the_library $i
         set file [file join $i $initScript]
@@ -145,11 +116,10 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
 	# we have a source command, but no file exists command
 
         if {[interp issafe] || [file exists $file]} {
-            if {![catch {uplevel #0 [list source $file]} msg opts]} {
+            if {![catch {uplevel #0 [list source $file]} msg]} {
                 return
             } else {
-                append errors "$file: $msg\n"
-		append errors [dict get $opts -errorinfo]\n
+                append errors "$file: $msg\n$errorInfo\n"
             }
         }
     }
@@ -191,6 +161,8 @@ if {[interp issafe]} {
 #		are given auto_mkindex will look for *.tcl.
 
 proc auto_mkindex {dir args} {
+    global errorCode errorInfo
+
     if {[interp issafe]} {
         error "can't generate index within safe interpreter"
     }
@@ -212,11 +184,13 @@ proc auto_mkindex {dir args} {
 
     auto_mkindex_parser::init
     foreach file [glob {expand}$args] {
-        if {[catch {auto_mkindex_parser::mkindex $file} msg opts] == 0} {
+        if {[catch {auto_mkindex_parser::mkindex $file} msg] == 0} {
             append index $msg
         } else {
+            set code $errorCode
+            set info $errorInfo
             cd $oldDir
-	    return -options $opts $msg
+            error $msg $info $code
         }
     }
     auto_mkindex_parser::cleanup
@@ -231,6 +205,7 @@ proc auto_mkindex {dir args} {
 # code for "proc" at the beginning of the line.
 
 proc auto_mkindex_old {dir args} {
+    global errorCode errorInfo
     set oldDir [pwd]
     cd $dir
     set dir [pwd]
@@ -256,11 +231,13 @@ proc auto_mkindex_old {dir args} {
 		}
 	    }
 	    close $f
-	} msg opts]
+	} msg]
 	if {$error} {
+	    set code $errorCode
+	    set info $errorInfo
 	    catch {close $f}
 	    cd $oldDir
-	    return -options $opts $msg
+	    error $msg $info $code
 	}
     }
     set f ""
@@ -269,12 +246,13 @@ proc auto_mkindex_old {dir args} {
 	puts -nonewline $f $index
 	close $f
 	cd $oldDir
-    } msg opts]
+    } msg]
     if {$error} {
+	set code $errorCode
+	set info $errorInfo
 	catch {close $f}
 	cd $oldDir
 	error $msg $info $code
-	return -options $opts $msg
     }
 }
 

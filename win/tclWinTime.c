@@ -561,7 +561,20 @@ TclpGetDate(t, useGMT)
 	 * algorithm ignores daylight savings time before the epoch.
 	 */
 
+	/*
+	  Hm, Borland's localtime manages to return NULL under certain
+	  circumstances (e.g. wintime.test, test 1.2). Nobody tests for this,
+	  since 'localtime' isn't supposed to do this, possibly leading to
+	  crashes.
+	  Patch: We only call this function if we are at least one day into
+	  the epoch, else we handle it ourselves (like we do for times < 0).
+	  H. Giese, June 2003
+	*/
+#ifdef __BORLANDC__
+	if (*tp >= SECSPERDAY) {
+#else
 	if (*tp >= 0) {
+#endif
 	    return localtime(tp);
 	}
 

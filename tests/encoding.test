@@ -95,7 +95,7 @@ test encoding-4.1 {Tcl_GetEncodingNames} {testencoding} {
     foreach encoding [encoding names] {
 	set encodings($encoding) 1
     }
-    testencoding path [list [file join [pwd] encoding]]
+    testencoding path [list [pwd]]
     foreach encoding [encoding names] {
 	if {![info exists encodings($encoding)]} {
 	    lappend x $encoding
@@ -237,7 +237,7 @@ test encoding-11.6 {LoadEncodingFile: invalid file} {testencoding} {
     set path [testencoding path]
     encoding system identity
     cd [temporaryDirectory]
-    testencoding path [file join tmp encoding]
+    testencoding path tmp
     makeDirectory tmp
     makeDirectory [file join tmp encoding]
     set f [open [file join tmp encoding splat.enc] w]
@@ -290,21 +290,6 @@ test encoding-14.1 {BinaryProc} {
 test encoding-15.1 {UtfToUtfProc} {
     encoding convertto utf-8 \xa3
 } "\xc2\xa3"
-
-test encoding-15.2 {UtfToUtfProc null character output} {
-    set x \u0000
-    set y [encoding convertto utf-8 \u0000]
-    set y [encoding convertfrom identity $y]
-    binary scan $y H* z
-    list [string bytelength $x] [string bytelength $y] $z
-} {2 1 00}
-
-test encoding-15.3 {UtfToUtfProc null character input} {
-    set x [encoding convertfrom identity \x00]
-    set y [encoding convertfrom utf-8 $x]
-    binary scan [encoding convertto identity $y] H* z
-    list [string bytelength $x] [string bytelength $y] $z
-} {1 2 c080}
 
 test encoding-16.1 {UnicodeToUtfProc} {
     encoding convertfrom unicode NN

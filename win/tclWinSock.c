@@ -626,6 +626,7 @@ SocketThreadExitHandler(clientData)
 
 	GetExitCodeThread(tsdPtr->socketThread, &exitCode);
 	if (exitCode == STILL_ACTIVE) {
+	    DWORD dwWait;
 	    PostMessage(tsdPtr->hwnd, SOCKET_TERMINATE, 0, 0);
 
 	    /*
@@ -633,7 +634,16 @@ SocketThreadExitHandler(clientData)
 	     * completely cleaned up before we leave this function. 
 	     */
 
-	    WaitForSingleObject(tsdPtr->socketThread, INFINITE);
+	    dwWait = WaitForSingleObject(tsdPtr->socketThread, 100);
+	    if (dwWait == WAIT_TIMEOUT) {
+		/*
+		 * Avoids a lock-up, just in case it is needed from an
+		 * unclean exit condition when the thread appears
+		 * running, but isn't.
+		 */
+
+		TerminateThread(tsdPtr->socketThread, EXIT_FAILURE);
+	    }
 	}
 	CloseHandle(tsdPtr->socketThread);
 	tsdPtr->socketThread = NULL;
@@ -869,7 +879,7 @@ SocketEventProc(evPtr, flags)
 
 	Tcl_Time blockTime = { 0, 0 };
 	Tcl_SetMaxBlockTime(&blockTime);
-	mask |= TCL_READABLE;
+	mask |= TCL_READABLE|TCL_WRITABLE;
     } else if (events & FD_READ) {
 	fd_set readFds;
 	struct timeval timeout;
@@ -2256,7 +2266,7 @@ TcpWatchProc(instanceData, mask)
 	    infoPtr->watchEvents |= (FD_READ|FD_CLOSE|FD_ACCEPT);
 	}
 	if (mask & TCL_WRITABLE) {
-	    infoPtr->watchEvents |= (FD_WRITE|FD_CONNECT);
+	    infoPtr->watchEvents |= (FD_WRITE|FD_CLOSE|FD_CONNECT);
 	}
       
 	/*
@@ -2716,7 +2726,7 @@ TclpCutSockChannel(chan)
      */
 
     if (!removed) {
-        panic("file info ptr not on thread channel list");
+        Tcl_Panic("file info ptr not on thread channel list");
     }
 
     /*

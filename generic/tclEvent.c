@@ -617,7 +617,7 @@ Tcl_Exit(status)
 	/*
 	 * Warning: this code SHOULD NOT return, as there is code that
 	 * depends on Tcl_Exit never returning.  In fact, we will
-	 * panic if anyone returns, so critical is this dependcy.
+	 * Tcl_Panic if anyone returns, so critical is this dependcy.
 	 */
 	currentAppExitPtr((ClientData) status);
 	Tcl_Panic("AppExitProc returned unexpectedly");
@@ -742,7 +742,7 @@ TclInitSubsystems(argv0)
     ThreadSpecificData *tsdPtr;
 
     if (inFinalize != 0) {
-	panic("TclInitSubsystems called while finalizing");
+	Tcl_Panic("TclInitSubsystems called while finalizing");
     }
 
     /*
@@ -1180,7 +1180,7 @@ Tcl_UpdateObjCmd(clientData, interp, objc, objv)
 		break;
 	    }
 	    default: {
-		panic("Tcl_UpdateObjCmd: bad option index to UpdateOptions");
+		Tcl_Panic("Tcl_UpdateObjCmd: bad option index to UpdateOptions");
 	    }
 	}
     } else {

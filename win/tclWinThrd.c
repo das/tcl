@@ -25,9 +25,8 @@
 
 static CRITICAL_SECTION masterLock;
 static int init = 0;
-#define MASTER_LOCK TclpMasterLock()
-#define MASTER_UNLOCK TclpMasterUnlock()
-
+#define MASTER_LOCK  EnterCriticalSection(&masterLock)
+#define MASTER_UNLOCK  LeaveCriticalSection(&masterLock)
 
 /*
  * This is the master lock used to serialize initialization and finalization
@@ -45,7 +44,6 @@ static CRITICAL_SECTION initLock;
 
 static CRITICAL_SECTION allocLock;
 static Tcl_Mutex allocLockPtr = (Tcl_Mutex) &allocLock;
-static int allocOnce = 0;
 
 #endif /* TCL_THREADS */
 
@@ -116,7 +114,7 @@ typedef struct WinCondition {
 /*
  *----------------------------------------------------------------------
  *
- * TclpThreadCreate --
+ * Tcl_CreateThread --
  *
  *	This procedure creates a new thread.
  *
@@ -131,7 +129,7 @@ typedef struct WinCondition {
  */
 
 int
-TclpThreadCreate(idPtr, proc, clientData, stackSize, flags)
+Tcl_CreateThread(idPtr, proc, clientData, stackSize, flags)
     Tcl_ThreadId *idPtr;		/* Return, the ID of the thread */
     Tcl_ThreadCreateProc proc;		/* Main() function of the thread */
     ClientData clientData;		/* The one argument to Main() */
@@ -395,52 +393,18 @@ Tcl_Mutex *
 Tcl_GetAllocMutex()
 {
 #ifdef TCL_THREADS
-    if (!allocOnce) {
+    static int once = 0;
+
+    if (!once) {
 	InitializeCriticalSection(&allocLock);
-	allocOnce = 1;
+	once = 1;
     }
     return &allocLockPtr;
 #else
     return NULL;
 #endif
 }
-
-/*
- *----------------------------------------------------------------------
- *
- * TclpFinalizeLock
- *
- *	This procedure is used to destroy all private resources used in
- *	this file.
- *
- * Results:
- *	None.
- *
- * Side effects:
- *	Destroys everything private.  TclpInitLock must be held
- *	entering this function.
- *
- *----------------------------------------------------------------------
- */
 
-void
-TclFinalizeLock ()
-{
-    MASTER_LOCK;
-    DeleteCriticalSection(&joinLock);
-    /* Destroy the critical section that we are holding! */
-    DeleteCriticalSection(&masterLock);
-    init = 0;
-#ifdef TCL_THREADS
-    if (allocOnce) {
-	DeleteCriticalSection(&allocLock);
-	allocOnce = 0;
-    }
-#endif
-    LeaveCriticalSection(&initLock);
-    /* Destroy the critical section that we were holding. */
-    DeleteCriticalSection(&initLock);
-}
 
 #ifdef TCL_THREADS
 
@@ -1041,20 +1005,17 @@ TclpFinalizeCondition(condPtr)
  * Additions by AOL for specialized thread memory allocator.
  */
 #ifdef USE_THREAD_ALLOC
-static int once;
 static DWORD key;
-
-typedef struct allocMutex {
-    Tcl_Mutex        tlock;
-    CRITICAL_SECTION wlock;
-} allocMutex;
 
 Tcl_Mutex *
 TclpNewAllocMutex(void)
 {
-    struct allocMutex *lockPtr;
+    struct lock {
+        Tcl_Mutex        tlock;
+        CRITICAL_SECTION wlock;
+    } *lockPtr;
 
-    lockPtr = malloc(sizeof(struct allocMutex));
+    lockPtr = malloc(sizeof(struct lock));
     if (lockPtr == NULL) {
 	Tcl_Panic("could not allocate lock");
     }
@@ -1063,19 +1024,10 @@ TclpNewAllocMutex(void)
     return &lockPtr->tlock;
 }
 
-void
-TclpFreeAllocMutex(mutex)
-    Tcl_Mutex *mutex; /* The alloc mutex to free. */
-{
-    allocMutex* lockPtr = (allocMutex*) mutex;
-    if (!lockPtr) return;
-    DeleteCriticalSection(&lockPtr->wlock);
-    free(lockPtr);
-}
-
 void *
 TclpGetAllocCache(void)
 {
+    static int once = 0;
     VOID *result;
 
     if (!once) {
@@ -1125,15 +1077,6 @@ TclWinFreeAllocCache(void)
       if (GetLastError() != NO_ERROR) {
           Tcl_Panic("TlsGetValue failed from TclWinFreeAllocCache!");
       }
-    }
-
-    if (once) {    
-        success = TlsFree(key);
-        if (!success) {
-            Tcl_Panic("TlsFree failed from TclWinFreeAllocCache!");
-        }
-
-        once = 0; /* reset for next time. */
     }
 }
 

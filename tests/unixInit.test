@@ -14,11 +14,15 @@
 
 package require tcltest 2
 namespace import -force ::tcltest::*
-unset -nocomplain path
+catch {unset path}
+if {[info exists env(TCL_LIBRARY)]} {
+    set oldlibrary $env(TCL_LIBRARY)
+    unset env(TCL_LIBRARY)
+}
 catch {set oldlang $env(LANG)}
 set env(LANG) C
 
-test unixInit-1.1 {TclpInitPlatform: ignore SIGPIPE} {unix stdio} {
+test unixInit-1.1 {TclpInitPlatform: ignore SIGPIPE} {unixOnly stdio} {
     set x {}
 
     # Watch out for a race condition here.  If tcltest is too slow to start
@@ -44,7 +48,7 @@ test unixInit-1.1 {TclpInitPlatform: ignore SIGPIPE} {unix stdio} {
 # This test is really a test of code in tclUnixChan.c, but the
 # channels are set up as part of initialisation of the interpreter so
 # the test seems to me to fit here as well as anywhere else.
-test unixInit-1.2 {initialisation: standard channel type deduction} {unix stdio} {
+test unixInit-1.2 {initialisation: standard channel type deduction} {unixOnly stdio} {
     # pipe1 is a connection to a server that reports what port it
     # starts on, and delivers a constant string to the first client to
     # connect to that port before exiting.
@@ -95,7 +99,7 @@ test unixInit-1.2 {initialisation: standard channel type deduction} {unix stdio}
 proc getlibpath [list [list program [interpreter]]] {
     set f [open "|[list $program]" w+]
     fconfigure $f -buffering none
-    puts $f {puts $::tcl::LibPath; exit}
+    puts $f {puts $tcl_libPath; exit}
     set path [gets $f]
     close $f
     return $path
@@ -105,33 +109,16 @@ proc getlibpath [list [list program [interpreter]]] {
 
 testConstraint testgetdefenc [llength [info commands testgetdefenc]]
 
-unset -nocomplain oldlibrary
-catch {
-    set oldlibrary $env(TCL_LIBRARY)
-    unset env(TCL_LIBRARY)
-}
-testConstraint canInitWithoutEnvTclLibrary [expr {[catch getlibpath] == 0}]
-if {[info exists oldlibrary]} {
-    set env(TCL_LIBRARY) $oldlibrary
-}
-
 test unixInit-2.0 {TclpInitLibraryPath: setting tclDefaultEncodingDir} \
-	{unix testgetdefenc} {
+	{unixOnly testgetdefenc} {
     set origDir [testgetdefenc]
     testsetdefenc slappy
     set path [testgetdefenc]
     testsetdefenc $origDir
     set path
 } {slappy}
-test unixInit-2.1 {TclpInitLibraryPath: value of installLib, developLib} -constraints {
-    unix stdio canInitWithoutEnvTclLibrary
-} -setup {
-    unset -nocomplain oldlibrary
-    if {[info exists env(TCL_LIBRARY)]} {
-	set oldlibrary $env(TCL_LIBRARY)
-	unset env(TCL_LIBRARY)
-    }
-} -body {
+test unixInit-2.1 {TclpInitLibraryPath: value of installLib, developLib} \
+	{unixOnly stdio} {
     set path [getlibpath]
 
     set installLib lib/tcl[info tclversion]
@@ -142,20 +129,8 @@ test unixInit-2.1 {TclpInitLibraryPath: value of installLib, developLib} -constr
     lappend x [string compare [lindex $path 0] $prefix/$installLib]
     lappend x [string compare [lindex $path 4] [file dirname $prefix]/$developLib]
     set x
-} -cleanup {
-    if {[info exists oldlibrary]} {
-	set env(TCL_LIBRARY) $oldlibrary
-	unset oldlibrary
-    }
-} -result {0 0}
-test unixInit-2.2 {TclpInitLibraryPath: TCL_LIBRARY} -constraints {
-    unix stdio canInitWithoutEnvTclLibrary 
-} -setup {
-    unset -nocomplain oldlibrary
-    if {[info exists env(TCL_LIBRARY)]} {
-	set oldlibrary $env(TCL_LIBRARY)
-    }
-} -body {
+} {0 0}
+test unixInit-2.2 {TclpInitLibraryPath: TCL_LIBRARY} {unixOnly stdio} {
     # ((str != NULL) && (str[0] != '\0')) 
 
     set env(TCL_LIBRARY) sparkly
@@ -163,20 +138,9 @@ test unixInit-2.2 {TclpInitLibraryPath: TCL_LIBRARY} -constraints {
     unset env(TCL_LIBRARY)
 
     lindex $path 0
-} -cleanup {
-    if {[info exists oldlibrary]} {
-	set env(TCL_LIBRARY) $oldlibrary
-	unset oldlibrary
-    }
-} -result "sparkly"
-test unixInit-2.3 {TclpInitLibraryPath: TCL_LIBRARY wrong version} -constraints {
-    unix stdio canInitWithoutEnvTclLibrary 
-} -setup {
-    unset -nocomplain oldlibrary
-    if {[info exists env(TCL_LIBRARY)]} {
-	set oldlibrary $env(TCL_LIBRARY)
-    }
-} -body {
+} "sparkly"
+test unixInit-2.3 {TclpInitLibraryPath: TCL_LIBRARY wrong version} \
+	{unixOnly stdio} {
     # ((pathc > 0) && (strcasecmp(installLib + 4, pathv[pathc - 1]) != 0))
 
     set env(TCL_LIBRARY) /a/b/tcl1.7
@@ -184,19 +148,9 @@ test unixInit-2.3 {TclpInitLibraryPath: TCL_LIBRARY wrong version} -constraints 
     unset env(TCL_LIBRARY)
 
     lrange $path 0 1
-} -cleanup {
-    if {[info exists oldlibrary]} {
-	set env(TCL_LIBRARY) $oldlibrary
-	unset oldlibrary
-    }
-} -result [list /a/b/tcl1.7 /a/b/tcl[info tclversion]]
-test unixInit-2.4 {TclpInitLibraryPath: TCL_LIBRARY: INTL} -constraints {
-    unix stdio canInitWithoutEnvTclLibrary knownBug
-} -setup {
-    if {[info exists env(TCL_LIBRARY)]} {
-	set oldlibrary $env(TCL_LIBRARY)
-    }
-} -body {
+} [list /a/b/tcl1.7 /a/b/tcl[info tclversion]]
+test unixInit-2.4 {TclpInitLibraryPath: TCL_LIBRARY: INTL} \
+	{unixOnly stdio} {
     # Child process translates env variable from native encoding.
 
     set env(TCL_LIBRARY) "\xa7"
@@ -205,24 +159,13 @@ test unixInit-2.4 {TclpInitLibraryPath: TCL_LIBRARY: INTL} -constraints {
     unset env(LANG)
 
     set x
-} -cleanup {
-    if {[info exists oldlibrary]} {
-	set env(TCL_LIBRARY) $oldlibrary
-	unset oldlibrary
-    }
-} -result "\xa7"
+} "\xa7"
 test unixInit-2.5 {TclpInitLibraryPath: compiled-in library path} \
-	{emptyTest unix} {
+	{emptyTest unixOnly} {
     # cannot test
 } {}
-test unixInit-2.6 {TclpInitLibraryPath: executable relative} -constraints {
-    unix stdio
-} -setup {
-    unset -nocomplain oldlibrary
-    if {[info exists env(TCL_LIBRARY)]} {
-	set oldlibrary $env(TCL_LIBRARY)
-    }
-    set env(TCL_LIBRARY) [info library]
+test unixInit-2.6 {TclpInitLibraryPath: executable relative} \
+	{unixOnly stdio} {
     makeDirectory tmp
     makeDirectory [file join tmp sparkly]
     makeDirectory [file join tmp sparkly bin]
@@ -231,25 +174,19 @@ test unixInit-2.6 {TclpInitLibraryPath: executable relative} -constraints {
     makeDirectory [file join tmp sparkly lib]
     makeDirectory [file join tmp sparkly lib tcl[info tclversion]]
     makeFile {} [file join tmp sparkly lib tcl[info tclversion] init.tcl]
-} -body {
-    lrange [getlibpath [file join [temporaryDirectory] tmp sparkly \
-	    bin tcltest]] 1 2
-} -cleanup {
+
+    set x [lrange [getlibpath [file join [temporaryDirectory] tmp sparkly \
+	    bin tcltest]] 0 1]
     removeFile [file join tmp sparkly lib tcl[info tclversion] init.tcl]
     removeDirectory [file join tmp sparkly lib tcl[info tclversion]]
     removeDirectory [file join tmp sparkly lib]
     removeDirectory [file join tmp sparkly bin]
     removeDirectory [file join tmp sparkly]
     removeDirectory tmp
-    unset env(TCL_LIBRARY)
-    if {[info exists oldlibrary]} {
-	set env(TCL_LIBRARY) $oldlibrary
-	unset oldlibrary
-    }
-} -result [list [temporaryDirectory]/tmp/sparkly/lib/tcl[info tclversion] [temporaryDirectory]/tmp/lib/tcl[info tclversion]]
-
+    set x
+} [list [temporaryDirectory]/tmp/sparkly/lib/tcl[info tclversion] [temporaryDirectory]/tmp/lib/tcl[info tclversion]]
 test unixInit-2.7 {TclpInitLibraryPath: compiled-in library path} \
-	{emptyTest unix} {
+	{emptyTest unixOnly} {
     # would need test command to get defaultLibDir and compare it to
     # [lindex $auto_path end]
 } {}
@@ -262,14 +199,7 @@ test unixInit-2.7 {TclpInitLibraryPath: compiled-in library path} \
 testConstraint noSparkly [expr {![file exists [file join /tmp sparkly]]}]
 testConstraint noTmpInstall [expr {![file exists \
 				[file join /tmp lib tcl[info tclversion]]]}]
-test unixInit-2.8 {TclpInitLibraryPath: all absolute pathtype} -constraints {
-    unix noSparkly noTmpInstall
-} -setup {
-    unset -nocomplain oldlibrary
-    if {[info exists env(TCL_LIBRARY)]} {
-	set oldlibrary $env(TCL_LIBRARY)
-    }
-    set env(TCL_LIBRARY) [info library]
+test unixInit-2.8 {TclpInitLibraryPath: all absolute pathtype} {unix noSparkly noTmpInstall} {
     # Checking for Bug 219416
     # When a program that embeds the Tcl library, like tcltest, is
     # installed near the "root" of the file system, there was a problem
@@ -304,7 +234,6 @@ test unixInit-2.8 {TclpInitLibraryPath: all absolute pathtype} -constraints {
     # ../lib/tcl$version relative to the executable.
     file mkdir /tmp/lib/tcl[info tclversion]
     close [open /tmp/lib/tcl[info tclversion]/init.tcl w]
-} -body {
 
     # Check that all directories in the library path are absolute pathnames
     set allAbsolute 1
@@ -312,29 +241,16 @@ test unixInit-2.8 {TclpInitLibraryPath: all absolute pathtype} -constraints {
 	set allAbsolute [expr {$allAbsolute \
 		&& [string equal absolute [file pathtype $dir]]}]
     }
-    set allAbsolute
-} -cleanup {
 
     # Clean up temporary installation
     file delete -force /tmp/sparkly
     file delete -force /tmp/lib/tcl[info tclversion]
     if {$deletelib} {file delete -force /tmp/lib}
-    unset env(TCL_LIBRARY)
-    if {[info exists oldlibrary]} {
-	set env(TCL_LIBRARY) $oldlibrary
-	unset oldlibrary
-    }
-} -result 1
+    set allAbsolute
+} 1
 testConstraint noTmpBuild [expr {![file exists [file join /tmp library]]}]
-test unixInit-2.9 {TclpInitLibraryPath: paths relative to executable} -constraints {
-    unix noSparkly noTmpBuild
-} -setup {
+test unixInit-2.9 {TclpInitLibraryPath: paths relative to executable} {unix noSparkly noTmpBuild} {
     # Checking for Bug 438014
-    unset -nocomplain oldlibrary
-    if {[info exists env(TCL_LIBRARY)]} {
-	set oldlibrary $env(TCL_LIBRARY)
-    }
-    set env(TCL_LIBRARY) [info library]
     file delete -force /tmp/sparkly
     file delete -force /tmp/library
     file mkdir /tmp/sparkly
@@ -342,27 +258,18 @@ test unixInit-2.9 {TclpInitLibraryPath: paths relative to executable} -constrain
 
     file mkdir /tmp/library/
     close [open /tmp/library/init.tcl w]
-} -body {
-    lrange [getlibpath /tmp/sparkly/tcltest] 1 5
-} -cleanup {
+
+    set x [lrange [getlibpath /tmp/sparkly/tcltest] 0 4]
+
     file delete -force /tmp/sparkly
     file delete -force /tmp/library
-    unset env(TCL_LIBRARY)
-    if {[info exists oldlibrary]} {
-	set env(TCL_LIBRARY) $oldlibrary
-	unset oldlibrary
-    }
-} -result [list /tmp/lib/tcl[info tclversion] /lib/tcl[info tclversion] \
+    set x
+} [list /tmp/lib/tcl[info tclversion] /lib/tcl[info tclversion] \
         /tmp/library /library /tcl[info patchlevel]/library]
 
 test unixInit-2.10 {TclpInitLibraryPath: executable relative} -constraints {
-	unix stdio 
+	unixOnly stdio
 } -setup {
-    unset -nocomplain oldlibrary
-    if {[info exists env(TCL_LIBRARY)]} {
-	set oldlibrary $env(TCL_LIBRARY)
-    }
-    set env(TCL_LIBRARY) [info library]
     set tmpDir [makeDirectory tmp]
     set sparklyDir [makeDirectory sparkly $tmpDir]
     set execPath [file join [makeDirectory bin $sparklyDir] tcltest]
@@ -374,11 +281,7 @@ test unixInit-2.10 {TclpInitLibraryPath: executable relative} -constraints {
     cd $libDir
 } -body {
     # Checking for Bug 832657
-    set x [lrange [getlibpath [file join .. bin tcltest]] 3 4]
-    foreach p $x {
-	lappend y [file normalize $p]
-    }
-    set y
+    lrange [getlibpath [file join .. bin tcltest]] 2 3
 } -cleanup {
     cd $saveDir
     unset saveDir
@@ -394,17 +297,11 @@ test unixInit-2.10 {TclpInitLibraryPath: executable relative} -constraints {
     removeDirectory sparkly $tmpDir
     unset tmpDir
     removeDirectory tmp
-    unset x p y
-    unset env(TCL_LIBRARY)
-    if {[info exists oldlibrary]} {
-	set env(TCL_LIBRARY) $oldlibrary
-	unset oldlibrary
-    }
 } -result [list [file join [temporaryDirectory] tmp sparkly library] \
 	[file join [temporaryDirectory] tmp library] ]
 
 test unixInit-3.1 {TclpSetInitialEncodings} -constraints {
-	unix stdio
+	unixOnly stdio
 } -body {
     set env(LANG) C
 
@@ -416,10 +313,8 @@ test unixInit-3.1 {TclpSetInitialEncodings} -constraints {
     unset env(LANG)
 
     set enc
-} -match regexp -result [expr {
-	($tcl_platform(os) eq "Darwin") ? "^utf-8$" : "^iso8859-15?$"}]
-
-test unixInit-3.2 {TclpSetInitialEncodings} {unix stdio} {
+} -match regexp -result ^iso8859-15?$
+test unixInit-3.2 {TclpSetInitialEncodings} {unixOnly stdio} {
     set env(LANG) japanese
     catch {set oldlc_all $env(LC_ALL)}
     set env(LC_ALL) japanese
@@ -443,7 +338,7 @@ test unixInit-3.2 {TclpSetInitialEncodings} {unix stdio} {
     expr {[lsearch -exact $validEncodings $enc] < 0}
 } 0
     
-test unixInit-4.1 {TclpSetVariables} {unix} {
+test unixInit-4.1 {TclpSetVariables} {unixOnly} {
     # just make sure they exist
 
     set a [list $tcl_library $tcl_pkgPath $tcl_platform(os)]
@@ -451,32 +346,19 @@ test unixInit-4.1 {TclpSetVariables} {unix} {
     set tcl_platform(platform)
 } "unix"
 
-test unixInit-5.1 {Tcl_Init} {emptyTest unix} {
+test unixInit-5.1 {Tcl_Init} {emptyTest unixOnly} {
     # test initScript
 } {}
 
-test unixInit-6.1 {Tcl_SourceRCFile} {emptyTest unix} {
+test unixInit-6.1 {Tcl_SourceRCFile} {emptyTest unixOnly} {
 } {}
 
-test unixInit-7.1 {closed standard channel: Bug 772288} -constraints {
-	unix stdio
-} -body {
-    set tclsh [interpreter]
-    makeFile {puts [open /dev/null]} crash.tcl
-    makeFile "
-	close stdin
-	[list exec $tclsh [file join [temporaryDirectory] crash.tcl]]
-    " crashtest.tcl
-    exec $tclsh [file join [temporaryDirectory] crashtest.tcl]
-} -cleanup {
-    removeFile crash.tcl
-    removeFile crashtest.tcl
-} -returnCodes 0
-
 # cleanup
+if {[info exists oldlibrary]} {
+    set env(TCL_LIBRARY) $oldlibrary
+}
 catch {unset env(LANG)}
 catch {set env(LANG) $oldlang}
-unset -nocomplain path
 ::tcltest::cleanupTests
 return
 

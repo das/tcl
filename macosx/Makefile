@@ -35,7 +35,7 @@ TCL_PACKAGE_PATH	?= "~/Library/Tcl /Library/Tcl /Network/Library/Tcl /System/Lib
 #-------------------------------------------------------------------------------------------------------
 # meta targets
 
-meta 			:= all install embedded install-embedded clean distclean
+meta 			:= all install embedded install-embedded clean distclean test
 
 styles			:= develop deploy
 
@@ -58,6 +58,10 @@ distclean		:= ${styles:%=distclean-%}
 distclean		: ${distclean}
 distclean-%:		action := distclean-
 
+test			:= ${styles:%=test-%}
+test			: ${test}
+test-%:			action := test-
+
 targets			:= $(foreach v,${meta},${$v})
 
 #-------------------------------------------------------------------------------------------------------
@@ -66,7 +70,8 @@ targets			:= $(foreach v,${meta},${$v})
 develop_make_args	:= BUILD_STYLE=Development CONFIGURE_ARGS=--enable-symbols
 deploy_make_args	:= BUILD_STYLE=Deployment \
 			   MAKE_ARGS=INSTALL_PROGRAM="'$$\$${INSTALL} $$\$${INSTALL_STRIP_PROGRAM}'" \
-			   MAKE_ARGS+=INSTALL_LIBRARY="'$$\$${INSTALL} $$\$${INSTALL_STRIP_LIBRARY}'"
+			   MAKE_ARGS+=INSTALL_LIBRARY="'$$\$${INSTALL} $$\$${INSTALL_STRIP_LIBRARY}'" \
+			   MAKE_ARGS+=MEM_DEBUG_FLAGS="-DNDEBUG"
 embedded_make_args	:= EMBEDDED_BUILD=1
 install_make_args	:= INSTALL_BUILD=1
 
@@ -143,6 +148,9 @@ distclean-${PROJECT}:
 	${MAKE} -C ${OBJ_DIR} distclean ${EXTRA_MAKE_ARGS}
 	rm -rf ${OBJ_DIR} ${PRODUCT_NAME}.framework tclsh${PRODUCT_VERSION} tcltest
 	
+test-${PROJECT}: build-${PROJECT}
+	${MAKE} -C ${OBJ_DIR} test ${EXTRA_MAKE_ARGS}
+
 install-${PROJECT}: build-${PROJECT}
 # install to ${INSTALL_ROOT} with optional stripping
 	${MAKE} -C ${OBJ_DIR} install-binaries install-libraries \

@@ -19,8 +19,8 @@ if {[catch {package require tcltest 2}]} {
     puts stderr "Skipping tests in [info script].  tcltest 2 required."
     return
 }
-if {[catch {package require msgcat 1.4.1}]} {
-    puts stderr "Skipping tests in [info script].  No msgcat 1.4.1 found to test."
+if {[catch {package require msgcat 1.4}]} {
+    puts stderr "Skipping tests in [info script].  No msgcat 1.4 found to test."
     return
 }
 
@@ -164,22 +164,6 @@ namespace eval ::msgcat::test {
     } -body {
 	mcpreferences
     } -result {en_us_funky en_us en {}}
-
-    test msgcat-1.12 {mclocale set, reject evil input} -setup {
-	variable locale [mclocale]
-    } -cleanup {
-	mclocale $locale
-    } -body {
-	mclocale /path/to/evil/code
-    } -returnCodes error -match glob -result {invalid newLocale value *}
-
-    test msgcat-1.13 {mclocale set, reject evil input} -setup {
-	variable locale [mclocale]
-    } -cleanup {
-	mclocale $locale
-    } -body {
-	mclocale looks/ok/../../../../but/is/path/to/evil/code
-    } -returnCodes error -match glob -result {invalid newLocale value *}
 
     # Tests msgcat-2.*: [mcset], [mcmset], namespace partitioning
 
@@ -396,7 +380,7 @@ namespace eval ::msgcat::test {
         } else {
 	    set msg [string tolower $loc]
 	}
-	makeFile [list ::msgcat::mcset $loc abc abc-$loc] $msg.msg $msgdir
+	makeFile [list ::msgcat::mcset $loc abc abc-$loc] $msg.msg msgdir
     }
     variable count 1
     foreach loc {foo foo_BAR foo_BAR_baz} {
@@ -493,7 +477,7 @@ namespace eval ::msgcat::test {
         } else {
 	    set msg [string tolower $loc]
 	}
-	removeFile $msg.msg $msgdir
+	removeFile $msg.msg msgdir
     }
     removeDirectory msgdir
 
