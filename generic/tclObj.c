@@ -1686,6 +1686,7 @@ SetIntFromAny(interp, objPtr)
 	    sprintf(buf, "expected integer but got \"%.50s\"", string);
 	    Tcl_ResetResult(interp);
 	    Tcl_AppendToObj(Tcl_GetObjResult(interp), buf, -1);
+	    TclCheckBadOctal(interp, string);
 	}
 	return TCL_ERROR;
     }

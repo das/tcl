@@ -71,6 +71,7 @@ Tcl_GetInt(interp, string, intPtr)
         if (interp != (Tcl_Interp *) NULL) {
 	    Tcl_AppendResult(interp, "expected integer but got \"", string,
 		    "\"", (char *) NULL);
+	    TclCheckBadOctal(interp, string);
         }
 	return TCL_ERROR;
     }
@@ -157,6 +158,7 @@ TclGetLong(interp, string, longPtr)
         if (interp != (Tcl_Interp *) NULL) {
 	    Tcl_AppendResult(interp, "expected integer but got \"", string,
 		    "\"", (char *) NULL);
+	    TclCheckBadOctal(interp, string);
         }
 	return TCL_ERROR;
     }
