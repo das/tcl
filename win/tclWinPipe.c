@@ -1452,7 +1452,7 @@ TclpCreateProcess(
      */
 
     if (applType == APPL_DOS) {
-	WaitForSingleObject(hProcess, 50);
+	WaitForSingleObject(procInfo.hProcess, 50);
     }
 
     /* 
