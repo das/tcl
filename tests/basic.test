@@ -563,7 +563,7 @@ test basic-45.1 {Tcl_SetRecursionLimit: see interp.test} {emptyTest} {
 test basic-46.1 {Tcl_AllowExceptions: exception return not allowed} {exec} {
     catch {close $f}
     set res [catch {
-	set f [open |[info nameofexecutable] w+]
+	set f [open |[list [info nameofexecutable]] w+]
 	fconfigure $f -buffering line
 	puts $f {fconfigure stdout -buffering line}
 	puts $f continue
@@ -576,8 +576,8 @@ test basic-46.1 {Tcl_AllowExceptions: exception return not allowed} {exec} {
 	    append msg "${newMsg}\n"
 	}
 	close $f
-    }]
-    list $res $msg   
+    } error]
+    list $res $msg
 } {1 {invoked "continue" outside of a loop
     while executing
 "continue
