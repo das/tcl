@@ -1225,6 +1225,7 @@ TclExecuteByteCode(interp, codePtr)
 #endif
     switch (*pc) {
     case INST_RETURN:
+	iPtr->returnCode = TCL_OK;
 	result = TCL_RETURN;
     case INST_DONE:
 	if (stackTop <= initStackTop) {
