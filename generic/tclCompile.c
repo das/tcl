@@ -1207,10 +1207,14 @@ TclCompileTokens(interp, tokenPtr, count, envPtr)
 		    code = TclCompileTokens(interp, tokenPtr+2,
 			    tokenPtr->numComponents-1, envPtr);
 		    if (code != TCL_OK) {
-			sprintf(buffer,
+			STRING (150, errorBuffer);
+
+			NEWSTR (150, errorBuffer);
+			sprintf(errorBuffer,
 			        "\n    (parsing index for array \"%.*s\")",
 				((nameBytes > 100)? 100 : nameBytes), name);
-			Tcl_AddObjErrorInfo(interp, buffer, -1);
+			Tcl_AddObjErrorInfo(interp, errorBuffer, -1);
+			RELTEMP (errorBuffer);
 			goto error;
 		    }
 		    depthForVar += envPtr->maxStackDepth;

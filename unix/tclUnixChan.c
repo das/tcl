@@ -436,6 +436,15 @@ FileOutputProc(instanceData, buf, toWrite, errorCodePtr)
     int written;
 
     *errorCodePtr = 0;
+    if (toWrite == 0) {
+      /* SF Tcl Bug 465765.
+       * Do not try to write nothing into a file. STREAM based
+       * implementations will considers this as EOF (if there is a
+       * pipe behind the file).
+       */
+
+      return 0;
+    }
     written = write(fsPtr->fd, buf, (size_t) toWrite);
     if (written > -1) {
         return written;
@@ -1300,6 +1309,9 @@ TclpOpenFileChannel(interp, fileName, modeString, permissions)
     char channelName[16 + TCL_INTEGER_SPACE];
     Tcl_DString ds, buffer;
     Tcl_ChannelType *channelTypePtr;
+#ifdef SUPPORTS_TTY
+    int ctl_tty;
+#endif
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
 
     mode = TclGetOpenMode(interp, modeString, &seekFlag);
@@ -1330,6 +1342,9 @@ TclpOpenFileChannel(interp, fileName, modeString, permissions)
     }
     native = Tcl_UtfToExternalDString(NULL, native, -1, &ds);
     fd = open(native, mode, permissions);		/* INTL: Native. */
+#ifdef SUPPORTS_TTY
+    ctl_tty = (strcmp (native, "/dev/tty") == 0);
+#endif
     Tcl_DStringFree(&ds);    
     Tcl_DStringFree(&buffer);
 
@@ -1351,7 +1366,7 @@ TclpOpenFileChannel(interp, fileName, modeString, permissions)
     sprintf(channelName, "file%d", fd);
     
 #ifdef SUPPORTS_TTY
-    if (isatty(fd)) {
+    if (!ctl_tty && isatty(fd)) {
 	/*
 	 * Initialize the serial port to a set of sane parameters.
 	 * Especially important if the remote device is set to echo and
