@@ -7,7 +7,7 @@
 '\" RCS: @(#) $Id$
 '\" 
 .so man.macros
-.TH registry n 8.0 Tcl "Tcl Built-In Commands"
+.TH registry n 1.0 registry "Tcl Bundled Packages"
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME

@@ -8,7 +8,7 @@
 '\" RCS: @(#) $Id$
 '\" 
 .so man.macros
-.TH dde n 8.4 Tcl "Tcl Built-In Commands"
+.TH dde n 1.2 dde "Tcl Bundled Packages"
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME

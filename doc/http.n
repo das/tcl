@@ -8,11 +8,11 @@
 '\" RCS: @(#) $Id$
 '\" 
 .so man.macros
-.TH "Http" n 8.3 Tcl "Tcl Built-In Commands"
+.TH "http" n 2.4 http "Tcl Bundled Packages"
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-Http \- Client-side implementation of the HTTP/1.0 protocol.
+http \- Client-side implementation of the HTTP/1.0 protocol.
 .SH SYNOPSIS
 \fBpackage require http ?2.4?\fR
 .sp
