@@ -926,7 +926,11 @@ test filename-9.19.2 {Tcl_JoinPath: win} {testsetplatform winOnly} {
       [file join {foo\bar}] \
       [file join [pwd] {foo\bar}] \
       [file join [pwd] [pwd] {foo\bar}]
-    string map [list [pwd] pwd] $res
+    set nres {}
+    foreach elt $res {
+	lappend nres [string map [list [pwd] pwd] $elt]
+    }
+    set nres
 } {foo/bar pwd/foo/bar pwd/foo/bar}
 test filename-9.20 {Tcl_JoinPath: unix} {testsetplatform} {
     testsetplatform unix
