@@ -37,7 +37,14 @@
  *                 statement. The optimiser *should* combine both jumps,
  *                 i.e., eliminate the first jump to a *known* location
  *                 from where the code jumps to an *unkown at CT* location. 
+ *
+ * FOR DEBUGGING PURPOSES
+ * If you need the functionality triggered by tcl_traceExec >= 2, then 
+ * uncomment the following line:
  */
+/* #define TCL_BYTECODE_DEBUG 1 */
+
+
 
 #define SWITCH 0
 #define GCC    1
@@ -45,7 +52,7 @@
 
 /* 
  * Choose the threading method according to the compiler being used; if
- * COMPILE_DEBUG is set, fallback to SWITCH for any compiler
+ * TCL_BYTECODE_DEBUG is set, fallback to SWITCH for any compiler
  */
 
 #ifndef JUMP_version
