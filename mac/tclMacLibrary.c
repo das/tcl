@@ -2,7 +2,7 @@
  * tclMacLibrary.c --
  *
  *	This file should be included in Tcl extensions that want to 
- *	automatically oepn their resource forks when the code is linked. 
+ *	automatically open their resource forks when the code is linked. 
  *	These routines should not be exported but should be compiled 
  *	locally by each fragment.  Many thanks to Jay Lieske
  *	<lieske@princeton.edu> who provide an initial version of this
