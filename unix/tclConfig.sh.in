@@ -31,6 +31,10 @@ TCL_DBGX=@TCL_DBGX@
 TCL_CFLAGS_DEBUG='@CFLAGS_DEBUG@'
 TCL_CFLAGS_OPTIMIZE='@CFLAGS_OPTIMIZE@'
 
+# Default flags used in an optimized and debuggable build, respectively.
+TCL_LDFLAGS_DEBUG='@LDFLAGS_DEBUG@'
+TCL_LDFLAGS_OPTIMIZE='@LDFLAGS_OPTIMIZE@'
+
 # Flag, 1: we built a shared lib, 0 we didn't
 TCL_SHARED_BUILD=@TCL_SHARED_BUILD@
 
