@@ -235,6 +235,7 @@ TclIntStubs tclIntStubs = {
     TclVarTraceExists, /* 157 */
     TclSetStartupScriptFileName, /* 158 */
     TclGetStartupScriptFileName, /* 159 */
+    TclpMatchFilesTypes, /* 160 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {

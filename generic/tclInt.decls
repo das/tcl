@@ -73,7 +73,7 @@ declare 12 generic {
 }
 declare 13 generic {
     int TclDoGlob(Tcl_Interp *interp, char *separators, \
-	    Tcl_DString *headPtr, char *tail)
+	    Tcl_DString *headPtr, char *tail, GlobTypeData *types)
 }
 declare 14 generic {
     void TclDumpMemoryInfo(FILE *outFile)
@@ -597,6 +597,10 @@ declare 158 generic {
 }
 declare 159 generic {
     char *TclGetStartupScriptFileName(void)
+}
+declare 160 generic {
+    int TclpMatchFilesTypes(Tcl_Interp *interp, char *separators, \
+	    Tcl_DString *dirPtr, char *pattern, char *tail, GlobTypeData *types)
 }
 
 ##############################################################################

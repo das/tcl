@@ -588,7 +588,7 @@ Tcl_GetEncodingNames(interp)
 	    strcpy(globArgString, "*.enc");
 	    if ((Tcl_Chdir(string) == 0)
 		    && (Tcl_Chdir("encoding") == 0)
-		    && (TclGlob(interp, globArgString, 0) == TCL_OK)) {
+		    && (TclGlob(interp, globArgString, NULL, 0, NULL) == TCL_OK)) {
 		objc2 = 0;
 
 		Tcl_ListObjGetElements(NULL, Tcl_GetObjResult(interp), &objc2,
