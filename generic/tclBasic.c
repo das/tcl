@@ -4283,6 +4283,7 @@ TclObjInvoke(interp, objc, objv, flags)
         }
 	cmdPtr = (Command *) Tcl_GetHashValue(hPtr);
     } else {
+	cmdPtr = NULL; /* Avoid warning */
 	Tcl_Panic("TclObjInvoke: called without TCL_INVOKE_HIDDEN");
     }
 
