@@ -199,7 +199,8 @@ test winpipe-4.1 {Tcl_WaitPid} {nt stdio cat32} {
     list $result $x [contents $path(stderr)]
 } "{$big} 1 stderr32"
 
-close [open nothing w]
+set path(nothing) [makeFile {} nothing]
+close [open $path(nothing) w]
 
 catch {set env_tmp $env(TMP)}
 catch {set env_temp $env(TEMP)}
