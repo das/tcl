@@ -409,9 +409,9 @@ ExecuteCallback (dataPtr, interp, op, buf, bufLen, transmit, preserve)
     }
 
     res = Tcl_ListObjAppendElement(dataPtr->interp, command, temp);
-
-    if (res != TCL_OK)
+    if (res != TCL_OK) {
 	goto cleanup;
+    }
 
     /*
      * Use a byte-array to prevent the misinterpretation of binary data
@@ -427,9 +427,9 @@ ExecuteCallback (dataPtr, interp, op, buf, bufLen, transmit, preserve)
     }
 
     res = Tcl_ListObjAppendElement (dataPtr->interp, command, temp);
-
-    if (res != TCL_OK)
+    if (res != TCL_OK) {
         goto cleanup;
+    }
 
     /*
      * Step 2, execute the command at the global level of the interpreter

@@ -570,8 +570,9 @@ TclParseHex(src, numBytes, resultPtr)
     while (numBytes--) {
 	unsigned char digit = UCHAR(*p);
 
-	if (!isxdigit(digit))
+	if (!isxdigit(digit)) {
 	    break;
+	}
 
 	++p;
 	result <<= 4;
