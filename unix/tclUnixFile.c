@@ -338,7 +338,7 @@ TclpMatchFilesTypes(
 			struct stat buf;
 
 			if (TclpStat(fname, &buf) != 0) {
-			    panic("stat failed on known file\n");
+			    panic("stat failed on known file");
 			}
 			/* 
 			 * readonly means that there are NO write permissions
