@@ -147,6 +147,15 @@ Valid for all operand types.
 Boolean string equal and string not equal.  Each operator produces a
 zero/one result.  The operand types are interpreted only as strings.
 .TP 20
+\fBin\0\0ni\fR
+.VS 8.5
+List containment and negated list containment.  Each operator produces
+a zero/one result and treats its first argument as a string and its
+second argument as a Tcl list.  The \fBin\fR operator indicates
+whether the first argument is a member of the second argument list;
+the \fBni\fR operator inverts the sense of the result.
+.VE 8.5
+.TP 20
 \fB&\fR
 Bit-wise AND.  Valid for integer operands only.
 .TP 20
