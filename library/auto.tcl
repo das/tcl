@@ -97,6 +97,14 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
         lappend dirs [file join $grandParentDir $basename$patch library]
         lappend dirs [file join [file dirname $grandParentDir] \
 		$basename$patch library]
+
+	# 4. On MacOSX, check the directories in the tcl_pkgPath
+	if {[string equal $::tcl_platform(platform) "unix"] && \
+		[string equal $::tcl_platform(os) "Darwin"]} {
+	    foreach d $::tcl_pkgPath {
+		lappend dirs [file join $d $basename$version]
+	    }
+	}
     }
     foreach i $dirs {
         set the_library $i

@@ -1821,3 +1821,15 @@ declare 7 mac {
 declare 8 mac {
     int strcasecmp(CONST char *s1, CONST char *s2)
 }
+
+##################
+# Mac OS X declarations
+#
+
+declare 0 macosx {
+    int Tcl_MacOSXOpenBundleResources(Tcl_Interp *interp,
+	    CONST char *bundleName,
+	    int hasResourceFile,
+	    int maxPathLen,
+	    char *libraryPath)
+}

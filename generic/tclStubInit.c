@@ -351,6 +351,9 @@ TclPlatStubs tclPlatStubs = {
     strncasecmp, /* 7 */
     strcasecmp, /* 8 */
 #endif /* MAC_TCL */
+#ifdef MAC_OSX_TCL
+    Tcl_MacOSXOpenBundleResources, /* 0 */
+#endif /* MAC_OSX_TCL */
 };
 
 static TclStubHooks tclStubHooks = {
