@@ -1341,6 +1341,7 @@ TclCloneProc (interp, nsPtr, procSrcPtr)
 				Tcl_GetHashKey (procSrcPtr->cmdPtr->hPtr->tablePtr,
 						procSrcPtr->cmdPtr->hPtr));
     if (result != TCL_OK) {
+      ckfree((char*)procNew);
       return NULL;
     }
 
