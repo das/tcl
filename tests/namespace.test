@@ -1136,7 +1136,8 @@ test namespace-40.1 {Ignoring namespace proc "unknown"} {
     set l
 } {global global}
 
-test namespace-41.1 {Shadowing byte-compiled commands} {
+test namespace-41.1 {Shadowing byte-compiled commands, Bug: 231259} {
+    set res {}
     namespace eval ns {
 	set res {}
 	proc test {} {
@@ -1148,8 +1149,40 @@ test namespace-41.1 {Shadowing byte-compiled commands} {
 	}
 	lappend ::res [test]
     }
+    namespace delete ns
     set res
 } {0 1}
+
+test namespace-41.2 {Shadowing byte-compiled commands, Bug: 231259} {
+    set res {}
+    namespace eval ns {}
+    proc ns::a {i} {
+	variable b
+	proc set args {return "New proc is called"}
+	return [set b $i]
+    }
+    ns::a 1
+    set res [ns::a 2]
+    namespace delete ns
+    set res
+} {New proc is called}
+
+test namespace-41.3 {Shadowing byte-compiled commands, Bug: 231259} {knownbug} {
+    set res {}
+    namespace eval ns {
+	variable b 0
+    }
+
+    proc ns::a {i} {
+	variable b
+	proc set args {return "New proc is called"}
+	return [set b $i]
+    }
+    
+    set res [list [ns::a 1] $ns::b]
+    namespace delete ns
+    set res
+} {{New proc is called} 0}
 
 # cleanup
 catch {rename cmd1 {}}

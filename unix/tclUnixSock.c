@@ -62,7 +62,7 @@ TCL_DECLARE_MUTEX(hostMutex)
  *----------------------------------------------------------------------
  */
 
-char *
+CONST char *
 Tcl_GetHostName()
 {
 #ifndef NO_UNAME

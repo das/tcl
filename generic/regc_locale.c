@@ -567,7 +567,7 @@ chr *endp;			/* points just past end of name */
 	struct cname *cn;
 	size_t len;
 	Tcl_DString ds;
-	char *np;
+	CONST char *np;
 
 	/* generic:  one-chr names stand for themselves */
 	assert(startp < endp);
@@ -714,7 +714,8 @@ int cases;			/* case-independent? */
     size_t len;
     struct cvec *cv = NULL;
     Tcl_DString ds;
-    char *np, **namePtr;
+    CONST char *np;
+    char **namePtr;
     int i, index;
 
     /*

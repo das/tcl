@@ -158,7 +158,7 @@ typedef struct Channel {
  */
 
 typedef struct ChannelState {
-    char *channelName;		/* The name of the channel instance in Tcl
+    CONST char *channelName;	/* The name of the channel instance in Tcl
 				 * commands. Storage is owned by the generic IO
 				 * code, is dynamically allocated. */
     int	flags;			/* ORed combination of the flags defined
@@ -182,10 +182,10 @@ typedef struct ChannelState {
 				 * data bytes.  May be TCL_ENCODING_START
 				 * before converting first byte and
 				 * TCL_ENCODING_END when EOF is seen. */
-    Tcl_EolTranslation inputTranslation;
+    TclEolTranslation inputTranslation;
 				/* What translation to apply for end of line
 				 * sequences on input? */    
-    Tcl_EolTranslation outputTranslation;
+    TclEolTranslation outputTranslation;
 				/* What translation to use for generating
 				 * end of line sequences in output? */
     int inEofChar;		/* If nonzero, use this as a signal of EOF

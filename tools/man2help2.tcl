@@ -271,7 +271,9 @@ proc macro {name args} {
 	    }
 	    tab
 	}
-	AS {}				;# next page and previous page
+	AS {
+	    # next page and previous page
+	}
 	br {
 	    lineBreak	
 	}
@@ -283,7 +285,8 @@ proc macro {name args} {
 	    set state(breakPending) 0
 	    newPara 0i
 	}
-	CS {				;# code section
+	CS {
+	    # code section
 	    incrNestingLevel
 	    set state(noFill) 1
 	    newPara 0i
@@ -510,7 +513,7 @@ proc formattedText {text} {
 	    }
 	    o {
 		text "\\'"
-		regexp "'([^']*)'(.*)" $text all ch text
+		regexp {'([^']*)'(.*)} $text all ch text
 		text $chars($ch)
 	    }
 	    default {
@@ -705,7 +708,7 @@ proc SHmacro {argList} {
 
     set args [join $argList " "]
     if {[llength $argList] < 1} {
-	puts stderr "Bad .SH macro: .$name $args"
+	puts stderr "Bad .SH macro: .SH $args"
     }
 
     # control what the text proc does with text
@@ -827,7 +830,7 @@ proc THmacro {argList} {
 
     if {[llength $argList] != 5} {
 	set args [join $argList " "]
-	puts stderr "Bad .TH macro: .$name $args"
+	puts stderr "Bad .TH macro: .TH $args"
     }
     incr curID
     set name	[lindex $argList 0]		;# Tcl_UpVar

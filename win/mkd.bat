@@ -1,21 +1,12 @@
 @echo off
 rem RCS: @(#) $Id$
 
-if exist %1\. goto end
-
-if "%OS%" == "Windows_NT" goto winnt
+if exist %1\nul goto end
 
 md %1
 if errorlevel 1 goto end
 
-goto success
-
-:winnt
-md %1
-if errorlevel 1 goto end
-
-:success
-echo created directory %1
+echo Created directory %1
 
 :end
 

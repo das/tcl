@@ -55,7 +55,7 @@ TclpLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr,
 				 * this file. */
 {
     HINSTANCE handle;
-    TCHAR *nativeName;
+    CONST TCHAR *nativeName;
     Tcl_DString ds;
 
     char *fileName = Tcl_GetString(pathPtr);
@@ -193,7 +193,7 @@ TclpUnloadFile(clientData)
 
 int
 TclGuessPackageName(fileName, bufPtr)
-    char *fileName;		/* Name of file containing package (already
+    CONST char *fileName;	/* Name of file containing package (already
 				 * translated to local form if needed). */
     Tcl_DString *bufPtr;	/* Initialized empty dstring.  Append
 				 * package name to this if possible. */

@@ -43,7 +43,7 @@ test stack-1.1 {maxNestingDepth reached on infinite recursion} {minStack2400} {
     catch {recurse} rv
     rename recurse {}
     set rv
-} {too many nested calls to Tcl_EvalObj (infinite loop?)}
+} {too many nested calls to Tcl_Eval (infinite loop?)}
 
 test stack-2.1 {maxNestingDepth reached on infinite recursion} {minStack2400} {
     # do this in a slave to not mess with parent

@@ -834,11 +834,11 @@ Tcl_DdeObjCmd(
 	DDE_EVAL
     };
 
-    static char *ddeCommands[] = {"servername", "execute", "poke",
+    static CONST char *ddeCommands[] = {"servername", "execute", "poke",
           "request", "services", "eval", 
 	  (char *) NULL};
-    static char *ddeOptions[] = {"-async", (char *) NULL};
-    static char *ddeReqOptions[] = {"-binary", (char *) NULL};
+    static CONST char *ddeOptions[] = {"-async", (char *) NULL};
+    static CONST char *ddeReqOptions[] = {"-binary", (char *) NULL};
     int index, argIndex;
     int async = 0, binary = 0;
     int result = TCL_OK;

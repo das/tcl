@@ -99,7 +99,7 @@ proc doFile {file} {
 proc doDir dir {
     puts "Generating man pages for $dir..."
     foreach f [lsort [glob -directory $dir "*.\[13n\]"]] {
-	do $f
+	doFile $f
     }
 }
 

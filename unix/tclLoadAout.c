@@ -22,6 +22,11 @@
 #ifdef HAVE_EXEC_AOUT_H
 #   include <sys/exec_aout.h>
 #endif
+#ifdef HAVE_UNISTD_H
+#   include <unistd.h>
+#else
+#   include "../compat/unistd.h"
+#endif
 
 /*
  * Some systems describe the a.out header in sys/exec.h, and some in
@@ -336,7 +341,7 @@ FindLibraries (interp, fileName, buf)
      Tcl_DString * buf;		/* Buffer where the -l an -L flags */
 {
   FILE * f;			/* The load module */
-  int c;			/* Byte from the load module */
+  int c = 0;			/* Byte from the load module */
   char * p;
   Tcl_DString ds;
   CONST char *native;
@@ -469,15 +474,15 @@ TclpUnloadFile(clientData)
 
 int
 TclGuessPackageName(fileName, bufPtr)
-    char *fileName;		/* Name of file containing package (already
+    CONST char *fileName;	/* Name of file containing package (already
 				 * translated to local form if needed). */
     Tcl_DString *bufPtr;	/* Initialized empty dstring.  Append
 				 * package name to this if possible. */
 {
-    char *p, *q, *r;
-    int srcOff, dstOff;
+    CONST char *p, *q;
+    char *r;
 
-    if (q = strrchr(fileName,'/')) {
+    if ((q = strrchr(fileName,'/'))) {
 	q++;
     } else {
 	q = fileName;

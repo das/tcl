@@ -78,6 +78,7 @@ static TclWinProcs asciiProcs = {
 	    WCHAR *, TCHAR **)) SearchPathA,
     (BOOL (WINAPI *)(CONST TCHAR *)) SetCurrentDirectoryA,
     (BOOL (WINAPI *)(CONST TCHAR *, DWORD)) SetFileAttributesA,
+    NULL,
 };
 
 static TclWinProcs unicodeProcs = {
@@ -115,6 +116,7 @@ static TclWinProcs unicodeProcs = {
 	    WCHAR *, TCHAR **)) SearchPathW,
     (BOOL (WINAPI *)(CONST TCHAR *)) SetCurrentDirectoryW,
     (BOOL (WINAPI *)(CONST TCHAR *, DWORD)) SetFileAttributesW,
+    NULL,
 };
 
 TclWinProcs *tclWinProcs;
@@ -386,6 +388,10 @@ TclWinGetPlatform()
  *	tclWinProcs structure to dispatch to either the wide-character
  *	or multi-byte versions of the operating system calls, depending
  *	on whether Unicode is the system encoding.
+ *	
+ *	As well as this, we can also try to load in some additional
+ *	procs which may/may not be present depending on the current
+ *	Windows version (e.g. Win95 will not have the procs below).
  *
  * Results:
  *	None.
@@ -406,9 +412,27 @@ TclWinSetInterfaces(
     if (wide) {
 	tclWinProcs = &unicodeProcs;
 	tclWinTCharEncoding = Tcl_GetEncoding(NULL, "unicode");
+	if (tclWinProcs->getFileAttributesExProc == NULL) {
+	    HINSTANCE hInstance = LoadLibraryA("kernel32");
+	    if (hInstance != NULL) {
+	        tclWinProcs->getFileAttributesExProc = 
+		  (BOOL (WINAPI *)(CONST TCHAR *, GET_FILEEX_INFO_LEVELS, 
+		  LPVOID)) GetProcAddress(hInstance, "GetFileAttributesExW");
+		FreeLibrary(hInstance);
+	    }
+	}
     } else {
 	tclWinProcs = &asciiProcs;
 	tclWinTCharEncoding = NULL;
+	if (tclWinProcs->getFileAttributesExProc == NULL) {
+	    HINSTANCE hInstance = LoadLibraryA("kernel32");
+	    if (hInstance != NULL) {
+		tclWinProcs->getFileAttributesExProc = 
+		  (BOOL (WINAPI *)(CONST TCHAR *, GET_FILEEX_INFO_LEVELS, 
+		  LPVOID)) GetProcAddress(hInstance, "GetFileAttributesExA");
+		FreeLibrary(hInstance);
+	    }
+	}
     }
 }
 
@@ -466,7 +490,7 @@ TclWinSetInterfaces(
  *---------------------------------------------------------------------------
  */
 
-TCHAR *
+CONST TCHAR *
 Tcl_WinUtfToTChar(string, len, dsPtr)
     CONST char *string;		/* Source string in UTF-8. */
     int len;			/* Source string length in bytes, or < 0 for
@@ -478,7 +502,7 @@ Tcl_WinUtfToTChar(string, len, dsPtr)
 	    string, len, dsPtr);
 }
 
-char *
+CONST char *
 Tcl_WinTCharToUtf(string, len, dsPtr)
     CONST TCHAR *string;	/* Source string in Unicode when running
 				 * NT, ANSI when running 95. */
