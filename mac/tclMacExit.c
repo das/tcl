@@ -108,7 +108,23 @@ TclPlatformExit(
     int status)		/* Ignored. */
 {
     TclMacExitHandler();
+
+/* 
+ * If we are using the Metrowerks Standard Library, then we will call its exit so that it
+ * will get a chance to clean up temp files, and so forth.  It always calls the standard 
+ * ExitToShell, so the Tcl handlers will also get called.
+ *   
+ * If you have another exit, make sure that it does not patch ExitToShell, and does
+ * call it.  If so, it will probably work as well.
+ *
+ */
+ 
+#ifdef __MSL__    
+    exit(status);
+#else
     ExitToShell();
+#endif
+
 }
 
 /*

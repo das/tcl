@@ -66,7 +66,7 @@
 */
 
 
-#define TCL_DEBUG
+/* #define TCL_DEBUG */
 
 
 #ifdef TCL_DEBUG
