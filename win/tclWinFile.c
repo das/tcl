@@ -1958,6 +1958,10 @@ NativeStat(nativePath, statPtr, checkLinks)
  * NativeStatMode --
  *
  *	Calculate just the 'st_mode' field of a 'stat' structure.
+ *	
+ *	In many places we don't need the full stat structure, and
+ *	it's much faster just to calculate these pieces, if that's
+ *	all we need.
  *
  *----------------------------------------------------------------------
  */
@@ -2000,13 +2004,13 @@ NativeStatMode(DWORD attr, int checkLinks, int isExec)
  */
 
 static time_t
-ToCTime( FILETIME fileTime )	/* UTC time */
+ToCTime(FILETIME fileTime)	/* UTC time */
 {
     LARGE_INTEGER convertedTime;
     convertedTime.LowPart = fileTime.dwLowDateTime;
     convertedTime.HighPart = (LONG) fileTime.dwHighDateTime;
-    return (time_t) ( (convertedTime.QuadPart
-		       - (Tcl_WideInt) POSIX_EPOCH_AS_FILETIME)
+    return (time_t) ((convertedTime.QuadPart
+		      - (Tcl_WideInt) POSIX_EPOCH_AS_FILETIME)
 		      / (Tcl_WideInt) 10000000);
 }
 
@@ -2025,8 +2029,8 @@ ToCTime( FILETIME fileTime )	/* UTC time */
  */
 
 static void
-FromCTime( time_t posixTime,
-	   FILETIME* fileTime )	/* UTC Time */
+FromCTime(time_t posixTime,
+	  FILETIME* fileTime)	/* UTC Time */
 {
     LARGE_INTEGER convertedTime;
     convertedTime.QuadPart = ((LONGLONG) posixTime) * 10000000 
@@ -2932,28 +2936,28 @@ TclpUtime(pathPtr, tval)
     struct utimbuf *tval;  /* New modification date structure */
 {
     int res = 0;
-    char* path;
-    int pathLen;
-    Tcl_DString buffer;
-    TCHAR* winPath;
     HANDLE fileHandle;
-    FILETIME lastAccessTime;
-    FILETIME lastModTime;
-    FromCTime( tval->actime, &lastAccessTime );
-    FromCTime( tval->modtime, &lastModTime );
-    path = Tcl_GetStringFromObj( pathPtr, &pathLen );
-    winPath = Tcl_WinUtfToTChar( path, pathLen, &buffer );
-    fileHandle = (tclWinProcs->createFileProc)
-	( winPath, FILE_WRITE_ATTRIBUTES, 0, NULL, OPEN_EXISTING, 
-	  FILE_ATTRIBUTE_NORMAL, NULL );
-    if ( fileHandle == INVALID_HANDLE_VALUE
-	 || !SetFileTime( fileHandle, NULL, &lastAccessTime, &lastModTime ) ) {
-	TclWinConvertError( GetLastError() );
+    FILETIME lastAccessTime, lastModTime;
+    
+    FromCTime(tval->actime, &lastAccessTime);
+    FromCTime(tval->modtime, &lastModTime);
+    
+    /*
+     * We use the native APIs (not 'utime') because there are
+     * some daylight savings complications that utime gets wrong.
+     */
+    fileHandle = (tclWinProcs->createFileProc) (
+         (CONST TCHAR*) Tcl_FSGetNativePath(pathPtr), 
+	 FILE_WRITE_ATTRIBUTES, 0, NULL, OPEN_EXISTING, 
+	 FILE_ATTRIBUTE_NORMAL, NULL);
+    
+    if (fileHandle == INVALID_HANDLE_VALUE
+      || !SetFileTime(fileHandle, NULL, &lastAccessTime, &lastModTime)) {
+	TclWinConvertError(GetLastError());
 	res = -1;
     }
-    if ( fileHandle != INVALID_HANDLE_VALUE ) {
-	CloseHandle( fileHandle );
+    if (fileHandle != INVALID_HANDLE_VALUE) {
+	CloseHandle(fileHandle);
     }
-    Tcl_DStringFree( &buffer );
     return res;
 }
