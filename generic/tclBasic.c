@@ -3494,8 +3494,8 @@ Tcl_ExprObj(interp, objPtr, resultPtrPtr)
 
 	    auxDataPtr = compEnv.auxDataArrayPtr;
 	    for (i = 0;  i < compEnv.auxDataArrayNext;  i++) {
-		if (auxDataPtr->freeProc != NULL) {
-		    auxDataPtr->freeProc(auxDataPtr->clientData);
+		if (auxDataPtr->type->freeProc != NULL) {
+		    auxDataPtr->type->freeProc(auxDataPtr->clientData);
 		}
 		auxDataPtr++;
 	    }
