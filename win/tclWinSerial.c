@@ -1569,7 +1569,7 @@ SerialErrorStr(error, dsPtr)
     if (error & CE_PTO) {		/* PTO used to signal WRITE-TIMEOUT */
 	Tcl_DStringAppendElement(dsPtr, "TIMEOUT");
     }
-    if (error & ~((DWORD) (SERIAL_READ_ERRORS | SERIAL_WRITE_ERRORS)))) {
+    if (error & ~((DWORD) (SERIAL_READ_ERRORS | SERIAL_WRITE_ERRORS))) {
 	char buf[TCL_INTEGER_SPACE + 1];
 
 	wsprintfA(buf, "%d", error);
