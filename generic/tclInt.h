@@ -1572,6 +1572,9 @@ extern Tcl_ObjType	tclStringType;
 extern Tcl_ObjType	tclArraySearchType;
 extern Tcl_ObjType	tclIndexType;
 extern Tcl_ObjType	tclNsNameType;
+#ifndef TCL_WIDE_INT_IS_LONG
+extern Tcl_ObjType	tclWideIntType;
+#endif
 
 /*
  * Variables denoting the hash key types defined in the core.
