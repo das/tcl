@@ -605,8 +605,9 @@ TclCompileForCmd(interp, parsePtr, envPtr)
      * Compile the "next" subcommand.
      */
 
-    envPtr->currStackDepth = savedStackDepth;
     nextCodeOffset = (envPtr->codeNext - envPtr->codeStart);
+
+    envPtr->currStackDepth = savedStackDepth;
     code = TclCompileCmdWord(interp, nextTokenPtr+1,
 	    nextTokenPtr->numComponents, envPtr);
     envPtr->currStackDepth = savedStackDepth + 1;
@@ -619,7 +620,7 @@ TclCompileForCmd(interp, parsePtr, envPtr)
     }
     envPtr->exceptArrayPtr[nextRange].numCodeBytes =
 	    (envPtr->codeNext - envPtr->codeStart)
-	    - envPtr->exceptArrayPtr[nextRange].codeOffset;
+	    - nextCodeOffset;
     TclEmitOpcode(INST_POP, envPtr);
     envPtr->currStackDepth = savedStackDepth;
 
@@ -629,6 +630,7 @@ TclCompileForCmd(interp, parsePtr, envPtr)
      */
 
     testCodeOffset = (envPtr->codeNext - envPtr->codeStart);
+
     jumpDist = testCodeOffset - jumpEvalCondFixup.codeOffset;
     if (TclFixupForwardJump(envPtr, &jumpEvalCondFixup, jumpDist, 127)) {
 	bodyCodeOffset += 3;
