@@ -665,9 +665,9 @@ TclStubs tclStubs = {
 #endif /* MAC_TCL */
     Tcl_GetVersion, /* 279 */
     Tcl_InitMemory, /* 280 */
-    Tcl_ReplaceChannel, /* 281 */
-    Tcl_UndoReplaceChannel, /* 282 */
-    NULL, /* 283 */
+    Tcl_StackChannel, /* 281 */
+    Tcl_UnstackChannel, /* 282 */
+    Tcl_GetStackedChannel, /* 283 */
     NULL, /* 284 */
     NULL, /* 285 */
     Tcl_AppendObjToObj, /* 286 */
