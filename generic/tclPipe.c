@@ -280,9 +280,17 @@ TclCleanupChildren(interp, numPids, pidPtr, errorChan)
     Tcl_Pid pid;
     WAIT_STATUS_TYPE waitStatus;
     CONST char *msg;
+    unsigned long resolvedPid;
 
     abnormalExit = 0;
     for (i = 0; i < numPids; i++) {
+	/*
+	 * We need to get the resolved pid before we wait on it as
+	 * the windows implimentation of Tcl_WaitPid deletes the
+	 * information such that any following calls to TclpGetPid
+	 * fail.
+	 */
+	resolvedPid = TclpGetPid(pidPtr[i]);
         pid = Tcl_WaitPid(pidPtr[i], (int *) &waitStatus, 0);
 	if (pid == (Tcl_Pid) -1) {
 	    result = TCL_ERROR;
@@ -315,7 +323,7 @@ TclCleanupChildren(interp, numPids, pidPtr, errorChan)
 	    char msg1[TCL_INTEGER_SPACE], msg2[TCL_INTEGER_SPACE];
 
 	    result = TCL_ERROR;
-	    TclFormatInt(msg1, (long) TclpGetPid(pid));
+	    TclFormatInt(msg1, (long) resolvedPid);
 	    if (WIFEXITED(waitStatus)) {
                 if (interp != (Tcl_Interp *) NULL) {
 		    TclFormatInt(msg2, WEXITSTATUS(waitStatus));
