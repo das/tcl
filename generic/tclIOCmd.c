@@ -245,16 +245,7 @@ Tcl_GetsObjCmd(dummy, interp, objc, objv)
         return TCL_ERROR;
     }
 
-    if (objc == 3) {
-	/*
-	 * Variable gets line, interp get bytecount.
-	 */
-
-	linePtr = Tcl_NewObj();
-    }
-    else {
-	linePtr = Tcl_GetObjResult(interp);
-    }
+    linePtr = Tcl_NewObj();
 
     lineLen = Tcl_GetsObj(chan, linePtr);
     if (lineLen < 0) {
@@ -278,6 +269,8 @@ Tcl_GetsObjCmd(dummy, interp, objc, objv)
 	resultPtr = Tcl_GetObjResult(interp);
 	Tcl_SetIntObj(resultPtr, lineLen);
         return TCL_OK;
+    } else {
+	Tcl_SetObjResult(interp, linePtr);
     }
     return TCL_OK;
 }
