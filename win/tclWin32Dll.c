@@ -14,11 +14,6 @@
 
 #include "tclWinInt.h"
 
-#if defined(HAVE_NO_ALLOC_DECL)
-void*  __cdecl _alloca(size_t size);
-#define alloca _alloca
-#endif /* HAVE_NO_ALLOC_DECL */
-
 /*
  * The following data structures are used when loading the thunking 
  * library for execing child processes under Win32s.
@@ -395,7 +390,16 @@ TclpCheckStackSpace()
 #else
     __try {
 #endif /* HAVE_NO_SEH */
+#ifdef HAVE_ALLOCA_GCC_INLINE
+    __asm__ __volatile__ (
+            "movl  %0, %%eax" "\n\t"
+            "call  __alloca" "\n\t"
+            :
+            : "i"(TCL_WIN_STACK_THRESHOLD)
+            : "%eax");
+#else
 	alloca(TCL_WIN_STACK_THRESHOLD);
+#endif /* HAVE_ALLOCA_GCC_INLINE */
 	retval = 1;
 #ifdef HAVE_NO_SEH
     __asm__ __volatile__ (
