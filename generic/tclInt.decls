@@ -937,6 +937,10 @@ declare 28 win {
     void TclWinResetInterfaces(void)
 }
 
+declare 29 win {
+    int TclWinCPUID( unsigned int index, unsigned int *regs )
+}
+
 #########################
 # Unix specific internals
 
