@@ -51,7 +51,7 @@ Tcl_Command
 .AP Tcl_Interp *interp in/out
 The interpreter in which the namespace exists and where name lookups
 are performed. Also where error result messages are written.
-.AP "CONST char" *name in
+.AP "const char" *name in
 The name of the namespace or command to be created or accessed.
 .AP ClientData clientData in
 A context pointer by the creator of the namespace.  Not interpreted by
@@ -65,7 +65,7 @@ The namespace to be manipulated, or NULL (for other than
 .AP Tcl_Obj *objPtr out
 A reference to an unshared object to which the function output will be
 written.
-.AP "CONST char" *pattern in
+.AP "const char" *pattern in
 The glob-style pattern (see \fBTcl_StringMatch\fR) that describes the
 commands to be imported or exported.
 .AP int resetListFirst in

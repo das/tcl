@@ -39,7 +39,7 @@ int
 .VE
 .sp
 .VS 8.4
-CONST char *
+const char *
 .VE
 \fBTcl_GetCommandName\fR(\fIinterp, token\fR)
 .sp
@@ -100,7 +100,7 @@ typedef int Tcl_ObjCmdProc(
         Tcl_Interp *\fIinterp\fR,
         int \fIobjc\fR,
 .VS
-        Tcl_Obj *CONST \fIobjv\fR[]);
+        Tcl_Obj *const \fIobjv\fR[]);
 .CE
 When \fIproc\fR is invoked, the \fIclientData\fR and \fIinterp\fR parameters
 will be copies of the \fIclientData\fR and \fIinterp\fR arguments given to

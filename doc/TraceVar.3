@@ -35,7 +35,7 @@ ClientData
 .AS Tcl_VarTraceProc prevClientData
 .AP Tcl_Interp *interp in
 Interpreter containing variable.
-.AP "CONST char" *varName in
+.AP "const char" *varName in
 Name of variable.  May refer to a scalar variable, to
 an array variable with no index, or to an array variable
 with a parenthesized index.
@@ -50,9 +50,9 @@ procedures.  See below for more information.
 Procedure to invoke whenever one of the traced operations occurs.
 .AP ClientData clientData in
 Arbitrary one-word value to pass to \fIproc\fR.
-.AP "CONST char" *name1 in
+.AP "const char" *name1 in
 Name of scalar or array variable (without array index).
-.AP "CONST char" *name2 in
+.AP "const char" *name2 in
 For a trace on an element of an array, gives the index of the
 element.  For traces on scalar variables or on whole arrays,
 is NULL.

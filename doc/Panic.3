@@ -25,7 +25,7 @@ void
 .sp
 .SH ARGUMENTS
 .AS Tcl_PanicProc *panicProc
-.AP "CONST char*" format in
+.AP "const char*" format in
 A printf-style format string.
 .AP "" arg in
 Arguments matching the format string.
@@ -61,7 +61,7 @@ type \fBTcl_PanicProc\fR:
 .PP
 .CS
 typedef void Tcl_PanicProc(
-        CONST char *\fBformat\fR,
+        const char *\fBformat\fR,
         \fBarg\fR, \fBarg\fR,...);
 .CE
 .PP

@@ -31,7 +31,7 @@ Tcl_Obj *
 .AS Tcl_ValueType *clientDataPtr out
 .AP Tcl_Interp *interp in
 Interpreter in which new function will be defined.
-.AP "CONST char" *name in
+.AP "const char" *name in
 Name for new function.
 .AP int numArgs in
 Number of arguments to new function;  also gives size of \fIargTypes\fR array.
@@ -57,7 +57,7 @@ implemented directly in bytecode).
 Points to a variable that will be set to contain the clientData
 argument passed to \fITcl_CreateMathFunc\fR when the function was
 created if the function is not implemented directly in bytecode.
-.AP "CONST char" *pattern in
+.AP "const char" *pattern in
 Pattern to match against function names so as to filter them (by
 passing to \fITcl_StringMatch\fR), or NULL to not apply any filter.
 .BE
