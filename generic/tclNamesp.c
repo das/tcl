@@ -2293,7 +2293,7 @@ TclResetShadowedCmdRefs(interp, newCmdPtr)
 		 * for a fresh compilation of every bytecode.
 		 */
 
-		if ((((Command *) hPtr)->compileProc) != NULL) {
+		if ((((Command *) Tcl_GetHashValue(hPtr))->compileProc) != NULL) {
 		    nsPtr->resolverEpoch++;
 		}
             }
