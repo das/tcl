@@ -66,6 +66,7 @@ Tcl_ClockObjCmd (client, interp, objc, objv)
     long zone;
     Tcl_Obj *baseObjPtr = NULL;
     char *scanStr;
+    int n;
     
     static CONST char *switches[] =
 	{"clicks", "format", "scan", "seconds", (char *) NULL};
@@ -90,9 +91,10 @@ Tcl_ClockObjCmd (client, interp, objc, objv)
 	    int forceMilli = 0;
 
 	    if (objc == 3) {
-		format = Tcl_GetStringFromObj(objv[2], &index);
-		if (strncmp(format, "-milliseconds",
-			(unsigned int) index) == 0) {
+		format = Tcl_GetStringFromObj(objv[2], &n);
+		if ( ( n >= 2 ) 
+		     && ( strncmp( format, "-milliseconds",
+				   (unsigned int) n) == 0 ) ) {
 		    forceMilli = 1;
 		} else {
 		    Tcl_AppendStringsToObj(resultPtr,
