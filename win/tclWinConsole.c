@@ -503,7 +503,13 @@ ConsoleCloseProc(
      */
     
     if (consolePtr->writeThread) {
-	WaitForSingleObject(consolePtr->writable, INFINITE);
+	if (consolePtr->toWrite) {
+	    /*
+	     * We only need to wait if there is something to write.
+	     * This may prevent infinite wait on exit. [python bug 216289]
+	     */
+	    WaitForSingleObject(consolePtr->writable, INFINITE);
+	}
 
 	/*
 	 * Forcibly terminate the background thread.  We cannot rely on the
@@ -819,7 +825,7 @@ ConsoleEventProc(
     mask = 0;
     if (infoPtr->watchMask & TCL_WRITABLE) {
 	if (WaitForSingleObject(infoPtr->writable, 0) != WAIT_TIMEOUT) {
-	  mask = TCL_WRITABLE;
+	    mask = TCL_WRITABLE;
 	}
     }
 
