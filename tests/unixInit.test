@@ -268,7 +268,7 @@ test unixInit-2.9 {TclpInitLibraryPath: paths relative to executable} {unix noSp
         /tmp/library /library /tcl[info patchlevel]/library]
 
 test unixInit-2.10 {TclpInitLibraryPath: executable relative} -constraints {
-	unixOnly stdio knownBug
+	unixOnly stdio
 } -setup {
     set tmpDir [makeDirectory tmp]
     set sparklyDir [makeDirectory sparkly $tmpDir]
