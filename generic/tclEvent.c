@@ -291,11 +291,8 @@ HandleBgErrors(clientData)
              */
 
             if (Tcl_IsSafe(interp)) {
-		Tcl_SavedResult save;
-		
-		Tcl_SaveResult(interp, &save);
+		Tcl_ResetResult(interp);
                 TclObjInvoke(interp, 2, objv, TCL_INVOKE_HIDDEN);
-		Tcl_RestoreResult(interp, &save);
             } else {
 
 		/*
