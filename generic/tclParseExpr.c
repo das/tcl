@@ -1359,20 +1359,19 @@ ParsePrimaryExpr(infoPtr)
 		    (size_t) (numTokens * sizeof(Tcl_Token)));
 	    parsePtr->numTokens += (numTokens + 1);
 
+	    exprTokenPtr = &parsePtr->tokenPtr[exprIndex];
+	    exprTokenPtr->size = (src - tokenPtr->start);
+	    exprTokenPtr->numComponents = 1 + numTokens;
+
 	    if (lastTokenPtr->type == TCL_TOKEN_ERROR) {
 		parsePtr->errorType = lastTokenPtr->numComponents;
 		parsePtr->term = term;
 		parsePtr->incomplete = 1;
-
-		ckfree((char *) appendTokens);
-		return TCL_ERROR;
+		infoPtr->next = parsePtr->end;
+	    } else {
+		infoPtr->next = term + 1;
 	    }
 	    ckfree((char *) appendTokens);
-	    infoPtr->next = term + 1;
-
-	    exprTokenPtr = &parsePtr->tokenPtr[exprIndex];
-	    exprTokenPtr->size = (src - tokenPtr->start);
-	    exprTokenPtr->numComponents = 1 + numTokens;
 	    break;
 	}
 

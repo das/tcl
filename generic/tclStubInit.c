@@ -106,7 +106,7 @@ TclIntStubs tclIntStubs = {
     TclFormatInt, /* 24 */
     TclFreePackageInfo, /* 25 */
     NULL, /* 26 */
-    TclGetDate, /* 27 */
+    NULL, /* 27 */
     TclpGetDefaultStdChannel, /* 28 */
     NULL, /* 29 */
     NULL, /* 30 */
@@ -122,7 +122,7 @@ TclIntStubs tclIntStubs = {
     TclGetOpenMode, /* 40 */
     TclGetOriginalCommand, /* 41 */
     TclpGetUserHome, /* 42 */
-    TclGlobalInvoke, /* 43 */
+    NULL, /* 43 */
     TclGuessPackageName, /* 44 */
     TclHideUnsafeCommands, /* 45 */
     TclInExit, /* 46 */
@@ -131,7 +131,7 @@ TclIntStubs tclIntStubs = {
     TclIncrVar2, /* 49 */
     TclInitCompiledLocals, /* 50 */
     TclInterpInit, /* 51 */
-    TclInvoke, /* 52 */
+    NULL, /* 52 */
     TclInvokeObjectCommand, /* 53 */
     TclInvokeStringCommand, /* 54 */
     TclIsProc, /* 55 */
@@ -144,7 +144,7 @@ TclIntStubs tclIntStubs = {
     TclObjCommandComplete, /* 62 */
     TclObjInterpProc, /* 63 */
     TclObjInvoke, /* 64 */
-    TclObjInvokeGlobal, /* 65 */
+    NULL, /* 65 */
     TclOpenFileChannelDeleteProc, /* 66 */
     TclOpenFileChannelInsertProc, /* 67 */
     NULL, /* 68 */
@@ -218,7 +218,7 @@ TclIntStubs tclIntStubs = {
     Tcl_SetNamespaceResolvers, /* 131 */
     TclpHasSockets, /* 132 */
     TclpGetDate, /* 133 */
-    TclpStrftime, /* 134 */
+    NULL, /* 134 */
     NULL, /* 135 */
     NULL, /* 136 */
     NULL, /* 137 */

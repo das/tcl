@@ -98,4 +98,5 @@ Tcl_PathType     TclFSNonnativePathType  _ANSI_ARGS_((CONST char *pathPtr,
 Tcl_PathType     TclGetPathType  _ANSI_ARGS_((Tcl_Obj *pathPtr, 
 			    Tcl_Filesystem **filesystemPtrPtr, 
 			    int *driveNameLengthPtr, Tcl_Obj **driveNameRef));
+int              TclFSEpochOk _ANSI_ARGS_((int filesystemEpoch));
 Tcl_FSPathInFilesystemProc TclNativePathInFilesystem;

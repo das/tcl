@@ -921,6 +921,13 @@ TclProcessReturn(interp, code, level, returnOpts)
 	    if (valuePtr != NULL) {
 		Tcl_SetObjErrorCode(interp, valuePtr);
 	    }
+
+	    valuePtr = NULL;
+	    Tcl_DictObjGet(NULL, iPtr->returnOpts,
+		    iPtr->returnErrorlineKey, &valuePtr);
+	    if (valuePtr != NULL) {
+		Tcl_GetIntFromObj(NULL, valuePtr, &iPtr->errorLine);
+	    }
 	}
     } else {
 	code = TCL_RETURN;

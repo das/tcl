@@ -699,8 +699,6 @@ Tcl_SetStringObj(objPtr, bytes, length)
 				 * negative, use bytes up to the first
 				 * NULL byte.*/
 {
-    register Tcl_ObjType *oldTypePtr = objPtr->typePtr;
-
     /*
      * Free any old string rep, then set the string rep to a copy of
      * the length bytes starting at "bytes".
@@ -714,9 +712,7 @@ Tcl_SetStringObj(objPtr, bytes, length)
      * Set the type to NULL and free any internal rep for the old type.
      */
 
-    if ((oldTypePtr != NULL) && (oldTypePtr->freeIntRepProc != NULL)) {
-	oldTypePtr->freeIntRepProc(objPtr);
-    }
+    TclFreeIntRep(objPtr);
     objPtr->typePtr = NULL;
 
     Tcl_InvalidateStringRep(objPtr);
@@ -950,7 +946,6 @@ Tcl_SetUnicodeObj(objPtr, unicode, numChars)
     int numChars;		/* Number of characters in the unicode
 				 * string. */
 {
-    Tcl_ObjType *typePtr;
     String *stringPtr;
     size_t uallocated;
 
@@ -966,10 +961,7 @@ Tcl_SetUnicodeObj(objPtr, unicode, numChars)
      * Free the internal rep if one exists, and invalidate the string rep.
      */
 
-    typePtr = objPtr->typePtr;
-    if ((typePtr != NULL) && (typePtr->freeIntRepProc) != NULL) {
-	(*typePtr->freeIntRepProc)(objPtr);
-    }
+    TclFreeIntRep(objPtr);
     objPtr->typePtr = &tclStringType;
 
     /*
@@ -1813,9 +1805,7 @@ SetStringFromAny(interp, objPtr)
 	    if (objPtr->bytes == NULL) {
 		objPtr->typePtr->updateStringProc(objPtr);
 	    }
-	    if ((objPtr->typePtr->freeIntRepProc) != NULL) {
-		(*objPtr->typePtr->freeIntRepProc)(objPtr);
-	    }
+	    TclFreeIntRep(objPtr);
 	}
 	objPtr->typePtr = &tclStringType;
 
