@@ -810,6 +810,38 @@ declare 199 generic {
     int TclMatchIsTrivial(CONST char *pattern)
 }
 
+# 200-208 exported for use by the test suite [Bug 1054748]
+declare 200 generic {
+    int TclpObjRemoveDirectory (Tcl_Obj *pathPtr, int recursive,
+	Tcl_Obj **errorPtr)
+}
+declare 201 generic {
+    int TclpObjCopyDirectory (Tcl_Obj *srcPathPtr, Tcl_Obj *destPathPtr,
+	Tcl_Obj **errorPtr)
+}
+declare 202 generic {
+    int TclpObjCreateDirectory (Tcl_Obj *pathPtr)
+}
+declare 203 generic {
+    int TclpObjDeleteFile (Tcl_Obj *pathPtr)
+}
+declare 204 generic {
+    int TclpObjCopyFile (Tcl_Obj *srcPathPtr, Tcl_Obj *destPathPtr)
+}
+declare 205 generic {
+    int TclpObjRenameFile (Tcl_Obj *srcPathPtr, Tcl_Obj *destPathPtr)
+}
+declare 206 generic {
+    int TclpObjStat (Tcl_Obj *pathPtr, Tcl_StatBuf *buf)
+}
+declare 207 generic {
+    int TclpObjAccess (Tcl_Obj *pathPtr, int mode)
+}
+declare 208 generic {
+    Tcl_Channel TclpOpenFileChannel (Tcl_Interp *interp,
+	    Tcl_Obj *pathPtr, int mode, int permissions)
+}
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are

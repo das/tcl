@@ -284,6 +284,15 @@ TclIntStubs tclIntStubs = {
     TclCompEvalObj, /* 197 */
     TclObjGetFrame, /* 198 */
     TclMatchIsTrivial, /* 199 */
+    TclpObjRemoveDirectory, /* 200 */
+    TclpObjCopyDirectory, /* 201 */
+    TclpObjCreateDirectory, /* 202 */
+    TclpObjDeleteFile, /* 203 */
+    TclpObjCopyFile, /* 204 */
+    TclpObjRenameFile, /* 205 */
+    TclpObjStat, /* 206 */
+    TclpObjAccess, /* 207 */
+    TclpOpenFileChannel, /* 208 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
