@@ -1019,11 +1019,11 @@ test namespace-34.1 {NamespaceWhichCmd, bad args} {
     list [catch {namespace which} msg] $msg
 } {1 {wrong # args: should be "namespace which ?-command? ?-variable? name"}}
 test namespace-34.2 {NamespaceWhichCmd, bad args} {
-    list [catch {namespace which -fred} msg] $msg
+    list [catch {namespace which -fred x} msg] $msg
 } {1 {wrong # args: should be "namespace which ?-command? ?-variable? name"}}
-test namespace-34.3 {NamespaceWhichCmd, bad args} {
-    list [catch {namespace which -command} msg] $msg
-} {1 {wrong # args: should be "namespace which ?-command? ?-variable? name"}}
+test namespace-34.3 {NamespaceWhichCmd, single arg is always command name} {
+    namespace which -command
+} {}
 test namespace-34.4 {NamespaceWhichCmd, bad args} {
     list [catch {namespace which a b} msg] $msg
 } {1 {wrong # args: should be "namespace which ?-command? ?-variable? name"}}
