@@ -22,7 +22,8 @@ package require Tcl 8.3		;# uses [glob -directory]
 namespace eval tcltest {
 
     # When the version number changes, be sure to update the pkgIndex.tcl file,
-    # and the install directory in the Makefiles.
+    # and the install directory in the Makefiles.  When the minor version
+    # changes (new feature) be sure to update the man page as well.
     variable Version 2.2.1
 
     # Compatibility support for dumb variables defined in tcltest 1
@@ -171,12 +172,13 @@ namespace eval tcltest {
     # save the original environment so that it can be restored later
     ArrayDefault originalEnv [array get ::env]
 
-    # initialize numTests array to keep track fo the number of tests
+    # initialize numTests array to keep track of the number of tests
     # that pass, fail, and are skipped.
     ArrayDefault numTests [list Total 0 Passed 0 Skipped 0 Failed 0]
 
-    # numTests will store test files as indices and the list of files
-    # (that should not have been) left behind by the test files.
+    # createdNewFiles will store test files as indices and the list of
+    # files (that should not have been) left behind by the test files
+    # as values.
     ArrayDefault createdNewFiles {}
 
     # initialize skippedBecause array to keep track of constraints that
