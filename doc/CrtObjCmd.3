@@ -275,7 +275,7 @@ ClientData for its command procedure.
 .PP
 Note that neither \fBTcl_SetCommandInfo\fR nor
 \fBTcl_SetCommandInfoFromToken\fR will change a command's namespace.
-You must use \fBTcl_RenameCommand\fR to do that.
+Use \fBTcl_Eval\fR to call the \fBrename\fR command to do that.
 .PP
 \fBTcl_GetCommandName\fR provides a mechanism for tracking commands
 that have been renamed.
