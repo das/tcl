@@ -1157,7 +1157,7 @@ GetGroupAttribute(interp, objIndex, fileName, attributePtrPtr)
 
     groupPtr = getgrgid(statBuf.st_gid);		/* INTL: Native. */
     if (groupPtr == NULL) {
-	*attributePtrPtr = Tcl_NewIntObj(statBuf.st_gid);
+	*attributePtrPtr = Tcl_NewIntObj((int) statBuf.st_gid);
     } else {
 	Tcl_DString ds;
 	CONST char *utf;
@@ -1208,7 +1208,7 @@ GetOwnerAttribute(interp, objIndex, fileName, attributePtrPtr)
 
     pwPtr = getpwuid(statBuf.st_uid);			/* INTL: Native. */
     if (pwPtr == NULL) {
-	*attributePtrPtr = Tcl_NewIntObj(statBuf.st_uid);
+	*attributePtrPtr = Tcl_NewIntObj((int) statBuf.st_uid);
     } else {
 	Tcl_DString ds;
 	CONST char *utf;
@@ -1257,7 +1257,7 @@ GetPermissionsAttribute(interp, objIndex, fileName, attributePtrPtr)
 	return TCL_ERROR;
     }
 
-    sprintf(returnString, "%0#5lo", (statBuf.st_mode & 0x00007FFF));
+    sprintf(returnString, "%0#5lo", (long) (statBuf.st_mode & 0x00007FFF));
 
     *attributePtrPtr = Tcl_NewStringObj(returnString, -1);
     
