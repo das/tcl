@@ -111,6 +111,16 @@ TclpStrftime(s, maxsize, format, t)
     const char *format;
     const struct tm *t;
 {
+    if (format[0] == '%' && format[1] == 'Q') {
+	/* Format as a stardate */
+	sprintf(s, "Stardate %2d%03d.%01d",
+		(((t->tm_year + TM_YEAR_BASE) + 377) - 2323),
+		(((t->tm_yday + 1) * 1000) /
+			(365 + IsLeapYear((t->tm_year + TM_YEAR_BASE)))),
+		(((t->tm_hour * 60) + t->tm_min)/144));
+	return(strlen(s));
+    }
+
     tzset();
 
     pt = s;

@@ -221,11 +221,11 @@ test clock-4.24 {clock scan, number:number:number-timezone} {
 	    -format {%b %d, %Y %H:%M:%S} -gmt true
 } "Dec 31, 1999 08:00:30"
 test clock-4.25 {clock scan, DST for days} {
-    clock scan "tomorrow" -base 941353200
-} 941443200
+    clock scan "tomorrow" -base [clock scan "19991031 00:00:00"]
+} [clock scan "19991101 00:00:00"]
 test clock-4.26 {clock scan, DST for days} {
-    clock scan "yesterday" -base 941443200
-} 941353200
+    clock scan "yesterday" -base [clock scan "19991101 00:00:00"]
+} [clock scan "19991031 00:00:00"]
 test clock-4.27 {clock scan, day} knownBug {
     clock format [clock scan "Monday" -gmt true -base 946627200] \
 	    -format {%b %d, %Y %H:%M:%S} -gmt true
