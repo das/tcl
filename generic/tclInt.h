@@ -1747,7 +1747,9 @@ EXTERN Tcl_Channel	TclpOpenFileChannel _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *pathPtr, int mode,
 			    int permissions));
 EXTERN void		TclpCutFileChannel _ANSI_ARGS_((Tcl_Channel chan));
+EXTERN void		TclpCutSockChannel _ANSI_ARGS_((Tcl_Channel chan));
 EXTERN void		TclpSpliceFileChannel _ANSI_ARGS_((Tcl_Channel chan));
+EXTERN void		TclpSpliceSockChannel _ANSI_ARGS_((Tcl_Channel chan));
 EXTERN void		TclpPanic _ANSI_ARGS_(TCL_VARARGS(CONST char *,
 			    format));
 EXTERN char *		TclpReadlink _ANSI_ARGS_((CONST char *fileName,

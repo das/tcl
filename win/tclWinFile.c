@@ -129,8 +129,10 @@ typedef struct {
 } DUMMY_REPARSE_BUFFER;
 
 #if defined(_MSC_VER) && ( _MSC_VER <= 1100 )
+#undef  HAVE_NO_FINDEX_ENUMS
 #define HAVE_NO_FINDEX_ENUMS
 #elif !defined(_WIN32_WINNT) || (_WIN32_WINNT < 0x0400)
+#undef  HAVE_NO_FINDEX_ENUMS
 #define HAVE_NO_FINDEX_ENUMS
 #endif
 

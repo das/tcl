@@ -2790,3 +2790,92 @@ pascal void NotifyRoutine (
     localIcmpMsg = *icmpMsg;
         
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclpCutSockChannel --
+ *
+ *	Remove any thread local refs to this channel. See
+ *	Tcl_CutChannel for more info.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Changes thread local list of valid channels.
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+TclpCutSockChannel(chan)
+    Tcl_Channel chan;
+{
+    ThreadSpecificData *tsdPtr;
+    TcpState *infoPtr;
+    TcpState **nextPtrPtr;
+    int removed = 0;
+
+    if (Tcl_GetChannelType(chan) != &tcpChannelType)
+        return;
+
+    tsdPtr  = TCL_TSD_INIT(&dataKey);
+    infoPtr = (TcpState *) Tcl_GetChannelInstanceData (chan);
+
+    for (nextPtrPtr = &(tsdPtr->socketList); (*nextPtrPtr) != NULL;
+	 nextPtrPtr = &((*nextPtrPtr)->nextPtr)) {
+	if ((*nextPtrPtr) == infoPtr) {
+	    (*nextPtrPtr) = infoPtr->nextPtr;
+	    removed = 1;
+	    break;
+	}
+    }
+
+    /*
+     * This could happen if the channel was created in one thread
+     * and then moved to another without updating the thread
+     * local data in each thread.
+     */
+
+    if (!removed)
+        panic("file info ptr not on thread channel list");
+    return;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclpSpliceSockChannel --
+ *
+ *	Insert thread local ref for this channel.
+ *	Tcl_SpliceChannel for more info.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Changes thread local list of valid channels.
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+TclpSpliceSockChannel(chan)
+    Tcl_Channel chan;
+{
+    ThreadSpecificData *tsdPtr;
+    TcpState *infoPtr;
+
+    if (Tcl_GetChannelType(chan) != &tcpChannelType)
+        return;
+
+    InitSockets ();
+
+    tsdPtr  = TCL_TSD_INIT(&dataKey);
+    infoPtr = (TcpState *) Tcl_GetChannelInstanceData (chan);
+
+    infoPtr->nextPtr   = tsdPtr->socketList;
+    tsdPtr->socketList = infoPtr;
+}
+
