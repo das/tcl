@@ -483,7 +483,7 @@ test proc-old-7.14 {return with special completion code} {
 "tproc2"} none}
 test proc-old-7.15 {return with special completion code} {
     list [catch {return -badOption foo message} msg] $msg
-} {1 {bad option "-badOption": must be -code, -errorcode, or -errorinfo}}
+} {2 message}
 
 test proc-old-8.1 {unset and undefined local arrays} {
     proc t1 {} {

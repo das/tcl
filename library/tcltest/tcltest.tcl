@@ -1919,7 +1919,7 @@ proc tcltest::test {name description args} {
 	}
 
 	# Replace symbolic valies supplied for -returnCodes
-	foreach {strcode numcode} {normal 0 error 1 return 2 break 3 continue 4} {
+	foreach {strcode numcode} {ok 0 normal 0 error 1 return 2 break 3 continue 4} {
 	    set returnCodes [string map -nocase [list $strcode $numcode] $returnCodes]
 	}
     } else {

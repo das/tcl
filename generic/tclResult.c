@@ -1046,7 +1046,12 @@ TclTransferResult(sourceInterp, result, targetInterp)
 	((Interp *) targetInterp)->flags |= (ERR_IN_PROGRESS | ERROR_CODE_SET);
     }
 
-    ((Interp *) targetInterp)->returnCode = ((Interp *) sourceInterp)->returnCode;
+    /* This may need examination for safety */
+    Tcl_DecrRefCount( ((Interp *) targetInterp)->returnOpts );
+    ((Interp *) targetInterp)->returnOpts = 
+	    ((Interp *) sourceInterp)->returnOpts;
+    Tcl_IncrRefCount( ((Interp *) targetInterp)->returnOpts );
+
     Tcl_SetObjResult(targetInterp, Tcl_GetObjResult(sourceInterp));
     Tcl_ResetResult(sourceInterp);
 }
