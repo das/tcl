@@ -73,6 +73,13 @@ static CONST LocaleTable localeTable[] = {
     {"japanese-sjis",	"shiftjis"},
     {"japanese-ujis",	"euc-jp"},
 
+    {"ko",              "euc-kr"},
+    {"ko_KR",           "euc-kr"},
+    {"ko_KR.EUC",       "euc-kr"},
+    {"ko_KR.euc",       "euc-kr"},
+    {"ko_KR.eucKR",     "euc-kr"},
+    {"korean",          "euc-kr"},
+
     {"zh",		"cp936"},
 
     {NULL, NULL}
