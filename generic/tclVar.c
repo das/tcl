@@ -4506,9 +4506,12 @@ TclDeleteVars(iPtr, tablePtr)
 
     flags = TCL_TRACE_UNSETS;
     if (tablePtr == &iPtr->globalNsPtr->varTable) {
-	flags |= (TCL_INTERP_DESTROYED | TCL_GLOBAL_ONLY);
+	flags |= TCL_GLOBAL_ONLY;
     } else if (tablePtr == &currNsPtr->varTable) {
 	flags |= TCL_NAMESPACE_ONLY;
+    }
+    if (Tcl_InterpDeleted(interp)) {
+	flags |= TCL_INTERP_DESTROYED;
     }
 
     for (hPtr = Tcl_FirstHashEntry(tablePtr, &search);  hPtr != NULL;
