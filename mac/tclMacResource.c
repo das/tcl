@@ -478,7 +478,14 @@ resourceRef? resourceType");
 		    } else {
 			objPtr = Tcl_NewIntObj(id);
 		    }
-		    ReleaseResource(resource);
+		    /*
+		     * If the Master Pointer of the  returned handle is
+		     * null, then resource was not in memory, and it is
+		     * safe to release it. Otherwise, it is not.
+		     */
+		    if (*resource == NULL) {
+			ReleaseResource(resource);
+		    }
 		    result = Tcl_ListObjAppendElement(interp, resultPtr,
 			    objPtr);
 		    if (result != TCL_OK) {

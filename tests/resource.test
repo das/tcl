@@ -148,6 +148,10 @@ test resource-5.4 {resource types tests} {macOnly} {
     resource close $id
     set result
 } {TEXT}
+test resource-5.5 {resource types lists} {macOnly} {
+    # This should not crash
+    catch {foreach f [resource types] { resource list $f }}
+} {0}
 
 # resource write tests
 test resource-6.1 {resource write tests} {macOnly} {
