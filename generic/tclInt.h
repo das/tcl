@@ -1819,6 +1819,9 @@ EXTERN int              TclParseExpr _ANSI_ARGS_((Tcl_Interp *interp,
 			    int useInternalTokens, Tcl_Parse *parsePtr));
 EXTERN int		TclParseHex _ANSI_ARGS_((CONST char *src, int numBytes,
                             Tcl_UniChar *resultPtr));
+EXTERN void		TclParseInit _ANSI_ARGS_ ((Tcl_Interp *interp,
+			    CONST char *string, int numBytes,
+			    Tcl_Parse *parsePtr));
 EXTERN int		TclParseInteger _ANSI_ARGS_((CONST char *string,
 			    int numBytes));
 Tcl_Token *		TclParseScript _ANSI_ARGS_((CONST char *script,

@@ -268,19 +268,7 @@ TclParseExpr(interp, string, numBytes, useInternalTokens, parsePtr)
     }
 #endif /* TCL_COMPILE_DEBUG */
     
-    parsePtr->commentStart = NULL;
-    parsePtr->commentSize = 0;
-    parsePtr->commandStart = NULL;
-    parsePtr->commandSize = 0;
-    parsePtr->numWords = 0;
-    parsePtr->tokenPtr = parsePtr->staticTokens;
-    parsePtr->numTokens = 0;
-    parsePtr->tokensAvailable = NUM_STATIC_TOKENS;
-    parsePtr->string = string;
-    parsePtr->end = (string + numBytes);
-    parsePtr->interp = interp;
-    parsePtr->term = string;
-    parsePtr->incomplete = 0;
+    TclParseInit(interp, string, numBytes, parsePtr);
 
     /*
      * Initialize the ParseInfo structure that holds state while parsing
