@@ -20,7 +20,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
-if {"[info commands testthread]" == "testthread"} {
+if {[lsearch [info commands testthread] testthread] == -1} {
     puts "skipping: tests require the testthread command..."
     ::tcltest::cleanupTests
     return
