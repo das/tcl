@@ -432,7 +432,7 @@ static TABLE    OtherTable[] = {
     { "now",            tMINUTE_UNIT,   0 },
     { "last",           tUNUMBER,       -1 },
     { "this",           tMINUTE_UNIT,   0 },
-    { "next",           tUNUMBER,       2 },
+    { "next",           tUNUMBER,       1 },
 #if 0
     { "first",          tUNUMBER,       1 },
     { "second",         tUNUMBER,       2 },
