@@ -1481,6 +1481,19 @@ extern char *		tclEmptyStringRep;
 
 /*
  *----------------------------------------------------------------
+ * Declarations of procedures that are not accessible by way of
+ * the stubs tables.
+ *----------------------------------------------------------------
+ */
+
+EXTERN void	TclFinalizeCompExecEnv _ANSI_ARGS_((void));
+EXTERN void	TclFinalizeEnvironment _ANSI_ARGS_((void));
+EXTERN void	TclFinalizeExecEnv _ANSI_ARGS_((void));
+EXTERN void	TclInitNamespaces _ANSI_ARGS_((void));
+EXTERN void	TclpFinalize _ANSI_ARGS_((void));
+
+/*
+ *----------------------------------------------------------------
  * Command procedures in the generic core:
  *----------------------------------------------------------------
  */

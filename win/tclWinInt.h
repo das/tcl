@@ -43,10 +43,12 @@
 #define VER_PLATFORM_WIN32_WINDOWS 1
 #endif
 
-EXTERN int		TclWinGetPlatformId(void);
+/*
+ * Declarations of functions that are not accessible by way of the
+ * stubs table.
+ */
+
 EXTERN void		TclWinInit(HINSTANCE hInst);
-EXTERN int		TclWinSynchSpawn(void *args, int type, void **trans,
-				      Tcl_Pid *pidPtr);
 
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT
