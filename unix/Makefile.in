@@ -89,6 +89,9 @@ CFLAGS_OPTIMIZE		= @CFLAGS_OPTIMIZE@
 #CFLAGS			= $(CFLAGS_DEBUG) $(CFLAGS_OPTIMIZE)
 CFLAGS			= @CFLAGS@
 
+# Flags to pass to the linker
+LDFLAGS			= @LDFLAGS@
+
 # To disable ANSI-C procedure prototypes reverse the comment characters
 # on the following lines:
 PROTO_FLAGS		=
@@ -429,11 +432,11 @@ objs: ${OBJS}
 
 
 tclsh: ${TCLSH_OBJS} ${TCL_LIB_FILE}
-	${CC} @LDFLAGS@ ${TCLSH_OBJS} @TCL_BUILD_LIB_SPEC@ ${LIBS} \
+	${CC} ${LDFLAGS} ${TCLSH_OBJS} @TCL_BUILD_LIB_SPEC@ ${LIBS} \
 		@TCL_LD_SEARCH_FLAGS@ -o tclsh
 
 tcltest: ${TCLTEST_OBJS} ${TCL_LIB_FILE} ${BUILD_DLTEST}
-	${CC} @LDFLAGS@ ${TCLTEST_OBJS} @TCL_BUILD_LIB_SPEC@ ${LIBS} \
+	${CC} ${LDFLAGS} ${TCLTEST_OBJS} @TCL_BUILD_LIB_SPEC@ ${LIBS} \
 		@TCL_LD_SEARCH_FLAGS@ -o tcltest
 
 
