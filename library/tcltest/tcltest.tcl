@@ -1263,6 +1263,9 @@ proc tcltest::DefineConstraintInitializers {} {
 
     ConstraintInitializer unixExecs {
 	set code 1
+        if {[string equal macintosh $::tcl_platform(platform)]} {
+	    set code 0
+        }
         if {[string equal windows $::tcl_platform(platform)]} {
 	    if {[catch {
 	        set file _tcl_test_remove_me.txt

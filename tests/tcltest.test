@@ -525,6 +525,9 @@ set a [makeFile {
 set tdiaf [makeFile {} thisdirectoryisafile]
 
 set normaldirectory [makeDirectory normaldirectory]
+if {$::tcl_platform(platform) == "macintosh"} {
+set normaldirectory [file normalize $normaldirectory]
+}
 
 # -tmpdir, [temporaryDirectory]
 test tcltest-8.1 {tcltest a.tcl -tmpdir a} {unixOrPc} {
