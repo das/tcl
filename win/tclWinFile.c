@@ -474,6 +474,16 @@ WinReadLinkDirectory(LinkDirectory)
 		if (0 == strncmp(copy,"\\??\\",4)) {
 		    copy += 4;
 		    len -= 4;
+		    if (0 == strncmp(copy,"Volume{",7)) {
+			/* 
+			 * This is actually a mounted drive, which is in any
+			 * case treated as being mounted in place, so it is
+			 * in some sense a symlink to itself
+			 */
+			Tcl_DStringFree(&ds);
+			Tcl_SetErrno(EINVAL);
+			return NULL;
+		    }
 		} else if (0 == strncmp(copy,"\\\\?\\",4)) {
 		    copy += 4;
 		    len -= 4;

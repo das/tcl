@@ -2528,6 +2528,8 @@ Tcl_FSChdir(pathPtr)
 	    cwdPathPtr = normDirName;
 	    Tcl_MutexUnlock(&cwdMutex);
 	}
+    } else {
+	Tcl_SetErrno(ENOENT);
     }
     
     return (retVal);
