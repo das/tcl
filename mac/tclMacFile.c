@@ -125,7 +125,8 @@ TclpMatchFiles(
     Tcl_DString *dirPtr,	/* Contains path to directory to search. */
     char *pattern,		/* Pattern to match against. */
     char *tail)			/* Pointer to end of pattern.  Tail must
-				 * point to a location in pattern. */
+				 * point to a location in pattern and must
+				 * not be static.*/
 {
     char *dirName, *patternEnd = tail;
     char savedChar;
