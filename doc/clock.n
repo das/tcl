@@ -268,9 +268,9 @@ different results will be given for \fBclock scan "1 day"\fR and
 \fBclock scan "24 hours"\fR:
 .CS
 .ta 6c
-\fB% clock scan "1 day" -base [clock scan 1999-10-31]
+\fB% \fBclock\fR scan "1 day" -base [\fBclock\fR scan 1999-10-31]
 941443200
-% clock scan "24 hours" -base [clock scan 1999-10-31]
+% \fBclock\fR scan "24 hours" -base [\fBclock\fR scan 1999-10-31]
 941439600\fR
 .CE
 .RE
