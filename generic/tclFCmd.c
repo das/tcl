@@ -828,11 +828,23 @@ TclFileAttrsCmd(interp, objc, objv)
     objc -= 3;
     objv += 3;
     result = TCL_ERROR;
+    Tcl_SetErrno(0);
     attributeStrings = Tcl_FSFileAttrStrings(filePtr, &objStrings);
     if (attributeStrings == NULL) {
 	int index;
 	Tcl_Obj *objPtr;
 	if (objStrings == NULL) {
+	    if (Tcl_GetErrno() != 0) {
+		/* 
+		 * There was an error, probably that the filePtr is
+		 * not accepted by any filesystem
+		 */
+		Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), 
+			"could not read \"", Tcl_GetString(filePtr), 
+			"\": ", Tcl_PosixError(interp), 
+			(char *) NULL);
+		return TCL_ERROR;
+	    }
 	    goto end;
 	}
 	/* We own the object now */
