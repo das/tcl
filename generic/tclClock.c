@@ -551,7 +551,7 @@ TclClockOldscanObjCmd( ClientData clientData, /* unused */
     Tcl_Obj *baseObjPtr = NULL;
     int useGMT = 0;
     unsigned long baseClock;
-    long clockVal;
+    unsigned long clockVal;
     long zone;
     Tcl_Obj *resultPtr;
     int dummy;
