@@ -21,11 +21,11 @@
  * When version numbers change here, must also go into the following files
  * and update the version numbers:
  *
- * library/init.tcl
+ * README
+ * library/init.tcl	(only if major.minor changes, not patchlevel)
  * unix/configure.in
- * unix/pkginfo
- * win/makefile.bc
- * win/makefile.vc
+ * win/makefile.bc	(only if major.minor changes, not patchlevel)
+ * win/makefile.vc	(only if major.minor changes, not patchlevel)
  *
  * The release level should be  0 for alpha, 1 for beta, and 2 for
  * final/patch.  The release serial value is the number that follows the
@@ -38,10 +38,10 @@
 #define TCL_MAJOR_VERSION   8
 #define TCL_MINOR_VERSION   0
 #define TCL_RELEASE_LEVEL   2
-#define TCL_RELEASE_SERIAL  2
+#define TCL_RELEASE_SERIAL  3
 
 #define TCL_VERSION	    "8.0"
-#define TCL_PATCH_LEVEL	    "8.0p2"
+#define TCL_PATCH_LEVEL	    "8.0.3"
 
 /*
  * The following definitions set up the proper options for Windows
