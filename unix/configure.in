@@ -27,8 +27,8 @@ TCL_SRC_DIR=`cd $srcdir/..; pwd`
 # Standard compiler checks
 #------------------------------------------------------------------------
 
+AC_PROG_CC
 AC_PROG_RANLIB
-SC_ENABLE_GCC
 AC_HAVE_HEADERS(unistd.h limits.h)
 
 #------------------------------------------------------------------------
