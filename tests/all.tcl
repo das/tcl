@@ -4,7 +4,7 @@
 # tests.  Execute it by invoking "source all.test" when running tcltest
 # in this directory.
 #
-# Copyright (c) 1998-1999 by Scriptics Corporation.
+# Copyright (c) 1998-2000 Ajuba Solutions.
 # All rights reserved.
 # 
 # RCS: @(#) $Id$

@@ -229,6 +229,7 @@ GENERIC_OBJS = \
 	tclInterp.$(OBJEXT) \
 	tclIO.$(OBJEXT) \
 	tclIOCmd.$(OBJEXT) \
+	tclIOGT.$(OBJEXT) \
 	tclIOSock.$(OBJEXT) \
 	tclIOUtil.$(OBJEXT) \
 	tclLink.$(OBJEXT) \

@@ -525,8 +525,11 @@ EXTERN int		TclpMatchFilesTypes _ANSI_ARGS_((Tcl_Interp * interp,
 				char * pattern, char * tail, 
 				GlobTypeData * types));
 /* 161 */
+EXTERN int		TclChannelTransform _ANSI_ARGS_((Tcl_Interp * interp, 
+				Tcl_Channel chan, Tcl_Obj * cmdObjPtr));
+/* 162 */
 EXTERN void		TclChannelEventScriptInvoker _ANSI_ARGS_((
-				ClientData clientData, int mask));
+				ClientData clientData, int flags));
 
 typedef struct TclIntStubs {
     int magic;
@@ -725,7 +728,8 @@ typedef struct TclIntStubs {
     void (*tclSetStartupScriptFileName) _ANSI_ARGS_((char * filename)); /* 158 */
     char * (*tclGetStartupScriptFileName) _ANSI_ARGS_((void)); /* 159 */
     int (*tclpMatchFilesTypes) _ANSI_ARGS_((Tcl_Interp * interp, char * separators, Tcl_DString * dirPtr, char * pattern, char * tail, GlobTypeData * types)); /* 160 */
-    void (*tclChannelEventScriptInvoker) _ANSI_ARGS_((ClientData clientData, int mask)); /* 161 */
+    int (*tclChannelTransform) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Channel chan, Tcl_Obj * cmdObjPtr)); /* 161 */
+    void (*tclChannelEventScriptInvoker) _ANSI_ARGS_((ClientData clientData, int flags)); /* 162 */
 } TclIntStubs;
 
 #ifdef __cplusplus
@@ -1373,9 +1377,13 @@ extern TclIntStubs *tclIntStubsPtr;
 #define TclpMatchFilesTypes \
 	(tclIntStubsPtr->tclpMatchFilesTypes) /* 160 */
 #endif
+#ifndef TclChannelTransform
+#define TclChannelTransform \
+	(tclIntStubsPtr->tclChannelTransform) /* 161 */
+#endif
 #ifndef TclChannelEventScriptInvoker
 #define TclChannelEventScriptInvoker \
-	(tclIntStubsPtr->tclChannelEventScriptInvoker) /* 161 */
+	(tclIntStubsPtr->tclChannelEventScriptInvoker) /* 162 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

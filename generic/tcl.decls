@@ -987,7 +987,7 @@ declare 281 generic {
 	    int mask, Tcl_Channel prevChan)
 }
 declare 282 generic {
-    void Tcl_UnstackChannel(Tcl_Interp *interp, Tcl_Channel chan)
+    int Tcl_UnstackChannel(Tcl_Interp *interp, Tcl_Channel chan)
 }
 declare 283 generic {
     Tcl_Channel Tcl_GetStackedChannel(Tcl_Channel chan)
@@ -1357,35 +1357,65 @@ declare 393 generic {
     int Tcl_CreateThread (Tcl_ThreadId *idPtr, Tcl_ThreadCreateProc proc, \
 	    ClientData clientData, int stackSize, int flags)
 }
+
 declare 394 generic {
-    int Tcl_JoinThread (Tcl_ThreadId id, int* result)
+    int Tcl_ReadRaw (Tcl_Channel chan, char *dst, int bytesToRead)
 }
 declare 395 generic {
-    int Tcl_IsChannelShared (Tcl_Channel channel)
+    int Tcl_WriteRaw (Tcl_Channel chan, char *src, int srcLen)
 }
 declare 396 generic {
-    int Tcl_IsChannelRegistered (Tcl_Interp* interp, Tcl_Channel channel)
+    Tcl_Channel Tcl_GetTopChannel (Tcl_Channel chan)
 }
 declare 397 generic {
-    void Tcl_CutChannel (Tcl_Channel channel)
+    int Tcl_ChannelBuffered (Tcl_Channel chan)
 }
 declare 398 generic {
-    void Tcl_SpliceChannel (Tcl_Channel channel)
+    char * Tcl_ChannelName(Tcl_ChannelType *chanTypePtr)
 }
 declare 399 generic {
-    void Tcl_ClearChannelHandlers (Tcl_Channel channel)
+    Tcl_ChannelTypeVersion Tcl_ChannelVersion(Tcl_ChannelType *chanTypePtr)
 }
 declare 400 generic {
-    int Tcl_IsChannelExisting (CONST char* channelName)
+    Tcl_DriverBlockModeProc * Tcl_ChannelBlockModeProc(Tcl_ChannelType \
+	    *chanTypePtr)
 }
-
 declare 401 generic {
-    int Tcl_UniCharNcasecmp(CONST Tcl_UniChar *cs, CONST Tcl_UniChar *ct,\
-	    unsigned long n)
+    Tcl_DriverCloseProc * Tcl_ChannelCloseProc(Tcl_ChannelType *chanTypePtr)
 }
 declare 402 generic {
-    int Tcl_UniCharCaseMatch(CONST Tcl_UniChar *ustr, \
-	    CONST Tcl_UniChar *pattern, int nocase)
+    Tcl_DriverClose2Proc * Tcl_ChannelClose2Proc(Tcl_ChannelType *chanTypePtr)
+}
+declare 403 generic {
+    Tcl_DriverInputProc * Tcl_ChannelInputProc(Tcl_ChannelType *chanTypePtr)
+}
+declare 404 generic {
+    Tcl_DriverOutputProc * Tcl_ChannelOutputProc(Tcl_ChannelType *chanTypePtr)
+}
+declare 405 generic {
+    Tcl_DriverSeekProc * Tcl_ChannelSeekProc(Tcl_ChannelType *chanTypePtr)
+}
+declare 406 generic {
+    Tcl_DriverSetOptionProc * Tcl_ChannelSetOptionProc(Tcl_ChannelType \
+	    *chanTypePtr)
+}
+declare 407 generic {
+    Tcl_DriverGetOptionProc * Tcl_ChannelGetOptionProc(Tcl_ChannelType \
+	    *chanTypePtr)
+}
+declare 408 generic {
+    Tcl_DriverWatchProc * Tcl_ChannelWatchProc(Tcl_ChannelType *chanTypePtr)
+}
+declare 409 generic {
+    Tcl_DriverGetHandleProc * Tcl_ChannelGetHandleProc(Tcl_ChannelType \
+	    *chanTypePtr)
+}
+declare 410 generic {
+    Tcl_DriverFlushProc * Tcl_ChannelFlushProc(Tcl_ChannelType *chanTypePtr)
+}
+declare 411 generic {
+    Tcl_DriverHandlerProc * Tcl_ChannelHandlerProc(Tcl_ChannelType \
+	    *chanTypePtr)
 }
 
 ##############################################################################

@@ -135,6 +135,14 @@ typedef struct ConsoleEvent {
  * Declarations for functions used only in this file.
  */
 
+static int		ApplicationType(Tcl_Interp *interp,
+			    const char *fileName, char *fullName);
+static void		BuildCommandLine(const char *executable, int argc, 
+			    char **argv, Tcl_DString *linePtr);
+static void		CopyChannel(HANDLE dst, HANDLE src);
+static BOOL		HasConsole(void);
+static TclFile		MakeFile(HANDLE handle);
+static char *		MakeTempFile(Tcl_DString *namePtr);
 static int		ConsoleBlockModeProc(ClientData instanceData, int mode);
 static void		ConsoleCheckProc(ClientData clientData, int flags);
 static int		ConsoleCloseProc(ClientData instanceData,
@@ -153,6 +161,7 @@ static void		ConsoleSetupProc(ClientData clientData, int flags);
 static void		ConsoleWatchProc(ClientData instanceData, int mask);
 static DWORD WINAPI	ConsoleWriterThread(LPVOID arg);
 static void		ProcExitHandler(ClientData clientData);
+static int		TempFileName(WCHAR name[MAX_PATH]);
 static int		WaitForRead(ConsoleInfo *infoPtr, int blocking);
 
 /*
@@ -162,7 +171,7 @@ static int		WaitForRead(ConsoleInfo *infoPtr, int blocking);
 
 static Tcl_ChannelType consoleChannelType = {
     "console",			/* Type name. */
-    ConsoleBlockModeProc,	/* Set blocking or non-blocking mode.*/
+    TCL_CHANNEL_VERSION_2,	/* v2 channel */
     ConsoleCloseProc,		/* Close proc. */
     ConsoleInputProc,		/* Input proc. */
     ConsoleOutputProc,		/* Output proc. */
@@ -171,6 +180,10 @@ static Tcl_ChannelType consoleChannelType = {
     NULL,			/* Get option proc. */
     ConsoleWatchProc,		/* Set up notifier to watch the channel. */
     ConsoleGetHandleProc,	/* Get an OS handle from channel. */
+    NULL,			/* close2proc. */
+    ConsoleBlockModeProc,	/* Set blocking or non-blocking mode.*/
+    NULL,			/* flush proc. */
+    NULL,			/* handler proc. */
 };
 
 /*
@@ -623,11 +636,11 @@ ConsoleInputProc(
 	 */
 
 	if (bufSize < (infoPtr->bytesRead - infoPtr->offset)) {
-	    memcpy(buf, &infoPtr->buffer[infoPtr->offset], (size_t) bufSize);
+	    memcpy(buf, &infoPtr->buffer[infoPtr->offset], bufSize);
 	    bytesRead = bufSize;
 	    infoPtr->offset += bufSize;
 	} else {
-	    memcpy(buf, &infoPtr->buffer[infoPtr->offset], (size_t) bufSize);
+	    memcpy(buf, &infoPtr->buffer[infoPtr->offset], bufSize);
 	    bytesRead = infoPtr->bytesRead - infoPtr->offset;
 
 	    /*
@@ -721,9 +734,9 @@ ConsoleOutputProc(
 		ckfree(infoPtr->writeBuf);
 	    }
 	    infoPtr->writeBufLen = toWrite;
-	    infoPtr->writeBuf = ckalloc((unsigned int) toWrite);
+	    infoPtr->writeBuf = ckalloc(toWrite);
 	}
-	memcpy(infoPtr->writeBuf, buf, (size_t) toWrite);
+	memcpy(infoPtr->writeBuf, buf, toWrite);
 	infoPtr->toWrite = toWrite;
 	ResetEvent(infoPtr->writable);
 	SetEvent(infoPtr->startWriter);
@@ -1073,7 +1086,7 @@ ConsoleReaderThread(LPVOID arg)
 	 * that are not KEY_EVENTs 
 	 */
 	if (ReadConsole(handle, infoPtr->buffer, CONSOLE_BUFFER_SIZE,
-		(LPDWORD) &infoPtr->bytesRead, NULL) != FALSE) {
+		&infoPtr->bytesRead, NULL) != FALSE) {
 	    /*
 	     * Data was stored in the buffer.
 	     */
