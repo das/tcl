@@ -1,8 +1,7 @@
 '\"
 '\" Copyright (c) 2003 Donal K. Fellows
 '\"
-'\" See the file "license.terms" for information on usage and
- \" redistribution
+'\" See the file "license.terms" for information on usage and redistribution
 '\" of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 '\"
 '\" RCS: @(#) $Id$
