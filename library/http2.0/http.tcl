@@ -238,6 +238,9 @@ proc http::geturl { url args } {
 	#fileevent $s writable [list set $token\(status) connect]
 	fileevent $s writable [list http::Connect $token]
 	http::wait $token
+	if {[string compare $state(status) "timeout"] == 0} {
+	    return
+	}
 	fileevent $s writable {}
 	unset state(status)
     }
