@@ -1336,8 +1336,13 @@ TclExecuteByteCode(interp, codePtr)
 	}
 	
     case INST_START_CMD:
-	if ((!(iPtr->flags & DELETED)
-		    && (codeCompileEpoch == iPtr->compileEpoch)
+	/*
+	 * Remark that if the interpreter is marked for deletion
+	 * its compileEpoch is modified, so that the epoch
+	 * check also verifies that the interp is not deleted.
+	 */
+	
+	if (((codeCompileEpoch == iPtr->compileEpoch)
 		    && (codeNsEpoch == namespacePtr->resolverEpoch))
 		|| codePrecompiled) {
 	    NEXT_INST_F(5, 0, 0);

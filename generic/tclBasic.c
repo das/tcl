@@ -918,9 +918,12 @@ Tcl_DeleteInterp(interp)
     
     /*
      * Mark the interpreter as deleted. No further evals will be allowed.
+     * Increase the compileEpoch as a signal to compiled bytecodes.
      */
 
     iPtr->flags |= DELETED;
+    iPtr->compileEpoch++;
+
 
     /*
      * Ensure that the interpreter is eventually deleted.
