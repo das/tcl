@@ -2609,10 +2609,16 @@ Tcl_UnsetObjCmd(dummy, interp, objc, objv)
     register int i, flags = TCL_LEAVE_ERR_MSG;
     register char *name;
 
-    if (objc < 2) {
+    if (objc < 1) {
 	Tcl_WrongNumArgs(interp, 1, objv,
 		"?-nocomplain? ?--? ?varName varName ...?");
 	return TCL_ERROR;
+    } else if (objc == 1) {
+	/*
+	 * Do nothing if no arguments supplied, so as to match
+	 * command documentation.
+	 */
+	return TCL_OK;
     }
 
     /*
