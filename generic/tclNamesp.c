@@ -477,7 +477,6 @@ Tcl_PopCallFrame(interp)
 {
     register Interp *iPtr = (Interp *) interp;
     register CallFrame *framePtr = iPtr->framePtr;
-    int saveErrFlag;
     Namespace *nsPtr;
 
     /*
