@@ -728,9 +728,11 @@ TclpObjLink(pathPtr, toPtr)
     Tcl_Obj *pathPtr;
     Tcl_Obj *toPtr;
 {
+    extern Tcl_Filesystem nativeFilesystem;
+
     if (toPtr != NULL) {
 	CONST char *src = Tcl_FSGetNativePath(pathPtr);
-	CONST char *target Tcl_FSGetNativePath(toPtr);
+	CONST char *target = Tcl_FSGetNativePath(toPtr);
 	
 	if (src == NULL || target == NULL) {
 	    return NULL;
