@@ -136,6 +136,11 @@ static CONST LocaleTable localeTable[] = {
     {"ru_SU",		"iso8859-5"},		
 
     {"zh",		"cp936"},
+    {"zh_CN.gb2312",	"euc-cn"},
+    {"zh_CN.GB2312",	"euc-cn"},
+    {"zh_CN.GBK",	"euc-cn"},
+    {"zh_TW.Big5",	"big5"},
+    {"zh_TW",		"euc-tw"},
 
     {NULL, NULL}
 };
