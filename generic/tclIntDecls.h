@@ -512,9 +512,9 @@ EXTERN int		TclUniCharMatch _ANSI_ARGS_((
 /* Slot 180 is reserved */
 /* Slot 181 is reserved */
 /* 182 */
-EXTERN struct tm *	TclpLocaltime _ANSI_ARGS_((CONST time_t * clock));
+EXTERN struct tm *	TclpLocaltime _ANSI_ARGS_((TclpTime_t clock));
 /* 183 */
-EXTERN struct tm *	TclpGmtime _ANSI_ARGS_((CONST time_t * clock));
+EXTERN struct tm *	TclpGmtime _ANSI_ARGS_((TclpTime_t clock));
 
 typedef struct TclIntStubs {
     int magic;
@@ -726,8 +726,8 @@ typedef struct TclIntStubs {
     void *reserved179;
     void *reserved180;
     void *reserved181;
-    struct tm * (*tclpLocaltime) _ANSI_ARGS_((CONST time_t * clock)); /* 182 */
-    struct tm * (*tclpGmtime) _ANSI_ARGS_((CONST time_t * clock)); /* 183 */
+    struct tm * (*tclpLocaltime) _ANSI_ARGS_((TclpTime_t clock)); /* 182 */
+    struct tm * (*tclpGmtime) _ANSI_ARGS_((TclpTime_t clock)); /* 183 */
 } TclIntStubs;
 
 #ifdef __cplusplus
