@@ -366,14 +366,13 @@ Tcl_ServiceModeHook(mode)
  *
  * Tcl_CreateFileHandler --
  *
- *	This procedure registers a file handler with the Xt notifier.
+ *	This procedure registers a file handler with the select notifier.
  *
  * Results:
  *	None.
  *
  * Side effects:
- *	Creates a new file handler structure and registers one or more
- *	input procedures with Xt.
+ *	Creates a new file handler structure.
  *
  *----------------------------------------------------------------------
  */
