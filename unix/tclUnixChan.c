@@ -2774,6 +2774,7 @@ Tcl_MakeTcpClientChannel(sock)
 
     statePtr = (TcpState *) ckalloc((unsigned) sizeof(TcpState));
     statePtr->fd = (int) sock;
+    statePtr->flags = 0;
     statePtr->acceptProc = NULL;
     statePtr->acceptProcData = (ClientData) NULL;
 
