@@ -3003,7 +3003,7 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
     /*
      * Finally, invoke the command's Tcl_ObjCmdProc.
      */
-    
+    cmdPtr->refCount++;
     iPtr->cmdCount++;
     if ( code == TCL_OK && traceCode == TCL_OK) {
 	savedVarFramePtr = iPtr->varFramePtr;
@@ -3020,14 +3020,17 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
     /*
      * Call 'leave' command traces
      */
-    if ((cmdPtr->flags & CMD_HAS_EXEC_TRACES) && (traceCode == TCL_OK)) {
-	traceCode = TclCheckExecutionTraces(interp, command, length,
-		       cmdPtr, code, TCL_TRACE_LEAVE_EXEC, objc, objv);
+    if (!(cmdPtr->flags & CMD_IS_DELETED)) {
+        if ((cmdPtr->flags & CMD_HAS_EXEC_TRACES) && (traceCode == TCL_OK)) {
+            traceCode = TclCheckExecutionTraces (interp, command, length,
+                   cmdPtr, code, TCL_TRACE_LEAVE_EXEC, objc, objv);
+        }
+        if (iPtr->tracePtr != NULL && traceCode == TCL_OK) {
+            traceCode = TclCheckInterpTraces(interp, command, length,
+                   cmdPtr, code, TCL_TRACE_LEAVE_EXEC, objc, objv);
+        }
     }
-    if (iPtr->tracePtr != NULL && traceCode == TCL_OK) {
-	traceCode = TclCheckInterpTraces(interp, command, length,
-		       cmdPtr, code, TCL_TRACE_LEAVE_EXEC, objc, objv);
-    }
+    TclCleanupCommand(cmdPtr);
 
     /*
      * If one of the trace invocation resulted in error, then 
