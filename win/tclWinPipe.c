@@ -2739,8 +2739,11 @@ PipeReaderThread(LPVOID arg)
     HANDLE *handle = ((WinFile *) infoPtr->readFile)->handle;
     DWORD count, err;
     int done = 0;
-    HANDLE wEvents[2] = {infoPtr->stopReader, infoPtr->startReader};
+    HANDLE wEvents[2];
     DWORD dwWait;
+
+    wEvents[0] = infoPtr->stopReader;
+    wEvents[1] = infoPtr->startReader;
 
     while (!done) {
 	/*
