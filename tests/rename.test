@@ -160,7 +160,7 @@ catch {rename unknown.old unknown}
 
 
 test rename-6.1 {old code invalidated (epoch incremented) when cmd with compile proc is renamed } {
-    proc x {} {
+     proc x {} {
         set a 123
         set b [incr a]
     }
@@ -168,6 +168,8 @@ test rename-6.1 {old code invalidated (epoch incremented) when cmd with compile 
     rename incr incr.old
     proc incr {} {puts "new incr called!"}
     catch {x} msg
+    rename incr {}
+    rename incr.old incr
     set msg
 } {wrong # args: should be "incr"}
 

@@ -543,8 +543,10 @@ typedef struct ByteCode {
 #define INST_LIST_INDEX_IMM		102
 #define INST_LIST_RANGE_IMM		103
 
+#define INST_START_CMD                  104
+
 /* The last opcode */
-#define LAST_INST_OPCODE		103
+#define LAST_INST_OPCODE		104
 
 /*
  * Table describing the Tcl bytecode instructions: their name (for

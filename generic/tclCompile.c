@@ -282,6 +282,9 @@ InstructionDesc tclInstructionTable[] = {
 	/* List Index:	push (lindex stktop op4) */
     {"listRangeImm",	  9,	0,	   2,	{OPERAND_IDX4, OPERAND_IDX4}},
 	/* List Range:	push (lrange stktop op4 op4) */
+
+    {"startCommand",      5,    0,         1,   {OPERAND_UINT4}},
+        /* Start of bytecoded command: op is the length of the cmd's code */ 
     {0}
 };
 
@@ -1056,9 +1059,26 @@ TclCompileScript(interp, script, numBytes, envPtr)
 			    unsigned int savedCodeNext =
 				    envPtr->codeNext - envPtr->codeStart;
 
+			    /*
+			     * Mark the start of the command; the proper
+			     * bytecode length will be updated later.
+			     */
+			    
+			    TclEmitInstInt4(INST_START_CMD, 0, envPtr);
+			    
 			    code = (*(cmdPtr->compileProc))(interp, &parse,
 			            envPtr);
+			    
 			    if (code == TCL_OK) {
+				/*
+				 * Fix the bytecode length.
+				 */
+				unsigned char *fixPtr = envPtr->codeStart + savedCodeNext + 1;
+				unsigned int fixLen = envPtr->codeNext - envPtr->codeStart
+				        - savedCodeNext;
+				
+				TclStoreInt4AtPtr(fixLen, fixPtr);
+				
 				goto finishCommand;
 			    } else if (code == TCL_OUT_LINE_COMPILE) {
 				/*
