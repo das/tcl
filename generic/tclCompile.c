@@ -2990,8 +2990,8 @@ TclPrintInstruction(codePtr, pc)
 		    break;
 		}
 		if (!procPtr) {
-		    Tcl_Panic("TclPrintInstruction: local var index %u (%u locals) outside of a proc.\n",
-			     (unsigned int) opnd, localCt);
+		    Tcl_Panic("TclPrintInstruction: local var index %u outside of a proc.\n",
+			     (unsigned int) opnd);
 		}
 		localCt = procPtr->numCompiledLocals;
 		localPtr = procPtr->firstLocalPtr;
