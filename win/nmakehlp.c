@@ -318,7 +318,7 @@ int
 GrepForDefine (const char *file, const char *string)
 {
     FILE *f;
-    char s1[50], s2[50], s3[50];
+    char s1[250], s2[50], s3[50];
     int r = 0;
     double d1;
 
