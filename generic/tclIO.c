@@ -3631,13 +3631,13 @@ Tcl_GetsObj(chan, objPtr)
 	if (statePtr->flags & CHANNEL_EOF) {
 	    skip = 0;
 	    eol = dstEnd;
-	    if (eol == objPtr->bytes) {
+	    if (eol == objPtr->bytes + oldLength) {
 		/*
-		 * If we didn't produce any bytes before encountering EOF,
+		 * If we didn't append any bytes before encountering EOF,
 		 * caller needs to see -1.
 		 */
 
-		Tcl_SetObjLength(objPtr, 0);
+		Tcl_SetObjLength(objPtr, oldLength);
 		CommonGetsCleanup(chanPtr, encoding);
 		copiedTotal = -1;
 		goto done;
