@@ -627,7 +627,7 @@ proc pkg_mkIndex {args} {
 		break
 	    }
 
-	    -vervose {
+	    -verbose {
 		set doVerbose 1
 	    }
 
