@@ -2788,7 +2788,7 @@ TestregexpXflags(string, length, cflagsPtr, eflagsPtr)
 		break;
 	    }
 	    case '+': {
-		cflags |= REG_FAKEEC;
+		cflags |= REG_FAKE;
 		break;
 	    }
 	    case ',': {
@@ -2815,7 +2815,7 @@ TestregexpXflags(string, length, cflagsPtr, eflagsPtr)
 		eflags |= REG_NOTEOL;
 		break;
 	    }
-	    case '?': {
+	    case 't': {
 		cflags |= REG_EXPECT;
 		break;
 	    }
