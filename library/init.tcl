@@ -1187,6 +1187,11 @@ proc pkg_mkIndex {args} {
 	    continue
 	}
 
+	# Changed back to the original directory before initializing the
+	# slave in case TCL_LIBRARY is a relative path (e.g. in the test
+	# suite). 
+
+	cd $oldDir
 	set c [interp create]
 
 	# Load into the child all packages currently loaded in the parent
@@ -1198,6 +1203,7 @@ proc pkg_mkIndex {args} {
 	    }
 	    load [lindex $pkg 0] [lindex $pkg 1] $c
 	}
+	cd $dir
 
 	$c eval {
 	    # Stub out the package command so packages can
