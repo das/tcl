@@ -5118,7 +5118,8 @@ Tcl_Flush(chan)
      */
 
     if ((statePtr->curOutPtr != NULL)
-	    && (statePtr->curOutPtr->nextAdded > 0)) {
+	    && (statePtr->curOutPtr->nextAdded >
+	            statePtr->curOutPtr->nextRemoved)) {
         statePtr->flags |= BUFFER_READY;
     }
     
