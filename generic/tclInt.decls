@@ -706,6 +706,10 @@ declare 183 generic {
      struct tm *TclpGmtime(TclpTime_t clock)
 }
 
+declare 199 generic {
+    int TclMatchIsTrivial(CONST char *pattern)
+}
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are
