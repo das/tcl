@@ -130,15 +130,3 @@ test uplevel-6.1 {uplevel and shadowed cmds} {
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-

@@ -52,15 +52,3 @@ test join-3.2 {join is binary ok} {
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-

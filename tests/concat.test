@@ -52,15 +52,3 @@ test concat-4.3 {pruning off extra white space sets length correctly} {
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-

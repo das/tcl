@@ -84,15 +84,3 @@ test split-2.2 {split errors} {
 catch {rename foo {}}
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
