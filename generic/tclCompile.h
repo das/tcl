@@ -495,12 +495,15 @@ typedef struct ByteCode {
 #define INST_PUSH_RETURN_CODE		72
 
 /* Opcodes 73 to 74 */
-#define INST_STREQ			73
-#define INST_STRNEQ			74
-#define INST_STRLEN			75
+#define INST_STR_EQ			73
+#define INST_STR_NEQ			74
+#define INST_STR_CMP			75
+#define INST_STR_LEN			76
+#define INST_STR_INDEX			77
+#define INST_STR_MATCH			78
 
 /* The last opcode */
-#define LAST_INST_OPCODE        	75
+#define LAST_INST_OPCODE        	78
 
 /*
  * Table describing the Tcl bytecode instructions: their name (for

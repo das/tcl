@@ -144,8 +144,8 @@ OperatorDesc operatorTable[] = {
     {"?",   0},
     {"!",   1,  INST_LNOT},
     {"~",   1,  INST_BITNOT},
-    {"eq",  2,  INST_STREQ},
-    {"ne",  2,  INST_STRNEQ},
+    {"eq",  2,  INST_STR_EQ},
+    {"ne",  2,  INST_STR_NEQ},
     {NULL}
 };
 
