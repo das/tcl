@@ -983,7 +983,7 @@ TclpCheckStackSpace()
  *
  *----------------------------------------------------------------------
  */
-int Tcl_MacOSXGetLibraryPath(Tcl_Interp *interp, int maxPathLen, char *tclLibPath)
+static int Tcl_MacOSXGetLibraryPath(Tcl_Interp *interp, int maxPathLen, char *tclLibPath)
 {
     int foundInFramework = TCL_ERROR;
 #ifdef HAVE_CFBUNDLE
