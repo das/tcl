@@ -14,7 +14,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * Prototypes for procedures defined later in this file:

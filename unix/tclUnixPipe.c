@@ -659,12 +659,14 @@ SetupStdFile(file, type)
             
             fcntl(targetFd, F_SETFD, 0);
 	} else {
+	    int result;
+
 	    /*
 	     * Since we aren't dup'ing the file, we need to explicitly clear
 	     * the close-on-exec flag.
 	     */
 
-	    fcntl(fd, F_SETFD, 0);
+	    result = fcntl(fd, F_SETFD, 0);
 	}
     } else {
 	close(targetFd);
@@ -1225,7 +1227,7 @@ Tcl_PidObjCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
     if (objc == 1) {
-	Tcl_SetObjResult(interp, Tcl_NewLongObj((long) getpid()));
+	Tcl_SetLongObj(Tcl_GetObjResult(interp), (long) getpid());
     } else {
         chan = Tcl_GetChannel(interp, Tcl_GetString(objv[1]), NULL);
         if (chan == (Tcl_Channel) NULL) {
@@ -1236,12 +1238,11 @@ Tcl_PidObjCmd(dummy, interp, objc, objv)
 	    return TCL_OK;
 	}
         pipePtr = (PipeState *) Tcl_GetChannelInstanceData(chan);
-	resultPtr = Tcl_NewObj();
+	resultPtr = Tcl_GetObjResult(interp);
         for (i = 0; i < pipePtr->numPids; i++) {
 	    longObjPtr = Tcl_NewLongObj((long) TclpGetPid(pipePtr->pidPtr[i]));
 	    Tcl_ListObjAppendElement(NULL, resultPtr, longObjPtr);
 	}
-	Tcl_SetObjResult(interp, resultPtr);
     }
     return TCL_OK;
 }

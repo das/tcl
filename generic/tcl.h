@@ -2055,6 +2055,11 @@ typedef struct Tcl_Token {
  *				more TCL_TOKEN_SUB_EXPR tokens for the
  *				operator's operands. NumComponents is
  *				always 0.
+ * TCL_TOKEN_EXPAND_WORD -	This token is just like TCL_TOKEN_WORD
+ *				except that it marks a word that began with
+ *				the literal character prefix "{expand}".  This
+ *				word is marked to be expanded - that is, broken
+ *				into words after substitution is complete.
  */
 #define TCL_TOKEN_WORD		1
 #define TCL_TOKEN_SIMPLE_WORD	2

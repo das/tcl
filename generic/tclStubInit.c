@@ -12,7 +12,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * Remove macros that will interfere with the definitions below.

@@ -367,7 +367,9 @@ ValidateFormat(interp, format, numVars, totalSubs)
 	switch (ch) {
 	case 'l':
 	case 'L':
+#ifndef TCL_WIDE_INT_IS_LONG
 	    flags |= SCAN_LONGER;
+#endif
 	case 'h':
 	    format += Tcl_UtfToUniChar(format, &ch);
 	}
@@ -396,7 +398,7 @@ ValidateFormat(interp, format, numVars, totalSubs)
 		if (flags & SCAN_LONGER) {
 		invalidLonger:
 		    buf[Tcl_UniCharToUtf(ch, buf)] = '\0';
-		    Tcl_AppendResult(interp,
+		    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 			   "'l' modifier may not be specified in %", buf,
 			   " conversion", NULL);
 		    goto error;
@@ -452,8 +454,8 @@ ValidateFormat(interp, format, numVars, totalSubs)
 		char buf[TCL_UTF_MAX+1];
 
 		buf[Tcl_UniCharToUtf(ch, buf)] = '\0';
-		Tcl_AppendResult(interp, "bad scan conversion character \"",
-			buf, "\"", NULL);
+		Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+			"bad scan conversion character \"", buf, "\"", NULL);
 		goto error;
 	    }
 	}
@@ -573,9 +575,9 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
     int base = 0;
     int underflow = 0;
     size_t width;
-    long (*fn) _ANSI_ARGS_((char*,void*,int)) = NULL;
+    long (*fn)() = NULL;
 #ifndef TCL_WIDE_INT_IS_LONG
-    Tcl_WideInt (*lfn) _ANSI_ARGS_((char*,void*,int)) = NULL;
+    Tcl_WideInt (*lfn)() = NULL;
     Tcl_WideInt wideValue;
 #endif
     Tcl_UniChar ch, sch;
@@ -698,7 +700,9 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 	switch (ch) {
 	case 'l':
 	case 'L':
+#ifndef TCL_WIDE_INT_IS_LONG
 	    flags |= SCAN_LONGER;
+#endif
 	    /*
 	     * Fall through so we skip to the next character.
 	     */
@@ -723,42 +727,42 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 	    case 'd':
 		op = 'i';
 		base = 10;
-		fn = (long (*) _ANSI_ARGS_((char*,void*,int)))strtol;
+		fn = (long (*)())strtol;
 #ifndef TCL_WIDE_INT_IS_LONG
-		lfn = (Tcl_WideInt (*)_ANSI_ARGS_((char*,void*,int)))strtoll;
+		lfn = (Tcl_WideInt (*)())strtoll;
 #endif
 		break;
 	    case 'i':
 		op = 'i';
 		base = 0;
-		fn = (long (*)_ANSI_ARGS_((char*,void*,int)))strtol;
+		fn = (long (*)())strtol;
 #ifndef TCL_WIDE_INT_IS_LONG
-		lfn = (Tcl_WideInt (*)_ANSI_ARGS_((char*,void*,int)))strtoll;
+		lfn = (Tcl_WideInt (*)())strtoll;
 #endif
 		break;
 	    case 'o':
 		op = 'i';
 		base = 8;
-		fn = (long (*)_ANSI_ARGS_((char*,void*,int)))strtoul;
+		fn = (long (*)())strtoul;
 #ifndef TCL_WIDE_INT_IS_LONG
-		lfn = (Tcl_WideInt (*)_ANSI_ARGS_((char*,void*,int)))strtoull;
+		lfn = (Tcl_WideInt (*)())strtoull;
 #endif
 		break;
 	    case 'x':
 		op = 'i';
 		base = 16;
-		fn = (long (*)_ANSI_ARGS_((char*,void*,int)))strtoul;
+		fn = (long (*)())strtoul;
 #ifndef TCL_WIDE_INT_IS_LONG
-		lfn = (Tcl_WideInt (*)_ANSI_ARGS_((char*,void*,int)))strtoull;
+		lfn = (Tcl_WideInt (*)())strtoull;
 #endif
 		break;
 	    case 'u':
 		op = 'i';
 		base = 10;
 		flags |= SCAN_UNSIGNED;
-		fn = (long (*)_ANSI_ARGS_((char*,void*,int)))strtoul;
+		fn = (long (*)())strtoul;
 #ifndef TCL_WIDE_INT_IS_LONG
-		lfn = (Tcl_WideInt (*)_ANSI_ARGS_((char*,void*,int)))strtoull;
+		lfn = (Tcl_WideInt (*)())strtoull;
 #endif
 		break;
 
@@ -1032,11 +1036,12 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 			if ((flags & SCAN_UNSIGNED) && (value < 0)) {
 			    sprintf(buf, "%lu", value); /* INTL: ISO digit */
 			    objPtr = Tcl_NewStringObj(buf, -1);
-			} else if ((flags & SCAN_LONGER)
-				|| (unsigned long) value > UINT_MAX) {
-			    objPtr = Tcl_NewLongObj(value);
 			} else {
-			    objPtr = Tcl_NewIntObj(value);
+			    if ((unsigned long) value > UINT_MAX) {
+				objPtr = Tcl_NewLongObj(value);
+			    } else {
+				objPtr = Tcl_NewIntObj(value);
+			    }
 			}
 #ifndef TCL_WIDE_INT_IS_LONG
 		    }
@@ -1167,7 +1172,8 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 		result++;
 		if (Tcl_ObjSetVar2(interp, objv[i+3], NULL,
 			objs[i], 0) == NULL) {
-		    Tcl_AppendResult(interp, "couldn't set variable \"",
+		    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+			    "couldn't set variable \"",
 			    Tcl_GetString(objv[i+3]), "\"", (char *) NULL);
 		    code = TCL_ERROR;
 		}

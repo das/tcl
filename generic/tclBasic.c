@@ -18,9 +18,6 @@
 
 #include "tclInt.h"
 #include "tclCompile.h"
-#ifndef TCL_GENERIC_ONLY
-#   include "tclPort.h"
-#endif
 
 /*
  * Static procedures in this file:
@@ -3324,7 +3321,7 @@ Tcl_EvalObjv(interp, objc, objv, flags)
 	}
     }
 
-    code = TEOVICount(interp, objc, objv, cmdString, cmdLen, flags);
+    code = TEOVI(interp, objc, objv, cmdString, cmdLen, flags);
 
     /*
      * If we are again at the top level, process any unusual 

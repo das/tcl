@@ -14,7 +14,6 @@
  */
 
 #include "tclInt.h"	/* Internal definitions for Tcl. */
-#include "tclPort.h"	/* Portability features for Tcl. */
 #include "tclIO.h"	/* To get Channel type declaration. */
 
 /*

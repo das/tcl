@@ -19,7 +19,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * The strings below are used to indicate what went wrong when a

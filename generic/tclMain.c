@@ -13,7 +13,6 @@
  * RCS: @(#) $Id$
  */
 
-#include "tcl.h"
 #include "tclInt.h"
 
 # undef TCL_STORAGE_CLASS

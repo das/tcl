@@ -15,7 +15,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 #include <locale.h>
 
 /*

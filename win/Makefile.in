@@ -281,7 +281,6 @@ WIN_OBJS = \
 	tclWinFile.$(OBJEXT) \
 	tclWinInit.$(OBJEXT) \
 	tclWinLoad.$(OBJEXT) \
-	tclWinMtherr.$(OBJEXT) \
 	tclWinNotify.$(OBJEXT) \
 	tclWinPipe.$(OBJEXT) \
 	tclWinSock.$(OBJEXT) \

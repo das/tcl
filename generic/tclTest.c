@@ -19,7 +19,6 @@
 
 #define TCL_TEST
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * Required for Testregexp*Cmd

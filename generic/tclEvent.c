@@ -15,7 +15,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * The data structure below is used to report background errors.  One

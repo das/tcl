@@ -65,7 +65,8 @@ Tcl_RecordAndEval(interp, cmd, flags)
 	 * then reset the object result.
 	 */
 
-	(void) Tcl_GetStringResult(interp);
+	Tcl_SetResult(interp, TclGetString(Tcl_GetObjResult(interp)),
+	        TCL_VOLATILE);
 
 	/*
 	 * Discard the Tcl object created to hold the command.
@@ -130,14 +131,6 @@ Tcl_RecordAndEvalObj(interp, cmdPtr, flags)
     Tcl_IncrRefCount(objPtr);
     (void) Tcl_EvalObjEx(interp, objPtr, TCL_EVAL_GLOBAL);
     Tcl_DecrRefCount(objPtr);
-
-    /*
-     * One possible failure mode above: exceeding a resource limit
-     */
-
-    if (Tcl_LimitExceeded(interp)) {
-	return TCL_ERROR;
-    }
 
     /*
      * Execute the command.

@@ -12,7 +12,7 @@
  * RCS: @(#) $Id$
  */
 
-#include "tclWinInt.h"
+#include "tclInt.h"
 
 #define SECSPERDAY (60L * 60L * 24L)
 #define SECSPERYEAR (SECSPERDAY * 365L)

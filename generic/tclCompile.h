@@ -14,9 +14,7 @@
 #ifndef _TCLCOMPILATION
 #define _TCLCOMPILATION 1
 
-#ifndef _TCLINT
 #include "tclInt.h"
-#endif /* _TCLINT */
 
 #ifdef BUILD_tcl
 # undef TCL_STORAGE_CLASS

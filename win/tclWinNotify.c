@@ -13,7 +13,7 @@
  * RCS: @(#) $Id$
  */
 
-#include "tclWinInt.h"
+#include "tclInt.h"
 
 /*
  * The follwing static indicates whether this module has been initialized.

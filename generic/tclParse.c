@@ -17,7 +17,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * The following table provides parsing information about each possible

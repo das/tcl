@@ -561,16 +561,14 @@ Tcl_GetRegExpFromObj(interp, objPtr, flags)
     int flags;			/* Regular expression compilation flags. */
 {
     int length;
+    Tcl_ObjType *typePtr;
     TclRegexp *regexpPtr;
     char *pattern;
 
-    /*
-     * This is OK because we only actually interpret this value
-     * properly as a TclRegexp* when the type is tclRegexpType.
-     */
+    typePtr = objPtr->typePtr;
     regexpPtr = (TclRegexp *) objPtr->internalRep.otherValuePtr;
 
-    if ((objPtr->typePtr != &tclRegexpType) || (regexpPtr->flags != flags)) {
+    if ((typePtr != &tclRegexpType) || (regexpPtr->flags != flags)) {
 	pattern = Tcl_GetStringFromObj(objPtr, &length);
 
 	regexpPtr = CompileRegexp(interp, pattern, length, flags);
@@ -590,7 +588,9 @@ Tcl_GetRegExpFromObj(interp, objPtr, flags)
 	 * Free the old representation and set our type.
 	 */
 
-	TclFreeIntRep(objPtr);
+	if ((typePtr != NULL) && (typePtr->freeIntRepProc != NULL)) {
+	    (*typePtr->freeIntRepProc)(objPtr);
+	}
 	objPtr->internalRep.otherValuePtr = (VOID *) regexpPtr;
 	objPtr->typePtr = &tclRegexpType;
     }

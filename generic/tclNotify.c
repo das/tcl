@@ -18,7 +18,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 extern TclStubs tclStubs;
 

@@ -17,7 +17,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 #define FALSE	0
 #define TRUE	1

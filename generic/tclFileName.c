@@ -14,7 +14,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 #include "tclRegexp.h"
 #include "tclFileSystem.h" /* For TclGetPathType() */
 

@@ -130,7 +130,7 @@ static void		ResultAdd    _ANSI_ARGS_ ((ResultBuffer* r,
 
 static Tcl_ChannelType transformChannelType = {
     "transform",			/* Type name. */
-    TCL_CHANNEL_VERSION_3,
+    TCL_CHANNEL_VERSION_2,
     TransformCloseProc,			/* Close proc. */
     TransformInputProc,			/* Input proc. */
     TransformOutputProc,		/* Output proc. */
@@ -383,13 +383,13 @@ ExecuteCallback (dataPtr, interp, op, buf, bufLen, transmit, preserve)
     Tcl_Obj* resObj;		    /* See below, switch (transmit) */
     int resLen;
     unsigned char* resBuf;
-    Tcl_InterpState state = NULL;
+    Tcl_SavedResult ciSave;
     int res = TCL_OK;
     Tcl_Obj* command = Tcl_DuplicateObj (dataPtr->command);
     Tcl_Obj* temp;
 
     if (preserve) {
-	state = Tcl_SaveInterpState(dataPtr->interp, res);
+	Tcl_SaveResult (dataPtr->interp, &ciSave);
     }
 
     if (command == (Tcl_Obj*) NULL) {
@@ -409,9 +409,9 @@ ExecuteCallback (dataPtr, interp, op, buf, bufLen, transmit, preserve)
     }
 
     res = Tcl_ListObjAppendElement(dataPtr->interp, command, temp);
-    if (res != TCL_OK) {
+
+    if (res != TCL_OK)
 	goto cleanup;
-    }
 
     /*
      * Use a byte-array to prevent the misinterpretation of binary data
@@ -427,9 +427,9 @@ ExecuteCallback (dataPtr, interp, op, buf, bufLen, transmit, preserve)
     }
 
     res = Tcl_ListObjAppendElement (dataPtr->interp, command, temp);
-    if (res != TCL_OK) {
+
+    if (res != TCL_OK)
         goto cleanup;
-    }
 
     /*
      * Step 2, execute the command at the global level of the interpreter
@@ -488,14 +488,14 @@ ExecuteCallback (dataPtr, interp, op, buf, bufLen, transmit, preserve)
     Tcl_ResetResult(dataPtr->interp);
 
     if (preserve) {
-	(void) Tcl_RestoreInterpState(dataPtr->interp, state);
+	Tcl_RestoreResult(dataPtr->interp, &ciSave);
     }
 
     return res;
 
     cleanup:
     if (preserve) {
-	(void) Tcl_RestoreInterpState(dataPtr->interp, state);
+	Tcl_RestoreResult(dataPtr->interp, &ciSave);
     }
 
     if (command != (Tcl_Obj*) NULL) {

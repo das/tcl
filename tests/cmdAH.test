@@ -831,7 +831,7 @@ set gorpfile [makeFile abcde gorp.file]
 test cmdAH-18.1 {Tcl_FileObjCmd: executable} {testchmod} {
     list [catch {file executable a b} msg] $msg
 } {1 {wrong # args: should be "file executable name"}}
-test cmdAH-18.2 {Tcl_FileObjCmd: executable} {testchmod} {
+test cmdAH-18.2 {Tcl_FileObjCmd: executable} {testchmod notRoot} {
     file executable $gorpfile
 } 0
 test cmdAH-18.3 {Tcl_FileObjCmd: executable} {unixOnly testchmod} {

@@ -67,13 +67,13 @@ static TclFile
 FileForRedirect(interp, spec, atOK, arg, nextArg, flags, skipPtr, closePtr,
 	releasePtr)
     Tcl_Interp *interp;		/* Intepreter to use for error reporting. */
-    CONST char *spec;		/* Points to character just after
+    CONST char *spec;			/* Points to character just after
 				 * redirection character. */
+    CONST char *arg;		/* Pointer to entire argument containing 
+				 * spec:  used for error reporting. */
     int atOK;			/* Non-zero means that '@' notation can be 
 				 * used to specify a channel, zero means that
 				 * it isn't. */
-    CONST char *arg;		/* Pointer to entire argument containing 
-				 * spec:  used for error reporting. */
     CONST char *nextArg;	/* Next argument in argc/argv array, if needed 
 				 * for file name or channel name.  May be 
 				 * NULL. */
@@ -106,9 +106,9 @@ FileForRedirect(interp, spec, atOK, arg, nextArg, flags, skipPtr, closePtr,
         }
 	file = TclpMakeFile(chan, writing ? TCL_WRITABLE : TCL_READABLE);
         if (file == NULL) {
-	    Tcl_AppendResult(interp, "channel \"", Tcl_GetChannelName(chan),
-		    "\" wasn't opened for ",
-		    ((writing) ? "writing" : "reading"), (char *) NULL);
+            Tcl_AppendResult(interp, "channel \"", Tcl_GetChannelName(chan),
+                    "\" wasn't opened for ",
+                    ((writing) ? "writing" : "reading"), (char *) NULL);
             return NULL;
         }
 	*releasePtr = 1;
@@ -322,10 +322,10 @@ TclCleanupChildren(interp, numPids, pidPtr, errorChan)
 	    char msg1[TCL_INTEGER_SPACE], msg2[TCL_INTEGER_SPACE];
 
 	    result = TCL_ERROR;
-	    sprintf(msg1, "%lu", resolvedPid);
+	    TclFormatInt(msg1, (long) resolvedPid);
 	    if (WIFEXITED(waitStatus)) {
                 if (interp != (Tcl_Interp *) NULL) {
-		    sprintf(msg2, "%hu", WEXITSTATUS(waitStatus));
+		    TclFormatInt(msg2, WEXITSTATUS(waitStatus));
                     Tcl_SetErrorCode(interp, "CHILDSTATUS", msg1, msg2,
                             (char *) NULL);
                 }
@@ -507,7 +507,7 @@ TclCreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
     				 * closed when cleaning up. */
     int errorRelease = 0;
     CONST char *p;
-    int skip, lastBar, lastArg, i, j, atOK, flags, errorToOutput = 0;
+    int skip, lastBar, lastArg, i, j, atOK, flags, errorToOutput;
     Tcl_DString execBuffer;
     TclFile pipeIn;
     TclFile curInFile, curOutFile, curErrFile;
@@ -546,8 +546,7 @@ TclCreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
     lastBar = -1;
     cmdCount = 1;
     for (i = 0; i < argc; i++) {
-	errorToOutput = 0;
-	skip = 0;
+        skip = 0;
 	p = argv[i];
 	switch (*p++) {
 	case '|':
@@ -601,6 +600,7 @@ TclCreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
 	case '>':
 	    atOK = 1;
 	    flags = O_WRONLY | O_CREAT | O_TRUNC;
+	    errorToOutput = 0;
 	    if (*p == '>') {
 		p++;
 		atOK = 0;
@@ -674,26 +674,10 @@ TclCreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
 		errorRelease = 0;
 		TclpReleaseFile(errorFile);
 	    }
-	    if (atOK && p[0] == '@' && p[1] == '1' && p[2] == '\0') {
-		/*
-		 * Special case handling of 2>@1 to redirect stderr to the
-		 * exec/open output pipe as well.  This is meant for the end
-		 * of the command string, otherwise use |& between commands.
-		 */
-		if (i != argc - 1) {
-		    Tcl_AppendResult(interp, "must specify \"", argv[i],
-			    "\" as last word in command", (char *) NULL);
-		    goto error;
-		}
-		errorFile = outputFile;
-		errorToOutput = 2;
-		skip = 1;
-	    } else {
-		errorFile = FileForRedirect(interp, p, atOK, argv[i], 
-			argv[i + 1], flags, &skip, &errorClose, &errorRelease);
-		if (errorFile == NULL) {
-		    goto error;
-		}
+	    errorFile = FileForRedirect(interp, p, atOK, argv[i], 
+		    argv[i + 1], flags, &skip, &errorClose, &errorRelease);
+	    if (errorFile == NULL) {
+		goto error;
 	    }
 	    break;
 	}
@@ -780,12 +764,7 @@ TclCreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
     }
 
     if (errorFile == NULL) {
-	if (errorToOutput == 2) {
-	    /*
-	     * Handle 2>@1 special case at end of cmd line
-	     */
-	    errorFile = outputFile;
-	} else if (errFilePtr != NULL) {
+	if (errFilePtr != NULL) {
 	    /*
 	     * Set up the standard error output sink for the pipeline, if
 	     * requested.  Use a temporary file which is opened, then deleted.

@@ -19,7 +19,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 #include "tclRegexp.h"
 
 /*

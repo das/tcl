@@ -25,10 +25,6 @@
 #ifndef _TCLUNIXPORT
 #define _TCLUNIXPORT
 
-#ifndef _TCLINT
-#   include "tclInt.h"
-#endif
-
 /*
  *---------------------------------------------------------------------------
  * The following sets of #includes and #ifdefs are required to get Tcl to
@@ -584,8 +580,5 @@ typedef int TclpMutex;
 #define	TclpMutexLock(a)
 #define	TclpMutexUnlock(a)
 #endif /* TCL_THREADS */
-
-#include "tclPlatDecls.h"
-#include "tclIntPlatDecls.h"
 
 #endif /* _TCLUNIXPORT */

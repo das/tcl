@@ -18,7 +18,7 @@
 #include "tclCompile.h"
 
 #ifndef TCL_NO_MATH
-#   include "tclMath.h"
+#   include <math.h>
 #endif
 
 /*
@@ -27,9 +27,7 @@
  * errno here.
  */
 
-#ifndef TCL_GENERIC_ONLY
-#   include "tclPort.h"
-#else /* TCL_GENERIC_ONLY */
+#ifdef TCL_GENERIC_ONLY
 #   ifndef NO_FLOAT_H
 #	include <float.h>
 #   else /* NO_FLOAT_H */
