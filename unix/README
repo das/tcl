@@ -101,9 +101,9 @@ How To Compile And Install Tcl:
     Tcl then you'll first need to set your TCL_LIBRARY variable to
     hold the full path name of the "library" subdirectory.  Note that
     the installed versions of tclsh, libtcl.a, and libtcl.so have a
-    version number in their names, such as "tclsh8.4" or "libtcl8.4.so";
+    version number in their names, such as "tclsh8.3" or "libtcl8.3.so";
     to use the installed versions, either specify the version number
-    or create a symbolic link (e.g. from "tclsh" to "tclsh8.4").
+    or create a symbolic link (e.g. from "tclsh" to "tclsh8.3").
 
 If you have trouble compiling Tcl, see the URL noted above about working
 platforms.  It contains information that people have provided about changes
@@ -123,7 +123,7 @@ information on the test suite.  Note: don't run the tests as superuser:
 this will cause several of them to fail.  If a test is failing
 consistently, please send us a bug report with as much detail as you
 can manage.  Please use the online database at
-	http://dev.scriptics.com/ticket/
+	http://tcl.sourceforge.net/
 
 The Tcl test suite is very sensitive to proper implementation of
 ANSI C library procedures such as sprintf and sscanf.  If the test

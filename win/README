@@ -1,8 +1,4 @@
-Tcl 8.4 for Windows
-
-by Scott Stanton
-Scriptics Corporation
-scott.stanton@scriptics.com
+Tcl 8.3 for Windows
 
 RCS: @(#) $Id$
 
@@ -21,11 +17,11 @@ The information in this file is maintained on the web at:
 
 In order to compile Tcl for Windows, you need the following items:
 
-	Tcl 8.4 Source Distribution (plus any patches)
+	Tcl 8.3 Source Distribution (plus any patches)
 
-	Visual C++ 2.x/4.x/5.x
+	Visual C++ 4+
 
-In practice, this release is built with Visual C++ 5.0
+In practice, this release is built with Visual C++ 6.0
 
 In the "win" subdirectory of the source release, you will find
 "makefile.vc".  This is the makefile Visual C++ compiler.  You should
@@ -39,18 +35,18 @@ find them.  Tcl looks in one of following places for the library files:
 
 	1) The path specified in the environment variable "TCL_LIBRARY".
 
-	2) In the lib\tcl8.4 directory under the installation directory
+	2) In the lib\tcl8.3 directory under the installation directory
 	   as specified in the registry:
 
-		HKEY_LOCAL_MACHINE\SOFTWARE\Scriptics\Tcl\8.4
+		HKEY_LOCAL_MACHINE\SOFTWARE\Scriptics\Tcl\8.3
 
 	3) Relative to the directory containing the current .exe.
-	    Tcl will look for a directory "..\lib\tcl8.4" relative to the
+	    Tcl will look for a directory "..\lib\tcl8.3" relative to the
 	    directory containing the currently running .exe.
 
-Note that in order to run tclsh84.exe, you must ensure that tcl84.dll
-and tclpip84.dll are on your path, in the system directory, or in the 
-directory containing tclsh84.exe.
+Note that in order to run tclsh83.exe, you must ensure that tcl83.dll
+and tclpip83.dll are on your path, in the system directory, or in the 
+directory containing tclsh83.exe.
 
 Note: Tcl no longer provides support for Win32s.
 
@@ -64,7 +60,7 @@ This distribution contains an extensive test suite for Tcl.  Some of
 the tests are timing dependent and will fail from time to time.  If a
 test is failing consistently, please send us a bug report with as much
 detail as you can manage.  Please use the online database at
-	http://dev.scriptics.com/ticket/
+	http://tcl.sourceforge.net/
 
 In order to run the test suite, you build the "test" target using the
 appropriate makefile for your compiler.
