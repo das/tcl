@@ -230,11 +230,11 @@ TclCompileExpr(interp, script, numBytes, envPtr)
     CompileEnv *envPtr;		/* Holds resulting instructions. */
 {
     ExprInfo info;
-    TYPE (Tcl_Parse) parse;
+    TEMP (Tcl_Parse) parse;
     Tcl_HashEntry *hPtr;
     int maxDepth, new, i, code;
 
-    NEWSTRUCT(Tcl_Parse,parse);
+    NEWTEMP(Tcl_Parse,parse);
 
     /*
      * If this is the first time we've been called, initialize the table
@@ -303,7 +303,7 @@ TclCompileExpr(interp, script, numBytes, envPtr)
     Tcl_FreeParse(REF (parse));
 
     done:
-    RELSTRUCT (parse);
+    RELTEMP (parse);
     envPtr->maxStackDepth = maxDepth;
     envPtr->exprIsJustVarRef = info.exprIsJustVarRef;
     envPtr->exprIsComparison = info.exprIsComparison;

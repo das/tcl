@@ -289,7 +289,7 @@ TclSetByteCodeFromAny(interp, objPtr, hookProc, clientData)
     ClientData clientData;	/* Hook procedure private data. */
 {
     Interp *iPtr = (Interp *) interp;
-    TYPE (CompileEnv) compEnv;	/* Compilation environment structure
+    TEMP (CompileEnv) compEnv;	/* Compilation environment structure
 				 * allocated in frame. */
     LiteralTable *localTablePtr;
     register AuxData *auxDataPtr;
@@ -298,7 +298,7 @@ TclSetByteCodeFromAny(interp, objPtr, hookProc, clientData)
     int length, nested, result;
     char *string;
 
-    NEWSTRUCT(CompileEnv,compEnv);
+    NEWTEMP(CompileEnv,compEnv);
     localTablePtr = &(ITEM(compEnv,localLitTable));
 
     if (!traceInitialized) {
@@ -383,7 +383,7 @@ TclSetByteCodeFromAny(interp, objPtr, hookProc, clientData)
 	ckfree((char *) localTablePtr->buckets);
     }
     TclFreeCompileEnv(REF(compEnv));
-    RELSTRUCT(compEnv);
+    RELTEMP(compEnv);
     return result;
 }
 
@@ -755,7 +755,7 @@ TclCompileScript(interp, script, numBytes, nested, envPtr)
     CompileEnv *envPtr;		/* Holds resulting instructions. */
 {
     Interp *iPtr = (Interp *) interp;
-    TYPE (Tcl_Parse) parse;
+    TEMP (Tcl_Parse) parse;
     int maxDepth = 0;		/* Maximum number of stack elements needed
 				 * to execute all cmds. */
     int lastTopLevelCmdIndex = -1;
@@ -774,7 +774,7 @@ TclCompileScript(interp, script, numBytes, nested, envPtr)
     char prev;
     Tcl_DString ds;
 
-    NEWSTRUCT (Tcl_Parse,parse);
+    NEWTEMP (Tcl_Parse,parse);
     Tcl_DStringInit(&ds);
 
     if (numBytes < 0) {
@@ -1013,7 +1013,7 @@ TclCompileScript(interp, script, numBytes, nested, envPtr)
 	iPtr->termOffset = (p - script);
     }
     envPtr->maxStackDepth = maxDepth;
-    RELSTRUCT (parse);
+    RELTEMP (parse);
     Tcl_DStringFree(&ds);
     return TCL_OK;
 	
@@ -1045,7 +1045,7 @@ TclCompileScript(interp, script, numBytes, nested, envPtr)
     if (gotParse) {
 	Tcl_FreeParse(REF(parse));
     }
-    RELSTRUCT (parse);
+    RELTEMP (parse);
     iPtr->termOffset = (p - script);
     envPtr->maxStackDepth = maxDepth;
     Tcl_DStringFree(&ds);

@@ -1972,15 +1972,15 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 #   define PTR_VALUE 2
 #   define DOUBLE_VALUE 3
 #   define STRING_VALUE 4
-#   define MAX_FLOAT_SIZE TCL_FMT_STATIC_FLOATBUFFER_SZ
+#   define MAX_FLOAT_SIZE 320
     
     Tcl_Obj *resultPtr;  	/* Where result is stored finally. */
-    char staticBuf[MAX_FLOAT_SIZE + 1];
+    char staticBuf[TCL_FMT_STATIC_FLOATBUFFER_SZ + 1];
                                 /* A static buffer to copy the format results 
 				 * into */
     char *dst = staticBuf;      /* The buffer that sprintf writes into each
 				 * time the format processes a specifier */
-    int dstSize = MAX_FLOAT_SIZE;
+    int dstSize = TCL_FMT_STATIC_FLOATBUFFER_SZ;
                                 /* The size of the dst buffer */
     int noPercent;		/* Special case for speed:  indicates there's
 				 * no field specifier, just a string to copy.*/

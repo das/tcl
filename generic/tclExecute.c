@@ -5921,7 +5921,7 @@ TclCompileByteCodesForExpr(interp, objPtr)
     Tcl_Obj *objPtr;
 {
     Interp *iPtr = (Interp *) interp;
-    TYPE (CompileEnv) compEnv;	/* Compilation environment structure
+    TEMP (CompileEnv) compEnv;	/* Compilation environment structure
 				 * allocated in frame. */
     LiteralTable *localTablePtr;
     register ByteCode *codePtr = NULL;
@@ -5932,7 +5932,7 @@ TclCompileByteCodesForExpr(interp, objPtr)
     char *string;
     int length, i, result;
 
-    NEWSTRUCT(CompileEnv,compEnv);
+    NEWTEMP(CompileEnv,compEnv);
     localTablePtr = &(ITEM(compEnv,localLitTable));
 
     string = Tcl_GetStringFromObj(objPtr, &length);
@@ -6003,7 +6003,7 @@ TclCompileByteCodesForExpr(interp, objPtr)
 		auxDataPtr++;
 	    }
 	    TclFreeCompileEnv(REF(compEnv));
-	    RELSTRUCT(compEnv);
+	    RELTEMP(compEnv);
 	    return result;
 	}
 
@@ -6027,7 +6027,7 @@ TclCompileByteCodesForExpr(interp, objPtr)
 	TclEmitOpcode(INST_DONE, REF(compEnv));
 	TclInitByteCodeObj(objPtr, REF(compEnv));
 	TclFreeCompileEnv(REF(compEnv));
-	RELSTRUCT(compEnv);
+	RELTEMP(compEnv);
 	codePtr = (ByteCode *) objPtr->internalRep.otherValuePtr;
 #ifdef TCL_COMPILE_DEBUG
 	if (tclTraceCompile == 2) {

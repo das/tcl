@@ -5498,7 +5498,7 @@ Tcl_BadChannelOption(interp, optionName, optionList)
 					 */
 {
     if (interp) {
-	CONST char *genericopt = 
+	static CONST char *genericopt = 
 	    "blocking buffering buffersize encoding eofchar translation";
 	char **argv;
 	int  argc, i;
