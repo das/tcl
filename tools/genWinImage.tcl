@@ -110,6 +110,8 @@ proc genWinImage::generateInstallers {} {
     if {[catch {exec [file native $wise32ProgFilePath] \
 	    /c tcl.wse} errMsg]} {
 	puts stderr "ERROR: $errMsg"
+    } else {
+	puts "\"TCL.EXE\" created."
     }
 
     return
