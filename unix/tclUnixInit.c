@@ -10,9 +10,6 @@
  * RCS: @(#) $Id$
  */
 
-#if defined(HAVE_CFBUNDLE)
-#include <CoreFoundation/CoreFoundation.h>
-#endif
 #include "tclInt.h"
 #include <stddef.h>
 #include <locale.h>
@@ -28,6 +25,9 @@
 #   if _BSDI_VERSION > 199501
 #	include <dlfcn.h>
 #   endif
+#endif
+#ifdef HAVE_CFBUNDLE
+#include <CoreFoundation/CoreFoundation.h>
 #endif
 
 /*
