@@ -78,6 +78,8 @@ static TclWinProcs asciiProcs = {
 	    WCHAR *, TCHAR **)) SearchPathA,
     (BOOL (WINAPI *)(CONST TCHAR *)) SetCurrentDirectoryA,
     (BOOL (WINAPI *)(CONST TCHAR *, DWORD)) SetFileAttributesA,
+    (BOOL (WINAPI *)(CONST TCHAR *, GET_FILEEX_INFO_LEVELS, 
+		LPVOID)) GetFileAttributesExA,
 };
 
 static TclWinProcs unicodeProcs = {
@@ -115,6 +117,8 @@ static TclWinProcs unicodeProcs = {
 	    WCHAR *, TCHAR **)) SearchPathW,
     (BOOL (WINAPI *)(CONST TCHAR *)) SetCurrentDirectoryW,
     (BOOL (WINAPI *)(CONST TCHAR *, DWORD)) SetFileAttributesW,
+    (BOOL (WINAPI *)(CONST TCHAR *, GET_FILEEX_INFO_LEVELS, 
+	    LPVOID)) GetFileAttributesExW,
 };
 
 TclWinProcs *tclWinProcs;

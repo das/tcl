@@ -1327,6 +1327,16 @@ test filename-11.25 {Tcl_GlobCmd} {
 } [list 0 [lsort [list [file join $globname a1]\
 	[file join $globname a2]\
 	[file join $globname a3]]]]
+test filename-11.25.1 {Tcl_GlobCmd} {
+    list [catch {lsort [glob -type {d r} -dir $globname *]} msg] $msg
+} [list 0 [lsort [list [file join $globname a1]\
+  [file join $globname a2]\
+  [file join $globname a3]]]]
+test filename-11.25.2 {Tcl_GlobCmd} {
+    list [catch {lsort [glob -type {d r w} -dir $globname *]} msg] $msg
+} [list 0 [lsort [list [file join $globname a1]\
+  [file join $globname a2]\
+  [file join $globname a3]]]]
 test filename-11.26 {Tcl_GlobCmd} {
     list [catch {glob -type d -path $globname *} msg] $msg
 } [list 0 [list $globname]]
