@@ -876,6 +876,7 @@ TclStubs tclStubs = {
     Tcl_FSGetFileSystemForPath, /* 477 */
     Tcl_FSGetPathType, /* 478 */
     Tcl_OutputBuffered, /* 479 */
+    Tcl_FSMountsChanged, /* 480 */
 };
 
 /* !END!: Do not edit above this line. */

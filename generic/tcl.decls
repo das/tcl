@@ -1678,6 +1678,9 @@ declare 478 generic {
 declare 479 generic {
     int Tcl_OutputBuffered(Tcl_Channel chan)
 }
+declare 480 generic {
+    void Tcl_FSMountsChanged(Tcl_Filesystem *fsPtr)
+}
 		  
 ##############################################################################
 

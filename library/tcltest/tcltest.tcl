@@ -2921,6 +2921,17 @@ proc tcltest::runAllTests { {shell ""} } {
     puts [outputChannel] "Tests located in:  $tcltest::testsDirectory"
     puts [outputChannel] "Tests running in:  [tcltest::workingDirectory]"
     puts [outputChannel] "Temporary files stored in $tcltest::temporaryDirectory"
+    
+    if {[package vcompare [package provide Tcl] 8.4] >= 0} {
+	# If we aren't running in the native filesystem, then we must
+	# run the tests in a single process (via 'source'), because
+	# trying to run then via a pipe will fail since the files don't
+	# really exist.
+	if {[lindex [file system [tcltest::testsDirectory]] 0] != "native"} {
+	    tcltest::singleProcess 1
+	}
+    }
+
     if {[tcltest::singleProcess]} {
 	puts [outputChannel] "Test files sourced into current interpreter"
     } else {
