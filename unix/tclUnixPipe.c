@@ -444,10 +444,12 @@ TclpCreateProcess(interp, argc, argv, inputFile, outputFile, errorFile,
     if (pid != -1) {
 	/*
 	 * Reap the child process now if an error occurred during its
-	 * startup.
+	 * startup.  We don't call this with WNOHANG because that can lead to
+	 * defunct processes on an MP system.   We shouldn't have to worry
+	 * about hanging here, since this is the error case.  [Bug: 6148]
 	 */
 
-	Tcl_WaitPid((Tcl_Pid) pid, &status, WNOHANG);
+	Tcl_WaitPid((Tcl_Pid) pid, &status, 0);
     }
     
     if (errPipeIn) {
