@@ -46,6 +46,8 @@ extern "C" {
  * win/makefile.vc	(not patchlevel) 2 LOC
  * README		(sections 0 and 2)
  * mac/README		(2 LOC, not patchlevel)
+ * macosx/Tcl.pbproj/project.pbxproj
+ * 			(7 LOC total, 2 LOC patch)
  * win/README.binary	(sections 0-4)
  * win/README		(not patchlevel) (sections 0 and 2)
  * unix/tcl.spec	(2 LOC Major/Minor, 1 LOC patch)
