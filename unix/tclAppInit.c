@@ -18,7 +18,7 @@
  * The core stores all its #defs in config.h for clarity...
  */
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#include "tclConfig.h"
 #endif
 
 #include "tcl.h"
