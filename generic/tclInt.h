@@ -18,10 +18,6 @@
 #ifndef _TCLINT
 #define _TCLINT
 
-#ifdef HAVE_CONFIG_H
-#include "tclConfig.h"
-#endif
-
 /*
  * Common include files needed by most of the Tcl source files are
  * included here, so that system-dependent personalizations for the
