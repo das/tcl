@@ -114,6 +114,8 @@ static CmdInfo builtInCmds[] = {
         (CompileProc *) NULL,		1},
     {"lappend",		(Tcl_CmdProc *) NULL,	Tcl_LappendObjCmd,
         TclCompileLappendCmd,		1},
+    {"lassign",		(Tcl_CmdProc *) NULL,	Tcl_LassignObjCmd,
+        (CompileProc *) NULL,		1},
     {"lindex",		(Tcl_CmdProc *) NULL,	Tcl_LindexObjCmd,
         TclCompileLindexCmd,		1},
     {"linsert",		(Tcl_CmdProc *) NULL,	Tcl_LinsertObjCmd,
