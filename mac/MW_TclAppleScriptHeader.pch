@@ -22,6 +22,7 @@
  * architecture we are compiling for (see the code below).  For
  * example, for a 68k app the prefix file should be: MW_TclHeader68K.
  */
+
 #if __POWERPC__
 #pragma precompile_target "MW_TclAppleScriptHeaderPPC"
 #include "MW_TclHeaderPPC"
