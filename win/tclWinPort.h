@@ -343,6 +343,13 @@ typedef float *TCHAR;
 #    endif
 #endif /* _MSC_VER || __MINGW32__ */
 
+#ifdef __CYGWIN__
+/* On cygwin32, the environment is imported from the cygwin32 DLL. */
+     DLLIMPORT extern char **__cygwin_environ;
+#    define environ __cygwin_environ
+#    define timezone _timezone
+#endif /* __CYGWIN__ */
+
 /*
  * There is no platform-specific panic routine for Windows in the Tcl internals.
  */
