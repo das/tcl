@@ -22,8 +22,8 @@
 # RCS: @(#) $Id$
 
 
-#lappend auto_path "c:/program\ files/tclpro1.2/win32-ix86/bin"
-lappend auto_path "/home/surles/cvs/tclx8.0/tcl/unix"
+lappend auto_path "c:/program\ files/tclpro1.2/win32-ix86/bin"
+#lappend auto_path "/home/surles/cvs/tclx8.0/tcl/unix"
 if {[catch {package require Tclx}]} {
     puts "error: could not load TclX.  Please set TCL_LIBRARY."
     exit 1
