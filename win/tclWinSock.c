@@ -435,7 +435,7 @@ InitSockets()
 	
 	tsdPtr->readyEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	tsdPtr->socketListLock = CreateEvent(NULL, FALSE, TRUE, NULL);
-	tsdPtr->socketThread = CreateThread(NULL, 8000, SocketThread,
+	tsdPtr->socketThread = CreateThread(NULL, 256, SocketThread,
 		tsdPtr, 0, &id);
 	SetThreadPriority(tsdPtr->socketThread, THREAD_PRIORITY_HIGHEST); 
 

@@ -825,7 +825,7 @@ Tcl_ConditionWait(condPtr, mutexPtr, timePtr)
 
     /*
      * Be careful on timeouts because the signal might arrive right around
-     * time time limit and someone else could have taken us off the queue.
+     * the time limit and someone else could have taken us off the queue.
      */
     
     if (timeout) {

@@ -304,7 +304,7 @@ Tcl_GetTime(timePtr)
 		timeInfo.readyEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
 		timeInfo.exitEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
 		timeInfo.calibrationThread = CreateThread( NULL,
-							   8192,
+							   256,
 							   CalibrationThread,
 							   (LPVOID) NULL,
 							   0,
