@@ -58,6 +58,12 @@ typedef struct {
 #ifndef PROCESSOR_ARCHITECTURE_MSIL
 #define PROCESSOR_ARCHITECTURE_MSIL  8
 #endif
+#ifndef PROCESSOR_ARCHITECTURE_AMD64
+#define PROCESSOR_ARCHITECTURE_AMD64 9
+#endif
+#ifndef PROCESSOR_ARCHITECTURE_IA32_ON_WIN64
+#define PROCESSOR_ARCHITECTURE_IA32_ON_WIN64 10
+#endif
 #ifndef PROCESSOR_ARCHITECTURE_UNKNOWN
 #define PROCESSOR_ARCHITECTURE_UNKNOWN 0xFFFF
 #endif
@@ -73,9 +79,10 @@ static char* platforms[NUMPLATFORMS] = {
     "Win32s", "Windows 95", "Windows NT", "Windows CE"
 };
 
-#define NUMPROCESSORS 9
+#define NUMPROCESSORS 11
 static char* processors[NUMPROCESSORS] = {
-    "intel", "mips", "alpha", "ppc", "shx", "arm", "ia64", "alpha64", "msil"
+    "intel", "mips", "alpha", "ppc", "shx", "arm", "ia64", "alpha64", "msil",
+    "amd64", "ia32_on_win64"
 };
 
 /* Used to store the encoding used for binary files */
