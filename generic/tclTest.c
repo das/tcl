@@ -6466,7 +6466,7 @@ TestHashSystemHashCmd(clientData, interp, objc, objv)
     int objc;
     Tcl_Obj *CONST objv[];
 {
-    static const Tcl_HashKeyType hkType = {
+    static Tcl_HashKeyType hkType = {
 	TCL_HASH_KEY_TYPE_VERSION, TCL_HASH_KEY_SYSTEM_HASH,
 	NULL, NULL, NULL, NULL
     };
