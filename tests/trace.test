@@ -336,6 +336,11 @@ test trace-5.7 {array traces fire for undefined variables} {
     array set x {a 1}
     set ::info
 } {x {} array}
+test trace-5.8 {array traces fire for undefined variables} {
+    catch {unset x}
+    trace add variable x array {set x(foo) 1 ;#}
+    set res "names: [array names x]"
+} {names: foo}
     
 # Trace multiple trace types at once.
 

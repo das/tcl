@@ -3061,18 +3061,12 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
     }
 
     /*
-     * Locate the array variable (and it better be an array).
+     * Locate the array variable
      */
     
     varName = TclGetString(objv[2]);
     varPtr = TclLookupVar(interp, varName, (char *) NULL, /*flags*/ 0,
             /*msg*/ 0, /*createPart1*/ 0, /*createPart2*/ 0, &arrayPtr);
-
-    notArray = 0;
-    if ((varPtr == NULL) || !TclIsVarArray(varPtr)
-	    || TclIsVarUndefined(varPtr)) {
-	notArray = 1;
-    }
 
     /*
      * Special array trace used to keep the env array in sync for
@@ -3088,6 +3082,18 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 	    VarErrMsg(interp, varName, NULL, "trace array", msg);
 	    return TCL_ERROR;
 	}
+    }
+
+    /*
+     * Verify that it is indeed an array variable. This test comes after
+     * the traces - the variable may actually become an array as an effect 
+     * of said traces.
+     */
+
+    notArray = 0;
+    if ((varPtr == NULL) || !TclIsVarArray(varPtr)
+	    || TclIsVarUndefined(varPtr)) {
+	notArray = 1;
     }
 
     /*
