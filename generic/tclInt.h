@@ -1642,6 +1642,7 @@ EXTERN Tcl_Obj*         TclGetRangeFromObj _ANSI_ARGS_((Tcl_Obj *objPtr,
 			    int first, int last));
 EXTERN Tcl_UniChar      TclGetUniCharFromObj _ANSI_ARGS_((Tcl_Obj *objPtr,
 			    int index));
+EXTERN Tcl_UniChar *    TclGetUnicodeFromObj _ANSI_ARGS_((Tcl_Obj *objPtr));
 EXTERN int		TclGetUnicodeLengthFromObj _ANSI_ARGS_((
 			    Tcl_Obj *objPtr));
 EXTERN int		TclGlob _ANSI_ARGS_((Tcl_Interp *interp,
