@@ -41,7 +41,7 @@ static int interpTokenMapInitialised = 0;
 #define MAX_REGISTERED_COMMANDS 2
 
 
-static int
+static void
 PkguaInitTokensHashTable(void)
 {
     if (interpTokenMapInitialised) {
@@ -49,7 +49,7 @@ PkguaInitTokensHashTable(void)
     }
     Tcl_InitHashTable(&interpTokenMap, TCL_ONE_WORD_KEYS);
     interpTokenMapInitialised = 1;
-};
+}
 
 static int
 PkguaFreeTokensHashTable(void)
@@ -62,7 +62,7 @@ PkguaFreeTokensHashTable(void)
 	Tcl_Free((char *) Tcl_GetHashValue(entryPtr));
     }
     interpTokenMapInitialised = 0;
-};
+}
 
 static Tcl_Command *
 PkguaInterpToTokens(interp)
@@ -84,7 +84,7 @@ PkguaInterpToTokens(interp)
 	cmdTokens = (Tcl_Command *) Tcl_GetHashValue(entryPtr);
     }
     return cmdTokens;
-};
+}
 
 static void
 PkguaDeleteTokens(interp)
@@ -97,7 +97,7 @@ PkguaDeleteTokens(interp)
 	Tcl_Free((char *) Tcl_GetHashValue(entryPtr));
 	Tcl_DeleteHashEntry(entryPtr);
     }
-};
+}
 
 /*
  *----------------------------------------------------------------------
