@@ -461,7 +461,9 @@ Tcl_InterpObjCmd(clientData, interp, objc, objv)
 		    Tcl_WrongNumArgs(interp, 2, objv, "?-safe? ?--? ?path?");
 		    return TCL_ERROR;
 		}
-		slavePtr = objv[i];
+		if (i < objc) {
+		    slavePtr = objv[i];
+		}
 	    }
 	    buf[0] = '\0';
 	    if (slavePtr == NULL) {
