@@ -2656,7 +2656,7 @@ Tcl_SwitchObjCmd(dummy, interp, objc, objv)
     char *string, *pattern;
     Tcl_Obj *stringObj, *indexVarObj, *matchVarObj;
     Tcl_Obj *CONST *savedObjv = objv;
-    Tcl_RegExp regExpr;
+    Tcl_RegExp regExpr = NULL;
     static CONST char *options[] = {
 	"-exact", "-glob", "-indexvar", "-matchvar", "-regexp", "--", 
 	NULL
@@ -2881,7 +2881,7 @@ Tcl_SwitchObjCmd(dummy, interp, objc, objv)
 
 	if (numMatchesSaved) {
 	    Tcl_RegExpInfo info;
-	    Tcl_Obj *matchesObj, *indicesObj;
+	    Tcl_Obj *matchesObj, *indicesObj = NULL;
 
 	    Tcl_RegExpGetInfo(regExpr, &info);
 	    if (matchVarObj != NULL) {
