@@ -376,7 +376,7 @@ setargv(argcPtr, argvPtr)
     *argcPtr = argc;
     *argvPtr = argv;
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -401,7 +401,7 @@ asyncExit (ClientData clientData, Tcl_Interp *interp, int code)
     /* NOTREACHED */
     return code;
 }
-
+
 /*
  *----------------------------------------------------------------------
  *
