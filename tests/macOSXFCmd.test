@@ -23,14 +23,14 @@ set oldcwd [pwd]
 cd [temporaryDirectory]
 
 # check whether macosx file attributes are supported
-set ::tcltest::testConstraints(macosxFileAttr) 0
+testConstraint macosxFileAttr 0
 if {$tcl_platform(platform) eq "unix" && \
 	$tcl_platform(os) eq "Darwin"} {
     catch {file delete -force -- foo.test}
     close [open foo.test w]
     catch {
 	file attributes foo.test -creator
-	set ::tcltest::testConstraints(macosxFileAttr) 1
+	testConstraint macosxFileAttr 1
     }
     file delete -force -- foo.test
 }

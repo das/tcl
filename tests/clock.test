@@ -508,7 +508,7 @@ test clock-8.1 {clock scan midnight/gmt range bug 413397} {
 	    [clock format [clock scan year -base $5amPST -gmt 1] -format $fmt]
 } {12/31 12/31}
 
-set ::tcltest::testConstraints(needPST) [expr {
+testConstraint needPST [expr {
     [regexp {^(Pacific.*|P[DS]T)$} [clock format 1 -format %Z]]
     && ([clock format 1 -format %s] != "%s")
 }]

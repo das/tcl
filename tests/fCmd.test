@@ -92,17 +92,17 @@ proc contents {file} {
 }
 
 cd [temporaryDirectory]
-set ::tcltest::testConstraints(fileSharing) 0
-set ::tcltest::testConstraints(notFileSharing) 1
+testConstraint fileSharing 0
+testConstraint notFileSharing 1
 
-set ::tcltest::testConstraints(xdev) 0
+testConstraint xdev 0
 
 if {$tcl_platform(platform) == "unix"} {
     if {[catch {set m1 [exec df .]; set m2 [exec df /tmp]}] == 0} {
 	set m1 [string range $m1 0 [expr [string first " " $m1]-1]]
 	set m2 [string range $m2 0 [expr [string first " " $m2]-1]]
 	if {$m1 != "" && $m2 != "" && $m1 != $m2 && [file exists $m1] && [file exists $m2]} {
-	    set ::tcltest::testConstraints(xdev) 1
+	    testConstraint xdev 1
 	}
     }
 }

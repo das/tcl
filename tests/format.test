@@ -22,8 +22,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 # fail.  Someday I hope this code shouldn't be necessary (code added
 # 9/9/91).
 
-set ::tcltest::testConstraints(roundOffBug) \
-	[expr {"[format %7.1e  68.514]" != "6.8e+01"}]
+testConstraint roundOffBug [expr {"[format %7.1e  68.514]" != "6.8e+01"}]
 
 test format-1.1 {integer formatting} {
     format "%*d %d %d %d" 6 34 16923 -12 -1

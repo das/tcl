@@ -58,9 +58,6 @@ if {[string equal $tcl_platform(platform) "windows"]} {
     tcltest::testConstraint winOlderThan2000 0
 }
 
-set ::tcltest::testConstraints(cdrom) 0
-set ::tcltest::testConstraints(exdev) 0
-
 # find a CD-ROM so we can test read-only filesystems.
 
 set cdrom {}
@@ -99,25 +96,31 @@ proc findfile {dir} {
 }
 
 if {$cdrom != ""} {
-    set ::tcltest::testConstraints(cdrom) 1
+    testConstraint cdrom 1
     set cdfile [findfile $cdrom]
+} else {
+    testConstraint cdrom 0
 }
 
 if {[file exists c:/] && [file exists d:/]} {
     catch {file delete d:/tf1}
     if {[catch {close [open d:/tf1 w]}] == 0} {
 	file delete d:/tf1
-	set ::tcltest::testConstraints(exdev) 1
+	testConstraint exdev 1
+    } else {
+	testConstraint exdev 0
     }
+} else {
+    testConstraint exdev 0
 }
 
 file delete -force -- td1
 set foo [catch {open td1 w} testfile]
 if {$foo} {
-    set ::tcltest::testConstraints(longFileNames) 0
+    testConstraint longFileNames 0
 } else {
     close $testfile
-    set ::tcltest::testConstraints(longFileNames) 1
+    testConstraint longFileNames 1
     file delete -force -- td1
 }
 
