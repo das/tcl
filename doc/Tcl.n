@@ -190,6 +190,14 @@ processed entirely by the recursive call to the Tcl interpreter;
 no substitutions are performed before making the recursive
 call and no additional substitutions are performed on the result
 of the nested script.
+.LP
+Substitutions take place from left to right, and each substitution is
+evaluated completely before attempting to evaluate the next.  Thus, a
+sequence like
+.CS
+set y [set x 0][incr x][incr x]
+.CE
+will always set the variable \fIy\fR to the value, \fI012\fR.
 .IP [11]
 Substitutions do not affect the word boundaries of a command.
 For example, during variable substitution the entire value of
