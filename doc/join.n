@@ -24,9 +24,23 @@ This command returns the string
 formed by joining all of the elements of \fIlist\fR together with
 \fIjoinString\fR separating each adjacent pair of elements.
 The \fIjoinString\fR argument defaults to a space character.
+.SH EXAMPLES
+Making a comma-separated list:
+.CS
+set data {1 2 3 4 5}
+join $data ", "
+     \fB=> 1, 2, 3, 4, 5\fR
+.CE
+
+Using \fBjoin\fR to flatten a list by a single level:
+.CS
+set data {1 {2 3} 4 {5 {6 7} 8}}
+join $data
+     \fB=> 1 2 3 4 5 {6 7} 8\fR
+.CE
 
 .SH "SEE ALSO"
-list(n), lappend(n)
+list(n), lappend(n), split(n)
 
 .SH KEYWORDS
 element, join, list, separator
