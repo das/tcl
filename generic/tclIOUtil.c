@@ -3357,7 +3357,9 @@ Tcl_FSSplitPath(pathPtr, lenPtr)
     if (fsPtr->filesystemSeparatorProc != NULL) {
 	Tcl_Obj *sep = (*fsPtr->filesystemSeparatorProc)(pathPtr);
 	if (sep != NULL) {
+	    Tcl_IncrRefCount(sep);
 	    separator = Tcl_GetString(sep)[0];
+	    Tcl_DecrRefCount(sep);
 	}
     }
     
@@ -4261,7 +4263,8 @@ Tcl_FSFileSystemInfo(pathPtr)
  * Results:
  *      A Tcl object, with a refCount of zero.  If the caller
  *      needs to retain a reference to the object, it should
- *      call Tcl_IncrRefCount.
+ *      call Tcl_IncrRefCount, and should otherwise free the
+ *      object.
  *
  * Side effects:
  *	The path object may be converted to a path type.
@@ -4279,9 +4282,13 @@ Tcl_FSPathSeparator(pathPtr)
     }
     if (fsPtr->filesystemSeparatorProc != NULL) {
 	return (*fsPtr->filesystemSeparatorProc)(pathPtr);
+    } else {
+	/* 
+	 * Allow filesystems not to provide a filesystemSeparatorProc
+	 * if they wish to use the standard forward slash.
+	 */
+	return Tcl_NewStringObj("/", 1);
     }
-    
-    return NULL;
 }
 
 /*

@@ -672,7 +672,12 @@ GetExtension(pathPtr)
  * Results:
  *      Returns object with refCount of zero, (or if non-zero, it has
  *      references elsewhere in Tcl).  Either way, the caller must
- *      increment its refCount before use.
+ *      increment its refCount before use.  Note that in the case where
+ *      the caller has asked to join zero elements of the list, the
+ *      return value will be an empty-string Tcl_Obj.
+ *      
+ *      If the given listObj was invalid, then the calling routine has
+ *      a bug, and this function will just return NULL.
  *
  * Side effects:
  *	None.
@@ -917,6 +922,9 @@ Tcl_FSJoinPath(listObj, elements)
 	    length = ptr - Tcl_GetString(res);
 	    Tcl_SetObjLength(res, length);
 	}
+    }
+    if (res == NULL) {
+        res = Tcl_NewObj();
     }
     return res;
 }
