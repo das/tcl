@@ -1,5 +1,4 @@
 /* 
-
  * tclWin32Dll.c --
  *
  *	This file contains the DLL entry point which sets up the 32-to-16-bit
@@ -185,18 +184,6 @@ DllMain(hInst, reason, reserved)
 {
     switch (reason) {
     case DLL_PROCESS_ATTACH:
-	if (hInstance != NULL) {
-	    /*
-	     * Prevents DLL from being loaded multiple times under Win32s,
-	     * since all copies of the DLL share the same data segment and
-	     * Tcl isn't set up to handle that.  Under NT or 95, each time 
-	     * the DLL is loaded, it gets its own private copy of the data 
-	     * segment.
-	     */
-
-	    return FALSE;
-	}
-
 	TclWinInit(hInst);
 	return TRUE;
 
@@ -344,18 +331,12 @@ TclWinInit(hInst)
     platformId = os.dwPlatformId;
 
     /*
-     * The following code stops Windows 3.x from automatically putting 
-     * up Sharing Violation dialogs, e.g, when someone tries to
-     * access a file that is locked or a drive with no disk in it.
-     * Tcl already returns the appropriate error to the caller, and they 
-     * can decide to put up their own dialog in response to that failure.  
-     *
-     * Under 95 and NT, the system doesn't automatically put up dialogs 
-     * when the above operations fail.
+     * We no longer support Win32s, so just in case someone manages to
+     * get a runtime there, make sure they know that.
      */
 
     if (platformId == VER_PLATFORM_WIN32s) {
-	SetErrorMode(SetErrorMode(0) | SEM_FAILCRITICALERRORS);
+	panic("Win32s is not a supported platform");	
     }
 
     tclWinProcs = &asciiProcs;
@@ -371,7 +352,7 @@ TclWinInit(hInst)
  *
  * Results:
  *	The return value is one of:
- *	    VER_PLATFORM_WIN32s		Win32s on Windows 3.1. 
+ *	    VER_PLATFORM_WIN32s		Win32s on Windows 3.1. (not supported)
  *	    VER_PLATFORM_WIN32_WINDOWS	Win32 on Windows 95.
  *	    VER_PLATFORM_WIN32_NT	Win32 on Windows NT
  *

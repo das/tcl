@@ -553,15 +553,7 @@ TclpSetVariables(interp)
     GetVersionExA(&osInfo);
 
     oemId = (OemId *) &sysInfo;
-    if (osInfo.dwPlatformId == VER_PLATFORM_WIN32s) {
-	/*
-	 * Since Win32s doesn't support GetSystemInfo, we use a default value.
-	 */
-
-	oemId->wProcessorArchitecture = PROCESSOR_ARCHITECTURE_INTEL;
-    } else {
-	GetSystemInfo(&sysInfo);
-    }
+    GetSystemInfo(&sysInfo);
 
     /*
      * Initialize the tclDefaultLibrary variable from the registry.

@@ -791,8 +791,7 @@ TclpOpenFileChannel(interp, fileName, modeString, permissions)
 
     channel = NULL;
 
-    switch (type)
-    {
+    switch (type) {
     case FILE_TYPE_SERIAL:
 	channel = TclWinOpenSerialChannel(handle, channelName,
 	        channelPermissions);
@@ -802,12 +801,10 @@ TclpOpenFileChannel(interp, fileName, modeString, permissions)
 	        channelPermissions);
 	break;
     case FILE_TYPE_PIPE:
-	if (channelPermissions & TCL_READABLE)
-	{
+	if (channelPermissions & TCL_READABLE) {
 	    readFile = TclWinMakeFile(handle);
 	}
-	if (channelPermissions & TCL_WRITABLE)
-	{
+	if (channelPermissions & TCL_WRITABLE) {
 	    writeFile = TclWinMakeFile(handle);
 	}
 	channel = TclpCreateCommandChannel(readFile, writeFile, NULL, 0, NULL);
@@ -835,8 +832,7 @@ TclpOpenFileChannel(interp, fileName, modeString, permissions)
     Tcl_DStringFree(&buffer);
     Tcl_DStringFree(&ds);
 
-    if (channel != NULL)
-    {
+    if (channel != NULL) {
 	if (seekFlag) {
 	    if (Tcl_Seek(channel, 0, SEEK_END) < 0) {
 		if (interp != (Tcl_Interp *) NULL) {
