@@ -131,7 +131,7 @@ namespace commands that are executed.
 Extensions can use the (undocumented)
 auto_mkindex_parser package to register other commands that
 can contribute to the auto_load index.
-You will have to read through init.tcl to see how this works.
+You will have to read through auto.tcl to see how this works.
 .PP
 \fBAuto_mkindex_old\fR parses the Tcl scripts in a relatively
 unsophisticated way:  if any line contains the word \fBproc\fR

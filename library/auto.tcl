@@ -182,7 +182,7 @@ proc auto_mkindex {dir args} {
     auto_mkindex_parser::cleanup
 
     set fid [open "tclIndex" w]
-    puts $fid $index nonewline
+    puts -nonewline $fid $index
     close $fid
     cd $oldDir
 }
@@ -229,7 +229,7 @@ proc auto_mkindex_old {dir args} {
     set f ""
     set error [catch {
 	set f [open tclIndex w]
-	puts $f $index nonewline
+	puts -nonewline $f $index
 	close $f
 	cd $oldDir
     } msg]
