@@ -2563,7 +2563,8 @@ Tcl_FSLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr,
 		int retVal;
 		
 		retVal = Tcl_FSLoadFile(interp, copyToPtr, sym1, sym2,
-					proc1Ptr, proc2Ptr, &newLoadHandle,
+					proc1Ptr, proc2Ptr, 
+					(ClientData*)&newLoadHandle,
 					&newUnloadProcPtr);
 	        if (retVal != TCL_OK) {
 		    /* The file didn't load successfully */
@@ -2710,7 +2711,7 @@ FSUnloadTempFile(loadHandle)
      * use.
      */
     if (tvdlPtr->unloadProcPtr != NULL) {
-	(*tvdlPtr->unloadProcPtr)(tvdlPtr->clientData);
+	(*tvdlPtr->unloadProcPtr)(tvdlPtr->loadHandle);
     }
     
     /* Remove the temporary file we created. */
