@@ -969,6 +969,21 @@ test expr-old-38.1 {Verify Tcl_ExprString's basic operation} testexprstring {
 	    [catch {testexprstring "1+"} msg] $msg
 } {5 10.2 1 {syntax error in expression "1+": premature end of expression}}
 
+#
+# Test for bug #908375: rounding numbers that do not fit in a
+# long but do fit in a wide
+#
+
+test expr-old-39.1 {Rounding with wide result} {
+    set x 1.0e10
+    set y [expr $x + 0.1]
+    catch {
+	set x [list [expr {$x == round($y)}] [expr $x == -round(-$y)]]
+    }
+    set x
+} {1 1}
+unset x y
+
 # Special test for Pentium arithmetic bug of 1994:
 
 if {(4195835.0 - (4195835.0/3145727.0)*3145727.0) == 256.0} {
