@@ -24,7 +24,7 @@ namespace eval tcltest {
     # When the version number changes, be sure to update the pkgIndex.tcl file,
     # and the install directory in the Makefiles.  When the minor version
     # changes (new feature) be sure to update the man page as well.
-    variable Version 2.2.6
+    variable Version 2.2.7
 
     # Compatibility support for dumb variables defined in tcltest 1
     # Do not use these.  Call [package provide Tcl] and [info patchlevel]
@@ -1458,8 +1458,10 @@ proc tcltest::ProcessFlags {flagArray} {
     }
 
     # Call the hook
-    array set flag $flagArray
-    processCmdLineArgsHook [array get flag]
+    catch {
+        array set flag $flagArray
+        processCmdLineArgsHook [array get flag]
+    }
     return
 }
 
