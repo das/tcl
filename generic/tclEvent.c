@@ -1192,7 +1192,12 @@ NewThreadProc(ClientData clientData)
     threadClientData = cdPtr->clientData;
     Tcl_Free((char*)clientData); /* Allocated in Tcl_CreateThread() */
 
-    TclInitNotifier();
+    /*
+     * Please see the SF Bug #770053 comments to find out why
+     * this one below is commented out.
+     */
+
+    /* TclInitNotifier(); */
 
     (*threadProc)(threadClientData);
 
