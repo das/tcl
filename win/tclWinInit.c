@@ -532,7 +532,8 @@ TclpSetInitialEncodings()
  *	None.
  *
  * Side effects:
- *	Sets "tcl_platform" and "env(HOME)" Tcl variables.
+ *	Sets "tclDefaultLibrary", "tcl_platform", and "env(HOME)" Tcl
+ *	variables.
  *
  *----------------------------------------------------------------------
  */
@@ -561,6 +562,12 @@ TclpSetVariables(interp)
     } else {
 	GetSystemInfo(&sysInfo);
     }
+
+    /*
+     * Initialize the tclDefaultLibrary variable from the registry.
+     */
+
+    Tcl_SetVar(interp, "tclDefaultLibrary", "", TCL_GLOBAL_ONLY);
 
     /*
      * Define the tcl_platform array.
