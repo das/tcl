@@ -140,7 +140,7 @@ Tcl_RegexpObjCmd(dummy, interp, objc, objv)
     };
     enum options {
 	REGEXP_INDICES, REGEXP_NOCASE,	REGEXP_ABOUT,	REGEXP_EXPANDED,
-	REGEXP_MULTI,	REGEXP_NOCROSS,	REGEXP_NEWL,
+	REGEXP_LINE,	REGEXP_LINESTOP, REGEXP_LINEANCHOR,
 	REGEXP_LAST
     };
 
@@ -178,15 +178,15 @@ Tcl_RegexpObjCmd(dummy, interp, objc, objv)
 		cflags |= REG_EXPANDED;
 		break;
 	    }
-	    case REGEXP_MULTI: {
+	    case REGEXP_LINE: {
 		cflags |= REG_NEWLINE;
 		break;
 	    }
-	    case REGEXP_NOCROSS: {
+	    case REGEXP_LINESTOP: {
 		cflags |= REG_NLSTOP;
 		break;
 	    }
-	    case REGEXP_NEWL: {
+	    case REGEXP_LINEANCHOR: {
 		cflags |= REG_NLANCH;
 		break;
 	    }
