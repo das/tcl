@@ -349,12 +349,12 @@ TclStubs tclStubs = {
     Tcl_WaitPid, /* 277 */
     panicVA, /* 278 */
     Tcl_GetVersion, /* 279 */
-    use, /* 280 */
-    use, /* 281 */
-    use, /* 282 */
-    use, /* 283 */
-    use, /* 284 */
-    use, /* 285 */
+    NULL, /* 280 */
+    NULL, /* 281 */
+    NULL, /* 282 */
+    NULL, /* 283 */
+    NULL, /* 284 */
+    NULL, /* 285 */
     Tcl_AppendObjToObj, /* 286 */
     Tcl_AlertNotifier, /* 287 */
     Tcl_CreateEncoding, /* 288 */
