@@ -825,6 +825,12 @@ test expr-old-32.50 {math functions in expressions} {
 test expr-old-32.51 {math functions in expressions} {
     list [catch {expr {srand([lindex "6ty" 0])}} msg] $msg
 } {1 {argument to math function didn't have numeric value}}
+test expr-old-32.52 {math functions in expressions} {
+    expr {srand(1<<37) < 1}
+} {1}
+test expr-old-32.53 {math functions in expressions} {
+    expr {srand((1<<31) - 1) > 0}
+} {1}
 
 test expr-old-33.1 {conversions and fancy args to math functions} {
     expr hypot ( 3 , 4 )
