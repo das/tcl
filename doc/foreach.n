@@ -56,7 +56,7 @@ The following loop uses i and j as loop variables to iterate over
 pairs of elements of a single list.
 .DS
 set x {}
-foreach {i j} {a b c d e f} {
+\fBforeach\fR {i j} {a b c d e f} {
     lappend x $j $i
 }
 # The value of x is "b a d c f e"
@@ -66,7 +66,7 @@ foreach {i j} {a b c d e f} {
 The next loop uses i and j to iterate over two lists in parallel.
 .DS
 set x {}
-foreach i {a b c} j {d e f g} {
+\fBforeach\fR i {a b c} j {d e f g} {
     lappend x $i $j
 }
 # The value of x is "a d b e c f {} g"
@@ -76,7 +76,7 @@ foreach i {a b c} j {d e f g} {
 The two forms are combined in the following example.
 .DS
 set x {}
-foreach i {a b c} {j k} {d e f g} {
+\fBforeach\fR i {a b c} {j k} {d e f g} {
     lappend x $i $j $k
 }
 # The value of x is "a d e b f g c {} {}"

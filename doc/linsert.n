@@ -21,7 +21,7 @@ linsert \- Insert elements into a list
 .SH DESCRIPTION
 .PP
 This command produces a new list from \fIlist\fR by inserting all of the
-\fIelement\fR arguments just before the \fIindex\fRth element of
+\fIelement\fR arguments just before the \fIindex\fR'th element of
 \fIlist\fR.  Each \fIelement\fR argument will become a separate element of
 the new list.  If \fIindex\fR is less than or equal to zero, then the new
 elements are inserted at the beginning of the list.  If \fIindex\fR has the
@@ -29,7 +29,16 @@ value \fBend\fR, or if it is greater than or equal to the number of
 elements in the list, then the new elements are appended to the list.
 \fBend\-\fIinteger\fR refers to the last element in the list minus the
 specified integer offset.
-
+.SH EXAMPLE
+Putting some values into a list, first indexing from the start and
+then indexing from the end, and then chaining them together:
+.CS
+set oldList {the fox jumps over the dog}
+set midList [\fBlinsert\fR $oldList 1 quick]
+set newList [\fBlinsert\fR $midList end-1 lazy]
+# The old lists still exist though...
+set newerList [\fBlinsert\fR [\fBlinsert\fR $oldList end-1 quick] 1 lazy]
+.CE
 
 .SH "SEE ALSO"
 .VS 8.4
