@@ -628,7 +628,7 @@ extern InstructionDesc tclInstructionTable[];
  */
 
 typedef int (CallBuiltinFuncProc) _ANSI_ARGS_((Tcl_Interp *interp,
-	ExecEnv *eePtr, ClientData clientData));
+	Tcl_Obj **tosPtr, ClientData clientData));
 
 typedef struct {
     char *name;			/* Name of function. */
