@@ -109,6 +109,7 @@ Tcl_Stat(path, oldStyleBuf)
 	}
 
 #   undef OUT_OF_RANGE
+#   undef OUT_OF_URANGE
 #endif /* !TCL_WIDE_INT_IS_LONG */
 
 	/*
