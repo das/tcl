@@ -173,6 +173,15 @@ Tcl_GetIndexFromObjStruct(interp, objPtr, tablePtr, offset, msg, flags,
     key = Tcl_GetStringFromObj(objPtr, &length);
     index = -1;
     numAbbrev = 0;
+
+    /*
+     * The key should not be empty, otherwise it's not a match.
+     */
+    
+    if (key[0] == '\0') {
+	goto error;
+    }
+    
     for (entryPtr = tablePtr, i = 0; *entryPtr != NULL; 
 	    entryPtr = (char **) ((long) entryPtr + offset), i++) {
 	for (p1 = key, p2 = *entryPtr; *p1 == *p2; p1++, p2++) {

@@ -1456,6 +1456,11 @@ test binary-41.8 {ScanNumber: word alignment} {nonPortable pcOnly} {
     list [binary scan \x01\x9a\x99\x99\x99\x99\x99\xf9\x3f c1d1 arg1 arg2] $arg1 $arg2
 } {2 1 1.6}
 
+test binary-42.1 {Tcl_BinaryObjCmd: bad arguments} {} {
+    catch {binary ""} result
+    set result
+} {bad option "": must be format or scan}
+
 # cleanup
 ::tcltest::cleanupTests
 return
