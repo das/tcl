@@ -1824,7 +1824,8 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 	char *nativePath;
 	int nativeLen;
 
-	nativePath = Tcl_UtfToExternalDString(NULL, path, -1, &ds);
+	Tcl_UtfToExternalDString(NULL, path, -1, &ds);
+	nativePath = Tcl_DStringValue(&ds);
 	nativeLen = Tcl_DStringLength(&ds);
 
 	/* We're on Windows 95/98 */
@@ -1868,7 +1869,8 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 	 */
 
 	/* Copy over the valid part of the path and find its length */
-	path = Tcl_ExternalToUtfDString(NULL, nativePath, -1, &eDs);
+	Tcl_ExternalToUtfDString(NULL, nativePath, -1, &eDs);
+	path = Tcl_DStringValue(&eDs);
 	if (path[1] == ':') {
 	    if (path[0] >= 'a' && path[0] <= 'z') {
 		/* Make uppercase */
@@ -1879,10 +1881,11 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 	Tcl_SetStringObj(pathPtr, path, Tcl_DStringLength(&eDs));
 	Tcl_DStringFree(&eDs);
 	if (lastValidPathEnd != (nativePath + nativeLen)) {
+	    CONST char *tmp;
 	    *lastValidPathEnd = '/';
 	    /* Now copy over the invalid (i.e. non-existent) part of the path */
-	    path = Tcl_ExternalToUtfDString(NULL, lastValidPathEnd, -1, &eDs);
-	    Tcl_AppendToObj(pathPtr, path, Tcl_DStringLength(&eDs));
+	    tmp = Tcl_ExternalToUtfDString(NULL, lastValidPathEnd, -1, &eDs);
+	    Tcl_AppendToObj(pathPtr, tmp, Tcl_DStringLength(&eDs));
 	    Tcl_DStringFree(&eDs);
 	}
 	Tcl_DStringFree(&ds);
