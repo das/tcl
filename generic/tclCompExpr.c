@@ -21,7 +21,9 @@
  * the errno from tclExecute.c here.
  */
 
-#ifdef TCL_GENERIC_ONLY
+#ifndef TCL_GENERIC_ONLY
+#include "tclPort.h"
+#else
 #define NO_ERRNO_H
 #endif
 
@@ -90,9 +92,6 @@ typedef struct ExprInfo {
 #define OP_BITNOT	20
 #define OP_STREQ	21
 #define OP_STRNEQ	22
-#define OP_EXPON	23
-#define OP_IN_LIST	24
-#define OP_NOT_IN_LIST	25
 
 /*
  * Table describing the expression operators. Entries in this table must
@@ -135,9 +134,6 @@ static OperatorDesc operatorTable[] = {
     {"~",   1,  INST_BITNOT},
     {"eq",  2,  INST_STR_EQ},
     {"ne",  2,  INST_STR_NEQ},
-    {"**",  2,	INST_EXPON},
-    {"in",  2,	INST_LIST_IN},
-    {"ni",  2,	INST_LIST_NOT_IN},
     {NULL}
 };
 
@@ -257,14 +253,14 @@ TclCompileExpr(interp, script, numBytes, envPtr)
      * Parse the expression then compile it.
      */
 
-    code = Tcl_ParseExpr(interp, script, numBytes, &parse);
+    code = TclParseExpr(interp, script, numBytes,
+	    /* useInternalTokens */ 1, &parse);
     if (code != TCL_OK) {
 	goto done;
     }
 
     code = CompileSubExpr(parse.tokenPtr, &info, envPtr);
     if (code != TCL_OK) {
-	Tcl_FreeParse(&parse);
 	goto done;
     }
     
@@ -278,9 +274,9 @@ TclCompileExpr(interp, script, numBytes, envPtr)
 	
 	TclEmitOpcode(INST_TRY_CVT_TO_NUMERIC, envPtr);
     }
-    Tcl_FreeParse(&parse);
 
     done:
+    Tcl_FreeParse(&parse);
     return code;
 }
 
@@ -353,7 +349,7 @@ CompileSubExpr(exprTokenPtr, infoPtr, envPtr)
     char buffer[TCL_UTF_MAX];
 
     if (exprTokenPtr->type != TCL_TOKEN_SUB_EXPR) {
-	Tcl_Panic("CompileSubExpr: token type %d not TCL_TOKEN_SUB_EXPR\n",
+	panic("CompileSubExpr: token type %d not TCL_TOKEN_SUB_EXPR\n",
 	        exprTokenPtr->type);
     }
     code = TCL_OK;
@@ -369,8 +365,11 @@ CompileSubExpr(exprTokenPtr, infoPtr, envPtr)
 	    tokenPtr->start, tokenPtr->size);
     switch (tokenPtr->type) {
         case TCL_TOKEN_WORD:
-	    TclCompileTokens(interp, tokenPtr+1,
+	    code = TclCompileTokens(interp, tokenPtr+1,
 	            tokenPtr->numComponents, envPtr);
+	    if (code != TCL_OK) {
+		goto done;
+	    }
 	    tokenPtr += (tokenPtr->numComponents + 1);
 	    break;
 	    
@@ -398,13 +397,36 @@ CompileSubExpr(exprTokenPtr, infoPtr, envPtr)
 	    break;
 	    
         case TCL_TOKEN_COMMAND:
-	    TclCompileScript(interp, tokenPtr->start+1,
+	    code = TclCompileScript(interp, tokenPtr->start+1,
 		    tokenPtr->size-2, envPtr);
+	    if (code != TCL_OK) {
+		goto done;
+	    }
 	    tokenPtr += 1;
 	    break;
 	    
+        case TCL_TOKEN_SCRIPT_SUBST: {
+	    Tcl_Token *lastTokenPtr = tokenPtr + (tokenPtr->numComponents);
+	    code = TclCompileScriptTokens(interp, tokenPtr+1,
+		    lastTokenPtr, envPtr);
+	    if ((code == TCL_OK) && (lastTokenPtr->type == TCL_TOKEN_ERROR)) {
+		code = TclSubstTokens(interp, lastTokenPtr, 1, NULL,
+			/* flags */ 0);
+	        TclLogCompilationInfo(interp, tokenPtr[1].start,
+			lastTokenPtr->start, lastTokenPtr->size);
+	    }
+	    if (code != TCL_OK) {
+		goto done;
+	    }
+	    tokenPtr += (tokenPtr->numComponents + 1);
+	    break;
+	}
+	    
         case TCL_TOKEN_VARIABLE:
-	    TclCompileTokens(interp, tokenPtr, 1, envPtr);
+	    code = TclCompileTokens(interp, tokenPtr, 1, envPtr);
+	    if (code != TCL_OK) {
+		goto done;
+	    }
 	    tokenPtr += (tokenPtr->numComponents + 1);
 	    break;
 	    
@@ -525,14 +547,14 @@ CompileSubExpr(exprTokenPtr, infoPtr, envPtr)
 		    break;
 		    
 		default:
-		    Tcl_Panic("CompileSubExpr: unexpected operator %d requiring special treatment\n",
+		    panic("CompileSubExpr: unexpected operator %d requiring special treatment\n",
 		        opIndex);
 	    } /* end switch on operator requiring special treatment */
 	    infoPtr->hasOperators = 1;
 	    break;
 
         default:
-	    Tcl_Panic("CompileSubExpr: unexpected token type %d\n",
+	    panic("CompileSubExpr: unexpected token type %d\n",
 	            tokenPtr->type);
     }
 
@@ -588,11 +610,11 @@ CompileLandOrLorExpr(exprTokenPtr, opIndex, infoPtr, envPtr, endPtrPtr)
 {
     JumpFixup shortCircuitFixup; /* Used to fix up the short circuit jump
 				  * after the first subexpression. */
-    JumpFixup shortCircuitFixup2;/* Used to fix up the second jump to the
-				  * short-circuit target. */
-    JumpFixup endFixup;          /* Used to fix up jump to the end. */
+    JumpFixup lhsTrueFixup, lhsEndFixup;
+    				 /* Used to fix up jumps used to convert the
+				  * first operand to 0 or 1. */
     Tcl_Token *tokenPtr;
-    int code;
+    int dist, code;
     int savedStackDepth = envPtr->currStackDepth;
 
     /*
@@ -607,9 +629,32 @@ CompileLandOrLorExpr(exprTokenPtr, opIndex, infoPtr, envPtr, endPtrPtr)
     tokenPtr += (tokenPtr->numComponents + 1);
 
     /*
-     * Emit the short-circuit jump.
+     * Convert the first operand to the result that Tcl requires:
+     * "0" or "1". Eventually we'll use a new instruction for this.
+     */
+    
+    TclEmitForwardJump(envPtr, TCL_TRUE_JUMP, &lhsTrueFixup);
+    TclEmitPush(TclRegisterNewLiteral(envPtr, "0", 1), envPtr);
+    TclEmitForwardJump(envPtr, TCL_UNCONDITIONAL_JUMP, &lhsEndFixup);
+    dist = (envPtr->codeNext - envPtr->codeStart) - lhsTrueFixup.codeOffset;
+    if (TclFixupForwardJump(envPtr, &lhsTrueFixup, dist, 127)) {
+        badDist:
+	panic("CompileLandOrLorExpr: bad jump distance %d\n", dist);
+    }
+    envPtr->currStackDepth = savedStackDepth;
+    TclEmitPush(TclRegisterNewLiteral(envPtr, "1", 1), envPtr);
+    dist = (envPtr->codeNext - envPtr->codeStart) - lhsEndFixup.codeOffset;
+    if (TclFixupForwardJump(envPtr, &lhsEndFixup, dist, 127)) {
+	goto badDist;
+    }
+
+    /*
+     * Emit the "short circuit" jump around the rest of the expression.
+     * Duplicate the "0" or "1" on top of the stack first to keep the
+     * jump from consuming it.
      */
 
+    TclEmitOpcode(INST_DUP, envPtr);
     TclEmitForwardJump(envPtr,
 	    ((opIndex==OP_LAND)? TCL_FALSE_JUMP : TCL_TRUE_JUMP),
 	    &shortCircuitFixup);
@@ -623,45 +668,23 @@ CompileLandOrLorExpr(exprTokenPtr, opIndex, infoPtr, envPtr, endPtrPtr)
 	goto done;
     }
     tokenPtr += (tokenPtr->numComponents + 1);
-	    
-    /*
-     * The result is the boolean value of the second operand. We 
-     * code this in a somewhat contorted manner to be able to reuse
-     * the shortCircuit value and save one INST_JUMP.
-     */
-
-    TclEmitForwardJump(envPtr,
-	    ((opIndex==OP_LAND)? TCL_FALSE_JUMP : TCL_TRUE_JUMP),
-	    &shortCircuitFixup2);
-
-    if (opIndex == OP_LAND) {
-	TclEmitPush(TclRegisterNewLiteral(envPtr, "1", 1), envPtr);
-    } else {
-	TclEmitPush(TclRegisterNewLiteral(envPtr, "0", 1), envPtr);
-    }
-    TclEmitForwardJump(envPtr, TCL_UNCONDITIONAL_JUMP, &endFixup);
 
     /*
-     * Fixup the short-circuit jumps and push the shortCircuit value.
-     * Note that shortCircuitFixup2 is always a short jump.
+     * Emit a "logical and" or "logical or" instruction. This does not try
+     * to "short- circuit" the evaluation of both operands, but instead
+     * ensures that we either have a "1" or a "0" result.
      */
 
-    TclFixupForwardJumpToHere(envPtr, &shortCircuitFixup2, 127);
-    if (TclFixupForwardJumpToHere(envPtr, &shortCircuitFixup, 127)) {
-	/*
-	 * shortCircuit jump grown by 3 bytes: update endFixup.
-	 */
-	    
-	 endFixup.codeOffset += 3;
-    }
+    TclEmitOpcode(((opIndex==OP_LAND)? INST_LAND : INST_LOR), envPtr);
 
-    if (opIndex == OP_LAND) {
-	TclEmitPush(TclRegisterNewLiteral(envPtr, "0", 1), envPtr);
-    } else {
-	TclEmitPush(TclRegisterNewLiteral(envPtr, "1", 1), envPtr);
-    }
+    /*
+     * Now that we know the target of the forward jump, update it with the
+     * correct distance.
+     */
 
-    TclFixupForwardJumpToHere(envPtr, &endFixup, 127);
+    dist = (envPtr->codeNext - envPtr->codeStart)
+	    - shortCircuitFixup.codeOffset;
+    TclFixupForwardJump(envPtr, &shortCircuitFixup, dist, 127);
     *endPtrPtr = tokenPtr;
 
     done:
@@ -842,8 +865,8 @@ CompileMathFuncCall(exprTokenPtr, funcName, infoPtr, envPtr, endPtrPtr)
     code = TCL_OK;
     hPtr = Tcl_FindHashEntry(&iPtr->mathFuncTable, funcName);
     if (hPtr == NULL) {
-	Tcl_AppendResult(interp, "unknown math function \"", funcName,
-		"\"", (char *) NULL);
+	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+		"unknown math function \"", funcName, "\"", (char *) NULL);
 	code = TCL_ERROR;
 	goto done;
     }
@@ -866,8 +889,9 @@ CompileMathFuncCall(exprTokenPtr, funcName, infoPtr, envPtr, endPtrPtr)
     if (mathFuncPtr->numArgs > 0) {
 	for (i = 0;  i < mathFuncPtr->numArgs;  i++) {
 	    if (tokenPtr == afterSubexprPtr) {
-		Tcl_SetObjResult(interp, Tcl_NewStringObj(
-		        "too few arguments for math function", -1));
+		Tcl_ResetResult(interp);
+		Tcl_AppendToObj(Tcl_GetObjResult(interp),
+		        "too few arguments for math function", -1);
 		code = TCL_ERROR;
 		goto done;
 	    }
@@ -878,14 +902,16 @@ CompileMathFuncCall(exprTokenPtr, funcName, infoPtr, envPtr, endPtrPtr)
 	    tokenPtr += (tokenPtr->numComponents + 1);
 	}
 	if (tokenPtr != afterSubexprPtr) {
-	    Tcl_SetObjResult(interp, Tcl_NewStringObj(
-		    "too many arguments for math function", -1));
+	    Tcl_ResetResult(interp);
+	    Tcl_AppendToObj(Tcl_GetObjResult(interp),
+		    "too many arguments for math function", -1);
 	    code = TCL_ERROR;
 	    goto done;
 	} 
     } else if (tokenPtr != afterSubexprPtr) {
-	Tcl_SetObjResult(interp, Tcl_NewStringObj(
-		"too many arguments for math function", -1));
+	Tcl_ResetResult(interp);
+	Tcl_AppendToObj(Tcl_GetObjResult(interp),
+		"too many arguments for math function", -1);
 	code = TCL_ERROR;
 	goto done;
     }
@@ -943,10 +969,12 @@ LogSyntaxError(infoPtr)
     ExprInfo *infoPtr;		/* Describes the compilation state for the
 				 * expression being compiled. */
 {
-    Tcl_Obj *result =
-            Tcl_NewStringObj("syntax error in expression \"", -1);
-    TclAppendLimitedToObj(result, infoPtr->expr,
-            (int)(infoPtr->lastChar - infoPtr->expr), 60, "");
-    Tcl_AppendToObj(result, "\"", -1);
-    Tcl_SetObjResult(infoPtr->interp, result);
+    int numBytes = (infoPtr->lastChar - infoPtr->expr);
+    char buffer[100];
+
+    sprintf(buffer, "syntax error in expression \"%.*s\"",
+	    ((numBytes > 60)? 60 : numBytes), infoPtr->expr);
+    Tcl_ResetResult(infoPtr->interp);
+    Tcl_AppendStringsToObj(Tcl_GetObjResult(infoPtr->interp),
+	    buffer, (char *) NULL);
 }

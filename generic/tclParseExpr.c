@@ -24,7 +24,9 @@
  * the errno from tclExecute.c here.
  */
 
-#ifdef TCL_GENERIC_ONLY
+#ifndef TCL_GENERIC_ONLY
+#include "tclPort.h"
+#else
 #define NO_ERRNO_H
 #endif
 
@@ -64,6 +66,8 @@ typedef struct ParseInfo {
     CONST char *originalExpr;	/* Points to the start of the expression
 				 * originally passed to Tcl_ParseExpr. */
     CONST char *lastChar;	/* Points just after last byte of expr. */
+    int useInternalTokens;	/* Boolean indicating whether internal
+				 * token types are acceptable */
 } ParseInfo;
 
 /*
@@ -128,19 +132,6 @@ typedef struct ParseInfo {
 #define STRNEQ		35
 
 /*
- * Exponentiation operator:
- */
-
-#define EXPON		36
-
-/*
- * List containment operators
- */
-
-#define IN_LIST		37
-#define NOT_IN_LIST	38
-
-/*
  * Mapping from lexemes to strings; used for debugging messages. These
  * entries must match the order and number of the lexeme definitions above.
  */
@@ -151,7 +142,7 @@ static char *lexemeStrings[] = {
     "*", "/", "%", "+", "-",
     "<<", ">>", "<", ">", "<=", ">=", "==", "!=",
     "&", "^", "|", "&&", "||", "?", ":",
-    "!", "~", "eq", "ne", "**", "in", "ni"
+    "!", "~", "eq", "ne",
 };
 
 /*
@@ -175,7 +166,6 @@ static int		ParseMultiplyExpr _ANSI_ARGS_((ParseInfo *infoPtr));
 static int		ParsePrimaryExpr _ANSI_ARGS_((ParseInfo *infoPtr));
 static int		ParseRelationalExpr _ANSI_ARGS_((ParseInfo *infoPtr));
 static int		ParseShiftExpr _ANSI_ARGS_((ParseInfo *infoPtr));
-static int		ParseExponentialExpr _ANSI_ARGS_((ParseInfo *infoPtr));
 static int		ParseUnaryExpr _ANSI_ARGS_((ParseInfo *infoPtr));
 static void		PrependSubExprTokens _ANSI_ARGS_((CONST char *op,
 				int opBytes, CONST char *src, int srcBytes,
@@ -237,6 +227,27 @@ Tcl_ParseExpr(interp, string, numBytes, parsePtr)
 				 * information in the structure is
 				 * ignored. */
 {
+    int code = TclParseExpr(interp, string, numBytes, 0, parsePtr);
+    if (code == TCL_ERROR) {
+	Tcl_FreeParse(parsePtr);
+    }
+    return code;
+}
+
+int
+TclParseExpr(interp, string, numBytes, useInternalTokens, parsePtr)
+    Tcl_Interp *interp;		/* Used for error reporting. */
+    CONST char *string;		/* The source string to parse. */
+    int numBytes;		/* Number of bytes in string. If < 0, the
+				 * string consists of all bytes up to the
+				 * first null character. */
+    int useInternalTokens;	/* Boolean indicating whether internal
+				 * token types are acceptable */
+    Tcl_Parse *parsePtr;	/* Structure to fill with information about
+				 * the parsed expression; any previous
+				 * information in the structure is
+				 * ignored. */
+{
     ParseInfo info;
     int code;
 
@@ -250,7 +261,19 @@ Tcl_ParseExpr(interp, string, numBytes, parsePtr)
     }
 #endif /* TCL_COMPILE_DEBUG */
     
-    TclParseInit(interp, string, numBytes, parsePtr);
+    parsePtr->commentStart = NULL;
+    parsePtr->commentSize = 0;
+    parsePtr->commandStart = NULL;
+    parsePtr->commandSize = 0;
+    parsePtr->numWords = 0;
+    parsePtr->tokenPtr = parsePtr->staticTokens;
+    parsePtr->numTokens = 0;
+    parsePtr->tokensAvailable = NUM_STATIC_TOKENS;
+    parsePtr->string = string;
+    parsePtr->end = (string + numBytes);
+    parsePtr->interp = interp;
+    parsePtr->term = string;
+    parsePtr->incomplete = 0;
 
     /*
      * Initialize the ParseInfo structure that holds state while parsing
@@ -265,6 +288,7 @@ Tcl_ParseExpr(interp, string, numBytes, parsePtr)
     info.prevEnd = string;
     info.originalExpr = string;
     info.lastChar = (string + numBytes); /* just after last char of expr */
+    info.useInternalTokens = useInternalTokens;
 
     /*
      * Get the first lexeme then parse the expression.
@@ -272,23 +296,22 @@ Tcl_ParseExpr(interp, string, numBytes, parsePtr)
 
     code = GetLexeme(&info);
     if (code != TCL_OK) {
-	goto error;
+	return TCL_ERROR;
     }
     code = ParseCondExpr(&info);
+    if (useInternalTokens && (code == TCL_ERROR)
+	    && (parsePtr->tokenPtr[parsePtr->numTokens - 1].type
+	    == TCL_TOKEN_ERROR)) {
+	return TCL_OK;
+    }
     if (code != TCL_OK) {
-	goto error;
+	return TCL_ERROR;
     }
     if (info.lexeme != END) {
 	LogSyntaxError(&info, "extra tokens at end of expression");
-	goto error;
+	return TCL_ERROR;
     }
     return TCL_OK;
-    
-    error:
-    if (parsePtr->tokenPtr != parsePtr->staticTokens) {
-	ckfree((char *) parsePtr->tokenPtr);
-    }
-    return TCL_ERROR;
 }
 
 /*
@@ -345,9 +368,7 @@ ParseCondExpr(infoPtr)
 	 * before the LOR operand tokens generated above.
 	 */
 
-	if ((parsePtr->numTokens + 1) >= parsePtr->tokensAvailable) {
-	    TclExpandTokenArray(parsePtr);
-	}
+	TclGrowParseTokenArray(parsePtr,2);
 	firstTokenPtr = &parsePtr->tokenPtr[firstIndex];
 	tokenPtr = (firstTokenPtr + 2);
 	numToMove = (parsePtr->numTokens - firstIndex);
@@ -754,8 +775,8 @@ ParseEqualityExpr(infoPtr)
     }
 
     lexeme = infoPtr->lexeme;
-    while (lexeme == EQUAL || lexeme == NEQ || lexeme == NOT_IN_LIST ||
-	    lexeme == IN_LIST || lexeme == STREQ || lexeme == STRNEQ) {
+    while ((lexeme == EQUAL) || (lexeme == NEQ)
+	    || (lexeme == STREQ) || (lexeme == STRNEQ)) {
 	operator = infoPtr->start;
 	code = GetLexeme(infoPtr); /* skip over ==, !=, 'eq' or 'ne'  */
 	if (code != TCL_OK) {
@@ -976,7 +997,7 @@ ParseAddExpr(infoPtr)
  * ParseMultiplyExpr --
  *
  *	This procedure parses a Tcl multiply expression:
- *	multiplyExpr ::= exponentialExpr {('*' | '/' | '%') exponentialExpr}
+ *	multiplyExpr ::= unaryExpr {('*' | '/' | '%') unaryExpr}
  *
  * Results:
  *	The return value is TCL_OK on a successful parse and TCL_ERROR
@@ -1004,7 +1025,7 @@ ParseMultiplyExpr(infoPtr)
     srcStart = infoPtr->start;
     firstIndex = parsePtr->numTokens;
     
-    code = ParseExponentialExpr(infoPtr);
+    code = ParseUnaryExpr(infoPtr);
     if (code != TCL_OK) {
 	return code;
     }
@@ -1016,7 +1037,7 @@ ParseMultiplyExpr(infoPtr)
 	if (code != TCL_OK) {
 	    return code;
 	}
-	code = ParseExponentialExpr(infoPtr);
+	code = ParseUnaryExpr(infoPtr);
 	if (code != TCL_OK) {
 	    return code;
 	}
@@ -1031,69 +1052,6 @@ ParseMultiplyExpr(infoPtr)
     }
     return TCL_OK;
 }
-
-/*
- *----------------------------------------------------------------------
- *
- * ParseExponentialExpr --
- *
- *	This procedure parses a Tcl exponential expression:
- *	exponentialExpr ::= unaryExpr {'**' unaryExpr}
- *
- * Results:
- *	The return value is TCL_OK on a successful parse and TCL_ERROR
- *	on failure. If TCL_ERROR is returned, then the interpreter's result
- *	contains an error message.
- *
- * Side effects:
- *	If there is insufficient space in parsePtr to hold all the
- *	information about the subexpression, then additional space is
- *	malloc-ed.
- *
- *----------------------------------------------------------------------
- */
-
-static int
-ParseExponentialExpr(infoPtr)
-    ParseInfo *infoPtr;			/* Holds the parse state for the
-					 * expression being parsed. */
-{
-    Tcl_Parse *parsePtr = infoPtr->parsePtr;
-    int firstIndex, lexeme, code;
-    CONST char *srcStart, *operator;
-
-    HERE("exponentiateExpr", 12);
-    srcStart = infoPtr->start;
-    firstIndex = parsePtr->numTokens;
-
-    code = ParseUnaryExpr(infoPtr);
-    if (code != TCL_OK) {
-	return code;
-    }
-
-    lexeme = infoPtr->lexeme;
-    while (lexeme == EXPON) {
-	operator = infoPtr->start;
-	code = GetLexeme(infoPtr);	/* skip over ** */
-	if (code != TCL_OK) {
-	    return code;
-	}
-	code = ParseUnaryExpr(infoPtr);
-	if (code != TCL_OK) {
-	    return code;
-	}
-
-	/*
-	 * Generate tokens for the subexpression and ** operator.
-	 */
-
-	PrependSubExprTokens(operator, 2, srcStart,
-		(infoPtr->prevEnd - srcStart), firstIndex, infoPtr);
-	lexeme = infoPtr->lexeme;
-    }
-    return TCL_OK;
-}
-
 
 /*
  *----------------------------------------------------------------------
@@ -1125,7 +1083,7 @@ ParseUnaryExpr(infoPtr)
     int firstIndex, lexeme, code;
     CONST char *srcStart, *operator;
 
-    HERE("unaryExpr", 13);
+    HERE("unaryExpr", 12);
     srcStart = infoPtr->start;
     firstIndex = parsePtr->numTokens;
     
@@ -1195,7 +1153,7 @@ ParsePrimaryExpr(infoPtr)
      * We simply recurse on parenthesized subexpressions.
      */
 
-    HERE("primaryExpr", 14);
+    HERE("primaryExpr", 13);
     lexeme = infoPtr->lexeme;
     if (lexeme == OPEN_PAREN) {
 	code = GetLexeme(infoPtr); /* skip over the '(' */
@@ -1221,9 +1179,7 @@ ParsePrimaryExpr(infoPtr)
      * Start a TCL_TOKEN_SUB_EXPR token for the primary.
      */
 
-    if (parsePtr->numTokens == parsePtr->tokensAvailable) {
-	TclExpandTokenArray(parsePtr);
-    }
+    TclGrowParseTokenArray(parsePtr,1);
     exprIndex = parsePtr->numTokens;
     exprTokenPtr = &parsePtr->tokenPtr[exprIndex];
     exprTokenPtr->type = TCL_TOKEN_SUB_EXPR;
@@ -1244,9 +1200,7 @@ ParsePrimaryExpr(infoPtr)
 	 * Int or double number.
 	 */
 	
-	if (parsePtr->numTokens == parsePtr->tokensAvailable) {
-	    TclExpandTokenArray(parsePtr);
-	}
+	TclGrowParseTokenArray(parsePtr,1);
 	tokenPtr = &parsePtr->tokenPtr[parsePtr->numTokens];
 	tokenPtr->type = TCL_TOKEN_TEXT;
 	tokenPtr->start = infoPtr->start;
@@ -1302,9 +1256,7 @@ ParsePrimaryExpr(infoPtr)
 	 */
 
 	if (exprTokenPtr->numComponents > 1) {
-	    if (parsePtr->numTokens >= parsePtr->tokensAvailable) {
-		TclExpandTokenArray(parsePtr);
-	    }
+	    TclGrowParseTokenArray(parsePtr,1);
 	    tokenPtr = &parsePtr->tokenPtr[firstIndex];
 	    numToMove = (parsePtr->numTokens - firstIndex);
 	    memmove((VOID *) (tokenPtr + 1), (VOID *) tokenPtr,
@@ -1326,21 +1278,56 @@ ParsePrimaryExpr(infoPtr)
 	 * '[' command {command} ']'
 	 */
 
-	if (parsePtr->numTokens == parsePtr->tokensAvailable) {
-	    TclExpandTokenArray(parsePtr);
+	/*
+	 * Call TclParseScript, or Tcl_ParseCommand repeatedly, to parse
+	 * the nested command(s).  If internal tokens are acceptable, keep
+	 * all the parsing info; otherwise, throw it away.
+	 */
+	
+	src = infoPtr->next;
+	if (infoPtr->useInternalTokens) {
+	    CONST char *term;
+	    Tcl_Token *lastTokenPtr;
+	    Tcl_Token *appendTokens = TclParseScript(src,
+		    (int) (parsePtr->end - src),
+		    (PARSE_NESTED | PARSE_USE_INTERNAL_TOKENS),
+		    &lastTokenPtr, &term);
+	    int numTokens = 1 + (int) (lastTokenPtr - appendTokens);
+
+	    TclGrowParseTokenArray(parsePtr,numTokens+1);
+	    tokenPtr = &parsePtr->tokenPtr[parsePtr->numTokens];
+	    tokenPtr->type = TCL_TOKEN_SCRIPT_SUBST;
+	    tokenPtr->size = term - src + 2;
+	    tokenPtr->numComponents = numTokens;
+
+	    memcpy(tokenPtr+1, appendTokens,
+		    (size_t) (numTokens * sizeof(Tcl_Token)));
+	    parsePtr->numTokens += (numTokens + 1);
+
+	    if (lastTokenPtr->type == TCL_TOKEN_ERROR) {
+		parsePtr->errorType = lastTokenPtr->numComponents;
+		parsePtr->term = term;
+		parsePtr->incomplete = 1;
+
+		ckfree((char *) appendTokens);
+		return TCL_ERROR;
+	    }
+	    ckfree((char *) appendTokens);
+	    infoPtr->next = term + 1;
+
+	    exprTokenPtr = &parsePtr->tokenPtr[exprIndex];
+	    exprTokenPtr->size = (src - tokenPtr->start);
+	    exprTokenPtr->numComponents = 1 + numTokens;
+	    break;
 	}
+
+	TclGrowParseTokenArray(parsePtr,1);
 	tokenPtr = &parsePtr->tokenPtr[parsePtr->numTokens];
 	tokenPtr->type = TCL_TOKEN_COMMAND;
 	tokenPtr->start = infoPtr->start;
 	tokenPtr->numComponents = 0;
 	parsePtr->numTokens++;
 
-	/*
-	 * Call Tcl_ParseCommand repeatedly to parse the nested command(s)
-	 * to find their end, then throw away that parse information.
-	 */
-	
-	src = infoPtr->next;
 	while (1) {
 	    if (Tcl_ParseCommand(interp, src, (parsePtr->end - src), 1,
 		    &nested) != TCL_OK) {
@@ -1412,9 +1399,7 @@ ParsePrimaryExpr(infoPtr)
 	 */
 
 	if (exprTokenPtr->numComponents > 1) {
-	    if (parsePtr->numTokens >= parsePtr->tokensAvailable) {
-		TclExpandTokenArray(parsePtr);
-	    }
+	    TclGrowParseTokenArray(parsePtr,1);
 	    tokenPtr = &parsePtr->tokenPtr[firstIndex];
 	    numToMove = (parsePtr->numTokens - firstIndex);
 	    memmove((VOID *) (tokenPtr + 1), (VOID *) tokenPtr,
@@ -1436,9 +1421,7 @@ ParsePrimaryExpr(infoPtr)
 	 * math_func '(' expr {',' expr} ')'
 	 */
 	
-	if (parsePtr->numTokens == parsePtr->tokensAvailable) {
-	    TclExpandTokenArray(parsePtr);
-	}
+	TclGrowParseTokenArray(parsePtr,1);
 	tokenPtr = &parsePtr->tokenPtr[parsePtr->numTokens];
 	tokenPtr->type = TCL_TOKEN_OPERATOR;
 	tokenPtr->start = infoPtr->start;
@@ -1744,12 +1727,6 @@ GetLexeme(infoPtr)
 
 	case '*':
 	    infoPtr->lexeme = MULT;
-	    if ((infoPtr->lastChar - src)>1  &&  src[1]=='*') {
-		infoPtr->lexeme = EXPON;
-		infoPtr->size = 2;
-		infoPtr->next = src+2;
-		parsePtr->term = infoPtr->next;
-	    }
 	    return TCL_OK;
 
 	case '/':
@@ -1863,8 +1840,7 @@ GetLexeme(infoPtr)
 	    return TCL_OK;
 
 	case 'e':
-	    if ((src[1] == 'q') && ((infoPtr->lastChar - src) > 1) &&
-		    (infoPtr->lastChar-src==2 || !isalpha(UCHAR(src[2])))) {
+	    if ((src[1] == 'q') && ((infoPtr->lastChar - src) > 1)) {
 		infoPtr->lexeme = STREQ;
 		infoPtr->size = 2;
 		infoPtr->next = src+2;
@@ -1875,28 +1851,8 @@ GetLexeme(infoPtr)
 	    }
 
 	case 'n':
-	    if ((src[1] == 'e') && ((infoPtr->lastChar - src) > 1) &&
-		    (infoPtr->lastChar-src==2 || !isalpha(UCHAR(src[2])))) {
+	    if ((src[1] == 'e') && ((infoPtr->lastChar - src) > 1)) {
 		infoPtr->lexeme = STRNEQ;
-		infoPtr->size = 2;
-		infoPtr->next = src+2;
-		parsePtr->term = infoPtr->next;
-		return TCL_OK;
-	    } else if ((src[1] == 'i') && ((infoPtr->lastChar - src) > 1) &&
-		    (infoPtr->lastChar-src==2 || !isalpha(UCHAR(src[2])))) {
-		infoPtr->lexeme = NOT_IN_LIST;
-		infoPtr->size = 2;
-		infoPtr->next = src+2;
-		parsePtr->term = infoPtr->next;
-		return TCL_OK;
-	    } else {
-		goto checkFuncName;
-	    }
-
-	case 'i':
-	    if ((src[1] == 'n') && ((infoPtr->lastChar - src) > 1) &&
-		    (infoPtr->lastChar-src==2 || !isalpha(UCHAR(src[2])))) {
-		infoPtr->lexeme = IN_LIST;
 		infoPtr->size = 2;
 		infoPtr->next = src+2;
 		parsePtr->term = infoPtr->next;
@@ -2126,9 +2082,7 @@ PrependSubExprTokens(op, opBytes, src, srcBytes, firstIndex, infoPtr)
     Tcl_Token *tokenPtr, *firstTokenPtr;
     int numToMove;
 
-    if ((parsePtr->numTokens + 1) >= parsePtr->tokensAvailable) {
-	TclExpandTokenArray(parsePtr);
-    }
+    TclGrowParseTokenArray(parsePtr,2);
     firstTokenPtr = &parsePtr->tokenPtr[firstIndex];
     tokenPtr = (firstTokenPtr + 2);
     numToMove = (parsePtr->numTokens - firstIndex);
@@ -2176,12 +2130,19 @@ LogSyntaxError(infoPtr, extraInfo)
     CONST char *extraInfo;	/* String to provide extra information
 				 * about the syntax error. */
 {
-    Tcl_Obj *result =
-	    Tcl_NewStringObj("syntax error in expression \"", -1);
-    TclAppendLimitedToObj(result, infoPtr->originalExpr, 
-	    (int)(infoPtr->lastChar - infoPtr->originalExpr), 63, NULL);
-    Tcl_AppendStringsToObj(result, "\": ", extraInfo, (char *) NULL);
-    Tcl_SetObjResult(infoPtr->parsePtr->interp, result);
+    int numBytes = (infoPtr->lastChar - infoPtr->originalExpr);
+    char buffer[100];
+
+    if (numBytes > 60) {
+	sprintf(buffer, "syntax error in expression \"%.60s...\"",
+		infoPtr->originalExpr);
+    } else {
+	sprintf(buffer, "syntax error in expression \"%.*s\"",
+		numBytes, infoPtr->originalExpr);
+    }
+    Tcl_ResetResult(infoPtr->parsePtr->interp);
+    Tcl_AppendStringsToObj(Tcl_GetObjResult(infoPtr->parsePtr->interp),
+	    buffer, ": ", extraInfo, (char *) NULL);
     infoPtr->parsePtr->errorType = TCL_PARSE_SYNTAX;
     infoPtr->parsePtr->term = infoPtr->start;
 }

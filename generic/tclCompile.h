@@ -14,7 +14,14 @@
 #ifndef _TCLCOMPILATION
 #define _TCLCOMPILATION 1
 
+#ifndef _TCLINT
 #include "tclInt.h"
+#endif /* _TCLINT */
+
+#ifdef BUILD_tcl
+# undef TCL_STORAGE_CLASS
+# define TCL_STORAGE_CLASS DLLEXPORT
+#endif
 
 /*
  *------------------------------------------------------------------------
@@ -33,7 +40,7 @@
  * This variable is linked to the Tcl variable "tcl_traceCompile".
  */
 
-MODULE_SCOPE int 	tclTraceCompile;
+extern int 		tclTraceCompile;
 #endif
 
 #ifdef TCL_COMPILE_DEBUG
@@ -47,7 +54,7 @@ MODULE_SCOPE int 	tclTraceCompile;
  * This variable is linked to the Tcl variable "tcl_traceExec".
  */
 
-MODULE_SCOPE int 	tclTraceExec;
+extern int 		tclTraceExec;
 #endif
 
 /*
@@ -141,17 +148,17 @@ typedef void       (AuxDataFreeProc) _ANSI_ARGS_((ClientData clientData));
  */
 
 typedef struct AuxDataType {
-    char *name;			/* the name of the type. Types can be
-				 * registered and found by name */
+    char *name;					/* the name of the type. Types can be
+                                 * registered and found by name */
     AuxDataDupProc *dupProc;	/* Callback procedure to invoke when the
-				 * aux data is duplicated (e.g., when the
-				 * ByteCode structure containing the aux
-				 * data is duplicated). NULL means just
-				 * copy the source clientData bits; no
-				 * proc need be called. */
+                                 * aux data is duplicated (e.g., when the
+                                 * ByteCode structure containing the aux
+                                 * data is duplicated). NULL means just
+                                 * copy the source clientData bits; no
+                                 * proc need be called. */
     AuxDataFreeProc *freeProc;	/* Callback procedure to invoke when the
-				 * aux data is freed. NULL means no
-				 * proc need be called. */
+                                 * aux data is freed. NULL means no
+                                 * proc need be called. */
 } AuxDataType;
 
 /*
@@ -162,7 +169,7 @@ typedef struct AuxDataType {
 
 typedef struct AuxData {
     AuxDataType *type;		/* pointer to the AuxData type associated with
-				 * this ClientData. */
+                             * this ClientData. */
     ClientData clientData;	/* The compilation data itself. */
 } AuxData;
 
@@ -202,7 +209,7 @@ typedef struct CompileEnv {
     int maxStackDepth;		/* Maximum number of stack elements needed
 				 * to execute the code. Set by compilation
 				 * procedures before returning. */
-    int currStackDepth;		/* Current stack depth. */
+    int currStackDepth;         /* Current stack depth. */
     LiteralTable localLitTable;	/* Contains LiteralEntry's describing
 				 * all Tcl objects referenced by this
 				 * compiled code. Indexed by the string
@@ -212,14 +219,14 @@ typedef struct CompileEnv {
     unsigned char *codeNext;	/* Points to next code array byte to use. */
     unsigned char *codeEnd;	/* Points just after the last allocated
 				 * code array byte. */
-    int mallocedCodeArray;	/* Set 1 if code array was expanded 
+    int mallocedCodeArray;      /* Set 1 if code array was expanded 
 				 * and codeStart points into the heap.*/
     LiteralEntry *literalArrayPtr;
     				/* Points to start of LiteralEntry array. */
     int literalArrayNext;	/* Index of next free object array entry. */
     int literalArrayEnd;	/* Index just after last obj array entry. */
-    int mallocedLiteralArray;	/* 1 if object array was expanded and
-				 * objArray points into the heap, else 0. */
+    int mallocedLiteralArray;   /* 1 if object array was expanded and
+                                 * objArray points into the heap, else 0. */
     ExceptionRange *exceptArrayPtr;
     				/* Points to start of the ExceptionRange
 				 * array. */
@@ -239,7 +246,7 @@ typedef struct CompileEnv {
     int cmdMapEnd;		/* Index after last CmdLocation entry. */
     int mallocedCmdMap;		/* 1 if command map array was expanded and
 				 * cmdMapPtr points in the heap, else 0. */
-    AuxData *auxDataArrayPtr;	/* Points to auxiliary data array start. */
+    AuxData *auxDataArrayPtr;   /* Points to auxiliary data array start. */
     int auxDataArrayNext;	/* Next free compile aux data array index.
 				 * auxDataArrayNext is the number of aux
 				 * data items and (auxDataArrayNext-1) is
@@ -248,15 +255,15 @@ typedef struct CompileEnv {
     int mallocedAuxDataArray;	/* 1 if aux data array was expanded and
 				 * auxDataArrayPtr points in heap else 0. */
     unsigned char staticCodeSpace[COMPILEENV_INIT_CODE_BYTES];
-				/* Initial storage for code. */
+                                /* Initial storage for code. */
     LiteralEntry staticLiteralSpace[COMPILEENV_INIT_NUM_OBJECTS];
-				/* Initial storage of LiteralEntry array. */
+                                /* Initial storage of LiteralEntry array. */
     ExceptionRange staticExceptArraySpace[COMPILEENV_INIT_EXCEPT_RANGES];
-				/* Initial ExceptionRange array storage. */
+                                /* Initial ExceptionRange array storage. */
     CmdLocation staticCmdMapSpace[COMPILEENV_INIT_CMD_MAP_SIZE];
-				/* Initial storage for cmd location map. */
+                                /* Initial storage for cmd location map. */
     AuxData staticAuxDataArraySpace[COMPILEENV_INIT_AUX_DATA_SIZE];
-				/* Initial storage for aux data array. */
+                                /* Initial storage for aux data array. */
 } CompileEnv;
 
 /*
@@ -272,14 +279,6 @@ typedef struct CompileEnv {
  * image rather than implicitly compiled from source
  */
 #define TCL_BYTECODE_PRECOMPILED		0x0001
-
-
-/*
- * When a bytecode is compiled, interp or namespace resolvers have not been
- * applied yet: this is indicated by the TCL_BYTECODE_RESOLVE_VARS flag.
- */
-
-#define TCL_BYTECODE_RESOLVE_VARS               0x0002
 
 typedef struct ByteCode {
     TclHandle interpHandle;	/* Handle for interpreter containing the
@@ -304,8 +303,8 @@ typedef struct ByteCode {
 				 * currently active. This structure can be
 				 * freed when refCount becomes zero. */
     unsigned int flags;		/* flags describing state for the codebyte.
-				 * this variable holds ORed values from the
-				 * TCL_BYTECODE_ masks defined above */
+                                 * this variable holds ORed values from the
+                                 * TCL_BYTECODE_ masks defined above */
     char *source;		/* The source string from which this
 				 * ByteCode was compiled. Note that this
 				 * pointer is not owned by the ByteCode and
@@ -341,7 +340,7 @@ typedef struct ByteCode {
     				/* Points to the start of the ExceptionRange
 				 * array. This is just after the last
 				 * object in the object array. */
-    AuxData *auxDataArrayPtr;	/* Points to the start of the auxiliary data
+    AuxData *auxDataArrayPtr;   /* Points to the start of the auxiliary data
 				 * array. This is just after the last entry
 				 * in the ExceptionRange array. */
     unsigned char *codeDeltaStart;
@@ -438,7 +437,7 @@ typedef struct ByteCode {
 #define INST_JUMP_TRUE1			36
 #define INST_JUMP_TRUE4			37
 #define INST_JUMP_FALSE1		38
-#define INST_JUMP_FALSE4		39
+#define INST_JUMP_FALSE4	        39
 
 /* Opcodes 40 to 64 */
 #define INST_LOR			40
@@ -516,42 +515,17 @@ typedef struct ByteCode {
 
 /*
  * TIP #33 - 'lset' command.  Code gen also required a Forth-like
- *	     OVER operation.
+ *           OVER operation.
  */
 
-#define INST_OVER			95
+#define INST_OVER                       95
 #define INST_LSET_LIST			96
-#define INST_LSET_FLAT			97
-
-/* TIP#90 - 'return' command. */
+#define INST_LSET_FLAT                  97
 
 #define INST_RETURN			98
 
-/* TIP#123 - exponentiation operator. */
-
-#define INST_EXPON			99
-
-/* TIP #157 - {expand}... language syntax support. */
-
-#define INST_EXPAND_START             100
-#define INST_EXPAND_STKTOP            101
-#define INST_INVOKE_EXPANDED          102
-
-/*
- * TIP #57 - 'lassign' command.  Code generation requires immediate
- *	     LINDEX and LRANGE operators.
- */
-
-#define INST_LIST_INDEX_IMM		103
-#define INST_LIST_RANGE_IMM		104
-
-#define INST_START_CMD                  105
-
-#define INST_LIST_IN			106
-#define INST_LIST_NOT_IN		107
-
 /* The last opcode */
-#define LAST_INST_OPCODE		107
+#define LAST_INST_OPCODE        	98
 
 /*
  * Table describing the Tcl bytecode instructions: their name (for
@@ -569,15 +543,13 @@ typedef enum InstOperandType {
     OPERAND_INT1,		/* One byte signed integer. */
     OPERAND_INT4,		/* Four byte signed integer. */
     OPERAND_UINT1,		/* One byte unsigned integer. */
-    OPERAND_UINT4,		/* Four byte unsigned integer. */
-    OPERAND_IDX4		/* Four byte signed index (actually an
-				 * integer, but displayed differently.) */
+    OPERAND_UINT4		/* Four byte unsigned integer. */
 } InstOperandType;
 
 typedef struct InstructionDesc {
     char *name;			/* Name of instruction. */
     int numBytes;		/* Total number of bytes for instruction. */
-    int stackEffect;		/* The worst-case balance stack effect of the 
+    int stackEffect;            /* The worst-case balance stack effect of the 
 				 * instruction, used for stack requirements 
 				 * computations. The value INT_MIN signals
 				 * that the instruction's worst case effect
@@ -588,7 +560,7 @@ typedef struct InstructionDesc {
 				/* The type of each operand. */
 } InstructionDesc;
 
-MODULE_SCOPE InstructionDesc tclInstructionTable[];
+extern InstructionDesc tclInstructionTable[];
 
 /*
  * Definitions of the values of the INST_CALL_BUILTIN_FUNC instruction's
@@ -625,7 +597,7 @@ MODULE_SCOPE InstructionDesc tclInstructionTable[];
 #define BUILTIN_FUNC_SRAND		24
 #define BUILTIN_FUNC_WIDE		25
 
-#define LAST_BUILTIN_FUNC		25
+#define LAST_BUILTIN_FUNC        	25
 
 /*
  * Table describing the built-in math functions. Entries in this table are
@@ -634,7 +606,7 @@ MODULE_SCOPE InstructionDesc tclInstructionTable[];
  */
 
 typedef int (CallBuiltinFuncProc) _ANSI_ARGS_((Tcl_Interp *interp,
-	Tcl_Obj **tosPtr, ClientData clientData));
+        ExecEnv *eePtr, ClientData clientData));
 
 typedef struct {
     char *name;			/* Name of function. */
@@ -646,7 +618,7 @@ typedef struct {
 				 * function when invoking it. */
 } BuiltinFunc;
 
-MODULE_SCOPE BuiltinFunc tclBuiltinFuncTable[];
+extern BuiltinFunc tclBuiltinFuncTable[];
 
 /*
  * Compilation of some Tcl constructs such as if commands and the logical or
@@ -684,7 +656,7 @@ typedef struct JumpFixup {
 				 * to 5 bytes. */
 } JumpFixup;
 
-#define JUMPFIXUP_INIT_ENTRIES	10
+#define JUMPFIXUP_INIT_ENTRIES    10
 
 typedef struct JumpFixupArray {
     JumpFixup *fixup;		/* Points to start of jump fixup array. */
@@ -736,7 +708,7 @@ typedef struct ForeachInfo {
 				 * THE LAST FIELD IN THE STRUCTURE! */
 } ForeachInfo;
 
-MODULE_SCOPE AuxDataType		tclForeachInfoType;
+extern AuxDataType		tclForeachInfoType;
 
 
 /*
@@ -745,10 +717,10 @@ MODULE_SCOPE AuxDataType		tclForeachInfoType;
  *----------------------------------------------------------------
  */
 
-MODULE_SCOPE int	TclEvalObjvInternal _ANSI_ARGS_((Tcl_Interp *interp,
-			    int objc, Tcl_Obj *CONST objv[],
-			    CONST char *command, int length, int flags));
-MODULE_SCOPE int	TclInterpReady _ANSI_ARGS_((Tcl_Interp *interp));
+EXTERN int		TclEvalObjvInternal _ANSI_ARGS_((Tcl_Interp *interp, int objc,
+			    Tcl_Obj *CONST objv[], CONST char *command, int length,
+			    int flags));
+EXTERN int              TclInterpReady _ANSI_ARGS_((Tcl_Interp *interp));
 
 
 /*
@@ -757,12 +729,8 @@ MODULE_SCOPE int	TclInterpReady _ANSI_ARGS_((Tcl_Interp *interp));
  *----------------------------------------------------------------
  */
 
-/*
- * Declaration moved to the internal stubs table
- *
-MODULE_SCOPE int	TclCompEvalObj _ANSI_ARGS_((Tcl_Interp *interp,
-			    Tcl_Obj *objPtr));
-*/
+EXTERN int		TclCompEvalObj _ANSI_ARGS_((Tcl_Interp *interp,
+			    Tcl_Obj *objPtr, int flags));
 
 /*
  *----------------------------------------------------------------
@@ -771,102 +739,103 @@ MODULE_SCOPE int	TclCompEvalObj _ANSI_ARGS_((Tcl_Interp *interp,
  *----------------------------------------------------------------
  */
 
-MODULE_SCOPE void	TclCleanupByteCode _ANSI_ARGS_((ByteCode *codePtr));
-MODULE_SCOPE void	TclCompileCmdWord _ANSI_ARGS_((Tcl_Interp *interp,
+EXTERN void		TclCleanupByteCode _ANSI_ARGS_((ByteCode *codePtr));
+EXTERN int		TclCompileCmdWord _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Token *tokenPtr, int count,
 			    CompileEnv *envPtr));
-MODULE_SCOPE int	TclCompileExpr _ANSI_ARGS_((Tcl_Interp *interp,
+EXTERN int		TclCompileExpr _ANSI_ARGS_((Tcl_Interp *interp,
 			    CONST char *script, int numBytes,
 			    CompileEnv *envPtr));
-MODULE_SCOPE void	TclCompileExprWords _ANSI_ARGS_((Tcl_Interp *interp,
+EXTERN int		TclCompileExprWords _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Token *tokenPtr, int numWords,
 			    CompileEnv *envPtr));
-MODULE_SCOPE void	TclCompileScript _ANSI_ARGS_((Tcl_Interp *interp,
-			    CONST char *script, int numBytes,
+EXTERN int		TclCompileScript _ANSI_ARGS_((Tcl_Interp *interp,
+			    CONST char *script, int numBytes, CompileEnv *envPtr));
+EXTERN int		TclCompileScriptTokens _ANSI_ARGS_((Tcl_Interp *interp,
+			    Tcl_Token *tokens, Tcl_Token *lastTokenPtr,
 			    CompileEnv *envPtr));
-MODULE_SCOPE void	TclCompileTokens _ANSI_ARGS_((Tcl_Interp *interp,
+EXTERN int		TclCompileTokens _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Token *tokenPtr, int count,
 			    CompileEnv *envPtr));
-MODULE_SCOPE int	TclCreateAuxData _ANSI_ARGS_((ClientData clientData,
+EXTERN int		TclCreateAuxData _ANSI_ARGS_((ClientData clientData,
 			    AuxDataType *typePtr, CompileEnv *envPtr));
-MODULE_SCOPE int	TclCreateExceptRange _ANSI_ARGS_((
+EXTERN int		TclCreateExceptRange _ANSI_ARGS_((
 			    ExceptionRangeType type, CompileEnv *envPtr));
-MODULE_SCOPE ExecEnv *	TclCreateExecEnv _ANSI_ARGS_((Tcl_Interp *interp));
-MODULE_SCOPE void	TclDeleteExecEnv _ANSI_ARGS_((ExecEnv *eePtr));
-MODULE_SCOPE void	TclDeleteLiteralTable _ANSI_ARGS_((
+EXTERN ExecEnv *	TclCreateExecEnv _ANSI_ARGS_((Tcl_Interp *interp));
+EXTERN void		TclDeleteExecEnv _ANSI_ARGS_((ExecEnv *eePtr));
+EXTERN void		TclDeleteLiteralTable _ANSI_ARGS_((
 			    Tcl_Interp *interp, LiteralTable *tablePtr));
-MODULE_SCOPE void	TclEmitForwardJump _ANSI_ARGS_((CompileEnv *envPtr,
+EXTERN void		TclEmitForwardJump _ANSI_ARGS_((CompileEnv *envPtr,
 			    TclJumpType jumpType, JumpFixup *jumpFixupPtr));
-MODULE_SCOPE ExceptionRange * TclGetExceptionRangeForPc _ANSI_ARGS_((
+EXTERN ExceptionRange *	TclGetExceptionRangeForPc _ANSI_ARGS_((
 			    unsigned char *pc, int catchOnly,
 			    ByteCode* codePtr));
-MODULE_SCOPE void	TclExpandJumpFixupArray _ANSI_ARGS_((
-			    JumpFixupArray *fixupArrayPtr));
-MODULE_SCOPE void	TclFinalizeAuxDataTypeTable _ANSI_ARGS_((void));
-MODULE_SCOPE int	TclFindCompiledLocal _ANSI_ARGS_((CONST char *name, 
-			    int nameChars, int create, int flags,
+EXTERN void		TclExpandJumpFixupArray _ANSI_ARGS_((
+                            JumpFixupArray *fixupArrayPtr));
+EXTERN void		TclFinalizeAuxDataTypeTable _ANSI_ARGS_((void));
+EXTERN int		TclFindCompiledLocal _ANSI_ARGS_((CONST char *name, 
+        		    int nameChars, int create, int flags,
 			    Proc *procPtr));
-MODULE_SCOPE LiteralEntry * TclLookupLiteralEntry _ANSI_ARGS_((
+EXTERN LiteralEntry *	TclLookupLiteralEntry _ANSI_ARGS_((
 			    Tcl_Interp *interp, Tcl_Obj *objPtr));
-MODULE_SCOPE int	TclFixupForwardJump _ANSI_ARGS_((
+EXTERN int		TclFixupForwardJump _ANSI_ARGS_((
 			    CompileEnv *envPtr, JumpFixup *jumpFixupPtr,
 			    int jumpDist, int distThreshold));
-MODULE_SCOPE void	TclFreeCompileEnv _ANSI_ARGS_((CompileEnv *envPtr));
-MODULE_SCOPE void	TclFreeJumpFixupArray _ANSI_ARGS_((
+EXTERN void		TclFreeCompileEnv _ANSI_ARGS_((CompileEnv *envPtr));
+EXTERN void		TclFreeJumpFixupArray _ANSI_ARGS_((
   			    JumpFixupArray *fixupArrayPtr));
-MODULE_SCOPE void	TclInitAuxDataTypeTable _ANSI_ARGS_((void));
-MODULE_SCOPE void	TclInitByteCodeObj _ANSI_ARGS_((Tcl_Obj *objPtr,
+EXTERN void		TclInitAuxDataTypeTable _ANSI_ARGS_((void));
+EXTERN void		TclInitByteCodeObj _ANSI_ARGS_((Tcl_Obj *objPtr,
 			    CompileEnv *envPtr));
-MODULE_SCOPE void	TclInitCompilation _ANSI_ARGS_((void));
-MODULE_SCOPE void	TclInitCompileEnv _ANSI_ARGS_((Tcl_Interp *interp,
+EXTERN void		TclInitCompilation _ANSI_ARGS_((void));
+EXTERN void		TclInitCompileEnv _ANSI_ARGS_((Tcl_Interp *interp,
 			    CompileEnv *envPtr, char *string,
 			    int numBytes));
-MODULE_SCOPE void	TclInitJumpFixupArray _ANSI_ARGS_((
+EXTERN void		TclInitJumpFixupArray _ANSI_ARGS_((
 			    JumpFixupArray *fixupArrayPtr));
-MODULE_SCOPE void	TclInitLiteralTable _ANSI_ARGS_((
+EXTERN void		TclInitLiteralTable _ANSI_ARGS_((
 			    LiteralTable *tablePtr));
+EXTERN void             TclLogCompilationInfo _ANSI_ARGS_((Tcl_Interp *interp,
+			    CONST char *script, CONST char *command,
+			    int length));
 #ifdef TCL_COMPILE_STATS
-MODULE_SCOPE char *	TclLiteralStats _ANSI_ARGS_((
+EXTERN char *		TclLiteralStats _ANSI_ARGS_((
 			    LiteralTable *tablePtr));
-MODULE_SCOPE int	TclLog2 _ANSI_ARGS_((int value));
+EXTERN int		TclLog2 _ANSI_ARGS_((int value));
 #endif
 #ifdef TCL_COMPILE_DEBUG
-MODULE_SCOPE void	TclPrintByteCodeObj _ANSI_ARGS_((Tcl_Interp *interp,
-			    Tcl_Obj *objPtr));
+EXTERN void		TclPrintByteCodeObj _ANSI_ARGS_((Tcl_Interp *interp,
+		            Tcl_Obj *objPtr));
 #endif
-MODULE_SCOPE int	TclPrintInstruction _ANSI_ARGS_((ByteCode* codePtr,
+EXTERN int		TclPrintInstruction _ANSI_ARGS_((ByteCode* codePtr,
 			    unsigned char *pc));
-MODULE_SCOPE void	TclPrintObject _ANSI_ARGS_((FILE *outFile,
+EXTERN void		TclPrintObject _ANSI_ARGS_((FILE *outFile,
 			    Tcl_Obj *objPtr, int maxChars));
-MODULE_SCOPE void	TclPrintSource _ANSI_ARGS_((FILE *outFile,
+EXTERN void		TclPrintSource _ANSI_ARGS_((FILE *outFile,
 			    CONST char *string, int maxChars));
-MODULE_SCOPE void	TclRegisterAuxDataType _ANSI_ARGS_((AuxDataType *typePtr));
-MODULE_SCOPE int	TclRegisterLiteral _ANSI_ARGS_((CompileEnv *envPtr,
-			    char *bytes, int length, int flags));
-MODULE_SCOPE void	TclReleaseLiteral _ANSI_ARGS_((Tcl_Interp *interp,
+EXTERN void		TclRegisterAuxDataType _ANSI_ARGS_((AuxDataType *typePtr));
+EXTERN int		TclRegisterLiteral _ANSI_ARGS_((CompileEnv *envPtr,
+			    char *bytes, int length, int onHeap));
+EXTERN void		TclReleaseLiteral _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *objPtr));
-MODULE_SCOPE void	TclSetCmdNameObj _ANSI_ARGS_((Tcl_Interp *interp,
+EXTERN void		TclSetCmdNameObj _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *objPtr, Command *cmdPtr));
 #ifdef TCL_COMPILE_DEBUG
-MODULE_SCOPE void	TclVerifyGlobalLiteralTable _ANSI_ARGS_((
+EXTERN void		TclVerifyGlobalLiteralTable _ANSI_ARGS_((
 			    Interp *iPtr));
-MODULE_SCOPE void	TclVerifyLocalLiteralTable _ANSI_ARGS_((
+EXTERN void		TclVerifyLocalLiteralTable _ANSI_ARGS_((
 			    CompileEnv *envPtr));
 #endif
-MODULE_SCOPE int	TclCompileVariableCmd _ANSI_ARGS_((
+EXTERN int		TclCompileVariableCmd _ANSI_ARGS_((
 			    Tcl_Interp *interp, Tcl_Parse *parsePtr, CompileEnv *envPtr));
-MODULE_SCOPE int	TclWordKnownAtCompileTime _ANSI_ARGS_((
-			    Tcl_Token *tokenPtr, Tcl_Obj *valuePtr));
 
 /*
  *----------------------------------------------------------------
- * Macros and flag values used by Tcl bytecode compilation and execution
- * modules inside the Tcl core but not used outside.
+ * Macros used by Tcl bytecode compilation and execution modules
+ * inside the Tcl core but not used outside.
  *----------------------------------------------------------------
  */
 
-#define LITERAL_ON_HEAP    0x01
-#define LITERAL_NS_SCOPE   0x02
 /*
  * Form of TclRegisterLiteral with onHeap == 0.
  * In that case, it is safe to cast away CONSTness, and it
@@ -874,34 +843,7 @@ MODULE_SCOPE int	TclWordKnownAtCompileTime _ANSI_ARGS_((
  */
 
 #define TclRegisterNewLiteral(envPtr, bytes, length) \
-	TclRegisterLiteral(envPtr, (char *)(bytes), length, \
-                /*flags*/ 0)
-
-/*
- * Form of TclRegisterNSLiteral with onHeap == 0.
- * In that case, it is safe to cast away CONSTness, and it
- * is cleanest to do that here, all in one place.
- */
-
-#define TclRegisterNewNSLiteral(envPtr, bytes, length) \
-	TclRegisterLiteral(envPtr, (char *)(bytes), length, \
-                /*flags*/ LITERAL_NS_SCOPE)
-
-
-/*
- * Macro used to manually adjust the stack requirements; used
- * in cases where the stack effect cannot be computed from
- * the opcode and its operands, but is still known at
- * compile time.
- */
-
-#define TclAdjustStackDepth(delta, envPtr) \
-    if ((delta) < 0) {\
-	if((envPtr)->maxStackDepth < (envPtr)->currStackDepth) {\
-	    (envPtr)->maxStackDepth = (envPtr)->currStackDepth;\
-	}\
-    }\
-    (envPtr)->currStackDepth += (delta)
+	TclRegisterLiteral(envPtr, (char *)(bytes), length, /*onHeap*/ 0)
 
 /*
  * Macro used to update the stack requirements.
@@ -916,52 +858,43 @@ MODULE_SCOPE int	TclWordKnownAtCompileTime _ANSI_ARGS_((
     {\
 	int delta = tclInstructionTable[(op)].stackEffect;\
 	if (delta) {\
-	    if (delta == INT_MIN) {\
-		delta = 1 - (i);\
+	    if (delta < 0) {\
+		if((envPtr)->maxStackDepth < (envPtr)->currStackDepth) {\
+		    (envPtr)->maxStackDepth = (envPtr)->currStackDepth;\
+		}\
+		if (delta == INT_MIN) {\
+		    delta = 1 - (i);\
+		}\
 	    }\
-            TclAdjustStackDepth(delta, envPtr);\
-        }\
+	    (envPtr)->currStackDepth += delta;\
+	}\
     }
 
 /*
  * Macro to emit an opcode byte into a CompileEnv's code array.
  * The ANSI C "prototype" for this macro is:
  *
- * MODULE_SCOPE void	TclEmitOpcode _ANSI_ARGS_((unsigned char op,
+ * EXTERN void	TclEmitOpcode _ANSI_ARGS_((unsigned char op,
  *		    CompileEnv *envPtr));
  */
 
 #define TclEmitOpcode(op, envPtr) \
     if ((envPtr)->codeNext == (envPtr)->codeEnd) \
-	TclExpandCodeArray(envPtr); \
+        TclExpandCodeArray(envPtr); \
     *(envPtr)->codeNext++ = (unsigned char) (op);\
     TclUpdateStackReqs(op, 0, envPtr)
 
 /*
- * Macros to emit an integer operand.
- * The ANSI C "prototype" for these macros are:
+ * Macro to emit an integer operand.
+ * The ANSI C "prototype" for this macro is:
  *
- * MODULE_SCOPE void	TclEmitInt1 _ANSI_ARGS_((int i, CompileEnv *envPtr));
- * MODULE_SCOPE void	TclEmitInt4 _ANSI_ARGS_((int i, CompileEnv *envPtr));
+ * EXTERN void	TclEmitInt1 _ANSI_ARGS_((int i, CompileEnv *envPtr));
  */
 
 #define TclEmitInt1(i, envPtr) \
     if ((envPtr)->codeNext == (envPtr)->codeEnd) \
-	TclExpandCodeArray(envPtr); \
+        TclExpandCodeArray(envPtr); \
     *(envPtr)->codeNext++ = (unsigned char) ((unsigned int) (i))
-
-#define TclEmitInt4(i, envPtr) \
-    if (((envPtr)->codeNext + 4) > (envPtr)->codeEnd) { \
-	TclExpandCodeArray(envPtr); \
-    } \
-    *(envPtr)->codeNext++ = \
-	(unsigned char) ((unsigned int) (i) >> 24); \
-    *(envPtr)->codeNext++ = \
-	(unsigned char) ((unsigned int) (i) >> 16); \
-    *(envPtr)->codeNext++ = \
-	(unsigned char) ((unsigned int) (i) >>  8); \
-    *(envPtr)->codeNext++ = \
-	(unsigned char) ((unsigned int) (i)      )
 
 /*
  * Macros to emit an instruction with signed or unsigned integer operands.
@@ -969,16 +902,16 @@ MODULE_SCOPE int	TclWordKnownAtCompileTime _ANSI_ARGS_((
  * byte stored at the lowest address.
  * The ANSI C "prototypes" for these macros are:
  *
- * MODULE_SCOPE void	TclEmitInstInt1 _ANSI_ARGS_((unsigned char op, int i, 
+ * EXTERN void	TclEmitInstInt1 _ANSI_ARGS_((unsigned char op, int i, 
  *		    CompileEnv *envPtr));
- * MODULE_SCOPE void	TclEmitInstInt4 _ANSI_ARGS_((unsigned char op, int i, 
+ * EXTERN void	TclEmitInstInt4 _ANSI_ARGS_((unsigned char op, int i, 
  *		    CompileEnv *envPtr));
  */
 
 
 #define TclEmitInstInt1(op, i, envPtr) \
     if (((envPtr)->codeNext + 2) > (envPtr)->codeEnd) { \
-	TclExpandCodeArray(envPtr); \
+        TclExpandCodeArray(envPtr); \
     } \
     *(envPtr)->codeNext++ = (unsigned char) (op); \
     *(envPtr)->codeNext++ = (unsigned char) ((unsigned int) (i));\
@@ -986,34 +919,34 @@ MODULE_SCOPE int	TclWordKnownAtCompileTime _ANSI_ARGS_((
 
 #define TclEmitInstInt4(op, i, envPtr) \
     if (((envPtr)->codeNext + 5) > (envPtr)->codeEnd) { \
-	TclExpandCodeArray(envPtr); \
+        TclExpandCodeArray(envPtr); \
     } \
     *(envPtr)->codeNext++ = (unsigned char) (op); \
     *(envPtr)->codeNext++ = \
-	(unsigned char) ((unsigned int) (i) >> 24); \
+        (unsigned char) ((unsigned int) (i) >> 24); \
     *(envPtr)->codeNext++ = \
-	(unsigned char) ((unsigned int) (i) >> 16); \
+        (unsigned char) ((unsigned int) (i) >> 16); \
     *(envPtr)->codeNext++ = \
-	(unsigned char) ((unsigned int) (i) >>  8); \
+        (unsigned char) ((unsigned int) (i) >>  8); \
     *(envPtr)->codeNext++ = \
-	(unsigned char) ((unsigned int) (i)      );\
+        (unsigned char) ((unsigned int) (i)      );\
     TclUpdateStackReqs(op, i, envPtr)
-
+    
 /*
  * Macro to push a Tcl object onto the Tcl evaluation stack. It emits the
  * object's one or four byte array index into the CompileEnv's code
  * array. These support, respectively, a maximum of 256 (2**8) and 2**32
  * objects in a CompileEnv. The ANSI C "prototype" for this macro is:
  *
- * MODULE_SCOPE void	TclEmitPush _ANSI_ARGS_((int objIndex, CompileEnv *envPtr));
+ * EXTERN void	TclEmitPush _ANSI_ARGS_((int objIndex, CompileEnv *envPtr));
  */
 
 #define TclEmitPush(objIndex, envPtr) \
     {\
-	register int objIndexCopy = (objIndex);\
-	if (objIndexCopy <= 255) { \
+        register int objIndexCopy = (objIndex);\
+        if (objIndexCopy <= 255) { \
 	    TclEmitInstInt1(INST_PUSH1, objIndexCopy, (envPtr)); \
-	} else { \
+        } else { \
 	    TclEmitInstInt4(INST_PUSH4, objIndexCopy, (envPtr)); \
 	}\
     }
@@ -1023,13 +956,13 @@ MODULE_SCOPE int	TclWordKnownAtCompileTime _ANSI_ARGS_((
  * The two variants depend on the number of bytes. The ANSI C "prototypes"
  * for these macros are:
  *
- * MODULE_SCOPE void	TclStoreInt1AtPtr _ANSI_ARGS_((int i, unsigned char *p));
- * MODULE_SCOPE void	TclStoreInt4AtPtr _ANSI_ARGS_((int i, unsigned char *p));
+ * EXTERN void	TclStoreInt1AtPtr _ANSI_ARGS_((int i, unsigned char *p));
+ * EXTERN void	TclStoreInt4AtPtr _ANSI_ARGS_((int i, unsigned char *p));
  */
-
+    
 #define TclStoreInt1AtPtr(i, p) \
     *(p)   = (unsigned char) ((unsigned int) (i))
-
+    
 #define TclStoreInt4AtPtr(i, p) \
     *(p)   = (unsigned char) ((unsigned int) (i) >> 24); \
     *(p+1) = (unsigned char) ((unsigned int) (i) >> 16); \
@@ -1041,9 +974,9 @@ MODULE_SCOPE int	TclWordKnownAtCompileTime _ANSI_ARGS_((
  * and a (signed or unsigned) int operand. The ANSI C "prototypes" for
  * these macros are:
  *
- * MODULE_SCOPE void	TclUpdateInstInt1AtPc _ANSI_ARGS_((unsigned char op, int i,
+ * EXTERN void	TclUpdateInstInt1AtPc _ANSI_ARGS_((unsigned char op, int i,
  *		    unsigned char *pc));
- * MODULE_SCOPE void	TclUpdateInstInt4AtPc _ANSI_ARGS_((unsigned char op, int i,
+ * EXTERN void	TclUpdateInstInt4AtPc _ANSI_ARGS_((unsigned char op, int i,
  *		    unsigned char *pc));
  */
 
@@ -1060,7 +993,7 @@ MODULE_SCOPE int	TclWordKnownAtCompileTime _ANSI_ARGS_((
  * code-generation position in the bytecode being created (the most
  * common case). The ANSI C "prototypes" for this macro is:
  *
- * MODULE_SCOPE int	TclFixupForwardJumpToHere _ANSI_ARGS_((CompileEnv *envPtr,
+ * EXTERN int	TclFixupForwardJumpToHere _ANSI_ARGS_((CompileEnv *envPtr,
  *		    JumpFixup *fixupPtr, int threshold));
  */
 
@@ -1068,17 +1001,17 @@ MODULE_SCOPE int	TclWordKnownAtCompileTime _ANSI_ARGS_((
     TclFixupForwardJump((envPtr), (fixupPtr), \
 	    (envPtr)->codeNext-(envPtr)->codeStart-(fixupPtr)->codeOffset, \
 	    (threshold))
-
+    
 /*
  * Macros to get a signed integer (GET_INT{1,2}) or an unsigned int
  * (GET_UINT{1,2}) from a pointer. There are two variants for each
  * return type that depend on the number of bytes fetched.
  * The ANSI C "prototypes" for these macros are:
  *
- * MODULE_SCOPE int		TclGetInt1AtPtr  _ANSI_ARGS_((unsigned char *p));
- * MODULE_SCOPE int		TclGetInt4AtPtr  _ANSI_ARGS_((unsigned char *p));
- * MODULE_SCOPE unsigned int	TclGetUInt1AtPtr _ANSI_ARGS_((unsigned char *p));
- * MODULE_SCOPE unsigned int	TclGetUInt4AtPtr _ANSI_ARGS_((unsigned char *p));
+ * EXTERN int	        TclGetInt1AtPtr  _ANSI_ARGS_((unsigned char *p));
+ * EXTERN int	        TclGetInt4AtPtr  _ANSI_ARGS_((unsigned char *p));
+ * EXTERN unsigned int	TclGetUInt1AtPtr _ANSI_ARGS_((unsigned char *p));
+ * EXTERN unsigned int	TclGetUInt4AtPtr _ANSI_ARGS_((unsigned char *p));
  */
 
 /*
@@ -1102,25 +1035,28 @@ MODULE_SCOPE int	TclWordKnownAtCompileTime _ANSI_ARGS_((
 #endif
 
 #define TclGetInt4AtPtr(p) (((int) TclGetInt1AtPtr(p) << 24) | \
-					    (*((p)+1) << 16) | \
+		                  	    (*((p)+1) << 16) | \
 				  	    (*((p)+2) <<  8) | \
 				  	    (*((p)+3)))
 
 #define TclGetUInt1AtPtr(p) ((unsigned int) *(p))
 #define TclGetUInt4AtPtr(p) ((unsigned int) (*(p)     << 24) | \
-					    (*((p)+1) << 16) | \
-					    (*((p)+2) <<  8) | \
-					    (*((p)+3)))
+		                            (*((p)+1) << 16) | \
+				            (*((p)+2) <<  8) | \
+				            (*((p)+3)))
 
 /*
  * Macros used to compute the minimum and maximum of two integers.
  * The ANSI C "prototypes" for these macros are:
  *
- * MODULE_SCOPE int  TclMin _ANSI_ARGS_((int i, int j));
- * MODULE_SCOPE int  TclMax _ANSI_ARGS_((int i, int j));
+ * EXTERN int  TclMin _ANSI_ARGS_((int i, int j));
+ * EXTERN int  TclMax _ANSI_ARGS_((int i, int j));
  */
 
 #define TclMin(i, j)   ((((int) i) < ((int) j))? (i) : (j))
 #define TclMax(i, j)   ((((int) i) > ((int) j))? (i) : (j))
+
+# undef TCL_STORAGE_CLASS
+# define TCL_STORAGE_CLASS DLLIMPORT
 
 #endif /* _TCLCOMPILATION */

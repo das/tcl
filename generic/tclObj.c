@@ -1,4 +1,4 @@
-/*
+/* 
  * tclObj.c --
  *
  *	This file contains Tcl object-related procedures that are used by
@@ -16,13 +16,14 @@
 
 #include "tclInt.h"
 #include "tclCompile.h"
+#include "tclPort.h"
 
 /*
  * Table of all object types.
  */
 
 static Tcl_HashTable typeTable;
-static int typeTableInitialized = 0;	/* 0 means not yet initialized. */
+static int typeTableInitialized = 0;    /* 0 means not yet initialized. */
 TCL_DECLARE_MUTEX(tableMutex)
 
 /*
@@ -49,41 +50,6 @@ Tcl_Mutex tclObjMutex;
 char tclEmptyString = '\0';
 char *tclEmptyStringRep = &tclEmptyString;
 
-#if defined(TCL_MEM_DEBUG) && defined(TCL_THREADS)
-/*
- * Thread local table that is used to check that a Tcl_Obj
- * was not allocated by some other thread.
- */
-typedef struct ThreadSpecificData {
-    Tcl_HashTable *objThreadMap;
-} ThreadSpecificData;
-
-static Tcl_ThreadDataKey dataKey;
-#endif /* TCL_MEM_DEBUG && TCL_THREADS */
-
-/*
- * Nested Tcl_Obj deletion management support.  Note that the code
- * that implements all this is written as macros in tclInt.h
- */
-
-#ifdef TCL_THREADS
-
-/*
- * Lookup key for the thread-local data used in the implementation in
- * tclInt.h.
- */
-Tcl_ThreadDataKey tclPendingObjDataKey;
-
-#else
-
-/*
- * Declaration of the singleton structure referenced in the
- * implementation in tclInt.h.
- */
-PendingObjData tclPendingObjData = { 0, NULL };
-
-#endif
-
 /*
  * Prototypes for procedures defined later in this file:
  */
@@ -94,14 +60,11 @@ static int		SetDoubleFromAny _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *objPtr));
 static int		SetIntFromAny _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *objPtr));
-static int		SetIntOrWideFromAny _ANSI_ARGS_((Tcl_Interp* interp,
-							 Tcl_Obj *objPtr));
 static void		UpdateStringOfBoolean _ANSI_ARGS_((Tcl_Obj *objPtr));
 static void		UpdateStringOfDouble _ANSI_ARGS_((Tcl_Obj *objPtr));
 static void		UpdateStringOfInt _ANSI_ARGS_((Tcl_Obj *objPtr));
 static int		SetWideIntFromAny _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *objPtr));
-
 #ifndef TCL_WIDE_INT_IS_LONG
 static void		UpdateStringOfWideInt _ANSI_ARGS_((Tcl_Obj *objPtr));
 #endif
@@ -141,7 +104,7 @@ static int		SetCmdNameFromAny _ANSI_ARGS_((Tcl_Interp *interp,
 
 Tcl_ObjType tclBooleanType = {
     "boolean",				/* name */
-    (Tcl_FreeInternalRepProc *) NULL,	/* freeIntRepProc */
+    (Tcl_FreeInternalRepProc *) NULL,   /* freeIntRepProc */
     (Tcl_DupInternalRepProc *) NULL,	/* dupIntRepProc */
     UpdateStringOfBoolean,		/* updateStringProc */
     SetBooleanFromAny			/* setFromAnyProc */
@@ -149,7 +112,7 @@ Tcl_ObjType tclBooleanType = {
 
 Tcl_ObjType tclDoubleType = {
     "double",				/* name */
-    (Tcl_FreeInternalRepProc *) NULL,	/* freeIntRepProc */
+    (Tcl_FreeInternalRepProc *) NULL,   /* freeIntRepProc */
     (Tcl_DupInternalRepProc *) NULL,	/* dupIntRepProc */
     UpdateStringOfDouble,		/* updateStringProc */
     SetDoubleFromAny			/* setFromAnyProc */
@@ -157,7 +120,7 @@ Tcl_ObjType tclDoubleType = {
 
 Tcl_ObjType tclIntType = {
     "int",				/* name */
-    (Tcl_FreeInternalRepProc *) NULL,	/* freeIntRepProc */
+    (Tcl_FreeInternalRepProc *) NULL,   /* freeIntRepProc */
     (Tcl_DupInternalRepProc *) NULL,	/* dupIntRepProc */
     UpdateStringOfInt,			/* updateStringProc */
     SetIntFromAny			/* setFromAnyProc */
@@ -165,7 +128,7 @@ Tcl_ObjType tclIntType = {
 
 Tcl_ObjType tclWideIntType = {
     "wideInt",				/* name */
-    (Tcl_FreeInternalRepProc *) NULL,	/* freeIntRepProc */
+    (Tcl_FreeInternalRepProc *) NULL,   /* freeIntRepProc */
     (Tcl_DupInternalRepProc *) NULL,	/* dupIntRepProc */
 #ifdef TCL_WIDE_INT_IS_LONG
     UpdateStringOfInt,			/* updateStringProc */
@@ -193,13 +156,6 @@ Tcl_HashKeyType tclObjHashKeyType = {
  * type cache the Command pointer that results from looking up command names
  * in the command hashtable. Such objects appear as the zeroth ("command
  * name") argument in a Tcl command.
- *
- * NOTE: the ResolvedCmdName that gets cached is stored in the
- * twoPtrValue.ptr1 field, and the twoPtrValue.ptr2 field is unused.
- * You might think you could use the simpler otherValuePtr field to
- * store the single ResolvedCmdName pointer, but DO NOT DO THIS.  It
- * seems that some extensions use the second internal pointer field
- * of the twoPtrValue field for their own purposes.
  */
 
 static Tcl_ObjType tclCmdNameType = {
@@ -253,7 +209,7 @@ typedef struct ResolvedCmdName {
  * TclInitObjectSubsystem --
  *
  *	This procedure is invoked to perform once-only initialization of
- *	the type table. It also registers the object types defined in
+ *	the type table. It also registers the object types defined in 
  *	this file.
  *
  * Results:
@@ -261,7 +217,7 @@ typedef struct ResolvedCmdName {
  *
  * Side effects:
  *	Initializes the table of defined object types "typeTable" with
- *	builtin object types defined in this file.
+ *	builtin object types defined in this file.  
  *
  *-------------------------------------------------------------------------
  */
@@ -288,11 +244,8 @@ TclInitObjSubsystem()
     Tcl_RegisterObjType(&tclArraySearchType);
     Tcl_RegisterObjType(&tclIndexType);
     Tcl_RegisterObjType(&tclNsNameType);
-    Tcl_RegisterObjType(&tclEnsembleCmdType);
     Tcl_RegisterObjType(&tclCmdNameType);
-    Tcl_RegisterObjType(&tclLocalVarNameType);
-    Tcl_RegisterObjType(&tclRegexpType);
-    Tcl_RegisterObjType(&tclLevelReferenceType);
+    Tcl_RegisterObjType(&tclTokensType);
 
 #ifdef TCL_COMPILE_STATS
     Tcl_MutexLock(&tclObjMutex);
@@ -300,7 +253,7 @@ TclInitObjSubsystem()
     tclObjsFreed = 0;
     {
 	int i;
-	for (i=0 ; i<TCL_MAX_SHARED_OBJ_STATS ; i++) {
+	for (i = 0;  i < TCL_MAX_SHARED_OBJ_STATS;  i++) {
 	    tclObjsShared[i] = 0;
 	}
     }
@@ -331,8 +284,8 @@ TclFinalizeCompExecEnv()
 {
     Tcl_MutexLock(&tableMutex);
     if (typeTableInitialized) {
-	Tcl_DeleteHashTable(&typeTable);
-	typeTableInitialized = 0;
+        Tcl_DeleteHashTable(&typeTable);
+        typeTableInitialized = 0;
     }
     Tcl_MutexUnlock(&tableMutex);
     Tcl_MutexLock(&tclObjMutex);
@@ -377,7 +330,7 @@ Tcl_RegisterObjType(typePtr)
     Tcl_MutexLock(&tableMutex);
     hPtr = Tcl_FindHashEntry(&typeTable, typePtr->name);
     if (hPtr != (Tcl_HashEntry *) NULL) {
-	Tcl_DeleteHashEntry(hPtr);
+        Tcl_DeleteHashEntry(hPtr);
     }
 
     /*
@@ -427,7 +380,7 @@ Tcl_AppendAllObjTypes(interp, objPtr)
     Tcl_HashSearch search;
     Tcl_ObjType *typePtr;
     int result;
-
+ 
     /*
      * This code assumes that types names do not contain embedded NULLs.
      */
@@ -435,9 +388,9 @@ Tcl_AppendAllObjTypes(interp, objPtr)
     Tcl_MutexLock(&tableMutex);
     for (hPtr = Tcl_FirstHashEntry(&typeTable, &search);
 	    hPtr != NULL;  hPtr = Tcl_NextHashEntry(&search)) {
-	typePtr = (Tcl_ObjType *) Tcl_GetHashValue(hPtr);
+        typePtr = (Tcl_ObjType *) Tcl_GetHashValue(hPtr);
 	result = Tcl_ListObjAppendElement(interp, objPtr,
-		Tcl_NewStringObj(typePtr->name, -1));
+	        Tcl_NewStringObj(typePtr->name, -1));
 	if (result == TCL_ERROR) {
 	    Tcl_MutexUnlock(&tableMutex);
 	    return result;
@@ -475,7 +428,7 @@ Tcl_GetObjType(typeName)
     Tcl_MutexLock(&tableMutex);
     hPtr = Tcl_FindHashEntry(&typeTable, typeName);
     if (hPtr != (Tcl_HashEntry *) NULL) {
-	typePtr = (Tcl_ObjType *) Tcl_GetHashValue(hPtr);
+        typePtr = (Tcl_ObjType *) Tcl_GetHashValue(hPtr);
 	Tcl_MutexUnlock(&tableMutex);
 	return typePtr;
     }
@@ -519,64 +472,8 @@ Tcl_ConvertToType(interp, objPtr, typePtr)
      * representation.
      */
 
-    if (typePtr->setFromAnyProc == NULL) {
-	Tcl_Panic("may not convert object to type %s", typePtr->name);
-    }
-
     return typePtr->setFromAnyProc(interp, objPtr);
 }
-
-/*
- *----------------------------------------------------------------------
- *
- * TclDbInitNewObj --
- *
- *	Called via the TclNewObj or TclDbNewObj macros when TCL_MEM_DEBUG
- *	is enabled. This function will initialize the members of a
- *	Tcl_Obj struct. Initilization would be done inline via the
- *	TclNewObj macro when compiling without TCL_MEM_DEBUG.
- *
- * Results:
- *	The Tcl_Obj struct members are initialized.
- *
- * Side effects:
- *	None.
- *----------------------------------------------------------------------
- */
-#ifdef TCL_MEM_DEBUG
-void TclDbInitNewObj(objPtr)
-    register Tcl_Obj *objPtr;
-{
-    objPtr->refCount = 0;
-    objPtr->bytes = tclEmptyStringRep;
-    objPtr->length = 0;
-    objPtr->typePtr = NULL;
-# ifdef TCL_THREADS
-    /*
-     * Add entry to a thread local map used to check if a Tcl_Obj
-     * was allocated by the currently executing thread.
-     */
-    if (!TclInExit()) {
-	Tcl_HashEntry *hPtr;
-	Tcl_HashTable *tablePtr;
-	int new;
-	ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
-
-	if (tsdPtr->objThreadMap == NULL) {
-	    tsdPtr->objThreadMap = (Tcl_HashTable *)
-		    ckalloc(sizeof(Tcl_HashTable));
-	    Tcl_InitHashTable(tsdPtr->objThreadMap, TCL_ONE_WORD_KEYS);
-	}
-	tablePtr = tsdPtr->objThreadMap;
-	hPtr = Tcl_CreateHashEntry(tablePtr, (char *) objPtr, &new);
-	if (!new) {
-	    Tcl_Panic("expected to create new entry for object map");
-	}
-	Tcl_SetHashValue(hPtr, NULL);
-    }
-# endif /* TCL_THREADS */
-}
-#endif /* TCL_MEM_DEBUG */
 
 /*
  *----------------------------------------------------------------------
@@ -766,68 +663,46 @@ TclAllocateFreeObjects()
  *----------------------------------------------------------------------
  */
 
-#ifdef TCL_MEM_DEBUG
 void
 TclFreeObj(objPtr)
     register Tcl_Obj *objPtr;	/* The object to be freed. */
 {
     register Tcl_ObjType *typePtr = objPtr->typePtr;
+    
+#ifdef TCL_MEM_DEBUG
+    if ((objPtr)->refCount < -1) {
+	panic("Reference count for %lx was negative", objPtr);
+    }
+#endif /* TCL_MEM_DEBUG */
+
+    if ((typePtr != NULL) && (typePtr->freeIntRepProc != NULL)) {
+	typePtr->freeIntRepProc(objPtr);
+    }
+    Tcl_InvalidateStringRep(objPtr);
+
     /*
-     * This macro declares a variable, so must come here...
+     * If debugging Tcl's memory usage, deallocate the object using ckfree.
+     * Otherwise, deallocate it by adding it onto the list of free
+     * Tcl_Obj structs we maintain.
      */
-    TclObjInitDeletionContext(context);
 
-    if (objPtr->refCount < -1) {
-	Tcl_Panic("Reference count for %lx was negative", objPtr);
-    }
+#if defined(TCL_MEM_DEBUG) || defined(PURIFY)
+    Tcl_MutexLock(&tclObjMutex);
+    ckfree((char *) objPtr);
+    Tcl_MutexUnlock(&tclObjMutex);
+#elif defined(TCL_THREADS) && defined(USE_THREAD_ALLOC) 
+    TclThreadFreeObj(objPtr); 
+#else 
+    Tcl_MutexLock(&tclObjMutex);
+    objPtr->internalRep.otherValuePtr = (VOID *) tclFreeObjList;
+    tclFreeObjList = objPtr;
+    Tcl_MutexUnlock(&tclObjMutex);
+#endif /* TCL_MEM_DEBUG */
 
-    if (TclObjDeletePending(context)) {
-	TclPushObjToDelete(context, objPtr);
-    } else {
-	if ((typePtr != NULL) && (typePtr->freeIntRepProc != NULL)) {
-	    TclObjDeletionLock(context);
-	    typePtr->freeIntRepProc(objPtr);
-	    TclObjDeletionUnlock(context);
-	}
-	Tcl_InvalidateStringRep(objPtr);
-
-	Tcl_MutexLock(&tclObjMutex);
-	ckfree((char *) objPtr);
-	Tcl_MutexUnlock(&tclObjMutex);
 #ifdef TCL_COMPILE_STATS
-	tclObjsFreed++;
+    tclObjsFreed++;
 #endif /* TCL_COMPILE_STATS */
-	TclObjDeletionLock(context);
-	while (TclObjOnStack(context)) {
-	    Tcl_Obj *objToFree;
-
-	    TclPopObjToDelete(context,objToFree);
-	    TclFreeIntRep(objToFree);
-
-	    Tcl_MutexLock(&tclObjMutex);
-	    ckfree((char *) objToFree);
-	    Tcl_MutexUnlock(&tclObjMutex);
-#ifdef TCL_COMPILE_STATS
-	    tclObjsFreed++;
-#endif /* TCL_COMPILE_STATS */
-	}
-	TclObjDeletionUnlock(context);
-    }
 }
-#else /* TCL_MEM_DEBUG */
-
-void
-TclFreeObj(objPtr)
-    register Tcl_Obj *objPtr;	/* The object to be freed. */
-{
-    TclObjInitDeletionContext(context);
-    if (TclObjDeletePending(context)) {
-	TclPushObjToDelete(context, objPtr);
-    } else {
-	TclFreeObjMacro(context, objPtr);
-    }
-}
-#endif
 
 /*
  *----------------------------------------------------------------------
@@ -849,7 +724,7 @@ TclFreeObj(objPtr)
  *	     a copy; otherwise the new internal rep is marked invalid.
  *
  * Side effects:
- *	What constitutes "copying" the internal representation depends on
+ *      What constitutes "copying" the internal representation depends on
  *	the type. For example, if the argument object is a list,
  *	the element objects it points to will not actually be copied but
  *	will be shared with the duplicate list. That is, the ref counts of
@@ -872,7 +747,7 @@ Tcl_DuplicateObj(objPtr)
     } else if (objPtr->bytes != tclEmptyStringRep) {
 	TclInitStringRep(dupPtr, objPtr->bytes, objPtr->length);
     }
-
+    
     if (typePtr != NULL) {
 	if (typePtr->dupIntRepProc == NULL) {
 	    dupPtr->internalRep = objPtr->internalRep;
@@ -915,7 +790,7 @@ Tcl_GetString(objPtr)
     }
 
     if (objPtr->typePtr->updateStringProc == NULL) {
-	Tcl_Panic("UpdateStringProc should not be invoked for type %s",
+	panic("UpdateStringProc should not be invoked for type %s",
 		objPtr->typePtr->name);
     }
     (*objPtr->typePtr->updateStringProc)(objPtr);
@@ -955,7 +830,7 @@ Tcl_GetStringFromObj(objPtr, lengthPtr)
 {
     if (objPtr->bytes == NULL) {
 	if (objPtr->typePtr->updateStringProc == NULL) {
-	    Tcl_Panic("UpdateStringProc should not be invoked for type %s",
+	    panic("UpdateStringProc should not be invoked for type %s",
 		    objPtr->typePtr->name);
 	}
 	(*objPtr->typePtr->updateStringProc)(objPtr);
@@ -973,7 +848,7 @@ Tcl_GetStringFromObj(objPtr, lengthPtr)
  * Tcl_InvalidateStringRep --
  *
  *	This procedure is called to invalidate an object's string
- *	representation.
+ *	representation. 
  *
  * Results:
  *	None.
@@ -987,7 +862,7 @@ Tcl_GetStringFromObj(objPtr, lengthPtr)
 
 void
 Tcl_InvalidateStringRep(objPtr)
-    register Tcl_Obj *objPtr;	/* Object whose string rep byte pointer
+     register Tcl_Obj *objPtr;	/* Object whose string rep byte pointer
 				 * should be freed. */
 {
     if (objPtr->bytes != NULL) {
@@ -1041,7 +916,7 @@ Tcl_NewBooleanObj(boolValue)
 
     TclNewObj(objPtr);
     objPtr->bytes = NULL;
-
+    
     objPtr->internalRep.longValue = (boolValue? 1 : 0);
     objPtr->typePtr = &tclBooleanType;
     return objPtr;
@@ -1088,7 +963,7 @@ Tcl_DbNewBooleanObj(boolValue, file, line)
 
     TclDbNewObj(objPtr, file, line);
     objPtr->bytes = NULL;
-
+    
     objPtr->internalRep.longValue = (boolValue? 1 : 0);
     objPtr->typePtr = &tclBooleanType;
     return objPtr;
@@ -1131,11 +1006,16 @@ Tcl_SetBooleanObj(objPtr, boolValue)
     register Tcl_Obj *objPtr;	/* Object whose internal rep to init. */
     register int boolValue;	/* Boolean used to set object's value. */
 {
-    if (Tcl_IsShared(objPtr)) {
-	Tcl_Panic("Tcl_SetBooleanObj called with shared object");
-    }
+    register Tcl_ObjType *oldTypePtr = objPtr->typePtr;
 
-    TclFreeIntRep(objPtr);
+    if (Tcl_IsShared(objPtr)) {
+	panic("Tcl_SetBooleanObj called with shared object");
+    }
+    
+    if ((oldTypePtr != NULL) && (oldTypePtr->freeIntRepProc != NULL)) {
+	oldTypePtr->freeIntRepProc(objPtr);
+    }
+    
     objPtr->internalRep.longValue = (boolValue? 1 : 0);
     objPtr->typePtr = &tclBooleanType;
     Tcl_InvalidateStringRep(objPtr);
@@ -1157,7 +1037,7 @@ Tcl_SetBooleanObj(objPtr, boolValue)
  *
  * Side effects:
  *	If the object is not already a boolean, the conversion will free
- *	any old internal representation.
+ *	any old internal representation. 
  *
  *----------------------------------------------------------------------
  */
@@ -1207,133 +1087,89 @@ SetBooleanFromAny(interp, objPtr)
     Tcl_Interp *interp;		/* Used for error reporting if not NULL. */
     register Tcl_Obj *objPtr;	/* The object to convert. */
 {
+    Tcl_ObjType *oldTypePtr = objPtr->typePtr;
     char *string, *end;
     register char c;
-    char lowerCase[8];
+    char lowerCase[10];
     int newBool, length;
     register int i;
 
     /*
      * Get the string representation. Make it up-to-date if necessary.
      */
-
+    
     string = Tcl_GetStringFromObj(objPtr, &length);
 
     /*
      * Use the obvious shortcuts for numerical values; if objPtr is not
      * of numerical type, parse its string rep.
      */
-
+	
     if (objPtr->typePtr == &tclIntType) {
 	newBool = (objPtr->internalRep.longValue != 0);
-	goto goodBoolean;
     } else if (objPtr->typePtr == &tclDoubleType) {
 	newBool = (objPtr->internalRep.doubleValue != 0.0);
-	goto goodBoolean;
     } else if (objPtr->typePtr == &tclWideIntType) {
-	newBool = (objPtr->internalRep.wideValue != 0);
-	goto goodBoolean;
-    }
-
-    /*
-     * Parse the string as a boolean. We use an implementation here
-     * that doesn't report errors in interp if interp is NULL.
-     *
-     * First we define a macro to factor out the to-lower-case code.
-     * The len parameter is the maximum number of characters to copy
-     * to allow the following comparisons to proceed correctly,
-     * including (properly) the trailing \0 character.  This is done
-     * in multiple places so the number of copying steps is minimised
-     * and only performed when needed.
-     */
-
-#define SBFA_TOLOWER(len)					\
-	for (i=0 ; i<(len) && i<length ; i++) {			\
-	    c = string[i];					\
-	    if (c & 0x80) {					\
-		goto badBoolean;				\
-	    }							\
-	    if (Tcl_UniCharIsUpper(UCHAR(c))) {			\
-		c = (char) Tcl_UniCharToLower(UCHAR(c));	\
-	    }							\
-	    lowerCase[i] = c;					\
-	}							\
-	lowerCase[i] = 0;
-
-    switch (string[0]) {
-    case 'y': case 'Y':
+#ifdef TCL_WIDE_INT_IS_LONG
+	newBool = (objPtr->internalRep.longValue != 0);
+#else /* !TCL_WIDE_INT_IS_LONG */
+	newBool = (objPtr->internalRep.wideValue != Tcl_LongAsWide(0));
+#endif /* TCL_WIDE_INT_IS_LONG */
+    } else {
 	/*
 	 * Copy the string converting its characters to lower case.
-	 * This also weeds out international characters so we can
-	 * safely operate on single bytes.
 	 */
-
-	SBFA_TOLOWER(4);
-
+	
+	for (i = 0;  (i < 9) && (i < length);  i++) {
+	    c = string[i];
+	    /*
+	     * Weed out international characters so we can safely operate
+	     * on single bytes.
+	     */
+	    
+	    if (c & 0x80) {
+		goto badBoolean;
+	    }
+	    if (Tcl_UniCharIsUpper(UCHAR(c))) {
+		c = (char) Tcl_UniCharToLower(UCHAR(c));
+	    }
+	    lowerCase[i] = c;
+	}
+	lowerCase[i] = 0;
+	
 	/*
-	 * Checking the 'y' is redundant, but makes the code clearer.
+	 * Parse the string as a boolean. We use an implementation here that
+	 * doesn't report errors in interp if interp is NULL.
 	 */
-	if (strncmp(lowerCase, "yes", (size_t) length) == 0) {
-	    newBool = 1;
-	    goto goodBoolean;
-	}
-	goto badBoolean;
-    case 'n': case 'N':
-	SBFA_TOLOWER(3);
-	if (strncmp(lowerCase, "no", (size_t) length) == 0) {
+	
+	c = lowerCase[0];
+	if ((c == '0') && (lowerCase[1] == '\0')) {
 	    newBool = 0;
-	    goto goodBoolean;
-	}
-	goto badBoolean;
-    case 't': case 'T':
-	SBFA_TOLOWER(5);
-	if (strncmp(lowerCase, "true", (size_t) length) == 0) {
+	} else if ((c == '1') && (lowerCase[1] == '\0')) {
 	    newBool = 1;
-	    goto goodBoolean;
-	}
-	goto badBoolean;
-    case 'f': case 'F':
-	SBFA_TOLOWER(6);
-	if (strncmp(lowerCase, "false", (size_t) length) == 0) {
-	    newBool = 0;
-	    goto goodBoolean;
-	}
-	goto badBoolean;
-    case 'o': case 'O':
-	if (length < 2) {
-	    goto badBoolean;
-	}
-	SBFA_TOLOWER(4);
-	if (strncmp(lowerCase, "on", (size_t) length) == 0) {
+	} else if ((c == 'y') && (strncmp(lowerCase, "yes", (size_t) length) == 0)) {
 	    newBool = 1;
-	    goto goodBoolean;
-	} else if (strncmp(lowerCase, "off", (size_t) length) == 0) {
+	} else if ((c == 'n') && (strncmp(lowerCase, "no", (size_t) length) == 0)) {
 	    newBool = 0;
-	    goto goodBoolean;
-	}
-	goto badBoolean;
-#undef SBFA_TOLOWER
-    case '0':
-	if (string[1] == '\0') {
-	    newBool = 0;
-	    goto goodBoolean;
-	}
-	goto parseNumeric;
-    case '1':
-	if (string[1] == '\0') {
+	} else if ((c == 't') && (strncmp(lowerCase, "true", (size_t) length) == 0)) {
 	    newBool = 1;
-	    goto goodBoolean;
-	}
-	/* deliberate fall-through */
-    default:
-    parseNumeric:
-	{
+	} else if ((c == 'f') && (strncmp(lowerCase, "false", (size_t) length) == 0)) {
+	    newBool = 0;
+	} else if ((c == 'o') && (length >= 2)) {
+	    if (strncmp(lowerCase, "on", (size_t) length) == 0) {
+		newBool = 1;
+	    } else if (strncmp(lowerCase, "off", (size_t) length) == 0) {
+		newBool = 0;
+	    } else {
+		goto badBoolean;
+	    }
+	} else {
 	    double dbl;
 	    /*
-	     * Boolean values can be extracted from ints or doubles.
-	     * Note that we don't use strtoul or strtoull here because
-	     * we don't care about what the value is, just whether it
-	     * is equal to zero or not.
+	     * Boolean values can be extracted from ints or doubles.  Note
+	     * that we don't use strtoul or strtoull here because we don't
+	     * care about what the value is, just whether it is equal to
+	     * zero or not.
 	     */
 #ifdef TCL_WIDE_INT_IS_LONG
 	    newBool = strtol(string, &end, 0);
@@ -1343,7 +1179,7 @@ SetBooleanFromAny(interp, objPtr)
 		 * the int.
 		 */
 		while ((end < (string+length))
-			&& isspace(UCHAR(*end))) { /* INTL: ISO only */
+		       && isspace(UCHAR(*end))) { /* INTL: ISO only */
 		    end++;
 		}
 		if (end == (string+length)) {
@@ -1359,7 +1195,7 @@ SetBooleanFromAny(interp, objPtr)
 		 * the wide int.
 		 */
 		while ((end < (string+length))
-			&& isspace(UCHAR(*end))) { /* INTL: ISO only */
+		       && isspace(UCHAR(*end))) { /* INTL: ISO only */
 		    end++;
 		}
 		if (end == (string+length)) {
@@ -1369,28 +1205,25 @@ SetBooleanFromAny(interp, objPtr)
 	    }
 #endif /* TCL_WIDE_INT_IS_LONG */
 	    /*
-	     * Still might be a string containing the characters
-	     * representing an int or double that wasn't handled
-	     * above. This would be a string like "27" or "1.0" that
-	     * is non-zero and not "1". Such a string would result in
-	     * the boolean value true. We try converting to double. If
-	     * that succeeds and the resulting double is non-zero, we
-	     * have a "true".  Note that numbers can't have embedded
-	     * NULLs.
+	     * Still might be a string containing the characters representing an
+	     * int or double that wasn't handled above. This would be a string
+	     * like "27" or "1.0" that is non-zero and not "1". Such a string
+	     * would result in the boolean value true. We try converting to
+	     * double. If that succeeds and the resulting double is non-zero, we
+	     * have a "true". Note that numbers can't have embedded NULLs.
 	     */
-
+	    
 	    dbl = strtod(string, &end);
 	    if (end == string) {
 		goto badBoolean;
 	    }
-
+	    
 	    /*
-	     * Make sure the string has no garbage after the end of
-	     * the double.
+	     * Make sure the string has no garbage after the end of the double.
 	     */
-
+	    
 	    while ((end < (string+length))
-		    && isspace(UCHAR(*end))) { /* INTL: ISO only */
+		   && isspace(UCHAR(*end))) { /* INTL: ISO only */
 		end++;
 	    }
 	    if (end != (string+length)) {
@@ -1407,18 +1240,25 @@ SetBooleanFromAny(interp, objPtr)
      */
 
     goodBoolean:
-    TclFreeIntRep(objPtr);
+    if ((oldTypePtr != NULL) &&	(oldTypePtr->freeIntRepProc != NULL)) {
+	oldTypePtr->freeIntRepProc(objPtr);
+    }
+
     objPtr->internalRep.longValue = newBool;
     objPtr->typePtr = &tclBooleanType;
     return TCL_OK;
 
     badBoolean:
     if (interp != NULL) {
-	Tcl_Obj *msg =
-		Tcl_NewStringObj("expected boolean value but got \"", -1);
-	TclAppendLimitedToObj(msg, string, length, 50, "");
-	Tcl_AppendToObj(msg, "\"", -1);
-	Tcl_SetObjResult(interp, msg);
+	/*
+	 * Must copy string before resetting the result in case a caller
+	 * is trying to convert the interpreter's result to a boolean.
+	 */
+	
+	char buf[100];
+	sprintf(buf, "expected boolean value but got \"%.50s\"", string);
+	Tcl_ResetResult(interp);
+	Tcl_AppendToObj(Tcl_GetObjResult(interp), buf, -1);
     }
     return TCL_ERROR;
 }
@@ -1430,7 +1270,7 @@ SetBooleanFromAny(interp, objPtr)
  *
  *	Update the string representation for a boolean object.
  *	Note: This procedure does not free an existing old string rep
- *	so storage will be lost if this has not already been done.
+ *	so storage will be lost if this has not already been done. 
  *
  * Results:
  *	None.
@@ -1447,7 +1287,7 @@ UpdateStringOfBoolean(objPtr)
     register Tcl_Obj *objPtr;	/* Int object whose string rep to update. */
 {
     char *s = ckalloc((unsigned) 2);
-
+    
     s[0] = (char) (objPtr->internalRep.longValue? '1' : '0');
     s[1] = '\0';
     objPtr->bytes = s;
@@ -1496,7 +1336,7 @@ Tcl_NewDoubleObj(dblValue)
 
     TclNewObj(objPtr);
     objPtr->bytes = NULL;
-
+    
     objPtr->internalRep.doubleValue = dblValue;
     objPtr->typePtr = &tclDoubleType;
     return objPtr;
@@ -1543,7 +1383,7 @@ Tcl_DbNewDoubleObj(dblValue, file, line)
 
     TclDbNewObj(objPtr, file, line);
     objPtr->bytes = NULL;
-
+    
     objPtr->internalRep.doubleValue = dblValue;
     objPtr->typePtr = &tclDoubleType;
     return objPtr;
@@ -1586,11 +1426,16 @@ Tcl_SetDoubleObj(objPtr, dblValue)
     register Tcl_Obj *objPtr;	/* Object whose internal rep to init. */
     register double dblValue;	/* Double used to set the object's value. */
 {
+    register Tcl_ObjType *oldTypePtr = objPtr->typePtr;
+
     if (Tcl_IsShared(objPtr)) {
-	Tcl_Panic("Tcl_SetDoubleObj called with shared object");
+	panic("Tcl_SetDoubleObj called with shared object");
     }
 
-    TclFreeIntRep(objPtr);
+    if ((oldTypePtr != NULL) && (oldTypePtr->freeIntRepProc != NULL)) {
+	oldTypePtr->freeIntRepProc(objPtr);
+    }
+    
     objPtr->internalRep.doubleValue = dblValue;
     objPtr->typePtr = &tclDoubleType;
     Tcl_InvalidateStringRep(objPtr);
@@ -1624,12 +1469,9 @@ Tcl_GetDoubleFromObj(interp, objPtr, dblPtr)
     register double *dblPtr;	/* Place to store resulting double. */
 {
     register int result;
-
+    
     if (objPtr->typePtr == &tclDoubleType) {
 	*dblPtr = objPtr->internalRep.doubleValue;
-	return TCL_OK;
-    } else if (objPtr->typePtr == &tclIntType) {
-	*dblPtr = objPtr->internalRep.longValue;
 	return TCL_OK;
     }
 
@@ -1665,6 +1507,7 @@ SetDoubleFromAny(interp, objPtr)
     Tcl_Interp *interp;		/* Used for error reporting if not NULL. */
     register Tcl_Obj *objPtr;	/* The object to convert. */
 {
+    Tcl_ObjType *oldTypePtr = objPtr->typePtr;
     char *string, *end;
     double newDouble;
     int length;
@@ -1686,11 +1529,16 @@ SetDoubleFromAny(interp, objPtr)
     if (end == string) {
 	badDouble:
 	if (interp != NULL) {
-	    Tcl_Obj *msg = Tcl_NewStringObj(
-		    "expected floating-point number but got \"", -1);
-	    TclAppendLimitedToObj(msg, string, length, 50, "");
-	    Tcl_AppendToObj(msg, "\"", -1);
-	    Tcl_SetObjResult(interp, msg);
+	    /*
+	     * Must copy string before resetting the result in case a caller
+	     * is trying to convert the interpreter's result to an int.
+	     */
+	    
+	    char buf[100];
+	    sprintf(buf, "expected floating-point number but got \"%.50s\"",
+	            string);
+	    Tcl_ResetResult(interp);
+	    Tcl_AppendToObj(Tcl_GetObjResult(interp), buf, -1);
 	}
 	return TCL_ERROR;
     }
@@ -1704,7 +1552,7 @@ SetDoubleFromAny(interp, objPtr)
     /*
      * Make sure that the string has no garbage after the end of the double.
      */
-
+    
     while ((end < (string+length))
 	    && isspace(UCHAR(*end))) { /* INTL: ISO space. */
 	end++;
@@ -1712,15 +1560,18 @@ SetDoubleFromAny(interp, objPtr)
     if (end != (string+length)) {
 	goto badDouble;
     }
-
+    
     /*
      * The conversion to double succeeded. Free the old internalRep before
      * setting the new one. We do this as late as possible to allow the
      * conversion code, in particular Tcl_GetStringFromObj, to use that old
      * internalRep.
      */
+    
+    if ((oldTypePtr != NULL) &&	(oldTypePtr->freeIntRepProc != NULL)) {
+	oldTypePtr->freeIntRepProc(objPtr);
+    }
 
-    TclFreeIntRep(objPtr);
     objPtr->internalRep.doubleValue = newDouble;
     objPtr->typePtr = &tclDoubleType;
     return TCL_OK;
@@ -1753,11 +1604,11 @@ UpdateStringOfDouble(objPtr)
 {
     char buffer[TCL_DOUBLE_SPACE];
     register int len;
-
+    
     Tcl_PrintDouble((Tcl_Interp *) NULL, objPtr->internalRep.doubleValue,
 	    buffer);
     len = strlen(buffer);
-
+    
     objPtr->bytes = (char *) ckalloc((unsigned) len + 1);
     strcpy(objPtr->bytes, buffer);
     objPtr->length = len;
@@ -1775,7 +1626,7 @@ UpdateStringOfDouble(objPtr)
  *	Otherwise, if the client is compiled without TCL_MEM_DEBUG defined,
  *	calls to Tcl_NewIntObj result in a call to one of the two
  *	Tcl_NewIntObj implementations below. We provide two implementations
- *	so that the Tcl core can be compiled to do memory debugging of the
+ *	so that the Tcl core can be compiled to do memory debugging of the 
  *	core even if a client does not request it for itself.
  *
  *	Integer and long integer objects share the same "integer" type
@@ -1813,7 +1664,7 @@ Tcl_NewIntObj(intValue)
 
     TclNewObj(objPtr);
     objPtr->bytes = NULL;
-
+    
     objPtr->internalRep.longValue = (long)intValue;
     objPtr->typePtr = &tclIntType;
     return objPtr;
@@ -1833,7 +1684,7 @@ Tcl_NewIntObj(intValue)
  *
  * Side effects:
  *	The object's old string rep, if any, is freed. Also, any old
- *	internal rep is freed.
+ *	internal rep is freed. 
  *
  *----------------------------------------------------------------------
  */
@@ -1843,11 +1694,16 @@ Tcl_SetIntObj(objPtr, intValue)
     register Tcl_Obj *objPtr;	/* Object whose internal rep to init. */
     register int intValue;	/* Integer used to set object's value. */
 {
-    if (Tcl_IsShared(objPtr)) {
-	Tcl_Panic("Tcl_SetIntObj called with shared object");
-    }
+    register Tcl_ObjType *oldTypePtr = objPtr->typePtr;
 
-    TclFreeIntRep(objPtr);
+    if (Tcl_IsShared(objPtr)) {
+	panic("Tcl_SetIntObj called with shared object");
+    }
+    
+    if ((oldTypePtr != NULL) && (oldTypePtr->freeIntRepProc != NULL)) {
+	oldTypePtr->freeIntRepProc(objPtr);
+    }
+    
     objPtr->internalRep.longValue = (long) intValue;
     objPtr->typePtr = &tclIntType;
     Tcl_InvalidateStringRep(objPtr);
@@ -1885,60 +1741,24 @@ Tcl_GetIntFromObj(interp, objPtr, intPtr)
     register Tcl_Obj *objPtr;	/* The object from which to get a int. */
     register int *intPtr;	/* Place to store resulting int. */
 {
-    register long l = 0;
+    register long l;
     int result;
-
-    /* If the object isn't already an integer of any width, try to
-     * convert it to one.
-     */
-
-    if (objPtr->typePtr != &tclIntType
-	    && objPtr->typePtr != &tclWideIntType) {
-	result = SetIntOrWideFromAny(interp, objPtr);
+    
+    if (objPtr->typePtr != &tclIntType) {
+	result = SetIntFromAny(interp, objPtr);
 	if (result != TCL_OK) {
 	    return result;
 	}
     }
-
-    /* Object should now be either int or wide. Get its value. */
-
-    if (objPtr->typePtr == &tclIntType) {
-	l = objPtr->internalRep.longValue;
-    } else if (objPtr->typePtr == &tclWideIntType) {
-#ifndef TCL_WIDE_INT_IS_LONG
-	/*
-	 * If the object is already a wide integer, don't convert it.
-	 * This code allows for any integer in the range -ULONG_MAX to
-	 * ULONG_MAX to be converted to a long, ignoring overflow.
-	 * The rule preserves existing semantics for conversion of
-	 * integers on input, but avoids inadvertent demotion of
-	 * wide integers to 32-bit ones in the internal rep.
-	 */
-	Tcl_WideInt w = objPtr->internalRep.wideValue;
-	if (w >= -(Tcl_WideInt)(ULONG_MAX)
-		&& w <= (Tcl_WideInt)(ULONG_MAX)) {
-	    l = Tcl_WideAsLong(w);
-	} else {
-	    goto tooBig;
-	}
-#else
-	l = objPtr->internalRep.longValue;
-#endif
-    } else {
-	Tcl_Panic("string->integer conversion failed to convert the obj.");
-    }
-
+    l = objPtr->internalRep.longValue;
     if (((long)((int)l)) == l) {
-	*intPtr = (int)l;
+	*intPtr = (int)objPtr->internalRep.longValue;
 	return TCL_OK;
     }
-#ifndef TCL_WIDE_INT_IS_LONG
-  tooBig:
-#endif
     if (interp != NULL) {
-	Tcl_SetObjResult(interp, Tcl_NewStringObj(
-		"integer value too large to represent as non-long integer",
-		-1));
+	Tcl_ResetResult(interp);
+	Tcl_AppendToObj(Tcl_GetObjResult(interp),
+		"integer value too large to represent as non-long integer", -1);
     }
     return TCL_ERROR;
 }
@@ -1947,44 +1767,6 @@ Tcl_GetIntFromObj(interp, objPtr, intPtr)
  *----------------------------------------------------------------------
  *
  * SetIntFromAny --
- *
- *	Attempts to force the internal representation for a Tcl object
- *	to tclIntType, specifically.
- *
- * Results:
- *	The return value is a standard object Tcl result.  If an
- *	error occurs during conversion, an error message is left in
- *	the interpreter's result unless "interp" is NULL.
- *
- *----------------------------------------------------------------------
- */
-
-static int
-SetIntFromAny(interp, objPtr)
-    Tcl_Interp* interp;		/* Tcl interpreter */
-    Tcl_Obj* objPtr;		/* Pointer to the object to convert */
-{
-    int result;
-
-    result = SetIntOrWideFromAny(interp, objPtr);
-    if (result != TCL_OK) {
-	return result;
-    }
-    if (objPtr->typePtr != &tclIntType) {
-	if (interp != NULL) {
-	    CONST char *s = "integer value too large to represent";
-	    Tcl_SetObjResult(interp, Tcl_NewStringObj(s, -1));
-	    Tcl_SetErrorCode(interp, "ARITH", "IOVERFLOW", s, (char *) NULL);
-	}
-	return TCL_ERROR;
-    }
-    return TCL_OK;
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * SetIntOrWideFromAny --
  *
  *	Attempt to generate an integer internal form for the Tcl object
  *	"objPtr".
@@ -1996,22 +1778,21 @@ SetIntFromAny(interp, objPtr)
  *
  * Side effects:
  *	If no error occurs, an int is stored as "objPtr"s internal
- *	representation.
+ *	representation. 
  *
  *----------------------------------------------------------------------
  */
 
 static int
-SetIntOrWideFromAny(interp, objPtr)
+SetIntFromAny(interp, objPtr)
     Tcl_Interp *interp;		/* Used for error reporting if not NULL. */
     register Tcl_Obj *objPtr;	/* The object to convert. */
 {
+    Tcl_ObjType *oldTypePtr = objPtr->typePtr;
     char *string, *end;
     int length;
     register char *p;
-    unsigned long newLong;
-    int isNegative = 0;
-    int isWide = 0;
+    long newLong;
 
     /*
      * Get the string representation. Make it up-to-date if necessary.
@@ -2028,35 +1809,41 @@ SetIntOrWideFromAny(interp, objPtr)
      */
 
     errno = 0;
-    for (; isspace(UCHAR(*p)) ; p++) {	/* INTL: ISO space. */
+#ifdef TCL_STRTOUL_SIGN_CHECK
+    for ( ;  isspace(UCHAR(*p));  p++) { /* INTL: ISO space. */
 	/* Empty loop body. */
     }
     if (*p == '-') {
-	isNegative = 1;
 	p++;
+	newLong = -((long)strtoul(p, &end, 0));
     } else if (*p == '+') {
 	p++;
-    }
-    if (!isdigit(UCHAR(*p))) {
-      badInteger:
+	newLong = strtoul(p, &end, 0);
+    } else
+#else
+	newLong = strtoul(p, &end, 0);
+#endif
+    if (end == p) {
+	badInteger:
 	if (interp != NULL) {
-	    Tcl_Obj *msg =
-		    Tcl_NewStringObj("expected integer but got \"", -1);
-	    TclAppendLimitedToObj(msg, string, length, 50, "");
-	    Tcl_AppendToObj(msg, "\"", -1);
-	    Tcl_SetObjResult(interp, msg);
+	    /*
+	     * Must copy string before resetting the result in case a caller
+	     * is trying to convert the interpreter's result to an int.
+	     */
+	    
+	    char buf[100];
+	    sprintf(buf, "expected integer but got \"%.50s\"", string);
+	    Tcl_ResetResult(interp);
+	    Tcl_AppendToObj(Tcl_GetObjResult(interp), buf, -1);
 	    TclCheckBadOctal(interp, string);
 	}
 	return TCL_ERROR;
     }
-    newLong = strtoul(p, &end, 0);
-    if (end == p) {
-	goto badInteger;
-    }
     if (errno == ERANGE) {
 	if (interp != NULL) {
-	    CONST char *s = "integer value too large to represent";
-	    Tcl_SetObjResult(interp, Tcl_NewStringObj(s, -1));
+	    char *s = "integer value too large to represent";
+	    Tcl_ResetResult(interp);
+	    Tcl_AppendToObj(Tcl_GetObjResult(interp), s, -1);
 	    Tcl_SetErrorCode(interp, "ARITH", "IOVERFLOW", s, (char *) NULL);
 	}
 	return TCL_ERROR;
@@ -2065,7 +1852,7 @@ SetIntOrWideFromAny(interp, objPtr)
     /*
      * Make sure that the string has no garbage after the end of the int.
      */
-
+    
     while ((end < (string+length))
 	    && isspace(UCHAR(*end))) { /* INTL: ISO space. */
 	end++;
@@ -2075,34 +1862,18 @@ SetIntOrWideFromAny(interp, objPtr)
     }
 
     /*
-     * If the resulting integer will exceed the range of a long,
-     * put it into a wide instead.  (Tcl Bug #868489)
-     */
-
-#ifndef TCL_WIDE_INT_IS_LONG
-    if ((isNegative && newLong > (unsigned long) (LONG_MAX) + 1)
-	    || (!isNegative && newLong > LONG_MAX)) {
-	isWide = 1;
-    }
-#endif
-
-    /*
      * The conversion to int succeeded. Free the old internalRep before
      * setting the new one. We do this as late as possible to allow the
      * conversion code, in particular Tcl_GetStringFromObj, to use that old
      * internalRep.
      */
 
-    TclFreeIntRep(objPtr);
-    if (isWide) {
-	objPtr->internalRep.wideValue =
-		(isNegative ? -(Tcl_WideInt)newLong : (Tcl_WideInt)newLong);
-	objPtr->typePtr = &tclWideIntType;
-    } else {
-	objPtr->internalRep.longValue =
-		(isNegative ? -(long)newLong : (long)newLong);
-	objPtr->typePtr = &tclIntType;
+    if ((oldTypePtr != NULL) &&	(oldTypePtr->freeIntRepProc != NULL)) {
+	oldTypePtr->freeIntRepProc(objPtr);
     }
+
+    objPtr->internalRep.longValue = newLong;
+    objPtr->typePtr = &tclIntType;
     return TCL_OK;
 }
 
@@ -2113,7 +1884,7 @@ SetIntOrWideFromAny(interp, objPtr)
  *
  *	Update the string representation for an integer object.
  *	Note: This procedure does not free an existing old string rep
- *	so storage will be lost if this has not already been done.
+ *	so storage will be lost if this has not already been done. 
  *
  * Results:
  *	None.
@@ -2131,9 +1902,9 @@ UpdateStringOfInt(objPtr)
 {
     char buffer[TCL_INTEGER_SPACE];
     register int len;
-
+    
     len = TclFormatInt(buffer, objPtr->internalRep.longValue);
-
+    
     objPtr->bytes = ckalloc((unsigned) len + 1);
     strcpy(objPtr->bytes, buffer);
     objPtr->length = len;
@@ -2151,7 +1922,7 @@ UpdateStringOfInt(objPtr)
  *	Otherwise, if the client is compiled without TCL_MEM_DEBUG defined,
  *	calls to Tcl_NewLongObj result in a call to one of the two
  *	Tcl_NewLongObj implementations below. We provide two implementations
- *	so that the Tcl core can be compiled to do memory debugging of the
+ *	so that the Tcl core can be compiled to do memory debugging of the 
  *	core even if a client does not request it for itself.
  *
  *	Integer and long integer objects share the same "integer" type
@@ -2191,7 +1962,7 @@ Tcl_NewLongObj(longValue)
 
     TclNewObj(objPtr);
     objPtr->bytes = NULL;
-
+    
     objPtr->internalRep.longValue = longValue;
     objPtr->typePtr = &tclIntType;
     return objPtr;
@@ -2246,7 +2017,7 @@ Tcl_DbNewLongObj(longValue, file, line)
 
     TclDbNewObj(objPtr, file, line);
     objPtr->bytes = NULL;
-
+    
     objPtr->internalRep.longValue = longValue;
     objPtr->typePtr = &tclIntType;
     return objPtr;
@@ -2280,7 +2051,7 @@ Tcl_DbNewLongObj(longValue, file, line)
  *
  * Side effects:
  *	The object's old string rep, if any, is freed. Also, any old
- *	internal rep is freed.
+ *	internal rep is freed. 
  *
  *----------------------------------------------------------------------
  */
@@ -2291,11 +2062,16 @@ Tcl_SetLongObj(objPtr, longValue)
     register long longValue;	/* Long integer used to initialize the
 				 * object's value. */
 {
+    register Tcl_ObjType *oldTypePtr = objPtr->typePtr;
+
     if (Tcl_IsShared(objPtr)) {
-	Tcl_Panic("Tcl_SetLongObj called with shared object");
+	panic("Tcl_SetLongObj called with shared object");
     }
 
-    TclFreeIntRep(objPtr);
+    if ((oldTypePtr != NULL) && (oldTypePtr->freeIntRepProc != NULL)) {
+	oldTypePtr->freeIntRepProc(objPtr);
+    }
+    
     objPtr->internalRep.longValue = longValue;
     objPtr->typePtr = &tclIntType;
     Tcl_InvalidateStringRep(objPtr);
@@ -2329,42 +2105,16 @@ Tcl_GetLongFromObj(interp, objPtr, longPtr)
     register long *longPtr;	/* Place to store resulting long. */
 {
     register int result;
-
-    if (objPtr->typePtr != &tclIntType
-	    && objPtr->typePtr != &tclWideIntType) {
-	result = SetIntOrWideFromAny(interp, objPtr);
-	if (result != TCL_OK) {
-	    return result;
-	}
+    
+    if (objPtr->typePtr == &tclIntType) {
+	*longPtr = objPtr->internalRep.longValue;
+	return TCL_OK;
     }
-
-#ifndef TCL_WIDE_INT_IS_LONG
-    if (objPtr->typePtr == &tclWideIntType) {
-	/*
-	 * If the object is already a wide integer, don't convert it.
-	 * This code allows for any integer in the range -ULONG_MAX to
-	 * ULONG_MAX to be converted to a long, ignoring overflow.
-	 * The rule preserves existing semantics for conversion of
-	 * integers on input, but avoids inadvertent demotion of
-	 * wide integers to 32-bit ones in the internal rep.
-	 */
-	Tcl_WideInt w = objPtr->internalRep.wideValue;
-	if (w >= -(Tcl_WideInt)(ULONG_MAX)
-		&& w <= (Tcl_WideInt)(ULONG_MAX)) {
-	    *longPtr = Tcl_WideAsLong(w);
-	    return TCL_OK;
-	} else {
-	    if (interp != NULL) {
-		Tcl_SetObjResult(interp, Tcl_NewStringObj(
-			"integer value too large to represent", -1));
-	    }
-	    return TCL_ERROR;
-	}
+    result = SetIntFromAny(interp, objPtr);
+    if (result == TCL_OK) {
+	*longPtr = objPtr->internalRep.longValue;
     }
-#endif
-
-    *longPtr = objPtr->internalRep.longValue;
-    return TCL_OK;
+    return result;
 }
 
 /*
@@ -2382,7 +2132,7 @@ Tcl_GetLongFromObj(interp, objPtr, longPtr)
  *
  * Side effects:
  *	If no error occurs, an int is stored as "objPtr"s internal
- *	representation.
+ *	representation. 
  *
  *----------------------------------------------------------------------
  */
@@ -2393,6 +2143,7 @@ SetWideIntFromAny(interp, objPtr)
     register Tcl_Obj *objPtr;	/* The object to convert. */
 {
 #ifndef TCL_WIDE_INT_IS_LONG
+    Tcl_ObjType *oldTypePtr = objPtr->typePtr;
     char *string, *end;
     int length;
     register char *p;
@@ -2414,7 +2165,7 @@ SetWideIntFromAny(interp, objPtr)
 
     errno = 0;
 #ifdef TCL_STRTOUL_SIGN_CHECK
-    for (; isspace(UCHAR(*p)) ; p++) {	/* INTL: ISO space. */
+    for ( ;  isspace(UCHAR(*p));  p++) { /* INTL: ISO space. */
 	/* Empty loop body. */
     }
     if (*p == '-') {
@@ -2430,19 +2181,24 @@ SetWideIntFromAny(interp, objPtr)
     if (end == p) {
 	badInteger:
 	if (interp != NULL) {
-	    Tcl_Obj *msg =
-		    Tcl_NewStringObj("expected integer but got \"", -1);
-	    TclAppendLimitedToObj(msg, string, length, 50, "");
-	    Tcl_AppendToObj(msg, "\"", -1);
-	    Tcl_SetObjResult(interp, msg);
+	    /*
+	     * Must copy string before resetting the result in case a caller
+	     * is trying to convert the interpreter's result to an int.
+	     */
+	    
+	    char buf[100];
+	    sprintf(buf, "expected integer but got \"%.50s\"", string);
+	    Tcl_ResetResult(interp);
+	    Tcl_AppendToObj(Tcl_GetObjResult(interp), buf, -1);
 	    TclCheckBadOctal(interp, string);
 	}
 	return TCL_ERROR;
     }
     if (errno == ERANGE) {
 	if (interp != NULL) {
-	    CONST char *s = "integer value too large to represent";
-	    Tcl_SetObjResult(interp, Tcl_NewStringObj(s, -1));
+	    char *s = "integer value too large to represent";
+	    Tcl_ResetResult(interp);
+	    Tcl_AppendToObj(Tcl_GetObjResult(interp), s, -1);
 	    Tcl_SetErrorCode(interp, "ARITH", "IOVERFLOW", s, (char *) NULL);
 	}
 	return TCL_ERROR;
@@ -2451,7 +2207,7 @@ SetWideIntFromAny(interp, objPtr)
     /*
      * Make sure that the string has no garbage after the end of the int.
      */
-
+    
     while ((end < (string+length))
 	    && isspace(UCHAR(*end))) { /* INTL: ISO space. */
 	end++;
@@ -2467,9 +2223,12 @@ SetWideIntFromAny(interp, objPtr)
      * internalRep.
      */
 
-    TclFreeIntRep(objPtr);
+    if ((oldTypePtr != NULL) &&	(oldTypePtr->freeIntRepProc != NULL)) {
+	oldTypePtr->freeIntRepProc(objPtr);
+    }
+    
     objPtr->internalRep.wideValue = newWide;
-#else
+#else 
     if (TCL_ERROR == SetIntFromAny(interp, objPtr)) {
 	return TCL_ERROR;
     }
@@ -2485,7 +2244,7 @@ SetWideIntFromAny(interp, objPtr)
  *
  *	Update the string representation for a wide integer object.
  *	Note: This procedure does not free an existing old string rep
- *	so storage will be lost if this has not already been done.
+ *	so storage will be lost if this has not already been done. 
  *
  * Results:
  *	None.
@@ -2532,7 +2291,7 @@ UpdateStringOfWideInt(objPtr)
  *	Otherwise, if the client is compiled without TCL_MEM_DEBUG defined,
  *	calls to Tcl_NewWideIntObj result in a call to one of the two
  *	Tcl_NewWideIntObj implementations below. We provide two implementations
- *	so that the Tcl core can be compiled to do memory debugging of the
+ *	so that the Tcl core can be compiled to do memory debugging of the 
  *	core even if a client does not request it for itself.
  *
  * Results:
@@ -2567,7 +2326,7 @@ Tcl_NewWideIntObj(wideValue)
 
     TclNewObj(objPtr);
     objPtr->bytes = NULL;
-
+    
     objPtr->internalRep.wideValue = wideValue;
     objPtr->typePtr = &tclWideIntType;
     return objPtr;
@@ -2624,7 +2383,7 @@ Tcl_DbNewWideIntObj(wideValue, file, line)
 
     TclDbNewObj(objPtr, file, line);
     objPtr->bytes = NULL;
-
+    
     objPtr->internalRep.wideValue = wideValue;
     objPtr->typePtr = &tclWideIntType;
     return objPtr;
@@ -2659,7 +2418,7 @@ Tcl_DbNewWideIntObj(wideValue, file, line)
  *
  * Side effects:
  *	The object's old string rep, if any, is freed. Also, any old
- *	internal rep is freed.
+ *	internal rep is freed. 
  *
  *----------------------------------------------------------------------
  */
@@ -2670,11 +2429,16 @@ Tcl_SetWideIntObj(objPtr, wideValue)
     register Tcl_WideInt wideValue;	/* Wide integer used to initialize
 					 * the object's value. */
 {
+    register Tcl_ObjType *oldTypePtr = objPtr->typePtr;
+
     if (Tcl_IsShared(objPtr)) {
-	Tcl_Panic("Tcl_SetWideIntObj called with shared object");
+	panic("Tcl_SetWideIntObj called with shared object");
     }
 
-    TclFreeIntRep(objPtr);
+    if ((oldTypePtr != NULL) && (oldTypePtr->freeIntRepProc != NULL)) {
+	oldTypePtr->freeIntRepProc(objPtr);
+    }
+    
     objPtr->internalRep.wideValue = wideValue;
     objPtr->typePtr = &tclWideIntType;
     Tcl_InvalidateStringRep(objPtr);
@@ -2754,31 +2518,8 @@ Tcl_DbIncrRefCount(objPtr, file, line)
     if (objPtr->refCount == 0x61616161) {
 	fprintf(stderr, "file = %s, line = %d\n", file, line);
 	fflush(stderr);
-	Tcl_Panic("Trying to increment refCount of previously disposed object.");
+	panic("Trying to increment refCount of previously disposed object.");
     }
-# ifdef TCL_THREADS
-    /*
-     * Check to make sure that the Tcl_Obj was allocated by the
-     * current thread. Don't do this check when shutting down
-     * since thread local storage can be finalized before the
-     * last Tcl_Obj is freed.
-     */
-    if (!TclInExit()) {
-	Tcl_HashTable *tablePtr;
-	Tcl_HashEntry *hPtr;
-	ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
-	tablePtr = tsdPtr->objThreadMap;
-	if (!tablePtr) {
-	    Tcl_Panic("object table not initialized");
-	}
-	hPtr = Tcl_FindHashEntry(tablePtr, (char *) objPtr);
-	if (!hPtr) {
-	    Tcl_Panic("%s%s",
-		    "Trying to incr ref count of ",
-		    "Tcl_Obj allocated in another thread");
-	}
-    }
-# endif
 #endif
     ++(objPtr)->refCount;
 }
@@ -2817,36 +2558,8 @@ Tcl_DbDecrRefCount(objPtr, file, line)
     if (objPtr->refCount == 0x61616161) {
 	fprintf(stderr, "file = %s, line = %d\n", file, line);
 	fflush(stderr);
-	Tcl_Panic("Trying to decrement refCount of previously disposed object.");
+	panic("Trying to decrement refCount of previously disposed object.");
     }
-# ifdef TCL_THREADS
-    /*
-     * Check to make sure that the Tcl_Obj was allocated by the
-     * current thread. Don't do this check when shutting down
-     * since thread local storage can be finalized before the
-     * last Tcl_Obj is freed.
-     */
-    if (!TclInExit()) {
-	Tcl_HashTable *tablePtr;
-	Tcl_HashEntry *hPtr;
-	ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
-	tablePtr = tsdPtr->objThreadMap;
-	if (!tablePtr) {
-	    Tcl_Panic("object table not initialized");
-	}
-	hPtr = Tcl_FindHashEntry(tablePtr, (char *) objPtr);
-	if (!hPtr) {
-	    Tcl_Panic("%s%s",
-		    "Trying to decr ref count of",
-		    "Tcl_Obj allocated in another thread");
-	}
-
-	/* If the Tcl_Obj is going to be deleted, remove the entry */
-	if ((((objPtr)->refCount) - 1) <= 0) {
-	    Tcl_DeleteHashEntry(hPtr);
-	}
-    }
-# endif
 #endif
     if (--(objPtr)->refCount <= 0) {
 	TclFreeObj(objPtr);
@@ -2886,31 +2599,8 @@ Tcl_DbIsShared(objPtr, file, line)
     if (objPtr->refCount == 0x61616161) {
 	fprintf(stderr, "file = %s, line = %d\n", file, line);
 	fflush(stderr);
-	Tcl_Panic("Trying to check whether previously disposed object is shared.");
+	panic("Trying to check whether previously disposed object is shared.");
     }
-# ifdef TCL_THREADS
-    /*
-     * Check to make sure that the Tcl_Obj was allocated by the
-     * current thread. Don't do this check when shutting down
-     * since thread local storage can be finalized before the
-     * last Tcl_Obj is freed.
-     */
-    if (!TclInExit()) {
-	Tcl_HashTable *tablePtr;
-	Tcl_HashEntry *hPtr;
-	ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
-	tablePtr = tsdPtr->objThreadMap;
-	if (!tablePtr) {
-	    Tcl_Panic("object table not initialized");
-	}
-	hPtr = Tcl_FindHashEntry(tablePtr, (char *) objPtr);
-	if (!hPtr) {
-	    Tcl_Panic("%s%s",
-		    "Trying to check shared status of",
-		    "Tcl_Obj allocated in another thread");
-	}
-    }
-# endif
 #endif
 #ifdef TCL_COMPILE_STATS
     Tcl_MutexLock(&tclObjMutex);
@@ -2979,7 +2669,7 @@ AllocObjEntry(tablePtr, keyPtr)
 
     hPtr = (Tcl_HashEntry *) ckalloc((unsigned) (sizeof(Tcl_HashEntry)));
     hPtr->key.oneWordValue = (char *) objPtr;
-    Tcl_IncrRefCount(objPtr);
+    Tcl_IncrRefCount (objPtr);
 
     return hPtr;
 }
@@ -3022,11 +2712,11 @@ CompareObjKeys(keyPtr, hPtr)
      * Don't use Tcl_GetStringFromObj as it would prevent l1 and l2 being
      * in a register.
      */
-    p1 = TclGetString(objPtr1);
+    p1 = Tcl_GetString (objPtr1);
     l1 = objPtr1->length;
-    p2 = TclGetString(objPtr2);
+    p2 = Tcl_GetString (objPtr2);
     l2 = objPtr2->length;
-
+    
     /*
      * Only compare if the string representations are of the same length.
      */
@@ -3066,8 +2756,8 @@ FreeObjEntry(hPtr)
 {
     Tcl_Obj *objPtr = (Tcl_Obj *) hPtr->key.oneWordValue;
 
-    Tcl_DecrRefCount(objPtr);
-    ckfree((char *) hPtr);
+    Tcl_DecrRefCount (objPtr);
+    ckfree ((char *) hPtr);
 }
 
 /*
@@ -3094,11 +2784,14 @@ HashObjKey(tablePtr, keyPtr)
     VOID *keyPtr;		/* Key from which to compute hash value. */
 {
     Tcl_Obj *objPtr = (Tcl_Obj *) keyPtr;
-    CONST char *string = TclGetString(objPtr);
-    int length = objPtr->length;
-    unsigned int result = 0;
-    int i;
+    register CONST char *string;
+    register int length;
+    register unsigned int result;
+    register int c;
 
+    string = Tcl_GetString (objPtr);
+    length = objPtr->length;
+    
     /*
      * I tried a zillion different hash functions and asked many other
      * people for advice.  Many people had their own favorite functions,
@@ -3115,8 +2808,15 @@ HashObjKey(tablePtr, keyPtr)
      *    works well both for decimal and non-decimal strings.
      */
 
-    for (i=0 ; i<length ; i++) {
-	result += (result << 3) + string[i];
+    result = 0;
+    while (length) {
+	c = *string;
+	string++;
+	length--;
+	if (length == 0) {
+	    break;
+	}
+	result += (result<<3) + c;
     }
     return result;
 }
@@ -3126,15 +2826,15 @@ HashObjKey(tablePtr, keyPtr)
  *
  * Tcl_GetCommandFromObj --
  *
- *	Returns the command specified by the name in a Tcl_Obj.
+ *      Returns the command specified by the name in a Tcl_Obj.
  *
  * Results:
  *	Returns a token for the command if it is found. Otherwise, if it
  *	can't be found or there is an error, returns NULL.
  *
  * Side effects:
- *	May update the internal representation for the object, caching
- *	the command reference so that the next time this procedure is
+ *      May update the internal representation for the object, caching
+ *      the command reference so that the next time this procedure is
  *	called with the same object, the command can be found quickly.
  *
  *----------------------------------------------------------------------
@@ -3160,7 +2860,7 @@ Tcl_GetCommandFromObj(interp, objPtr)
 
     /*
      * If the variable name is fully qualified, do as if the lookup were
-     * done from the global namespace; this helps avoid repeated lookups
+     * done from the global namespace; this helps avoid repeated lookups 
      * of fully qualified names. It costs close to nothing, and may be very
      * helpful for OO applications which pass along a command name ("this"),
      * [Patch 456668]
@@ -3177,20 +2877,20 @@ Tcl_GetCommandFromObj(interp, objPtr)
      * needed. The internal representation is a ResolvedCmdName that points
      * to the actual command.
      */
-
+    
     if (objPtr->typePtr != &tclCmdNameType) {
-	result = tclCmdNameType.setFromAnyProc(interp, objPtr);
-	if (result != TCL_OK) {
+        result = tclCmdNameType.setFromAnyProc(interp, objPtr);
+        if (result != TCL_OK) {
 	    iPtr->varFramePtr = savedFramePtr;
-	    return (Tcl_Command) NULL;
-	}
+            return (Tcl_Command) NULL;
+        }
     }
-    resPtr = (ResolvedCmdName *) objPtr->internalRep.twoPtrValue.ptr1;
+    resPtr = (ResolvedCmdName *) objPtr->internalRep.otherValuePtr;
 
     /*
      * Get the current namespace.
      */
-
+    
     if (iPtr->varFramePtr != NULL) {
 	currNsPtr = iPtr->varFramePtr->nsPtr;
     } else {
@@ -3206,28 +2906,28 @@ Tcl_GetCommandFromObj(interp, objPtr)
      * namespace wasn't deleted and a new one created at the same address
      * with the same command epoch.
      */
-
+    
     cmdPtr = NULL;
     if ((resPtr != NULL)
 	    && (resPtr->refNsPtr == currNsPtr)
 	    && (resPtr->refNsId == currNsPtr->nsId)
 	    && (resPtr->refNsCmdEpoch == currNsPtr->cmdRefEpoch)) {
-	cmdPtr = resPtr->cmdPtr;
-	if (cmdPtr->cmdEpoch != resPtr->cmdEpoch) {
-	    cmdPtr = NULL;
-	}
+        cmdPtr = resPtr->cmdPtr;
+        if (cmdPtr->cmdEpoch != resPtr->cmdEpoch) {
+            cmdPtr = NULL;
+        }
     }
 
     if (cmdPtr == NULL) {
-	result = tclCmdNameType.setFromAnyProc(interp, objPtr);
-	if (result != TCL_OK) {
+        result = tclCmdNameType.setFromAnyProc(interp, objPtr);
+        if (result != TCL_OK) {
 	    iPtr->varFramePtr = savedFramePtr;
-	    return (Tcl_Command) NULL;
-	}
-	resPtr = (ResolvedCmdName *) objPtr->internalRep.twoPtrValue.ptr1;
-	if (resPtr != NULL) {
-	    cmdPtr = resPtr->cmdPtr;
-	}
+            return (Tcl_Command) NULL;
+        }
+        resPtr = (ResolvedCmdName *) objPtr->internalRep.otherValuePtr;
+        if (resPtr != NULL) {
+            cmdPtr = resPtr->cmdPtr;
+        }
     }
     iPtr->varFramePtr = savedFramePtr;
     return (Tcl_Command) cmdPtr;
@@ -3264,53 +2964,37 @@ TclSetCmdNameObj(interp, objPtr, cmdPtr)
 {
     Interp *iPtr = (Interp *) interp;
     register ResolvedCmdName *resPtr;
+    Tcl_ObjType *oldTypePtr = objPtr->typePtr;
     register Namespace *currNsPtr;
-    CallFrame *savedFramePtr;
-    char *name;
 
-    if (objPtr->typePtr == &tclCmdNameType) {
+    if (oldTypePtr == &tclCmdNameType) {
 	return;
     }
-
-    /*
-     * If the variable name is fully qualified, do as if the lookup were
-     * done from the global namespace; this helps avoid repeated lookups
-     * of fully qualified names. It costs close to nothing, and may be very
-     * helpful for OO applications which pass along a command name ("this"),
-     * [Patch 456668] (Copied over from Tcl_GetCommandFromObj)
-     */
-
-    savedFramePtr = iPtr->varFramePtr;
-    name = Tcl_GetString(objPtr);
-    if ((*name++ == ':') && (*name == ':')) {
-	iPtr->varFramePtr = NULL;
-    }
-
+    
     /*
      * Get the current namespace.
      */
-
+    
     if (iPtr->varFramePtr != NULL) {
 	currNsPtr = iPtr->varFramePtr->nsPtr;
     } else {
 	currNsPtr = iPtr->globalNsPtr;
     }
-
+    
     cmdPtr->refCount++;
     resPtr = (ResolvedCmdName *) ckalloc(sizeof(ResolvedCmdName));
     resPtr->cmdPtr = cmdPtr;
     resPtr->refNsPtr = currNsPtr;
-    resPtr->refNsId = currNsPtr->nsId;
+    resPtr->refNsId  = currNsPtr->nsId;
     resPtr->refNsCmdEpoch = currNsPtr->cmdRefEpoch;
     resPtr->cmdEpoch = cmdPtr->cmdEpoch;
     resPtr->refCount = 1;
-
-    TclFreeIntRep(objPtr);
-    objPtr->internalRep.twoPtrValue.ptr1 = (VOID *) resPtr;
-    objPtr->internalRep.twoPtrValue.ptr2 = NULL;
+    
+    if ((oldTypePtr != NULL) && (oldTypePtr->freeIntRepProc != NULL)) {
+	oldTypePtr->freeIntRepProc(objPtr);
+    }
+    objPtr->internalRep.otherValuePtr = (VOID *) resPtr;
     objPtr->typePtr = &tclCmdNameType;
-
-    iPtr->varFramePtr = savedFramePtr;
 }
 
 /*
@@ -3326,9 +3010,9 @@ TclSetCmdNameObj(interp, objPtr, cmdPtr)
  *
  * Side effects:
  *	Decrements the ref count of any cached ResolvedCmdName structure
- *	pointed to by the cmdName's internal representation. If this is
+ *	pointed to by the cmdName's internal representation. If this is 
  *	the last use of the ResolvedCmdName, it is freed. This in turn
- *	decrements the ref count of the Command structure pointed to by
+ *	decrements the ref count of the Command structure pointed to by 
  *	the ResolvedSymbol, which may free the Command structure.
  *
  *----------------------------------------------------------------------
@@ -3340,26 +3024,26 @@ FreeCmdNameInternalRep(objPtr)
 				 * representation to free. */
 {
     register ResolvedCmdName *resPtr =
-	(ResolvedCmdName *) objPtr->internalRep.twoPtrValue.ptr1;
+	(ResolvedCmdName *) objPtr->internalRep.otherValuePtr;
 
     if (resPtr != NULL) {
 	/*
 	 * Decrement the reference count of the ResolvedCmdName structure.
 	 * If there are no more uses, free the ResolvedCmdName structure.
 	 */
-
-	resPtr->refCount--;
-	if (resPtr->refCount == 0) {
-	    /*
+    
+        resPtr->refCount--;
+        if (resPtr->refCount == 0) {
+            /*
 	     * Now free the cached command, unless it is still in its
-	     * hash table or if there are other references to it
-	     * from other cmdName objects.
+             * hash table or if there are other references to it
+             * from other cmdName objects.
 	     */
-
-	    Command *cmdPtr = resPtr->cmdPtr;
-	    TclCleanupCommand(cmdPtr);
-	    ckfree((char *) resPtr);
-	}
+	    
+            Command *cmdPtr = resPtr->cmdPtr;
+            TclCleanupCommand(cmdPtr);
+            ckfree((char *) resPtr);
+        }
     }
 }
 
@@ -3369,7 +3053,7 @@ FreeCmdNameInternalRep(objPtr)
  * DupCmdNameInternalRep --
  *
  *	Initialize the internal representation of an cmdName Tcl_Obj to a
- *	copy of the internal representation of an existing cmdName object.
+ *	copy of the internal representation of an existing cmdName object. 
  *
  * Results:
  *	None.
@@ -3389,12 +3073,11 @@ DupCmdNameInternalRep(srcPtr, copyPtr)
     register Tcl_Obj *copyPtr;	/* Object with internal rep to set. */
 {
     register ResolvedCmdName *resPtr =
-	    (ResolvedCmdName *) srcPtr->internalRep.twoPtrValue.ptr1;
+        (ResolvedCmdName *) srcPtr->internalRep.otherValuePtr;
 
-    copyPtr->internalRep.twoPtrValue.ptr1 = (VOID *) resPtr;
-    copyPtr->internalRep.twoPtrValue.ptr2 = NULL;
+    copyPtr->internalRep.otherValuePtr = (VOID *) resPtr;
     if (resPtr != NULL) {
-	resPtr->refCount++;
+        resPtr->refCount++;
     }
     copyPtr->typePtr = &tclCmdNameType;
 }
@@ -3456,21 +3139,21 @@ SetCmdNameFromAny(interp, objPtr)
 	/*
 	 * Get the current namespace.
 	 */
-
+	
 	if (iPtr->varFramePtr != NULL) {
 	    currNsPtr = iPtr->varFramePtr->nsPtr;
 	} else {
 	    currNsPtr = iPtr->globalNsPtr;
 	}
-
+	
 	cmdPtr->refCount++;
-	resPtr = (ResolvedCmdName *) ckalloc(sizeof(ResolvedCmdName));
-	resPtr->cmdPtr		= cmdPtr;
-	resPtr->refNsPtr	= currNsPtr;
-	resPtr->refNsId		= currNsPtr->nsId;
-	resPtr->refNsCmdEpoch	= currNsPtr->cmdRefEpoch;
-	resPtr->cmdEpoch	= cmdPtr->cmdEpoch;
-	resPtr->refCount	= 1;
+        resPtr = (ResolvedCmdName *) ckalloc(sizeof(ResolvedCmdName));
+        resPtr->cmdPtr        = cmdPtr;
+        resPtr->refNsPtr      = currNsPtr;
+        resPtr->refNsId       = currNsPtr->nsId;
+        resPtr->refNsCmdEpoch = currNsPtr->cmdRefEpoch;
+        resPtr->cmdEpoch      = cmdPtr->cmdEpoch;
+        resPtr->refCount      = 1;
     } else {
 	resPtr = NULL;	/* no command named "name" was found */
     }
@@ -3482,9 +3165,12 @@ SetCmdNameFromAny(interp, objPtr)
      * structure was found, leave NULL as the cached value.
      */
 
-    TclFreeIntRep(objPtr);
-    objPtr->internalRep.twoPtrValue.ptr1 = (VOID *) resPtr;
-    objPtr->internalRep.twoPtrValue.ptr2 = NULL;
+    if ((objPtr->typePtr != NULL)
+	    && (objPtr->typePtr->freeIntRepProc != NULL)) {
+	objPtr->typePtr->freeIntRepProc(objPtr);
+    }
+    
+    objPtr->internalRep.otherValuePtr = (VOID *) resPtr;
     objPtr->typePtr = &tclCmdNameType;
     return TCL_OK;
 }

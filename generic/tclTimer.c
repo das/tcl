@@ -13,6 +13,7 @@
  */
 
 #include "tclInt.h"
+#include "tclPort.h"
 
 /*
  * For each timer callback that's pending there is one record of the following
@@ -223,58 +224,30 @@ Tcl_CreateTimerHandler(milliseconds, proc, clientData)
     Tcl_TimerProc *proc;	/* Procedure to invoke. */
     ClientData clientData;	/* Arbitrary data to pass to proc. */
 {
+    register TimerHandler *timerHandlerPtr, *tPtr2, *prevPtr;
     Tcl_Time time;
+    ThreadSpecificData *tsdPtr;
+
+    tsdPtr = InitTimer();
+
+    timerHandlerPtr = (TimerHandler *) ckalloc(sizeof(TimerHandler));
 
     /*
      * Compute when the event should fire.
      */
 
     Tcl_GetTime(&time);
-    time.sec += milliseconds/1000;
-    time.usec += (milliseconds%1000)*1000;
-    if (time.usec >= 1000000) {
-	time.usec -= 1000000;
-	time.sec += 1;
+    timerHandlerPtr->time.sec = time.sec + milliseconds/1000;
+    timerHandlerPtr->time.usec = time.usec + (milliseconds%1000)*1000;
+    if (timerHandlerPtr->time.usec >= 1000000) {
+	timerHandlerPtr->time.usec -= 1000000;
+	timerHandlerPtr->time.sec += 1;
     }
-    return TclCreateAbsoluteTimerHandler(&time, proc, clientData);
-}
-
-/*
- *--------------------------------------------------------------
- *
- * TclCreateAbsoluteTimerHandler --
- *
- *	Arrange for a given procedure to be invoked at a particular
- *	time in the future.
- *
- * Results:
- *	The return value is a token for the timer event, which
- *	may be used to delete the event before it fires.
- *
- * Side effects:
- *	When the time in timePtr has been reached, proc will be invoked
- *	exactly once.
- *
- *--------------------------------------------------------------
- */
-
-Tcl_TimerToken
-TclCreateAbsoluteTimerHandler(timePtr, proc, clientData)
-    Tcl_Time *timePtr;
-    Tcl_TimerProc *proc;
-    ClientData clientData;
-{
-    register TimerHandler *timerHandlerPtr, *tPtr2, *prevPtr;
-    ThreadSpecificData *tsdPtr;
-
-    tsdPtr = InitTimer();
-    timerHandlerPtr = (TimerHandler *) ckalloc(sizeof(TimerHandler));
 
     /*
-     * Fill in fields for the event.
+     * Fill in other fields for the event.
      */
 
-    memcpy((void *)&timerHandlerPtr->time, (void *)timePtr, sizeof(Tcl_Time));
     timerHandlerPtr->proc = proc;
     timerHandlerPtr->clientData = clientData;
     tsdPtr->lastTimerId++;
@@ -759,14 +732,17 @@ TclServiceIdle()
 	/* ARGSUSED */
 int
 Tcl_AfterObjCmd(clientData, interp, objc, objv)
-    ClientData clientData;	/* Unused */
+    ClientData clientData;	/* Points to the "tclAfter" assocData for
+				 * this interpreter, or NULL if the assocData
+				 * hasn't been created yet.*/
     Tcl_Interp *interp;		/* Current interpreter. */
     int objc;			/* Number of arguments. */
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
     int ms;
     AfterInfo *afterPtr;
-    AfterAssocData *assocPtr;
+    AfterAssocData *assocPtr = (AfterAssocData *) clientData;
+    Tcl_CmdInfo cmdInfo;
     int length;
     char *argString;
     int index;
@@ -789,13 +765,20 @@ Tcl_AfterObjCmd(clientData, interp, objc, objv)
      * future.
      */
 
-    assocPtr = Tcl_GetAssocData( interp, "tclAfter", NULL );
     if (assocPtr == NULL) {
 	assocPtr = (AfterAssocData *) ckalloc(sizeof(AfterAssocData));
 	assocPtr->interp = interp;
 	assocPtr->firstAfterPtr = NULL;
 	Tcl_SetAssocData(interp, "tclAfter", AfterCleanupProc,
 		(ClientData) assocPtr);
+	cmdInfo.proc = NULL;
+	cmdInfo.clientData = (ClientData) NULL;
+	cmdInfo.objProc = Tcl_AfterObjCmd;
+	cmdInfo.objClientData = (ClientData) assocPtr;
+	cmdInfo.deleteProc = NULL;
+	cmdInfo.deleteData = (ClientData) assocPtr;
+	Tcl_SetCommandInfo(interp, Tcl_GetStringFromObj(objv[0], &length),
+		&cmdInfo);
     }
 
     /*
@@ -816,39 +799,7 @@ processInteger:
 	    ms = 0;
 	}
 	if (objc == 2) {
-	    Interp *iPtr = (Interp *) interp;
-
-	    if (iPtr->limit.timeEvent != NULL) {
-		Tcl_Time endTime, now;
-
-		Tcl_GetTime(&endTime);
-		endTime.sec += ms/1000;
-		endTime.usec += (ms%1000)*1000;
-		if (endTime.usec >= 1000000) {
-		    endTime.sec++;
-		    endTime.usec -= 1000000;
-		}
-
-		do {
-		    Tcl_GetTime(&now);
-		    if (endTime.sec < iPtr->limit.time.sec ||
-			    (endTime.sec == iPtr->limit.time.sec &&
-			    endTime.usec < iPtr->limit.time.usec)) {
-			Tcl_Sleep(1000*(endTime.sec - now.sec) +
-				(endTime.usec - now.usec)/1000);
-			break;
-		    } else {
-			Tcl_Sleep(1000*(iPtr->limit.time.sec - now.sec) +
-				(iPtr->limit.time.usec - now.usec)/1000);
-			if (Tcl_LimitCheck(interp) != TCL_OK) {
-			    return TCL_ERROR;
-			}
-		    }
-		} while (endTime.sec > now.sec ||
-			(endTime.sec == now.sec && endTime.usec > now.usec));
-	    } else {
-		Tcl_Sleep(ms);
-	    }
+	    Tcl_Sleep(ms);
 	    return TCL_OK;
 	}
 	afterPtr = (AfterInfo *) ckalloc((unsigned) (sizeof(AfterInfo)));
@@ -977,7 +928,7 @@ processInteger:
 			"\" doesn't exist", (char *) NULL);
 		return TCL_ERROR;
 	    }
-	    resultListPtr = Tcl_NewObj();
+	    resultListPtr = Tcl_GetObjResult(interp);
  	    Tcl_ListObjAppendElement(interp, resultListPtr, afterPtr->commandPtr);
  	    Tcl_ListObjAppendElement(interp, resultListPtr, Tcl_NewStringObj(
  		(afterPtr->token == NULL) ? "idle" : "timer", -1));
@@ -985,7 +936,7 @@ processInteger:
 	    break;
 	}
 	default: {
-	    Tcl_Panic("Tcl_AfterObjCmd: bad subcommand index to afterSubCmds");
+	    panic("Tcl_AfterObjCmd: bad subcommand index to afterSubCmds");
 	}
     }
     return TCL_OK;
@@ -1069,8 +1020,6 @@ AfterProc(clientData)
     AfterInfo *prevPtr;
     int result;
     Tcl_Interp *interp;
-    char *script;
-    int numBytes;
 
     /*
      * First remove the callback from our list of callbacks;  otherwise
@@ -1094,8 +1043,8 @@ AfterProc(clientData)
 
     interp = assocPtr->interp;
     Tcl_Preserve((ClientData) interp);
-    script = Tcl_GetStringFromObj(afterPtr->commandPtr, &numBytes);
-    result = Tcl_EvalEx(interp, script, numBytes, TCL_EVAL_GLOBAL);
+    result = Tcl_EvalObjEx(interp, afterPtr->commandPtr,
+	    TCL_EVAL_GLOBAL | TCL_EVAL_DIRECT);
     if (result != TCL_OK) {
 	Tcl_AddErrorInfo(interp, "\n    (\"after\" script)");
 	Tcl_BackgroundError(interp);
