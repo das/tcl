@@ -826,17 +826,17 @@ and subdirectories.  Default value is [\fBworkingDirectory\fR].
 Sets the list of patterns used by [\fBrunAllTests\fR] to determine
 what test files to evaluate.  Default value is \fB*.test\fR.
 .TP
-\fB-notfile \fBpatternList\fR
+\fB-notfile \fIpatternList\fR
 Sets the list of patterns used by [\fBrunAllTests\fR] to determine
 what test files to skip.  Default value is \fBl.*.test\fR, so
 that any SCCS lock files are skipped.
 .TP
-\fB-relateddir \fBpatternList\fR
+\fB-relateddir \fIpatternList\fR
 Sets the list of patterns used by [\fBrunAllTests\fR] to determine
 what subdirectories to search for an \fBall.tcl\fR file.  Default
 value is \fB*\fR.
 .TP
-\fB-asidefromdir \fBpatternList\fR
+\fB-asidefromdir \fIpatternList\fR
 Sets the list of patterns used by [\fBrunAllTests\fR] to determine
 what subdirectories to skip when searching for an \fBall.tcl\fR file.
 Default value is an empty list.
