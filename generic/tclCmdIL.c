@@ -1578,14 +1578,17 @@ InfoProcsCmd(dummy, interp, objc, objv)
  *      script file that is currently being evaluated. Handles the
  *      following syntax:
  *
- *          info script
+ *          info script ?newName?
+ *
+ *	If newName is specified, it will set that as the internal name.
  *
  * Results:
  *      Returns TCL_OK if successful and TCL_ERROR if there is an error.
  *
  * Side effects:
  *      Returns a result in the interpreter's result object. If there is
- *	an error, the result is an error message.
+ *	an error, the result is an error message.  It may change the
+ *	internal script filename.
  *
  *----------------------------------------------------------------------
  */
@@ -1598,11 +1601,21 @@ InfoScriptCmd(dummy, interp, objc, objv)
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
     Interp *iPtr = (Interp *) interp;
-    if (objc != 2) {
-        Tcl_WrongNumArgs(interp, 2, objv, NULL);
+    if ((objc != 2) && (objc != 3)) {
+        Tcl_WrongNumArgs(interp, 2, objv, "?filename?");
         return TCL_ERROR;
     }
 
+    if (objc == 3) {
+	int length;
+	char *filename = Tcl_GetStringFromObj(objv[2], &length);
+
+	if (iPtr->scriptFile != NULL) {
+	    ckfree(iPtr->scriptFile);
+	}
+	iPtr->scriptFile = ckalloc((unsigned) (length + 1));
+	strcpy(iPtr->scriptFile, filename);
+    }
     if (iPtr->scriptFile != NULL) {
         Tcl_SetStringObj(Tcl_GetObjResult(interp), iPtr->scriptFile, -1);
     }

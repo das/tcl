@@ -324,9 +324,11 @@ Tcl_EvalFile(interp, fileName)
 
     iPtr = (Interp *) interp;
     oldScriptFile = iPtr->scriptFile;
-    iPtr->scriptFile = fileName;
+    iPtr->scriptFile = ckalloc((unsigned) (strlen(fileName) + 1));
+    strcpy(iPtr->scriptFile, fileName);
     string = Tcl_GetStringFromObj(objPtr, &length);
     result = Tcl_EvalEx(interp, string, length, 0);
+    ckfree(iPtr->scriptFile);
     iPtr->scriptFile = oldScriptFile;
 
     if (result == TCL_RETURN) {
