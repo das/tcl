@@ -5273,7 +5273,7 @@ test io-40.15 {POSIX open access modes: RDWR} {
     lappend x [viewFile test3]
 } {zzy abzzy}
 testConstraint makeFileInHome [expr {![file exists ~/_test_] && [file writable ~]}]
-test io-40.16 {tilde substitution in open} -constraint makeFileInHome -setup {
+test io-40.16 {tilde substitution in open} -constraints makeFileInHome -setup {
     makeFile {Some text} _test_ ~
 } -body {
     file exists [file join $env(HOME) _test_]
