@@ -25,7 +25,7 @@ catch {namespace delete test_ns_info1 test_ns_info2}
 namespace eval test_ns_info1 {
     namespace export *
     proc p {x} {return "x=$x"}
-    proc q {{y 27} z} {return "y=$y"}
+    proc q {{y 27} {z {}}} {return "y=$y"}
 }
 
 
