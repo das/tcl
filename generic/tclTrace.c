@@ -2451,7 +2451,12 @@ TclCallVarTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, leaveErrMsg)
     int code = TCL_OK;
     int disposeFlags = 0;
     int saveErrFlags = iPtr->flags
-	    & (ERR_IN_PROGRESS | ERR_ALREADY_LOGGED | ERROR_CODE_SET);
+	    & (ERR_IN_PROGRESS | ERR_ALREADY_LOGGED);
+    Tcl_Obj *saveErrCode = iPtr->errorCode;
+
+    if (saveErrCode) {
+	Tcl_IncrRefCount(saveErrCode);
+    }
 
     /*
      * If there are already similar trace procedures active for the
@@ -2576,6 +2581,12 @@ TclCallVarTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, leaveErrMsg)
     done:
     if (code == TCL_OK) {
 	iPtr->flags |= saveErrFlags;
+	if (iPtr->errorCode) {
+	    Tcl_DecrRefCount(iPtr->errorCode);
+	}
+	iPtr->errorCode = saveErrCode;
+    } else if (saveErrCode) {
+	Tcl_DecrRefCount(saveErrCode);
     }
     if (code == TCL_ERROR) {
 	if (leaveErrMsg) {

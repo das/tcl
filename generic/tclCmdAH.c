@@ -298,8 +298,7 @@ Tcl_CatchObjCmd(dummy, interp, objc, objv)
 	    Tcl_DictObjGet(NULL, options, iPtr->returnErrorcodeKey, &value);
 	    if (NULL == value) {
 		Tcl_DictObjPut(NULL, options, iPtr->returnErrorcodeKey,
-			Tcl_ObjGetVar2(interp, iPtr->execEnvPtr->errorCode,
-			NULL, TCL_GLOBAL_ONLY));
+			iPtr->errorCode);
 	    }
 	    value = NULL;
 	    Tcl_DictObjGet(NULL, options, iPtr->returnErrorlineKey, &value);
