@@ -455,20 +455,22 @@ test timer-8.1 {AfterProc procedure} {
     }
     list [foo] $x
 } {untouched after}
-test timer-8.2 {AfterProc procedure} {
-    catch {rename bgerror {}}
-    proc bgerror msg {
-	global x errorInfo
-	set x [list $msg $errorInfo]
+test timer-8.2 {AfterProc procedure} -setup {
+    variable x empty
+    proc myHandler {msg options} {
+	variable x [list $msg [dict get $options -errorinfo]]
     }
-    set x empty
+    set handler [interp bgerror {}]
+    interp bgerror {} [namespace which myHandler]
+} -body {
     after 100 {error "After error"}
     after 200
     set y $x
     update
-    catch {rename bgerror {}}
     list $y $x
-} {empty {{After error} {After error
+} -cleanup {
+    interp bgerror {} $handler
+} -result {empty {{After error} {After error
     while executing
 "error "After error""
     ("after" script)}}}

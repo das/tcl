@@ -624,7 +624,7 @@ Tcl_InterpObjCmd(clientData, interp, objc, objv)
 	    Tcl_Interp *slaveInterp;
 
 	    if (objc != 3 && objc != 4) {
-		Tcl_WrongNumArgs(interp, 2, objv, "path ?newlimit?");
+		Tcl_WrongNumArgs(interp, 2, objv, "path ?cmdPrefix?");
 		return TCL_ERROR;
 	    }
 	    slaveInterp = GetInterp(interp, objv[2]);
