@@ -2935,7 +2935,7 @@ TclPrintInstruction(codePtr, pc)
 	    break;	    
         case OPERAND_INT:
 		if ((opCode == INST_STORE) || (opCode == INST_LOAD)) {
-		    fprintf(stdout, "0x%x ", (int) opnd);
+		    fprintf(stdout, "0x%lx ", opnd);
 		    if (opnd & TCL_LIST_ELEMENT) {
 			fprintf(stdout, "(lappend) ");
 		    } else if (opnd & TCL_APPEND_VALUE) {
@@ -3423,7 +3423,8 @@ OptCleanupByteCode(codePtr, auxCount)
 			 
 {
     TclVMWord *pc;
-    int i, j, noops, opCode, opnd;
+    TclPSizedInt opnd;
+    int i, j, noops, opCode;
     unsigned char *pr, *pw, *qr, *qw;
     int oldstart;
 	
