@@ -2126,9 +2126,10 @@ EXTERN int	TclCompileListCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
 EXTERN int	TclCompileLlengthCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
-EXTERN int	TclCompileLsetCmd _ANSI_ARGS_(( Tcl_Interp* interp,
-						Tcl_Parse* parsePtr,
-						struct CompileEnv* envPtr ));
+EXTERN int	TclCompileLsetCmd _ANSI_ARGS_((Tcl_Interp* interp,
+		    Tcl_Parse* parsePtr, struct CompileEnv* envPtr));
+EXTERN int	TclCompileRegexpCmd _ANSI_ARGS_((Tcl_Interp* interp,
+		    Tcl_Parse* parsePtr, struct CompileEnv* envPtr));
 EXTERN int	TclCompileReturnCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
 EXTERN int	TclCompileSetCmd _ANSI_ARGS_((Tcl_Interp *interp,

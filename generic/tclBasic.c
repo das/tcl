@@ -139,7 +139,7 @@ static CmdInfo builtInCmds[] = {
     {"proc",		(Tcl_CmdProc *) NULL,	Tcl_ProcObjCmd,	
         (CompileProc *) NULL,		1},
     {"regexp",		(Tcl_CmdProc *) NULL,	Tcl_RegexpObjCmd,
-        (CompileProc *) NULL,		1},
+        TclCompileRegexpCmd,		1},
     {"regsub",		(Tcl_CmdProc *) NULL,	Tcl_RegsubObjCmd,
         (CompileProc *) NULL,		1},
     {"rename",		(Tcl_CmdProc *) NULL,	Tcl_RenameObjCmd,
