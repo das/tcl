@@ -14,9 +14,9 @@
  * RCS: @(#) $Id$ 
  */
 
-#if defined(TCL_THREADS) && defined(USE_THREAD_ALLOC)
-
 #include "tclInt.h"
+
+#if defined(TCL_THREADS) && defined(USE_THREAD_ALLOC)
 
 #ifdef WIN32
 #include "tclWinInt.h"
@@ -982,7 +982,7 @@ TclFinalizeThreadAlloc()
     listLockPtr = NULL;
 }
 
-#else
+#else /* ! defined(TCL_THREADS) && ! defined(USE_THREAD_ALLOC) */
 
 /*
  *----------------------------------------------------------------------
