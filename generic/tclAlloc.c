@@ -520,13 +520,27 @@ TclpRealloc(
      */
 
     if (i == 0xff) {
+	struct block *prevPtr, *nextPtr;
 	bigBlockPtr = (struct block *) op - 1;
+	prevPtr = bigBlockPtr->prevPtr;
+	nextPtr = bigBlockPtr->nextPtr;
 	bigBlockPtr = (struct block *) TclpSysRealloc(bigBlockPtr, 
 		sizeof(struct block) + OVERHEAD + nbytes);
 	if (bigBlockPtr == NULL) {
 	    TclpMutexUnlock(&allocMutex);
 	    return NULL;
 	}
+
+	if (prevPtr->nextPtr != bigBlockPtr) {
+	    /*
+	     * If the block has moved, splice the new block into the list where
+	     * the old block used to be. 
+	     */
+
+	    prevPtr->nextPtr = bigBlockPtr;
+	    nextPtr->prevPtr = bigBlockPtr;
+	}
+
 	op = (union overhead *) (bigBlockPtr + 1);
 #ifdef MSTATS
 	nmalloc[NBUCKETS]++;
