@@ -54,7 +54,7 @@ if {[info exist tcl_pkgPath]} {
 	}
     }
 }
-unset __dir
+catch {unset __dir}
 
 # Windows specific initialization to handle case isses with envars
 
