@@ -2330,8 +2330,19 @@ TclDoGlob(interp, separators, headPtr, tail, types)
     count = 0;
     name = tail;
     for (; *tail != '\0'; tail++) {
-	if ((*tail == '\\') && (strchr(separators, tail[1]) != NULL)) {
-	    tail++;
+	if (*tail == '\\') {
+	    /* 
+	     * If the first character is escaped, either we have a directory
+	     * separator, or we have any other character.  In the latter case
+	     * the rest of tail is a pattern, and we must break from the loop.
+	     * This is particularly important on Windows where '\' is both
+	     * the escaping character and a directory separator.
+	     */
+	    if (strchr(separators, tail[1]) != NULL) {
+		tail++;
+	    } else {
+		break;
+	    }
 	} else if (strchr(separators, *tail) == NULL) {
 	    break;
 	}
