@@ -274,6 +274,8 @@ TclIntStubs tclIntStubs = {
     TclVarErrMsg, /* 177 */
     Tcl_SetStartupScript, /* 178 */
     Tcl_GetStartupScript, /* 179 */
+    TclNewListObjDirect, /* 180 */
+    TclDbNewListObjDirect, /* 181 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
