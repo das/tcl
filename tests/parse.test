@@ -58,10 +58,10 @@ test parse-2.2 {Tcl_ParseCommand procedure, several comments} {
 } foo 1 simple foo 1 text foo 0 {}}
 test parse-2.3 {Tcl_ParseCommand procedure, backslash-newline in comments} {
     testparser " # foo bar\\\ncomment on continuation line\nfoo" 0
-} {#\ foo\ bar\\\ncomment\ on\ continuation\ line\n foo 1 simple foo 1 text foo 0 {}}
+} {\#\ foo\ bar\\\ncomment\ on\ continuation\ line\n foo 1 simple foo 1 text foo 0 {}}
 test parse-2.4 {Tcl_ParseCommand procedure, missing continuation line in comment} {
     testparser "#   \\\n" 0
-} {#\ \ \ \\\n {} 0 {}}
+} {\#\ \ \ \\\n {} 0 {}}
 test parse-2.5 {Tcl_ParseCommand procedure, eof in comment} {
     testparser " # foo bar\nfoo" 8
 } {{# foo b} {} 0 {ar

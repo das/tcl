@@ -70,6 +70,12 @@ test dict-2.6 {dict create command - initialse refcount field!} {
 	list [dict incr dictv a] 
     } 
 } {}
+test dict-2.7 {dict create command - #-quoting in string rep} {
+    dict create # #comment
+} {{#} #comment}
+test dict-2.8 {dict create command - #-quoting in string rep} -body {
+    dict create #a x #b x
+} -match glob -result {{#?} x #? x}
 
 test dict-3.1 {dict get command} {dict get {a b} a} b
 test dict-3.2 {dict get command} {dict get {a b c d} a} b
