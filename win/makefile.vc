@@ -179,6 +179,8 @@ TCLOBJS = \
 	$(TMPDIR)\tclVar.obj \
 	$(TMPDIR)\tclWin32Dll.obj \
 	$(TMPDIR)\tclWinChan.obj \
+	$(TMPDIR)\tclWinConsole.obj \
+	$(TMPDIR)\tclWinSerial.obj \
 	$(TMPDIR)\tclWinError.obj \
 	$(TMPDIR)\tclWinFCmd.obj \
 	$(TMPDIR)\tclWinFile.obj \

@@ -440,6 +440,17 @@ EXTERN u_short PASCAL FAR
 EXTERN int PASCAL FAR	TclWinSetSockOpt _ANSI_ARGS_((SOCKET s, int level,
 		            int optname, const char FAR * optval, int optlen));
 
+EXTERN Tcl_Channel  TclWinOpenSerialChannel _ANSI_ARGS_((HANDLE handle,
+                        char *channelName, int permissions));
+					 
+EXTERN Tcl_Channel  TclWinOpenConsoleChannel _ANSI_ARGS_((HANDLE handle,
+                        char *channelName, int permissions));
+
+EXTERN Tcl_Channel  TclWinOpenFileChannel _ANSI_ARGS_((HANDLE handle,
+                        char *channelName, int permissions, int appendMode));
+
+EXTERN TclFile TclWinMakeFile _ANSI_ARGS_((HANDLE handle));
+
 /*
  * Platform specific mutex definition used by memory allocators.
  * These mutexes are statically allocated and explicitly initialized.
