@@ -617,6 +617,19 @@ test var-12.1 {TclFindCompiledLocals, {} array name} {
     }
 } {0 1 2 2,foo}
 
+test var-13.1 {Tcl_UnsetVar2, unset array with trace set on element} {
+    proc foo {var ind op} {
+	global t
+	set foo bar
+    }
+    namespace eval :: {
+	set t(1) 1
+	trace variable t(1) u foo
+	unset t
+    }
+    set x "If you see this, it worked"
+} "If you see this, it worked"
+
 catch {namespace delete ns}
 catch {unset arr}
 catch {unset v}

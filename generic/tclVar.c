@@ -2175,8 +2175,23 @@ Tcl_UnsetVar2(interp, part1, part2, flags)
 
     dummyVarPtr = &dummyVar;
     if (TclIsVarArray(dummyVarPtr) && !TclIsVarUndefined(dummyVarPtr)) {
+	/*
+	 * Deleting the elements of the array may cause traces to be fired
+	 * on those elements.  Before deleting them, bump the reference count
+	 * of the array, so that if those trace procs make a global or upvar
+	 * link to the array, the array is not deleted when the call stack
+	 * gets popped (we will delete the array ourselves later in this
+	 * function).
+	 *
+	 * Bumping the count can lead to the odd situation that elements of the
+	 * array are being deleted when the array still exists, but since the
+	 * array is about to be removed anyway, that shouldn't really matter.
+	 */
+	varPtr->refCount++;
 	DeleteArray(iPtr, part1, dummyVarPtr,
 		(flags & (TCL_GLOBAL_ONLY|TCL_NAMESPACE_ONLY)) | TCL_TRACE_UNSETS);
+	/* Decr ref count */
+	varPtr->refCount--;
     }
     if (TclIsVarScalar(dummyVarPtr)
 	    && (dummyVarPtr->value.objPtr != NULL)) {
