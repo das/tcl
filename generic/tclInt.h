@@ -1564,7 +1564,6 @@ typedef struct TclFile_ *TclFile;
  */
 
 typedef struct TclpTime_t_    *TclpTime_t;
-typedef struct TclLoadHandle_ *TclLoadHandle;
 
 /*
  * The "globParameters" argument of the function TclGlob is an
