@@ -3538,16 +3538,6 @@ Tcl_EvalEx(interp, script, numBytes, flags)
 	            parse.commandStart, parse.commandSize, 0);
 	    iPtr->numLevels--;
 	    if (code != TCL_OK) {
-		if (iPtr->numLevels == 0) {
-		    if (code == TCL_RETURN) {
-			code = TclUpdateReturnInfo(iPtr);
-		    }
-		    if ((code != TCL_OK) && (code != TCL_ERROR) 
-			&& !allowExceptions) {
-			ProcessUnexpectedResult(interp, code);
-			code = TCL_ERROR;
-		    }
-		}
 		goto error;
 	    }
 	    for (i = 0; i < objectsUsed; i++) {
@@ -3583,7 +3573,16 @@ Tcl_EvalEx(interp, script, numBytes, flags)
 
     error:
     /* Generate and log various pieces of error information. */
-
+	if (iPtr->numLevels == 0) {
+	    if (code == TCL_RETURN) {
+		code = TclUpdateReturnInfo(iPtr);
+	    }
+	    if ((code != TCL_OK) && (code != TCL_ERROR) 
+		&& !allowExceptions) {
+		ProcessUnexpectedResult(interp, code);
+		code = TCL_ERROR;
+	    }
+	}
     if ((code == TCL_ERROR) && !(iPtr->flags & ERR_ALREADY_LOGGED)) { 
 	commandLength = parse.commandSize;
 	if (parse.term == parse.commandStart + commandLength - 1) {

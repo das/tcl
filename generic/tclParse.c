@@ -2001,11 +2001,18 @@ TclSubstTokens(interp, tokenPtr, count, tokensLeftPtr)
 		break;
 	    }
 
-	    case TCL_TOKEN_COMMAND:
-		code = Tcl_EvalEx(interp, tokenPtr->start+1, tokenPtr->size-2,
-			0);
+	    case TCL_TOKEN_COMMAND: {
+		Interp *iPtr = (Interp *) interp;
+		iPtr->numLevels++;
+		code = TclInterpReady(interp);
+		if (code == TCL_OK) {
+		    code = Tcl_EvalEx(interp,
+			    tokenPtr->start+1, tokenPtr->size-2, 0);
+		}
+		iPtr->numLevels--;
 		appendObj = Tcl_GetObjResult(interp);
 		break;
+	    }
 
 	    case TCL_TOKEN_VARIABLE: {
 		Tcl_Obj *arrayIndex = NULL;
