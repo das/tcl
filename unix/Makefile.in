@@ -921,10 +921,10 @@ genstubs:
 checkstubs:
 	-@for i in `nm -p $(TCL_LIB_FILE) | awk '$$2 ~ /T/ { print $$3 }' \
 		| sort -n`; do \
-		match=1; \
+		match=0; \
 		for j in $(TCL_DECLS); do \
-		    if [ `grep -c $$i $$j` -eq 0 ]; then \
-			match=0; \
+		    if [ `grep -c $$i $$j` -gt 0 ]; then \
+			match=1; \
 		    fi; \
 		done; \
 		if [ $$match -eq 0 ]; then echo $$i; fi \
