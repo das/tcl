@@ -357,7 +357,8 @@ crt = -MTd
 !endif
 
 TCL_INCLUDES	= -I"$(WINDIR)" -I"$(GENERICDIR)"
-BASE_CLFAGS	= $(cflags) $(cdebug) $(crt) $(TCL_INCLUDES) -DTCL_DBGX=$(DBGX)
+BASE_CLFAGS	= $(cflags) $(cdebug) $(crt) $(TCL_INCLUDES) \
+			-DTCL_PIPE_DLL=\"$(TCLPIPEDLLNAME)\"
 CON_CFLAGS	= $(cflags) $(cdebug) $(crt) -DCONSOLE
 TCL_CFLAGS	= $(BASE_CLFAGS) $(OPTDEFINES)
 
