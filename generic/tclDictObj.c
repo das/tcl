@@ -1024,7 +1024,7 @@ Tcl_DictObjDone(searchPtr)
 /*
  *----------------------------------------------------------------------
  *
- * Tcl_DictObjRemoveKeyList --
+ * Tcl_DictObjPutKeyList --
  *
  *	Add a key...key,value pair to a dictionary tree.  The main
  *	dictionary value must not be shared, though sub-dictionaries may
@@ -1122,6 +1122,8 @@ Tcl_DictObjRemoveKeyList(interp, dictPtr, keyc, keyv)
     dict = (Dict *) dictPtr->internalRep.otherValuePtr;
     hPtr = Tcl_FindHashEntry(&dict->table, (char *)keyv[keyc-1]);
     if (hPtr != NULL) {
+	Tcl_Obj *oldValuePtr = (Tcl_Obj *) Tcl_GetHashValue(hPtr);
+	Tcl_DecrRefCount(oldValuePtr);
 	Tcl_DeleteHashEntry(hPtr);
     }
     InvalidateDictChain(dictPtr);
