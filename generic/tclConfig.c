@@ -182,7 +182,7 @@ int QueryConfigObjCmd (clientData, interp, objc, objv)
     };
 
     if ((objc < 2) || (objc > 3)) {
-        Tcl_WrongNumArgs (interp, objc-1, objv+1, "list | get key");
+        Tcl_WrongNumArgs (interp, 0, NULL, "list | get key");
 	return TCL_ERROR;
     }
     if (Tcl_GetIndexFromObj(interp, objv[1], subcmdStrings,
@@ -193,7 +193,7 @@ int QueryConfigObjCmd (clientData, interp, objc, objv)
     switch ((enum subcmds) index) {
         case CFG_GET:
 	    if (objc != 3) {
-	        Tcl_WrongNumArgs (interp, objc-1, objv+1, "get key");
+	        Tcl_WrongNumArgs (interp, 0, NULL, "get key");
 		return TCL_ERROR;
 	    }
 	    for (i=0; i < wrap->entries; i++) {
@@ -241,7 +241,7 @@ int QueryConfigObjCmd (clientData, interp, objc, objv)
 
         case CFG_LIST:
 	    if (objc != 2) {
-	        Tcl_WrongNumArgs (interp, objc-1, objv+1, "list");
+	        Tcl_WrongNumArgs (interp, 0, NULL, "list");
 		return TCL_ERROR;
 	    }
 	    if (wrap->keylist == (Tcl_Obj*) NULL) {
