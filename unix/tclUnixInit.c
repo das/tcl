@@ -4,9 +4,8 @@
  *	Contains the Unix-specific interpreter initialization functions.
  *
  * Copyright (c) 1995-1997 Sun Microsystems, Inc.
- *
- * See the file "license.terms" for information on usage and redistribution
- * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
+ * Copyright (c) 1999 by Scriptics Corporation.
+ * All rights reserved.
  *
  * RCS: @(#) $Id$
  */
@@ -521,7 +520,8 @@ TclpSetInitialEncodings()
  *	None.
  *
  * Side effects:
- *	Sets "tcl_library" and "tcl_platform" Tcl variables.
+ *	Sets "tclDefaultLibrary", "tcl_pkgPath", and "tcl_platform" Tcl
+ *	variables.
  *
  *----------------------------------------------------------------------
  */
@@ -537,7 +537,7 @@ TclpSetVariables(interp)
     char *user;
     Tcl_DString ds;
 
-    Tcl_SetVar(interp, "tcl_library", defaultLibraryDir, TCL_GLOBAL_ONLY);
+    Tcl_SetVar(interp, "tclDefaultLibrary", defaultLibraryDir, TCL_GLOBAL_ONLY);
     Tcl_SetVar(interp, "tcl_pkgPath", pkgPath, TCL_GLOBAL_ONLY);
     Tcl_SetVar2(interp, "tcl_platform", "platform", "unix", TCL_GLOBAL_ONLY);
     unameOK = 0;
