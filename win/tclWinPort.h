@@ -442,6 +442,9 @@
 #define getsockopt	TclWinGetSockOpt
 #define ntohs		TclWinNToHS
 #define setsockopt	TclWinSetSockOpt
+/* This type is not defined in the Windows headers */
+#define socklen_t       int
+
 
 /*
  * The following macros have trivial definitions, allowing generic code to 
