@@ -1211,10 +1211,8 @@ DISTROOT = /tmp/dist
 DISTNAME = tcl${VERSION}${PATCH_LEVEL}
 ZIPNAME	 = tcl${MAJOR_VERSION}${MINOR_VERSION}${PATCH_LEVEL}-src.zip
 DISTDIR	 = $(DISTROOT)/$(DISTNAME)
-$(UNIX_DIR)/configure: $(UNIX_DIR)/configure.in
-	autoconf $(UNIX_DIR)/configure.in > $(UNIX_DIR)/configure
 
-dist: $(UNIX_DIR)/configure mklinks
+dist: mklinks
 	rm -rf $(DISTDIR)
 	mkdir -p $(DISTDIR)/unix
 	cp -p $(UNIX_DIR)/*.c $(UNIX_DIR)/*.h $(DISTDIR)/unix
