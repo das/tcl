@@ -454,6 +454,7 @@ FileSeekProc(instanceData, offset, mode, errorCodePtr)
     newPos = SetFilePointer(infoPtr->handle, offset, NULL, moveMethod);
     if (newPos == 0xFFFFFFFF) {
         TclWinConvertError(GetLastError());
+        *errorCodePtr = errno;
         return -1;
     }
     return newPos;

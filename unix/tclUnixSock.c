@@ -98,3 +98,26 @@ Tcl_GetHostName()
     hostname[0] = 0;
     return hostname;
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclHasSockets --
+ *
+ *	Detect if sockets are available on this platform.
+ *
+ * Results:
+ *	Returns TCL_OK.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+int
+TclHasSockets(interp)
+    Tcl_Interp *interp;		/* Not used. */
+{
+    return TCL_OK;
+}

@@ -185,7 +185,7 @@ TclCreateProc(interp, nsPtr, procName, argsPtr, bodyPtr, procPtrPtr)
     register Proc *procPtr;
     int i, length, result, numArgs;
     char *args, *bytes, *p;
-    register CompiledLocal *localPtr;
+    register CompiledLocal *localPtr = NULL;
     Tcl_Obj *defPtr;
     int precompiled = 0;
     

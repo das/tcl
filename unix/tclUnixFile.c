@@ -37,7 +37,6 @@ extern pid_t waitpid _ANSI_ARGS_((pid_t pid, int *stat_loc, int options));
  * Static routines for this file:
  */
 
-static void	FreeCurrentDir _ANSI_ARGS_((ClientData clientData));
 static void	FreeExecutableName _ANSI_ARGS_((ClientData clientData));
 
 /*
@@ -535,3 +534,52 @@ TclMatchFiles(interp, separators, dirPtr, pattern, tail)
     closedir(d);
     return result;
 }
+
+/*
+ *---------------------------------------------------------------------------
+ *
+ * TclpAccess --
+ *
+ *	This function replaces the library version of access().
+ *
+ * Results:
+ *	See access() documentation.
+ *
+ * Side effects:
+ *	See access() documentation.
+ *
+ *---------------------------------------------------------------------------
+ */
+
+int
+TclpAccess(path, mode)
+    CONST char *path;		/* Path of file to access. */
+    int mode;			/* Permission setting. */
+{
+    return access(path, mode);
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclpStat --
+ *
+ *	This function replaces the library version of stat().
+ *
+ * Results:
+ *	See stat() documentation.
+ *
+ * Side effects:
+ *	See stat() documentation.
+ *
+ *----------------------------------------------------------------------
+ */
+
+int
+TclpStat(path, bufPtr)
+    CONST char *path;		/* Path of file to stat. */
+    struct stat *bufPtr;	/* Filled with results of stat call. */
+{
+    return stat(path, bufPtr);
+}
+

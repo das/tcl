@@ -280,3 +280,30 @@ Tcl_SourceRCFile(interp)
         Tcl_DStringFree(&temp);
     }
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclpCheckStackSpace --
+ *
+ *	Detect if we are about to blow the stack.  Called before an 
+ *	evaluation can happen when nesting depth is checked.
+ *
+ * Results:
+ *	1 if there is enough stack space to continue; 0 if not.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+int
+TclpCheckStackSpace()
+{
+    /*
+     * This function is unimplemented on Unix platforms.
+     */
+
+    return 1;
+}

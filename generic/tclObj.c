@@ -129,6 +129,7 @@ InitTypeTable()
 
     Tcl_InitHashTable(&typeTable, TCL_STRING_KEYS);
     Tcl_RegisterObjType(&tclBooleanType);
+    Tcl_RegisterObjType(&tclByteArrayType);
     Tcl_RegisterObjType(&tclDoubleType);
     Tcl_RegisterObjType(&tclIntType);
     Tcl_RegisterObjType(&tclStringType);

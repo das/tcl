@@ -644,4 +644,30 @@ TclpAccess(
     }
     return result;
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclGetUserHome --
+ *
+ *	This function takes the passed in user name and finds the
+ *	corresponding home directory specified in the password file.
+ *
+ * Results:
+ *	On Windows we always return a NULL.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
 
+char *
+TclGetUserHome(
+    char *name,			/* User name to use to find home directory. */
+    Tcl_DString *bufferPtr)	/* May be used to hold result.  Must not hold
+				 * anything at the time of the call, and need
+				 * not even be initialized. */
+{
+    return NULL;
+}

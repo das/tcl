@@ -921,6 +921,35 @@ OpenFileChannel(
 /*
  *----------------------------------------------------------------------
  *
+ * Tcl_MakeFileChannel --
+ *
+ *	Makes a Tcl_Channel from an existing OS level file handle.
+ *
+ * Results:
+ *	The Tcl_Channel created around the preexisting OS level file handle.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+Tcl_Channel
+Tcl_MakeFileChannel(handle, mode)
+    ClientData handle;		/* OS level handle. */
+    int mode;			/* ORed combination of TCL_READABLE and
+                                 * TCL_WRITABLE to indicate file mode. */
+{
+    /*
+     * Not implemented yet.
+     */
+
+    return NULL;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
  * FileBlockMode --
  *
  *	Set blocking or non-blocking mode on channel.  Macintosh files
