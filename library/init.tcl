@@ -455,6 +455,12 @@ proc auto_qualify {cmd namespace} {
 proc auto_import {pattern} {
     global auto_index
 
+    # If no namespace is specified, this will be an error case
+
+    if {![string match *::* $pattern]} {
+	return
+    }
+
     set ns [uplevel namespace current]
     set patternList [auto_qualify $pattern $ns]
 
