@@ -115,6 +115,17 @@ static char *resultStrings[] = {
 #endif
 
 /*
+ * These are used by evalstats to monitor object usage in Tcl.
+ */
+
+#ifdef TCL_COMPILE_STATS
+long		tclObjsAlloced = 0;
+long		tclObjsFreed   = 0;
+#define TCL_MAX_SHARED_OBJ_STATS 5
+long		tclObjsShared[TCL_MAX_SHARED_OBJ_STATS] = { 0, 0, 0, 0, 0 };
+#endif /* TCL_COMPILE_STATS */
+
+/*
  * Macros for testing floating-point values for certain special cases. Test
  * for not-a-number by comparing a value against itself; test for infinity
  * by comparing against the largest floating-point value.
@@ -1769,21 +1780,29 @@ TclExecuteByteCode(interp, codePtr)
 		value2Ptr = POP_OBJECT();
 		valuePtr  = POP_OBJECT();
 
-		s1 = Tcl_GetStringFromObj(valuePtr, &s1len);
-		s2 = Tcl_GetStringFromObj(value2Ptr, &s2len);
-		if (s1len == s2len) {
+		if (valuePtr == value2Ptr) {
 		    /*
-		     * We only need to check (in)equality when we have equal
-		     * length strings.
+		     * On the off-chance that the objects are the same,
+		     * we don't really have to think hard about equality.
 		     */
-		    if (*pc == INST_STR_NEQ) {
-			iResult = (strcmp(s1, s2) != 0);
-		    } else {
-			/* INST_STR_EQ */
-			iResult = (strcmp(s1, s2) == 0);
-		    }
+		    iResult = (*pc == INST_STR_EQ);
 		} else {
-		    iResult = (*pc == INST_STR_NEQ);
+		    s1 = Tcl_GetStringFromObj(valuePtr, &s1len);
+		    s2 = Tcl_GetStringFromObj(value2Ptr, &s2len);
+		    if (s1len == s2len) {
+			/*
+			 * We only need to check (in)equality when
+			 * we have equal length strings.
+			 */
+			if (*pc == INST_STR_NEQ) {
+			    iResult = (strcmp(s1, s2) != 0);
+			} else {
+			    /* INST_STR_EQ */
+			    iResult = (strcmp(s1, s2) == 0);
+			}
+		    } else {
+			iResult = (*pc == INST_STR_NEQ);
+		    }
 		}
 
 		PUSH_OBJECT(Tcl_NewIntObj(iResult));
@@ -1864,7 +1883,7 @@ TclExecuteByteCode(interp, codePtr)
 		 */
 
 		if (valuePtr->typePtr == &tclByteArrayType) {
-		    bytes = Tcl_GetByteArrayFromObj(valuePtr, &length);
+		    bytes = (char *)Tcl_GetByteArrayFromObj(valuePtr, &length);
 		} else {
 		    /*
 		     * Get Unicode char length to calulate what 'end' means.
