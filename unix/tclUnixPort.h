@@ -456,7 +456,11 @@ extern double strtod();
  * The default platform eol translation on Unix is TCL_TRANSLATE_LF.
  */
 
+#ifdef DJGPP
+#define	TCL_PLATFORM_TRANSLATION	TCL_TRANSLATE_CRLF
+#else
 #define	TCL_PLATFORM_TRANSLATION	TCL_TRANSLATE_LF
+#endif
 
 /*
  * The following macros have trivial definitions, allowing generic code to 
