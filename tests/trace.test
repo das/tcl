@@ -497,6 +497,7 @@ test trace-8.8 {error returns from traces} {
     for {set y 0} {$y<100} {incr y} {
 	catch {set x junk}
     }
+    unset x
 } {}
 
 # Check to see that variables are expunged before trace
