@@ -1041,6 +1041,7 @@ typedef struct Tcl_DString {
 #define TCL_LINK_DOUBLE		2
 #define TCL_LINK_BOOLEAN	3
 #define TCL_LINK_STRING		4
+#define TCL_LINK_WIDE_INT	5
 #define TCL_LINK_READ_ONLY	0x80
 
 
