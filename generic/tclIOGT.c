@@ -130,7 +130,7 @@ static void		ResultAdd    _ANSI_ARGS_ ((ResultBuffer* r,
 
 static Tcl_ChannelType transformChannelType = {
     "transform",			/* Type name. */
-    TCL_CHANNEL_VERSION_2,
+    TCL_CHANNEL_VERSION_3,
     TransformCloseProc,			/* Close proc. */
     TransformInputProc,			/* Input proc. */
     TransformOutputProc,		/* Output proc. */
