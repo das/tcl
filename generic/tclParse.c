@@ -968,7 +968,7 @@ Tcl_EvalObjv(interp, objc, objv, flags)
     Interp *iPtr = (Interp *)interp;
     Trace *tracePtr;
     Tcl_DString cmdBuf;
-    char cmdString[] = "";
+    char *cmdString = "";
     int cmdLen = 0;
     int code = TCL_OK;
 
