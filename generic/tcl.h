@@ -19,7 +19,7 @@
 #ifndef _TCL
 #define _TCL
 
-#ifdef HAVE_CONFIG_H
+#ifdef HAVE_TCL_CONFIG_H
 #include "tclConfig.h"
 #endif
 
