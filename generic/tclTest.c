@@ -4305,6 +4305,10 @@ TestChannelCmd(clientData, interp, argc, argv)
 	statePtr	= chanPtr->state;
         chanPtr		= statePtr->topChanPtr;
 	chan		= (Tcl_Channel) chanPtr;
+    } else {
+	/* lint */
+	statePtr	= NULL;
+	chan		= NULL;
     }
 
     if ((cmdName[0] == 'i') && (strncmp(cmdName, "info", len) == 0)) {

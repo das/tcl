@@ -299,7 +299,11 @@ TclChannelTransform(interp, chan, cmdObjPtr)
     if (dataPtr->self == (Tcl_Channel) NULL) {
 	Tcl_AppendResult(interp, "\nfailed to stack channel \"",
 		Tcl_GetChannelName(chan), "\"", (char *) NULL);
-	goto cleanup;
+
+	Tcl_DecrRefCount(dataPtr->command);
+	ResultClear(&dataPtr->result);
+	ckfree((VOID *) dataPtr);
+	return TCL_ERROR;
     }
 
     /*
@@ -312,7 +316,7 @@ TclChannelTransform(interp, chan, cmdObjPtr)
 
 	if (res != TCL_OK) {
 	    Tcl_UnstackChannel(interp, chan);
-	    goto cleanup;
+	    return TCL_ERROR;
 	}
     }
 
@@ -325,17 +329,11 @@ TclChannelTransform(interp, chan, cmdObjPtr)
 		    NULL, 0, TRANSMIT_DONT, P_NO_PRESERVE);
 
 	    Tcl_UnstackChannel(interp, chan);
-	    goto cleanup;
+	    return TCL_ERROR;
 	}
     }
 
     return TCL_OK;
-
-    cleanup:
-    Tcl_DecrRefCount(dataPtr->command);
-    ResultClear(&dataPtr->result);
-    ckfree((VOID *) dataPtr);
-    return TCL_ERROR;
 }
 
 /*
