@@ -469,8 +469,6 @@ EXTERN int		TclpLstat _ANSI_ARGS_((CONST char *path,
 EXTERN int		TclpStat _ANSI_ARGS_((CONST char *path, 
 			    struct stat *buf));
 
-#include "tclIntPlatDecls.h"
-
 /*
  * Platform specific mutex definition used by memory allocators.
  * These mutexes are statically allocated and explicitly initialized.
@@ -490,5 +488,8 @@ typedef int TclpMutex;
 #define	TclpMutexLock(a)
 #define	TclpMutexUnlock(a)
 #endif /* TCL_THREADS */
+
+#include "tclPlatDecls.h"
+#include "tclIntPlatDecls.h"
 
 #endif /* _TCLUNIXPORT */
