@@ -1134,15 +1134,16 @@ TtyParseMode(interp, mode, speedPtr, parityPtr, dataPtr, stopPtr)
     }
     /*
      * Only allow setting mark/space parity on platforms that support it
+     * Make sure to allow for the case where strchr is a macro.
      * [Bug: 5089]
      */
-    if (strchr(
+    if (
 #if defined(PAREXT) || defined(USE_TERMIO)
-	"noems",
+	strchr("noems", parity) == NULL
 #else
-	"noe",
+	strchr("noe", parity) == NULL
 #endif
-	parity) == NULL) {
+	) {
 	if (interp != NULL) {
 	    Tcl_AppendResult(interp, bad,
 #if defined(PAREXT) || defined(USE_TERMIO)
