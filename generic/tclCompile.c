@@ -1348,7 +1348,6 @@ TclCompileExprWords(interp, tokenPtr, numWords, envPtr)
     JumpFixup jumpFixup;
     int maxDepth, doExprInline, range, numBytes, i, j, code;
     char *script;
-    char savedChar;
     int saveExprIsJustVarRef = envPtr->exprIsJustVarRef;
     int saveExprIsComparison = envPtr->exprIsComparison;
 
@@ -1370,10 +1369,7 @@ TclCompileExprWords(interp, tokenPtr, numWords, envPtr)
 
 	script = tokenPtr[1].start;
 	numBytes = tokenPtr[1].size;
-	savedChar = script[numBytes];
-	script[numBytes] = 0;
 	code = TclCompileExpr(interp, script, numBytes, envPtr);
-	script[numBytes] = savedChar;
 	return code;
     }
 	

@@ -1109,7 +1109,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 			&index) != TCL_OK) {
 		    return TCL_ERROR;
 		}
-		Tcl_SetStringObj(resultPtr, &string1[index], 1);
+		Tcl_SetByteArrayObj(resultPtr, &string1[index], 1);
 	    } else {
 		string1 = Tcl_GetStringFromObj(objv[2], &length1);
 		
