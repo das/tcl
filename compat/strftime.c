@@ -186,7 +186,7 @@ _fmt(format, t)
     const char *format;
     const struct tm *t;
 {
-#ifdef WIN32
+#ifdef __WIN32__
 #define BUF_SIZ 256
     TCHAR buf[BUF_SIZ];
     SYSTEMTIME syst;
@@ -358,7 +358,7 @@ _fmt(format, t)
 		    if (!_conv(t->tm_wday, 1, '0'))
 			return(0);
 		    continue;
-#ifdef WIN32
+#ifdef __WIN32__
 		/*
 		 * To properly handle the localized time routines on Windows,
 		 * we must make use of the special localized calls.
