@@ -98,6 +98,15 @@ test compile-3.3 {TclCompileCatchCmd: overagressive compiling [bug 219184]} {
     catch {catch-test error} ::foo
     set ::foo
 } {GOOD}
+test compile-3.4 {TclCompileCatchCmd: bcc'ed [return] is caught} {
+    proc foo {} {
+	set fail [catch {
+	    return 1
+	}] ; # {}	
+	return 2
+    }
+    foo
+} {2}
 
 test compile-4.1 {TclCompileForCmd: command substituted test expression} {
     set i 0
