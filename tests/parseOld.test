@@ -23,6 +23,9 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 tcltest::testConstraint testwordend \
 	[string equal "testwordend" [info commands testwordend]]
 
+# Save the argv value for restoration later
+set savedArgv $argv
+
 proc fourArgs {a b c d} {
     global arg1 arg2 arg3 arg4
     set arg1 $a
@@ -536,6 +539,7 @@ test parseOld-15.5 {TclScriptEnd procedure} {
 } {0}
 
 # cleanup
+set argv $savedArgv
 ::tcltest::cleanupTests
 return
 
