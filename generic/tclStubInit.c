@@ -756,6 +756,8 @@ TclStubs tclStubs = {
     Tcl_UniCharIsGraph, /* 373 */
     Tcl_UniCharIsPrint, /* 374 */
     Tcl_UniCharIsPunct, /* 375 */
+    Tcl_RegExpMatchObj, /* 376 */
+    Tcl_RegExpGetInfo, /* 377 */
 };
 
 /* !END!: Do not edit above this line. */

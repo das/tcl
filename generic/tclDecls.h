@@ -1168,6 +1168,13 @@ EXTERN int		Tcl_UniCharIsGraph _ANSI_ARGS_((int ch));
 EXTERN int		Tcl_UniCharIsPrint _ANSI_ARGS_((int ch));
 /* 375 */
 EXTERN int		Tcl_UniCharIsPunct _ANSI_ARGS_((int ch));
+/* 376 */
+EXTERN int		Tcl_RegExpMatchObj _ANSI_ARGS_((Tcl_Interp * interp, 
+				Tcl_RegExp regexp, Tcl_Obj * objPtr, 
+				int offset, int nmatches, int flags));
+/* 377 */
+EXTERN void		Tcl_RegExpGetInfo _ANSI_ARGS_((Tcl_RegExp regexp, 
+				Tcl_RegExpInfo * infoPtr));
 
 typedef struct TclStubHooks {
     struct TclPlatStubs *tclPlatStubs;
@@ -1611,6 +1618,8 @@ typedef struct TclStubs {
     int (*tcl_UniCharIsGraph) _ANSI_ARGS_((int ch)); /* 373 */
     int (*tcl_UniCharIsPrint) _ANSI_ARGS_((int ch)); /* 374 */
     int (*tcl_UniCharIsPunct) _ANSI_ARGS_((int ch)); /* 375 */
+    int (*tcl_RegExpMatchObj) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_RegExp regexp, Tcl_Obj * objPtr, int offset, int nmatches, int flags)); /* 376 */
+    void (*tcl_RegExpGetInfo) _ANSI_ARGS_((Tcl_RegExp regexp, Tcl_RegExpInfo * infoPtr)); /* 377 */
 } TclStubs;
 
 #ifdef __cplusplus
@@ -3150,6 +3159,14 @@ extern TclStubs *tclStubsPtr;
 #ifndef Tcl_UniCharIsPunct
 #define Tcl_UniCharIsPunct \
 	(tclStubsPtr->tcl_UniCharIsPunct) /* 375 */
+#endif
+#ifndef Tcl_RegExpMatchObj
+#define Tcl_RegExpMatchObj \
+	(tclStubsPtr->tcl_RegExpMatchObj) /* 376 */
+#endif
+#ifndef Tcl_RegExpGetInfo
+#define Tcl_RegExpGetInfo \
+	(tclStubsPtr->tcl_RegExpGetInfo) /* 377 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

@@ -33,10 +33,10 @@ typedef struct TclRegexp {
     int flags;			/* Regexp compile flags. */
     regex_t re;			/* Compiled re, includes number of
 				 * subexpressions. */
-    CONST char *string;		/* Last string matched with this regexp
-				 * (UTF-8), so Tcl_RegExpRange() can convert
-				 * the matches from character indices to UTF-8
-				 * byte offsets. */
+    Tcl_Obj *objPtr;		/* Last object match with this regexp, so
+				 * Tcl_RegExpRange() can convert the matches
+				 * from character indices to UTF-8 byte
+				 * offsets. */
     regmatch_t *matches;	/* Array of indices into the Tcl_UniChar
 				 * representation of the last string matched
 				 * with this regexp to indicate the location
@@ -53,8 +53,6 @@ typedef struct TclRegexp {
 
 EXTERN int		TclRegAbout _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_RegExp re));
-EXTERN VOID		TclRegXflags _ANSI_ARGS_((char *string, int length,
-			    int *cflagsPtr, int *eflagsPtr));
 EXTERN int		TclRegExpExecUniChar _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_RegExp re, CONST Tcl_UniChar *uniString,
 			    int numChars, int nmatches, int flags));

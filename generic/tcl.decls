@@ -1277,6 +1277,14 @@ declare 374 generic {
 declare 375 generic {
     int Tcl_UniCharIsPunct(int ch)
 }
+declare 376 generic {
+    int Tcl_RegExpMatchObj(Tcl_Interp *interp, Tcl_RegExp regexp, \
+	    Tcl_Obj *objPtr, int offset, int nmatches, int flags)
+}
+declare 377 generic {
+    void Tcl_RegExpGetInfo(Tcl_RegExp regexp, Tcl_RegExpInfo *infoPtr)
+}
+
 
 ##############################################################################
 

@@ -648,6 +648,9 @@ test string-10.12 {string map, unicode} {
 test string-10.13 {string map, -nocase unicode} {
     string map -nocase [list \374 ue UE \334] "a\374ueUE\000EU"
 } aue\334\334\0EU
+test string-10.14 {string map, -nocase null arguments} {
+    string map -nocase {{} abc} foo
+} foo
 
 test string-11.1 {string match, too few args} {
     list [catch {string match a} msg] $msg
