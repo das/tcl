@@ -205,7 +205,7 @@ Returns any leading namespace qualifiers for \fIstring\fR.
 Qualifiers are namespace names separated by \fB::\fRs.
 For the \fIstring\fR \fB::foo::bar::x\fR,
 this command returns \fB::foo::bar\fR,
-and for \fB::\fR it returns \fB``''\fR (an empty string).
+and for \fB::\fR it returns an empty string.
 This command is the complement of the \fBnamespace tail\fR command.
 Note that it does not check whether the
 namespace names are, in fact,
@@ -216,7 +216,7 @@ Returns the simple name at the end of a qualified string.
 Qualifiers are namespace names separated by \fB::\fRs.
 For the \fIstring\fR \fB::foo::bar::x\fR,
 this command returns \fBx\fR,
-and for \fB::\fR it returns \fB``''\fR (an empty string).
+and for \fB::\fR it returns an empty string.
 This command is the complement of the \fBnamespace qualifiers\fR command.
 It does not check whether the namespace names are, in fact,
 the names of currently defined namespaces.
