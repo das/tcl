@@ -5420,6 +5420,7 @@ Tcl_GetCommandFromObj(interp, objPtr)
     if (cmdPtr == NULL) {
         result = tclCmdNameType.setFromAnyProc(interp, objPtr);
         if (result != TCL_OK) {
+	    iPtr->varFramePtr = savedFramePtr;
             return (Tcl_Command) NULL;
         }
         resPtr = (ResolvedCmdName *) objPtr->internalRep.otherValuePtr;
