@@ -55,7 +55,7 @@ TclpLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr,
 				 * this file. */
 {
     HINSTANCE handle;
-    TCHAR *nativeName;
+    CONST TCHAR *nativeName;
     Tcl_DString ds;
 
     char *fileName = Tcl_GetString(pathPtr);

@@ -4134,9 +4134,9 @@ TclpNativeToNormalized(clientData)
     Tcl_Obj *objPtr;
     
 #ifdef __WIN32__
-    Tcl_WinTCharToUtf((char*)clientData, -1, &ds);
+    Tcl_WinTCharToUtf((CONST char*)clientData, -1, &ds);
 #else
-    Tcl_ExternalToUtfDString(NULL, (char*)clientData, -1, &ds);
+    Tcl_ExternalToUtfDString(NULL, (CONST char*)clientData, -1, &ds);
 #endif
     objPtr = Tcl_NewStringObj(Tcl_DStringValue(&ds),Tcl_DStringLength(&ds));
     Tcl_DStringFree(&ds);

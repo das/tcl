@@ -1888,7 +1888,7 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 	Tcl_DStringFree(&ds);
     } else {
 	/* We're on WinNT or 2000 or XP */
-	char *nativePath;
+	CONST char *nativePath;
 #if 0
 	/* 
 	 * We don't use this simpler version, because the speed

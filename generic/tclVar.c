@@ -3579,7 +3579,7 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 	}
 
 	case ARRAY_STATISTICS: {
-	    char *stats;
+	    CONST char *stats;
 
 	    if (notArray) {
 		goto error;
@@ -3587,7 +3587,7 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 
 	    stats = Tcl_HashStats(varPtr->value.tablePtr);
 	    if (stats != NULL) {
-		Tcl_SetResult(interp, stats, TCL_VOLATILE);
+		Tcl_SetStringObj(Tcl_GetObjResult(interp), stats, -1);
 		ckfree((void *)stats);
 	    } else {
 		Tcl_SetResult(interp, "error reading array statistics",

@@ -1531,7 +1531,7 @@ SerialSetOptionProc(instanceData, interp, optionName, value)
     BOOL result, flag;
     size_t len, vlen;
     Tcl_DString ds;
-    TCHAR *native;
+    CONST TCHAR *native;
     int argc;
     char **argv;
     

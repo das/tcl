@@ -578,7 +578,7 @@ TclpOpenFile(path, mode)
     HANDLE handle;
     DWORD accessMode, createMode, shareMode, flags;
     Tcl_DString ds;
-    TCHAR *nativePath;
+    CONST TCHAR *nativePath;
     
     /*
      * Map the access bits to the NT access mode.
@@ -1360,7 +1360,7 @@ ApplicationType(interp, originalName, fullName)
     DWORD attr, read;
     IMAGE_DOS_HEADER header;
     Tcl_DString nameBuf, ds;
-    TCHAR *nativeName;
+    CONST TCHAR *nativeName;
     WCHAR nativeFullPath[MAX_PATH];
     static char extensions[][5] = {"", ".com", ".exe", ".bat"};
 

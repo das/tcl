@@ -3064,15 +3064,15 @@ Tcl_EvalObjv(interp, objc, objv, flags)
 void
 Tcl_LogCommandInfo(interp, script, command, length)
     Tcl_Interp *interp;		/* Interpreter in which to log information. */
-    char *script;		/* First character in script containing
+    CONST char *script;		/* First character in script containing
 				 * command (must be <= command). */
-    char *command;		/* First character in command that
+    CONST char *command;	/* First character in command that
 				 * generated the error. */
     int length;			/* Number of bytes in command (-1 means
 				 * use all bytes up to first null byte). */
 {
     char buffer[200];
-    register char *p;
+    register CONST char *p;
     char *ellipsis = "";
     Interp *iPtr = (Interp *) interp;
 

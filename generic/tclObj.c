@@ -400,7 +400,7 @@ Tcl_AppendAllObjTypes(interp, objPtr)
 
 Tcl_ObjType *
 Tcl_GetObjType(typeName)
-    char *typeName;		/* Name of Tcl object type to look up. */
+    CONST char *typeName;	/* Name of Tcl object type to look up. */
 {
     register Tcl_HashEntry *hPtr;
     Tcl_ObjType *typePtr;

@@ -490,7 +490,7 @@ TclWinSetInterfaces(
  *---------------------------------------------------------------------------
  */
 
-TCHAR *
+CONST TCHAR *
 Tcl_WinUtfToTChar(string, len, dsPtr)
     CONST char *string;		/* Source string in UTF-8. */
     int len;			/* Source string length in bytes, or < 0 for
@@ -502,7 +502,7 @@ Tcl_WinUtfToTChar(string, len, dsPtr)
 	    string, len, dsPtr);
 }
 
-char *
+CONST char *
 Tcl_WinTCharToUtf(string, len, dsPtr)
     CONST TCHAR *string;	/* Source string in Unicode when running
 				 * NT, ANSI when running 95. */
