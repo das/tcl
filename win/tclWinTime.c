@@ -223,7 +223,7 @@ TclpGetClicks()
 
 int
 TclpGetTimeZone (currentTime)
-    unsigned long  currentTime;
+    Tcl_WideInt currentTime;
 {
     int timeZone;
 

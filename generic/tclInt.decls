@@ -124,8 +124,8 @@ declare 25 generic {
 #      char * TclGetCwd(Tcl_Interp *interp)
 #  }
 declare 27 generic {
-    int TclGetDate(char *p, unsigned long now, long zone,
-	    unsigned long *timePtr)
+    int TclGetDate(char *p, Tcl_WideInt now, long zone,
+	    Tcl_WideInt *timePtr)
 }
 declare 28 generic {
     Tcl_Channel TclpGetDefaultStdChannel(int type)
@@ -312,7 +312,7 @@ declare 77 generic {
 }
 
 declare 78 generic {
-    int TclpGetTimeZone(unsigned long time)
+    int TclpGetTimeZone(Tcl_WideInt time)
 }
 # Replaced by Tcl_FSListVolumes in 8.4:
 #declare 79 generic {

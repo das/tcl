@@ -131,7 +131,7 @@ TclpGetClicks()
 
 int
 TclpGetTimeZone (currentTime)
-    unsigned long  currentTime;
+    Tcl_WideInt  currentTime;
 {
     /*
      * We prefer first to use the time zone in "struct tm" if the
