@@ -59,9 +59,7 @@ static char precisionString[10] = "12";
 static char precisionFormat[10] = "%.12g";
 				/* The format string actually used in calls
 				 * to sprintf. */
-#ifdef TCL_THREADS
-static Tcl_Mutex precisionMutex;
-#endif
+TCL_DECLARE_MUTEX(precisionMutex)
 
 
 /*

@@ -80,9 +80,7 @@ static Tcl_ThreadDataKey dataKey;
  */
 
 static ThreadSpecificData *firstNotifierPtr;
-#ifdef TCL_THREADS
-static Tcl_Mutex listLock;
-#endif
+TCL_DECLARE_MUTEX(listLock)
 
 /*
  * Declarations for routines used only in this file.

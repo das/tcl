@@ -21,9 +21,7 @@
 
 static Tcl_HashTable typeTable;
 static int typeTableInitialized = 0;    /* 0 means not yet initialized. */
-#ifdef TCL_THREADS
-static Tcl_Mutex tableMutex;
-#endif
+TCL_DECLARE_MUTEX(tableMutex)
 
 /*
  * Head of the list of free Tcl_Objs we maintain.

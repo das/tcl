@@ -57,7 +57,7 @@ static int notifierCount = 0;
  * as well as the pending flag for any specific notifier.
  */
 
-static Tcl_Mutex notifierMutex;
+TCL_DECLARE_MUTEX(notifierMutex)
 
 /*
  * Static routines defined in this file.

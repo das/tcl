@@ -23,7 +23,7 @@ static int initialized = 0;
 static int  hostnameInitialized = 0;
 static char hostname[255];	/* This buffer should be big enough for
                                  * hostname plus domain name. */
-static Tcl_Mutex socketMutex;
+TCL_DECLARE_MUTEX(socketMutex)
 
 /*
  * The following structure contains pointers to all of the WinSock API entry

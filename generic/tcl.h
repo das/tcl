@@ -125,6 +125,17 @@
 # endif
 #endif
 
+/*
+ * Special macro to define mutexes, that doesn't do anything
+ * if we are not using threads.
+ */
+
+#ifdef TCL_THREADS
+#define TCL_DECLARE_MUTEX(name) static Tcl_Mutex name;
+#else
+#define TCL_DECLARE_MUTEX(name)
+#endif
+
 /* 
  * A special definition used to allow this header file to be included 
  * in resource files so that they can get obtain version information from

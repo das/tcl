@@ -136,7 +136,7 @@ static int triggerPipe = -1;
  * The notifierMutex locks access to all of the global notifier state. 
  */
 
-static Tcl_Mutex notifierMutex;
+TCL_DECLARE_MUTEX(notifierMutex)
 
 /*
  * The notifier thread signals the notifierCV when it has finished

@@ -141,9 +141,7 @@ typedef struct EscapeEncodingData {
  */
  
 static Tcl_HashTable encodingTable;
-#ifdef TCL_THREADS
-static Tcl_Mutex encodingMutex;
-#endif
+TCL_DECLARE_MUTEX(encodingMutex)
 
 /*
  * The following are used to hold the default and current system encodings.  

@@ -785,17 +785,6 @@ EXTERN void TclpConditionWait _ANSI_ARGS_((Tcl_Condition *condPtr, Tcl_Mutex *mu
 #endif
 
 /*
- * Special macro to define mutexes, that doesn't do anything
- * if we are not using threads.
- */
-
-#ifdef TCL_THREADS
-#define TCL_DECLARE_MUTEX(name) static Tcl_Mutex name;
-#else
-#define TCL_DECLARE_MUTEX(name)
-#endif
-
-/*
  * These are a thin layer over TclpThreadKeyDataGet and TclpThreadKeyDataSet
  * when threads are used, or an emulation if there are no threads.  These
  * are really internal and Tcl clients should use Tcl_GetThreadData.

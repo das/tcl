@@ -25,7 +25,7 @@
  */
 
 static int initialized = 0;
-static Tcl_Mutex procMutex;
+TCL_DECLARE_MUTEX(procMutex)
 
 /*
  * The following defines identify the various types of applications that 

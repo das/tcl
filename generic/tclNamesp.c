@@ -46,9 +46,7 @@
  */
 
 static long numNsCreated = 0; 
-#ifdef TCL_THREADS
-static Tcl_Mutex nsMutex;
-#endif
+TCL_DECLARE_MUTEX(nsMutex)
 
 /*
  * This structure contains a cached pointer to a namespace that is the

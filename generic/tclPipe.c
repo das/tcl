@@ -32,9 +32,7 @@ typedef struct Detached {
 } Detached;
 
 static Detached *detList = NULL;	/* List of all detached proceses. */
-#ifdef TCL_THREADS
-static Tcl_Mutex pipeMutex;		/* Guard access to detList. */
-#endif
+TCL_DECLARE_MUTEX(pipeMutex)		/* Guard access to detList. */
 
 /*
  * Declarations for local procedures defined in this file:

@@ -109,7 +109,7 @@ static char *errorProcString;
  * guarded by this mutex. 
  */
 
-static Tcl_Mutex threadMutex;
+TCL_DECLARE_MUTEX(threadMutex)
 
 #undef TCL_STORAGE_CLASS
 #define TCL_STORAGE_CLASS DLLEXPORT
