@@ -1997,6 +1997,8 @@ EXTERN int	Tcl_LreplaceObjCmd _ANSI_ARGS_((ClientData clientData,
 		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int	Tcl_LsearchObjCmd _ANSI_ARGS_((ClientData clientData,
 		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
+EXTERN int	Tcl_LsetObjCmd _ANSI_ARGS_((ClientData clientData,
+                    Tcl_Interp* interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int	Tcl_LsortObjCmd _ANSI_ARGS_((ClientData clientData,
 		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int	Tcl_NamespaceObjCmd _ANSI_ARGS_((ClientData clientData,

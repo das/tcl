@@ -1519,6 +1519,8 @@ declare 433 generic {
 declare 434 generic {
     Tcl_UniChar * Tcl_GetUnicodeFromObj (Tcl_Obj *objPtr, int *lengthPtr)
 }
+
+# introduced in 8.4a4
 declare 435 generic {
     int Tcl_GetMathFuncInfo(Tcl_Interp *interp, CONST char *name,
 	int *numArgsPtr, Tcl_ValueType **argTypesPtr,
@@ -1526,6 +1528,10 @@ declare 435 generic {
 }
 declare 436 generic {
     Tcl_Obj * Tcl_ListMathFuncs(Tcl_Interp *interp, CONST char *pattern)
+}
+declare 437 generic {
+    int Tcl_ListObjSetElement( Tcl_Interp* interp, Tcl_Obj* listPtr,
+	                       int index, Tcl_Obj* valuePtr )
 }
 
 

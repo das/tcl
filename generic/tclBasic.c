@@ -130,6 +130,8 @@ static CmdInfo builtInCmds[] = {
         (CompileProc *) NULL,		1},
     {"lsearch",		(Tcl_CmdProc *) NULL,	Tcl_LsearchObjCmd,
         (CompileProc *) NULL,		1},
+    {"lset",            (Tcl_CmdProc *) NULL,   Tcl_LsetObjCmd,
+        (CompileProc *) NULL,           1},
     {"lsort",		(Tcl_CmdProc *) NULL,	Tcl_LsortObjCmd,
         (CompileProc *) NULL,		1},
     {"namespace",	(Tcl_CmdProc *) NULL,	Tcl_NamespaceObjCmd,
