@@ -812,16 +812,6 @@ Tcl_Finalize()
 	TclFinalizeCompExecEnv();
 	TclFinalizeEnvironment();
 
-	/*
-	 * Finalizing the filesystem must come after anything which
-	 * might conceivably interact with the 'Tcl_FS' API.  This
-	 * will also unload any extensions which have been loaded.
-	 * However, it also needs access to the encoding subsystem
-	 * during finalization, so that system must still be intact
-	 * at this point.
-	 */
-	TclFinalizeFilesystem();
-
 	/* 
 	 * We must be sure the encoding finalization doesn't need
 	 * to examine the filesystem in any way.  Since it only
@@ -851,6 +841,24 @@ Tcl_Finalize()
 	 */
 
 	TclFinalizeSynchronization();
+
+	/*
+	 * FIX FIX FIX:
+	 * There is a conflict here between what apps need when for
+	 * finalization.  There is the encoding note below that
+	 * relates to tclkits, but there is the clear problem in a
+	 * standard threaded build that you must finalize the sync
+	 * objects before the filesystem to handle tsdPtr's in
+	 * extensions (example: dde).  -- hobbs
+	 * 
+	 * Finalizing the filesystem must come after anything which
+	 * might conceivably interact with the 'Tcl_FS' API.  This
+	 * will also unload any extensions which have been loaded.
+	 * However, it also needs access to the encoding subsystem
+	 * during finalization, so that system must still be intact
+	 * at this point.
+	 */
+	TclFinalizeFilesystem();
 
 	/*
 	 * There shouldn't be any malloc'ed memory after this.
