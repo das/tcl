@@ -456,7 +456,7 @@ TclpSetVariables(interp)
 	 */
 
 	if ((strchr(name.release, '.') != NULL)
-		|| !isdigit(name.version[0])) {	/* INTL: digit */
+		|| !isdigit(UCHAR(name.version[0]))) {	/* INTL: digit */
 	    Tcl_SetVar2(interp, "tcl_platform", "osVersion", name.release,
 		    TCL_GLOBAL_ONLY);
 	} else {

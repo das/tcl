@@ -221,7 +221,7 @@ TclpMatchFiles(interp, separators, dirPtr, pattern, tail)
 	dirName = Tcl_DStringValue(dirPtr);
     }
 
-    if ((TclStat(dirName, &statBuf) != 0)		/* INTL: Native. */
+    if ((TclpStat(dirName, &statBuf) != 0)		/* INTL: UTF-8. */
 	    || !S_ISDIR(statBuf.st_mode)) {
 	return TCL_OK;
     }
@@ -315,9 +315,7 @@ TclpMatchFiles(interp, separators, dirPtr, pattern, tail)
 	    Tcl_DStringAppend(dirPtr, utf, -1);
 	    if (tail == NULL) {
 		Tcl_AppendElement(interp, Tcl_DStringValue(dirPtr));
-	    } else if ((TclStat(Tcl_DStringValue(dirPtr), &statBuf) == 0)
-		Tcl_AppendElement(interp, Tcl_DStringValue(dirPtr));
-	    } else if ((TclStat(Tcl_DStringValue(dirPtr), &statBuf) == 0)
+	    } else if ((TclpStat(Tcl_DStringValue(dirPtr), &statBuf) == 0)
 		    && S_ISDIR(statBuf.st_mode)) {
 		Tcl_DStringAppend(dirPtr, "/", 1);
 		result = TclDoGlob(interp, separators, dirPtr, tail);
