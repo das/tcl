@@ -2182,6 +2182,7 @@ TclGetIntForIndex(interp, objPtr, endValue, indexPtr)
     } else {
 	intforindex_error:
 	if ((Interp *)interp != NULL) {
+	    Tcl_ResetResult(interp);
 	    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 		    "bad index \"", bytes,
 		    "\": must be integer or end?-integer?", (char *) NULL);
@@ -2239,6 +2240,10 @@ TclCheckBadOctal(interp, value)
 	if (*p == '\0') {
 	    /* Reached end of string */
 	    if (interp != NULL) {
+		/*
+		 * Don't reset the result here because we want this result
+		 * to be added to an existing error message as extra info.
+		 */
 		Tcl_AppendResult(interp, " (looks like invalid octal number)",
 			(char *) NULL);
 	    }
