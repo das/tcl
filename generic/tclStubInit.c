@@ -952,6 +952,22 @@ TclStubs tclStubs = {
     Tcl_DiscardInterpState, /* 537 */
     Tcl_SetReturnOptions, /* 538 */
     Tcl_GetReturnOptions, /* 539 */
+    Tcl_BigIntFromInt, /* 540 */
+    Tcl_BigIntFromWideInt, /* 541 */
+    Tcl_FreeBigInt, /* 542 */
+    Tcl_BigIntIsEven, /* 543 */
+    Tcl_BigIntIsOdd, /* 544 */
+    Tcl_BigIntIsZero, /* 545 */
+    Tcl_BigIntIsPositive, /* 546 */
+    Tcl_BigIntIsNegative, /* 547 */
+    Tcl_BigIntIsUnit, /* 548 */
+    Tcl_BigIntIsOne, /* 549 */
+    Tcl_BigIntIsMinusOne, /* 550 */
+    Tcl_BigIntIsInt, /* 551 */
+    Tcl_BigIntIsWideInt, /* 552 */
+    Tcl_GetIntFromBigInt, /* 553 */
+    Tcl_GetWideIntFromBigInt, /* 554 */
+    Tcl_CompareBigInt, /* 555 */
 };
 
 /* !END!: Do not edit above this line. */
