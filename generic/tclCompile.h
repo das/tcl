@@ -239,7 +239,7 @@ typedef struct TclVMWord {
 #define HPINT_MIN  (-HPINT_MAX-1)
 
 #define HP_STASH(full, n, u) \
-    (full) = ((((TclPSizedInt) (n)) << HP_SHIFT) | (u))
+    (full) = ((TclPSizedInt) (n) << HP_SHIFT) | ((TclPSizedInt) (u) & HP_MASK)
 
 #define HP_EXTRACT(full, n, u)\
     (n) = ((full) >> HP_SHIFT);\
@@ -313,7 +313,7 @@ FIXME
     (full) = ((((TclPSizedInt) (n)) << P_SHIFT) | (u))
 
 #define HP_STASH(full, n, u) \
-    (full) = ((((TclPSizedInt) (n)) << HP_SHIFT) | (u))
+    (full) = ((TclPSizedInt) (n) << HP_SHIFT) | ((TclPSizedInt) (u) & HP_MASK)
 
 #define HP_EXTRACT(full, n, u)\
     (n) = (((TclPSizedInt)(full)) >> HP_SHIFT);\

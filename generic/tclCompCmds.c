@@ -1336,14 +1336,14 @@ TclCompileLassignCmd(interp, parsePtr, envPtr)
 	    localIndex = HPUINT_MAX;
 	}
 	if (isScalar || !simpleVarName) {
-	    if (localIndex != HPUINT_MAX) {
+	    if ((localIndex & HP_MASK)  != HPUINT_MAX) {
 		TclEmitInst0(INST_DUP, envPtr);
 	    } else {
 		TclEmitInst1(INST_OVER, 1, envPtr);
 	    }
 	} else {
 	    flags |= VM_VAR_ARRAY;
-	    if (localIndex != HPUINT_MAX) {
+	    if ((localIndex & HP_MASK)  != HPUINT_MAX) {
 		TclEmitInst1(INST_OVER, 1, envPtr);
 	    } else {
 		TclEmitInst1(INST_OVER, 2, envPtr);
@@ -1648,7 +1648,7 @@ TclCompileLsetCmd(interp, parsePtr, envPtr)
      * Duplicate the variable name if it's been pushed.  
      */
 
-    if (!simpleVarName || (localIndex == HPUINT_MAX)) {
+    if (!simpleVarName || ((localIndex & HP_MASK) == HPUINT_MAX)) {
 	if (!simpleVarName || isScalar) {
 	    tempDepth = parsePtr->numWords - 2;
 	} else {
@@ -1662,7 +1662,7 @@ TclCompileLsetCmd(interp, parsePtr, envPtr)
      */
 
     if (simpleVarName && !isScalar) {
-	if (localIndex == HPUINT_MAX) {
+	if ((localIndex & HP_MASK) == HPUINT_MAX) {
 	    tempDepth = parsePtr->numWords - 1;
 	} else {
 	    tempDepth = parsePtr->numWords - 2;
