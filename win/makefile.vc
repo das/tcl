@@ -344,15 +344,10 @@ crt = -MD$(DBGX)
 crt = -MT$(DBGX)
 !endif
 
+TCL_INCLUDES	= -I"$(WINDIR)" -I"$(GENERICDIR)"
 BASE_CLFAGS	= $(cflags) $(cdebug) $(crt) $(TCL_INCLUDES)
 CON_CFLAGS	= $(cflags) $(cdebug) $(crt) -DCONSOLE
-TCL_INCLUDES	= -I"$(WINDIR)" -I"$(GENERICDIR)"
-
-!if $(STATIC_BUILD)
-TCL_CFLAGS	= $(BASE_CLFAGS) -DSTATIC_BUILD
-!else
-TCL_CFLAGS	= $(BASE_CLFAGS)
-!endif
+TCL_CFLAGS	= $(BASE_CLFAGS) $(OPTDEFINES)
 
 
 #---------------------------------------------------------------------
