@@ -79,6 +79,7 @@ proc httpdRead { sock } {
 	if [regexp {(POST|GET|HEAD) ([^?]+)\??([^ ]*) HTTP/1.0} \
 		$line x data(proto) data(url) data(query)] {
 	    set data(state) mime
+	    after 10
 	    httpd_log $sock Query $line
 	} else {
 	    httpdError $sock 400

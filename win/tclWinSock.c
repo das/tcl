@@ -583,7 +583,16 @@ SocketThreadExitHandler(clientData)
 	(ThreadSpecificData *)TclThreadDataKeyGet(&dataKey);
 
     if (tsdPtr->socketThread != NULL) {
+	Tcl_MutexLock(&socketMutex);
 	TerminateThread(tsdPtr->socketThread, 0);
+
+	/*
+	 * Wait for the thread to terminate.  This ensures that we are
+	 * completely cleaned up before we leave this function. 
+	 */
+	
+	WaitForSingleObject(tsdPtr->socketThread, INFINITE);
+	Tcl_MutexUnlock(&socketMutex);
     }
     if (tsdPtr->hwnd != NULL) {
 	DestroyWindow(tsdPtr->hwnd);
