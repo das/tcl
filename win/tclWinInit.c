@@ -599,7 +599,7 @@ TclpSetVariables(interp)
     OSVERSIONINFOA osInfo;
     Tcl_DString ds;
     TCHAR szUserName[ UNLEN+1 ];
-    DWORD dwUserNameLen;
+    DWORD dwUserNameLen = sizeof(szUserName);
 
     osInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOA);
     GetVersionExA(&osInfo);
