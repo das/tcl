@@ -3151,6 +3151,10 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
      * Call 'leave' command traces
      */
     if (!(cmdPtr->flags & CMD_IS_DELETED)) {
+	int saveErrFlags = iPtr->flags
+		& (ERR_IN_PROGRESS | ERR_ALREADY_LOGGED | ERROR_CODE_SET);
+	Tcl_Obj *saveOptions = iPtr->returnOpts;
+	Tcl_IncrRefCount(saveOptions);
         if ((cmdPtr->flags & CMD_HAS_EXEC_TRACES) && (traceCode == TCL_OK)) {
             traceCode = TclCheckExecutionTraces (interp, command, length,
                    cmdPtr, code, TCL_TRACE_LEAVE_EXEC, objc, objv);
@@ -3159,6 +3163,13 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
             traceCode = TclCheckInterpTraces(interp, command, length,
                    cmdPtr, code, TCL_TRACE_LEAVE_EXEC, objc, objv);
         }
+	if (traceCode == TCL_OK) {
+	    Tcl_DecrRefCount(iPtr->returnOpts);
+	    iPtr->returnOpts = saveOptions;
+	    Tcl_IncrRefCount(iPtr->returnOpts);
+	    iPtr->flags |= saveErrFlags;
+	}
+	Tcl_DecrRefCount(saveOptions);
     }
     TclCleanupCommand(cmdPtr);
 
