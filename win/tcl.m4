@@ -20,15 +20,15 @@
 AC_DEFUN(SC_PATH_TCLCONFIG, [
     AC_MSG_CHECKING([the location of tclConfig.sh])
 
-    if test -d ../../tcl8.5$1/win;  then
-	TCL_BIN_DIR_DEFAULT=../../tcl8.5$1/win
-    elif test -d ../../tcl8.5/win;  then
-	TCL_BIN_DIR_DEFAULT=../../tcl8.5/win
+    if test -d ../../tcl8.4$1/win;  then
+	TCL_BIN_DIR_DEFAULT=../../tcl8.4$1/win
+    elif test -d ../../tcl8.4/win;  then
+	TCL_BIN_DIR_DEFAULT=../../tcl8.4/win
     else
 	TCL_BIN_DIR_DEFAULT=../../tcl/win
     fi
     
-    AC_ARG_WITH(tcl, [  --with-tcl=DIR          use Tcl 8.5 binaries from DIR],
+    AC_ARG_WITH(tcl, [  --with-tcl=DIR          use Tcl 8.4 binaries from DIR],
 	    TCL_BIN_DIR=$withval, TCL_BIN_DIR=`cd $TCL_BIN_DIR_DEFAULT; pwd`)
     if test ! -d $TCL_BIN_DIR; then
 	AC_MSG_ERROR(Tcl directory $TCL_BIN_DIR does not exist)
@@ -60,15 +60,15 @@ AC_DEFUN(SC_PATH_TCLCONFIG, [
 AC_DEFUN(SC_PATH_TKCONFIG, [
     AC_MSG_CHECKING([the location of tkConfig.sh])
 
-    if test -d ../../tk8.5$1/win;  then
-	TK_BIN_DIR_DEFAULT=../../tk8.5$1/win
-    elif test -d ../../tk8.5/win;  then
-	TK_BIN_DIR_DEFAULT=../../tk8.5/win
+    if test -d ../../tk8.4$1/win;  then
+	TK_BIN_DIR_DEFAULT=../../tk8.4$1/win
+    elif test -d ../../tk8.4/win;  then
+	TK_BIN_DIR_DEFAULT=../../tk8.4/win
     else
 	TK_BIN_DIR_DEFAULT=../../tk/win
     fi
     
-    AC_ARG_WITH(tk, [  --with-tk=DIR          use Tk 8.5 binaries from DIR],
+    AC_ARG_WITH(tk, [  --with-tk=DIR          use Tk 8.4 binaries from DIR],
 	    TK_BIN_DIR=$withval, TK_BIN_DIR=`cd $TK_BIN_DIR_DEFAULT; pwd`)
     if test ! -d $TK_BIN_DIR; then
 	AC_MSG_ERROR(Tk directory $TK_BIN_DIR does not exist)
@@ -477,6 +477,7 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	    runtime=
 	    MAKE_DLL="echo "
 	    LIBSUFFIX="s\${DBGX}.a"
+	    LIBFLAGSUFFIX="s\${DBGX}"
 	    LIBRARIES="\${STATIC_LIBRARIES}"
 	    EXESUFFIX="s\${DBGX}.exe"
 	else
@@ -500,6 +501,7 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	        -Wl,--out-implib,\$(patsubst %.dll,lib%.a,\[$]@)"
 
 	    LIBSUFFIX="\${DBGX}.a"
+	    LIBFLAGSUFFIX="\${DBGX}"
 	    EXESUFFIX="\${DBGX}.exe"
 	    LIBRARIES="\${SHARED_LIBRARIES}"
 	fi
@@ -543,6 +545,7 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	    runtime=-MT
 	    MAKE_DLL="echo "
 	    LIBSUFFIX="s\${DBGX}.lib"
+	    LIBFLAGSUFFIX="s\${DBGX}"
 	    LIBRARIES="\${STATIC_LIBRARIES}"
 	    EXESUFFIX="s\${DBGX}.exe"
 	    SHLIB_LD_LIBS=""
@@ -553,6 +556,7 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	    # Add SHLIB_LD_LIBS to the Make rule, not here.
 	    MAKE_DLL="\${SHLIB_LD} \$(LDFLAGS) -out:\[$]@"
 	    LIBSUFFIX="\${DBGX}.lib"
+	    LIBFLAGSUFFIX="\${DBGX}"
 	    EXESUFFIX="\${DBGX}.exe"
 	    LIBRARIES="\${SHARED_LIBRARIES}"
 	    SHLIB_LD_LIBS='${LIBS}'
