@@ -15,11 +15,10 @@ VERSION=${TCL_VERSION}
 # by built-in autoconf tools.
  
 AC_ARG_ENABLE(gcc, [  --enable-gcc        build with gcc],
-    [tcl_ok=$enableval], [tcl_ok=test_all])
+    [tcl_ok=$enableval], [tcl_ok=no])
 if test "$tcl_ok" = "yes"; then
     CC=gcc
-fi
-if test "$tcl_ok" = "no"; then
+else
     CC=cl
 fi
 
