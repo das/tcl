@@ -495,7 +495,32 @@ test basic-39.2 {Tcl_CreateTrace, correct command and argc/argv arguments of tra
 test basic-39.3 {Tcl_CreateTrace, correct command and argc/argv arguments of trace proc} {testcmdtrace} {
     testcmdtrace deletetest {set stuff [info tclversion]}
 } $tclvers
+test basic-39.4 {Tcl_CreateTrace, check that tracing doesn't cause memory faults} {testcmdtrace knownBug} {
+    proc inst {args} {}
+    proc Something {} {inst}
+    proc Test {level} {
+	incr level 
+	puts "Test: level = $level"
+	#inst "a"
+	Something ;# you may call inst directly
+	if {$level == 1} {
+	    set instlist {1 2}
+	} else {
+	    set instlist {}
+	}
+	puts "instlist = /$instlist/"
 
+	foreach inst $instlist { 
+	    puts "inst = /$inst/" 
+	    Test $level 
+	}
+    }
+
+    testcmdtrace tracetest {Test 0}
+} {}
+catch {rename inst {}}
+catch {rename Test {}}
+catch {rename Something {}}
 
 test basic-40.1 {Tcl_DeleteTrace} {emptyTest} {
 } {}
