@@ -140,7 +140,9 @@ static CONST LocaleTable localeTable[] = {
     {NULL, NULL}
 };
 
+#ifdef HAVE_CFBUNDLE
 static int Tcl_MacOSXGetLibraryPath(Tcl_Interp *interp, int maxPathLen, char *tclLibPath);
+#endif /* HAVE_CFBUNDLE */
 
 
 /*
@@ -966,6 +968,7 @@ TclpCheckStackSpace()
     return 1;
 }
 
+#ifdef HAVE_CFBUNDLE
 /*
  *----------------------------------------------------------------------
  *
@@ -986,12 +989,11 @@ TclpCheckStackSpace()
 static int Tcl_MacOSXGetLibraryPath(Tcl_Interp *interp, int maxPathLen, char *tclLibPath)
 {
     int foundInFramework = TCL_ERROR;
-#ifdef HAVE_CFBUNDLE
     if (strcmp(defaultLibraryDir, "@TCL_IN_FRAMEWORK@") == 0) {
 	foundInFramework = Tcl_MacOSXOpenBundleResources(interp, 
 	    "com.tcltk.tcllibrary", 0, maxPathLen, tclLibPath);
     }
-#endif /* HAVE_CFBUNDLE */
     return foundInFramework;
 }
+#endif /* HAVE_CFBUNDLE */
 
