@@ -195,12 +195,12 @@ static int		TcpBlockProc _ANSI_ARGS_((ClientData instanceData,
 static int		TcpCloseProc _ANSI_ARGS_((ClientData instanceData,
 	            	    Tcl_Interp *interp));
 static int		TcpGetOptionProc _ANSI_ARGS_((ClientData instanceData,
-		            Tcl_Interp *interp, char *optionName,
+		            Tcl_Interp *interp, CONST char *optionName,
 			    Tcl_DString *optionValue));
 static int		TcpInputProc _ANSI_ARGS_((ClientData instanceData,
 	            	    char *buf, int toRead, int *errorCode));
 static int		TcpOutputProc _ANSI_ARGS_((ClientData instanceData,
-	            	    char *buf, int toWrite, int *errorCode));
+	            	    CONST char *buf, int toWrite, int *errorCode));
 static void		TcpWatchProc _ANSI_ARGS_((ClientData instanceData,
 		            int mask));
 static int		TcpGetHandleProc _ANSI_ARGS_((ClientData instanceData,
@@ -1765,7 +1765,7 @@ TcpInputProc(instanceData, buf, toRead, errorCodePtr)
 static int
 TcpOutputProc(instanceData, buf, toWrite, errorCodePtr)
     ClientData instanceData;		/* The socket state. */
-    char *buf;				/* Where to get data. */
+    CONST char *buf;			/* Where to get data. */
     int toWrite;			/* Maximum number of bytes to write. */
     int *errorCodePtr;			/* Where to store error codes. */
 {
@@ -1881,7 +1881,7 @@ static int
 TcpGetOptionProc(instanceData, interp, optionName, dsPtr)
     ClientData instanceData;		/* Socket state. */
     Tcl_Interp *interp;                 /* For error reporting - can be NULL */
-    char *optionName;			/* Name of the option to
+    CONST char *optionName;		/* Name of the option to
                                          * retrieve the value for, or
                                          * NULL to get all options and
                                          * their values. */

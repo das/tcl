@@ -1432,7 +1432,7 @@ typedef struct ParseValue {
 #define TCL_ALIGN(x) (((int)(x) + 7) & ~7)
 
 /*
- * The following macros are used to specify the runtime platform
+ * The following enum values are used to specify the runtime platform
  * setting of the tclPlatform variable.
  */
 
@@ -1441,6 +1441,19 @@ typedef enum {
     TCL_PLATFORM_MAC,		/* MacOS. */
     TCL_PLATFORM_WINDOWS	/* Any Microsoft Windows OS. */
 } TclPlatformType;
+
+/*
+ *  The following enum values are used to indicate the translation
+ *  of a Tcl channel.  Declared here so that each platform can define
+ *  TCL_PLATFORM_TRANSLATION to the native translation on that platform
+ */
+
+typedef enum TclEolTranslation {
+    TCL_TRANSLATE_AUTO,                 /* Eol == \r, \n and \r\n. */
+    TCL_TRANSLATE_CR,                   /* Eol == \r. */
+    TCL_TRANSLATE_LF,                   /* Eol == \n. */
+    TCL_TRANSLATE_CRLF                  /* Eol == \r\n. */
+} TclEolTranslation;
 
 /*
  * Flags for TclInvoke:

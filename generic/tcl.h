@@ -1337,15 +1337,15 @@ typedef int	(Tcl_DriverClose2Proc) _ANSI_ARGS_((ClientData instanceData,
 typedef int	(Tcl_DriverInputProc) _ANSI_ARGS_((ClientData instanceData,
 		    char *buf, int toRead, int *errorCodePtr));
 typedef int	(Tcl_DriverOutputProc) _ANSI_ARGS_((ClientData instanceData,
-		    char *buf, int toWrite, int *errorCodePtr));
+		    CONST char *buf, int toWrite, int *errorCodePtr));
 typedef int	(Tcl_DriverSeekProc) _ANSI_ARGS_((ClientData instanceData,
 		    long offset, int mode, int *errorCodePtr));
 typedef int	(Tcl_DriverSetOptionProc) _ANSI_ARGS_((
 		    ClientData instanceData, Tcl_Interp *interp,
-	            char *optionName, char *value));
+	            CONST char *optionName, CONST char *value));
 typedef int	(Tcl_DriverGetOptionProc) _ANSI_ARGS_((
 		    ClientData instanceData, Tcl_Interp *interp,
-		    char *optionName, Tcl_DString *dsPtr));
+		    CONST char *optionName, Tcl_DString *dsPtr));
 typedef void	(Tcl_DriverWatchProc) _ANSI_ARGS_((
 		    ClientData instanceData, int mask));
 typedef int	(Tcl_DriverGetHandleProc) _ANSI_ARGS_((
@@ -1388,17 +1388,6 @@ typedef int	(Tcl_DriverHandlerProc) _ANSI_ARGS_((
 #   define Tcl_ValidateAllMemory(x,y)
 
 #endif /* !TCL_MEM_DEBUG */
-
-/*
- * Enum for different end of line translation and recognition modes.
- */
-
-typedef enum Tcl_EolTranslation {
-    TCL_TRANSLATE_AUTO,			/* Eol == \r, \n and \r\n. */
-    TCL_TRANSLATE_CR,			/* Eol == \r. */
-    TCL_TRANSLATE_LF,			/* Eol == \n. */
-    TCL_TRANSLATE_CRLF			/* Eol == \r\n. */
-} Tcl_EolTranslation;
 
 /*
  * struct Tcl_ChannelType:

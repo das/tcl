@@ -145,8 +145,8 @@ static int		ConsoleGetHandleProc(ClientData instanceData,
 static ThreadSpecificData *ConsoleInit(void);
 static int		ConsoleInputProc(ClientData instanceData, char *buf,
 			    int toRead, int *errorCode);
-static int		ConsoleOutputProc(ClientData instanceData, char *buf,
-			    int toWrite, int *errorCode);
+static int		ConsoleOutputProc(ClientData instanceData,
+			    CONST char *buf, int toWrite, int *errorCode);
 static DWORD WINAPI	ConsoleReaderThread(LPVOID arg);
 static void		ConsoleSetupProc(ClientData clientData, int flags);
 static void		ConsoleWatchProc(ClientData instanceData, int mask);
@@ -680,7 +680,7 @@ ConsoleInputProc(
 static int
 ConsoleOutputProc(
     ClientData instanceData,		/* Console state. */
-    char *buf,				/* The data buffer. */
+    CONST char *buf,			/* The data buffer. */
     int toWrite,			/* How many bytes to write? */
     int *errorCode)			/* Where to store error code. */
 {

@@ -31,17 +31,17 @@ static int		TransformInputProc _ANSI_ARGS_ ((
 				ClientData instanceData,
 				char* buf, int toRead, int* errorCodePtr));
 static int		TransformOutputProc _ANSI_ARGS_ ((
-				ClientData instanceData,
-				char*  buf, int toWrite, int* errorCodePtr));
+				ClientData instanceData, CONST char *buf,
+				int toWrite, int* errorCodePtr));
 static int		TransformSeekProc _ANSI_ARGS_ ((
 				ClientData instanceData, long offset,
 				int mode, int* errorCodePtr));
 static int		TransformSetOptionProc _ANSI_ARGS_((
 				ClientData instanceData, Tcl_Interp *interp,
-				char *optionName, char *value));
+				CONST char *optionName, CONST char *value));
 static int		TransformGetOptionProc _ANSI_ARGS_((
 				ClientData instanceData, Tcl_Interp *interp,
-				char *optionName, Tcl_DString *dsPtr));
+				CONST char *optionName, Tcl_DString *dsPtr));
 static void		TransformWatchProc _ANSI_ARGS_ ((
 				ClientData instanceData, int mask));
 static int		TransformGetFileHandleProc _ANSI_ARGS_ ((
@@ -796,7 +796,7 @@ TransformInputProc (instanceData, buf, toRead, errorCodePtr)
 static int
 TransformOutputProc (instanceData, buf, toWrite, errorCodePtr)
     ClientData instanceData;
-    char*      buf;
+    CONST char*      buf;
     int        toWrite;
     int*       errorCodePtr;
 {
@@ -915,8 +915,8 @@ static int
 TransformSetOptionProc (instanceData, interp, optionName, value)
     ClientData instanceData;
     Tcl_Interp *interp;
-    char *optionName;
-    char *value;
+    CONST char *optionName;
+    CONST char *value;
 {
     TransformChannelData* dataPtr = (TransformChannelData*) instanceData;
     Tcl_Channel downChan = Tcl_GetStackedChannel(dataPtr->self);
@@ -953,7 +953,7 @@ static int
 TransformGetOptionProc (instanceData, interp, optionName, dsPtr)
     ClientData   instanceData;
     Tcl_Interp*  interp;
-    char*        optionName;
+    CONST char*        optionName;
     Tcl_DString* dsPtr;
 {
     TransformChannelData* dataPtr = (TransformChannelData*) instanceData;
@@ -964,7 +964,7 @@ TransformGetOptionProc (instanceData, interp, optionName, dsPtr)
     if (getOptionProc != NULL) {
 	return (*getOptionProc)(Tcl_GetChannelInstanceData(downChan),
 		interp, optionName, dsPtr);
-    } else if (optionName == (char*) NULL) {
+    } else if (optionName == (CONST char*) NULL) {
 	/*
 	 * Request is query for all options, this is ok.
 	 */
