@@ -25,7 +25,7 @@
 package require Tcl 8.2
 # keep this in sync with pkgIndex.tcl
 # and with the install directories in Makefiles
-package provide http 2.4.4
+package provide http 2.4.5
 
 namespace eval http {
     variable http
