@@ -218,6 +218,7 @@ GENERIC_OBJS = \
 	tclCompExpr.$(OBJEXT) \
 	tclCompile.$(OBJEXT) \
 	tclDate.$(OBJEXT) \
+	tclDictObj.$(OBJEXT) \
 	tclEncoding.$(OBJEXT) \
 	tclEnv.$(OBJEXT) \
 	tclEvent.$(OBJEXT) \

@@ -1754,6 +1754,49 @@ declare 493 generic {
 	    Tcl_ChannelType *chanTypePtr)
 }
 
+# DICTIONARIES - TIP#111
+declare 494 generic {
+    int Tcl_DictObjPut(Tcl_Interp *interp, Tcl_Obj *dictPtr,
+	    Tcl_Obj *keyPtr, Tcl_Obj *valuePtr)
+}
+declare 495 generic {
+    int Tcl_DictObjGet(Tcl_Interp *interp, Tcl_Obj *dictPtr, Tcl_Obj *keyPtr,
+	    Tcl_Obj **valuePtrPtr)
+}
+declare 496 generic {
+    int Tcl_DictObjRemove(Tcl_Interp *interp, Tcl_Obj *dictPtr,
+	    Tcl_Obj *keyPtr)
+}
+declare 497 generic {
+    int Tcl_DictObjSize(Tcl_Interp *interp, Tcl_Obj *dictPtr, int *sizePtr)
+}
+declare 498 generic {
+    int Tcl_DictObjFirst(Tcl_Interp *interp, Tcl_Obj *dictPtr,
+	    Tcl_DictSearch *searchPtr,
+	    Tcl_Obj **keyPtrPtr, Tcl_Obj **valuePtrPtr, int *donePtr)
+}
+declare 499 generic {
+    void Tcl_DictObjNext(Tcl_DictSearch *searchPtr,
+	    Tcl_Obj **keyPtrPtr, Tcl_Obj **valuePtrPtr, int *donePtr)
+}
+declare 500 generic {
+    void Tcl_DictObjDone(Tcl_DictSearch *searchPtr)
+}
+declare 501 generic {
+    int Tcl_DictObjPutKeyList(Tcl_Interp *interp, Tcl_Obj *dictPtr,
+	    int keyc, Tcl_Obj *CONST *keyv, Tcl_Obj *valuePtr)
+}
+declare 502 generic {
+    int Tcl_DictObjRemoveKeyList(Tcl_Interp *interp, Tcl_Obj *dictPtr,
+	    int keyc, Tcl_Obj *CONST *keyv)
+}
+declare 503 generic {
+    Tcl_Obj *Tcl_NewDictObj(void)
+}
+declare 504 generic {
+    Tcl_Obj *Tcl_DbNewDictObj(CONST char *file, int line)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are
