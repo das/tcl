@@ -1408,6 +1408,8 @@ typedef struct Interp {
 				     * is reached. */
 	int timeGranularity;	/* Mod factor used to determine how often
 				 * to evaluate the limit check. */
+	Tcl_TimerToken timeEvent; /* Handle for a timer callback that will
+				   * occur when the time-limit is exceeded. */
 
 	Tcl_HashTable callbacks; /* Mapping from (interp,type) pair to data
 				  * used to install a limit handler callback
@@ -2114,6 +2116,9 @@ MODULE_SCOPE int	Tcl_ConcatObjCmd _ANSI_ARGS_((ClientData clientData,
 MODULE_SCOPE int	Tcl_ContinueObjCmd _ANSI_ARGS_((ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[]));
+MODULE_SCOPE Tcl_TimerToken TclCreateAbsoluteTimerHandler _ANSI_ARGS_((
+			    Tcl_Time *timePtr, Tcl_TimerProc *proc,
+			    ClientData clientData));
 MODULE_SCOPE int	TclDefaultBgErrorHandlerObjCmd _ANSI_ARGS_((
 			    ClientData clientData, Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[]));
