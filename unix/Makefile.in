@@ -321,6 +321,8 @@ GENERIC_OBJS = regcomp.o regexec.o regfree.o regerror.o tclAlloc.o \
 
 STUB_LIB_OBJS = tclStubLib.o ${COMPAT_OBJS}
 
+MAC_OSX_OBJS = tclMacOSXBundle.o tclMacOSXFCmd.o
+
 OBJS = ${GENERIC_OBJS} ${UNIX_OBJS} ${NOTIFY_OBJS} ${COMPAT_OBJS} \
         @DL_OBJS@ @PLAT_OBJS@
 
