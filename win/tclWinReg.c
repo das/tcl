@@ -173,8 +173,8 @@ static int		GetValueNames(Tcl_Interp *interp, Tcl_Obj *keyNameObj,
 			    Tcl_Obj *patternObj);
 static int		OpenKey(Tcl_Interp *interp, Tcl_Obj *keyNameObj,
 			    REGSAM mode, int flags, HKEY *keyPtr);
-static DWORD		OpenSubKey(char *hostName, HKEY rootKey,
-			    char *keyName, REGSAM mode, int flags,
+static DWORD		OpenSubKey(CONST char *hostName, HKEY rootKey,
+			    CONST char *keyName, REGSAM mode, int flags,
 			    HKEY *keyPtr);
 static int		ParseKeyName(Tcl_Interp *interp, char *name,
 			    char **hostNamePtr, HKEY *rootKeyPtr,
@@ -952,7 +952,7 @@ OpenSubKey(
 {
     DWORD result;
     Tcl_DString buf;
-    CONST TCHAR *nativeHost, nativeKey;
+    CONST TCHAR *nativeHost, *nativeKey;
 
     /*
      * Attempt to open the root key on a remote host if necessary.
