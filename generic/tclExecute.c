@@ -1806,6 +1806,25 @@ TclExecuteByteCode(interp, codePtr)
 	    }
 	    ADJUST_PC(1);
 
+       case INST_STRLEN:
+           {
+	       int length1;
+	       valuePtr = POP_OBJECT();
+	       if (valuePtr->typePtr == &tclByteArrayType) {
+		   (void) Tcl_GetByteArrayFromObj(valuePtr, &length1);
+	       } else {
+		   length1 = Tcl_GetCharLength(valuePtr);
+	       }
+	       if (Tcl_IsShared(valuePtr)) {
+		   PUSH_OBJECT(Tcl_NewIntObj(length1));
+		   TclDecrRefCount(valuePtr);
+	       } else {
+		   Tcl_SetIntObj(valuePtr, length1);
+		   ++stackTop;
+	       }
+	   }
+	   ADJUST_PC(1);
+	    
 	case INST_EQ:
 	case INST_NEQ:
 	case INST_LT:
