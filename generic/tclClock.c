@@ -327,13 +327,16 @@ FormatClock(interp, clockVal, useGMT, format)
 	    bufSize++;
 	}
     }
+    Tcl_DStringInit(&uniBuffer);
+    Tcl_UtfToExternalDString(NULL, format, -1, &uniBuffer);
     Tcl_DStringInit(&buffer);
     Tcl_DStringSetLength(&buffer, bufSize);
 
     Tcl_MutexLock(&clockMutex);
-    result = TclpStrftime(buffer.string, (unsigned int) bufSize, format,
-	    timeDataPtr, useGMT);
+    result = TclpStrftime(buffer.string, (unsigned int) bufSize,
+	    Tcl_DStringValue(&uniBuffer), timeDataPtr, useGMT);
     Tcl_MutexUnlock(&clockMutex);
+    Tcl_DStringFree(&uniBuffer);
 
 #if !defined(HAVE_TM_ZONE) && !defined(WIN32)
     if (useGMT) {
