@@ -1842,6 +1842,13 @@ proc tcltest::test {name description args} {
     variable testLevel
     variable coreModTime
     DebugPuts 3 "test $name $args"
+    DebugDo 1 {
+	variable TestNames
+	catch {
+	    puts "test name '$name' re-used; prior use in $TestNames($name)"
+	}
+	set TestNames($name) [info script]
+    }
 
     FillFilesExisted
     incr testLevel
