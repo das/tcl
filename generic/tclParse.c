@@ -360,7 +360,9 @@ parseWord:
 		    && (0 == strncmp(expPfx,expPtr->start,expPfxLen))
 					/* Is the prefix */
 		    && (numBytes > 0)
-		    && (0 == TclParseWhiteSpace(termPtr, 1, parsePtr, &type))
+		    && (TclParseWhiteSpace(termPtr, numBytes, parsePtr, &type)
+			    == 0)
+		    && (type != TYPE_COMMAND_END)
 					/* Non-whitespace follows */
 		    ) {
 		expandWord = 1;

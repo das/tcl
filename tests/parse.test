@@ -215,6 +215,17 @@ test parse-5.23 {Tcl_ParseCommand: {expand} parsing} testparser {
 test parse-5.24 {Tcl_ParseCommand: {expand} parsing} testparser {
     testparser {{expand}x} 0
 } {- {{expand}x} 1 expand {{expand}x} 1 text x 0 {}}
+test parse-5.25 {Tcl_ParseCommand: {expand} parsing} testparser {
+    testparser {{expand}
+} 0
+} {- {{expand}
+} 1 simple {{expand}} 1 text expand 0 {}}
+test parse-5.26 {Tcl_ParseCommand: {expand} parsing} testparser {
+    testparser {{expand};} 0
+} {- {{expand};} 1 simple {{expand}} 1 text expand 0 {}}
+test parse-5.27 {Tcl_ParseCommand: {expand} parsing} testparser {
+    testparser "{expand}\\\n foo bar" 0
+} {- \{expand\}\\\n\ foo\ bar 3 simple {{expand}} 1 text expand 0 simple foo 1 text foo 0 simple bar 1 text bar 0 {}}
 
 test parse-6.1 {ParseTokens procedure, empty word} testparser {
     testparser {""} 0
