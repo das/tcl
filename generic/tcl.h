@@ -1501,7 +1501,7 @@ typedef int (Tcl_FSStatProc) _ANSI_ARGS_((Tcl_Obj *pathPtr, struct stat *buf));
 typedef int (Tcl_FSAccessProc) _ANSI_ARGS_((Tcl_Obj *pathPtr, int mode));
 typedef Tcl_Channel (Tcl_FSOpenFileChannelProc) 
 	_ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *pathPtr, 
-	char *modeString, int permissions));
+	CONST char *modeString, int permissions));
 typedef int (Tcl_FSMatchInDirectoryProc) _ANSI_ARGS_((Tcl_Interp* interp, 
 	Tcl_Obj *result, Tcl_Obj *pathPtr, char *pattern, 
 	Tcl_GlobTypeData * types));

@@ -172,7 +172,7 @@ declare 39 generic {
     TclObjCmdProcType TclGetObjInterpProc(void)
 }
 declare 40 generic {
-    int TclGetOpenMode(Tcl_Interp *interp, char *str, int *seekFlagPtr)
+    int TclGetOpenMode(Tcl_Interp *interp, CONST char *str, int *seekFlagPtr)
 }
 declare 41 generic {
     Tcl_Command TclGetOriginalCommand(Tcl_Command command)

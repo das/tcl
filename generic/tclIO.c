@@ -2112,8 +2112,15 @@ FlushChannel(interp, chanPtr, calledFromAsyncFlush)
             } else {
                 Tcl_SetErrno(errorCode);
 		if (interp != NULL) {
+
+		    /*
+		     * Casting away CONST here is safe because the
+		     * TCL_VOLATILE flag guarantees CONST treatment
+		     * of the Posix error string.
+		     */
+
 		    Tcl_SetResult(interp,
-			    Tcl_PosixError(interp), TCL_VOLATILE);
+			    (char *) Tcl_PosixError(interp), TCL_VOLATILE);
 		}
             }
 

@@ -156,7 +156,7 @@ EXTERN int		TclGetNamespaceForQualName _ANSI_ARGS_((
 EXTERN TclObjCmdProcType TclGetObjInterpProc _ANSI_ARGS_((void));
 /* 40 */
 EXTERN int		TclGetOpenMode _ANSI_ARGS_((Tcl_Interp * interp, 
-				char * str, int * seekFlagPtr));
+				CONST char * str, int * seekFlagPtr));
 /* 41 */
 EXTERN Tcl_Command	TclGetOriginalCommand _ANSI_ARGS_((
 				Tcl_Command command));
@@ -563,7 +563,7 @@ typedef struct TclIntStubs {
     int (*tclGetLoadedPackages) _ANSI_ARGS_((Tcl_Interp * interp, char * targetName)); /* 37 */
     int (*tclGetNamespaceForQualName) _ANSI_ARGS_((Tcl_Interp * interp, CONST char * qualName, Namespace * cxtNsPtr, int flags, Namespace ** nsPtrPtr, Namespace ** altNsPtrPtr, Namespace ** actualCxtPtrPtr, CONST char ** simpleNamePtr)); /* 38 */
     TclObjCmdProcType (*tclGetObjInterpProc) _ANSI_ARGS_((void)); /* 39 */
-    int (*tclGetOpenMode) _ANSI_ARGS_((Tcl_Interp * interp, char * str, int * seekFlagPtr)); /* 40 */
+    int (*tclGetOpenMode) _ANSI_ARGS_((Tcl_Interp * interp, CONST char * str, int * seekFlagPtr)); /* 40 */
     Tcl_Command (*tclGetOriginalCommand) _ANSI_ARGS_((Tcl_Command command)); /* 41 */
     char * (*tclpGetUserHome) _ANSI_ARGS_((CONST char * name, Tcl_DString * bufferPtr)); /* 42 */
     int (*tclGlobalInvoke) _ANSI_ARGS_((Tcl_Interp * interp, int argc, char ** argv, int flags)); /* 43 */

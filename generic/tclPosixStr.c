@@ -35,7 +35,7 @@
  *----------------------------------------------------------------------
  */
 
-char *
+CONST char *
 Tcl_ErrnoId()
 {
     switch (errno) {
@@ -480,7 +480,7 @@ Tcl_ErrnoId()
  *----------------------------------------------------------------------
  */
 
-char *
+CONST char *
 Tcl_ErrnoMsg(err)
     int err;			/* Error number (such as in errno variable). */
 {
@@ -927,7 +927,7 @@ Tcl_ErrnoMsg(err)
  *----------------------------------------------------------------------
  */
 
-char *
+CONST char *
 Tcl_SignalId(sig)
     int sig;			/* Number of signal. */
 {
@@ -1059,7 +1059,7 @@ Tcl_SignalId(sig)
  *----------------------------------------------------------------------
  */
 
-char *
+CONST char *
 Tcl_SignalMsg(sig)
     int sig;			/* Number of signal. */
 {

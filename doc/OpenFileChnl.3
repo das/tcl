@@ -117,9 +117,9 @@ int
 .AS Tcl_ChannelType newClientProcPtr in
 .AP Tcl_Interp *interp in
 Used for error reporting and to look up a channel registered in it.
-.AP char *fileName in
+.AP "CONST char" *fileName in
 The name of a local or network file.
-.AP char *mode in
+.AP "CONST char" *mode in
 Specifies how the file is to be accessed.  May have any of the values
 allowed for the \fImode\fR argument to the Tcl \fBopen\fR command.  
 .AP int permissions in

@@ -278,7 +278,7 @@ TclCleanupChildren(interp, numPids, pidPtr, errorChan)
     int i, abnormalExit, anyErrorInfo;
     Tcl_Pid pid;
     WAIT_STATUS_TYPE waitStatus;
-    char *msg;
+    CONST char *msg;
 
     abnormalExit = 0;
     for (i = 0; i < numPids; i++) {
@@ -324,7 +324,7 @@ TclCleanupChildren(interp, numPids, pidPtr, errorChan)
 		abnormalExit = 1;
 	    } else if (WIFSIGNALED(waitStatus)) {
                 if (interp != (Tcl_Interp *) NULL) {
-                    char *p;
+                    CONST char *p;
                     
                     p = Tcl_SignalMsg((int) (WTERMSIG(waitStatus)));
                     Tcl_SetErrorCode(interp, "CHILDKILLED", msg1,
@@ -335,7 +335,7 @@ TclCleanupChildren(interp, numPids, pidPtr, errorChan)
                 }
 	    } else if (WIFSTOPPED(waitStatus)) {
                 if (interp != (Tcl_Interp *) NULL) {
-                    char *p;
+                    CONST char *p;
 
                     p = Tcl_SignalMsg((int) (WSTOPSIG(waitStatus)));
                     Tcl_SetErrorCode(interp, "CHILDSUSP", msg1,

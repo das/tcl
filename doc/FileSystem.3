@@ -196,7 +196,7 @@ Filled with the function to use to unload this piece of code.
 .AP utimbuf *tval in
 The access and modification times in this structure are read and 
 used to set those values for a given file.
-.AP char *modeString in
+.AP "CONST char" *modeString in
 Specifies how the file is to be accessed.  May have any of the values
 allowed for the \fImode\fR argument to the Tcl \fBopen\fR command.
 .AP int permissions in
@@ -830,7 +830,7 @@ which require open or accessing a file's contents will use it
 typedef Tcl_Channel Tcl_FSOpenFileChannelProc(
 	Tcl_Interp *\fIinterp\fR,
 	Tcl_Obj *\fIpathPtr\fR,
-	char *\fImodeString\fR,
+	CONST char *\fImodeString\fR,
 	int \fIpermissions\fR);
 .CE
 .PP
