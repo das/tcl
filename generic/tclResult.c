@@ -941,7 +941,6 @@ TclTransferResult(sourceInterp, result, targetInterp)
 				 * are the same, nothing is done. */
 {
     Interp *iPtr;
-    Tcl_Obj *objPtr;
 
     if (sourceInterp == targetInterp) {
 	return;
