@@ -135,7 +135,7 @@ TclpLoadFile(
     *(Tcl_UtfAtIndex(packageName, Tcl_NumUtfChars(packageName, -1) - 5)) = 0;
     
     native = Tcl_UtfToExternalDString(NULL, fileName, -1, &ds);
-    err = FSpLocationFromPath(strlen(fileName), fileName, &fileSpec);
+    err = FSpLocationFromPath(strlen(native), native, &fileSpec);
     Tcl_DStringFree(&ds);
     
     if (err != noErr) {

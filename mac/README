@@ -64,7 +64,7 @@ In order to compile Macintosh Tcl you must have the
 following items:
 
 	CodeWarrior Pro 2 or 3
-	Mac Tcl 8.1 (source)
+	Mac Tcl (source)
 	More Files 1.4.3
 
 The included project files should work fine.  However, for
