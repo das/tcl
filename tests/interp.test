@@ -258,8 +258,8 @@ test interp-7.4 {testing basic alias creation} {
     a alias bar
 } {in_master a1 a2 a3}
 test interp-7.5 {testing basic alias creation} {
-    a aliases
-} {foo bar}
+    lsort [a aliases]
+} {bar foo}
 test interp-7.6 {testing basic aliases arg checking} {
     list [catch {a aliases too many args} msg] $msg
 } {1 {wrong # args: should be "a aliases"}}
