@@ -10,7 +10,7 @@
 .TH library n "8.0" Tcl "Tcl Built-In Commands"
 .BS
 .SH NAME
-library \- standard library of Tcl procedures
+auto_execok, auto_load, auto_mkindex, auto_mkindex_old, auto_reset, tcl_findLibrary, parray, tcl_endOfWord, tcl_startOfNextWord, tcl_startOfPreviousWord, tcl_wordBreakAfter, tcl_wordBreakBefore \- standard library of Tcl procedures
 .SH SYNOPSIS
 .nf
 \fBauto_execok \fIcmd\fR
