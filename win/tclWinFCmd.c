@@ -1058,7 +1058,7 @@ TraverseWinTree(
 		}
 	    }
 	    nativeName = (TCHAR *) data.w.cFileName;
-	    len = TclUniCharLen(data.w.cFileName) * sizeof(WCHAR);
+	    len = Tcl_UniCharLen(data.w.cFileName) * sizeof(WCHAR);
 	} else {
 	    if ((strcmp(data.a.cFileName, ".") == 0) 
 		    || (strcmp(data.a.cFileName, "..") == 0)) {

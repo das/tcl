@@ -1174,6 +1174,41 @@ declare 343 generic {
 declare 344 generic {
     void Tcl_ServiceModeHook(int mode)
 }
+declare 345 generic {
+    int Tcl_UniCharIsAlnum(int ch)
+}
+declare 346 generic {
+    int Tcl_UniCharIsAlpha(int ch)
+}
+declare 347 generic {
+    int Tcl_UniCharIsDigit(int ch)
+}
+declare 348 generic {
+    int Tcl_UniCharIsLower(int ch)
+}
+declare 349 generic {
+    int Tcl_UniCharIsSpace(int ch)
+}
+declare 350 generic {
+    int Tcl_UniCharIsUpper(int ch)
+}
+declare 351 generic {
+    int Tcl_UniCharIsWordChar(int ch)
+}
+declare 352 generic {
+    int Tcl_UniCharLen(Tcl_UniChar *str)
+}
+declare 353 generic {
+    int Tcl_UniCharNcmp(const Tcl_UniChar *cs, const Tcl_UniChar *ct, size_t n)
+}
+declare 354 generic {
+    char * Tcl_UniCharToUtfDString(CONST Tcl_UniChar *string, int numChars, \
+ 	    Tcl_DString *dsPtr)
+}
+declare 355 generic {
+    Tcl_UniChar * Tcl_UtfToUniCharDString(CONST char *string, int length, \
+	    Tcl_DString *dsPtr)
+}
 
 ##############################################################################
 

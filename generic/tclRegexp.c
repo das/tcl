@@ -224,7 +224,7 @@ Tcl_RegExpExec(interp, re, string, start)
     regexpPtr->string = string;
 
     Tcl_DStringInit(&stringBuffer);
-    uniString = TclUtfToUniCharDString(string, -1, &stringBuffer);
+    uniString = Tcl_UtfToUniCharDString(string, -1, &stringBuffer);
     numChars = Tcl_DStringLength(&stringBuffer) / sizeof(Tcl_UniChar);
 
     /*
@@ -757,7 +757,7 @@ CompileRegexp(interp, string, length, flags)
      */
 
     Tcl_DStringInit(&stringBuf);
-    uniString = TclUtfToUniCharDString(string, length, &stringBuf);
+    uniString = Tcl_UtfToUniCharDString(string, length, &stringBuf);
     numChars = Tcl_DStringLength(&stringBuf) / sizeof(Tcl_UniChar);
 
     /*

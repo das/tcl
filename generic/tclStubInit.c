@@ -414,6 +414,17 @@ TclStubs tclStubs = {
     Tcl_SetDefaultEncodingDir, /* 342 */
     Tcl_AlertNotifier, /* 343 */
     Tcl_ServiceModeHook, /* 344 */
+    Tcl_UniCharIsAlnum, /* 345 */
+    Tcl_UniCharIsAlpha, /* 346 */
+    Tcl_UniCharIsDigit, /* 347 */
+    Tcl_UniCharIsLower, /* 348 */
+    Tcl_UniCharIsSpace, /* 349 */
+    Tcl_UniCharIsUpper, /* 350 */
+    Tcl_UniCharIsWordChar, /* 351 */
+    Tcl_UniCharLen, /* 352 */
+    Tcl_UniCharNcmp, /* 353 */
+    Tcl_UniCharToUtfDString, /* 354 */
+    Tcl_UtfToUniCharDString, /* 355 */
 };
 
 TclIntStubs tclIntStubs = {

@@ -412,7 +412,7 @@ chr *endp;			/* points just past end of name */
 
 	/* search table */
 	Tcl_DStringInit(&ds);
-	np = TclUniCharToUtfDString(startp, (int)len, &ds);
+	np = Tcl_UniCharToUtfDString(startp, (int)len, &ds);
 	for (cn = cnames; cn->name != NULL; cn++)
 		if (strlen(cn->name) == len && strncmp(cn->name, np, len) == 0)
 			break;		/* NOTE BREAK OUT */
@@ -571,7 +571,7 @@ int cases;			/* case-independent? */
 
     len = endp - startp;
     Tcl_DStringInit(&ds);
-    np = TclUniCharToUtfDString(startp, (int)len, &ds);
+    np = Tcl_UniCharToUtfDString(startp, (int)len, &ds);
 
     /*
      * Remap lower and upper to alpha if the match is case insensitive.

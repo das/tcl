@@ -2963,16 +2963,16 @@ DictionaryCompare(left, right)
 
         diff = uniLeft - uniRight;
         if (diff) {
-	    if (TclUniCharIsUpper(uniLeft) &&
-		    TclUniCharIsLower(uniRight)) {
+	    if (Tcl_UniCharIsUpper(uniLeft) &&
+		    Tcl_UniCharIsLower(uniRight)) {
 		diff = Tcl_UniCharToLower(uniLeft) - uniRight;
 		if (diff) {
 		    return diff;
                 } else if (secondaryDiff == 0) {
 		    secondaryDiff = -1;
                 }
-	    } else if (TclUniCharIsUpper(uniRight)
-		    && TclUniCharIsLower(uniLeft)) {
+	    } else if (Tcl_UniCharIsUpper(uniRight)
+		    && Tcl_UniCharIsLower(uniLeft)) {
                 diff = uniLeft - Tcl_UniCharToLower(uniRight);
                 if (diff) {
 		    return diff;
