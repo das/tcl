@@ -2926,8 +2926,8 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
 				 * used. */
     int flags;			/* Collection of OR-ed bits that control
 				 * the evaluation of the script.  Only
-				 * TCL_EVAL_GLOBAL is currently
-				 * supported. */
+				 * TCL_EVAL_GLOBAL and TCL_EVAL_INVOKE are
+				 * currently supported. */
 
 {
     Command *cmdPtr;
@@ -2957,8 +2957,14 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
          * command words as arguments.  Then call ourselves recursively
          * to execute it.
          */
-    
+
+	savedVarFramePtr = iPtr->varFramePtr;
+	if (flags & TCL_EVAL_INVOKE) {
+	    iPtr->varFramePtr = NULL;
+	}
         cmdPtr = (Command *) Tcl_GetCommandFromObj(interp, objv[0]);
+	iPtr->varFramePtr = savedVarFramePtr;
+
         if (cmdPtr == NULL) {
 	    newObjv = (Tcl_Obj **) ckalloc((unsigned)
 		((objc + 1) * sizeof (Tcl_Obj *)));
@@ -3101,7 +3107,7 @@ Tcl_EvalObjv(interp, objc, objv, flags)
 				 * the words that make up the command. */
     int flags;			/* Collection of OR-ed bits that control
 				 * the evaluation of the script.  Only
-				 * TCL_EVAL_GLOBAL and TCL_EVAL_NO_TRACEBACK
+				 * TCL_EVAL_GLOBAL and TCL_EVAL_INVOKE
 				 * are  currently supported. */
 {
     Interp *iPtr = (Interp *)interp;
@@ -3158,7 +3164,7 @@ Tcl_EvalObjv(interp, objc, objv, flags)
 	}
     }
 	    
-    if ((code == TCL_ERROR) && !(flags & TCL_EVAL_NO_TRACEBACK)) {
+    if ((code == TCL_ERROR) && !(flags & TCL_EVAL_INVOKE)) {
 
 	/* 
 	 * If there was an error, a command string will be needed for the 

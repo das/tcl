@@ -1452,11 +1452,11 @@ AliasObjCmd(clientData, interp, objc, objv)
 
     if (targetInterp != interp) {
 	Tcl_Preserve((ClientData) targetInterp);
-	result = Tcl_EvalObjv(targetInterp, cmdc, cmdv, TCL_EVAL_NO_TRACEBACK);
+	result = Tcl_EvalObjv(targetInterp, cmdc, cmdv, TCL_EVAL_INVOKE);
 	TclTransferResult(targetInterp, result, interp);	
 	Tcl_Release((ClientData) targetInterp);
     } else {
-	result = Tcl_EvalObjv(targetInterp, cmdc, cmdv, TCL_EVAL_NO_TRACEBACK);
+	result = Tcl_EvalObjv(targetInterp, cmdc, cmdv, TCL_EVAL_INVOKE);
     }
 
     if (cmdv != cmdArr) {

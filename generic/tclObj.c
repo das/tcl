@@ -2852,9 +2852,8 @@ Tcl_GetCommandFromObj(interp, objPtr)
     register Tcl_Obj *objPtr;	/* The object containing the command's
 				 * name. If the name starts with "::", will
 				 * be looked up in global namespace. Else,
-				 * looked up first in the current namespace
-				 * if contextNsPtr is NULL, then in global
-				 * namespace. */
+				 * looked up first in the current namespace,
+				 * then in global namespace. */
 {
     Interp *iPtr = (Interp *) interp;
     register ResolvedCmdName *resPtr;
