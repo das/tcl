@@ -349,7 +349,9 @@ proc http::cleanup {token} {
 	return
     }
     if {[string equal $state(state) "header"]} {
-	set n [gets $s line]
+        if {[catch {gets $s line} n]} {
+	    Finish $token $err
+	}
 	if {$n == 0} {
 	    set state(state) body
 	    if {![regexp -nocase ^text $state(type)]} {
