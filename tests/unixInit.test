@@ -168,8 +168,12 @@ test unixInit-3.2 {TclpSetInitialEncodings} {unixOnly installedTcl} {
     close $f
     unset env(LANG)
 
-    set enc
-} {euc-jp}
+    switch $tcl_platform(os) {
+	HP-UX {set expectedEncoding shiftjis}
+	default {set expectedEncoding euc-jp}
+    }
+    string compare $enc $expectedEncoding
+} 0
     
 test unixInit-4.1 {TclpSetVariables} {unixOnly} {
     # just make sure they exist
