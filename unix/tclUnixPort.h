@@ -462,6 +462,17 @@ extern double strtod();
 #define TclpReleaseFile(file)	/* Nothing. */
 
 /*
+ * The following defines wrap the system memory allocation routines for
+ * use by tclAlloc.c.  By default off unused on Unix.
+ */
+
+#if USE_TCLALLOC
+#   define TclpSysAlloc(size, isBin)	malloc((size_t)size)
+#   define TclpSysFree(ptr)		free((char*)ptr)
+#   define TclpSysRealloc(ptr, size)	realloc((char*)ptr, (size_t)size)
+#endif
+
+/*
  * The following macros and declaration wrap the C runtime library
  * functions.
  */

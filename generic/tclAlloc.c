@@ -29,7 +29,12 @@
 #   define RCHECK
 #endif
 
+/*
+ * On Unix this will already be defined
+ */
+#if defined(WIN32) || defined(MAC_TCL)
 typedef unsigned long caddr_t;
+#endif
 
 /*
  * The overhead on a block is at least 8 bytes.  When free, this space
