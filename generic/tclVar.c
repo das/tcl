@@ -4021,7 +4021,7 @@ Tcl_UpvarObjCmd(dummy, interp, objc, objv)
  *----------------------------------------------------------------------
  */
 
-void
+static void
 DisposeTraceResult(flags, result)
     int flags;			/* Indicates type of result to determine
 				 * proper disposal method */
@@ -4059,7 +4059,7 @@ DisposeTraceResult(flags, result)
  *----------------------------------------------------------------------
  */
 
-int 
+static int
 CallVarTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, leaveErrMsg)
     Interp *iPtr;		/* Interpreter containing variable. */
     register Var *arrayPtr;	/* Pointer to array variable that contains
