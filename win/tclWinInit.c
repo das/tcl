@@ -202,8 +202,6 @@ SetDefaultLibraryDir(directory)
 static Tcl_Obj *
 GetDefaultLibraryDir()
 {
-    int numBytes;
-    CONST char *bytes;
     Tcl_Obj **savedDirectoryPtr = (Tcl_Obj **)
 	    Tcl_GetThreadData(&defaultLibraryDirKey, (int)sizeof(Tcl_Obj *));
 
@@ -304,7 +302,7 @@ TclpInitLibraryPath(path)
 				/* the path to the executable name.     */
 {
 #define LIBRARY_SIZE	    32
-    Tcl_Obj *pathPtr, *objPtr, objv[];
+    Tcl_Obj *pathPtr, *objPtr, **objv;
     CONST char *str;
     Tcl_DString ds;
     int objc, pathc;
