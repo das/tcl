@@ -1730,24 +1730,23 @@ Tcl_ForeachObjCmd(dummy, interp, objc, objv)
     for (j = 0;  j < maxj;  j++) {
 	for (i = 0;  i < numLists;  i++) {
 	    /*
-	     * If a variable or value list object has been converted to
-	     * another kind of Tcl object, convert it back to a list object
-	     * and refetch the pointer to its element array.
+	     * Refetch the list members; we assume that the sizes are
+	     * the same, but the array of elements might be different
+	     * if the internal rep of the objects has been lost and
+	     * recreated (it is too difficult to accurately tell when
+	     * this happens, which can lead to some wierd crashes,
+	     * like Bug #494348...)
 	     */
 
-	    if (argObjv[1+i*2]->typePtr != &tclListType) {
-		result = Tcl_ListObjGetElements(interp, argObjv[1+i*2],
-		        &varcList[i], &varvList[i]);
-		if (result != TCL_OK) {
-		    panic("Tcl_ForeachObjCmd: could not reconvert variable list %d to a list object\n", i);
-		}
+	    result = Tcl_ListObjGetElements(interp, argObjv[1+i*2],
+		    &varcList[i], &varvList[i]);
+	    if (result != TCL_OK) {
+		panic("Tcl_ForeachObjCmd: could not reconvert variable list %d to a list object\n", i);
 	    }
-	    if (argObjv[2+i*2]->typePtr != &tclListType) {
-		result = Tcl_ListObjGetElements(interp, argObjv[2+i*2],
-	                &argcList[i], &argvList[i]);
-		if (result != TCL_OK) {
-		    panic("Tcl_ForeachObjCmd: could not reconvert value list %d to a list object\n", i);
-		}
+	    result = Tcl_ListObjGetElements(interp, argObjv[2+i*2],
+		    &argcList[i], &argvList[i]);
+	    if (result != TCL_OK) {
+		panic("Tcl_ForeachObjCmd: could not reconvert value list %d to a list object\n", i);
 	    }
 	    
 	    for (v = 0;  v < varcList[i];  v++) {
