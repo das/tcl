@@ -518,6 +518,21 @@ TclPathPart(interp, pathPtr, portion)
 		    return fsPathPtr->cwdPtr;
 		}
 		case TCL_PATH_TAIL: {
+		    /* 
+		     * Check if the joined-on bit has any directory
+		     * delimiters in it.  If so, the 'tail' would
+		     * be only the part following the last delimiter.
+		     * We could handle that special case here, but we
+		     * don't, and instead just use the standardPath code.
+		     */
+		    CONST char *rest = Tcl_GetString(fsPathPtr->normPathPtr);
+		    if (strchr(rest, '/') != NULL) {
+			goto standardPath;
+		    }
+		    if ((tclPlatform == TCL_PLATFORM_WINDOWS) 
+		      && (strchr(rest, '\\') != NULL)) {
+			goto standardPath;
+		    }
 		    Tcl_IncrRefCount(fsPathPtr->normPathPtr);
 		    return fsPathPtr->normPathPtr;
 		}
