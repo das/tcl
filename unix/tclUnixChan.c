@@ -1307,7 +1307,7 @@ TclpOpenFileChannel(interp, pathPtr, modeString, permissions)
 {
     int fd, seekFlag, mode, channelPermissions;
     FileState *fsPtr;
-    char *native, *translation;
+    CONST char *native, *translation;
     char channelName[16 + TCL_INTEGER_SPACE];
     Tcl_ChannelType *channelTypePtr;
 #ifdef DEPRECATED

@@ -404,8 +404,8 @@ TestindexobjCmd(clientData, interp, objc, objv)
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
     int allowAbbrev, index, index2, setError, i, result;
-    char **argv;
-    static char *tablePtr[] = {"a", "b", "check", (char *) NULL};
+    CONST char **argv;
+    static CONST char *tablePtr[] = {"a", "b", "check", (char *) NULL};
 
     if ((objc == 3) && (strcmp(Tcl_GetString(objv[1]),
 	    "check") == 0)) {
@@ -442,7 +442,7 @@ TestindexobjCmd(clientData, interp, objc, objv)
 	return TCL_ERROR;
     }
 
-    argv = (char **) ckalloc((unsigned) ((objc-3) * sizeof(char *)));
+    argv = (CONST char **) ckalloc((unsigned) ((objc-3) * sizeof(char *)));
     for (i = 4; i < objc; i++) {
 	argv[i-4] = Tcl_GetString(objv[i]);
     }
@@ -895,7 +895,7 @@ TeststringobjCmd(clientData, interp, objc, objv)
 #define MAX_STRINGS 11
     char *index, *string, *strings[MAX_STRINGS+1];
     TestString *strPtr;
-    static char *options[] = {
+    static CONST char *options[] = {
 	"append", "appendstrings", "get", "get2", "length", "length2",
 	"set", "set2", "setlength", "ualloc", (char *) NULL
     };

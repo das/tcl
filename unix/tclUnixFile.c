@@ -496,7 +496,7 @@ TclpObjAccess(pathPtr, mode)
     Tcl_Obj *pathPtr;        /* Path of file to access */
     int mode;                /* Permission setting. */
 {
-    char *path = Tcl_FSGetNativePath(pathPtr);
+    CONST char *path = Tcl_FSGetNativePath(pathPtr);
     if (path == NULL) {
 	return -1;
     } else {
@@ -524,7 +524,7 @@ int
 TclpObjChdir(pathPtr)
     Tcl_Obj *pathPtr;          /* Path to new working directory */
 {
-    char *path = Tcl_FSGetNativePath(pathPtr);
+    CONST char *path = Tcl_FSGetNativePath(pathPtr);
     if (path == NULL) {
 	return -1;
     } else {
@@ -553,7 +553,7 @@ TclpObjLstat(pathPtr, bufPtr)
     Tcl_Obj *pathPtr;		/* Path of file to stat */
     struct stat *bufPtr;	/* Filled with results of stat call. */
 {
-    char *path = Tcl_FSGetNativePath(pathPtr);
+    CONST char *path = Tcl_FSGetNativePath(pathPtr);
     if (path == NULL) {
 	return -1;
     } else {
@@ -685,7 +685,7 @@ TclpObjStat(pathPtr, bufPtr)
     Tcl_Obj *pathPtr;		/* Path of file to stat */
     struct stat *bufPtr;	/* Filled with results of stat call. */
 {
-    char *path = Tcl_FSGetNativePath(pathPtr);
+    CONST char *path = Tcl_FSGetNativePath(pathPtr);
     if (path == NULL) {
 	return -1;
     } else {

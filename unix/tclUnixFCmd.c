@@ -110,7 +110,7 @@ enum {
     UNIX_PERMISSIONS_ATTRIBUTE
 };
 
-char *tclpFileAttrStrings[] = {
+CONST char *tclpFileAttrStrings[] = {
     "-group",
     "-owner",
     "-permissions",

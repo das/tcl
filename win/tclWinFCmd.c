@@ -60,12 +60,12 @@ static int attributeArray[] = {FILE_ATTRIBUTE_ARCHIVE, FILE_ATTRIBUTE_HIDDEN,
 	0, FILE_ATTRIBUTE_READONLY, 0, FILE_ATTRIBUTE_SYSTEM};
 
 
-char *tclpFileAttrStrings[] = {
+CONST char *tclpFileAttrStrings[] = {
 	"-archive", "-hidden", "-longname", "-readonly",
 	"-shortname", "-system", (char *) NULL
 };
 
-const TclFileAttrProcs tclpFileAttrProcs[] = {
+CONST TclFileAttrProcs tclpFileAttrProcs[] = {
 	{GetWinFileAttributes, SetWinFileAttributes},
 	{GetWinFileAttributes, SetWinFileAttributes},
 	{GetWinFileLongName, CannotSetAttribute},

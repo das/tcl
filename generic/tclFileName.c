@@ -1548,7 +1548,7 @@ Tcl_GlobObjCmd(dummy, interp, objc, objv)
     Tcl_Obj *typePtr, *resultPtr, *look;
     Tcl_Obj *pathOrDir = NULL;
     Tcl_DString prefix;
-    static char *options[] = {
+    static CONST char *options[] = {
 	"-directory", "-join", "-nocomplain", "-path", "-tails", 
 	"-types", "--", NULL
     };

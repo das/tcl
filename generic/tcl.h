@@ -1530,7 +1530,7 @@ typedef int (Tcl_FSNormalizePathProc) _ANSI_ARGS_((Tcl_Interp *interp,
 typedef int (Tcl_FSFileAttrsGetProc) _ANSI_ARGS_((Tcl_Interp *interp,
 			    int index, Tcl_Obj *pathPtr,
 			    Tcl_Obj **objPtrRef));
-typedef char** (Tcl_FSFileAttrStringsProc) _ANSI_ARGS_((Tcl_Obj *pathPtr, 
+typedef CONST char** (Tcl_FSFileAttrStringsProc) _ANSI_ARGS_((Tcl_Obj *pathPtr, 
 			    Tcl_Obj** objPtrRef));
 typedef int (Tcl_FSFileAttrsSetProc) _ANSI_ARGS_((Tcl_Interp *interp,
 			    int index, Tcl_Obj *pathPtr,

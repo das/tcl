@@ -373,7 +373,7 @@ Tcl_InfoObjCmd(clientData, interp, objc, objv)
     int objc;			/* Number of arguments. */
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
-    static char *subCmds[] = {
+    static CONST char *subCmds[] = {
             "args", "body", "cmdcount", "commands",
 	     "complete", "default", "exists", "functions", "globals",
 	     "hostname", "level", "library", "loaded",
@@ -2743,7 +2743,7 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
     int dataType, isIncreasing, lower, upper, patInt, objInt;
     double patDouble, objDouble;
     Tcl_Obj *patObj, **listv;
-    static char *options[] = {
+    static CONST char *options[] = {
 	"-ascii", "-decreasing", "-dictionary", "-exact", "-increasing", 
 	    "-integer", "-glob", "-real", "-regexp", "-sorted", NULL
     };
@@ -3105,7 +3105,7 @@ Tcl_LsortObjCmd(clientData, interp, objc, objv)
     SortInfo sortInfo;                  /* Information about this sort that
                                          * needs to be passed to the 
                                          * comparison function */
-    static char *switches[] = {
+    static CONST char *switches[] = {
 	"-ascii", "-command", "-decreasing", "-dictionary", "-increasing",
 	"-index", "-integer", "-real", "-unique", (char *) NULL
     };

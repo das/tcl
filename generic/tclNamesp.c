@@ -2464,7 +2464,7 @@ Tcl_NamespaceObjCmd(clientData, interp, objc, objv)
     register int objc;			/* Number of arguments. */
     register Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
-    static char *subCmds[] = {
+    static CONST char *subCmds[] = {
 	"children", "code", "current", "delete",
 	"eval", "exists", "export", "forget", "import",
 	"inscope", "origin", "parent", "qualifiers",

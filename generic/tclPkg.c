@@ -470,7 +470,7 @@ Tcl_PackageObjCmd(dummy, interp, objc, objv)
     int objc;				/* Number of arguments. */
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
-    static char *pkgOptions[] = {
+    static CONST char *pkgOptions[] = {
 	"forget", "ifneeded", "names", "present", "provide", "require",
 	"unknown", "vcompare", "versions", "vsatisfies", (char *) NULL
     };

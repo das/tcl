@@ -2402,7 +2402,7 @@ TclCompileStringCmd(interp, parsePtr, envPtr)
     int index;
     int code;
     
-    static char *options[] = {
+    static CONST char *options[] = {
 	"bytelength",	"compare",	"equal",	"first",
 	"index",	"is",		"last",		"length",
 	"map",		"match",	"range",	"repeat",

@@ -427,7 +427,7 @@ Tcl_EncodingObjCmd(dummy, interp, objc, objv)
     Tcl_DString ds;
     Tcl_Obj *resultPtr;
 
-    static char *optionStrings[] = {
+    static CONST char *optionStrings[] = {
 	"convertfrom", "convertto", "names", "system",
 	NULL
     };
@@ -786,7 +786,7 @@ Tcl_FileObjCmd(dummy, interp, objc, objv)
  * This list of constants should match the fileOption string array below.
  */
 
-    static char *fileOptions[] = {
+    static CONST char *fileOptions[] = {
 	"atime",	"attributes",	"channels",	"copy",
 	"delete",
 	"dirname",	"executable",	"exists",	"extension",

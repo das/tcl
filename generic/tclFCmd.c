@@ -810,7 +810,7 @@ TclFileAttrsCmd(interp, objc, objv)
     Tcl_Obj *CONST objv[];	/* The command line objects. */
 {
     int result;
-    char ** attributeStrings;
+    CONST char ** attributeStrings;
     Tcl_Obj* objStrings = NULL;
     int numObjStrings = -1;
     Tcl_Obj *filePtr;
@@ -842,7 +842,8 @@ TclFileAttrsCmd(interp, objc, objv)
 	if (Tcl_ListObjLength(interp, objStrings, &numObjStrings) != TCL_OK) {
 	    goto end;
 	}
-	attributeStrings = (char**)ckalloc((1+numObjStrings)*sizeof(char*));
+	attributeStrings = (CONST char **)
+		ckalloc ((1+numObjStrings) * sizeof(char*));
 	for (index = 0; index < numObjStrings; index++) {
 	    Tcl_ListObjIndex(interp, objStrings, index, &objPtr);
 	    attributeStrings[index] = Tcl_GetString(objPtr);

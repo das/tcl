@@ -582,7 +582,7 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 				 * cursor has visited.*/
     char *errorString, *errorValue, *str;
     int offset, size, length, index;
-    static char *options[] = { 
+    static CONST char *options[] = { 
 	"format",	"scan",		NULL 
     };
     enum options { 

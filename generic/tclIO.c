@@ -7148,7 +7148,7 @@ Tcl_FileEventObjCmd(clientData, interp, objc, objv)
     char *chanName;
     int modeIndex;			/* Index of mode argument. */
     int mask;
-    static char *modeOptions[] = {"readable", "writable", NULL};
+    static CONST char *modeOptions[] = {"readable", "writable", NULL};
     static int maskArray[] = {TCL_READABLE, TCL_WRITABLE};
 
     if ((objc != 3) && (objc != 4)) {

@@ -57,7 +57,7 @@ static int		SetFileReadOnly _ANSI_ARGS_((Tcl_Interp *interp,
  * Global variables for the file attributes code.
  */
 
-char *tclpFileAttrStrings[] = {"-creator", "-hidden", "-readonly",
+CONST char *tclpFileAttrStrings[] = {"-creator", "-hidden", "-readonly",
 	"-type", (char *) NULL};
 CONST TclFileAttrProcs tclpFileAttrProcs[] = {
 	{GetFileFinderAttributes, SetFileFinderAttributes},

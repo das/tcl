@@ -67,13 +67,13 @@ Tcl_ClockObjCmd (client, interp, objc, objv)
     Tcl_Obj *baseObjPtr = NULL;
     char *scanStr;
     
-    static char *switches[] =
+    static CONST char *switches[] =
 	{"clicks", "format", "scan", "seconds", (char *) NULL};
     enum command { COMMAND_CLICKS, COMMAND_FORMAT, COMMAND_SCAN,
 		       COMMAND_SECONDS
     };
-    static char *formatSwitches[] = {"-format", "-gmt", (char *) NULL};
-    static char *scanSwitches[] = {"-base", "-gmt", (char *) NULL};
+    static CONST char *formatSwitches[] = {"-format", "-gmt", (char *) NULL};
+    static CONST char *scanSwitches[] = {"-base", "-gmt", (char *) NULL};
 
     resultPtr = Tcl_GetObjResult(interp);
     if (objc < 2) {

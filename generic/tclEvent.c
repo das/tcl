@@ -1050,7 +1050,7 @@ Tcl_UpdateObjCmd(clientData, interp, objc, objv)
 {
     int optionIndex;
     int flags = 0;		/* Initialized to avoid compiler warning. */
-    static char *updateOptions[] = {"idletasks", (char *) NULL};
+    static CONST char *updateOptions[] = {"idletasks", (char *) NULL};
     enum updateOptions {REGEXP_IDLETASKS};
 
     if (objc == 1) {
