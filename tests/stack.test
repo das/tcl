@@ -29,7 +29,7 @@ if {[string equal $::tcl_platform(platform) "unix"]} {
         puts stderr "WARNING: the default application stacksize of $stackSize\
                 may cause Tcl to\ncrash due to stack overflow before the\
                 recursion limit is reached.\nA minimum stacksize of 2400\
-                kbytes is recommended.\nSkipping inifite recursion test."
+                kbytes is recommended.\nSkipping infinite recursion test."
         set ::tcltest::testConstraints(minStack2400) 0
     } else {
         set ::tcltest::testConstraints(minStack2400) 1
