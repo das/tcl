@@ -102,8 +102,6 @@ typedef struct WinCondition {
     struct ThreadSpecificData *lastPtr;
 } WinCondition;
 
-static void FinalizeConditionEvent(ClientData data);
-
 
 /*
  *----------------------------------------------------------------------
@@ -377,6 +375,10 @@ Tcl_GetAllocMutex()
 
 
 #ifdef TCL_THREADS
+
+/* locally used prototype */
+static void FinalizeConditionEvent(ClientData data);
+
 /*
  *----------------------------------------------------------------------
  *
