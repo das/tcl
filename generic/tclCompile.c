@@ -1807,15 +1807,6 @@ LogCompilationInfo(interp, script, command, length)
     Interp *iPtr = (Interp *) interp;
     Tcl_Obj *message;
 
-    if (iPtr->flags & ERR_ALREADY_LOGGED) {
-	/*
-	 * Someone else has already logged error information for this
-	 * command; we shouldn't add anything more.
-	 */
-
-	return;
-    }
-
     /*
      * Compute the line number where the error occurred.
      */

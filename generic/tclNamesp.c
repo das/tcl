@@ -515,6 +515,7 @@ Tcl_PopCallFrame(interp)
     }
 
     iPtr->flags |= saveErrFlag;
+    iPtr->flags &= ~ERR_ALREADY_LOGGED;
 
     /*
      * Decrement the namespace's count of active call frames. If the

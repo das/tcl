@@ -907,12 +907,8 @@ TclCompEvalObj(interp, objPtr)
 {
     register Interp *iPtr = (Interp *) interp;
     register ByteCode* codePtr;		/* Tcl Internal type of bytecode. */
-    int oldCount = iPtr->cmdCount;	/* Used to tell whether any commands
-					 * at all were executed. */
-    char *script;
     int result;
     Namespace *namespacePtr;
-
 
     /*
      * Check that the interpreter is ready to execute scripts
@@ -1006,7 +1002,6 @@ TclCompEvalObj(interp, objPtr)
 	TclCleanupByteCode(codePtr);
     }
     iPtr->numLevels--;
-    iPtr->flags &= ~ERR_ALREADY_LOGGED;
     return result;
 }
 
