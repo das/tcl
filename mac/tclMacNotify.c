@@ -336,7 +336,7 @@ Tcl_SetTimer(
 {
     /*
      * Allow the notifier to be hooked.  This may not make sense
-     * on Windows, but mirrors the UNIX hook.
+     * on the Mac, but mirrors the UNIX hook.
      */
 
     if (tclStubs.tcl_SetTimer != Tcl_SetTimer) {
@@ -417,7 +417,7 @@ Tcl_WaitForEvent(
 
     /*
      * Allow the notifier to be hooked.  This may not make
-     * sense on windows, but mirrors the UNIX hook.
+     * sense on the Mac, but mirrors the UNIX hook.
      */
 
     if (tclStubs.tcl_WaitForEvent != Tcl_WaitForEvent) {
