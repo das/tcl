@@ -1861,7 +1861,7 @@ PipeClose2Proc(
 	 */
 
 	if (HasConsole() && pipePtr->numPids) {
-	    GenerateConsoleCtrlEvent(CTRL_C_EVENT,
+	    GenerateConsoleCtrlEvent(CTRL_BREAK_EVENT,
 		    TclpGetPid(pipePtr->pidPtr[0]));
 	}
 
