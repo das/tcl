@@ -13,7 +13,7 @@ dnl AC_CONFIG_COMMANDS_PRE([DEFS=-DHAVE_TCL_CONFIG_H])
 TCL_VERSION=8.5
 TCL_MAJOR_VERSION=8
 TCL_MINOR_VERSION=5
-TCL_PATCH_LEVEL="a2"
+TCL_PATCH_LEVEL="a3"
 VERSION=${TCL_VERSION}
 
 #------------------------------------------------------------------------
