@@ -44,7 +44,8 @@ test compile-1.1 {TclCompileString: look up cmds in proc ns, not current ns} {
 test compile-1.2 {TclCompileString, error result is reset if TclGetLong determines word isn't an integer} {
     proc p {x} {info commands 3m}
     list [catch {p} msg] $msg
-} {1 {wrong # args: should be "p x"}}
+} {1 {no value given for parameter "x" to "p"}}
+
 test compile-2.1 {TclCompileDollarVar: global scalar name with ::s} {
     catch {unset x}
     set x 123
@@ -189,6 +190,14 @@ test compile-10.1 {BLACKBOX: exception stack overflow} {
     }
 } {}
 
+# Test to catch buffer overrun in TclCompileTokens from bug 530320
+# Backported from Tcl8.4 - hence the non-sequential numbering.
+test compile-12.3 {check for a buffer overrun} {
+    proc crash {} {
+	puts $array([expr {a+2}])
+    }
+    list [catch crash msg] $msg
+} {1 {syntax error in expression "a+2"}}
 
 
 # cleanup
