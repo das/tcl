@@ -36,7 +36,6 @@
  *---------------------------------------------------------------------------
  */
 
-#include <utime.h>
 #include <errno.h>
 #include <fcntl.h>
 #ifdef HAVE_NET_ERRNO_H
@@ -94,6 +93,7 @@
 #	include	<sys/ioctl.h>	/* For FIONBIO. */
 #   endif
 #endif	/* USE_FIONBIO */
+#include <utime.h>
 
 /*
  * Socket support stuff: This likely needs more work to parameterize for

@@ -2122,7 +2122,11 @@ CreateSocketAddress(sockaddrPtr, host, port)
 	    native = Tcl_UtfToExternalDString(NULL, host, -1, &ds);
 	}
         addr.s_addr = inet_addr(native);		/* INTL: Native. */
-        if (addr.s_addr == -1) {
+	/*
+	 * 0xFFFFFFFFFFFFFFF is the pedantic way to say -1
+	 * for either 32 or 64 bits systems.
+	 */
+        if (addr.s_addr == 0xFFFFFFFFFFFFFFF) {
             hostent = gethostbyname(native);		/* INTL: Native. */
             if (hostent != NULL) {
                 memcpy((VOID *) &addr,
