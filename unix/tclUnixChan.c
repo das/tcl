@@ -235,16 +235,20 @@ static int		WaitForConnect _ANSI_ARGS_((TcpState *statePtr,
  */
 
 static Tcl_ChannelType fileChannelType = {
-    "file",				/* Type name. */
-    FileBlockModeProc,			/* Set blocking/nonblocking mode.*/
-    FileCloseProc,			/* Close proc. */
-    FileInputProc,			/* Input proc. */
-    FileOutputProc,			/* Output proc. */
-    FileSeekProc,			/* Seek proc. */
-    NULL,				/* Set option proc. */
-    NULL,				/* Get option proc. */
-    FileWatchProc,			/* Initialize notifier. */
-    FileGetHandleProc,			/* Get OS handles out of channel. */
+    "file",			/* Type name. */
+    TCL_CHANNEL_VERSION_2,	/* v2 channel */
+    FileCloseProc,		/* Close proc. */
+    FileInputProc,		/* Input proc. */
+    FileOutputProc,		/* Output proc. */
+    FileSeekProc,		/* Seek proc. */
+    NULL,			/* Set option proc. */
+    NULL,			/* Get option proc. */
+    FileWatchProc,		/* Initialize notifier. */
+    FileGetHandleProc,		/* Get OS handles out of channel. */
+    NULL,			/* close2proc. */
+    FileBlockModeProc,		/* Set blocking or non-blocking mode.*/
+    NULL,			/* flush proc. */
+    NULL,			/* handler proc. */
 };
 
 #ifdef SUPPORTS_TTY
@@ -254,16 +258,20 @@ static Tcl_ChannelType fileChannelType = {
  */
 
 static Tcl_ChannelType ttyChannelType = {
-    "tty",				/* Type name. */
-    FileBlockModeProc,			/* Set blocking/nonblocking mode.*/
-    TtyCloseProc,			/* Close proc. */
-    FileInputProc,			/* Input proc. */
-    FileOutputProc,			/* Output proc. */
-    NULL,				/* Seek proc. */
-    TtySetOptionProc,			/* Set option proc. */
-    TtyGetOptionProc,			/* Get option proc. */
-    FileWatchProc,			/* Initialize notifier. */
-    FileGetHandleProc,			/* Get OS handles out of channel. */
+    "tty",			/* Type name. */
+    TCL_CHANNEL_VERSION_2,	/* v2 channel */
+    TtyCloseProc,		/* Close proc. */
+    FileInputProc,		/* Input proc. */
+    FileOutputProc,		/* Output proc. */
+    NULL,			/* Seek proc. */
+    TtySetOptionProc,		/* Set option proc. */
+    TtyGetOptionProc,		/* Get option proc. */
+    FileWatchProc,		/* Initialize notifier. */
+    FileGetHandleProc,		/* Get OS handles out of channel. */
+    NULL,			/* close2proc. */
+    FileBlockModeProc,		/* Set blocking or non-blocking mode.*/
+    NULL,			/* flush proc. */
+    NULL,			/* handler proc. */
 };
 #endif	/* SUPPORTS_TTY */
 
@@ -273,16 +281,20 @@ static Tcl_ChannelType ttyChannelType = {
  */
 
 static Tcl_ChannelType tcpChannelType = {
-    "tcp",				/* Type name. */
-    TcpBlockModeProc,			/* Set blocking/nonblocking mode.*/
-    TcpCloseProc,			/* Close proc. */
-    TcpInputProc,			/* Input proc. */
-    TcpOutputProc,			/* Output proc. */
-    NULL,				/* Seek proc. */
-    NULL,				/* Set option proc. */
-    TcpGetOptionProc,			/* Get option proc. */
-    TcpWatchProc,			/* Initialize notifier. */
-    TcpGetHandleProc,			/* Get OS handles out of channel. */
+    "tcp",			/* Type name. */
+    TCL_CHANNEL_VERSION_2,	/* v2 channel */
+    TcpCloseProc,		/* Close proc. */
+    TcpInputProc,		/* Input proc. */
+    TcpOutputProc,		/* Output proc. */
+    NULL,			/* Seek proc. */
+    NULL,			/* Set option proc. */
+    TcpGetOptionProc,		/* Get option proc. */
+    TcpWatchProc,		/* Initialize notifier. */
+    TcpGetHandleProc,		/* Get OS handles out of channel. */
+    NULL,			/* close2proc. */
+    TcpBlockModeProc,		/* Set blocking or non-blocking mode.*/
+    NULL,			/* flush proc. */
+    NULL,			/* handler proc. */
 };
 
 
