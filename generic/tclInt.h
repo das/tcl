@@ -1684,6 +1684,13 @@ EXTERN Tcl_Obj *	TclLindexFlat _ANSI_ARGS_((Tcl_Interp* interp,
 						   int indexCount,
 						   Tcl_Obj *CONST indexArray[]
 						   ));
+EXTERN int              TclLoadFile _ANSI_ARGS_((Tcl_Interp* interp,
+			    Tcl_Obj *pathPtr, int symc,
+			    CONST char *symbols[],
+			    Tcl_PackageInitProc **procPtrs[],
+			    Tcl_LoadHandle *handlePtr,
+			    ClientData *clientDataPtr,
+			    Tcl_FSUnloadFileProc **unloadProcPtr));
 EXTERN Tcl_Obj *	TclLsetList _ANSI_ARGS_((Tcl_Interp* interp,
 						 Tcl_Obj* listPtr,
 						 Tcl_Obj* indexPtr,
