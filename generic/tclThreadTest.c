@@ -713,10 +713,10 @@ TclThreadSend(interp, id, script, wait)
     threadEventPtr->event.proc = ThreadEventProc;
     Tcl_ThreadQueueEvent(threadId, (Tcl_Event *)threadEventPtr, 
 	    TCL_QUEUE_TAIL);
-    Tcl_MutexUnlock(&threadMutex);
     Tcl_ThreadAlert(threadId);
 
     if (!wait) {
+	Tcl_MutexUnlock(&threadMutex);
 	return TCL_OK;
     }
 
@@ -725,7 +725,6 @@ TclThreadSend(interp, id, script, wait)
      */
 
     Tcl_ResetResult(interp);
-    Tcl_MutexLock(&threadMutex);
     while (resultPtr->result == NULL) {
         Tcl_ConditionWait(&resultPtr->done, &threadMutex, NULL);
     }
