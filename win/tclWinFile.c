@@ -922,7 +922,7 @@ NativeStat(nativePath, statPtr)
 
     dev = -1;
     if ((fullPath[0] == '\\') && (fullPath[1] == '\\')) {
-	char *p;
+	CONST char *p;
 	DWORD dw;
 	TCHAR *nativeVol;
 	Tcl_DString volString;
