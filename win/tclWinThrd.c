@@ -906,7 +906,7 @@ Tcl_ConditionNotify(condPtr)
 {
     WinCondition *winCondPtr;
     ThreadSpecificData *tsdPtr;
-    if (condPtr != NULL) {
+    if (*condPtr != NULL) {
 	winCondPtr = *((WinCondition **)condPtr);
 
 	/*
