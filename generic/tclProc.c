@@ -1071,7 +1071,7 @@ TclObjInterpProc(clientData, interp, objc, objv)
 
     iPtr->returnCode = TCL_OK;
     procPtr->refCount++;
-    result = Tcl_EvalObjEx(interp, procPtr->bodyPtr, 0);
+    result = TclCompEvalObj(interp, procPtr->bodyPtr);
     procPtr->refCount--;
     if (procPtr->refCount <= 0) {
 	TclProcCleanupProc(procPtr);
