@@ -29,9 +29,9 @@ namespace eval http {
 	-accept */*
 	-proxyhost {}
 	-proxyport {}
-	-useragent {Tcl http client package 2.3.2}
 	-proxyfilter http::ProxyRequired
     }
+    set http(-useragent) "Tcl http client package [package provide http]"
 
     variable formMap
     variable alphanumeric a-zA-Z0-9
@@ -394,7 +394,7 @@ proc http::geturl { url args } {
     if {[catch {
 	puts $s "$how $srvurl HTTP/1.0"
 	puts $s "Accept: $http(-accept)"
-	puts $s "Host: $host"
+	puts $s "Host: $host:$port"
 	puts $s "User-Agent: $http(-useragent)"
 	foreach {key value} $state(-headers) {
 	    regsub -all \[\n\r\]  $value {} value
