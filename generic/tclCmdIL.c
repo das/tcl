@@ -2696,7 +2696,7 @@ Tcl_LrepeatObjCmd(dummy, interp, objc, objv)
      * memory, panic() will happen just a few lines lower...
      */
 
-    if (elementCount > INT_MAX/sizeof(Tcl_Obj *)/objc) {
+    if ((unsigned)elementCount > INT_MAX/sizeof(Tcl_Obj *)/objc) {
 	Tcl_AppendResult(interp, "overflow of maximum list length", NULL);
 	return TCL_ERROR;
     }
