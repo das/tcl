@@ -28,15 +28,3 @@ test stack-1.1 {maxNestingDepth reached on infinite recursion} {
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
