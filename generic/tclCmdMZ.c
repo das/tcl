@@ -3695,7 +3695,7 @@ Tcl_TraceCommand(interp, cmdName, flags, proc, clientData)
 				 * of TCL_TRACE_RENAME, TCL_TRACE_DELETE,
 				 * and any of the TRACE_*_EXEC flags */
     Tcl_CommandTraceProc *proc;	/* Procedure to call when specified ops are
-				 * invoked upon varName. */
+				 * invoked upon cmdName. */
     ClientData clientData;	/* Arbitrary argument to pass to proc. */
 {
     Command *cmdPtr;
