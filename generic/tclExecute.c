@@ -1814,6 +1814,10 @@ TclExecuteByteCode(interp, codePtr)
 			(size_t) ((s1len < s2len) ? s1len : s2len));
 		if (iResult == 0) {
 		    iResult = s1len - s2len;
+		} else if (iResult < 0) {
+		    iResult = -1;
+		} else {
+		    iResult = 1;
 		}
 
 		PUSH_OBJECT(Tcl_NewIntObj(iResult));
