@@ -258,7 +258,6 @@ namespace eval msgcat {
                 mclocale "C"
             } else {
 		
-                package forget registry
                 #
                 # Clean up registry value for translating LCID value
                 # by using only the last 2 digits, since first
