@@ -373,6 +373,40 @@ if test $tcl_cv_char_signed = yes; then
 fi
 
 #--------------------------------------------------------------------
+#  Does putenv() copy or not?  We need to know to avoid memory leaks.
+#--------------------------------------------------------------------
+
+AC_MSG_CHECKING([for a putenv() that copies the buffer])
+AC_CACHE_VAL(tcl_cv_putenv_copy,
+    AC_TRY_RUN([
+	#include <stdlib.h>
+	#define OURVAR "havecopy=yes"
+	int main (int argc, char *argv[])
+	{
+	    char *foo, *bar;
+	    foo = (char *)strdup(OURVAR);
+	    putenv(foo);
+	    strcpy((char *)(strchr(foo, '=') + 1), "no");
+	    bar = getenv("havecopy");
+	    if (!strcmp(bar, "no")) {
+		/* doesn't copy */
+		return 0;
+	    } else {
+		/* does copy */
+		return 1;
+	    }
+	}
+    ],
+    tcl_cv_putenv_copy=no,
+    tcl_cv_putenv_copy=yes,
+    tcl_cv_putenv_copy=no)
+)
+AC_MSG_RESULT($tcl_cv_putenv_copy)
+if test $tcl_cv_putenv_copy = yes; then
+    AC_DEFINE(HAVE_PUTENV_THAT_COPIES)
+fi
+
+#--------------------------------------------------------------------
 # Check for support of nl_langinfo function
 #--------------------------------------------------------------------
 
