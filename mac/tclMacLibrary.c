@@ -19,8 +19,6 @@
 /*
  * Here is another place that we are using the old routine names...
  */
- 
-#define OLDROUTINENAMES 1
 
 #include <CodeFragments.h>
 #include <Errors.h>
@@ -171,9 +169,9 @@ OpenLibraryResource(
     OSErr err = noErr;
     
 
-    if (realInitBlkPtr->fragLocator.where == kOnDiskFlat) {
+    if (realInitBlkPtr->fragLocator.where == kDataForkCFragLocator) {
     	fileSpec = realInitBlkPtr->fragLocator.u.onDisk.fileSpec;
-    } else if (realInitBlkPtr->fragLocator.where == kOnDiskSegmented) {
+    } else if (realInitBlkPtr->fragLocator.where == kResourceCFragLocator) {
     	fileSpec = realInitBlkPtr->fragLocator.u.inSegs.fileSpec;
     } else {
     	err = resFNotFound;
