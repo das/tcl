@@ -2324,20 +2324,6 @@ Tcl_FindNamespaceVar(interp, name, contextNsPtr, flags)
 		    simpleName);
             if (entryPtr != NULL) {
                 varPtr = (Var *) Tcl_GetHashValue(entryPtr);
-		
-		/* Fix for [Bug 959052].
-		 * We might have found a "zombie" variable: it is in the hash
-		 * table, but the variable is unset and it was not fixed with
-		 * a call to [variable]. In particular, zombies created by
-		 * [trace], [upvar], [global] or a reference in a
-		 * tclNsVarNameType obj should never be found. 
-		 */
-		
-		if (TclIsVarUndefined(varPtr)
-			&& !(varPtr->flags & VAR_NAMESPACE_VAR)		    
-			&& !(flags & (TCL_GLOBAL_ONLY|TCL_NAMESPACE_ONLY))) {
-		    varPtr = NULL;
-		}		
             }
         }
     }
