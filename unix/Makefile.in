@@ -1236,8 +1236,8 @@ dist: $(UNIX_DIR)/configure mklinks
 		$(TOP_DIR)/tools/tcl.wse.in $(TOP_DIR)/tools/*.bmp \
 		$(TOP_DIR)/tools/tcl.hpj.in \
 		$(DISTDIR)/tools
-	$(TCL_EXE) $(TOOL_DIR)/eolFix.tcl -crlf $(DISTDIR)/win/tcl.hpj.in \
-		$(TOP_DIR)/tools/tcl.wse.in
+	$(TCL_EXE) $(TOOL_DIR)/eolFix.tcl -crlf $(DISTDIR)/tools/tcl.hpj.in \
+		$(DISTDIR)/tools/tcl.wse.in
 
 #
 # The following target can only be used for non-patch releases.  Use
