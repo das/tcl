@@ -220,6 +220,8 @@ TclPlatformInit(interp)
 	    Tcl_SetVar(interp, "tcl_pkgPath", Tcl_JoinPath(2, argv, &ds),
 		    TCL_GLOBAL_ONLY|TCL_LIST_ELEMENT);
 	}
+    } else {
+	Tcl_SetVar(interp, "tcl_pkgPath", "", TCL_GLOBAL_ONLY);
     }
 
     /*
@@ -249,7 +251,7 @@ TclPlatformInit(interp)
      */
 
     Tcl_SetVar2(interp, "tcl_platform", "debug", "1",
-		TCL_GLOBAL_ONLY);
+	    TCL_GLOBAL_ONLY);
 #endif
 
     /*
