@@ -330,7 +330,7 @@ typedef long LONG;
 #endif
 
 #ifndef _CLIENTDATA
-#   if defined(__STDC__) || defined(__cplusplus)
+#   if defined(__STDC__) || defined(__cplusplus) || defined(__BORLANDC__)
     typedef void *ClientData;
 #   else
     typedef int *ClientData;
