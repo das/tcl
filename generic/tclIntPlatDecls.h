@@ -150,8 +150,9 @@ EXTERN OSErr		FSpFindFolder _ANSI_ARGS_((short vRefNum,
 /* 7 */
 EXTERN void		GetGlobalMouseTcl _ANSI_ARGS_((Point * mouse));
 /* 8 */
-EXTERN pascal OSErr	FSpGetDirectoryIDTcl _ANSI_ARGS_((CONST FSSpec * spec, 
-				long * theDirID, Boolean * isDirectory));
+EXTERN pascal OSErr	FSpGetDirectoryIDTcl _ANSI_ARGS_((
+				CONST FSSpec * spec, long * theDirID, 
+				Boolean * isDirectory));
 /* 9 */
 EXTERN pascal short	FSpOpenResFileCompatTcl _ANSI_ARGS_((
 				CONST FSSpec * spec, SignedByte permission));
