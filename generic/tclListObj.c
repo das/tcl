@@ -791,17 +791,9 @@ Tcl_ListObjReplace(interp, listPtr, first, count, objc, objv)
 	if ((numAfterLast > 0) && (shift != 0)) {
 	    Tcl_Obj **src, **dst;
 
-	    if (shift < 0) {
-		for (src = elemPtrs + start, dst = src + shift;
-			numAfterLast > 0; numAfterLast--, src++, dst++) {
-		    *dst = *src;
-		}
-	    } else {
-		for (src = elemPtrs + numElems - 1, dst = src + shift;
-			numAfterLast > 0; numAfterLast--, src--, dst--) {
-		    *dst = *src;
-		}
-	    }
+	    src = elemPtrs + start; dst = src + shift;
+	    memmove((VOID*) dst, (VOID*) src, 
+	            (size_t) (numAfterLast * sizeof(Tcl_Obj*)));
 	}
 
 	/*

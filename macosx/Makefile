@@ -101,13 +101,12 @@ TCL_EXE			?= ${SYMROOT}/${TCLSH}
 
 DYLIB_INSTALL_PATH	?= ${INSTALL_PATH}
 
-TCL_LIBRARY		:= @TCL_IN_FRAMEWORK@
 LIBDIR			:= ${INSTALL_PATH}/${PRODUCT_NAME}.framework/Versions/${PRODUCT_VERSION}
 DYLIB_INSTALL_DIR	:= ${DYLIB_INSTALL_PATH}/${PRODUCT_NAME}.framework/Versions/${PRODUCT_VERSION}
 INCLUDEDIR		:= ${LIBDIR}/Headers
 PRIVATEINCLUDEDIR	:= ${LIBDIR}/PrivateHeaders
 SCRIPTDIR		:= ${LIBDIR}/Resources/Scripts
-DOCDIR			:= ${LIBDIR}/Resources/English.lproj/Documentation/Reference
+DOCDIR			:= ${LIBDIR}/Resources/Documentation/Reference
 INFOPLIST		:= ${LIBDIR}/Resources/Info.plist
 
 BUILD_STYLE		=
@@ -115,7 +114,7 @@ OBJ_DIR			= ${OBJROOT}/${BUILD_STYLE}
 
 ${PROJECT}:		override INSTALL_ROOT = ${OBJ_DIR}/
 
-MAKE_VARS		:= INSTALL_ROOT TCL_PACKAGE_PATH TCL_MODULE_PATH TCL_LIBRARY DYLIB_INSTALL_DIR
+MAKE_VARS		:= INSTALL_ROOT TCL_PACKAGE_PATH TCL_MODULE_PATH DYLIB_INSTALL_DIR
 MAKE_ARGS_V		= $(foreach v,${MAKE_VARS},$v=${$v})
 export CPPROG		:= cp -p
 
@@ -235,5 +234,7 @@ endif
 
 .PHONY: ${meta} ${targets} ${PROJECT} build-${PROJECT} install-${PROJECT} \
 	clean-${PROJECT} distclean-${PROJECT}
+
+.NOTPARALLEL:
 
 #-------------------------------------------------------------------------------------------------------

@@ -435,7 +435,7 @@ Tcl_Main(argc, argv, appInitProc)
 	if (code != TCL_OK) {
 	    errChannel = Tcl_GetStdChannel(TCL_STDERR);
 	    if (errChannel) {
-		Tcl_Obj *options = TclGetReturnOptions(interp, code);
+		Tcl_Obj *options = Tcl_GetReturnOptions(interp, code);
 		Tcl_Obj *keyPtr = Tcl_NewStringObj("-errorinfo", -1);
 		Tcl_Obj *valuePtr;
 
@@ -447,7 +447,6 @@ Tcl_Main(argc, argv, appInitProc)
 		    Tcl_WriteObj(errChannel, valuePtr);
 		}
 		Tcl_WriteChars(errChannel, "\n", 1);
-		Tcl_DecrRefCount(options);
 	    }
 	    exitCode = 1;
 	}

@@ -1818,9 +1818,9 @@ TestencodingObjCmd(dummy, interp, objc, objv)
 	}
 	case ENC_PATH: {
 	    if (objc == 2) {
-		Tcl_SetObjResult(interp, TclGetLibraryPath());
+		Tcl_SetObjResult(interp, TclGetEncodingSearchPath());
 	    } else {
-		TclSetLibraryPath(objv[2]);
+		TclSetEncodingSearchPath(objv[2]);
 	    }
 	    break;
 	}

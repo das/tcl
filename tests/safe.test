@@ -21,6 +21,9 @@ foreach i [interp slaves] {
     interp delete $i
 }
 
+set saveAutoPath $::auto_path
+set ::auto_path [info library]
+
 # Force actual loading of the safe package 
 # because we use un exported (and thus un-autoindexed) APIs
 # in this test result arguments:
@@ -478,6 +481,7 @@ test safe-11.8 {testing safe encoding} {
 } {1 {wrong # args: should be "encoding convertto ?encoding? data"} {}}
 
 
+set ::auto_path $saveAutoPath
 # cleanup
 ::tcltest::cleanupTests
 return

@@ -183,7 +183,7 @@ Tcl_CreateInterp()
     ByteCodeStats *statsPtr;
 #endif /* TCL_COMPILE_STATS */
 
-    TclInitSubsystems(NULL);
+    TclInitSubsystems();
 
     /*
      * Panic if someone updated the CallFrame structure without
@@ -314,6 +314,14 @@ Tcl_CreateInterp()
     iPtr->stubTable = &tclStubs;
 
     /*
+     * Initialize the ensemble error message rewriting support.
+     */
+
+    iPtr->ensembleRewrite.sourceObjs = NULL;
+    iPtr->ensembleRewrite.numRemovedObjs = 0;
+    iPtr->ensembleRewrite.numInsertedObjs = 0;
+
+    /*
      * TIP#143: Initialise the resource limit support.
      */
 
@@ -389,6 +397,12 @@ Tcl_CreateInterp()
 	    (Tcl_CmdDeleteProc*) NULL );
     Tcl_CreateObjCommand( interp,	"::tcl::clock::Oldscan",
 	    TclClockOldscanObjCmd,	(ClientData) NULL,
+	    (Tcl_CmdDeleteProc*) NULL );
+
+    /* Register the default [interp bgerror] handler. */
+
+    Tcl_CreateObjCommand( interp,	"::tcl::Bgerror",
+	    TclDefaultBgErrorHandlerObjCmd,	(ClientData) NULL,
 	    (Tcl_CmdDeleteProc*) NULL );
 
     /*
@@ -3104,6 +3118,11 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
 	CallFrame *savedVarFramePtr = iPtr->varFramePtr;
 	if (flags & TCL_EVAL_GLOBAL) {
 	    iPtr->varFramePtr = NULL;
+	}
+	if (!(flags & TCL_EVAL_INVOKE) &&
+		(iPtr->ensembleRewrite.sourceObjs != NULL) &&
+		!TclIsEnsemble(cmdPtr)) {
+	    iPtr->ensembleRewrite.sourceObjs = NULL;
 	}
 	code = (*cmdPtr->objProc)(cmdPtr->objClientData, interp, objc, objv);
 	iPtr->varFramePtr = savedVarFramePtr;

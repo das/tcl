@@ -269,7 +269,7 @@ Tcl_CatchObjCmd(dummy, interp, objc, objv)
 	}
     }
     if (objc == 4) {
-	Tcl_Obj *options = TclGetReturnOptions(interp, result);
+	Tcl_Obj *options = Tcl_GetReturnOptions(interp, result);
 	if (NULL == Tcl_ObjSetVar2(interp, optionVarNamePtr, NULL,
 		options, 0)) {
 	    Tcl_DecrRefCount(options);
@@ -577,7 +577,7 @@ Tcl_ErrorObjCmd(dummy, interp, objc, objv)
     }
 
     Tcl_SetObjResult(interp, objv[1]);
-    return TclSetReturnOptions(interp, options);
+    return Tcl_SetReturnOptions(interp, options);
 }
 
 /*

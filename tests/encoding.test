@@ -95,7 +95,7 @@ test encoding-4.1 {Tcl_GetEncodingNames} {testencoding} {
     foreach encoding [encoding names] {
 	set encodings($encoding) 1
     }
-    testencoding path [list [pwd]]
+    testencoding path [list [file join [pwd] encoding]]
     foreach encoding [encoding names] {
 	if {![info exists encodings($encoding)]} {
 	    lappend x $encoding
@@ -237,7 +237,7 @@ test encoding-11.6 {LoadEncodingFile: invalid file} {testencoding} {
     set path [testencoding path]
     encoding system identity
     cd [temporaryDirectory]
-    testencoding path tmp
+    testencoding path [file join tmp encoding]
     makeDirectory tmp
     makeDirectory [file join tmp encoding]
     set f [open [file join tmp encoding splat.enc] w]
