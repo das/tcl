@@ -2902,7 +2902,7 @@ TclCompileSwitchCmd(interp, parsePtr, envPtr)
 	     * If no control flag present, use glob matching.  We end up
 	     * re-checking this word, but that's the way things are...
 	     */
-	    mode = Switch_Glob;
+	    mode = Switch_Exact;
 	} else {
 	    return TCL_OUT_LINE_COMPILE;
 	}
