@@ -319,7 +319,7 @@ $(TCLSH): $(TCL_LIB_FILE) $(TCLSH_OBJS) tclsh.$(RES)
 	$(CC) $(CFLAGS) $(TCLSH_OBJS) $(TCL_LIB_FILE) $(LIBS) \
         tclsh.$(RES) $(CC_EXENAME) 
 
-$(TCLTEST): $(TCL_LIB_FILE) $(TCLTEST_OBJS) $(CAT32) tclsh.res
+$(TCLTEST): $(TCL_LIB_FILE) $(TCLTEST_OBJS) $(CAT32) tclsh.$(RES)
 	$(CC) $(CFLAGS) $(TCLTEST_OBJS) $(TCL_LIB_FILE) $(LIBS) \
         tclsh.$(RES) $(CC_EXENAME) 
 
