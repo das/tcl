@@ -2147,7 +2147,7 @@ test io-28.4 {Tcl_Close} {testchannel} {
     close $f
     lappend l [lsort [testchannel open]]
     set x [list $consoleFileNames \
-		[lsort [eval list $consoleFileNames $f]] \
+		[lsort [list {expand}$consoleFileNames $f]] \
 		$consoleFileNames]
     string compare $l $x
 } 0

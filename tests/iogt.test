@@ -147,8 +147,8 @@ proc fevent {fdelay idelay blocks script data} {
     # fixed port, not so good. lets hope for the best, for now.
     set port 4000
 
-    eval exec tclsh __echo_srv__.tcl \
-	    $port $fdelay $idelay $blocks >@stdout &
+    exec tclsh __echo_srv__.tcl \
+	    $port $fdelay $idelay {expand}$blocks >@stdout &
 
     after 500
 

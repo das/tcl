@@ -39,7 +39,7 @@ proc cleanup {args} {
 	    set x [glob -directory $p tf* td*]
 	}
 	if {$x != ""} {
-	    catch {eval file delete -force -- $x}
+	    catch {file delete -force -- {expand}$x}
 	}
     }
 }

@@ -3045,6 +3045,9 @@ PrintParse(interp, parsePtr)
     for (i = 0; i < parsePtr->numTokens; i++) {
 	tokenPtr = &parsePtr->tokenPtr[i];
 	switch (tokenPtr->type) {
+	    case TCL_TOKEN_EXPAND_WORD:
+		typeString = "expand";
+		break;
 	    case TCL_TOKEN_WORD:
 		typeString = "word";
 		break;

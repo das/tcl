@@ -2078,6 +2078,7 @@ typedef struct Tcl_Token {
 #define TCL_TOKEN_VARIABLE	32
 #define TCL_TOKEN_SUB_EXPR	64
 #define TCL_TOKEN_OPERATOR	128
+#define TCL_TOKEN_EXPAND_WORD	256
 
 /*
  * Parsing error types.  On any parsing error, one of these values

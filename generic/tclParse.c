@@ -287,6 +287,8 @@ Tcl_ParseCommand(interp, string, numBytes, nested, parsePtr)
 
     parsePtr->commandStart = src;
     while (1) {
+	int expandWord = 0;
+
 	/*
 	 * Create the token for the word.
 	 */
@@ -319,11 +321,12 @@ Tcl_ParseCommand(interp, string, numBytes, nested, parsePtr)
 	parsePtr->numWords++;
 
 	/*
-	 * At this point the word can have one of three forms: something
-	 * enclosed in quotes, something enclosed in braces, or an
-	 * unquoted word (anything else).
+	 * At this point the word can have one of four forms: something
+	 * enclosed in quotes, something enclosed in braces, and
+	 * expanding word, or an unquoted word (anything else).
 	 */
 
+parseWord:
 	if (*src == '"') {
 	    if (Tcl_ParseQuotedString(interp, src, numBytes,
 		    parsePtr, 1, &termPtr) != TCL_OK) {
@@ -331,11 +334,39 @@ Tcl_ParseCommand(interp, string, numBytes, nested, parsePtr)
 	    }
 	    src = termPtr; numBytes = parsePtr->end - src;
 	} else if (*src == '{') {
+	    static char expPfx[] = "expand";
+	    CONST size_t expPfxLen = sizeof(expPfx) - 1;
+	    int expIdx = wordIndex + 1;
+	    Tcl_Token *expPtr;
+
 	    if (Tcl_ParseBraces(interp, src, numBytes,
 		    parsePtr, 1, &termPtr) != TCL_OK) {
 		goto error;
 	    }
 	    src = termPtr; numBytes = parsePtr->end - src;
+
+	    /* 
+	     * Check whether the braces contained
+	     * the word expansion prefix.
+	     */
+
+	    expPtr = &parsePtr->tokenPtr[expIdx];
+	    if ( (expPfxLen == expPtr->size)
+					/* Same length as prefix */
+		    && (0 == expandWord)
+		    			/* Haven't seen prefix already */
+		    && (1 == parsePtr->numTokens - expIdx)
+	    				/* Only one token */
+		    && (0 == strncmp(expPfx,expPtr->start,expPfxLen))
+					/* Is the prefix */
+		    && (numBytes > 0)
+		    && (0 == TclParseWhiteSpace(termPtr, 1, parsePtr, &type))
+					/* Non-whitespace follows */
+		    ) {
+		expandWord = 1;
+		parsePtr->numTokens--;
+		goto parseWord;
+	    }
 	} else {
 	    /*
 	     * This is an unquoted word.  Call ParseTokens and let it do
@@ -361,6 +392,9 @@ Tcl_ParseCommand(interp, string, numBytes, nested, parsePtr)
 	if ((tokenPtr->numComponents == 1)
 		&& (tokenPtr[1].type == TCL_TOKEN_TEXT)) {
 	    tokenPtr->type = TCL_TOKEN_SIMPLE_WORD;
+	}
+	if (expandWord) {
+	    tokenPtr->type = TCL_TOKEN_EXPAND_WORD;
 	}
 
 	/*

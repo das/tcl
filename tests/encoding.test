@@ -541,7 +541,7 @@ foreach from {cp932 shiftjis euc-jp iso2022-jp} {
     }
 }
 
-eval [list file delete] [glob -directory [temporaryDirectory] *.chars *.tcltestout]
+file delete {expand}[glob -directory [temporaryDirectory] *.chars *.tcltestout]
 # ===> Cut here <===
 
 # EscapeFreeProc, GetTableEncoding, unilen

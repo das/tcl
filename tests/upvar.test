@@ -320,7 +320,7 @@ test upvar-8.8 {create nested array with upvar} {
     list [catch p1 msg] $msg
 } {1 {can't set "b(2)": variable isn't array}}
 test upvar-8.9 {upvar won't create namespace variable that refers to procedure variable} {
-    catch {eval namespace delete [namespace children :: test_ns_*]}
+    catch {namespace delete {expand}[namespace children :: test_ns_*]}
     catch {rename MakeLink ""}
     namespace eval ::test_ns_1 {}
     proc MakeLink {a} {

@@ -286,6 +286,16 @@ of \fBTCL_TOKEN_VARIABLE\fR and \fBTCL_TOKEN_BS\fR tokens.
 This token has the same meaning as \fBTCL_TOKEN_WORD\fR, except that
 the word is guaranteed to consist of a single \fBTCL_TOKEN_TEXT\fR
 sub-token.  The \fInumComponents\fR field is always 1.
+.VS 8.5
+.TP
+\fBTCL_TOKEN_EXPAND_WORD\fR
+This token has the same meaning as \fBTCL_TOKEN_WORD\fR, except that
+the command parser notes this word began with the expansion
+prefix \fB{expand}\fR, indicating that after substitution,
+the list value of this word should be expanded to form multiple
+arguments in command evaluation.  This
+token type can only be created by Tcl_ParseCommand.
+.VE
 .TP
 \fBTCL_TOKEN_TEXT\fR
 The token describes a range of literal text that is part of a word.
@@ -375,12 +385,16 @@ is always 0.
 After \fBTcl_ParseCommand\fR returns, the first token pointed to by
 the \fItokenPtr\fR field of the
 Tcl_Parse structure always has type \fBTCL_TOKEN_WORD\fR or
-\fBTCL_TOKEN_SIMPLE_WORD\fR.  It is followed by the sub-tokens
+.VS 8.5
+\fBTCL_TOKEN_SIMPLE_WORD\fR or \fBTCL_TOKEN_EXPAND_WORD\fR.  
+It is followed by the sub-tokens
 that must be concatenated to produce the value of that word.
 The next token is the \fBTCL_TOKEN_WORD\fR or \fBTCL_TOKEN_SIMPLE_WORD\fR
-token for the second word, followed by sub-tokens for that
+of \fBTCL_TOKEN_EXPAND_WORD\fR token for the second word,
+followed by sub-tokens for that
 word, and so on until all \fInumWords\fR have been accounted
 for.
+.VE 8.5
 .PP
 After \fBTcl_ParseExpr\fR returns, the first token pointed to by
 the \fItokenPtr\fR field of the

@@ -178,12 +178,12 @@ proc auto_mkindex {dir args} {
     append index "# sets an element in the auto_index array, where the\n"
     append index "# element name is the name of a command and the value is\n"
     append index "# a script that loads the command.\n\n"
-    if {$args == ""} {
+    if {[llength $args] == 0} {
 	set args *.tcl
     }
 
     auto_mkindex_parser::init
-    foreach file [eval glob $args] {
+    foreach file [glob {expand}$args] {
         if {[catch {auto_mkindex_parser::mkindex $file} msg] == 0} {
             append index $msg
         } else {
@@ -216,10 +216,10 @@ proc auto_mkindex_old {dir args} {
     append index "# sets an element in the auto_index array, where the\n"
     append index "# element name is the name of a command and the value is\n"
     append index "# a script that loads the command.\n\n"
-    if {[string equal $args ""]} {
+    if {[llength $args] == 0} {
 	set args *.tcl
     }
-    foreach file [eval glob $args] {
+    foreach file [glob {expand}$args] {
 	set f ""
 	set error [catch {
 	    set f [open $file]

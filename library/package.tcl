@@ -140,7 +140,7 @@ proc pkg_mkIndex {args} {
     set oldDir [pwd]
     cd $dir
 
-    if {[catch {eval glob $patternList} fileList]} {
+    if {[catch {glob {expand}$patternList} fileList]} {
 	global errorCode errorInfo
 	cd $oldDir
 	return -code error -errorcode $errorCode -errorinfo $errorInfo $fileList
@@ -206,7 +206,7 @@ proc pkg_mkIndex {args} {
 	    proc package {what args} {
 		switch -- $what {
 		    require { return ; # ignore transitive requires }
-		    default { eval __package_orig {$what} $args }
+		    default { __package_orig $what {expand}$args }
 		}
 	    }
 	    proc tclPkgUnknown args {}
@@ -261,7 +261,7 @@ proc pkg_mkIndex {args} {
 		proc ::tcl::GetAllNamespaces {{root ::}} {
 		    set list $root
 		    foreach ns [namespace children $root] {
-			eval lappend list [::tcl::GetAllNamespaces $ns]
+			lappend list {expand}[::tcl::GetAllNamespaces $ns]
 		    }
 		    return $list
 		}
