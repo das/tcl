@@ -83,7 +83,7 @@ test string-2.17 {string compare -nocase with length} {
 } -1
 test string-2.18 {string compare -nocase with length <= 0} {
     string compare -nocase -length -1 abcde AbCdEf
-} 0
+} -1
 test string-2.19 {string compare -nocase with excessive length} {
     string compare -nocase -length 50 AbCdEf abcde
 } 1
@@ -95,10 +95,28 @@ test string-2.20 {string compare -len unicode} {
 test string-2.21 {string compare -nocase with special index} {
     list [catch {string compare -nocase -length end-3 Abcde abxyz} msg] $msg
 } {1 {expected integer but got "end-3"}}
-test string-2.22 {string equal with length, unequal strings} {
+test string-2.22 {string compare, null strings} {
+    string compare "" ""
+} 0
+test string-2.23 {string compare, null strings} {
+    string compare "" foo
+} -1
+test string-2.24 {string compare, null strings} {
+    string compare foo ""
+} 1
+test string-2.25 {string compare -nocase, null strings} {
+    string compare -nocase "" ""
+} 0
+test string-2.26 {string compare -nocase, null strings} {
+    string compare -nocase "" foo
+} -1
+test string-2.27 {string compare -nocase, null strings} {
+    string compare -nocase foo ""
+} 1
+test string-2.28 {string equal with length, unequal strings} {
     string compare -length 2 abc abde
 } 0
-test string-2.22 {string equal with length, unequal strings} {
+test string-2.29 {string equal with length, unequal strings} {
     string compare -length 2 ab abde
 } 0
 
