@@ -3590,7 +3590,7 @@ TestfeventCmd(clientData, interp, argc, argv)
             Tcl_DeleteInterp(interp2);
 	}
         interp2 = Tcl_CreateInterp();
-	return TCL_OK;
+	return Tcl_Init(interp2);
     } else if (strcmp(argv[1], "delete") == 0) {
 	if (interp2 != NULL) {
             Tcl_DeleteInterp(interp2);
