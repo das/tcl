@@ -1,7 +1,9 @@
-'\"
+'\" -*- nroff -*-
+'\" 
 '\" Copyright (c) 1993 The Regents of the University of California.
 '\" Copyright (c) 1994-1996 Sun Microsystems, Inc.
 '\" Copyright (c) 2001 Kevin B. Kenny.  All rights reserved.
+'\" Copyright (c) 2003-2004 Donal K. Fellows.
 '\"
 '\" See the file "license.terms" for information on usage and redistribution
 '\" of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -60,9 +62,9 @@ meaningful when used with \fB\-sorted\fR.
 \fB\-index\fR\0\fIindexList\fR
 .VS 8.5
 This option is designed for use when searching within nested lists.
-The \fIindexList\fR gives a path of indices (much as might be used
-with the \fBlsearch\fR command) within each element to allow the
-location of the term being matched against.
+The \fIindexList\fR argument gives a path of indices (much as might be
+used with the \fBlindex\fR or \fBlset\fR commands) within each element
+to allow the location of the term being matched against.
 .VE 8.5
 .TP
 \fB\-inline\fR
