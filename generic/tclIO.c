@@ -3579,7 +3579,6 @@ Tcl_GetsObj(chan, objPtr)
 	 * don't store the EOL in the output string.
 	 */
 
-	eol = dst;
 	switch (statePtr->inputTranslation) {
 	    case TCL_TRANSLATE_LF: {
 		for (eol = dst; eol < dstEnd; eol++) {
@@ -3628,6 +3627,7 @@ Tcl_GetsObj(chan, objPtr)
 		break;
 	    }
 	    case TCL_TRANSLATE_AUTO: {
+		eol = dst;
 		skip = 1;
 		if (statePtr->flags & INPUT_SAW_CR) {
 		    statePtr->flags &= ~INPUT_SAW_CR;
