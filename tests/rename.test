@@ -168,11 +168,13 @@ test rename-6.1 {old code invalidated (epoch incremented) when cmd with compile 
     proc incr {} {puts "new incr called!"}
     catch {x} msg
     set msg
-} {wrong # args: should be "incr"}
+} {called "incr" with too many arguments}
 
 if {[info commands incr.old] != {}} {
     catch {rename incr {}}
     catch {rename incr.old incr}
 }
+catch {rename x {}}
+catch {rename kill {}}
 ::tcltest::cleanupTests
 return
