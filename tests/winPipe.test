@@ -170,7 +170,11 @@ test winpipe-1.21 {32 bit comprehensive tests: read/write application} \
     catch {close $f}
     set r
 } "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
-
+test winpipe-1.22 {Checking command.com for Win95/98 hanging} \
+	{pcOnly stdio} {
+    exec command.com /c dir /b
+    set result 1
+} 1
 
 test winpipe-2.1 {16 bit comprehensive tests: from little file} {pcOnly stdio cat16} {
     exec $cat16 < little > stdout 2> stderr
