@@ -3232,5 +3232,20 @@ Tcl_GetString(objPtr)
     return (tclStubsPtr->tcl_GetString)(objPtr);
 }
 
+/* Slot 341 */
+char *
+Tcl_GetDefaultEncodingDir()
+{
+    return (tclStubsPtr->tcl_GetDefaultEncodingDir)();
+}
+
+/* Slot 342 */
+void
+Tcl_SetDefaultEncodingDir(path)
+    char * path;
+{
+    (tclStubsPtr->tcl_SetDefaultEncodingDir)(path);
+}
+
 
 /* !END!: Do not edit above this line. */

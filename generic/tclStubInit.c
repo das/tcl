@@ -410,6 +410,8 @@ TclStubs tclStubs = {
     Tcl_WriteChars, /* 338 */
     Tcl_WriteObj, /* 339 */
     Tcl_GetString, /* 340 */
+    Tcl_GetDefaultEncodingDir, /* 341 */
+    Tcl_SetDefaultEncodingDir, /* 342 */
 };
 
 TclStubs *tclStubsPtr = &tclStubs;

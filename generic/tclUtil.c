@@ -22,8 +22,9 @@
  * know.  The value of the variable is set by the procedure
  * Tcl_FindExecutable.  The storage space is dynamically allocated.
  */
- 
+
 char *tclExecutableName = NULL;
+char *tclNativeExecutableName = NULL;
 
 /*
  * The following values are used in the flags returned by Tcl_ScanElement

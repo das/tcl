@@ -1161,6 +1161,12 @@ declare 339 generic {
 declare 340 generic {
     char * Tcl_GetString(Tcl_Obj *objPtr)
 }
+declare 341 generic {
+    char * Tcl_GetDefaultEncodingDir(void)
+}
+declare 342 generic {
+    void Tcl_SetDefaultEncodingDir(char *path)
+}
 
 ##############################################################################
 
