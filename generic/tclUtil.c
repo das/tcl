@@ -581,7 +581,7 @@ Tcl_ScanCountedElement(string, length, flagPtr)
     if ((p == lastChar) || (*p == '{') || (*p == '"')) {
 	flags |= USE_BRACES;
     }
-    for ( ; p != lastChar; p++) {
+    for ( ; p < lastChar; p++) {
 	switch (*p) {
 	    case '{':
 		nestingLevel++;
@@ -2223,33 +2223,34 @@ TclGetIntForIndex(interp, objPtr, endValue, indexPtr)
 
     bytes = Tcl_GetStringFromObj(objPtr, &length);
 
-    if ((*bytes != 'e') || (strncmp(bytes, "end",
-	    (size_t)((length > 3) ? 3 : length)) != 0)) {
-	if (Tcl_GetIntFromObj(NULL, objPtr, &offset) != TCL_OK) {
-	    goto intforindex_error;
-	}
-	*indexPtr = offset;
-	return TCL_OK;
+    if ((*bytes != 'e') ||
+	(strncmp(bytes, "end", (size_t)((length > 3) ? 3 : length)) != 0)) {
+      if (Tcl_GetIntFromObj(NULL, objPtr, &offset) != TCL_OK) {
+	  goto intforindex_error;
+      }
+      *indexPtr = offset;
+      return TCL_OK;
     }
 
     if (length <= 3) {
-	*indexPtr = endValue;
+      *indexPtr = endValue;
     } else if (bytes[3] == '-') {
-	/*
-	 * This is our limited string expression evaluator
-	 */
-	if (Tcl_GetInt(interp, bytes+3, &offset) != TCL_OK) {
-	    return TCL_ERROR;
-	}
-	*indexPtr = endValue + offset;
-    } else {
-	intforindex_error:
-	if ((Interp *)interp != NULL) {
-	    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
-		    "bad index \"", bytes,
-		    "\": must be integer or end?-integer?", (char *) NULL);
-	}
+      /*
+       * This is our limited string expression evaluator
+       */
+      if (Tcl_GetInt(interp, bytes+3, &offset) != TCL_OK) {
 	return TCL_ERROR;
+      }
+      *indexPtr = endValue + offset;
+    } else {
+    intforindex_error:
+      if ((Interp *)interp != NULL) {
+	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+			       "bad index \"", bytes,
+			       "\": must be integer or end?-integer?",
+			       (char *) NULL);
+      }
+      return TCL_ERROR;
     }
     return TCL_OK;
 }
