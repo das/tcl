@@ -187,6 +187,18 @@ test autoMkindex-4.1 {platform indenpendant source commands} {
     set result
 } {{set auto_index(::college::team) [list source [file join $dir pkg samename.tcl]]} {set auto_index(::pro::team) [list source [file join $dir pkg samename.tcl]]}}
 
+test autoMkindex-5.1 {escape magic tcl chars in general code} {
+    file delete tclIndex
+    set result {}
+    if { ![catch {auto_mkindex . pkg/magicchar.tcl}] } {
+	set f [open tclIndex r]
+	set dat [split [string trim [read $f]] "\n"]
+	set result [lindex $dat end]
+	close $f
+    }
+    set result
+} {set auto_index(testProc) [list source [file join $dir pkg magicchar.tcl]]}
+
 # Clean up.
 
 unset result

@@ -319,8 +319,11 @@ proc auto_mkindex_parser::mkindex {file} {
     # interpreter:  references like "$x" will fail since code is not
     # really being executed and variables do not really exist.
     # Be careful to escape all naked "$" before evaluating.
-
-    regsub -all {([^\$])\$([^\$])} $contents {\1\\$\2} contents
+    regsub -expanded -all {
+	([^\\](?:(?:\\\\)*)) # match any even number of backslashes ...
+	\$                   # ... followed by an unescaped dollar sign ...
+	([^\$])              # ... followed by anything but another dollar sign
+    } $contents {\1\\$\2} contents; # add one backslash for the dollar sign
 
     set index ""
     set contextStack ""
