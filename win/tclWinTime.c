@@ -685,11 +685,12 @@ CalibrationThread( LPVOID arg )
     /* Run the calibration once a second */
 
     for ( ; ; ) {
-
 	Sleep( 1000 );
 	UpdateTimeEachSecond();
-	
     }
+
+    /* lint */
+    return (DWORD) 0;
 }
 
 /*
