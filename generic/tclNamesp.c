@@ -2364,11 +2364,28 @@ GetNamespaceFromObj(interp, objPtr, nsPtrPtr)
 				 * of a namespace. */
     Tcl_Namespace **nsPtrPtr;	/* Result namespace pointer goes here. */
 {
+    Interp *iPtr = (Interp *) interp;
     register ResolvedNsName *resNamePtr;
     register Namespace *nsPtr;
-    Namespace *currNsPtr = (Namespace *) Tcl_GetCurrentNamespace(interp);
-    int result;
+    Namespace *currNsPtr;
+    CallFrame *savedFramePtr;
+    int result = TCL_OK;
+    char *name;
 
+    /*
+     * If the namespace name is fully qualified, do as if the lookup were
+     * done from the global namespace; this helps avoid repeated lookups 
+     * of fully qualified names. 
+     */
+
+    savedFramePtr = iPtr->varFramePtr;
+    name = Tcl_GetString(objPtr);
+    if ((*name++ == ':') && (*name == ':')) {
+	iPtr->varFramePtr = NULL;
+    }
+
+    currNsPtr = (Namespace *) Tcl_GetCurrentNamespace(interp);
+    
     /*
      * Get the internal representation, converting to a namespace type if
      * needed. The internal representation is a ResolvedNsName that points
@@ -2378,7 +2395,7 @@ GetNamespaceFromObj(interp, objPtr, nsPtrPtr)
     if (objPtr->typePtr != &tclNsNameType) {
         result = tclNsNameType.setFromAnyProc(interp, objPtr);
         if (result != TCL_OK) {
-            return TCL_ERROR;
+	    goto done;
         }
     }
     resNamePtr = (ResolvedNsName *) objPtr->internalRep.otherValuePtr;
@@ -2404,7 +2421,7 @@ GetNamespaceFromObj(interp, objPtr, nsPtrPtr)
     if (nsPtr == NULL) {	/* try again */
         result = tclNsNameType.setFromAnyProc(interp, objPtr);
         if (result != TCL_OK) {
-            return TCL_ERROR;
+	    goto done;
         }
         resNamePtr = (ResolvedNsName *) objPtr->internalRep.otherValuePtr;
         if (resNamePtr != NULL) {
@@ -2415,7 +2432,10 @@ GetNamespaceFromObj(interp, objPtr, nsPtrPtr)
         }
     }
     *nsPtrPtr = (Tcl_Namespace *) nsPtr;
-    return TCL_OK;
+
+    done:
+    iPtr->varFramePtr = savedFramePtr;
+    return result;
 }
 
 /*
