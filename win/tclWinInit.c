@@ -4,6 +4,7 @@
  *	Contains the Windows-specific interpreter initialization functions.
  *
  * Copyright (c) 1994-1997 Sun Microsystems, Inc.
+ * Copyright (c) 1998-1999 by Scriptics Corporation.
  *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -525,7 +526,7 @@ TclpSetVariables(interp)
      */
 
     Tcl_SetVar2(interp, "tcl_platform", "debug", "1",
-		TCL_GLOBAL_ONLY);
+	    TCL_GLOBAL_ONLY);
 #endif
 
     /*
@@ -585,7 +586,7 @@ Tcl_Init(interp)
     if (pathPtr == NULL) {
 	pathPtr = Tcl_NewObj();
     }
-    Tcl_SetObjVar2(interp, "tcl_libPath", NULL, pathPtr, TCL_GLOBAL_ONLY);
+    Tcl_SetVar2Ex(interp, "tcl_libPath", NULL, pathPtr, TCL_GLOBAL_ONLY);
     return Tcl_Eval(interp, initScript);
 }
 

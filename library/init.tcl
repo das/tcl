@@ -42,9 +42,11 @@ if {![info exists auto_path]} {
 	set auto_path ""
     }
 }
-foreach __dir [list [info library] [file dirname [info library]]] {
-    if {[lsearch -exact $auto_path $__dir] < 0} {
-	lappend auto_path $__dir
+if {[string compare [info library] {}]} {
+    foreach __dir [list [info library] [file dirname [info library]]] {
+	if {[lsearch -exact $auto_path $__dir] < 0} {
+	    lappend auto_path $__dir
+	}
     }
 }
 if {[info exist tcl_pkgPath]} {
@@ -54,7 +56,9 @@ if {[info exist tcl_pkgPath]} {
 	}
     }
 }
-unset __dir
+if {[info exists __dir]} {
+    unset __dir
+}
   
 # Windows specific end of initialization
 

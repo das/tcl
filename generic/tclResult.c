@@ -867,7 +867,7 @@ Tcl_SetObjErrorCode(interp, errorObjPtr)
     Interp *iPtr;
     
     iPtr = (Interp *) interp;
-    Tcl_SetObjVar2(interp, "errorCode", NULL, errorObjPtr, TCL_GLOBAL_ONLY);
+    Tcl_SetVar2Ex(interp, "errorCode", NULL, errorObjPtr, TCL_GLOBAL_ONLY);
     iPtr->flags |= ERROR_CODE_SET;
 }
 
@@ -936,14 +936,14 @@ TclTransferResult(sourceInterp, result, targetInterp)
         
         Tcl_ResetResult(targetInterp);
         
-	objPtr = Tcl_GetObjVar2(sourceInterp, "errorInfo", NULL,
+	objPtr = Tcl_GetVar2Ex(sourceInterp, "errorInfo", NULL,
 		TCL_GLOBAL_ONLY);
-	Tcl_SetObjVar2(targetInterp, "errorInfo", NULL, objPtr,
+	Tcl_SetVar2Ex(targetInterp, "errorInfo", NULL, objPtr,
 		TCL_GLOBAL_ONLY);
 
-	objPtr = Tcl_GetObjVar2(sourceInterp, "errorCode", NULL,
+	objPtr = Tcl_GetVar2Ex(sourceInterp, "errorCode", NULL,
 		TCL_GLOBAL_ONLY);
-	Tcl_SetObjVar2(targetInterp, "errorCode", NULL, objPtr,
+	Tcl_SetVar2Ex(targetInterp, "errorCode", NULL, objPtr,
 		TCL_GLOBAL_ONLY);
 
 	((Interp *) targetInterp)->flags |= (ERR_IN_PROGRESS | ERROR_CODE_SET);

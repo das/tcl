@@ -252,8 +252,8 @@ Tcl_GetsObjCmd(dummy, interp, objc, objv)
         lineLen = -1;
     }
     if (objc == 3) {
-	if (Tcl_SetObjVar2(interp, Tcl_GetString(objv[2]),
-		NULL, linePtr, TCL_LEAVE_ERR_MSG ) == NULL) {
+	if (Tcl_ObjSetVar2(interp, objv[2], NULL, linePtr,
+		TCL_LEAVE_ERR_MSG) == NULL) {
 	    Tcl_DecrRefCount(linePtr);
             return TCL_ERROR;
         }

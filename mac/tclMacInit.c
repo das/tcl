@@ -511,7 +511,7 @@ TclpSetVariables(interp)
     Tcl_SetVar(interp, "tcl_library", str, TCL_GLOBAL_ONLY);
     
     if (pathPtr != NULL) {
-        Tcl_SetObjVar2(interp, "tcl_pkgPath", NULL, pathPtr, TCL_GLOBAL_ONLY);
+        Tcl_SetVar2Ex(interp, "tcl_pkgPath", NULL, pathPtr, TCL_GLOBAL_ONLY);
     }
     
     Tcl_SetVar2(interp, "tcl_platform", "platform", "macintosh",
@@ -588,7 +588,7 @@ Tcl_Init(
     if (pathPtr == NULL) {
 	pathPtr = Tcl_NewObj();
     }
-    Tcl_SetObjVar2(interp, "auto_path", NULL, pathPtr, TCL_GLOBAL_ONLY);
+    Tcl_SetVar2Ex(interp, "auto_path", NULL, pathPtr, TCL_GLOBAL_ONLY);
     return Tcl_Eval(interp, initCmd);
 }
 

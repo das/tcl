@@ -42,7 +42,7 @@ CC=@CC@
 all: core
 
 pro:
-	$(MAKE) PRODOCS="$(PRODOCS)" VER="" rtf
+	$(MAKE) DOCS="$(PRODOCS)" VER="" rtf
 
 core:
 	$(MAKE) DOCS="$(COREDOCS)" rtf

@@ -6,6 +6,7 @@
  *	loadable extension in a separate DLL.
  *
  * Copyright (c) 1997 by Sun Microsystems, Inc.
+ * Copyright (c) 1998-1999 by Scriptics Corporation.
  *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -61,7 +62,8 @@
 
 static char *rootKeyNames[] = {
     "HKEY_LOCAL_MACHINE", "HKEY_USERS", "HKEY_CLASSES_ROOT",
-    "HKEY_CURRENT_USER", "HKEY_CURRENT_CONFIG", NULL
+    "HKEY_CURRENT_USER", "HKEY_CURRENT_CONFIG", 
+    "HKEY_PERFORMANCE_DATA", "HKEY_DYN_DATA", NULL
 };
 
 static HKEY rootKeys[] = {

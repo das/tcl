@@ -363,9 +363,10 @@ proc http::size {token} {
     if {[info exists state(-progress)]} {
 	eval $state(-progress) {$token $state(totalsize) $state(currentsize)}
     }
+    # At this point the token may have been reset
     if {([string length $error] != 0)} {
 	Finish $token $error
-    } elseif {[::eof $s]} {
+    } elseif {[catch {::eof $s} iseof] || $iseof} {
 	Eof $token
     } else {
 	CopyStart $s $token

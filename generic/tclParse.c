@@ -1213,7 +1213,7 @@ Tcl_EvalTokens(interp, tokenPtr, count)
 		} else {
 		    index = NULL;
 		}
-		valuePtr = Tcl_GetObjVar2(interp, varName, index,
+		valuePtr = Tcl_GetVar2Ex(interp, varName, index,
 			TCL_LEAVE_ERR_MSG);
 		if (varName != nameBuffer) {
 		    ckfree(varName);

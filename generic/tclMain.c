@@ -151,8 +151,8 @@ Tcl_Main(argc, argv, appInitProc)
 		 */
 
 		Tcl_AddErrorInfo(interp, "");
-		Tcl_WriteObj(errChannel,
-			Tcl_GetObjVar2(interp, "errorInfo", NULL, TCL_GLOBAL_ONLY));
+		Tcl_WriteObj(errChannel, Tcl_GetVar2Ex(interp, "errorInfo",
+			NULL, TCL_GLOBAL_ONLY));
 		Tcl_WriteChars(errChannel, "\n", 1);
 	    }
 	    exitCode = 1;
@@ -184,7 +184,7 @@ Tcl_Main(argc, argv, appInitProc)
 	if (tty) {
 	    Tcl_Obj *promptCmdPtr;
 
-	    promptCmdPtr = Tcl_GetObjVar2(interp,
+	    promptCmdPtr = Tcl_GetVar2Ex(interp,
 		    (gotPartial ? "tcl_prompt2" : "tcl_prompt1"),
 		    NULL, TCL_GLOBAL_ONLY);
 	    if (promptCmdPtr == NULL) {

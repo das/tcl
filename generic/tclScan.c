@@ -1012,8 +1012,7 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
     for (i = 0; i < numVars; i++) {
 	if (objs[i] != NULL) {
 	    result++;
-	    if (Tcl_SetObjVar2(interp, Tcl_GetString(objv[i+3]),
-		    NULL, objs[i], 0) == NULL) {
+	    if (Tcl_ObjSetVar2(interp, objv[i+3], NULL, objs[i], 0) == NULL) {
 		Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 			"couldn't set variable \"",
 			Tcl_GetString(objv[i+3]), "\"", (char *) NULL);
