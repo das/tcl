@@ -767,6 +767,34 @@ TclpCreateTempFile(contents)
 /*
  *----------------------------------------------------------------------
  *
+ * TclpTempFileName --
+ *
+ *	This function returns a unique filename.
+ *
+ * Results:
+ *	Returns a valid Tcl_Obj* with refCount 0, or NULL on failure.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+Tcl_Obj* 
+TclpTempFileName()
+{
+    WCHAR fileName[MAX_PATH];
+
+    if (TempFileName(fileName) == 0) {
+	return NULL;
+    }
+
+    return TclpNativeToNormalized((ClientData) fileName);
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
  * TclpCreatePipe --
  *
  *      Creates an anonymous pipe.

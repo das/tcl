@@ -19,8 +19,8 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 
 if {$tcl_platform(platform) == "windows"} {
     if [catch {
-	set lib [lindex [glob [file join [pwd] [file dirname \
-		[info nameofexecutable]] tclreg*.dll]] 0]
+	set lib [lindex [glob -directory [file join [pwd] [file dirname \
+		[info nameofexecutable]]] tclreg*.dll] 0]
 	load $lib registry
     }] {
 	puts "Unable to find the registry package. Skipping registry tests."

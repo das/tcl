@@ -1663,17 +1663,14 @@ InfoScriptCmd(dummy, interp, objc, objv)
     }
 
     if (objc == 3) {
-	int length;
-	char *filename = Tcl_GetStringFromObj(objv[2], &length);
-
 	if (iPtr->scriptFile != NULL) {
-	    ckfree(iPtr->scriptFile);
+	    Tcl_DecrRefCount(iPtr->scriptFile);
 	}
-	iPtr->scriptFile = ckalloc((unsigned) (length + 1));
-	strcpy(iPtr->scriptFile, filename);
+	iPtr->scriptFile = objv[2];
+	Tcl_IncrRefCount(iPtr->scriptFile);
     }
     if (iPtr->scriptFile != NULL) {
-        Tcl_SetStringObj(Tcl_GetObjResult(interp), iPtr->scriptFile, -1);
+        Tcl_SetObjResult(interp, iPtr->scriptFile);
     }
     return TCL_OK;
 }

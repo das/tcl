@@ -953,7 +953,7 @@ Tcl_OpenObjCmd(notUsed, interp, objc, objv)
      */
 
     if (!pipeline) {
-        chan = Tcl_OpenFileChannel(interp, what, modeString, prot);
+        chan = Tcl_FSOpenFileChannel(interp, objv[1], modeString, prot);
     } else {
 #ifdef MAC_TCL
 	Tcl_AppendResult(interp,

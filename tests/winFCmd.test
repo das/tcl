@@ -36,7 +36,7 @@ proc cleanup {args} {
     foreach p ". $args" {
 	set x ""
 	catch {
-	    set x [glob [file join $p tf*] [file join $p td*]]
+	    set x [glob -directory $p tf* td*]
 	}
 	if {$x != ""} {
 	    catch {eval file delete -force -- $x}

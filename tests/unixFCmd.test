@@ -32,7 +32,7 @@ proc openup {path} {
     testchmod 777 $path
     if {[file isdirectory $path]} {
 	catch {
-	    foreach p [glob [file join $path *]] {
+	    foreach p [glob -directory $path *] {
 		openup $p
 	    }
 	}
@@ -43,7 +43,7 @@ proc cleanup {args} {
     foreach p ". $args" {
 	set x ""
 	catch {
-	    set x [glob [file join $p tf*] [file join $p td*]]
+	    set x [glob -directory $p tf* td*]
 	}
 	foreach file $x {
 	    if {[catch {file delete -force -- $file}]} {

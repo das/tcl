@@ -170,6 +170,7 @@ test event-5.1 {Tcl_BackgroundError, HandleBgErrors procedures} {
     set x {}
     update idletasks
     rename bgerror {}
+    regsub -all [file join {} non_existent] $x "non_existent" x
     set x
 } {{{a simple error} {a simple error
     while executing

@@ -18,11 +18,11 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 
 if {$tcl_platform(platform) == "windows"} {
     if [catch {
-	set lib [lindex [glob [file join [pwd] [file dirname \
-		[info nameofexecutable]] tcldde*.dll]] 0]
+	set lib [lindex [glob -directory [file join [pwd] [file dirname \
+		[info nameofexecutable]]] tcldde*.dll] 0]
 	load $lib dde
     }] {
-	puts "Unable to find the dde package. Skipping registry tests."
+	puts "Unable to find the dde package. Skipping dde tests."
 	::tcltest::cleanupTests
 	return
     }
@@ -38,11 +38,11 @@ proc createChildProcess { ddeServerName } {
     set f [open $::scriptName w+]
     puts $f {
 	if [catch {
-	    set lib [lindex [glob [file join [pwd] [file dirname \
-		    [info nameofexecutable]] tcldde*.dll]] 0]
+	    set lib [lindex [glob -directory [file join [pwd] [file dirname \
+		    [info nameofexecutable]]] tcldde*.dll] 0]
 	    load $lib dde
 	}] {
-	    puts "Unable to find the dde package. Skipping registry tests."
+	    puts "Unable to find the dde package. Skipping dde tests."
 	    ::tcltest::cleanupTests
 	    return
 	}

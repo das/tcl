@@ -954,8 +954,7 @@ Tcl_MacSourceObjCmd(
     }
     
     if (objc == 2)  {
-	string = Tcl_GetStringFromObj(objv[1], &length);
-	return Tcl_EvalFile(interp, string);
+	return Tcl_FSEvalFile(interp, objv[1]);
     }
     
     /*
