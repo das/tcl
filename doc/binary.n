@@ -213,7 +213,7 @@ will return a string equivalent to
 .RE
 .IP \fBw\fR 5
 .VS 8.4
-This form is the same as \fBw\fR except that it stores one or more
+This form is the same as \fBc\fR except that it stores one or more
 64-bit integers in little-endian byte order in the output string.  The
 low-order 64-bits of each integer are stored as an eight-byte value at
 the cursor position with the least significant byte stored first.  For
