@@ -65,7 +65,7 @@
  * regular expressions.
  */
 
-#define NUM_REGEXPS 5
+#define NUM_REGEXPS 30
 
 typedef struct ThreadSpecificData {
     int initialized;		/* Set to 1 when the module is initialized. */
@@ -141,7 +141,7 @@ Tcl_RegExpCompile(interp, string)
     char *string;		/* String for which to produce
 				 * compiled regular expression. */
 {
-    return (Tcl_RegExp) CompileRegexp(interp, string, strlen(string),
+    return (Tcl_RegExp) CompileRegexp(interp, string, (int) strlen(string),
 	    REG_ADVANCED);
 }
 
