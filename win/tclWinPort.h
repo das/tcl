@@ -61,6 +61,7 @@ typedef float *TCHAR;
 #ifndef __MWERKS__
 #include <sys/stat.h>
 #include <sys/timeb.h>
+#include <sys/utime.h>
 #endif
 
 #include <tchar.h>
