@@ -1635,7 +1635,7 @@ test fCmd-18.9 {TclFileRenameCmd: rename dir on top of a non-empty dir w/o -forc
     set result
 } {1}
 test fCmd-18.10 {TclFileRenameCmd: rename dir on top of a non-empty dir w/ -force} \
-	{notRoot} {
+	{notRoot notNetworkFilesystem} {
     catch {file delete -force -- tfa tfad}
     file mkdir tfa tfad/tfa/file
     set r1 [catch {file rename -force tfa tfad}]
