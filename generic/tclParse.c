@@ -1646,7 +1646,7 @@ CommandComplete(script, numBytes)
     while (Tcl_ParseCommand((Tcl_Interp *) NULL, p, end - p, 0, &parse)
 	    == TCL_OK) {
 	p = parse.commandStart + parse.commandSize;
-	if (*p == 0) {
+	if (p == end) {
 	    break;
 	}
 	Tcl_FreeParse(&parse);
