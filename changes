@@ -5699,6 +5699,7 @@ function now correctly returns 1 during Tcl_Finalize processing.
 2003-01-09 (bug fix)[634151] [file (a|m)time $nonASCIIpath $time] now works
 
 2003-01-16 (bug fix) dde eval with {} service name does not crash.
+=> dde 1.2.1
 
 2003-01-16 (bug fix)[635200,655645,615043,571385] many command trace fixes
 
