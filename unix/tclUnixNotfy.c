@@ -19,6 +19,7 @@
 #include <signal.h> 
 
 extern TclStubs tclStubs;
+extern Tcl_NotifierProcs tclOriginalNotifier;
 
 /*
  * This structure is used to keep track of the notifier info for a 
@@ -353,7 +354,7 @@ Tcl_SetTimer(timePtr)
      * timeout values to Tcl_WaitForEvent.
      */
 
-    if (tclStubs.tcl_SetTimer != Tcl_SetTimer) {
+    if (tclStubs.tcl_SetTimer != tclOriginalNotifier.setTimerProc) {
 	tclStubs.tcl_SetTimer(timePtr);
     }
 }
@@ -412,7 +413,7 @@ Tcl_CreateFileHandler(fd, mask, proc, clientData)
     FileHandler *filePtr;
     int index, bit;
 
-    if (tclStubs.tcl_CreateFileHandler != Tcl_CreateFileHandler) {
+    if (tclStubs.tcl_CreateFileHandler != tclOriginalNotifier.createFileHandlerProc) {
 	tclStubs.tcl_CreateFileHandler(fd, mask, proc, clientData);
 	return;
     }
@@ -486,7 +487,7 @@ Tcl_DeleteFileHandler(fd)
     unsigned long flags;
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
 
-    if (tclStubs.tcl_DeleteFileHandler != Tcl_DeleteFileHandler) {
+    if (tclStubs.tcl_DeleteFileHandler != tclOriginalNotifier.deleteFileHandlerProc) {
 	tclStubs.tcl_DeleteFileHandler(fd);
 	return;
     }
@@ -662,7 +663,7 @@ Tcl_WaitForEvent(timePtr)
 #endif
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
 
-    if (tclStubs.tcl_WaitForEvent != Tcl_WaitForEvent) {
+    if (tclStubs.tcl_WaitForEvent != tclOriginalNotifier.waitForEventProc) {
 	return tclStubs.tcl_WaitForEvent(timePtr);
     }
 
