@@ -634,7 +634,8 @@ Tcl_UtfNext(str)
  * Tcl_UtfPrev --
  *
  *	Given a pointer to some current location in a UTF-8 string,
- *	move backwards one character.
+ *	move backwards one character.  This works correctly when the
+ *	pointer is in the middle of a UTF-8 character.
  *
  * Results:
  *	The return value is a pointer to the previous character in the
@@ -672,9 +673,6 @@ Tcl_UtfPrev(str, start)
 	    break;
 	} 
 	if (byte >= 0xC0) {
-	    if (totalBytes[byte] != i + 1) {
-		break;
-	    }
 	    return (char *) look;
 	}
 	look--;
