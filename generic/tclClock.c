@@ -282,6 +282,13 @@ FormatClock(interp, clockVal, useGMT, format)
     Tcl_MutexUnlock(&clockMutex);
 #endif
 
+    /*
+     * If the user gave us -format "", just return now
+     */
+    if (*format == '\0') {
+	return TCL_OK;
+    }
+
 #ifndef HAVE_TM_ZONE
     /*
      * This is a kludge for systems not having the timezone string in
@@ -340,7 +347,14 @@ FormatClock(interp, clockVal, useGMT, format)
         tzset();
     }
 #endif
-    if ((result == 0) && (*format != '\0')) {
+
+    if (result == 0) {
+	/*
+	 * A zero return is the error case (can also mean the strftime
+	 * didn't get enough space to write into).  We know it doesn't
+	 * mean that we wrote zero chars because the check for an empty
+	 * format string is above.
+	 */
 	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 		"bad format string \"", format, "\"", (char *) NULL);
 	return TCL_ERROR;
