@@ -2220,6 +2220,7 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 	    newPtr[-2] = 'l';
 #endif /* LONG_MAX > INT_MAX */
 	    whichValue = INT_VALUE;
+	    size = 40 + precision;
 	    break;
 	case 's':
 	    /*
