@@ -2361,20 +2361,20 @@ extern Tcl_Mutex tclObjMutex;
 
 /*
  *----------------------------------------------------------------
- * Macro used by the Tcl core to compare Unicode strings; this is
- * more efficient on a big-endian machine, and not hurtful on a
- * little-endian machine.
+ * Macro used by the Tcl core to compare Unicode strings.  On
+ * big-endian systems we can use the more efficient memcmp, but
+ * this would not be lexically correct on little-endian systems.
  * The ANSI C "prototype" for this macro is:
  *
  * EXTERN int TclUniCharNcmp _ANSI_ARGS_((CONST Tcl_UniChar *cs,
  *         CONST Tcl_UniChar *ct, unsigned long n));
  *----------------------------------------------------------------
  */
-#ifdef TCL_OPTIMIZE_UNICODE_COMPARE
+#ifdef WORDS_BIGENDIAN
 #   define TclUniCharNcmp(cs,ct,n) memcmp((cs),(ct),(n)*sizeof(Tcl_UniChar))
-#else /* !TCL_OPTIMIZE_UNICODE_COMPARE */
+#else /* !WORDS_BIGENDIAN */
 #   define TclUniCharNcmp Tcl_UniCharNcmp
-#endif /* TCL_OPTIMIZE_UNICODE_COMPARE */
+#endif /* WORDS_BIGENDIAN */
 
 #include "tclIntDecls.h"
 
