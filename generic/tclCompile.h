@@ -767,6 +767,8 @@ typedef struct ForeachInfo {
 				 * holding the loop's iteration count. Used
 				 * to determine next value list element to
 				 * assign each loop var. */
+    int restartOffset;          /* Offset of the loop body, immediately after
+				 * the INST_FOREACH_START instruction. */
     ForeachVarList *varLists[1];/* An array of pointers to ForeachVarList
 				 * structures describing each var list. The
 				 * actual size of this field will be large
