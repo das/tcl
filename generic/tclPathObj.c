@@ -1086,15 +1086,16 @@ Tcl_FSGetTranslatedPath(interp, pathPtr)
     srcFsPathPtr = (FsPath*) PATHOBJ(pathPtr);
     if (srcFsPathPtr->translatedPathPtr == NULL) {
 	if (PATHFLAGS(pathPtr) != 0) {
-	    return Tcl_FSGetNormalizedPath(interp, pathPtr);
+	    retObj = Tcl_FSGetNormalizedPath(interp, pathPtr);
+	} else {
+	    /* 
+	     * It is a pure absolute, normalized path object.
+	     * This is something like being a 'pure list'.  The
+	     * object's string, translatedPath and normalizedPath
+	     * are all identical.
+	     */
+	    retObj = srcFsPathPtr->normPathPtr;
 	}
-	/* 
-	 * It is a pure absolute, normalized path object.
-	 * This is something like being a 'pure list'.  The
-	 * object's string, translatedPath and normalizedPath
-	 * are all identical.
-	 */
-	retObj = srcFsPathPtr->normPathPtr;
     } else {
 	/* It is an ordinary path object */
 	retObj = srcFsPathPtr->translatedPathPtr;
