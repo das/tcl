@@ -27,6 +27,12 @@ TCL_SRC_DIR=`cd $srcdir/..; pwd`
 # Standard compiler checks
 #------------------------------------------------------------------------
 
+# If the user did not set CFLAGS, set it now to keep
+# the AC_PROG_CC macro from adding "-g -O2".
+if test "${CFLAGS+set}" != "set" ; then
+    export CFLAGS=""
+fi
+
 AC_PROG_CC
 AC_PROG_RANLIB
 AC_HAVE_HEADERS(unistd.h limits.h)
