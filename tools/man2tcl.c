@@ -142,7 +142,7 @@ main(argc, argv)
 		exit(1);
 	    }
 
-	    if ((line[0] == '.') || (line[0] == '\'')) {
+	    if (line[0] == '.') {
 		/*
 		 * This line is a macro invocation.
 		 */
@@ -200,11 +200,6 @@ DoMacro(line)
 
     if (writeOutput) {
 	printf("macro");
-    }
-    if (*line != '.') {
-	if (writeOutput) {
-	    printf("2");
-	}
     }
 
     /*

@@ -684,22 +684,6 @@ proc char {name} {
 }
 
 
-# macro2 --
-#
-# This procedure handles macros that are invoked with a leading "'"
-# character instead of space.  Right now it just generates an
-# error diagnostic.
-#
-# Arguments:
-# name -		The name of the macro (without the ".").
-# args -		Any additional arguments to the macro.
-
-proc macro2 {name args} {
-    puts stderr "Unknown macro: '$name [join $args " "]"
-}
-
-
-
 # SHmacro --
 #
 # Subsection head; handles the .SH macro.
