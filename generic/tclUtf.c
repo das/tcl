@@ -1676,7 +1676,6 @@ Tcl_UniCharCaseMatch(string, pattern, nocase)
 	 */
 	
 	if (p == '*') {
-	    int pSpecial;
 	    /*
 	     * Skip all successive *'s in the pattern
 	     */
