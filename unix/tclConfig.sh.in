@@ -83,6 +83,9 @@ TCL_COMPAT_OBJS='@LIBOBJS@'
 # Name of the ranlib program to use.
 TCL_RANLIB='@RANLIB@'
 
+# -l flag to pass to the linker to pick up the Tcl library
+TCL_LIB_FLAG='@TCL_LIB_FLAG@'
+
 # String to pass to linker to pick up the Tcl library from its
 # build directory.
 TCL_BUILD_LIB_SPEC='@TCL_BUILD_LIB_SPEC@'
