@@ -510,6 +510,25 @@ proc tclPkgUnknown {name version {exact {}}} {
 		}
 	    }
 	}
+	# On MacOSX also search the Resources/Scripts directories in
+	# the subdirectories for pkgIndex files
+	if {[string equal $::tcl_platform(platform) "unix"] && \
+	        [string equal $::tcl_platform(os) "Darwin"]} {
+	    set dir [lindex $use_path end]
+	    catch {
+		foreach file [glob -directory $dir -join -nocomplain \
+			* Resources Scripts pkgIndex.tcl] {
+		    set dir [file dirname $file]
+		    if {[file readable $file] && ![info exists procdDirs($dir)]} {
+			if {[catch {source $file} msg]} {
+			    tclLog "error reading package index file $file: $msg"
+			} else {
+			    set procdDirs($dir) 1
+			}
+		    }
+		}
+	    }
+	}
 	set dir [lindex $use_path end]
 	set file [file join $dir pkgIndex.tcl]
 	# safe interps usually don't have "file readable", nor stderr channel
