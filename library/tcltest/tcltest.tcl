@@ -2547,6 +2547,9 @@ proc tcltest::cleanupTests {{calledFromAllFile 0}} {
 # Side Effects:
 #       None
 
+# a lower case version is needed for compatibility with 8.3
+interp alias {} tcltest::getMatchingFiles {} tcltest::GetMatchingFiles
+
 proc tcltest::GetMatchingFiles { {searchDirectory ""} } {
     if {[llength [info level 0]] == 1} {
 	set searchDirectory [testsDirectory]
