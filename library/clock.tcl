@@ -677,7 +677,7 @@ proc ::tcl::clock::format { args } {
     # Set defaults
 
     set clockval [lindex $args 0]
-    set format {%a %b %d %H:%M:%S %Z %Y}
+    set format {%a %b %d %H:%M:%S %z %Y}
     set gmt 0
     set locale C
     set timezone [GetSystemTimeZone]
