@@ -5118,6 +5118,7 @@ MakeCachedEnsembleCommand(objPtr, ensemblePtr, subcommandName, prefixObjPtr)
      * Populate the internal rep.
      */
     ensembleCmd->nsPtr = ensemblePtr->nsPtr;
+    ensembleCmd->epoch = ensemblePtr->epoch;
     ensemblePtr->nsPtr->refCount++;
     ensembleCmd->realPrefixObj = prefixObjPtr;
     length = strlen(subcommandName)+1;
