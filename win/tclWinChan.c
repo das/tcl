@@ -1215,18 +1215,19 @@ TclWinOpenFileChannel(handle, channelName, permissions, appendMode)
 /*
  *----------------------------------------------------------------------
  *
- * TclWinOpenFileChannel --
+ * TclWinFlushDirtyChannels --
  *
- *	Constructs a File channel for the specified standard OS handle.
- *      This is a helper function to break up the construction of 
- *      channels into File, Console, or Serial.
+ *	Flush all dirty channels to disk, so that requesting the
+ *	size of any file returns the correct value.
  *
  * Results:
- *	Returns the new channel, or NULL.
+ *	None.
  *
  * Side effects:
- *	May open the channel and may cause creation of a file on the
- *	file system.
+ *	Information is actually written to disk now, rather than
+ *	later.  Don't call this too often, or there will be a 
+ *	performance hit (i.e. only call when we need to ask for
+ *	the size of a file).
  *
  *----------------------------------------------------------------------
  */

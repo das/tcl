@@ -843,6 +843,12 @@ Tcl_Finalize()
 	 */
 
 	TclFinalizeLoad();
+	
+	/**
+	 * Finalizing the filesystem must come after anything which
+	 * might conceivably interact with the 'Tcl_FS' API.
+	 */
+	TclFinalizeFilesystem();
 
 	/*
 	 * There shouldn't be any malloc'ed memory after this.

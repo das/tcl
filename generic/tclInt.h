@@ -1685,6 +1685,7 @@ EXTERN void		TclFinalizeEncodingSubsystem _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeEnvironment _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeExecution _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeIOSubsystem _ANSI_ARGS_((void));
+EXTERN void		TclFinalizeFilesystem _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeLoad _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeMemorySubsystem _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeNotifier _ANSI_ARGS_((void));
