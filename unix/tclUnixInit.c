@@ -29,6 +29,15 @@
  */
 #include "tclInitScript.h"
 
+/*
+ * Tcl tries to use standard and homebrew methods to guess the right
+ * encoding on the platform.  However, there is always a final fallback,
+ * and this value is it.  Make sure it is a real Tcl encoding.
+ */
+
+#ifndef TCL_DEFAULT_ENCODING
+#define TCL_DEFAULT_ENCODING "iso8859-1"
+#endif
 
 /*
  * Default directory in which to look for Tcl library scripts.  The
@@ -445,7 +454,7 @@ TclpSetInitialEncodings()
 	}
     }
     if (encoding == NULL) {
-	encoding = "iso8859-1";
+	encoding = TCL_DEFAULT_ENCODING;
     }
 
     Tcl_SetSystemEncoding(NULL, encoding);
