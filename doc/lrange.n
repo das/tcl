@@ -41,7 +41,7 @@ Selecting the first two elements:
 .CS
 % lrange {a b c d e} 0 1
 a b
-.CS
+.CE
 
 Selecting the last three elements:
 .CS
