@@ -89,7 +89,7 @@ proc bgerror {message} {
 .CE
 
 .SH "SEE ALSO"
-after(n), tclvars(n)
+after(n), interp(n), tclvars(n)
 
 .SH KEYWORDS
 background error, reporting
