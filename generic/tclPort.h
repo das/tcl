@@ -19,9 +19,9 @@
 #include "tcl.h"
 
 #if defined(__WIN32__)
-#   include "../win/tclWinPort.h"
+#   include "tclWinPort.h"
 #else
-#   include "../unix/tclUnixPort.h"
+#   include "tclUnixPort.h"
 #endif
 
 #if !defined(LLONG_MIN)
