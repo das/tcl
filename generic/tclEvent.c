@@ -1195,6 +1195,8 @@ NewThreadProc(ClientData clientData)
     TclInitNotifier();
 
     (*threadProc)(threadClientData);
+
+    TCL_THREAD_CREATE_RETURN;
 }
 #endif
 /*
