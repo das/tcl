@@ -302,7 +302,15 @@ DoRenameFile(
 
 	    src = Tcl_WinTCharToUtf((TCHAR *) nativeSrcPath, -1, &srcString);
 	    dst = Tcl_WinTCharToUtf((TCHAR *) nativeDstPath, -1, &dstString);
-	    if (strncmp(src, dst, (size_t) Tcl_DStringLength(&srcString)) == 0) {
+	    /*
+	     * Check whether the destination path is actually inside the
+	     * source path.  This is true if the prefix matches, and the next
+	     * character is either end-of-string or a directory separator
+	     */
+	    if ((strncmp(src, dst, (size_t) Tcl_DStringLength(&srcString)) == 0) 
+		&& (dst[Tcl_DStringLength(&srcString)] == '\\'
+		    || dst[Tcl_DStringLength(&srcString)] == '/'
+		    || dst[Tcl_DStringLength(&srcString)] == '\0')) {
 		/*
 		 * Trying to move a directory into itself.
 		 */
