@@ -18,11 +18,6 @@
 
 #include "regex.h"
 
-#ifdef BUILD_tcl
-# undef TCL_STORAGE_CLASS
-# define TCL_STORAGE_CLASS DLLEXPORT
-#endif
-
 /*
  * The TclRegexp structure encapsulates a compiled regex_t,
  * the flags that were used to compile it, and an array of pointers
