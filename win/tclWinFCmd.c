@@ -472,7 +472,7 @@ DoCopyFile(
     
     __try {
 	if ((*tclWinProcs->copyFileProc)(nativeSrc, nativeDst, 0) != FALSE) {
-	    retval = -1;
+	    retval = TCL_OK;
 	}
     } __except (EXCEPTION_CONTINUE_EXECUTION) {}
 
