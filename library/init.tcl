@@ -603,7 +603,7 @@ proc auto_reset {} {
 
 proc tcl_findLibrary {basename version patch initScript enVarName varName} {
     upvar #0 $varName the_library
-    global env
+    global env errorInfo
 
     set dirs {}
     set errors {}
