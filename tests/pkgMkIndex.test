@@ -165,7 +165,7 @@ proc pkgtest::createIndex { args } {
  
     if {[catch {
 	file delete [file join $dirPath pkgIndex.tcl]
-	eval pkg_mkIndex $options $dirPath $patternList
+	eval pkg_mkIndex $options [list $dirPath] $patternList
     } err]} {
 	return [list 1 $err]
     }

@@ -156,7 +156,7 @@ test winpipe-1.19 {32 bit comprehensive tests: to file handle} {pcOnly stdio cat
 } {little stderr32}
 test winpipe-1.20 {32 bit comprehensive tests: write to application} \
 	{pcOnly stdio cat32} {
-    set f [open "|$cat32 > stdout" w]
+    set f [open |[list $cat32 >stdout] w]
     puts -nonewline $f "foo"
     catch {close $f} msg
     list [contents stdout] $msg
