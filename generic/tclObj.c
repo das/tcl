@@ -56,6 +56,7 @@ char *tclEmptyStringRep = &emptyString;
 #ifdef TCL_COMPILE_STATS
 long tclObjsAlloced = 0;
 long tclObjsFreed = 0;
+long tclObjsShared[TCL_MAX_SHARED_OBJ_STATS] = { 0, 0, 0, 0, 0 };
 #endif /* TCL_COMPILE_STATS */
 
 /*
@@ -143,6 +144,12 @@ TclInitObjSubsystem()
     Tcl_MutexLock(&tclObjMutex);
     tclObjsAlloced = 0;
     tclObjsFreed = 0;
+    {
+	int i;
+	for (i = 0;  i < TCL_MAX_SHARED_OBJ_STATS;  i++) {
+	    tclObjsShared[i] = 0;
+	}
+    }
     Tcl_MutexUnlock(&tclObjMutex);
 #endif
 }
@@ -2077,6 +2084,17 @@ Tcl_DbIsShared(objPtr, file, line)
 	fflush(stderr);
 	panic("Trying to check whether previously disposed object is shared.");
     }
+#endif
+#ifdef TCL_COMPILE_STATS
+    Tcl_MutexLock(&tclObjMutex);
+    if ((objPtr)->refCount <= 1) {
+	tclObjsShared[1]++;
+    } else if ((objPtr)->refCount < TCL_MAX_SHARED_OBJ_STATS) {
+	tclObjsShared[(objPtr)->refCount]++;
+    } else {
+	tclObjsShared[0]++;
+    }
+    Tcl_MutexUnlock(&tclObjMutex);
 #endif
     return ((objPtr)->refCount > 1);
 }

@@ -1549,6 +1549,8 @@ extern Tcl_Obj *	tclFreeObjList;
 #ifdef TCL_COMPILE_STATS
 extern long		tclObjsAlloced;
 extern long		tclObjsFreed;
+#define TCL_MAX_SHARED_OBJ_STATS 5
+extern long		tclObjsShared[TCL_MAX_SHARED_OBJ_STATS];
 #endif /* TCL_COMPILE_STATS */
 
 /*
