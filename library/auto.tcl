@@ -22,14 +22,20 @@
 # None.
 
 proc auto_reset {} {
-    foreach cmdName [array names ::auto_index] {
-	set fqcn [namespace which $cmdName]
-	if {$fqcn eq ""} {continue}
-	rename $fqcn {}
+    if {[array exists ::auto_index]} {
+	foreach cmdName [array names ::auto_index] {
+	    set fqcn [namespace which $cmdName]
+	    if {$fqcn eq ""} {continue}
+	    rename $fqcn {}
+	}
     }
     unset -nocomplain ::auto_execs ::auto_index ::tcl::auto_oldpath
-    if {[info library] ni $::auto_path} {
-	lappend ::auto_path [info library]
+    if {[catch {llength $::auto_path}]} {
+	set ::auto_path [list [info library]]
+    } else {
+	if {[info library] ni $::auto_path} {
+	    lappend ::auto_path [info library]
+	}
     }
 }
 
