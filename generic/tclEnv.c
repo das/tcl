@@ -356,7 +356,8 @@ TclUnsetEnv(name)
     CONST char *name;		/* Name of variable to remove (UTF-8). */
 {
     char *oldValue;
-    int length, index;
+    unsigned int length;
+    int index;
 #ifdef USE_PUTENV
     Tcl_DString envString;
     char *string;
