@@ -705,6 +705,8 @@ test expr-20.3 {broken substitution of integer digits} {
 } {4096 1000}
 
 # cleanup
-unset a
+if {[info exists a]} {
+    unset a
+}
 ::tcltest::cleanupTests
 return

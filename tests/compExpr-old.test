@@ -671,7 +671,9 @@ test expr-19.1 {expr and interpreter result object resetting} {
 } 3
 
 # cleanup
-unset a
+if {[info exists a]} {
+    unset a
+}
 ::tcltest::cleanupTests
 return
 
