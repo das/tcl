@@ -91,14 +91,6 @@ extern "C" {
 #	define USE_PROTOTYPE 1
 #   endif
 
-/*
- * Under Windows we need to call Tcl_Alloc in all cases to avoid competing
- * C run-time library issues.
- */
-
-#   ifndef USE_TCLALLOC
-#	define USE_TCLALLOC 1
-#   endif
 #endif /* __WIN32__ */
 
 /*
