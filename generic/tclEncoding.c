@@ -1360,6 +1360,7 @@ scan:
     Tcl_AppendToObj(nameObj, ".enc", -1);
     path = Tcl_FSJoinToPath(directory, 1, &nameObj);
     Tcl_DecrRefCount(directory);
+    Tcl_DecrRefCount(nameObj);
     Tcl_IncrRefCount(path);
     chan = Tcl_FSOpenFileChannel(NULL, path, "r", 0);
     Tcl_DecrRefCount(path);
@@ -3084,7 +3085,7 @@ InitializeEncodingSearchPath(valuePtr, lengthPtr, encodingPtr)
 	if ((0 == Tcl_FSStat(path, &stat)) && S_ISDIR(stat.st_mode)) {
 	    Tcl_ListObjAppendElement(NULL, searchPath, path);
 	}
-	Tcl_IncrRefCount(path);
+	Tcl_DecrRefCount(path);
     }
     Tcl_DecrRefCount(libPath);
     Tcl_DecrRefCount(encodingObj);

@@ -581,4 +581,7 @@ AC_SUBST(TCL_HAS_LONGLONG)
 AC_SUBST(BUILD_DLTEST)
 AC_SUBST(TCL_PACKAGE_PATH)
 
+dnl	Disable the automake-friendly normalization of LIBOBJS
+dnl	performed by autoconf 2.53 and later.  It's not correct for us.
+define([_AC_LIBOBJS_NORMALIZE],[])
 AC_OUTPUT([Makefile dltest/Makefile tclConfig.sh])

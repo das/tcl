@@ -1101,6 +1101,8 @@ Tcl_VwaitObjCmd(clientData, interp, objc, objv)
     while (!done && foundEvent) {
 	foundEvent = Tcl_DoOneEvent(TCL_ALL_EVENTS);
 	if (Tcl_LimitExceeded(interp)) {
+	    Tcl_ResetResult(interp);
+	    Tcl_AppendResult(interp, "limit exceeded", NULL);
 	    return TCL_ERROR;
 	}
     }
@@ -1190,6 +1192,8 @@ Tcl_UpdateObjCmd(clientData, interp, objc, objv)
     
     while (Tcl_DoOneEvent(flags) != 0) {
 	if (Tcl_LimitExceeded(interp)) {
+	    Tcl_ResetResult(interp);
+	    Tcl_AppendResult(interp, "limit exceeded", NULL);
 	    return TCL_ERROR;
 	}
     }
