@@ -306,7 +306,7 @@ The token describes a backslash sequence such as \fB\en\fR or \fB\e0xa3\fR.
 The \fInumComponents\fR field is always 0.
 .TP
 \fBTCL_TOKEN_COMMAND\fR
-The token describes a command whose result result must be substituted into
+The token describes a command whose result must be substituted into
 the word.  The token includes the square brackets that surround the
 command.  The \fInumComponents\fR field is always 0 (the nested command
 is not parsed; call \fBTcl_ParseCommand\fR recursively if you want to

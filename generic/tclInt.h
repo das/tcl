@@ -238,7 +238,7 @@ typedef struct Namespace {
  *		variables and command have already been destroyed. This bit
  *		allows the namespace resolution code to recognize that the
  *		namespace is "deleted". When the last namespaceName object
- *		in any byte code code unit that refers to the namespace has
+ *		in any byte code unit that refers to the namespace has
  *		been freed (i.e., when the namespace's refCount is 0), the
  *		namespace's storage will be freed.
  */

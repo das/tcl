@@ -4131,7 +4131,7 @@ CommonGetsCleanup(chanPtr, encoding)
  * Tcl_Read --
  *
  *	Reads a given number of bytes from a channel.  EOL and EOF
- *	translation is done on the bytes being read, so the the number
+ *	translation is done on the bytes being read, so the number
  *	of bytes consumed from the channel may not be equal to the
  *	number of bytes stored in the destination buffer.
  *
@@ -4175,7 +4175,7 @@ Tcl_Read(chan, dst, bytesToRead)
  * Tcl_ReadRaw --
  *
  *	Reads a given number of bytes from a channel.  EOL and EOF
- *	translation is done on the bytes being read, so the the number
+ *	translation is done on the bytes being read, so the number
  *	of bytes consumed from the channel may not be equal to the
  *	number of bytes stored in the destination buffer.
  *
@@ -6886,7 +6886,7 @@ UpdateInterest(chanPtr)
 	     * - It reads data into a buffer smaller than the buffer
 	     *   used by Tcl itself.
 	     * - It does not process all events in the event queue, but
-	     *   only only one, at least in some situations.
+	     *   only one, at least in some situations.
 	     *
 	     * In that case we can get into a situation where
 	     *

@@ -1079,7 +1079,8 @@ Tcl_FileObjCmd(dummy, interp, objc, objv)
 			 * doesn't exist.
 			 */
 			int access;
-			Tcl_Obj *dirPtr = TclPathPart(interp, objv[index], TCL_PATH_DIRNAME);
+			Tcl_Obj *dirPtr = TclPathPart(interp, objv[index], 
+						      TCL_PATH_DIRNAME);
 			if (dirPtr == NULL) {
 			    return TCL_ERROR;
 			}

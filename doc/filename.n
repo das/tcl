@@ -216,7 +216,7 @@ to errors in most file operations.
 Another Windows peculiarity is that any number of trailing dots '.'  in
 filenames are totally ignored, so, for example, attempts to create a
 file or directory with a name "foo." will result in the creation of a
-file/directory with name "foo".  This fact is reflected in in the
+file/directory with name "foo".  This fact is reflected in the
 results of 'file normalize'.  Furthermore, a file name consisting only
 of dots '.........' or dots with trailing characters '.....abc' is
 illegal.

@@ -251,7 +251,7 @@ Tcl_LoadObjCmd(dummy, interp, objc, objv)
     /*
      * Scan through the list of packages already loaded in the target
      * interpreter.  If the package we want is already loaded there,
-     * then there's nothing for us to to.
+     * then there's nothing for us to do.
      */
 
     if (pkgPtr != NULL) {
