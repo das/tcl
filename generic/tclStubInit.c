@@ -8,7 +8,11 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
+<<<<<<< tclStubInit.c
  * RCS: @(#) $Id$
+=======
+ * RCS: @(#) $Id$
+>>>>>>> 1.88
  */
 
 #include "tclInt.h"
@@ -272,6 +276,8 @@ TclIntStubs tclIntStubs = {
     TclCallVarTraces, /* 175 */
     TclCleanupVar, /* 176 */
     TclVarErrMsg, /* 177 */
+    Tcl_SetStartupScript, /* 178 */
+    Tcl_GetStartupScript, /* 179 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
@@ -960,6 +966,7 @@ TclStubs tclStubs = {
     Tcl_FindCommand, /* 515 */
     Tcl_GetCommandFromObj, /* 516 */
     Tcl_GetCommandFullName, /* 517 */
+    Tcl_FSEvalFileEx, /* 518 */
 };
 
 /* !END!: Do not edit above this line. */

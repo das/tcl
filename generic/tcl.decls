@@ -1849,6 +1849,11 @@ declare 517 generic {
 	    Tcl_Obj *objPtr)
 }
 
+# New export due to TIP#137
+declare 518 generic {
+    int Tcl_FSEvalFileEx(Tcl_Interp *interp, Tcl_Obj *fileName,
+            CONST char *encodingName)
+}
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are

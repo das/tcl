@@ -13,7 +13,7 @@
 .TH Tcl_Namespace 3 8.5 Tcl "Tcl Library Procedures"
 .BS
 .SH NAME
-Tcl_AppendExportList, Tcl_CreateNamespace, Tcl_DeleteNamespace, Tcl_Export, Tcl_FindCommand, Tcl_FindNamespace, Tcl_ForgetImport, Tcl_GetCurrentNamespace, Tcl_GetGloblaNamespace, Tcl_Import \- manipulate namespaces
+Tcl_AppendExportList, Tcl_CreateNamespace, Tcl_DeleteNamespace, Tcl_Export, Tcl_FindCommand, Tcl_FindNamespace, Tcl_ForgetImport, Tcl_GetCommandFromObj, Tcl_GetCommandFullName, Tcl_GetCurrentNamespace, Tcl_GetGloblaNamespace, Tcl_Import \- manipulate namespaces
 .SH SYNOPSIS
 .nf
 \fB#include <tcl.h>\fR
@@ -24,7 +24,7 @@ Tcl_Namespace *
 \fBTcl_DeleteNamespace\fR(\fInsPtr\fR)
 .sp
 int
-\fBTcl_AppendExportList\fR(\fIinterp, nsPtr, objPtr\fR)
+\fBTcl_AppendExportList\fR(\fIinterp, nsPtr, resultObjPtr\fR)
 .sp
 int
 \fBTcl_Export\fR(\fIinterp, nsPtr, pattern, resetListFirst\fR)
@@ -46,12 +46,17 @@ Tcl_Namespace *
 .sp
 Tcl_Command
 \fBTcl_FindCommand\fR(\fIinterp, name, contextNsPtr, flags\fR)
+.sp
+Tcl_Command
+\fBTcl_GetCommandFromObj\fR(\fIinterp, objPtr\fR)
+.sp
+\fBTcl_GetCommandFullName\fR(\fIinterp, command, resultObjPtr\fR)
 .SH ARGUMENTS
-.AS Tcl_NamespaceDeleteProc allowOverwrite in/out
+.AS Tcl_NamespaceDeleteProc *resultObjPtr
 .AP Tcl_Interp *interp in/out
 The interpreter in which the namespace exists and where name lookups
 are performed. Also where error result messages are written.
-.AP "const char" *name in
+.AP "CONST char" *name in
 The name of the namespace or command to be created or accessed.
 .AP ClientData clientData in
 A context pointer by the creator of the namespace.  Not interpreted by
@@ -62,10 +67,10 @@ if no such callback is to be performed.
 .AP Tcl_Namespace *nsPtr in
 The namespace to be manipulated, or NULL (for other than
 \fBTcl_DeleteNamespace\fR) to manipulate the current namespace.
-.AP Tcl_Obj *objPtr out
+.AP Tcl_Obj *resultObjPtr out
 A reference to an unshared object to which the function output will be
 written.
-.AP "const char" *pattern in
+.AP "CONST char" *pattern in
 The glob-style pattern (see \fBTcl_StringMatch\fR) that describes the
 commands to be imported or exported.
 .AP int resetListFirst in
@@ -76,17 +81,19 @@ Whether new commands created by this import action can overwrite
 existing commands.
 .AP Tcl_Namespace *contextNsPtr in
 The location in the namespace hierarchy where the search for a
-namespace or command should be conducted relative to when the search
+namspace or command should be conducted relative to when the search
 term is not rooted at the global namespace.  NULL indicates the
 current namespace.
 .AP int flags in
 OR-ed combination of bits controlling how the search is to be
-performed.  The following flags are supported: \fBTCL_GLOBAL_ONLY\fR
+performed.  The following flags are supported: TCL_GLOBAL_ONLY
 (indicates that the search is always to be conducted relative to the
-global namespace), \fBTCL_NAMESPACE_ONLY\fR (just for \fBTcl_FindCommand\fR;
+global namespace), TCL_NAMESPACE_ONLY (just for \fBTcl_FindCommand\fR;
 indicates that the search is always to be conducted relative to the
-context namespace), and \fBTCL_LEAVE_ERR_MSG\fR (indicates that an error
+context namespace), and TCL_LEAVE_ERR_MSG (indicates that an error
 message should be left in the interpreter if the search fails.)
+.AP Tcl_Obj *objPtr in
+A reference to an object containing the name of a command to look up.
 .BE
 
 .SH DESCRIPTION
@@ -116,7 +123,7 @@ typedef void (Tcl_NamespaceDeleteProc) (ClientData clientData);
 .PP
 \fBTcl_AppendExportList\fR retrieves the export patterns for a
 namespace given namespace and appends them (as list items) to
-\fIobjPtr\fR.
+\fIresultObjPtr\fR.
 .PP
 \fBTcl_Export\fR sets and appends to the export patterns for a
 namespace.  Patterns are appended unless the \fIresetListFirst\fR flag
@@ -124,7 +131,7 @@ is true.
 .PP
 \fBTcl_Import\fR imports commands matching a pattern into a
 namespace.  Note that the pattern must include the name of the
-namespace to import from.  This function returns an error if
+namespace to import from.  This function returns returns an error if
 an attempt to import a command over an existing command is made,
 unless the \fIallowOverwrite\fR flag has been set.
 .PP
@@ -143,6 +150,12 @@ namespace cannot be found, NULL is returned.
 \fBTcl_FindCommand\fR searches for a command named \fIname\fR within
 the context of the namespace \fIcontextNsPtr\fR.  If the command
 cannot be found, NULL is returned.
+.PP
+\fBTcl_GetCommandFromObj\fR gets a command token from \fIobjPtr\fR.
+.PP
+\fBTcl_GetCommandFullName\fR gets the fully qualified name of a
+command given its command token, writing that name into the
+\fIresultObjPtr\fR.
 
 .SH "SEE ALSO"
 Tcl_CreateCommand, Tcl_ListObjAppendElements, Tcl_SetVar

@@ -634,6 +634,12 @@ Tcl_AppendElement(interp, string)
 	iPtr->appendUsed++;
 	*dst = ' ';
 	dst++;
+	/*
+	 * If we need a space to separate this element from preceding
+	 * stuff, then this element will not lead a list, and need not
+	 * have it's leading '#' quoted.
+	 */
+	flags |= TCL_DONT_QUOTE_HASH;
     }
     iPtr->appendUsed += Tcl_ConvertElement(string, dst, flags);
 }

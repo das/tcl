@@ -14,8 +14,8 @@
 #
 # RCS: @(#) $Id$
 
-if {[catch {package require tcltest 2.1}]} {
-    puts stderr "Skipping tests in [info script]. tcltest 2.1 required."
+if {[catch {package require tcltest 2.0.2}]} {
+    puts stderr "Skipping tests in [info script]. tcltest 2.0.2 required."
     return
 }
 
@@ -25,7 +25,6 @@ namespace eval ::tcl::test::source {
     namespace import ::tcltest::cleanupTests
     namespace import ::tcltest::makeFile
     namespace import ::tcltest::removeFile
-    namespace import ::tcltest::customMatch
 
 test source-1.1 {source command} -setup {
     set x "old x value"
@@ -64,18 +63,6 @@ test source-1.3 {source command} -setup {
     removeFile source.file
 } -result {a b c d e f}
 
-proc ListGlobMatch {expected actual} {
-    if {[llength $expected] != [llength $actual]} {
-        return 0
-    }
-    foreach e $expected a $actual {
-        if {![string match $e $a]} {
-            return 0
-        }
-    }
-    return 1
-}
-customMatch listGlob [namespace which ListGlobMatch]
 
 test source-2.3 {source error conditions} -setup {
     set sourcefile [makeFile {
@@ -87,7 +74,7 @@ test source-2.3 {source error conditions} -setup {
     list [catch {source $sourcefile} msg] $msg $::errorInfo
 } -cleanup {
     removeFile source.file
-} -match listGlob -result [list 1 {error in sourced file} \
+} -match glob -result [list 1 {error in sourced file} \
 	{error in sourced file
     while executing
 "error "error in sourced file""
@@ -116,7 +103,7 @@ test source-2.6 {source error conditions} -setup {
     removeFile _non_existent_
 } -body {
     list [catch {source $sourcefile} msg] $msg $::errorCode
-} -match listGlob -result [list 1 \
+} -match glob -result [list 1 \
 	{couldn't read file "*_non_existent_": no such file or directory} \
 	{POSIX ENOENT {no such file or directory}}]
 
@@ -192,6 +179,109 @@ test source-3.5 {return with special code etc.} -setup {
 "source $sourcefile"} {a b c}}
 
 
+# Test for the Macintosh specfic features of the source command
+test source-4.1 {source error conditions} -constraints macOnly -body {
+    source -rsrc _no_exist_
+} -result {The resource "_no_exist_" could not be loaded from application.} \
+  -returnCodes error 
+
+test source-4.2 {source error conditions} -constraints macOnly -body {
+    source -rsrcid bad_id
+} -returnCodes error -result {expected integer but got "bad_id"}
+
+test source-4.3 {source error conditions} -constraints macOnly -body {
+    source -rsrc rsrcName fileName extra
+} -returnCodes error -result {wrong # args: should be "source fileName" or "source -rsrc name ?fileName?" or "source -rsrcid id ?fileName?" or "source -encoding name fileName"}
+
+test source-4.4 {source error conditions} -constraints macOnly -body {
+    source non_switch rsrcName
+} -returnCodes error -result {bad argument: should be "source fileName" or "source -rsrc name ?fileName?" or "source -rsrcid id ?fileName?" or "source -encoding name fileName"}
+
+test source-4.5 {source error conditions} -constraints macOnly -body {
+    source -bad_switch argument
+} -returnCodes error -result {bad argument: should be "source fileName" or "source -rsrc name ?fileName?" or "source -rsrcid id ?fileName?" or "source -encoding name fileName"}
+
+ 
+testConstraint testWriteTextResource \
+	[llength [info commands testWriteTextResource]]
+
+test source-5.1 {source resource files} -constraints macOnly -setup {
+    set sourcefile [makeFile {} bad_file]
+    removeFile bad_file
+} -body {
+    source -rsrc rsrcName $sourcefile
+} -returnCodes error -match glob -result {Error finding the file: "*bad_file".}
+
+test source-5.2 {source resource files} -constraints macOnly -setup {
+    set sourcefile [makeFile {return} source.file]
+} -body {
+    source -rsrc rsrcName $sourcefile
+} -cleanup {
+    removeFile source.file
+} -returnCodes error -match glob \
+  -result {Error reading the file: "*source.file".}
+
+test source-5.3 {source resource files} -constraints {
+    macOnly testWriteTextResource
+} -setup {
+    set msg2 unset
+    set rsrcFile [makeFile {} rsrc.file]
+    removeFile rsrc.file
+    testWriteTextResource -rsrc rsrcName -file $rsrc.file {set msg2 ok; return}
+} -body {
+    set result [catch {source -rsrc rsrcName rsrc.file} msg]
+    list $msg2 $result $msg
+} -cleanup {
+    removeFile rsrc.file
+} -result [list ok 0 {}]
+
+test source-5.4 {source resource files} -constraints {
+    macOnly testWriteTextResource
+} -setup {
+    set msg2 unset
+    set rsrsFile [makeFile {} rsrc.file]
+    removeFile rsrc.file
+    testWriteTextResource -rsrc fileRsrcName \
+	    -file $rsrcFile {set msg2 ok; return}
+} -body {
+    source -rsrc fileRsrcName $rsrcFile
+    set result [catch {source -rsrc fileRsrcName} msg]    
+    list $msg2 $result $msg
+} -cleanup {
+    removeFile rsrc.file
+} -result [list ok 1 {The resource "fileRsrcName" could not be loaded from application.}]
+
+test source-5.5 {source resource files} -constraints {
+    macOnly testWriteTextResource
+} -setup {
+    set msg2 unset
+    set rsrcFile [makeFile {} rsrc.file]
+    removeFile rsrc.file
+    testWriteTextResource -rsrcid 200 \
+	    -file $rsrcFile {set msg2 hello; set msg3 bye}
+} -body {
+    set result [catch {source -rsrcid 200 $rsrcFile} msg]
+    list $msg2 $result $msg
+} -cleanup {
+    removeFile rsrc.file
+} -result [list hello 0 bye]
+
+test source-5.6 {source resource files} -constraints {
+    macOnly testWriteTextResource
+} -setup {
+    set msg2 unset
+    set rsrcFile [makeFile {} rsrc.file]
+    removeFile rsrc.file
+    testWriteTextResource -rsrcid 200 \
+	    -file $rsrcFile {set msg2 hello; error bad; set msg3 bye}
+} -body {
+    set result [catch {source -rsrcid 200 rsrc.file} msg]
+    list $msg2 $result $msg
+} -cleanup {
+    removeFile rsrc.file
+} -result [list hello 1 bad]
+
+
 test source-6.1 {source is binary ok} -setup {
     # Note [makeFile] writes in the system encoding.
     # [source] defaults to reading in the system encoding.
@@ -216,7 +306,7 @@ test source-6.2 {source skips everything after Ctrl-Z: Bug 2040} -setup {
 
 test source-7.1 {source -encoding test} -setup {
     set sourcefile [makeFile {} source.file]
-    file delete $sourcefile
+    removeFile source.file
     set f [open $sourcefile w]
     fconfigure $f -encoding utf-8
     puts $f "set symbol(square-root) \u221A; set x correct"
@@ -236,7 +326,7 @@ test source-7.2 {source -encoding test} -setup {
     # file that contains the byte \x1A, although not the character \u001A in
     # the indicated encoding.
     set sourcefile [makeFile {} source.file]
-    file delete $sourcefile
+    removeFile source.file
     set f [open $sourcefile w]
     fconfigure $f -encoding unicode
     puts $f "set symbol(square-root) \u221A; set x correct"
@@ -264,7 +354,7 @@ test source-7.4 {source -encoding: syntax} -setup {
 
 test source-7.5 {source -encoding: correct operation} -setup {
     set sourcefile [makeFile {} source.file]
-    file delete $sourcefile
+    removeFile source.file
     set f [open $sourcefile w]
     fconfigure $f -encoding utf-8
     puts $f "proc \u20ac {} {return foo}"
@@ -279,7 +369,7 @@ test source-7.5 {source -encoding: correct operation} -setup {
 
 test source-7.6 {source -encoding: mismatch encoding error} -setup {
     set sourcefile [makeFile {} source.file]
-    file delete $sourcefile
+    removeFile source.file
     set f [open $sourcefile w]
     fconfigure $f -encoding utf-8
     puts $f "proc \u20ac {} {return foo}"

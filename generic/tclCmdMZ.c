@@ -1004,12 +1004,26 @@ Tcl_SourceObjCmd(dummy, interp, objc, objv)
     int objc;			/* Number of arguments. */
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
-    if (objc != 2) {
-	Tcl_WrongNumArgs(interp, 1, objv, "fileName");
+    CONST char *encodingName = NULL;
+    Tcl_Obj *fileName;
+
+    if (objc != 2 && objc !=4) {
+	Tcl_WrongNumArgs(interp, 1, objv, "?-encoding name? fileName");
 	return TCL_ERROR;
     }
-
-    return Tcl_FSEvalFile(interp, objv[1]);
+    fileName = objv[objc-1];
+    if (objc == 4) {
+	static CONST char *options[] = {
+	    "-encoding", (char *) NULL
+	};
+	int index;
+	if (TCL_ERROR == Tcl_GetIndexFromObj(interp, objv[1],
+		options, "option", TCL_EXACT, &index)) {
+	    return TCL_ERROR;
+	}
+	encodingName = Tcl_GetString(objv[2]);
+    }
+    return Tcl_FSEvalFileEx(interp, fileName, encodingName);
 }
 
 /*

@@ -13,6 +13,7 @@
  * RCS: @(#) $Id$
  */
 
+#include "tcl.h"
 #include "tclInt.h"
 
 # undef TCL_STORAGE_CLASS
@@ -24,7 +25,11 @@
  * the Tcl source directory to make their own modified versions).
  */
 
-extern DLLIMPORT int		isatty _ANSI_ARGS_((int fd));
+#if !defined(MAC_TCL)
+extern int		isatty _ANSI_ARGS_((int fd));
+#else
+#include <unistd.h>
+#endif
 
 static Tcl_Obj *tclStartupScriptPath = NULL;
 static Tcl_Obj *tclStartupScriptEncoding = NULL;
@@ -237,66 +242,10 @@ CONST char *TclGetStartupScriptFileName()
     }
     return Tcl_GetString(path);
 }
+
 
-/*----------------------------------------------------------------------
- *
- * Tcl_SourceRCFile --
- *         
- *      This procedure is typically invoked by Tcl_Main of Tk_Main
- *      procedure to source an application specific rc file into the
- *      interpreter at startup time.
- *                            
- * Results:
- *      None.                                                  
- *
- * Side effects:
- *      Depends on what's in the rc script.                                                
- *
+/*
  *----------------------------------------------------------------------
- */
-                  
-void
-Tcl_SourceRCFile(interp)
-    Tcl_Interp *interp;         /* Interpreter to source rc file into. */
-{
-    Tcl_DString temp;                                                      
-    CONST char *fileName;
-    Tcl_Channel errChannel;
-
-    fileName = Tcl_GetVar(interp, "tcl_rcFileName", TCL_GLOBAL_ONLY);
-    if (fileName != NULL) { 
-        Tcl_Channel c;
-        CONST char *fullName;
-
-	Tcl_DStringInit(&temp);
-	fullName = Tcl_TranslateFileName(interp, fileName, &temp);
-	if (fullName == NULL) {           
-	    /*
-	     * Couldn't translate the file name (e.g. it referred to a
-	     * bogus user or there was no HOME environment variable).
-	     * Just do nothing.
-	     */
-	} else {
-            /*
-	     * Test for the existence of the rc file before trying to read it.             
-	     */
-	    c = Tcl_OpenFileChannel(NULL, fullName, "r", 0);
-	    if (c != (Tcl_Channel) NULL) {
-		Tcl_Close(NULL, c);
-		if (Tcl_EvalFile(interp, fullName) != TCL_OK) {
-		    errChannel = Tcl_GetStdChannel(TCL_STDERR);
-		    if (errChannel) {
-			Tcl_WriteObj(errChannel, Tcl_GetObjResult(interp));
-			Tcl_WriteChars(errChannel, "\n", 1);
- 		    }
- 		}
- 	    }
-	}
-	Tcl_DStringFree(&temp);
-    }
-}
-
-/*----------------------------------------------------------------------
  *
  * Tcl_Main --
  *
@@ -328,7 +277,7 @@ Tcl_Main(argc, argv, appInitProc)
     Tcl_Obj *resultPtr;
     Tcl_Obj *commandPtr = NULL;
     CONST char *encodingName = NULL;
-    char *args;
+    char buffer[TCL_INTEGER_SPACE + 5], *args;
     PromptType prompt = PROMPT_START;
     int code, length, tty;
     int exitCode = 0;
@@ -390,8 +339,8 @@ Tcl_Main(argc, argv, appInitProc)
 	Tcl_SetStartupScript(path, encodingName);
     }
 
-    Tcl_SetVar2Ex(interp, "argc", NULL, Tcl_NewIntObj(argc-1),
-	    TCL_GLOBAL_ONLY);
+    TclFormatInt(buffer, (long) argc-1);
+    Tcl_SetVar(interp, "argc", buffer, TCL_GLOBAL_ONLY);
     Tcl_SetVar(interp, "argv0", Tcl_DStringValue(&argString), TCL_GLOBAL_ONLY);
 
     /*
@@ -419,9 +368,6 @@ Tcl_Main(argc, argv, appInitProc)
     if (Tcl_InterpDeleted(interp)) {
 	goto done;
     }
-    if (Tcl_LimitExceeded(interp)) {
-	goto done;
-    }
 
     /*
      * If a script file was specified then just source that file
@@ -435,17 +381,15 @@ Tcl_Main(argc, argv, appInitProc)
 	if (code != TCL_OK) {
 	    errChannel = Tcl_GetStdChannel(TCL_STDERR);
 	    if (errChannel) {
-		Tcl_Obj *options = Tcl_GetReturnOptions(interp, code);
-		Tcl_Obj *keyPtr = Tcl_NewStringObj("-errorinfo", -1);
-		Tcl_Obj *valuePtr;
 
-		Tcl_IncrRefCount(keyPtr);
-		Tcl_DictObjGet(NULL, options, keyPtr, &valuePtr);
-		Tcl_DecrRefCount(keyPtr);
+		/*
+		 * The following statement guarantees that the errorInfo
+		 * variable is set properly.
+		 */
 
-		if (valuePtr) {
-		    Tcl_WriteObj(errChannel, valuePtr);
-		}
+		Tcl_AddErrorInfo(interp, "");
+		Tcl_WriteObj(errChannel, Tcl_GetVar2Ex(interp, "errorInfo",
+			NULL, TCL_GLOBAL_ONLY));
 		Tcl_WriteChars(errChannel, "\n", 1);
 	    }
 	    exitCode = 1;
@@ -460,9 +404,6 @@ Tcl_Main(argc, argv, appInitProc)
      */
 
     Tcl_SourceRCFile(interp);
-    if (Tcl_LimitExceeded(interp)) {
-	goto done;
-    }
 
     /*
      * Process commands from stdin until there's an end-of-file.  Note
@@ -483,9 +424,6 @@ Tcl_Main(argc, argv, appInitProc)
 	if (tty) {
 	    Prompt(interp, &prompt);
 	    if (Tcl_InterpDeleted(interp)) {
-		break;
-	    }
-	    if (Tcl_LimitExceeded(interp)) {
 		break;
 	    }
 	    inChannel = Tcl_GetStdChannel(TCL_STDIN);
@@ -521,17 +459,17 @@ Tcl_Main(argc, argv, appInitProc)
 	    break;
 	}
 
-	if (!TclObjCommandComplete(commandPtr)) {
-	    /*
-	     * Add the newline removed by Tcl_GetsObj back to the string.
-	     */
+        /*
+         * Add the newline removed by Tcl_GetsObj back to the string.
+         */
 
-	    if (Tcl_IsShared(commandPtr)) {
-		Tcl_DecrRefCount(commandPtr);
-		commandPtr = Tcl_DuplicateObj(commandPtr);
-		Tcl_IncrRefCount(commandPtr);
-	    }
-	    Tcl_AppendToObj(commandPtr, "\n", 1);
+	if (Tcl_IsShared(commandPtr)) {
+	    Tcl_DecrRefCount(commandPtr);
+	    commandPtr = Tcl_DuplicateObj(commandPtr);
+	    Tcl_IncrRefCount(commandPtr);
+	}
+	Tcl_AppendToObj(commandPtr, "\n", 1);
+	if (!TclObjCommandComplete(commandPtr)) {
 	    prompt = PROMPT_CONTINUE;
 	    continue;
 	}
@@ -624,8 +562,7 @@ Tcl_Main(argc, argv, appInitProc)
     }
 
     done:
-    if ((exitCode == 0) && (mainLoopProc != NULL)
-	    && !Tcl_LimitExceeded(interp)) {
+    if ((exitCode == 0) && (mainLoopProc != NULL)) {
 
 	/*
 	 * If everything has gone OK so far, call the main loop proc,
@@ -647,18 +584,14 @@ Tcl_Main(argc, argv, appInitProc)
      */
 
     if (!Tcl_InterpDeleted(interp)) {
-	if (!Tcl_LimitExceeded(interp)) {
-	    char buffer[TCL_INTEGER_SPACE + 5];
-
-	    sprintf(buffer, "exit %d", exitCode);
-	    Tcl_Eval(interp, buffer);
-	}
+        sprintf(buffer, "exit %d", exitCode);
+        Tcl_Eval(interp, buffer);
 
         /*
          * If Tcl_Eval returns, trying to eval [exit], something
-         * unusual is happening.  Maybe interp has been deleted; maybe
-         * [exit] was redefined, maybe we've blown up because of an
-         * exceeded limit.  We still want to cleanup and exit.
+         * unusual is happening.  Maybe interp has been deleted;
+         * maybe [exit] was redefined.  We still want to cleanup
+         * and exit.
          */
 
         if (!Tcl_InterpDeleted(interp)) {
@@ -754,13 +687,13 @@ StdinProc(clientData, mask)
 	return;
     }
 
+    if (Tcl_IsShared(commandPtr)) {
+	Tcl_DecrRefCount(commandPtr);
+	commandPtr = Tcl_DuplicateObj(commandPtr);
+	Tcl_IncrRefCount(commandPtr);
+    }
+    Tcl_AppendToObj(commandPtr, "\n", 1);
     if (!TclObjCommandComplete(commandPtr)) {
-	if (Tcl_IsShared(commandPtr)) {
-	    Tcl_DecrRefCount(commandPtr);
-	    commandPtr = Tcl_DuplicateObj(commandPtr);
-	    Tcl_IncrRefCount(commandPtr);
-	}
-	Tcl_AppendToObj(commandPtr, "\n", 1);
         isPtr->prompt = PROMPT_CONTINUE;
         goto prompt;
     }
