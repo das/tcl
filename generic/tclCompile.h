@@ -243,7 +243,18 @@ typedef union TclVMWord {
 #define HP_EXTRACT(full, n, u)\
     (n) = ((full) >> HP_SHIFT);\
     (u) = ((full) &  HP_MASK)
-	
+
+
+/*
+ * Structure defining the entries in the runtime catch stack.
+ */
+
+typedef struct catchItem {
+    int stackTop;
+    TclVMWord *pc;
+} catchItem;
+#define CATCH_ITEM_SIZE 2
+
 /*
  * Structure defining the compilation environment. After compilation, fields
  * describing bytecode instructions are copied out into the more compact
