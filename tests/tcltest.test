@@ -1668,6 +1668,24 @@ test tcltest-24.20 {
 *(negative matching):
 *}
 
+test tcltest-25.1 {
+	constraint of setup/cleanup (Bug 589859)
+} -setup {
+	set foo 0
+} -body {
+	# Buggy tcltest will generate result of 2
+	test tcltest-25.1.0 {} -constraints knownBug -setup {
+	    incr foo
+	} -body {
+	    incr foo
+	} -cleanup {
+	    incr foo
+	} -match glob -result *
+	set foo
+} -cleanup {
+	unset foo
+} -result 0
+
 cleanupTests
 }
 
