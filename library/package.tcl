@@ -84,7 +84,6 @@ proc tcl::Pkg::CompareExtension { fileName {ext {}} } {
 #			dir.
 
 proc pkg_mkIndex {args} {
-    global errorCode errorInfo
     set usage {"pkg_mkIndex ?-direct? ?-lazy? ?-load pattern? ?-verbose? ?--? dir ?pattern ...?"};
 
     set argCount [llength $args]
@@ -135,13 +134,10 @@ proc pkg_mkIndex {args} {
 	set patternList [list "*.tcl" "*[info sharedlibextension]"]
     }
 
-    set oldDir [pwd]
-    cd $dir
-
-    if {[catch {glob {expand}$patternList} fileList]} {
-	global errorCode errorInfo
-	cd $oldDir
-	return -code error -errorcode $errorCode -errorinfo $errorInfo $fileList
+    if {[catch {
+	    glob -directory $dir -tails -types {r f} {expand}$patternList
+    } fileList o]} {
+	return -options $o $fileList
     }
     foreach file $fileList {
 	# For each file, figure out what commands and packages it provides.
@@ -149,15 +145,10 @@ proc pkg_mkIndex {args} {
 	# interpreter, and get a list of the new commands and packages
 	# that are defined.
 
-	if {[string equal $file "pkgIndex.tcl"]} {
+	if {[string equal $file pkgIndex.tcl]} {
 	    continue
 	}
 
-	# Changed back to the original directory before initializing the
-	# slave in case TCL_LIBRARY is a relative path (e.g. in the test
-	# suite). 
-
-	cd $oldDir
 	set c [interp create]
 
 	# Load into the child any packages currently loaded in the parent
@@ -194,7 +185,6 @@ proc pkg_mkIndex {args} {
 		$c eval [list wm withdraw .]
 	    }
 	}
-	cd $dir
 
 	$c eval {
 	    # Stub out the package command so packages can
@@ -224,6 +214,7 @@ proc pkg_mkIndex {args} {
 	    # to generate a pkgIndex.tcl file for the ::tcl namespace.
 
 	    namespace eval ::tcl {
+		variable dir		;# Current directory being processed
 		variable file		;# Current file being processed
 		variable direct		;# -direct flag value
 		variable x		;# Loop variable
@@ -237,6 +228,7 @@ proc pkg_mkIndex {args} {
 	    }
 	}
 
+	$c eval [list set ::tcl::dir $dir]
 	$c eval [list set ::tcl::file $file]
 	$c eval [list set ::tcl::direct $direct]
 
@@ -291,11 +283,11 @@ proc pkg_mkIndex {args} {
 		    # the wrong file to be used.
 
 		    set ::tcl::debug loading
-		    load [file join . $::tcl::file]
+		    load [file join $::tcl::dir $::tcl::file]
 		    set ::tcl::type load
 		} else {
 		    set ::tcl::debug sourcing
-		    source $::tcl::file
+		    source [file join $::tcl::dir $::tcl::file]
 		    set ::tcl::type source
 		}
 
@@ -414,10 +406,9 @@ proc pkg_mkIndex {args} {
 	append index "\n[eval $cmd]"
     }
 
-    set f [open pkgIndex.tcl w]
+    set f [open [file join $dir pkgIndex.tcl] w]
     puts $f $index
     close $f
-    cd $oldDir
 }
 
 # tclPkgSetup --
