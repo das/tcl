@@ -1965,6 +1965,7 @@ TclpCreateCommandChannel(
 	    infoPtr->startReader = CreateEvent(NULL, FALSE, FALSE, NULL);
 	    infoPtr->readThread = CreateThread(NULL, 8000, PipeReaderThread,
 		    infoPtr, 0, &id);
+	    SetThreadPriority(infoPtr->readThread, THREAD_PRIORITY_HIGHEST); 
 	} else {
 	    infoPtr->readThread = 0;
 	}
@@ -1982,6 +1983,7 @@ TclpCreateCommandChannel(
 	    infoPtr->startWriter = CreateEvent(NULL, FALSE, FALSE, NULL);
 	    infoPtr->writeThread = CreateThread(NULL, 8000, PipeWriterThread,
 		    infoPtr, 0, &id);
+	    SetThreadPriority(infoPtr->readThread, THREAD_PRIORITY_HIGHEST); 
 	} else {
 	    infoPtr->writeThread = 0;
 	}
