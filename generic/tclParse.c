@@ -1914,6 +1914,7 @@ Tcl_SubstObj(interp, objPtr, flags)
 	    Tcl_FreeParse(&parse);
 	    if (errMsg != NULL) {
 		if (code != TCL_BREAK) {
+		    Tcl_DecrRefCount(result);
 		    Tcl_SetObjResult(interp, errMsg);
 		    Tcl_DecrRefCount(errMsg);
 		    return NULL;
