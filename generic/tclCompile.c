@@ -1727,6 +1727,14 @@ LogCompilationInfo(interp, script, command, length)
 	length = 150;
 	ellipsis = "...";
     }
+    while ( (command[length] & 0xC0) == 0x80 ) {
+        /*
+	 * Back up truncation point so that we don't truncate in the
+	 * middle of a multi-byte character (in UTF-8)
+	 */
+	 length--;
+	 ellipsis = "...";
+    }
     sprintf(buffer, "\n    while compiling\n\"%.*s%s\"",
 	    length, command, ellipsis);
     Tcl_AddObjErrorInfo(interp, buffer, -1);

@@ -16,7 +16,7 @@
 if {[info commands package] == ""} {
     error "version mismatch: library\nscripts expect Tcl version 7.5b1 or later but the loaded version is\nonly [info patchlevel]"
 }
-package require -exact Tcl 8.5
+package require -exact Tcl 8.4
 
 # Compute the auto path to use in this interpreter.
 # The values on the path come from several locations:
@@ -220,10 +220,12 @@ proc unknown args {
 		# construct the stack trace.
 		#
 		set cinfo $args
-		if {[string length $cinfo] > 150} {
-		    set cinfo "[string range $cinfo 0 149]..."
+		set ellipsis ""
+		while {[string bytelength $cinfo] > 150} {
+		    set cinfo [string range $cinfo 0 end-1]
+		    set ellipsis "..."
 		}
-		append cinfo "\"\n    (\"uplevel\" body line 1)"
+		append cinfo $ellipsis "\"\n    (\"uplevel\" body line 1)"
 		append cinfo "\n    invoked from within"
 		append cinfo "\n\"uplevel 1 \$args\""
 		#
