@@ -618,7 +618,7 @@ regcomp.o: $(REGHDRS) $(GENERIC_DIR)/regcomp.c $(GENERIC_DIR)/regc_lex.c \
 		$(GENERIC_DIR)/regc_nfa.c $(GENERIC_DIR)/regc_cvec.c
 	$(CC) -c $(CC_SWITCHES) $(GENERIC_DIR)/regcomp.c
 
-regexec.o: $(REGHDRS) $(GENERIC_DIR)/regexec.c
+regexec.o: $(REGHDRS) $(GENERIC_DIR)/regexec.c $(GENERIC_DIR)/rege_dfa.c
 	$(CC) -c $(CC_SWITCHES) $(GENERIC_DIR)/regexec.c
 
 regfree.o: $(REGHDRS) $(GENERIC_DIR)/regfree.c

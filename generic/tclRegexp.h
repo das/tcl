@@ -39,7 +39,7 @@
 #ifndef _TCLREGEXP
 #define _TCLREGEXP
 
-#include "regcustom.h"
+#include "regex.h"
 
 #ifdef BUILD_tcl
 # undef TCL_STORAGE_CLASS
@@ -78,7 +78,7 @@ EXTERN VOID		TclRegXflags _ANSI_ARGS_((char *string, int length,
 			    int *cflagsPtr, int *eflagsPtr));
 EXTERN int		TclRegExpExecUniChar _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_RegExp re, CONST Tcl_UniChar *uniString,
-			    int numChars, int flags));
+			    int numChars, int nmatches, int flags));
 EXTERN int		TclRegExpMatchObj _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *string, Tcl_Obj *patObj));
 EXTERN void		TclRegExpRangeUniChar _ANSI_ARGS_((Tcl_RegExp re,
