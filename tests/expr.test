@@ -314,6 +314,14 @@ test expr-8.21 {CompileBitAndExpr: error in equality expr} {
     catch {expr a eq b} msg
     set msg
 } {syntax error in expression "a eq b": variable references require preceding $}
+test expr-8.22 {CompileBitAndExpr: error in equality expr} {
+    catch {expr {false eqfalse}} msg
+    set msg
+} {syntax error in expression "false eqfalse": extra tokens at end of expression}
+test expr-8.23 {CompileBitAndExpr: error in equality expr} {
+    catch {expr {false nefalse}} msg
+    set msg
+} {syntax error in expression "false nefalse": extra tokens at end of expression}
 
 test expr-9.1 {CompileRelationalExpr: just shift expr} {expr 3<<2} 12
 test expr-9.2 {CompileRelationalExpr: just shift expr} {expr 0xff>>2} 63

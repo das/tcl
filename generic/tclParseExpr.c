@@ -1856,7 +1856,8 @@ GetLexeme(infoPtr)
 	    return TCL_OK;
 
 	case 'e':
-	    if ((src[1] == 'q') && ((infoPtr->lastChar - src) > 1)) {
+	    if ((src[1] == 'q') && ((infoPtr->lastChar - src) > 1) &&
+		(infoPtr->lastChar-src==2 || !isalpha(UCHAR(src[2])))) {
 		infoPtr->lexeme = STREQ;
 		infoPtr->size = 2;
 		infoPtr->next = src+2;
@@ -1867,7 +1868,8 @@ GetLexeme(infoPtr)
 	    }
 
 	case 'n':
-	    if ((src[1] == 'e') && ((infoPtr->lastChar - src) > 1)) {
+	    if ((src[1] == 'e') && ((infoPtr->lastChar - src) > 1) &&
+		(infoPtr->lastChar-src==2 || !isalpha(UCHAR(src[2])))) {
 		infoPtr->lexeme = STRNEQ;
 		infoPtr->size = 2;
 		infoPtr->next = src+2;
