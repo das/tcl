@@ -66,6 +66,8 @@ is complete.  Recursive renaming or deleting will not cause further traces
 of the same type to be evaluated, so a delete trace which itself
 deletes the command, or a rename trace which itself renames the
 command will not cause further trace evaluations to occur.
+Both \fIoldName\fR and \fInewName\fR are fully qualified with any namespace(s)
+in which they appear.
 .RE
 .TP
 \fBtrace add execution\fR \fIname ops command\fR
