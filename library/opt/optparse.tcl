@@ -253,7 +253,7 @@ proc ::tcl::OptParse {desc arglist} {
 # into local variable named "Args".
 proc ::tcl::OptProc {name desc body} {
     set namespace [uplevel namespace current];
-    if {   ([string match $name "::*"]) 
+    if {   ([string match "::*" $name]) 
         || ([string compare $namespace "::"]==0)} {
         # absolute name or global namespace, name is the key
         set key $name;
