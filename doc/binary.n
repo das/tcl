@@ -739,6 +739,28 @@ IEEE floating point representations.  This is very common, but not
 universal.  To transfer floating-point numbers portably between all
 architectures, use their textual representation (as produced by
 \fBformat\fR) instead.
+.SH EXAMPLES
+This is a procedure write a Tcl string to a binary-encoded channel as
+UTF-8 data preceded by a length word:
+.CS
+proc writeString {channel string} {
+    set data [encoding convertto utf-8 $string]
+    puts -nonewline [binary format Ia* \e
+            [string length $data] $data]
+}
+.CE
+
+This procedure reads a string from a channel that was written by the
+previously presented \fBwriteString\fR procedure:
+.CS
+proc readString {channel} {
+    if {![binary scan [read $channel 4] I length]} {
+        error "missing length"
+    }
+    set data [read $channel $length]
+    return [encoding convertfrom utf-8 $data]
+}
+.CE
 
 .SH "SEE ALSO"
 format(n), scan(n), tclvars(n)
