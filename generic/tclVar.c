@@ -18,12 +18,6 @@
  * RCS: @(#) $Id$
  */
 
-#ifdef STDC_HEADERS
-#include <stddef.h>
-#else
-typedef int ptrdiff_t;
-#endif
-
 #include "tclInt.h"
 
 /*

@@ -54,6 +54,11 @@
 #else
 #include <string.h>
 #endif
+#ifdef STDC_HEADERS
+#include <stddef.h>
+#else
+typedef int ptrdiff_t;
+#endif
 
 /*
  * Used to tag functions that are only to be visible within the module
