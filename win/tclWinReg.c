@@ -982,7 +982,7 @@ OpenSubKey(
     keyName = (char *) Tcl_WinUtfToTChar(keyName, -1, &buf);
     if (flags & REG_CREATE) {
 	DWORD create;
-	result = (*regWinProcs->regCreateKeyExProc)(rootKey, keyName, 0, "",
+	result = (*regWinProcs->regCreateKeyExProc)(rootKey, keyName, 0, NULL,
 		REG_OPTION_NON_VOLATILE, mode, NULL, keyPtr, &create);
     } else {
 	if (rootKey == HKEY_PERFORMANCE_DATA) {
