@@ -339,7 +339,8 @@ TclpInitPlatform()
  *	Called at process initialization time.
  *
  * Results:
- *	None.
+ *	Return 1, indicating that the UTF may be dirty and require "cleanup"
+ *	after encodings are initialized.
  *
  * Side effects:
  *	None.
@@ -347,7 +348,7 @@ TclpInitPlatform()
  *---------------------------------------------------------------------------
  */
 
-void
+int
 TclpInitLibraryPath(argv0)
     CONST char *argv0;		/* Name of executable from argv[0] to main().
 				 * Not used because we can determine the name
@@ -411,6 +412,8 @@ TclpInitLibraryPath(argv0)
 	    Tcl_DStringFree(&path);
     }    
     TclSetLibraryPath(pathPtr);
+
+    return 1; /* 1 indicates that pathPtr may be dirty utf (needs cleaning) */
 }
 
 /*
