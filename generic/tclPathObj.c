@@ -709,7 +709,7 @@ TclFSMakePathRelative(interp, objPtr, cwdPtr)
 			if (interp != NULL) {
 			    Tcl_ResetResult(interp);
 			    Tcl_AppendResult(interp, "can't find object",
-					     "string representation", (char *) NULL);
+				   "string representation", (char *) NULL);
 			}
 			return NULL;
 		    }
