@@ -1136,7 +1136,8 @@ TraverseWinTree(
     oldTargetLen = 0;		/* lint. */
 
     nativeSource = (TCHAR *) Tcl_DStringValue(sourcePtr);
-    nativeTarget = (TCHAR *) (targetPtr == NULL ? NULL : Tcl_DStringValue(targetPtr));
+    nativeTarget = (TCHAR *) (targetPtr == NULL 
+			      ? NULL : Tcl_DStringValue(targetPtr));
     
     oldSourceLen = Tcl_DStringLength(sourcePtr);
     sourceAttr = (*tclWinProcs->getFileAttributesProc)(nativeSource);
