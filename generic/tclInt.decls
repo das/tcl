@@ -730,7 +730,7 @@ declare 179 generic {
 declare 180 generic {
     Tcl_Obj *TclNewListObjDirect(int objc, Tcl_Obj *CONST objv[])
 }
-declare 180 generic {
+declare 181 generic {
     Tcl_Obj *TclDbNewListObjDirect(int objc, Tcl_Obj *CONST objv[],
 	    CONST char *file, int line)
 }
