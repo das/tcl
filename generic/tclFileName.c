@@ -2083,7 +2083,6 @@ TclGlob(interp, pattern, unquotedPrefix, globFlags, types)
     Tcl_ResetResult(interp);
     
     result = TclDoGlob(interp, separators, &buffer, tail, types);
-    Tcl_DStringFree(&buffer);
     
     if (result != TCL_OK) {
 	if (globFlags & TCL_GLOBMODE_NO_COMPLAIN) {
@@ -2116,6 +2115,16 @@ TclGlob(interp, pattern, unquotedPrefix, globFlags, types)
 
 	Tcl_ListObjGetElements(NULL, Tcl_GetObjResult(interp), 
 			       &objc, &objv);
+#ifdef MAC_TCL
+	/* adjust prefixLen if TclDoGlob prepended a ':' */
+	if ((prefixLen > 0) && (objc > 0)
+	&& (Tcl_DStringValue(&buffer)[0] != ':')) {
+	    char *str = Tcl_GetStringFromObj(objv[0],NULL);
+	    if (str[0] == ':') {
+		    prefixLen++;
+	    }
+	}
+#endif
 	for (i = 0; i< objc; i++) {
 	    Tcl_Obj* elt;
 	    if (globFlags & TCL_GLOBMODE_TAILS) {
@@ -2145,6 +2154,7 @@ TclGlob(interp, pattern, unquotedPrefix, globFlags, types)
      * end here so we free our reference.
      */
     Tcl_DecrRefCount(oldResult);
+    Tcl_DStringFree(&buffer);
     return result;
 }
 

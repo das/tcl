@@ -131,8 +131,8 @@ static int		StdIOInput _ANSI_ARGS_((ClientData instanceData,
 			    char *buf, int toRead, int *errorCode));
 static int		StdIOOutput _ANSI_ARGS_((ClientData instanceData,
 			    CONST char *buf, int toWrite, int *errorCode));
-static Tcl_WideInt	StdIOSeek _ANSI_ARGS_((ClientData instanceData,
-			    Tcl_WideInt offset, int mode, int *errorCode));
+static int		StdIOSeek _ANSI_ARGS_((ClientData instanceData,
+			    long offset, int mode, int *errorCode));
 static int		StdReady _ANSI_ARGS_((ClientData instanceData,
 		            int mask));
 
@@ -590,10 +590,10 @@ StdIOOutput(
  *----------------------------------------------------------------------
  */
 
-static Tcl_WideInt
+static int
 StdIOSeek(
     ClientData instanceData,	/* Unused. */
-    Tcl_WideInt offset,		/* Offset to seek to. */
+    long offset,		/* Offset to seek to. */
     int mode,			/* Relative to where should we seek? */
     int *errorCodePtr)		/* To store error code. */
 {
