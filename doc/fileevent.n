@@ -101,6 +101,21 @@ In addition, the file event handler is deleted if it ever returns
 an error;  this is done in order to prevent infinite loops due to
 buggy handlers.
 
+.SH EXAMPLE
+.PP
+.CS
+ proc GetData {chan} {
+    if {![eof $chan]} {
+        puts [gets $chan]
+    }
+ }
+
+ fileevent $chan readable [list GetData $chan]
+
+.CE
+In this setup \fBGetData\fR will be called with the channel as an
+argument whenever $chan becomes readable.
+
 .SH CREDITS
 .PP
 \fBfileevent\fR is based on the \fBaddinput\fR command created
