@@ -880,8 +880,7 @@ Tcl_ReturnObjCmd(dummy, interp, objc, objv)
  *	Returns the return code the [return] command should return.
  *
  * Side effects:
- *	When the return code is TCL_ERROR, the values of ::errorInfo
- *	and ::errorCode may be updated.
+ * 	None.
  *
  *----------------------------------------------------------------------
  */

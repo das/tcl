@@ -1783,23 +1783,23 @@ Tcl_SetErrno(err)
  *
  *	This procedure is typically called after UNIX kernel calls
  *	return errors.  It stores machine-readable information about
- *	the error in $errorCode returns an information string for
- *	the caller's use.
+ *	the error in errorCode field of interp and returns an
+ *	information string for the caller's use.
  *
  * Results:
  *	The return value is a human-readable string describing the
  *	error.
  *
  * Side effects:
- *	The global variable $errorCode is reset.
+ *	The errorCode field of the interp is set.
  *
  *----------------------------------------------------------------------
  */
 
 CONST char *
 Tcl_PosixError(interp)
-    Tcl_Interp *interp;		/* Interpreter whose $errorCode variable
-				 * is to be changed. */
+    Tcl_Interp *interp;		/* Interpreter whose errorCode field 
+				 * is to be set. */
 {
     CONST char *id, *msg;
 

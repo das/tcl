@@ -1295,7 +1295,7 @@ TclProcCompileProc(interp, procPtr, bodyPtr, nsPtr, description, procName)
  * Side effects:
  *	If the result returned is TCL_ERROR, traceback information about
  *	the procedure just executed is appended to the interpreter's
- *	"errorInfo" variable.
+ *	errorInfo field.
  *
  *----------------------------------------------------------------------
  */
@@ -1439,7 +1439,7 @@ TclProcCleanupProc(procPtr)
  *	the procedure, instead of TCL_RETURN.
  *
  * Side effects:
- *	The errorInfo and errorCode variables may get modified.
+ *	The errorInfo and errorCode fields may get set.
  *
  *----------------------------------------------------------------------
  */
@@ -1481,9 +1481,8 @@ TclUpdateReturnInfo(iPtr)
 	Tcl_DictObjGet(NULL, iPtr->returnOpts,
 		iPtr->returnErrorinfoKey, &valuePtr);
 	if (valuePtr != NULL) {
-	    Tcl_ObjSetVar2((Tcl_Interp *) iPtr, iPtr->execEnvPtr->errorInfo,
-	            NULL, valuePtr, TCL_GLOBAL_ONLY);
-	    iPtr->flags |= ERR_IN_PROGRESS;
+	    iPtr->errorInfo = valuePtr;
+	    Tcl_IncrRefCount(iPtr->errorInfo);
 	}
     }
     return code;

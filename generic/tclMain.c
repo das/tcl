@@ -438,7 +438,8 @@ Tcl_Main(argc, argv, appInitProc)
 
 		/*
 		 * The following statement guarantees that the errorInfo
-		 * variable is set properly.
+		 * variable is set properly when the error has to do with
+		 * the opening or reading of the file.
 		 */
 
 		Tcl_AddErrorInfo(interp, "");

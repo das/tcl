@@ -280,17 +280,19 @@ Tcl_CatchObjCmd(dummy, interp, objc, objv)
 		    iPtr->returnLevelKey, Tcl_NewIntObj(0));
 	}
 
-	if (iPtr->flags & ERR_IN_PROGRESS) {
+	if (result == TCL_ERROR) {
+	    /*
+	     * When result was an error, fill in any missing values
+	     * for -errorinfo, -errorcode, and -errorline
+	     */
+
 	    value = NULL;
 	    Tcl_DictObjGet(NULL, options, iPtr->returnErrorinfoKey, &value);
 	    if (NULL == value) {
 		Tcl_DictObjPut(NULL, options, iPtr->returnErrorinfoKey,
-			Tcl_ObjGetVar2(interp, iPtr->execEnvPtr->errorInfo,
-			NULL, TCL_GLOBAL_ONLY));
+			iPtr->errorInfo);
 	    }
-	}
 
-	if (result == TCL_ERROR) {
 	    value = NULL;
 	    Tcl_DictObjGet(NULL, options, iPtr->returnErrorcodeKey, &value);
 	    if (NULL == value) {
