@@ -2535,9 +2535,11 @@ FSUnloadTempFile(clientData)
 	 * tvdlPtr->divertedFilesystem->deleteFileProc(tmp);
 	 * Tcl_DecrRefCount(tmp);
 	 *                     
-	 * and then use that in this call.  This approach would
+	 * and then use that in this call.  This approach would potentially
+	 * work even if the encodings and everything else have been 
+	 * deconstructed.  For the moment, however, we simply assume
+	 * Tcl_FSDeleteFile has worked correctly.
 	 */
-	//tvdlPtr->divertedFilesystem->deleteFileProc(tvdlPtr->divertedFile);
     }
     
     /* 
