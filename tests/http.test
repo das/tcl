@@ -300,8 +300,9 @@ test http-6.1 {http::ProxyRequired} {
 </body></html>"
 
 # cleanup
-unset url
-unset port
+catch {unset url}
+catch {unset port}
+catch {unset data}
 if {[info exists httpthread]} {
     testthread send -async $httpthread {
 	testthread exit

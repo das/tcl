@@ -33,6 +33,8 @@ if {[catch {package require http 1.0}]} {
     }
 }
 
+catch {unset data}
+
 ############### The httpd_ procedures implement a stub http server. ########
 proc httpd_init {{port 8015}} {
     socket -server httpdAccept $port
@@ -422,8 +424,9 @@ test http-6.1 {httpProxyRequired} {
 </body></html>"
 
 # cleanup
-unset url
-unset port
+catch {unset url}
+catch {unset port}
+catch {unset data}
 close $listen
 ::tcltest::cleanupTests
 return
