@@ -233,10 +233,13 @@ proc msgcat::mclocale {args} {
 	set Loclist {}
 	set word ""
 	foreach part [split $Locale _] {
-	    set word [string trimleft "${word}_${part}" _]
-	    set Loclist [linsert $Loclist 0 $word]
+	    set word [string trim "${word}_${part}" _]
+	    if {$word ne [lindex $Loclist 0]} {
+		set Loclist [linsert $Loclist 0 $word]
+	    }
 	}
 	lappend Loclist {}
+	set Locale [lindex $Loclist 0]
     }
     return $Locale
 }
@@ -417,8 +420,10 @@ proc msgcat::ConvertLocale {value} {
     #	(@(.*))?	# Match (optional) "modifier"; starts with @
     #	$		# Match all the way to the end
     # } $value -> language _ territory _ codeset _ modifier
-    regexp {^([^_.@]*)(_([^.@]*))?([.]([^@]*))?(@(.*))?$} $value \
-	    -> language _ territory _ codeset _ modifier
+    if {![regexp {^([^_.@]+)(_([^.@]*))?([.]([^@]*))?(@(.*))?$} $value \
+	    -> language _ territory _ codeset _ modifier]} {
+	return -code error "invalid locale '$value': empty language part"
+    }
     set ret $language
     if {[string length $territory]} {
 	append ret _$territory
@@ -436,8 +441,11 @@ proc msgcat::Init {} {
     #
     foreach varName {LC_ALL LC_MESSAGES LANG} {
 	if {[info exists ::env($varName)] && ("" ne $::env($varName))} {
-            mclocale [ConvertLocale $::env($varName)]
-	    return
+	    if {![catch {
+		mclocale [ConvertLocale $::env($varName)]
+	    }]} {
+		return
+	    }
 	}
     }
     #
