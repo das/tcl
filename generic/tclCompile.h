@@ -37,6 +37,7 @@
 
 extern Tcl_ObjType	tclCmdNameType;
 
+#ifdef TCL_COMPILE_DEBUG
 /*
  * Variable that controls whether compilation tracing is enabled and, if so,
  * what level of tracing is desired:
@@ -47,7 +48,9 @@ extern Tcl_ObjType	tclCmdNameType;
  */
 
 extern int 		tclTraceCompile;
+#endif
 
+#ifdef TCL_COMPILE_DEBUG
 /*
  * Variable that controls whether execution tracing is enabled and, if so,
  * what level of tracing is desired:
@@ -59,6 +62,7 @@ extern int 		tclTraceCompile;
  */
 
 extern int 		tclTraceExec;
+#endif
 
 /*
  *------------------------------------------------------------------------

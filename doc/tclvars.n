@@ -346,6 +346,9 @@ This variable is useful in
 tracking down suspected problems with the Tcl compiler.
 It is also occasionally useful when converting
 existing code to use Tcl8.0.
+
+This variable and functionality only exist if
+TCL_COMPILE_DEBUG was defined during Tcl's compilation.
 .TP
 \fBtcl_traceExec\fR
 The value of this variable can be set to control
@@ -368,6 +371,9 @@ tracking down suspected problems with the bytecode compiler
 and interpreter.
 It is also occasionally useful when converting
 code to use Tcl8.0.
+
+This variable and functionality only exist if
+TCL_COMPILE_DEBUG was defined during Tcl's compilation.
 .TP
 \fBtcl_wordchars\fR
 The value of this variable is a regular expression that can be set to

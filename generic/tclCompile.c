@@ -34,8 +34,10 @@ TCL_DECLARE_MUTEX(tableMutex)
  * This variable is linked to the Tcl variable "tcl_traceCompile".
  */
 
+#ifdef TCL_COMPILE_DEBUG
 int tclTraceCompile = 0;
 static int traceInitialized = 0;
+#endif
 
 /*
  * A table describing the Tcl bytecode instructions. Entries in this table
@@ -340,6 +342,7 @@ TclSetByteCodeFromAny(interp, objPtr, hookProc, clientData)
     int length, nested, result;
     char *string;
 
+#ifdef TCL_COMPILE_DEBUG
     if (!traceInitialized) {
         if (Tcl_LinkVar(interp, "tcl_traceCompile",
 	            (char *) &tclTraceCompile,  TCL_LINK_INT) != TCL_OK) {
@@ -347,6 +350,7 @@ TclSetByteCodeFromAny(interp, objPtr, hookProc, clientData)
         }
         traceInitialized = 1;
     }
+#endif
 
     if (iPtr->evalFlags & TCL_BRACKET_TERM) {
 	nested = 1;
@@ -384,7 +388,7 @@ TclSetByteCodeFromAny(interp, objPtr, hookProc, clientData)
 
 	TclInitByteCodeObj(objPtr, &compEnv);
 #ifdef TCL_COMPILE_DEBUG
-	if (tclTraceCompile == 2) {
+	if (tclTraceCompile >= 2) {
 	    TclPrintByteCodeObj(interp, objPtr);
 	}
 #endif /* TCL_COMPILE_DEBUG */
@@ -871,6 +875,7 @@ TclCompileScript(interp, script, numBytes, nested, envPtr)
 		commandLength -= 1;
 	    }
 
+#ifdef TCL_COMPILE_DEBUG
 	    /*
              * If tracing, print a line for each top level command compiled.
              */
@@ -882,7 +887,7 @@ TclCompileScript(interp, script, numBytes, nested, envPtr)
 			TclMin(commandLength, 55));
 		fprintf(stdout, "\n");
 	    }
-
+#endif
 	    /*
 	     * Each iteration of the following loop compiles one word
 	     * from the command.
