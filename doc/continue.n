@@ -31,7 +31,7 @@ as the \fBcatch\fR command and the outermost scripts of procedure
 bodies.
 
 .SH "SEE ALSO"
-break(n), for(n), foreach(n), while(n)
+break(n), for(n), foreach(n), return(n), while(n)
 
 .SH KEYWORDS
 continue, iteration, loop

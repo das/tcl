@@ -31,7 +31,7 @@ as the \fBcatch\fR command, Tk event bindings, and the outermost
 scripts of procedure bodies.
 
 .SH "SEE ALSO"
-catch(n), continue(n), for(n), foreach(n), while(n)
+catch(n), continue(n), for(n), foreach(n), return(n), while(n)
 
 .SH KEYWORDS
 abort, break, loop
