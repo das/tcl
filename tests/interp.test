@@ -186,6 +186,9 @@ test interp-4.7 {testing interp delete} {
     interp create c2
     list [catch {interp delete c1 c2 c3} msg] $msg
 } {1 {could not find interpreter "c3"}}
+test interp-4.8 {testing interp delete} {
+    list [catch {interp delete {}} msg] $msg
+} {1 {cannot delete the current interpreter}}
 
 foreach i [interp slaves] {
     interp delete $i
