@@ -287,6 +287,10 @@ typedef struct CommandTrace {
 				     * TCL_TRACE_RENAME, TCL_TRACE_DELETE. */
     struct CommandTrace *nextPtr;   /* Next in list of traces associated with
 				     * a particular command. */
+    int refCount;                   /* Used to ensure this structure is
+                                     * not deleted too early.  Keeps track
+                                     * of how many pieces of code have
+                                     * a pointer to this structure. */
 } CommandTrace;
 
 /*
