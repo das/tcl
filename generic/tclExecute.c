@@ -2564,7 +2564,7 @@ TclExecuteByteCode(interp, codePtr)
 		 */
 
 		if ( objPtr == NULL ) {
-		    TRACE_WITH_OBJ( ( "%d => ERROR: ", opnd ),
+		    TRACE_WITH_OBJ( ( "\"%.30s\" => ERROR: ", O2S(value2Ptr)),
 				    Tcl_GetObjResult( interp ) );
 		    result = TCL_ERROR;
 		    goto checkForCatch;
@@ -2575,7 +2575,7 @@ TclExecuteByteCode(interp, codePtr)
 		 */
 
 		PUSH_OBJECT( objPtr );
-		TRACE(( "%d => %s\n", opnd, O2S( objPtr ) ));
+		TRACE(( "=> %s\n", O2S( objPtr ) ));
 		Tcl_DecrRefCount( objPtr );
 	    }
 	    ADJUST_PC( 1 );
