@@ -2914,7 +2914,7 @@ test interp-34.3 {basic test of limits - pure bytecode loop} -body {
 } -returnCodes error -result {time limit exceeded} -cleanup {
     interp delete $i
 }
-test interp-34.3.1 {basic test of limits - pure bytecode loop} -body {
+test interp-34.3.1 {basic test of limits - pure inside-command loop} -body {
     set i [interp create]
     $i eval {
 	proc foobar {} {
