@@ -2197,12 +2197,15 @@ test trace-32.1 {
     set result
 } [list [list delete foo]]
 
-test trace-33.1 {527164: Keep -errorinfo of traces} {
+test trace-33.1 {527164: Keep -errorinfo of traces} -setup {
     unset -nocomplain x y
+} -body {
     trace add variable x write {error foo;#}
     trace add variable y write {set x 2;#}
     list [catch {set y 1} msg opts] $msg [dict get $opts -errorinfo]
-} {1 {can't set "y": can't set "x": foo} {foo
+} -cleanup {
+    unset -nocomplain x y
+} -result {1 {can't set "y": can't set "x": foo} {foo
     while executing
 "error foo"
     (write trace on "x")
