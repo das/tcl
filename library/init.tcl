@@ -191,8 +191,8 @@ proc unknown args {
 	set ret [catch {auto_load $name [uplevel 1 {namespace current}]} msg]
 	unset unknown_pending($name);
 	if {$ret != 0} {
-	    return -code $ret -errorcode $errorCode \
-		"error while autoloading \"$name\": $msg"
+	    append errorInfo "\n    (autoloading \"$name\")"
+	    return -code $ret -errorcode $errorCode -errorinfo $errorInfo $msg
 	}
 	if {![array size unknown_pending]} {
 	    unset unknown_pending
