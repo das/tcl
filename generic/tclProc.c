@@ -70,7 +70,7 @@ Tcl_ProcObjCmd(dummy, interp, objc, objv)
     register Interp *iPtr = (Interp *) interp;
     Proc *procPtr;
     char *fullName;
-    CONST char *procName;
+    CONST char *procName, *procArgs, *procBody;
     Namespace *nsPtr, *altNsPtr, *cxtNsPtr;
     Tcl_Command cmd;
     Tcl_DString ds;
@@ -164,39 +164,38 @@ Tcl_ProcObjCmd(dummy, interp, objc, objv)
      *     compilation of all procs whose argument list is just _args_ 
      */
     
-    {
-	char *txt;
-	txt = Tcl_GetString(objv[2]);
-	
-	while(*txt == ' ') txt++;
-	
-	if ((txt[0] == 'a') && (memcmp(txt, "args", 4) == 0)) {
-	    txt +=4;
-	    while(*txt != '\0') {
-		if (*txt != ' ') {
-		    goto done;
-		}
-		txt++;
-	    }	
+    procArgs = Tcl_GetString(objv[2]);
     
-	    /* 
-	     * The argument list is just "args"; check the body
-	     */
-
-	    txt = Tcl_GetString(objv[3]);
-	    while(*txt != '\0') {
-		if (!isspace(*txt)) {
-		    goto done;
-		}
-		txt++;
-	    }	
+    while(*procArgs == ' ') {
+	procArgs++;
+    }
     
-	    /* 
-	     * The body is just spaces: link the compileProc
-	     */
-
-	    ((Command *) cmd)->compileProc = TclCompileNoOp;
-	}
+    if ((procArgs[0] == 'a') && (strcmp(procArgs, "args") == 0)) {
+	procArgs +=4;
+	while(*procArgs != '\0') {
+	    if (*procArgs != ' ') {
+		goto done;
+	    }
+	    procArgs++;
+	}	
+	
+	/* 
+	 * The argument list is just "args"; check the body
+	 */
+	
+	procBody = Tcl_GetString(objv[3]);
+	while(*procBody != '\0') {
+	    if (!isspace(*procBody)) {
+		goto done;
+	    }
+	    procBody++;
+	}	
+	
+	/* 
+	 * The body is just spaces: link the compileProc
+	 */
+	
+	((Command *) cmd)->compileProc = TclCompileNoOp;
     }
 
  done:
