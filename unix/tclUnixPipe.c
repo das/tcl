@@ -665,7 +665,7 @@ SetupStdFile(file, type)
 	     * the close-on-exec flag.
 	     */
 
-	    result = fcntl(fd, F_SETFD, 0);
+	   fcntl(fd, F_SETFD, 0);
 	}
     } else {
 	close(targetFd);
