@@ -999,7 +999,7 @@ Tcl_ReturnObjCmd(dummy, interp, objc, objv)
     Tcl_DictObjGet(NULL, iPtr->returnOpts, iPtr->returnCodeKey, &valuePtr);
     if (TCL_ERROR == Tcl_GetIntFromObj(NULL, valuePtr, &code)) {
 	static CONST char *returnCodes[] = {
-	    "ok", "error", "return", "break", "continue"
+	    "ok", "error", "return", "break", "continue", NULL
 	};
 
 	if (TCL_ERROR == Tcl_GetIndexFromObj(NULL, valuePtr, returnCodes,
