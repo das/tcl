@@ -1430,7 +1430,7 @@ TclExecuteByteCode(interp, codePtr)
 	    }
 
 	    PUSH_OBJECT(valuePtr);
-	    TRACE_WITH_OBJ(("%u => " opnd), valuePtr);
+	    TRACE_WITH_OBJ(("%u => ", opnd), valuePtr);
 	    ADJUST_PC(5);
 
 	    /*
