@@ -44,9 +44,9 @@ extern "C" {
  * win/configure.in	(as above)
  * win/tcl.m4		(not patchlevel)
  * win/makefile.bc	(not patchlevel) 2 LOC
- * README		(sections 0 and 2)
+ * README		(sections 0 and 2, with and without separator)
  * macosx/Tcl.pbproj/project.pbxproj (not patchlevel) 2 LOC
- * win/README.binary	(sections 0-4)
+ * win/README.binary	(sections 0-4, with and without separator)
  * win/README		(not patchlevel) (sections 0 and 2)
  * unix/tcl.spec	(2 LOC Major/Minor, 1 LOC patch)
  * tests/basic.test	(1 LOC M/M, not patchlevel)
