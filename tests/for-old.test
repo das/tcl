@@ -65,4 +65,7 @@ test for-old-1.9 {for tests} {
     set a
 } {1 2 3}
 
+# cleanup
+::test::cleanupTests
 return
+

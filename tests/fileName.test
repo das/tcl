@@ -1420,7 +1420,7 @@ if {$tcl_platform(platform) == "windows"} {
 
     removeDirectory globTest
 
-    if {($testConfig(nonPortable) != 0) && [catch {cd //gaspode/d}] == 0} {
+    if {($::test::testConfig(nonPortable) != 0) && [catch {cd //gaspode/d}] == 0} {
 	removeDirectory globTest
 	makeDirectory globTest
 
@@ -1441,9 +1441,11 @@ if {$tcl_platform(platform) == "windows"} {
     cd $temp
 }
 
+# cleanup
 removeDirectory globTest
 set env(HOME) $oldhome
-
 testsetplatform $platform
 catch {unset oldhome platform temp result}
+::test::cleanupTests
 return
+

@@ -478,9 +478,11 @@ for {set i 290} {$i < 400} {incr i} {
     append b "x"
 }
 
-
+# cleanup
 catch {unset a}
 catch {unset b}
 catch {unset c}
 catch {unset d}
+::test::cleanupTests
 return
+

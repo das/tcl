@@ -713,4 +713,7 @@ test for-5.15 {for cmd with computed command names: for command result} {
     set a
 } {}
 
+# cleanup
+::test::cleanupTests
 return
+

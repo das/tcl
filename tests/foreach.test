@@ -208,7 +208,9 @@ test foreach-5.4 {break tests} {
     set msg
 } {wrong # args: should be "break"}
 
+# cleanup
 catch {unset a}
 catch {unset x}
-
+::test::cleanupTests
 return
+
