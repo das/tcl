@@ -136,7 +136,7 @@ Tcl_CreateThread(idPtr, proc, clientData, stackSize, flags)
 
     EnterCriticalSection(&joinLock);
 
-    code = _beginthreadex(NULL, stackSize, proc, clientData, 0,
+    code = _beginthreadex(NULL, (unsigned) stackSize, proc, clientData, 0,
 	(unsigned *)idPtr);
 
     if (code == 0) {

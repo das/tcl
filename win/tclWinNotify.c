@@ -20,8 +20,6 @@
  * The follwing static indicates whether this module has been initialized.
  */
 
-static int initialized = 0;
-
 #define INTERVAL_TIMER 1	/* Handle of interval timer. */
 
 #define WM_WAKEUP WM_USER	/* Message that is send by
@@ -468,7 +466,7 @@ Tcl_WaitForEvent(
 	     * propagate the quit message and start unwinding.
 	     */
 
-	    PostQuitMessage(msg.wParam);
+	    PostQuitMessage((int) msg.wParam);
 	    status = -1;
 	} else if (result == -1) {
 	    /*
@@ -510,5 +508,5 @@ void
 Tcl_Sleep(ms)
     int ms;			/* Number of milliseconds to sleep. */
 {
-    Sleep(ms);
+    Sleep((DWORD) ms);
 }

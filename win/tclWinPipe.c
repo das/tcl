@@ -1194,7 +1194,7 @@ TclpCreateProcess(
 
     if ((*tclWinProcs->createProcessProc)(NULL, 
 	    (TCHAR *) Tcl_DStringValue(&cmdLine), NULL, NULL, TRUE, 
-	    createFlags, NULL, NULL, &startInfo, &procInfo) == 0) {
+	    (DWORD) createFlags, NULL, NULL, &startInfo, &procInfo) == 0) {
 	TclWinConvertError(GetLastError());
 	Tcl_AppendResult(interp, "couldn't execute \"", argv[0],
 		"\": ", Tcl_PosixError(interp), (char *) NULL);
@@ -2112,9 +2112,9 @@ PipeOutputProc(
 		ckfree(infoPtr->writeBuf);
 	    }
 	    infoPtr->writeBufLen = toWrite;
-	    infoPtr->writeBuf = ckalloc(toWrite);
+	    infoPtr->writeBuf = ckalloc((unsigned int) toWrite);
 	}
-	memcpy(infoPtr->writeBuf, buf, toWrite);
+	memcpy(infoPtr->writeBuf, buf, (size_t) toWrite);
 	infoPtr->toWrite = toWrite;
 	ResetEvent(infoPtr->writable);
 	SetEvent(infoPtr->startWriter);
@@ -2357,7 +2357,7 @@ Tcl_WaitPid(
     int options)
 {
     ProcInfo *infoPtr, **prevPtrPtr;
-    int flags;
+    DWORD flags;
     Tcl_Pid result;
     DWORD ret;
 
