@@ -5756,4 +5756,4 @@ packages in multiple interps.
 
 2003-02-27 (bug fix)[694232] stop [lsearch -start 0 {} x] segfault
 
---- Released 8.4.2, March X, 2003 --- See ChangeLog for details ---
+--- Released 8.4.2, March 3, 2003 --- See ChangeLog for details ---
