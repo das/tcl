@@ -3453,9 +3453,6 @@ proc tcltest::threadReap {} {
 
 # Initialize the constraints and set up command line arguments 
 namespace eval tcltest {
-    # Ensure that we have a minimal auto_path so we don't pick up extra junk.
-    set ::auto_path [list [info library]]
-
     tcltest::initConstraints
     if {[namespace children [namespace current]] == {}} {
 	tcltest::processCmdLineArgs
