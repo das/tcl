@@ -184,7 +184,7 @@ declare 43 generic {
     int TclGlobalInvoke(Tcl_Interp *interp, int argc, char **argv, int flags)
 }
 declare 44 generic {
-    int TclGuessPackageName(char *fileName, Tcl_DString *bufPtr)
+    int TclGuessPackageName(CONST char *fileName, Tcl_DString *bufPtr)
 }
 declare 45 generic {
     int TclHideUnsafeCommands(Tcl_Interp *interp)

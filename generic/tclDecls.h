@@ -781,7 +781,7 @@ EXTERN void		Tcl_SplitPath _ANSI_ARGS_((CONST char * path,
 				int * argcPtr, char *** argvPtr));
 /* 244 */
 EXTERN void		Tcl_StaticPackage _ANSI_ARGS_((Tcl_Interp * interp, 
-				char * pkgName, 
+				CONST char * pkgName, 
 				Tcl_PackageInitProc * initProc, 
 				Tcl_PackageInitProc * safeInitProc));
 /* 245 */
@@ -1813,7 +1813,7 @@ typedef struct TclStubs {
     void (*tcl_SourceRCFile) _ANSI_ARGS_((Tcl_Interp * interp)); /* 241 */
     int (*tcl_SplitList) _ANSI_ARGS_((Tcl_Interp * interp, CONST char * listStr, int * argcPtr, char *** argvPtr)); /* 242 */
     void (*tcl_SplitPath) _ANSI_ARGS_((CONST char * path, int * argcPtr, char *** argvPtr)); /* 243 */
-    void (*tcl_StaticPackage) _ANSI_ARGS_((Tcl_Interp * interp, char * pkgName, Tcl_PackageInitProc * initProc, Tcl_PackageInitProc * safeInitProc)); /* 244 */
+    void (*tcl_StaticPackage) _ANSI_ARGS_((Tcl_Interp * interp, CONST char * pkgName, Tcl_PackageInitProc * initProc, Tcl_PackageInitProc * safeInitProc)); /* 244 */
     int (*tcl_StringMatch) _ANSI_ARGS_((CONST char * str, CONST char * pattern)); /* 245 */
     int (*tcl_Tell) _ANSI_ARGS_((Tcl_Channel chan)); /* 246 */
     int (*tcl_TraceVar) _ANSI_ARGS_((Tcl_Interp * interp, char * varName, int flags, Tcl_VarTraceProc * proc, ClientData clientData)); /* 247 */

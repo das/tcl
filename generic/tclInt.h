@@ -1699,8 +1699,6 @@ EXTERN int		TclGlob _ANSI_ARGS_((Tcl_Interp *interp,
 			    int globFlags, Tcl_GlobTypeData* types));
 EXTERN int		TclGlobalInvoke _ANSI_ARGS_((Tcl_Interp *interp,
 			    int argc, char **argv, int flags));
-EXTERN int		TclGuessPackageName _ANSI_ARGS_((char *fileName,
-			    Tcl_DString *bufPtr));
 EXTERN int		TclHideUnsafeCommands _ANSI_ARGS_((
 			    Tcl_Interp *interp));
 EXTERN int		TclInExit _ANSI_ARGS_((void));

@@ -451,7 +451,7 @@ Tcl_StaticPackage(interp, pkgName, initProc, safeInitProc)
 					 * package has already been loaded
 					 * into the given interpreter by
 					 * calling the appropriate init proc. */
-    char *pkgName;			/* Name of package (must be properly
+    CONST char *pkgName;		/* Name of package (must be properly
 					 * capitalized: first letter upper
 					 * case, others lower case). */
     Tcl_PackageInitProc *initProc;	/* Procedure to call to incorporate

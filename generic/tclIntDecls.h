@@ -167,8 +167,8 @@ EXTERN char *		TclpGetUserHome _ANSI_ARGS_((CONST char * name,
 EXTERN int		TclGlobalInvoke _ANSI_ARGS_((Tcl_Interp * interp, 
 				int argc, char ** argv, int flags));
 /* 44 */
-EXTERN int		TclGuessPackageName _ANSI_ARGS_((char * fileName, 
-				Tcl_DString * bufPtr));
+EXTERN int		TclGuessPackageName _ANSI_ARGS_((
+				CONST char * fileName, Tcl_DString * bufPtr));
 /* 45 */
 EXTERN int		TclHideUnsafeCommands _ANSI_ARGS_((
 				Tcl_Interp * interp));
@@ -567,7 +567,7 @@ typedef struct TclIntStubs {
     Tcl_Command (*tclGetOriginalCommand) _ANSI_ARGS_((Tcl_Command command)); /* 41 */
     char * (*tclpGetUserHome) _ANSI_ARGS_((CONST char * name, Tcl_DString * bufferPtr)); /* 42 */
     int (*tclGlobalInvoke) _ANSI_ARGS_((Tcl_Interp * interp, int argc, char ** argv, int flags)); /* 43 */
-    int (*tclGuessPackageName) _ANSI_ARGS_((char * fileName, Tcl_DString * bufPtr)); /* 44 */
+    int (*tclGuessPackageName) _ANSI_ARGS_((CONST char * fileName, Tcl_DString * bufPtr)); /* 44 */
     int (*tclHideUnsafeCommands) _ANSI_ARGS_((Tcl_Interp * interp)); /* 45 */
     int (*tclInExit) _ANSI_ARGS_((void)); /* 46 */
     Tcl_Obj * (*tclIncrElementOfIndexedArray) _ANSI_ARGS_((Tcl_Interp * interp, int localIndex, Tcl_Obj * elemPtr, long incrAmount)); /* 47 */

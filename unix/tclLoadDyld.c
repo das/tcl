@@ -160,7 +160,7 @@ TclpUnloadFile(clientData)
 
 int
 TclGuessPackageName(fileName, bufPtr)
-    char *fileName;	       /* Name of file containing package (already
+    CONST char *fileName;      /* Name of file containing package (already
 				* translated to local form if needed). */
     Tcl_DString *bufPtr;       /* Initialized empty dstring.  Append
 				* package name to this if possible. */

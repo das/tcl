@@ -855,7 +855,7 @@ declare 243 generic {
     void Tcl_SplitPath(CONST char *path, int *argcPtr, char ***argvPtr)
 }
 declare 244 generic {
-    void Tcl_StaticPackage(Tcl_Interp *interp, char *pkgName, \
+    void Tcl_StaticPackage(Tcl_Interp *interp, CONST char *pkgName, \
 	    Tcl_PackageInitProc *initProc, Tcl_PackageInitProc *safeInitProc)
 }
 declare 245 generic {
