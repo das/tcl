@@ -574,6 +574,24 @@ test string-6.89 {string is xdigit} {
     list [string is xdigit -fail var 0123456789\u0061bcdefABCDEFg] $var
 } {0 22}
 
+test string-6.90 {string is integer, bad integers} {
+    # SF bug #634856
+    set result ""
+    set numbers [list 1 +1 ++1 +-1 -+1 -1 --1 "- +1"]
+    foreach num $numbers {
+	lappend result [string is int -strict $num]
+    }
+    set result
+} {1 1 0 0 0 1 0 0}
+test string-6.91 {string is double, bad doubles} {
+    set result ""
+    set numbers [list 1.0 +1.0 ++1.0 +-1.0 -+1.0 -1.0 --1.0 "- +1.0"]
+    foreach num $numbers {
+	lappend result [string is double -strict $num]
+    }
+    set result
+} {1 1 0 0 0 1 0 0}
+
 catch {rename largest_int {}}
 
 test string-7.1 {string last, too few args} {

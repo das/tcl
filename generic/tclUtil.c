@@ -2406,14 +2406,15 @@ SetEndOffsetFromAny(interp, objPtr)
 
     if (length <= 3) {
 	offset = 0;
-    } else if (bytes[3] == '-') {
+    } else if ((length > 4) && (bytes[3] == '-')) {
 	/*
-	 * This is our limited string expression evaluator
+	 * This is our limited string expression evaluator.  Pass everything
+	 * after "end-" to Tcl_GetInt, then reverse for offset.
 	 */
-	if (Tcl_GetInt(interp, bytes+3, &offset) != TCL_OK) {
+	if (Tcl_GetInt(interp, bytes+4, &offset) != TCL_OK) {
 	    return TCL_ERROR;
 	}
-
+	offset = -offset;
     } else {
 	/*
 	 * Conversion failed.  Report the error.
