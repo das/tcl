@@ -322,7 +322,7 @@ Don't know where tcl.h is.  The TCLDIR macro doesn't appear correct.
 #...
 #!endif
 
-TCL_DOTVERSION	= 8.4
+TCL_DOTVERSION	= 8.5
 TCL_VERSION	= $(TCL_DOTVERSION:.=)
 
 !if $(TCLINSTALL)
