@@ -348,7 +348,7 @@ proc genStubs::makeDecl {name decl index} {
     lassign $decl rtype fname args
 
     append text "/* $index */\n"
-    set line "TCL_EXTERN($rtype)"
+    set line "EXTERN $rtype"
     set count [expr {2 - ([string length $line] / 8)}]
     append line [string range "\t\t\t" 0 $count]
     set pad [expr {24 - [string length $line]}]
