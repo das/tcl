@@ -1828,6 +1828,7 @@ Tcl_UnstackChannel (interp, chan)
 	    chanPtr->interestMask = 0;
 	    (chanPtr->typePtr->watchProc) (chanPtr->instanceData,
 		interest);
+	    chanPtr->interestMask = interest;
 	}
 
     } else {
