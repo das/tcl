@@ -239,7 +239,7 @@ TclClockMktimeObjCmd(  ClientData clientData,
     if ( Tcl_GetIntFromObj( interp, objv[2], &i ) != TCL_OK ) {
 	return TCL_ERROR;
     }
-    toConvert.tm_mon = i;
+    toConvert.tm_mon = i - 1;
     if ( Tcl_GetIntFromObj( interp, objv[3], &i ) != TCL_OK ) {
 	return TCL_ERROR;
     }
