@@ -1390,7 +1390,8 @@ Tcl_EvalEx(interp, script, numBytes, flags)
 	     * Execute the command and free the objects for its words.
 	     */
     
-	    code = EvalObjv(interp, objectsUsed, objv, p, bytesLeft, 0);
+	    code = EvalObjv(interp, objectsUsed, objv, p,
+	            parse.commandStart + parse.commandSize - p, 0);
 	    if (code != TCL_OK) {
 		goto error;
 	    }
