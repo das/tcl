@@ -293,8 +293,6 @@ GENERIC_HDRS = \
 	$(GENERIC_DIR)/tclPort.h \
 	$(GENERIC_DIR)/tclRegexp.h
 
-INSTALL_HDRS = $(GENERIC_HDRS)
-
 GENERIC_SRCS = \
 	$(GENERIC_DIR)/regcomp.c \
 	$(GENERIC_DIR)/regexec.c \
@@ -565,7 +563,7 @@ install-libraries: libraries
 	    chmod +x $(SRC_DIR)/install-sh; \
 	    fi
 	@echo "Installing header files";
-	@for i in $(INSTALL_HDRS) ; \
+	@for i in $(GENERIC_DIR)/tcl.h $(GENERIC_DIR)/tclDecls.h ; \
 	    do \
 	    $(INSTALL_DATA) $$i $(INCLUDE_INSTALL_DIR); \
 	    done;
