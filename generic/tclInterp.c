@@ -2849,6 +2849,80 @@ Tcl_LimitRemoveHandler(interp, type, handlerProc, clientData)
     }
 }
 
+void
+TclLimitRemoveAllHandlers(interp)
+    Tcl_Interp *interp;
+{
+    Interp *iPtr = (Interp *) interp;
+    LimitHandler *handlerPtr, *nextHandlerPtr;
+
+    /*
+     * Delete all command-limit handlers.
+     */
+
+    for (handlerPtr=iPtr->limit.cmdHandlers, iPtr->limit.cmdHandlers=NULL;
+	    handlerPtr!=NULL; handlerPtr=nextHandlerPtr) {
+	nextHandlerPtr = handlerPtr->nextPtr;
+
+	/*
+	 * Do not delete here if it has already been marked for deletion.
+	 */
+
+	if (handlerPtr->flags & LIMIT_HANDLER_DELETED) {
+	    continue;
+	}
+	handlerPtr->flags |= LIMIT_HANDLER_DELETED;
+	handlerPtr->prevPtr = NULL;
+	handlerPtr->nextPtr = NULL;
+
+	/*
+	 * If nothing is currently executing the handler, delete its
+	 * client data and the overall handler structure now.
+	 * Otherwise it will all go away when the handler returns.
+	 */
+
+	if (!(handlerPtr->flags & LIMIT_HANDLER_ACTIVE)) {
+	    if (handlerPtr->deleteProc != NULL) {
+		(handlerPtr->deleteProc)(handlerPtr->clientData);
+	    }
+	    ckfree((char *) handlerPtr);
+	}
+    }
+
+    /*
+     * Delete all time-limit handlers.
+     */
+
+    for (handlerPtr=iPtr->limit.timeHandlers, iPtr->limit.timeHandlers=NULL;
+	    handlerPtr!=NULL; handlerPtr=nextHandlerPtr) {
+	nextHandlerPtr = handlerPtr->nextPtr;
+
+	/*
+	 * Do not delete here if it has already been marked for deletion.
+	 */
+
+	if (handlerPtr->flags & LIMIT_HANDLER_DELETED) {
+	    continue;
+	}
+	handlerPtr->flags |= LIMIT_HANDLER_DELETED;
+	handlerPtr->prevPtr = NULL;
+	handlerPtr->nextPtr = NULL;
+
+	/*
+	 * If nothing is currently executing the handler, delete its
+	 * client data and the overall handler structure now.
+	 * Otherwise it will all go away when the handler returns.
+	 */
+
+	if (!(handlerPtr->flags & LIMIT_HANDLER_ACTIVE)) {
+	    if (handlerPtr->deleteProc != NULL) {
+		(handlerPtr->deleteProc)(handlerPtr->clientData);
+	    }
+	    ckfree((char *) handlerPtr);
+	}
+    }
+}
+
 int
 Tcl_LimitTypeEnabled(interp, type)
     Tcl_Interp *interp;

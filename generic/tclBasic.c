@@ -984,6 +984,15 @@ DeleteInterpProc(interp)
     TclHandleFree(iPtr->handle);
 
     /*
+     * Shut down all limit handler callback scripts that call back
+     * into this interpreter.  Then eliminate all limit handlers for
+     * this interpreter.
+     */
+
+    TclDecommissionLimitCallbacks(interp);
+    TclLimitRemoveAllHandlers(interp);
+
+    /*
      * Dismantle everything in the global namespace except for the
      * "errorInfo" and "errorCode" variables. These remain until the
      * namespace is actually destroyed, in case any errors occur.
