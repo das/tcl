@@ -6690,8 +6690,9 @@ LookupCompiledLocal(name, nameChars, createIfNew, flagsIfCreated, procPtr)
 	    localPtr = procPtr->firstLocalPtr;
 	    for (i = 0;  i < localCt;  i++) {
 	        if (!localPtr->isTemp) {
-                    currInfo = &localPtr->resolveInfo;
-		    if ( (currInfo->fetchProc == vinfo.fetchProc) &&
+                    currInfo = localPtr->resolveInfo;
+		    if ( currInfo &&
+			    (currInfo->fetchProc == vinfo.fetchProc) &&
 	                 (currInfo->identity == vinfo.identity) ) {
 		        return i;
 		    }
@@ -6729,9 +6730,16 @@ createCompiledLocal:
 	localPtr->isTemp = (name == NULL);
 	localPtr->flags = flagsIfCreated;
 	localPtr->defValuePtr = NULL;
-	localPtr->resolveInfo.identity = vinfo.identity;
-	localPtr->resolveInfo.fetchProc = vinfo.fetchProc;
-	localPtr->resolveInfo.deleteProc = vinfo.deleteProc;
+ 	localPtr->resolveInfo = NULL;
+ 
+	if (vinfo.fetchProc) {
+	    localPtr->resolveInfo =
+		(Tcl_ResolvedVarInfo *) ckalloc( sizeof(Tcl_ResolvedVarInfo) );
+ 	    localPtr->resolveInfo->identity = vinfo.identity;
+ 	    localPtr->resolveInfo->fetchProc = vinfo.fetchProc;
+ 	    localPtr->resolveInfo->deleteProc = vinfo.deleteProc;
+	}
+	
 	if (name != NULL) {
 	    memcpy((VOID *) localPtr->name, (VOID *) name, (size_t) nameChars);
 	}

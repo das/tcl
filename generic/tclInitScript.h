@@ -27,7 +27,7 @@
 static char initScript[] = "if {[info proc tclInit]==\"\"} {\n\
   proc tclInit {} {\n\
     global tcl_library tcl_version tcl_patchLevel errorInfo\n\
-    global tcl_pkgPath env\n\
+    global env tcl_pkgPath\n\
     rename tclInit {}\n\
     set errors {}\n\
     set dirs {}\n\
