@@ -4880,7 +4880,7 @@ NsEnsembleImplementationCmd(clientData, interp, objc, objv)
 		    goto unknownOrAmbiguousSubcommand;
 		}
 		fullName = ensemblePtr->subcommandArrayPtr[i];
-	    } else if (cmp == 1) {
+	    } else if (cmp < 0) {
 		/*
 		 * Because we are searching a sorted table, we can now
 		 * stop searching because we have gone past anything
