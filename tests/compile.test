@@ -170,6 +170,15 @@ test compile-6.1 {UpdateStringOfByteCode: called for duplicate of compiled empty
     p
 } {}
 
+test compile-7.1 {BLACKBOX: exception stack overflow} {
+    set x {{0}}
+    set y 0
+    while {$y < 100} {
+	if !$x {incr y}
+    }
+} {}
+
+
 catch {rename p ""}
 catch {namespace delete test_ns_compile}
 catch {unset x}
