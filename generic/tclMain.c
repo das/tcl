@@ -20,16 +20,6 @@
 # define TCL_STORAGE_CLASS DLLEXPORT
 
 /*
- * The following code ensures that tclLink.c is linked whenever
- * Tcl is linked.  Without this code there's no reference to the
- * code in that file from anywhere in Tcl, so it may not be
- * linked into the application.
- */
-
-EXTERN int Tcl_LinkVar();
-int (*tclDummyLinkVarPtr)() = Tcl_LinkVar;
-
-/*
  * Declarations for various library procedures and variables (don't want
  * to include tclPort.h here, because people might copy this file out of
  * the Tcl source directory to make their own modified versions).
