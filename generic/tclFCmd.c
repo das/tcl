@@ -609,7 +609,9 @@ CopyRenameOneFile(interp, source, target, copyFlag, force)
 		 */
 		if (Tcl_FSGetPathType(path) == TCL_PATH_RELATIVE) {
 		    Tcl_Obj *abs = Tcl_FSJoinToPath(actualSource, 1, &path);
-		    if (abs == NULL) break;
+		    if (abs == NULL) {
+			break;
+		    }
 		    Tcl_IncrRefCount(abs);
 		    Tcl_DecrRefCount(path);
 		    path = abs;
