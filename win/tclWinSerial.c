@@ -453,6 +453,12 @@ SerialCloseProc(
     errorCode = 0;
     if (serialPtr->readThread) {
 	TerminateThread(serialPtr->readThread, 0);
+	/*
+	 * Wait for the thread to terminate.  This ensures that we are
+	 * completely cleaned up before we leave this function. 
+	 */
+
+	WaitForSingleObject(serialPtr->readThread, INFINITE);
 	CloseHandle(serialPtr->readThread);
 	CloseHandle(serialPtr->readable);
 	CloseHandle(serialPtr->startReader);
@@ -462,6 +468,13 @@ SerialCloseProc(
 
     if (serialPtr->writeThread) {
 	WaitForSingleObject(serialPtr->writable, INFINITE);
+
+	/*
+	 * Wait for the thread to terminate.  This ensures that we are
+	 * completely cleaned up before we leave this function. 
+	 */
+
+	WaitForSingleObject(serialPtr->writeThread, INFINITE);
 	TerminateThread(serialPtr->writeThread, 0);
 	CloseHandle(serialPtr->writeThread);
 	CloseHandle(serialPtr->writable);

@@ -2135,6 +2135,13 @@ PipeClose2Proc(
 
 	if (pipePtr->readThread) {
 	    TerminateThread(pipePtr->readThread, 0);
+
+	    /*
+	     * Wait for the thread to terminate.  This ensures that we are
+	     * completely cleaned up before we leave this function. 
+	     */
+
+	    WaitForSingleObject(pipePtr->readThread, INFINITE);
 	    CloseHandle(pipePtr->readThread);
 	    CloseHandle(pipePtr->readable);
 	    CloseHandle(pipePtr->startReader);
@@ -2157,6 +2164,12 @@ PipeClose2Proc(
 	if (pipePtr->writeThread) {
 	    WaitForSingleObject(pipePtr->writable, INFINITE);
 	    TerminateThread(pipePtr->writeThread, 0);
+	    /*
+	     * Wait for the thread to terminate.  This ensures that we are
+	     * completely cleaned up before we leave this function. 
+	     */
+
+	    WaitForSingleObject(pipePtr->writeThread, INFINITE);
 	    CloseHandle(pipePtr->writeThread);
 	    CloseHandle(pipePtr->writable);
 	    CloseHandle(pipePtr->startWriter);
