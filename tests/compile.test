@@ -572,7 +572,7 @@ test compile-16.22.$noComp {
 
 test compile-16.23.$noComp {
     Bug 1032805: defer parse error until run time
-} -body {
+} -constraints $constraints -body {
     namespace eval x {
 	run {
 	    proc if {a b} {uplevel 1 [list set $a $b]}
