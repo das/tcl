@@ -150,8 +150,9 @@ Tcl_ProcObjCmd(dummy, interp, objc, objv)
 
 
     /*
-     * Optimize for noop procs: if the argument list is just "args"
-     * and the body is empty, define a compileProc.
+     * Optimize for noop procs: if the body is not precompiled, the argument 
+     * list is just "args" and the body is empty, define a compileProc to 
+     * compile a noop.
      *
      * Notes: 
      *   - cannot be done for any argument list without having different
@@ -164,9 +165,17 @@ Tcl_ProcObjCmd(dummy, interp, objc, objv)
      *     compilation of all procs whose argument list is just _args_ 
      */
     
+    if (objv[3]->typePtr == &tclByteCodeType) {
+	ByteCode *body = objv[3]->internalRep.otherValuePtr;
+
+	if (body->flags & TCL_BYTECODE_PRECOMPILED) {
+	    goto done;
+	}
+    }
+
     procArgs = Tcl_GetString(objv[2]);
     
-    while(*procArgs == ' ') {
+    while (*procArgs == ' ') {
 	procArgs++;
     }
     
@@ -184,7 +193,7 @@ Tcl_ProcObjCmd(dummy, interp, objc, objv)
 	 */
 	
 	procBody = Tcl_GetString(objv[3]);
-	while(*procBody != '\0') {
+	while (*procBody != '\0') {
 	    if (!isspace(UCHAR(*procBody))) {
 		goto done;
 	    }
