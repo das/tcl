@@ -530,6 +530,10 @@ EXTERN int		TclChannelTransform _ANSI_ARGS_((Tcl_Interp * interp,
 /* 162 */
 EXTERN void		TclChannelEventScriptInvoker _ANSI_ARGS_((
 				ClientData clientData, int flags));
+/* 163 */
+EXTERN void *		TclGetInstructionTable _ANSI_ARGS_((void));
+/* 164 */
+EXTERN void		TclExpandCodeArray _ANSI_ARGS_((void * envPtr));
 
 typedef struct TclIntStubs {
     int magic;
@@ -730,6 +734,8 @@ typedef struct TclIntStubs {
     int (*tclpMatchFilesTypes) _ANSI_ARGS_((Tcl_Interp * interp, char * separators, Tcl_DString * dirPtr, char * pattern, char * tail, GlobTypeData * types)); /* 160 */
     int (*tclChannelTransform) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Channel chan, Tcl_Obj * cmdObjPtr)); /* 161 */
     void (*tclChannelEventScriptInvoker) _ANSI_ARGS_((ClientData clientData, int flags)); /* 162 */
+    void * (*tclGetInstructionTable) _ANSI_ARGS_((void)); /* 163 */
+    void (*tclExpandCodeArray) _ANSI_ARGS_((void * envPtr)); /* 164 */
 } TclIntStubs;
 
 #ifdef __cplusplus
@@ -1384,6 +1390,14 @@ extern TclIntStubs *tclIntStubsPtr;
 #ifndef TclChannelEventScriptInvoker
 #define TclChannelEventScriptInvoker \
 	(tclIntStubsPtr->tclChannelEventScriptInvoker) /* 162 */
+#endif
+#ifndef TclGetInstructionTable
+#define TclGetInstructionTable \
+	(tclIntStubsPtr->tclGetInstructionTable) /* 163 */
+#endif
+#ifndef TclExpandCodeArray
+#define TclExpandCodeArray \
+	(tclIntStubsPtr->tclExpandCodeArray) /* 164 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

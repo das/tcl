@@ -238,6 +238,8 @@ TclIntStubs tclIntStubs = {
     TclpMatchFilesTypes, /* 160 */
     TclChannelTransform, /* 161 */
     TclChannelEventScriptInvoker, /* 162 */
+    TclGetInstructionTable, /* 163 */
+    TclExpandCodeArray, /* 164 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {

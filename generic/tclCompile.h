@@ -2,7 +2,6 @@
  * tclCompile.h --
  *
  * Copyright (c) 1996-1998 Sun Microsystems, Inc.
- * Copyright (c) 1998-2000 by Scriptics Corporation.
  *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -494,16 +493,8 @@ typedef struct ByteCode {
 #define INST_PUSH_RESULT		71
 #define INST_PUSH_RETURN_CODE		72
 
-/* Opcodes 73 to 74 */
-#define INST_STR_EQ			73
-#define INST_STR_NEQ			74
-#define INST_STR_CMP			75
-#define INST_STR_LEN			76
-#define INST_STR_INDEX			77
-#define INST_STR_MATCH			78
-
 /* The last opcode */
-#define LAST_INST_OPCODE        	78
+#define LAST_INST_OPCODE        	72
 
 /*
  * Table describing the Tcl bytecode instructions: their name (for
@@ -752,11 +743,8 @@ EXTERN void		TclEmitForwardJump _ANSI_ARGS_((CompileEnv *envPtr,
 EXTERN ExceptionRange *	TclGetExceptionRangeForPc _ANSI_ARGS_((
 			    unsigned char *pc, int catchOnly,
 			    ByteCode* codePtr));
-EXTERN InstructionDesc * TclGetInstructionTable _ANSI_ARGS_(());
 EXTERN int		TclExecuteByteCode _ANSI_ARGS_((Tcl_Interp *interp,
 			    ByteCode *codePtr));
-EXTERN void		TclExpandCodeArray _ANSI_ARGS_((
-			    CompileEnv *envPtr));
 EXTERN void		TclExpandJumpFixupArray _ANSI_ARGS_((
                             JumpFixupArray *fixupArrayPtr));
 EXTERN void		TclFinalizeAuxDataTypeTable _ANSI_ARGS_((void));
