@@ -126,7 +126,7 @@ proc text string {
     regsub -all {&} $string {\&amp;}  string
     regsub -all {<} $string {\&lt;}  string
     regsub -all {>} $string {\&gt;}  string
-    regsub -all {"} $string {\&quot;}  string
+    regsub -all \"  $string {\&quot;}  string
     switch $textState {
 	REF { 
 	    if {$inDT == {}} {
