@@ -4117,3 +4117,6 @@ renaming Tcl_EvalObj to Tcl_EvalObjEx, renaming Tcl_Eval2 to
 Tcl_EvalEx and restoring Tcl_EvalObj and Tcl_GlobalEvalObj interfaces
 so they match Tcl 8.0. (stanton)
 *** POTENTIAL INCOMPATIBILITY with previous alpha/beta releases ***
+
+3/9/99 (new feature) Added tcl_platform(user) to provide a portable
+way to get the name of the current user. (welch)

@@ -498,6 +498,7 @@ TclpSetVariables(interp)
     SYSTEM_INFO sysInfo;
     OemId *oemId;
     OSVERSIONINFOA osInfo;
+    Tcl_DString ds;
 
     osInfo.dwOSVersionInfoSize = sizeof(osInfo);
     GetVersionExA(&osInfo);
@@ -548,11 +549,9 @@ TclpSetVariables(interp)
      * environment variables, if necessary.
      */
 
+    Tcl_DStringInit(&ds);
     ptr = Tcl_GetVar2(interp, "env", "HOME", TCL_GLOBAL_ONLY);
     if (ptr == NULL) {
-	Tcl_DString ds;
-
-        Tcl_DStringInit(&ds);
 	ptr = Tcl_GetVar2(interp, "env", "HOMEDRIVE", TCL_GLOBAL_ONLY);
 	if (ptr != NULL) {
 	    Tcl_DStringAppend(&ds, ptr, -1);
@@ -567,8 +566,16 @@ TclpSetVariables(interp)
 	} else {
 	    Tcl_SetVar2(interp, "env", "HOME", "c:\\", TCL_GLOBAL_ONLY);
 	}
-	Tcl_DStringFree(&ds);
     }
+
+    Tcl_DStringSetLength(&ds, 100);
+    if (GetUserName(Tcl_DStringValue(&ds), &Tcl_DStringLength(&ds)) != 0) {
+	Tcl_SetVar2(interp, "tcl_platform", "user", Tcl_DStringValue(&ds),
+		TCL_GLOBAL_ONLY);
+    } else {
+	Tcl_SetVar2(interp, "tcl_platform", "user", "", TCL_GLOBAL_ONLY);
+    }
+    Tcl_DStringFree(&ds);
 }
 
 /*

@@ -269,6 +269,12 @@ On UNIX machines, this is the value returned by \fBuname -r\fR.
 \fBplatform\fR
 Either \fBwindows\fR, \fBmacintosh\fR, or \fBunix\fR.  This identifies the
 general operating environment of the machine.
+.TP
+\fBuser\fR
+Either \fBwindows\fR, \fBmacintosh\fR, or \fBunix\fR.  This identifies the
+current user based on the login information available on the platform.
+This comes from the USER or LOGNAME environment variable on Unix,
+and the value from GetUserName on Windows and Macintosh.
 .RE
 .TP
 \fBtcl_precision\fR
