@@ -86,7 +86,6 @@ typedef struct InterpPackage {
 
 static void		LoadCleanupProc _ANSI_ARGS_((ClientData clientData,
 			    Tcl_Interp *interp));
-static void		LoadExitProc _ANSI_ARGS_((ClientData clientData));
 
 /*
  *----------------------------------------------------------------------
@@ -347,9 +346,7 @@ Tcl_LoadObjCmd(dummy, interp, objc, objv)
 	/*
 	 * Create a new record to describe this package.
 	 */
-	if (firstPackagePtr == NULL) {
-	    Tcl_CreateExitHandler(LoadExitProc, (ClientData) NULL);
-	}
+
 	pkgPtr = (LoadedPackage *) ckalloc(sizeof(LoadedPackage));
 	pkgPtr->fileName	= (char *) ckalloc((unsigned)
 		(strlen(fullFileName) + 1));
@@ -472,9 +469,7 @@ Tcl_StaticPackage(interp, pkgName, initProc, safeInitProc)
 	    return;
 	}
     }
-    if (firstPackagePtr == NULL) {
-	Tcl_CreateExitHandler(LoadExitProc, (ClientData) NULL);
-    }
+
     Tcl_MutexUnlock(&packageMutex);
 
     pkgPtr = (LoadedPackage *) ckalloc(sizeof(LoadedPackage));
@@ -619,7 +614,7 @@ LoadCleanupProc(clientData, interp)
 /*
  *----------------------------------------------------------------------
  *
- * LoadExitProc --
+ * TclFinalizeLoad --
  *
  *	This procedure is invoked just before the application exits.
  *	It frees all of the LoadedPackage structures.
@@ -633,9 +628,8 @@ LoadCleanupProc(clientData, interp)
  *----------------------------------------------------------------------
  */
 
-static void
-LoadExitProc(clientData)
-    ClientData clientData;		/* Not used. */
+void
+TclFinalizeLoad()
 {
     LoadedPackage *pkgPtr;
 

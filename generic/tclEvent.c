@@ -857,6 +857,13 @@ Tcl_Finalize()
 	Tcl_FinalizeThread();
 
 	/*
+	 * We defer unloading of packages until after any user callbacks
+	 * are invoked to avoid memory access issues.
+	 */
+
+	TclFinalizeLoad();
+
+	/*
 	 * Now finalize the Tcl execution environment.  Note that this
 	 * must be done after the exit handlers, because there are
 	 * order dependencies.
