@@ -286,6 +286,19 @@ test compile-12.2 {testing error on literal deletion} {memDebug execCommandExist
     set res
 } 0
 
+# Special test for underestimating the maxStackSize required for a
+# compiled command. A failure will cause a segfault in the child 
+# process.
+test compile-13.1 {testing underestimate of maxStackSize in list cmd} {
+    set body {set x [list}
+    for {set i 0} {$i < 3000} {incr i} {
+	append body " $i"
+    }
+    append body {]; puts OK}
+    regsub BODY {proc crash {} {BODY}; crash} $body script
+    list [catch {exec [info nameofexecutable] << $script} msg] $msg
+} {0 OK}
+
 # cleanup
 catch {rename p ""}
 catch {namespace delete test_ns_compile}
