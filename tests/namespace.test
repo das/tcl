@@ -1879,6 +1879,17 @@ test namespace-48.3 {ensembles and namespace import: config} {
     set result
 } {::foo 1 {"boo" is not an ensemble command} 1 {unknown command "spong"}}
 
+test namespace-49.1 {ensemble subcommand caching} -body {
+    namespace ens cre -command a -map {b {lappend result 1}}
+    namespace ens cre -command c -map {b {lappend result 2}}
+    proc x {} {a b; c b; a b; c b}
+    x
+} -result {1 2 1 2} -cleanup {
+    rename a {}
+    rename c {}
+    rename x {}
+}
+
 # cleanup
 catch {rename cmd1 {}}
 catch {unset l}
