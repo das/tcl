@@ -703,7 +703,15 @@ test execute-7.31 {Wide int handling in abs()} {longIs32bit} {
     set y 0x123456871234568
     concat [expr {abs($x)}] [expr {abs($y)}]
 } {730503879441204585 81985533099853160}
-
+test execute-7.32 {Wide int handling} {longIs32bit} {
+    expr {1024 * 1024 * 1024 * 1024}
+} 0
+test execute-7.33 {Wide int handling} {longIs32bit} {
+    expr {0x1 * 1024 * 1024 * 1024 * 1024}
+} 0
+test execute-7.34 {Wide int handling} {longIs32bit} {
+    expr {wide(0x1) * 1024 * 1024 * 1024 * 1024}
+} 1099511627776
 
 # cleanup
 catch {eval namespace delete [namespace children :: test_ns_*]}

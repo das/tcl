@@ -230,7 +230,7 @@ long		tclObjsShared[TCL_MAX_SHARED_OBJ_STATS] = { 0, 0, 0, 0, 0 };
     (resultVar) = Tcl_GetWideIntFromObj((Tcl_Interp *) NULL, (objPtr),	\
 	    &(wideVar));						\
     if ((resultVar) == TCL_OK && (wideVar) >= Tcl_LongAsWide(LONG_MIN)	\
-	    && (wideVar) <= Tcl_LongAsWide(LONG_MIN)) {			\
+	    && (wideVar) <= Tcl_LongAsWide(LONG_MAX)) {			\
 	(objPtr)->typePtr = &tclIntType;				\
 	(objPtr)->internalRep.longValue = (longVar)			\
 		= Tcl_WideAsLong(wideVar);				\
@@ -248,6 +248,10 @@ long		tclObjsShared[TCL_MAX_SHARED_OBJ_STATS] = { 0, 0, 0, 0, 0 };
 #   define LLTRACE(a)			TRACE(a)
 #   define LLTRACE_WITH_OBJ(a,b)	TRACE_WITH_OBJ(a,b)
 #   define LLD				"%" TCL_LL_MODIFIER "d"
+#   ifndef LLONG_MAX
+#      define LLONG_MAX	((Tcl_WideInt)(((Tcl_WideUInt)((Tcl_WideInt)-1))>>1))
+#      define LLONG_MIN (~LLONG_MAX)
+#   endif
 #else /* TCL_WIDE_INT_IS_LONG */
 #   define GET_WIDE_OR_INT(resultVar, objPtr, longVar, wideVar)		\
     (resultVar) = Tcl_GetLongFromObj((Tcl_Interp *) NULL, (objPtr),	\
