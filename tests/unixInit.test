@@ -113,7 +113,7 @@ test unixInit-1.2 {initialisation: standard channel type deduction} {unixOnly in
 } {OK}
 
 proc getlibpath "{program [list $::tcltest::tcltest]}" {
-    set f [open "|$program" w+]
+    set f [open "|[list $program]" w+]
     fconfigure $f -buffering none
     puts $f {puts $tcl_libPath; exit}
     set path [gets $f]
