@@ -423,8 +423,6 @@ EXTERN int		TclpStat _ANSI_ARGS_((CONST char *path,
 EXTERN int		TclpAccess _ANSI_ARGS_((CONST char *path, 
 			    int mode));
 
-#define TclpReleaseFile(file)	ckfree((char *) file)
-
 /*
  * Declarations for Windows-only functions.
  */

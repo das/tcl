@@ -43,8 +43,6 @@
 #define VER_PLATFORM_WIN32_WINDOWS 1
 #endif
 
-EXTERN void		TclpAlertNotifier();
-EXTERN void		TclpInitNotifier();
 /*
  * The following structure keeps track of whether we are using the 
  * multi-byte or the wide-character interfaces to the operating system.

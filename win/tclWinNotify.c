@@ -25,7 +25,7 @@ static int initialized = 0;
 #define INTERVAL_TIMER 1	/* Handle of interval timer. */
 
 #define WM_WAKEUP WM_USER	/* Message that is send by
-				 * TclpAlertNotifier. */
+				 * Tcl_AlertNotifier. */
 /*
  * The following static structure contains the state information for the
  * Windows implementation of the Tcl notifier.  One of these structures

@@ -1531,7 +1531,6 @@ EXTERN Tcl_Encoding	Tcl_GetEncoding _ANSI_ARGS_((Tcl_Interp *interp,
 EXTERN char *		Tcl_GetEncodingName _ANSI_ARGS_((
 			    Tcl_Encoding encoding));
 EXTERN void		Tcl_GetEncodingNames _ANSI_ARGS_((Tcl_Interp *interp));
-EXTERN Tcl_Obj *	Tcl_GetEncodingPath _ANSI_ARGS_((void));
 EXTERN int		Tcl_GetErrno _ANSI_ARGS_((void));
 EXTERN char *		Tcl_GetHostName _ANSI_ARGS_((void));
 EXTERN int		Tcl_GetIndexFromObj _ANSI_ARGS_((Tcl_Interp *interp,
