@@ -469,7 +469,7 @@ Tcl_StaticPackage(interp, pkgName, initProc, safeInitProc)
 
     /*
      * Check to see if someone else has already reported this package as
-     * statically loaded.  If this call is redundant then just return.
+     * statically loaded in the process.
      */
 
     Tcl_MutexLock(&packageMutex);
@@ -477,30 +477,52 @@ Tcl_StaticPackage(interp, pkgName, initProc, safeInitProc)
 	if ((pkgPtr->initProc == initProc)
 		&& (pkgPtr->safeInitProc == safeInitProc)
 		&& (strcmp(pkgPtr->packageName, pkgName) == 0)) {
-	    Tcl_MutexUnlock(&packageMutex);
-	    return;
+	    break;
 	}
     }
-
     Tcl_MutexUnlock(&packageMutex);
 
-    pkgPtr = (LoadedPackage *) ckalloc(sizeof(LoadedPackage));
-    pkgPtr->fileName		= (char *) ckalloc((unsigned) 1);
-    pkgPtr->fileName[0]		= 0;
-    pkgPtr->packageName		= (char *) ckalloc((unsigned)
-	    (strlen(pkgName) + 1));
-    strcpy(pkgPtr->packageName, pkgName);
-    pkgPtr->loadHandle		= NULL;
-    pkgPtr->initProc		= initProc;
-    pkgPtr->safeInitProc	= safeInitProc;
-    Tcl_MutexLock(&packageMutex);
-    pkgPtr->nextPtr		= firstPackagePtr;
-    firstPackagePtr		= pkgPtr;
-    Tcl_MutexUnlock(&packageMutex);
+    /*
+     * If the package is not yet recorded as being loaded statically,
+     * add it to the list now.
+     */
+
+    if ( pkgPtr == NULL ) {
+	pkgPtr = (LoadedPackage *) ckalloc(sizeof(LoadedPackage));
+	pkgPtr->fileName	= (char *) ckalloc((unsigned) 1);
+	pkgPtr->fileName[0]	= 0;
+	pkgPtr->packageName	= (char *) ckalloc((unsigned)
+						   (strlen(pkgName) + 1));
+	strcpy(pkgPtr->packageName, pkgName);
+	pkgPtr->loadHandle	= NULL;
+	pkgPtr->initProc	= initProc;
+	pkgPtr->safeInitProc	= safeInitProc;
+	Tcl_MutexLock(&packageMutex);
+	pkgPtr->nextPtr		= firstPackagePtr;
+	firstPackagePtr		= pkgPtr;
+	Tcl_MutexUnlock(&packageMutex);
+    }
 
     if (interp != NULL) {
+
+	/*
+	 * If we're loading the package into an interpreter,
+	 * determine whether it's already loaded. 
+	 */
+
 	ipFirstPtr = (InterpPackage *) Tcl_GetAssocData(interp, "tclLoad",
 		(Tcl_InterpDeleteProc **) NULL);
+	for ( ipPtr = ipFirstPtr; ipPtr != NULL; ipPtr = ipPtr->nextPtr ) {
+	    if ( ipPtr->pkgPtr == pkgPtr ) {
+		return;
+	    }
+	}
+
+	/*
+	 * Package isn't loade in the current interp yet. Mark it as
+	 * now being loaded.
+	 */
+
 	ipPtr = (InterpPackage *) ckalloc(sizeof(InterpPackage));
 	ipPtr->pkgPtr = pkgPtr;
 	ipPtr->nextPtr = ipFirstPtr;
