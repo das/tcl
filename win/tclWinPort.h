@@ -391,6 +391,15 @@
 #    define timezone _timezone
 #endif /* __CYGWIN__ */
 
+
+#ifdef __WATCOMC__
+    /* 
+     * OpenWatcom uses a wine derived winsock2.h that is missing the
+     * LPFN_* typedefs.
+     */
+#   define HAVE_NO_LPFN_DECLS
+#endif
+
 /*
  * There is no platform-specific panic routine for Windows in the Tcl internals.
  */
