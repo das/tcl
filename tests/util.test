@@ -294,18 +294,16 @@ test util-7.4 {TclPrecTraceProc - write traces, bogus values} {
 
 set tcl_precision 12
 
+# This test always succeeded in the C locale anyway...
+test util-8.1 {TclNeedSpace - correct UTF8 handling} {
+    interp create \u5420
+    interp create [list \u5420 foo]
+    interp alias {} fooset [list \u5420 foo] set
+    set result [interp target {} fooset]
+    interp delete \u5420
+    set result
+} "\u5420 foo"
+
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
