@@ -287,7 +287,9 @@ all:	    setup $(TCLSH) dlls $(CAT16) $(CAT32)
 tcltest:    setup $(TCLTEST) dlls $(CAT16) $(CAT32)
 plugin:	    setup $(TCLPLUGINDLL) $(TCLSHP)
 install:    install-binaries install-libraries
-test:	    setup $(TCLTEST) dlls $(CAT16) $(CAT32) 
+test:	    setup $(TCLTEST) dlls $(CAT16) $(CAT32)
+	copy $(WINDIR)\pkgIndex.tcl $(OUTDIR)
+	set TCL_LIBRARY=$(ROOT)/library
 	$(TCLTEST) <<
 		cd ../tests
 		source all

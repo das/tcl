@@ -17,8 +17,9 @@ if {$tcl_platform(platform) != "windows"} {
     return
 }
 
-set cat16 [file join $tcl_library ../win/cat16.exe]
-set cat32 [file join $tcl_library ../win/cat32.exe]
+set bindir [file join [pwd] [file dirname [info nameofexecutable]]]
+set cat16 [file join  $bindir cat16.exe]
+set cat32 [file join $bindir cat32.exe]
 
 if {[string compare test [info procs test]] == 1} then {source defs}
 
@@ -279,7 +280,7 @@ test winpipe-2.24 {16 bit comprehensive tests: read/write application} {nt} {
 } "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 }
 
-test winpipe-3.1 {Tcl_WaitPid} {nt} {
+test winpipe-4.1 {Tcl_WaitPid} {nt} {
     proc readResults {f} {
 	global x result
 	if { [eof $f] } {

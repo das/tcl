@@ -169,7 +169,7 @@ test safe-6.2 {test safe interpreters knowledge of the world} {
 } {}
 test safe-6.3 {test safe interpreters knowledge of the world} {
     SI; set r [lsort [$I eval {array names tcl_platform}]]; DI; set r
-} {byteOrder platform}
+} {byteOrder debug platform}
 
 # more test should be added to check that hostname, nameofexecutable,
 # aren't leaking infos, but they still do...

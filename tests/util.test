@@ -96,7 +96,7 @@ set tcl_precision 12
 test util-6.4 {Tcl_PrintDouble - make sure there's a decimal point} {
     concat x[expr 2.0]
 } {x2.0}
-test util-6.5 {Tcl_PrintDouble - make sure there's a decimal point} {
+test util-6.5 {Tcl_PrintDouble - make sure there's a decimal point} {eformat} {
     concat x[expr 3.0e98]
 } {x3e+98}
 

@@ -5151,8 +5151,8 @@ test io-34.2 {buffered data and file events, read} {
     proc accept {sock args} {
 	set ::s2 $sock
     }
-    set server [socket -server accept 4040]
-    set s [socket localhost 4040]
+    set server [socket -server accept 4041]
+    set s [socket localhost 4041]
     vwait s2
     update
     fileevent $s2 readable {lappend result readable}
@@ -5187,7 +5187,7 @@ test io-35.1 {Tcl_NotifyChannel and error when closing} {unixOrPc} {
 	}
     }
     close $out
-    set pipe [open "|$tcltest script" r]
+    set pipe [open "|[list $tcltest] script" r]
     fileevent $pipe readable [list readit $pipe]
     set x ""
     set result ""

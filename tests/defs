@@ -170,6 +170,14 @@ if {$tcl_platform(platform) == "unix"} {
     set testConfig(asyncPipeClose) 1
 }
 
+# Test to see if we have a broken version of sprintf with respect to the
+# "e" format of floating-point numbers.
+
+set testConfig(eformat) 1
+if {[string compare "[format %g 5e-5]" "5e-05"] != 0} {
+    set testConfig(eformat) 0
+    puts "(will skip tests that depend on the \"e\" format of floating-point numbers)"
+}
 # Test to see if execed commands such as cat, echo, rm and so forth are
 # present on this machine.
 
