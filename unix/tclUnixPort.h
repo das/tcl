@@ -518,6 +518,7 @@ extern double strtod();
 
 #ifdef DJGPP
 #define	TCL_PLATFORM_TRANSLATION	TCL_TRANSLATE_CRLF
+typedef int socklen_t;
 #else
 #define	TCL_PLATFORM_TRANSLATION	TCL_TRANSLATE_LF
 #endif
