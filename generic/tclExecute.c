@@ -5400,8 +5400,9 @@ VerifyExprObjType(interp, objPtr)
 	char *s = Tcl_GetStringFromObj(objPtr, &length);
 	
 	if (TclLooksLikeInt(s, length)) {
+	    long i;
 	    Tcl_WideInt w;
-	    result = Tcl_GetWideIntFromObj((Tcl_Interp *) NULL, objPtr, &w);
+	    GET_WIDE_OR_INT(result, objPtr, i, w);
 	} else {
 	    double d;
 	    result = Tcl_GetDoubleFromObj((Tcl_Interp *) NULL, objPtr, &d);
