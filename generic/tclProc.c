@@ -1223,3 +1223,53 @@ TclUpdateReturnInfo(iPtr)
     }
     return code;
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclGetInterpProc --
+ *
+ *  Returns a pointer to the TclProcInterpProc procedure; this is different
+ *  from the value obtained from the TclProcInterpProc reference on systems
+ *  like Windows where import and export versions of a procedure exported
+ *  by a DLL exist.
+ *
+ * Results:
+ *  Returns the internal address of the TclProcInterpProc procedure.
+ *
+ * Side effects:
+ *  None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+TclCmdProcType
+TclGetInterpProc()
+{
+    return TclProcInterpProc;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclGetObjInterpProc --
+ *
+ *  Returns a pointer to the TclObjInterpProc procedure; this is different
+ *  from the value obtained from the TclObjInterpProc reference on systems
+ *  like Windows where import and export versions of a procedure exported
+ *  by a DLL exist.
+ *
+ * Results:
+ *  Returns the internal address of the TclProcInterpProc procedure.
+ *
+ * Side effects:
+ *  None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+TclObjCmdProcType
+TclGetObjInterpProc()
+{
+    return TclObjInterpProc;
+}
