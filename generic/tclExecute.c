@@ -922,7 +922,6 @@ TclCompEvalObj(interp, objPtr)
 	    iPtr->numLevels--;
 	    return result;
 	}
-	iPtr->evalFlags = 0;
 	codePtr = (ByteCode *) objPtr->internalRep.otherValuePtr;
     } else {
 	/*
