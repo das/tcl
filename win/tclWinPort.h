@@ -346,6 +346,12 @@ typedef float *TCHAR;
 #endif /* _MSC_VER || __MINGW32__ */
 
 /*
+ * There is no platform-specific panic routine for Windows in the Tcl internals.
+ */
+
+#define TclpPanic ((Tcl_PanicProc *) NULL)
+
+/*
  *---------------------------------------------------------------------------
  * The following macros and declarations represent the interface between 
  * generic and windows-specific parts of Tcl.  Some of the macros may 

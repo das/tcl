@@ -725,9 +725,6 @@ declare 23 mac {
 declare 25 mac {
     int TclMacChmod(char *path, int mode)
 }
-declare 26 mac {
-    void TclMacSetPanic(void)
-}
 
 ############################
 # Windows specific internals

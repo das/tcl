@@ -16,6 +16,7 @@
  */
 
 #include "tclInt.h"
+#include "tclPort.h"
 
 /*
  * The panicProc variable contains a pointer to an application
@@ -23,6 +24,14 @@
  */
 
 static Tcl_PanicProc *panicProc = NULL;
+
+/*
+ * The platformPanicProc variable contains a pointer to a platform
+ * specific panic procedure, if any.  ( TclpPanic may be NULL via
+ * a macro. )
+ */
+
+static Tcl_PanicProc * CONST platformPanicProc = TclpPanic;
 
 
 /*
@@ -85,6 +94,9 @@ Tcl_PanicVA (format, argList)
     
     if (panicProc != NULL) {
 	(void) (*panicProc)(format, arg1, arg2, arg3, arg4,
+		arg5, arg6, arg7, arg8);
+    } else if (platformPanicProc != NULL) {
+	(void) (*platformPanicProc)(format, arg1, arg2, arg3, arg4,
 		arg5, arg6, arg7, arg8);
     } else {
 	(void) fprintf(stderr, format, arg1, arg2, arg3, arg4, arg5, arg6,

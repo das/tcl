@@ -205,8 +205,6 @@ MacintoshInit()
 		
 #endif
 
-    TclMacSetPanic();
-
     Tcl_MacSetEventProc((Tcl_MacConvertEventPtr) SIOUXHandleOneEvent);
     
     /* No problems with initialization */

@@ -315,7 +315,6 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclMacFOpenHack, /* 23 */
     NULL, /* 24 */
     TclMacChmod, /* 25 */
-    TclMacSetPanic, /* 26 */
 #endif /* MAC_TCL */
 };
 

@@ -439,6 +439,12 @@ extern char **environ;
 extern double strtod();
 
 /*
+ * There is no platform-specific panic routine for Unix in the Tcl internals.
+ */
+
+#define TclpPanic ((Tcl_PanicProc *) NULL)
+
+/*
  *---------------------------------------------------------------------------
  * The following macros and declarations represent the interface between 
  * generic and unix-specific parts of Tcl.  Some of the macros may override 

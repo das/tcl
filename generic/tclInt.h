@@ -1835,6 +1835,8 @@ EXTERN int		TclpMatchFiles _ANSI_ARGS_((Tcl_Interp *interp,
 EXTERN Tcl_Channel	TclpOpenFileChannel _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *fileName, char *modeString,
 			    int permissions));
+EXTERN void		TclpPanic _ANSI_ARGS_(TCL_VARARGS(CONST char *,
+			    format));
 EXTERN char *		TclpReadlink _ANSI_ARGS_((CONST char *fileName,
 			    Tcl_DString *linkPtr));
 EXTERN char *		TclpRealloc _ANSI_ARGS_((char *ptr,
