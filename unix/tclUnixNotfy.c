@@ -769,8 +769,6 @@ Tcl_WaitForEvent(timePtr)
     
 #else
     tsdPtr->readyMasks = tsdPtr->checkMasks;
-    memcpy((VOID *) tsdPtr->readyMasks, (VOID *) tsdPtr->checkMasks,
-	    sizeof( SelectMasks ) );
     numFound = select( tsdPtr->numFdBits,
 		       &(tsdPtr->readyMasks.readable),
 		       &(tsdPtr->readyMasks.writable),
