@@ -648,15 +648,7 @@ Tcl_DuplicateObj(objPtr)
     if (objPtr->bytes == NULL) {
 	dupPtr->bytes = NULL;
     } else if (objPtr->bytes != tclEmptyStringRep) {
-	int len = objPtr->length;
-	
-	dupPtr->bytes = (char *) ckalloc((unsigned) len+1);
-	if (len > 0) {
-	    memcpy((VOID *) dupPtr->bytes, (VOID *) objPtr->bytes,
-		   (unsigned) len);
-	}
-	dupPtr->bytes[len] = '\0';
-	dupPtr->length = len;
+	TclInitStringRep(dupPtr, objPtr->bytes, objPtr->length);
     }
     
     if (typePtr != NULL) {
