@@ -4569,25 +4569,33 @@ IllegalExprOperandType(interp, pc, opndPtr)
 		operatorStrings[opCode - INST_LOR], "\"", (char *) NULL);
     } else {
 	char *msg = "non-numeric string";
-	if (opndPtr->typePtr != &tclDoubleType) {
+	char *s;
+	int length;
+
+	s = Tcl_GetStringFromObj(opndPtr, &length);
+	if (TclLooksLikeInt(s, length)) {
+	    /*
+	     * If something that looks like an integer appears here, then 
+	     * it *must* be a bad octal or too large to represent [Bug  542588].
+	     */
+
+	    if (TclCheckBadOctal(NULL, Tcl_GetString(opndPtr))) {
+		msg = "invalid octal number";
+	    } else {
+		msg = "integer value too large to represent";
+		Tcl_SetErrorCode(interp, "ARITH", "IOVERFLOW",
+		    "integer value too large to represent", (char *) NULL);
+	    }
+	} else {
 	    /*
 	     * See if the operand can be interpreted as a double in order to
 	     * improve the error message.
 	     */
 
-	    char *s = TclGetString(opndPtr);
 	    double d;
 
 	    if (Tcl_GetDouble((Tcl_Interp *) NULL, s, &d) == TCL_OK) {
-		/*
-		 * Make sure that what appears to be a double
-		 * (ie 08) isn't really a bad octal
-		 */
-		if (TclCheckBadOctal(NULL, TclGetString(opndPtr))) {
-		    msg = "invalid octal number";
-		} else {
-		    msg = "floating-point value";
-		}
+		msg = "floating-point value";
 	    }
 	}
 	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), "can't use ",
