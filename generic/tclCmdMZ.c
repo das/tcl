@@ -3472,7 +3472,7 @@ Tcl_UntraceCommand(interp, cmdName, flags, proc, clientData)
     } else {
 	prevPtr->nextPtr = tracePtr->nextPtr;
     }
-    ckfree((char *) tracePtr);
+    Tcl_EventuallyFree((ClientData) tracePtr, TCL_DYNAMIC);
 }
 
 /*
