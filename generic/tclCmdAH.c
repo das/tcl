@@ -1930,7 +1930,7 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
     int size;			/* Number of bytes needed for result of
 				 * conversion, based on type of conversion
 				 * ("e", "s", etc.), width, and precision. */
-    int intValue;		/* Used to hold value to pass to sprintf, if
+    long intValue;		/* Used to hold value to pass to sprintf, if
 				 * it's a one-word integer or char value */
     char *ptrValue = NULL;	/* Used to hold value to pass to sprintf, if
 				 * it's a one-word value. */
@@ -2166,9 +2166,18 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 	    case 'u':
 	    case 'x':
 	    case 'X':
-		if (Tcl_GetIntFromObj(interp,	/* INTL: Tcl source. */
+		if (Tcl_GetLongFromObj(interp,	/* INTL: Tcl source. */
 			objv[objIndex], &intValue) != TCL_OK) {
 		    goto fmtError;
+		}
+		if ((unsigned long) intValue > UINT_MAX) {
+		    /*
+		     * Add the 'l' for long format type.
+		     */
+		    newPtr++;
+		    *newPtr = 0;
+		    newPtr[-1] = newPtr[-2];
+		    newPtr[-2] = 'l';
 		}
 		whichValue = INT_VALUE;
 		size = 40 + precision;
@@ -2193,7 +2202,7 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 		}
 		break;
 	    case 'c':
-		if (Tcl_GetIntFromObj(interp,	/* INTL: Tcl source. */
+		if (Tcl_GetLongFromObj(interp,	/* INTL: Tcl source. */
 			objv[objIndex], &intValue) != TCL_OK) {
 		    goto fmtError;
 		}
