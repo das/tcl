@@ -1047,10 +1047,10 @@ be reported by [\fBcleanupTests\fR] for tests at the same level as
 test level-1.1.  However, test results for all tests run prior to
 level-1.1 will be available when test level-2.1 runs.  What this
 means is that if you try to access the test results for test level-2.1,
-it will may say that 'm' tests have run, 'n' tests have been skipped,
-'o' tests have passed and 'p' tests have failed, where 'm', 'n', 'o',
-and 'p' refer to tests that were run at the same test level as
-test level-1.1. 
+it will may say that 'm' tests have run, 'n' tests have
+been skipped, 'o' tests have passed and 'p' tests have failed,
+where 'm', 'n', 'o', and 'p' refer to tests that were run at the
+same test level as test level-1.1. 
 .PP
 Implementation of output and error comparison in the test command
 depends on usage of puts in your application code.  Output is
