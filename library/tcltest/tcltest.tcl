@@ -1228,7 +1228,8 @@ proc ::tcltest::cleanupTests {{calledFromAllFile 0}} {
 	if {[llength $testFilesThatTurded] > 0} {
 	    puts $::tcltest::outputChannel "Warning: files left behind:"
 	    foreach testFile $testFilesThatTurded {
-		puts "\t$testFile:\t$::tcltest::createdNewFiles($testFile)"
+		puts $::tcltest::outputChannel \
+			"\t$testFile:\t$::tcltest::createdNewFiles($testFile)"
 		unset ::tcltest::createdNewFiles($testFile)
 	    }
 	}
