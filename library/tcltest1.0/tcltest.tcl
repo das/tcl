@@ -1454,7 +1454,7 @@ proc ::tcltest::restoreState {} {
 	    if {$::tcltest::debug > 2} {
 		puts "::tcltest::restoreState: Removing variable $p"
 	    }
-	    uplevel #0 "unset $p"
+	    uplevel #0 "catch {unset $p}"
 	}
     }
 }
