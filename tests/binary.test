@@ -1572,7 +1572,7 @@ test binary-48.18 {Tcl_BinaryObjCmd: format} bigEndian {
     set a {0x50 0x51}
     binary format t1 $a
 } \x00P
-test binary-48.18 {Tcl_BinaryObjCmd: format} littleEndian {
+test binary-48.19 {Tcl_BinaryObjCmd: format} littleEndian {
     set a {0x50 0x51}
     binary format t1 $a
 } P\x00
