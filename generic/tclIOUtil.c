@@ -553,7 +553,7 @@ static void
 FsRecacheFilesystemList(void)
 {
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
-    FilesystemRecord *fsRecPtr, *tmpFsRecPtr;
+    FilesystemRecord *fsRecPtr, *tmpFsRecPtr = NULL;
 
     /* Trash the current cache */
     fsRecPtr = tsdPtr->filesystemList;

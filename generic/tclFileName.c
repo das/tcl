@@ -1679,6 +1679,9 @@ TclGlob(interp, pattern, pathPrefix, globFlags, types)
                     tail += driveNameLen;
                     break;
                 }
+		case TCL_PATH_RELATIVE: {
+		    /* Do nothing */
+		}
             }
             Tcl_DecrRefCount(temp);
 	}
@@ -1702,7 +1705,8 @@ TclGlob(interp, pattern, pathPrefix, globFlags, types)
     if (pathPrefix == NULL) {
 	int driveNameLen;
 	Tcl_Obj *driveName;
-	if (TclFSNonnativePathType(tail, strlen(tail), NULL, &driveNameLen, 
+	if (TclFSNonnativePathType(tail, (int) strlen(tail), NULL, 
+				   &driveNameLen, 
 				   &driveName) == TCL_PATH_ABSOLUTE) {
 	    pathPrefix = driveName;
 	    tail += driveNameLen;
