@@ -186,7 +186,7 @@ DoRenameFile(
 	if ((*tclWinProcs->moveFileProc)(nativeSrc, nativeDst) != FALSE) {
 	    retval = TCL_OK;
 	}
-    } __except (EXCEPTION_CONTINUE_EXECUTION) {}
+    } __except (EXCEPTION_EXECUTE_HANDLER) {}
 
     /*
      * Avoid using control flow statements in the SEH guarded block!
@@ -472,7 +472,7 @@ DoCopyFile(
 	if ((*tclWinProcs->copyFileProc)(nativeSrc, nativeDst, 0) != FALSE) {
 	    retval = TCL_OK;
 	}
-    } __except (EXCEPTION_CONTINUE_EXECUTION) {}
+    } __except (EXCEPTION_EXECUTE_HANDLER) {}
 
     /*
      * Avoid using control flow statements in the SEH guarded block!
