@@ -104,7 +104,7 @@ The optional switches are:
 .TP 15
 \fB\-direct\fR
 The generated index will implement direct loading of the package
-upon \fBpackage require\R.  This is the default.
+upon \fBpackage require\fR.  This is the default.
 .TP 15
 \fB\-lazy\fR
 The generated index will manage to delay loading the package until the

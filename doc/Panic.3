@@ -68,7 +68,7 @@ typedef void Tcl_PanicProc( CONST char *\fBformat\fR,
 After \fBTcl_SetPanicProc\fR returns, any future calls to
 \fBTcl_Panic\fR will call \fIpanicProc\fR, passing along the
 \fIformat\fR and \fIarg\fR arguments.  To maintain consistency with the
-callers of \fBTcl_Panic\fR, \fIpanicProc\fB must not return; it must
+callers of \fBTcl_Panic\fR, \fIpanicProc\fR must not return; it must
 call \fBabort\fR.  \fIpanicProc\fR should avoid making calls into the
 Tcl library, or into other libraries that may call the Tcl library,
 since the original call to \fBTcl_Panic\fR indicates the Tcl library is

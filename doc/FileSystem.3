@@ -88,7 +88,7 @@ int
 \fBTcl_FSChdir\fR(\fIpathPtr\fR)
 .sp
 Tcl_Obj*
-\fBTcl_FSPathSeparator\fR(\fIfIpathPtr\fR\fR)
+\fBTcl_FSPathSeparator\fR(\fIpathPtr\fR)
 .sp
 Tcl_Obj*
 \fBTcl_FSJoinPath\fR(\fIlistObj, elements\fR)
@@ -623,7 +623,7 @@ identifies the type of the filesystem implemented, e.g.
 .SH "STRUCTURE LENGTH"
 .PP
 The \fIstructureLength\fR field is generally implemented as
-\fIsizeof(Tcl_Filesystem)\R, and is there to allow easier
+\fIsizeof(Tcl_Filesystem)\fR, and is there to allow easier
 binary backwards compatibility if the size of the structure
 changes in a future Tcl release.
 .PP
