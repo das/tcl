@@ -71,15 +71,3 @@ test for-old-1.9 {for tests} {
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-

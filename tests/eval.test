@@ -61,15 +61,3 @@ test eval-2.5 {error in eval'ed command: setting errorInfo} {
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-

@@ -41,15 +41,3 @@ test llength-2.3 {error conditions} {
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
