@@ -2258,8 +2258,8 @@ typedef struct Tcl_Config {
 	Tcl_EvalObjEx((interp),(objPtr),TCL_EVAL_GLOBAL)
 
     /*
-     * These function have been renamed. The old names are deprecated, but
-     * we define these macros for backwards compatibilty.
+     * These function have been renamed. The old names are deprecated,
+     * but we define these macros for backwards compatibilty.
      */
 
 #   define Tcl_Ckalloc Tcl_Alloc
