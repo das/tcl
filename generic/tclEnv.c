@@ -251,7 +251,7 @@ TclSetEnv(name, value)
      * update the string in the cache.
      */
 
-    if (environ[index] == p) {
+    if ((index != -1) && (environ[index] == p)) {
 	ReplaceString(oldValue, p);
     }
 

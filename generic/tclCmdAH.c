@@ -827,12 +827,40 @@ Tcl_FileObjCmd(dummy, interp, objc, objv)
     switch ((enum options) index) {
     	case FILE_ATIME: {
 	    struct stat buf;
-	    
-	    if (objc != 3) {
-		goto only3Args;
+	    char *fileName;
+	    struct utimbuf tval;
+
+	    if ((objc < 3) || (objc > 4)) {
+		Tcl_WrongNumArgs(interp, 2, objv, "name ?time?");
+		return TCL_ERROR;
 	    }
 	    if (GetStatBuf(interp, objv[2], TclStat, &buf) != TCL_OK) {
 		return TCL_ERROR;
+	    }
+	    if (objc == 4) {
+		if (Tcl_GetLongFromObj(interp, objv[3],
+			(long*)(&buf.st_atime)) != TCL_OK) {
+		    return TCL_ERROR;
+		}
+		tval.actime = buf.st_atime;
+		tval.modtime = buf.st_mtime;
+		fileName = Tcl_GetString(objv[2]);
+		if (utime(fileName, &tval) != 0) {
+		    Tcl_AppendStringsToObj(resultPtr,
+			    "could not set access time for file \"",
+			    fileName, "\": ",
+			    Tcl_PosixError(interp), (char *) NULL);
+		    return TCL_ERROR;
+		}
+		/*
+		 * Do another stat to ensure that the we return the
+		 * new recognized atime - hopefully the same as the
+		 * one we sent in.  However, fs's like FAT don't
+		 * even know what atime is.
+		 */
+		if (GetStatBuf(interp, objv[2], TclStat, &buf) != TCL_OK) {
+		    return TCL_ERROR;
+		}
 	    }
 	    Tcl_SetLongObj(resultPtr, (long) buf.st_atime);
 	    return TCL_OK;
@@ -986,12 +1014,40 @@ Tcl_FileObjCmd(dummy, interp, objc, objv)
 	}
 	case FILE_MTIME: {
 	    struct stat buf;
-	    
-	    if (objc != 3) {
-		goto only3Args;
+	    char *fileName;
+	    struct utimbuf tval;
+
+	    if ((objc < 3) || (objc > 4)) {
+		Tcl_WrongNumArgs(interp, 2, objv, "name ?time?");
+		return TCL_ERROR;
 	    }
 	    if (GetStatBuf(interp, objv[2], TclStat, &buf) != TCL_OK) {
 		return TCL_ERROR;
+	    }
+	    if (objc == 4) {
+		if (Tcl_GetLongFromObj(interp, objv[3],
+			(long*)(&buf.st_mtime)) != TCL_OK) {
+		    return TCL_ERROR;
+		}
+		tval.actime = buf.st_atime;
+		tval.modtime = buf.st_mtime;
+		fileName = Tcl_GetString(objv[2]);
+		if (utime(fileName, &tval) != 0) {
+		    Tcl_AppendStringsToObj(resultPtr,
+			    "could not set modification time for file \"",
+			    fileName, "\": ",
+			    Tcl_PosixError(interp), (char *) NULL);
+		    return TCL_ERROR;
+		}
+		/*
+		 * Do another stat to ensure that the we return the
+		 * new recognized atime - hopefully the same as the
+		 * one we sent in.  However, fs's like FAT don't
+		 * even know what atime is.
+		 */
+		if (GetStatBuf(interp, objv[2], TclStat, &buf) != TCL_OK) {
+		    return TCL_ERROR;
+		}
 	    }
 	    Tcl_SetLongObj(resultPtr, (long) buf.st_mtime);
 	    return TCL_OK;
