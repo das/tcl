@@ -3877,7 +3877,7 @@ Tcl_UpvarObjCmd(dummy, interp, objc, objv)
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
     CallFrame *framePtr;
-    char *frameSpec, *localName;
+    char *localName;
     int result;
 
     if (objc < 3) {
@@ -3892,8 +3892,7 @@ Tcl_UpvarObjCmd(dummy, interp, objc, objv)
      * linked to. 
      */
 
-    frameSpec = TclGetString(objv[1]);
-    result = TclGetFrame(interp, frameSpec, &framePtr);
+    result = TclObjGetFrame(interp, objv[1], &framePtr);
     if (result == -1) {
 	return TCL_ERROR;
     }

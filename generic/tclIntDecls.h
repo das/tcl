@@ -1013,6 +1013,12 @@ EXTERN void		TclFinalizeThreadStorageDataKey _ANSI_ARGS_((
 EXTERN int		TclCompEvalObj _ANSI_ARGS_((Tcl_Interp * interp, 
 				Tcl_Obj * objPtr));
 #endif
+#ifndef TclObjGetFrame_TCL_DECLARED
+#define TclObjGetFrame_TCL_DECLARED
+/* 198 */
+EXTERN int		TclObjGetFrame _ANSI_ARGS_((Tcl_Interp * interp, 
+				Tcl_Obj * objPtr, CallFrame ** framePtrPtr));
+#endif
 
 typedef struct TclIntStubs {
     int magic;
@@ -1231,6 +1237,7 @@ typedef struct TclIntStubs {
     void (*tclFinalizeThreadStorageData) _ANSI_ARGS_((Tcl_ThreadDataKey * keyPtr)); /* 195 */
     void (*tclFinalizeThreadStorageDataKey) _ANSI_ARGS_((Tcl_ThreadDataKey * keyPtr)); /* 196 */
     int (*tclCompEvalObj) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Obj * objPtr)); /* 197 */
+    int (*tclObjGetFrame) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Obj * objPtr, CallFrame ** framePtrPtr)); /* 198 */
 } TclIntStubs;
 
 #ifdef __cplusplus
@@ -1909,6 +1916,10 @@ extern TclIntStubs *tclIntStubsPtr;
 #ifndef TclCompEvalObj
 #define TclCompEvalObj \
 	(tclIntStubsPtr->tclCompEvalObj) /* 197 */
+#endif
+#ifndef TclObjGetFrame
+#define TclObjGetFrame \
+	(tclIntStubsPtr->tclObjGetFrame) /* 198 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

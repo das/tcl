@@ -801,6 +801,10 @@ declare 197 generic {
     int TclCompEvalObj (Tcl_Interp *interp, Tcl_Obj *objPtr)
 }
 
+declare 198 generic {
+    int TclObjGetFrame(Tcl_Interp *interp, Tcl_Obj *objPtr,
+	    CallFrame **framePtrPtr)
+}
 
 ##############################################################################
 
