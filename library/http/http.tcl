@@ -24,7 +24,7 @@
 
 package require Tcl 8.2
 # keep this in sync with pkgIndex.tcl
-package provide http 2.4
+package provide http 2.4.1
 
 namespace eval http {
     variable http
@@ -404,7 +404,13 @@ proc http::geturl { url args } {
     if {[catch {
 	puts $s "$how $srvurl HTTP/1.0"
 	puts $s "Accept: $http(-accept)"
-	puts $s "Host: $host:$port"
+	if {$port == $defport} {
+	    # Don't add port in this case, to handle broken servers.
+	    # [Bug #504508]
+	    puts $s "Host: $host"
+	} else {
+	    puts $s "Host: $host:$port"
+	}
 	puts $s "User-Agent: $http(-useragent)"
 	foreach {key value} $state(-headers) {
 	    regsub -all \[\n\r\]  $value {} value
