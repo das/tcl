@@ -207,7 +207,7 @@ static CONST LocaleTable localeTable[] = {
 static int		GetStackSize _ANSI_ARGS_((size_t *stackSizePtr));
 #endif /* TCL_NO_STACK_CHECK */
 #ifdef HAVE_CFBUNDLE
-static int		MacOSXGetLibraryPath _ANSI_ARGS((
+static int		MacOSXGetLibraryPath _ANSI_ARGS_((
 			    Tcl_Interp *interp, int maxPathLen,
 			    char *tclLibPath));
 #endif /* HAVE_CFBUNDLE */
