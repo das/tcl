@@ -1852,7 +1852,7 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 		    Tcl_DStringFree(&ds);
 		    return nextCheckpoint;
 		}
-		cur = *(--lastValidPathEnd);
+		cur = *(lastValidPathEnd);
 		if (cur == '/' || cur == '\\') {
 		    /* Reached directory separator */
 		    break;
@@ -1988,4 +1988,3 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
     }
     return nextCheckpoint;
 }
-
