@@ -72,8 +72,8 @@ CONST TclFileAttrProcs tclpFileAttrProcs[] = {
 static pascal Boolean 	CopyErrHandler _ANSI_ARGS_((OSErr error, 
 			    short failedOperation,
 			    short srcVRefNum, long srcDirID,
-			    StringPtr srcName, short dstVRefNum,
-			    long dstDirID,StringPtr dstName));
+			    const unsigned char *srcName, short dstVRefNum,
+			    long dstDirID, const unsigned char *dstName));
 OSErr			FSpGetFLockCompat _ANSI_ARGS_((const FSSpec *specPtr, 
 			    Boolean *lockedPtr));
 static OSErr		GenerateUniqueName _ANSI_ARGS_((short vRefNum, 
@@ -604,10 +604,10 @@ CopyErrHandler(
     short failedOperation,	/* operation that caused the error */
     short srcVRefNum,		/* volume ref number of source */
     long srcDirID,		/* directory id of source */
-    StringPtr srcName,		/* name of source */
+    const unsigned char *srcName,	/* name of source */
     short dstVRefNum,		/* volume ref number of dst */
     long dstDirID,		/* directory id of dst */
-    StringPtr dstName)		/* name of dst directory */
+    const unsigned char *dstName)	/* name of dst directory */
 {
     return true;
 }
