@@ -1022,30 +1022,24 @@ test winFCmd-16.11 {Windows file normalization} {pcOnly cdrom} {
     # Must not crash
     set result "no crash"
 } {no crash}
-
-test winFCmd-16.12 {Windows file normalization} \
-    -constraints pconly \
-    -setup {
-	set oldwd [pwd]
-	set oldhome ""
-	catch {set oldhome $::env(HOME)}
-    } \
-    -body {
-	set expectedResult [file normalize ${d}:]
-	set ::env(HOME) ${d}:
-	cd
-	set result [pwd]; # <- Must not crash
-	if { [string equal $result $expectedResult] } {
-	    concat ok
-	} else {
-	    list $result != $expectedResult
-	}
-    } \
-    -cleanup {
-	set ::env(HOME) $oldhome
-	cd $oldwd
-    } \
-    -result ok
+test winFCmd-16.12 {Windows file normalization} -constraints pcOnly -setup {
+    set oldwd [pwd]
+    set oldhome ""
+    catch {set oldhome $::env(HOME)}
+} -body {
+    set expectedResult [file normalize ${d}:]
+    set ::env(HOME) ${d}:
+    cd
+    set result [pwd]; # <- Must not crash
+    if { [string equal $result $expectedResult] } {
+	concat ok
+    } else {
+	list $result != $expectedResult
+    }
+} -cleanup {
+    set ::env(HOME) $oldhome
+    cd $oldwd
+} -result ok
 
 cd $pwd
 unset d dd pwd
