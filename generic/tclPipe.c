@@ -322,10 +322,10 @@ TclCleanupChildren(interp, numPids, pidPtr, errorChan)
 	    char msg1[TCL_INTEGER_SPACE], msg2[TCL_INTEGER_SPACE];
 
 	    result = TCL_ERROR;
-	    TclFormatInt(msg1, (long) resolvedPid);
+	    sprintf(msg1, "%lu", resolvedPid);
 	    if (WIFEXITED(waitStatus)) {
                 if (interp != (Tcl_Interp *) NULL) {
-		    TclFormatInt(msg2, WEXITSTATUS(waitStatus));
+		    sprintf(msg2, "%hu", WEXITSTATUS(waitStatus));
                     Tcl_SetErrorCode(interp, "CHILDSTATUS", msg1, msg2,
                             (char *) NULL);
                 }
