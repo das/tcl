@@ -430,10 +430,12 @@ Convert(Month, Day, Year, Hours, Minutes, Seconds, Meridian, DSTmode, TimePtr)
         Julian += DaysInMonth[i];
     if (Year >= EPOCH) {
         for (i = EPOCH; i < Year; i++)
-            Julian += 365 + (i % 4 == 0);
+            Julian += 365 + (((i % 4) == 0) &&
+	            (((i % 100) != 0) || ((i % 400) == 0)));
     } else {
         for (i = Year; i < EPOCH; i++)
-            Julian -= 365 + (i % 4 == 0);
+            Julian -= 365 + (((i % 4) == 0) &&
+	            (((i % 100) != 0) || ((i % 400) == 0)));
     }
     Julian *= SECSPERDAY;
     Julian += TclDateTimezone * 60L;
