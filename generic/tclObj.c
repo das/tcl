@@ -484,6 +484,37 @@ Tcl_ConvertToType(interp, objPtr, typePtr)
 /*
  *----------------------------------------------------------------------
  *
+ * TclDbInitNewObj --
+ *
+ *	Called via the TclNewObj or TclDbNewObj macros when TCL_MEM_DEBUG
+ *	is enabled. This function will initialize the members of a
+ *	Tcl_Obj struct. Initilization would be done inline via the
+ *	TclNewObj macro when compiling without TCL_MEM_DEBUG.
+ *
+ * Results:
+ *	The Tcl_Obj struct members are initialized.
+ *
+ * Side effects:
+ *	None.
+ *----------------------------------------------------------------------
+ */
+#ifdef TCL_MEM_DEBUG
+void TclDbInitNewObj(objPtr)
+    register Tcl_Obj *objPtr;
+{
+    objPtr->refCount = 0;
+    objPtr->bytes = tclEmptyStringRep;
+    objPtr->length = 0;
+    objPtr->typePtr = NULL;
+# ifdef TCL_THREADS
+    objPtr->allocThread = Tcl_GetCurrentThread();
+# endif /* TCL_THREADS */
+}
+#endif /* TCL_MEM_DEBUG */
+
+/*
+ *----------------------------------------------------------------------
+ *
  * Tcl_NewObj --
  *
  *	This procedure is normally called when not debugging: i.e., when
@@ -2526,6 +2557,11 @@ Tcl_DbIncrRefCount(objPtr, file, line)
 	fflush(stderr);
 	panic("Trying to increment refCount of previously disposed object.");
     }
+#ifdef TCL_THREADS
+    if (Tcl_GetCurrentThread() != objPtr->allocThread) {
+        panic("Attempt to incr Tcl_Obj ref count in another thread");
+    }
+#endif
 #endif
     ++(objPtr)->refCount;
 }
@@ -2566,6 +2602,11 @@ Tcl_DbDecrRefCount(objPtr, file, line)
 	fflush(stderr);
 	panic("Trying to decrement refCount of previously disposed object.");
     }
+#ifdef TCL_THREADS
+    if (Tcl_GetCurrentThread() != objPtr->allocThread) {
+        panic("Attempt to decr Tcl_Obj ref count in another thread");
+    }
+#endif
 #endif
     if (--(objPtr)->refCount <= 0) {
 	TclFreeObj(objPtr);
@@ -2607,6 +2648,11 @@ Tcl_DbIsShared(objPtr, file, line)
 	fflush(stderr);
 	panic("Trying to check whether previously disposed object is shared.");
     }
+#ifdef TCL_THREADS
+    if (Tcl_GetCurrentThread() != objPtr->allocThread) {
+        panic("Attempt to query shared status in another thread");
+    }
+#endif
 #endif
 #ifdef TCL_COMPILE_STATS
     Tcl_MutexLock(&tclObjMutex);
