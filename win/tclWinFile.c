@@ -2166,6 +2166,7 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 	    lastValidPathEnd = currentPathEndPosition;
 	    Tcl_DStringFree(&ds);
 	} else {
+	    int isDrive = 1;
 	    Tcl_DStringFree(&ds);
 	    currentPathEndPosition = path + nextCheckpoint;
 	    while (1) {
@@ -2187,7 +2188,7 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 		     * Check for symlinks, except at last component
 		     * of path (we don't follow final symlinks) 
 		     */
-		    if (cur != 0 && (data.dwFileAttributes 
+		    if (cur != 0 && !isDrive && (data.dwFileAttributes 
 				     & FILE_ATTRIBUTE_REPARSE_POINT)) {
 			Tcl_Obj *to = WinReadLinkDirectory(nativePath);
 			if (to != NULL) {
@@ -2218,6 +2219,11 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 		    if (cur == 0) {
 			break;
 		    }
+		    /* 
+		     * If we get here, we've got past one directory
+		     * delimiter, so we know it is no longer a drive 
+		     */
+		    isDrive = 0;
 		}
 		currentPathEndPosition++;
 	    }
@@ -2249,8 +2255,11 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 	    if (ConvertFileNameFormat(interp, 0, tmpPathPtr, 1, &objPtr) 
 	      == TCL_OK) {
 		int len;
-		(void) Tcl_GetStringFromObj(objPtr,&len);
+		CONST char* converted = Tcl_GetStringFromObj(objPtr,&len);
 		if (!endOfString) {
+		    if (converted[len-1] == '/') {
+		        lastValidPathEnd++;
+		    }
 		    /* Be nice and fix the string before we clear it */
 		    Tcl_AppendToObj(objPtr, lastValidPathEnd, -1);
 		}
