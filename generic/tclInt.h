@@ -2106,6 +2106,7 @@ EXTERN int		TclUniCharIsDigit _ANSI_ARGS_((int ch));
 EXTERN int		TclUniCharIsLower _ANSI_ARGS_((int ch));
 EXTERN int		TclUniCharIsSpace _ANSI_ARGS_((int ch));
 EXTERN int		TclUniCharIsUpper _ANSI_ARGS_((int ch));
+EXTERN int		TclUniCharIsWordChar _ANSI_ARGS_((int ch));
 EXTERN int		TclUniCharLen _ANSI_ARGS_((Tcl_UniChar *str));
 EXTERN int		TclUniCharNcmp _ANSI_ARGS_((const Tcl_UniChar *cs,
 	const Tcl_UniChar *ct, size_t n));
