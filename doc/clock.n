@@ -98,6 +98,12 @@ Day of month (01 - 31).
 Date as %m/%d/%y.
 .IP \fB%e\fR
 Day of month (1 - 31), no leading zeros.
+.IP \fB%g\fR
+The ISO8601 year number corresponding to the ISO8601 week (%V), expressed
+as a two-digit year-of-the-century, with leading zero if necessary.
+.IP \fB%G\fR
+The ISO8601 year number corresponding to the ISO8601 week (%V), expressed
+as a four-digit number.
 .IP \fB%h\fR
 Abbreviated month name.
 .VE 8.4
