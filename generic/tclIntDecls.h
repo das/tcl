@@ -618,15 +618,7 @@ typedef struct TclIntStubs {
     int (*tclServiceIdle) _ANSI_ARGS_((void)); /* 98 */
     void *reserved99;
     void *reserved100;
-#if !defined(__WIN32__) && !defined(MAC_TCL) /* UNIX */
     char * (*tclSetPreInitScript) _ANSI_ARGS_((char * string)); /* 101 */
-#endif /* UNIX */
-#ifdef __WIN32__
-    char * (*tclSetPreInitScript) _ANSI_ARGS_((char * string)); /* 101 */
-#endif /* __WIN32__ */
-#ifdef MAC_TCL
-    void *reserved101;
-#endif /* MAC_TCL */
     void (*tclSetupEnv) _ANSI_ARGS_((Tcl_Interp * interp)); /* 102 */
     int (*tclSockGetPort) _ANSI_ARGS_((Tcl_Interp * interp, char * str, char * proto, int * portPtr)); /* 103 */
 #if !defined(__WIN32__) && !defined(MAC_TCL) /* UNIX */
