@@ -21,7 +21,7 @@ nmake -nologo -f makefile.vc core dlls OPTS=static,msvcrt
 if errorlevel 1 goto error
 nmake -nologo -f makefile.vc core OPTS=static,threads
 if errorlevel 1 goto error
-nmake -nologo -f makefile.vc dlls OPTS=static,msvcrt,threads
+nmake -nologo -f makefile.vc core dlls OPTS=static,msvcrt,threads
 if errorlevel 1 goto error
 nmake -nologo -f makefile.vc shell OPTS=threads
 if errorlevel 1 goto error
