@@ -1666,6 +1666,8 @@ extern Tcl_ObjType	tclIndexType;
 extern Tcl_ObjType	tclNsNameType;
 extern Tcl_ObjType	tclEnsembleCmdType;
 extern Tcl_ObjType	tclWideIntType;
+extern Tcl_ObjType	tclLocalVarNameType;
+extern Tcl_ObjType	tclRegexpType;
 
 /*
  * Variables denoting the hash key types defined in the core.
