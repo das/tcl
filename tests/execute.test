@@ -739,6 +739,28 @@ test execute-8.2 {Stack restoration} -body {
      interp recursionlimit {} $limit
  } -result {too many nested evaluations (infinite loop?)}
 
+test execute-8.3 {Stack restoration} -body {
+    # Test for [Bug #1055676], correct restoration
+    # of the stack top after the epoch is bumped and 
+    # the stack is grown in a call from a nested evaluation
+     set arglst [string repeat "a " 1000]
+     proc f {args} "f $arglst"
+     proc run {} {
+	 # bump the interp's epoch
+	 rename ::set ::dummy
+	 rename ::dummy ::set
+	 catch f msg
+	 set msg
+     }
+     run
+ } -setup {
+    # Avoid crashes when system stack size is limited (thread-enabled!)
+     set limit [interp recursionlimit {}]
+     interp recursionlimit {} 100
+ } -cleanup {
+     interp recursionlimit {} $limit
+ } -result {too many nested evaluations (infinite loop?)}
+
 # cleanup
 if {[info commands testobj] != {}} {
    testobj freeallvars

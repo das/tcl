@@ -1317,7 +1317,9 @@ TclExecuteByteCode(interp, codePtr)
 	    Tcl_Obj *newObjResultPtr;
 	    
 	    bytes = GetSrcInfoForPc(pc, codePtr, &length);
+	    DECACHE_STACK_INFO();	    
 	    result = Tcl_EvalEx(interp, bytes, length, 0);
+	    CACHE_STACK_INFO();
 	    if (result != TCL_OK) {
 		cleanup = 0;
 		goto processExceptionReturn;
