@@ -38,7 +38,7 @@ test dict-1.1 {dict command basic syntax} {
 } {1 {wrong # args: should be "dict subcommand ?arg ...?"}}
 test dict-1.2 {dict command basic syntax} {
     list [catch {dict ?} msg] $msg
-} {1 {bad subcommand "?": must be append, create, exists, filter, for, get, incr, info, keys, lappend, merge, remove, replace, set, size, unset, or values}}
+} {1 {bad subcommand "?": must be append, create, exists, filter, for, get, incr, info, keys, lappend, merge, remove, replace, set, size, unset, update, values, or with}}
 
 test dict-2.1 {dict create command} {
     dict create
