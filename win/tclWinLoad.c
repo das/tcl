@@ -104,7 +104,9 @@ TclpDlopen(interp, pathPtr, loadHandle, unloadProcPtr)
 			(char *) NULL);
 		break;
 	    case ERROR_PROC_NOT_FOUND:
-		Tcl_AppendResult(interp, "A function specified in the import table could not be resolved by the system.  Windows is not telling which one, I'm sorry.",
+		Tcl_AppendResult(interp, "A function specified in the import",
+			" table could not be resolved by the system.  Windows",
+			" is not telling which one, I'm sorry.",
 			(char *) NULL);
 		break;
 	    case ERROR_INVALID_DLL:
