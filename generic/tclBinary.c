@@ -180,8 +180,8 @@ Tcl_NewByteArrayObj(bytes, length)
  *	TCL_MEM_DEBUG is defined. It is the same as the Tcl_NewByteArrayObj
  *	above except that it calls Tcl_DbCkalloc directly with the file name
  *	and line number from its caller. This simplifies debugging since then
- *	the checkmem command will report the correct file name and line number
- *	when reporting objects that haven't been freed.
+ *	the [memory active] command will report the correct file name and line
+ *	number when reporting objects that haven't been freed.
  *
  *	When TCL_MEM_DEBUG is not defined, this procedure just returns the
  *	result of calling Tcl_NewByteArrayObj.
