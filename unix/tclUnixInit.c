@@ -792,8 +792,6 @@ TclpSetVariables(interp)
     } else
 #endif /* HAVE_CFBUNDLE */
     {
-        Tcl_SetVar(interp, "tclDefaultLibrary", defaultLibraryDir, 
-                TCL_GLOBAL_ONLY);
         Tcl_SetVar(interp, "tcl_pkgPath", pkgPath, TCL_GLOBAL_ONLY);
     }
 

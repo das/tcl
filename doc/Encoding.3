@@ -512,8 +512,8 @@ example, for instance, ``\fB{}\fR'' represents the empty string and
 .PP
 When \fBTcl_GetEncoding\fR encounters an encoding \fIname\fR that has not
 been loaded, it attempts to load an encoding file called \fIname\fB.enc\fR
-from the \fBencoding\fR subdirectory of each directory specified in the
-library path \fB$tcl_libPath\fR.  If the encoding file exists, but is
+from the \fBencoding\fR subdirectory of each directory that Tcl searches
+for its script library.  If the encoding file exists, but is
 malformed, an error message will be left in \fIinterp\fR.
 .SH KEYWORDS
 utf, encoding, convert

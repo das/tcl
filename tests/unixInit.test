@@ -95,7 +95,10 @@ test unixInit-1.2 {initialisation: standard channel type deduction} {unixOnly st
 proc getlibpath [list [list program [interpreter]]] {
     set f [open "|[list $program]" w+]
     fconfigure $f -buffering none
-    puts $f {puts $tcl_libPath; exit}
+    puts $f {
+	puts [list $::env(TCL_LIBRARY) [tcl::pkgconfig get scriptdir,runtime]]
+	exit
+    }
     set path [gets $f]
     close $f
     return $path
