@@ -1770,7 +1770,7 @@ TclFindCompiledLocal(name, nameBytes, create, flags, procPtr)
 	localPtr->nextPtr = NULL;
 	localPtr->nameLength = nameBytes;
 	localPtr->frameIndex = localVar;
-	localPtr->flags = flags;
+	localPtr->flags = flags | VAR_UNDEFINED;
 	if (name == NULL) {
 	    localPtr->flags |= VAR_TEMPORARY;
 	}
@@ -1894,7 +1894,7 @@ TclInitCompiledLocals(interp, framePtr, nsPtr)
 	    varPtr->refCount = 0;
 	    varPtr->tracePtr = NULL;
 	    varPtr->searchPtr = NULL;
-	    varPtr->flags = (localPtr->flags | VAR_UNDEFINED);
+	    varPtr->flags = localPtr->flags;
         }
 	varPtr++;
     }

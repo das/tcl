@@ -1007,19 +1007,19 @@ TclObjInterpProc(clientData, interp, objc, objv)
 	    Tcl_Obj *listPtr = Tcl_NewListObj(argCt, &(objv[i]));
 	    varPtr->value.objPtr = listPtr;
 	    Tcl_IncrRefCount(listPtr); /* local var is a reference */
-	    varPtr->flags &= ~VAR_UNDEFINED;
+	    TclClearVarUndefined(varPtr);
 	    argCt = 0;
 	    break;		/* done processing args */
 	} else if (argCt > 0) {
 	    Tcl_Obj *objPtr = objv[i];
 	    varPtr->value.objPtr = objPtr;
-	    varPtr->flags &= ~VAR_UNDEFINED;
+	    TclClearVarUndefined(varPtr);
 	    Tcl_IncrRefCount(objPtr);  /* since the local variable now has
 					* another reference to object. */
 	} else if (localPtr->defValuePtr != NULL) {
 	    Tcl_Obj *objPtr = localPtr->defValuePtr;
 	    varPtr->value.objPtr = objPtr;
-	    varPtr->flags &= ~VAR_UNDEFINED;
+	    TclClearVarUndefined(varPtr);
 	    Tcl_IncrRefCount(objPtr);  /* since the local variable now has
 					* another reference to object. */
 	} else {
