@@ -307,6 +307,22 @@ typedef struct ChannelState {
 					 * routines will simulate a
 					 * short read (0 characters
 					 * read) */
+#define CHANNEL_HAS_MORE_DATA   (1<<18) /* Set by NotifyChannel for a
+					 * channel if and only if the
+					 * channel is configured
+					 * non-blocking, the driver
+					 * for said channel has no
+					 * blockmodeproc, and data has
+					 * arrived for reading at the
+					 * OS level). A GetInput will
+					 * pass reading from the
+					 * driver if the channel is
+					 * non-blocking, without
+					 * blockmode proc and the flag
+					 * has not been set. A read
+					 * will be performed if the
+					 * flag is set. This will
+					 * reset the flag as well. */
 
 /*
  * For each channel handler registered in a call to Tcl_CreateChannelHandler,
