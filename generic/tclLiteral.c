@@ -81,7 +81,8 @@ TclInitLiteralTable(tablePtr)
  * TclDeleteLiteralTable --
  *
  *	This procedure frees up everything associated with a literal table
- *	except for the table's structure itself.
+ *	except for the table's structure itself. It is called when the
+ *	interpreter is deleted.
  *
  * Results:
  *	None.
@@ -101,9 +102,10 @@ TclDeleteLiteralTable(interp, tablePtr)
 				 * referenced by the table to delete. */
     LiteralTable *tablePtr;	/* Points to the literal table to delete. */
 {
-    LiteralEntry *entryPtr;
-    int i, start;
-
+    LiteralEntry *entryPtr, *nextPtr;
+    Tcl_Obj *objPtr;
+    int i;
+    
     /*
      * Release remaining literals in the table. Note that releasing a
      * literal might release other literals, modifying the table, so we
@@ -114,18 +116,26 @@ TclDeleteLiteralTable(interp, tablePtr)
     TclVerifyGlobalLiteralTable((Interp *) interp);
 #endif /*TCL_COMPILE_DEBUG*/
 
-    start = 0;
-    while (tablePtr->numEntries > 0) {
-	for (i = start;  i < tablePtr->numBuckets;  i++) {
-	    entryPtr = tablePtr->buckets[i];
-	    if (entryPtr != NULL) {
-		TclReleaseLiteral(interp, entryPtr->objPtr);
-		start = i;
-		break;
-	    }
+    /*
+     * We used to call TclReleaseLiteral for each literal in the table, which
+     * is rather inefficient as it causes one lookup-by-hash for each
+     * reference to the literal.
+     * We now rely at interp-deletion on each bytecode object to release its
+     * references to the literal Tcl_Obj without requiring that it updates the
+     * global table itself, and deal here only with the table.
+     */
+
+    for (i = 0;  i < tablePtr->numBuckets;  i++) {
+	entryPtr = tablePtr->buckets[i];
+	while (entryPtr != NULL) {
+	    objPtr = entryPtr->objPtr;
+	    TclDecrRefCount(objPtr);
+	    nextPtr = entryPtr->nextPtr;
+	    ckfree((char *) entryPtr);
+	    entryPtr = nextPtr;
 	}
     }
-
+    
     /*
      * Free up the table's bucket array if it was dynamically allocated.
      */
