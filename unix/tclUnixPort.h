@@ -36,6 +36,7 @@
  *---------------------------------------------------------------------------
  */
 
+#include <utime.h>
 #include <errno.h>
 #include <fcntl.h>
 #ifdef HAVE_NET_ERRNO_H

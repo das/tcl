@@ -1584,7 +1584,7 @@ TcpInputProc(instanceData, buf, bufSize, errorCodePtr)
     if (state != 0) {
         return -1;
     }
-    bytesRead = recv(statePtr->fd, buf, bufSize, 0);
+    bytesRead = recv(statePtr->fd, buf, (size_t) bufSize, 0);
     if (bytesRead > -1) {
         return bytesRead;
     }
@@ -1637,7 +1637,7 @@ TcpOutputProc(instanceData, buf, toWrite, errorCodePtr)
     if (state != 0) {
         return -1;
     }
-    written = send(statePtr->fd, buf, toWrite, 0);
+    written = send(statePtr->fd, buf, (size_t) toWrite, 0);
     if (written > -1) {
         return written;
     }
