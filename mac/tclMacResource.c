@@ -537,7 +537,7 @@ resourceRef? resourceType");
 		    break;
 		    case O_WRONLY:
 		    case O_RDWR:
-			macPermision = fsRdWrPerm;
+			macPermision = fsRdWrShPerm;
 			break;
 		    default:
 			panic("Tcl_ResourceObjCmd: invalid mode value");
@@ -559,7 +559,7 @@ resourceRef? resourceType");
 	    if (fileRef == -1) {
 	    	err = ResError();
 		if (((err == fnfErr) || (err == eofErr)) &&
-			(macPermision == fsRdWrPerm)) {
+			(macPermision == fsRdWrShPerm)) {
 		    /*
 		     * No resource fork existed for this file.  Since we are
 		     * opening it for writing we will create the resource fork
