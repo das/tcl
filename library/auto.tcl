@@ -60,7 +60,8 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
 
     # The C application may have hardwired a path, which we honor
     
-    if {[info exists the_library] && [string compare $the_library {}]} {
+    set variableSet [info exists the_library]
+    if {$variableSet && [string compare $the_library {}]} {
 	lappend dirs $the_library
     } else {
 
@@ -111,6 +112,9 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
                 append errors "$file: $msg\n$errorInfo\n"
             }
         }
+    }
+    if {!$variableSet} {
+	unset the_library
     }
     set msg "Can't find a usable $initScript in the following directories: \n"
     append msg "    $dirs\n\n"
