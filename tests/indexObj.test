@@ -89,6 +89,25 @@ test indexObj-5.6 {Tcl_WrongNumArgs} {
     testwrongnumargs 2 "" mycmd foo
 } "wrong # args: should be \"mycmd foo\""
 
+test indexObj-6.1 {Tcl_GetIndexFromObjStruct} {
+    set x a
+    testgetindexfromobjstruct $x 0
+} "wrong # args: should be \"testgetindexfromobjstruct a 0\""
+test indexObj-6.2 {Tcl_GetIndexFromObjStruct} {
+    set x a
+    testgetindexfromobjstruct $x 0
+    testgetindexfromobjstruct $x 0
+} "wrong # args: should be \"testgetindexfromobjstruct a 0\""
+test indexObj-6.3 {Tcl_GetIndexFromObjStruct} {
+    set x c
+    testgetindexfromobjstruct $x 1
+} "wrong # args: should be \"testgetindexfromobjstruct c 1\""
+test indexObj-6.4 {Tcl_GetIndexFromObjStruct} {
+    set x c
+    testgetindexfromobjstruct $x 1
+    testgetindexfromobjstruct $x 1
+} "wrong # args: should be \"testgetindexfromobjstruct c 1\""
+
 # cleanup
 ::tcltest::cleanupTests
 return
