@@ -160,6 +160,7 @@ proc text {string} {
 	    "\t"	{\tab } \
 	    ''		"\\rdblquote " \
 	    ``		"\\ldblquote " \
+	    "\u00b7"	"\\bullet " \
 	    ] $string]
 
     # Check if this is the beginning of an international character string.
@@ -688,7 +689,7 @@ proc char {name} {
 	}
 	\\(bu {
 	    textSetup
-	    puts -nonewline $file "\u00b7"
+	    puts -nonewline $file "\\bullet "
 	}
 	default {
 	    puts stderr "Unknown character: $name"
