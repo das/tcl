@@ -19,7 +19,7 @@
 proc exit args {}
 
 # Prevent execution of these tests when running in the cloned interpreter !!
-if {[info exists __clone__]} return
+if {[info exists __clone__] || ![llength [info commands testclone]]} return
 
 #memory validate on
 
