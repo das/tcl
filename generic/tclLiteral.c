@@ -715,6 +715,16 @@ TclReleaseLiteral(interp, objPtr)
 		     */
 
 		    codePtr->objArrayPtr[0] = NULL;
+
+		    /*
+		     * At this point, objPtr has three references: one each 
+		     * from the global and local literal tables, and one 
+		     * self-referential (it is its own internal rep). In 
+		     * order to allow the object to be cleared, we remove
+		     * one reference [Bug 467523].
+		     */
+
+		    Tcl_DecrRefCount(objPtr);
 		}
 	    }
 
