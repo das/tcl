@@ -27,6 +27,20 @@ If \fInewName\fR is an empty string then \fIoldName\fR is deleted.
 If a command is renamed into a different namespace,
 future invocations of it will execute in the new namespace.
 The \fBrename\fR command returns an empty string as result.
+.SH EXAMPLE
+The \fBrename\fR command can be used to wrap the standard Tcl commands
+with your own monitoring machinery.  For example, you might wish to
+count how often the \fBsource\fR command is called:
+
+.CS
+rename ::source ::theRealSource
+set sourceCount 0
+proc ::source args {
+    global sourceCount
+    puts "called source for the [incr sourceCount]'th time"
+    uplevel 1 ::theRealSource $args
+}
+.CE
 
 .SH "SEE ALSO"
 namespace(n), proc(n)
