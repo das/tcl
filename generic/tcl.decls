@@ -1388,6 +1388,25 @@ declare 402 generic {
 	    CONST Tcl_UniChar *pattern, int nocase)
 }
 
+declare 403 generic {
+    Tcl_HashEntry *Tcl_FindHashEntry(Tcl_HashTable *tablePtr, \
+	    CONST char *key)
+}
+
+declare 404 generic {
+    Tcl_HashEntry *Tcl_CreateHashEntry(Tcl_HashTable *tablePtr, \
+	    CONST char *key, int *newPtr)
+}
+
+declare 405 generic {
+    void Tcl_InitHashTableEx(Tcl_HashTable *tablePtr, int keyType, \
+	    Tcl_HashKeyType *typePtr)
+}
+
+declare 406 generic {
+    void Tcl_InitObjHashTable(Tcl_HashTable *tablePtr)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are
