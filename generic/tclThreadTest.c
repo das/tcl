@@ -252,7 +252,7 @@ Tcl_ThreadObjCmd(dummy, interp, objc, objv)
 
 		if ((len > 1) &&
 		    (script [0] == '-') && (script [1] == 'j') &&
-		    (0 == strncmp (script, "-joinable", len))) {
+		    (0 == strncmp (script, "-joinable", (size_t) len))) {
 		    joinable = 1;
 		    script   = "testthread wait"; /* Just enter the event loop
 						   */
@@ -270,7 +270,7 @@ Tcl_ThreadObjCmd(dummy, interp, objc, objv)
 
 		joinable = ((len > 1) &&
 			    (script [0] == '-') && (script [1] == 'j') &&
-			    (0 == strncmp (script, "-joinable", len)));
+			    (0 == strncmp (script, "-joinable", (size_t) len)));
 
 		script = Tcl_GetString(objv[3]);
 	    } else {
