@@ -4785,7 +4785,7 @@ PretendTclpOpenFileChannel(interp, fileName, modeString, permissions)
     Tcl_DecrRefCount(pathPtr);
     if (ret != NULL) {
 	if (seekFlag) {
-	    if (Tcl_Seek(ret, 0, SEEK_END) < 0) {
+	    if (Tcl_Seek(ret, (Tcl_WideInt)0, SEEK_END) < (Tcl_WideInt)0) {
 		if (interp != (Tcl_Interp *) NULL) {
 		    Tcl_AppendResult(interp,
 		      "could not seek to end of file while opening \"",

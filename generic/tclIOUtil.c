@@ -1727,7 +1727,7 @@ Tcl_FSOpenFileChannel(interp, pathPtr, modeString, permissions)
 	    if (retVal != NULL) {
 		if (seekFlag) {
 		    if (Tcl_Seek(retVal, (Tcl_WideInt)0, 
-				 (Tcl_WideInt)SEEK_END) < (Tcl_WideInt)0) {
+				 SEEK_END) < (Tcl_WideInt)0) {
 			if (interp != (Tcl_Interp *) NULL) {
 			    Tcl_AppendResult(interp,
 			      "could not seek to end of file while opening \"",
