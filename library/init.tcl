@@ -1368,7 +1368,7 @@ proc pkg_mkIndex {args} {
 
 		foreach ::tcl::x [::tcl::GetAllNamespaces] {
 		    if {! [info exists ::tcl::namespaces($::tcl::x)]} {
-			namespace import ${::tcl::x}::*
+			namespace import -force ${::tcl::x}::*
 		    }
 		}
 
