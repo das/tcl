@@ -107,8 +107,9 @@ static Tcl_ThreadDataKey dataKey;
 
 /*
  * Common string for the library path for sharing across threads.
+ * This is ckalloc'd and cleared in Tcl_Finalize.
  */
-char *tclLibraryPathStr;
+static char *tclLibraryPathStr = NULL;
 
 /*
  * Prototypes for procedures referenced only in this file:
@@ -656,6 +657,8 @@ TclSetLibraryPath(pathPtr)
 				 * the new library path. */
 {
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
+    const char *toDupe;
+    int size;
 
     if (pathPtr != NULL) {
 	Tcl_IncrRefCount(pathPtr);
@@ -669,7 +672,12 @@ TclSetLibraryPath(pathPtr)
      *  No mutex locking is needed here as up the stack we're within
      *  TclpInitLock().
      */
-    tclLibraryPathStr = Tcl_GetStringFromObj(pathPtr, NULL);
+    if (tclLibraryPathStr != NULL) {
+	ckfree(tclLibraryPathStr);
+    }
+    toDupe = Tcl_GetStringFromObj(pathPtr, &size);
+    tclLibraryPathStr = ckalloc(size+1);
+    strcpy(tclLibraryPathStr, toDupe);
 }
 
 /*
@@ -904,6 +912,10 @@ Tcl_Finalize()
 	if (tclDefaultEncodingDir != NULL) {
 	    ckfree(tclDefaultEncodingDir);
 	    tclDefaultEncodingDir = NULL;
+	}
+	if (tclLibraryPathStr != NULL) {
+	    ckfree(tclLibraryPathStr);
+	    tclLibraryPathStr = NULL;
 	}
 	
 	Tcl_SetPanicProc(NULL);
