@@ -701,10 +701,10 @@ typedef struct CallFrame {
 
 typedef VOID **TclHandle;
 
-TclHandle		TclHandleCreate _ANSI_ARGS_((VOID *ptr));
-void			TclHandleFree _ANSI_ARGS_((TclHandle handle));
-TclHandle		TclHandlePreserve _ANSI_ARGS_((TclHandle handle));
-void			TclHandleRelease _ANSI_ARGS_((TclHandle handle)); 
+EXTERN TclHandle	TclHandleCreate _ANSI_ARGS_((VOID *ptr));
+EXTERN void		TclHandleFree _ANSI_ARGS_((TclHandle handle));
+EXTERN TclHandle	TclHandlePreserve _ANSI_ARGS_((TclHandle handle));
+EXTERN void		TclHandleRelease _ANSI_ARGS_((TclHandle handle)); 
 
 /*
  *----------------------------------------------------------------
