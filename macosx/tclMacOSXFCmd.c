@@ -13,7 +13,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 #ifdef HAVE_GETATTRLIST
 #include <sys/attr.h>

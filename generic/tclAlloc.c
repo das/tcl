@@ -26,7 +26,6 @@
 #if !defined(TCL_THREADS) || !defined(USE_THREAD_ALLOC)
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 #if USE_TCLALLOC
 

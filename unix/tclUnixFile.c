@@ -13,7 +13,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 static int NativeMatchType(CONST char* nativeName, Tcl_GlobTypeData *types);
 

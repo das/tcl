@@ -13,7 +13,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 #include <locale.h>
 #define TM_YEAR_BASE 1900
 #define IsLeapYear(x)   ((x % 4 == 0) && (x % 100 != 0 || x % 400 == 0))

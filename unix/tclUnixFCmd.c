@@ -48,7 +48,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 #include <utime.h>
 #include <grp.h>
 #ifndef HAVE_ST_BLKSIZE

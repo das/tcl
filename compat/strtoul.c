@@ -13,7 +13,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * The table below is used to convert from ASCII digits to a

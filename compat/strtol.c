@@ -14,7 +14,6 @@
 
 #include <ctype.h>
 #include "tclInt.h"
-#include "tclPort.h"
 
 
 /*

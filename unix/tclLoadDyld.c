@@ -15,7 +15,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 #include <mach-o/dyld.h>
 
 typedef struct Tcl_DyldModuleHandle {

@@ -15,7 +15,6 @@
  * RCS: @(#) $Id$
  */
 
-#include "tclInt.h"
 #include "tclPort.h"
 
 #ifndef pid_t

@@ -14,7 +14,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * A linked list of the following structures is used to keep track

@@ -21,9 +21,7 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 #ifdef __WIN32__
-/* for tclWinProcs->useWide */
 #include "tclWinInt.h"
 #endif
 #include "tclFileSystem.h"

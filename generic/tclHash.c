@@ -14,7 +14,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * Prevent macros from clashing with function definitions.

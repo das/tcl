@@ -13,7 +13,7 @@
  */
 
 #include <X11/Intrinsic.h>
-#include <tclInt.h>
+#include "tclInt.h"
 
 /*
  * This structure is used to keep track of the notifier info for a 

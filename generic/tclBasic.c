@@ -18,9 +18,6 @@
 
 #include "tclInt.h"
 #include "tclCompile.h"
-#ifndef TCL_GENERIC_ONLY
-#   include "tclPort.h"
-#endif
 
 /*
  * Static procedures in this file:

@@ -16,7 +16,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 TCL_DECLARE_MUTEX(envMutex)	/* To serialize access to environ */
 

@@ -12,7 +12,7 @@
  */
 
 #define USE_COMPAT_CONST
-#include "tclWinInt.h"
+#include "tclInt.h"
 
 /*
  * Forward declarations of procedures defined later in this file:

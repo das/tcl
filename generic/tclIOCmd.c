@@ -12,7 +12,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * Callback structure for accept callback in a TCP server.

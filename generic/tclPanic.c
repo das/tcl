@@ -16,7 +16,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * The panicProc variable contains a pointer to an application

@@ -12,7 +12,6 @@
  * RCS: @(#) $Id$
  */
 
-#include "tcl.h"
 #include "tclPort.h"
 #include <sys/timeb.h>
 

@@ -12,7 +12,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 typedef size_t (LengthProc)_ANSI_ARGS_((CONST char *src));
 

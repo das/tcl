@@ -14,7 +14,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 #include "tclFileSystem.h"
 
 /*

@@ -2322,7 +2322,9 @@ extern Tcl_Mutex tclObjMutex;
 	(nsPtr)->exportLookupEpoch++; \
     }
 
+#include "tclPort.h"
 #include "tclIntDecls.h"
+#include "tclIntPlatDecls.h"
 
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT

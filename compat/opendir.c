@@ -11,7 +11,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 #undef DIRSIZ
 #define DIRSIZ(dp) \

@@ -12,10 +12,6 @@
  */
 
 #include "tclInt.h"
-/*
- * For strtoll() and strtoull() declarations on some platforms...
- */
-#include "tclPort.h"
 
 /*
  * Flag values used by Tcl_ScanObjCmd.

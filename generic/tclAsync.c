@@ -16,7 +16,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 /* Forward declaration */
 struct ThreadSpecificData;

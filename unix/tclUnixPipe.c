@@ -14,7 +14,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 #ifdef USE_VFORK
 #define fork vfork

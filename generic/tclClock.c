@@ -14,9 +14,7 @@
  * RCS: @(#) $Id$
  */
 
-#include "tcl.h"
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * The date parsing stuff uses lexx and has tons o statics.

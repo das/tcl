@@ -13,7 +13,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * The headers are needed for the testalarm command that verifies the

@@ -15,7 +15,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * The following variable holds the full path name of the binary

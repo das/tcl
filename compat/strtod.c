@@ -13,7 +13,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 #include <ctype.h>
 
 #ifndef TRUE

@@ -14,7 +14,6 @@
 #include <CoreFoundation/CoreFoundation.h>
 #endif
 #include "tclInt.h"
-#include "tclPort.h"
 #include <locale.h>
 #ifdef HAVE_LANGINFO
 #include <langinfo.h>

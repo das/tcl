@@ -21,9 +21,7 @@
  * the errno from tclExecute.c here.
  */
 
-#ifndef TCL_GENERIC_ONLY
-#include "tclPort.h"
-#else
+#ifdef TCL_GENERIC_ONLY
 #define NO_ERRNO_H
 #endif
 

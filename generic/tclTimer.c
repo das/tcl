@@ -13,7 +13,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 
 /*
  * For each timer callback that's pending there is one record of the following
