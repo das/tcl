@@ -2105,10 +2105,6 @@ Tcl_GetNameOfExecutable()
 {
     return (tclExecutableName);
 }
-
-
-
-
 
 /*
  *----------------------------------------------------------------------
@@ -2131,14 +2127,13 @@ Tcl_GetNameOfExecutable()
  *----------------------------------------------------------------------
  */
 
-char *Tcl_GetCwd(interp, cwdPtr)
+char *
+Tcl_GetCwd(interp, cwdPtr)
     Tcl_Interp *interp;
     Tcl_DString *cwdPtr;
 {
     return TclpGetCwd(interp, cwdPtr);
 }
-
-
 
 /*
  *----------------------------------------------------------------------
@@ -2155,7 +2150,9 @@ char *Tcl_GetCwd(interp, cwdPtr)
  *
  *----------------------------------------------------------------------
  */
-int Tcl_Chdir(dirName)
+
+int
+Tcl_Chdir(dirName)
     CONST char *dirName;
 {
     return TclpChdir(dirName);

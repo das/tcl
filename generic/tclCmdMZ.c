@@ -94,7 +94,7 @@ Tcl_PwdObjCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
 
-    if (TclpGetCwd(interp, &ds) == NULL) {
+    if (Tcl_GetCwd(interp, &ds) == NULL) {
 	return TCL_ERROR;
     }
     Tcl_DStringResult(interp, &ds);

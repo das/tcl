@@ -325,7 +325,7 @@ Tcl_CdObjCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
 
-    result = TclpChdir(Tcl_DStringValue(&ds));
+    result = Tcl_Chdir(Tcl_DStringValue(&ds));
     Tcl_DStringFree(&ds);
 
     if (result != 0) {
