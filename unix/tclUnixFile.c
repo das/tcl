@@ -196,7 +196,8 @@ TclpMatchFiles(interp, separators, dirPtr, pattern, tail)
     char *separators;		/* Path separators to pass to TclDoGlob. */
     Tcl_DString *dirPtr;	/* Contains path to directory to search. */
     char *pattern;		/* Pattern to match against. */
-    char *tail;			/* Pointer to end of pattern. */
+    char *tail;			/* Pointer to end of pattern. Must not
+				 * refer to a static string. */
 {
     char *native, *dirName, *patternEnd = tail;
     char savedChar = 0;		/* lint. */
