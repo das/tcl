@@ -851,6 +851,15 @@ test cmdAH-18.5 {Tcl_FileObjCmd: executable} {winOnly testchmod} {
     removeFile $gorpexe
     set x
 } {0 1}
+test cmdAH-18.5.1 {Tcl_FileObjCmd: executable} {winOnly testchmod} {
+    # On pc, must be a .exe, .com, etc.
+
+    set x [file exe $gorpfile]
+    set gorpexe [makeFile foo gorp.exe]
+    lappend x [file exe [string toupper $gorpexe]]
+    removeFile $gorpexe
+    set x
+} {0 1}
 test cmdAH-18.6 {Tcl_FileObjCmd: executable} {testchmod} {
     # Directories are always executable.
 

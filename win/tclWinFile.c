@@ -1503,9 +1503,12 @@ NativeIsExec(nativePath)
 	    return 0;
 	}
 	
-	if ((memcmp((char*)(path+len-3),L"exe",3*sizeof(WCHAR)) == 0)
-	    || (memcmp((char*)(path+len-3),L"com",3*sizeof(WCHAR)) == 0)
-	    || (memcmp((char*)(path+len-3),L"bat",3*sizeof(WCHAR)) == 0)) {
+	/*
+	 * Use wide-char case-insensitive comparison
+	 */
+	if ((_wcsicmp(path+len-3,L"exe") == 0)
+	    || (_wcsicmp(path+len-3,L"com") == 0)
+	    || (_wcsicmp(path+len-3,L"bat") == 0)) {
 	    return 1;
 	}
     } else {
