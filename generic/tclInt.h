@@ -1835,6 +1835,10 @@ MODULE_SCOPE void	TclFinalizeSynchronization _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeLock _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeThreadData _ANSI_ARGS_((void));
 MODULE_SCOPE Tcl_Obj *	TclGetBgErrorHandler _ANSI_ARGS_((Tcl_Interp *interp));
+MODULE_SCOPE int        TclGetNamespaceFromObj _ANSI_ARGS_((
+			    Tcl_Interp *interp, Tcl_Obj *objPtr,
+			    Tcl_Namespace **nsPtrPtr));
+
 MODULE_SCOPE Tcl_Obj *	TclGetProcessGlobalValue _ANSI_ARGS_ ((
 			    ProcessGlobalValue *pgvPtr));
 MODULE_SCOPE int	TclGlob _ANSI_ARGS_((Tcl_Interp *interp,
