@@ -1717,6 +1717,8 @@ EXTERN int              TclpObjLstat _ANSI_ARGS_((Tcl_Obj *pathPtr,
 			    Tcl_StatBuf *buf));
 EXTERN int		TclpCheckStackSpace _ANSI_ARGS_((void));
 EXTERN Tcl_Obj*         TclpTempFileName _ANSI_ARGS_((void));
+EXTERN Tcl_Obj*         TclNewFSPathObj _ANSI_ARGS_((Tcl_Obj *dirPtr, 
+			    CONST char *addStrRep, int len));
 EXTERN int              TclpDeleteFile _ANSI_ARGS_((CONST char *path));
 EXTERN void		TclpFinalizeCondition _ANSI_ARGS_((
 			    Tcl_Condition *condPtr));
