@@ -437,7 +437,8 @@ TclFinalizeLock ()
 	allocOnce = 0;
     }
 #endif
-    /* Destroy the critical section that we are holding! */
+    LeaveCriticalSection(&initLock);
+    /* Destroy the critical section that we were holding. */
     DeleteCriticalSection(&initLock);
 }
 
