@@ -185,10 +185,10 @@ static int		FileCloseProc _ANSI_ARGS_((ClientData instanceData,
 static int		FileGetHandleProc _ANSI_ARGS_((ClientData instanceData,
 		            int direction, ClientData *handlePtr));
 static int		FileInputProc _ANSI_ARGS_((ClientData instanceData,
-		            char *buf, Tcl_Length toRead, int *errorCode));
+		            char *buf, int toRead, int *errorCode));
 static int		FileOutputProc _ANSI_ARGS_((
-			    ClientData instanceData, char *buf,
-			    Tcl_Length toWrite, int *errorCode));
+			    ClientData instanceData, char *buf, int toWrite,
+			    int *errorCode));
 static Tcl_WideInt	FileSeekProc _ANSI_ARGS_((ClientData instanceData,
 			    Tcl_WideInt offset, int mode, int *errorCode));
 static void		FileWatchProc _ANSI_ARGS_((ClientData instanceData,
@@ -204,9 +204,9 @@ static int		TcpGetOptionProc _ANSI_ARGS_((ClientData instanceData,
 			    Tcl_Interp *interp, char *optionName,
 			    Tcl_DString *dsPtr));
 static int		TcpInputProc _ANSI_ARGS_((ClientData instanceData,
-		            char *buf, Tcl_Length toRead,  int *errorCode));
+		            char *buf, int toRead,  int *errorCode));
 static int		TcpOutputProc _ANSI_ARGS_((ClientData instanceData,
-		            char *buf, Tcl_Length toWrite, int *errorCode));
+		            char *buf, int toWrite, int *errorCode));
 static void		TcpWatchProc _ANSI_ARGS_((ClientData instanceData,
 		            int mask));
 #ifdef SUPPORTS_TTY
@@ -372,7 +372,7 @@ static int
 FileInputProc(instanceData, buf, toRead, errorCodePtr)
     ClientData instanceData;		/* File state. */
     char *buf;				/* Where to store data read. */
-    Tcl_Length toRead;			/* How much space is available
+    int toRead;				/* How much space is available
                                          * in the buffer? */
     int *errorCodePtr;			/* Where to store error code. */
 {
@@ -420,7 +420,7 @@ static int
 FileOutputProc(instanceData, buf, toWrite, errorCodePtr)
     ClientData instanceData;		/* File state. */
     char *buf;				/* The data buffer. */
-    Tcl_Length toWrite;			/* How many bytes to write? */
+    int toWrite;			/* How many bytes to write? */
     int *errorCodePtr;			/* Where to store error code. */
 {
     FileState *fsPtr = (FileState *) instanceData;
@@ -1643,7 +1643,7 @@ static int
 TcpInputProc(instanceData, buf, bufSize, errorCodePtr)
     ClientData instanceData;		/* Socket state. */
     char *buf;				/* Where to store data read. */
-    Tcl_Length bufSize;			/* How much space is available
+    int bufSize;			/* How much space is available
                                          * in the buffer? */
     int *errorCodePtr;			/* Where to store error code. */
 {
@@ -1696,7 +1696,7 @@ static int
 TcpOutputProc(instanceData, buf, toWrite, errorCodePtr)
     ClientData instanceData;		/* Socket state. */
     char *buf;				/* The data buffer. */
-    Tcl_Length toWrite;			/* How many bytes to write? */
+    int toWrite;			/* How many bytes to write? */
     int *errorCodePtr;			/* Where to store error code. */
 {
     TcpState *statePtr = (TcpState *) instanceData;
