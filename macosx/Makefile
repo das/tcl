@@ -9,6 +9,8 @@
 
 INSTALL_ROOT	=
 
+BUILD_DIR	= ../../build
+
 TARGET		= Tcl
 
 DEVBUILDSTYLE	= Development
@@ -16,8 +18,12 @@ DEPBUILDSTYLE	= Deployment
 
 PBXBUILD	= /usr/bin/pbxbuild
 
-DEVBUILD	= ${PBXBUILD} -target "${TARGET}" -buildstyle "${DEVBUILDSTYLE}"
-DEPBUILD	= ${PBXBUILD} -target "${TARGET}" -buildstyle "${DEPBUILDSTYLE}"
+BUILD		= ${PBXBUILD} SYMROOT="${BUILD_DIR}" -target "${TARGET}"
+
+DEVBUILD	= ${BUILD} -buildstyle "${DEVBUILDSTYLE}"
+DEPBUILD	= ${BUILD} -buildstyle "${DEPBUILDSTYLE}"
+
+INSTALLOPTS	= INSTALL_ROOT="${INSTALL_ROOT}"
 
 ################################################################################
 
@@ -36,10 +42,10 @@ deploy:
 	${DEPBUILD}
 
 install-develop: 
-	${DEVBUILD} install INSTALL_ROOT="${INSTALL_ROOT}"
+	${DEVBUILD} install ${INSTALLOPTS}
 
 install-deploy:
-	${DEPBUILD} install INSTALL_ROOT="${INSTALL_ROOT}"
+	${DEPBUILD} install ${INSTALLOPTS}
 
 clean-develop:
 	${DEVBUILD} clean
