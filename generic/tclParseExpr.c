@@ -1589,7 +1589,7 @@ GetLexeme(infoPtr)
 	    infoPtr->lexeme = DOLLAR;
 	    return TCL_OK;
 
-	case '"':
+	case '\"':
 	    infoPtr->lexeme = QUOTE;
 	    return TCL_OK;
 
