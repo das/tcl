@@ -1267,6 +1267,12 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		} else if (start > 0) {
 		    ustring2 += start;
 		    length2  -= start;
+		} else if (start < 0) {
+		    /*
+		     * Invalid start index mapped to string start;
+		     * Bug #423581
+		     */
+		    start = 0;
 		}
 	    }
 
