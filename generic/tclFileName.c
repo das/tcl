@@ -240,6 +240,12 @@ Tcl_GetPathType(path)
  *	tclIOUtil.c (but needs to be here due to its dependence on
  *	static variables/functions in this file).  The exported
  *	function Tcl_FSGetPathType should be used by extensions.
+ *	
+ *	Note that '~' paths are always considered TCL_PATH_ABSOLUTE,
+ *	even though expanding the '~' could lead to any possible
+ *	path type.  This function should therefore be considered a
+ *	low-level, string-manipulation function only -- it doesn't
+ *	actually do any expansion in making its determination.
  *
  * Results:
  *	Returns one of TCL_PATH_ABSOLUTE, TCL_PATH_RELATIVE, or
