@@ -1101,7 +1101,7 @@ Tcl_FileObjCmd(dummy, interp, objc, objv)
 		return TCL_ERROR;
 	    }
 
-	    contents = Tcl_FSLink(objv[2], NULL);
+	    contents = Tcl_FSLink(objv[2], NULL, 0);
 
 	    if (contents == NULL) {
 	    	Tcl_AppendResult(interp, "could not readlink \"", 

@@ -2708,15 +2708,16 @@ FSUnloadTempFile(clientData)
  */
 
 Tcl_Obj *
-Tcl_FSLink(pathPtr, toPtr)
+Tcl_FSLink(pathPtr, toPtr, linkType)
     Tcl_Obj *pathPtr;		/* Path of file to readlink or link */
     Tcl_Obj *toPtr;		/* NULL or path to be linked to */
+    int linkType;               /* Type of link to create */
 {
     Tcl_Filesystem *fsPtr = Tcl_FSGetFileSystemForPath(pathPtr);
     if (fsPtr != NULL) {
 	Tcl_FSLinkProc *proc = fsPtr->linkProc;
 	if (proc != NULL) {
-	    return (*proc)(pathPtr, toPtr);
+	    return (*proc)(pathPtr, toPtr, linkType);
 	}
     }
     /*

@@ -65,10 +65,14 @@ test winFile-2.2 {TclpMatchFiles: case sensitivity} {pcOnly} {
 test winFile-3.1 {file system} {pcOnly} {
     set res "volume types ok"
     foreach vol [file volumes] {
-	if {![string equal [lindex [file system $vol] 1] [testvolumetype $vol]]} {
-	    set res "For $vol, we found [file system $vol]\
-	      and [testvolumetype $vol] are different"
-	    break
+	# Have to catch in case there is a removable drive (CDROM, floppy)
+	# with nothing in it.
+	catch {
+	    if {![string equal [lindex [file system $vol] 1] [testvolumetype $vol]]} {
+		set res "For $vol, we found [file system $vol]\
+		  and [testvolumetype $vol] are different"
+		break
+	    }
 	}
     }
     set res

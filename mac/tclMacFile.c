@@ -1145,9 +1145,10 @@ TclpTempFileName()
 #ifdef S_IFLNK
 
 Tcl_Obj* 
-TclpObjLink(pathPtr, toPtr)
+TclpObjLink(pathPtr, toPtr, linkType)
     Tcl_Obj *pathPtr;
     Tcl_Obj *toPtr;
+    int linkType;
 {
     Tcl_Obj* link = NULL;
 

@@ -91,6 +91,8 @@ typedef struct TclWinProcs {
     BOOL (WINAPI *setFileAttributesProc)(CONST TCHAR *, DWORD);
     BOOL (WINAPI *getFileAttributesExProc)(CONST TCHAR *, 
 	    GET_FILEEX_INFO_LEVELS, LPVOID);
+    BOOL (WINAPI *createHardLinkProc)(CONST TCHAR*, CONST TCHAR*, 
+				      LPSECURITY_ATTRIBUTES);
 } TclWinProcs;
 
 EXTERN TclWinProcs *tclWinProcs;
