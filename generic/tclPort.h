@@ -17,9 +17,6 @@
 #define _TCLPORT
 
 #include "tcl.h"
-#ifdef HAVE_CONFIG_H
-#include "tclConfig.h"
-#endif
 
 #if defined(__WIN32__)
 #   include "tclWinPort.h"
