@@ -3060,7 +3060,7 @@ TclCompileSwitchCmd(interp, parsePtr, envPtr)
     contFixIndex = -1;
     fixupArray = (JumpFixup *) ckalloc(sizeof(JumpFixup) * argc);
     fixupTargetArray = (int *) ckalloc(sizeof(int) * argc);
-    bzero(fixupTargetArray, sizeof(int) * argc);
+    (VOID *) memset( fixupTargetArray, 0, argc * sizeof( int ) );
     fixupCount = 0;
     foundDefault = 0;
     for (i=0 ; i<argc ; i+=2) {
