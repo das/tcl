@@ -114,7 +114,9 @@ command should be invoked.
 The return value is a
 search identifier that must be used in \fBarray nextelement\fR
 and \fBarray donesearch\fR commands; it allows multiple
-searches to be underway simultaneously for the same array.
+searches to be underway simultaneously for the same array.  Unless
+dealing with a very large array, it is probably easier to use the
+\fBarray get\fR command to loop through an array, as in the examples below.
 .VS 8.4
 .TP
 \fBarray statistics \fIarrayName\fR
@@ -134,8 +136,30 @@ an array variable, then the command unsets the entire array.
 The command always returns an empty string.
 .VE 8.3
 
+.SH EXAMPLES
+
+.CS
+array set colorcount {red 1 green 5 blue 4 white 9}
+
+foreach {color count} [array get colorcount] {
+    puts "Color: $color Count: $count"
+}
+ => Color: blue Count: 4
+    Color: white Count: 9
+    Color: green Count: 5
+    Color: red Count: 1
+
+foreach color [array names colorcount] {
+    puts "Color: $color Count: $colorcount($color)"
+}
+ => Color: blue Count: 4
+    Color: white Count: 9
+    Color: green Count: 5
+    Color: red Count: 1
+.CE
+
 .SH "SEE ALSO"
-list(n), string(n), variable(n), trace(n)
+list(n), string(n), variable(n), trace(n), foreach(n)
 
 .SH KEYWORDS
 array, element names, search
