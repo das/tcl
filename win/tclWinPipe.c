@@ -1585,8 +1585,11 @@ BuildCommandLine(
 	if (arg[0] == '\0') {
 	    quote = 1;
 	} else {
-	    for (start = arg; *start != '\0'; start++) {
-		if (isspace(*start)) { /* INTL: ISO space. */
+	    int count;
+	    Tcl_UniChar ch;
+	    for (start = arg; *start != '\0'; start += count) {
+	        count = Tcl_UtfToUniChar(start, &ch);
+		if (Tcl_UniCharIsSpace(ch)) { /* INTL: ISO space. */
 		    quote = 1;
 		    break;
 		}
