@@ -1955,6 +1955,7 @@ TclCompileListCmd(interp, parsePtr, envPtr)
 	    }
 	    valueTokenPtr = valueTokenPtr + (valueTokenPtr->numComponents + 1);
 	}
+	envPtr->maxStackDepth = depth;
 	TclEmitInstInt4(INST_LIST, numWords - 1, envPtr);
     }
 
