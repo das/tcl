@@ -423,7 +423,7 @@ TclpCreateProcess(interp, argc, argv, inputFile, outputFile, errorFile,
 	newArgv[i] = Tcl_UtfToExternalDString(NULL, argv[i], -1, &dsArray[i]);
     }
 
-    joinThisError = (errorFile == outputFile);
+    joinThisError = errorFile && (errorFile == outputFile);
     pid = fork();
     if (pid == 0) {
 	fd = GetFd(errPipeOut);
