@@ -946,6 +946,7 @@ TclCompileScript(interp, script, numBytes, nested, envPtr)
 
 			if ((cmdPtr != NULL)
 			        && (cmdPtr->compileProc != NULL)
+			        && !(cmdPtr->flags & CMD_HAS_EXEC_TRACES)
 			        && !(iPtr->flags & DONT_COMPILE_CMDS_INLINE)) {
 			    code = (*(cmdPtr->compileProc))(interp, &parse,
 			            envPtr);

@@ -1028,6 +1028,14 @@ typedef struct Tcl_DString {
 #define TCL_ALLOW_INLINE_COMPILATION 0x20000
 
 /*
+ * Flag values passed to Tcl_CreateObjTrace, and used internally
+ * by command execution traces.  Slots 4,8,16 and 32 are
+ * used internally by execution traces (see tclCmdMZ.c)
+ */
+#define TCL_TRACE_ENTER_EXEC		1
+#define TCL_TRACE_LEAVE_EXEC		2
+
+/*
  * The TCL_PARSE_PART1 flag is deprecated and has no effect. 
  * The part1 is now always parsed whenever the part2 is NULL.
  * (This is to avoid a common error when converting code to

@@ -665,12 +665,20 @@ declare 167 generic {
 declare 168 generic {
     Tcl_Obj *TclGetStartupScriptPath(void)
 }
-
 # variant of Tcl_UtfNCmp that takes n as bytes, not chars
 declare 169 generic {
     int TclpUtfNcmp2(CONST char *s1, CONST char *s2, unsigned long n)
 }
-
+declare 170 generic {
+    int TclCheckInterpTraces (Tcl_Interp *interp, char *command, int numChars, \
+            Command *cmdPtr, int result, int traceFlags, int objc, \
+	    Tcl_Obj *CONST objv[])
+}
+declare 171 generic {
+    int TclCheckExecutionTraces (Tcl_Interp *interp, char *command, int numChars, \
+            Command *cmdPtr, int result, int traceFlags, int objc, \
+	    Tcl_Obj *CONST objv[])
+}
 
 ##############################################################################
 

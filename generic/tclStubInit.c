@@ -249,6 +249,8 @@ TclIntStubs tclIntStubs = {
     TclSetStartupScriptPath, /* 167 */
     TclGetStartupScriptPath, /* 168 */
     TclpUtfNcmp2, /* 169 */
+    TclCheckInterpTraces, /* 170 */
+    TclCheckExecutionTraces, /* 171 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {

@@ -29,10 +29,12 @@ Tcl_Trace
 .AP Tcl_Interp *interp in
 Interpreter containing command to be traced or untraced.
 .AP int level in
-Only commands at or below this nesting level will be traced.  1 means
+Only commands at or below this nesting level will be traced unless
+0 is specified.  1 means
 top-level commands only, 2 means top-level commands or those that are
 invoked as immediate consequences of executing top-level commands
 (procedure bodies, bracketed commands, etc.) and so on.
+A value of 0 means that commands at any level are traced.
 .AP int flags in
 Flags governing the trace execution.  See below for details.
 .AP Tcl_CmdObjTraceProc *objProc in
