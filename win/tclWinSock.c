@@ -489,6 +489,7 @@ unloadLibrary:
 	    tsdPtr->socketThread = NULL;
 	}
 	CloseHandle(tsdPtr->readyEvent);
+	CloseHandle(tsdPtr->socketListLock);
     }
     FreeLibrary(winSock.hInstance);
     winSock.hInstance = NULL;
@@ -583,6 +584,8 @@ SocketThreadExitHandler(clientData)
 	(ThreadSpecificData *)TclThreadDataKeyGet(&dataKey);
 
     if (tsdPtr->socketThread != NULL) {
+
+	WaitForSingleObject(tsdPtr->socketListLock, INFINITE);
 	Tcl_MutexLock(&socketMutex);
 	TerminateThread(tsdPtr->socketThread, 0);
 
@@ -592,6 +595,8 @@ SocketThreadExitHandler(clientData)
 	 */
 	
 	WaitForSingleObject(tsdPtr->socketThread, INFINITE);
+	CloseHandle(tsdPtr->readyEvent);
+	CloseHandle(tsdPtr->socketListLock);
 	Tcl_MutexUnlock(&socketMutex);
     }
     if (tsdPtr->hwnd != NULL) {
