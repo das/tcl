@@ -1013,9 +1013,6 @@ tclXtTest.o: $(UNIX_DIR)/tclXtTest.c
 fixstrtod.o: $(COMPAT_DIR)/fixstrtod.c
 	$(CC) -c $(STUB_CC_SWITCHES) $(COMPAT_DIR)/fixstrtod.c
 
-getcwd.o: $(COMPAT_DIR)/getcwd.c
-	$(CC) -c $(STUB_CC_SWITCHES) $(COMPAT_DIR)/getcwd.c
-
 opendir.o: $(COMPAT_DIR)/opendir.c
 	$(CC) -c $(STUB_CC_SWITCHES) $(COMPAT_DIR)/opendir.c
 
