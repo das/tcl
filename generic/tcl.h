@@ -61,6 +61,9 @@ extern "C" {
 #define TCL_RELEASE_LEVEL   TCL_FINAL_RELEASE
 #define TCL_RELEASE_SERIAL  1
 
+#define TCL_PREFIX_IDENT ""
+#define TCL_DEBUG_IDENT TCL_DBGX
+
 #define TCL_VERSION	    "8.4"
 #define TCL_PATCH_LEVEL	    "8.4.1.1"
 
