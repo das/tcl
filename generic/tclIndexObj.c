@@ -43,6 +43,8 @@ Tcl_ObjType tclIndexType = {
  * The definition of the internal representation of the "index"
  * object; The internalRep.otherValuePtr field of an object of "index"
  * type will be a pointer to one of these structures.
+ *
+ * Keep this structure declaration in sync with tclTestObj.c
  */
 
 typedef struct {
