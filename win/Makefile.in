@@ -549,6 +549,12 @@ shell: $(TCLSH)
 	@TCL_LIBRARY="$(LIBRARY_DIR)"; export TCL_LIBRARY; \
 	    ./$(TCLSH) $(SCRIPT)
 
+# This target can be used to run tclsh inside either gdb or insight
+gdb: $(TCLSH)
+	@echo "set env TCL_LIBRARY=$(LIBRARY_DIR)" > gdb.run
+	gdb ./tclsh --command=gdb.run
+	rm gdb.run
+
 depend:
 
 Makefile: $(SRC_DIR)/Makefile.in
