@@ -524,6 +524,7 @@ void TclDbInitNewObj(objPtr)
      * Add entry to a thread local map used to check if a Tcl_Obj
      * was allocated by the currently executing thread.
      */
+    if (!TclInExit())
     {
         Tcl_HashEntry *hPtr;
         Tcl_HashTable *tablePtr;
