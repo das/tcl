@@ -1208,6 +1208,9 @@ Tcl_FileObjCmd(dummy, interp, objc, objv)
 	    }
 
 	    fileName = Tcl_FSGetNormalizedPath(interp, objv[2]);
+	    if (fileName == NULL) {
+	        return TCL_ERROR;
+	    }
 	    Tcl_SetObjResult(interp, fileName);
 	    return TCL_OK;
 	}
