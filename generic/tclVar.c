@@ -4783,6 +4783,19 @@ DeleteArray(iPtr, arrayName, varPtr, flags)
 	}
 	TclSetVarUndefined(elPtr);
 	TclSetVarScalar(elPtr);
+
+	/*
+	 * Even though array elements are not supposed to be namespace
+	 * variables, some combinations of [upvar] and [variable] may
+	 * create such beasts - see [Bug 604239]. This is necessary to
+	 * avoid leaking the corresponding Var struct, and is otherwise
+	 * harmless. 
+	 */
+
+	if (elPtr->flags & VAR_NAMESPACE_VAR) {
+	    elPtr->flags &= ~VAR_NAMESPACE_VAR;
+	    elPtr->refCount--;
+	}
 	if (elPtr->refCount == 0) {
 	    ckfree((char *) elPtr); /* element Vars are VAR_IN_HASHTABLE */
 	}
