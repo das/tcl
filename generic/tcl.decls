@@ -154,7 +154,7 @@ declare 35 generic {
 }
 declare 36 generic {
     int Tcl_GetIndexFromObj(Tcl_Interp *interp, Tcl_Obj *objPtr, \
-	    char **tablePtr, char *msg, int flags, int *indexPtr)
+	    char * CONST *tablePtr, CONST char *msg, int flags, int *indexPtr)
 }
 declare 37 generic {
     int Tcl_GetInt(Tcl_Interp *interp, CONST char *str, int *intPtr)
@@ -927,7 +927,7 @@ declare 263 generic {
 }
 declare 264 generic {
     void Tcl_WrongNumArgs(Tcl_Interp *interp, int objc, \
-	    Tcl_Obj *CONST objv[], char *message)
+	    Tcl_Obj *CONST objv[], CONST char *message)
 }
 declare 265 generic {
     int Tcl_DumpActiveMemory( CONST char *fileName )
@@ -1083,7 +1083,8 @@ declare 303 generic {
 }
 declare 304 generic {
     int Tcl_GetIndexFromObjStruct(Tcl_Interp *interp, Tcl_Obj *objPtr, \
-	    char **tablePtr, int offset, char *msg, int flags, int *indexPtr)
+	    char * CONST *tablePtr, int offset, CONST char *msg, int flags, \
+	    int *indexPtr)
 }
 declare 305 generic {
     VOID * Tcl_GetThreadData(Tcl_ThreadDataKey *keyPtr, int size)
