@@ -507,4 +507,5 @@ if {[info exists removeHttpd]} {
     removeFile $httpdFile
 }
 
+rename bgerror {}
 ::tcltest::cleanupTests
