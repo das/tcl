@@ -19,7 +19,7 @@ namespace eval http {
 	-accept */*
 	-proxyhost {}
 	-proxyport {}
-	-useragent {Tcl http client package 2.1}
+	-useragent {Tcl http client package 2.2}
 	-proxyfilter http::ProxyRequired
     }
 
