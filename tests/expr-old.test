@@ -982,7 +982,7 @@ test expr-old-39.1 {Rounding with wide result} {
     }
     set x
 } {1 1}
-unset x y
+unset -nocomplain x y
 
 # Special test for Pentium arithmetic bug of 1994:
 
