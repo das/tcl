@@ -111,6 +111,7 @@ typedef struct TclWinProcs {
 					 LPVOID, UINT,
 					 LPVOID, DWORD);
     BOOL (WINAPI *getVolumeNameForVMPProc)(CONST TCHAR*, TCHAR*, DWORD);
+    DWORD (WINAPI *getLongPathNameProc)(CONST TCHAR*, TCHAR*, DWORD);
     /* 
      * These six are for the security sdk to get correct file
      * permissions on NT, 2000, XP, etc.  On 95,98,ME they are

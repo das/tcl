@@ -648,6 +648,10 @@ TclWinSetInterfaces(
 		  (BOOL (WINAPI *)(CONST TCHAR*, TCHAR*, 
 		  DWORD)) GetProcAddress(hInstance, 
 		  "GetVolumeNameForVolumeMountPointW");
+		tclWinProcs->getLongPathNameProc = 
+		  (DWORD (WINAPI *)(CONST TCHAR*, TCHAR*, 
+		  DWORD)) GetProcAddress(hInstance, 
+		  "GetLongPathNameW");
 		FreeLibrary(hInstance);
 	    }
 	    hInstance = LoadLibraryA("advapi32");
@@ -696,6 +700,7 @@ TclWinSetInterfaces(
 		  LPSECURITY_ATTRIBUTES)) GetProcAddress(hInstance, 
 		  "CreateHardLinkA");
 		tclWinProcs->findFirstFileExProc = NULL;
+		tclWinProcs->getLongPathNameProc = NULL;
 		/*
 		 * The 'findFirstFileExProc' function exists on some
 		 * of 95/98/ME, but it seems not to work as anticipated.

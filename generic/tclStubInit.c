@@ -99,7 +99,7 @@ TclIntStubs tclIntStubs = {
     TclCreateProc, /* 10 */
     TclDeleteCompiledLocalVars, /* 11 */
     TclDeleteVars, /* 12 */
-    TclDoGlob, /* 13 */
+    NULL, /* 13 */
     TclDumpMemoryInfo, /* 14 */
     NULL, /* 15 */
     TclExprFloatError, /* 16 */

@@ -50,6 +50,7 @@ typedef struct ThreadSpecificData {
     int cwdPathEpoch;
     int filesystemEpoch;
     Tcl_Obj *cwdPathPtr;
+    ClientData cwdClientData;
     FilesystemRecord *filesystemList;
 } ThreadSpecificData;
 
@@ -61,19 +62,19 @@ typedef struct ThreadSpecificData {
  * These functions are not exported at all at present.
  */
 
-int      TclFSCwdPointerEquals _ANSI_ARGS_((Tcl_Obj* objPtr));
+int      TclFSCwdPointerEquals _ANSI_ARGS_((Tcl_Obj** pathPtrPtr));
 int	 TclFSMakePathFromNormalized _ANSI_ARGS_((Tcl_Interp *interp, 
-		Tcl_Obj *objPtr, ClientData clientData));
+		Tcl_Obj *pathPtr, ClientData clientData));
 int      TclFSNormalizeToUniquePath _ANSI_ARGS_((Tcl_Interp *interp, 
 		Tcl_Obj *pathPtr, int startAt, ClientData *clientDataPtr));
 Tcl_Obj* TclFSMakePathRelative _ANSI_ARGS_((Tcl_Interp *interp, 
-		Tcl_Obj *objPtr, Tcl_Obj *cwdPtr));
+		Tcl_Obj *pathPtr, Tcl_Obj *cwdPtr));
 Tcl_Obj* TclFSInternalToNormalized _ANSI_ARGS_((
 		Tcl_Filesystem *fromFilesystem, ClientData clientData,
 		FilesystemRecord **fsRecPtrPtr));
-int      TclFSEnsureEpochOk _ANSI_ARGS_((Tcl_Obj* pathObjPtr,
+int      TclFSEnsureEpochOk _ANSI_ARGS_((Tcl_Obj* pathPtr,
 		Tcl_Filesystem **fsPtrPtr));
-void     TclFSSetPathDetails _ANSI_ARGS_((Tcl_Obj *pathObjPtr, 
+void     TclFSSetPathDetails _ANSI_ARGS_((Tcl_Obj *pathPtr, 
 		FilesystemRecord *fsRecPtr, ClientData clientData ));
 Tcl_Obj* TclFSNormalizeAbsolutePath _ANSI_ARGS_((Tcl_Interp* interp, 
 		Tcl_Obj *pathPtr, ClientData *clientDataPtr));
@@ -87,10 +88,10 @@ extern Tcl_ThreadDataKey tclFsDataKey;
 /* 
  * Private shared functions for use by tclIOUtil.c and tclPathObj.c
  */
-Tcl_PathType     TclFSGetPathType  _ANSI_ARGS_((Tcl_Obj *pathObjPtr, 
+Tcl_PathType     TclFSGetPathType  _ANSI_ARGS_((Tcl_Obj *pathPtr, 
 			    Tcl_Filesystem **filesystemPtrPtr, 
 			    int *driveNameLengthPtr));
-Tcl_PathType     TclGetPathType  _ANSI_ARGS_((Tcl_Obj *pathObjPtr, 
+Tcl_PathType     TclGetPathType  _ANSI_ARGS_((Tcl_Obj *pathPtr, 
 			    Tcl_Filesystem **filesystemPtrPtr, 
 			    int *driveNameLengthPtr, Tcl_Obj **driveNameRef));
 Tcl_FSPathInFilesystemProc TclNativePathInFilesystem;

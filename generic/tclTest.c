@@ -365,7 +365,7 @@ static void             TestReport _ANSI_ARGS_ ((CONST char* cmd, Tcl_Obj* arg1,
 			    Tcl_Obj* arg2));
 
 static Tcl_Obj*         TestReportGetNativePath _ANSI_ARGS_ ((
-			    Tcl_Obj* pathObjPtr));
+			    Tcl_Obj* pathPtr));
 
 static int		TestReportStat _ANSI_ARGS_ ((Tcl_Obj *path,
 			    Tcl_StatBuf *buf));
@@ -6054,8 +6054,8 @@ TestReportInFilesystem(Tcl_Obj *pathPtr, ClientData *clientDataPtr)
  * path object, or NULL if no such representation exists.
  */
 static Tcl_Obj* 
-TestReportGetNativePath(Tcl_Obj* pathObjPtr) {
-    return (Tcl_Obj*) Tcl_FSGetInternalRep(pathObjPtr, &testReportingFilesystem);
+TestReportGetNativePath(Tcl_Obj* pathPtr) {
+    return (Tcl_Obj*) Tcl_FSGetInternalRep(pathPtr, &testReportingFilesystem);
 }
 
 static void 
