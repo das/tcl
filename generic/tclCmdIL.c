@@ -1387,7 +1387,8 @@ AppendLocals(interp, listPtr, pattern, includeLinks)
 	 * Skip nameless (temporary) variables and undefined variables
 	 */
 
-	if (!TclIsVarTemporary(localPtr) && !TclIsVarUndefined(varPtr)) {
+	if (!TclIsVarTemporary(localPtr) && !TclIsVarUndefined(varPtr)
+	        && (includeLinks || !TclIsVarLink(varPtr))) {
 	    varName = varPtr->name;
 	    if ((pattern == NULL) || Tcl_StringMatch(varName, pattern)) {
 		Tcl_ListObjAppendElement(interp, listPtr,

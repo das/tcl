@@ -73,6 +73,10 @@ How To Compile And Install Tcl:
 				default on platforms where nl_langinfo is
 				found.
 	--disable-langinfo	Specifically disables use of nl_langinfo.
+	--enable-man-symlinks	Use symlinks for linking the manpages that
+				should be reachable under several names.
+	--enable-man-compression=PROG
+				Compress the manpages using PROG.
 
     Note: by default gcc will be used if it can be located on the PATH.
     if you want to use cc instead of gcc, set the CC environment variable

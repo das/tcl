@@ -177,7 +177,7 @@ it is treated as part of \fIchars\fR rather than indicating a range.
 .TP 10
 \fBn\fR
 No input is consumed from the input string.  Instead, the total number
-of chacters scanned from the input string so far is stored in the variable.
+of characters scanned from the input string so far is stored in the variable.
 .LP
 The number of characters read from the input for a conversion is the
 largest number that makes sense for that particular conversion (e.g.

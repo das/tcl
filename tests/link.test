@@ -14,11 +14,11 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
-set ::tcltest::testConstraints(testlink) \
+::tcltest::testConstraint testlink \
         [expr {[info commands testlink] != {}}]
 
 foreach i {int real bool string} {

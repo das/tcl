@@ -13,7 +13,7 @@
  */
 
 #define TCL_TEST
-
+#define USE_COMPAT_CONST
 #include "tclInt.h"
 #include "tclMacInt.h"
 #include "tclMacPort.h"

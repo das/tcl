@@ -1592,6 +1592,11 @@ BuildCommandLine(
 		Tcl_DStringAppend(&ds, "\\\"", 2);
 		start = special + 1;
 	    }
+	    if (*special == '{') {
+		Tcl_DStringAppend(&ds, start, special - start);
+		Tcl_DStringAppend(&ds, "\\{", 2);
+		start = special + 1;
+	    }
 	    if (*special == '\0') {
 		break;
 	    }

@@ -134,6 +134,8 @@ if this succeeds,
 stores the integer in \fIobjPtr\fR's internal representation
 and sets \fIobjPtr\fR's \fItypePtr\fR member to point to the integer type's
 Tcl_ObjType structure.
+Do not release \fIobjPtr\fR's old internal representation unless you
+replace it with a new one or reset the \fItypePtr\fR member to NULL.
 .PP
 The \fIupdateStringProc\fR member contains the address of a function
 called to create a valid string representation

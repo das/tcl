@@ -116,11 +116,7 @@ TclInitNotifier()
     Tcl_MutexLock(&listLock);
 
     tsdPtr->threadId = Tcl_GetCurrentThread();
-    if (tclStubs.tcl_InitNotifier == Tcl_InitNotifier) {
-        tsdPtr->clientData = Tcl_InitNotifier();
-    } else {
-        tsdPtr->clientData = tclStubs.tcl_InitNotifier();
-    }
+    tsdPtr->clientData = tclStubs.tcl_InitNotifier();
     tsdPtr->nextPtr = firstNotifierPtr;
     firstNotifierPtr = tsdPtr;
 
@@ -164,12 +160,7 @@ TclFinalizeNotifier()
 
     Tcl_MutexLock(&listLock);
 
-    if (tclStubs.tcl_FinalizeNotifier == Tcl_FinalizeNotifier) {
-        Tcl_FinalizeNotifier(tsdPtr->clientData);
-    } else {
-        tclStubs.tcl_FinalizeNotifier(tsdPtr->clientData);
-    }
-
+    tclStubs.tcl_FinalizeNotifier(tsdPtr->clientData);
     Tcl_MutexFinalize(&(tsdPtr->queueMutex));
     for (prevPtrPtr = &firstNotifierPtr; *prevPtrPtr != NULL;
 	 prevPtrPtr = &((*prevPtrPtr)->nextPtr)) {

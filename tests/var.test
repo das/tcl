@@ -261,7 +261,7 @@ test var-3.9 {MakeUpvar, my var has invalid ns name} {
     catch {unset aaaaa}
     set aaaaa 789789
     list [catch {upvar #0 aaaaa test_ns_fred::lnk} msg] $msg
-} {1 {bad variable name "test_ns_fred::lnk": unknown namespace}}
+} {1 {can't create "test_ns_fred::lnk": parent namespace doesn't exist}}
 
 if {[info commands testgetvarfullname] != {}} {
     test var-4.1 {Tcl_GetVariableName, global variable} {

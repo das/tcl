@@ -84,7 +84,7 @@ typedef int Tcl_CmdProc(
 	ClientData \fIclientData\fR,
 	Tcl_Interp *\fIinterp\fR,
 	int \fIargc\fR,
-	char *\fIargv\fR[]);
+	CONST char *\fIargv\fR[]);
 .CE
 When \fIproc\fR is invoked the \fIclientData\fR and \fIinterp\fR
 parameters will be copies of the \fIclientData\fR and \fIinterp\fR

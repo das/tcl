@@ -95,6 +95,20 @@ test subst-5.7 {command substitutions} {
     list [catch {subst {0[set a 1; set a 2}} msg] $a $msg 
 } {1 1 {missing close-bracket}}
 
+# repeat the tests above simulating cmd line input
+test subst-5.8 {command substitutions} {
+    set script {[subst {[set a 1}]}
+    list [catch {exec [info nameofexecutable] << $script} msg] $msg 
+} {1 {missing close-bracket}}
+test subst-5.9 {command substitutions} {
+    set script {[subst {0[set a 1}]}
+    list [catch {exec [info nameofexecutable] << $script} msg] $msg 
+} {1 {missing close-bracket}}
+test subst-5.10 {command substitutions} {
+    set script {[subst {0[set a 1; set a 2}]}
+    list [catch {exec [info nameofexecutable] << $script} msg] $msg 
+} {1 {missing close-bracket}}
+
 test subst-6.1 {clear the result after command substitution} {
     catch {unset a}
     list [catch {subst {[concat foo] $a}} msg] $msg

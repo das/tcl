@@ -12,6 +12,8 @@
 #
 # RCS: @(#) $Id$
 
+set env(LC_TIME) POSIX
+
 if {[lsearch [namespace children] ::tcltest] == -1} {
     package require tcltest
     namespace import -force ::tcltest::*
@@ -112,6 +114,14 @@ test clock-3.11 {clock format tests} {
 test clock-3.12 {clock format tests} {
     clock format 123 -format ""
 } ""
+test clock-3.13 {clock format with non-ASCII character in the format string} {
+    set oldenc [encoding system] 
+    encoding system iso8859-1
+    set res [clock format 0 -format \u00c4]
+    encoding system $oldenc
+    unset oldenc
+    set res
+} "\u00c4"
 
 # clock scan
 test clock-4.1 {clock scan tests} {

@@ -302,7 +302,7 @@ Returns the square root of \fIarg\fR.  \fIArg\fR must be non-negative.
 \fBsrand(\fIarg\fB)\fR
 The \fIarg\fR, which must be an integer, is used to reset the seed for
 the random number generator.  Returns the first random number from
-that seed.  Each interpreter has it's own seed.
+that seed.  Each interpreter has its own seed.
 .TP
 \fBtan(\fIarg\fB)\fR
 Returns the tangent of \fIarg\fR, measured in radians.

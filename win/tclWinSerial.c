@@ -147,7 +147,11 @@ typedef struct SerialEvent {
                              * pointer. */
 } SerialEvent;
 
-COMMTIMEOUTS no_timeout  = {   /* We don't use timeouts */
+/*
+ * We don't use timeouts.
+ */
+
+static COMMTIMEOUTS no_timeout = {
     0,               /* ReadIntervalTimeout */
     0,               /* ReadTotalTimeoutMultiplier */
     0,               /* ReadTotalTimeoutConstant */

@@ -27,9 +27,8 @@ int
 .AP Tcl_Interp *interp in
 Interpreter that contains \fIvarName\fR.
 Also used by \fBTcl_LinkVar\fR to return error messages.
-.AP char *varName in
-Name of global variable.  Must be in writable memory: Tcl may make
-temporary modifications to it while parsing the variable name.
+.AP "CONST char" *varName in
+Name of global variable.  
 .AP char *addr in
 Address of C variable that is to be linked to \fIvarName\fR.
 .AP int type in

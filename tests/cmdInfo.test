@@ -16,13 +16,13 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
-set ::tcltest::testConstraints(testcmdinfo) \
+::tcltest::testConstraint testcmdinfo \
 	[llength [info commands testcmdinfo]]
-set ::tcltest::testConstraints(testcmdtoken) \
+::tcltest::testConstraint testcmdtoken \
 	[llength [info commands testcmdtoken]]
 
 test cmdinfo-1.1 {command procedure and clientData} {testcmdinfo} {
