@@ -1901,6 +1901,7 @@ EXTERN void		TclpThreadDataKeyInit _ANSI_ARGS_((
 EXTERN void		TclpThreadDataKeySet _ANSI_ARGS_((
 			    Tcl_ThreadDataKey *keyPtr, VOID *data));
 EXTERN void		TclpThreadExit _ANSI_ARGS_((int status));
+EXTERN int		TclpThreadGetStackSize _ANSI_ARGS_((void));
 EXTERN void		TclRememberCondition _ANSI_ARGS_((Tcl_Condition *mutex));
 EXTERN void		TclRememberDataKey _ANSI_ARGS_((Tcl_ThreadDataKey *mutex));
 EXTERN VOID             TclRememberJoinableThread _ANSI_ARGS_((Tcl_ThreadId id));
