@@ -66,7 +66,7 @@ typedef float *TCHAR;
 
 #include <tchar.h>
 #include <time.h>
-#include <winsock2.h>
+#include <winsock.h>
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>

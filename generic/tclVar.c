@@ -2861,20 +2861,19 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 
     enum {ARRAY_ANYMORE, ARRAY_DONESEARCH,  ARRAY_EXISTS, ARRAY_GET,
 	  ARRAY_NAMES, ARRAY_NEXTELEMENT, ARRAY_SET, ARRAY_SIZE,
-	  ARRAY_STARTSEARCH, ARRAY_STATISTICS, ARRAY_UNSET}; 
+	  ARRAY_STARTSEARCH, ARRAY_UNSET}; 
     static char *arrayOptions[] = {
 	"anymore", "donesearch", "exists", "get", "names", "nextelement",
-	"set", "size", "startsearch", "statistics", "unset", (char *) NULL
+	"set", "size", "startsearch", "unset", (char *) NULL
     };
 
     Interp *iPtr = (Interp *) interp;
     Var *varPtr, *arrayPtr;
     Tcl_HashEntry *hPtr;
-    Tcl_Obj *resultPtr = Tcl_GetObjResult(interp);
+    Tcl_Obj *resultPtr;
     int notArray;
     char *varName, *msg;
     int index, result;
-
 
     if (objc < 3) {
 	Tcl_WrongNumArgs(interp, 1, objv, "option arrayName ?arg ...?");
@@ -2914,6 +2913,13 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 	    return TCL_ERROR;
 	}
     }
+
+    /*
+     * We have to wait to get the resultPtr until here because
+     * CallTraces can affect the result.
+     */
+
+    resultPtr = Tcl_GetObjResult(interp);
 
     switch (index) {
         case ARRAY_ANYMORE: {
@@ -3178,22 +3184,7 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 	    varPtr->searchPtr = searchPtr;
 	    break;
 	}
-
-	case ARRAY_STATISTICS: {
-	    char *stats;
-	    stats = Tcl_HashStats(varPtr->value.tablePtr);
-	    if (stats != NULL) {
-		Tcl_SetResult(interp, stats, TCL_VOLATILE);
-		ckfree((void *)stats);
-	    } else {
-		Tcl_SetResult(interp, "error reading array statistics",
-			TCL_STATIC);
-		return TCL_ERROR;
-	    }
-	    break;
-        }
-	
-	case ARRAY_UNSET: {
+        case ARRAY_UNSET: {
 	    Tcl_HashSearch search;
 	    Var *varPtr2;
 	    char *pattern = NULL;
@@ -4784,7 +4775,6 @@ TclVarTraceExists(interp, varName)
 {
     Var *varPtr;
     Var *arrayPtr;
-    char *msg;
 
     /*
      * The choice of "create" flag values is delicate here, and
@@ -4797,27 +4787,27 @@ TclVarTraceExists(interp, varName)
      */
 
     varPtr = TclLookupVar(interp, varName, (char *) NULL,
-            0, "access",
-            /*createPart1*/ 0, /*createPart2*/ 1, &arrayPtr);
+            0, "access", /*createPart1*/ 0, /*createPart2*/ 1, &arrayPtr);
+
     if (varPtr == NULL) {
 	return NULL;
     }
-    if ((varPtr != NULL) &&
-	    ((varPtr->tracePtr != NULL)
-	    || ((arrayPtr != NULL) && (arrayPtr->tracePtr != NULL)))) {
-	msg = CallTraces((Interp *)interp, arrayPtr, varPtr, varName,
-		(char *) NULL, TCL_TRACE_READS);
-	if (msg != NULL) {
-	    /*
-	     * If the variable doesn't exist anymore and no-one's using
-	     * it, then free up the relevant structures and hash table entries.
-	     */
 
-	    if (TclIsVarUndefined(varPtr)) {
-		CleanupVar(varPtr, arrayPtr);
-	    }
-	    return NULL;
-	}
+    if ((varPtr->tracePtr != NULL)
+	    || ((arrayPtr != NULL) && (arrayPtr->tracePtr != NULL))) {
+	CallTraces((Interp *)interp, arrayPtr, varPtr, varName,
+		(char *) NULL, TCL_TRACE_READS);
     }
+
+    /*
+     * If the variable doesn't exist anymore and no-one's using
+     * it, then free up the relevant structures and hash table entries.
+     */
+
+    if (TclIsVarUndefined(varPtr)) {
+	CleanupVar(varPtr, arrayPtr);
+	return NULL;
+    }
+
     return varPtr;
 }

@@ -53,6 +53,8 @@ static pthread_mutex_t *allocLockPtr = &allocLock;
 #endif /* TCL_THREADS */
 
 
+
+
 /*
  *----------------------------------------------------------------------
  *
@@ -129,40 +131,6 @@ Tcl_CreateThread(idPtr, proc, clientData, stackSize, flags)
 #else
     return TCL_ERROR;
 #endif /* TCL_THREADS */
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * Tcl_JoinThread --
- *
- *	This procedure waits upon the exit of the specified thread.
- *
- * Results:
- *	TCL_OK if the wait was successful, TCL_ERROR else.
- *
- * Side effects:
- *	The result area is set to the exit code of the thread we
- *	waited upon.
- *
- *----------------------------------------------------------------------
- */
-
-int
-Tcl_JoinThread(id, state)
-    Tcl_ThreadId id;	/* Id of the thread to wait upon */
-    int*     state;	/* Reference to the storage the result
-			 * of the thread we wait upon will be
-			 * written into. */
-{
-#ifdef TCL_THREADS
-    int result;
-
-    result = pthread_join ((pthread_t) id, (VOID**) state);
-    return (result == 0) ? TCL_OK : TCL_ERROR;
-#else
-    return TCL_ERROR;
-#endif
 }
 
 #ifdef TCL_THREADS
@@ -681,8 +649,17 @@ Tcl_ConditionWait(condPtr, mutexPtr, timePtr)
     if (timePtr == NULL) {
 	pthread_cond_wait(pcondPtr, pmutexPtr);
     } else {
-	ptime.tv_sec = timePtr->sec + TclpGetSeconds();
-	ptime.tv_nsec = 1000 * timePtr->usec;
+	Tcl_Time now;
+
+	/*
+	 * Make sure to take into account the microsecond component of the
+	 * current time, including possible overflow situations. [Bug #411603]
+	 */
+
+	TclpGetTime(&now);
+	ptime.tv_sec = timePtr->sec + now.sec +
+	    (timePtr->usec + now.usec) / 1000000;
+	ptime.tv_nsec = 1000 * ((timePtr->usec + now.usec) % 1000000);
 	pthread_cond_timedwait(pcondPtr, pmutexPtr, &ptime);
     }
 }

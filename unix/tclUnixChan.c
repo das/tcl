@@ -76,10 +76,8 @@ typedef struct FileState {
     int validMask;		/* OR'ed combination of TCL_READABLE,
 				 * TCL_WRITABLE, or TCL_EXCEPTION: indicates
 				 * which operations are valid on the file. */
-#ifdef DEPRECATED
     struct FileState *nextPtr;	/* Pointer to next file in list of all
 				 * file channels. */
-#endif
 } FileState;
 
 #ifdef SUPPORTS_TTY
@@ -110,7 +108,6 @@ typedef struct TtyAttrs {
 
 #endif	/* !SUPPORTS_TTY */
 
-#ifdef DEPRECATED
 typedef struct ThreadSpecificData {
     /*
      * List of all file channels currently open.  This is per thread and is
@@ -121,7 +118,6 @@ typedef struct ThreadSpecificData {
 } ThreadSpecificData;
 
 static Tcl_ThreadDataKey dataKey;
-#endif
 
 /*
  * This structure describes per-instance state of a tcp based channel.
@@ -235,16 +231,20 @@ static int		WaitForConnect _ANSI_ARGS_((TcpState *statePtr,
  */
 
 static Tcl_ChannelType fileChannelType = {
-    "file",				/* Type name. */
-    FileBlockModeProc,			/* Set blocking/nonblocking mode.*/
-    FileCloseProc,			/* Close proc. */
-    FileInputProc,			/* Input proc. */
-    FileOutputProc,			/* Output proc. */
-    FileSeekProc,			/* Seek proc. */
-    NULL,				/* Set option proc. */
-    NULL,				/* Get option proc. */
-    FileWatchProc,			/* Initialize notifier. */
-    FileGetHandleProc,			/* Get OS handles out of channel. */
+    "file",			/* Type name. */
+    TCL_CHANNEL_VERSION_2,	/* v2 channel */
+    FileCloseProc,		/* Close proc. */
+    FileInputProc,		/* Input proc. */
+    FileOutputProc,		/* Output proc. */
+    FileSeekProc,		/* Seek proc. */
+    NULL,			/* Set option proc. */
+    NULL,			/* Get option proc. */
+    FileWatchProc,		/* Initialize notifier. */
+    FileGetHandleProc,		/* Get OS handles out of channel. */
+    NULL,			/* close2proc. */
+    FileBlockModeProc,		/* Set blocking or non-blocking mode.*/
+    NULL,			/* flush proc. */
+    NULL,			/* handler proc. */
 };
 
 #ifdef SUPPORTS_TTY
@@ -254,16 +254,20 @@ static Tcl_ChannelType fileChannelType = {
  */
 
 static Tcl_ChannelType ttyChannelType = {
-    "tty",				/* Type name. */
-    FileBlockModeProc,			/* Set blocking/nonblocking mode.*/
-    TtyCloseProc,			/* Close proc. */
-    FileInputProc,			/* Input proc. */
-    FileOutputProc,			/* Output proc. */
-    NULL,				/* Seek proc. */
-    TtySetOptionProc,			/* Set option proc. */
-    TtyGetOptionProc,			/* Get option proc. */
-    FileWatchProc,			/* Initialize notifier. */
-    FileGetHandleProc,			/* Get OS handles out of channel. */
+    "tty",			/* Type name. */
+    TCL_CHANNEL_VERSION_2,	/* v2 channel */
+    TtyCloseProc,		/* Close proc. */
+    FileInputProc,		/* Input proc. */
+    FileOutputProc,		/* Output proc. */
+    NULL,			/* Seek proc. */
+    TtySetOptionProc,		/* Set option proc. */
+    TtyGetOptionProc,		/* Get option proc. */
+    FileWatchProc,		/* Initialize notifier. */
+    FileGetHandleProc,		/* Get OS handles out of channel. */
+    NULL,			/* close2proc. */
+    FileBlockModeProc,		/* Set blocking or non-blocking mode.*/
+    NULL,			/* flush proc. */
+    NULL,			/* handler proc. */
 };
 #endif	/* SUPPORTS_TTY */
 
@@ -273,16 +277,20 @@ static Tcl_ChannelType ttyChannelType = {
  */
 
 static Tcl_ChannelType tcpChannelType = {
-    "tcp",				/* Type name. */
-    TcpBlockModeProc,			/* Set blocking/nonblocking mode.*/
-    TcpCloseProc,			/* Close proc. */
-    TcpInputProc,			/* Input proc. */
-    TcpOutputProc,			/* Output proc. */
-    NULL,				/* Seek proc. */
-    NULL,				/* Set option proc. */
-    TcpGetOptionProc,			/* Get option proc. */
-    TcpWatchProc,			/* Initialize notifier. */
-    TcpGetHandleProc,			/* Get OS handles out of channel. */
+    "tcp",			/* Type name. */
+    TCL_CHANNEL_VERSION_2,	/* v2 channel */
+    TcpCloseProc,		/* Close proc. */
+    TcpInputProc,		/* Input proc. */
+    TcpOutputProc,		/* Output proc. */
+    NULL,			/* Seek proc. */
+    NULL,			/* Set option proc. */
+    TcpGetOptionProc,		/* Get option proc. */
+    TcpWatchProc,		/* Initialize notifier. */
+    TcpGetHandleProc,		/* Get OS handles out of channel. */
+    NULL,			/* close2proc. */
+    TcpBlockModeProc,		/* Set blocking or non-blocking mode.*/
+    NULL,			/* flush proc. */
+    NULL,			/* handler proc. */
 };
 
 
@@ -446,13 +454,10 @@ FileCloseProc(instanceData, interp)
     Tcl_Interp *interp;		/* For error reporting - unused. */
 {
     FileState *fsPtr = (FileState *) instanceData;
-#ifdef DEPRECATED
     FileState **nextPtrPtr;
-#endif
     int errorCode = 0;
-#ifdef DEPRECATED
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
-#endif
+
     Tcl_DeleteFileHandler(fsPtr->fd);
 
     /*
@@ -465,7 +470,6 @@ FileCloseProc(instanceData, interp)
 	    errorCode = errno;
 	}
     }
-#ifdef DEPRECATED
     for (nextPtrPtr = &(tsdPtr->firstFilePtr); (*nextPtrPtr) != NULL;
 	 nextPtrPtr = &((*nextPtrPtr)->nextPtr)) {
 	if ((*nextPtrPtr) == fsPtr) {
@@ -473,7 +477,6 @@ FileCloseProc(instanceData, interp)
 	    break;
 	}
     }
-#endif
     ckfree((char *) fsPtr);
     return errorCode;
 }
@@ -1278,9 +1281,7 @@ TclpOpenFileChannel(interp, fileName, modeString, permissions)
     char channelName[16 + TCL_INTEGER_SPACE];
     Tcl_DString ds, buffer;
     Tcl_ChannelType *channelTypePtr;
-#ifdef DEPRECATED
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
-#endif
 
     mode = TclGetOpenMode(interp, modeString, &seekFlag);
     if (mode == -1) {
@@ -1351,10 +1352,8 @@ TclpOpenFileChannel(interp, fileName, modeString, permissions)
 	fsPtr = (FileState *) ckalloc((unsigned) sizeof(FileState));
     }
 
-#ifdef DEPRECATED
     fsPtr->nextPtr = tsdPtr->firstFilePtr;
     tsdPtr->firstFilePtr = fsPtr;
-#endif
     fsPtr->validMask = channelPermissions | TCL_EXCEPTION;
     fsPtr->fd = fd;
     
@@ -1416,9 +1415,7 @@ Tcl_MakeFileChannel(handle, mode)
     FileState *fsPtr;
     char channelName[16 + TCL_INTEGER_SPACE];
     int fd = (int) handle;
-#ifdef DEPRECATED
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
-#endif
 
     if (mode == 0) {
         return NULL;
@@ -1426,27 +1423,22 @@ Tcl_MakeFileChannel(handle, mode)
 
     sprintf(channelName, "file%d", fd);
 
-
     /*
      * Look to see if a channel with this fd and the same mode already exists.
      * If the fd is used, but the mode doesn't match, return NULL.
      */
 
-#ifdef DEPRECATED
     for (fsPtr = tsdPtr->firstFilePtr; fsPtr != NULL; fsPtr = fsPtr->nextPtr) {
 	if (fsPtr->fd == fd) {
 	    return ((mode|TCL_EXCEPTION) == fsPtr->validMask) ?
 		    fsPtr->channel : NULL;
 	}
     }
-#endif
 
     fsPtr = (FileState *) ckalloc((unsigned) sizeof(FileState));
 
-#ifdef DEPRECATED
     fsPtr->nextPtr = tsdPtr->firstFilePtr;
     tsdPtr->firstFilePtr = fsPtr;
-#endif
     fsPtr->fd = fd;
     fsPtr->validMask = mode | TCL_EXCEPTION;
     fsPtr->channel = Tcl_CreateChannel(&fileChannelType, channelName,

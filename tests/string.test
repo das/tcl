@@ -155,13 +155,13 @@ test string-3.8 {string equal with length, unequal strings} {
 
 test string-4.1 {string first, too few args} {
     list [catch {string first a} msg] $msg
-} {1 {wrong # args: should be "string first subString string ?startIndex?"}}
+} {1 {wrong # args: should be "string first string1 string2 ?startIndex?"}}
 test string-4.2 {string first, bad args} {
     list [catch {string first a b c} msg] $msg
 } {1 {bad index "c": must be integer or end?-integer?}}
 test string-4.3 {string first, too many args} {
     list [catch {string first a b 5 d} msg] $msg
-} {1 {wrong # args: should be "string first subString string ?startIndex?"}}
+} {1 {wrong # args: should be "string first string1 string2 ?startIndex?"}}
 test string-4.4 {string first} {
     string first bq abcdefgbcefgbqrs
 } 12
@@ -191,6 +191,9 @@ test string-4.12 {string first, start index} {
 } -1
 test string-4.13 {string first, start index} {
     string first \u7266 abc\u7266x end-2
+} 3
+test string-4.14 {string first, start index} {
+    string first a abcabc end-4
 } 3
 
 test string-5.1 {string index} {
@@ -557,13 +560,13 @@ catch {rename largest_int {}}
 
 test string-7.1 {string last, too few args} {
     list [catch {string last a} msg] $msg
-} {1 {wrong # args: should be "string last subString string ?startIndex?"}}
+} {1 {wrong # args: should be "string last string1 string2 ?startIndex?"}}
 test string-7.2 {string last, bad args} {
     list [catch {string last a b c} msg] $msg
 } {1 {bad index "c": must be integer or end?-integer?}}
 test string-7.3 {string last, too many args} {
     list [catch {string last a b c d} msg] $msg
-} {1 {wrong # args: should be "string last subString string ?startIndex?"}}
+} {1 {wrong # args: should be "string last string1 string2 ?startIndex?"}}
 test string-7.4 {string last} {
     string la xxx xxxx123xx345x678
 } 1
@@ -837,12 +840,16 @@ test string-11.46 {string match, *special case} {
 test string-11.47 {string match, *special case} {
     string match "*\\*" "*"
 } 1
-test string-11.47 {string match, *special case} {
+test string-11.48 {string match, *special case} {
     string match "*\\*" "*abc"
 } 0
-test string-11.48 {string match, *special case} {
+test string-11.49 {string match, *special case} {
     string match "?\\*" "a*"
 } 1
+test string-11.50 {string match, *special case} {
+    string match "\\" "\\"
+} 0
+
 
 test string-12.1 {string range} {
     list [catch {string range} msg] $msg
@@ -902,8 +909,8 @@ test string-12.19 {string range, bytearray object} {
     set b [binary format I* {0x50515253 0x52}]
     set r1 [string range $b 1 end-1]
     set r2 [string range $b 1 6]
-    string equal $r1 $r2
-} 1
+    string compare $r1 $r2
+} 0
 test string-12.20 {string range, out of bounds indices} {
     string range \u00ff 0 1
 } \u00ff
@@ -929,6 +936,28 @@ test string-13.6 {string repeat} {
 test string-13.7 {string repeat} {
     list [catch {string repeat abc end} msg] $msg
 } {1 {expected integer but got "end"}}
+test string-13.8 {string repeat} {
+    string repeat {} -1000
+} {}
+test string-13.9 {string repeat} {
+    string repeat {} 0
+} {}
+test string-13.10 {string repeat} {
+    string repeat def 0
+} {}
+test string-13.11 {string repeat} {
+    string repeat def 1
+} def
+test string-13.12 {string repeat} {
+    string repeat ab\u7266cd 3
+} ab\u7266cdab\u7266cdab\u7266cd
+test string-13.13 {string repeat} {
+    string repeat \x00 3
+} \x00\x00\x00
+test string-13.14 {string repeat} {
+    # The string range will ensure us that string repeat gets a unicode string
+    string repeat [string range ab\u7266cd 2 3] 3
+} \u7266c\u7266c\u7266c
 
 test string-14.1 {string replace} {
     list [catch {string replace} msg] $msg

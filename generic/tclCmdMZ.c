@@ -8,7 +8,7 @@
  *
  * Copyright (c) 1987-1993 The Regents of the University of California.
  * Copyright (c) 1994-1997 Sun Microsystems, Inc.
- * Copyright (c) 1998-2000 Scriptics Corporation.
+ * Copyright (c) 1998-1999 by Scriptics Corporation.
  *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -61,7 +61,7 @@ typedef struct {
 static char *		TraceVarProc _ANSI_ARGS_((ClientData clientData,
 			    Tcl_Interp *interp, char *name1, char *name2,
 			    int flags));
-
+
 /*
  *----------------------------------------------------------------------
  *
@@ -402,6 +402,7 @@ Tcl_RegexpObjCmd(dummy, interp, objc, objv)
 	}
 	offset += info.matches[0].end;
 	all++;
+	eflags |= TCL_REG_NOTBOL;
 	if (offset >= stringLength) {
 	    break;
 	}
@@ -444,12 +445,11 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
     int objc;				/* Number of arguments. */
     Tcl_Obj *CONST objv[];		/* Argument objects. */
 {
-    int idx, result, cflags, all, wlen, wsublen, numMatches, offset;
-    int start, end, subStart, subEnd, match;
+    int i, result, cflags, all, wlen, numMatches, offset;
     Tcl_RegExp regExpr;
-    Tcl_RegExpInfo info;
     Tcl_Obj *resultPtr, *varPtr, *objPtr;
-    Tcl_UniChar ch, *wsrc, *wfirstChar, *wstring, *wsubspec;
+    Tcl_UniChar *wstring;
+    char *subspec;
 
     static char *options[] = {
 	"-all",		"-nocase",	"-expanded",
@@ -466,16 +466,16 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
     all = 0;
     offset = 0;
 
-    for (idx = 1; idx < objc; idx++) {
+    for (i = 1; i < objc; i++) {
 	char *name;
 	int index;
 	
-	name = Tcl_GetString(objv[idx]);
+	name = Tcl_GetString(objv[i]);
 	if (name[0] != '-') {
 	    break;
 	}
-	if (Tcl_GetIndexFromObj(interp, objv[idx], options, "switch",
-		TCL_EXACT, &index) != TCL_OK) {
+	if (Tcl_GetIndexFromObj(interp, objv[i], options, "switch", TCL_EXACT,
+		&index) != TCL_OK) {
 	    return TCL_ERROR;
 	}
 	switch ((enum options) index) {
@@ -504,10 +504,10 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 		break;
 	    }
 	    case REGSUB_START: {
-		if (++idx >= objc) {
+		if (++i >= objc) {
 		    goto endOfForLoop;
 		}
-		if (Tcl_GetIntFromObj(interp, objv[idx], &offset) != TCL_OK) {
+		if (Tcl_GetIntFromObj(interp, objv[i], &offset) != TCL_OK) {
 		    return TCL_ERROR;
 		}
 		if (offset < 0) {
@@ -516,35 +516,34 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 		break;
 	    }
 	    case REGSUB_LAST: {
-		idx++;
+		i++;
 		goto endOfForLoop;
 	    }
 	}
     }
     endOfForLoop:
-    if (objc - idx != 4) {
+    if (objc - i != 4) {
 	Tcl_WrongNumArgs(interp, 1, objv,
 		"?switches? exp string subSpec varName");
 	return TCL_ERROR;
     }
 
-    objv += idx;
+    objv += i;
 
     regExpr = Tcl_GetRegExpFromObj(interp, objv[0], cflags);
     if (regExpr == NULL) {
 	return TCL_ERROR;
     }
 
-    objPtr	= objv[1];
-    wstring	= Tcl_GetUnicode(objPtr);
-    wlen	= Tcl_GetCharLength(objPtr);
-    wsubspec	= Tcl_GetUnicode(objv[2]);
-    wsublen	= Tcl_GetCharLength(objv[2]);
-    varPtr	= objv[3];
-
     result = TCL_OK;
-    resultPtr = Tcl_NewUnicodeObj(wstring, 0);
+    resultPtr = Tcl_NewObj();
     Tcl_IncrRefCount(resultPtr);
+
+    objPtr = objv[1];
+    wlen = Tcl_GetCharLength(objPtr);
+    wstring = Tcl_GetUnicode(objPtr);
+    subspec = Tcl_GetString(objv[2]);
+    varPtr = objv[3];
 
     /*
      * The following loop is to handle multiple matches within the
@@ -555,6 +554,10 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 
     numMatches = 0;
     for ( ; offset < wlen; ) {
+	int start, end, subStart, subEnd, match;
+	char *src, *firstChar;
+	char c;
+	Tcl_RegExpInfo info;
 
 	/*
 	 * The flags argument is set if string is part of a larger string,
@@ -596,21 +599,22 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 	 * subSpec to reduce the number of calls to Tcl_SetVar.
 	 */
 
-	wsrc = wfirstChar = wsubspec;
-	for (ch = *wsrc; ch != '\0'; wsrc++, ch = *wsrc) {
-	    if (ch == '&') {
-		idx = 0;
-	    } else if (ch == '\\') {
-		ch = wsrc[1];
-		if ((ch >= '0') && (ch <= '9')) {
-		    idx = ch - '0';
-		} else if ((ch == '\\') || (ch == '&')) {
-		    *wsrc = ch;
-		    Tcl_AppendUnicodeToObj(resultPtr, wfirstChar,
-			    wsrc - wfirstChar + 1);
-		    *wsrc = '\\';
-		    wfirstChar = wsrc + 2;
-		    wsrc++;
+	src = subspec;
+	firstChar = subspec;
+	for (c = *src; c != '\0'; src++, c = *src) {
+	    int index;
+    
+	    if (c == '&') {
+		index = 0;
+	    } else if (c == '\\') {
+		c = src[1];
+		if ((c >= '0') && (c <= '9')) {
+		    index = c - '0';
+		} else if ((c == '\\') || (c == '&')) {
+		    Tcl_AppendToObj(resultPtr, firstChar, src - firstChar);
+		    Tcl_AppendToObj(resultPtr, &c, 1);
+		    firstChar = src + 2;
+		    src++;
 		    continue;
 		} else {
 		    continue;
@@ -618,25 +622,24 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 	    } else {
 		continue;
 	    }
-	    if (wfirstChar != wsrc) {
-		Tcl_AppendUnicodeToObj(resultPtr, wfirstChar,
-			wsrc - wfirstChar);
+	    if (firstChar != src) {
+		Tcl_AppendToObj(resultPtr, firstChar, src - firstChar);
 	    }
-	    if (idx <= info.nsubs) {
-		subStart = info.matches[idx].start;
-		subEnd = info.matches[idx].end;
+	    if (index <= info.nsubs) {
+		subStart = info.matches[index].start;
+		subEnd = info.matches[index].end;
 		if ((subStart >= 0) && (subEnd >= 0)) {
 		    Tcl_AppendUnicodeToObj(resultPtr,
 			    wstring + offset + subStart, subEnd - subStart);
 		}
 	    }
-	    if (*wsrc == '\\') {
-		wsrc++;
+	    if (*src == '\\') {
+		src++;
 	    }
-	    wfirstChar = wsrc + 1;
+	    firstChar = src + 1;
 	}
-	if (wfirstChar != wsrc) {
-	    Tcl_AppendUnicodeToObj(resultPtr, wfirstChar, wsrc - wfirstChar);
+	if (firstChar != src) {
+	    Tcl_AppendToObj(resultPtr, firstChar, src - firstChar);
 	}
 	if (end == 0) {
 	    /*
@@ -646,9 +649,8 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 
 	    Tcl_AppendUnicodeToObj(resultPtr, wstring + offset, 1);
 	    offset++;
-	} else {
-	    offset += end;
 	}
+	offset += end;
 	if (!all) {
 	    break;
 	}
@@ -674,8 +676,8 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 	result = TCL_ERROR;
     } else {
 	/*
-	 * Set the interpreter's object result to an integer object
-	 * holding the number of matches. 
+	 * Set the interpreter's object result to an integer object holding the
+	 * number of matches. 
 	 */
 	
 	Tcl_SetIntObj(Tcl_GetObjResult(interp), numMatches);
@@ -907,15 +909,34 @@ Tcl_SplitObjCmd(dummy, interp, objc, objv)
 	 * Do nothing.
 	 */
     } else if (splitCharLen == 0) {
+	Tcl_HashTable charReuseTable;
+	Tcl_HashEntry *hPtr;
+	int isNew;
+
 	/*
 	 * Handle the special case of splitting on every character.
+	 *
+	 * Uses a hash table to ensure that each kind of character has
+	 * only one Tcl_Obj instance (multiply-referenced) in the
+	 * final list.  This is a *major* win when splitting on a long
+	 * string (especially in the megabyte range!) - DKF
 	 */
 
+	Tcl_InitHashTable(&charReuseTable, TCL_ONE_WORD_KEYS);
 	for ( ; string < end; string += len) {
 	    len = Tcl_UtfToUniChar(string, &ch);
-	    objPtr = Tcl_NewStringObj(string, len);
+	    /* Assume Tcl_UniChar is an integral type... */
+	    hPtr = Tcl_CreateHashEntry(&charReuseTable, (char*)0 + ch, &isNew);
+	    if (isNew) {
+		objPtr = Tcl_NewStringObj(string, len);
+		/* Don't need to fiddle with refcount... */
+		Tcl_SetHashValue(hPtr, (ClientData) objPtr);
+	    } else {
+		objPtr = (Tcl_Obj*) Tcl_GetHashValue(hPtr);
+	    }
 	    Tcl_ListObjAppendElement(NULL, listPtr, objPtr);
 	}
+	Tcl_DeleteHashTable(&charReuseTable);
     } else {
 	char *element, *p, *splitEnd;
 	int splitLen;
@@ -1102,75 +1123,91 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	    break;
 	}
 	case STR_FIRST: {
-	    Tcl_UniChar *ustring1, *ustring2;
-	    int match, start;
+	    register char *p, *end;
+	    int match, utflen, start;
 
 	    if (objc < 4 || objc > 5) {
 	        Tcl_WrongNumArgs(interp, 2, objv,
-				 "subString string ?startIndex?");
+				 "string1 string2 ?startIndex?");
 		return TCL_ERROR;
 	    }
 
 	    /*
+	     * This algorithm fails on improperly formed UTF strings.
 	     * We are searching string2 for the sequence string1.
 	     */
 
 	    match = -1;
 	    start = 0;
-	    length2 = -1;
-
-	    ustring1 = Tcl_GetUnicode(objv[2]);
-	    length1  = Tcl_GetCharLength(objv[2]);
-	    ustring2 = Tcl_GetUnicode(objv[3]);
-	    length2  = Tcl_GetCharLength(objv[3]);
+	    utflen = -1;
+	    string1 = Tcl_GetStringFromObj(objv[2], &length1);
+	    string2 = Tcl_GetStringFromObj(objv[3], &length2);
 
 	    if (objc == 5) {
 		/*
-		 * If a startIndex is specified, we will need to fast
-		 * forward to that point in the string before we think
-		 * about a match
+		 * If a startIndex is specified, we will need to fast forward
+		 * to that point in the string before we think about a match
 		 */
-		if (TclGetIntForIndex(interp, objv[4], length2 - 1,
-			&start) != TCL_OK) {
+		utflen = Tcl_NumUtfChars(string2, length2);
+		if (TclGetIntForIndex(interp, objv[4], utflen-1,
+				      &start) != TCL_OK) {
 		    return TCL_ERROR;
 		}
-		if (start >= length2) {
+		if (start >= utflen) {
 		    goto str_first_done;
 		} else if (start > 0) {
-		    ustring2 += start;
-		    length2  -= start;
+		    if (length2 == utflen) {
+			/* no unicode chars */
+			string2 += start;
+			length2 -= start;
+		    } else {
+			char *s = Tcl_UtfAtIndex(string2, start);
+			length2 -= s - string2;
+			string2 = s;
+		    }
 		}
 	    }
 
 	    if (length1 > 0) {
-		register Tcl_UniChar *p, *end;
-
-		end = ustring2 + length2 - length1 + 1;
-		for (p = ustring2;  p < end;  p++) {
+		end = string2 + length2 - length1 + 1;
+		for (p = string2;  p < end;  p++) {
 		    /*
 		     * Scan forward to find the first character.
 		     */
-		    if ((*p == *ustring1) &&
-			    (Tcl_UniCharNcmp(ustring1, p,
-				    (unsigned long) length1) == 0)) {
-			match = p - ustring2;
+
+		    p = memchr(p, *string1, (unsigned) (end - p));
+		    if (p == NULL) {
+			break;
+		    }
+		    if (memcmp(string1, p, (unsigned) length1) == 0) {
+			match = p - string2;
 			break;
 		    }
 		}
 	    }
+
 	    /*
 	     * Compute the character index of the matching string by
 	     * counting the number of characters before the match.
 	     */
-	    if ((match != -1) && (objc == 5)) {
-		match += start;
+	str_first_done:
+	    if (match != -1) {
+		if (objc == 4) {
+		    match = Tcl_NumUtfChars(string2, match);
+		} else if (length2 == utflen) {
+		    /* no unicode chars */
+		    match += start;
+		} else {
+		    match = start + Tcl_NumUtfChars(string2, match);
+		}
 	    }
-
-	    str_first_done:
 	    Tcl_SetIntObj(resultPtr, match);
 	    break;
 	}
 	case STR_INDEX: {
+	    char buf[TCL_UTF_MAX];
+	    Tcl_UniChar unichar;
+
 	    if (objc != 4) {
 	        Tcl_WrongNumArgs(interp, 2, objv, "string charIndex");
 		return TCL_ERROR;
@@ -1184,7 +1221,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	     */
 
 	    if (objv[2]->typePtr == &tclByteArrayType) {
-		string1 = (char *) Tcl_GetByteArrayFromObj(objv[2], &length1);
+		string1 = (char *)Tcl_GetByteArrayFromObj(objv[2], &length1);
 
 		if (TclGetIntForIndex(interp, objv[3], length1 - 1,
 			&index) != TCL_OK) {
@@ -1195,22 +1232,23 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 			    (unsigned char *)(&string1[index]), 1);
 		}
 	    } else {
-		/*
-		 * Get Unicode char length to calulate what 'end' means.
-		 */
-		length1 = Tcl_GetCharLength(objv[2]);
+		string1 = Tcl_GetStringFromObj(objv[2], &length1);
 
-		if (TclGetIntForIndex(interp, objv[3], length1 - 1,
+		/*
+		 * convert to Unicode internal rep to calulate what
+		 * 'end' really means.
+		 */
+
+		length2 = Tcl_GetCharLength(objv[2]);
+
+		if (TclGetIntForIndex(interp, objv[3], length2 - 1,
 			&index) != TCL_OK) {
 		    return TCL_ERROR;
 		}
-		if ((index >= 0) && (index < length1)) {
-		    char buf[TCL_UTF_MAX];
-		    Tcl_UniChar ch;
-
-		    ch      = Tcl_GetUniChar(objv[2], index);
-		    length1 = Tcl_UniCharToUtf(ch, buf);
-		    Tcl_SetStringObj(resultPtr, buf, length1);
+		if ((index >= 0) && (index < length2)) {
+		    unichar = Tcl_GetUniChar(objv[2], index);
+		    length2 = Tcl_UniCharToUtf((int)unichar, buf);
+		    Tcl_SetStringObj(resultPtr, buf, length2);
 		}
 	    }
 	    break;
@@ -1258,8 +1296,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 			strncmp(string2, "-strict", (size_t) length2) == 0) {
 			strict = 1;
 		    } else if ((length2 > 1) &&
-			    strncmp(string2, "-failindex",
-				    (size_t) length2) == 0) {
+			       strncmp(string2, "-failindex", (size_t) length2) == 0) {
 			if (i+1 >= objc-1) {
 			    Tcl_WrongNumArgs(interp, 3, objv,
 					     "?-strict? ?-failindex var? str");
@@ -1492,63 +1529,78 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	    break;
 	}
 	case STR_LAST: {
-	    Tcl_UniChar *ustring1, *ustring2, *p;
-	    int match, start;
+	    register char *p;
+	    int match, utflen, start;
 
 	    if (objc < 4 || objc > 5) {
 	        Tcl_WrongNumArgs(interp, 2, objv,
-				 "subString string ?startIndex?");
+				 "string1 string2 ?startIndex?");
 		return TCL_ERROR;
 	    }
 
 	    /*
-	     * We are searching string2 for the sequence string1.
+	     * This algorithm fails on improperly formed UTF strings.
 	     */
 
 	    match = -1;
 	    start = 0;
-	    length2 = -1;
-
-	    ustring1 = Tcl_GetUnicode(objv[2]);
-	    length1  = Tcl_GetCharLength(objv[2]);
-	    ustring2 = Tcl_GetUnicode(objv[3]);
-	    length2  = Tcl_GetCharLength(objv[3]);
+	    utflen = -1;
+	    string1 = Tcl_GetStringFromObj(objv[2], &length1);
+	    string2 = Tcl_GetStringFromObj(objv[3], &length2);
 
 	    if (objc == 5) {
 		/*
 		 * If a startIndex is specified, we will need to restrict
 		 * the string range to that char index in the string
 		 */
-		if (TclGetIntForIndex(interp, objv[4], length2 - 1,
-			&start) != TCL_OK) {
+		utflen = Tcl_NumUtfChars(string2, length2);
+		if (TclGetIntForIndex(interp, objv[4], utflen-1,
+				      &start) != TCL_OK) {
 		    return TCL_ERROR;
 		}
 		if (start < 0) {
 		    goto str_last_done;
-		} else if (start < length2) {
-		    p = ustring2 + start + 1 - length1;
+		} else if (start < utflen) {
+		    if (length2 == utflen) {
+			/* no unicode chars */
+			p = string2 + start + 1 - length1;
+		    } else {
+			p = Tcl_UtfAtIndex(string2, start+1) - length1;
+		    }
 		} else {
-		    p = ustring2 + length2 - length1;
+		    p = string2 + length2 - length1;
 		}
 	    } else {
-		p = ustring2 + length2 - length1;
+		p = string2 + length2 - length1;
 	    }
 
 	    if (length1 > 0) {
-		for (; p >= ustring2;  p--) {
+		for (;  p >= string2;  p--) {
 		    /*
 		     * Scan backwards to find the first character.
 		     */
-		    if ((*p == *ustring1) &&
-			    (memcmp((char *) ustring1, (char *) p, (size_t)
-				    (length1 * sizeof(Tcl_UniChar))) == 0)) {
-			match = p - ustring2;
+
+		    while ((p != string2) && (*p != *string1)) {
+			p--;
+		    }
+		    if (memcmp(string1, p, (unsigned) length1) == 0) {
+			match = p - string2;
 			break;
 		    }
 		}
 	    }
 
-	    str_last_done:
+	    /*
+	     * Compute the character index of the matching string by counting
+	     * the number of characters before the match.
+	     */
+	str_last_done:
+	    if (match != -1) {
+		if ((objc == 4) || (length2 != utflen)) {
+		    /* only check when we've got unicode chars */
+		    match = Tcl_NumUtfChars(string2, match);
+		}
+	    }
 	    Tcl_SetIntObj(resultPtr, match);
 	    break;
 	}
@@ -1561,6 +1613,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 
 	    if ((enum options) index == STR_BYTELENGTH) {
 		(void) Tcl_GetStringFromObj(objv[2], &length1);
+		Tcl_SetIntObj(resultPtr, length1);
 	    } else {
 		/*
 		 * If we have a ByteArray object, avoid recomputing the
@@ -1571,19 +1624,20 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 
 		if (objv[2]->typePtr == &tclByteArrayType) {
 		    (void) Tcl_GetByteArrayFromObj(objv[2], &length1);
+		    Tcl_SetIntObj(resultPtr, length1);
 		} else {
-		    length1 = Tcl_GetCharLength(objv[2]);
+		    Tcl_SetIntObj(resultPtr,
+			    Tcl_GetCharLength(objv[2]));
 		}
 	    }
-	    Tcl_SetIntObj(resultPtr, length1);
 	    break;
 	}
 	case STR_MAP: {
-	    int mapElemc, nocase = 0;
+	    int uselen, mapElemc, len, nocase = 0;
 	    Tcl_Obj **mapElemv;
-	    Tcl_UniChar *ustring1, *ustring2, *p, *end;
-	    int (*strCmpFn)(CONST Tcl_UniChar*, CONST Tcl_UniChar*,
-		    unsigned long);
+	    char *end;
+	    Tcl_UniChar ch;
+	    int (*str_comp_fn)();
 
 	    if (objc < 4 || objc > 5) {
 	        Tcl_WrongNumArgs(interp, 2, objv, "?-nocase? charMap string");
@@ -1612,6 +1666,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		 * empty charMap, just return whatever string was given
 		 */
 		Tcl_SetObjResult(interp, objv[objc-1]);
+		return TCL_OK;
 	    } else if (mapElemc & 1) {
 		/*
 		 * The charMap must be an even number of key/value items
@@ -1619,111 +1674,63 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		Tcl_SetStringObj(resultPtr, "char map list unbalanced", -1);
 		return TCL_ERROR;
 	    }
-	    objc--;
-
-	    ustring1 = Tcl_GetUnicode(objv[objc]);
-	    length1  = Tcl_GetCharLength(objv[objc]);
+	    string1 = Tcl_GetStringFromObj(objv[objc-1], &length1);
 	    if (length1 == 0) {
-		/*
-		 * Empty input string, just stop now
-		 */
 		break;
 	    }
-	    end = ustring1 + length1;
+	    end = string1 + length1;
 
-	    strCmpFn = (nocase) ? Tcl_UniCharNcasecmp : Tcl_UniCharNcmp;
-
-	    /*
-	     * Force result to be Unicode
-	     */
-	    Tcl_SetUnicodeObj(resultPtr, ustring1, 0);
-
-	    if (mapElemc == 2) {
-		/*
-		 * Special case for one map pair which avoids the extra
-		 * for loop and extra calls to get Unicode data.  The
-		 * algorithm is otherwise identical to the multi-pair case.
-		 * This will be >30% faster on larger strings.
-		 */
-		Tcl_UniChar *mapString = Tcl_GetUnicode(mapElemv[1]);
-		int mapLen = Tcl_GetCharLength(mapElemv[1]);
-		ustring2 = Tcl_GetUnicode(mapElemv[0]);
-		length2  = Tcl_GetCharLength(mapElemv[0]);
-		for (p = ustring1; ustring1 < end; ustring1++) {
-		    if ((length2 > 0) &&
-			    (nocase || (*ustring1 == *ustring2)) &&
-			    (strCmpFn(ustring1, ustring2,
-				    (unsigned long) length2) == 0)) {
-			if (p != ustring1) {
-			    Tcl_AppendUnicodeToObj(resultPtr, p,
-				    ustring1 - p);
-			    p = ustring1 + length2;
-			} else {
-			    p += length2;
-			}
-			ustring1 = p - 1;
-
-			Tcl_AppendUnicodeToObj(resultPtr, mapString, mapLen);
-		    }
-		}
+	    if (nocase) {
+		length1 = Tcl_NumUtfChars(string1, length1);
+		str_comp_fn = Tcl_UtfNcasecmp;
 	    } else {
-		Tcl_UniChar **mapStrings =
-		    (Tcl_UniChar **) ckalloc((mapElemc * 2)
-			    * sizeof(Tcl_UniChar *));
-		int *mapLens =
-		    (int *) ckalloc((mapElemc * 2) * sizeof(int));
-		/*
-		 * Precompute pointers to the unicode string and length.
-		 * This saves us repeated function calls later,
-		 * significantly speeding up the algorithm.
-		 */
-		for (index = 0; index < mapElemc; index++) {
-		    mapStrings[index] = Tcl_GetUnicode(mapElemv[index]);
-		    mapLens[index]    = Tcl_GetCharLength(mapElemv[index]);
-		}
-		for (p = ustring1; ustring1 < end; ustring1++) {
-		    for (index = 0; index < mapElemc; index += 2) {
-			/*
-			 * Get the key string to match on
-			 */
-			ustring2 = mapStrings[index];
-			length2  = mapLens[index];
-			if ((length2 > 0) &&
-				(nocase || (*ustring1 == *ustring2)) &&
-				(strCmpFn(ustring2, ustring1,
-					(unsigned long) length2) == 0)) {
-			    if (p != ustring1) {
-				/*
-				 * Put the skipped chars onto the result first
-				 */
-				Tcl_AppendUnicodeToObj(resultPtr, p,
-					ustring1 - p);
-				p = ustring1 + length2;
-			    } else {
-				p += length2;
-			    }
-			    /*
-			     * Adjust len to be full length of matched string
-			     */
-			    ustring1 = p - 1;
+		str_comp_fn = memcmp;
+	    }
 
-			    /*
-			     * Append the map value to the unicode string
-			     */
-			    Tcl_AppendUnicodeToObj(resultPtr,
-				    mapStrings[index+1], mapLens[index+1]);
-			    break;
-			}
+	    for ( ; string1 < end; string1 += len) {
+		len = Tcl_UtfToUniChar(string1, &ch);
+		for (index = 0; index < mapElemc; index +=2) {
+		    /*
+		     * Get the key string to match on
+		     */
+		    string2 = Tcl_GetStringFromObj(mapElemv[index],
+						   &length2);
+		    if (nocase) {
+			uselen = Tcl_NumUtfChars(string2, length2);
+		    } else {
+			uselen = length2;
+		    }
+		    if ((uselen > 0) && (uselen <= length1) &&
+			(str_comp_fn(string2, string1, uselen) == 0)) {
+			/*
+			 * Adjust len to be full length of matched string
+			 * it has to be the BYTE length
+			 */
+			len = length2;
+			/*
+			 * Change string2 and length2 to the map value
+			 */
+			string2 = Tcl_GetStringFromObj(mapElemv[index+1],
+						       &length2);
+			Tcl_AppendToObj(resultPtr, string2, length2);
+			break;
 		    }
 		}
-		ckfree((char *) mapStrings);
-		ckfree((char *) mapLens);
-	    }
-	    if (p != ustring1) {
+		if (index == mapElemc) {
+		    /*
+		     * No match was found, put the char onto result
+		     */
+		    Tcl_AppendToObj(resultPtr, string1, len);
+		}
 		/*
-		 * Put the rest of the unmapped chars onto result
+		 * in nocase, length1 is in chars
+		 * otherwise it is in bytes
 		 */
-		Tcl_AppendUnicodeToObj(resultPtr, p, ustring1 - p);
+		if (nocase) {
+		    length1--;
+		} else {
+		    length1 -= len;
+		}
 	    }
 	    break;
 	}
@@ -1749,8 +1756,9 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	    }
 
 	    Tcl_SetBooleanObj(resultPtr,
-		    Tcl_UniCharCaseMatch(Tcl_GetUnicode(objv[objc-1]),
-			    Tcl_GetUnicode(objv[objc-2]), nocase));
+			      Tcl_StringCaseMatch(Tcl_GetString(objv[objc-1]),
+						  Tcl_GetString(objv[objc-2]),
+						  nocase));
 	    break;
 	}
 	case STR_RANGE: {
@@ -1762,24 +1770,64 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	    }
 
 	    /*
-	     * Get the length in actual characters.
+	     * If we have a ByteArray object, avoid indexing in the
+	     * Utf string since the byte array contains one byte per
+	     * character.  Otherwise, use the Unicode string rep to
+	     * get the range.
 	     */
-	    length1 = Tcl_GetCharLength(objv[2]) - 1;
 
-	    if ((TclGetIntForIndex(interp, objv[3], length1, &first) != TCL_OK)
-		    || (TclGetIntForIndex(interp, objv[4], length1,
-			    &last) != TCL_OK)) {
-		return TCL_ERROR;
-	    }
+	    if (objv[2]->typePtr == &tclByteArrayType) {
 
-	    if (first < 0) {
-		first = 0;
-	    }
-	    if (last >= length1) {
-		last = length1;
-	    }
-	    if (last >= first) {
-		Tcl_SetObjResult(interp, Tcl_GetRange(objv[2], first, last));
+		string1 = (char *)Tcl_GetByteArrayFromObj(objv[2], &length1);
+
+		if (TclGetIntForIndex(interp, objv[3], length1 - 1,
+			&first) != TCL_OK) {
+		    return TCL_ERROR;
+		}
+		if (TclGetIntForIndex(interp, objv[4], length1 - 1,
+			&last) != TCL_OK) {
+		    return TCL_ERROR;
+		}
+		if (first < 0) {
+		    first = 0;
+		}
+		if (last >= length1 - 1) {
+		    last = length1 - 1;
+		}
+		if (last >= first) {
+		    int numBytes = last - first + 1;
+		    resultPtr = Tcl_NewByteArrayObj(
+				(unsigned char *) &string1[first], numBytes);
+		    Tcl_SetObjResult(interp, resultPtr);
+		}
+	    } else {
+		string1 = Tcl_GetStringFromObj(objv[2], &length1);
+		
+		/*
+		 * Convert to Unicode internal rep to calulate length and
+		 * create a result object.
+		 */
+
+		length2 = Tcl_GetCharLength(objv[2]) - 1;
+    
+		if (TclGetIntForIndex(interp, objv[3], length2,
+			&first) != TCL_OK) {
+		    return TCL_ERROR;
+		}
+		if (TclGetIntForIndex(interp, objv[4], length2,
+			&last) != TCL_OK) {
+		    return TCL_ERROR;
+		}
+		if (first < 0) {
+		    first = 0;
+		}
+		if (last >= length2) {
+		    last = length2;
+		}
+		if (last >= first) {
+		    resultPtr = Tcl_GetRange(objv[2], first, last);
+		    Tcl_SetObjResult(interp, resultPtr);
+		}
 	    }
 	    break;
 	}
@@ -1804,7 +1852,6 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	    break;
 	}
 	case STR_REPLACE: {
-	    Tcl_UniChar *ustring1;
 	    int first, last;
 
 	    if (objc < 5 || objc > 6) {
@@ -1813,29 +1860,33 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		return TCL_ERROR;
 	    }
 
-	    ustring1 = Tcl_GetUnicode(objv[2]);
-	    length1  = Tcl_GetCharLength(objv[2]) - 1;
-
-	    if ((TclGetIntForIndex(interp, objv[3], length1, &first) != TCL_OK)
-		    || (TclGetIntForIndex(interp, objv[4], length1,
-			    &last) != TCL_OK)) {
+	    string1 = Tcl_GetStringFromObj(objv[2], &length1);
+	    length1 = Tcl_NumUtfChars(string1, length1) - 1;
+	    if (TclGetIntForIndex(interp, objv[3], length1,
+				  &first) != TCL_OK) {
 		return TCL_ERROR;
 	    }
-
-	    if ((last < first) || (last < 0) || (first > length1)) {
+	    if (TclGetIntForIndex(interp, objv[4], length1,
+		    &last) != TCL_OK) {
+		return TCL_ERROR;
+	    }
+	    if ((last < first) || (first > length1) || (last < 0)) {
 		Tcl_SetObjResult(interp, objv[2]);
 	    } else {
+		char *start, *end;
+
 		if (first < 0) {
 		    first = 0;
 		}
-
-		Tcl_SetUnicodeObj(resultPtr, ustring1, first);
+		start = Tcl_UtfAtIndex(string1, first);
+		end = Tcl_UtfAtIndex(start, ((last > length1) ? length1 : last)
+				     - first + 1);
+	        Tcl_SetStringObj(resultPtr, string1, start - string1);
 		if (objc == 6) {
 		    Tcl_AppendObjToObj(resultPtr, objv[5]);
 		}
 		if (last < length1) {
-		    Tcl_AppendUnicodeToObj(resultPtr, ustring1 + last + 1,
-			    length1 - last);
+		    Tcl_AppendToObj(resultPtr, end, -1);
 		}
 	    }
 	    break;

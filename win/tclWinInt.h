@@ -92,7 +92,6 @@ typedef struct TclWinProcs {
 } TclWinProcs;
 
 EXTERN TclWinProcs *tclWinProcs;
-EXTERN Tcl_Encoding tclWinTCharEncoding;
 
 /*
  * Declarations of functions that are not accessible by way of the

@@ -1704,8 +1704,6 @@ EXTERN int		TclInvokeStringCommand _ANSI_ARGS_((
 EXTERN int		TclIsLocalScalar _ANSI_ARGS_((CONST char *src,
 			    int len));
 EXTERN Proc *		TclIsProc _ANSI_ARGS_((Command *cmdPtr));
-EXTERN int              TclJoinThread _ANSI_ARGS_((Tcl_ThreadId id,
-			    int* result));
 EXTERN Var *		TclLookupVar _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *part1, char *part2, int flags, char *msg,
 			    int createPart1, int createPart2,
@@ -1806,7 +1804,6 @@ EXTERN void		TclpThreadDataKeySet _ANSI_ARGS_((
 EXTERN void		TclpThreadExit _ANSI_ARGS_((int status));
 EXTERN void		TclRememberCondition _ANSI_ARGS_((Tcl_Condition *mutex));
 EXTERN void		TclRememberDataKey _ANSI_ARGS_((Tcl_ThreadDataKey *mutex));
-EXTERN void             TclRememberJoinableThread _ANSI_ARGS_((Tcl_ThreadId id));
 EXTERN void		TclRememberMutex _ANSI_ARGS_((Tcl_Mutex *mutex));
 EXTERN int		TclRenameCommand _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *oldName, char *newName)) ;
@@ -1822,8 +1819,6 @@ EXTERN Tcl_Obj *	TclSetIndexedScalar _ANSI_ARGS_((Tcl_Interp *interp,
 			    int leaveErrorMsg));
 EXTERN char *		TclSetPreInitScript _ANSI_ARGS_((char *string));
 EXTERN void		TclSetupEnv _ANSI_ARGS_((Tcl_Interp *interp));
-EXTERN VOID             TclSignalExitThread _ANSI_ARGS_((Tcl_ThreadId id,
-			     int result));
 EXTERN int		TclSockGetPort _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *string, char *proto, int *portPtr));
 EXTERN int		TclSockMinimumBuffers _ANSI_ARGS_((int sock,
@@ -2037,11 +2032,7 @@ EXTERN int	TclCompileIfCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
 EXTERN int	TclCompileIncrCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
-EXTERN int	TclCompileReturnCmd _ANSI_ARGS_((Tcl_Interp *interp,
-		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
 EXTERN int	TclCompileSetCmd _ANSI_ARGS_((Tcl_Interp *interp,
-		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
-EXTERN int	TclCompileStringCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
 EXTERN int	TclCompileWhileCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));

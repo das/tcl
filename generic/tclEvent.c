@@ -99,6 +99,11 @@ typedef struct ThreadSpecificData {
 static Tcl_ThreadDataKey dataKey;
 
 /*
+ * Common string for the library path for sharing across threads.
+ */
+char *tclLibraryPathStr;
+
+/*
  * Prototypes for procedures referenced only in this file:
  */
 
@@ -596,6 +601,12 @@ TclSetLibraryPath(pathPtr)
 	Tcl_DecrRefCount(tsdPtr->tclLibraryPath);
     }
     tsdPtr->tclLibraryPath = pathPtr;
+
+    /*
+     *  No mutex locking is needed here as up the stack we're within
+     *  TclpInitLock().
+     */
+    tclLibraryPathStr = Tcl_GetStringFromObj(pathPtr, NULL);
 }
 
 /*
@@ -619,6 +630,17 @@ Tcl_Obj *
 TclGetLibraryPath()
 {
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
+
+    if (tsdPtr->tclLibraryPath == NULL) {
+	/*
+	 * Grab the shared string and place it into a new thread specific
+	 * Tcl_Obj.
+	 */
+	tsdPtr->tclLibraryPath = Tcl_NewStringObj(tclLibraryPathStr, -1);
+
+	/* take ownership */
+	Tcl_IncrRefCount(tsdPtr->tclLibraryPath);
+    }
     return tsdPtr->tclLibraryPath;
 }
 
@@ -744,9 +766,10 @@ Tcl_Finalize()
     ThreadSpecificData *tsdPtr;
 
     TclpInitLock();
-    tsdPtr = TCL_TSD_INIT(&dataKey);
     if (subsystemsInitialized != 0) {
 	subsystemsInitialized = 0;
+
+	tsdPtr = TCL_TSD_INIT(&dataKey);
 
 	/*
 	 * Invoke exit handlers first.

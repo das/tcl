@@ -12,6 +12,15 @@
 #ifndef _TCLPLATDECLS
 #define _TCLPLATDECLS
 
+/*
+ *  Pull in the definition of TCHAR.  Hopefully the compile flags
+ *  of the core are matching against your project build for these
+ *  public functions.  BE AWARE.
+ */
+#if defined(__WIN32__) && !defined(_INC_TCHAR)
+#include <tchar.h>
+#endif
+
 /* !BEGIN!: Do not edit below this line. */
 
 /*
