@@ -465,6 +465,9 @@ TestfindexecutableCmd(clientData, interp, argc, argv)
 	Tcl_SetResult(interp, tclExecutableName, TCL_VOLATILE);
 	ckfree(tclExecutableName);
     }
+    if (tclNativeExecutableName != NULL) {
+	ckfree(tclNativeExecutableName);
+    }
 
     tclExecutableName       = oldName;
     tclNativeExecutableName = oldNativeName;
