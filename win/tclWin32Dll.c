@@ -396,7 +396,7 @@ TclWinGetPlatformId()
  *	backslashes to slashes for use in Tcl.
  *
  * Results:
- *	All backslashes in given string are changes to slashes.
+ *	All backslashes in given string are changed to slashes.
  *
  * Side effects:
  *	None.
