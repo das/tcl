@@ -67,8 +67,8 @@ static int		CompareOneWordKeys _ANSI_ARGS_((
 			    VOID *keyPtr, Tcl_HashEntry *hPtr));
 static unsigned int	HashOneWordKey _ANSI_ARGS_((
 			    Tcl_HashTable *tablePtr,
-#endif			    VOID *keyPtr));
-
+			    VOID *keyPtr));
+#endif
 
 /*
  * Prototypes for the string hash key methods.
