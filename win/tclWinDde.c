@@ -305,6 +305,11 @@ DdeSetServerName(interp, name)
     }
     Tcl_DStringFree(&dString);
 
+    /*
+     * re-initialize with the new name
+     */
+    Initialize();
+    
     return riPtr->name;
 }
 
