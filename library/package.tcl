@@ -443,8 +443,10 @@ proc tclPkgUnknown {name version {exact {}}} {
 	    foreach file [glob -nocomplain [file join [lindex $auto_path $i] \
 		    * pkgIndex.tcl]] {
 		set dir [file dirname $file]
-		if {[file readable $file] && [catch {source $file} msg]} {
-		    tclLog "error reading package index file $file: $msg"
+		if {[file readable $file]} {
+		    if {[catch {source $file} msg]} {
+			tclLog "error reading package index file $file: $msg"
+		    }
 		}
 	    }
 	}
