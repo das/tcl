@@ -14,7 +14,7 @@
 
 package require tcltest 2
 namespace import -force ::tcltest::*
-catch {unset path}
+unset -nocomplain path
 if {[info exists env(TCL_LIBRARY)]} {
     set oldlibrary $env(TCL_LIBRARY)
     unset env(TCL_LIBRARY)
@@ -381,6 +381,7 @@ if {[info exists oldlibrary]} {
 }
 catch {unset env(LANG)}
 catch {set env(LANG) $oldlang}
+unset -nocomplain path
 ::tcltest::cleanupTests
 return
 

@@ -16,6 +16,7 @@
 
 package require tcltest
 namespace import -force ::tcltest::*
+unset -nocomplain path
 
 testConstraint exec [llength [info commands exec]]
 

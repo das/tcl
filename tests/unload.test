@@ -214,5 +214,7 @@ test unload-4.6 {basic unloading of unloadable package from a safe interpreter, 
 } {{. {} {}} {} {} {. . .}}
 
 # cleanup
+interp delete child
+interp delete child-trusted
 ::tcltest::cleanupTests
 return
