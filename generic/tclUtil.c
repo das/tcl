@@ -22,7 +22,7 @@
  * Define test for NaN
  */
 
-#ifdef _isnan
+#ifdef _MSC_VER
 #define IS_NAN(f) (_isnan((f)))
 #else
 #define IS_NAN(f) ((f) != (f))
@@ -32,7 +32,7 @@
  * Define test for Inf
  */
 
-#ifdef _finite
+#ifdef _MSC_VER
 #define IS_INF(f) ( ! (_finite((f))))
 #else
 #define IS_INF(f) ( (f) > DBL_MAX || (f) < -DBL_MAX )
@@ -1962,7 +1962,7 @@ Tcl_PrintDouble(interp, value, dst)
 
 	/* Handle -0.0 if the machine does it. */
 
-#ifdef _FPCLASS_NZ
+#ifdef _MSC_VER
 	if ( _fpclass( value ) == _FPCLASS_NZ ) {
 	    strcpy( dst, "-0.0" );
 	    return;
@@ -1971,10 +1971,15 @@ Tcl_PrintDouble(interp, value, dst)
 
 	/* Handle negative values */
 
-	if ( value < 0 ) {
-	    *dst++ = '-';
-	    value = -value;
-	}
+#ifdef signbit
+	if ( signbit(value) )
+#else
+	if ( value < 0 ) 
+#endif
+	    {
+		*dst++ = '-';
+		value = -value;
+	    }
 
 	/* Handle infinities */
 

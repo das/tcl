@@ -24,7 +24,7 @@
  * Define test for NaN
  */
 
-#ifdef _isnan
+#ifdef _MSC_VER
 #define IS_NAN(f) _isnan((f))
 #else
 #define IS_NAN(f) ((f) != (f))
