@@ -649,7 +649,7 @@ test string-6.105 {string is wideinteger, false on bad octal} {
 test string-6.106 {string is wideinteger, false on bad hex} {
     list [string is wideinteger -fail var 0X345XYZ] $var
 } {0 5}
-test string-6.105 {string is integer, bad integers} {
+test string-6.107 {string is integer, bad integers} {
     # SF bug #634856
     set result ""
     set numbers [list 1 +1 ++1 +-1 -+1 -1 --1 "- +1"]
