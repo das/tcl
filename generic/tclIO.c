@@ -2139,10 +2139,13 @@ CloseChannel(interp, chanPtr, errorCode)
 
     /*
      * There is only the TOP Channel, so we free the remaining
-     * pointers we have and then ourselves.
+     * pointers we have and then ourselves.  Since this is the
+     * last of the channels in the stack, make sure to free the
+     * ChannelState structure associated with it.
      */
     chanPtr->typePtr = NULL;
 
+    Tcl_EventuallyFree((ClientData) statePtr, TCL_DYNAMIC);
     Tcl_EventuallyFree((ClientData) chanPtr, TCL_DYNAMIC);
 
     return errorCode;
