@@ -103,8 +103,6 @@ has been called. To ensure that the interpreter is properly deleted when
 it is no longer needed, call \fBTcl_InterpDeleted\fR to test if some other
 code already called \fBTcl_DeleteInterp\fR; if not, call
 \fBTcl_DeleteInterp\fR before calling \fBTcl_Release\fR in your own code.
-Do not call \fBTcl_DeleteInterp\fR on an interpreter for which
-\fBTcl_InterpDeleted\fR returns nonzero.
 .TP
 Retrieving An Interpreter From A Data Structure
 When an interpreter is retrieved from a data structure (e.g. the client
