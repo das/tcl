@@ -120,7 +120,8 @@ Any of the forms allowed to \fBTcl_GetBoolean\fR.
 .IP \fBcontrol\fR 10
 Any Unicode control character.
 .IP \fBdigit\fR 10
-Any Unicode digit character.
+Any Unicode digit character.  Note that this includes characters
+outside of the [0\-9] range.
 .IP \fBdouble\fR 10
 Any of the valid forms for a double in Tcl, with optional surrounding
 whitespace.  In case of under/overflow in the value, 0 is returned
@@ -138,7 +139,7 @@ Any Unicode lower case alphabet character.
 .IP \fBprint\fR 10
 Any Unicode printing character, including space.
 .IP \fBpunct\fR 10
-Any Unicode printing character, except space or where \fBalnum\fR is true.
+Any Unicode punctuation character.
 .IP \fBspace\fR 10
 Any Unicode space character.
 .IP \fBtrue\fR 10

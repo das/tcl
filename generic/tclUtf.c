@@ -45,6 +45,11 @@
 	    (1 << MATH_SYMBOL) | (1 << CURRENCY_SYMBOL) | \
 	    (1 << MODIFIER_SYMBOL) | (1 << OTHER_SYMBOL))
 
+#define PUNCT_BITS ((1 << CONNECTOR_PUNCTUATION) | \
+	    (1 << DASH_PUNCTUATION) | (1 << OPEN_PUNCTUATION) | \
+	    (1 << CLOSE_PUNCTUATION) | (1 << INITIAL_QUOTE_PUNCTUATION) | \
+	    (1 << FINAL_QUOTE_PUNCTUATION) | (1 << OTHER_PUNCTUATION))
+
 /*
  * Unicode characters less than this value are represented by themselves 
  * in UTF-8 strings. 
@@ -1474,7 +1479,7 @@ Tcl_UniCharIsPrint(ch)
  *
  * Tcl_UniCharIsPunct --
  *
- *	Test if for any printing char that is neither space or an alnum.
+ *	Test if a character is a Unicode punctuation character.
  *
  * Results:
  *	Returns non-zero if character is punct.
@@ -1490,8 +1495,7 @@ Tcl_UniCharIsPunct(ch)
     int ch;			/* Unicode character to test. */
 {
     register int category = (GetUniCharInfo(ch) & UNICODE_CATEGORY_MASK);
-    return (((PRINT_BITS >> category) & 1) && ((unsigned char) ch != ' ')
-	    && !(((ALPHA_BITS | DIGIT_BITS) >> category) & 1));
+    return ((PUNCT_BITS >> category) & 1);
 }
 
 /*

@@ -562,7 +562,7 @@ install-libraries:
 		$(INSTALL_DATA) $$i $(SCRIPT_INSTALL_DIR)/encoding; \
 	done;
 
-install-doc:
+install-man:
 	@chmod +x $(UNIX_DIR)/mkLinks
 	@for i in $(MAN_INSTALL_DIR) $(MAN1_INSTALL_DIR) $(MAN3_INSTALL_DIR) $(MANN_INSTALL_DIR) ; \
 	    do \
