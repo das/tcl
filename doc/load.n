@@ -112,6 +112,13 @@ If the same file is \fBload\fRed by different \fIfileName\fRs, it will
 be loaded into the process's address space multiple times.  The
 behavior of this varies from system to system (some systems may
 detect the redundant loads, others may not).
+.PP
+When loading a DLL in the current directory, NT will ignore ``./'' as
+a path specifier and use a search heuristic to find the DLL instead.
+To avoid this, load the DLL with
+.CS
+    load [file join [pwd] mylib.DLL]
+.CE
 
 .SH "SEE ALSO"
 \fBinfo sharedlibextension\fR, Tcl_StaticPackage, safe(n)
