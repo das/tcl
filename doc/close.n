@@ -73,7 +73,7 @@ proc withOpenFile {filename channelVar script} {
     catch {
         uplevel 1 $script
     } result options
-    close $chan
+    \fBclose\fR $chan
     return -options $options $result
 }
 .CE

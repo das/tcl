@@ -758,8 +758,8 @@ Tcl_PackageObjCmd(dummy, interp, objc, objv)
 		    || (CheckVersion(interp, argv3) != TCL_OK)) {
 		return TCL_ERROR;
 	    }
-	    Tcl_SetIntObj(Tcl_GetObjResult(interp),
-		    ComparePkgVersions(argv2, argv3, (int *) NULL));
+	    Tcl_SetObjResult(interp, Tcl_NewIntObj(
+		    ComparePkgVersions(argv2, argv3, (int *) NULL)));
 	    break;
 	}
 	case PKG_VERSIONS: {
@@ -790,7 +790,7 @@ Tcl_PackageObjCmd(dummy, interp, objc, objv)
 		return TCL_ERROR;
 	    }
 	    ComparePkgVersions(argv2, argv3, &satisfies);
-	    Tcl_SetIntObj(Tcl_GetObjResult(interp), satisfies);
+	    Tcl_SetObjResult(interp, Tcl_NewBooleanObj(satisfies));
 	    break;
 	}
 	default: {

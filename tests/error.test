@@ -185,6 +185,36 @@ test error-6.3 {catch must reset error state} {
     catch {error outer [catch set]}
     list $errorCode $errorInfo
 } {NONE 1}
+test error-6.4 {catch must reset error state} {
+    catch {error [catch {error foo bar baz}] 1}
+    list $errorCode $errorInfo
+} {NONE 1}
+test error-6.5 {catch must reset error state} {
+    catch {error [catch {return -level 0 -code error -errorcode BUG}] 1}
+    list $errorCode $errorInfo
+} {NONE 1}
+test error-6.6 {catch must reset error state} {
+    catch {return -level 0 -code error -errorinfo [catch {error foo bar baz}]}
+    list $errorCode $errorInfo
+} {NONE 1}
+test error-6.7 {catch must reset error state} {
+    proc foo {} {
+	return -code error -errorinfo [catch {error foo bar baz}]
+    }
+    catch foo
+    list $errorCode
+} {NONE}
+test error-6.8 {catch must reset error state} {
+    catch {return -level 0 -code error [catch {error foo bar baz}]}
+    list $errorCode
+} {NONE}
+test error-6.9 {catch must reset error state} {
+    proc foo {} {
+	return -code error [catch {error foo bar baz}]
+    }
+    catch foo
+    list $errorCode
+} {NONE}
 
 # cleanup
 catch {rename p ""}

@@ -50,18 +50,18 @@ is omitted, the system encoding is assumed.
 Run the script in the file \fBfoo.tcl\fR and then the script in the
 file \fBbar.tcl\fR:
 .CS
-source foo.tcl
-source bar.tcl
+\fBsource\fR foo.tcl
+\fBsource\fR bar.tcl
 .CE
 Alternatively:
 .CS
 foreach scriptFile {foo.tcl bar.tcl} {
-    source $scriptFile
+   \fBsource\fR $scriptFile
 }
 .CE
 
 .SH "SEE ALSO"
-file(n), cd(n), encoding(n)
+file(n), cd(n), encoding(n), info(n)
 
 .SH KEYWORDS
 file, script

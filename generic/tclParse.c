@@ -488,6 +488,9 @@ ParseScript(script, numBytes, flags, parsePtr)
 	    break;
 	}
     }
+    if (nested && (p >= end) && (*parsePtr->term != ']')) {
+	parsePtr->errorType = TCL_PARSE_MISSING_BRACKET;
+    }
 
     parsePtr->numTokens = numValidTokens;
 
@@ -922,8 +925,9 @@ TclParseHex(src, numBytes, resultPtr)
     while (numBytes--) {
 	unsigned char digit = UCHAR(*p);
 
-	if (!isxdigit(digit))
+	if (!isxdigit(digit)) {
 	    break;
+	}
 
 	++p;
 	result <<= 4;

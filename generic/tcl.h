@@ -20,14 +20,6 @@
 #define _TCL
 
 /*
- * For C++ compilers, use extern "C"
- */
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-    
-/*
  * The following defines are used to indicate the various release levels.
  */
 
@@ -1339,9 +1331,10 @@ typedef struct Tcl_HashSearch {
  */
 
 typedef struct {
-    Tcl_HashSearch search;
-    int epoch;
-    Tcl_Dict dictionaryPtr;
+    Tcl_HashSearch search;	/* Search struct for underlying hash table. */
+    int epoch;			/* Epoch marker for dictionary being searched,
+				 * or -1 if search has terminated. */
+    Tcl_Dict dictionaryPtr;	/* Reference to dictionary being searched. */
 } Tcl_DictSearch;
 
 
@@ -2349,12 +2342,4 @@ EXTERN int		Tcl_AppInit _ANSI_ARGS_((Tcl_Interp *interp));
 #define TCL_STORAGE_CLASS DLLIMPORT
 
 #endif /* RC_INVOKED */
-
-/*
- * end block for C++
- */
-#ifdef __cplusplus
-}
-#endif
-
 #endif /* _TCL */

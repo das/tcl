@@ -42,7 +42,7 @@ if {[catch {main} msg]} {
     }
 
     # Reserve code 1 for "expected" error exits...
-    exit 2
+    \fBexit\fR 2
 }
 .CE
 

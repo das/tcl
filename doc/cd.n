@@ -29,13 +29,13 @@ and (in a threaded environment) all threads.
 .SH EXAMPLES
 Change to the home directory of the user \fBfred\fR:
 .CS
-cd ~fred
+\fBcd\fR ~fred
 .CE
 .PP
 Change to the directory \fBlib\fR that is a sibling directory of the
 current one:
 .CS
-cd ../lib
+\fBcd\fR ../lib
 .CE
 
 .SH "SEE ALSO"

@@ -6292,8 +6292,8 @@ test io-50.4 {testing handler deletion vs reentrant calls} {testchannelevent} {
 	    update
 	}
     }
-    set u toplevel
-    set z ""
+    variable u toplevel
+    variable z ""
     update
     close $f
     string compare [string tolower $z] \

@@ -888,7 +888,7 @@ test basic-48.23.$noComp {expansion: handle return codes} -constraints $constrai
 
 } ;# End of noComp loop
 
-test basic-49.1 {Tcl_EvalEx: verify TCL_EVAL_GLOBAL operation} {
+test basic-49.1 {Tcl_EvalEx: verify TCL_EVAL_GLOBAL operation} testevalex {
     set ::x global
     namespace eval ns {
 	variable x namespace
@@ -898,7 +898,7 @@ test basic-49.1 {Tcl_EvalEx: verify TCL_EVAL_GLOBAL operation} {
     namespace delete ns
     set ::result
 } {changed namespace}
-test basic-49.2 {Tcl_EvalEx: verify TCL_EVAL_GLOBAL operation} {
+test basic-49.2 {Tcl_EvalEx: verify TCL_EVAL_GLOBAL operation} testevalex {
     set ::x global
     namespace eval ns {
 	variable x namespace

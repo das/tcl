@@ -31,9 +31,8 @@ The \fBrename\fR command returns an empty string as result.
 The \fBrename\fR command can be used to wrap the standard Tcl commands
 with your own monitoring machinery.  For example, you might wish to
 count how often the \fBsource\fR command is called:
-
 .CS
-rename ::source ::theRealSource
+\fBrename\fR ::source ::theRealSource
 set sourceCount 0
 proc ::source args {
     global sourceCount

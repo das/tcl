@@ -38,7 +38,7 @@ underlying file or device is able to absorb it.
 Prompt for the user to type some information in on the console:
 .CS
 puts -nonewline "Please type your name: "
-flush stdout
+\fBflush\fR stdout
 gets stdin name
 puts "Hello there, $name!"
 .CE

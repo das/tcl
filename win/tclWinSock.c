@@ -2193,7 +2193,9 @@ TcpGetOptionProc(instanceData, interp, optionName, dsPtr)
 	} else {
 	    Tcl_DStringAppendElement(dsPtr, "0");
 	}
-	if (len > 0) return TCL_OK;
+	if (len > 0) {
+	    return TCL_OK;
+	}
     }
 
     if (len == 0 || !strncmp(optionName, "-nagle", len)) {
@@ -2211,7 +2213,9 @@ TcpGetOptionProc(instanceData, interp, optionName, dsPtr)
 	} else {
 	    Tcl_DStringAppendElement(dsPtr, "1");
 	}
-	if (len > 0) return TCL_OK;
+	if (len > 0) {
+	    return TCL_OK;
+	}
     }
 */
 
@@ -2692,8 +2696,9 @@ TclpCutSockChannel(chan)
     SocketInfo **nextPtrPtr;
     int removed = 0;
 
-    if (Tcl_GetChannelType(chan) != &tcpChannelType)
+    if (Tcl_GetChannelType(chan) != &tcpChannelType) {
         return;
+    }
 
     /*
      * The initializtion of tsdPtr _after_ we have determined that we
@@ -2758,8 +2763,9 @@ TclpSpliceSockChannel(chan)
     ThreadSpecificData *tsdPtr;
     SocketInfo *infoPtr;
 
-    if (Tcl_GetChannelType(chan) != &tcpChannelType)
+    if (Tcl_GetChannelType(chan) != &tcpChannelType) {
         return;
+    }
 
     /*
      * Ensure that socket subsystem is initialized in this thread, or

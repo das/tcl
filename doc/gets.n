@@ -51,15 +51,14 @@ produce the same results as if there were an input line consisting
 only of the end-of-line character(s).
 The \fBeof\fR and \fBfblocked\fR commands can be used to distinguish
 these three cases.
-
 .SH "EXAMPLE"
 This example reads a file one line at a time and prints it out with
 the current line number attached to the start of each line.
-
+.PP
 .CS
 set chan [open "some.file.txt"]
 set lineNumber 0
-while {[gets $chan line] >= 0} {
+while {[\fBgets\fR $chan line] >= 0} {
     puts "[incr lineNumber]: $line"
 }
 close $chan

@@ -71,25 +71,25 @@ via a file event that the channel is ready for more output data).
 Write a short message to the console (or wherever \fBstdout\fR is
 directed):
 .CS
-puts "Hello, World!"
+\fBputs\fR "Hello, World!"
 .CE
-
+.PP
 Print a message in several parts:
 .CS
-puts -nonewline "Hello, "
-puts "World!"
+\fBputs\fR -nonewline "Hello, "
+\fBputs\fR "World!"
 .CE
-
+.PP
 Print a message to the standard error channel:
 .CS
-puts stderr "Hello, World!"
+\fBputs\fR stderr "Hello, World!"
 .CE
-
+.PP
 Append a log message to a file:
 .CS
 set chan [open my.log a]
 set timestamp [clock format [clock seconds]]
-puts $chan "$timestamp - Hello, World!"
+\fBputs\fR $chan "$timestamp - Hello, World!"
 close $chan
 .CE
 

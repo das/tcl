@@ -917,7 +917,7 @@ processInteger:
 			"\" doesn't exist", (char *) NULL);
 		return TCL_ERROR;
 	    }
-	    resultListPtr = Tcl_GetObjResult(interp);
+	    resultListPtr = Tcl_NewObj();
  	    Tcl_ListObjAppendElement(interp, resultListPtr, afterPtr->commandPtr);
  	    Tcl_ListObjAppendElement(interp, resultListPtr, Tcl_NewStringObj(
  		(afterPtr->token == NULL) ? "idle" : "timer", -1));

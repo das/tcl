@@ -31,7 +31,6 @@ Time is measured in elapsed time, not CPU time.
 .SH EXAMPLE
 Estimate how long it takes for a simple Tcl \fBfor\fR loop to count to
 a thousand:
-
 .CS
 time {
     for {set i 0} {$i<1000} {incr i} {
