@@ -59,7 +59,9 @@ that all output is correctly flushed before the process exits.
 .VE
 .PP
 The command returns an empty string, and may generate an error if
-an error occurs while flushing output.
+an error occurs while flushing output.  If a command in a command
+pipeline created with \fBopen\fR returns an error, \fBclose\fR
+generates an error (similar to the \fBexec\fR command.)
 
 .SH "SEE ALSO"
 file(n), open(n), socket(n), eof(n), Tcl_StandardChannels(3)
