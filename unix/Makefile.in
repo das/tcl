@@ -137,7 +137,7 @@ NOTIFY_OBJS = tclUnixNotfy.o
 # lines.  Warning:  if you enable memory debugging, you must do it
 # *everywhere*, including all the code that calls Tcl, and you must use
 # ckalloc and ckfree everywhere instead of malloc and free.
-MEM_DEBUG_FLAGS		=
+MEM_DEBUG_FLAGS		= @MEM_DEBUG_FLAGS@
 #MEM_DEBUG_FLAGS	= -DTCL_MEM_DEBUG
 
 TCL_STUB_LIB_FILE	= @TCL_STUB_LIB_FILE@
