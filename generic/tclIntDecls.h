@@ -452,7 +452,7 @@ EXTERN int		TclpHasSockets _ANSI_ARGS_((Tcl_Interp * interp));
 /* 133 */
 EXTERN struct tm *	TclpGetDate _ANSI_ARGS_((TclpTime_t time, int useGMT));
 /* 134 */
-EXTERN size_t		TclpStrftime _ANSI_ARGS_((char * s, size_t maxsize, 
+EXTERN unsigned long	TclpStrftime _ANSI_ARGS_((char * s, size_t maxsize, 
 				CONST char * format, CONST struct tm * t));
 /* 135 */
 EXTERN int		TclpCheckStackSpace _ANSI_ARGS_((void));
@@ -667,7 +667,7 @@ typedef struct TclIntStubs {
     void (*tcl_SetNamespaceResolvers) _ANSI_ARGS_((Tcl_Namespace * namespacePtr, Tcl_ResolveCmdProc * cmdProc, Tcl_ResolveVarProc * varProc, Tcl_ResolveCompiledVarProc * compiledVarProc)); /* 131 */
     int (*tclpHasSockets) _ANSI_ARGS_((Tcl_Interp * interp)); /* 132 */
     struct tm * (*tclpGetDate) _ANSI_ARGS_((TclpTime_t time, int useGMT)); /* 133 */
-    size_t (*tclpStrftime) _ANSI_ARGS_((char * s, size_t maxsize, CONST char * format, CONST struct tm * t)); /* 134 */
+    unsigned long (*tclpStrftime) _ANSI_ARGS_((char * s, size_t maxsize, CONST char * format, CONST struct tm * t)); /* 134 */
     int (*tclpCheckStackSpace) _ANSI_ARGS_((void)); /* 135 */
     void *reserved136;
     int (*tclpChdir) _ANSI_ARGS_((CONST char * dirName)); /* 137 */

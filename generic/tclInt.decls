@@ -502,7 +502,7 @@ declare 133 generic {
     struct tm *	TclpGetDate(TclpTime_t time, int useGMT)
 }
 declare 134 generic {
-    size_t TclpStrftime(char *s, size_t maxsize, CONST char *format, \
+    unsigned long TclpStrftime(char *s, size_t maxsize, CONST char *format, \
 	    CONST struct tm *t)
 }
 declare 135 generic {

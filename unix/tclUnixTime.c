@@ -288,12 +288,12 @@ TclpGetDate(time, useGMT)
  *----------------------------------------------------------------------
  */
 
-size_t
+unsigned long
 TclpStrftime(s, maxsize, format, t)
     char *s;
     size_t maxsize;
     CONST char *format;
     CONST struct tm *t;
 {
-    return strftime(s, maxsize, format, t);
+    return (unsigned long) strftime(s, maxsize, format, t);
 }

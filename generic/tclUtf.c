@@ -1080,7 +1080,7 @@ int
 Tcl_UtfNcmp(cs, ct, n)
     CONST char *cs;		/* UTF string to compare to ct. */
     CONST char *ct;		/* UTF string cs is compared to. */
-    size_t n;			/* Number of UTF chars to compare. */
+    unsigned long n;		/* Number of UTF chars to compare. */
 {
     Tcl_UniChar ch1, ch2;
     /*
@@ -1127,7 +1127,7 @@ int
 Tcl_UtfNcasecmp(cs, ct, n)
     CONST char *cs;		/* UTF string to compare to ct. */
     CONST char *ct;		/* UTF string cs is compared to. */
-    size_t n;			/* Number of UTF chars to compare. */
+    unsigned long n;			/* Number of UTF chars to compare. */
 {
     Tcl_UniChar ch1, ch2;
     while (n-- > 0) {
@@ -1294,7 +1294,7 @@ int
 Tcl_UniCharNcmp(cs, ct, n)
     CONST Tcl_UniChar *cs;		/* Unicode string to compare to ct. */
     CONST Tcl_UniChar *ct;		/* Unicode string cs is compared to. */
-    size_t n;				/* Number of unichars to compare. */
+    unsigned long n;			/* Number of unichars to compare. */
 {
     for ( ; n != 0; n--, cs++, ct++) {
 	if (*cs != *ct) {

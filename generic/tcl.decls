@@ -1218,7 +1218,8 @@ declare 352 generic {
     int Tcl_UniCharLen(Tcl_UniChar *str)
 }
 declare 353 generic {
-    int Tcl_UniCharNcmp(CONST Tcl_UniChar *cs, CONST Tcl_UniChar *ct, size_t n)
+    int Tcl_UniCharNcmp(CONST Tcl_UniChar *cs, CONST Tcl_UniChar *ct,\
+    unsigned long n)
 }
 declare 354 generic {
     char * Tcl_UniCharToUtfDString(CONST Tcl_UniChar *string, int numChars, \
@@ -1276,10 +1277,10 @@ declare 368 generic {
     int Tcl_Stat(CONST char *path, struct stat *bufPtr)
 }
 declare 369 generic {
-    int Tcl_UtfNcmp(CONST char *s1, CONST char *s2, size_t n)
+    int Tcl_UtfNcmp(CONST char *s1, CONST char *s2, unsigned long n)
 }
 declare 370 generic {
-    int Tcl_UtfNcasecmp(CONST char *s1, CONST char *s2, size_t n)
+    int Tcl_UtfNcasecmp(CONST char *s1, CONST char *s2, unsigned long n)
 }
 declare 371 generic {
     int Tcl_StringCaseMatch(CONST char *str, CONST char *pattern, int nocase)
