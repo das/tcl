@@ -16,23 +16,21 @@
 #
 # Destroy all cached information for auto-loading and auto-execution,
 # so that the information gets recomputed the next time it's needed.
-# Also delete any procedures that are listed in the auto-load index
-# except those defined in this file.
+# Also delete any commands that are listed in the auto-load index.
 #
 # Arguments: 
 # None.
 
 proc auto_reset {} {
-    variable ::tcl::auto_oldpath
-    global auto_execs auto_index 
-    foreach p [info procs] {
-	if {[info exists auto_index($p)]} {
-	    rename $p {}
-	}
+    foreach cmdName [array names ::auto_index] {
+	set fqcn [namespace which $cmdName]
+	if {$fqcn eq ""} {continue}
+	rename $fqcn {}
     }
-    catch {unset auto_execs}
-    catch {unset auto_index}
-    catch {unset auto_oldpath}
+    unset -nocomplain ::auto_execs ::auto_index ::tcl::auto_oldpath
+    if {[info library] ni $::auto_path} {
+	lappend ::auto_path [info library]
+    }
 }
 
 # tcl_findLibrary --
