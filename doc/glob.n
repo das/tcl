@@ -146,6 +146,14 @@ directory of the user whose account information resides on the specified NT
 domain server.  Otherwise, user account information is obtained from
 the local computer.  On Windows 95 and 98, \fBglob\fR accepts patterns
 like ``.../'' and ``..../'' for successively higher up parent directories.
+.TP 
+\fBMacintosh\fR 
+. 
+When using the options, \fB\-dir\fR, \fB\-join\fR or \fB\-path\fR, glob
+assumes the directory separator for the entire pattern is the standard
+``:''.  When not using these options, glob examines each pattern argument
+and uses ``/'' unless the pattern contains a ``:''.
+
 
 .SH KEYWORDS
 exist, file, glob, pattern
