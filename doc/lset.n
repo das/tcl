@@ -23,7 +23,7 @@ It also accepts zero or more \fIindices\fP into
 the list.  The indices may be presented either consecutively on the
 command line, or grouped in a
 Tcl list and presented as a single argument.
-Finally, it acccepts a new value for an element of \fIlist\fP.
+Finally, it accepts a new value for an element of \fIlist\fP.
 .PP
 If no indices are presented, the command takes the form:
 .CS

@@ -105,14 +105,14 @@ the specified integer offset.
 If \fIoption\fR is omitted then it defaults to \fB\-glob\fR.  If more
 than one of \fB\-exact\fR, \fB\-glob\fR, \fB\-regexp\fR, and
 \fB\-sorted\fR is specified, whichever option is specified last takes
-precendence.  If more than one of \fB\-ascii\fR, \fB\-dictionary\fR,
+precedence.  If more than one of \fB\-ascii\fR, \fB\-dictionary\fR,
 \fB\-integer\fR and \fB\-real\fR is specified, the option specified
-last takes precendence.  If more than one of \fB\-increasing\fR and
+last takes precedence.  If more than one of \fB\-increasing\fR and
 \fB\-decreasing\fR is specified, the option specified last takes
 precedence.
 
-.SH EXAMPLES
 .VS 8.4
+.SH EXAMPLES
 .CS
 lsearch {a b c d e} c => 2
 lsearch -all {a b c a b c} c => 2 5

@@ -55,7 +55,7 @@ are:
 If the optional \fIvalueName\fR argument is present, the specified
 value under \fIkeyName\fR will be deleted from the registry.  If the
 optional \fIvalueName\fR is omitted, the specified key and any subkeys
-or values beneath it in the registry heirarchy will be deleted.  If
+or values beneath it in the registry hierarchy will be deleted.  If
 the key could not be deleted then an error is generated.  If the key
 did not exist, the command has no effect.
 .TP

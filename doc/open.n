@@ -146,7 +146,6 @@ configuration options specific to serial ports.
 .VE
 
 .SH "PORTABILITY ISSUES"
-.sp
 .TP
 \fBWindows \fR(all versions)
 .

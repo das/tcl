@@ -283,7 +283,7 @@ will return \fBdghi\fR.
 Moves the cursor to the absolute location in the output string
 specified by \fIcount\fR.  Position 0 refers to the first byte in the
 output string.  If \fIcount\fR refers to a position beyond the last
-byte stored so far, then null bytes will be placed in the unitialized
+byte stored so far, then null bytes will be placed in the uninitialized
 locations and the cursor will be placed at the specified location.  If
 \fIcount\fR is \fB*\fR, then the cursor is moved to the current end of
 the output string.  If \fIcount\fR is omitted, then an error will be
