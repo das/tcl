@@ -1618,18 +1618,32 @@ typedef enum TclEolTranslation {
 
 /*
  * The structure used as the internal representation of Tcl list
- * objects. This is an array of pointers to the element objects. This array
- * is grown (reallocated and copied) as necessary to hold all the list's
- * element pointers. The array might contain more slots than currently used
- * to hold all element pointers. This is done to make append operations
- * faster.
+ * objects. This struct is grown (reallocated and copied) as necessary to hold
+ * all the list's element pointers. The struct might contain more slots than
+ * currently used to hold all element pointers. This is done to make append
+ * operations faster.
  */
 
 typedef struct List {
+    int refCount;
     int maxElemCount;		/* Total number of element array slots. */
     int elemCount;		/* Current number of list elements. */
-    Tcl_Obj **elements;		/* Array of pointers to element objects. */
+    Tcl_Obj *elements;		/* First list element; the struct is grown to
+				 * accomodate all elements. */
 } List;
+
+/*
+ * Macro used to get the elements of a list object - do NOT forget to verify
+ * that it is of list type before using!
+ */
+
+#define TclListObjGetElements(listPtr, objc, objv) \
+    { \
+	List *listRepPtr = \
+	    (List *) (listPtr)->internalRep.twoPtrValue.ptr1;\
+	(objc) = listRepPtr->elemCount;\
+	(objv) = &listRepPtr->elements;\
+    }
 
 /*
  *----------------------------------------------------------------
