@@ -432,8 +432,14 @@ _conv(n, digits, pad)
     static char buf[10];
     register char *p;
 
-    for (p = buf + sizeof(buf) - 2; n > 0 && p > buf; n /= 10, --digits)
-	*p-- = (char)(n % 10 + '0');
+    p = buf + sizeof( buf ) - 1;
+    *p-- = '\0';
+    if ( n == 0 ) {
+	*p-- = '0'; --digits;
+    } else {
+	for (; n > 0 && p > buf; n /= 10, --digits)
+	    *p-- = (char)(n % 10 + '0');
+    }
     while (p > buf && digits-- > 0)
 	*p-- = (char) pad;
     return(_add(++p));
