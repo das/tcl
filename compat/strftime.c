@@ -109,15 +109,15 @@ static const _TimeLocale _DefaultTimeLocale =
     "%I:%M:%S %p"
 };
 
-static const _TimeLocale *_CurrentTimeLocale = &_DefaultTimeLocale;
+static CONST _TimeLocale *_CurrentTimeLocale = &_DefaultTimeLocale;
 
 static int isGMT;
 static size_t gsize;
 static char *pt;
-static int		 _add _ANSI_ARGS_((const char* str));
+static int		 _add _ANSI_ARGS_((CONST char* str));
 static int		_conv _ANSI_ARGS_((int n, int digits, int pad));
-static int		_secs _ANSI_ARGS_((const struct tm *t));
-static size_t		_fmt _ANSI_ARGS_((const char *format,
+static int		_secs _ANSI_ARGS_((CONST struct tm *t));
+static size_t		_fmt _ANSI_ARGS_((CONST char *format,
 			    const struct tm *t));
 
 /*
@@ -143,9 +143,9 @@ size_t
 TclpStrftime(s, maxsize, format, t, useGMT)
     char *s;			/* Buffer to hold the formatted string */
     size_t maxsize;		/* Size of the passed buffer */
-    const char *format;		/* Format to use (see the user documentation
+    CONST char *format;		/* Format to use (see the user documentation
 				 * for [clock] for details) */
-    const struct tm *t;		/* Time to format */
+    CONST struct tm *t;		/* Time to format */
     int useGMT;			/* Flag == 1 if time is to be returned
 				 * in UTC */
 {
@@ -183,8 +183,8 @@ TclpStrftime(s, maxsize, format, t, useGMT)
 
 static size_t
 _fmt(format, t)
-    const char *format;
-    const struct tm *t;
+    CONST char *format;
+    CONST struct tm *t;
 {
 #ifdef __WIN32__
 #define BUF_SIZ 256
@@ -434,7 +434,7 @@ _fmt(format, t)
 
 static int
 _secs(t)
-    const struct tm *t;
+    CONST struct tm *t;
 {
     static char buf[15];
     register time_t s;
