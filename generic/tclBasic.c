@@ -4027,12 +4027,14 @@ Tcl_EvalObjEx(interp, objPtr, flags)
 
 		/*
 		 * If an error was created here, record information about 
-		 * what was being executed when the error occurred.
+		 * what was being executed when the error occurred. Remove
+		 * the extra \n added by tclMain.c in the command sent to
+		 * Tcl_LogCommandInfo [Bug 833150].
 		 */
 
 		if (!(iPtr->flags & ERR_ALREADY_LOGGED)) {
 		    script = Tcl_GetStringFromObj(objPtr, &numSrcBytes);
-		    Tcl_LogCommandInfo(interp, script, script, numSrcBytes);
+		    Tcl_LogCommandInfo(interp, script, script, --numSrcBytes);
 		    iPtr->flags &= ~ERR_ALREADY_LOGGED;
 		}
 	    }
