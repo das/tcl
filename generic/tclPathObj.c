@@ -578,9 +578,10 @@ TclPathPart(interp, pathPtr, portion)
     } else {
 	int splitElements;
 	Tcl_Obj *splitPtr;
-	Tcl_Obj *resultPtr = NULL;
+	Tcl_Obj *resultPtr;
       standardPath:
 
+       	resultPtr = NULL;
         if (portion == TCL_PATH_EXTENSION) {
 	    return GetExtension(pathPtr);
         } else if (portion == TCL_PATH_ROOT) {
