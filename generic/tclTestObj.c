@@ -851,7 +851,7 @@ TeststringobjCmd(clientData, interp, objc, objv)
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
     int varIndex, option, i, length;
-#define MAX_STRINGS 10
+#define MAX_STRINGS 11
     char *index, *string, *strings[MAX_STRINGS+1];
     static char *options[] = {
 	"append", "appendstrings", "get", "get2", "length", "length2",

@@ -1166,7 +1166,7 @@ GetPermissionsAttribute(interp, objIndex, fileName, attributePtrPtr)
     Tcl_Obj **attributePtrPtr;	    /* A pointer to return the object with. */
 {
     struct stat statBuf;
-    char returnString[6];
+    char returnString[7];
     int result;
 
     result = TclStat(fileName, &statBuf);

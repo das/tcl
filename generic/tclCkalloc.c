@@ -468,12 +468,12 @@ Tcl_DbCkfree(ptr, file, line)
     if (validate_memory)
         Tcl_ValidateAllMemory(file, line);
 
+    TclpMutexLock(&ckallocMutex);
     ValidateMemory(memp, file, line, TRUE);
     if (init_malloced_bodies) {
 	memset((VOID *) ptr, GUARD_VALUE, (size_t) memp->length);
     }
 
-    TclpMutexLock(&ckallocMutex);
     total_frees++;
     current_malloc_packets--;
     current_bytes_malloced -= memp->length;

@@ -86,7 +86,7 @@ CFLAGS_OPTIMIZE =	@CFLAGS_OPTIMIZE@
 #CFLAGS = 		$(CFLAGS_DEBUG)
 #CFLAGS = 		$(CFLAGS_OPTIMIZE)
 #CFLAGS = 		$(CFLAGS_DEBUG) $(CFLAGS_OPTIMIZE)
-CFLAGS = 		$(@CFLAGS_DEFAULT@)
+CFLAGS = 		@CFLAGS@
 
 
 # To disable ANSI-C procedure prototypes reverse the comment characters

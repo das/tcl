@@ -225,23 +225,27 @@ TclRememberSyncObject(objPtr, recPtr)
     SyncObjRecord *recPtr;	/* Record of sync objects */
 {
     char **newList;
-    int i;
+    int i, j;
 
     /*
      * Save the pointer to the allocated object so it can be finalized.
-     * Grow the list of pointers if necessary.
+     * Grow the list of pointers if necessary, copying only non-NULL
+     * pointers to the new list.
      */
 
     if (recPtr->num >= recPtr->max) {
 	recPtr->max += 8;
 	newList = (char **)ckalloc(recPtr->max * sizeof(char *));
-	for (i=0 ; i<recPtr->num ; i++) {
-	    newList[i] = recPtr->list[i];
+	for (i=0,j=0 ; i<recPtr->num ; i++) {
+            if (recPtr->list[i] != NULL) {
+		newList[j++] = recPtr->list[i];
+            }
 	}
 	if (recPtr->list != NULL) {
 	    ckfree((char *)recPtr->list);
 	}
 	recPtr->list = newList;
+	recPtr->num = j;
     }
     recPtr->list[recPtr->num] = objPtr;
     recPtr->num++;
