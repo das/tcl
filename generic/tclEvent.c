@@ -270,12 +270,14 @@ HandleBgErrors(clientData)
              */
 
             if (Tcl_IsSafe(interp)) {
-		Tcl_SavedResult save;
+		TEMP (Tcl_SavedResult) save;
+		NEWTEMP (Tcl_SavedResult, save);
 		
-		Tcl_SaveResult(interp, &save);
+		Tcl_SaveResult(interp, REF (save));
                 TclGlobalInvoke(interp, 2, argv, TCL_INVOKE_HIDDEN);
-		Tcl_RestoreResult(interp, &save);
+		Tcl_RestoreResult(interp, REF (save));
 
+		RELTEMP (save);
                 goto doneWithInterp;
             } 
 
