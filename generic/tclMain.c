@@ -25,11 +25,7 @@
  * the Tcl source directory to make their own modified versions).
  */
 
-#if !defined(MAC_TCL)
-extern int		isatty _ANSI_ARGS_((int fd));
-#else
-#include <unistd.h>
-#endif
+extern DLLIMPORT int		isatty _ANSI_ARGS_((int fd));
 
 static Tcl_Obj *tclStartupScriptPath = NULL;
 static Tcl_Obj *tclStartupScriptEncoding = NULL;

@@ -533,7 +533,7 @@ CopyRenameOneFile(interp, source, target, copyFlag, force)
 	 * permissions, we'll let the actual copy/rename return
 	 * an error later.
 	 */
-#if !defined(__WIN32__) && !defined(MAC_TCL)
+#if !defined(__WIN32__)
 	{
 	Tcl_Obj* perm = Tcl_NewStringObj("u+w",-1);
 	Tcl_IncrRefCount(perm);

@@ -1,112 +1,3 @@
-/* A Bison parser, made by GNU Bison 1.875b.  */
-
-/* Skeleton parser for Yacc-like parsing with Bison,
-   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
-
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
-   any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330,
-   Boston, MA 02111-1307, USA.  */
-
-/* As a special exception, when this file is copied by Bison into a
-   Bison output file, you may use that output file without restriction.
-   This special exception was added by the Free Software Foundation
-   in version 1.24 of Bison.  */
-
-/* Written by Richard Stallman by simplifying the original so called
-   ``semantic'' parser.  */
-
-/* All symbols defined below should begin with yy or YY, to avoid
-   infringing on user name space.  This should be done even for local
-   variables, as they might otherwise be expanded by user macros.
-   There are some unavoidable exceptions within include files to
-   define necessary library symbols; they are noted "INFRINGES ON
-   USER NAME SPACE" below.  */
-
-/* Identify Bison output.  */
-#define YYBISON 1
-
-/* Skeleton name.  */
-#define YYSKELETON_NAME "yacc.c"
-
-/* Pure parsers.  */
-#define YYPURE 0
-
-/* Using locations.  */
-#define YYLSP_NEEDED 0
-
-/* If NAME_PREFIX is specified substitute the variables and functions
-   names.  */
-#define yyparse TclDateparse
-#define yylex   TclDatelex
-#define yyerror TclDateerror
-#define yylval  TclDatelval
-#define yychar  TclDatechar
-#define yydebug TclDatedebug
-#define yynerrs TclDatenerrs
-
-
-/* Tokens.  */
-#ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
-      know about them.  */
-   enum yytokentype {
-     tAGO = 258,
-     tDAY = 259,
-     tDAYZONE = 260,
-     tID = 261,
-     tMERIDIAN = 262,
-     tMINUTE_UNIT = 263,
-     tMONTH = 264,
-     tMONTH_UNIT = 265,
-     tSTARDATE = 266,
-     tSEC_UNIT = 267,
-     tSNUMBER = 268,
-     tUNUMBER = 269,
-     tZONE = 270,
-     tEPOCH = 271,
-     tDST = 272,
-     tISOBASE = 273,
-     tDAY_UNIT = 274,
-     tNEXT = 275
-   };
-#endif
-#define tAGO 258
-#define tDAY 259
-#define tDAYZONE 260
-#define tID 261
-#define tMERIDIAN 262
-#define tMINUTE_UNIT 263
-#define tMONTH 264
-#define tMONTH_UNIT 265
-#define tSTARDATE 266
-#define tSEC_UNIT 267
-#define tSNUMBER 268
-#define tUNUMBER 269
-#define tZONE 270
-#define tEPOCH 271
-#define tDST 272
-#define tISOBASE 273
-#define tDAY_UNIT 274
-#define tNEXT 275
-
-
-
-
-/* Copy the first part of user declarations.  */
-
-
 /* 
  * tclDate.c --
  *
@@ -119,87 +10,11 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
+ * RCS: @(#) 
  */
 
 #include "tclInt.h"
-
-/*
- * Bison generates several labels that happen to be unused. MS Visual
- * C++ doesn't like that, and complains.  Tell it to shut up.
- */
-
-#ifdef _MSC_VER
-#pragma warning( disable : 4102 )
-#endif /* _MSC_VER */
-
-/*
- * yyparse will accept a 'struct DateInfo' as its parameter;
- * that's where the parsed fields will be returned.
- */
-
-typedef struct DateInfo {
-
-    time_t   dateYear;
-    time_t   dateMonth;
-    time_t   dateDay;
-    int      dateHaveDate;
-
-    time_t   dateHour;
-    time_t   dateMinutes;
-    time_t   dateSeconds;
-    int      dateMeridian;
-    int      dateHaveTime;
-
-    time_t   dateTimezone;
-    int      dateDSTmode;
-    int      dateHaveZone;
-
-    time_t   dateRelMonth;
-    time_t   dateRelDay;
-    time_t   dateRelSeconds;
-    int      dateHaveRel;
-
-    time_t   dateMonthOrdinal;
-    int      dateHaveOrdinalMonth;
-
-    time_t   dateDayOrdinal;
-    time_t   dateDayNumber;
-    int      dateHaveDay;
-
-    char     *dateInput;
-    time_t   *dateRelPointer;
-
-    int	     dateDigitCount;
-
-} DateInfo;
-
-#define YYPARSE_PARAM info
-#define YYLEX_PARAM info
-
-#define yyDSTmode (((DateInfo*)info)->dateDSTmode)
-#define yyDayOrdinal (((DateInfo*)info)->dateDayOrdinal)
-#define yyDayNumber (((DateInfo*)info)->dateDayNumber)
-#define yyMonthOrdinal (((DateInfo*)info)->dateMonthOrdinal)
-#define yyHaveDate (((DateInfo*)info)->dateHaveDate)
-#define yyHaveDay (((DateInfo*)info)->dateHaveDay)
-#define yyHaveOrdinalMonth (((DateInfo*)info)->dateHaveOrdinalMonth)
-#define yyHaveRel (((DateInfo*)info)->dateHaveRel)
-#define yyHaveTime (((DateInfo*)info)->dateHaveTime)
-#define yyHaveZone (((DateInfo*)info)->dateHaveZone)
-#define yyTimezone (((DateInfo*)info)->dateTimezone)
-#define yyDay (((DateInfo*)info)->dateDay)
-#define yyMonth (((DateInfo*)info)->dateMonth)
-#define yyYear (((DateInfo*)info)->dateYear)
-#define yyHour (((DateInfo*)info)->dateHour)
-#define yyMinutes (((DateInfo*)info)->dateMinutes)
-#define yySeconds (((DateInfo*)info)->dateSeconds)
-#define yyMeridian (((DateInfo*)info)->dateMeridian)
-#define yyRelMonth (((DateInfo*)info)->dateRelMonth)
-#define yyRelDay (((DateInfo*)info)->dateRelDay)
-#define yyRelSeconds (((DateInfo*)info)->dateRelSeconds)
-#define yyRelPointer (((DateInfo*)info)->dateRelPointer)
-#define yyInput (((DateInfo*)info)->dateInput)
-#define yyDigitCount (((DateInfo*)info)->dateDigitCount)
+#include "tclPort.h"
 
 #define EPOCH           1970
 #define START_OF_TIME   1902
@@ -207,7 +22,10 @@ typedef struct DateInfo {
 
 /*
  * The offset of tm_year of struct tm returned by localtime, gmtime, etc.
- * Posix requires 1900.
+ * I don't know how universal this is; K&R II, the NetBSD manpages, and
+ * ../compat/strftime.c all agree that tm_year is the year-1900.  However,
+ * some systems may have a different value.  This #define should be the
+ * same as in ../compat/strftime.c.
  */
 #define TM_YEAR_BASE 1900
 
@@ -223,7 +41,6 @@ typedef struct _TABLE {
     int         type;
     time_t      value;
 } TABLE;
-
 
 /*
  *  Daylight-savings mode:  on, off, or not yet known.
@@ -241,1630 +58,209 @@ typedef enum _MERIDIAN {
 
 
 /*
+ *  Global variables.  We could get rid of most of these by using a good
+ *  union as the yacc stack.  (This routine was originally written before
+ *  yacc had the %union construct.)  Maybe someday; right now we only use
+ *  the %union very rarely.
+ */
+static char     *TclDateInput;
+static DSTMODE  TclDateDSTmode;
+static time_t   TclDateDayOrdinal;
+static time_t   TclDateDayNumber;
+static time_t   TclDateMonthOrdinal;
+static int      TclDateHaveDate;
+static int      TclDateHaveDay;
+static int      TclDateHaveOrdinalMonth;
+static int      TclDateHaveRel;
+static int      TclDateHaveTime;
+static int      TclDateHaveZone;
+static time_t   TclDateTimezone;
+static time_t   TclDateDay;
+static time_t   TclDateHour;
+static time_t   TclDateMinutes;
+static time_t   TclDateMonth;
+static time_t   TclDateSeconds;
+static time_t   TclDateYear;
+static MERIDIAN TclDateMeridian;
+static time_t   TclDateRelMonth;
+static time_t   TclDateRelDay;
+static time_t   TclDateRelSeconds;
+static time_t  *TclDateRelPointer;
+
+/*
  * Prototypes of internal functions.
  */
 static void	TclDateerror _ANSI_ARGS_((char *s));
 static time_t	ToSeconds _ANSI_ARGS_((time_t Hours, time_t Minutes,
 		    time_t Seconds, MERIDIAN Meridian));
+static int	Convert _ANSI_ARGS_((time_t Month, time_t Day, time_t Year,
+		    time_t Hours, time_t Minutes, time_t Seconds,
+		    MERIDIAN Meridia, DSTMODE DSTmode, time_t *TimePtr));
+static time_t	DSTcorrect _ANSI_ARGS_((time_t Start, time_t Future));
+static time_t	NamedDay _ANSI_ARGS_((time_t Start, time_t DayOrdinal,
+		    time_t DayNumber));
+static time_t   NamedMonth _ANSI_ARGS_((time_t Start, time_t MonthOrdinal,
+                    time_t MonthNumber));
+static int	RelativeMonth _ANSI_ARGS_((time_t Start, time_t RelMonth,
+		    time_t *TimePtr));
+static int	RelativeDay _ANSI_ARGS_((time_t Start, time_t RelDay,
+		    time_t *TimePtr));
 static int	LookupWord _ANSI_ARGS_((char *buff));
-static int	TclDatelex _ANSI_ARGS_((void* info));
+static int	TclDatelex _ANSI_ARGS_((void));
 
+int
+TclDateparse _ANSI_ARGS_((void));
 
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclDateCleanup --
+ *
+ *	Clean up allocated memory on process exit.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Frees the block of memory passed in as client data.
+ *
+ *----------------------------------------------------------------------
+ */
 
+static void
+TclDateCleanup( ClientData clientData )
+{
+    ckfree( (char*) clientData );
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclDateAlloc --
+ *
+ *	Special purpose allocator for the two YACC stacks.
+ *
+ * Results:
+ *	Returns a pointer to a block of memory.
+ *
+ * Side effects:
+ *	Allocates the requested number of bytes, and 
+ *	sets up to delete the allocated memory on process exit.
+ *
+ * The YACC system is set up to free memory in its stacks only by
+ * abandonment. This procedure sets up to free it explicitly on exit
+ * from Tcl, as when unloading.
+ *
+ *----------------------------------------------------------------------
+ */
 
-/* Enabling traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG 0
+static char*
+TclDateAlloc( size_t n )
+{
+    char* pointer = ckalloc( n );
+    Tcl_CreateExitHandler( TclDateCleanup, (ClientData) pointer );
+    return pointer;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclDateRealloc --
+ *
+ *	Special purpose allocator for the two YACC stacks.
+ *
+ * Results:
+ *	Returns a pointer to a block of memory.
+ *
+ * Side effects:
+ *	Allocates the requested number of bytes, and 
+ *	sets up to delete the allocated memory on process exit.
+ *
+ * The YACC system is set up to free memory in its stacks only by
+ * abandonment. This procedure sets up to free it explicitly on exit
+ * from Tcl, as when unloading.
+ *
+ *----------------------------------------------------------------------
+ */
+static char*
+TclDateRealloc( char* oldPointer, size_t n )
+{
+    char* newPointer;
+    Tcl_DeleteExitHandler( TclDateCleanup, (ClientData) oldPointer );
+    newPointer = ckrealloc( oldPointer, n );
+    Tcl_CreateExitHandler( TclDateCleanup, (ClientData) newPointer );
+    return newPointer;
+}
+
+typedef union
+#ifdef __cplusplus
+	YYSTYPE
 #endif
-
-/* Enabling verbose error messages.  */
-#ifdef YYERROR_VERBOSE
-# undef YYERROR_VERBOSE
-# define YYERROR_VERBOSE 1
-#else
-# define YYERROR_VERBOSE 0
-#endif
-
-#if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-
-typedef union YYSTYPE {
+ {
     time_t              Number;
     enum _MERIDIAN      Meridian;
 } YYSTYPE;
-/* Line 191 of yacc.c.  */
+# define tAGO 257
+# define tDAY 258
+# define tDAYZONE 259
+# define tID 260
+# define tMERIDIAN 261
+# define tMINUTE_UNIT 262
+# define tMONTH 263
+# define tMONTH_UNIT 264
+# define tSTARDATE 265
+# define tSEC_UNIT 266
+# define tSNUMBER 267
+# define tUNUMBER 268
+# define tZONE 269
+# define tEPOCH 270
+# define tDST 271
+# define tISOBASE 272
+# define tDAY_UNIT 273
+# define tNEXT 274
 
-# define yystype YYSTYPE /* obsolescent; will be withdrawn */
-# define YYSTYPE_IS_DECLARED 1
-# define YYSTYPE_IS_TRIVIAL 1
+
+
+
+#if defined(__cplusplus) || defined(__STDC__)
+
+#if defined(__cplusplus) && defined(__EXTERN_C__)
+extern "C" {
 #endif
-
-
-
-/* Copy the second part of user declarations.  */
-
-
-/* Line 214 of yacc.c.  */
-
-
-#if ! defined (yyoverflow) || YYERROR_VERBOSE
-
-/* The parser invokes alloca or malloc; define the necessary symbols.  */
-
-# if YYSTACK_USE_ALLOCA
-#  define YYSTACK_ALLOC alloca
-# else
-#  ifndef YYSTACK_USE_ALLOCA
-#   if defined (alloca) || defined (_ALLOCA_H)
-#    define YYSTACK_ALLOC alloca
-#   else
-#    ifdef __GNUC__
-#     define YYSTACK_ALLOC __builtin_alloca
-#    endif
-#   endif
-#  endif
-# endif
-
-# ifdef YYSTACK_ALLOC
-   /* Pacify GCC's `empty if-body' warning. */
-#  define YYSTACK_FREE(Ptr) do { /* empty */; } while (0)
-# else
-#  if defined (__STDC__) || defined (__cplusplus)
-#   include <stdlib.h> /* INFRINGES ON USER NAME SPACE */
-#   define YYSIZE_T size_t
-#  endif
-#  define YYSTACK_ALLOC malloc
-#  define YYSTACK_FREE free
-# endif
-#endif /* ! defined (yyoverflow) || YYERROR_VERBOSE */
-
-
-#if (! defined (yyoverflow) \
-     && (! defined (__cplusplus) \
-	 || (YYSTYPE_IS_TRIVIAL)))
-
-/* A type that is properly aligned for any stack member.  */
-union yyalloc
-{
-  short yyss;
-  YYSTYPE yyvs;
-  };
-
-/* The size of the maximum gap between one aligned stack and the next.  */
-# define YYSTACK_GAP_MAXIMUM (sizeof (union yyalloc) - 1)
-
-/* The size of an array large to enough to hold all stacks, each with
-   N elements.  */
-# define YYSTACK_BYTES(N) \
-     ((N) * (sizeof (short) + sizeof (YYSTYPE))				\
-      + YYSTACK_GAP_MAXIMUM)
-
-/* Copy COUNT objects from FROM to TO.  The source and destination do
-   not overlap.  */
-# ifndef YYCOPY
-#  if 1 < __GNUC__
-#   define YYCOPY(To, From, Count) \
-      __builtin_memcpy (To, From, (Count) * sizeof (*(From)))
-#  else
-#   define YYCOPY(To, From, Count)		\
-      do					\
-	{					\
-	  register YYSIZE_T yyi;		\
-	  for (yyi = 0; yyi < (Count); yyi++)	\
-	    (To)[yyi] = (From)[yyi];		\
-	}					\
-      while (0)
-#  endif
-# endif
-
-/* Relocate STACK from its old location to the new one.  The
-   local variables YYSIZE and YYSTACKSIZE give the old and new number of
-   elements in the stack, and YYPTR gives the new location of the
-   stack.  Advance YYPTR to a properly aligned location for the next
-   stack.  */
-# define YYSTACK_RELOCATE(Stack)					\
-    do									\
-      {									\
-	YYSIZE_T yynewbytes;						\
-	YYCOPY (&yyptr->Stack, Stack, yysize);				\
-	Stack = &yyptr->Stack;						\
-	yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
-	yyptr += yynewbytes / sizeof (*yyptr);				\
-      }									\
-    while (0)
-
+#ifndef TclDateerror
+#if defined(__cplusplus)
+	void TclDateerror(CONST char *);
 #endif
-
-#if defined (__STDC__) || defined (__cplusplus)
-   typedef signed char yysigned_char;
-#else
-   typedef short yysigned_char;
 #endif
-
-/* YYFINAL -- State number of the termination state. */
-#define YYFINAL  2
-/* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   79
-
-/* YYNTOKENS -- Number of terminals. */
-#define YYNTOKENS  27
-/* YYNNTS -- Number of nonterminals. */
-#define YYNNTS  16
-/* YYNRULES -- Number of rules. */
-#define YYNRULES  56
-/* YYNRULES -- Number of states. */
-#define YYNSTATES  83
-
-/* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-#define YYUNDEFTOK  2
-#define YYMAXUTOK   275
-
-#define YYTRANSLATE(YYX) 						\
-  ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
-
-/* YYTRANSLATE[YYLEX] -- Bison symbol number corresponding to YYLEX.  */
-static const unsigned char yytranslate[] =
-{
-       0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,    26,    23,    22,    25,    24,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,    21,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19,    20
-};
-
-#if YYDEBUG
-/* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
-   YYRHS.  */
-static const unsigned char yyprhs[] =
-{
-       0,     0,     3,     4,     7,     9,    11,    13,    15,    17,
-      19,    21,    23,    25,    28,    33,    39,    46,    54,    57,
-      59,    61,    63,    66,    69,    73,    76,    80,    86,    88,
-      94,   100,   103,   108,   111,   113,   117,   120,   124,   128,
-     136,   139,   144,   147,   149,   153,   156,   159,   163,   165,
-     167,   169,   171,   173,   175,   177,   178
-};
-
-/* YYRHS -- A `-1'-separated list of the rules' RHS. */
-static const yysigned_char yyrhs[] =
-{
-      28,     0,    -1,    -1,    28,    29,    -1,    30,    -1,    31,
-      -1,    33,    -1,    34,    -1,    32,    -1,    37,    -1,    35,
-      -1,    36,    -1,    41,    -1,    14,     7,    -1,    14,    21,
-      14,    42,    -1,    14,    21,    14,    22,    14,    -1,    14,
-      21,    14,    21,    14,    42,    -1,    14,    21,    14,    21,
-      14,    22,    14,    -1,    15,    17,    -1,    15,    -1,     5,
-      -1,     4,    -1,     4,    23,    -1,    14,     4,    -1,    39,
-      14,     4,    -1,    20,     4,    -1,    14,    24,    14,    -1,
-      14,    24,    14,    24,    14,    -1,    18,    -1,    14,    22,
-       9,    22,    14,    -1,    14,    22,    14,    22,    14,    -1,
-       9,    14,    -1,     9,    14,    23,    14,    -1,    14,     9,
-      -1,    16,    -1,    14,     9,    14,    -1,    20,     9,    -1,
-      20,    14,     9,    -1,    18,    15,    18,    -1,    18,    15,
-      14,    21,    14,    21,    14,    -1,    18,    18,    -1,    11,
-      14,    25,    14,    -1,    38,     3,    -1,    38,    -1,    39,
-      14,    40,    -1,    14,    40,    -1,    20,    40,    -1,    20,
-      14,    40,    -1,    40,    -1,    22,    -1,    26,    -1,    12,
-      -1,    19,    -1,    10,    -1,    14,    -1,    -1,     7,    -1
-};
-
-/* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const unsigned short yyrline[] =
-{
-       0,   179,   179,   180,   183,   186,   189,   192,   195,   198,
-     201,   205,   210,   213,   219,   225,   233,   239,   250,   254,
-     258,   264,   268,   272,   276,   280,   286,   290,   295,   300,
-     305,   310,   314,   319,   323,   328,   335,   339,   345,   354,
-     363,   373,   386,   391,   393,   394,   395,   396,   397,   399,
-     400,   402,   403,   404,   407,   426,   429
-};
+#ifndef TclDatelex
+	int TclDatelex(void);
 #endif
-
-#if YYDEBUG || YYERROR_VERBOSE
-/* YYTNME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
-   First, the terminals, then, starting at YYNTOKENS, nonterminals. */
-static const char *const yytname[] =
-{
-  "$end", "error", "$undefined", "tAGO", "tDAY", "tDAYZONE", "tID", 
-  "tMERIDIAN", "tMINUTE_UNIT", "tMONTH", "tMONTH_UNIT", "tSTARDATE", 
-  "tSEC_UNIT", "tSNUMBER", "tUNUMBER", "tZONE", "tEPOCH", "tDST", 
-  "tISOBASE", "tDAY_UNIT", "tNEXT", "':'", "'-'", "','", "'/'", "'.'", 
-  "'+'", "$accept", "spec", "item", "time", "zone", "day", "date", 
-  "ordMonth", "iso", "trek", "relspec", "relunits", "sign", "unit", 
-  "number", "o_merid", 0
-};
-#endif
-
-# ifdef YYPRINT
-/* YYTOKNUM[YYLEX-NUM] -- Internal token number corresponding to
-   token YYLEX-NUM.  */
-static const unsigned short yytoknum[] =
-{
-       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-     275,    58,    45,    44,    47,    46,    43
-};
-# endif
-
-/* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-static const unsigned char yyr1[] =
-{
-       0,    27,    28,    28,    29,    29,    29,    29,    29,    29,
-      29,    29,    29,    30,    30,    30,    30,    30,    31,    31,
-      31,    32,    32,    32,    32,    32,    33,    33,    33,    33,
-      33,    33,    33,    33,    33,    33,    34,    34,    35,    35,
-      35,    36,    37,    37,    38,    38,    38,    38,    38,    39,
-      39,    40,    40,    40,    41,    42,    42
-};
-
-/* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
-static const unsigned char yyr2[] =
-{
-       0,     2,     0,     2,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     2,     4,     5,     6,     7,     2,     1,
-       1,     1,     2,     2,     3,     2,     3,     5,     1,     5,
-       5,     2,     4,     2,     1,     3,     2,     3,     3,     7,
-       2,     4,     2,     1,     3,     2,     2,     3,     1,     1,
-       1,     1,     1,     1,     1,     0,     1
-};
-
-/* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
-   STATE-NUM when YYTABLE doesn't specify something else to do.  Zero
-   means the default is an error.  */
-static const unsigned char yydefact[] =
-{
-       2,     0,     1,    21,    20,     0,    53,     0,    51,    54,
-      19,    34,    28,    52,     0,    49,    50,     3,     4,     5,
-       8,     6,     7,    10,    11,     9,    43,     0,    48,    12,
-      22,    31,     0,    23,    13,    33,     0,     0,     0,    45,
-      18,     0,    40,    25,    36,     0,    46,    42,     0,     0,
-       0,    35,    55,     0,     0,    26,     0,    38,    37,    47,
-      24,    44,    32,    41,    56,     0,     0,    14,     0,     0,
-       0,     0,    55,    15,    29,    30,    27,     0,     0,    16,
-       0,    17,    39
-};
-
-/* YYDEFGOTO[NTERM-NUM]. */
-static const yysigned_char yydefgoto[] =
-{
-      -1,     1,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    67
-};
-
-/* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
-   STATE-NUM.  */
-#define YYPACT_NINF -23
-static const yysigned_char yypact[] =
-{
-     -23,     2,   -23,   -22,   -23,    -5,   -23,    -4,   -23,    22,
-      -2,   -23,    12,   -23,    38,   -23,   -23,   -23,   -23,   -23,
-     -23,   -23,   -23,   -23,   -23,   -23,    30,    11,   -23,   -23,
-     -23,    17,    10,   -23,   -23,    35,    40,    -6,    47,   -23,
-     -23,    45,   -23,   -23,   -23,    46,   -23,   -23,    41,    48,
-      50,   -23,    16,    44,    49,    43,    51,   -23,   -23,   -23,
-     -23,   -23,   -23,   -23,   -23,    54,    55,   -23,    56,    59,
-      60,    61,    -3,   -23,   -23,   -23,   -23,    57,    62,   -23,
-      63,   -23,   -23
-};
-
-/* YYPGOTO[NTERM-NUM].  */
-static const yysigned_char yypgoto[] =
-{
-     -23,   -23,   -23,   -23,   -23,   -23,   -23,   -23,   -23,   -23,
-     -23,   -23,   -23,    -9,   -23,     7
-};
-
-/* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
-   positive, shift that token.  If negative, reduce the rule which
-   number is the opposite.  If zero, do what YYDEFACT says.
-   If YYTABLE_NINF, syntax error.  */
-#define YYTABLE_NINF -1
-static const unsigned char yytable[] =
-{
-      39,    30,     2,    53,    64,    46,     3,     4,    54,    31,
-      32,     5,     6,     7,     8,    40,     9,    10,    11,    78,
-      12,    13,    14,    64,    15,    48,    33,    41,    16,    34,
-      42,    35,     6,    47,     8,    50,    59,    65,    66,    61,
-      49,    13,    43,    36,    37,    60,    38,    44,     6,    51,
-       8,     6,    45,     8,    52,    58,     6,    13,     8,    56,
-      13,    55,    62,    57,    63,    13,    68,    70,    72,    73,
-      74,    69,    71,    75,    76,    77,    81,    82,    80,    79
-};
-
-static const unsigned char yycheck[] =
-{
-       9,    23,     0,     9,     7,    14,     4,     5,    14,    14,
-      14,     9,    10,    11,    12,    17,    14,    15,    16,    22,
-      18,    19,    20,     7,    22,    14,     4,    15,    26,     7,
-      18,     9,    10,     3,    12,    25,    45,    21,    22,    48,
-      23,    19,     4,    21,    22,     4,    24,     9,    10,    14,
-      12,    10,    14,    12,    14,     9,    10,    19,    12,    14,
-      19,    14,    14,    18,    14,    19,    22,    24,    14,    14,
-      14,    22,    21,    14,    14,    14,    14,    14,    21,    72
-};
-
-/* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
-   symbol of state STATE-NUM.  */
-static const unsigned char yystos[] =
-{
-       0,    28,     0,     4,     5,     9,    10,    11,    12,    14,
-      15,    16,    18,    19,    20,    22,    26,    29,    30,    31,
-      32,    33,    34,    35,    36,    37,    38,    39,    40,    41,
-      23,    14,    14,     4,     7,     9,    21,    22,    24,    40,
-      17,    15,    18,     4,     9,    14,    40,     3,    14,    23,
-      25,    14,    14,     9,    14,    14,    14,    18,     9,    40,
-       4,    40,    14,    14,     7,    21,    22,    42,    22,    22,
-      24,    21,    14,    14,    14,    14,    14,    14,    22,    42,
-      21,    14,    14
-};
-
-#if ! defined (YYSIZE_T) && defined (__SIZE_TYPE__)
-# define YYSIZE_T __SIZE_TYPE__
-#endif
-#if ! defined (YYSIZE_T) && defined (size_t)
-# define YYSIZE_T size_t
-#endif
-#if ! defined (YYSIZE_T)
-# if defined (__STDC__) || defined (__cplusplus)
-#  include <stddef.h> /* INFRINGES ON USER NAME SPACE */
-#  define YYSIZE_T size_t
-# endif
-#endif
-#if ! defined (YYSIZE_T)
-# define YYSIZE_T unsigned int
-#endif
-
-#define yyerrok		(yyerrstatus = 0)
-#define yyclearin	(yychar = YYEMPTY)
-#define YYEMPTY		(-2)
-#define YYEOF		0
-
-#define YYACCEPT	goto yyacceptlab
-#define YYABORT		goto yyabortlab
-#define YYERROR		goto yyerrlab1
-
-
-/* Like YYERROR except do call yyerror.  This remains here temporarily
-   to ease the transition to the new meaning of YYERROR, for GCC.
-   Once GCC version 2 has supplanted version 1, this can go.  */
-
-#define YYFAIL		goto yyerrlab
-
-#define YYRECOVERING()  (!!yyerrstatus)
-
-#define YYBACKUP(Token, Value)					\
-do								\
-  if (yychar == YYEMPTY && yylen == 1)				\
-    {								\
-      yychar = (Token);						\
-      yylval = (Value);						\
-      yytoken = YYTRANSLATE (yychar);				\
-      YYPOPSTACK;						\
-      goto yybackup;						\
-    }								\
-  else								\
-    { 								\
-      yyerror ("syntax error: cannot back up");\
-      YYERROR;							\
-    }								\
-while (0)
-
-#define YYTERROR	1
-#define YYERRCODE	256
-
-/* YYLLOC_DEFAULT -- Compute the default location (before the actions
-   are run).  */
-
-#ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)         \
-  Current.first_line   = Rhs[1].first_line;      \
-  Current.first_column = Rhs[1].first_column;    \
-  Current.last_line    = Rhs[N].last_line;       \
-  Current.last_column  = Rhs[N].last_column;
-#endif
-
-/* YYLEX -- calling `yylex' with the right arguments.  */
-
-#ifdef YYLEX_PARAM
-# define YYLEX yylex (YYLEX_PARAM)
-#else
-# define YYLEX yylex ()
-#endif
-
-/* Enable debugging if requested.  */
-#if YYDEBUG
-
-# ifndef YYFPRINTF
-#  include <stdio.h> /* INFRINGES ON USER NAME SPACE */
-#  define YYFPRINTF fprintf
-# endif
-
-# define YYDPRINTF(Args)			\
-do {						\
-  if (yydebug)					\
-    YYFPRINTF Args;				\
-} while (0)
-
-# define YYDSYMPRINT(Args)			\
-do {						\
-  if (yydebug)					\
-    yysymprint Args;				\
-} while (0)
-
-# define YYDSYMPRINTF(Title, Token, Value, Location)		\
-do {								\
-  if (yydebug)							\
-    {								\
-      YYFPRINTF (stderr, "%s ", Title);				\
-      yysymprint (stderr, 					\
-                  Token, Value);	\
-      YYFPRINTF (stderr, "\n");					\
-    }								\
-} while (0)
-
-/*------------------------------------------------------------------.
-| yy_stack_print -- Print the state stack from its BOTTOM up to its |
-| TOP (cinluded).                                                   |
-`------------------------------------------------------------------*/
-
-#if defined (__STDC__) || defined (__cplusplus)
-static void
-yy_stack_print (short *bottom, short *top)
-#else
-static void
-yy_stack_print (bottom, top)
-    short *bottom;
-    short *top;
-#endif
-{
-  YYFPRINTF (stderr, "Stack now");
-  for (/* Nothing. */; bottom <= top; ++bottom)
-    YYFPRINTF (stderr, " %d", *bottom);
-  YYFPRINTF (stderr, "\n");
+	int TclDateparse(void);
+#if defined(__cplusplus) && defined(__EXTERN_C__)
 }
-
-# define YY_STACK_PRINT(Bottom, Top)				\
-do {								\
-  if (yydebug)							\
-    yy_stack_print ((Bottom), (Top));				\
-} while (0)
-
-
-/*------------------------------------------------.
-| Report that the YYRULE is going to be reduced.  |
-`------------------------------------------------*/
-
-#if defined (__STDC__) || defined (__cplusplus)
-static void
-yy_reduce_print (int yyrule)
-#else
-static void
-yy_reduce_print (yyrule)
-    int yyrule;
-#endif
-{
-  int yyi;
-  unsigned int yylno = yyrline[yyrule];
-  YYFPRINTF (stderr, "Reducing stack by rule %d (line %u), ",
-             yyrule - 1, yylno);
-  /* Print the symbols being reduced, and their result.  */
-  for (yyi = yyprhs[yyrule]; 0 <= yyrhs[yyi]; yyi++)
-    YYFPRINTF (stderr, "%s ", yytname [yyrhs[yyi]]);
-  YYFPRINTF (stderr, "-> %s\n", yytname [yyr1[yyrule]]);
-}
-
-# define YY_REDUCE_PRINT(Rule)		\
-do {					\
-  if (yydebug)				\
-    yy_reduce_print (Rule);		\
-} while (0)
-
-/* Nonzero means print parse trace.  It is left uninitialized so that
-   multiple parsers can coexist.  */
-int yydebug;
-#else /* !YYDEBUG */
-# define YYDPRINTF(Args)
-# define YYDSYMPRINT(Args)
-# define YYDSYMPRINTF(Title, Token, Value, Location)
-# define YY_STACK_PRINT(Bottom, Top)
-# define YY_REDUCE_PRINT(Rule)
-#endif /* !YYDEBUG */
-
-
-/* YYINITDEPTH -- initial size of the parser's stacks.  */
-#ifndef	YYINITDEPTH
-# define YYINITDEPTH 200
 #endif
 
-/* YYMAXDEPTH -- maximum size the stacks can grow to (effective only
-   if the built-in stack extension method is used).
-
-   Do not make this value too large; the results are undefined if
-   SIZE_MAX < YYSTACK_BYTES (YYMAXDEPTH)
-   evaluated with infinite-precision integer arithmetic.  */
-
-#if YYMAXDEPTH == 0
-# undef YYMAXDEPTH
 #endif
 
+#define TclDateclearin TclDatechar = -1
+#define TclDateerrok TclDateerrflag = 0
+extern int TclDatechar;
+extern int TclDateerrflag;
+YYSTYPE TclDatelval;
+YYSTYPE TclDateval;
+typedef int TclDatetabelem;
 #ifndef YYMAXDEPTH
-# define YYMAXDEPTH 10000
+#define YYMAXDEPTH 150
 #endif
-
-
-
-#if YYERROR_VERBOSE
-
-# ifndef yystrlen
-#  if defined (__GLIBC__) && defined (_STRING_H)
-#   define yystrlen strlen
-#  else
-/* Return the length of YYSTR.  */
-static YYSIZE_T
-#   if defined (__STDC__) || defined (__cplusplus)
-yystrlen (const char *yystr)
-#   else
-yystrlen (yystr)
-     const char *yystr;
-#   endif
-{
-  register const char *yys = yystr;
-
-  while (*yys++ != '\0')
-    continue;
-
-  return yys - yystr - 1;
-}
-#  endif
-# endif
-
-# ifndef yystpcpy
-#  if defined (__GLIBC__) && defined (_STRING_H) && defined (_GNU_SOURCE)
-#   define yystpcpy stpcpy
-#  else
-/* Copy YYSRC to YYDEST, returning the address of the terminating '\0' in
-   YYDEST.  */
-static char *
-#   if defined (__STDC__) || defined (__cplusplus)
-yystpcpy (char *yydest, const char *yysrc)
-#   else
-yystpcpy (yydest, yysrc)
-     char *yydest;
-     const char *yysrc;
-#   endif
-{
-  register char *yyd = yydest;
-  register const char *yys = yysrc;
-
-  while ((*yyd++ = *yys++) != '\0')
-    continue;
-
-  return yyd - 1;
-}
-#  endif
-# endif
-
-#endif /* !YYERROR_VERBOSE */
-
-
-
-#if YYDEBUG
-/*--------------------------------.
-| Print this symbol on YYOUTPUT.  |
-`--------------------------------*/
-
-#if defined (__STDC__) || defined (__cplusplus)
-static void
-yysymprint (FILE *yyoutput, int yytype, YYSTYPE *yyvaluep)
-#else
-static void
-yysymprint (yyoutput, yytype, yyvaluep)
-    FILE *yyoutput;
-    int yytype;
-    YYSTYPE *yyvaluep;
+#if YYMAXDEPTH > 0
+int TclDate_TclDates[YYMAXDEPTH], *TclDates = TclDate_TclDates;
+YYSTYPE TclDate_TclDatev[YYMAXDEPTH], *TclDatev = TclDate_TclDatev;
+#else	/* user does initial allocation */
+int *TclDates;
+YYSTYPE *TclDatev;
 #endif
-{
-  /* Pacify ``unused variable'' warnings.  */
-  (void) yyvaluep;
-
-  if (yytype < YYNTOKENS)
-    {
-      YYFPRINTF (yyoutput, "token %s (", yytname[yytype]);
-# ifdef YYPRINT
-      YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
-# endif
-    }
-  else
-    YYFPRINTF (yyoutput, "nterm %s (", yytname[yytype]);
-
-  switch (yytype)
-    {
-      default:
-        break;
-    }
-  YYFPRINTF (yyoutput, ")");
-}
-
-#endif /* ! YYDEBUG */
-/*-----------------------------------------------.
-| Release the memory associated to this symbol.  |
-`-----------------------------------------------*/
-
-#if defined (__STDC__) || defined (__cplusplus)
-static void
-yydestruct (int yytype, YYSTYPE *yyvaluep)
-#else
-static void
-yydestruct (yytype, yyvaluep)
-    int yytype;
-    YYSTYPE *yyvaluep;
-#endif
-{
-  /* Pacify ``unused variable'' warnings.  */
-  (void) yyvaluep;
-
-  switch (yytype)
-    {
-
-      default:
-        break;
-    }
-}
-
-
-/* Prevent warnings from -Wmissing-prototypes.  */
-
-#ifdef YYPARSE_PARAM
-# if defined (__STDC__) || defined (__cplusplus)
-int yyparse (void *YYPARSE_PARAM);
-# else
-int yyparse ();
-# endif
-#else /* ! YYPARSE_PARAM */
-#if defined (__STDC__) || defined (__cplusplus)
-int yyparse (void);
-#else
-int yyparse ();
-#endif
-#endif /* ! YYPARSE_PARAM */
-
-
-
-/* The lookahead symbol.  */
-int yychar;
-
-/* The semantic value of the lookahead symbol.  */
-YYSTYPE yylval;
-
-/* Number of syntax errors so far.  */
-int yynerrs;
-
-
-
-/*----------.
-| yyparse.  |
-`----------*/
-
-#ifdef YYPARSE_PARAM
-# if defined (__STDC__) || defined (__cplusplus)
-int yyparse (void *YYPARSE_PARAM)
-# else
-int yyparse (YYPARSE_PARAM)
-  void *YYPARSE_PARAM;
-# endif
-#else /* ! YYPARSE_PARAM */
-#if defined (__STDC__) || defined (__cplusplus)
-int
-yyparse (void)
-#else
-int
-yyparse ()
-
-#endif
-#endif
-{
-  
-  register int yystate;
-  register int yyn;
-  int yyresult;
-  /* Number of tokens to shift before error messages enabled.  */
-  int yyerrstatus;
-  /* Lookahead token as an internal (translated) token number.  */
-  int yytoken = 0;
-
-  /* Three stacks and their tools:
-     `yyss': related to states,
-     `yyvs': related to semantic values,
-     `yyls': related to locations.
-
-     Refer to the stacks thru separate pointers, to allow yyoverflow
-     to reallocate them elsewhere.  */
-
-  /* The state stack.  */
-  short	yyssa[YYINITDEPTH];
-  short *yyss = yyssa;
-  register short *yyssp;
-
-  /* The semantic value stack.  */
-  YYSTYPE yyvsa[YYINITDEPTH];
-  YYSTYPE *yyvs = yyvsa;
-  register YYSTYPE *yyvsp;
-
-
-
-#define YYPOPSTACK   (yyvsp--, yyssp--)
-
-  YYSIZE_T yystacksize = YYINITDEPTH;
-
-  /* The variables used to return semantic value and location from the
-     action routines.  */
-  YYSTYPE yyval;
-
-
-  /* When reducing, the number of symbols on the RHS of the reduced
-     rule.  */
-  int yylen;
-
-  YYDPRINTF ((stderr, "Starting parse\n"));
-
-  yystate = 0;
-  yyerrstatus = 0;
-  yynerrs = 0;
-  yychar = YYEMPTY;		/* Cause a token to be read.  */
-
-  /* Initialize stack pointers.
-     Waste one element of value and location stack
-     so that they stay on the same level as the state stack.
-     The wasted elements are never initialized.  */
-
-  yyssp = yyss;
-  yyvsp = yyvs;
-
-  goto yysetstate;
-
-/*------------------------------------------------------------.
-| yynewstate -- Push a new state, which is found in yystate.  |
-`------------------------------------------------------------*/
- yynewstate:
-  /* In all cases, when you get here, the value and location stacks
-     have just been pushed. so pushing a state here evens the stacks.
-     */
-  yyssp++;
-
- yysetstate:
-  *yyssp = yystate;
-
-  if (yyss + yystacksize - 1 <= yyssp)
-    {
-      /* Get the current used size of the three stacks, in elements.  */
-      YYSIZE_T yysize = yyssp - yyss + 1;
-
-#ifdef yyoverflow
-      {
-	/* Give user a chance to reallocate the stack. Use copies of
-	   these so that the &'s don't force the real ones into
-	   memory.  */
-	YYSTYPE *yyvs1 = yyvs;
-	short *yyss1 = yyss;
-
-
-	/* Each stack pointer address is followed by the size of the
-	   data in use in that stack, in bytes.  This used to be a
-	   conditional around just the two extra args, but that might
-	   be undefined if yyoverflow is a macro.  */
-	yyoverflow ("parser stack overflow",
-		    &yyss1, yysize * sizeof (*yyssp),
-		    &yyvs1, yysize * sizeof (*yyvsp),
-
-		    &yystacksize);
-
-	yyss = yyss1;
-	yyvs = yyvs1;
-      }
-#else /* no yyoverflow */
-# ifndef YYSTACK_RELOCATE
-      goto yyoverflowlab;
-# else
-      /* Extend the stack our own way.  */
-      if (YYMAXDEPTH <= yystacksize)
-	goto yyoverflowlab;
-      yystacksize *= 2;
-      if (YYMAXDEPTH < yystacksize)
-	yystacksize = YYMAXDEPTH;
-
-      {
-	short *yyss1 = yyss;
-	union yyalloc *yyptr =
-	  (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
-	if (! yyptr)
-	  goto yyoverflowlab;
-	YYSTACK_RELOCATE (yyss);
-	YYSTACK_RELOCATE (yyvs);
-
-#  undef YYSTACK_RELOCATE
-	if (yyss1 != yyssa)
-	  YYSTACK_FREE (yyss1);
-      }
-# endif
-#endif /* no yyoverflow */
-
-      yyssp = yyss + yysize - 1;
-      yyvsp = yyvs + yysize - 1;
-
-
-      YYDPRINTF ((stderr, "Stack size increased to %lu\n",
-		  (unsigned long int) yystacksize));
-
-      if (yyss + yystacksize - 1 <= yyssp)
-	YYABORT;
-    }
-
-  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
-
-  goto yybackup;
-
-/*-----------.
-| yybackup.  |
-`-----------*/
-yybackup:
-
-/* Do appropriate processing given the current state.  */
-/* Read a lookahead token if we need one and don't already have one.  */
-/* yyresume: */
-
-  /* First try to decide what to do without reference to lookahead token.  */
-
-  yyn = yypact[yystate];
-  if (yyn == YYPACT_NINF)
-    goto yydefault;
-
-  /* Not known => get a lookahead token if don't already have one.  */
-
-  /* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */
-  if (yychar == YYEMPTY)
-    {
-      YYDPRINTF ((stderr, "Reading a token: "));
-      yychar = YYLEX;
-    }
-
-  if (yychar <= YYEOF)
-    {
-      yychar = yytoken = YYEOF;
-      YYDPRINTF ((stderr, "Now at end of input.\n"));
-    }
-  else
-    {
-      yytoken = YYTRANSLATE (yychar);
-      YYDSYMPRINTF ("Next token is", yytoken, &yylval, &yylloc);
-    }
-
-  /* If the proper action on seeing token YYTOKEN is to reduce or to
-     detect an error, take that action.  */
-  yyn += yytoken;
-  if (yyn < 0 || YYLAST < yyn || yycheck[yyn] != yytoken)
-    goto yydefault;
-  yyn = yytable[yyn];
-  if (yyn <= 0)
-    {
-      if (yyn == 0 || yyn == YYTABLE_NINF)
-	goto yyerrlab;
-      yyn = -yyn;
-      goto yyreduce;
-    }
-
-  if (yyn == YYFINAL)
-    YYACCEPT;
-
-  /* Shift the lookahead token.  */
-  YYDPRINTF ((stderr, "Shifting token %s, ", yytname[yytoken]));
-
-  /* Discard the token being shifted unless it is eof.  */
-  if (yychar != YYEOF)
-    yychar = YYEMPTY;
-
-  *++yyvsp = yylval;
-
-
-  /* Count tokens shifted since error; after three, turn off error
-     status.  */
-  if (yyerrstatus)
-    yyerrstatus--;
-
-  yystate = yyn;
-  goto yynewstate;
-
-
-/*-----------------------------------------------------------.
-| yydefault -- do the default action for the current state.  |
-`-----------------------------------------------------------*/
-yydefault:
-  yyn = yydefact[yystate];
-  if (yyn == 0)
-    goto yyerrlab;
-  goto yyreduce;
-
-
-/*-----------------------------.
-| yyreduce -- Do a reduction.  |
-`-----------------------------*/
-yyreduce:
-  /* yyn is the number of a rule to reduce with.  */
-  yylen = yyr2[yyn];
-
-  /* If YYLEN is nonzero, implement the default value of the action:
-     `$$ = $1'.
-
-     Otherwise, the following line sets YYVAL to garbage.
-     This behavior is undocumented and Bison
-     users should not rely upon it.  Assigning to YYVAL
-     unconditionally makes the parser a bit smaller, and it avoids a
-     GCC warning that YYVAL may be used uninitialized.  */
-  yyval = yyvsp[1-yylen];
-
-
-  YY_REDUCE_PRINT (yyn);
-  switch (yyn)
-    {
-        case 4:
-
-    {
-            yyHaveTime++;
-        ;}
-    break;
-
-  case 5:
-
-    {
-            yyHaveZone++;
-        ;}
-    break;
-
-  case 6:
-
-    {
-            yyHaveDate++;
-        ;}
-    break;
-
-  case 7:
-
-    {
-            yyHaveOrdinalMonth++;
-        ;}
-    break;
-
-  case 8:
-
-    {
-            yyHaveDay++;
-        ;}
-    break;
-
-  case 9:
-
-    {
-            yyHaveRel++;
-        ;}
-    break;
-
-  case 10:
-
-    {
-	    yyHaveTime++;
-	    yyHaveDate++;
-	;}
-    break;
-
-  case 11:
-
-    {
-	    yyHaveTime++;
-	    yyHaveDate++;
-	    yyHaveRel++;
-        ;}
-    break;
-
-  case 13:
-
-    {
-            yyHour = yyvsp[-1].Number;
-            yyMinutes = 0;
-            yySeconds = 0;
-            yyMeridian = yyvsp[0].Meridian;
-        ;}
-    break;
-
-  case 14:
-
-    {
-            yyHour = yyvsp[-3].Number;
-            yyMinutes = yyvsp[-1].Number;
-            yySeconds = 0;
-            yyMeridian = yyvsp[0].Meridian;
-        ;}
-    break;
-
-  case 15:
-
-    {
-            yyHour = yyvsp[-4].Number;
-            yyMinutes = yyvsp[-2].Number;
-            yyMeridian = MER24;
-            yyDSTmode = DSToff;
-            yyTimezone = (yyvsp[0].Number % 100 + (yyvsp[0].Number / 100) * 60);
-	    ++yyHaveZone;
-        ;}
-    break;
-
-  case 16:
-
-    {
-            yyHour = yyvsp[-5].Number;
-            yyMinutes = yyvsp[-3].Number;
-            yySeconds = yyvsp[-1].Number;
-            yyMeridian = yyvsp[0].Meridian;
-        ;}
-    break;
-
-  case 17:
-
-    {
-            yyHour = yyvsp[-6].Number;
-            yyMinutes = yyvsp[-4].Number;
-            yySeconds = yyvsp[-2].Number;
-            yyMeridian = MER24;
-            yyDSTmode = DSToff;
-            yyTimezone = (yyvsp[0].Number % 100 + (yyvsp[0].Number / 100) * 60);
-	    ++yyHaveZone;
-        ;}
-    break;
-
-  case 18:
-
-    {
-            yyTimezone = yyvsp[-1].Number;
-            yyDSTmode = DSTon;
-        ;}
-    break;
-
-  case 19:
-
-    {
-            yyTimezone = yyvsp[0].Number;
-            yyDSTmode = DSToff;
-        ;}
-    break;
-
-  case 20:
-
-    {
-            yyTimezone = yyvsp[0].Number;
-            yyDSTmode = DSTon;
-        ;}
-    break;
-
-  case 21:
-
-    {
-            yyDayOrdinal = 1;
-            yyDayNumber = yyvsp[0].Number;
-        ;}
-    break;
-
-  case 22:
-
-    {
-            yyDayOrdinal = 1;
-            yyDayNumber = yyvsp[-1].Number;
-        ;}
-    break;
-
-  case 23:
-
-    {
-            yyDayOrdinal = yyvsp[-1].Number;
-            yyDayNumber = yyvsp[0].Number;
-        ;}
-    break;
-
-  case 24:
-
-    {
-            yyDayOrdinal = yyvsp[-2].Number * yyvsp[-1].Number;
-            yyDayNumber = yyvsp[0].Number;
-        ;}
-    break;
-
-  case 25:
-
-    {
-            yyDayOrdinal = 2;
-            yyDayNumber = yyvsp[0].Number;
-        ;}
-    break;
-
-  case 26:
-
-    {
-            yyMonth = yyvsp[-2].Number;
-            yyDay = yyvsp[0].Number;
-        ;}
-    break;
-
-  case 27:
-
-    {
-            yyMonth = yyvsp[-4].Number;
-            yyDay = yyvsp[-2].Number;
-            yyYear = yyvsp[0].Number;
-        ;}
-    break;
-
-  case 28:
-
-    {
-	    yyYear = yyvsp[0].Number / 10000;
-	    yyMonth = (yyvsp[0].Number % 10000)/100;
-	    yyDay = yyvsp[0].Number % 100;
-	;}
-    break;
-
-  case 29:
-
-    {
-	    yyDay = yyvsp[-4].Number;
-	    yyMonth = yyvsp[-2].Number;
-	    yyYear = yyvsp[0].Number;
-	;}
-    break;
-
-  case 30:
-
-    {
-            yyMonth = yyvsp[-2].Number;
-            yyDay = yyvsp[0].Number;
-            yyYear = yyvsp[-4].Number;
-        ;}
-    break;
-
-  case 31:
-
-    {
-            yyMonth = yyvsp[-1].Number;
-            yyDay = yyvsp[0].Number;
-        ;}
-    break;
-
-  case 32:
-
-    {
-            yyMonth = yyvsp[-3].Number;
-            yyDay = yyvsp[-2].Number;
-            yyYear = yyvsp[0].Number;
-        ;}
-    break;
-
-  case 33:
-
-    {
-            yyMonth = yyvsp[0].Number;
-            yyDay = yyvsp[-1].Number;
-        ;}
-    break;
-
-  case 34:
-
-    {
-	    yyMonth = 1;
-	    yyDay = 1;
-	    yyYear = EPOCH;
-	;}
-    break;
-
-  case 35:
-
-    {
-            yyMonth = yyvsp[-1].Number;
-            yyDay = yyvsp[-2].Number;
-            yyYear = yyvsp[0].Number;
-        ;}
-    break;
-
-  case 36:
-
-    {
-	    yyMonthOrdinal = 1;
-	    yyMonth = yyvsp[0].Number;
-	;}
-    break;
-
-  case 37:
-
-    {
-	    yyMonthOrdinal = yyvsp[-1].Number;
-	    yyMonth = yyvsp[0].Number;
-	;}
-    break;
-
-  case 38:
-
-    {
-            if (yyvsp[-1].Number != HOUR(- 7)) YYABORT;
-	    yyYear = yyvsp[-2].Number / 10000;
-	    yyMonth = (yyvsp[-2].Number % 10000)/100;
-	    yyDay = yyvsp[-2].Number % 100;
-	    yyHour = yyvsp[0].Number / 10000;
-	    yyMinutes = (yyvsp[0].Number % 10000)/100;
-	    yySeconds = yyvsp[0].Number % 100;
-        ;}
-    break;
-
-  case 39:
-
-    {
-            if (yyvsp[-5].Number != HOUR(- 7)) YYABORT;
-	    yyYear = yyvsp[-6].Number / 10000;
-	    yyMonth = (yyvsp[-6].Number % 10000)/100;
-	    yyDay = yyvsp[-6].Number % 100;
-	    yyHour = yyvsp[-4].Number;
-	    yyMinutes = yyvsp[-2].Number;
-	    yySeconds = yyvsp[0].Number;
-        ;}
-    break;
-
-  case 40:
-
-    {
-	    yyYear = yyvsp[-1].Number / 10000;
-	    yyMonth = (yyvsp[-1].Number % 10000)/100;
-	    yyDay = yyvsp[-1].Number % 100;
-	    yyHour = yyvsp[0].Number / 10000;
-	    yyMinutes = (yyvsp[0].Number % 10000)/100;
-	    yySeconds = yyvsp[0].Number % 100;
-        ;}
-    break;
-
-  case 41:
-
-    {
-            /*
-	     * Offset computed year by -377 so that the returned years will
-	     * be in a range accessible with a 32 bit clock seconds value
-	     */
-            yyYear = yyvsp[-2].Number/1000 + 2323 - 377;
-            yyDay  = 1;
-	    yyMonth = 1;
-	    yyRelDay += ((yyvsp[-2].Number%1000)*(365 + IsLeapYear(yyYear)))/1000;
-	    yyRelSeconds += yyvsp[0].Number * 144 * 60;
-        ;}
-    break;
-
-  case 42:
-
-    {
-	    yyRelSeconds *= -1;
-	    yyRelMonth *= -1;
-	    yyRelDay *= -1;
-	;}
-    break;
-
-  case 44:
-
-    { *yyRelPointer += yyvsp[-2].Number * yyvsp[-1].Number * yyvsp[0].Number; ;}
-    break;
-
-  case 45:
-
-    { *yyRelPointer += yyvsp[-1].Number * yyvsp[0].Number; ;}
-    break;
-
-  case 46:
-
-    { *yyRelPointer += yyvsp[0].Number; ;}
-    break;
-
-  case 47:
-
-    { *yyRelPointer += yyvsp[-1].Number * yyvsp[0].Number; ;}
-    break;
-
-  case 48:
-
-    { *yyRelPointer += yyvsp[0].Number; ;}
-    break;
-
-  case 49:
-
-    { yyval.Number = -1; ;}
-    break;
-
-  case 50:
-
-    { yyval.Number =  1; ;}
-    break;
-
-  case 51:
-
-    { yyval.Number = yyvsp[0].Number; yyRelPointer = &yyRelSeconds; ;}
-    break;
-
-  case 52:
-
-    { yyval.Number = yyvsp[0].Number; yyRelPointer = &yyRelDay; ;}
-    break;
-
-  case 53:
-
-    { yyval.Number = yyvsp[0].Number; yyRelPointer = &yyRelMonth; ;}
-    break;
-
-  case 54:
-
-    {
-	if (yyHaveTime && yyHaveDate && !yyHaveRel) {
-	    yyYear = yyvsp[0].Number;
-	} else {
-	    yyHaveTime++;
-	    if (yyDigitCount <= 2) {
-		yyHour = yyvsp[0].Number;
-		yyMinutes = 0;
-	    } else {
-		yyHour = yyvsp[0].Number / 100;
-		yyMinutes = yyvsp[0].Number % 100;
-	    }
-	    yySeconds = 0;
-	    yyMeridian = MER24;
-	}
-    ;}
-    break;
-
-  case 55:
-
-    {
-            yyval.Meridian = MER24;
-        ;}
-    break;
-
-  case 56:
-
-    {
-            yyval.Meridian = yyvsp[0].Meridian;
-        ;}
-    break;
-
-
-    }
-
-/* Line 999 of yacc.c.  */
-
-
-  yyvsp -= yylen;
-  yyssp -= yylen;
-
-
-  YY_STACK_PRINT (yyss, yyssp);
-
-  *++yyvsp = yyval;
-
-
-  /* Now `shift' the result of the reduction.  Determine what state
-     that goes to, based on the state we popped back to and the rule
-     number reduced by.  */
-
-  yyn = yyr1[yyn];
-
-  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
-  if (0 <= yystate && yystate <= YYLAST && yycheck[yystate] == *yyssp)
-    yystate = yytable[yystate];
-  else
-    yystate = yydefgoto[yyn - YYNTOKENS];
-
-  goto yynewstate;
-
-
-/*------------------------------------.
-| yyerrlab -- here on detecting error |
-`------------------------------------*/
-yyerrlab:
-  /* If not already recovering from an error, report this error.  */
-  if (!yyerrstatus)
-    {
-      ++yynerrs;
-#if YYERROR_VERBOSE
-      yyn = yypact[yystate];
-
-      if (YYPACT_NINF < yyn && yyn < YYLAST)
-	{
-	  YYSIZE_T yysize = 0;
-	  int yytype = YYTRANSLATE (yychar);
-	  const char* yyprefix;
-	  char *yymsg;
-	  int yyx;
-
-	  /* Start YYX at -YYN if negative to avoid negative indexes in
-	     YYCHECK.  */
-	  int yyxbegin = yyn < 0 ? -yyn : 0;
-
-	  /* Stay within bounds of both yycheck and yytname.  */
-	  int yychecklim = YYLAST - yyn;
-	  int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
-	  int yycount = 0;
-
-	  yyprefix = ", expecting ";
-	  for (yyx = yyxbegin; yyx < yyxend; ++yyx)
-	    if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
-	      {
-		yysize += yystrlen (yyprefix) + yystrlen (yytname [yyx]);
-		yycount += 1;
-		if (yycount == 5)
-		  {
-		    yysize = 0;
-		    break;
-		  }
-	      }
-	  yysize += (sizeof ("syntax error, unexpected ")
-		     + yystrlen (yytname[yytype]));
-	  yymsg = (char *) YYSTACK_ALLOC (yysize);
-	  if (yymsg != 0)
-	    {
-	      char *yyp = yystpcpy (yymsg, "syntax error, unexpected ");
-	      yyp = yystpcpy (yyp, yytname[yytype]);
-
-	      if (yycount < 5)
-		{
-		  yyprefix = ", expecting ";
-		  for (yyx = yyxbegin; yyx < yyxend; ++yyx)
-		    if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
-		      {
-			yyp = yystpcpy (yyp, yyprefix);
-			yyp = yystpcpy (yyp, yytname[yyx]);
-			yyprefix = " or ";
-		      }
-		}
-	      yyerror (yymsg);
-	      YYSTACK_FREE (yymsg);
-	    }
-	  else
-	    yyerror ("syntax error; also virtual memory exhausted");
-	}
-      else
-#endif /* YYERROR_VERBOSE */
-	yyerror ("syntax error");
-    }
-
-
-
-  if (yyerrstatus == 3)
-    {
-      /* If just tried and failed to reuse lookahead token after an
-	 error, discard it.  */
-
-      /* Return failure if at end of input.  */
-      if (yychar == YYEOF)
-        {
-	  /* Pop the error token.  */
-          YYPOPSTACK;
-	  /* Pop the rest of the stack.  */
-	  while (yyss < yyssp)
-	    {
-	      YYDSYMPRINTF ("Error: popping", yystos[*yyssp], yyvsp, yylsp);
-	      yydestruct (yystos[*yyssp], yyvsp);
-	      YYPOPSTACK;
-	    }
-	  YYABORT;
-        }
-
-      YYDSYMPRINTF ("Error: discarding", yytoken, &yylval, &yylloc);
-      yydestruct (yytoken, &yylval);
-      yychar = YYEMPTY;
-
-    }
-
-  /* Else will try to reuse lookahead token after shifting the error
-     token.  */
-  goto yyerrlab1;
-
-
-/*----------------------------------------------------.
-| yyerrlab1 -- error raised explicitly by an action.  |
-`----------------------------------------------------*/
-yyerrlab1:
-  yyerrstatus = 3;	/* Each real token shifted decrements this.  */
-
-  for (;;)
-    {
-      yyn = yypact[yystate];
-      if (yyn != YYPACT_NINF)
-	{
-	  yyn += YYTERROR;
-	  if (0 <= yyn && yyn <= YYLAST && yycheck[yyn] == YYTERROR)
-	    {
-	      yyn = yytable[yyn];
-	      if (0 < yyn)
-		break;
-	    }
-	}
-
-      /* Pop the current state because it cannot handle the error token.  */
-      if (yyssp == yyss)
-	YYABORT;
-
-      YYDSYMPRINTF ("Error: popping", yystos[*yyssp], yyvsp, yylsp);
-      yydestruct (yystos[yystate], yyvsp);
-      yyvsp--;
-      yystate = *--yyssp;
-
-      YY_STACK_PRINT (yyss, yyssp);
-    }
-
-  if (yyn == YYFINAL)
-    YYACCEPT;
-
-  YYDPRINTF ((stderr, "Shifting error token, "));
-
-  *++yyvsp = yylval;
-
-
-  yystate = yyn;
-  goto yynewstate;
-
-
-/*-------------------------------------.
-| yyacceptlab -- YYACCEPT comes here.  |
-`-------------------------------------*/
-yyacceptlab:
-  yyresult = 0;
-  goto yyreturn;
-
-/*-----------------------------------.
-| yyabortlab -- YYABORT comes here.  |
-`-----------------------------------*/
-yyabortlab:
-  yyresult = 1;
-  goto yyreturn;
-
-#ifndef yyoverflow
-/*----------------------------------------------.
-| yyoverflowlab -- parser overflow comes here.  |
-`----------------------------------------------*/
-yyoverflowlab:
-  yyerror ("parser stack overflow");
-  yyresult = 2;
-  /* Fall through.  */
-#endif
-
-yyreturn:
-#ifndef yyoverflow
-  if (yyss != yyssa)
-    YYSTACK_FREE (yyss);
-#endif
-  return yyresult;
-}
-
-
-
+static int TclDatemaxdepth = YYMAXDEPTH;
+# define YYERRCODE 256
 
 
 /*
@@ -2070,6 +466,7 @@ TclDateerror(s)
 {
 }
 
+
 static time_t
 ToSeconds(Hours, Minutes, Seconds, Meridian)
     time_t      Hours;
@@ -2096,6 +493,235 @@ ToSeconds(Hours, Minutes, Seconds, Meridian)
     return -1;  /* Should never be reached */
 }
 
+/*
+ *-----------------------------------------------------------------------------
+ *
+ * Convert --
+ *
+ *      Convert a {month, day, year, hours, minutes, seconds, meridian, dst}
+ *      tuple into a clock seconds value.
+ *
+ * Results:
+ *      0 or -1 indicating success or failure.
+ *
+ * Side effects:
+ *      Fills TimePtr with the computed value.
+ *
+ *-----------------------------------------------------------------------------
+ */
+static int
+Convert(Month, Day, Year, Hours, Minutes, Seconds, Meridian, DSTmode, TimePtr)
+    time_t      Month;
+    time_t      Day;
+    time_t      Year;
+    time_t      Hours;
+    time_t      Minutes;
+    time_t      Seconds;
+    MERIDIAN    Meridian;
+    DSTMODE     DSTmode;
+    time_t     *TimePtr;
+{
+    static int  DaysInMonth[12] = {
+        31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+    };
+    time_t tod;
+    time_t Julian;
+    int i;
+
+    /* Figure out how many days are in February for the given year.
+     * Every year divisible by 4 is a leap year.
+     * But, every year divisible by 100 is not a leap year.
+     * But, every year divisible by 400 is a leap year after all.
+     */
+    DaysInMonth[1] = IsLeapYear(Year) ? 29 : 28;
+
+    /* Check the inputs for validity */
+    if (Month < 1 || Month > 12
+	    || Year < START_OF_TIME || Year > END_OF_TIME
+	    || Day < 1 || Day > DaysInMonth[(int)--Month])
+        return -1;
+
+    /* Start computing the value.  First determine the number of days
+     * represented by the date, then multiply by the number of seconds/day.
+     */
+    for (Julian = Day - 1, i = 0; i < Month; i++)
+        Julian += DaysInMonth[i];
+    if (Year >= EPOCH) {
+        for (i = EPOCH; i < Year; i++)
+            Julian += 365 + IsLeapYear(i);
+    } else {
+        for (i = Year; i < EPOCH; i++)
+            Julian -= 365 + IsLeapYear(i);
+    }
+    Julian *= SECSPERDAY;
+
+    /* Add the timezone offset ?? */
+    Julian += TclDateTimezone * 60L;
+
+    /* Add the number of seconds represented by the time component */
+    if ((tod = ToSeconds(Hours, Minutes, Seconds, Meridian)) < 0)
+        return -1;
+    Julian += tod;
+
+    /* Perform a preliminary DST compensation ?? */
+    if (DSTmode == DSTon
+	|| (DSTmode == DSTmaybe && TclpGetDate(&Julian, 0)->tm_isdst))
+        Julian -= 60 * 60;
+    *TimePtr = Julian;
+    return 0;
+}
+
+
+static time_t
+DSTcorrect(Start, Future)
+    time_t      Start;
+    time_t      Future;
+{
+    time_t      StartDay;
+    time_t      FutureDay;
+    StartDay = (TclpGetDate(&Start, 0)->tm_hour + 1) % 24;
+    FutureDay = (TclpGetDate(&Future, 0)->tm_hour + 1) % 24;
+    return (Future - Start) + (StartDay - FutureDay) * 60L * 60L;
+}
+
+
+static time_t
+NamedDay(Start, DayOrdinal, DayNumber)
+    time_t      Start;
+    time_t      DayOrdinal;
+    time_t      DayNumber;
+{
+    struct tm   *tm;
+    time_t      now;
+
+    now = Start;
+    tm = TclpGetDate(&now, 0);
+    now += SECSPERDAY * ((DayNumber - tm->tm_wday + 7) % 7);
+    now += 7 * SECSPERDAY * (DayOrdinal <= 0 ? DayOrdinal : DayOrdinal - 1);
+    return DSTcorrect(Start, now);
+}
+
+static time_t
+NamedMonth(Start, MonthOrdinal, MonthNumber)
+    time_t Start;
+    time_t MonthOrdinal;
+    time_t MonthNumber;
+{
+    struct tm *tm;
+    time_t now;
+    int result;
+    
+    now = Start;
+    tm = TclpGetDate(&now, 0);
+    /* To compute the next n'th month, we use this alg:
+     * add n to year value
+     * if currentMonth < requestedMonth decrement year value by 1 (so that
+     *  doing next february from january gives us february of the current year)
+     * set day to 1, time to 0
+     */
+    tm->tm_year += MonthOrdinal;
+    if (tm->tm_mon < MonthNumber - 1) {
+	tm->tm_year--;
+    }
+    result = Convert(MonthNumber, (time_t) 1, tm->tm_year + TM_YEAR_BASE,
+	    (time_t) 0, (time_t) 0, (time_t) 0, MER24, DSTmaybe, &now);
+    if (result < 0) {
+	return 0;
+    }
+    return DSTcorrect(Start, now);
+}
+
+static int
+RelativeMonth(Start, RelMonth, TimePtr)
+    time_t Start;
+    time_t RelMonth;
+    time_t *TimePtr;
+{
+    struct tm *tm;
+    time_t Month;
+    time_t Year;
+    time_t Julian;
+    int result;
+
+    if (RelMonth == 0) {
+        *TimePtr = 0;
+        return 0;
+    }
+    tm = TclpGetDate(&Start, 0);
+    Month = 12 * (tm->tm_year + TM_YEAR_BASE) + tm->tm_mon + RelMonth;
+    Year = Month / 12;
+    Month = Month % 12 + 1;
+    result = Convert(Month, (time_t) tm->tm_mday, Year,
+	    (time_t) tm->tm_hour, (time_t) tm->tm_min, (time_t) tm->tm_sec,
+	    MER24, DSTmaybe, &Julian);
+
+    /*
+     * The Julian time returned above is behind by one day, if "month" 
+     * or "year" is used to specify relative time and the GMT flag is true.
+     * This problem occurs only when the current time is closer to
+     * midnight, the difference being not more than its time difference
+     * with GMT. For example, in US/Pacific time zone, the problem occurs
+     * whenever the current time is between midnight to 8:00am or 7:00amDST.
+     * See Bug# 413397 for more details and sample script.
+     * To resolve this bug, we simply add the number of seconds corresponding
+     * to timezone difference with GMT to Julian time, if GMT flag is true.
+     */
+
+    if (TclDateTimezone == 0) {
+        Julian += TclpGetTimeZone((unsigned long) Start) * 60L;
+    }
+
+    /*
+     * The following iteration takes into account the case were we jump
+     * into a "short month".  Far example, "one month from Jan 31" will
+     * fail because there is no Feb 31.  The code below will reduce the
+     * day and try converting the date until we succed or the date equals
+     * 28 (which always works unless the date is bad in another way).
+     */
+
+    while ((result != 0) && (tm->tm_mday > 28)) {
+	tm->tm_mday--;
+	result = Convert(Month, (time_t) tm->tm_mday, Year,
+		(time_t) tm->tm_hour, (time_t) tm->tm_min, (time_t) tm->tm_sec,
+		MER24, DSTmaybe, &Julian);
+    }
+    if (result != 0) {
+	return -1;
+    }
+    *TimePtr = DSTcorrect(Start, Julian);
+    return 0;
+}
+
+
+/*
+ *-----------------------------------------------------------------------------
+ *
+ * RelativeDay --
+ *
+ *      Given a starting time and a number of days before or after, compute the
+ *      DST corrected difference between those dates.
+ *
+ * Results:
+ *     1 or -1 indicating success or failure.
+ *
+ * Side effects:
+ *      Fills TimePtr with the computed value.
+ *
+ *-----------------------------------------------------------------------------
+ */
+
+static int
+RelativeDay(Start, RelDay, TimePtr)
+    time_t Start;
+    time_t RelDay;
+    time_t *TimePtr;
+{
+    time_t new;
+
+    new = Start + (RelDay * 60 * 60 * 24);
+    *TimePtr = DSTcorrect(Start, new);
+    return 1;
+}
 
 static int
 LookupWord(buff)
@@ -2114,11 +740,11 @@ LookupWord(buff)
     Tcl_UtfToLower(buff);
 
     if (strcmp(buff, "am") == 0 || strcmp(buff, "a.m.") == 0) {
-        yylval.Meridian = MERam;
+        TclDatelval.Meridian = MERam;
         return tMERIDIAN;
     }
     if (strcmp(buff, "pm") == 0 || strcmp(buff, "p.m.") == 0) {
-        yylval.Meridian = MERpm;
+        TclDatelval.Meridian = MERpm;
         return tMERIDIAN;
     }
 
@@ -2137,25 +763,25 @@ LookupWord(buff)
     for (tp = MonthDayTable; tp->name; tp++) {
         if (abbrev) {
             if (strncmp(buff, tp->name, 3) == 0) {
-                yylval.Number = tp->value;
+                TclDatelval.Number = tp->value;
                 return tp->type;
             }
         } else if (strcmp(buff, tp->name) == 0) {
-            yylval.Number = tp->value;
+            TclDatelval.Number = tp->value;
             return tp->type;
         }
     }
 
     for (tp = TimezoneTable; tp->name; tp++) {
         if (strcmp(buff, tp->name) == 0) {
-            yylval.Number = tp->value;
+            TclDatelval.Number = tp->value;
             return tp->type;
         }
     }
 
     for (tp = UnitsTable; tp->name; tp++) {
         if (strcmp(buff, tp->name) == 0) {
-            yylval.Number = tp->value;
+            TclDatelval.Number = tp->value;
             return tp->type;
         }
     }
@@ -2168,7 +794,7 @@ LookupWord(buff)
         buff[i] = '\0';
         for (tp = UnitsTable; tp->name; tp++) {
             if (strcmp(buff, tp->name) == 0) {
-                yylval.Number = tp->value;
+                TclDatelval.Number = tp->value;
                 return tp->type;
             }
 	}
@@ -2176,7 +802,7 @@ LookupWord(buff)
 
     for (tp = OtherTable; tp->name; tp++) {
         if (strcmp(buff, tp->name) == 0) {
-            yylval.Number = tp->value;
+            TclDatelval.Number = tp->value;
             return tp->type;
         }
     }
@@ -2188,7 +814,7 @@ LookupWord(buff)
 	    && isalpha(UCHAR(*buff))) {	/* INTL: ISO only */
         for (tp = MilitaryTable; tp->name; tp++) {
             if (strcmp(buff, tp->name) == 0) {
-                yylval.Number = tp->value;
+                TclDatelval.Number = tp->value;
                 return tp->type;
             }
 	}
@@ -2207,7 +833,7 @@ LookupWord(buff)
     if (i) {
         for (tp = TimezoneTable; tp->name; tp++) {
             if (strcmp(buff, tp->name) == 0) {
-                yylval.Number = tp->value;
+                TclDatelval.Number = tp->value;
                 return tp->type;
             }
 	}
@@ -2216,8 +842,9 @@ LookupWord(buff)
     return tID;
 }
 
+
 static int
-TclDatelex( void* info )
+TclDatelex()
 {
     register char       c;
     register char       *p;
@@ -2225,20 +852,19 @@ TclDatelex( void* info )
     int                 Count;
 
     for ( ; ; ) {
-        while (isspace(UCHAR(*yyInput))) {
-            yyInput++;
+        while (isspace(UCHAR(*TclDateInput))) {
+            TclDateInput++;
 	}
 
-        if (isdigit(UCHAR(c = *yyInput))) { /* INTL: digit */
+        if (isdigit(UCHAR(c = *TclDateInput))) { /* INTL: digit */
 	    /* convert the string into a number; count the number of digits */
 	    Count = 0;
-            for (yylval.Number = 0;
-		    isdigit(UCHAR(c = *yyInput++)); ) { /* INTL: digit */
-                yylval.Number = 10 * yylval.Number + c - '0';
+            for (TclDatelval.Number = 0;
+		    isdigit(UCHAR(c = *TclDateInput++)); ) { /* INTL: digit */
+                TclDatelval.Number = 10 * TclDatelval.Number + c - '0';
 		Count++;
 	    }
-            yyInput--;
-	    yyDigitCount = Count;
+            TclDateInput--;
 	    /* A number with 6 or more digits is considered an ISO 8601 base */
 	    if (Count >= 6) {
 		return tISOBASE;
@@ -2247,22 +873,22 @@ TclDatelex( void* info )
 	    }
         }
         if (!(c & 0x80) && isalpha(UCHAR(c))) {	/* INTL: ISO only. */
-            for (p = buff; isalpha(UCHAR(c = *yyInput++)) /* INTL: ISO only. */
+            for (p = buff; isalpha(UCHAR(c = *TclDateInput++)) /* INTL: ISO only. */
 		     || c == '.'; ) {
                 if (p < &buff[sizeof buff - 1]) {
                     *p++ = c;
 		}
 	    }
             *p = '\0';
-            yyInput--;
+            TclDateInput--;
             return LookupWord(buff);
         }
         if (c != '(') {
-            return *yyInput++;
+            return *TclDateInput++;
 	}
         Count = 0;
         do {
-            c = *yyInput++;
+            c = *TclDateInput++;
             if (c == '\0') {
                 return c;
 	    } else if (c == '(') {
@@ -2274,149 +900,1048 @@ TclDatelex( void* info )
     }
 }
 
+/*
+ * Specify zone is of -50000 to force GMT.  (This allows BST to work).
+ */
+
 int
-TclClockOldscanObjCmd( clientData, interp, objc, objv )
-     ClientData clientData;	/* Unused */
-     Tcl_Interp* interp;	/* Tcl interpreter */
-     int objc;			/* Count of paraneters */
-     Tcl_Obj *CONST *objv;	/* Parameters */
+TclGetDate(p, now, zone, timePtr)
+    char *p;
+    unsigned long now;
+    long zone;
+    unsigned long *timePtr;
 {
+    struct tm *tm;
+    time_t Start;
+    time_t Time;
+    time_t tod;
+    int thisyear;
 
-    Tcl_Obj* result;
-    Tcl_Obj* resultElement;
-    int yr, mo, da;
-    DateInfo dateInfo;
-    void* info = (void*) &dateInfo;
-
-    if ( objc != 5 ) {
-	Tcl_WrongNumArgs( interp, 1, objv, 
-			  "stringToParse baseYear baseMonth baseDay" );
-	return TCL_ERROR;
-    }
-
-    yyInput = Tcl_GetString( objv[1] );
-
-    yyHaveDate = 0;
-    if ( Tcl_GetIntFromObj( interp, objv[2], &yr ) != TCL_OK
-	 || Tcl_GetIntFromObj( interp, objv[3], &mo ) != TCL_OK
-	 || Tcl_GetIntFromObj( interp, objv[4], &da ) != TCL_OK ) {
-	return TCL_ERROR;
-    }
-    yyYear = yr; yyMonth = mo; yyDay = da;
-
-    yyHaveTime = 0;
-    yyHour = 0; yyMinutes = 0; yySeconds = 0; yyMeridian = MER24;
-
-    yyHaveZone = 0;
-    yyTimezone = 0; yyDSTmode = DSTmaybe;
-
-    yyHaveOrdinalMonth = 0;
-    yyMonthOrdinal = 0;
-
-    yyHaveDay = 0;
-    yyDayOrdinal = 0; yyDayNumber = 0;
-
-    yyHaveRel = 0;
-    yyRelMonth = 0; yyRelDay = 0; yyRelSeconds = 0; yyRelPointer = NULL;
-
-    if ( yyparse( info ) ) {
-	Tcl_SetObjResult( interp, Tcl_NewStringObj( "syntax error", -1 ) );
-	return TCL_ERROR;
-    }
-
-    if ( yyHaveDate > 1 ) {
-	Tcl_SetObjResult
-	    ( interp, 
-	      Tcl_NewStringObj( "more than one date in string", -1 ) );
-	return TCL_ERROR;
-    }
-    if ( yyHaveTime > 1 ) {
-	Tcl_SetObjResult
-	    ( interp, 
-	      Tcl_NewStringObj( "more than one time of day in string", -1 ) );
-	return TCL_ERROR;
-    }
-    if ( yyHaveZone > 1 ) {
-	Tcl_SetObjResult
-	    ( interp, 
-	      Tcl_NewStringObj( "more than one time zone in string", -1 ) );
-	return TCL_ERROR;
-    }
-    if ( yyHaveDay > 1 ) {
-	Tcl_SetObjResult
-	    ( interp, 
-	      Tcl_NewStringObj( "more than one weekday in string", -1 ) );
-	return TCL_ERROR;
-    }
-    if ( yyHaveOrdinalMonth > 1 ) {
-	Tcl_SetObjResult
-	    ( interp, 
-	      Tcl_NewStringObj( "more than one ordinal month in string", -1 ) );
-	return TCL_ERROR;
-    }
-	
-    result = Tcl_NewObj();
-    resultElement = Tcl_NewObj();
-    if ( yyHaveDate ) {
-	Tcl_ListObjAppendElement( interp, resultElement,
-				  Tcl_NewIntObj( yyYear ) );
-	Tcl_ListObjAppendElement( interp, resultElement,
-				  Tcl_NewIntObj( yyMonth ) );
-	Tcl_ListObjAppendElement( interp, resultElement,
-				  Tcl_NewIntObj( yyDay ) );
-    }
-    Tcl_ListObjAppendElement( interp, result, resultElement );
-
-    if ( yyHaveTime ) {
-	Tcl_ListObjAppendElement( interp, result,
-				  Tcl_NewIntObj( ToSeconds( yyHour,
-							    yyMinutes,
-							    yySeconds,
-							    yyMeridian ) ) );
+    TclDateInput = p;
+    /* now has to be cast to a time_t for 64bit compliance */
+    Start = now;
+    tm = TclpGetDate(&Start, (zone == -50000));
+    thisyear = tm->tm_year + TM_YEAR_BASE;
+    TclDateYear = thisyear;
+    TclDateMonth = tm->tm_mon + 1;
+    TclDateDay = tm->tm_mday;
+    TclDateTimezone = zone;
+    if (zone == -50000) {
+        TclDateDSTmode = DSToff;  /* assume GMT */
+        TclDateTimezone = 0;
     } else {
-	Tcl_ListObjAppendElement( interp, result, Tcl_NewObj() );
+        TclDateDSTmode = DSTmaybe;
+    }
+    TclDateHour = 0;
+    TclDateMinutes = 0;
+    TclDateSeconds = 0;
+    TclDateMeridian = MER24;
+    TclDateRelSeconds = 0;
+    TclDateRelMonth = 0;
+    TclDateRelDay = 0;
+    TclDateRelPointer = NULL;
+
+    TclDateHaveDate = 0;
+    TclDateHaveDay = 0;
+    TclDateHaveOrdinalMonth = 0;
+    TclDateHaveRel = 0;
+    TclDateHaveTime = 0;
+    TclDateHaveZone = 0;
+
+    if (TclDateparse() || TclDateHaveTime > 1 || TclDateHaveZone > 1 || TclDateHaveDate > 1 ||
+	    TclDateHaveDay > 1 || TclDateHaveOrdinalMonth > 1) {
+        return -1;
+    }
+    
+    if (TclDateHaveDate || TclDateHaveTime || TclDateHaveDay) {
+	if (TclDateYear < 0) {
+	    TclDateYear = -TclDateYear;
+	}
+	/*
+	 * The following line handles years that are specified using
+	 * only two digits.  The line of code below implements a policy
+	 * defined by the X/Open workgroup on the millinium rollover.
+	 * Note: some of those dates may not actually be valid on some
+	 * platforms.  The POSIX standard startes that the dates 70-99
+	 * shall refer to 1970-1999 and 00-38 shall refer to 2000-2038.
+	 * This later definition should work on all platforms.
+	 */
+
+	if (TclDateYear < 100) {
+	    if (TclDateYear >= 69) {
+		TclDateYear += 1900;
+	    } else {
+		TclDateYear += 2000;
+	    }
+	}
+	if (Convert(TclDateMonth, TclDateDay, TclDateYear, TclDateHour, TclDateMinutes, TclDateSeconds,
+		TclDateMeridian, TclDateDSTmode, &Start) < 0) {
+            return -1;
+	}
+    } else {
+        Start = now;
+        if (!TclDateHaveRel) {
+            Start -= ((tm->tm_hour * 60L * 60L) +
+		    tm->tm_min * 60L) +	tm->tm_sec;
+	}
     }
 
-    resultElement = Tcl_NewObj();
-    if ( yyHaveZone ) {
-	Tcl_ListObjAppendElement( interp, resultElement,
-				  Tcl_NewIntObj( -yyTimezone ) );
-	Tcl_ListObjAppendElement( interp, resultElement,
-				  Tcl_NewIntObj( 1-yyDSTmode ) );
+    Start += TclDateRelSeconds;
+    if (RelativeMonth(Start, TclDateRelMonth, &Time) < 0) {
+        return -1;
     }
-    Tcl_ListObjAppendElement( interp, result, resultElement );
+    Start += Time;
 
-    resultElement = Tcl_NewObj();
-    if ( yyHaveRel ) {
-	Tcl_ListObjAppendElement( interp, resultElement,
-				  Tcl_NewIntObj( yyRelMonth ) );
-	Tcl_ListObjAppendElement( interp, resultElement,
-				  Tcl_NewIntObj( yyRelDay ) );
-	Tcl_ListObjAppendElement( interp, resultElement,
-				  Tcl_NewIntObj( yyRelSeconds ) );
+    if (RelativeDay(Start, TclDateRelDay, &Time) < 0) {
+	return -1;
     }
-    Tcl_ListObjAppendElement( interp, result, resultElement );
+    Start += Time;
+    
+    if (TclDateHaveDay && !TclDateHaveDate) {
+        tod = NamedDay(Start, TclDateDayOrdinal, TclDateDayNumber);
+        Start += tod;
+    }
 
-    resultElement = Tcl_NewObj();
-    if ( yyHaveDay && !yyHaveDate ) {
-	Tcl_ListObjAppendElement( interp, resultElement,
-				  Tcl_NewIntObj( yyDayOrdinal ) );
-	Tcl_ListObjAppendElement( interp, resultElement,
-				  Tcl_NewIntObj( yyDayNumber ) );
+    if (TclDateHaveOrdinalMonth) {
+	tod = NamedMonth(Start, TclDateMonthOrdinal, TclDateMonth);
+	Start += tod;
     }
-    Tcl_ListObjAppendElement( interp, result, resultElement );
-
-    resultElement = Tcl_NewObj();
-    if ( yyHaveOrdinalMonth ) {
-	Tcl_ListObjAppendElement( interp, resultElement,
-				  Tcl_NewIntObj( yyMonthOrdinal ) );
-	Tcl_ListObjAppendElement( interp, resultElement,
-				  Tcl_NewIntObj( yyMonth ) );
-    }
-    Tcl_ListObjAppendElement( interp, result, resultElement );
-	
-    Tcl_SetObjResult( interp, result );
-    return TCL_OK;
+    
+    *timePtr = Start;
+    return 0;
 }
+static CONST TclDatetabelem TclDateexca[] ={
+-1, 1,
+	0, -1,
+	-2, 0,
+	};
+# define YYNPROD 56
+# define YYLAST 261
+static CONST TclDatetabelem TclDateact[]={
 
+    24,    40,    23,    36,    54,    81,    41,    28,    53,    26,
+    37,    42,    58,    38,    56,    28,    27,    26,    28,    33,
+    26,    32,    61,    50,    27,    80,    76,    27,    51,    75,
+    74,    73,    30,    72,    71,    70,    69,    52,    49,    48,
+    47,    45,    39,    62,    78,    46,    79,    68,    25,    65,
+    60,    67,    66,    55,    44,    21,    63,    11,    10,     9,
+     8,    35,     7,     6,     5,     4,     3,    43,     2,     1,
+    20,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,    57,     0,     0,    59,    77,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,    19,    14,     0,     0,     0,
+    16,    28,    22,    26,     0,    12,    13,    17,     0,    15,
+    27,    18,    31,     0,     0,    29,     0,    34,    28,     0,
+    26,     0,     0,     0,     0,     0,     0,    27,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,    64,
+    64 };
+static CONST TclDatetabelem TclDatepact[]={
+
+-10000000,   -43,-10000000,-10000000,-10000000,-10000000,-10000000,-10000000,-10000000,-10000000,
+-10000000,-10000000,   -26,  -268,-10000000,  -259,  -226,-10000000,  -257,    10,
+  -227,  -212,  -228,-10000000,-10000000,-10000000,-10000000,-10000000,-10000000,-10000000,
+  -229,-10000000,  -230,  -240,  -231,-10000000,-10000000,  -264,-10000000,     9,
+-10000000,-10000000,  -249,-10000000,-10000000,  -246,-10000000,     4,    -2,     2,
+     7,     6,-10000000,-10000000,   -11,  -232,-10000000,-10000000,-10000000,-10000000,
+  -233,-10000000,  -234,  -235,-10000000,  -237,  -238,  -239,  -242,-10000000,
+-10000000,-10000000,    -1,-10000000,-10000000,-10000000,   -12,-10000000,  -243,  -263,
+-10000000,-10000000 };
+static CONST TclDatetabelem TclDatepgo[]={
+
+     0,    48,    70,    22,    69,    68,    66,    65,    64,    63,
+    62,    60,    59,    58,    57,    55 };
+static CONST TclDatetabelem TclDater1[]={
+
+     0,     4,     4,     5,     5,     5,     5,     5,     5,     5,
+     5,     5,     6,     6,     6,     6,     6,     7,     7,     7,
+    10,    10,    10,    10,    10,     8,     8,     8,     8,     8,
+     8,     8,     8,     8,     8,     9,     9,    12,    12,    12,
+    13,    11,    11,    15,    15,    15,    15,    15,     2,     2,
+     1,     1,     1,    14,     3,     3 };
+static CONST TclDatetabelem TclDater2[]={
+
+     0,     0,     4,     3,     3,     3,     3,     3,     3,     3,
+     3,     2,     5,     9,    11,    13,    15,     5,     3,     3,
+     3,     5,     5,     7,     5,     7,    11,     3,    11,    11,
+     5,     9,     5,     3,     7,     5,     7,     7,    15,     5,
+     9,     5,     2,     7,     5,     5,     7,     3,     3,     3,
+     3,     3,     3,     3,     1,     3 };
+static CONST TclDatetabelem TclDatechk[]={
+
+-10000000,    -4,    -5,    -6,    -7,    -8,    -9,   -10,   -11,   -12,
+   -13,   -14,   268,   269,   259,   272,   263,   270,   274,   258,
+    -2,   -15,   265,    45,    43,    -1,   266,   273,   264,   261,
+    58,   258,    47,    45,   263,    -1,   271,   269,   272,   268,
+   258,   263,   268,    -1,    44,   268,   257,   268,   268,   268,
+   263,   268,   268,   272,   268,    44,   263,    -1,   258,    -1,
+    46,    -3,    45,    58,   261,    47,    45,    45,    58,   268,
+   268,   268,   268,   268,   268,   268,   268,    -3,    45,    58,
+   268,   268 };
+static CONST TclDatetabelem TclDatedef[]={
+
+     1,    -2,     2,     3,     4,     5,     6,     7,     8,     9,
+    10,    11,    53,    18,    19,    27,     0,    33,     0,    20,
+     0,    42,     0,    48,    49,    47,    50,    51,    52,    12,
+     0,    22,     0,     0,    32,    44,    17,     0,    39,    30,
+    24,    35,     0,    45,    21,     0,    41,     0,    54,    25,
+     0,     0,    34,    37,     0,     0,    36,    46,    23,    43,
+     0,    13,     0,     0,    55,     0,     0,     0,     0,    31,
+    40,    14,    54,    26,    28,    29,     0,    15,     0,     0,
+    16,    38 };
+typedef struct
+#ifdef __cplusplus
+	TclDatetoktype
+#endif
+{ char *t_name; int t_val; } TclDatetoktype;
+#ifndef YYDEBUG
+#	define YYDEBUG	0	/* don't allow debugging */
+#endif
+
+#if YYDEBUG
+
+TclDatetoktype TclDatetoks[] =
+{
+	"tAGO",	257,
+	"tDAY",	258,
+	"tDAYZONE",	259,
+	"tID",	260,
+	"tMERIDIAN",	261,
+	"tMINUTE_UNIT",	262,
+	"tMONTH",	263,
+	"tMONTH_UNIT",	264,
+	"tSTARDATE",	265,
+	"tSEC_UNIT",	266,
+	"tSNUMBER",	267,
+	"tUNUMBER",	268,
+	"tZONE",	269,
+	"tEPOCH",	270,
+	"tDST",	271,
+	"tISOBASE",	272,
+	"tDAY_UNIT",	273,
+	"tNEXT",	274,
+	"-unknown-",	-1	/* ends search */
+};
+
+char * TclDatereds[] =
+{
+	"-no such reduction-",
+	"spec : /* empty */",
+	"spec : spec item",
+	"item : time",
+	"item : zone",
+	"item : date",
+	"item : ordMonth",
+	"item : day",
+	"item : relspec",
+	"item : iso",
+	"item : trek",
+	"item : number",
+	"time : tUNUMBER tMERIDIAN",
+	"time : tUNUMBER ':' tUNUMBER o_merid",
+	"time : tUNUMBER ':' tUNUMBER '-' tUNUMBER",
+	"time : tUNUMBER ':' tUNUMBER ':' tUNUMBER o_merid",
+	"time : tUNUMBER ':' tUNUMBER ':' tUNUMBER '-' tUNUMBER",
+	"zone : tZONE tDST",
+	"zone : tZONE",
+	"zone : tDAYZONE",
+	"day : tDAY",
+	"day : tDAY ','",
+	"day : tUNUMBER tDAY",
+	"day : sign tUNUMBER tDAY",
+	"day : tNEXT tDAY",
+	"date : tUNUMBER '/' tUNUMBER",
+	"date : tUNUMBER '/' tUNUMBER '/' tUNUMBER",
+	"date : tISOBASE",
+	"date : tUNUMBER '-' tMONTH '-' tUNUMBER",
+	"date : tUNUMBER '-' tUNUMBER '-' tUNUMBER",
+	"date : tMONTH tUNUMBER",
+	"date : tMONTH tUNUMBER ',' tUNUMBER",
+	"date : tUNUMBER tMONTH",
+	"date : tEPOCH",
+	"date : tUNUMBER tMONTH tUNUMBER",
+	"ordMonth : tNEXT tMONTH",
+	"ordMonth : tNEXT tUNUMBER tMONTH",
+	"iso : tISOBASE tZONE tISOBASE",
+	"iso : tISOBASE tZONE tUNUMBER ':' tUNUMBER ':' tUNUMBER",
+	"iso : tISOBASE tISOBASE",
+	"trek : tSTARDATE tUNUMBER '.' tUNUMBER",
+	"relspec : relunits tAGO",
+	"relspec : relunits",
+	"relunits : sign tUNUMBER unit",
+	"relunits : tUNUMBER unit",
+	"relunits : tNEXT unit",
+	"relunits : tNEXT tUNUMBER unit",
+	"relunits : unit",
+	"sign : '-'",
+	"sign : '+'",
+	"unit : tSEC_UNIT",
+	"unit : tDAY_UNIT",
+	"unit : tMONTH_UNIT",
+	"number : tUNUMBER",
+	"o_merid : /* empty */",
+	"o_merid : tMERIDIAN",
+};
+#endif /* YYDEBUG */
+/*
+ * Copyright (c) 1993 by Sun Microsystems, Inc.
+ */
+
+
+/*
+** Skeleton parser driver for yacc output
+*/
+
+/*
+** yacc user known macros and defines
+*/
+#define YYERROR		goto TclDateerrlab
+#define YYACCEPT	return(0)
+#define YYABORT		return(1)
+#define YYBACKUP( newtoken, newvalue )\
+{\
+	if ( TclDatechar >= 0 || ( TclDater2[ TclDatetmp ] >> 1 ) != 1 )\
+	{\
+		TclDateerror( "syntax error - cannot backup" );\
+		goto TclDateerrlab;\
+	}\
+	TclDatechar = newtoken;\
+	TclDatestate = *TclDateps;\
+	TclDatelval = newvalue;\
+	goto TclDatenewstate;\
+}
+#define YYRECOVERING()	(!!TclDateerrflag)
+#define YYNEW(type)	TclDateAlloc(sizeof(type) * TclDatenewmax)
+#define YYCOPY(to, from, type) \
+	(type *) memcpy(to, (char *) from, TclDatemaxdepth * sizeof (type))
+#define YYENLARGE( from, type) \
+	(type *) TclDateRealloc((char *) from, TclDatenewmax * sizeof(type))
+#ifndef YYDEBUG
+#	define YYDEBUG	1	/* make debugging available */
+#endif
+
+/*
+** user known globals
+*/
+int TclDatedebug;			/* set to 1 to get debugging */
+
+/*
+** driver internal defines
+*/
+#define YYFLAG		(-10000000)
+
+/*
+** global variables used by the parser
+*/
+YYSTYPE *TclDatepv;			/* top of value stack */
+int *TclDateps;			/* top of state stack */
+
+int TclDatestate;			/* current state */
+int TclDatetmp;			/* extra var (lasts between blocks) */
+
+int TclDatenerrs;			/* number of errors */
+int TclDateerrflag;			/* error recovery flag */
+int TclDatechar;			/* current input token number */
+
+
+
+#ifdef YYNMBCHARS
+#define YYLEX()		TclDatecvtok(TclDatelex())
+/*
+** TclDatecvtok - return a token if i is a wchar_t value that exceeds 255.
+**	If i<255, i itself is the token.  If i>255 but the neither 
+**	of the 30th or 31st bit is on, i is already a token.
+*/
+#if defined(__STDC__) || defined(__cplusplus)
+int TclDatecvtok(int i)
+#else
+int TclDatecvtok(i) int i;
+#endif
+{
+	int first = 0;
+	int last = YYNMBCHARS - 1;
+	int mid;
+	wchar_t j;
+
+	if(i&0x60000000){/*Must convert to a token. */
+		if( TclDatembchars[last].character < i ){
+			return i;/*Giving up*/
+		}
+		while ((last>=first)&&(first>=0)) {/*Binary search loop*/
+			mid = (first+last)/2;
+			j = TclDatembchars[mid].character;
+			if( j==i ){/*Found*/ 
+				return TclDatembchars[mid].tvalue;
+			}else if( j<i ){
+				first = mid + 1;
+			}else{
+				last = mid -1;
+			}
+		}
+		/*No entry in the table.*/
+		return i;/* Giving up.*/
+	}else{/* i is already a token. */
+		return i;
+	}
+}
+#else/*!YYNMBCHARS*/
+#define YYLEX()		TclDatelex()
+#endif/*!YYNMBCHARS*/
+
+/*
+** TclDateparse - return 0 if worked, 1 if syntax error not recovered from
+*/
+#if defined(__STDC__) || defined(__cplusplus)
+int TclDateparse(void)
+#else
+int TclDateparse()
+#endif
+{
+	register YYSTYPE *TclDatepvt = 0;	/* top of value stack for $vars */
+
+#if defined(__cplusplus) || defined(lint)
+/*
+	hacks to please C++ and lint - goto's inside
+	switch should never be executed
+*/
+	static int __yaccpar_lint_hack__ = 0;
+	switch (__yaccpar_lint_hack__)
+	{
+		case 1: goto TclDateerrlab;
+		case 2: goto TclDatenewstate;
+	}
+#endif
+
+	/*
+	** Initialize externals - TclDateparse may be called more than once
+	*/
+	TclDatepv = &TclDatev[-1];
+	TclDateps = &TclDates[-1];
+	TclDatestate = 0;
+	TclDatetmp = 0;
+	TclDatenerrs = 0;
+	TclDateerrflag = 0;
+	TclDatechar = -1;
+
+#if YYMAXDEPTH <= 0
+	if (TclDatemaxdepth <= 0)
+	{
+		if ((TclDatemaxdepth = YYEXPAND(0)) <= 0)
+		{
+			TclDateerror("yacc initialization error");
+			YYABORT;
+		}
+	}
+#endif
+
+	{
+		register YYSTYPE *TclDate_pv;	/* top of value stack */
+		register int *TclDate_ps;		/* top of state stack */
+		register int TclDate_state;		/* current state */
+		register int  TclDate_n;		/* internal state number info */
+	goto TclDatestack;	/* moved from 6 lines above to here to please C++ */
+
+		/*
+		** get globals into registers.
+		** branch to here only if YYBACKUP was called.
+		*/
+		TclDate_pv = TclDatepv;
+		TclDate_ps = TclDateps;
+		TclDate_state = TclDatestate;
+		goto TclDate_newstate;
+
+		/*
+		** get globals into registers.
+		** either we just started, or we just finished a reduction
+		*/
+	TclDatestack:
+		TclDate_pv = TclDatepv;
+		TclDate_ps = TclDateps;
+		TclDate_state = TclDatestate;
+
+		/*
+		** top of for (;;) loop while no reductions done
+		*/
+	TclDate_stack:
+		/*
+		** put a state and value onto the stacks
+		*/
+#if YYDEBUG
+		/*
+		** if debugging, look up token value in list of value vs.
+		** name pairs.  0 and negative (-1) are special values.
+		** Note: linear search is used since time is not a real
+		** consideration while debugging.
+		*/
+		if ( TclDatedebug )
+		{
+			register int TclDate_i;
+
+			printf( "State %d, token ", TclDate_state );
+			if ( TclDatechar == 0 )
+				printf( "end-of-file\n" );
+			else if ( TclDatechar < 0 )
+				printf( "-none-\n" );
+			else
+			{
+				for ( TclDate_i = 0; TclDatetoks[TclDate_i].t_val >= 0;
+					TclDate_i++ )
+				{
+					if ( TclDatetoks[TclDate_i].t_val == TclDatechar )
+						break;
+				}
+				printf( "%s\n", TclDatetoks[TclDate_i].t_name );
+			}
+		}
+#endif /* YYDEBUG */
+		if ( ++TclDate_ps >= &TclDates[ TclDatemaxdepth ] )	/* room on stack? */
+		{
+			/*
+			** reallocate and recover.  Note that pointers
+			** have to be reset, or bad things will happen
+			*/
+			long TclDateps_index = (TclDate_ps - TclDates);
+			long TclDatepv_index = (TclDate_pv - TclDatev);
+			long TclDatepvt_index = (TclDatepvt - TclDatev);
+			int TclDatenewmax;
+#ifdef YYEXPAND
+			TclDatenewmax = YYEXPAND(TclDatemaxdepth);
+#else
+			TclDatenewmax = 2 * TclDatemaxdepth;	/* double table size */
+			if (TclDatemaxdepth == YYMAXDEPTH)	/* first time growth */
+			{
+				char *newTclDates = (char *)YYNEW(int);
+				char *newTclDatev = (char *)YYNEW(YYSTYPE);
+				if (newTclDates != 0 && newTclDatev != 0)
+				{
+					TclDates = YYCOPY(newTclDates, TclDates, int);
+					TclDatev = YYCOPY(newTclDatev, TclDatev, YYSTYPE);
+				}
+				else
+					TclDatenewmax = 0;	/* failed */
+			}
+			else				/* not first time */
+			{
+				TclDates = YYENLARGE(TclDates, int);
+				TclDatev = YYENLARGE(TclDatev, YYSTYPE);
+				if (TclDates == 0 || TclDatev == 0)
+					TclDatenewmax = 0;	/* failed */
+			}
+#endif
+			if (TclDatenewmax <= TclDatemaxdepth)	/* tables not expanded */
+			{
+				TclDateerror( "yacc stack overflow" );
+				YYABORT;
+			}
+			TclDatemaxdepth = TclDatenewmax;
+
+			TclDate_ps = TclDates + TclDateps_index;
+			TclDate_pv = TclDatev + TclDatepv_index;
+			TclDatepvt = TclDatev + TclDatepvt_index;
+		}
+		*TclDate_ps = TclDate_state;
+		*++TclDate_pv = TclDateval;
+
+		/*
+		** we have a new state - find out what to do
+		*/
+	TclDate_newstate:
+		if ( ( TclDate_n = TclDatepact[ TclDate_state ] ) <= YYFLAG )
+			goto TclDatedefault;		/* simple state */
+#if YYDEBUG
+		/*
+		** if debugging, need to mark whether new token grabbed
+		*/
+		TclDatetmp = TclDatechar < 0;
+#endif
+		if ( ( TclDatechar < 0 ) && ( ( TclDatechar = YYLEX() ) < 0 ) )
+			TclDatechar = 0;		/* reached EOF */
+#if YYDEBUG
+		if ( TclDatedebug && TclDatetmp )
+		{
+			register int TclDate_i;
+
+			printf( "Received token " );
+			if ( TclDatechar == 0 )
+				printf( "end-of-file\n" );
+			else if ( TclDatechar < 0 )
+				printf( "-none-\n" );
+			else
+			{
+				for ( TclDate_i = 0; TclDatetoks[TclDate_i].t_val >= 0;
+					TclDate_i++ )
+				{
+					if ( TclDatetoks[TclDate_i].t_val == TclDatechar )
+						break;
+				}
+				printf( "%s\n", TclDatetoks[TclDate_i].t_name );
+			}
+		}
+#endif /* YYDEBUG */
+		if ( ( ( TclDate_n += TclDatechar ) < 0 ) || ( TclDate_n >= YYLAST ) )
+			goto TclDatedefault;
+		if ( TclDatechk[ TclDate_n = TclDateact[ TclDate_n ] ] == TclDatechar )	/*valid shift*/
+		{
+			TclDatechar = -1;
+			TclDateval = TclDatelval;
+			TclDate_state = TclDate_n;
+			if ( TclDateerrflag > 0 )
+				TclDateerrflag--;
+			goto TclDate_stack;
+		}
+
+	TclDatedefault:
+		if ( ( TclDate_n = TclDatedef[ TclDate_state ] ) == -2 )
+		{
+#if YYDEBUG
+			TclDatetmp = TclDatechar < 0;
+#endif
+			if ( ( TclDatechar < 0 ) && ( ( TclDatechar = YYLEX() ) < 0 ) )
+				TclDatechar = 0;		/* reached EOF */
+#if YYDEBUG
+			if ( TclDatedebug && TclDatetmp )
+			{
+				register int TclDate_i;
+
+				printf( "Received token " );
+				if ( TclDatechar == 0 )
+					printf( "end-of-file\n" );
+				else if ( TclDatechar < 0 )
+					printf( "-none-\n" );
+				else
+				{
+					for ( TclDate_i = 0;
+						TclDatetoks[TclDate_i].t_val >= 0;
+						TclDate_i++ )
+					{
+						if ( TclDatetoks[TclDate_i].t_val
+							== TclDatechar )
+						{
+							break;
+						}
+					}
+					printf( "%s\n", TclDatetoks[TclDate_i].t_name );
+				}
+			}
+#endif /* YYDEBUG */
+			/*
+			** look through exception table
+			*/
+			{
+				register CONST int *TclDatexi = TclDateexca;
+
+				while ( ( *TclDatexi != -1 ) ||
+					( TclDatexi[1] != TclDate_state ) )
+				{
+					TclDatexi += 2;
+				}
+				while ( ( *(TclDatexi += 2) >= 0 ) &&
+					( *TclDatexi != TclDatechar ) )
+					;
+				if ( ( TclDate_n = TclDatexi[1] ) < 0 )
+					YYACCEPT;
+			}
+		}
+
+		/*
+		** check for syntax error
+		*/
+		if ( TclDate_n == 0 )	/* have an error */
+		{
+			/* no worry about speed here! */
+			switch ( TclDateerrflag )
+			{
+			case 0:		/* new error */
+				TclDateerror( "syntax error" );
+				goto skip_init;
+				/*
+				** get globals into registers.
+				** we have a user generated syntax type error
+				*/
+				TclDate_pv = TclDatepv;
+				TclDate_ps = TclDateps;
+				TclDate_state = TclDatestate;
+			skip_init:
+				TclDatenerrs++;
+				/* FALLTHRU */
+			case 1:
+			case 2:		/* incompletely recovered error */
+					/* try again... */
+				TclDateerrflag = 3;
+				/*
+				** find state where "error" is a legal
+				** shift action
+				*/
+				while ( TclDate_ps >= TclDates )
+				{
+					TclDate_n = TclDatepact[ *TclDate_ps ] + YYERRCODE;
+					if ( TclDate_n >= 0 && TclDate_n < YYLAST &&
+						TclDatechk[TclDateact[TclDate_n]] == YYERRCODE)					{
+						/*
+						** simulate shift of "error"
+						*/
+						TclDate_state = TclDateact[ TclDate_n ];
+						goto TclDate_stack;
+					}
+					/*
+					** current state has no shift on
+					** "error", pop stack
+					*/
+#if YYDEBUG
+#	define _POP_ "Error recovery pops state %d, uncovers state %d\n"
+					if ( TclDatedebug )
+						printf( _POP_, *TclDate_ps,
+							TclDate_ps[-1] );
+#	undef _POP_
+#endif
+					TclDate_ps--;
+					TclDate_pv--;
+				}
+				/*
+				** there is no state on stack with "error" as
+				** a valid shift.  give up.
+				*/
+				YYABORT;
+			case 3:		/* no shift yet; eat a token */
+#if YYDEBUG
+				/*
+				** if debugging, look up token in list of
+				** pairs.  0 and negative shouldn't occur,
+				** but since timing doesn't matter when
+				** debugging, it doesn't hurt to leave the
+				** tests here.
+				*/
+				if ( TclDatedebug )
+				{
+					register int TclDate_i;
+
+					printf( "Error recovery discards " );
+					if ( TclDatechar == 0 )
+						printf( "token end-of-file\n" );
+					else if ( TclDatechar < 0 )
+						printf( "token -none-\n" );
+					else
+					{
+						for ( TclDate_i = 0;
+							TclDatetoks[TclDate_i].t_val >= 0;
+							TclDate_i++ )
+						{
+							if ( TclDatetoks[TclDate_i].t_val
+								== TclDatechar )
+							{
+								break;
+							}
+						}
+						printf( "token %s\n",
+							TclDatetoks[TclDate_i].t_name );
+					}
+				}
+#endif /* YYDEBUG */
+				if ( TclDatechar == 0 )	/* reached EOF. quit */
+					YYABORT;
+				TclDatechar = -1;
+				goto TclDate_newstate;
+			}
+		}/* end if ( TclDate_n == 0 ) */
+		/*
+		** reduction by production TclDate_n
+		** put stack tops, etc. so things right after switch
+		*/
+#if YYDEBUG
+		/*
+		** if debugging, print the string that is the user's
+		** specification of the reduction which is just about
+		** to be done.
+		*/
+		if ( TclDatedebug )
+			printf( "Reduce by (%d) \"%s\"\n",
+				TclDate_n, TclDatereds[ TclDate_n ] );
+#endif
+		TclDatetmp = TclDate_n;			/* value to switch over */
+		TclDatepvt = TclDate_pv;			/* $vars top of value stack */
+		/*
+		** Look in goto table for next state
+		** Sorry about using TclDate_state here as temporary
+		** register variable, but why not, if it works...
+		** If TclDater2[ TclDate_n ] doesn't have the low order bit
+		** set, then there is no action to be done for
+		** this reduction.  So, no saving & unsaving of
+		** registers done.  The only difference between the
+		** code just after the if and the body of the if is
+		** the goto TclDate_stack in the body.  This way the test
+		** can be made before the choice of what to do is needed.
+		*/
+		{
+			/* length of production doubled with extra bit */
+			register int TclDate_len = TclDater2[ TclDate_n ];
+
+			if ( !( TclDate_len & 01 ) )
+			{
+				TclDate_len >>= 1;
+				TclDateval = ( TclDate_pv -= TclDate_len )[1];	/* $$ = $1 */
+				TclDate_state = TclDatepgo[ TclDate_n = TclDater1[ TclDate_n ] ] +
+					*( TclDate_ps -= TclDate_len ) + 1;
+				if ( TclDate_state >= YYLAST ||
+					TclDatechk[ TclDate_state =
+					TclDateact[ TclDate_state ] ] != -TclDate_n )
+				{
+					TclDate_state = TclDateact[ TclDatepgo[ TclDate_n ] ];
+				}
+				goto TclDate_stack;
+			}
+			TclDate_len >>= 1;
+			TclDateval = ( TclDate_pv -= TclDate_len )[1];	/* $$ = $1 */
+			TclDate_state = TclDatepgo[ TclDate_n = TclDater1[ TclDate_n ] ] +
+				*( TclDate_ps -= TclDate_len ) + 1;
+			if ( TclDate_state >= YYLAST ||
+				TclDatechk[ TclDate_state = TclDateact[ TclDate_state ] ] != -TclDate_n )
+			{
+				TclDate_state = TclDateact[ TclDatepgo[ TclDate_n ] ];
+			}
+		}
+					/* save until reenter driver code */
+		TclDatestate = TclDate_state;
+		TclDateps = TclDate_ps;
+		TclDatepv = TclDate_pv;
+	}
+	/*
+	** code supplied by user is placed in this switch
+	*/
+	switch( TclDatetmp )
+	{
+		
+case 3:{
+            TclDateHaveTime++;
+        } break;
+case 4:{
+            TclDateHaveZone++;
+        } break;
+case 5:{
+            TclDateHaveDate++;
+        } break;
+case 6:{
+            TclDateHaveOrdinalMonth++;
+        } break;
+case 7:{
+            TclDateHaveDay++;
+        } break;
+case 8:{
+            TclDateHaveRel++;
+        } break;
+case 9:{
+	    TclDateHaveTime++;
+	    TclDateHaveDate++;
+	} break;
+case 10:{
+	    TclDateHaveTime++;
+	    TclDateHaveDate++;
+	    TclDateHaveRel++;
+        } break;
+case 12:{
+            TclDateHour = TclDatepvt[-1].Number;
+            TclDateMinutes = 0;
+            TclDateSeconds = 0;
+            TclDateMeridian = TclDatepvt[-0].Meridian;
+        } break;
+case 13:{
+            TclDateHour = TclDatepvt[-3].Number;
+            TclDateMinutes = TclDatepvt[-1].Number;
+            TclDateSeconds = 0;
+            TclDateMeridian = TclDatepvt[-0].Meridian;
+        } break;
+case 14:{
+            TclDateHour = TclDatepvt[-4].Number;
+            TclDateMinutes = TclDatepvt[-2].Number;
+            TclDateMeridian = MER24;
+            TclDateDSTmode = DSToff;
+            TclDateTimezone = (TclDatepvt[-0].Number % 100 + (TclDatepvt[-0].Number / 100) * 60);
+        } break;
+case 15:{
+            TclDateHour = TclDatepvt[-5].Number;
+            TclDateMinutes = TclDatepvt[-3].Number;
+            TclDateSeconds = TclDatepvt[-1].Number;
+            TclDateMeridian = TclDatepvt[-0].Meridian;
+        } break;
+case 16:{
+            TclDateHour = TclDatepvt[-6].Number;
+            TclDateMinutes = TclDatepvt[-4].Number;
+            TclDateSeconds = TclDatepvt[-2].Number;
+            TclDateMeridian = MER24;
+            TclDateDSTmode = DSToff;
+            TclDateTimezone = (TclDatepvt[-0].Number % 100 + (TclDatepvt[-0].Number / 100) * 60);
+        } break;
+case 17:{
+            TclDateTimezone = TclDatepvt[-1].Number;
+            TclDateDSTmode = DSTon;
+        } break;
+case 18:{
+            TclDateTimezone = TclDatepvt[-0].Number;
+            TclDateDSTmode = DSToff;
+        } break;
+case 19:{
+            TclDateTimezone = TclDatepvt[-0].Number;
+            TclDateDSTmode = DSTon;
+        } break;
+case 20:{
+            TclDateDayOrdinal = 1;
+            TclDateDayNumber = TclDatepvt[-0].Number;
+        } break;
+case 21:{
+            TclDateDayOrdinal = 1;
+            TclDateDayNumber = TclDatepvt[-1].Number;
+        } break;
+case 22:{
+            TclDateDayOrdinal = TclDatepvt[-1].Number;
+            TclDateDayNumber = TclDatepvt[-0].Number;
+        } break;
+case 23:{
+            TclDateDayOrdinal = TclDatepvt[-2].Number * TclDatepvt[-1].Number;
+            TclDateDayNumber = TclDatepvt[-0].Number;
+        } break;
+case 24:{
+            TclDateDayOrdinal = 2;
+            TclDateDayNumber = TclDatepvt[-0].Number;
+        } break;
+case 25:{
+            TclDateMonth = TclDatepvt[-2].Number;
+            TclDateDay = TclDatepvt[-0].Number;
+        } break;
+case 26:{
+            TclDateMonth = TclDatepvt[-4].Number;
+            TclDateDay = TclDatepvt[-2].Number;
+            TclDateYear = TclDatepvt[-0].Number;
+        } break;
+case 27:{
+	    TclDateYear = TclDatepvt[-0].Number / 10000;
+	    TclDateMonth = (TclDatepvt[-0].Number % 10000)/100;
+	    TclDateDay = TclDatepvt[-0].Number % 100;
+	} break;
+case 28:{
+	    TclDateDay = TclDatepvt[-4].Number;
+	    TclDateMonth = TclDatepvt[-2].Number;
+	    TclDateYear = TclDatepvt[-0].Number;
+	} break;
+case 29:{
+            TclDateMonth = TclDatepvt[-2].Number;
+            TclDateDay = TclDatepvt[-0].Number;
+            TclDateYear = TclDatepvt[-4].Number;
+        } break;
+case 30:{
+            TclDateMonth = TclDatepvt[-1].Number;
+            TclDateDay = TclDatepvt[-0].Number;
+        } break;
+case 31:{
+            TclDateMonth = TclDatepvt[-3].Number;
+            TclDateDay = TclDatepvt[-2].Number;
+            TclDateYear = TclDatepvt[-0].Number;
+        } break;
+case 32:{
+            TclDateMonth = TclDatepvt[-0].Number;
+            TclDateDay = TclDatepvt[-1].Number;
+        } break;
+case 33:{
+	    TclDateMonth = 1;
+	    TclDateDay = 1;
+	    TclDateYear = EPOCH;
+	} break;
+case 34:{
+            TclDateMonth = TclDatepvt[-1].Number;
+            TclDateDay = TclDatepvt[-2].Number;
+            TclDateYear = TclDatepvt[-0].Number;
+        } break;
+case 35:{
+	    TclDateMonthOrdinal = 1;
+	    TclDateMonth = TclDatepvt[-0].Number;
+	} break;
+case 36:{
+	    TclDateMonthOrdinal = TclDatepvt[-1].Number;
+	    TclDateMonth = TclDatepvt[-0].Number;
+	} break;
+case 37:{
+            if (TclDatepvt[-1].Number != HOUR(- 7)) YYABORT;
+	    TclDateYear = TclDatepvt[-2].Number / 10000;
+	    TclDateMonth = (TclDatepvt[-2].Number % 10000)/100;
+	    TclDateDay = TclDatepvt[-2].Number % 100;
+	    TclDateHour = TclDatepvt[-0].Number / 10000;
+	    TclDateMinutes = (TclDatepvt[-0].Number % 10000)/100;
+	    TclDateSeconds = TclDatepvt[-0].Number % 100;
+        } break;
+case 38:{
+            if (TclDatepvt[-5].Number != HOUR(- 7)) YYABORT;
+	    TclDateYear = TclDatepvt[-6].Number / 10000;
+	    TclDateMonth = (TclDatepvt[-6].Number % 10000)/100;
+	    TclDateDay = TclDatepvt[-6].Number % 100;
+	    TclDateHour = TclDatepvt[-4].Number;
+	    TclDateMinutes = TclDatepvt[-2].Number;
+	    TclDateSeconds = TclDatepvt[-0].Number;
+        } break;
+case 39:{
+	    TclDateYear = TclDatepvt[-1].Number / 10000;
+	    TclDateMonth = (TclDatepvt[-1].Number % 10000)/100;
+	    TclDateDay = TclDatepvt[-1].Number % 100;
+	    TclDateHour = TclDatepvt[-0].Number / 10000;
+	    TclDateMinutes = (TclDatepvt[-0].Number % 10000)/100;
+	    TclDateSeconds = TclDatepvt[-0].Number % 100;
+        } break;
+case 40:{
+            /*
+	     * Offset computed year by -377 so that the returned years will
+	     * be in a range accessible with a 32 bit clock seconds value
+	     */
+            TclDateYear = TclDatepvt[-2].Number/1000 + 2323 - 377;
+            TclDateDay  = 1;
+	    TclDateMonth = 1;
+	    TclDateRelDay += ((TclDatepvt[-2].Number%1000)*(365 + IsLeapYear(TclDateYear)))/1000;
+	    TclDateRelSeconds += TclDatepvt[-0].Number * 144 * 60;
+        } break;
+case 41:{
+	    TclDateRelSeconds *= -1;
+	    TclDateRelMonth *= -1;
+	    TclDateRelDay *= -1;
+	} break;
+case 43:{ *TclDateRelPointer += TclDatepvt[-2].Number * TclDatepvt[-1].Number * TclDatepvt[-0].Number; } break;
+case 44:{ *TclDateRelPointer += TclDatepvt[-1].Number * TclDatepvt[-0].Number; } break;
+case 45:{ *TclDateRelPointer += TclDatepvt[-0].Number; } break;
+case 46:{ *TclDateRelPointer += TclDatepvt[-1].Number * TclDatepvt[-0].Number; } break;
+case 47:{ *TclDateRelPointer += TclDatepvt[-0].Number; } break;
+case 48:{ TclDateval.Number = -1; } break;
+case 49:{ TclDateval.Number =  1; } break;
+case 50:{ TclDateval.Number = TclDatepvt[-0].Number; TclDateRelPointer = &TclDateRelSeconds; } break;
+case 51:{ TclDateval.Number = TclDatepvt[-0].Number; TclDateRelPointer = &TclDateRelDay; } break;
+case 52:{ TclDateval.Number = TclDatepvt[-0].Number; TclDateRelPointer = &TclDateRelMonth; } break;
+case 53:{
+	if (TclDateHaveTime && TclDateHaveDate && !TclDateHaveRel) {
+	    TclDateYear = TclDatepvt[-0].Number;
+	} else {
+	    TclDateHaveTime++;
+	    if (TclDatepvt[-0].Number < 100) {
+		TclDateHour = TclDatepvt[-0].Number;
+		TclDateMinutes = 0;
+	    } else {
+		TclDateHour = TclDatepvt[-0].Number / 100;
+		TclDateMinutes = TclDatepvt[-0].Number % 100;
+	    }
+	    TclDateSeconds = 0;
+	    TclDateMeridian = MER24;
+	}
+    } break;
+case 54:{
+            TclDateval.Meridian = MER24;
+        } break;
+case 55:{
+            TclDateval.Meridian = TclDatepvt[-0].Meridian;
+        } break;
+	}
+	goto TclDatestack;		/* reset registers in driver code */
+}
 

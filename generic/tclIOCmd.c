@@ -709,14 +709,6 @@ Tcl_ExecObjCmd(dummy, interp, objc, objv)
     int objc;				/* Number of arguments. */
     Tcl_Obj *CONST objv[];		/* Argument objects. */
 {
-#ifdef MAC_TCL
-
-    Tcl_AppendResult(interp, "exec not implemented under Mac OS",
-		(char *)NULL);
-    return TCL_ERROR;
-
-#else /* !MAC_TCL */
-
     /*
      * This procedure generates an argv array for the string arguments. It
      * starts out with stack-allocated space but uses dynamically-allocated
@@ -857,7 +849,6 @@ Tcl_ExecObjCmd(dummy, interp, objc, objv)
     Tcl_SetObjResult(interp, resultPtr);
 
     return result;
-#endif /* !MAC_TCL */
 }
 
 /*
@@ -968,12 +959,6 @@ Tcl_OpenObjCmd(notUsed, interp, objc, objv)
     if (!pipeline) {
         chan = Tcl_FSOpenFileChannel(interp, objv[1], modeString, prot);
     } else {
-#ifdef MAC_TCL
-	Tcl_AppendResult(interp,
-		"command pipelines not supported on Macintosh OS",
-		(char *)NULL);
-	return TCL_ERROR;
-#else
 	int mode, seekFlag, cmdObjc;
 	CONST char **cmdArgv;
 
@@ -1003,7 +988,6 @@ Tcl_OpenObjCmd(notUsed, interp, objc, objv)
 	    chan = Tcl_OpenCommandChannel(interp, cmdObjc, cmdArgv, flags);
 	}
         ckfree((char *) cmdArgv);
-#endif
     }
     if (chan == (Tcl_Channel) NULL) {
         return TCL_ERROR;

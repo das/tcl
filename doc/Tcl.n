@@ -53,7 +53,7 @@ The double-quotes are not retained as part of the word.
 .IP "[5] \fBArgument expansion.\fR"
 If a word starts with the string ``{expand}'' followed by a 
 non-whitespace character, then the leading ``{expand}'' is removed
-and the rest of the word is parsed and substituted as any other other 
+and the rest of the word is parsed and substituted as any other  
 word. After substitution, the word is parsed again without
 substitutions, and its words are added to the command being
 substituted. For instance, ``cmd a {expand}{b c} d {expand}{e f}'' is

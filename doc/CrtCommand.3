@@ -19,10 +19,12 @@ Tcl_CreateCommand \- implement new commands in C
 Tcl_Command
 \fBTcl_CreateCommand\fR(\fIinterp, cmdName, proc, clientData, deleteProc\fR)
 .SH ARGUMENTS
-.AS Tcl_CmdDeleteProc *deleteProc
+.AS Tcl_CmdDeleteProc **deleteProcPtr
 .AP Tcl_Interp *interp in
 Interpreter in which to create new command.
-.AP "const char" *cmdName in
+.VS 8.4
+.AP "CONST char" *cmdName in
+.VE
 Name of command.
 .AP Tcl_CmdProc *proc in
 Implementation of new command:  \fIproc\fR will be called whenever
@@ -79,10 +81,10 @@ and it returns NULL.
 \fBTcl_CmdProc\fR:
 .CS
 typedef int Tcl_CmdProc(
-        ClientData \fIclientData\fR,
-        Tcl_Interp *\fIinterp\fR,
-        int \fIargc\fR,
-        const char *\fIargv\fR[]);
+	ClientData \fIclientData\fR,
+	Tcl_Interp *\fIinterp\fR,
+	int \fIargc\fR,
+	CONST char *\fIargv\fR[]);
 .CE
 When \fIproc\fR is invoked the \fIclientData\fR and \fIinterp\fR
 parameters will be copies of the \fIclientData\fR and \fIinterp\fR
@@ -101,14 +103,8 @@ point to constant strings or may be shared with other parts of the
 interpreter.
 .VE
 .PP
-.VS
-Note that the argument strings are encoded in normalized UTF-8 since
-version 8.1 of Tcl.
-.VE
-.PP
-\fIProc\fR must return an integer code that is expected to be one of
-\fBTCL_OK\fR, \fBTCL_ERROR\fR, \fBTCL_RETURN\fR, \fBTCL_BREAK\fR, or
-\fBTCL_CONTINUE\fR.  See the Tcl overview man page
+\fIProc\fR must return an integer code that is either \fBTCL_OK\fR, \fBTCL_ERROR\fR,
+\fBTCL_RETURN\fR, \fBTCL_BREAK\fR, or \fBTCL_CONTINUE\fR.  See the Tcl overview man page
 for details on what these codes mean.  Most normal commands will only
 return \fBTCL_OK\fR or \fBTCL_ERROR\fR.  In addition, \fIproc\fR must set
 the interpreter result to point to a string value;
@@ -136,8 +132,7 @@ application an opportunity to release any structures associated
 with the command.  \fIDeleteProc\fR should have arguments and
 result that match the type \fBTcl_CmdDeleteProc\fR:
 .CS
-typedef void Tcl_CmdDeleteProc(
-        ClientData \fIclientData\fR);
+typedef void Tcl_CmdDeleteProc(ClientData \fIclientData\fR);
 .CE
 The \fIclientData\fR argument will be the same as the \fIclientData\fR
 argument passed to \fBTcl_CreateCommand\fR.

@@ -525,7 +525,9 @@ set a [makeFile {
 set tdiaf [makeFile {} thisdirectoryisafile]
 
 set normaldirectory [makeDirectory normaldirectory]
-normalizePath normaldirectory
+if {$::tcl_platform(platform) == "macintosh"} {
+set normaldirectory [file normalize $normaldirectory]
+}
 
 # -tmpdir, [temporaryDirectory]
 test tcltest-8.1 {tcltest a.tcl -tmpdir a} {unixOrPc} {
@@ -561,12 +563,12 @@ switch $tcl_platform(platform) {
     }
 }
 
-test tcltest-8.3 {tcltest a.tcl -tmpdir notReadableDir} {unix notRoot} {
+test tcltest-8.3 {tcltest a.tcl -tmpdir notReadableDir} {unixOnly nonRoot} {
     slave msg $a -tmpdir $notReadableDir 
     string match {*not readable*} $msg
 } {1}
 
-test tcltest-8.4 {tcltest a.tcl -tmpdir notWriteableDir} {unixOrPc notRoot} {
+test tcltest-8.4 {tcltest a.tcl -tmpdir notWriteableDir} {unixOrPc nonRoot} {
     slave msg $a -tmpdir $notWriteableDir
     string match {*not writeable*} $msg
 } {1}
@@ -621,7 +623,7 @@ test tcltest-8.11 {tcltest a.tcl -testdir thisdirectoryisafile} {unixOrPc} {
     string match "*not a directory*" $msg 
 } {1}
 
-test tcltest-8.12 {tcltest a.tcl -testdir notReadableDir} {unix notRoot} {
+test tcltest-8.12 {tcltest a.tcl -testdir notReadableDir} {unixOnly nonRoot} {
     slave msg $a -testdir $notReadableDir 
     string match {*not readable*} $msg
 } {1}
@@ -699,26 +701,15 @@ removeFile thisdirectoryisafile
 removeDirectory normaldirectory
 
 # -file, -notfile, [matchFiles], [skipFiles]
-test tcltest-9.1 {-file a*.tcl} -constraints {unixOrPc} -setup {
-    set old [testsDirectory]
-    testsDirectory [file dirname [info script]]
-} -body {
+test tcltest-9.1 {-file a*.tcl} {unixOrPc} {
     slave msg [file join [testsDirectory] all.tcl] -file a*.test
-    set msg
-} -cleanup {
-    testsDirectory $old
-} -match regexp -result {assocd\.test}
-
-test tcltest-9.2 {-file a*.tcl} -constraints {unixOrPc} -setup {
-    set old [testsDirectory]
-    testsDirectory [file dirname [info script]]
-} -body {
+    list [regexp assocd\.test $msg]
+} {1}
+test tcltest-9.2 {-file a*.tcl} {unixOrPc} {
     slave msg [file join [testsDirectory] all.tcl] \
 	    -file a*.test -notfile assocd*
-    regexp {assocd\.test} $msg
-} -cleanup {
-    testsDirectory $old
-} -result 0
+    list [regexp assocd\.test $msg]
+} {0}
 
 test tcltest-9.3 {matchFiles}  {
     -body {
@@ -822,7 +813,6 @@ test tcltest-12.2 {-loadfile load.tcl} {unixOrPc} {
 test tcltest-12.3 {loadScript} {
     -setup {
 	set old $::tcltest::loadScript
-	set ::tcltest::loadScript {}
     }
     -body {
 	set f1 [loadScript]
@@ -839,7 +829,6 @@ test tcltest-12.3 {loadScript} {
 test tcltest-12.4 {loadFile} {
     -setup {
 	set olds $::tcltest::loadScript
-	set ::tcltest::loadScript {}
 	set oldf $::tcltest::loadFile
 	set ::tcltest::loadFile {}
     }
@@ -980,7 +969,7 @@ test tcltest-15.1 {basic directory walking} {
     }
     -match regexp
     -returnCodes 1
-    -result {Tests located in:.*dirtestdir.*Tests located in:.*dirtestdir2.[123].*Tests located in:.*dirtestdir2.[123].*Tests located in:.*dirtestdir2.[123]}
+    -result {Tests located in:.*dirtestdir.*Tests located in:.*dirtestdir2.1.*Tests located in:.*dirtestdir2.2.*Tests located in:.*dirtestdir2.3}
 }
 
 test tcltest-15.2 {-asidefromdir} {
@@ -995,7 +984,7 @@ test tcltest-15.2 {-asidefromdir} {
     }
     -match regexp
     -returnCodes 1
-    -result {Tests located in:.*dirtestdir.*Tests located in:.*dirtestdir2.[12].*Tests located in:.*dirtestdir2.[12].*dirtestdir2.[12] test ended at .*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    -result {Tests located in:.*dirtestdir.*Tests located in:.*dirtestdir2.1.*Tests located in:.*dirtestdir2.2.*dirtestdir2.2 test ended at .*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Error:  No test files remain after applying your match and skip patterns!
 Error:  No test files remain after applying your match and skip patterns!
 Error:  No test files remain after applying your match and skip patterns!$}
@@ -1084,36 +1073,38 @@ removeDirectory dirtestdir2.1 $dtd
 removeDirectory dirtestdir
 
 # TCLTEST_OPTIONS
-test tcltest-19.1 {TCLTEST_OPTIONS default} -setup {
+test tcltest-19.1 {TCLTEST_OPTIONS default} {
+    -constraints {unixOrPc singleTestInterp}
+    -setup {
 	if {[info exists ::env(TCLTEST_OPTIONS)]} {
 	    set oldoptions $::env(TCLTEST_OPTIONS)
+	    unset ::env(TCLTEST_OPTIONS)
 	} else {
 	    set oldoptions none
 	}
 	# set this to { } instead of just {} to get around quirk in
 	# Windows env handling that removes empty elements from env array.
 	set ::env(TCLTEST_OPTIONS) { }
-	interp create slave1
-	slave1 eval [list set argv {-debug 2}]
-	slave1 alias puts puts
-	interp create slave2
-	slave2 alias puts puts
-    } -cleanup {
-	interp delete slave2
-	interp delete slave1
+	set olddebug [debug]
+	debug 2
+    }
+    -cleanup {
 	if {$oldoptions == "none"} {
 	    unset ::env(TCLTEST_OPTIONS) 
 	} else {
 	    set ::env(TCLTEST_OPTIONS) $oldoptions
 	}
-    } -body {
-	slave1 eval [package ifneeded tcltest [package provide tcltest]]
-	slave1 eval tcltest::debug
+	debug $olddebug
+    }
+    -body {
+	::tcltest::ProcessCmdLineArgs
 	set ::env(TCLTEST_OPTIONS) "-debug 3"
-	slave2 eval [package ifneeded tcltest [package provide tcltest]]
-	slave2 eval tcltest::debug
-    } -result {^3$} -match regexp -output\
-{tcltest::debug\s+= 2.*tcltest::debug\s+= 3}
+	::tcltest::ProcessCmdLineArgs
+    }
+    -result {^$}
+    -match regexp
+    -output {tcltest::debug\s+= 2.*tcltest::debug\s+= 3}
+}
 
 # Begin testing of tcltest procs ...
 
@@ -1727,59 +1718,13 @@ test tcltest-25.2 {
 
 test tcltest-25.3 {
 	reported return code (Bug 611922)
-} -setup {
-	set fail $::tcltest::currentFailure
-	set v [verbose]
 } -body {
-	verbose {}
+	# Buggy tcltest will generate result of 2
 	test tcltest-25.3.0 {} -body {
 	    error foo
 	}
-} -cleanup {
-	set ::tcltest::currentFailure $fail
-	verbose $v
 } -match glob -output {*generated error; Return code was: 1*}
 
-test tcltest-26.1 {Bug/RFE 1017151} -setup {
-    makeFile {
-	package require tcltest
-	set errorInfo "Should never see this"
-	tcltest::test tcltest-26.1.0 {
-	    no errorInfo when only return code mismatch
-	} -body {
-	    set x 1
-	} -returnCodes error -result 1
-	tcltest::cleanupTests
-    } test.tcl
-} -body {
-    slave msg [file join [temporaryDirectory] test.tcl]
-    set msg
-} -cleanup {
-    removeFile test.tcl
-} -match glob -result {*
----- Return code should have been one of: 1
-==== tcltest-26.1.0 FAILED*}
-
-test tcltest-26.2 {Bug/RFE 1017151} -setup {
-    makeFile {
-	package require tcltest
-	set errorInfo "Should never see this"
-	tcltest::test tcltest-26.2.0 {do not mask body errorInfo} -body {
-	    error "body error"
-	} -cleanup {
-	    error "cleanup error"
-	} -result 1
-	tcltest::cleanupTests
-    } test.tcl
-} -body {
-    slave msg [file join [temporaryDirectory] test.tcl]
-    set msg
-} -cleanup {
-    removeFile test.tcl
-} -match glob -result {*
----- errorInfo: body error
-*
----- errorInfo(cleanup): cleanup error*}
 
 cleanupTests
 }

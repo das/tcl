@@ -116,6 +116,13 @@ typedef int (TraversalProc) _ANSI_ARGS_((Tcl_DString *srcPtr,
  * and possibly elsewhere in Tcl's core.
  */
 
+#ifdef DJGPP
+
+/*See contrib/djgpp/tclDjgppFCmd.c for definitio*/
+extern TclFileAttrProcs tclpFileAttrProcs[];
+extern char *tclpFileAttrStrings[];
+
+#else
 enum {
     UNIX_GROUP_ATTRIBUTE,
     UNIX_OWNER_ATTRIBUTE,
@@ -161,7 +168,7 @@ CONST TclFileAttrProcs tclpFileAttrProcs[] = {
     {TclMacOSXGetFileAttribute,	TclMacOSXSetFileAttribute},
 #endif
 };
-
+#endif
 /*
  * Declarations for local procedures defined in this file:
  */
@@ -1480,6 +1487,7 @@ SetPermissionsAttribute(interp, objIndex, fileName, attributePtr)
     return TCL_OK;
 }
 
+#ifndef DJGPP
 /*
  *---------------------------------------------------------------------------
  *
@@ -1504,6 +1512,7 @@ TclpObjListVolumes(void)
     Tcl_IncrRefCount(resultPtr);
     return resultPtr;
 }
+#endif
 
 /*
  *----------------------------------------------------------------------

@@ -18,6 +18,7 @@
  */
 
 #include "tclInt.h"
+#include "tclPort.h"
 
 extern TclStubs tclStubs;
 
@@ -81,7 +82,7 @@ static Tcl_ThreadDataKey dataKey;
  * be replaced with a hashtable.
  */
 
-static ThreadSpecificData *firstNotifierPtr = NULL;
+static ThreadSpecificData *firstNotifierPtr;
 TCL_DECLARE_MUTEX(listLock)
 
 /*
@@ -111,22 +112,15 @@ static void		QueueEvent _ANSI_ARGS_((ThreadSpecificData *tsdPtr,
 void
 TclInitNotifier()
 {
-    ThreadSpecificData *tsdPtr;
-    Tcl_ThreadId threadId = Tcl_GetCurrentThread();
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
 
     Tcl_MutexLock(&listLock);
-    for (tsdPtr = firstNotifierPtr; tsdPtr && tsdPtr->threadId != threadId;
-	     tsdPtr = tsdPtr->nextPtr) {
-	/* Empty loop body. */
-    }
-    if (NULL == tsdPtr) {
-	/* Notifier not yet initialized in this thread */
-	tsdPtr = TCL_TSD_INIT(&dataKey);
-	tsdPtr->threadId = threadId;
-	tsdPtr->clientData = tclStubs.tcl_InitNotifier();
-	tsdPtr->nextPtr = firstNotifierPtr;
-	firstNotifierPtr = tsdPtr;
-    }
+
+    tsdPtr->threadId = Tcl_GetCurrentThread();
+    tsdPtr->clientData = tclStubs.tcl_InitNotifier();
+    tsdPtr->nextPtr = firstNotifierPtr;
+    firstNotifierPtr = tsdPtr;
+
     Tcl_MutexUnlock(&listLock);
 }
 
@@ -143,15 +137,7 @@ TclInitNotifier()
  *
  * Side effects:
  *	Removes the notifier associated with the current thread from
- *	the global notifier list. This is done only if the notifier
- *	was initialized for this thread by call to TclInitNotifier().
- *	This is always true for threads which have been seeded with
- * 	an Tcl interpreter, since the call to Tcl_CreateInterp will,
- * 	among other things, call TclInitializeSubsystems() and this
- *	one will, in turn, call the TclInitNotifier() for the thread.
- *	For threads created without the Tcl interpreter, though,
- *	nobody is explicitly nor implicitly calling the TclInitNotifier 
- *	hence, TclFinalizeNotifier should not be performed at all.
+ *	the global notifier list.
  *
  *----------------------------------------------------------------------
  */
@@ -162,10 +148,6 @@ TclFinalizeNotifier()
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
     ThreadSpecificData **prevPtrPtr;
     Tcl_Event *evPtr, *hold;
-
-    if (tsdPtr->threadId == (Tcl_ThreadId)0) {
-        return; /* Notifier not initialized for the current thread */
-    }
 
     Tcl_MutexLock(&(tsdPtr->queueMutex));
     for (evPtr = tsdPtr->firstEventPtr; evPtr != (Tcl_Event *) NULL; ) {

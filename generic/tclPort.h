@@ -16,15 +16,12 @@
 #ifndef _TCLPORT
 #define _TCLPORT
 
-#ifdef HAVE_TCL_CONFIG_H
-#include "tclConfig.h"
-#endif
 #include "tcl.h"
 
 #if defined(__WIN32__)
 #   include "../win/tclWinPort.h"
 #else
-#   include "tclUnixPort.h"
+#   include "../unix/tclUnixPort.h"
 #endif
 
 #if !defined(LLONG_MIN)

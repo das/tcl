@@ -135,7 +135,6 @@ EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((CONST char *string,
  * Socket support stuff: This likely needs more work to parameterize for
  * each system.
  */
-
 #include <sys/socket.h>		/* struct sockaddr, SOCK_STREAM, ... */
 #ifndef NO_UNAME
 #   include <sys/utsname.h>	/* uname system call. */

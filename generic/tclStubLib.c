@@ -26,6 +26,7 @@
 #undef USE_TCL_STUB_PROCS
 
 #include "tclInt.h"
+#include "tclPort.h"
 
 /*
  * Ensure that Tcl_InitStubs is built as an exported symbol.  The other stub

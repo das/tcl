@@ -180,6 +180,10 @@ SOURCE=..\compat\stdlib.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\compat\strftime.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\compat\string.h
 # End Source File
 # Begin Source File
@@ -1156,6 +1160,10 @@ SOURCE=..\generic\tclIndexObj.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\generic\tclInitScript.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\generic\tclInt.decls
 # End Source File
 # Begin Source File
@@ -1221,6 +1229,10 @@ SOURCE=..\generic\tclLoadNone.c
 # Begin Source File
 
 SOURCE=..\generic\tclMain.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\generic\tclMath.h
 # End Source File
 # Begin Source File
 
@@ -1529,6 +1541,10 @@ SOURCE=.\tclWinInt.h
 # Begin Source File
 
 SOURCE=.\tclWinLoad.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tclWinMtherr.c
 # End Source File
 # Begin Source File
 

@@ -462,18 +462,6 @@ proc ::safe::interpAddToAccessPath {slave path} {
 	# Source init.tcl into the slave, to get auto_load and other
 	# procedures defined:
 
-	# We don't try to use the -rsrc on the mac because it would get
-	# confusing if you would want to customize init.tcl
-	# for a given set of safe slaves, on all the platforms
-	# you just need to give a specific access_path and
-	# the mac should be no exception. As there is no
-	# obvious full "safe ressources" design nor implementation
-	# for the mac, safe interps there will just don't
-	# have that ability. (A specific app can still reenable
-	# that using custom aliases if they want to).
-	# It would also make the security analysis and the Safe Tcl security
-	# model platform dependant and thus more error prone.
-
 	if {[catch {::interp eval $slave\
 		{source [file join $tcl_library init.tcl]}} msg]} {
 	    Log $slave "can't source init.tcl ($msg)"
@@ -722,8 +710,6 @@ proc ::safe::setLogCmd {args} {
 
 	set argc [llength $args]
 	# Allow only "source filename"
-	# (and not mac specific -rsrc for instance - see comment in ::init
-	# for current rationale)
 	if {$argc != 1} {
 	    set msg "wrong # args: should be \"source fileName\""
 	    Log $slave "$msg ($args)"
