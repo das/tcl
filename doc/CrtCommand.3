@@ -103,6 +103,11 @@ point to constant strings or may be shared with other parts of the
 interpreter.
 .VE
 .PP
+.VS
+Note that the argument strings are encoded in normalized UTF-8 since
+version 8.1 of Tcl.
+.VE
+.PP
 \fIProc\fR must return an integer code that is either \fBTCL_OK\fR, \fBTCL_ERROR\fR,
 \fBTCL_RETURN\fR, \fBTCL_BREAK\fR, or \fBTCL_CONTINUE\fR.  See the Tcl overview man page
 for details on what these codes mean.  Most normal commands will only
