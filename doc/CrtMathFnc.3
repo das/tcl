@@ -46,11 +46,11 @@ Arbitrary one-word value to pass to \fIproc\fR when it is invoked.
 .AP int *numArgsPtr out
 Points to a variable that will be set to contain the number of
 arguments to the function.
-.AP Tcl_ValueType *argTypesPtr out
+.AP Tcl_ValueType **argTypesPtr out
 Points to a variable that will be set to contain a pointer to an array
 giving the permissible types for each argument to the function which
 will need to be freed up using \fITcl_Free\fR.
-.AP Tcl_MathProc *procPtr out
+.AP Tcl_MathProc **procPtr out
 Points to a variable that will be set to contain a pointer to the
 implementation code for the function (or NULL if the function is
 implemented directly in bytecode.)
