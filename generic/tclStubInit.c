@@ -896,6 +896,7 @@ TclStubs tclStubs = {
     Tcl_AllocStatBuf, /* 490 */
     Tcl_Seek, /* 491 */
     Tcl_Tell, /* 492 */
+    Tcl_ChannelWideSeekProc, /* 493 */
 };
 
 /* !END!: Do not edit above this line. */

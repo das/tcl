@@ -1553,6 +1553,9 @@ EXTERN Tcl_WideInt	Tcl_Seek _ANSI_ARGS_((Tcl_Channel chan,
 				Tcl_WideInt offset, int mode));
 /* 492 */
 EXTERN Tcl_WideInt	Tcl_Tell _ANSI_ARGS_((Tcl_Channel chan));
+/* 493 */
+EXTERN Tcl_DriverWideSeekProc * Tcl_ChannelWideSeekProc _ANSI_ARGS_((
+				Tcl_ChannelType * chanTypePtr));
 
 typedef struct TclStubHooks {
     struct TclPlatStubs *tclPlatStubs;
@@ -2105,6 +2108,7 @@ typedef struct TclStubs {
     Tcl_StatBuf * (*tcl_AllocStatBuf) _ANSI_ARGS_((void)); /* 490 */
     Tcl_WideInt (*tcl_Seek) _ANSI_ARGS_((Tcl_Channel chan, Tcl_WideInt offset, int mode)); /* 491 */
     Tcl_WideInt (*tcl_Tell) _ANSI_ARGS_((Tcl_Channel chan)); /* 492 */
+    Tcl_DriverWideSeekProc * (*tcl_ChannelWideSeekProc) _ANSI_ARGS_((Tcl_ChannelType * chanTypePtr)); /* 493 */
 } TclStubs;
 
 #ifdef __cplusplus
@@ -4116,6 +4120,10 @@ extern TclStubs *tclStubsPtr;
 #ifndef Tcl_Tell
 #define Tcl_Tell \
 	(tclStubsPtr->tcl_Tell) /* 492 */
+#endif
+#ifndef Tcl_ChannelWideSeekProc
+#define Tcl_ChannelWideSeekProc \
+	(tclStubsPtr->tcl_ChannelWideSeekProc) /* 493 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

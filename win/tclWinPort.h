@@ -199,6 +199,12 @@
 #ifndef EREMOTE
 #define EREMOTE		66	/* The object is remote */
 #endif
+/*
+ * Note that EOVERFLOW is really just a specialist ERANGE...
+ */
+#ifndef EOVERFLOW
+#define EOVERFLOW	ERANGE	/* The object couldn't fit in the datatype */
+#endif
 
 /*
  * Supply definitions for macros to query wait status, if not already
