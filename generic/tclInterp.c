@@ -949,7 +949,7 @@ Tcl_GetAlias(interp, aliasName, targetInterpPtr, targetNamePtr, argcPtr,
 /*
  *----------------------------------------------------------------------
  *
- * Tcl_ObjGetAlias --
+ * Tcl_GetAliasObj --
  *
  *	Object version: Gets information about an alias.
  *
