@@ -1008,7 +1008,7 @@ SerialSetOptionProc(instanceData, interp, optionName, value)
 	return Tcl_BadChannelOption(interp, optionName,
 		"mode pollinterval");
     }
-    return TCL_ERROR;
+    return TCL_OK;
 }
 
 /*

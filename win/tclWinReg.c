@@ -694,7 +694,13 @@ GetValue(
 
     result = (*regWinProcs->regQueryValueExProc)(key, valueName, NULL, &type,
 	    (BYTE *) Tcl_DStringValue(&data), &length);
-    if (result == ERROR_MORE_DATA) {
+    while (result == ERROR_MORE_DATA) {
+	/*
+	 * The Windows docs say that in this error case, we just need
+	 * to expand our buffer and request more data.
+	 * Required for HKEY_PERFORMANCE_DATA
+	 */
+	length *= 2;
         Tcl_DStringSetLength(&data, length);
         result = (*regWinProcs->regQueryValueExProc)(key, valueName, NULL,
 		&type, (BYTE *) Tcl_DStringValue(&data), &length);
@@ -975,8 +981,18 @@ OpenSubKey(
 	result = (*regWinProcs->regCreateKeyExProc)(rootKey, keyName, 0, "",
 		REG_OPTION_NON_VOLATILE, mode, NULL, keyPtr, &create);
     } else {
-	result = (*regWinProcs->regOpenKeyExProc)(rootKey, keyName, 0, mode,
-		keyPtr);
+	if (rootKey == HKEY_PERFORMANCE_DATA) {
+	    /*
+	     * Here we fudge it for this special root key.
+	     * See MSDN for more info on HKEY_PERFORMANCE_DATA and
+	     * the peculiarities surrounding it
+	     */
+	    *keyPtr = HKEY_PERFORMANCE_DATA;
+	    result = ERROR_SUCCESS;
+	} else {
+	    result = (*regWinProcs->regOpenKeyExProc)(rootKey, keyName, 0,
+		    mode, keyPtr);
+	}
     }
     Tcl_DStringFree(&buf);
 
