@@ -3060,7 +3060,7 @@ Tcl_DbNewBignumObj( mp_int* bignumValue, CONST char* file, int line )
     Tcl_Obj* objPtr;
     TclDbNewObj( objPtr, file, line );
     objPtr->bytes = NULL;
-    PACK_BIGNUM( bignumValue, objPtr );
+    PACK_BIGNUM( *bignumValue, objPtr );
     objPtr->typePtr=&tclBignumType;
     objPtr->bytes = NULL;
 
