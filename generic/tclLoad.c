@@ -104,6 +104,8 @@ static void		LoadCleanupProc _ANSI_ARGS_((ClientData clientData,
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
+#ifndef TCL_NO_LOADCMD
 int
 Tcl_LoadObjCmd(dummy, interp, objc, objv)
     ClientData dummy;		/* Not used. */
@@ -156,6 +158,7 @@ Tcl_LoadObjCmd(dummy, interp, objc, objv)
      */
 
     target = interp;
+#ifndef TCL_NO_SLAVEINTERP
     if (objc == 4) {
 	char *slaveIntName;
 	slaveIntName = Tcl_GetString(objv[3]);
@@ -164,6 +167,7 @@ Tcl_LoadObjCmd(dummy, interp, objc, objv)
 	    return TCL_ERROR;
 	}
     }
+#endif
 
     /*
      * Scan through the packages that are currently loaded to see if the
@@ -414,6 +418,8 @@ Tcl_LoadObjCmd(dummy, interp, objc, objv)
     Tcl_DStringFree(&tmp);
     return code;
 }
+#endif
+#endif
 
 /*
  *----------------------------------------------------------------------
@@ -529,9 +535,11 @@ TclGetLoadedPackages(interp, targetName)
 				 * otherwise, just return info about this
 				 * interpreter. */
 {
-    Tcl_Interp *target;
     LoadedPackage *pkgPtr;
+#ifndef TCL_NO_SLAVEINTERP
+    Tcl_Interp *target;
     InterpPackage *ipPtr;
+#endif
     char *prefix;
 
     if (targetName == NULL) {
@@ -553,6 +561,7 @@ TclGetLoadedPackages(interp, targetName)
 	return TCL_OK;
     }
 
+#ifndef TCL_NO_SLAVEINTERP
     /*
      * Return information about only the packages that are loaded in
      * a given interpreter.
@@ -560,7 +569,9 @@ TclGetLoadedPackages(interp, targetName)
 
     target = Tcl_GetSlave(interp, targetName);
     if (target == NULL) {
+#endif
 	return TCL_ERROR;
+#ifndef TCL_NO_SLAVEINTERP
     }
     ipPtr = (InterpPackage *) Tcl_GetAssocData(target, "tclLoad",
 	    (Tcl_InterpDeleteProc **) NULL);
@@ -574,6 +585,7 @@ TclGetLoadedPackages(interp, targetName)
 	prefix = " {";
     }
     return TCL_OK;
+#endif
 }
 
 /*

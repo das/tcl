@@ -66,8 +66,10 @@ Tcl_ThreadDataKey dataKey;
  */
 
 static void		Prompt _ANSI_ARGS_((Tcl_Interp *interp, int partial));
+#ifndef TCL_NO_FILEEVENTS
 static void		StdinProc _ANSI_ARGS_((ClientData clientData,
 			    int mask));
+#endif
 
 
 /*
@@ -218,6 +220,9 @@ Tcl_Main(argc, argv, appInitProc)
 	}
     }
 
+#ifndef TCL_NO_FILESYSTEM
+#ifndef TCL_NO_NONSTDCHAN
+    /* IOS FIXME : See Tcl_EvalFile */
     /*
      * If a script file was specified then just source that file
      * and quit.
@@ -242,6 +247,8 @@ Tcl_Main(argc, argv, appInitProc)
 	}
 	goto done;
     }
+#endif
+#endif
     Tcl_DStringFree(&argString);
 
     /*
@@ -343,10 +350,12 @@ Tcl_Main(argc, argv, appInitProc)
 	     * channel handler for stdin.
 	     */
 
+#ifndef TCL_NO_FILEEVENTS
 	    if (inChannel) {
 		Tcl_CreateChannelHandler(inChannel, TCL_READABLE, StdinProc,
 			(ClientData) inChannel);
 	    }
+#endif
 	    if (tsdPtr->tty) {
 		Prompt(interp, 0);
 	    }
@@ -434,6 +443,7 @@ Tcl_SetMainLoop(proc)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILEEVENTS
     /* ARGSUSED */
 static void
 StdinProc(clientData, mask)
@@ -508,6 +518,7 @@ StdinProc(clientData, mask)
     }
     Tcl_ResetResult(interp);
 }
+#endif
 
 /*
  *----------------------------------------------------------------------

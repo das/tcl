@@ -34,6 +34,7 @@
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_LOADCMD
 int
 TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
     Tcl_Interp *interp;		/* Used for error reporting. */
@@ -53,6 +54,7 @@ TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
 	    TCL_STATIC);
     return TCL_ERROR;
 }
+#endif
 
 /*
  *----------------------------------------------------------------------
@@ -102,6 +104,7 @@ TclGuessPackageName(fileName, bufPtr)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_LOADCMD
 void
 TclpUnloadFile(clientData)
     ClientData clientData;    /* ClientData returned by a previous call
@@ -110,3 +113,4 @@ TclpUnloadFile(clientData)
 			       * file. */
 {
 }
+#endif

@@ -2391,6 +2391,7 @@ Tcl_GetNameOfExecutable()
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
 char *
 Tcl_GetCwd(interp, cwdPtr)
     Tcl_Interp *interp;
@@ -2398,6 +2399,7 @@ Tcl_GetCwd(interp, cwdPtr)
 {
     return TclpGetCwd(interp, cwdPtr);
 }
+#endif
 
 /*
  *----------------------------------------------------------------------
@@ -2415,12 +2417,14 @@ Tcl_GetCwd(interp, cwdPtr)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
 int
 Tcl_Chdir(dirName)
     CONST char *dirName;
 {
     return TclpChdir(dirName);
 }
+#endif
 
 /*
  *----------------------------------------------------------------------
@@ -2438,6 +2442,7 @@ Tcl_Chdir(dirName)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
 int
 Tcl_Access(path, mode)
     CONST char *path;		/* Path of file to access (UTF-8). */
@@ -2445,6 +2450,7 @@ Tcl_Access(path, mode)
 {
     return TclAccess(path, mode);
 }
+#endif
 
 /*
  *----------------------------------------------------------------------
@@ -2462,6 +2468,7 @@ Tcl_Access(path, mode)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
 int
 Tcl_Stat(path, bufPtr)
     CONST char *path;		/* Path of file to stat (in UTF-8). */
@@ -2469,3 +2476,6 @@ Tcl_Stat(path, bufPtr)
 {
     return TclStat(path, bufPtr);
 }
+#endif
+
+

@@ -587,6 +587,7 @@ Tcl_Exit(status)
  *-------------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
 void
 TclSetLibraryPath(pathPtr)
     Tcl_Obj *pathPtr;		/* A Tcl list object whose elements are
@@ -608,6 +609,7 @@ TclSetLibraryPath(pathPtr)
      */
     tclLibraryPathStr = Tcl_GetStringFromObj(pathPtr, NULL);
 }
+#endif
 
 /*
  *-------------------------------------------------------------------------
@@ -626,6 +628,7 @@ TclSetLibraryPath(pathPtr)
  *-------------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
 Tcl_Obj *
 TclGetLibraryPath()
 {
@@ -643,6 +646,7 @@ TclGetLibraryPath()
     }
     return tsdPtr->tclLibraryPath;
 }
+#endif
 
 /*
  *-------------------------------------------------------------------------

@@ -26,6 +26,7 @@
  * a linked list is defined.
  */
 
+#ifndef TCL_NO_FILESYSTEM
 typedef struct StatProc {
     TclStatProc_ *proc;		 /* Function to process a 'stat()' call */
     struct StatProc *nextPtr;    /* The next 'stat()' function to call */
@@ -70,12 +71,17 @@ static AccessProc defaultAccessProc = {
 static AccessProc *accessProcList = &defaultAccessProc;
 
 static OpenFileChannelProc defaultOpenFileChannelProc = {
+#ifndef TCL_NO_NONSTDCHAN
     &TclpOpenFileChannel, NULL
+#else
+    NULL
+#endif
 };
 static OpenFileChannelProc *openFileChannelProcList =
 	&defaultOpenFileChannelProc;
 
 TCL_DECLARE_MUTEX(hookMutex)
+#endif
 
 /*
  *---------------------------------------------------------------------------
@@ -270,6 +276,12 @@ TclGetOpenMode(interp, string, seekFlagPtr)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
+#ifndef TCL_NO_NONSTDCHAN
+/* IOS FIXME : in the generic case this functionality can be made
+ * available, it just has to read the file directly instead of using
+ * the channel system. This makes the code platform dependent.
+ */
 int
 Tcl_EvalFile(interp, fileName)
     Tcl_Interp *interp;		/* Interpreter in which to process file. */
@@ -306,12 +318,6 @@ Tcl_EvalFile(interp, fileName)
 		"\": ", Tcl_PosixError(interp), (char *) NULL);
 	goto end;
     }
-    /*
-     * The eofchar is \32 (^Z).  This is the usual on Windows, but we
-     * effect this cross-platform to allow for scripted documents.
-     * [Bug: 2040]
-     */
-    Tcl_SetChannelOption(interp, chan, "-eofchar", "\32");
     if (Tcl_ReadChars(chan, objPtr, -1, 0) < 0) {
         Tcl_Close(interp, chan);
 	Tcl_AppendResult(interp, "couldn't read file \"", fileName,
@@ -324,11 +330,9 @@ Tcl_EvalFile(interp, fileName)
 
     iPtr = (Interp *) interp;
     oldScriptFile = iPtr->scriptFile;
-    iPtr->scriptFile = ckalloc((unsigned) (strlen(fileName) + 1));
-    strcpy(iPtr->scriptFile, fileName);
+    iPtr->scriptFile = fileName;
     string = Tcl_GetStringFromObj(objPtr, &length);
     result = Tcl_EvalEx(interp, string, length, 0);
-    ckfree(iPtr->scriptFile);
     iPtr->scriptFile = oldScriptFile;
 
     if (result == TCL_RETURN) {
@@ -350,6 +354,8 @@ Tcl_EvalFile(interp, fileName)
     Tcl_DStringFree(&nameString);
     return result;
 }
+#endif /* TCL_NO_NONSTDCHAN */
+#endif /* TCL_NO_FILESYSTEM */
 
 /*
  *----------------------------------------------------------------------
@@ -451,6 +457,7 @@ Tcl_PosixError(interp)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
 int
 TclStat(path, buf)
     CONST char *path;		/* Path of file to stat (in current CP). */
@@ -474,6 +481,7 @@ TclStat(path, buf)
 
     return (retVal);
 }
+#endif
 
 /*
  *----------------------------------------------------------------------
@@ -494,6 +502,7 @@ TclStat(path, buf)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
 int
 TclAccess(path, mode)
     CONST char *path;		/* Path of file to access (in current CP). */
@@ -517,6 +526,7 @@ TclAccess(path, mode)
 
     return (retVal);
 }
+#endif
 
 /*
  *----------------------------------------------------------------------
@@ -538,6 +548,7 @@ TclAccess(path, mode)
  *----------------------------------------------------------------------
  */
  
+#ifndef TCL_NO_FILESYSTEM
 Tcl_Channel
 Tcl_OpenFileChannel(interp, fileName, modeString, permissions)
     Tcl_Interp *interp;                 /* Interpreter for error reporting;
@@ -569,6 +580,7 @@ Tcl_OpenFileChannel(interp, fileName, modeString, permissions)
 
     return (retVal);
 }
+#endif /* TCL_NO_FILESYSTEM */
 
 /*
  *----------------------------------------------------------------------
@@ -592,6 +604,7 @@ Tcl_OpenFileChannel(interp, fileName, modeString, permissions)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
 int
 TclStatInsertProc (proc)
     TclStatProc_ *proc;
@@ -616,6 +629,7 @@ TclStatInsertProc (proc)
 
     return (retVal);
 }
+#endif
 
 /*
  *----------------------------------------------------------------------
@@ -636,6 +650,7 @@ TclStatInsertProc (proc)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
 int
 TclStatDeleteProc (proc)
     TclStatProc_ *proc;
@@ -672,6 +687,7 @@ TclStatDeleteProc (proc)
     Tcl_MutexUnlock(&hookMutex);
     return (retVal);
 }
+#endif
 
 /*
  *----------------------------------------------------------------------
@@ -695,6 +711,7 @@ TclStatDeleteProc (proc)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
 int
 TclAccessInsertProc(proc)
     TclAccessProc_ *proc;
@@ -719,6 +736,7 @@ TclAccessInsertProc(proc)
 
     return (retVal);
 }
+#endif
 
 /*
  *----------------------------------------------------------------------
@@ -739,6 +757,7 @@ TclAccessInsertProc(proc)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
 int
 TclAccessDeleteProc(proc)
     TclAccessProc_ *proc;
@@ -775,6 +794,7 @@ TclAccessDeleteProc(proc)
 
     return (retVal);
 }
+#endif
 
 /*
  *----------------------------------------------------------------------
@@ -799,6 +819,7 @@ TclAccessDeleteProc(proc)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
 int
 TclOpenFileChannelInsertProc(proc)
     TclOpenFileChannelProc_ *proc;
@@ -824,6 +845,7 @@ TclOpenFileChannelInsertProc(proc)
 
     return (retVal);
 }
+#endif
 
 /*
  *----------------------------------------------------------------------
@@ -844,6 +866,7 @@ TclOpenFileChannelInsertProc(proc)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_FILESYSTEM
 int
 TclOpenFileChannelDeleteProc(proc)
     TclOpenFileChannelProc_ *proc;
@@ -882,3 +905,4 @@ TclOpenFileChannelDeleteProc(proc)
 
     return (retVal);
 }
+#endif

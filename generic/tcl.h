@@ -25,7 +25,36 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
+
+/* The following are
+ * - a clause to activate all macros cutting features out of the core.
+ * - feature dependencies
+ */
+
+#ifdef MODULAR_TCL
+#define TCL_NO_SOCKETS         /* Disable "tcp"  channel driver */
+#define TCL_NO_TTY             /* Disable "tty"  channel driver */
+#define TCL_NO_PIPES           /* Disable "pipe" channel driver */
+#define TCL_NO_PIDCMD          /* Disable "pid" command */
+#define TCL_NO_NONSTDCHAN      /* Disable creation of channels beyond std* */
+#define TCL_NO_CHANNELCOPY     /* Disable channel copying, C/Tcl [fcopy] */
+#define TCL_NO_CHANNEL_READ    /* Disable Tcl_ReadChars, [read] */
+#define TCL_NO_CHANNEL_EOF     /* Disable [eof] */
+#define TCL_NO_CHANNEL_CONFIG  /* Disable [fconfigure] and Tcl_GetChannelOption */
+#define TCL_NO_CHANNEL_BLOCKED /* Disable [fblocked] */
+#define TCL_NO_FILEEVENTS      /* Disable [fileevent] and underlying APIs */
+#define TCL_NO_FILESYSTEM      /* Disable everything related to the filesystem */
+#define TCL_NO_LOADCMD         /* Disable [load] and machinery below */
+#define TCL_NO_SLAVEINTERP     /* No slave interp's */
+#define TCL_NO_CMDALIASES      /* No command aliases */
+#endif
+
+#ifdef TCL_NO_NONSTDCHAN
+#define TCL_NO_SOCKETS    /* Disable "tcp"  channel driver */
+#define TCL_NO_TTY        /* Disable "tty"  channel driver */
+#define TCL_NO_PIPES      /* Disable "pipe" channel driver */
+#endif
+
 /*
  * The following defines are used to indicate the various release levels.
  */

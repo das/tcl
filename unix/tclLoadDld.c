@@ -48,6 +48,7 @@
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_LOADCMD
 int
 TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
     Tcl_Interp *interp;		/* Used for error reporting. */
@@ -98,6 +99,7 @@ TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
 	    (char *) ckalloc((unsigned) (strlen(fileName) + 1)), fileName);
     return TCL_OK;
 }
+#endif
 
 /*
  *----------------------------------------------------------------------
@@ -117,6 +119,7 @@ TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
  *----------------------------------------------------------------------
  */
 
+#ifndef TCL_NO_LOADCMD
 void
 TclpUnloadFile(clientData)
     ClientData clientData;	/* ClientData returned by a previous call
@@ -130,6 +133,7 @@ TclpUnloadFile(clientData)
     dld_unlink_by_file(handle, 0);
     ckfree(handle);
 }
+#endif
 
 /*
  *----------------------------------------------------------------------
