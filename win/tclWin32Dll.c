@@ -613,3 +613,18 @@ Tcl_WinTCharToUtf(string, len, dsPtr)
     return Tcl_ExternalToUtfDString(tclWinTCharEncoding, 
 	    (CONST char *) string, len, dsPtr);
 }
+
+#ifdef HAVE_NO_SEH
+/*
+ * This method exists only to stop the compiler from emitting
+ * warnings about variables and methods accessed only from asm.
+ */
+static void squelch_warnings()
+{
+    void *ptr;
+    ptr = _except_checkstackspace_handler;
+    ESP = 0;
+    EBP = 0;
+    squelch_warnings();
+}
+#endif /* HAVE_NO_SEH */

@@ -533,7 +533,7 @@ Tcl_Sleep(ms)
 
     Tcl_Time now;		/* Current wall clock time */
     Tcl_Time desired;		/* Desired wakeup time */
-    int sleepTime = ms;		/* Time to sleep */
+    DWORD sleepTime = ms;	/* Time to sleep */
 
     Tcl_GetTime( &now );
     desired.sec = now.sec + ( ms / 1000 );
