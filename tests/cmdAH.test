@@ -1466,7 +1466,13 @@ test cmdAH-25.1 {Tcl_FileObjCmd: owned} {
     list [catch {file owned a b} msg] $msg
 } {1 {wrong # args: should be "file owned name"}}
 test cmdAH-25.2 {Tcl_FileObjCmd: owned} {
-    file owned $gorpfile
+    if {$tcl_platform(platform) eq "unix"} {
+	# Avoid problems with AFS
+	set tmpfile [makeFile "data" touch.me /tmp]
+	file owned $tmpfile
+    } else {
+	file owned $gorpfile
+    }
 } 1
 test cmdAH-25.3 {Tcl_FileObjCmd: owned} {unixOnly notRoot} {
     file owned /
