@@ -399,7 +399,7 @@ declare 98 generic {
 #    Tcl_Obj * TclSetIndexedScalar(Tcl_Interp *interp, int localIndex,
 #	    Tcl_Obj *objPtr, int flags)
 #}
-declare 101 {unix win} {
+declare 101 generic {
     char * TclSetPreInitScript(char *string)
 }
 declare 102 generic {

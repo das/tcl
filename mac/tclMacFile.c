@@ -1172,7 +1172,7 @@ TclpObjLink(pathPtr, toPtr, linkAction)
 	    FSSpec spec;
 	    FSSpec linkSpec;
 	    OSErr err;
-	    char *path;
+	    CONST char *path;
 	    AliasHandle alias;
 	    
 	    err = FspLocationFromFsPath(toPtr, &spec);

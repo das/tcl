@@ -819,6 +819,8 @@ EXTERN void		TclVerifyGlobalLiteralTable _ANSI_ARGS_((
 EXTERN void		TclVerifyLocalLiteralTable _ANSI_ARGS_((
 			    CompileEnv *envPtr));
 #endif
+EXTERN int		TclCompileVariableCmd _ANSI_ARGS_((
+			    Tcl_Interp *interp, Tcl_Parse *parsePtr, CompileEnv *envPtr));
 
 /*
  *----------------------------------------------------------------

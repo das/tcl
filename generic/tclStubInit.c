@@ -164,15 +164,7 @@ TclIntStubs tclIntStubs = {
     TclServiceIdle, /* 98 */
     NULL, /* 99 */
     NULL, /* 100 */
-#if !defined(__WIN32__) && !defined(MAC_TCL) /* UNIX */
     TclSetPreInitScript, /* 101 */
-#endif /* UNIX */
-#ifdef __WIN32__
-    TclSetPreInitScript, /* 101 */
-#endif /* __WIN32__ */
-#ifdef MAC_TCL
-    NULL, /* 101 */
-#endif /* MAC_TCL */
     TclSetupEnv, /* 102 */
     TclSockGetPort, /* 103 */
 #if !defined(__WIN32__) && !defined(MAC_TCL) /* UNIX */
