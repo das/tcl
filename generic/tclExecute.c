@@ -1918,6 +1918,7 @@ TclExecuteByteCode(interp, codePtr)
 	    if (result != TCL_OK) {
 		TRACE_WITH_OBJ(("%u (by %s) => ERROR converting increment amount to int: ",
 		        opnd, O2S(valuePtr)), Tcl_GetObjResult(interp));
+		Tcl_AddErrorInfo(interp, "\n    (reading increment)");
 		goto checkForCatch;
 	    }
 	    FORCE_LONG(valuePtr, i, w);

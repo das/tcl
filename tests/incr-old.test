@@ -62,7 +62,8 @@ test incr-old-2.5 {incr errors} {
     set x 123
     list [catch {incr x 1a} msg] $msg $errorInfo
 } {1 {expected integer but got "1a"} {expected integer but got "1a"
-    while executing
+    (reading increment)
+    invoked from within
 "incr x 1a"}}
 test incr-old-2.6 {incr errors} {
     proc readonly args {error "variable is read-only"}

@@ -502,6 +502,20 @@ test incr-2.29 {incr command (not compiled): runtime error, bad variable value} 
     set x "  -  "
     list [catch {$z x 1} msg] $msg
 } {1 {expected integer but got "  -  "}}
+test incr-2.30 {incr command (not compiled): bad increment} {
+    set z incr
+    set x 0
+    list [catch {$z x 1a} msg] $msg $errorInfo
+} {1 {expected integer but got "1a"} {expected integer but got "1a"
+    (reading increment)
+    invoked from within
+"$z x 1a"}}
+test incr-2.31 {incr command (compiled): bad increment} {
+    list [catch {incr x 1a} msg] $msg $errorInfo
+} {1 {expected integer but got "1a"} {expected integer but got "1a"
+    (reading increment)
+    invoked from within
+"incr x 1a"}}
 
 # cleanup
 ::tcltest::cleanupTests
