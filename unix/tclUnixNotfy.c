@@ -207,7 +207,8 @@ Tcl_InitNotifier()
 
     Tcl_MutexLock(&notifierMutex);
     if (notifierCount == 0) {
-	if (TclpThreadCreate(&notifierThread, NotifierThreadProc, NULL) != TCL_OK) {
+	if (TclpThreadCreate(&notifierThread, NotifierThreadProc, NULL)
+		!= TCL_OK) {
 	    panic("Tcl_InitNotifier: unable to start notifier thread");
 	}
     }
@@ -223,7 +224,7 @@ Tcl_InitNotifier()
 
     Tcl_MutexUnlock(&notifierMutex);
 #endif
-    return tsdPtr;
+    return (ClientData) tsdPtr;
 }
 
 /*
