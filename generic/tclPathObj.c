@@ -842,10 +842,18 @@ Tcl_FSJoinPath(listObj, elements)
 
 		if (str[0] != '.' && ((tclPlatform != TCL_PLATFORM_WINDOWS) 
 			|| (strchr(str, '\\') == NULL))) {
-		    if (res != NULL) {
-			TclDecrRefCount(res);
+		    /* 
+		     * Finally, on Windows, 'file join' is defined to 
+		     * convert all backslashes to forward slashes,
+		     * so the base part cannot have backslashes either.
+		     */
+		    if ((tclPlatform != TCL_PLATFORM_WINDOWS)
+			|| (strchr(Tcl_GetString(elt), '\\') == NULL)) {
+			if (res != NULL) {
+			    TclDecrRefCount(res);
+			}
+			return TclNewFSPathObj(elt, str, len);
 		    }
-		    return TclNewFSPathObj(elt, str, len);
 		}
 
 		/* 
