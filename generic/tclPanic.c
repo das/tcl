@@ -97,7 +97,7 @@ Tcl_PanicVA (format, argList)
 /*
  *----------------------------------------------------------------------
  *
- * Tcl_Panic --
+ * panic --
  *
  *	Print an error message and kill the process.
  *
@@ -112,7 +112,7 @@ Tcl_PanicVA (format, argList)
 
 	/* VARARGS ARGSUSED */
 void
-Tcl_Panic TCL_VARARGS_DEF(char *,arg1)
+panic TCL_VARARGS_DEF(char *,arg1)
 {
     va_list argList;
     char *format;
