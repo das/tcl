@@ -343,7 +343,7 @@ TclpStrftime(s, maxsize, format, t, useGMT)
 	    Tcl_DStringInit ( &utf8Buffer );
 	    Tcl_ExternalToUtfDString( NULL, s, status, &utf8Buffer );
 	    strcpy( s, Tcl_DStringValue( &utf8Buffer ) );
-	    Tcl_DStringFree( &utf8buffer );
+	    Tcl_DStringFree( &utf8Buffer );
 	}
 	return status;
     }
