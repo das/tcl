@@ -12,10 +12,8 @@
 # 
 # RCS: @(#) $Id$
 
-set tcltestVersion [package require tcltest]
-namespace import -force tcltest::*
-
-tcltest::testsDirectory [file dir [info script]]
-tcltest::runAllTests
-
-return
+package require Tcl 8.5
+package require tcltest 2.2
+namespace import tcltest::*
+configure {expand}$argv -testdir [file dir [info script]]
+runAllTests
