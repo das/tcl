@@ -477,8 +477,8 @@ TclUnixCopyFile(src, dst, statBufPtr, dontCopyAtts)
 {
     int srcFd;
     int dstFd;
-    u_int blockSize;   /* Optimal I/O blocksize for filesystem */
-    char *buffer;      /* Data buffer for copy */
+    unsigned blockSize;		/* Optimal I/O blocksize for filesystem */
+    char *buffer;		/* Data buffer for copy */
     size_t nread;
 
 #ifdef DJGPP

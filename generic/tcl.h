@@ -20,6 +20,14 @@
 #define _TCL
 
 /*
+ *  * For C++ compilers, use extern "C"
+ *   */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*
  * The following defines are used to indicate the various release levels.
  */
 
@@ -49,10 +57,10 @@
 #define TCL_MAJOR_VERSION   8
 #define TCL_MINOR_VERSION   5
 #define TCL_RELEASE_LEVEL   TCL_ALPHA_RELEASE
-#define TCL_RELEASE_SERIAL  2
+#define TCL_RELEASE_SERIAL  3
 
 #define TCL_VERSION	    "8.5"
-#define TCL_PATCH_LEVEL	    "8.5a2"
+#define TCL_PATCH_LEVEL	    "8.5a3"
 
 /*
  * The following definitions set up the proper options for Windows
@@ -2353,4 +2361,12 @@ EXTERN int		Tcl_AppInit _ANSI_ARGS_((Tcl_Interp *interp));
 #define TCL_STORAGE_CLASS DLLIMPORT
 
 #endif /* RC_INVOKED */
+
+/*
+ *  * end block for C++
+ *   */
+#ifdef __cplusplus
+}
+#endif
+
 #endif /* _TCL */
