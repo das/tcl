@@ -42,6 +42,8 @@
 #include "tcl.h"
 #include "tclMac.h"
 #include "tclInt.h"
-
+#ifdef TCL_TEST
+#include "tclMacPort.h"
+#endif
 #pragma export reset
 
