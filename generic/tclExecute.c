@@ -792,6 +792,7 @@ TclExecuteByteCode(interp, codePtr)
 		 * Finally, let TclEvalObjvInternal handle the command. 
 		 */
 
+		Tcl_ResetResult(interp);
 		DECACHE_STACK_INFO();
 		result = TclEvalObjvInternal(interp, objc, objv, bytes, length, 0);
 		CACHE_STACK_INFO();

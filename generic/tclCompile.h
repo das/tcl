@@ -718,6 +718,18 @@ typedef struct ForeachInfo {
 
 extern AuxDataType		tclForeachInfoType;
 
+
+/*
+ *----------------------------------------------------------------
+ * Procedures exported by tclBasic.c to be used within the engine.
+ *----------------------------------------------------------------
+ */
+
+EXTERN int		TclEvalObjvInternal _ANSI_ARGS_((Tcl_Interp *interp, int objc,
+			    Tcl_Obj *CONST objv[], char *command, int length,
+			    int flags));
+EXTERN int              TclInterpReady _ANSI_ARGS_((Tcl_Interp *interp));
+
 /*
  *----------------------------------------------------------------
  * Procedures shared among Tcl bytecode compilation and execution
@@ -754,9 +766,6 @@ EXTERN void		TclEmitForwardJump _ANSI_ARGS_((CompileEnv *envPtr,
 EXTERN ExceptionRange *	TclGetExceptionRangeForPc _ANSI_ARGS_((
 			    unsigned char *pc, int catchOnly,
 			    ByteCode* codePtr));
-EXTERN int		TclEvalObjvInternal _ANSI_ARGS_((Tcl_Interp *interp, int objc,
-			    Tcl_Obj *CONST objv[], char *command, int length,
-			    int flags));
 EXTERN int		TclExecuteByteCode _ANSI_ARGS_((Tcl_Interp *interp,
 			    ByteCode *codePtr));
 EXTERN void		TclExpandJumpFixupArray _ANSI_ARGS_((
