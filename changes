@@ -4920,3 +4920,5 @@ pattern matching for [array names] (gazetta)
 
 2000-05-31 (feature enhancement) added -nocomplain and -- flags to
 [unset] to allow for silent unset operation (hobbs)
+
+--- Released 8.4a1, June 6, 2000 --- See ChangeLog for details ---
