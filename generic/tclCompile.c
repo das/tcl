@@ -222,7 +222,7 @@ InstructionDesc instructionTable[] = {
 	/* Str Index:	push (strindex stknext stktop) */
     {"strmatch",	  1,   0,   {OPERAND_NONE}},
 	/* Str Match:	push (strmatch stkforenext stknext stktop) */
-    {"list",		  1,   0,   {OPERAND_NONE}},
+    {"list",		  5,   1,   {OPERAND_UINT4}},
 	/* List:	push (stk1 stk2 ... stktop) */
     {"listindex",	  1,   0,   {OPERAND_NONE}},
 	/* List Index:	push (listindex stknext stktop) */
