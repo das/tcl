@@ -230,7 +230,7 @@ or more 64-bit integers in big-endian byte order in the output string.
 For example,
 .RS
 .CS
-\fBbinary format W 4785469626960341345\fR
+\fBbinary format Wc 4785469626960341345 110\fR
 .CE
 will return the string \fBBigEndian\fR
 .VE
