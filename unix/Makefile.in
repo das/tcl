@@ -354,7 +354,6 @@ GENERIC_SRCS = \
 	$(GENERIC_DIR)/tclCompile.c \
 	$(GENERIC_DIR)/tclDate.c \
 	$(GENERIC_DIR)/tclDictObj.c \
-	$(GENERIC_DIR)/tclDToA.c \
 	$(GENERIC_DIR)/tclEncoding.c \
 	$(GENERIC_DIR)/tclEnv.c \
 	$(GENERIC_DIR)/tclEvent.c \
