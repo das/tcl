@@ -84,10 +84,11 @@ static char initScript[] = "if {[info proc tclInit]==\"\"} {\n\
 	set tcl_library $i\n\
 	set tclfile [file join $i init.tcl]\n\
 	if {[file exists $tclfile]} {\n\
-	    if {![catch {uplevel #0 [list source $tclfile]} msg opt]} {\n\
+	    if {![catch {uplevel #0 [list source $tclfile]} msg opts]} {\n\
 		return\n\
 	    } else {\n\
-		append errors \"$tclfile: $msg\n$opt(-errorinfo)\n\"\n\
+		append errors \"$tclfile: $msg\n\"\n\
+		append errors \"[dict get $opts -errorinfo]\n\"\n\
 	    }\n\
 	}\n\
     }\n\
