@@ -63,15 +63,13 @@ character of the string.
 \fIcharIndex\fR may be specified as
 follows:
 .RS
-.IP \fB[\fIinteger\fB]\fR 10
+.IP \fIinteger\fR 10
 The char specified at this integral index
 .IP \fBend\fR 10
 The last char of the string.
-.IP \fIexpression\fR 10
-A Tcl expression that returns a number.
 .IP \fBend-\fIinteger\fR 10
 The last char of the string minus the specified integer
-offset (e.g. \fBend-1\fR).
+offset (e.g. \fBend-1\fR would refer to the "c" in "abcd").
 .PP
 .VE 8.1
 If \fIcharIndex\fR is less than 0 or greater than
