@@ -3627,3 +3627,9 @@ TclCreateProc to take both strings and "procbody". (EMS)
 10/13/98 (bug fix) The "info complete" command can now handle strings
 with NULLs embedded.  Thanks to colin@field.medicine.adelaide.edu.au 
 for providing this fix. (RJ)
+
+10/13/98 (bug fix) The "lsort -dictionary" command did not properly
+handle some numbers starting with 0.  Thanks to Richard Hipp
+<drh@acm.org> for the creating the patch and Viktor Dukhovni
+<Viktor-Dukhovni@deshaw.com> for submitting the it to Scriptics. (RJ)
+
