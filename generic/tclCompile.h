@@ -527,7 +527,7 @@ typedef struct ByteCode {
 #define INST_EXPON			99 /* TIP#123 - exponentiation */
 
 /* The last opcode */
-#define LAST_INST_OPCODE        	98
+#define LAST_INST_OPCODE        	99
 
 /*
  * Table describing the Tcl bytecode instructions: their name (for
