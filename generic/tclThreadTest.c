@@ -203,7 +203,7 @@ Tcl_ThreadObjCmd(dummy, interp, objc, objv)
 {
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
     int option;
-    static char *threadOptions[] = {"create", "exit", "id", "join", "names",
+    static CONST char *threadOptions[] = {"create", "exit", "id", "join", "names",
 				    "send", "wait", "errorproc",
 				    (char *) NULL};
     enum options {THREAD_CREATE, THREAD_EXIT, THREAD_ID, THREAD_JOIN,

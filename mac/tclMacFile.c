@@ -39,7 +39,7 @@ FspLocationFromFsPath(pathPtr, specPtr)
     Tcl_Obj *pathPtr;
     FSSpec* specPtr;
 {
-    char *native = Tcl_FSGetNativePath(pathPtr);
+    CONST char *native = Tcl_FSGetNativePath(pathPtr);
     return FSpLocationFromPath(strlen(native), native, specPtr);
 }
 

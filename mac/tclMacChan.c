@@ -558,7 +558,7 @@ StdIOOutput(
     *errorCode = 0;
     errno = 0;
     fd = (int) ((FileState*)instanceData)->fileRef;
-    written = write(fd, buf, (size_t) toWrite);
+    written = write(fd, (void*)buf, (size_t) toWrite);
     if (written > -1) {
         return written;
     }
@@ -762,7 +762,7 @@ TclpOpenFileChannel(
 {
     Tcl_Channel chan;
     int mode;
-    char *native;
+    CONST char *native;
     int errorCode;
     
     mode = GetOpenMode(interp, modeString);

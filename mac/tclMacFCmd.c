@@ -1163,7 +1163,7 @@ GetFileFinderAttributes(
     OSErr err;
     FSSpec fileSpec;
     FInfo finfo;
-    char *native;
+    CONST char *native;
 
     native=Tcl_FSGetNativePath(fileName);
     err = FSpLocationFromPath(strlen(native),
@@ -1241,7 +1241,7 @@ GetFileReadOnly(
     OSErr err;
     FSSpec fileSpec;
     CInfoPBRec paramBlock;
-    char *native;
+    CONST char *native;
 
     native=Tcl_FSGetNativePath(fileName);
     err = FSpLocationFromPath(strlen(native),
@@ -1305,7 +1305,7 @@ SetFileFinderAttributes(
     OSErr err;
     FSSpec fileSpec;
     FInfo finfo;
-    char *native;
+    CONST char *native;
 
     native=Tcl_FSGetNativePath(fileName);
     err = FSpLocationFromPath(strlen(native),
@@ -1397,7 +1397,7 @@ SetFileReadOnly(
     FSSpec fileSpec;
     HParamBlockRec paramBlock;
     int hidden;
-    char *native;
+    CONST char *native;
 
     native=Tcl_FSGetNativePath(fileName);
     err = FSpLocationFromPath(strlen(native),

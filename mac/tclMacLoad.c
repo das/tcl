@@ -130,7 +130,7 @@ TclpLoadFile(
     Tcl_DString ds;
     char *native;
     
-    native = Tcl_FSGetNativePath(pathPtr);
+    native = (char *) Tcl_FSGetNativePath(pathPtr);
     err = FSpLocationFromPath(strlen(native), native, &fileSpec);
     
     if (err != noErr) {
