@@ -191,8 +191,7 @@ TclLookupVar(interp, part1, part2, flags, msg, createPart1, createPart2,
      */
     if ((flags & TCL_GLOBAL_ONLY) != 0 || iPtr->varFramePtr == NULL) {
         cxtNsPtr = iPtr->globalNsPtr;
-    }
-    else {
+    } else {
         cxtNsPtr = iPtr->varFramePtr->nsPtr;
     }
 
@@ -217,8 +216,7 @@ TclLookupVar(interp, part1, part2, flags, msg, createPart1, createPart2,
         if (result == TCL_OK) {
             varPtr = (Var *) var;
             goto lookupVarPart2;
-        }
-        else if (result != TCL_CONTINUE) {
+        } else if (result != TCL_CONTINUE) {
             return (Var *) NULL;
         }
     }
