@@ -157,7 +157,7 @@ of matches (see MATCHING)
 .RE
 .PP
 The forms using
-\fB|\fR
+\fB{\fR and \fB}\fR
 are known as \fIbound\fRs.
 The numbers
 \fIm\fR and \fIn\fR are unsigned decimal integers
