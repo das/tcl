@@ -361,7 +361,8 @@ void
 Tcl_SetDefaultEncodingDir(path)
     char *path;
 {
-    tclDefaultEncodingDir = path;
+    tclDefaultEncodingDir = (char *)ckalloc((unsigned) strlen(path) + 1);
+    strcpy(tclDefaultEncodingDir, path);
 }
 
 /*
