@@ -896,8 +896,16 @@ proc http::mapReply {string} {
 
     if {$http(-urlencoding) ne ""} {
 	set string [encoding convertto $http(-urlencoding) $string]
+	return [string map $formMap $string]
     }
-    return [string map $formMap $string]
+    set converted [string map $formMap $string]
+    if {[string match "*\[\u0100-\uffff\]*" $converted]} {
+	regexp {[\u0100-\uffff]} $converted badChar
+	# Return this error message for maximum compatability... :^/
+	return -code error \
+	    "can't read \"formMap($badChar)\": no such element in array"
+    }
+    return $converted
 }
 
 # http::ProxyRequired --
