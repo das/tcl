@@ -16,6 +16,13 @@
 #include <lmcons.h>
 
 /*
+ * GetUserName() is found in advapi32.dll
+ */
+#ifdef _MSC_VER
+#   pragma comment(lib, "advapi32.lib")
+#endif
+
+/*
  * The following declaration is a workaround for some Microsoft brain damage.
  * The SYSTEM_INFO structure is different in various releases, even though the
  * layout is the same.  So we overlay our own structure on top of it so we
