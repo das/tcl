@@ -779,7 +779,7 @@ TclFindEncodings(argv0)
 	    TclpSetInitialEncodings();
 
 	    /*
-	     * Now convert the native sting back to native string back to UTF.
+	     * Now convert the native string back to UTF.
 	     */
 	     
 	    if (pathPtr != NULL) {
