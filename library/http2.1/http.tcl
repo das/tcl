@@ -15,7 +15,6 @@ package provide http 2.1	;# This uses Tcl namespaces
 
 namespace eval http {
     variable http
-
     array set http {
 	-accept */*
 	-proxyhost {}
@@ -25,8 +24,8 @@ namespace eval http {
     }
 
     variable formMap
-    set alphanumeric	a-zA-Z0-9
-
+    variable alphanumeric a-zA-Z0-9
+    variable c
     variable i 0
     for {} {$i <= 256} {incr i} {
 	set c [format %c $i]
