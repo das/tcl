@@ -2991,8 +2991,7 @@ TclSetCmdNameObj(interp, objPtr, cmdPtr)
     if ((oldTypePtr != NULL) && (oldTypePtr->freeIntRepProc != NULL)) {
 	oldTypePtr->freeIntRepProc(objPtr);
     }
-    objPtr->internalRep.twoPtrValue.ptr1 = (VOID *) resPtr;
-    objPtr->internalRep.twoPtrValue.ptr2 = NULL;
+    objPtr->internalRep.otherValuePtr = (VOID *) resPtr;
     objPtr->typePtr = &tclCmdNameType;
 }
 
@@ -3074,8 +3073,7 @@ DupCmdNameInternalRep(srcPtr, copyPtr)
     register ResolvedCmdName *resPtr =
         (ResolvedCmdName *) srcPtr->internalRep.otherValuePtr;
 
-    copyPtr->internalRep.twoPtrValue.ptr1 = (VOID *) resPtr;
-    copyPtr->internalRep.twoPtrValue.ptr2 = NULL;
+    copyPtr->internalRep.otherValuePtr = (VOID *) resPtr;
     if (resPtr != NULL) {
         resPtr->refCount++;
     }
@@ -3170,8 +3168,7 @@ SetCmdNameFromAny(interp, objPtr)
 	objPtr->typePtr->freeIntRepProc(objPtr);
     }
     
-    objPtr->internalRep.twoPtrValue.ptr1 = (VOID *) resPtr;
-    objPtr->internalRep.twoPtrValue.ptr2 = NULL;
+    objPtr->internalRep.otherValuePtr = (VOID *) resPtr;
     objPtr->typePtr = &tclCmdNameType;
     return TCL_OK;
 }
