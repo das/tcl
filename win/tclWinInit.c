@@ -172,7 +172,7 @@ TclpInitPlatform()
  *	Called at process initialization time.
  *
  * Results:
- *	None.
+ *	Return 0, indicating that the UTF is clean.
  *
  * Side effects:
  *	None.
@@ -180,7 +180,7 @@ TclpInitPlatform()
  *---------------------------------------------------------------------------
  */
 
-void
+int
 TclpInitLibraryPath(path)
     CONST char *path;		/* Potentially dirty UTF string that is */
 				/* the path to the executable name.     */
@@ -337,6 +337,8 @@ TclpInitLibraryPath(path)
     }
 
     TclSetLibraryPath(pathPtr);
+
+    return 0; /* 0 indicates that pathPtr is clean (true) utf */
 }
 
 /*
@@ -576,14 +578,17 @@ TclpSetInitialEncodings()
     char buf[4 + TCL_INTEGER_SPACE];
 
     if (libraryPathEncodingFixed == 0) {
-	int platformId;
+	int platformId, useWide;
+
 	platformId = TclWinGetPlatformId();
-	TclWinSetInterfaces(platformId == VER_PLATFORM_WIN32_NT);
+	useWide = ((platformId == VER_PLATFORM_WIN32_NT)
+		|| (platformId == VER_PLATFORM_WIN32_CE));
+	TclWinSetInterfaces(useWide);
 	
 	wsprintfA(buf, "cp%d", GetACP());
 	Tcl_SetSystemEncoding(NULL, buf);
 
-	if (platformId != VER_PLATFORM_WIN32_NT) {
+	if (!useWide) {
 	    Tcl_Obj *pathPtr = TclGetLibraryPath();
 	    if (pathPtr != NULL) {
 		int i, objc;
