@@ -2040,6 +2040,8 @@ EXTERN int	TclCompileIncrCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
 EXTERN int	TclCompileLappendCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
+EXTERN int	TclCompileLassignCmd _ANSI_ARGS_((Tcl_Interp *interp,
+		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
 EXTERN int	TclCompileLindexCmd _ANSI_ARGS_((Tcl_Interp *interp,
 		    Tcl_Parse *parsePtr, struct CompileEnv *envPtr));
 EXTERN int	TclCompileListCmd _ANSI_ARGS_((Tcl_Interp *interp,
