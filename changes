@@ -4041,3 +4041,9 @@ block list for large memory blocks that were reallocated into a
 different address. [Bug: 933] (stanton)
 
 ----------------- Released 8.1b1, Dec 10 1998 -----------------------
+
+12/22/98 (performance improvement) Improved the -command option of the
+lsort command to better use the object system for improved
+performance (about 5x speed up).  Thank's to Syd Polk for suppling the
+patch. [RFE: 726] (rjohnson)
+
