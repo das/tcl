@@ -842,7 +842,6 @@ TclDatelex()
     register char       *p;
     char                buff[20];
     int                 Count;
-    int                 sign;
 
     for ( ; ; ) {
         while (isspace(UCHAR(*TclDateInput))) {
