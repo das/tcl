@@ -23,7 +23,7 @@ Returns a \fBTCL_ERROR\fR code, which causes command interpretation to be
 unwound.  \fIMessage\fR is a string that is returned to the application
 to indicate what went wrong.
 .PP
-The \fB-errorinfo\fB return option of an interpreter is used
+The \fB-errorinfo\fR return option of an interpreter is used
 to accumulate a stack trace of what was in progress when an
 error occurred; as nested commands unwind,
 the Tcl interpreter adds information to the \fB-errorinfo\fR
