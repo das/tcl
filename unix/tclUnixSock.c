@@ -12,7 +12,7 @@
  */
 
 #include "tcl.h"
-#include "tclPort.h"
+#include "tclInt.h"
 
 /*
  * There is no portable macro for the maximum length
