@@ -16,7 +16,6 @@
  */
 
 #include "tclInt.h"
-#include "tclCompile.h"
 
 /*
  * The stuff below is a bit of a hack so that this file can be used in
