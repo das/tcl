@@ -233,6 +233,12 @@ test info-5.46 {info complete option} {
 test info-5.47 {info complete option} {
     info complete "abc\\\n"
 } 0
+test info-5.48 {info complete option} {
+    info complete "set x [binary format H 00]; puts hi"
+} 1
+test info-5.49 {info complete option} {
+    info complete "set x [binary format H 00]; {"
+} 0
 
 test info-6.1 {info default option} {
     proc t1 {a b {c d} {e "long default value"}} {}

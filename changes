@@ -3622,4 +3622,8 @@ Windows, MYDLLNAME.DLL was sourced, and mydllname.dll loaded. (EMS)
 
 10/5/98 (new feature) Created a new Tcl_Obj type, "procbody". This object's
 internal representation holds a pointer to a Proc structure. Extended
-TclCreateProc to take both strings and "procbody" 
+TclCreateProc to take both strings and "procbody". (EMS)
+
+10/13/98 (bug fix) The "info complete" command can now handle strings
+with NULLs embedded.  Thanks to colin@field.medicine.adelaide.edu.au 
+for providing this fix. (RJ)

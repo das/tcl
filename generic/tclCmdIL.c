@@ -762,19 +762,17 @@ InfoCompleteCmd(dummy, interp, objc, objv)
     int objc;			/* Number of arguments. */
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
-    char *command;
-
     if (objc != 3) {
         Tcl_WrongNumArgs(interp, 2, objv, "command");
         return TCL_ERROR;
     }
 
-    command = Tcl_GetStringFromObj(objv[2], (int *) NULL);
-    if (Tcl_CommandComplete(command)) {
+    if (TclObjCommandComplete(objv[2])) {
 	Tcl_SetIntObj(Tcl_GetObjResult(interp), 1);
     } else {
 	Tcl_SetIntObj(Tcl_GetObjResult(interp), 0);
     }
+
     return TCL_OK;
 }
 
