@@ -41,7 +41,7 @@
 #define TCL_RELEASE_SERIAL  3
 
 #define TCL_VERSION	    "8.0"
-#define TCL_PATCH_LEVEL	    "8.0.3"
+#define TCL_PATCH_LEVEL	    "8.0.3-2"
 
 /*
  * The following definitions set up the proper options for Windows
@@ -1197,8 +1197,7 @@ EXTERN int		Tcl_EvalFile _ANSI_ARGS_((Tcl_Interp *interp,
 EXTERN void		Tcl_EventuallyFree _ANSI_ARGS_((ClientData clientData,
 			    Tcl_FreeProc *freeProc));
 EXTERN int		Tcl_EvalObj _ANSI_ARGS_((Tcl_Interp *interp,
-			    Tcl_Obj *objPtr, int flags));
-#define Tcl_EvalObj(a,b) Tcl_EvalObj(a,b,0)
+			    Tcl_Obj *objPtr));
 EXTERN void		Tcl_Exit _ANSI_ARGS_((int status));
 EXTERN int		Tcl_ExposeCommand _ANSI_ARGS_((Tcl_Interp *interp,
         		    char *hiddenCmdToken, char *cmdName));
