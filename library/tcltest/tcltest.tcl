@@ -30,10 +30,11 @@ namespace eval tcltest {
 	    loadTestedCommands mainThread makeDirectory makeFile match \
 	    matchDirectories matchFiles normalizeMsg normalizePath \
 	    outputChannel outputFile preserveCore removeDirectory \
-	    removeFile restoreState runAllTests saveState \
-	    singleProcess skip skipDirectories skipFiles \
-	    temporaryDirectory test testConstraint testsDirectory \
-	    threadReap verbose viewFile workingDirectory
+	    removeFile runAllTests singleProcess skip skipDirectories \
+	    skipFiles temporaryDirectory test testConstraint \
+	    testsDirectory threadReap verbose viewFile workingDirectory
+    # Export the tcltest 1 compatibility procs
+    namespace export getMatchingFiles restoreState saveState
 
     proc Default {varName value} {
 	variable $varName
