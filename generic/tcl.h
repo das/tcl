@@ -518,7 +518,7 @@ typedef struct stat *Tcl_Stat_;
 #define TCL_BREAK	3
 #define TCL_CONTINUE	4
 
-#define TCL_RESULT_SIZE 200
+#define TCL_RESULT_SIZE 20
 
 /*
  * Argument descriptors for math function callbacks in expressions:
