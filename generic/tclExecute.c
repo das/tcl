@@ -81,6 +81,12 @@ TCL_DECLARE_MUTEX(execMutex)
  */
 
 int tclTraceExec = 0;
+
+/*
+ * Execution tracing temporarily disabled: WORK IN PROGRESS.
+ */
+#undef TCL_COMPILE_DEBUG
+
 #endif
 
 /*
