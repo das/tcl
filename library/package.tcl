@@ -488,7 +488,7 @@ proc tclPkgUnknown {name version {exact {}}} {
 	if {(![interp issafe]) && \
 		[string equal $tcl_platform(platform) "macintosh"]} {
 	    set dir [lindex $use_path end]
-	    if {![info exists procdDirs($x)]} {
+	    if {![info exists procdDirs($dir)]} {
 		tclMacPkgSearch $dir
 		set procdDirs($dir) 1
 	    }
