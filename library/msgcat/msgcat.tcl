@@ -13,10 +13,11 @@
 # RCS: @(#) $Id$
 
 package require Tcl 8.2
-package provide msgcat 1.2.2
+package provide msgcat 1.2.3
 
 namespace eval msgcat {
-    namespace export mc mcset mcmset mclocale mcpreferences mcunknown mcmax
+    namespace export mc mcload mclocale mcmax mcmset mcpreferences mcset \
+	    mcunknown
 
     # Records the current locale as passed to mclocale
     variable locale ""
