@@ -398,6 +398,9 @@
      * LPFN_* typedefs.
      */
 #   define HAVE_NO_LPFN_DECLS
+#   if !defined(__CHAR_SIGNED__)
+#	error "You must use the -j switch to ensure char is signed."
+#   endif
 #endif
 
 /*
