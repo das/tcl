@@ -337,6 +337,11 @@ test clock-4.40 {last monday in november} knownBug {
     }
     set res
 } {1991-11-25 1992-11-30 1993-11-29 1994-11-28 1995-11-27 1996-11-25}
+test clock-4.41 {ago with multiple relative units} {
+    set base [clock scan "12/31/1999 00:00:00"]
+    set res [clock scan "2 days 2 hours ago" -base $base]
+    expr {$base - $res}
+} 180000
 
 # clock seconds
 test clock-5.1 {clock seconds tests} {
