@@ -1123,6 +1123,12 @@ EXTERN int		Tcl_Access _ANSI_ARGS_((CONST char * path, int mode));
 /* 368 */
 EXTERN int		Tcl_Stat _ANSI_ARGS_((CONST char * path, 
 				struct stat * bufPtr));
+/* 369 */
+EXTERN int		Tcl_UtfNcmp _ANSI_ARGS_((CONST char * s1, 
+				CONST char * s2, size_t n));
+/* 370 */
+EXTERN int		Tcl_UtfNcasecmp _ANSI_ARGS_((CONST char * s1, 
+				CONST char * s2, size_t n));
 
 typedef struct TclStubHooks {
     struct TclPlatStubs *tclPlatStubs;
@@ -1527,6 +1533,8 @@ typedef struct TclStubs {
     int (*tcl_Chdir) _ANSI_ARGS_((CONST char * dirName)); /* 366 */
     int (*tcl_Access) _ANSI_ARGS_((CONST char * path, int mode)); /* 367 */
     int (*tcl_Stat) _ANSI_ARGS_((CONST char * path, struct stat * bufPtr)); /* 368 */
+    int (*tcl_UtfNcmp) _ANSI_ARGS_((CONST char * s1, CONST char * s2, size_t n)); /* 369 */
+    int (*tcl_UtfNcasecmp) _ANSI_ARGS_((CONST char * s1, CONST char * s2, size_t n)); /* 370 */
 } TclStubs;
 
 #ifdef __cplusplus
@@ -3006,6 +3014,14 @@ extern TclStubs *tclStubsPtr;
 #ifndef Tcl_Stat
 #define Tcl_Stat \
 	(tclStubsPtr->tcl_Stat) /* 368 */
+#endif
+#ifndef Tcl_UtfNcmp
+#define Tcl_UtfNcmp \
+	(tclStubsPtr->tcl_UtfNcmp) /* 369 */
+#endif
+#ifndef Tcl_UtfNcasecmp
+#define Tcl_UtfNcasecmp \
+	(tclStubsPtr->tcl_UtfNcasecmp) /* 370 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

@@ -1256,6 +1256,12 @@ declare 367 generic {
 declare 368 generic {
     int Tcl_Stat(CONST char *path, struct stat *bufPtr)
 }
+declare 369 generic {
+    int Tcl_UtfNcmp(CONST char *s1, CONST char *s2, size_t n)
+}
+declare 370 generic {
+    int Tcl_UtfNcasecmp(CONST char *s1, CONST char *s2, size_t n)
+}
 
 ##############################################################################
 

@@ -684,6 +684,8 @@ TclStubs tclStubs = {
     Tcl_Chdir, /* 366 */
     Tcl_Access, /* 367 */
     Tcl_Stat, /* 368 */
+    Tcl_UtfNcmp, /* 369 */
+    Tcl_UtfNcasecmp, /* 370 */
 };
 
 /* !END!: Do not edit above this line. */

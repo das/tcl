@@ -36,6 +36,12 @@ int
 \fBTcl_UniCharNcmp\fR(\fIuniStr, uniStr, num\fR)
 .sp
 int
+\fBTcl_UtfNcmp\fR(\fIsrc, src, num\fR)
+.sp
+int
+\fBTcl_UtfNcasecmp\fR(\fIsrc, src, num\fR)
+.sp
+int
 \fBTcl_UtfCharComplete\fR(\fIsrc, len\fR)
 .sp
 int 
@@ -83,7 +89,7 @@ equal to 0.
 .AP "Tcl_DString" *dstPtr in/out
 A pointer to a previously-initialized \fBTcl_DString\fR.
 .AP size_t n in
-The number of Unicode characters to compare in \fBTcl_UniCharNcmp\fR.
+The number of characters to compare.
 .AP "CONST char" *start in
 Pointer to the beginning of a UTF-8 string.
 .AP int index in
@@ -150,6 +156,20 @@ according to the Unicode character ordering.  It returns an integer
 greater than, equal to,
 or less than 0 if the first string is greater than, equal to, or
 less than the second string respectively.
+.PP
+\fBTcl_UtfNcmp\fR corresponds to \fBstrncmp\fR for UTF-8 strings. It
+accepts two NULL-terminated UTF-8 strings and the number of characters
+to compare.  (Both strings are assumed to be at least \fIlen\fR
+characters long.)  \fBTcl_UtfNcmp\fR compares the two strings
+character-by-character according to the Unicode character ordering.
+It returns an integer greater than, equal to, or less than 0 if the
+first string is greater than, equal to, or less than the second string
+respectively.
+.PP
+\fBTcl_UtfNcasecmp\fR corresponds to \fBstrncasecmp\fR for UTF-8
+strings.  It is similar to \fBTcl_UtfNcmp\fR except comparisons ignore
+differences in case when comparing upper, lower or title case
+characters.
 .PP
 \fBTcl_UtfCharComplete\fR returns 1 if the source UTF-8 string \fIsrc\fR
 of length \fIlen\fR bytes is long enough to be decoded by
