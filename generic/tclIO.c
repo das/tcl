@@ -8755,8 +8755,8 @@ StackSetBlockMode(chanPtr, mode)
 		Tcl_SetErrno(result);
 		return result;
 	    }
-	    chanPtr = chanPtr->downChanPtr;
 	}
+	chanPtr = chanPtr->downChanPtr;
     }
     return 0;
 }
@@ -9435,15 +9435,18 @@ TransformSeekProc (instanceData, offset, mode, errorCodePtr)
     int*       errorCodePtr;	/* Location of error flag. */
 {
     int result;
-    TransformChannelData* dataPtr = (TransformChannelData*) instanceData;
+    TransformChannelData* dataPtr	= (TransformChannelData*) instanceData;
+    Tcl_Channel           parent        = Tcl_GetStackedChannel(dataPtr->self);
+    Tcl_ChannelType*      parentType	= Tcl_GetChannelType(parent);
+    Tcl_DriverSeekProc*   parentSeekProc = Tcl_ChannelSeekProc(parentType);
 
     if ((offset == 0) && (mode == SEEK_CUR)) {
         /* This is no seek but a request to tell the caller the current
 	 * location. Simply pass the request down.
 	 */
 
-	result = Tcl_Seek (Tcl_GetStackedChannel(dataPtr->self), offset, mode);
-	*errorCodePtr = (result == -1) ? Tcl_GetErrno () : 0;
+	result = (*parentSeekProc) (Tcl_GetChannelInstanceData(parent),
+		offset, mode, errorCodePtr);
 	return result;
     }
 
@@ -9465,8 +9468,8 @@ TransformSeekProc (instanceData, offset, mode, errorCodePtr)
 	dataPtr->readIsFlushed = 0;
     }
 
-    result = Tcl_Seek (Tcl_GetStackedChannel(dataPtr->self), offset, mode);
-    *errorCodePtr = (result == -1) ? Tcl_GetErrno () : 0;
+    result = (*parentSeekProc) (Tcl_GetChannelInstanceData(parent),
+	    offset, mode, errorCodePtr);
     return result;
 }
 
