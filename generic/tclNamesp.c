@@ -2277,6 +2277,17 @@ TclResetShadowedCmdRefs(interp, newCmdPtr)
             hPtr = Tcl_FindHashEntry(&shadowNsPtr->cmdTable, cmdName);
             if (hPtr != NULL) {
                 nsPtr->cmdRefEpoch++;
+
+		/* 
+		 * If the shadowed command was compiled to bytecodes, we
+		 * invalidate all the bytecodes in nsPtr, to force a new
+		 * compilation. We use the resolverEpoch to signal the need
+		 * for a fresh compilation of every bytecode.
+		 */
+
+		if ((((Command *) Tcl_GetHashValue(hPtr))->compileProc) != NULL) {
+		    nsPtr->resolverEpoch++;
+		}
             }
         }
 

@@ -184,11 +184,13 @@ typedef struct Namespace {
 				  * namespace has already cached a Command *
 				  * pointer; this causes all its cached
 				  * Command* pointers to be invalidated. */
-    int resolverEpoch;		 /* Incremented whenever the name resolution
-				  * rules change for this namespace; this
-				  * invalidates all byte codes compiled in
-				  * the namespace, causing the code to be
-				  * recompiled under the new rules. */
+    int resolverEpoch;		 /* Incremented whenever (a) the name resolution
+				  * rules change for this namespace or (b) a 
+				  * newly added command shadows a command that
+				  * is compiled to bytecodes.
+				  * This invalidates all byte codes compiled
+				  * in the namespace, causing the code to be
+				  * recompiled under the new rules.*/
     Tcl_ResolveCmdProc *cmdResProc;
 				 /* If non-null, this procedure overrides
 				  * the usual command resolution mechanism
