@@ -1589,13 +1589,14 @@ Tcl_SetOSTypeObj(
 	Tcl_RegisterObjType(&osType);
     }
 
-    Tcl_InvalidateStringRep(objPtr);
     if ((oldTypePtr != NULL) && (oldTypePtr->freeIntRepProc != NULL)) {
 	oldTypePtr->freeIntRepProc(objPtr);
     }
     
     objPtr->internalRep.longValue = newOSType;
     objPtr->typePtr = &osType;
+
+    Tcl_InvalidateStringRep(objPtr);
 }
 
 /*

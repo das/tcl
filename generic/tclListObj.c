@@ -236,11 +236,11 @@ Tcl_SetListObj(objPtr, objc, objv)
      * Free any old string rep and any internal rep for the old type.
      */
 
-    Tcl_InvalidateStringRep(objPtr);
     if ((oldTypePtr != NULL) && (oldTypePtr->freeIntRepProc != NULL)) {
 	oldTypePtr->freeIntRepProc(objPtr);
     }
     objPtr->typePtr = NULL;
+    Tcl_InvalidateStringRep(objPtr);
         
     /*
      * Set the object's type to "list" and initialize the internal rep.

@@ -222,12 +222,6 @@ Tcl_SetStringObj(objPtr, bytes, length)
 	panic("Tcl_SetStringObj called with shared object");
     }
 
-    Tcl_InvalidateStringRep(objPtr);
-    if (length < 0) {
-	length = (bytes? strlen(bytes) : 0);
-    }
-    TclInitStringRep(objPtr, bytes, length);
-        
     /*
      * Set the type to NULL and free any internal rep for the old type.
      */
@@ -236,6 +230,12 @@ Tcl_SetStringObj(objPtr, bytes, length)
 	oldTypePtr->freeIntRepProc(objPtr);
     }
     objPtr->typePtr = NULL;
+
+    Tcl_InvalidateStringRep(objPtr);
+    if (length < 0) {
+	length = (bytes? strlen(bytes) : 0);
+    }
+    TclInitStringRep(objPtr, bytes, length);
 }
 
 /*
