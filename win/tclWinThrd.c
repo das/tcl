@@ -479,6 +479,7 @@ TclpFinalizeMutex(mutexPtr)
 {
     CRITICAL_SECTION *csPtr = *(CRITICAL_SECTION **)mutexPtr;
     if (csPtr != NULL) {
+	DeleteCriticalSection(csPtr);
 	ckfree((char *)csPtr);
 	*mutexPtr = NULL;
     }
@@ -947,6 +948,7 @@ TclpFinalizeCondition(condPtr)
      */
 
     if (winCondPtr != NULL) {
+	DeleteCriticalSection(&winCondPtr->condLock);
 	ckfree((char *)winCondPtr);
 	*condPtr = NULL;
     }
