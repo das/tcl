@@ -69,6 +69,9 @@ Tcl_ClockObjCmd (client, interp, objc, objv)
     
     static char *switches[] =
 	{"clicks", "format", "scan", "seconds", (char *) NULL};
+    enum command { COMMAND_CLICKS, COMMAND_FORMAT, COMMAND_SCAN,
+		       COMMAND_SECONDS
+    };
     static char *formatSwitches[] = {"-format", "-gmt", (char *) NULL};
     static char *scanSwitches[] = {"-base", "-gmt", (char *) NULL};
 
@@ -82,8 +85,8 @@ Tcl_ClockObjCmd (client, interp, objc, objv)
 	    != TCL_OK) {
 	return TCL_ERROR;
     }
-    switch (index) {
-	case 0:	{		/* clicks */
+    switch ((enum command) index) {
+	case COMMAND_CLICKS:	{		/* clicks */
 	    int forceMilli = 0;
 
 	    if (objc == 3) {
@@ -114,7 +117,8 @@ Tcl_ClockObjCmd (client, interp, objc, objv)
 	    }
 	    return TCL_OK;
 	}
-	case 1:			/* format */
+
+	case COMMAND_FORMAT:			/* format */
 	    if ((objc < 3) || (objc > 7)) {
 		wrongFmtArgs:
 		Tcl_WrongNumArgs(interp, 2, objv,
@@ -153,7 +157,8 @@ Tcl_ClockObjCmd (client, interp, objc, objv)
 	    }
 	    return FormatClock(interp, (unsigned long) clockVal, useGMT,
 		    format);
-	case 2:			/* scan */
+
+	case COMMAND_SCAN:			/* scan */
 	    if ((objc < 3) || (objc > 7)) {
 		wrongScanArgs:
 		Tcl_WrongNumArgs(interp, 2, objv,
@@ -215,7 +220,8 @@ Tcl_ClockObjCmd (client, interp, objc, objv)
 
 	    Tcl_SetLongObj(resultPtr, (long) clockVal);
 	    return TCL_OK;
-	case 3:			/* seconds */
+
+	case COMMAND_SECONDS:			/* seconds */
 	    if (objc != 2) {
 		Tcl_WrongNumArgs(interp, 2, objv, NULL);
 		return TCL_ERROR;
