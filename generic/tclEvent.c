@@ -766,9 +766,10 @@ Tcl_Finalize()
     ThreadSpecificData *tsdPtr;
 
     TclpInitLock();
-    tsdPtr = TCL_TSD_INIT(&dataKey);
     if (subsystemsInitialized != 0) {
 	subsystemsInitialized = 0;
+
+	tsdPtr = TCL_TSD_INIT(&dataKey);
 
 	/*
 	 * Invoke exit handlers first.
