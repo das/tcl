@@ -2132,8 +2132,8 @@ TclExecuteByteCode(interp, codePtr)
 		 */
 		if ((valuePtr->typePtr == &tclByteArrayType) &&
 			(value2Ptr->typePtr == &tclByteArrayType)) {
-		    s1 = Tcl_GetByteArrayFromObj(valuePtr, &s1len);
-		    s2 = Tcl_GetByteArrayFromObj(value2Ptr, &s2len);
+		    s1 = (char *) Tcl_GetByteArrayFromObj(valuePtr, &s1len);
+		    s2 = (char *) Tcl_GetByteArrayFromObj(value2Ptr, &s2len);
 		    iResult = memcmp(s1, s2,
 			    (size_t) ((s1len < s2len) ? s1len : s2len));
 		} else {
