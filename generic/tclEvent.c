@@ -601,6 +601,11 @@ TclSetLibraryPath(pathPtr)
 	Tcl_DecrRefCount(tsdPtr->tclLibraryPath);
     }
     tsdPtr->tclLibraryPath = pathPtr;
+
+    /*
+     *  No mutex locking is needed here as up the stack we're within
+     *  TclpInitLock().
+     */
     tclLibraryPathStr = Tcl_GetStringFromObj(pathPtr, NULL);
 }
 
@@ -627,7 +632,14 @@ TclGetLibraryPath()
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
 
     if (tsdPtr->tclLibraryPath == NULL) {
+	/*
+	 * Grab the shared string and place it into a new thread specific
+	 * Tcl_Obj.
+	 */
 	tsdPtr->tclLibraryPath = Tcl_NewStringObj(tclLibraryPathStr, -1);
+
+	/* take ownership */
+	Tcl_IncrRefCount(tsdPtr->tclLibraryPath);
     }
     return tsdPtr->tclLibraryPath;
 }
