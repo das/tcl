@@ -139,7 +139,7 @@ test unixInit-2.6 {TclpInitLibraryPath: executable relative} \
     set x [lrange [getlibpath /tmp/sparkly/bin/tcltest] 0 1]
     file delete -force /tmp/sparkly
     set x
-} [list /tmp/sparkly/lib/tcl[info tclversion] /tmp/tcl[info patchlevel]/library]
+} [list /tmp/sparkly/lib/tcl[info tclversion] /tmp/tcl[info tclversion]/library]
 test unixInit-2.7 {TclpInitLibraryPath: compiled-in library path} \
 	{emptyTest unixOnly} {
     # would need test command to get defaultLibDir and compare it to

@@ -224,9 +224,7 @@ TclpMatchFiles(interp, separators, dirPtr, pattern, tail)
 
     Tcl_DStringInit(&patternString);
     newPattern = Tcl_DStringAppend(&patternString, pattern, tail - pattern);
-    if ((volFlags & FS_CASE_SENSITIVE) == 0) {
-	Tcl_UtfToLower(newPattern);
-    }
+    Tcl_UtfToLower(newPattern);
 
     /*
      * We need to check all files in the directory, so append a *.*
@@ -306,6 +304,7 @@ TclpMatchFiles(interp, separators, dirPtr, pattern, tail)
 	    nativeMatchResult = nativeName;
 	}
         Tcl_DStringFree(&ds);
+
 	if (nativeMatchResult == NULL) {
 	    continue;
 	}

@@ -172,7 +172,7 @@ FileCopyRename(interp, argc, argv, copyFlag)
      * Move each source file into target directory.  Extract the basename
      * from each source, and append it to the end of the target path.
      */
-    
+
     for ( ; i < argc - 1; i++) {
 	char *jargv[2];
 	char *source, *newFileName;
@@ -432,7 +432,7 @@ CopyRenameOneFile(interp, source, target, copyFlag, force)
     Tcl_DString sourcePath, targetPath, errorBuffer;
     char *targetName, *sourceName, *errfile;
     struct stat sourceStatBuf, targetStatBuf;
-	
+
     sourceName = Tcl_TranslateFileName(interp, source, &sourcePath);
     if (sourceName == NULL) {
 	return TCL_ERROR;
