@@ -2009,11 +2009,17 @@ proc tcltest::test {name description args} {
 	}
     }
 
+    # check if the return code matched the expected return code
+    set codeFailure 0
+    if {!$setupFailure && [lsearch -exact $returnCodes $returnCode] == -1} {
+	set codeFailure 1
+    }
+
     # If expected output/error strings exist, we have to compare
     # them.  If the comparison fails, then so did the test.
     set outputFailure 0
     variable outData
-    if {[info exists output]} {
+    if {[info exists output] && !$codeFailure} {
 	if {[set outputCompare [catch {
 	    CompareStrings $outData $output $match
 	} outputMatch]] == 0} {
@@ -2025,7 +2031,7 @@ proc tcltest::test {name description args} {
 
     set errorFailure 0
     variable errData
-    if {[info exists errorOutput]} {
+    if {[info exists errorOutput] && !$codeFailure} {
 	if {[set errorCompare [catch {
 	    CompareStrings $errData $errorOutput $match
 	} errorMatch]] == 0} {
@@ -2035,15 +2041,9 @@ proc tcltest::test {name description args} {
 	}
     }
 
-    # check if the return code matched the expected return code
-    set codeFailure 0
-    if {!$setupFailure && [lsearch -exact $returnCodes $returnCode] == -1} {
-	set codeFailure 1
-    }
-
     # check if the answer matched the expected answer
     # Only check if we ran the body of the test (no setup failure)
-    if {$setupFailure} {
+    if {$setupFailure || $codeFailure} {
 	set scriptFailure 0
     } elseif {[set scriptCompare [catch {
 	CompareStrings $actualAnswer $result $match
