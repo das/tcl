@@ -165,9 +165,22 @@ proc pkg_mkIndex {args} {
 	# Load into the child any packages currently loaded in the parent
 	# interpreter that match the -load pattern.
 
+	if {[string length $loadPat]} {
+	    if {$doVerbose} {
+		tclLog "currently loaded packages: '[info loaded]'"
+		tclLog "trying to load all packages matching $loadPat"
+	    }
+	    if {![llength [info loaded]]} {
+		tclLog "warning: no packages are currently loaded, nothing"
+		tclLog "can possibly match '$loadPat'"
+	    }
+	}
 	foreach pkg [info loaded] {
 	    if {! [string match $loadPat [lindex $pkg 1]]} {
 		continue
+	    }
+	    if {$doVerbose} {
+		tclLog "package [lindex $pkg 1] matches '$loadPat'"
 	    }
 	    if {[catch {
 		load [lindex $pkg 0] [lindex $pkg 1] $c
@@ -345,9 +358,17 @@ proc pkg_mkIndex {args} {
 		tclLog "warning: error while $what $file: $msg"
 	    }
 	} else {
+	    set what [$c eval set ::tcl::debug]
+	    if {$doVerbose} {
+		tclLog "successful $what of $file"
+	    }
 	    set type [$c eval set ::tcl::type]
 	    set cmds [lsort [$c eval array names ::tcl::newCmds]]
 	    set pkgs [$c eval set ::tcl::newPkgs]
+	    if {$doVerbose} {
+		tclLog "commands provided were $cmds"
+		tclLog "packages provided were $pkgs"
+	    }
 	    if {[llength $pkgs] > 1} {
 		tclLog "warning: \"$file\" provides more than one package ($pkgs)"
 	    }
