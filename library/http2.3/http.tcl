@@ -472,7 +472,7 @@ proc http::cleanup {token} {
 		set state(totalsize) [string trim $length]
 	    }
 	    if {[regexp -nocase {^([^:]+):(.+)$} $line x key value]} {
-		lappend state(meta) $key $value
+		lappend state(meta) $key [string trim $value]
 	    } elseif {[regexp ^HTTP $line]} {
 		set state(http) $line
 	    }
