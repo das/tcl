@@ -56,7 +56,7 @@ test switch-3.1 {-exact vs. -glob vs. -regexp} {
     }
 } exact
 test switch-3.2 {-exact vs. -glob vs. -regexp} {
-    switch -exact -regexp aaaab {
+    switch -regexp aaaab {
 	^a*b$	{concat regexp}
 	*b	{concat glob}
 	aaaab	{concat exact}
@@ -121,7 +121,7 @@ test switch-5.1 {errors in -regexp matching} {
 	aaaab	{concat exact}
 	default	{concat none}
     }} msg] $msg
-} {1 {couldn't compile regular expression pattern: ?+* follows nothing}}
+} {1 {couldn't compile regular expression pattern: quantifier operand invalid}}
 
 test switch-6.1 {backslashes in patterns} {
     switch -exact {\a\$\.\[} {
