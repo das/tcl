@@ -72,7 +72,7 @@ static int	SetupStdFile _ANSI_ARGS_((TclFile file, int type));
 
 static Tcl_ChannelType pipeChannelType = {
     "pipe",			/* Type name. */
-    TCL_CHANNEL_VERSION_2,	/* v2 channel */
+    TCL_CHANNEL_VERSION_4,	/* v4 channel */
     PipeCloseProc,		/* Close proc. */
     PipeInputProc,		/* Input proc. */
     PipeOutputProc,		/* Output proc. */
@@ -85,6 +85,8 @@ static Tcl_ChannelType pipeChannelType = {
     PipeBlockModeProc,		/* Set blocking or non-blocking mode.*/
     NULL,			/* flush proc. */
     NULL,			/* handler proc. */
+    NULL,                       /* wide seek proc */
+    NULL,                       /* thread action proc */
 };
 
 /*

@@ -1754,6 +1754,24 @@ declare 493 generic {
 	    Tcl_ChannelType *chanTypePtr)
 }
 
+# Slots 494 to 553 are taken already by 8.5
+# #111 - Dicts            (494 ... 504)
+#  #59 - Config           (505)
+# #139 - Namespace API    (506 ... 517)
+# #137 - source -encoding (518)
+# #121 - ExitProc         (519)
+# #121 - Resource Limits  (520 ... 534)
+# #226 - S/R Interp State (535 ... 537)
+# #227 - S/G Return Opts  (538 ... 539)
+# #235 - Ensemble C API   (540 ... 551)
+# #233 - Virtualized Time (552 ... 553)
+
+# TIP#218 (Driver Thread Actions) davygrvy/akupries ChannelType ver 4
+# These slots are used by 8.5 as well.
+declare 554 generic {
+    Tcl_DriverThreadActionProc *Tcl_ChannelThreadActionProc(Tcl_ChannelType *chanTypePtr)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are
