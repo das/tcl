@@ -2244,6 +2244,36 @@ EXTERN int	TclCompileWhileCmd _ANSI_ARGS_((Tcl_Interp *interp,
 	TclIncrObjsFreed(); \
     }
 
+#elif defined(TCL_THREADS) && defined(USE_THREAD_ALLOC)
+
+/*
+ * The TCL_THREADS mode is like the regular mode but allocates Tcl_Obj's
+ * from per-thread caches.
+ */
+
+EXTERN Tcl_Obj *TclThreadAllocObj _ANSI_ARGS_((void));
+EXTERN void TclThreadFreeObj _ANSI_ARGS_((Tcl_Obj *));
+
+#  define TclNewObj(objPtr) \
+       (objPtr) = TclThreadAllocObj(); \
+       (objPtr)->refCount = 0; \
+       (objPtr)->bytes    = tclEmptyStringRep; \
+       (objPtr)->length   = 0; \
+       (objPtr)->typePtr  = NULL
+
+#  define TclDecrRefCount(objPtr) \
+       if (--(objPtr)->refCount <= 0) { \
+           if (((objPtr)->bytes != NULL) \
+                   && ((objPtr)->bytes != tclEmptyStringRep)) { \
+               ckfree((char *) (objPtr)->bytes); \
+           } \
+           if (((objPtr)->typePtr != NULL) \
+                   && ((objPtr)->typePtr->freeIntRepProc != NULL)) { \
+               (objPtr)->typePtr->freeIntRepProc(objPtr); \
+           } \
+           TclThreadFreeObj((objPtr)); \
+       }
+
 #else /* not TCL_MEM_DEBUG */
 
 #ifdef TCL_THREADS

@@ -18,6 +18,13 @@
  * RCS: @(#) $Id$
  */
 
+/*
+ * Windows and Unix use an alternative allocator when building with threads
+ * that has significantly reduced lock contention.
+ */
+
+#if !defined(TCL_THREADS) || !defined(USE_THREAD_ALLOC)
+
 #include "tclInt.h"
 #include "tclPort.h"
 
@@ -721,3 +728,4 @@ TclpRealloc(cp, nbytes)
 }
 
 #endif /* !USE_TCLALLOC */
+#endif /* !TCL_THREADS */
