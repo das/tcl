@@ -862,7 +862,8 @@ NotifierThreadProc(clientData)
     fd_mask masks[3*MASK_SIZE];
     long *maskPtr = (long *)masks;	/* masks[] cast to type long[] */
     int fds[2];
-    int i, status, index, bit, numFdBits, found, receivePipe, word;
+    int i, status, index, bit, numFdBits, receivePipe;
+    long found, word;
     struct timeval poll = {0., 0.}, *timePtr;
     int maskSize = 3 * ((MASK_SIZE) / sizeof(long)) * sizeof(fd_mask);
     char buf[2];
