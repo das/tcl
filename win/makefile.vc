@@ -325,8 +325,7 @@ test:	    setup $(TCLTEST) dlls $(CAT16) $(CAT32)
 	set TCL_LIBRARY=$(ROOT)/library
 	$(TCLTEST) << "$(TCLREGDLL)"
 		load [lindex $$argv 0] registry
-		cd ../tests
-		source all
+		source ../tests/all.tcl
 <<
 
 setup:
