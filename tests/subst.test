@@ -34,6 +34,10 @@ test subst-2.2 {simple strings} {
 test subst-2.3 {simple strings} {
     subst abcdefg
 } abcdefg
+test subst-2.4 {simple strings} {
+    # Tcl Bug 685106
+    subst [bytestring bar\x00soom]
+} [bytestring bar\x00soom]
 
 test subst-3.1 {backslash substitutions} {
     subst {\x\$x\[foo bar]\\}
@@ -215,10 +219,6 @@ test subst-11.5 {continue in a subst, parse error} {
 test subst-11.6 {continue in a variable subst} {
     subst {foo $var([continue]) bar}
 } {foo  bar}
-
-test subst-bug-685106 {Tcl_SubstObj halts on NULL} {
-    subst [bytestring bar\x00soom]
-} [bytestring bar\x00soom]
 
 # cleanup
 ::tcltest::cleanupTests
