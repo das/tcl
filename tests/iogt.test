@@ -498,7 +498,7 @@ test iogt-2.1 {basic I/O, operation trail} {testchannel unixOnly} {
     audit_ops aout -attach $fout
 
     fconfigure $fin  -buffersize 10
-    fconfigure $fout -buffersize 10
+    fconfigure $fout -buffersize 5
 
     fcopy $fin $fout
 
@@ -548,7 +548,7 @@ test iogt-2.2 {basic I/O, data trail} {testchannel unixOnly} {
     audit_flow aout -attach $fout
 
     fconfigure $fin  -buffersize 10
-    fconfigure $fout -buffersize 10
+    fconfigure $fout -buffersize 5
 
     fcopy $fin $fout
 
