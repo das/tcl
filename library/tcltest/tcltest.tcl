@@ -504,7 +504,7 @@ namespace eval tcltest {
 	    }
 	    namespace eval [namespace current] \
 	    	    [list upvar 0 Option($option) $varName]
-	    # Workaround for Bug 572889.  Grrrr....
+	    # Workaround for Bug (now Feature Request) 572889.  Grrrr....
 	    # Track all the variables tied to options
 	    lappend OptionControlledVariables $varName
 	    # Later, set auto-configure read traces on all
