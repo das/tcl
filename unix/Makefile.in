@@ -892,7 +892,7 @@ dist: $(UNIX_DIR)/configure
 		$(TOP_DIR)/tests/defs $(DISTDIR)/tests
 	mkdir $(DISTDIR)/tests/pkg
 	cp -p $(TOP_DIR)/license.terms $(DISTDIR)/tests/pkg
-	cp -p $(TOP_DIR)/tests/pkg/*.tcl $(TOP_DIR)/tests/pkg
+	cp -p $(TOP_DIR)/tests/pkg/*.tcl $(DISTDIR)/tests/pkg
 	mkdir $(DISTDIR)/win
 	cp -p $(TOP_DIR)/win/*.c $(TOP_DIR)/win/*.h $(TOP_DIR)/win/*.rc \
 		$(DISTDIR)/win
