@@ -1074,7 +1074,7 @@ InfoHostnameCmd(dummy, interp, objc, objv)
     int objc;			/* Number of arguments. */
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
-    char *name;
+    CONST char *name;
     if (objc != 2) {
         Tcl_WrongNumArgs(interp, 2, objv, NULL);
         return TCL_ERROR;

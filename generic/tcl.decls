@@ -581,7 +581,7 @@ declare 161 generic {
     int Tcl_GetErrno(void)
 }
 declare 162 generic {
-    char * Tcl_GetHostName(void)
+    CONST char * Tcl_GetHostName(void)
 }
 declare 163 generic {
     int Tcl_GetInterpPath(Tcl_Interp *askInterp, Tcl_Interp *slaveInterp)
@@ -600,7 +600,7 @@ declare 166 generic {
 # generic interface, so we inlcude it here for compatibility reasons.
 
 declare 167 unix {
-    int Tcl_GetOpenFile(Tcl_Interp *interp, char *str, int forWriting, \
+    int Tcl_GetOpenFile(Tcl_Interp *interp, CONST char *str, int forWriting, \
 	    int checkUsage, ClientData *filePtr)
 }
 # Obsolete.  Should now use Tcl_FSGetPathType which is objectified
@@ -710,11 +710,12 @@ declare 198 generic {
 }
 declare 199 generic {
     Tcl_Channel Tcl_OpenTcpClient(Tcl_Interp *interp, int port, \
-	    char *address, char *myaddr, int myport, int async)
+	    CONST char *address, CONST char *myaddr, int myport, int async)
 }
 declare 200 generic {
-    Tcl_Channel Tcl_OpenTcpServer(Tcl_Interp *interp, int port, char *host, \
-	    Tcl_TcpAcceptProc *acceptProc, ClientData callbackData)
+    Tcl_Channel Tcl_OpenTcpServer(Tcl_Interp *interp, int port, \
+	    CONST char *host, Tcl_TcpAcceptProc *acceptProc, \
+	    ClientData callbackData)
 }
 declare 201 generic {
     void Tcl_Preserve(ClientData data)
