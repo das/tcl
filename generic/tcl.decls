@@ -1515,6 +1515,12 @@ declare 433 generic {
     Tcl_ThreadId Tcl_GetChannelThread(Tcl_Channel channel)
 }
 
+# introduced in 8.4a3
+declare 434 generic {
+    Tcl_UniChar * Tcl_GetUnicodeFromObj (Tcl_Obj *objPtr, int *lengthPtr)
+}
+
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are
