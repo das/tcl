@@ -2183,6 +2183,37 @@ EXTERN int	TclCompileWhileCmd _ANSI_ARGS_((Tcl_Interp *interp,
 	TclIncrObjsFreed(); \
     }
 
+#elif defined(PURIFY)
+
+/*
+ * The PURIFY mode is like the regular mode, but instead of doing block
+ * Tcl_Obj allocation and keeping a freed list for efficiency, it always
+ * allocates and frees a single Tcl_Obj so that tools like Purify can
+ * better track memory leaks
+ */
+
+#  define TclNewObj(objPtr) \
+    (objPtr) = (Tcl_Obj *) Tcl_Ckalloc(sizeof(Tcl_Obj)); \
+    (objPtr)->refCount = 0; \
+    (objPtr)->bytes    = tclEmptyStringRep; \
+    (objPtr)->length   = 0; \
+    (objPtr)->typePtr  = NULL; \
+    TclIncrObjsAllocated();
+
+#  define TclDecrRefCount(objPtr) \
+    if (--(objPtr)->refCount <= 0) { \
+	if (((objPtr)->bytes != NULL) \
+		&& ((objPtr)->bytes != tclEmptyStringRep)) { \
+	    ckfree((char *) (objPtr)->bytes); \
+	} \
+	if (((objPtr)->typePtr != NULL) \
+		&& ((objPtr)->typePtr->freeIntRepProc != NULL)) { \
+	    (objPtr)->typePtr->freeIntRepProc(objPtr); \
+	} \
+	ckfree((char *) (objPtr)); \
+	TclIncrObjsFreed(); \
+    }
+
 #else /* not TCL_MEM_DEBUG */
 
 #ifdef TCL_THREADS

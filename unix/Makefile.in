@@ -230,8 +230,8 @@ DLTEST_DIR		= @TCL_SRC_DIR@/unix/dltest
 # Must be absolute to so the corresponding tcltest's tcl_library is absolute.
 TCL_BUILDTIME_LIBRARY	= @TCL_SRC_DIR@/library
 
-#CC			= purify -best-effort @CC@
 CC			= @CC@
+#CC			= purify -best-effort @CC@ -DPURIFY
 
 #----------------------------------------------------------------
 # The information below should be usable as is.  The configure
