@@ -1986,7 +1986,13 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
     int nextCheckpoint;
 {
     char *lastValidPathEnd = NULL;
-    char *path = Tcl_GetString(pathPtr);
+    /* This will hold the normalized string */
+    Tcl_DString dsNorm;
+    char *path;
+    char *currentPathEndPosition;
+
+    Tcl_DStringInit(&dsNorm);
+    path = Tcl_GetString(pathPtr);
 
     if (TclWinGetPlatformId() == VER_PLATFORM_WIN32_WINDOWS) {
 	/* 
@@ -1996,13 +2002,9 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 	 * links are not possible.  Both of these assumptions
 	 * appear to be true of these operating systems.
 	 */
-	char *currentPathEndPosition;
 	Tcl_Obj *temp = NULL;
 	int isDrive = 1;
 	Tcl_DString ds;
-	/* This will hold the normalized string */
-	Tcl_DString dsNorm;
-	Tcl_DStringInit(&dsNorm);
 
 	currentPathEndPosition = path + nextCheckpoint;
 	while (1) {
@@ -2067,47 +2069,11 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 	    }
 	    currentPathEndPosition++;
 	}
-	nextCheckpoint = currentPathEndPosition - path;
-	
-	if (lastValidPathEnd != NULL) {
-	    /* 
-	     * Concatenate the normalized string in dsNorm with the
-	     * tail of the path which we didn't recognise.  The
-	     * string in dsNorm is in the native encoding, so we
-	     * have to convert it to Utf.
-	     */
-	    Tcl_DString dsTemp;
-	    Tcl_ExternalToUtfDString(NULL, Tcl_DStringValue(&dsNorm), 
-			      Tcl_DStringLength(&dsNorm), &dsTemp);
-	    nextCheckpoint = Tcl_DStringLength(&dsTemp);
-	    if (*lastValidPathEnd != 0) {
-		/* Not the end of the string */
-		int len;
-		char *path;
-		Tcl_Obj *tmpPathPtr;
-		tmpPathPtr = Tcl_NewStringObj(Tcl_DStringValue(&dsTemp), 
-					      nextCheckpoint);
-		Tcl_AppendToObj(tmpPathPtr, lastValidPathEnd, -1);
-		path = Tcl_GetStringFromObj(tmpPathPtr, &len);
-		Tcl_SetStringObj(pathPtr, path, len);
-		Tcl_DecrRefCount(tmpPathPtr);
-	    } else {
-		/* End of string was reached above */
-		Tcl_SetStringObj(pathPtr, Tcl_DStringValue(&dsTemp),
-				 nextCheckpoint);
-	    }
-	    Tcl_DStringFree(&dsTemp);
-	}
-	Tcl_DStringFree(&dsNorm);
     } else {
 	/* We're on WinNT or 2000 or XP */
-	char *currentPathEndPosition;
 	Tcl_Obj *temp = NULL;
 	int isDrive = 1;
 	Tcl_DString ds;
-	/* This will hold the normalized string */
-	Tcl_DString dsNorm;
-	Tcl_DStringInit(&dsNorm);
 
 	currentPathEndPosition = path + nextCheckpoint;
 	while (1) {
@@ -2212,38 +2178,38 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 	    }
 	    currentPathEndPosition++;
 	}
-	nextCheckpoint = currentPathEndPosition - path;
-	
-	if (lastValidPathEnd != NULL) {
-	    /* 
-	     * Concatenate the normalized string in dsNorm with the
-	     * tail of the path which we didn't recognise.  The
-	     * string in dsNorm is in the native encoding, so we
-	     * have to convert it to Utf.
-	     */
-	    Tcl_DString dsTemp;
-	    Tcl_WinTCharToUtf(Tcl_DStringValue(&dsNorm), 
-			      Tcl_DStringLength(&dsNorm), &dsTemp);
-	    nextCheckpoint = Tcl_DStringLength(&dsTemp);
-	    if (*lastValidPathEnd != 0) {
-		/* Not the end of the string */
-		int len;
-		char *path;
-		Tcl_Obj *tmpPathPtr;
-		tmpPathPtr = Tcl_NewStringObj(Tcl_DStringValue(&dsTemp), 
-					      nextCheckpoint);
-		Tcl_AppendToObj(tmpPathPtr, lastValidPathEnd, -1);
-		path = Tcl_GetStringFromObj(tmpPathPtr, &len);
-		Tcl_SetStringObj(pathPtr, path, len);
-		Tcl_DecrRefCount(tmpPathPtr);
-	    } else {
-		/* End of string was reached above */
-		Tcl_SetStringObj(pathPtr, Tcl_DStringValue(&dsTemp),
-				 nextCheckpoint);
-	    }
-	    Tcl_DStringFree(&dsTemp);
-	}
-	Tcl_DStringFree(&dsNorm);
     }
+    /* Common code path for all Windows platforms */
+    nextCheckpoint = currentPathEndPosition - path;
+    if (lastValidPathEnd != NULL) {
+	/* 
+	 * Concatenate the normalized string in dsNorm with the
+	 * tail of the path which we didn't recognise.  The
+	 * string in dsNorm is in the native encoding, so we
+	 * have to convert it to Utf.
+	 */
+	Tcl_DString dsTemp;
+	Tcl_WinTCharToUtf(Tcl_DStringValue(&dsNorm), 
+			  Tcl_DStringLength(&dsNorm), &dsTemp);
+	nextCheckpoint = Tcl_DStringLength(&dsTemp);
+	if (*lastValidPathEnd != 0) {
+	    /* Not the end of the string */
+	    int len;
+	    char *path;
+	    Tcl_Obj *tmpPathPtr;
+	    tmpPathPtr = Tcl_NewStringObj(Tcl_DStringValue(&dsTemp), 
+					  nextCheckpoint);
+	    Tcl_AppendToObj(tmpPathPtr, lastValidPathEnd, -1);
+	    path = Tcl_GetStringFromObj(tmpPathPtr, &len);
+	    Tcl_SetStringObj(pathPtr, path, len);
+	    Tcl_DecrRefCount(tmpPathPtr);
+	} else {
+	    /* End of string was reached above */
+	    Tcl_SetStringObj(pathPtr, Tcl_DStringValue(&dsTemp),
+			     nextCheckpoint);
+	}
+	Tcl_DStringFree(&dsTemp);
+    }
+    Tcl_DStringFree(&dsNorm);
     return nextCheckpoint;
 }
