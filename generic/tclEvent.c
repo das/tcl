@@ -1252,7 +1252,8 @@ NewThreadProc(ClientData clientData)
     ThreadClientData *cdPtr;
     ClientData threadClientData;
     Tcl_ThreadCreateProc *threadProc;
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
+
+    (void) TCL_TSD_INIT(&dataKey);
 
     cdPtr  = (ThreadClientData *)clientData;
     threadProc = cdPtr->proc;
