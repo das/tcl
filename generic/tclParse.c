@@ -2077,7 +2077,7 @@ TclSubstTokens(interp, tokenPtr, count, tokensLeftPtr)
  * CommandComplete --
  *
  *	This procedure is shared by TclCommandComplete and
- *	Tcl_ObjCommandcoComplete; it does all the real work of seeing
+ *	Tcl_ObjCommandComplete; it does all the real work of seeing
  *	whether a script is complete
  *
  * Results:
