@@ -766,19 +766,19 @@ EXTERN int		TclCompEvalObj _ANSI_ARGS_((Tcl_Interp *interp,
  */
 
 EXTERN void		TclCleanupByteCode _ANSI_ARGS_((ByteCode *codePtr));
-EXTERN int		TclCompileCmdWord _ANSI_ARGS_((Tcl_Interp *interp,
+EXTERN void		TclCompileCmdWord _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Token *tokenPtr, int count,
 			    CompileEnv *envPtr));
 EXTERN int		TclCompileExpr _ANSI_ARGS_((Tcl_Interp *interp,
 			    CONST char *script, int numBytes,
 			    CompileEnv *envPtr));
-EXTERN int		TclCompileExprWords _ANSI_ARGS_((Tcl_Interp *interp,
+EXTERN void		TclCompileExprWords _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Token *tokenPtr, int numWords,
 			    CompileEnv *envPtr));
-EXTERN int		TclCompileScript _ANSI_ARGS_((Tcl_Interp *interp,
+EXTERN void		TclCompileScript _ANSI_ARGS_((Tcl_Interp *interp,
 			    CONST char *script, int numBytes,
 			    CompileEnv *envPtr));
-EXTERN int		TclCompileTokens _ANSI_ARGS_((Tcl_Interp *interp,
+EXTERN void		TclCompileTokens _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Token *tokenPtr, int count,
 			    CompileEnv *envPtr));
 EXTERN int		TclCreateAuxData _ANSI_ARGS_((ClientData clientData,
