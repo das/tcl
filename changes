@@ -6018,6 +6018,10 @@ in this changeset (new minor version) rather than bug fixes:
 
  * [TIP #123] expr ** exponentiation operator
 
+ * [TIP #124] 'clock clicks -milliseconds' now returns a wide integer and a
+   new 'clock clicks -microseconds' returns a wide integer, representing
+   the number of microseconds, both since the Posix epoch
+
  * [TIP #127] added 'lsearch -index' option
 
  * [TIP #136] added 'lrepeat' command
