@@ -2334,7 +2334,8 @@ Tcl_FSGetCwd(interp)
 		 * we'll always be in the 'else' branch below which
 		 * is simpler.
 		 */
-                FsUpdateCwd(norm);
+		FsUpdateCwd(norm);
+		Tcl_DecrRefCount(norm);
 	    }
 	    Tcl_DecrRefCount(retVal);
 	}
@@ -2380,6 +2381,7 @@ Tcl_FSGetCwd(interp)
 			Tcl_DecrRefCount(norm);
 		    } else {
 			FsUpdateCwd(norm);
+			Tcl_DecrRefCount(norm);
 		    }
 		    Tcl_DecrRefCount(retVal);
 		} else {
