@@ -187,7 +187,10 @@ evaluation of the body of another procedure, the process will
 repeat itself up the call stack, decrementing the value of the
 \fB-level\fR entry at each level, so that the \fIcode\fR will
 be the return code of the current command \fIlevel\fR levels
-up the call stack.
+up the call stack.  The \fBsource\fR command performs the
+same handling of the TCL_RETURN return code, which explains
+the similarity of \fBreturn\fR invocation during a \fBsource\fR
+to \fBreturn\fR invocation within a procedure.
 .PP
 The return code of the \fBreturn\fR command itself triggers this
 special handling by procedure invocation.  If \fBreturn\fR
