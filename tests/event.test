@@ -12,7 +12,7 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest 2
+    package require tcltest 2.1
     namespace import -force ::tcltest::*
 }
 
@@ -217,8 +217,7 @@ test event-6.1 {BgErrorDeleteProc procedure} {
     close $f
     removeFile err.out
     set result
-} {Unmodified
-}
+} {Unmodified}
 
 test event-7.1 {bgerror / regular} {
     set errRes {}

@@ -13,7 +13,7 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2.1
     namespace import -force ::tcltest::*
 }
 
@@ -1433,7 +1433,7 @@ test cmdAH-28.4 {Tcl_FileObjCmd: stat} {
     catch {unset stat}
     file stat gorp.file stat
     list $stat(nlink) $stat(size) $stat(type)
-} {1 12 file}
+} {1 11 file}
 test cmdAH-28.5 {Tcl_FileObjCmd: stat} {unixOnly} {
     catch {unset stat}
     file stat gorp.file stat
