@@ -76,6 +76,10 @@ HasStubSupport (interp)
  *----------------------------------------------------------------------
  */
 
+#ifdef Tcl_InitStubs
+#undef Tcl_InitStubs
+#endif
+
 char *
 Tcl_InitStubs (interp, version, exact)
     Tcl_Interp *interp;

@@ -403,7 +403,7 @@ declare 109 generic {
 declare 110 generic {
     void Tcl_DeleteInterp(Tcl_Interp *interp)
 }
-declare 111 generic {
+declare 111 {unix win} {
     void Tcl_DetachPids(int numPids, Tcl_Pid *pidPtr)
 }
 declare 112 generic {
@@ -686,7 +686,7 @@ declare 196 generic {
     Tcl_Obj * Tcl_ObjSetVar2(Tcl_Interp *interp, Tcl_Obj *part1Ptr, \
 	    Tcl_Obj *part2Ptr, Tcl_Obj *newValuePtr, int flags)
 }
-declare 197 generic {
+declare 197 {unix win} {
     Tcl_Channel Tcl_OpenCommandChannel(Tcl_Interp *interp, int argc, \
 	    char **argv, int flags)
 }
@@ -720,7 +720,7 @@ declare 205 generic {
 declare 206 generic {
     int Tcl_Read(Tcl_Channel chan, char *bufPtr, int toRead)
 }
-declare 207 generic {
+declare 207 {unix win} {
     void Tcl_ReapDetachedProcs(void)
 }
 declare 208 generic {
@@ -957,7 +957,7 @@ declare 276 generic {
 declare 277 generic {
     Tcl_Pid Tcl_WaitPid(Tcl_Pid pid, int *statPtr, int options)
 }
-declare 278 generic {
+declare 278 {unix win} {
     void Tcl_PanicVA(char *format, va_list argList)
 }
 declare 279 generic {

@@ -1385,7 +1385,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	    }
 
 	    if ((enum options) index == STR_BYTELENGTH) {
-		string1 = Tcl_GetStringFromObj(objv[2], &length1);
+		(void) Tcl_GetStringFromObj(objv[2], &length1);
 		Tcl_SetIntObj(resultPtr, length1);
 	    } else {
 		/*
@@ -1395,7 +1395,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		 */
 
 		if (objv[2]->typePtr == &tclByteArrayType) {
-		    string1 = Tcl_GetByteArrayFromObj(objv[2], &length1);
+		    (void) Tcl_GetByteArrayFromObj(objv[2], &length1);
 		    Tcl_SetIntObj(resultPtr, length1);
 		} else {
 		    string1 = Tcl_GetStringFromObj(objv[2], &length1);

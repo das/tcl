@@ -39,7 +39,7 @@ declare 3 generic {
 #  declare 4 generic {   
 #      int TclChdir(Tcl_Interp *interp, char *dirName)
 #  }
-declare 5 generic {
+declare 5 {unix win} {
     int TclCleanupChildren(Tcl_Interp *interp, int numPids, Tcl_Pid *pidPtr, \
 	    Tcl_Channel errorChan)
 }
@@ -56,7 +56,7 @@ declare 8 generic {
 
 # TclCreatePipeline unofficially exported for use by BLT.
 
-declare 9 generic {
+declare 9 {unix win} {
     int TclCreatePipeline(Tcl_Interp *interp, int argc, char **argv, \
 	    Tcl_Pid **pidArrayPtr, TclFile *inPipePtr, TclFile *outPipePtr, \
 	    TclFile *errFilePtr)
@@ -379,7 +379,7 @@ declare 100 generic {
     Tcl_Obj * TclSetIndexedScalar(Tcl_Interp *interp, int localIndex, \
 	    Tcl_Obj *objPtr, int leaveErrorMsg)
 }
-declare 101 generic {
+declare 101 {unix win} {
     char * TclSetPreInitScript(char *string)
 }
 declare 102 generic {
@@ -389,7 +389,7 @@ declare 103 generic {
     int TclSockGetPort(Tcl_Interp *interp, char *str, char *proto, \
 	    int *portPtr)
 }
-declare 104 generic {
+declare 104 {unix win} {
     int TclSockMinimumBuffers(int sock, int size)
 }
 declare 105 generic {
