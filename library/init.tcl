@@ -48,7 +48,7 @@ if {![info exists auto_path]} {
 }
 namespace eval tcl {
     variable Dir
-    if {[string compare [info library] {}]} {
+    if {[info library] != ""} {
 	foreach Dir [list [info library] [file dirname [info library]]] {
 	    if {[lsearch -exact $::auto_path $Dir] < 0} {
 		lappend ::auto_path $Dir
@@ -82,7 +82,7 @@ if {(![interp issafe]) && [string equal $tcl_platform(platform) "windows"]} {
 	    global env tcl_platform
 	    foreach p [array names env] {
 		set u [string toupper $p]
-		if {[string compare $u $p]} {
+		if {![string equal $u $p]} {
 		    switch -- $u {
 			COMSPEC -
 			PATH {
@@ -267,7 +267,7 @@ proc unknown args {
 	    && [info exists tcl_interactive] && $tcl_interactive} {
 	if {![info exists auto_noexec]} {
 	    set new [auto_execok $name]
-	    if {[string compare {} $new]} {
+	    if {$new != ""} {
 		set errorCode $savedErrorCode
 		set errorInfo $savedErrorInfo
 		set redir ""
@@ -418,7 +418,7 @@ proc auto_load_index {} {
 		    error "[file join $dir tclIndex] isn't a proper Tcl index file"
 		}
 	    } msg]
-	    if {[string compare $f ""]} {
+	    if {$f != ""} {
 		close $f
 	    }
 	    if {$error} {
