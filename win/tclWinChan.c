@@ -89,7 +89,7 @@ static int		FileInputProc _ANSI_ARGS_((ClientData instanceData,
 	            	    char *buf, int toRead, int *errorCode));
 static int		FileOutputProc _ANSI_ARGS_((ClientData instanceData,
 			    char *buf, int toWrite, int *errorCode));
-static int		FileSeekProc _ANSI_ARGS_((ClientData instanceData,
+static Tcl_WideInt	FileSeekProc _ANSI_ARGS_((ClientData instanceData,
 			    long offset, int mode, int *errorCode));
 static void		FileSetupProc _ANSI_ARGS_((ClientData clientData,
 			    int flags));
@@ -431,7 +431,7 @@ FileCloseProc(instanceData, interp)
  *----------------------------------------------------------------------
  */
 
-static int
+static Tcl_WideInt
 FileSeekProc(instanceData, offset, mode, errorCodePtr)
     ClientData instanceData;			/* File state. */
     long offset;				/* Offset to seek to. */

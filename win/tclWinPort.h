@@ -464,6 +464,13 @@ typedef int TclpMutex;
 #define	TclpMutexUnlock(a)
 #endif /* TCL_THREADS */
 
+#ifdef TCL_WIDE_INT_TYPE
+EXTERN Tcl_WideInt	strtoll _ANSI_ARGS_((char *string,  char **endPtr,
+					     int base));
+EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((char *string,  char **endPtr,
+					      int base));
+#endif /* TCL_WIDE_INT_TYPE */
+
 #include "tclPlatDecls.h"
 #include "tclIntPlatDecls.h"
 

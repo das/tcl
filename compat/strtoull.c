@@ -52,7 +52,7 @@ static char cvtIn[] = {
  *----------------------------------------------------------------------
  */
 
-unsigned long long
+Tcl_WideUInt
 strtoull(string, endPtr, base)
     char *string;		/* String of ASCII digits, possibly
 				 * preceded by white space.  For bases
@@ -69,7 +69,7 @@ strtoull(string, endPtr, base)
 				 */
 {
     register char *p;
-    register unsigned long long result = 0;
+    register Tcl_WideUInt result = 0;
     register unsigned digit;
     int anyDigits = 0;
 

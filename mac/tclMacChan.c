@@ -109,7 +109,7 @@ static int		FileInput _ANSI_ARGS_((ClientData instanceData,
 			    char *buf, int toRead, int *errorCode));
 static int		FileOutput _ANSI_ARGS_((ClientData instanceData,
 			    char *buf, int toWrite, int *errorCode));
-static int		FileSeek _ANSI_ARGS_((ClientData instanceData,
+static Tcl_WideInt	FileSeek _ANSI_ARGS_((ClientData instanceData,
 			    long offset, int mode, int *errorCode));
 static void		FileSetupProc _ANSI_ARGS_((ClientData clientData,
 			    int flags));
@@ -125,7 +125,7 @@ static int		StdIOInput _ANSI_ARGS_((ClientData instanceData,
 			    char *buf, int toRead, int *errorCode));
 static int		StdIOOutput _ANSI_ARGS_((ClientData instanceData,
 			    char *buf, int toWrite, int *errorCode));
-static int		StdIOSeek _ANSI_ARGS_((ClientData instanceData,
+static Tcl_WideInt	StdIOSeek _ANSI_ARGS_((ClientData instanceData,
 			    long offset, int mode, int *errorCode));
 static int		StdReady _ANSI_ARGS_((ClientData instanceData,
 		            int mask));
@@ -584,7 +584,7 @@ StdIOOutput(
  *----------------------------------------------------------------------
  */
 
-static int
+static Tcl_WideInt
 StdIOSeek(
     ClientData instanceData,			/* Unused. */
     long offset,				/* Offset to seek to. */
@@ -1126,7 +1126,7 @@ FileOutput(
  *----------------------------------------------------------------------
  */
 
-static int
+static Tcl_WideInt
 FileSeek(
     ClientData instanceData,	/* Unused. */
     long offset,				/* Offset to seek to. */
