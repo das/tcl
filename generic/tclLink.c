@@ -25,6 +25,12 @@
  */
 
 typedef struct Link {
+    union {
+	int i;
+	double d;
+    } lastValue;		/* Last known value of C variable;  used to
+				 * avoid string conversions. */
+
     Tcl_Interp *interp;		/* Interpreter containing Tcl variable. */
     char *varName;		/* Name of variable (must be global).  This
 				 * is needed during trace callbacks, since
@@ -32,11 +38,6 @@ typedef struct Link {
 				 * that time via upvar. */
     char *addr;			/* Location of C variable. */
     int type;			/* Type of link (TCL_LINK_INT, etc.). */
-    union {
-	int i;
-	double d;
-    } lastValue;		/* Last known value of C variable;  used to
-				 * avoid string conversions. */
     int flags;			/* Miscellaneous one-bit values;  see below
 				 * for definitions. */
 } Link;

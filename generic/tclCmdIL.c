@@ -44,18 +44,18 @@ typedef struct SortElement {
  */
 
 typedef struct SortInfo {
-    int isIncreasing;		/* Nonzero means sort in increasing order. */
-    int sortMode;		/* The sort mode.  One of SORTMODE_*
-				 * values defined below */
     Tcl_Obj *compareCmdPtr;     /* The Tcl comparison command when sortMode
 				 * is SORTMODE_COMMAND.  Pre-initialized to
 				 * hold base of command.*/
+    Tcl_Interp *interp;		/* The interpreter in which the sortis
+				 * being done. */
+    int isIncreasing;		/* Nonzero means sort in increasing order. */
+    int sortMode;		/* The sort mode.  One of SORTMODE_*
+				 * values defined below */
     int index;			/* If the -index option was specified, this
 				 * holds the index of the list element
 				 * to extract for comparison.  If -index
 				 * wasn't specified, this is -1. */
-    Tcl_Interp *interp;		/* The interpreter in which the sortis
-				 * being done. */
     int resultCode;		/* Completion code for the lsort command.
 				 * If an error occurs during the sort this
 				 * is changed from TCL_OK to  TCL_ERROR. */

@@ -33,7 +33,6 @@
  */
 
 typedef struct TclRegexp {
-    int flags;			/* Regexp compile flags. */
     regex_t re;			/* Compiled re, includes number of
 				 * subexpressions. */
     CONST char *string;		/* Last string passed to Tcl_RegExpExec. */
@@ -44,6 +43,7 @@ typedef struct TclRegexp {
 				 * of subexpressions. */
     rm_detail_t details;	/* Detailed information on match (currently
 				 * used only for REG_EXPECT). */
+    int flags;			/* Regexp compile flags. */
     int refCount;		/* Count of number of references to this
 				 * compiled regexp. */
 } TclRegexp;
