@@ -12,7 +12,7 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     #tcltest::configure -verbose {pass start}
     namespace import -force ::tcltest::*
 }
