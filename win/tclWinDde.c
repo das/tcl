@@ -1327,7 +1327,7 @@ Tcl_DdeObjCmd(clientData, interp, objc, objv)
 	}
     }
 
-    switch ((enum DdeSubcommand) index) {
+    switch ((enum DdeSubcommands) index) {
     case DDE_SERVERNAME:
 	serviceName = DdeSetServerName(interp, serviceName, exact, handlerPtr);
 	if (serviceName != NULL) {
