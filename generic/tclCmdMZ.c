@@ -2996,7 +2996,6 @@ Tcl_TraceObjCmd(dummy, interp, objc, objv)
 		return TCL_ERROR;
 	    }
 	    return (traceSubCmds[typeIndex])(interp, optionIndex, objc, objv);
-	    break;
 	}
 #ifndef TCL_REMOVE_OBSOLETE_TRACES
         case TRACE_OLD_VARIABLE: {
