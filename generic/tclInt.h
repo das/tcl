@@ -2175,6 +2175,9 @@ EXTERN void	TclDbInitNewObj _ANSI_ARGS_((Tcl_Obj *objPtr));
 
 EXTERN Tcl_Obj *TclThreadAllocObj _ANSI_ARGS_((void));
 EXTERN void TclThreadFreeObj _ANSI_ARGS_((Tcl_Obj *));
+EXTERN Tcl_Mutex *TclpNewAllocMutex _ANSI_ARGS_((void));
+EXTERN void *TclpGetAllocCache _ANSI_ARGS_((void));
+EXTERN void TclpSetAllocCache _ANSI_ARGS_((void *));
 
 #  define TclAllocObjStorage(objPtr) \
        (objPtr) = TclThreadAllocObj()
