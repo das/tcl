@@ -540,10 +540,7 @@ Tcl_AppendElement(interp, stringPtr)
      * string result, then reset the object result.
      */
 
-    if (*(iPtr->result) == 0) {
-	Tcl_SetResult(interp, TclGetString(Tcl_GetObjResult(interp)),
-	        TCL_VOLATILE);
-    }
+    (void) Tcl_GetStringResult(interp);
 
     /*
      * See how much space is needed, and grow the append buffer if

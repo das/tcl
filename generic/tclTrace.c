@@ -356,7 +356,7 @@ Tcl_TraceObjCmd(dummy, interp, objc, objv)
 		Tcl_WrongNumArgs(interp, 2, objv, "name");
 		return TCL_ERROR;
 	    }
-	    resultListPtr = Tcl_GetObjResult(interp);
+	    resultListPtr = Tcl_NewObj();
 	    clientData = 0;
 	    name = Tcl_GetString(objv[2]);
 	    while ((clientData = Tcl_VarTraceInfo(interp, name, 0,
@@ -978,7 +978,7 @@ TclTraceVariableObjCmd(interp, optionIndex, objc, objv)
 		return TCL_ERROR;
 	    }
 
-	    resultListPtr = Tcl_GetObjResult(interp);
+	    resultListPtr = Tcl_NewObj();
 	    clientData = 0;
 	    name = Tcl_GetString(objv[3]);
 	    while ((clientData = Tcl_VarTraceInfo(interp, name, 0,
@@ -1995,7 +1995,7 @@ TraceVarProc(clientData, interp, name1, name2, flags)
 	    code = Tcl_EvalEx(interp, Tcl_DStringValue(&cmd),
 		    Tcl_DStringLength(&cmd), 0);
 	    if (code != TCL_OK) {	     /* copy error msg to result */
-		register Tcl_Obj *errMsgObj = Tcl_GetObjResult(interp);
+		Tcl_Obj *errMsgObj = Tcl_GetObjResult(interp);
 		Tcl_IncrRefCount(errMsgObj);
 		result = (char *) errMsgObj;
 	    }
