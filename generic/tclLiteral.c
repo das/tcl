@@ -35,7 +35,7 @@ static int		AddLocalLiteralEntry _ANSI_ARGS_((
 static void		ExpandLocalLiteralArray _ANSI_ARGS_((
 			    CompileEnv *envPtr));
 static unsigned int	HashString _ANSI_ARGS_((CONST char *bytes,
-			    int length));
+			    Tcl_Length length));
 static void		RebuildLiteralTable _ANSI_ARGS_((
 			    LiteralTable *tablePtr));
 
@@ -191,7 +191,7 @@ TclRegisterLiteral(envPtr, bytes, length, onHeap)
     if (length < 0) {
 	length = (bytes? strlen(bytes) : 0);
     }
-    hash = HashString(bytes, length);
+    hash = HashString(bytes, (Tcl_Length)length);
 
     /*
      * Is the literal already in the CompileEnv's local literal array?
@@ -778,7 +778,7 @@ static unsigned int
 HashString(bytes, length)
     register CONST char *bytes; /* String for which to compute hash
 				 * value. */
-    int length;			/* Number of bytes in the string. */
+    Tcl_Length length;		/* Number of bytes in the string. */
 {
     register unsigned int result;
     register int i;

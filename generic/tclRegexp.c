@@ -463,7 +463,7 @@ Tcl_RegExpExecObj(interp, re, objPtr, offset, nmatches, flags)
     udata += offset;
     length -= offset;
     
-    return RegExpExecUniChar(interp, re, udata, length, nmatches, flags);
+    return RegExpExecUniChar(interp, re, udata, (int)length, nmatches, flags);
 }
 
 /*
@@ -572,7 +572,7 @@ Tcl_GetRegExpFromObj(interp, objPtr, flags)
     if ((typePtr != &tclRegexpType) || (regexpPtr->flags != flags)) {
 	pattern = Tcl_GetStringFromObj(objPtr, &length);
 
-	regexpPtr = CompileRegexp(interp, pattern, length, flags);
+	regexpPtr = CompileRegexp(interp, pattern, (int)length, flags);
 	if (regexpPtr == NULL) {
 	    return NULL;
 	}

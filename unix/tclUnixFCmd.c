@@ -777,8 +777,8 @@ TraverseUnixTree(traverseProc, sourcePtr, targetPtr, errorPtr)
 {
     Tcl_StatBuf statBuf;
     CONST char *source, *errfile;
-    int result, sourceLen;
-    int targetLen;
+    int result;
+    Tcl_Length sourceLen, targetLen;
     struct dirent *dirEntPtr;
     DIR *dirPtr;
 
@@ -942,7 +942,7 @@ TraversalCopy(srcPtr, dstPtr, statBufPtr, type, errorPtr)
 
     if (errorPtr != NULL) {
 	Tcl_ExternalToUtfDString(NULL, Tcl_DStringValue(dstPtr),
-		Tcl_DStringLength(dstPtr), errorPtr);
+		(int)Tcl_DStringLength(dstPtr), errorPtr);
     }
     return TCL_ERROR;
 }
@@ -996,7 +996,7 @@ TraversalDelete(srcPtr, ignore, statBufPtr, type, errorPtr)
     }
     if (errorPtr != NULL) {
 	Tcl_ExternalToUtfDString(NULL, Tcl_DStringValue(srcPtr),
-		Tcl_DStringLength(srcPtr), errorPtr);
+		(int)Tcl_DStringLength(srcPtr), errorPtr);
     }
     return TCL_ERROR;
 }
@@ -1156,7 +1156,7 @@ GetOwnerAttribute(interp, objIndex, fileName, attributePtrPtr)
 	CONST char *utf;
 
 	utf = Tcl_ExternalToUtfDString(NULL, pwPtr->pw_name, -1, &ds); 
-	*attributePtrPtr = Tcl_NewStringObj(utf, Tcl_DStringLength(&ds));
+	*attributePtrPtr = Tcl_NewStringObj(utf, (int)Tcl_DStringLength(&ds));
 	Tcl_DStringFree(&ds);
     }
     endpwent();
@@ -1242,7 +1242,7 @@ SetGroupAttribute(interp, objIndex, fileName, attributePtr)
 
 	string = Tcl_GetStringFromObj(attributePtr, &length);
 
-	native = Tcl_UtfToExternalDString(NULL, string, length, &ds);
+	native = Tcl_UtfToExternalDString(NULL, string, (int)length, &ds);
 	groupPtr = getgrnam(native);			/* INTL: Native. */
 	Tcl_DStringFree(&ds);
 
@@ -1305,7 +1305,7 @@ SetOwnerAttribute(interp, objIndex, fileName, attributePtr)
 
 	string = Tcl_GetStringFromObj(attributePtr, &length);
 
-	native = Tcl_UtfToExternalDString(NULL, string, length, &ds);
+	native = Tcl_UtfToExternalDString(NULL, string, (int)length, &ds);
 	pwPtr = getpwnam(native);			/* INTL: Native. */
 	Tcl_DStringFree(&ds);
 

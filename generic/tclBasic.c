@@ -2795,7 +2795,7 @@ Tcl_EvalObjEx(interp, objPtr, flags)
 	} else {
 	    register char *p;
 	    p = Tcl_GetStringFromObj(objPtr, &numSrcBytes);
-	    result = Tcl_EvalEx(interp, p, numSrcBytes, flags);
+	    result = Tcl_EvalEx(interp, p, (int)numSrcBytes, flags);
 	}
 	Tcl_DecrRefCount(objPtr);
 	return result;
@@ -2991,7 +2991,7 @@ Tcl_EvalObjEx(interp, objPtr, flags)
      */
 
     if ((result == TCL_ERROR) && !(iPtr->flags & ERR_ALREADY_LOGGED)) {
-	RecordTracebackInfo(interp, objPtr, numSrcBytes);
+	RecordTracebackInfo(interp, objPtr, (int)numSrcBytes);
     }
 
     /*
@@ -3099,10 +3099,10 @@ RecordTracebackInfo(interp, objPtr, numSrcBytes)
     
     if (!(iPtr->flags & ERR_IN_PROGRESS)) {
 	sprintf(buf, "\n    while executing\n\"%.*s%s\"",
-		length, bytes, ellipsis);
+		(int)length, bytes, ellipsis);
     } else {
 	sprintf(buf, "\n    invoked from within\n\"%.*s%s\"",
-		length, bytes, ellipsis);
+		(int)length, bytes, ellipsis);
     }
     Tcl_AddObjErrorInfo(interp, buf, -1);
 }
@@ -3704,7 +3704,7 @@ TclObjInvoke(interp, objc, objv, flags)
         }
         for (i = 0;  i < objc;  i++) {
 	    bytes = Tcl_GetStringFromObj(objv[i], &length);
-            Tcl_DStringAppend(&ds, bytes, length);
+            Tcl_DStringAppend(&ds, bytes, (int)length);
             if (i < (objc - 1)) {
                 Tcl_DStringAppend(&ds, " ", -1);
             } else if (Tcl_DStringLength(&ds) > 100) {
@@ -3914,8 +3914,8 @@ Tcl_ExprObj(interp, objPtr, resultPtrPtr)
 	}
     }
     if (objPtr->typePtr != &tclByteCodeType) {
-	TclInitCompileEnv(interp, &compEnv, string, length);
-	result = TclCompileExpr(interp, string, length, &compEnv);
+	TclInitCompileEnv(interp, &compEnv, string, (int)length);
+	result = TclCompileExpr(interp, string, (int)length, &compEnv);
 
 	/*
 	 * Free the compilation environment's literal table bucket array if

@@ -1378,7 +1378,8 @@ TclpOpenFileChannel(interp, pathPtr, modeString, permissions)
 	    (ClientData) fsPtr, channelPermissions);
 
     if (seekFlag) {
-        if (Tcl_Seek(fsPtr->channel, 0, SEEK_END) < 0) {
+        if (Tcl_Seek(fsPtr->channel, (Tcl_WideInt)0,
+		     SEEK_END) < (Tcl_WideInt)0) {
             if (interp != (Tcl_Interp *) NULL) {
                 Tcl_AppendResult(interp, "couldn't seek to end of file on \"",
                         channelName, "\": ", Tcl_PosixError(interp), NULL);

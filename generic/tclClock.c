@@ -258,7 +258,7 @@ FormatClock(interp, clockVal, useGMT, format)
 {
     struct tm *timeDataPtr;
     Tcl_DString buffer, uniBuffer;
-    int bufSize;
+    Tcl_Length bufSize;
     char *p;
     int result;
     time_t tclockVal;

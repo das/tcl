@@ -302,7 +302,7 @@ HandleBgErrors(clientData)
                             -1);
                     Tcl_WriteChars(errChannel, "\n", -1);
                     Tcl_WriteChars(errChannel, "    Error in bgerror: ", -1);
-                    Tcl_WriteChars(errChannel, string, len);
+                    Tcl_WriteChars(errChannel, string, (int)len);
                     Tcl_WriteChars(errChannel, "\n", -1);
                 }
                 Tcl_Flush(errChannel);

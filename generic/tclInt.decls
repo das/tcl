@@ -147,7 +147,7 @@ declare 33 generic {
 }
 declare 34 generic {
     int TclGetIntForIndex(Tcl_Interp *interp, Tcl_Obj *objPtr, \
-	    int endValue, int *indexPtr)
+	    Tcl_Length endValue, int *indexPtr)
 }
 declare 35 generic {
     Tcl_Obj * TclGetIndexedScalar(Tcl_Interp *interp, int localIndex, \

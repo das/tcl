@@ -1190,8 +1190,8 @@ Tcl_EvalTokensStandard(interp, tokenPtr, count)
 		break;
 
 	    case TCL_TOKEN_COMMAND:
-		code = Tcl_EvalEx(interp, tokenPtr->start+1, tokenPtr->size-2,
-			0);
+		code = Tcl_EvalEx(interp, tokenPtr->start+1,
+			(int)tokenPtr->size-2, 0);
 		if (code != TCL_OK) {
 		    goto done;
 		}
@@ -1257,7 +1257,7 @@ Tcl_EvalTokensStandard(interp, tokenPtr, count)
 	    if (valuePtr != NULL) {
 		resultPtr = valuePtr;
 	    } else {
-		resultPtr = Tcl_NewStringObj(p, length);
+		resultPtr = Tcl_NewStringObj(p, (int)length);
 	    }
 	    Tcl_IncrRefCount(resultPtr);
 	} else {
@@ -1270,7 +1270,7 @@ Tcl_EvalTokensStandard(interp, tokenPtr, count)
 	    if (valuePtr != NULL) {
 		p = Tcl_GetStringFromObj(valuePtr, &length);
 	    }
-	    Tcl_AppendToObj(resultPtr, p, length);
+	    Tcl_AppendToObj(resultPtr, p, (int)length);
 	}
     }
     if (resultPtr != NULL) {
@@ -2330,7 +2330,7 @@ TclObjCommandComplete(objPtr)
     Tcl_Length length;
 
     script = Tcl_GetStringFromObj(objPtr, &length);
-    return CommandComplete(script, length);
+    return CommandComplete(script, (int)length);
 }
 
 /*

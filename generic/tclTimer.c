@@ -1031,7 +1031,7 @@ AfterProc(clientData)
     interp = assocPtr->interp;
     Tcl_Preserve((ClientData) interp);
     script = Tcl_GetStringFromObj(afterPtr->commandPtr, &numBytes);
-    result = Tcl_EvalEx(interp, script, numBytes, TCL_EVAL_GLOBAL);
+    result = Tcl_EvalEx(interp, script, (int)numBytes, TCL_EVAL_GLOBAL);
     if (result != TCL_OK) {
 	Tcl_AddErrorInfo(interp, "\n    (\"after\" script)");
 	Tcl_BackgroundError(interp);

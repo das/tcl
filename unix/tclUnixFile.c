@@ -203,14 +203,11 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 {
     char *native, *fname, *dirName;
     DIR *d;
-    Tcl_DString ds;
+    Tcl_DString ds, dsOrig;
     Tcl_StatBuf statBuf;
-    int matchHidden;
-    int nativeDirLen;
-    int result = TCL_OK;
-    Tcl_DString dsOrig;
+    int matchHidden, result = TCL_OK;
     Tcl_Obj *fileNamePtr;
-    int baseLength;
+    Tcl_Length baseLength, nativeDirLen;
 
     fileNamePtr = Tcl_FSGetTranslatedPath(interp, pathPtr);
     if (fileNamePtr == NULL) {
@@ -420,7 +417,8 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 	    }
 	    if (typeOk) {
 		Tcl_ListObjAppendElement(interp, resultPtr, 
-			Tcl_NewStringObj(fname, Tcl_DStringLength(&dsOrig)));
+			Tcl_NewStringObj(fname,
+					 (int)Tcl_DStringLength(&dsOrig)));
 	    }
 	}
 	Tcl_DStringFree(&utfDs);

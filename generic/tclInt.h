@@ -1687,7 +1687,8 @@ EXTERN int		TclGetFrame _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *string, CallFrame **framePtrPtr));
 EXTERN TclCmdProcType	TclGetInterpProc _ANSI_ARGS_((void));
 EXTERN int		TclGetIntForIndex _ANSI_ARGS_((Tcl_Interp *interp,
-			    Tcl_Obj *objPtr, int endValue, int *indexPtr));
+			    Tcl_Obj *objPtr, Tcl_Length endValue,
+			    int *indexPtr));
 EXTERN Tcl_Obj *	TclGetIndexedScalar _ANSI_ARGS_((Tcl_Interp *interp,
 			    int localIndex, int flags));
 EXTERN int		TclGetLong _ANSI_ARGS_((Tcl_Interp *interp,
