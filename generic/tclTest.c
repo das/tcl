@@ -3067,6 +3067,10 @@ TestexprparserObjCmd(clientData, interp, objc, objv)
     if (length == 0) {
 	length = dummy;
     }
+    parse.commentStart = NULL;
+    parse.commentSize = 0;
+    parse.commandStart = NULL;
+    parse.commandSize = 0;
     if (Tcl_ParseExpr(interp, script, length, &parse) != TCL_OK) {
 	Tcl_AddErrorInfo(interp, "\n    (remainder of expr: \"");
 	Tcl_AddErrorInfo(interp, parse.term);
