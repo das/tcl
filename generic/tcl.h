@@ -40,6 +40,7 @@ extern "C" {
  *
  * library/init.tcl	(only if major.minor changes, not patchlevel)
  * unix/configure.in
+ * win/configure.in	(only if major.minor changes, not patchlevel)
  * win/makefile.bc	(only if major.minor changes, not patchlevel)
  * win/makefile.vc	(only if major.minor changes, not patchlevel)
  * win/pkgIndex.tcl	(for tclregNN.dll, not patchlevel)
