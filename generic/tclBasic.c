@@ -1856,9 +1856,9 @@ TclInvokeObjectCommand(clientData, interp, argc, argv)
      * end-of-objv word.
      */
 
-    if ((argc + 1) > NUM_ARGS) {
+    if (argc > NUM_ARGS) {
 	objv = (Tcl_Obj **)
-	    ckalloc((unsigned)(argc + 1) * sizeof(Tcl_Obj *));
+	    ckalloc((unsigned)(argc * sizeof(Tcl_Obj *)));
     }
 
     for (i = 0;  i < argc;  i++) {
@@ -1868,7 +1868,6 @@ TclInvokeObjectCommand(clientData, interp, argc, argv)
 	Tcl_IncrRefCount(objPtr);
 	objv[i] = objPtr;
     }
-    objv[argc] = 0;
 
     /*
      * Invoke the command's object-based Tcl_ObjCmdProc.
