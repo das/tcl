@@ -2928,7 +2928,7 @@ NamespaceEvalCmd(dummy, interp, objc, objv)
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
     Tcl_Namespace *namespacePtr;
-    Tcl_CallFrame frame;
+    CallFrame frame;
     Tcl_Obj *objPtr;
     char *name;
     int length, result;
@@ -2966,11 +2966,13 @@ NamespaceEvalCmd(dummy, interp, objc, objv)
      * the command(s).
      */
 
-    result = Tcl_PushCallFrame(interp, &frame, namespacePtr,
-	    /*isProcCallFrame*/ 0);
+    result = Tcl_PushCallFrame(interp, (Tcl_CallFrame *) &frame, 
+            namespacePtr, /*isProcCallFrame*/ 0);
     if (result != TCL_OK) {
         return TCL_ERROR;
     }
+    frame.objc = objc;
+    frame.objv = objv;  /* ref counts do not need to be incremented here */
 
     if (objc == 4) {
         result = Tcl_EvalObjEx(interp, objv[3], 0);

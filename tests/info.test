@@ -338,6 +338,11 @@ test info-9.9 {info level option} {
     proc t1 {x} {info level $x}
     list [catch {t1 -3} msg] $msg
 } {1 {bad level "-3"}}
+test info-9.10 {info level option, namespaces} {
+    set msg [namespace eval t {info level 0}]
+    namespace delete t
+    set msg
+} {namespace eval t {info level 0}}
 
 set savedLibrary $tcl_library
 test info-10.1 {info library option} {
