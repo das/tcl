@@ -765,6 +765,12 @@ Tcl_AfterObjCmd(clientData, interp, objc, objv)
      */
 
     if (assocPtr == NULL) {
+	Tcl_Command token = Tcl_GetCommandFromObj(interp, objv[0]);
+	Tcl_Command originalToken = TclGetOriginalCommand(token);
+
+	if (originalToken != NULL) {
+	    token = originalToken;
+	}
 	assocPtr = (AfterAssocData *) ckalloc(sizeof(AfterAssocData));
 	assocPtr->interp = interp;
 	assocPtr->firstAfterPtr = NULL;
@@ -776,8 +782,8 @@ Tcl_AfterObjCmd(clientData, interp, objc, objv)
 	cmdInfo.objClientData = (ClientData) assocPtr;
 	cmdInfo.deleteProc = NULL;
 	cmdInfo.deleteData = (ClientData) assocPtr;
-	Tcl_SetCommandInfo(interp, Tcl_GetStringFromObj(objv[0], &length),
-		&cmdInfo);
+
+	Tcl_SetCommandInfoFromToken(token, &cmdInfo);
     }
 
     /*
