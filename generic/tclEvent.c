@@ -688,7 +688,7 @@ TclInitSubsystems(argv0)
 	     * interesting happens so we can use the allocators in the
 	     * implementation of self-initializing locks.
 	     */
-#ifdef USE_TCLALLOC
+#if USE_TCLALLOC
 	    TclInitAlloc();
 #endif
 #ifdef TCL_MEM_DEBUG
