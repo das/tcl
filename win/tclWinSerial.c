@@ -154,16 +154,20 @@ static int       SerialSetOptionProc _ANSI_ARGS_((ClientData instanceData,
  */
 
 static Tcl_ChannelType serialChannelType = {
-    "serial",               /* Type name. */
-    SerialBlockProc,        /* Set blocking or non-blocking mode.*/
-    SerialCloseProc,        /* Close proc. */
-    SerialInputProc,        /* Input proc. */
-    SerialOutputProc,       /* Output proc. */
-    NULL,                   /* Seek proc. */
-    SerialSetOptionProc,    /* Set option proc. */
-    SerialGetOptionProc,    /* Get option proc. */
-    SerialWatchProc,        /* Set up notifier to watch the channel. */
-    SerialGetHandleProc,    /* Get an OS handle from channel. */
+    "serial",			/* Type name. */
+    TCL_CHANNEL_VERSION_2,	/* v2 channel */
+    SerialCloseProc,		/* Close proc. */
+    SerialInputProc,		/* Input proc. */
+    SerialOutputProc,		/* Output proc. */
+    NULL,			/* Seek proc. */
+    SerialSetOptionProc,	/* Set option proc. */
+    SerialGetOptionProc,	/* Get option proc. */
+    SerialWatchProc,		/* Set up notifier to watch the channel. */
+    SerialGetHandleProc,	/* Get an OS handle from channel. */
+    NULL,			/* close2proc. */
+    SerialBlockProc,		/* Set blocking or non-blocking mode.*/
+    NULL,			/* flush proc. */
+    NULL,			/* handler proc. */
 };
 
 /*
@@ -1043,7 +1047,7 @@ SerialSetOptionProc(instanceData, interp, optionName, value)
 {
     SerialInfo *infoPtr;
     DCB dcb;
-    size_t len;
+    int len;
     BOOL result;
     Tcl_DString ds;
     TCHAR *native;
@@ -1119,7 +1123,7 @@ SerialGetOptionProc(instanceData, interp, optionName, dsPtr)
 {
     SerialInfo *infoPtr;
     DCB dcb;
-    size_t len;
+    int len;
     int valid = 0;  /* flag if valid option parsed */
 
     infoPtr = (SerialInfo *) instanceData;
