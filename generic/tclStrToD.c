@@ -57,7 +57,7 @@ typedef unsigned int fpu_control_t __attribute__ ((__mode__ (__HI__)));
 #define _FPU_SETCW(cw) __asm__ ("fldcw %0" : : "m" (*&cw))
 #endif
 
-TCL_DECLARE_MUTEX( initMutex );
+TCL_DECLARE_MUTEX( initMutex )
 
 /* The powers of ten that can be represented exactly as IEEE754 doubles. */
 
