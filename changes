@@ -3664,3 +3664,8 @@ close in a fileevent script are actually reflected by the close command. (BW)
 10/30/98 (bug fix) Overhaul of pkg_mkIndex to deal with transitive
 package requires and packages split among scripts and binary files.
 Also fixed ommision of global for errorInfo in tcl_findLibrary. (BW)
+
+11/08/98 (bug fix) Fixed TclMacRegisterResourceFork to always detect the case where a file 
+is opened a second time with the same permissions.  In IM, it claims that this will
+always cause the same FileRef to be returned, but in MacOS 8.1+, this is no longer the
+case, so we have to test for this explicitly.
