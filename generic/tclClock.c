@@ -258,7 +258,7 @@ FormatClock(interp, clockVal, useGMT, format)
     char *format;			/* Format string */
 {
     struct tm *timeDataPtr;
-    Tcl_DString buffer;
+    Tcl_DString buffer, uniBuffer;
     int bufSize;
     char *p;
     int result;
@@ -360,7 +360,16 @@ FormatClock(interp, clockVal, useGMT, format)
 	return TCL_ERROR;
     }
 
-    Tcl_SetStringObj(Tcl_GetObjResult(interp), buffer.string, -1);
+    /*
+     * Convert the time to external encoding, in case we asked for
+     * a localized return value.  [Bug: 3345]
+     */
+    Tcl_DStringInit(&uniBuffer);
+    Tcl_ExternalToUtfDString(NULL, buffer.string, -1, &uniBuffer);
+
+    Tcl_SetStringObj(Tcl_GetObjResult(interp), uniBuffer.string, -1);
+
+    Tcl_DStringFree(&uniBuffer);
     Tcl_DStringFree(&buffer);
     return TCL_OK;
 }
