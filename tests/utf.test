@@ -141,7 +141,9 @@ bsCheck \\	92
 bsCheck \Ca	67
 bsCheck \Ma	77
 bsCheck \CMa	67
-bsCheck \8a	8
+# prior to 8.3, this returned 8, as \8 as accepted as an
+# octal value - but it isn't! [Bug: 3975]
+bsCheck \8a	56
 bsCheck \14	12
 bsCheck \141	97
 bsCheck b\0	98
