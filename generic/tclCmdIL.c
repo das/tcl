@@ -375,8 +375,8 @@ Tcl_InfoObjCmd(clientData, interp, objc, objv)
 	    IHostnameIdx, ILevelIdx, ILibraryIdx, ILoadedIdx,
 	    ILocalsIdx, INameOfExecutableIdx, IPatchLevelIdx, IProcsIdx,
 	    IScriptIdx, ISharedLibExtensionIdx, ITclVersionIdx, IVarsIdx
-    } index;
-    int result;
+    };
+    int index, result;
 
     if (objc < 2) {
         Tcl_WrongNumArgs(interp, 1, objv, "option ?arg arg ...?");

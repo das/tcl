@@ -2438,8 +2438,8 @@ Tcl_NamespaceObjCmd(clientData, interp, objc, objv)
 	    NSEvalIdx, NSExportIdx, NSForgetIdx, NSImportIdx,
 	    NSInscopeIdx, NSOriginIdx, NSParentIdx, NSQualifiersIdx,
 	    NSTailIdx, NSWhichIdx
-    } index;
-    int result;
+    };
+    int index, result;
 
     if (objc < 2) {
         Tcl_WrongNumArgs(interp, 1, objv, "subcommand ?arg ...?");

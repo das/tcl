@@ -1475,10 +1475,10 @@ Tcl_FcopyObjCmd(dummy, interp, objc, objv)
     Tcl_Channel inChan, outChan;
     char *arg;
     int mode, i;
-    int toRead;
+    int toRead, index;
     Tcl_Obj *cmdPtr;
     static char* switches[] = { "-size", "-command", NULL };
-    enum { FcopySize, FcopyCommand } index;
+    enum { FcopySize, FcopyCommand };
 
     if ((objc < 3) || (objc > 7) || (objc == 4) || (objc == 6)) {
 	Tcl_WrongNumArgs(interp, 1, objv,
