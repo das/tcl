@@ -293,7 +293,7 @@ reference to it from the formal parameter.
 When the called procedure returns,
 the interpreter calls \fBTcl_DecrRefCount\fR to decrement
 each argument's reference count.
-When an object's reference count drops to zero,
+When an object's reference count drops less than or equal to zero,
 \fBTcl_DecrRefCount\fR reclaims its storage.
 Most command procedures do not have to be concerned about
 reference counting since they use an object's value immediately

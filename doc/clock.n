@@ -74,11 +74,11 @@ AM/PM indicator.
 .IP \fB%S\fR
 Seconds (00 - 59).
 .IP \fB%U\fR
-Week of year (01 - 52), Sunday is the first day of the week.
+Week of year (00 - 52), Sunday is the first day of the week.
 .IP \fB%w\fR
 Weekday number (Sunday = 0).
 .IP \fB%W\fR
-Week of year (01 - 52), Monday is the first day of the week.
+Week of year (00 - 52), Monday is the first day of the week.
 .IP \fB%x\fR
 Locale specific date format.
 .IP \fB%X\fR

@@ -291,7 +291,7 @@ If this variable exists, then the interpreter
 was compiled with threads enabled.
 .TP
 \fBuser\fR
-Either \fBwindows\fR, \fBmacintosh\fR, or \fBunix\fR.  This identifies the
+This identifies the
 current user based on the login information available on the platform.
 This comes from the USER or LOGNAME environment variable on Unix,
 and the value from GetUserName on Windows and Macintosh.
