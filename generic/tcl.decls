@@ -1680,8 +1680,12 @@ declare 479 generic {
 }
 declare 480 generic {
     void Tcl_FSMountsChanged(Tcl_Filesystem *fsPtr)
-}
-		  
+}	  
+# New function due to TIP#56
+#declare 481 generic {
+#    int Tcl_EvalTokensStandard(Tcl_Interp *interp, Tcl_Token *tokenPtr, int count)
+#}
+ 
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are
