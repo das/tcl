@@ -164,6 +164,14 @@ foreach color [array names colorcount] {
     Color: green Count: 5
     Color: red Count: 1
 
+foreach color [lsort [array names colorcount]] {
+    puts "Color: $color Count: $colorcount($color)"
+}
+ => Color: blue Count: 4
+    Color: green Count: 5
+    Color: red Count: 1
+    Color: white Count: 9
+
 array statistics colorcount
  => 4 entries in table, 4 buckets
     number of buckets with 0 entries: 1
