@@ -38,9 +38,9 @@ set oldlocale [::msgcat::mclocale]
 # some tests fail in tne environment variable LANG exists and is not C
 
 if {[info exists env(LANG)] && ($env(LANG) != "C")} {
-    set ::tcltest::testConfig(LANGisC) 0
+    set ::tcltest::testConstraints(LANGisC) 0
 } else {
-    set ::tcltest::testConfig(LANGisC) 1
+    set ::tcltest::testConstraints(LANGisC) 1
 }
 
 #

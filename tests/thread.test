@@ -19,10 +19,10 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 
 # Some tests require the testthread command
 
-set ::tcltest::testConfig(testthread) \
+set ::tcltest::testConstraints(testthread) \
 	[expr {[info commands testthread] != {}}]
 
-if {$::tcltest::testConfig(testthread)} {
+if {$::tcltest::testConstraints(testthread)} {
 
     testthread errorproc ThreadError
 

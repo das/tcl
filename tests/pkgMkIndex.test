@@ -323,7 +323,7 @@ test pkgMkIndex-9.1 {circular packages} {
 set x [file join [file dirname [info nameofexecutable]] dltest \
 	pkga[info sharedlibextension]]
 set dll "[file tail $x]Required"
-set ::tcltest::testConfig($dll) [file exists $x]
+set ::tcltest::testConstraints($dll) [file exists $x]
 
 test pkgMkIndex-10.1 {package in DLL and script} $dll {
     file copy -force $x $fullPkgPath

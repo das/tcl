@@ -69,7 +69,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 
 # Some tests require the testthread command
 
-set ::tcltest::testConfig(testthread) \
+set ::tcltest::testConstraints(testthread) \
 	[expr {[info commands testthread] != {}}]
 
 #
@@ -149,7 +149,7 @@ if {$doTestsWithRemoteServer} {
 }
 
 # Some tests are run only if we are doing testing against a remote server.
-set ::tcltest::testConfig(doTestsWithRemoteServer) $doTestsWithRemoteServer
+set ::tcltest::testConstraints(doTestsWithRemoteServer) $doTestsWithRemoteServer
 if {$doTestsWithRemoteServer == 0} {
     if {[string first s $::tcltest::verbose] != -1} {
     	puts "Skipping tests with remote server. See tests/socket.test for"

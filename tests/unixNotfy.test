@@ -21,7 +21,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import ::tcltest::*
 }
 
-set ::tcltest::testConfig(testthread) \
+set ::tcltest::testConstraints(testthread) \
 	[expr {[info commands testthread] != {}}]
 
 # The next two tests will hang if threads are enabled because the notifier

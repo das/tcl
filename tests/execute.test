@@ -27,7 +27,7 @@ catch {unset x}
 catch {unset y}
 catch {unset msg}
 
-set ::tcltest::testConfig(testobj) \
+set ::tcltest::testConstraints(testobj) \
 	[expr {[info commands testobj] != {} \
 	&& [info commands testdoubleobj] != {} \
 	&& [info commands teststringobj] != {} \

@@ -5100,7 +5100,7 @@ test io-40.2 {POSIX open access modes: CREAT} {unixOnly} {
 
 # some tests can only be run is umask is 2
 # if "umask" cannot be run, the tests will be skipped.
-catch {set ::tcltest::testConfig(umask2) [expr {[exec umask] == 2}]}
+catch {set ::tcltest::testConstraints(umask2) [expr {[exec umask] == 2}]}
 
 test io-40.3 {POSIX open access modes: CREAT} {unixOnly umask2} {
     # This test only works if your umask is 2, like ouster's.

@@ -16,11 +16,11 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import ::tcltest::*
 }
 
-set ::tcltest::testConfig(testfilehandler) \
+set ::tcltest::testConstraints(testfilehandler) \
 	[expr {[info commands testfilehandler] != {}}]
-set ::tcltest::testConfig(testexithandler) \
+set ::tcltest::testConstraints(testexithandler) \
 	[expr {[info commands testexithandler] != {}}]
-set ::tcltest::testConfig(testfilewait) \
+set ::tcltest::testConstraints(testfilewait) \
 	[expr {[info commands testfilewait] != {}}]
 
 

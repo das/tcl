@@ -31,12 +31,12 @@ set ext [info sharedlibextension]
 set testDir [file join [file dirname [info nameofexecutable]] dltest]
 set x [file join $testDir pkga$ext]
 set dll "[file tail $x]Required"
-set ::tcltest::testConfig($dll) [file readable $x]
+set ::tcltest::testConstraints($dll) [file readable $x]
 
 # Tests also require that this DLL has not already been loaded.
 set loaded "[file tail $x]Loaded"
 set alreadyLoaded [info loaded]
-set ::tcltest::testConfig($loaded) \
+set ::tcltest::testConstraints($loaded) \
 	[expr {![string match *pkga* $alreadyLoaded]}]
 
 set alreadyTotalLoaded [info loaded]

@@ -20,7 +20,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 
 # Some tests require the testobj command
 
-set ::tcltest::testConfig(testobj) \
+set ::tcltest::testConstraints(testobj) \
 	[expr {[info commands testobj] != {}}]
 
 test string-1.1 {error conditions} {

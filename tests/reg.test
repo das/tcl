@@ -16,7 +16,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 # All tests require the testregexp command, return if this
 # command doesn't exist
 
-set ::tcltest::testConfig(testregexp) \
+set ::tcltest::testConstraints(testregexp) \
 	[expr {[info commands testregexp] != {}}]
 
 # This file uses some custom procedures, defined below, for regexp regression

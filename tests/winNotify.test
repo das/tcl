@@ -17,7 +17,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import ::tcltest::*
 }
 
-set ::tcltest::testConfig(testeventloop) \
+set ::tcltest::testConstraints(testeventloop) \
 	[expr {[info commands testeventloop] != {}}]
 
 # There is no explicit test for InitNotifier or NotifierExitHandler

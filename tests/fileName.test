@@ -1383,9 +1383,9 @@ test filename-16.11 {windows specific globbing} {pcOnly} {
 # some tests require a shared C drive
 
 if {[catch {cd //[info hostname]/c}]} {
-    set ::tcltest::testConfig(sharedCdrive) 0
+    set ::tcltest::testConstraints(sharedCdrive) 0
 } else {
-    set ::tcltest::testConfig(sharedCdrive) 1
+    set ::tcltest::testConstraints(sharedCdrive) 1
 }
 
 test filename-16.12 {windows specific globbing} {pcOnly sharedCdrive} {

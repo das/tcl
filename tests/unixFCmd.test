@@ -214,11 +214,11 @@ test unixFCmd-14.2 {GetPermissionsAttribute} {unixOnly notRoot} {
 
 # Find a group that exists on this system, or else skip tests that require
 # groups
-set ::tcltest::testConfig(foundGroup) 0
+set ::tcltest::testConstraints(foundGroup) 0
 catch {
     set groupList [exec groups]
     set group [lindex $groupList 0]
-    set ::tcltest::testConfig(foundGroup) 1
+    set ::tcltest::testConstraints(foundGroup) 1
 }
 
 #groups hard to test

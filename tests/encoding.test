@@ -26,7 +26,7 @@ proc fromutf {args} {
 
 # Some tests require the testencoding command
 
-set ::tcltest::testConfig(testencoding) \
+set ::tcltest::testConstraints(testencoding) \
 	[expr {[info commands testencoding] != {}}]
 
 

@@ -18,7 +18,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 }
 
 # Only run the test if we can load the AppleScript command
-set ::tcltest::testConfig(appleScript) [expr {[info commands AppleScript] != ""}]
+set ::tcltest::testConstraints(appleScript) [expr {[info commands AppleScript] != ""}]
 
 test osa-1.1 {Tcl_OSAComponentCmd} {macOnly appleScript} {
     list [catch AppleScript msg] $msg

@@ -20,7 +20,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 
 # All tests require the "exec" command.
 # Skip them if exec is not defined.
-set ::tcltest::testConfig(execCommandExists) [expr {[info commands exec] != ""}]
+set ::tcltest::testConstraints(execCommandExists) [expr {[info commands exec] != ""}]
 
 set f [open echo w]
 puts $f {
