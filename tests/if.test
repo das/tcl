@@ -1002,4 +1002,8 @@ test if-8.5 {if cmd with computed command names: return value} {
     $z 0 then {set a 22; concat abc} elseif 1 {concat def} {concat ghi}
 } def
 
+test if-9.1 {if cmd with namespace qualifiers} {
+    ::if {1} {set x 4}
+} 4
+
 return
