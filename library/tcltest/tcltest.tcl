@@ -650,9 +650,15 @@ namespace eval tcltest {
 	    file mkdir $directory
 	}
 	set directory [AcceptDirectory $directory]
-	if {![file writable $directory]} {
-	    return -code error "\"$directory\" is not writeable"
-	}
+	#
+	# Would be good to test that the -tmpdir is a writeable
+	# directory, but then we need a default value that we
+	# can guarantee will pass the writeability test, and there
+	# doesn't seem to be one.
+	#
+	#if {![file writable $directory]} {
+	#    return -code error "\"$directory\" is not writeable"
+	#}
 	return $directory
     }
 
