@@ -793,6 +793,7 @@ TclStubs tclStubs = {
     Tcl_CreateThread, /* 393 */
     Tcl_ReadRaw, /* 394 */
     Tcl_WriteRaw, /* 395 */
+    Tcl_GetTopChannel, /* 396 */
 };
 
 /* !END!: Do not edit above this line. */

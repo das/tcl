@@ -1364,6 +1364,9 @@ declare 394 generic {
 declare 395 generic {
     int Tcl_WriteRaw (Tcl_Channel chan, char *src, int srcLen)
 }
+declare 396 generic {
+    Tcl_Channel Tcl_GetTopChannel (Tcl_Channel chan)
+}
 
 ##############################################################################
 

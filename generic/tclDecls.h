@@ -1234,6 +1234,8 @@ EXTERN int		Tcl_ReadRaw _ANSI_ARGS_((Tcl_Channel chan,
 /* 395 */
 EXTERN int		Tcl_WriteRaw _ANSI_ARGS_((Tcl_Channel chan, 
 				char * src, int srcLen));
+/* 396 */
+EXTERN Tcl_Channel	Tcl_GetTopChannel _ANSI_ARGS_((Tcl_Channel chan));
 
 typedef struct TclStubHooks {
     struct TclPlatStubs *tclPlatStubs;
@@ -1697,6 +1699,7 @@ typedef struct TclStubs {
     int (*tcl_CreateThread) _ANSI_ARGS_((Tcl_ThreadId * idPtr, Tcl_ThreadCreateProc proc, ClientData clientData, int stackSize, int flags)); /* 393 */
     int (*tcl_ReadRaw) _ANSI_ARGS_((Tcl_Channel chan, char * dst, int bytesToRead)); /* 394 */
     int (*tcl_WriteRaw) _ANSI_ARGS_((Tcl_Channel chan, char * src, int srcLen)); /* 395 */
+    Tcl_Channel (*tcl_GetTopChannel) _ANSI_ARGS_((Tcl_Channel chan)); /* 396 */
 } TclStubs;
 
 #ifdef __cplusplus
@@ -3325,6 +3328,10 @@ extern TclStubs *tclStubsPtr;
 #ifndef Tcl_WriteRaw
 #define Tcl_WriteRaw \
 	(tclStubsPtr->tcl_WriteRaw) /* 395 */
+#endif
+#ifndef Tcl_GetTopChannel
+#define Tcl_GetTopChannel \
+	(tclStubsPtr->tcl_GetTopChannel) /* 396 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
