@@ -2401,7 +2401,7 @@ TclCallVarTraces(iPtr, arrayPtr, varPtr, part1, part2, flags, leaveErrMsg)
 				 * plus other stuff like TCL_GLOBAL_ONLY,
 				 * TCL_NAMESPACE_ONLY, and
 				 * TCL_INTERP_DESTROYED. */
-    CONST int leaveErrMsg;	/* If true, and one of the traces indicates an
+    int leaveErrMsg;	        /* If true, and one of the traces indicates an
 				 * error, then leave an error message and stack
 				 * trace information in *iPTr. */
 {
