@@ -269,6 +269,8 @@ InstructionDesc tclInstructionTable[] = {
 	 * stacked objs: stktop is old value, next is new element value, next 
 	 * come (operand-2) indices; pushes the new value.
 	 */
+    {"return",		  1,   -1,          0,   {OPERAND_NONE}},
+	/* return TCL_RETURN code. */
     {0}
 };
 

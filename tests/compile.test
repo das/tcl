@@ -331,7 +331,7 @@ test compile-14.1 {testing errors in element name; segfault?} {} {
      list $msg1 $msg2
 } {{wrong # args: should be "error message ?errorInfo? ?errorCode?"} {can't read "abba": no such variable}}
 
-# Next 4 tests cover Tcl Bug 633204
+# Tests compile-15.* cover Tcl Bug 633204
 test compile-15.1 {proper TCL_RETURN code from [return]} {
     proc p {} {catch return}
     set result [p]

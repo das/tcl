@@ -1224,6 +1224,8 @@ TclExecuteByteCode(interp, codePtr)
     iPtr->stats.instructionCount[*pc]++;
 #endif
     switch (*pc) {
+    case INST_RETURN:
+	result = TCL_RETURN;
     case INST_DONE:
 	if (stackTop <= initStackTop) {
 	    stackTop--;

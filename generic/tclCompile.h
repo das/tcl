@@ -522,8 +522,10 @@ typedef struct ByteCode {
 #define INST_LSET_LIST			96
 #define INST_LSET_FLAT                  97
 
+#define INST_RETURN			98
+
 /* The last opcode */
-#define LAST_INST_OPCODE        	97
+#define LAST_INST_OPCODE        	98
 
 /*
  * Table describing the Tcl bytecode instructions: their name (for
