@@ -2014,6 +2014,9 @@ Tcl_PrintDouble(interp, value, dst)
 	    if ( c == '\0' ) {
 		*dst++ = '0';
 	    } else {
+		while ( ++exp < 0 ) {
+		    *dst++ = '0';
+		}
 		while ( c != '\0' ) {
 		    *dst++ = c;
 		    c = *++p;
