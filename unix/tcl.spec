@@ -43,9 +43,11 @@ rm -rf $RPM_BUILD_ROOT
 # then to create the files list for tk, uncomment tk, comment out tcl,
 # then rm -rf $RPM_BUILD_ROOT then rpm --short-circuit -bi then redo a find,
 # and remove the files in specific directories which suffice by themselves.
-%files -n tcl
+%files
 %defattr(-,root,root)
 %{directory}/lib
 %{directory}/bin
 %{directory}/include
-%{directory}/man
+%{directory}/man/man1
+%{directory}/man/man3
+%{directory}/man/mann
