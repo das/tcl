@@ -1,4 +1,4 @@
-# This file (iOUtil.test) tests the hookable TclStat(), TclAccess(),
+# This file (ioUtil.test) tests the hookable TclStat(), TclAccess(),
 # and Tcl_OpenFileChannel, routines in the file generic/tclIOUtils.c.
 # Sourcing this file into Tcl runs the tests and generates output for
 # errors. No output means no errors were found. 
