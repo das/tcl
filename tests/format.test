@@ -13,7 +13,8 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    source [file join [pwd] [file dirname [info script]] defs.tcl]
+    package require tcltest
+    namespae import ::tcltest::*
 }
 
 # The following code is needed because some versions of SCO Unix have

@@ -12,12 +12,14 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    source [file join [pwd] [file dirname [info script]] defs.tcl]
+    package require tcltest
+    namespace import ::tcltest::*
 }
 
-# temporarily copy the autoMkindex.tcl file from testsDir to tmpDir
-set origMkindexFile [file join $::tcltest::testsDir autoMkindex.tcl]
-set newMkindexFile [file join $::tcltest::workingDir autoMkindex.tcl]
+# temporarily copy the autoMkindex.tcl file from testsDirectory to
+# temporaryDirectory 
+set origMkindexFile [file join $::tcltest::testsDirectory autoMkindex.tcl]
+set newMkindexFile [file join $::tcltest::temporaryDirectory autoMkindex.tcl]
 if {![catch {file copy $origMkindexFile $newMkindexFile}]} {
     set removeAutoMkindex 1
 }

@@ -11,7 +11,8 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    source [file join [pwd] [file dirname [info script]] defs.tcl]
+    package require tcltest
+    namespace import ::tcltest::*
 }
 
 if {([catch {expr T1()} msg] == 1) && ($msg == {unknown math function "T1"})} {

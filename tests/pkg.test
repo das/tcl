@@ -13,14 +13,15 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    source [file join [pwd] [file dirname [info script]] defs.tcl]
+    package require tcltest
+	namespace import ::tcltest::*
 }
 
 # Do all this in a slave interp to avoid garbaging the
 # package list
 set i [interp create]
 interp eval $i [list set argv $argv]
-interp eval $i [list source [file join $::tcltest::testsDir defs.tcl]]
+interp eval $i [list source [file join $::tcltest::testsDirectory defs.tcl]]
 interp eval $i {
 
 eval package forget [package names]

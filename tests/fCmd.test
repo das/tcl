@@ -14,7 +14,8 @@
 #
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    source [file join [pwd] [file dirname [info script]] defs.tcl]
+    package require tcltest
+    namespace import ::tcltest::*
 }
 
 if {[string compare testgetplatform [info commands testgetplatform]] != 0} {

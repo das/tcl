@@ -17,7 +17,8 @@
 # the "testthread" command indicates that this is the case.
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    source [file join [pwd] [file dirname [info script]] defs.tcl]
+    package require tcltest
+	namespace import ::tcltest::*
 }
 
 set ::tcltest::testConfig(testthread) \
