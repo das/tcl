@@ -25,6 +25,12 @@
 #include <MoreFiles.h>
 #include <MoreFilesExtras.h>
 
+#ifdef __MSL__
+#include <unix.mac.h>
+#define TCL_FILE_CREATOR (__getcreator(0))
+#else
+#define TCL_FILE_CREATOR 'MPW '
+#endif
 
 /*
  * The following are flags returned by GetOpenMode.  They
@@ -862,7 +868,7 @@ OpenFileChannel(
     }
 
     if ((err == fnfErr) && (mode & TCL_CREAT)) {
-	err = HCreate(fileSpec.vRefNum, fileSpec.parID, fileSpec.name, 'MPW ', 'TEXT');
+	err = HCreate(fileSpec.vRefNum, fileSpec.parID, fileSpec.name, TCL_FILE_CREATOR, 'TEXT');
 	if (err != noErr) {
 	    *errorCodePtr = errno = TclMacOSErrorToPosixError(err);
 	    Tcl_SetErrno(errno);
