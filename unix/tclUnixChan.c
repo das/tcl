@@ -1659,6 +1659,23 @@ TcpGetOptionProc(instanceData, interp, optionName, dsPtr)
         len = strlen(optionName);
     }
 
+    if ((len > 1) && (optionName[1] == 'e') &&
+                    (strncmp(optionName, "-error", len) == 0)) {
+       int optlen;
+       int err, ret;
+    
+       optlen = sizeof(int);
+       ret = getsockopt(statePtr->fd, SOL_SOCKET, SO_ERROR,
+                        (char *)&err, &optlen);
+       if (ret < 0) {
+           err = errno;
+       }
+       if (err != 0) {
+           Tcl_DStringAppend(dsPtr, Tcl_ErrnoMsg(err), -1);
+       }
+       return TCL_OK;
+    }
+
     if ((len == 0) ||
             ((len > 1) && (optionName[1] == 'p') &&
                     (strncmp(optionName, "-peername", len) == 0))) {
