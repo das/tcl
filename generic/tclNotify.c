@@ -8,6 +8,7 @@
  *	tcl*Notify.c files in each platform directory.
  *
  * Copyright (c) 1995-1997 Sun Microsystems, Inc.
+ * Copyright (c) 1998 by Scriptics Corporation.
  *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -341,9 +342,12 @@ Tcl_DeleteEvents(proc, clientData)
         if ((*proc) (evPtr, clientData) == 1) {
             if (notifier.firstEventPtr == evPtr) {
                 notifier.firstEventPtr = evPtr->nextPtr;
-                if (evPtr->nextPtr == (Tcl_Event *) NULL) {
-                    notifier.lastEventPtr = (Tcl_Event *) NULL;
+                if (evPtr->nextPtr == NULL) {
+                    notifier.lastEventPtr = prevPtr;
                 }
+		if (notifier.markerEventPtr == evPtr) {
+		    notifier.markerEventPtr = prevPtr;
+		}
             } else {
                 prevPtr->nextPtr = evPtr->nextPtr;
             }
