@@ -125,6 +125,7 @@ test winDde-4.2 {DDE execute remotely} {stdio pcOnly} {
     set a ""
     set child [createChildProcess child]
     dde execute -async TclEval child {set a "foo"}
+    update
     dde execute TclEval child {set done 1}
 
     set a
