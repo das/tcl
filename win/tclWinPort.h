@@ -190,7 +190,7 @@
 #define EUSERS		94	/* Too many users (for UFS) */
 #endif
 #ifndef EDQUOT
-#define EDQUOT		49	/* Disc quota exceeded */
+#define EDQUOT		69	/* Disc quota exceeded */
 #endif
 #ifndef ESTALE
 #define ESTALE		151	/* Stale NFS file handle */
