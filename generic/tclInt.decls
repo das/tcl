@@ -806,6 +806,10 @@ declare 198 generic {
 	    CallFrame **framePtrPtr)
 }
 
+declare 199 generic {
+    int TclMatchIsTrivial(CONST char *pattern)
+}
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are

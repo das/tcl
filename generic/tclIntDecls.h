@@ -1019,6 +1019,11 @@ EXTERN int		TclCompEvalObj _ANSI_ARGS_((Tcl_Interp * interp,
 EXTERN int		TclObjGetFrame _ANSI_ARGS_((Tcl_Interp * interp, 
 				Tcl_Obj * objPtr, CallFrame ** framePtrPtr));
 #endif
+#ifndef TclMatchIsTrivial_TCL_DECLARED
+#define TclMatchIsTrivial_TCL_DECLARED
+/* 199 */
+EXTERN int		TclMatchIsTrivial _ANSI_ARGS_((CONST char * pattern));
+#endif
 
 typedef struct TclIntStubs {
     int magic;
@@ -1238,6 +1243,7 @@ typedef struct TclIntStubs {
     void (*tclFinalizeThreadStorageDataKey) _ANSI_ARGS_((Tcl_ThreadDataKey * keyPtr)); /* 196 */
     int (*tclCompEvalObj) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Obj * objPtr)); /* 197 */
     int (*tclObjGetFrame) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Obj * objPtr, CallFrame ** framePtrPtr)); /* 198 */
+    int (*tclMatchIsTrivial) _ANSI_ARGS_((CONST char * pattern)); /* 199 */
 } TclIntStubs;
 
 #ifdef __cplusplus
@@ -1920,6 +1926,10 @@ extern TclIntStubs *tclIntStubsPtr;
 #ifndef TclObjGetFrame
 #define TclObjGetFrame \
 	(tclIntStubsPtr->tclObjGetFrame) /* 198 */
+#endif
+#ifndef TclMatchIsTrivial
+#define TclMatchIsTrivial \
+	(tclIntStubsPtr->tclMatchIsTrivial) /* 199 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
