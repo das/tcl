@@ -4010,7 +4010,7 @@ Tcl_GlobalObjCmd(dummy, interp, objc, objv)
         while ((tail > varName) && ((*tail != ':') || (*(tail-1) != ':'))) {
             tail--;
 	}
-        if (*tail == ':') {
+        if ((*tail == ':') && (tail > varName)) {
             tail++;
 	}
 
