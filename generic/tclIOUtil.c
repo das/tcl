@@ -1718,7 +1718,28 @@ Tcl_FSOpenFileChannel(interp, pathPtr, modeString, permissions)
     if (fsPtr != NULL) {
 	Tcl_FSOpenFileChannelProc *proc = fsPtr->openFileChannelProc;
 	if (proc != NULL) {
-	    return (*proc)(interp, pathPtr, modeString, permissions);
+	    int mode, seekFlag;
+	    mode = TclGetOpenMode(interp, modeString, &seekFlag);
+	    if (mode == -1) {
+	        return NULL;
+	    }
+	    retVal = (*proc)(interp, pathPtr, mode, permissions);
+	    if (retVal != NULL) {
+		if (seekFlag) {
+		    if (Tcl_Seek(retVal, (Tcl_WideInt)0, 
+				 (Tcl_WideInt)SEEK_END) < (Tcl_WideInt)0) {
+			if (interp != (Tcl_Interp *) NULL) {
+			    Tcl_AppendResult(interp,
+			      "could not seek to end of file while opening \"",
+			      Tcl_GetString(pathPtr), "\": ", 
+			      Tcl_PosixError(interp), (char *) NULL);
+			}
+			Tcl_Close(NULL, retVal);
+			return NULL;
+		    }
+		}
+	    }
+	    return retVal;
 	}
     }
     /* File doesn't belong to any filesystem that can open it */
