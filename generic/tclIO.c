@@ -8178,41 +8178,13 @@ int
 Tcl_GetChannelNames(interp)
     Tcl_Interp *interp;		/* Interp for error reporting. */
 {
-    return Tcl_GetChannelNamesEx(interp, (char *) NULL);
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * Tcl_GetChannelNamesEx --
- *
- *	Return the names of open channels in the interp filtered
- *	filtered through a pattern.  If pattern is NULL, it returns
- *	all the open channels.
- *
- * Results:
- *	TCL_OK or TCL_ERROR.
- *
- * Side effects:
- *	Interp result modified with list of channel names.
- *
- *----------------------------------------------------------------------
- */
-
-int
-Tcl_GetChannelNamesEx(interp, pattern)
-    Tcl_Interp *interp;		/* Interp for error reporting. */
-    char *pattern;		/* pattern to filter on. */
-{
     Channel *chanPtr;
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
     char *name;
-    Tcl_Obj *resultPtr;
 
-    resultPtr = Tcl_GetObjResult(interp);
-    for (chanPtr = tsdPtr->firstChanPtr;
-	 chanPtr != NULL;
-	 chanPtr = chanPtr->nextChanPtr) {
+    Tcl_ResetResult(interp);
+    chanPtr = tsdPtr->firstChanPtr;
+    while (chanPtr != NULL) {
         if (chanPtr == (Channel *) tsdPtr->stdinChannel) {
 	    name = "stdin";
 	} else if (chanPtr == (Channel *) tsdPtr->stdoutChannel) {
@@ -8222,11 +8194,8 @@ Tcl_GetChannelNamesEx(interp, pattern)
 	} else {
 	    name = chanPtr->channelName;
 	}
-	if (((pattern == NULL) || Tcl_StringMatch(name, pattern)) &&
-		(Tcl_ListObjAppendElement(interp, resultPtr,
-			Tcl_NewStringObj(name, -1)) != TCL_OK)) {
-	    return TCL_ERROR;
-	}
+	Tcl_AppendElement(interp, name);
+	chanPtr = chanPtr->nextChanPtr;
     }
     return TCL_OK;
 }

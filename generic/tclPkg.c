@@ -872,7 +872,7 @@ CheckVersion(interp, string)
 {
     char *p = string;
     char prevChar;
-    
+
     if (!isdigit(UCHAR(*p))) {	/* INTL: digit */
 	goto error;
     }

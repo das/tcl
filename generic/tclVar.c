@@ -2845,11 +2845,10 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 
     enum {ARRAY_ANYMORE, ARRAY_DONESEARCH,  ARRAY_EXISTS, ARRAY_GET,
 	  ARRAY_NAMES, ARRAY_NEXTELEMENT, ARRAY_SET, ARRAY_SIZE,
-	  ARRAY_STARTSEARCH, ARRAY_UNSET}; 
-    static char *arrayOptions[] = {
-	"anymore", "donesearch", "exists", "get", "names", "nextelement",
-	"set", "size", "startsearch", "unset", (char *) NULL
-    };
+	  ARRAY_STARTSEARCH}; 
+    static char *arrayOptions[] = {"anymore", "donesearch", "exists",
+				   "get", "names", "nextelement", "set",
+				   "size", "startsearch", (char *) NULL};
 
     Interp *iPtr = (Interp *) interp;
     Var *varPtr, *arrayPtr;
@@ -3160,46 +3159,6 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 		    &searchPtr->search);
 	    searchPtr->nextPtr = varPtr->searchPtr;
 	    varPtr->searchPtr = searchPtr;
-	    break;
-	}
-        case ARRAY_UNSET: {
-	    Tcl_HashSearch search;
-	    Var *varPtr2;
-	    char *pattern = NULL;
-	    char *name;
-          
-	    if ((objc != 3) && (objc != 4)) {
-		Tcl_WrongNumArgs(interp, 2, objv, "arrayName ?pattern?");
-		return TCL_ERROR;
-	    }
-	    if (notArray) {
-		return TCL_OK;
-	    }
-	    if (objc == 3) {
-		/*
-		 * When no pattern is given, just unset the whole array
-		 */
-		if (Tcl_UnsetVar2(interp, varName, (char *) NULL, 0)
-			!= TCL_OK) {
-		    return TCL_ERROR;
-		}
-	    } else {
-		pattern = Tcl_GetString(objv[3]);
-		for (hPtr = Tcl_FirstHashEntry(varPtr->value.tablePtr,
-			&search);
-		     hPtr != NULL; hPtr = Tcl_NextHashEntry(&search)) {
-		    varPtr2 = (Var *) Tcl_GetHashValue(hPtr);
-		    if (TclIsVarUndefined(varPtr2)) {
-			continue;
-		    }
-		    name = Tcl_GetHashKey(varPtr->value.tablePtr, hPtr);
-		    if (Tcl_StringMatch(name, pattern) &&
-			    (Tcl_UnsetVar2(interp, varName, name, 0)
-				    != TCL_OK)) {
-			return TCL_ERROR;
-		    }
-		}
-	    }
 	    break;
 	}
     }

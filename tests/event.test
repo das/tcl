@@ -23,6 +23,7 @@ set ::tcltest::testConstraints(testexithandler) \
 set ::tcltest::testConstraints(testfilewait) \
 	[expr {[info commands testfilewait] != {}}]
 
+
 test event-1.1 {Tcl_CreateFileHandler, reading} {testfilehandler} {
     testfilehandler close
     testfilehandler create 0 readable off
@@ -367,7 +368,7 @@ test event-11.3 {Tcl_VwaitCmd procedure} {
     set x 1
     list [catch {vwait x(1)} msg] $msg
 } {1 {can't trace "x(1)": variable isn't array}}
-test event-11.4 {Tcl_VwaitCmd procedure} {} {
+test event-11.4 {Tcl_VwaitCmd procedure} {
     foreach i [after info] {
 	after cancel $i
     }

@@ -126,19 +126,19 @@ Tcl_RegexpObjCmd(dummy, interp, objc, objv)
     int objc;				/* Number of arguments. */
     Tcl_Obj *CONST objv[];		/* Argument objects. */
 {
-    int i, indices, match, about, offset;
+    int i, indices, match, about;
     int cflags, eflags;
     Tcl_RegExp regExpr;
     Tcl_Obj *objPtr;
     Tcl_RegExpInfo info;
     static char *options[] = {
 	"-indices",	"-nocase",	"-about",	"-expanded",
-	"-line",	"-linestop",	"-lineanchor",	"-start",
+	"-line",	"-linestop",	"-lineanchor",
 	"--",		(char *) NULL
     };
     enum options {
 	REGEXP_INDICES, REGEXP_NOCASE,	REGEXP_ABOUT,	REGEXP_EXPANDED,
-	REGEXP_LINE,	REGEXP_LINESTOP, REGEXP_LINEANCHOR,	REGEXP_START,
+	REGEXP_LINE,	REGEXP_LINESTOP, REGEXP_LINEANCHOR,
 	REGEXP_LAST
     };
 
@@ -146,7 +146,6 @@ Tcl_RegexpObjCmd(dummy, interp, objc, objv)
     about = 0;
     cflags = TCL_REG_ADVANCED;
     eflags = 0;
-    offset = 0;
     
     for (i = 1; i < objc; i++) {
 	char *name;
@@ -189,18 +188,6 @@ Tcl_RegexpObjCmd(dummy, interp, objc, objv)
 		cflags |= TCL_REG_NLANCH;
 		break;
 	    }
-	    case REGEXP_START: {
-		if (++i >= objc) {
-		    goto endOfForLoop;
-		}
-		if (Tcl_GetIntFromObj(interp, objv[i], &offset) != TCL_OK) {
-		    return TCL_ERROR;
-		}
-		if (offset < 0) {
-		    offset = 0;
-		}
-		break;
-	    }
 	    case REGEXP_LAST: {
 		i++;
 		goto endOfForLoop;
@@ -230,15 +217,7 @@ Tcl_RegexpObjCmd(dummy, interp, objc, objv)
 	return TCL_OK;
     }
 
-    if (offset > 0) {
-	/*
-	 * Add flag if using offset (string is part of a larger string),
-	 * so that "^" won't match.
-	 */
-	eflags |= TCL_REG_NOTBOL;
-    }
-
-    match = Tcl_RegExpExecObj(interp, regExpr, objPtr, offset /* offset */,
+    match = Tcl_RegExpExecObj(interp, regExpr, objPtr, 0 /* offset */,
 	    objc-2 /* nmatches */, eflags);
 
     if (match < 0) {
@@ -273,15 +252,15 @@ Tcl_RegexpObjCmd(dummy, interp, objc, objv)
 	    Tcl_Obj *objs[2];
 
 	    if (i <= info.nsubs) {
-		start = offset + info.matches[i].start;
-		end = offset + info.matches[i].end;
+		start = info.matches[i].start;
+		end = info.matches[i].end;
 
 		/*
 		 * Adjust index so it refers to the last character in the
 		 * match instead of the first character after the match.
 		 */
 
-		if (end >= offset) {
+		if (end >= 0) {
 		    end--;
 		}
 	    } else {
@@ -295,8 +274,8 @@ Tcl_RegexpObjCmd(dummy, interp, objc, objv)
 	    newPtr = Tcl_NewListObj(2, objs);
 	} else {
 	    if (i <= info.nsubs) {
-		newPtr = Tcl_GetRange(objPtr, offset + info.matches[i].start,
-			offset + info.matches[i].end - 1);
+		newPtr = Tcl_GetRange(objPtr, info.matches[i].start,
+			info.matches[i].end - 1);
 	    } else {
 		newPtr = Tcl_NewObj();
 		
@@ -352,18 +331,17 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 
     static char *options[] = {
 	"-all",		"-nocase",	"-expanded",
-	"-line",	"-linestop",	"-lineanchor",	"-start",
+	"-line",	"-linestop",	"-lineanchor",
 	"--",		NULL
     };
     enum options {
 	REGSUB_ALL,	REGSUB_NOCASE,	REGSUB_EXPANDED,
-	REGSUB_LINE,	REGSUB_LINESTOP, REGSUB_LINEANCHOR,	REGSUB_START,
+	REGSUB_LINE,	REGSUB_LINESTOP, REGSUB_LINEANCHOR,
 	REGSUB_LAST
     };
 
     cflags = TCL_REG_ADVANCED;
     all = 0;
-    offset = 0;
 
     for (i = 1; i < objc; i++) {
 	char *name;
@@ -400,18 +378,6 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 	    }
 	    case REGSUB_LINEANCHOR: {
 		cflags |= TCL_REG_NLANCH;
-		break;
-	    }
-	    case REGSUB_START: {
-		if (++i >= objc) {
-		    goto endOfForLoop;
-		}
-		if (Tcl_GetIntFromObj(interp, objv[i], &offset) != TCL_OK) {
-		    return TCL_ERROR;
-		}
-		if (offset < 0) {
-		    offset = 0;
-		}
 		break;
 	    }
 	    case REGSUB_LAST: {
@@ -452,7 +418,8 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
      */
 
     numMatches = 0;
-    for ( ; offset < wlen; ) {
+    offset = 0;
+    for (offset = 0; offset < wlen; ) {
 	int start, end, subStart, subEnd, match;
 	char *src, *firstChar;
 	char c;
@@ -472,12 +439,6 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 	}
 	if (match == 0) {
 	    break;
-	}
-	if ((numMatches == 0) && (offset > 0)) {
-	    /* Copy the initial portion of the string in if an offset
-	     * was specified.
-	     */
-	    Tcl_AppendUnicodeToObj(resultPtr, wstring, offset);
 	}
 	numMatches++;
 
@@ -560,13 +521,7 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
      * result variable.
      */
 
-    if (numMatches == 0) {
-	/*
-	 * On zero matches, just ignore the offset, since it shouldn't
-	 * matter to us in this case, and the user may have skewed it.
-	 */
-	Tcl_AppendUnicodeToObj(resultPtr, wstring, wlen);
-    } else if (offset < wlen) {
+    if ((offset < wlen) || (numMatches == 0)) {
 	Tcl_AppendUnicodeToObj(resultPtr, wstring + offset, wlen - offset);
     }
     if (Tcl_ObjSetVar2(interp, varPtr, NULL, resultPtr, 0) == NULL) {
@@ -982,7 +937,8 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		    match = Tcl_UtfNcasecmp(string1, string2,
 			    (unsigned) length);
 		} else {
-		    match = Tcl_UtfNcmp(string1, string2, (unsigned) length);
+		    match = Tcl_UtfNcmp(string1, string2,
+			    (unsigned) length);
 		}
 		if ((match == 0) && (reqlength > length)) {
 		    match = length1 - length2;

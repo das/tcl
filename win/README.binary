@@ -5,7 +5,7 @@ RCS: @(#) $Id$
 1. Introduction
 --------------- 
 
-This directory contains the binary distribution of Tcl/Tk 8.2.0 for
+This directory contains the binary distribution of Tcl/Tk 8.2.1 for
 Windows.  It was compiled with Microsoft Visual C++ 5.0 using Win32
 API, so that it will run under Windows NT, Windows 95, and Windows 98.
 
@@ -32,7 +32,7 @@ Information about new features in Tcl/Tk 8.2 can be found at
     http://www.scriptics.com/software/whatsnew82.html
 
 Detailed release notes can be found at
-    http://www.scriptics.com/software/relnotes/tcl8.2.0
+    http://www.scriptics.com/software/relnotes/tcl8.2.1
 
 Information about Tcl itself can be found at
     http://www.scriptics.com/scripting/
@@ -127,7 +127,7 @@ resource center using the forms labeled "Add a Resource".
 10. Mailing lists
 ----------------
 
-A couple of mailing lists have been set up to discuss Macintosh or
+A couple of  Mailing List have been set up to discuss Macintosh or
 Windows related Tcl issues.  In order to use these Mailing Lists you
 must have access to the internet.  To subscribe send a message to:
 	
@@ -139,7 +139,7 @@ In the body of the message (the subject will be ignored) put:
 	subscribe mactcl Joe Blow
 	
 Replacing Joe Blow with your real name, of course.  (Use wintcl
-instead of mactcl if you're interested in the Windows list.)  If you
+instead of mactcl if your interested in the Windows list.)  If you
 would just like to receive more information about the list without
 subscribing put the line:
 

@@ -1,11 +1,4 @@
-1999-09-21  Jennifer Hom  <jenn@scriptics.com>
-
-	* library/tcltest1.0/tcltest.tcl: Applied patches sent in by
-	Andreas Kupries to fix typos in comments and ::tcltest::grep,
-	fix hook redefinition problems, and change "string compare" to
-	"string equal." [Bug: 2836, 2837, 2839, 2840]
-
-1999-09-20  Jeff Hobbs  <hobbs@scriptics.com>
+1999-09-21  Jeff Hobbs  <hobbs@scriptics.com>
 
 	* tests/env.test:
 	* unix/Makefile.in: added support for AIX LIBPATH env var [Bug:	2793]
@@ -13,15 +6,12 @@
 	referenced @includedir@) [Bug: 2805]
 	* unix/dltest/Makefile.in: added -lc to LIBS [Bug: 2794]
 
-1999-09-16  Jeff Hobbs  <hobbs@scriptics.com>
-
 	* tests/timer.test: changed after delay in timer test 6.29 from
 	1 to 10. [Bug: 2796]
 
 	* tests/pkg.test:
 	* generic/tclPkg.c: fixed package version check to disallow 1.2..3
 	[Bug: 2539]
-	
 
 	* unix/Makefile.in: fixed gendate target - this never worked
 	since RCS was intro'd.
@@ -37,14 +27,6 @@
 	for zero came through and NULL was returned (valid on AIX, Tru64)
 	[Bug: 2795, etc]
 
-	* tests/clock.test:
-	* doc/clock.n:
-	* generic/tclClock.c: added -milliseconds switch to clock clicks
-	to guarantee that the return value of clicks is in the millisecs
-	granularity [Bug: 2682, 1332]
-
-1999-09-15  Jeff Hobbs  <hobbs@scriptics.com>
-
 	* generic/tclIOCmd.c: fixed potential core dump in conjunction
 	with stacked channels with result obj manipulation in
 	Tcl_ReadChars [Bug: 2623]
@@ -52,31 +34,13 @@
 	* tests/format.test:
 	* generic/tclCmdAH.c: fixed translation of %0#s in format [Bug: 2605]
 
-	* doc/msgcat.n: fixed \\ bug in example [Bug: 2548]
-
-	* unix/tcl.m4:
-	* unix/aclocal.m4: added fix for FreeBSD-[1-2] recognition
-	[Bug: 2070] and fix for IRIX SHLIB_LB_LIBS. [Bug: 2610]
-
-	* doc/array.n:
-	* tests/var.test:
-	* tests/set.test:
-	* generic/tclVar.c: added an array unset operation, with docs
-	and tests.  Variation of [Bug: 1775].  Added fix in TclArraySet
+	* tests/set-old.test:
+	* generic/tclVar.c: Added fix in TclArraySet
 	to check when trying to set in a non-existent namespace. [Bug: 2613]
 
-1999-09-14  Jeff Hobbs  <hobbs@scriptics.com>
-
 	* tests/linsert.test:
-	* doc/linsert.n:
 	* generic/tclCmdIL.c: fixed end-int interpretation of linsert
 	to correctly calculate value for end, added test and docs [Bug: 2693]
-
-	* doc/regexp.n:
-	* doc/regsub.n:
-	* tests/regexp.test:
-	* generic/tclCmdMZ.c: add -start switch to regexp and regsub
-	with docs and tests
 
 	* doc/switch.n: added proper use of comments to example.
 	* generic/tclCmdMZ.c: changed switch to complain when an error
@@ -88,90 +52,30 @@
 	* generic/tclCmdMZ.c: changed [string equal] to return an Int
 	type object (was a Boolean)
 
-1999-09-01  Jeff Hobbs  <hobbs@scriptics.com>
-
 	* generic/tclParseExpr.c: changed '"' to '\"' to make FreeBSD
 	happy [Bug: 2625]
+
 	* generic/tclProc.c: moved static buf to better location and
 	changed static msg that would overflow in ProcessProcResultCode
 	[Bug: 2483] and added Tcl_DStringFree to Tcl_ProcObjCmd.
 	Also reworked size of static buffers.
+
 	* tests/stringObj.test: added test 9.11
 	* generic/tclStringObj.c: changed Tcl_AppendObjToObj to
 	properly handle the 1-byte dest and mixed src case where
 	both had had Unicode string len checks made on them.  [Bug: 2678]
+
 	* unix/aclocal.m4:
-	* unix/tcl.m4: adjusted fix from 8-21 to add -bnoentry to the
-	AIX-* case and readjusted the range
-
-1999-08-31  Jennifer Hom  <jenn@scriptics.com>
-
-	* library/tcltest1.0/tcltest.tcl:
-	* doc/tcltest.n:
-	* tests/README: Modified testConstraints variable so that it isn't
-	unset every time ::tcltest::initConstraints is called and cleaned up
-	documentation in the README file and the man page.
-
-1999-08-27  Jennifer Hom  <jenn@scriptics.com>
-
-	* library/tcltest1.0/tcltest.tcl:  Modified tcltest so that
-	variables are only initialized to their default values if they did
-	not previously exist. 
-
-1999-08-26  Jennifer Hom  <jenn@scriptics.com>
-
-	* tests/tcltest.test:
-	* library/tcltest1.0/tcltest.tcl:  Added a -args flag that sets a
-	variable named ::tcltest::parameters based on whatever's being
-	sent in as the argument to the -args flag. 
-
-1999-08-23  Jennifer Hom  <jenn@scriptics.com>
-
-	* tests/tcltest.test: Added additional tests for -tmpdir, marked
-	all tests that use exec as unixOrPc.
-
-	* tests/encoding.test:
-	* tests/interp.test: 
-	* tests/macFCmd.test:
-	* tests/parseOld.test:
-	* tests/regexp.test: Applied patches from Jim Ingham to add
-	encoding to a Mac only interp test, change an error message in
-	macFCmd.tet, put a comment in parseOld.test, fix tests using the
-	testencoding path command, and put unixOrPc constraints on tests
-	that use exec. 
-
-1999-08-21  Jeff Hobbs  <hobbs@scriptics.com>
-
-	* unix/aclocal.m4: Changed AIX-4.[2-9] check to AIX-4.[1-9]
-	[Bug: 1909]
-
-1999-08-20  Jeff Hobbs  <hobbs@scriptics.com>
+	* unix/tcl.m4: added -bnoentry to the AIX-* case [Bug: 1909]
+	added fix for FreeBSD-[1-2] recognition
+	[Bug: 2070] and fix for IRIX SHLIB_LB_LIBS. [Bug: 2610]
 
 	* generic/tclPosixStr.c: fixed typo [Bug: 2592]
 
-	* doc/*: fixed various nroff bugs in man pages [Bug: 2503 2588]
-
-1999-08-19  Jeff Hobbs  <hobbs@scriptics.com>
-
 	* win/README.binary: fixed version info and some typos [Bug: 2561]
-	
-	* doc/interp.n: updated list of commands available in a safe
-	interpreter [Bug: 2526]
 
 	* generic/tclIO.c: changed Tcl_GetChannelNames* to use style guide
 	headers (pleases HP cc)
-
-1999-08-18  Jeff Hobbs  <hobbs@scriptics.com>
-
-	* doc/Eval.3: fixed doc on input args [Bug: 2114]
-
-	* doc/OpenFileChnl.3:
-	* doc/file.n:
-	* tests/cmdAH.test:
-	* tclIO.c:
-	* tclCmdAH.c: added "file channels ?pattern?" tcl command, with
-	associated Tcl_GetChannelNames and Tcl_GetChannelNamesEx public
-	C APIs (added to tcl.decls as well), with docs and tests.
 
 	* tests/expr.test:
 	* generic/tclCompile.c: add TCL_TOKEN_VARIABLE to the part types
@@ -179,29 +83,10 @@
 	double-evaluation problem for vars.  Added test cases.
 	Related to [Bug: 732]
 
-	* unix/Makefile.in: changed the dependency structure so that
-	install-* is dependent on * (ie - install-binaries is dependent
-	on binaries).
-	
-	* library/auto.tcl:
-	* library/init.tcl:
-	* library/ldAout.tcl:
-	* library/package.tcl:
-	* library/safe.tcl:
-	* library/word.tcl:
-	* library/http2.1/http.tcl:
-	* library/msgcat1.0/msgcat.tcl: updated libraries to better
-	Tcl style guide (no more string comparisons with == or !=, spacing
-	changes).
-
 1999-08-05  Jim Ingham  <jingham@cygnus.com>
 
-	* mac/tclMacProjects.sea.hqx: Rearrange the projects so that the build
-	directory is separate from the sources.	 Much more convenient!
-
-1999-08-13  Scott Redman <redman@scriptics.com>
-
-	* /: 8.2.0 tagged for final release
+	* mac/tclMacProjects.sea.hqx: Rearrange the projects so that the build 
+	directory is separate from the sources.  Much more convenient! 
 
 1999-08-12  Scott Stanton  <stanton@scriptics.com>
 

@@ -793,8 +793,7 @@ Tcl_FileObjCmd(dummy, interp, objc, objv)
  */
 
     static char *fileOptions[] = {
-	"atime",	"attributes",	"channels",	"copy",
-	"delete",
+	"atime",	"attributes",	"copy",		"delete",
 	"dirname",	"executable",	"exists",	"extension",
 	"isdirectory",	"isfile",	"join",		"lstat",
 	"mtime",	"mkdir",	"nativename",	"owned",
@@ -804,8 +803,7 @@ Tcl_FileObjCmd(dummy, interp, objc, objv)
 	(char *) NULL
     };
     enum options {
-	FILE_ATIME,	FILE_ATTRIBUTES, FILE_CHANNELS,	FILE_COPY,
-	FILE_DELETE,
+	FILE_ATIME,	FILE_ATTRIBUTES, FILE_COPY,	FILE_DELETE,
 	FILE_DIRNAME,	FILE_EXECUTABLE, FILE_EXISTS,	FILE_EXTENSION,
 	FILE_ISDIRECTORY, FILE_ISFILE,	FILE_JOIN,	FILE_LSTAT,
 	FILE_MTIME,	FILE_MKDIR,	FILE_NATIVENAME, FILE_OWNED,
@@ -839,14 +837,6 @@ Tcl_FileObjCmd(dummy, interp, objc, objv)
 	}
 	case FILE_ATTRIBUTES: {
             return TclFileAttrsCmd(interp, objc, objv);
-	}
-	case FILE_CHANNELS: {
-	    if ((objc < 2) || (objc > 3)) {
-		Tcl_WrongNumArgs(interp, 2, objv, "?pattern?");
-		return TCL_ERROR;
-	    }
-	    return Tcl_GetChannelNamesEx(interp,
-		    ((objc == 2) ? NULL : Tcl_GetString(objv[2])));
 	}
 	case FILE_COPY: {
 	    int result;
@@ -1918,7 +1908,7 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
     int gotPrecision;		/* Non-zero indicates that a precision has
 				 * been set for the current field. */
     int gotZero;		/* Non-zero indicates that a zero flag has
-				 * been seen in the current field. */
+ 				 * been seen in the current field. */
 
     /*
      * This procedure is a bit nasty.  The goal is to use sprintf to
@@ -2016,13 +2006,13 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 	    if (*format == '-') {
 		gotMinus = 1;
 	    }
-	    if (*format == '0') {
-		/*
-		 * This will be handled by sprintf for numbers, but we
-		 * need to do the char/string ones ourselves
-		 */
-		gotZero = 1;
-	    }
+ 	    if (*format == '0') {
+ 		/*
+ 		 * This will be handled by sprintf for numbers, but we
+ 		 * need to do the char/string ones ourselves
+ 		 */
+ 		gotZero = 1;
+ 	    }
 	    *newPtr = *format;
 	    newPtr++;
 	    format++;

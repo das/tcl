@@ -426,23 +426,21 @@ Convert(Month, Day, Year, Hours, Minutes, Seconds, Meridian, DSTmode, TimePtr)
     time_t Julian;
     int i;
 
-    DaysInMonth[1] = (Year % 4 == 0) && (Year % 100 != 0 || Year % 400 == 0)
+    DaysInMonth[1] = Year % 4 == 0 && (Year % 100 != 0 || Year % 400 == 0)
                     ? 29 : 28;
     if (Month < 1 || Month > 12
-	    || Year < START_OF_TIME || Year > END_OF_TIME
-	    || Day < 1 || Day > DaysInMonth[(int)--Month])
+     || Year < START_OF_TIME || Year > END_OF_TIME
+     || Day < 1 || Day > DaysInMonth[(int)--Month])
         return -1;
 
     for (Julian = Day - 1, i = 0; i < Month; i++)
         Julian += DaysInMonth[i];
     if (Year >= EPOCH) {
         for (i = EPOCH; i < Year; i++)
-            Julian += 365 + (((i % 4) == 0) &&
-	            (((i % 100) != 0) || ((i % 400) == 0)));
+            Julian += 365 + (i % 4 == 0);
     } else {
         for (i = Year; i < EPOCH; i++)
-            Julian -= 365 + (((i % 4) == 0) &&
-	            (((i % 100) != 0) || ((i % 400) == 0)));
+            Julian -= 365 + (i % 4 == 0);
     }
     Julian *= SECSPERDAY;
     Julian += TclDateTimezone * 60L;
@@ -663,7 +661,7 @@ TclDatelex()
     int                 sign;
 
     for ( ; ; ) {
-        while (isspace(UCHAR(*TclDateInput))) {
+        while (isspace((unsigned char) (*TclDateInput))) {
             TclDateInput++;
 	}
 
