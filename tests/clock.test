@@ -35369,7 +35369,11 @@ test clock-44.1 {regression test - time zone name containing hyphen } \
     } \
     -result {12:34:56-0500}
     
-
+test clock-45.1 {regression test - time zone containing only two digits} \
+    -body {
+	clock scan 1985-04-12T10:15:30+04 -format %Y-%m-%dT%H:%M:%S%Z
+    } \
+    -result 482134530
 
 # cleanup
 
