@@ -1,7 +1,7 @@
 # $Id$
 # This file is the basis for a binary Tcl RPM for Linux.
 
-%define version 8.3.3
+%define version 8.3.4
 %define directory /usr/local
 
 Summary: Tcl scripting language development environment
@@ -11,8 +11,8 @@ Release: 1
 Copyright: BSD
 Group: Development/Languages
 Source: ftp://ftp.scriptics.com/pub/tcl/tcl8_3/tcl%{version}.tar.gz
-URL: http://tcl.activestate.com/
-Packager: ActiveState Tool Corporation
+URL: http://www.tcl-tk.net/
+Packager: ActiveState Corporation
 Buildroot: /var/tmp/%{name}%{version}
 
 %description
