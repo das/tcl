@@ -476,7 +476,7 @@ stored in \fBvar2\fR.  Note that the integers returned are signed, but
 they can be converted to unsigned 8-bit quantities using an expression
 like:
 .CS
-\fBexpr ( $num + 0x100 ) % 0x100\fR
+\fBexpr { $num & 0xff }\fR
 .CE
 .RE
 .IP \fBs\fR 5
@@ -495,7 +495,7 @@ stored in \fBvar2\fR.  Note that the integers returned are signed, but
 they can be converted to unsigned 16-bit quantities using an expression
 like:
 .CS
-\fBexpr ( $num + 0x10000 ) % 0x10000\fR
+\fBexpr { $num & 0xffff }\fR
 .CE
 .RE
 .IP \fBS\fR 5
@@ -521,8 +521,12 @@ example,
 \fBbinary scan \\x05\\x00\\x00\\x00\\x07\\x00\\x00\\x00\\xf0\\xff\\xff\\xff i2i* var1 var2\fR
 .CE
 will return \fB2\fR with \fB5 7\fR stored in \fBvar1\fR and \fB-16\fR
-stored in \fBvar2\fR.  Note that the integers returned are signed and
-cannot be represented by Tcl as unsigned values.
+stored in \fBvar2\fR.  Note that the integers returned are signed, but
+they can be converted to unsigned 32-bit quantities using an expression
+like:
+.CS
+\fBexpr { $num & 0xffffffff }\fR
+.CE
 .RE
 .IP \fBI\fR 5
 This form is the same as \fBI\fR except that the data is interpreted
