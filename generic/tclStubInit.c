@@ -268,6 +268,19 @@ TclIntStubs tclIntStubs = {
     TclDbNewListObjDirect, /* 181 */
     TclpLocaltime, /* 182 */
     TclpGmtime, /* 183 */
+    TclThreadStorageLockInit, /* 184 */
+    TclThreadStorageLock, /* 185 */
+    TclThreadStorageUnlock, /* 186 */
+    TclThreadStoragePrint, /* 187 */
+    TclThreadStorageGetHashTable, /* 188 */
+    TclThreadStorageInit, /* 189 */
+    TclThreadStorageDataKeyInit, /* 190 */
+    TclThreadStorageDataKeyGet, /* 191 */
+    TclThreadStorageDataKeySet, /* 192 */
+    TclFinalizeThreadStorageThread, /* 193 */
+    TclFinalizeThreadStorage, /* 194 */
+    TclFinalizeThreadStorageData, /* 195 */
+    TclFinalizeThreadStorageDataKey, /* 196 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
