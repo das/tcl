@@ -1147,7 +1147,6 @@ RebuildTable(tablePtr)
     register Tcl_HashEntry **oldChainPtr, **newChainPtr;
     register Tcl_HashEntry *hPtr;
     Tcl_HashKeyType *typePtr;
-    VOID *key;
 
 #if TCL_PRESERVE_BINARY_COMPATABILITY
     if (tablePtr->keyType == TCL_STRING_KEYS) {
@@ -1195,9 +1194,6 @@ RebuildTable(tablePtr)
     for (oldChainPtr = oldBuckets; oldSize > 0; oldSize--, oldChainPtr++) {
 	for (hPtr = *oldChainPtr; hPtr != NULL; hPtr = *oldChainPtr) {
 	    *oldChainPtr = hPtr->nextPtr;
-
-	    key = (VOID *) Tcl_GetHashKey (tablePtr, hPtr);
-
 #if TCL_HASH_KEY_STORE_HASH
 	    if (typePtr->hashKeyProc == NULL
 		|| typePtr->flags & TCL_HASH_KEY_RANDOMIZE_HASH) {
@@ -1208,6 +1204,8 @@ RebuildTable(tablePtr)
 	    hPtr->nextPtr = tablePtr->buckets[index];
 	    tablePtr->buckets[index] = hPtr;
 #else
+	    VOID *key = (VOID *) Tcl_GetHashKey (tablePtr, hPtr);
+
 	    if (typePtr->hashKeyProc) {
 		unsigned int hash;
 		hash = typePtr->hashKeyProc (tablePtr, (VOID *) key);
