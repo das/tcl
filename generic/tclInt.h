@@ -2229,6 +2229,25 @@ extern Tcl_Mutex tclObjMutex;
 
 /*
  *----------------------------------------------------------------
+ * Macro used by the Tcl core get a unicode char from a utf string.
+ * It checks to see if we have a one-byte utf char before calling
+ * the real Tcl_UtfToUniChar, as this will save a lot of time for
+ * primarily ascii string handling. The macro's expression result
+ * is 1 for the 1-byte case or the result of Tcl_UtfToUniChar.
+ * The ANSI C "prototype" for this macro is:
+ *
+ * EXTERN int TclUtfToUniChar _ANSI_ARGS_((CONST char *string,
+ *					   Tcl_UniChar *ch));
+ *----------------------------------------------------------------
+ */
+
+#define TclUtfToUniChar(str, chPtr) \
+	((((unsigned char) *(str)) < 0xC0) ? \
+	    ((*(chPtr) = (Tcl_UniChar) *(str)), 1) \
+	    : Tcl_UtfToUniChar(str, chPtr))
+
+/*
+ *----------------------------------------------------------------
  * Macro used by the Tcl core to compare Unicode strings.  On
  * big-endian systems we can use the more efficient memcmp, but
  * this would not be lexically correct on little-endian systems.
