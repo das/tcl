@@ -1425,7 +1425,7 @@ test socket-12.1 {testing inheritance of server sockets} {socket exec} {
 
     ### exec $::tcltest::tcltest script2 &
     set p [open "|[list $::tcltest::tcltest script2]" r]
-    gets $f listen
+    gets $p listen
 
     after 5000 { set ok_to_proceed 1 }
     vwait ok_to_proceed
