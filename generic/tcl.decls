@@ -1542,6 +1542,7 @@ declare 438 generic {
 declare 439 generic {
     int Tcl_IsStandardChannel(Tcl_Channel channel)
 }
+# New functions due to TIP#17
 declare 440 generic {
     int	Tcl_FSCopyFile(Tcl_Obj *srcPathPtr, Tcl_Obj *destPathPtr)
 }
@@ -1671,7 +1672,11 @@ declare 477 generic {
     Tcl_Filesystem* Tcl_FSGetFileSystemForPath(Tcl_Obj* pathObjPtr)
 }
 declare 478 generic {
-    Tcl_PathType     Tcl_FSGetPathType (Tcl_Obj *pathObjPtr)
+    Tcl_PathType Tcl_FSGetPathType (Tcl_Obj *pathObjPtr)
+}
+# New function due to TIP#49
+declare 479 generic {
+    int Tcl_OutputBuffered(Tcl_Channel chan)
 }
 		  
 ##############################################################################
