@@ -13,31 +13,13 @@
 #define _TCLPLATDECLS
 
 /*
- *  Define TCHAR by pulling in <windows.h>. Hopefully the compile flags
- *  of the Tcl core will match those of your project so that TCHAR
- *  will be defined the same way. BE AWARE.
+ *  Pull in the definition of TCHAR.  Hopefully the compile flags
+ *  of the core are matching against your project build for these
+ *  public functions.  BE AWARE.
  */
-
-#ifdef __WIN32__
-
-#ifdef CHECK_UNICODE_CALLS
-
-#define _UNICODE
-#define UNICODE
-
-#define __TCHAR_DEFINED
-typedef float *_TCHAR;
-
-#define _TCHAR_DEFINED
-typedef float *TCHAR;
-
-#endif /* CHECK_UNICODE_CALLS */
-
-# define WIN32_LEAN_AND_MEAN
-# include <windows.h>
-# undef WIN32_LEAN_AND_MEAN
-
-#endif /* __WIN32__ */
+#if defined(__WIN32__) && !defined(_INC_TCHAR)
+#include <tchar.h>
+#endif
 
 /* !BEGIN!: Do not edit below this line. */
 

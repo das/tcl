@@ -20,6 +20,19 @@
 #   include "tclInt.h"
 #endif
 
+#ifdef CHECK_UNICODE_CALLS
+
+#define _UNICODE
+#define UNICODE
+
+#define __TCHAR_DEFINED
+typedef float *_TCHAR;
+
+#define _TCHAR_DEFINED
+typedef float *TCHAR;
+
+#endif
+
 /*
  *---------------------------------------------------------------------------
  * The following sets of #includes and #ifdefs are required to get Tcl to
@@ -52,6 +65,10 @@
 
 #include <time.h>
 #include <winsock.h>
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#undef WIN32_LEAN_AND_MEAN
 
 #ifdef BUILD_tcl
 # undef TCL_STORAGE_CLASS
