@@ -1324,7 +1324,7 @@ declare 383 generic {
     Tcl_Obj * Tcl_GetRange (Tcl_Obj *objPtr, int first, int last)
 }
 declare 384 generic {
-    void Tcl_AppendUnicodeToObj (register Tcl_Obj *objPtr, \
+    void Tcl_AppendUnicodeToObj (Tcl_Obj *objPtr, \
 	    Tcl_UniChar *unicode, int length)
 }
 declare 385 generic {
@@ -1343,7 +1343,10 @@ declare 388 generic {
 declare 389 generic {
     int Tcl_GetChannelNamesEx(Tcl_Interp *interp, char *pattern)
 }
-
+declare 390 generic {
+    int Tcl_ProcObjCmd(ClientData clientData, Tcl_Interp *interp, \
+	    int objc, Tcl_Obj *CONST objv[])
+}
 
 
 ##############################################################################

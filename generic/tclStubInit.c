@@ -787,6 +787,7 @@ TclStubs tclStubs = {
     Tcl_GetAllocMutex, /* 387 */
     Tcl_GetChannelNames, /* 388 */
     Tcl_GetChannelNamesEx, /* 389 */
+    Tcl_ProcObjCmd, /* 390 */
 };
 
 /* !END!: Do not edit above this line. */

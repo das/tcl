@@ -1293,11 +1293,7 @@ Tcl_GlobObjCmd(dummy, interp, objc, objv)
 	    separators = "/\\:";
 	    break;
 	case TCL_PLATFORM_MAC:
-	    if ((pathOrDir != NULL) && (strchr(pathOrDir, ':') == NULL)) {
-		separators = "/";
-	    } else {
-		separators = ":";
-	    }
+	    separators = ":";
 	    break;
     }
     if (dir == PATH_GENERAL) {
@@ -1609,8 +1605,11 @@ TclGlob(interp, pattern, unquotedPrefix, globFlags, types)
 	    separators = "/\\:";
 	    break;
 	case TCL_PLATFORM_MAC:
-	    separators = (strchr(pattern, ':') == NULL)
-		? "/" : ":";
+	    if (unquotedPrefix == NULL) {
+		separators = (strchr(pattern, ':') == NULL) ? "/" : ":";
+	    } else {
+		separators = ":";
+	    }
 	    break;
     }
 
