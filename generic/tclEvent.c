@@ -140,7 +140,7 @@ Tcl_BackgroundError(interp)
 				 * occurred. */
 {
     BgError *errPtr;
-    char *errResult, *varValue;
+    CONST char *errResult, *varValue;
     ErrAssocData *assocPtr;
     int length;
 

@@ -43,7 +43,7 @@ TclSockGetPort(interp, string, proto, portPtr)
 {
     struct servent *sp;		/* Protocol info for named services */
     Tcl_DString ds;
-    char *native;
+    CONST char *native;
 
     if (Tcl_GetInt(NULL, string, portPtr) != TCL_OK) {
 	/*

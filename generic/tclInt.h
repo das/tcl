@@ -1845,7 +1845,7 @@ EXTERN int		TclpObjRenameFile _ANSI_ARGS_((Tcl_Obj *srcPathPtr,
 				Tcl_Obj *destPathPtr));
 EXTERN int		TclpMatchInDirectory _ANSI_ARGS_((Tcl_Interp *interp, 
 			        Tcl_Obj *resultPtr, Tcl_Obj *pathPtr, 
-				char *pattern, Tcl_GlobTypeData *types));
+				CONST char *pattern, Tcl_GlobTypeData *types));
 EXTERN Tcl_Obj*		TclpObjGetCwd _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN Tcl_Obj*		TclpObjLink _ANSI_ARGS_((Tcl_Obj *pathPtr, Tcl_Obj *toPtr));
 EXTERN int		TclpObjChdir _ANSI_ARGS_((Tcl_Obj *pathPtr));

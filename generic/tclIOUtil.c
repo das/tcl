@@ -984,7 +984,7 @@ TclGetOpenMode(interp, string, seekFlagPtr)
                                          * opening of the file. */
 {
     int mode, modeArgc, c, i, gotRW;
-    char **modeArgv, *flag;
+    CONST char **modeArgv, *flag;
 #define RW_MODES (O_RDONLY|O_WRONLY|O_RDWR)
 
     /*
@@ -1596,7 +1596,7 @@ Tcl_FSMatchInDirectory(interp, result, pathPtr, pattern, types)
     Tcl_Interp *interp;		/* Interpreter to receive error messages. */
     Tcl_Obj *result;		/* List object to receive results. */
     Tcl_Obj *pathPtr;	        /* Contains path to directory to search. */
-    char *pattern;		/* Pattern to match against. */
+    CONST char *pattern;	/* Pattern to match against. */
     Tcl_GlobTypeData *types;	/* Object containing list of acceptable types.
 				 * May be NULL. In particular the directory
 				 * flag is very important. */
@@ -3502,7 +3502,7 @@ SetFsPathFromAny(interp, objPtr)
 	/* Do some tilde substitution */
 	if (name[1] == '\0') {
 	    /* We have just '~' */
-	    char *dir;
+	    CONST char *dir;
 	    Tcl_DString dirString;
 	    if (split != len) { name[split] = separator; }
 	    

@@ -39,17 +39,17 @@ void
 .AP Tcl_Interp *interp in
 Interpreter to use for error reporting, or NULL if no error reporting is
 desired.
-.AP char *resourceName in
+.AP "CONST char" *resourceName in
 Name of TEXT resource to source, NULL if number should be used.
 .AP int resourceNumber in
 Resource id of source.
-.AP char *fileName in
+.AP "CONST char" *fileName in
 Name of file to process. NULL if application resource.
 .AP Handle resource in
 Handle to TEXT resource.
 .AP long resourceType in
 Type of resource to load.
-.AP char *resFileRef in
+.AP "CONST char" *resFileRef in
 Registered resource file reference, NULL if searching all open resource files.
 .AP int *releaseIt out
 Should we release this resource when done.

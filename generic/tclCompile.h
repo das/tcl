@@ -786,7 +786,7 @@ EXTERN ExceptionRange *	TclGetExceptionRangeForPc _ANSI_ARGS_((
 EXTERN void		TclExpandJumpFixupArray _ANSI_ARGS_((
                             JumpFixupArray *fixupArrayPtr));
 EXTERN void		TclFinalizeAuxDataTypeTable _ANSI_ARGS_((void));
-EXTERN int		TclFindCompiledLocal _ANSI_ARGS_((char *name, 
+EXTERN int		TclFindCompiledLocal _ANSI_ARGS_((CONST char *name, 
         		    int nameChars, int create, int flags,
 			    Proc *procPtr));
 EXTERN LiteralEntry *	TclLookupLiteralEntry _ANSI_ARGS_((

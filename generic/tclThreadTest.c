@@ -546,8 +546,8 @@ ThreadErrorProc(interp)
     Tcl_Interp *interp;		/* Interp that failed */
 {
     Tcl_Channel errChannel;
-    char *errorInfo, *script;
-    char *argv[3];
+    CONST char *errorInfo, *argv[3];
+    char *script;
     char buf[TCL_DOUBLE_SPACE+1];
     sprintf(buf, "%ld", (long) Tcl_GetCurrentThread());
 
@@ -853,7 +853,7 @@ ThreadEventProc(evPtr, mask)
     ThreadEventResult *resultPtr = threadEventPtr->resultPtr;
     Tcl_Interp *interp = tsdPtr->interp;
     int code;
-    char *result, *errorCode, *errorInfo;
+    CONST char *result, *errorCode, *errorInfo;
 
     if (interp == NULL) {
 	code = TCL_ERROR;

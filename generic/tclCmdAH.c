@@ -131,7 +131,7 @@ Tcl_CaseObjCmd(dummy, interp, objc, objv)
 
     for (i = 0;  i < caseObjc;  i += 2) {
 	int patObjc, j;
-	char **patObjv;
+	CONST char **patObjv;
 	char *pat;
 	unsigned char *p;
 
@@ -512,7 +512,8 @@ Tcl_EncodingObjCmd(dummy, interp, objc, objv)
 		return TCL_ERROR;
 	    }
 	    if (objc == 2) {
-	        Tcl_SetResult(interp, Tcl_GetEncodingName(NULL), TCL_STATIC);
+		Tcl_SetStringObj(Tcl_GetObjResult(interp),
+			Tcl_GetEncodingName(NULL), -1);
 	    } else {
 	        return Tcl_SetSystemEncoding(interp,
 			Tcl_GetStringFromObj(objv[2], NULL));
@@ -1014,7 +1015,7 @@ Tcl_FileObjCmd(dummy, interp, objc, objv)
 	    return TclFileMakeDirsCmd(interp, objc, objv);
 	}
 	case FILE_NATIVENAME: {
-	    char *fileName;
+	    CONST char *fileName;
 	    Tcl_DString ds;
 
 	    if (objc != 3) {

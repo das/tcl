@@ -1647,7 +1647,7 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 	if ((cur == '/' || cur == 0) && (path != currentPathEndPosition)) {
 	    /* Reached directory separator, or end of string */
 	    Tcl_DString ds;
-	    char *nativePath;
+	    CONST char *nativePath;
 	    int accessOk;
 
 	    nativePath = Tcl_UtfToExternalDString(NULL, path, 

@@ -1711,7 +1711,7 @@ LogCompilationInfo(interp, script, command, length)
 
 int
 TclFindCompiledLocal(name, nameBytes, create, flags, procPtr)
-    register char *name;	/* Points to first character of the name of
+    register CONST char *name;	/* Points to first character of the name of
 				 * a scalar or array variable. If NULL, a
 				 * temporary var should be created. */
     int nameBytes;		/* Number of bytes in the name. */

@@ -235,11 +235,11 @@ TclCreateProc(interp, nsPtr, procName, argsPtr, bodyPtr, procPtrPtr)
     Proc **procPtrPtr;          /* returns:  pointer to proc data */
 {
     Interp *iPtr = (Interp*)interp;
-    char **argArray = NULL;
+    CONST char **argArray = NULL;
 
     register Proc *procPtr;
     int i, length, result, numArgs;
-    char *args, *bytes, *p;
+    CONST char *args, *bytes, *p;
     register CompiledLocal *localPtr = NULL;
     Tcl_Obj *defPtr;
     int precompiled = 0;
@@ -335,7 +335,7 @@ TclCreateProc(interp, nsPtr, procName, argsPtr, bodyPtr, procPtrPtr)
     }
     for (i = 0;  i < numArgs;  i++) {
         int fieldCount, nameLength, valueLength;
-        char **fieldValues;
+        CONST char **fieldValues;
 
         /*
          * Now divide the specifier up into name and default.
@@ -375,7 +375,7 @@ TclCreateProc(interp, nsPtr, procName, argsPtr, bodyPtr, procPtrPtr)
         p = fieldValues[0];
         while (*p != '\0') {
             if (*p == '(') {
-                char *q = p;
+                CONST char *q = p;
                 do {
 		    q++;
 		} while (*q != '\0');

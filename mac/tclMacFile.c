@@ -128,7 +128,7 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
     Tcl_Interp *interp;		/* Interpreter to receive errors. */
     Tcl_Obj *resultPtr;		/* List object to lappend results. */
     Tcl_Obj *pathPtr;	        /* Contains path to directory to search. */
-    char *pattern;		/* Pattern to match against. */
+    CONST char *pattern;	/* Pattern to match against. */
     Tcl_GlobTypeData *types;	/* Object containing list of acceptable types.
 				 * May be NULL. In particular the directory
 				 * flag is very important. */
@@ -541,7 +541,7 @@ TclpObjGetCwd(interp)
     }
 }
 
-char *
+CONST char *
 TclpGetCwd(
     Tcl_Interp *interp,		/* If non-NULL, used for error reporting. */
     Tcl_DString *bufferPtr)	/* Uninitialized or free DString filled

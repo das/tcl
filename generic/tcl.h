@@ -1503,7 +1503,7 @@ typedef Tcl_Channel (Tcl_FSOpenFileChannelProc)
 	_ANSI_ARGS_((Tcl_Interp *interp, Tcl_Obj *pathPtr, 
 	CONST char *modeString, int permissions));
 typedef int (Tcl_FSMatchInDirectoryProc) _ANSI_ARGS_((Tcl_Interp* interp, 
-	Tcl_Obj *result, Tcl_Obj *pathPtr, char *pattern, 
+	Tcl_Obj *result, Tcl_Obj *pathPtr, CONST char *pattern, 
 	Tcl_GlobTypeData * types));
 typedef Tcl_Obj* (Tcl_FSGetCwdProc) _ANSI_ARGS_((Tcl_Interp *interp));
 typedef int (Tcl_FSChdirProc) _ANSI_ARGS_((Tcl_Obj *pathPtr));

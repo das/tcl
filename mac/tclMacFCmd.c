@@ -1027,7 +1027,7 @@ GetFileSpecs(
     char *dirName;
     OSErr err;
     int argc;
-    char **argv;
+    CONST char **argv;
     long d;
     Tcl_DString buffer;
         

@@ -297,7 +297,7 @@ FormatClock(interp, clockVal, useGMT, format)
      */
 
     if (useGMT) {
-        char *varValue;
+        CONST char *varValue;
 
         varValue = Tcl_GetVar2(interp, "env", "TZ", TCL_GLOBAL_ONLY);
         if (varValue != NULL) {

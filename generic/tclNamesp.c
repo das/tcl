@@ -720,7 +720,8 @@ TclTeardownNamespace(nsPtr)
 	 * variables, in case they had any traces on them.
 	 */
     
-        char *str, *errorInfoStr, *errorCodeStr;
+        CONST char *str;
+        char *errorInfoStr, *errorCodeStr;
 
         str = Tcl_GetVar((Tcl_Interp *) iPtr, "errorInfo", TCL_GLOBAL_ONLY);
         if (str != NULL) {

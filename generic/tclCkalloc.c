@@ -783,7 +783,7 @@ MemoryCmd (clientData, interp, argc, argv)
     int         argc;
     char      **argv;
 {
-    char *fileName;
+    CONST char *fileName;
     Tcl_DString buffer;
     int result;
 

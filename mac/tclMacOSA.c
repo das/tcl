@@ -2068,7 +2068,7 @@ tclOSAStore(
     char idStr[16 + TCL_INTEGER_SPACE];
     FSSpec fileSpec;
     Tcl_DString buffer;
-    char *nativeName;
+    CONST char *nativeName;
     OSErr myErr = noErr;
     OSAID scriptID;
     Size scriptSize;
@@ -2287,7 +2287,7 @@ tclOSALoad(
     char idStr[16 + TCL_INTEGER_SPACE];
     FSSpec fileSpec;
     Tcl_DString buffer;
-    char *nativeName;
+    CONST char *nativeName;
 
     saveRef = CurResFile();
 	
