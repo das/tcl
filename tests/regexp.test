@@ -616,6 +616,19 @@ test regexp-21.10 {multiple matches handle newlines} {
     regsub -all -lineanchor -- {^#[^\n]*\n} "#one\n#two\n#three\n" foo\n
 } "foo\nfoo\nfoo\n"
 
+test regexp-21.11 {multiple matches handle newlines} {
+    regsub -all -line -- ^ "a\nb\nc" \#
+} "\#a\n\#b\n\#c"
+
+test regexp-21.12 {multiple matches handle newlines} {
+    regsub -all -line -- ^ "\n\n" \#
+} "\#\n\#\n\#"
+
+test regexp-21.13 {multiple matches handle newlines} {
+    regexp -all -inline -indices -line -- ^ "a\nb\nc"
+} {{0 -1} {2 1} {4 3}}
+
+
 # cleanup
 ::tcltest::cleanupTests
 return

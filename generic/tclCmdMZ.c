@@ -627,7 +627,7 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 
 	match = Tcl_RegExpExecObj(interp, regExpr, objPtr, offset,
 		10 /* matches */, ((offset > 0 &&
-		   (Tcl_GetUniChar(objPtr,offset-1) != (Tcl_UniChar)'\n'))
+		   (wstring[offset-1] != (Tcl_UniChar)'\n'))
 		   ? TCL_REG_NOTBOL : 0));
 
 	if (match < 0) {
@@ -722,6 +722,17 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
 	    offset++;
 	} else {
 	    offset += end;
+	    if (start == end) {
+		/*
+		 * We matched an empty string, which means we must go 
+		 * forward one more step so we don't match again at the
+		 * same spot.
+		 */
+		if (offset < wlen) {
+		    Tcl_AppendUnicodeToObj(resultPtr, wstring + offset, 1);
+		}
+		offset++;
+	    }
 	}
 	if (!all) {
 	    break;
