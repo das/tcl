@@ -1962,6 +1962,7 @@ MODULE_SCOPE void	TclpPanic _ANSI_ARGS_(TCL_VARARGS(CONST char *,
 MODULE_SCOPE char *	TclpReadlink _ANSI_ARGS_((CONST char *fileName,
 			    Tcl_DString *linkPtr));
 MODULE_SCOPE void	TclpReleaseFile _ANSI_ARGS_((TclFile file));
+MODULE_SCOPE void	TclpSetInterfaces ();
 MODULE_SCOPE void	TclpSetVariables _ANSI_ARGS_((Tcl_Interp *interp));
 MODULE_SCOPE void	TclpUnloadFile _ANSI_ARGS_((
 			    Tcl_LoadHandle loadHandle));

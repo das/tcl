@@ -441,17 +441,22 @@ TclWinEncodingsCleanup()
 void
 TclpSetInitialEncodings()
 {
-    int platformId, useWide;
     Tcl_DString encodingName;
+    
+    TclpSetInterfaces();
+    Tcl_SetSystemEncoding(NULL,
+	    TclpGetEncodingNameFromEnvironment(&encodingName));
+    Tcl_DStringFree(&encodingName);
+}
 
+void
+TclpSetInterfaces()
+{
+    int platformId, useWide;
     platformId = TclWinGetPlatformId();
     useWide = ((platformId == VER_PLATFORM_WIN32_NT)
 	    || (platformId == VER_PLATFORM_WIN32_CE));
     TclWinSetInterfaces(useWide);
-
-    Tcl_SetSystemEncoding(NULL,
-	    TclpGetEncodingNameFromEnvironment(&encodingName));
-    Tcl_DStringFree(&encodingName);
 }
 
 CONST char *

@@ -410,10 +410,10 @@ MakeFileMap()
 	    Tcl_Obj *encodingName, *file;
 
 	    file = TclPathPart(NULL, filev[j], TCL_PATH_TAIL);
-	    Tcl_IncrRefCount(file);
 	    encodingName = TclPathPart(NULL, file, TCL_PATH_ROOT);
-	    Tcl_IncrRefCount(encodingName);
 	    Tcl_DictObjPut(NULL, map, encodingName, directory);
+	    Tcl_DecrRefCount(file);
+	    Tcl_DecrRefCount(encodingName);
 	}
 	Tcl_DecrRefCount(matchFileList);
 	Tcl_DecrRefCount(directory);
@@ -513,7 +513,6 @@ TclInitEncodingSubsystem()
     Tcl_CreateEncoding(&type);
 
     encodingsInitialized = 1;
-    TclpSetInitialEncodings();
 }
 
 /*
@@ -1303,6 +1302,7 @@ Tcl_FindExecutable(argv0)
 				 * (native). */
 {
     TclInitSubsystems();
+    TclpSetInitialEncodings();
     TclpFindExecutable(argv0);
 }
 

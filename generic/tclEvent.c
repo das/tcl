@@ -801,6 +801,7 @@ TclInitSubsystems()
     	    TclInitObjSubsystem(); /* register obj types, create mutexes */
 	    TclInitIOSubsystem(); /* inits a tsd key (noop) */
 	    TclInitEncodingSubsystem(); /* process wide encoding init */
+	    TclpSetInterfaces();
     	    TclInitNamespaceSubsystem(); /* register ns obj type (mutexed) */
 	}
 	TclpInitUnlock();

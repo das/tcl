@@ -2705,13 +2705,14 @@ TclSetProcessGlobalValue(pgvPtr, newValue, encoding)
 
     /*
      * Fill the local thread copy directly with the Tcl_Obj
-     * value to avoid loss of the intrep 
+     * value to avoid loss of the intrep.  Increment newValue
+     * refCount early to handle case where we set a PGV to itself.
      */
+    Tcl_IncrRefCount(newValue);
     cacheMap = GetThreadHash(&pgvPtr->key);
     ClearHash(cacheMap);
     hPtr = Tcl_CreateHashEntry(cacheMap, (char *)pgvPtr->epoch, &dummy);
     Tcl_SetHashValue(hPtr, (ClientData) newValue);
-    Tcl_IncrRefCount(newValue);
     Tcl_MutexUnlock(&pgvPtr->mutex);
 }
 

@@ -583,6 +583,12 @@ TclpSetInitialEncodings()
     Tcl_DStringFree(&encodingName);
 }
 
+void
+TclpSetInterfaces()
+{
+	/* do nothing */
+}
+
 CONST char *
 TclpGetEncodingNameFromEnvironment(bufPtr)
     Tcl_DString *bufPtr;
