@@ -229,7 +229,7 @@ test subst-12.1 {nasty case, Bug 1036649} {
 } {1 {missing close-bracket}}
 test subst-12.2 {nasty case, Bug 1036649} {
     for {set i 0} {$i < 10} {incr i} {
-	list [catch {subst "\[subst {}; "} msg] $msg
+	set res [list [catch {subst "\[subst {}; "} msg] $msg]
 	if {$msg ne "missing close-bracket"} break
     }
     set res
