@@ -1087,11 +1087,9 @@ Tcl_UtfNcmp(cs, ct, n)
 {
     Tcl_UniChar ch1, ch2;
     /*
-     * Another approach that should work is:
-     *   return memcmp(cs, ct, (unsigned) (Tcl_UtfAtIndex(cs, n) - cs));
-     * That assumes that ct is a properly formed UTF, so we will just
-     * be comparing the bytes that compromise those strings to the
-     * char length n.
+     * Cannot use memcmp()-based approach as byte representation of
+     * \u0000 (the pair of bytes 0xc0,0x80) is larger than byte
+     * representation of \u0001 (the byte 0x01.)
      */
     while (n-- > 0) {
 	/*
