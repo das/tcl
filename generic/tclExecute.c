@@ -4092,7 +4092,9 @@ TclExecuteByteCode(interp, codePtr)
 				* name is objv[0]. */
 
 	    objv = (tosPtr - (objc-1)); /* "objv[0]" */
+	    DECACHE_STACK_INFO();
 	    result = ExprCallMathFunc(interp, objc, objv);
+	    CACHE_STACK_INFO();
 	    if (result != TCL_OK) {
 		goto checkForCatch;
 	    }
