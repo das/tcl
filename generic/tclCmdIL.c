@@ -19,6 +19,7 @@
 #include "tclInt.h"
 #include "tclPort.h"
 #include "tclCompile.h"
+#include "tclRegexp.h"
 
 /*
  * During execution of the "lsort" command, structures of the following

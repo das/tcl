@@ -14,6 +14,7 @@
 
 #include "tclInt.h"
 #include "tclPort.h"
+#include "tclRegexp.h"
 
 /*
  * This variable indicates whether the cleanup procedure has been

@@ -116,8 +116,10 @@ TCLTESTOBJS = \
 	$(TMPDIR)\testMain.obj
 
 TCLOBJS = \
-	$(TMPDIR)\compile.obj \
-	$(TMPDIR)\exec.obj \
+	$(TMPDIR)\regcomp.obj \
+	$(TMPDIR)\regexec.obj \
+	$(TMPDIR)\regfree.obj \
+	$(TMPDIR)\regerror.obj \
 	$(TMPDIR)\panic.obj \
 	$(TMPDIR)\strftime.obj \
 	$(TMPDIR)\tclAlloc.obj \
