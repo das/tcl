@@ -2176,7 +2176,9 @@ test trace-31.2 {command and execution traces shared struct} {
     set result
 } [list [list enter foo]]
 
-test trace-32.1 {mystery memory corruption} knownBug {
+test trace-32.1 {
+    TraceCommandInfo refcount decr in TraceCommandProc w/o loss of reference
+} {
     # Tcl Bug 811483
     proc foo {} {}
     trace add command foo delete foo
