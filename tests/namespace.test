@@ -1167,7 +1167,7 @@ test namespace-41.2 {Shadowing byte-compiled commands, Bug: 231259} {
     set res
 } {New proc is called}
 
-test namespace-41.3 {Shadowing byte-compiled commands, Bug: 231259} {knownBug} {
+test namespace-41.3 {Shadowing byte-compiled commands, Bugs: 231259, 729692} {
     set res {}
     namespace eval ns {
 	variable b 0
