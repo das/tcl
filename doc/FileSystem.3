@@ -225,7 +225,7 @@ required (and may cache the results of such conversions for greater
 efficiency on subsequent calls).  Fourth, and perhaps most importantly,
 all of these functions are 'virtual filesystem aware'.  Any virtual
 filesystem which has been registered (through
-\fBTclRegisterFilesystem\fR) may reroute file access to alternative
+\fBTcl_FSRegister\fR) may reroute file access to alternative
 media or access methods.  This means that all of these functions (and
 therefore the corresponding \fBfile\fR, \fBpwd\fR, \fBcd\fR,
 \fBopen\fR, etc.  Tcl commands) may be operate on 'files' which are not

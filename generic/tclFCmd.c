@@ -406,11 +406,11 @@ TclFileDeleteCmd(interp, objc, objv)
 		    Tcl_GetString(errfile), "\": ", 
 		    Tcl_PosixError(interp), (char *) NULL);
 	}
-	if (errorBuffer != NULL) {
-	    Tcl_DecrRefCount(errorBuffer);
-	}
     } 
     done:
+    if (errorBuffer != NULL) {
+	Tcl_DecrRefCount(errorBuffer);
+    }
     return result;
 }
 
