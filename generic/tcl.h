@@ -68,7 +68,7 @@ extern "C" {
  */
 
 #ifndef __WIN32__
-#   if defined(_WIN32) || defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW32__) || defined(__BORLANDC__)
+#   if defined(_WIN32) || defined(WIN32) || defined(__MINGW32__) || defined(__BORLANDC__)
 #	define __WIN32__
 #	ifndef WIN32
 #	    define WIN32
@@ -351,7 +351,12 @@ typedef long LONG;
  */
 
 #if !defined(TCL_WIDE_INT_TYPE)&&!defined(TCL_WIDE_INT_IS_LONG)
-#   ifdef __WIN32__
+#   ifdef __CYGWIN__
+#      define TCL_WIDE_INT_TYPE long long
+#      define TCL_LL_MODIFIER	"L"
+typedef struct stat	Tcl_StatBuf;
+#      define TCL_LL_MODIFIER_SIZE	1
+#   elif defined(__WIN32__)
 #      define TCL_WIDE_INT_TYPE __int64
 #      ifdef __BORLANDC__
 typedef struct stati64 Tcl_StatBuf;
