@@ -478,7 +478,15 @@ Tcl_EncodingObjCmd(dummy, interp, objc, objv)
 
 		string = (char *) Tcl_GetByteArrayFromObj(data, &length);
 		Tcl_ExternalToUtfDString(encoding, string, length, &ds);
-		Tcl_DStringResult(interp, &ds);
+
+		/*
+		 * Note that we cannot use Tcl_DStringResult here because
+		 * it will truncate the string at the first null byte.
+		 */
+
+		Tcl_SetStringObj(Tcl_GetObjResult(interp),
+			Tcl_DStringValue(&ds), Tcl_DStringLength(&ds));
+		Tcl_DStringFree(&ds);
 	    } else {
 		/*
 		 * Store the result as binary data.
