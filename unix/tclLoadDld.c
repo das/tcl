@@ -93,7 +93,7 @@ TclpLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr,
 	firstTime = 0;
     }
 
-    if ((returnCode = dld_link(Tcl_GetString(pathPtr)) != 0) {
+    if ((returnCode = dld_link(Tcl_GetString(pathPtr))) != 0) {
 	Tcl_AppendResult(interp, "couldn't load file \"", 
 			 Tcl_GetString(pathPtr),
 			 "\": ", dld_strerror(returnCode), (char *) NULL);
