@@ -146,6 +146,29 @@ if test "$tcl_cv_eh_disposition" = "no" ; then
             [Defined when cygwin/mingw does not support EXCEPTION DISPOSITION])
 fi
 
+
+# Check to see if the winsock2.h include file provided contains
+# typedefs like LPFN_ACCEPT and friends.
+#
+AC_CACHE_CHECK(for LPFN_ACCEPT support in winsock2.h,
+    tcl_cv_lpfn_decls,
+AC_TRY_COMPILE([
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#undef WIN32_LEAN_AND_MEAN
+#include <winsock2.h>
+],
+[
+  LPFN_ACCEPT accept;
+],
+        tcl_cv_lpfn_decls=yes,
+        tcl_cv_lpfn_decls=no)
+)
+if test "$tcl_cv_lpfn_decls" = "no" ; then
+    AC_DEFINE(HAVE_NO_LPFN_DECLS, 1,
+            [Defined when cygwin/mingw does not support LPFN_ACCEPT and friends.])
+fi
+
 #--------------------------------------------------------------------
 # Determines the correct binary file extension (.o, .obj, .exe etc.)
 #--------------------------------------------------------------------
