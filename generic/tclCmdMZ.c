@@ -1826,10 +1826,35 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		return TCL_ERROR;
 	    }
 
-	    string1 = Tcl_GetStringFromObj(objv[2], &length1);
-	    if (length1 > 0) {
-		for (index = 0; index < count; index++) {
-		    Tcl_AppendToObj(resultPtr, string1, length1);
+	    if (count == 1) {
+		Tcl_SetObjResult(interp, objv[2]);
+	    } else if (count > 1) {
+		string1 = Tcl_GetStringFromObj(objv[2], &length1);
+		if (length1 > 0) {
+		    /*
+		     * Only build up a string that has data.  Instead of
+		     * building it up with repeated appends, we just allocate
+		     * the necessary space once and copy the string value in.
+		     */
+		    length2		= length1 * count;
+		    /*
+		     * Include space for the NULL
+		     */
+		    string2		= (char *) ckalloc((size_t) length2+1);
+		    for (index = 0; index < count; index++) {
+			memcpy(string2 + (length1 * index), string1,
+				(size_t) length1);
+		    }
+		    string2[length2]	= '\0';
+		    /*
+		     * We have to directly assign this instead of using
+		     * Tcl_SetStringObj (and indirectly TclInitStringRep)
+		     * because that makes another copy of the data.
+		     */
+		    resultPtr		= Tcl_NewObj();
+		    resultPtr->bytes	= string2;
+		    resultPtr->length	= length2;
+		    Tcl_SetObjResult(interp, resultPtr);
 		}
 	    }
 	    break;
