@@ -93,6 +93,8 @@ tcltest \- Test harness support code and utilities
 \fBtcltest::restoreState\fR
 .sp
 \fBtcltest::threadReap\fR
+.sp
+\fBtcltest::mainThread\fR
 .BE
 .SH DESCRIPTION
 .PP
