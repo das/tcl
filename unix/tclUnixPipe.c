@@ -186,10 +186,15 @@ TclpCreateTempFile(contents)
     Tcl_DString dstring;
     int fd;
 
+    /*
+     * Linux says we should use mkstemp, but Solaris prefers tmpnam.
+     * We should also check against making more then TMP_MAX of these.
+     */
+
     if (tmpnam(fileName) == NULL) {			/* INTL: Native. */
 	return NULL;
     }
-    fd = open(fileName, O_RDWR|O_CREAT|O_TRUNC, 0666);	/* INTL: Native. */
+    fd = open(fileName, O_RDWR|O_CREAT|O_EXCL, 0666);	/* INTL: Native. */
     if (fd == -1) {
 	return NULL;
     }
