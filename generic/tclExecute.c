@@ -1220,7 +1220,7 @@ TclExecuteByteCode(interp, codePtr)
      * do the check every 16th instruction.
      */
 
-    if (!(instructionCount++ & ~ASYNC_CHECK_COUNT_MASK) && Tcl_AsyncReady()) {
+    if (!(instructionCount++ & ASYNC_CHECK_COUNT_MASK) && Tcl_AsyncReady()) {
 	DECACHE_STACK_INFO();
 	result = Tcl_AsyncInvoke(interp, result);
 	CACHE_STACK_INFO();
