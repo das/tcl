@@ -592,6 +592,12 @@ declare 156 generic {
 declare 157 generic {
     Var * TclVarTraceExists (Tcl_Interp *interp, char *varName)
 }
+declare 158 generic {
+    void TclSetStartupScriptFileName(char *filename)
+}
+declare 159 generic {
+    char *TclGetStartupScriptFileName(void)
+}
 
 ##############################################################################
 

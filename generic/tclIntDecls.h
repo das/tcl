@@ -519,6 +519,11 @@ EXTERN void		TclRegError _ANSI_ARGS_((Tcl_Interp * interp,
 /* 157 */
 EXTERN Var *		TclVarTraceExists _ANSI_ARGS_((Tcl_Interp * interp, 
 				char * varName));
+/* 158 */
+EXTERN void		TclSetStartupScriptFileName _ANSI_ARGS_((
+				char * filename));
+/* 159 */
+EXTERN char *		TclGetStartupScriptFileName _ANSI_ARGS_((void));
 
 typedef struct TclIntStubs {
     int magic;
@@ -714,6 +719,8 @@ typedef struct TclIntStubs {
     int (*tclTestChannelEventCmd) _ANSI_ARGS_((ClientData clientData, Tcl_Interp * interp, int argc, char ** argv)); /* 155 */
     void (*tclRegError) _ANSI_ARGS_((Tcl_Interp * interp, char * msg, int status)); /* 156 */
     Var * (*tclVarTraceExists) _ANSI_ARGS_((Tcl_Interp * interp, char * varName)); /* 157 */
+    void (*tclSetStartupScriptFileName) _ANSI_ARGS_((char * filename)); /* 158 */
+    char * (*tclGetStartupScriptFileName) _ANSI_ARGS_((void)); /* 159 */
 } TclIntStubs;
 
 #ifdef __cplusplus
@@ -1354,6 +1361,14 @@ extern TclIntStubs *tclIntStubsPtr;
 #ifndef TclVarTraceExists
 #define TclVarTraceExists \
 	(tclIntStubsPtr->tclVarTraceExists) /* 157 */
+#endif
+#ifndef TclSetStartupScriptFileName
+#define TclSetStartupScriptFileName \
+	(tclIntStubsPtr->tclSetStartupScriptFileName) /* 158 */
+#endif
+#ifndef TclGetStartupScriptFileName
+#define TclGetStartupScriptFileName \
+	(tclIntStubsPtr->tclGetStartupScriptFileName) /* 159 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

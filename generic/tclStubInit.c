@@ -233,6 +233,8 @@ TclIntStubs tclIntStubs = {
     TclTestChannelEventCmd, /* 155 */
     TclRegError, /* 156 */
     TclVarTraceExists, /* 157 */
+    TclSetStartupScriptFileName, /* 158 */
+    TclGetStartupScriptFileName, /* 159 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
