@@ -36,6 +36,36 @@ same result as ``\fBlindex \fIlist first\fR'' (although it often does
 for simple fields that aren't enclosed in braces); it does, however,
 produce exactly the same results as ``\fBlist [lindex \fIlist first\fB]\fR''
 
+.SH EXAMPLES
+Selecting the first two elements:
+.CS
+% lrange {a b c d e} 0 1
+a b
+.CS
+
+Selecting the last three elements:
+.CS
+% lrange {a b c d e} end-2 end
+c d e
+.CE
+
+Selecting everything except the first and last element:
+.CS
+% lrange {a b c d e} 1 end-1
+b c d
+.CE
+
+Selecting a single element with \fBlrange\fR is not the same as doing
+so with \fBlindex\fR:
+.CS
+% set var {some {elements to} select}
+some {elements to} select
+% lindex $var 1
+elements to
+% lrange $var 1 1
+{elements to}
+.CE
+
 .SH "SEE ALSO"
 .VS 8.4
 list(n), lappend(n), lindex(n), linsert(n), llength(n), lsearch(n), 
