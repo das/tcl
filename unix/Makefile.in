@@ -463,7 +463,7 @@ gendate:
 	    -e 's?SCCSID?RCS: @(#) $$Id$$?' \
 	    -e '/#ifdef __STDC__/,/#endif/d' -e '/TclDateerrlab:/d' \
 	    -e '/TclDatenewstate:/d' -e '/#pragma/d' \
-	    -e '/#include <inttypes.h>/d' \
+	    -e '/#include <inttypes.h>/d' -e 's/const /CONST /g' \
 	    <y.tab.c >$(GENERIC_DIR)/tclDate.c
 	rm y.tab.c
 
