@@ -1047,13 +1047,9 @@ HashStringKey(tablePtr, keyPtr)
      */
 
     result = 0;
-    while (1) {
-	c = *string;
-	if (c == 0) {
-	    break;
-	}
+
+    for (c=*string++ ; c ; c=*string++) {
 	result += (result<<3) + c;
-	string++;
     }
     return result;
 }

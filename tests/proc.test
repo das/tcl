@@ -325,6 +325,15 @@ test proc-6.1 {ProcessProcResultCode: Bug 647307 (negative return code)} {
     set result
 } -5
 
+test proc-7.1 {Redefining a compiled cmd: Bug 729692} {
+    proc bar args {}
+    proc foo {} {
+	proc bar args {return bar}
+	bar
+    }
+    foo
+} bar
+
 # cleanup
 catch {rename p ""}
 catch {rename t ""}

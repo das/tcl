@@ -789,8 +789,8 @@ HashString(bytes, length)
      */
 
     result = 0;
-    for (i = 0;  i < length;  i++) {
-	result += (result<<3) + *bytes++;
+    for (i=0 ; i<length ; i++) {
+	result += (result<<3) + bytes[i];
     }
     return result;
 }
