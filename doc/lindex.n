@@ -21,7 +21,7 @@ lindex \- Retrieve an element from a list
 .PP
 .VS 8.4
 When presented with two arguments, this command
-d treats \fIlist\fR as a Tcl list and returns the
+treats \fIlist\fR as a Tcl list and returns the
 .VE
 \fIindex\fR'th element from it (0 refers to the first element of the list).
 In extracting the element, \fIlindex\fR observes the same rules
