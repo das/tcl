@@ -594,8 +594,7 @@ $(MAN2TCL).exe: $(MAN2TCL).obj
 
 $(TCLRTF): $(MAN2TCL).exe $(TCLSH)
 	cd $(TOOLSDIR)
-	..\win\$(TCLSH) $(MAN2HELP) $(PROJECT) $(VERSION) $(ROOT)/doc \
-		../../tk$(DOTVERSION)/doc
+	..\win\$(TCLSH) $(MAN2HELP) $(PROJECT) $(VERSION) $(ROOT)/doc
 	cd $(MAKEDIR)
 
 
