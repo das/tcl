@@ -14,7 +14,7 @@
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
     package require tcltest
-    namespae import ::tcltest::*
+    namespace import ::tcltest::*
 }
 
 # The following code is needed because some versions of SCO Unix have
