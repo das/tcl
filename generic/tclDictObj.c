@@ -2787,7 +2787,7 @@ DictUpdateCmd(interp, objc, objv)
 
     dictPtr = Tcl_ObjGetVar2(interp, objv[2], NULL, 0);
     if (dictPtr == NULL) {
-	return TCL_OK;
+	return result;
     }
 
     /*
@@ -2825,7 +2825,7 @@ DictUpdateCmd(interp, objc, objv)
      */
 
     if (Tcl_ObjSetVar2(interp, objv[2], NULL, dictPtr,
-	    TCL_LEAVE_ERR_MSG) != TCL_OK) {
+	    TCL_LEAVE_ERR_MSG) == NULL) {
 	Tcl_DiscardResult(&sr);
 	if (allocdict) {
 	    TclDecrRefCount(dictPtr);
