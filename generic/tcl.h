@@ -48,6 +48,7 @@ extern "C" {
  * win/README.binary	(sections 0-4)
  * win/README		(not patchlevel) (sections 0 and 2)
  * unix/README		(not patchlevel) (part (h))
+ * tests/basic.test	(not patchlevel) (version checks)
  * tools/tcl.hpj.in	(not patchlevel, for windows installer)
  * tools/tcl.wse.in	(for windows installer)
  */
