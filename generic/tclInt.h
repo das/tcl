@@ -2040,6 +2040,9 @@ EXTERN Tcl_Obj *TclPtrSetVar _ANSI_ARGS_((Tcl_Interp *interp, Var *varPtr,
 EXTERN Tcl_Obj *TclPtrIncrVar _ANSI_ARGS_((Tcl_Interp *interp, Var *varPtr,
 		    Var *arrayPtr, CONST char *part1, CONST char *part2,
 		    CONST long i, CONST int flags));
+EXTERN Tcl_Obj *TclPtrIncrWideVar _ANSI_ARGS_((Tcl_Interp *interp, Var *varPtr,
+		    Var *arrayPtr, CONST char *part1, CONST char *part2,
+		    CONST Tcl_WideInt i, CONST int flags));
 
 /*
  *----------------------------------------------------------------

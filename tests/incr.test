@@ -516,18 +516,16 @@ test incr-2.31 {incr command (compiled): bad increment} {
     invoked from within
 "incr x 1a"}}
 
+test incr-3.1 {increment by wide amount: bytecode route} {
+    set x 0
+    incr x 123123123123
+} 123123123123
+test incr-3.2 {increment by wide amount: command route} {
+    set z incr
+    set x 0
+    $z x 123123123123
+} 123123123123
+
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
