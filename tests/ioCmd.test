@@ -531,24 +531,12 @@ close $wfile
 
 # cleanup
 foreach file [list test1 test2 test3 test4] {
-    ::tcltest::removeFile $file
+    catch {::tcltest::removeFile $file}
 }
 # delay long enough for background processes to finish
 after 500
 foreach file [list test5 pipe output] {
-    ::tcltest::removeFile $file
+    catch {::tcltest::removeFile $file}
 }
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
