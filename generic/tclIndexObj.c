@@ -334,12 +334,18 @@ Tcl_WrongNumArgs(interp, objc, objv, message)
 	    Tcl_AppendStringsToObj(objPtr, Tcl_GetString(objv[i]),
 		    (char *) NULL);
 	}
-	if (i < (objc - 1)) {
+
+	/*
+	 * Append a space character (" ") if there is more text to follow
+	 * (either another element from objv, or the message string).
+	 */
+	if ((i < (objc - 1)) || message) {
 	    Tcl_AppendStringsToObj(objPtr, " ", (char *) NULL);
 	}
     }
+
     if (message) {
-      Tcl_AppendStringsToObj(objPtr, " ", message, (char *) NULL);
+	Tcl_AppendStringsToObj(objPtr, message, (char *) NULL);
     }
     Tcl_AppendStringsToObj(objPtr, "\"", (char *) NULL);
 }
