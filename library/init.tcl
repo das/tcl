@@ -24,7 +24,7 @@ package require -exact Tcl 8.5
 # The environment variable TCLLIBPATH
 #
 # tcl_library, which is the directory containing this init.tcl script.
-# tclInitScript.h searches around for the directory containing this
+# [tclInit] (Tcl_Init()) searches around for the directory containing this
 # init.tcl and defines tcl_library to that location before sourcing it.
 #
 # The parent directory of tcl_library. Adding the parent

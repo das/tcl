@@ -1083,7 +1083,7 @@ tclUnixThrd.o: $(UNIX_DIR)/tclUnixThrd.c
 tclUnixTime.o: $(UNIX_DIR)/tclUnixTime.c
 	$(CC) -c $(CC_SWITCHES) $(UNIX_DIR)/tclUnixTime.c
 
-tclUnixInit.o: $(UNIX_DIR)/tclUnixInit.c $(GENERIC_DIR)/tclInitScript.h tclConfig.sh
+tclUnixInit.o: $(UNIX_DIR)/tclUnixInit.c tclConfig.sh
 	$(CC) -c $(CC_SWITCHES) -DTCL_LIBRARY=\"${TCL_LIBRARY}\" \
 		-DTCL_PACKAGE_PATH="\"${TCL_PACKAGE_PATH}\"" \
 		$(UNIX_DIR)/tclUnixInit.c
