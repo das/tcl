@@ -523,7 +523,7 @@ FileSeekProc(instanceData, offset, mode, errorCodePtr)
     FileState *fsPtr = (FileState *) instanceData;
     Tcl_WideInt newLoc;
 
-    newLoc = lseek64(fsPtr->fd, (off64_t) offset, mode);
+    newLoc = Tcl_PlatformSeek(fsPtr->fd, (Tcl_SeekOffset) offset, mode);
 
     *errorCodePtr = (newLoc == -1) ? errno : 0;
     return newLoc;
@@ -2498,8 +2498,8 @@ TclpGetDefaultStdChannel(type)
 
     switch (type) {
         case TCL_STDIN:
-            if ((lseek64(0, (off64_t) 0, SEEK_CUR) == (off64_t)-1) &&
-                    (errno == EBADF)) {
+            if ((Tcl_PlatformSeek(0, (Tcl_SeekOffset) 0, SEEK_CUR)
+		    == (Tcl_SeekOffset)-1) && (errno == EBADF)) {
                 return (Tcl_Channel) NULL;
             }
 	    fd = 0;
@@ -2507,8 +2507,8 @@ TclpGetDefaultStdChannel(type)
             bufMode = "line";
             break;
         case TCL_STDOUT:
-            if ((lseek64(1, (off64_t) 0, SEEK_CUR) == (off64_t)-1) &&
-                    (errno == EBADF)) {
+            if ((Tcl_PlatformSeek(1, (Tcl_SeekOffset) 0, SEEK_CUR)
+		    == (Tcl_SeekOffset)-1) && (errno == EBADF)) {
                 return (Tcl_Channel) NULL;
             }
 	    fd = 1;
@@ -2516,8 +2516,8 @@ TclpGetDefaultStdChannel(type)
             bufMode = "line";
             break;
         case TCL_STDERR:
-            if ((lseek64(2, (off64_t) 0, SEEK_CUR) == (off64_t)-1) &&
-                    (errno == EBADF)) {
+            if ((Tcl_PlatformSeek(2, (Tcl_SeekOffset) 0, SEEK_CUR)
+		    == (Tcl_SeekOffset)-1) && (errno == EBADF)) {
                 return (Tcl_Channel) NULL;
             }
 	    fd = 2;

@@ -345,6 +345,10 @@ typedef long LONG;
  */
 typedef long long	Tcl_WideInt;
 typedef struct stat64	Tcl_StatBuf;
+typedef off64_t		Tcl_SeekOffset;
+#define Tcl_PlatformStat  stat64
+#define Tcl_PlatformLStat lstat64
+#define Tcl_PlatformSeek  lseek64
 
 /*
  * This flag controls whether binary compatability is maintained with
