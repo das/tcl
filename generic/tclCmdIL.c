@@ -2054,6 +2054,7 @@ Tcl_LassignObjCmd(dummy, interp, objc, objv)
 				 * run out of values from the list object. */
     Tcl_Obj **listObjv;		/* The contents of the list. */
     int listObjc;		/* The length of the list. */
+    int i;
 
     if (objc < 3) {
 	Tcl_WrongNumArgs(interp, 1, objv, "list varname ?varname ...?");
