@@ -1129,22 +1129,15 @@ typedef int	(Tcl_DriverGetHandleProc) _ANSI_ARGS_((
 #else /* !TCL_MEM_DEBUG */
 
 /*
- * If USE_TCLALLOC is true, then we need to call Tcl_Alloc instead of
- * the native malloc/free.  The only time USE_TCLALLOC should not be
- * true is when compiling the Tcl/Tk libraries on Unix systems.  In this
- * case we can safely call the native malloc/free directly as a performance
- * optimization.
+ * If we are not using the debugging allocator, we should call the 
+ * Tcl_Alloc, et al. routines in order to guarantee that every module
+ * is using the same memory allocator both inside and outside of the
+ * Tcl library.
  */
 
-#   if USE_TCLALLOC
-#	define ckalloc(x) Tcl_Alloc(x)
-#	define ckfree(x) Tcl_Free(x)
-#	define ckrealloc(x,y) Tcl_Realloc(x,y)
-#   else
-#	define ckalloc(x) malloc(x)
-#	define ckfree(x)  free(x)
-#	define ckrealloc(x,y) realloc(x,y)
-#   endif
+#   define ckalloc(x) Tcl_Alloc(x)
+#   define ckfree(x) Tcl_Free(x)
+#   define ckrealloc(x,y) Tcl_Realloc(x,y)
 #   define Tcl_InitMemory(x)
 #   define Tcl_DumpActiveMemory(x)
 #   define Tcl_ValidateAllMemory(x,y)
