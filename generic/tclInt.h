@@ -510,6 +510,7 @@ typedef struct Var {
 #define VAR_ARGUMENT		0x100
 #define VAR_TEMPORARY		0x200
 #define VAR_RESOLVED		0x400	
+#define VAR_IS_ARGS             0x800
 
 /*
  * Macros to ensure that various flag bits are set properly for variables.
