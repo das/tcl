@@ -243,7 +243,7 @@ declare 58 generic {
 #	    Tcl_DString *dirPtr, char *pattern, char *tail)
 #}
 declare 60 generic {
-    int TclNeedSpace(char *start, char *end)
+    int TclNeedSpace(CONST char *start, CONST char *end)
 }
 declare 61 generic {
     Tcl_Obj * TclNewProcBodyObj(Proc *procPtr)
@@ -532,7 +532,7 @@ declare 138 generic {
 #	    Tcl_PackageInitProc **proc2Ptr, ClientData *clientDataPtr)
 #}
 declare 140 generic {
-    int TclLooksLikeInt(char *bytes, int length)
+    int TclLooksLikeInt(CONST char *bytes, int length)
 }
 # This is used by TclX, but should otherwise be considered private
 declare 141 generic {

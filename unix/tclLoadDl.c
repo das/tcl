@@ -77,7 +77,7 @@ TclpLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr,
 {
     VOID *handle;
     Tcl_DString newName, ds;
-    char *native;
+    CONST char *native;
 
     native = Tcl_FSGetNativePath(pathPtr);
     handle = dlopen(native, RTLD_NOW | RTLD_GLOBAL);	/* INTL: Native. */

@@ -1282,7 +1282,7 @@ OpenEncodingFile(dir, name)
 {
     char *argv[3];
     Tcl_DString pathString;
-    char *path;
+    CONST char *path;
     Tcl_Channel chan;
     Tcl_Obj *pathPtr;
     

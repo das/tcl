@@ -459,7 +459,8 @@ StdinProc(clientData, mask)
 
     (void) Tcl_DStringAppend(&tsdPtr->command, Tcl_DStringValue(
             &tsdPtr->line), -1);
-    cmd = Tcl_DStringAppend(&tsdPtr->command, "\n", -1);
+    Tcl_DStringAppend(&tsdPtr->command, "\n", -1);
+    cmd = Tcl_DStringValue(&tsdPtr->command);
     Tcl_DStringFree(&tsdPtr->line);
     if (!Tcl_CommandComplete(cmd)) {
         gotPartial = 1;
