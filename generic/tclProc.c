@@ -1046,7 +1046,11 @@ TclObjInterpProc(clientData, interp, objc, objv)
 
 	desiredObjs = (Tcl_Obj **)
 		ckalloc(sizeof(Tcl_Obj *) * (unsigned)(numArgs+1));
+#ifdef AVOID_HACKS_FOR_ITCL
 	desiredObjs[0] = objv[0];
+#else
+	desiredObjs[0] = Tcl_NewListObj(1, objv);
+#endif /* AVOID_HACKS_FOR_ITCL */
 	localPtr = procPtr->firstLocalPtr;
 	for (i=1 ; i<=numArgs ; i++) {
 	    TclNewObj(argObj);
@@ -1066,9 +1070,15 @@ TclObjInterpProc(clientData, interp, objc, objv)
 	Tcl_WrongNumArgs(interp, numArgs+1, desiredObjs, NULL);
 	result = TCL_ERROR;
 
+#ifdef AVOID_HACKS_FOR_ITCL
 	for (i=1 ; i<=numArgs ; i++) {
 	    TclDecrRefCount(desiredObjs[i]);
 	}
+#else
+	for (i=0 ; i<=numArgs ; i++) {
+	    TclDecrRefCount(desiredObjs[i]);
+	}
+#endif /* AVOID_HACKS_FOR_ITCL */
 	ckfree((char *) desiredObjs);
 	goto procDone;
     }
