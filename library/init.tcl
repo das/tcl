@@ -241,7 +241,7 @@ proc unknown args {
 		#
 		if {$errorInfo ne "$einfo$expect"} {
 		    error "Tcl bug: unexpected stack trace in \"unknown\"" {} \
-			[list CORE UNKNOWN BADTRACE $expect $errorInfo"]
+			[list CORE UNKNOWN BADTRACE $expect $errorInfo]
 		}
 		return -code error -errorcode $errorCode \
 			-errorinfo $einfo $msg
