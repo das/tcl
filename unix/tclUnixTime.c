@@ -368,7 +368,7 @@ ThreadSafeGMTime( timePtr )
     gmtime_r( timePtr, tmPtr );
 #else
     Tcl_MutexLock( & tmMutex );
-    *tmPtr = *( gmtime( timePtr ) );
+    memcpy( (VOID *) tmPtr, (VOID *) gmtime( timePtr ), sizeof ( struct tm ) );
     Tcl_MutexUnlock( &tmMutex );
 #endif    
     return tmPtr;
@@ -409,7 +409,9 @@ ThreadSafeLocalTime( timePtr )
     localtime_r( timePtr, tmPtr );
 #else
     Tcl_MutexLock( & tmMutex );
-    *tmPtr = *( localtime( timePtr ) );
+    memcpy( (VOID *) (tmPtr),
+	    (VOID *) ( localtime( timePtr ) ),
+	    sizeof (struct tm) );
     Tcl_MutexUnlock( &tmMutex );
 #endif    
     return tmPtr;
