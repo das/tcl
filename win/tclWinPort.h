@@ -365,11 +365,12 @@ typedef float *TCHAR;
  * use by tclAlloc.c.
  */
 
-#define TclpSysAlloc(size, isBin)	((void*)GlobalAlloc(GMEM_FIXED, \
-					    (DWORD)size))
-#define TclpSysFree(ptr)		(GlobalFree((HGLOBAL)ptr))
-#define TclpSysRealloc(ptr, size)	((void*)GlobalReAlloc((HGLOBAL)ptr, \
-					    (DWORD)size, 0))
+#define TclpSysAlloc(size, isBin)	((void*)HeapAlloc(GetProcessHeap(), \
+					    (DWORD)0, (DWORD)size))
+#define TclpSysFree(ptr)		(HeapFree(GetProcessHeap(), \
+					    (DWORD)0, (HGLOBAL)ptr))
+#define TclpSysRealloc(ptr, size)	((void*)HeapReAlloc(GetProcessHeap(), \
+					    (DWORD)0, (LPVOID)ptr, (DWORD)size))
 
 /*
  * The following declarations belong in tclInt.h, but depend on platform
