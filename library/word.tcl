@@ -15,7 +15,7 @@
 # The following variables are used to determine which characters are
 # interpreted as white space.  
 
-if {[string equal $tcl_platform(platform) "windows"]} {
+if {[string equal $::tcl_platform(platform) "windows"]} {
     # Windows style - any but a unicode space char
     set tcl_wordchars "\\S"
     set tcl_nonwordchars "\\s"
