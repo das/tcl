@@ -885,6 +885,9 @@ TclStubs tclStubs = {
     Tcl_FSMountsChanged, /* 480 */
     Tcl_EvalTokensStandard, /* 481 */
     Tcl_GetTime, /* 482 */
+    Tcl_CreateObjTrace, /* 483 */
+    Tcl_GetCommandInfoFromToken, /* 484 */
+    Tcl_SetCommandInfoFromToken, /* 485 */
 };
 
 /* !END!: Do not edit above this line. */
