@@ -1965,7 +1965,6 @@ TclRenameCommand(interp, oldName, newName)
 	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 		 "can't rename to \"", newName, "\": bad command name",
     	    	 (char *) NULL);
-	Tcl_DecrRefCount( oldFullName );
 	result = TCL_ERROR;
 	goto done;
     }
