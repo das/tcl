@@ -2182,7 +2182,8 @@ TclCompileStringCmd(interp, parsePtr, envPtr)
     if (Tcl_GetIndexFromObj(interp, opObj, options, "option", 0,
 	    &index) != TCL_OK) {
 	Tcl_DecrRefCount(opObj);
-	return TCL_ERROR;
+	Tcl_ResetResult(interp);
+	return TCL_OUT_LINE_COMPILE;
     }
     Tcl_DecrRefCount(opObj);
 
