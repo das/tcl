@@ -884,6 +884,17 @@ Tcl_FinalizeThread()
 	 */
 
 	tsdPtr->inExit = 1;
+
+	/*
+	 * Clean up the library path now, before we invalidate thread-local
+	 * storage or calling thread exit handlers.
+	 */
+
+	if (tsdPtr->tclLibraryPath != NULL) {
+	    Tcl_DecrRefCount(tsdPtr->tclLibraryPath);
+	    tsdPtr->tclLibraryPath = NULL;
+	}
+
 	for (exitPtr = tsdPtr->firstExitPtr; exitPtr != NULL;
 		exitPtr = tsdPtr->firstExitPtr) {
 	    /*
@@ -899,16 +910,6 @@ Tcl_FinalizeThread()
 	TclFinalizeIOSubsystem();
 	TclFinalizeNotifier();
 	TclFinalizeAsync();
-
-	/*
-	 * Clean up the library path now, before we invalidate thread-local
-	 * storage.
-	 */
-
-	if (tsdPtr->tclLibraryPath != NULL) {
-	    Tcl_DecrRefCount(tsdPtr->tclLibraryPath);
-	    tsdPtr->tclLibraryPath = NULL;
-	}
 
 	/*
 	 * Blow away all thread local storage blocks.
