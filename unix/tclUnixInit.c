@@ -277,6 +277,16 @@ CONST char *path;		/* Path to the executable in native
 	ckfree((char *) pathv);
     }
 
+    /*
+     * Finally, look for the library relative to the compiled-in path.
+     */
+			      
+    str = defaultLibraryDir;
+    if (str[0] != '\0') {
+        objPtr = Tcl_NewStringObj(str, -1);
+        Tcl_ListObjAppendElement(NULL, pathPtr, objPtr);
+    }
+
     TclSetLibraryPath(pathPtr);    
     Tcl_DStringFree(&buffer);
 }
