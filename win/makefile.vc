@@ -156,6 +156,7 @@ TCLOBJS = \
 	$(TMPDIR)\tclInterp.obj \
 	$(TMPDIR)\tclIO.obj \
 	$(TMPDIR)\tclIOCmd.obj \
+	$(TMPDIR)\tclIOGT.obj \
 	$(TMPDIR)\tclIOSock.obj \
 	$(TMPDIR)\tclIOUtil.obj \
 	$(TMPDIR)\tclLink.obj \
