@@ -20,7 +20,7 @@
 
 package require Tcl 8.3		;# uses [glob -directory]
 namespace eval tcltest {
-    variable Version 2.1
+    variable Version 2.1.1
 
     # Compatibility support for dumb variables defined in tcltest 1
     # Do not use these.  Call [package provide Tcl] and [info patchlevel]
@@ -3042,7 +3042,6 @@ proc tcltest::viewFile {name {directory ""}} {
     }
     set fullName [file join $directory $name]
     set f [open $fullName]
-    fconfigure $f -translation binary
     set data [read -nonewline $f]
     close $f
     return $data

@@ -173,8 +173,8 @@ The default value of \fIdirectory\fR is the directory
 as a convenient way to turn the contents of a file generated
 by a test into the result of that test for matching against
 an expected result.  The contents of the file are read using
-the binary encoding, so the exact byte for byte contents are
-returned, with the exception of the final newline, if any.
+the system encoding, so its usefulness is limited to text
+files.
 .TP
 \fBcleanupTests\fR
 Intended to clean up and summarize after several tests have been
