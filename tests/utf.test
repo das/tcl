@@ -14,6 +14,8 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     source [file join [pwd] [file dirname [info script]] defs.tcl]
 }
 
+catch {unset x}
+
 test utf-1.1 {Tcl_UniCharToUtf: 1 byte sequences} {
     set x \x01
 } [bytestring "\x01"]
