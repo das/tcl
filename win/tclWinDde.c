@@ -71,7 +71,7 @@ static DWORD ddeInstance;       /* The application instance handle given
 				 * to us by DdeInitialize. */
 static int ddeIsServer = 0;
 
-#define TCL_DDE_VERSION "1.2.4"
+#define TCL_DDE_VERSION "1.2.5"
 #define TCL_DDE_PACKAGE_NAME "dde"
 #define TCL_DDE_SERVICE_NAME "TclEval"
 
@@ -1147,7 +1147,7 @@ Tcl_DdeObjCmd(
 	  (char *) NULL};
     static CONST char *ddeOptions[] = {"-async", (char *) NULL};
     static CONST char *ddeReqOptions[] = {"-binary", (char *) NULL};
-    static CONST char *ddeSrvOptions[] = {"-exact", "-handler", "--", (char *) NULL};
+    static CONST char *ddeSrvOptions[] = {"-force", "-handler", "--", (char *) NULL};
     int index, argIndex, i;
     int async = 0, binary = 0, exact = 0;
     int result = TCL_OK;
@@ -1209,7 +1209,7 @@ Tcl_DdeObjCmd(
 		    Tcl_ResetResult(interp);
 		    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 			    "bad option \"", Tcl_GetString(objv[i]),
-			    "\": must be -exact, -handler or --",
+			    "\": must be -force, -handler or --",
 			    (char*)NULL);
 		    return TCL_ERROR;
 		}
@@ -1218,7 +1218,7 @@ Tcl_DdeObjCmd(
 	    if ((objc - i) > 1) {
 		Tcl_ResetResult(interp);
 		Tcl_WrongNumArgs(interp, 1, objv,
-			"servername ?-exact? ?-handler proc? ?--?"
+			"servername ?-force? ?-handler proc? ?--?"
 			" ?serverName?");
 		return TCL_ERROR;
 	    }
