@@ -816,10 +816,10 @@ proc ::tcl::OptCheckType {arg type {typeArgs ""}} {
  	 if { $arg == "true" || $arg == "false" } {
             return boolean
         }
-        if {[string is integer $arg]} {
+        if {[string is integer -strict $arg]} {
             return int
         }
-        if {[string is double $arg]} {
+        if {[string is double -strict $arg]} {
             return float
         }
         return string
