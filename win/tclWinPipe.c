@@ -1576,7 +1576,7 @@ BuildCommandLine(
      */
 
     Tcl_DStringAppend(&ds, Tcl_DStringValue(linePtr), -1);
-    if (Tcl_DStringLength(&ds) > 0) Tcl_DStringAppend(&ds, " ", 1);
+    if (Tcl_DStringLength(linePtr) > 0) Tcl_DStringAppend(&ds, " ", 1);
 
     for (i = 0; i < argc; i++) {
 	if (i == 0) {
