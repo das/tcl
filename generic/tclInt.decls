@@ -705,6 +705,20 @@ declare 174 generic {
 	    Tcl_Obj *part2Ptr, Tcl_WideInt wideIncrAmount, int part1NotParsed)
 }
 
+# Factoring out of trace code
+
+declare 175 generic {
+    int TclCallVarTraces(Interp *iPtr, Var *arrayPtr, Var *varPtr,
+	    CONST char *part1, CONST char *part2, int flags, int leaveErrMsg)
+}
+declare 176 generic {
+    void TclCleanupVar(Var *varPtr, Var *arrayPtr)
+}
+declare 177 generic {
+    void TclVarErrMsg(Tcl_Interp *interp, CONST char *part1, CONST char *part2,
+	    CONST char *operation, CONST char *reason)
+}
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are
