@@ -361,6 +361,32 @@ test regexp-12.1 {regsub of a very large string} {
     set x done
 } {done}
 
+test regexp-13.1 {CompileRegexp: regexp cache} {
+    regexp .*a b
+    regexp .*b c
+    regexp .*c d
+    regexp .*d e
+    regexp .*e f
+    set x .
+    append x *a
+    regexp $x bbba
+} 1
+test regexp-13.2 {CompileRegexp: regexp cache, different flags} {
+    regexp .*a b
+    regexp .*b c
+    regexp .*c d
+    regexp .*d e
+    regexp .*e f
+    set x .
+    append x *a
+    regexp -nocase $x bbba
+} 1
+
+set x 1
+set y 2
+regexp "$x$y" 123
+    
+
 # cleanup
 ::tcltest::cleanupTests
 return

@@ -64,6 +64,8 @@ typedef struct TclRegexp {
 				 * representation of the last string matched
 				 * with this regexp to indicate the location
 				 * of subexpressions. */
+    int refCount;		/* Count of number of references to this
+				 * compiled regexp.
 } TclRegexp;
 
 /*
