@@ -26,12 +26,12 @@ if {[info commands ::testvolumetype] == ""} {
     } else {
 	tcltest::testConstraint notNTFS 1
     }
-    if {[string equal $::tcl_platform(os) "Windows NT"] &&
+}
+if {[string equal $::tcl_platform(os) "Windows NT"] &&
 	    $::tcl_platform(osVersion) >= 5.0} {
-	tcltest::testConstraint win2K+ 1
-    } else {
-	tcltest::testConstraint win2K+ 0
-    }
+    tcltest::testConstraint win2000 1
+} else {
+    tcltest::testConstraint win2000 0
 }
 
 test winFile-1.1 {TclpGetUserHome} {win} {
@@ -166,7 +166,7 @@ close [open $fname w]
 test winFile-4.0 {
     Enhanced NTFS user/group permissions: test no acccess
 } -constraints {
-    win nt notNTFS win2K+
+    win nt notNTFS win2000
 } -setup {
     set owner [getuser $fname]
     set user $::env(USERDOMAIN)\\$::env(USERNAME)
