@@ -20,7 +20,7 @@
 #	This version also cleans up error cases and eliminates the
 #	"ioerror" status in favor of raising an error
 
-package provide http 2.3
+package provide http 2.3.1
 
 namespace eval http {
     variable http
@@ -28,7 +28,7 @@ namespace eval http {
 	-accept */*
 	-proxyhost {}
 	-proxyport {}
-	-useragent {Tcl http client package 2.3}
+	-useragent {Tcl http client package 2.3.1}
 	-proxyfilter http::ProxyRequired
     }
 
