@@ -1663,6 +1663,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		 * empty charMap, just return whatever string was given
 		 */
 		Tcl_SetObjResult(interp, objv[objc-1]);
+		return TCL_OK;
 	    } else if (mapElemc & 1) {
 		/*
 		 * The charMap must be an even number of key/value items
