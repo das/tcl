@@ -2625,8 +2625,8 @@ test io-29.31 {Tcl_WriteChars, background flush} {stdio} {
 } ok
 test io-29.32 {Tcl_WriteChars, background flush to slow reader} \
 	{stdio asyncPipeClose} {
-    removeFile pipe
-    removeFile output
+    catch {removeFile pipe}
+    catch {removeFile output}
     set f [open $path(pipe) w]
     puts $f [format {set f [open "%s" w]} $path(output)]
     puts $f {fconfigure $f -translation lf}
