@@ -2123,7 +2123,7 @@ EXTERN void	TclDbInitNewObj _ANSI_ARGS_((Tcl_Obj *objPtr));
     TclDbNewObj(objPtr, __FILE__, __LINE__);
 
 # define TclDecrRefCount(objPtr) \
-    Tcl_DecrRefCount(objPtr);
+    Tcl_DbDecrRefCount(objPtr, __FILE__, __LINE__)
 
 #elif defined(PURIFY)
 

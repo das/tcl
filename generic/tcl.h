@@ -778,15 +778,6 @@ typedef struct Tcl_Obj {
 	    VOID *ptr2;
 	} twoPtrValue;
     } internalRep;
-
-    /*
-     * Thread id used to check that calls to Tcl_IncrRefCount,
-     * Tcl_DecrRefCount, and Tcl_IsShared are being made
-     * from the thread that originally allocated the Tcl_Obj.
-     */
-#if defined(TCL_MEM_DEBUG) && defined(TCL_THREADS)
-    Tcl_ThreadId allocThread;
-#endif
 } Tcl_Obj;
 
 
