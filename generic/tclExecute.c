@@ -1079,6 +1079,7 @@ TclExecuteByteCode(interp, codePtr)
         switch (*pc) {
 	case INST_DONE:
 	    if (stackTop <= initStackTop) {
+		stackTop--;
 		goto abnormalReturn;
 	    }
 
