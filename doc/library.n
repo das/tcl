@@ -82,7 +82,7 @@ autoloaded library.  If so, the commands are loaded so that they will
 be available to the interpreter for creating the import links.  If the
 commands do not reside in an autoloaded library, \fBauto_import\fR
 does nothing.  The pattern matching is performed according to the
-matching rules of \fBnamespace importer\fR.
+matching rules of \fBnamespace import\fR.
 .TP
 \fBauto_load \fIcmd\fR
 This command attempts to load the definition for a Tcl command named
