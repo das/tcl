@@ -844,11 +844,11 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 	dirName = Tcl_DStringAppend(&dirString, "*.*", 3);
 	native = Tcl_WinUtfToTChar(dirName, -1, &ds);
 	handle = (*tclWinProcs->findFirstFileProc)(native, &data);
-	Tcl_DStringFree(&ds);
 
 	if (handle == INVALID_HANDLE_VALUE) {
-	    Tcl_DStringFree(&dirString);
 	    TclWinConvertError(GetLastError());
+	    Tcl_DStringFree(&ds);
+	    Tcl_DStringFree(&dirString);
 	    Tcl_ResetResult(interp);
 	    Tcl_AppendResult(interp, "couldn't read directory \"",
 		    Tcl_DStringValue(&dsOrig), "\": ", 
@@ -856,6 +856,7 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 	    Tcl_DStringFree(&dsOrig);
 	    return TCL_ERROR;
 	}
+	Tcl_DStringFree(&ds);
 
 	/*
 	 * Check to see if the pattern should match the special
