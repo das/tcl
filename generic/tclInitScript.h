@@ -78,8 +78,8 @@ static char initScript[] = "if {[info proc tclInit]==\"\"} {\n\
 	lappend dirs $tclDefaultLibrary\n\
 	unset tclDefaultLibrary\n\
 	set parentDir [file dirname [file dirname [info nameofexecutable]]]\n\
-	lappend dirs [file join $parentDir lib/tcl$tcl_version]\n\
-	lappend dirs [file join [file dirname $parentDir] lib/tcl$tcl_version]\n\
+	lappend dirs [file join $parentDir lib tcl$tcl_version]\n\
+	lappend dirs [file join [file dirname $parentDir] lib tcl$tcl_version]\n\
 	lappend dirs [file join $parentDir library]\n\
 	lappend dirs [file join [file dirname $parentDir] library]\n\
 	if {[string match {*[ab]*} $tcl_patchLevel]} {\n\
@@ -87,8 +87,8 @@ static char initScript[] = "if {[info proc tclInit]==\"\"} {\n\
 	} else {\n\
 	    set ver $tcl_version\n\
 	}\n\
-	lappend dirs [file join [file dirname $parentDir] tcl$ver/library]\n\
-	lappend dirs [file join [file dirname [file dirname $parentDir]] tcl$ver/library]\n\
+	lappend dirs [file join [file dirname $parentDir] tcl$ver library]\n\
+	lappend dirs [file join [file dirname [file dirname $parentDir]] tcl$ver library]\n\
     }\n\
     foreach i $dirs {\n\
 	set tcl_library $i\n\
