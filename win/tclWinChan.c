@@ -101,7 +101,7 @@ static void		FileWatchProc _ANSI_ARGS_((ClientData instanceData,
 
 static Tcl_ChannelType fileChannelType = {
     "file",			/* Type name. */
-    FileBlockProc,		/* Set blocking or non-blocking mode.*/
+    TCL_CHANNEL_VERSION_2,	/* v2 channel */
     FileCloseProc,		/* Close proc. */
     FileInputProc,		/* Input proc. */
     FileOutputProc,		/* Output proc. */
@@ -110,6 +110,10 @@ static Tcl_ChannelType fileChannelType = {
     NULL,			/* Get option proc. */
     FileWatchProc,		/* Set up the notifier to watch the channel. */
     FileGetHandleProc,		/* Get an OS handle from channel. */
+    NULL,			/* close2proc. */
+    FileBlockProc,		/* Set blocking or non-blocking mode.*/
+    NULL,			/* flush proc. */
+    NULL,			/* handler proc. */
 };
 
 

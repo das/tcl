@@ -215,16 +215,20 @@ static DWORD WINAPI     SocketThread _ANSI_ARGS_((LPVOID arg));
  */
 
 static Tcl_ChannelType tcpChannelType = {
-    "tcp",		/* Type name. */
-    TcpBlockProc,	/* Set socket into blocking/non-blocking mode. */
-    TcpCloseProc,	/* Close proc. */
-    TcpInputProc,	/* Input proc. */
-    TcpOutputProc,	/* Output proc. */
-    NULL,		/* Seek proc. */
-    NULL,		/* Set option proc. */
-    TcpGetOptionProc,	/* Get option proc. */
-    TcpWatchProc,	/* Initialize notifier to watch this channel. */
-    TcpGetHandleProc,	/* Get an OS handle from channel. */
+    "tcp",			/* Type name. */
+    TCL_CHANNEL_VERSION_2,	/* v2 channel */
+    TcpCloseProc,		/* Close proc. */
+    TcpInputProc,		/* Input proc. */
+    TcpOutputProc,		/* Output proc. */
+    NULL,			/* Seek proc. */
+    NULL,			/* Set option proc. */
+    TcpGetOptionProc,		/* Get option proc. */
+    TcpWatchProc,		/* Set up notifier to watch this channel. */
+    TcpGetHandleProc,		/* Get an OS handle from channel. */
+    NULL,			/* close2proc. */
+    TcpBlockProc,		/* Set socket into (non-)blocking mode. */
+    NULL,			/* flush proc. */
+    NULL,			/* handler proc. */
 };
 
 /*

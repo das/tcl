@@ -162,7 +162,7 @@ static int		WaitForRead(ConsoleInfo *infoPtr, int blocking);
 
 static Tcl_ChannelType consoleChannelType = {
     "console",			/* Type name. */
-    ConsoleBlockModeProc,	/* Set blocking or non-blocking mode.*/
+    TCL_CHANNEL_VERSION_2,	/* v2 channel */
     ConsoleCloseProc,		/* Close proc. */
     ConsoleInputProc,		/* Input proc. */
     ConsoleOutputProc,		/* Output proc. */
@@ -171,6 +171,10 @@ static Tcl_ChannelType consoleChannelType = {
     NULL,			/* Get option proc. */
     ConsoleWatchProc,		/* Set up notifier to watch the channel. */
     ConsoleGetHandleProc,	/* Get an OS handle from channel. */
+    NULL,			/* close2proc. */
+    ConsoleBlockModeProc,	/* Set blocking or non-blocking mode.*/
+    NULL,			/* flush proc. */
+    NULL,			/* handler proc. */
 };
 
 /*

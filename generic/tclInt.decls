@@ -577,6 +577,7 @@ declare 153 generic {
     Tcl_Obj *TclGetLibraryPath(void)
 }
 
+# moved to tclTest.c (static) in 8.3.2/8.4a2
 #declare 154 generic {
 #    int TclTestChannelCmd(ClientData clientData,
 #    Tcl_Interp *interp, int argc, char **argv)
@@ -604,8 +605,13 @@ declare 160 generic {
 	    Tcl_DString *dirPtr, char *pattern, char *tail, GlobTypeData *types)
 }
 
+# new in 8.3.2/8.4a2
 declare 161 generic {
-    void TclChannelEventScriptInvoker(ClientData clientData, int mask)
+    int TclChannelTransform(Tcl_Interp *interp, Tcl_Channel chan, \
+	    Tcl_Obj *cmdObjPtr)
+}
+declare 162 generic {
+    void TclChannelEventScriptInvoker(ClientData clientData, int flags)
 }
 
 ##############################################################################
