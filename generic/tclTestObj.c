@@ -911,7 +911,8 @@ TeststringobjCmd(clientData, interp, objc, objv)
     TestString *strPtr;
     static CONST char *options[] = {
 	"append", "appendstrings", "get", "get2", "length", "length2",
-	"set", "set2", "setlength", "ualloc", (char *) NULL
+	"set", "set2", "setlength", "ualloc", "getunicode", 
+	(char *) NULL
     };
 
     if (objc < 3) {
@@ -1072,6 +1073,12 @@ TeststringobjCmd(clientData, interp, objc, objv)
 		length = -1;
 	    }
 	    Tcl_SetIntObj(Tcl_GetObjResult(interp), length);
+	    break;
+	case 10:			/* getunicode */
+	    if (objc != 3) {
+		goto wrongNumArgs;
+	    }
+	    Tcl_GetUnicodeFromObj(varPtr[varIndex], NULL);
 	    break;
     }
 

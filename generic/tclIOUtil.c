@@ -2570,23 +2570,26 @@ Tcl_FSLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr,
 	    
 	    if (TclCrossFilesystemCopy(interp, pathPtr, 
 				       copyToPtr) == TCL_OK) {
+		Tcl_LoadHandle newLoadHandle = NULL;
+		Tcl_FSUnloadFileProc *newUnloadProcPtr = NULL;
+		FsDivertLoad *tvdlPtr;
+		int retVal;
+
+#if !defined(__WIN32__) && !defined(MAC_TCL)
 		/* 
 		 * Do we need to set appropriate permissions 
 		 * on the file?  This may be required on some
 		 * systems.  On Unix we could loop over
 		 * the file attributes, and set any that are
-		 * called "-permissions" to 0777.  Or directly:
-		 * 
-		 * Tcl_Obj* perm = Tcl_NewStringObj("0777",-1);
-		 * Tcl_IncrRefCount(perm);
-		 * Tcl_FSFileAttrsSet(NULL, 2, copyToPtr, perm);
-		 * Tcl_DecrRefCount(perm);
-		 * 
+		 * called "-permissions" to 0700.  However,
+		 * we just do this directly, like this:
 		 */
-		Tcl_LoadHandle newLoadHandle = NULL;
-		Tcl_FSUnloadFileProc *newUnloadProcPtr = NULL;
-		FsDivertLoad *tvdlPtr;
-		int retVal;
+		
+		Tcl_Obj* perm = Tcl_NewStringObj("0700",-1);
+		Tcl_IncrRefCount(perm);
+		Tcl_FSFileAttrsSet(NULL, 2, copyToPtr, perm);
+		Tcl_DecrRefCount(perm);
+#endif
 		
 		retVal = Tcl_FSLoadFile(interp, copyToPtr, sym1, sym2,
 					proc1Ptr, proc2Ptr, 
