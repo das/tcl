@@ -20,7 +20,10 @@
  * including the rest of the stub functions.
  */
 
-#undef TCL_NO_INLINES
+#ifndef USE_TCL_STUBS
+#define USE_TCL_STUBS
+#endif
+#undef USE_TCL_STUB_PROCS
 
 #include "tclInt.h"
 #include "tclPort.h"
@@ -35,6 +38,8 @@
 
 TclStubs *tclStubsPtr;
 TclPlatStubs *tclPlatStubsPtr;
+TclIntStubs *tclIntStubsPtr;
+TclIntPlatStubs *tclIntPlatStubsPtr;
 
 static TclStubs *	HasStubSupport _ANSI_ARGS_((Tcl_Interp *interp));
 
@@ -96,8 +101,12 @@ Tcl_InitStubs (interp, version, exact)
 
     if (tclStubsPtr->hooks) {
 	tclPlatStubsPtr = tclStubsPtr->hooks->tclPlatStubs;
+	tclIntStubsPtr = tclStubsPtr->hooks->tclIntStubs;
+	tclIntPlatStubsPtr = tclStubsPtr->hooks->tclIntPlatStubs;
     } else {
 	tclPlatStubsPtr = NULL;
+	tclIntStubsPtr = NULL;
+	tclIntPlatStubsPtr = NULL;
     }
     
     return actualVersion;

@@ -556,7 +556,7 @@ TclpAccess(path, mode)
     CONST char *path;		/* Path of file to access. */
     int mode;			/* Permission setting. */
 {
-    return access(native, mode);
+    return access(path, mode);
 }
 
 /*

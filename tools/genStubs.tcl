@@ -791,7 +791,7 @@ proc genStubs::makeInit {name textVar} {
 	}
     }
     append text "\};\n\n"
-    append text "extern ${capName}Stubs *${name}StubsPtr = &${name}Stubs;\n"
+    append text "${capName}Stubs *${name}StubsPtr = &${name}Stubs;\n"
     return
 }
 

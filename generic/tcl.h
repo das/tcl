@@ -1105,7 +1105,6 @@ EXTERN char *		Tcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp,
  * Public functions that are not accessible via the stubs table.
  */
 
-EXTERN void		Tcl_InitMemory _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN void		Tcl_Main _ANSI_ARGS_((int argc, char **argv,
 			    Tcl_AppInitProc *appInitProc));
 

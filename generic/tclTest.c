@@ -2716,6 +2716,7 @@ NoopObjCmd(unused, interp, objc, objv)
  */
 
 	/* ARGSUSED */
+static int
 TestsetCmd(data, interp, argc, argv)
     ClientData data;			/* Additional flags for Get/SetVar2. */
     register Tcl_Interp *interp;	/* Current interpreter. */
