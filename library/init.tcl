@@ -165,7 +165,7 @@ proc unknown args {
     set cmd [lindex $args 0]
     if {[regexp "^namespace\[ \t\n\]+inscope" $cmd] && [llength $cmd] == 4} {
         set arglist [lrange $args 1 end]
-	set ret [catch {uplevel 1 $cmd $arglist} result]
+	set ret [catch {uplevel 1 ::$cmd $arglist} result]
         if {$ret == 0} {
             return $result
         } else {
@@ -188,7 +188,7 @@ proc unknown args {
 	    return -code error "self-referential recursion in \"unknown\" for command \"$name\"";
 	}
 	set unknown_pending($name) pending;
-	set ret [catch {auto_load $name [uplevel 1 {namespace current}]} msg]
+	set ret [catch {auto_load $name [uplevel 1 {::namespace current}]} msg]
 	unset unknown_pending($name);
 	if {$ret != 0} {
 	    append errorInfo "\n    (autoloading \"$name\")"
@@ -286,7 +286,7 @@ proc auto_load {cmd {namespace {}}} {
     global auto_index auto_oldpath auto_path
 
     if {[string length $namespace] == 0} {
-	set namespace [uplevel 1 [list namespace current]]
+	set namespace [uplevel 1 [list ::namespace current]]
     }
     set nameList [auto_qualify $cmd $namespace]
     # workaround non canonical auto_index entries that might be around
@@ -461,7 +461,7 @@ proc auto_import {pattern} {
 	return
     }
 
-    set ns [uplevel 1 [list namespace current]]
+    set ns [uplevel 1 [list ::namespace current]]
     set patternList [auto_qualify $pattern $ns]
 
     auto_load_index
