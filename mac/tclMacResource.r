@@ -38,5 +38,7 @@
  * will load the TEXT resource named "Init".
  */
 
+#ifndef TCLTK_NO_LIBRARY_TEXT_RESOURCES
 #include "tclMacTclCode.r"
+#endif
 
