@@ -4689,7 +4689,7 @@ ReadChars(statePtr, objPtr, charsToRead, offsetPtr, factorPtr)
 	 * Got too many chars.
 	 */
 
-	char *eof;
+	CONST char *eof;
 
 	eof = Tcl_UtfAtIndex(dst, toRead);
 	statePtr->inputEncodingState = oldState;

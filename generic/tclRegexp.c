@@ -243,9 +243,9 @@ Tcl_RegExpRange(re, index, startPtr, endPtr)
     int index;			/* 0 means give the range of the entire
 				 * match, > 0 means give the range of
 				 * a matching subrange. */
-    char **startPtr;		/* Store address of first character in
+    CONST char **startPtr;	/* Store address of first character in
 				 * (sub-) range here. */
-    char **endPtr;		/* Store address of character just after last
+    CONST char **endPtr;	/* Store address of character just after last
 				 * in (sub-) range here. */
 {
     TclRegexp *regexpPtr = (TclRegexp *) re;
