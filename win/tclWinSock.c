@@ -2108,6 +2108,14 @@ SocketProc(hwnd, message, wParam, lParam)
 		}
 
 	    } 
+	    if(infoPtr->flags & SOCKET_ASYNC_CONNECT) {
+		infoPtr->flags &= ~(SOCKET_ASYNC_CONNECT);
+		if (error != ERROR_SUCCESS) {
+		    TclWinConvertWSAError(error);
+		    infoPtr->lastError = Tcl_GetErrno();
+		}
+		infoPtr->readyEvents |= FD_WRITE;
+	    }
 	    infoPtr->readyEvents |= event;
 	    break;
 	}
