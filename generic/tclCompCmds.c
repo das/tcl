@@ -2393,7 +2393,7 @@ TclCompileReturnCmd(interp, parsePtr, envPtr)
 {
     Tcl_Token *varTokenPtr;
     int code;
-    int index = envPtr->exceptArrayNext;
+    int index = envPtr->exceptArrayNext - 1;
 
     /*
      * If we're not in a procedure, don't compile.
@@ -2404,13 +2404,16 @@ TclCompileReturnCmd(interp, parsePtr, envPtr)
     }
 
     /*
+     * Look back through the ExceptionRanges of the current CompileEnv,
+     * from exceptArrayPtr[(exceptArrayNext - 1)] down to 
+     * exceptArrayPtr[0] to see if any of them is an enclosing [catch].
      * If there's an enclosing [catch], don't compile.
      */
 
     while (index >= 0) {
-	ExceptionRange *rangePtr = &(envPtr->exceptArrayPtr[index]);
-	if ((rangePtr->type == CATCH_EXCEPTION_RANGE)
-		&& (rangePtr->catchOffset == -1)) {
+	ExceptionRange range = envPtr->exceptArrayPtr[index];
+	if ((range.type == CATCH_EXCEPTION_RANGE) 
+		&& (range.catchOffset == -1)) {
 	    return TCL_OUT_LINE_COMPILE;
 	}
 	index--;
