@@ -1030,14 +1030,14 @@ Tcl_ThreadAlert(threadId)
     /*
      * Find the notifier associated with the specified thread.
      * Note that we need to hold the listLock while calling
-     * Tcl_AlertNotifier to avoid a race condition where
+     * TclpAlertNotifier to avoid a race condition where
      * the specified thread might destroy its notifier.
      */
 
     Tcl_MutexLock(&listLock);
     for (tsdPtr = firstNotifierPtr; tsdPtr; tsdPtr = tsdPtr->nextPtr) {
 	if (tsdPtr->threadId == threadId) {
-	    Tcl_AlertNotifier(tsdPtr->clientData);
+	    TclpAlertNotifier(tsdPtr->clientData);
 	    break;
 	}
     }

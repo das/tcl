@@ -25,7 +25,7 @@ static int initialized = 0;
 #define INTERVAL_TIMER 1	/* Handle of interval timer. */
 
 #define WM_WAKEUP WM_USER	/* Message that is send by
-				 * Tcl_AlertNotifier. */
+				 * TclpAlertNotifier. */
 /*
  * The following static structure contains the state information for the
  * Windows implementation of the Tcl notifier.  One of these structures
@@ -178,7 +178,7 @@ Tcl_FinalizeNotifier(clientData)
 /*
  *----------------------------------------------------------------------
  *
- * Tcl_AlertNotifier --
+ * TclpAlertNotifier --
  *
  *	Wake up the specified notifier from any thread. This routine
  *	is called by the platform independent notifier code whenever
@@ -197,7 +197,7 @@ Tcl_FinalizeNotifier(clientData)
  */
 
 void
-Tcl_AlertNotifier(clientData)
+TclpAlertNotifier(clientData)
     ClientData clientData;	/* Pointer to thread data. */
 {
     ThreadSpecificData *tsdPtr = (ThreadSpecificData *) clientData;

@@ -148,7 +148,7 @@ Tcl_FinalizeNotifier(clientData)
 /*
  *----------------------------------------------------------------------
  *
- * Tcl_AlertNotifier --
+ * TclpAlertNotifier --
  *
  *	Wake up the specified notifier from any thread. This routine
  *	is called by the platform independent notifier code whenever
@@ -166,7 +166,7 @@ Tcl_FinalizeNotifier(clientData)
  */
 
 void
-Tcl_AlertNotifier(clientData)
+TclpAlertNotifier(clientData)
     ClientData clientData;	/* Pointer to thread data. */
 {
 

@@ -223,10 +223,11 @@ extern char **environ;
  * address platform-specific issues.
  */
  
-#define tzset()
+#define TclpAsyncMark(async)
 #define TclpGetPid(pid)	    	((unsigned long) (pid))
 #define TclpGetUserHome(n, b)	(NULL)
 #define TclSetSystemEnv(a,b)
+#define tzset()
 
 /*
  * The following defines replace the Macintosh version of the POSIX

@@ -1144,13 +1144,7 @@ TclpCreateProcess(
 		}
 		*pidPtr = (Tcl_Pid) procInfo.hProcess;
 		if (*pidPtr != 0) {
-		    ProcInfo *procPtr = (ProcInfo *) ckalloc(sizeof(ProcInfo));
-		    procPtr->hProcess = procInfo.hProcess;
-		    procPtr->dwProcessId = procInfo.dwProcessId;
-		    Tcl_MutexLock(&procMutex);
-		    procPtr->nextPtr = procList;
-		    procList = procPtr;
-		    Tcl_MutexUnlock(&procMutex);
+		    TclWinAddProcess(procInfo.hProcess, procInfo.dwProcessId);
 		}
 		result = TCL_OK;
 	    }
@@ -1457,13 +1451,7 @@ TclpCreateProcess(
 
     *pidPtr = (Tcl_Pid) procInfo.hProcess;
     if (*pidPtr != 0) {
-	ProcInfo *procPtr = (ProcInfo *) ckalloc(sizeof(ProcInfo));
-	procPtr->hProcess = procInfo.hProcess;
-	procPtr->dwProcessId = procInfo.dwProcessId;
-	Tcl_MutexLock(&procMutex);
-	procPtr->nextPtr = procList;
-	procList = procPtr;
-	Tcl_MutexUnlock(&procMutex);
+	TclWinAddProcess(procInfo.hProcess, procInfo.dwProcessId);
     }
     result = TCL_OK;
 
@@ -2760,6 +2748,38 @@ Tcl_WaitPid(
     ckfree((char*)infoPtr);
 
     return result;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclWinAddProcess --
+ *
+ *     Add a process to the process list so that we can use
+ *     Tcl_WaitPid on the process.
+ *
+ * Results:
+ *     None
+ *
+ * Side effects:
+ *	Adds the specified process handle to the process list so
+ *	Tcl_WaitPid knows about it.
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+TclWinAddProcess(hProcess, id)
+    HANDLE hProcess;           /* Handle to process */
+    DWORD id;                  /* Global process identifier */
+{
+    ProcInfo *procPtr = (ProcInfo *) ckalloc(sizeof(ProcInfo));
+    procPtr->hProcess = hProcess;
+    procPtr->dwProcessId = id;
+    Tcl_MutexLock(&procMutex);
+    procPtr->nextPtr = procList;
+    procList = procPtr;
+    Tcl_MutexUnlock(&procMutex);
 }
 
 /*
