@@ -1275,7 +1275,14 @@ proc ::tcl::clock::FreeScan { string base timezone locale } {
     set date [GetJulianDayFromEraYearMonthDay $date[set date {}]]
     if { $parseTime ne {} } {
 	dict set date secondOfDay $parseTime
+    } elseif { [llength $parseWeekday] != 0 
+	       || [llength $parseOrdinalMonth] != 0 
+	       || ( [llength $parseRel] != 0 
+		    && ( [lindex $parseRel 0] != 0
+			 || [lindex $parseRel 1] != 0 ) ) } {
+	dict set date secondOfDay 0
     }
+
     dict set date localSeconds \
 	[expr { -210866803200
 		+ ( 86400 * wide([dict get $date julianDay]) )
@@ -1284,7 +1291,6 @@ proc ::tcl::clock::FreeScan { string base timezone locale } {
     set date [ConvertLocalToUTC $date[set date {}]]
     set seconds [dict get $date seconds]
 
-
     # Do relative times
 
     if { [llength $parseRel] > 0 } {
@@ -1292,7 +1298,7 @@ proc ::tcl::clock::FreeScan { string base timezone locale } {
 	set seconds [add $seconds \
 			 $relMonth months $relDay days $relSecond seconds \
 			 -timezone $timezone -locale $locale]
-    }
+    }	
 
     # Do relative weekday
     
