@@ -555,7 +555,7 @@ DeleteValue(
     result = (*regWinProcs->regDeleteValueProc)(key, Tcl_DStringValue(&ds));
     Tcl_DStringFree(&ds);
     if (result != ERROR_SUCCESS) {
-	Tcl_AppendResult("unable to delete value \"",
+	Tcl_AppendResult(interp, "unable to delete value \"",
 		Tcl_GetString(valueNameObj), "\" from key \"",
 		Tcl_GetString(keyNameObj), "\": ", NULL);
 	AppendSystemError(interp, result);
