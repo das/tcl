@@ -591,8 +591,7 @@ Tcl_FSRegister(clientData, fsPtr)
 	return TCL_ERROR;
     }
 
-    newFilesystemPtr = (FilesystemRecord *)
-	ckalloc(sizeof(FilesystemRecord));
+    newFilesystemPtr = (FilesystemRecord *) ckalloc(sizeof(FilesystemRecord));
 
     newFilesystemPtr->clientData = clientData;
     newFilesystemPtr->fsPtr = fsPtr;
@@ -601,7 +600,7 @@ Tcl_FSRegister(clientData, fsPtr)
      * anyone is welcome to ckfree us.
      */
     newFilesystemPtr->fileRefCount = 1;
-    
+
     /* 
      * Is this lock and wait strictly speaking necessary?  Since any
      * iterators out there will have grabbed a copy of the head of
@@ -616,9 +615,11 @@ Tcl_FSRegister(clientData, fsPtr)
      * a very rare action, this is not a very important point.
      */
     Tcl_MutexLock(&filesystemMutex);
-    filesystemWantToModify++;
-    Tcl_ConditionWait(&filesystemOkToModify, &filesystemMutex, NULL);
-    filesystemWantToModify--;
+    if (filesystemIteratorsInProgress) {
+	filesystemWantToModify++;
+	Tcl_ConditionWait(&filesystemOkToModify, &filesystemMutex, NULL);
+	filesystemWantToModify--;
+    }
 
     newFilesystemPtr->nextPtr = filesystemList;
     filesystemList = newFilesystemPtr;
@@ -664,9 +665,11 @@ Tcl_FSUnregister(fsPtr)
     FilesystemRecord *prevFsRecPtr = NULL;
 
     Tcl_MutexLock(&filesystemMutex);
-    filesystemWantToModify++;
-    Tcl_ConditionWait(&filesystemOkToModify, &filesystemMutex, NULL);
-    filesystemWantToModify--;
+    if (filesystemIteratorsInProgress) {
+	filesystemWantToModify++;
+	Tcl_ConditionWait(&filesystemOkToModify, &filesystemMutex, NULL);
+	filesystemWantToModify--;
+    }
     tmpFsRecPtr = filesystemList;
     /*
      * Traverse the 'filesystemList' looking for the particular node
