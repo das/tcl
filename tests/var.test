@@ -173,6 +173,9 @@ test var-1.18 {TclLookupVar, resurrect array element via upvar to deleted array:
 	set result
     }
 } {0 2 1 {can't set "foo": upvar refers to element in deleted array}}
+test var-1.19 {TclLookupVar, right error message when parsing variable name} {
+    list [catch {[format set] thisvar(doesntexist)} msg] $msg
+} {1 {can't read "thisvar(doesntexist)": no such variable}}
 
 test var-2.1 {Tcl_LappendObjCmd, create var if new} {
     catch {unset x}
