@@ -339,6 +339,14 @@ typedef struct ByteCode {
 				 * ByteCode was compiled. Used to invalidate
 				 * code when, e.g., commands with compile
 				 * procs are redefined. */
+    Namespace *nsPtr;		/* Namespace context in which this code
+				 * was compiled. If the code is executed
+				 * if a different namespace, it must be
+				 * recompiled. */
+    int nsEpoch;		/* Value of nsPtr->resolverEpoch when this
+				 * ByteCode was compiled. Used to invalidate
+				 * code when new namespace resolution rules
+				 * are put into effect. */
     int refCount;		/* Reference count: set 1 when created
 				 * plus 1 for each execution of the code
 				 * currently active. This structure can be
