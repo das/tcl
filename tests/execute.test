@@ -592,14 +592,10 @@ test execute-6.2 {Evaluate an expression in a variable; compile the first time, 
     set res "[a $w]:[a $w]"
 } {15:15}
 
-proc traced {script {compileLevel 2} {execLevel 3}} {
-    proc traced_body {} "set ::tcl_traceExec 0;set ::tcl_traceCompile 0;\n\
-	    $script"
-    set ::tcl_traceExec $execLevel
-    set ::tcl_traceCompile $compileLevel
-    uplevel 1 traced_body
+test execute-7.0 {Wide int handling in INST_JUMP_FALSE/LAND} {longIs32bit} {
+    set x 0x100000000
+    expr {$x && 1}
 }
-
 test execute-7.1 {Wide int handling in INST_JUMP_FALSE/LAND} {longIs32bit} {
     expr {0x100000000 && 1}
 } 1
