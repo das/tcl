@@ -1012,7 +1012,6 @@ TclCompEvalObj(interp, objPtr, flags)
 	if (result != TCL_OK) {
 	    goto done;
 	}
-	iPtr->evalFlags = 0;
 	codePtr = (ByteCode *) objPtr->internalRep.otherValuePtr;
     } else {
 	/*

@@ -1984,7 +1984,10 @@ declare 553 generic {
 	    Tcl_ScaleTimeProc** scaleProc,
 	    ClientData* clientData)
 }
-
+# TIP#218 (Driver Thread Actions) davygrvy/akupries ChannelType ver 4
+declare 554 generic {
+    Tcl_DriverThreadActionProc *Tcl_ChannelThreadActionProc(Tcl_ChannelType *chanTypePtr)
+}
 
 ##############################################################################
 

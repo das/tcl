@@ -1051,9 +1051,15 @@ TclInitCompiledLocals(interp, framePtr, nsPtr)
     Namespace *nsPtr;		/* Pointer to current namespace. */
 {
     Var *varPtr = framePtr->compiledLocals;
-    ByteCode *codePtr = (ByteCode *)
-	    framePtr->procPtr->bodyPtr->internalRep.otherValuePtr;
+    Tcl_Obj *bodyPtr;
+    ByteCode *codePtr;
     CompiledLocal *localPtr = framePtr->procPtr->firstLocalPtr;
+
+    bodyPtr = framePtr->procPtr->bodyPtr;
+    if (bodyPtr->typePtr != &tclByteCodeType) {
+        Tcl_Panic("body object for proc attached to frame is not a byte code type");
+    }
+    codePtr = (ByteCode *) bodyPtr->internalRep.otherValuePtr;
 
     InitCompiledLocals(interp, codePtr, localPtr, varPtr, nsPtr);
 }
