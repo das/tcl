@@ -147,6 +147,20 @@ Tcl_FinalizeNotifier(clientData)
 {
     ThreadSpecificData *tsdPtr = (ThreadSpecificData *) clientData;
 
+    /*
+     * Only finalize the notifier if a notifier was installed in the
+     * current thread; there is a route in which this is not
+     * guaranteed to be true (when tclWin32Dll.c:DllMain() is called
+     * with the flag DLL_PROCESS_DETACH by the OS, which could be
+     * doing so from a thread that's never previously been involved
+     * with Tcl, e.g. the task manager) so this check is important.
+     *
+     * Fixes Bug #217982 reported by Hugh Vu and Gene Leache.
+     */
+    if (tsdPtr == NULL) {
+	return;
+    }
+
     DeleteCriticalSection(&tsdPtr->crit);
     CloseHandle(tsdPtr->event);
 
