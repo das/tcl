@@ -694,14 +694,6 @@ TclpObjChdir(pathPtr)
     int result;
     TCHAR *nativePath;
 
-    /*
-     * Ensure correct file sizes by forcing the OS to write any
-     * pending data to disk. This is done only for channels which are
-     * dirty, i.e. have been written to since the last flush here.
-     */
-
-    TclWinFlushDirtyChannels ();
-
     nativePath = (TCHAR *) Tcl_FSGetNativePath(pathPtr);
     result = (*tclWinProcs->setCurrentDirectoryProc)(nativePath);
 
@@ -849,6 +841,14 @@ TclpObjStat(pathPtr, statPtr)
 	Tcl_SetErrno(ENOENT);
 	return -1;
     }
+
+    /*
+     * Ensure correct file sizes by forcing the OS to write any
+     * pending data to disk. This is done only for channels which are
+     * dirty, i.e. have been written to since the last flush here.
+     */
+
+    TclWinFlushDirtyChannels ();
 
     return NativeStat((TCHAR*) Tcl_FSGetNativePath(pathPtr), statPtr);
 }

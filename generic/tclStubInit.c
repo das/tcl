@@ -288,6 +288,7 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclWinNoBackslash, /* 24 */
     TclWinGetPlatform, /* 25 */
     TclWinSetInterfaces, /* 26 */
+    TclWinFlushDirtyChannels, /* 27 */
 #endif /* __WIN32__ */
 #ifdef MAC_TCL
     TclpSysAlloc, /* 0 */

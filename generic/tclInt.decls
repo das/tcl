@@ -840,6 +840,12 @@ declare 26 win {
     void TclWinSetInterfaces(int wide)
 }
 
+# Added in Tcl 8.3.3 / 8.4
+
+declare 27 win {
+    void TclWinFlushDirtyChannels (void)
+}
+
 #########################
 # Unix specific internals
 

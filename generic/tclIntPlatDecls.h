@@ -127,6 +127,8 @@ EXTERN char *		TclWinNoBackslash _ANSI_ARGS_((char * path));
 EXTERN TclPlatformType * TclWinGetPlatform _ANSI_ARGS_((void));
 /* 26 */
 EXTERN void		TclWinSetInterfaces _ANSI_ARGS_((int wide));
+/* 27 */
+EXTERN void		TclWinFlushDirtyChannels _ANSI_ARGS_((void));
 #endif /* __WIN32__ */
 #ifdef MAC_TCL
 /* 0 */
@@ -240,6 +242,7 @@ typedef struct TclIntPlatStubs {
     char * (*tclWinNoBackslash) _ANSI_ARGS_((char * path)); /* 24 */
     TclPlatformType * (*tclWinGetPlatform) _ANSI_ARGS_((void)); /* 25 */
     void (*tclWinSetInterfaces) _ANSI_ARGS_((int wide)); /* 26 */
+    void (*tclWinFlushDirtyChannels) _ANSI_ARGS_((void)); /* 27 */
 #endif /* __WIN32__ */
 #ifdef MAC_TCL
     VOID * (*tclpSysAlloc) _ANSI_ARGS_((long size, int isBin)); /* 0 */
@@ -417,6 +420,10 @@ extern TclIntPlatStubs *tclIntPlatStubsPtr;
 #ifndef TclWinSetInterfaces
 #define TclWinSetInterfaces \
 	(tclIntPlatStubsPtr->tclWinSetInterfaces) /* 26 */
+#endif
+#ifndef TclWinFlushDirtyChannels
+#define TclWinFlushDirtyChannels \
+	(tclIntPlatStubsPtr->tclWinFlushDirtyChannels) /* 27 */
 #endif
 #endif /* __WIN32__ */
 #ifdef MAC_TCL
