@@ -1496,14 +1496,18 @@ catch {unset stat}
 
 # type
 
-file delete link.file
-
 test cmdAH-29.1 {Tcl_FileObjCmd: type} {
     list [catch {file size a b} msg] $msg
 } {1 {wrong # args: should be "file size name"}}
 test cmdAH-29.2 {Tcl_FileObjCmd: type} {
     file type dir.file
 } directory
+test cmdAH-29.3.0 {Tcl_FileObjCmd: delete removes link not file} {
+    set exists [list [file exists link.file] [file exists gorp.file]]
+    file delete link.file
+    set exists2	[list [file exists link.file] [file exists gorp.file]]
+    list $exists $exists2
+} {{1 1} {0 1}}
 test cmdAH-29.3 {Tcl_FileObjCmd: type} {
     file type gorp.file
 } file

@@ -409,10 +409,10 @@ static Tcl_Filesystem testReportingFilesystem = {
     &TestReportCreateDirectory,
     &TestReportRemoveDirectory, 
     &TestReportDeleteFile,
-    &TestReportLstat,
     &TestReportCopyFile,
     &TestReportRenameFile,
     &TestReportCopyDirectory, 
+    &TestReportLstat,
     &TestReportLoadFile,
     NULL /* cwd */,
     &TestReportChdir
@@ -5658,10 +5658,15 @@ TestReport(cmd, path, arg2)
     if (interp == NULL) {
 	/* This is bad, but not much we can do about it */
     } else {
+	/* 
+	 * No idea why I decided to program this up using the
+	 * old string-based API, but there you go.  We should
+	 * convert it to objects.
+	 */
 	Tcl_SavedResult savedResult;
 	Tcl_DString ds;
 	Tcl_DStringInit(&ds);
-	Tcl_DStringAppend(&ds, "puts stderr ",-1);
+	Tcl_DStringAppend(&ds, "lappend filesystemReport ",-1);
 	Tcl_DStringStartSublist(&ds);
 	Tcl_DStringAppendElement(&ds, cmd);
 	if (path != NULL) {
@@ -5677,6 +5682,7 @@ TestReport(cmd, path, arg2)
 	Tcl_RestoreResult(interp, &savedResult);
    }
 }
+
 static int
 TestReportStat(path, buf)
     Tcl_Obj *path;		/* Path of file to stat (in current CP). */
