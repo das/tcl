@@ -3093,7 +3093,7 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 
 	    mode = OPT_GLOB;
 	    
-	    if ((objc < 3) && (objc > 5)) {
+	    if ((objc < 3) || (objc > 5)) {
   	        Tcl_WrongNumArgs(interp, 2, objv,
 			"arrayName ?mode? ?pattern?");
 		return TCL_ERROR;
