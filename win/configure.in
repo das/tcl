@@ -71,10 +71,15 @@ fi
 AC_PROG_MAKE_SET
 
 #--------------------------------------------------------------------
-# These two macros perform additinal compiler test.
+# Perform additinal compiler tests.
 #--------------------------------------------------------------------
 
 AC_CYGWIN
+
+if test "$ac_cv_cygwin" = "yes" ; then
+    AC_MSG_ERROR([Compiling with the Cygwin version of gcc is not supported.
+    Use the Mingw version of gcc from www.mingw.org instead.])
+fi
 
 #--------------------------------------------------------------------
 # Determines the correct binary file extension (.o, .obj, .exe etc.)
