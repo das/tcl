@@ -78,8 +78,7 @@ proc msgcat::mclocale {args} {
 	set word ""
 	foreach part [split $args _] {
 	    set word [string trimleft "${word}_${part}" _]
-	    set ::msgcat::loclist \
-                    [linsert $::msgcat::loclist 0 $word]
+	    set ::msgcat::loclist [linsert $::msgcat::loclist 0 $word]
 	}
     }
     return $::msgcat::locale
@@ -137,7 +136,7 @@ proc msgcat::mcload {langdir} {
 #	Returns the new locale.
 
 proc msgcat::mcset {locale src {dest ""}} {
-    if {$dest == ""} {
+    if {[string equal $dest ""]} {
 	set dest $src
     }
 
