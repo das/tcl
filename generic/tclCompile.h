@@ -16,6 +16,11 @@
 #include "tclInt.h"
 #endif /* _TCLINT */
 
+#ifdef BUILD_tcl
+# undef EXPORT
+# define EXPORT DLLEXPORT
+#endif
+
 /*
  *------------------------------------------------------------------------
  * Variables related to compilation. These are used in tclCompile.c,
@@ -1043,5 +1048,7 @@ EXTERN void		TclRegisterAuxDataType _ANSI_ARGS_((AuxDataType *typePtr));
 
 #define MAX_JUMP_DIST   5000
 
-#endif /* _TCLCOMPILATION */
+#undef EXPORT
+#define EXPORT DLLIMPORT
 
+#endif /* _TCLCOMPILATION */

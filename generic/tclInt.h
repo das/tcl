@@ -57,6 +57,11 @@
 #   include <varargs.h>
 #endif
 
+#ifdef BUILD_tcl
+# undef EXPORT
+# define EXPORT DLLEXPORT
+#endif
+
 /*
   * The following procedures allow namespaces to be customized to
   * support special name resolution rules for commands/variables.
@@ -2091,6 +2096,9 @@ EXTERN void		Tcl_SetNamespaceResolvers _ANSI_ARGS_((
 			    Tcl_ResolveCmdProc *cmdProc,
 			    Tcl_ResolveVarProc *varProc,
 			    Tcl_ResolveCompiledVarProc *compiledVarProc));
+
+#undef EXPORT
+#define EXPORT DLLIMPORT
 
 #endif /* _TCLINT */
 
