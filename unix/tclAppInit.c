@@ -20,13 +20,10 @@
 
 #include "tclInt.h"
 
-extern int		Procbodytest_Init _ANSI_ARGS_((Tcl_Interp *interp));
-extern int		Procbodytest_SafeInit _ANSI_ARGS_((Tcl_Interp *interp));
-extern int		TclObjTest_Init _ANSI_ARGS_((Tcl_Interp *interp));
-extern int		Tcltest_Init _ANSI_ARGS_((Tcl_Interp *interp));
-#ifdef TCL_THREADS
-extern int		TclThread_Init _ANSI_ARGS_((Tcl_Interp *interp));
-#endif
+extern Tcl_PackageInitProc	Procbodytest_Init;
+extern Tcl_PackageInitProc	Procbodytest_SafeInit;
+extern Tcl_PackageInitProc	TclObjTest_Init;
+extern Tcl_PackageInitProc	Tcltest_Init;
 
 #endif /* TCL_TEST */
 
@@ -133,11 +130,6 @@ Tcl_AppInit(interp)
     if (TclObjTest_Init(interp) == TCL_ERROR) {
 	return TCL_ERROR;
     }
-#ifdef TCL_THREADS
-    if (TclThread_Init(interp) == TCL_ERROR) {
-	return TCL_ERROR;
-    }
-#endif
     if (Procbodytest_Init(interp) == TCL_ERROR) {
 	return TCL_ERROR;
     }
