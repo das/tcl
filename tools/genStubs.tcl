@@ -134,21 +134,26 @@ proc genStubs::declare {args} {
     if {[llength $args] != 3} {
 	puts stderr "wrong # args: declare $args"
     }
-    lassign $args index platform decl
+    lassign $args index platformList decl
 
     # Check for duplicate declarations, then add the declaration and
     # bump the lastNum counter if necessary.
 
-    if {[info exists stubs($curName,$platform,$index)]} {
-	puts stderr "Duplicate entry: declare $args"
+    foreach platform $platformList {
+	if {[info exists stubs($curName,$platform,$index)]} {
+	    puts stderr "Duplicate entry: declare $args"
+	}
     }
     regsub -all "\[ \t\n\]+" [string trim $decl] " " decl
     set decl [parseDecl $decl]
-    if {$decl != ""} {
-	set stubs($curName,$platform,$index) $decl
-	if {![info exists stubs($curName,$platform,lastNum)] \
-		|| ($index > $stubs($curName,$platform,lastNum))} {
-	    set stubs($curName,$platform,lastNum) $index
+
+    foreach platform $platformList {
+	if {$decl != ""} {
+	    set stubs($curName,$platform,$index) $decl
+	    if {![info exists stubs($curName,$platform,lastNum)] \
+		    || ($index > $stubs($curName,$platform,lastNum))} {
+		set stubs($curName,$platform,lastNum) $index
+	    }
 	}
     }
     return
