@@ -21,7 +21,7 @@
 #   include <tchar.h>
 #   ifndef _TCHAR_DEFINED
 	/* Borland seems to forget to set this. */
-	typedef wchar_t     TCHAR;
+        typedef _TCHAR TCHAR;
 #	define _TCHAR_DEFINED
 #   endif
 #endif
