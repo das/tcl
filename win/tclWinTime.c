@@ -260,7 +260,6 @@ void
 Tcl_GetTime(timePtr)
     Tcl_Time *timePtr;		/* Location to store time information. */
 {
-	
     struct timeb t;
 
     int useFtime = 1;		/* Flag == TRUE if we need to fall back
@@ -379,7 +378,6 @@ Tcl_GetTime(timePtr)
     }
 
     if ( timeInfo.perfCounterAvailable ) {
-	
 	/*
 	 * Query the performance counter and use it to calculate the
 	 * current time.
@@ -417,7 +415,7 @@ Tcl_GetTime(timePtr)
 	 */
 	if ( curCounter.QuadPart - timeInfo.perfCounterLastCall.QuadPart
 	     < 11 * timeInfo.curCounterFreq.QuadPart / 10 ) {
-	    
+
 	    curFileTime = timeInfo.fileTimeLastCall.QuadPart
 		+ ( ( curCounter.QuadPart - timeInfo.perfCounterLastCall.QuadPart )
 		    * 10000000 / timeInfo.curCounterFreq.QuadPart );
@@ -431,9 +429,8 @@ Tcl_GetTime(timePtr)
 
 	LeaveCriticalSection( &timeInfo.cs );
     }
-	
+
     if ( useFtime ) {
-	
 	/* High resolution timer is not available.  Just use ftime */
 
 	ftime(&t);
@@ -581,7 +578,7 @@ TclpGetDate(t, useGMT)
 {
     const time_t *tp = (const time_t *) t;
     struct tm *tmPtr;
-    long time;
+    time_t time;
 
     if (!useGMT) {
 	tzset();
@@ -597,7 +594,7 @@ TclpGetDate(t, useGMT)
 	}
 
 	time = *tp - _timezone;
-	
+
 	/*
 	 * If we aren't near to overflowing the long, just add the bias and
 	 * use the normal calculation.  Otherwise we will need to adjust
@@ -623,7 +620,7 @@ TclpGetDate(t, useGMT)
 		tmPtr->tm_sec += 60;
 		time -= 60;
 	    }
-    
+
 	    time = tmPtr->tm_min + time/60;
 	    tmPtr->tm_min = (int)(time % 60);
 	    if (tmPtr->tm_min < 0) {
