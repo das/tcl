@@ -2701,7 +2701,7 @@ Tcl_GetVersion(major, minor, patchLevel, type)
     int * major;
     int * minor;
     int * patchLevel;
-    Tcl_ReleaseType * type;
+    int * type;
 {
     (tclStubsPtr->tcl_GetVersion)(major, minor, patchLevel, type);
 }

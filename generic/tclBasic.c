@@ -4176,7 +4176,7 @@ void Tcl_GetVersion(major, minor, patchLevel, type)
     int *major;
     int *minor;
     int *patchLevel;
-    Tcl_ReleaseType *type;
+    int *type;
 {
     if (major != NULL) {
         *major = TCL_MAJOR_VERSION;

@@ -20,7 +20,7 @@
 #include "tclInt.h"
 #include "tclPort.h"
 
-#ifndef USE_NATIVE_MALLOC
+#if USE_TCLALLOC
 
 #ifdef TCL_DEBUG
 #   define DEBUG
@@ -457,7 +457,7 @@ mstats(
 }
 #endif
 
-#else /* USE_NATIVE_MALLOC */
+#else /* !USE_TCLALLOC */
 
 
 /*
@@ -531,4 +531,4 @@ TclpRealloc(
     return (char*) realloc(cp, nbytes);
 }
 
-#endif /* USE_NATIVE_MALLOC */
+#endif /* !USE_TCLALLOC */

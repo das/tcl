@@ -958,8 +958,7 @@ declare 278 generic {
     void panicVA(char *format, va_list argList)
 }
 declare 279 generic {
-    void Tcl_GetVersion(int *major, int *minor, int *patchLevel, \
-	    Tcl_ReleaseType *type)
+    void Tcl_GetVersion(int *major, int *minor, int *patchLevel, int *type)
 }
 # Reserved for future use (8.0.x vs. 8.1)
 #  declare 280 generic {
