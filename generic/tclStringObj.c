@@ -358,7 +358,7 @@ Tcl_NewUnicodeObj(unicode, numChars)
  *----------------------------------------------------------------------
  */
 
-int
+Tcl_Length
 Tcl_GetCharLength(objPtr)
     Tcl_Obj *objPtr;	/* The String object to get the num chars of. */
 {
@@ -538,10 +538,10 @@ Tcl_GetUnicode(objPtr)
 
 Tcl_UniChar *
 Tcl_GetUnicodeFromObj(objPtr, lengthPtr)
-    Tcl_Obj *objPtr;	/* The object to find the unicode string for. */
-    int *lengthPtr;	/* If non-NULL, the location where the
-			 * string rep's unichar length should be
-			 * stored. If NULL, no length is stored. */
+    Tcl_Obj *objPtr;	   /* The object to find the unicode string for. */
+    Tcl_Length *lengthPtr; /* If non-NULL, the location where the
+			    * string rep's unichar length should be
+			    * stored. If NULL, no length is stored. */
 {
     String *stringPtr;
     
@@ -1057,7 +1057,8 @@ Tcl_AppendObjToObj(objPtr, appendObjPtr)
     Tcl_Obj *appendObjPtr;	/* Object to append. */
 {
     String *stringPtr;
-    int length, numChars, allOneByteChars;
+    Tcl_Length length;
+    int numChars, allOneByteChars;
     char *bytes;
 
     SetStringFromAny(NULL, objPtr);

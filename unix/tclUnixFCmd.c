@@ -323,7 +323,7 @@ DoCopyFile(src, dst)
      * Have to do a stat() to determine the filetype.
      */
     
-    if (lstat(src, &srcStatBuf) != 0) {			/* INTL: Native. */
+    if (lstat64(src, &srcStatBuf) != 0) {		/* INTL: Native. */
 	return TCL_ERROR;
     }
     if (S_ISDIR(srcStatBuf.st_mode)) {
@@ -336,7 +336,7 @@ DoCopyFile(src, dst)
      * exists, so we remove it first
      */
     
-    if (lstat(dst, &dstStatBuf) == 0) {			/* INTL: Native. */
+    if (lstat64(dst, &dstStatBuf) == 0) {		/* INTL: Native. */
 	if (S_ISDIR(dstStatBuf.st_mode)) {
 	    errno = EISDIR;
 	    return TCL_ERROR;
@@ -702,7 +702,7 @@ DoRemoveDirectory(pathPtr, recursive, errorPtr)
 	Tcl_StatBuf statBuf;
 	int newPerm;
 
-	if (stat(path, &statBuf) == 0) {
+	if (stat64(path, &statBuf) == 0) {
 	    oldPerm = (mode_t) (statBuf.st_mode & 0x00007FFF);
 	}
 	
@@ -787,7 +787,7 @@ TraverseUnixTree(traverseProc, sourcePtr, targetPtr, errorPtr)
     targetLen = 0;		/* lint. */
 
     source = Tcl_DStringValue(sourcePtr);
-    if (lstat(source, &statBuf) != 0) {			/* INTL: Native. */
+    if (lstat64(source, &statBuf) != 0) {		/* INTL: Native. */
 	errfile = source;
 	goto end;
     }
@@ -1238,7 +1238,7 @@ SetGroupAttribute(interp, objIndex, fileName, attributePtr)
 	Tcl_DString ds;
 	struct group *groupPtr;
 	CONST char *string;
-	int length;
+	Tcl_Length length;
 
 	string = Tcl_GetStringFromObj(attributePtr, &length);
 
@@ -1301,7 +1301,7 @@ SetOwnerAttribute(interp, objIndex, fileName, attributePtr)
 	Tcl_DString ds;
 	struct passwd *pwPtr;
 	CONST char *string;
-	int length;
+	Tcl_Length length;
 
 	string = Tcl_GetStringFromObj(attributePtr, &length);
 

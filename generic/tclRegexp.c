@@ -446,7 +446,7 @@ Tcl_RegExpExecObj(interp, re, objPtr, offset, nmatches, flags)
 {
     TclRegexp *regexpPtr = (TclRegexp *) re;
     Tcl_UniChar *udata;
-    int length;
+    Tcl_Length length;
 
     /*
      * Save the target object so we can extract strings from it later.
@@ -561,7 +561,7 @@ Tcl_GetRegExpFromObj(interp, objPtr, flags)
 				 * expression. */
     int flags;			/* Regular expression compilation flags. */
 {
-    int length;
+    Tcl_Length length;
     Tcl_ObjType *typePtr;
     TclRegexp *regexpPtr;
     char *pattern;

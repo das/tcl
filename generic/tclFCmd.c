@@ -812,7 +812,7 @@ TclFileAttrsCmd(interp, objc, objv)
     int result;
     char ** attributeStrings;
     Tcl_Obj* objStrings = NULL;
-    int numObjStrings = -1;
+    Tcl_Length numObjStrings = (Tcl_Length)-1;
     Tcl_Obj *filePtr;
     
     if (objc < 3) {
@@ -929,7 +929,7 @@ TclFileAttrsCmd(interp, objc, objv)
     result = TCL_OK;
 
     end:
-    if (numObjStrings != -1) {
+    if (numObjStrings != (Tcl_Length)-1) {
 	/* Free up the array we allocated */
 	ckfree((char*)attributeStrings);
 	/* 

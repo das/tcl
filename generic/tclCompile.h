@@ -511,6 +511,7 @@ typedef struct ByteCode {
 #define INST_LIST_INDEX			80
 #define INST_LIST_LENGTH		81
 
+/* Opcodes 82 to 87 */
 #define INST_APPEND_SCALAR1		82
 #define INST_APPEND_SCALAR4		83
 #define INST_APPEND_ARRAY1		84
@@ -518,6 +519,7 @@ typedef struct ByteCode {
 #define INST_APPEND_ARRAY_STK		86
 #define INST_APPEND_STK			87
 
+/* Opcodes 88 to 93 */
 #define INST_LAPPEND_SCALAR1		88
 #define INST_LAPPEND_SCALAR4		89
 #define INST_LAPPEND_ARRAY1		90

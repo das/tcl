@@ -142,7 +142,7 @@ Tcl_BackgroundError(interp)
     BgError *errPtr;
     char *errResult, *varValue;
     ErrAssocData *assocPtr;
-    int length;
+    Tcl_Length length;
 
     /*
      * The Tcl_AddErrorInfo call below (with an empty string) ensures that
@@ -287,7 +287,7 @@ HandleBgErrors(clientData)
             errChannel = Tcl_GetStdChannel(TCL_STDERR);
             if (errChannel != (Tcl_Channel) NULL) {
 		char *string;
-		int len;
+		Tcl_Length len;
 
 		string = Tcl_GetStringFromObj(Tcl_GetObjResult(interp), &len);
                 if (strcmp(string, "\"bgerror\" is an invalid command name or ambiguous abbreviation") == 0) {

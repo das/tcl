@@ -879,6 +879,11 @@ TclStubs tclStubs = {
     Tcl_OutputBuffered, /* 479 */
     Tcl_FSMountsChanged, /* 480 */
     Tcl_EvalTokensStandard, /* 481 */
+    Tcl_DbNewWideIntObj, /* 482 */
+    Tcl_GetWideIntFromObj, /* 483 */
+    Tcl_NewWideIntObj, /* 484 */
+    Tcl_SetWideIntObj, /* 485 */
+    Tcl_AllocStatBuf, /* 486 */
 };
 
 /* !END!: Do not edit above this line. */

@@ -99,7 +99,7 @@ Tcl_PutsObjCmd(dummy, interp, objc, objv)
 	     */
 
 	    char *arg;
-	    int length;
+	    Tcl_Length length;
 
 	    arg = Tcl_GetStringFromObj(objv[3], &length);
 	    if (strncmp(arg, "nonewline", (size_t) length) != 0) {
@@ -386,7 +386,7 @@ Tcl_ReadObjCmd(dummy, interp, objc, objv)
     
     if ((charactersRead > 0) && (newline != 0)) {
 	char *result;
-	int length;
+	Tcl_Length length;
 
 	result = Tcl_GetStringFromObj(resultPtr, &length);
 	if (result[length - 1] == '\n') {
@@ -561,7 +561,7 @@ Tcl_CloseObjCmd(clientData, interp, objc, objv)
 
 	Tcl_Obj *resultPtr;
 	char *string;
-	int len;
+	Tcl_Length len;
 	
 	resultPtr = Tcl_GetObjResult(interp);
 	string = Tcl_GetStringFromObj(resultPtr, &len);
@@ -735,7 +735,8 @@ Tcl_ExecObjCmd(dummy, interp, objc, objv)
     char *string;
     Tcl_Channel chan;
     char *argStorage[NUM_ARGS];
-    int argc, background, i, index, keepNewline, result, skip, length;
+    int argc, background, i, index, keepNewline, result, skip;
+    Tcl_Length length;
     static char *options[] = {
 	"-keepnewline",	"--",		NULL
     };

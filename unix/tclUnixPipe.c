@@ -53,9 +53,9 @@ static int	PipeCloseProc _ANSI_ARGS_((ClientData instanceData,
 static int	PipeGetHandleProc _ANSI_ARGS_((ClientData instanceData,
 		    int direction, ClientData *handlePtr));
 static int	PipeInputProc _ANSI_ARGS_((ClientData instanceData,
-		    char *buf, int toRead, int *errorCode));
+		    char *buf, Tcl_Length toRead, int *errorCode));
 static int	PipeOutputProc _ANSI_ARGS_((
-		    ClientData instanceData, char *buf, int toWrite,
+		    ClientData instanceData, char *buf, Tcl_Length toWrite,
 		    int *errorCode));
 static void	PipeWatchProc _ANSI_ARGS_((ClientData instanceData, int mask));
 static void	RestoreSignals _ANSI_ARGS_((void));
@@ -988,7 +988,7 @@ static int
 PipeInputProc(instanceData, buf, toRead, errorCodePtr)
     ClientData instanceData;		/* Pipe state. */
     char *buf;				/* Where to store data read. */
-    int toRead;				/* How much space is available
+    Tcl_Length toRead;			/* How much space is available
                                          * in the buffer? */
     int *errorCodePtr;			/* Where to store error code. */
 {
@@ -1036,7 +1036,7 @@ static int
 PipeOutputProc(instanceData, buf, toWrite, errorCodePtr)
     ClientData instanceData;		/* Pipe state. */
     char *buf;				/* The data buffer. */
-    int toWrite;			/* How many bytes to write? */
+    Tcl_Length toWrite;			/* How many bytes to write? */
     int *errorCodePtr;			/* Where to store error code. */
 {
     PipeState *psPtr = (PipeState *) instanceData;

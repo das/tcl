@@ -2682,7 +2682,7 @@ NamespaceCodeCmd(dummy, interp, objc, objv)
     Namespace *currNsPtr;
     Tcl_Obj *listPtr, *objPtr;
     register char *arg, *p;
-    int length;
+    Tcl_Length length;
 
     if (objc != 3) {
 	Tcl_WrongNumArgs(interp, 2, objv, "arg");
@@ -2910,7 +2910,8 @@ NamespaceEvalCmd(dummy, interp, objc, objv)
     Tcl_CallFrame frame;
     Tcl_Obj *objPtr;
     char *name;
-    int length, result;
+    Tcl_Length length;
+    int result;
 
     if (objc < 4) {
         Tcl_WrongNumArgs(interp, 2, objv, "name arg ?arg...?");

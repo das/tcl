@@ -504,13 +504,13 @@ TclpSetInitialEncodings()
 
 	pathPtr = TclGetLibraryPath();
 	if (pathPtr != NULL) {
-	    int objc;
+	    Tcl_Length objc;
 	    Tcl_Obj **objv;
 	    
 	    objc = 0;
 	    Tcl_ListObjGetElements(NULL, pathPtr, &objc, &objv);
 	    for (i = 0; i < objc; i++) {
-		int length;
+		Tcl_Length length;
 		char *string;
 		Tcl_DString ds;
 

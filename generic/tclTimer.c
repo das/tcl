@@ -727,13 +727,12 @@ Tcl_AfterObjCmd(clientData, interp, objc, objv)
     int objc;			/* Number of arguments. */
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
-    int ms;
     AfterInfo *afterPtr;
     AfterAssocData *assocPtr = (AfterAssocData *) clientData;
     Tcl_CmdInfo cmdInfo;
-    int length;
+    Tcl_Length length;
     char *argString;
-    int index;
+    int ms, index;
     char buf[16 + TCL_INTEGER_SPACE];
     static char *afterSubCmds[] = {"cancel", "idle", "info", (char *) NULL};
     enum afterSubCmds {AFTER_CANCEL, AFTER_IDLE, AFTER_INFO};
@@ -831,7 +830,7 @@ processInteger:
         case AFTER_CANCEL: {
 	    Tcl_Obj *commandPtr;
 	    char *command, *tempCommand;
-	    int tempLength;
+	    Tcl_Length tempLength;
 
 	    if (objc < 3) {
 		Tcl_WrongNumArgs(interp, 2, objv, "id|command");
@@ -1007,7 +1006,7 @@ AfterProc(clientData)
     int result;
     Tcl_Interp *interp;
     char *script;
-    int numBytes;
+    Tcl_Length numBytes;
 
     /*
      * First remove the callback from our list of callbacks;  otherwise
