@@ -1343,7 +1343,8 @@ TclExecuteByteCode(interp, codePtr)
 	 * its compileEpoch is modified, so that the epoch
 	 * check also verifies that the interp is not deleted.
 	 */
-	
+
+	iPtr->cmdCount++;
 	if (((codeCompileEpoch == iPtr->compileEpoch)
 		    && (codeNsEpoch == namespacePtr->resolverEpoch))
 		|| codePrecompiled) {
