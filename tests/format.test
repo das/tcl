@@ -504,6 +504,13 @@ test format-17.3 {testing %ld with non-wide} {64bitInts} {
 test format-17.4 {testing %l with non-integer} {
     format %lf 1
 } 1.000000
+test format-17.5 {type conversions with wides} {
+    set a 0xAAAAAAAA ;# NB: Careful to make separate objects here!
+    set b 0xAAAAAAA; append b A
+    set result [expr {$a == $b}]
+    format %x $a
+    lappend result [expr {$a == $b}]
+} {1 1}
 
 # cleanup
 catch {unset a}
