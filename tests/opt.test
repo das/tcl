@@ -137,17 +137,6 @@ test opt-8.7 {List utilities} {
     set l
 } {a {b c -2 e} f}
 
-test opt-8.8 {List utilities} {
-    set l {{b c 7 e} f}
-    ::tcl::Lfirst $l
-} {b c 7 e}
-
-
-test opt-8.9 {List utilities} {
-    set l {a {b c 7 e} f}
-    ::tcl::Lrest $l
-} {{b c 7 e} f}
-
 test opt-8.10 {List utilities} {
     set l {a {b c 7 e} f}
     ::tcl::Lvarpop l
