@@ -128,10 +128,6 @@ module name \fBlast\fR.
 Not all unix operating systems support library unloading. Under such
 an operating system \fBunload\fR returns an error (unless -nocomplain has
 been specified).
-.TP
-\fBMacintosh\fR\0\0\0\0\0
-.
-<Somebody to comment on this?>
 
 .SH BUGS
 .PP

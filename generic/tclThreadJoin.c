@@ -2,8 +2,8 @@
  * tclThreadJoin.c --
  *
  *	This file implements a platform independent emulation layer for
- *	the handling of joinable threads. The Mac and Windows platforms
- *	use this code to provide the functionality of joining threads.
+ *	the handling of joinable threads. The Windows platform
+ *	uses this code to provide the functionality of joining threads.
  *	This code is currently not necessary on Unix.
  *
  * Copyright (c) 2000 by Scriptics Corporation
@@ -16,7 +16,7 @@
 
 #include "tclInt.h"
 
-#if defined(WIN32) || defined(MAC_TCL)
+#if defined(WIN32)
 
 /* The information about each joinable thread is remembered in a
  * structure as defined below.
@@ -308,4 +308,4 @@ TclSignalExitThread(id,result)
     Tcl_MutexUnlock (&threadPtr->threadMutex);
 }
 
-#endif /* WIN32 || MAC_TCL */
+#endif /* WIN32 */

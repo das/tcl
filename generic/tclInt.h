@@ -1430,9 +1430,8 @@ typedef struct Interp {
  */
 
 typedef enum {
-    TCL_PLATFORM_UNIX,		/* Any Unix-like OS. */
-    TCL_PLATFORM_MAC,		/* MacOS. */
-    TCL_PLATFORM_WINDOWS	/* Any Microsoft Windows OS. */
+    TCL_PLATFORM_UNIX = 0,	/* Any Unix-like OS. */
+    TCL_PLATFORM_WINDOWS = 2	/* Any Microsoft Windows OS. */
 } TclPlatformType;
 
 /*
@@ -2024,25 +2023,6 @@ EXTERN int	Tcl_VwaitObjCmd _ANSI_ARGS_((ClientData clientData,
 		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
 EXTERN int	Tcl_WhileObjCmd _ANSI_ARGS_((ClientData clientData,
 		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
-
-/*
- *----------------------------------------------------------------
- * Command procedures found only in the Mac version of the core:
- *----------------------------------------------------------------
- */
-
-#ifdef MAC_TCL
-EXTERN int	Tcl_EchoCmd _ANSI_ARGS_((ClientData clientData,
-		    Tcl_Interp *interp, int argc, CONST84 char **argv));
-EXTERN int	Tcl_LsObjCmd _ANSI_ARGS_((ClientData clientData,
-		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
-EXTERN int	Tcl_BeepObjCmd _ANSI_ARGS_((ClientData clientData,
-		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
-EXTERN int	Tcl_MacSourceObjCmd _ANSI_ARGS_((ClientData clientData,
-		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
-EXTERN int	Tcl_ResourceObjCmd _ANSI_ARGS_((ClientData clientData,
-		    Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]));
-#endif
 
 /*
  *----------------------------------------------------------------

@@ -24,9 +24,7 @@
  * it exists everywhere)
  */
 
-#ifndef MAC_TCL
 #include <sys/types.h>
-#endif
 
 extern char *		memchr _ANSI_ARGS_((CONST VOID *s, int c, size_t n));
 extern int		memcmp _ANSI_ARGS_((CONST VOID *s1, CONST VOID *s2,

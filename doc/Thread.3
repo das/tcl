@@ -107,9 +107,9 @@ marked thread to exit and join it.
 .PP
 Restrictions: On some unix systems the pthread-library does not
 contain the functionality to specify the stacksize of a thread. The
-specified value for the stacksize is ignored on these systems. Both
-Windows and Macintosh currently do not support joinable threads. This
-flag value is therefore ignored on these platforms.
+specified value for the stacksize is ignored on these systems.
+Windows currently does not support joinable threads. This
+flag value is therefore ignored on this platform.
 .VE
 .PP
 Tcl does provide \fBTcl_ExitThread\fR and \fBTcl_FinalizeThread\fR

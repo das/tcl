@@ -3729,13 +3729,11 @@ TestsetplatformCmd(clientData, interp, argc, argv)
     length = strlen(argv[1]);
     if (strncmp(argv[1], "unix", length) == 0) {
 	*platform = TCL_PLATFORM_UNIX;
-    } else if (strncmp(argv[1], "mac", length) == 0) {
-	*platform = TCL_PLATFORM_MAC;
     } else if (strncmp(argv[1], "windows", length) == 0) {
 	*platform = TCL_PLATFORM_WINDOWS;
     } else {
         Tcl_AppendResult(interp, "unsupported platform: should be one of ",
-		"unix, mac, or windows", (char *) NULL);
+		"unix, or windows", (char *) NULL);
 	return TCL_ERROR;
     }
     return TCL_OK;
@@ -4043,7 +4041,7 @@ TestpanicCmd(dummy, interp, argc, argv)
  * TestchmodCmd --
  *
  *	Implements the "testchmod" cmd.  Used when testing "file"
- *	command.  The only attribute used by the Mac and Windows platforms
+ *	command.  The only attribute used by the Windows platform
  *	is the user write flag; if this is not set, the file is
  *	made read-only.  Otehrwise, the file is made read-write.
  *
@@ -4809,11 +4807,6 @@ static int PretendTclpStat(path, buf)
     return ret;
 #endif /* TCL_WIDE_INT_IS_LONG */
 }
-
-/* Be careful in the compares in these tests, since the Macintosh puts a  
- * leading : in the beginning of non-absolute paths before passing them 
- * into the file command procedures.
- */
 
 static int
 TestStatProc1(path, buf)

@@ -822,7 +822,7 @@ Tcl_ExprObjCmd(dummy, interp, objc, objv)
  *	This procedure is invoked to process the "file" Tcl command.
  *	See the user documentation for details on what it does.
  *	PLEASE NOTE THAT THIS FAILS WITH FILENAMES AND PATHS WITH
- *	EMBEDDED NULLS, WHICH COULD THEORETICALLY HAPPEN ON A MAC.
+ *	EMBEDDED NULLS.
  *      With the object-based Tcl_FS APIs, the above NOTE may no
  *      longer be true.  In any case this assertion should be tested.
  *      
@@ -1237,11 +1237,11 @@ Tcl_FileObjCmd(dummy, interp, objc, objv)
 	    value = 0;
 	    if (GetStatBuf(NULL, objv[2], Tcl_FSStat, &buf) == TCL_OK) {
 		/*
-		 * For Windows and Macintosh, there are no user ids 
+		 * For Windows, there are no user ids 
 		 * associated with a file, so we always return 1.
 		 */
 
-#if (defined(__WIN32__) || defined(MAC_TCL))
+#if defined(__WIN32__)
 		value = 1;
 #else
 		value = (geteuid() == buf.st_uid);
@@ -1325,9 +1325,6 @@ Tcl_FileObjCmd(dummy, interp, objc, objv)
 		    break;
 		case TCL_PLATFORM_WINDOWS:
 		    separator = "\\";
-		    break;
-		case TCL_PLATFORM_MAC:
-		    separator = ":";
 		    break;
 		}
 		Tcl_SetObjResult(interp, Tcl_NewStringObj(separator,1));
