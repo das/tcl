@@ -30,9 +30,10 @@
 #endif
 
 /*
- * On Unix this will already be defined
+ * We should really make use of AC_CHECK_TYPE(caddr_t)
+ * here, but it can wait until Tcl uses config.h properly.
  */
-#if defined(WIN32) || defined(MAC_TCL)
+#if defined(MAC_TCL) || defined(_MSC_VER) || defined(__MINGW32__)
 typedef unsigned long caddr_t;
 #endif
 
