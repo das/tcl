@@ -252,7 +252,7 @@ Tcl_DbNewStringObj(bytes, length, file, line)
  * TclNewUnicodeObj --
  *
  *	This procedure is creates a new String object and initializes
- *	it from the given Utf String.  If the Utf String is the same size
+ *	it from the given Unicode String.  If the Utf String is the same size
  *	as the Unicode string, don't duplicate the data.
  *
  * Results:
