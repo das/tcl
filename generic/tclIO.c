@@ -1815,7 +1815,8 @@ Tcl_UnstackChannel (interp, chan)
  */
 
 Tcl_Channel
-Tcl_GetStackedChannel(Tcl_Channel chan)
+Tcl_GetStackedChannel(chan)
+    Tcl_Channel chan;
 {
   Channel* chanPtr = (Channel*) chan;
   return (Tcl_Channel) chanPtr->supercedes;

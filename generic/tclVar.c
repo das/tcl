@@ -3198,9 +3198,23 @@ TclArraySet(interp, arrayNameObj, arrayElemObj)
     Var *varPtr, *arrayPtr;
     Tcl_Obj **elemPtrs;
     int result, elemLen, i;
-    char *varName;
+    char *varName, *p;
     
     varName = TclGetString(arrayNameObj);
+    for (p = varName; *p ; p++) {
+	if (*p == '(') {
+	    do {
+		p++;
+	    } while (*p != '\0');
+	    p--;
+	    if (*p == ')') {
+		VarErrMsg(interp, varName, NULL, "set", needArray);
+		return TCL_ERROR;
+	    }
+	    break;
+	}
+    }
+
     varPtr = TclLookupVar(interp, varName, (char *) NULL, /*flags*/ 0,
             /*msg*/ 0, /*createPart1*/ 0, /*createPart2*/ 0, &arrayPtr);
 
@@ -3257,6 +3271,7 @@ TclArraySet(interp, arrayNameObj, arrayElemObj)
 	
 	varPtr = TclLookupVar(interp, varName, (char *) NULL, 0, 0,
 	        /*createPart1*/ 1, /*createPart2*/ 0, &arrayPtr);
+
     }
     TclSetVarArray(varPtr);
     TclClearVarUndefined(varPtr);

@@ -52,8 +52,17 @@ typedef float *TCHAR;
 #include <process.h>
 #include <signal.h>
 #include <string.h>
+
+/*
+ * Need to block out these includes for building extensions with MetroWerks
+ * compiler for Win32.
+ */
+
+#ifndef __MWERKS__
 #include <sys/stat.h>
 #include <sys/timeb.h>
+#endif
+
 #include <tchar.h>
 #include <time.h>
 #include <winsock2.h>

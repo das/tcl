@@ -48,7 +48,7 @@ MACHINE	= IX86
 #THREADDEFINES = -DTCL_THREADS=1
 
 # Set NODEBUG to 0 to compile with symbols
-NODEBUG = 1
+NODEBUG = 0
 
 # The following defines can be used to control the amount of debugging
 # code that is added to the compilation.

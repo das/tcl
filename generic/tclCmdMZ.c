@@ -1089,7 +1089,12 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	case STR_IS: {
 	    char *end;
 	    Tcl_UniChar ch;
-	    int (*chcomp)(int) = NULL;	/* The UniChar comparison function */
+
+            /*
+	     * The UniChar comparison function
+	     */
+
+	    int (*chcomp)_ANSI_ARGS_((int)) = NULL; 
 	    int i, failat = 0, result = 1, strict = 0;
 	    Tcl_Obj *objPtr, *failVarObj = NULL;
 

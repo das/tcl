@@ -577,7 +577,12 @@ test var-9.12 {behaviour of TclSetVar write trace error} {
 test var-10.1 {can't nest arrays with array set} {
    catch {unset arr}
    list [catch {array set arr(x) {a 1 b 2}} res] $res
-} {1 {can't set "arr(x)(a)": variable isn't array}}
+} {1 {can't set "arr(x)": variable isn't array}}
+
+test var-10.2 {can't nest arrays with array set} {
+   catch {unset arr}
+   list [catch {array set arr(x) {}} res] $res
+} {1 {can't set "arr(x)": variable isn't array}}
 
 catch {namespace delete ns}
 catch {unset arr}
