@@ -4642,7 +4642,7 @@ Tcl_AllowExceptions(interp)
 /*
  *----------------------------------------------------------------------
  *
- * Tcl_GetVersion
+ * Tcl_GetVersion --
  *
  *	Get the Tcl major, minor, and patchlevel version numbers and
  *      the release type.  A patch is a release type TCL_FINAL_RELEASE

@@ -374,7 +374,7 @@ Tcl_ConcatObjCmd(dummy, interp, objc, objv)
 /*
  *----------------------------------------------------------------------
  *
- * Tcl_ContinueObjCmd -
+ * Tcl_ContinueObjCmd --
  *
  *	This procedure is invoked to process the "continue" Tcl command.
  *	See the user documentation for details on what it does.
