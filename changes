@@ -5127,4 +5127,4 @@ side (mem leak) Correct mem leak in channels when statePtr was released
 
  * fixed use of tmpname in TclpCreateTempFile on Unix (lim)
 
---- Released 8.4a3, August 6, 2000 --- See ChangeLog for details ---
+--- Released 8.4a3, August 6, 2001 --- See ChangeLog for details ---
