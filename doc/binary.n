@@ -750,7 +750,7 @@ UTF-8 data preceded by a length word:
 .CS
 proc writeString {channel string} {
     set data [encoding convertto utf-8 $string]
-    puts -nonewline [\fBbinary\fR format Ia* \e
+    puts -nonewline [\fBbinary format\fR Ia* \e
             [string length $data] $data]
 }
 .CE
@@ -759,7 +759,7 @@ This procedure reads a string from a channel that was written by the
 previously presented \fBwriteString\fR procedure:
 .CS
 proc readString {channel} {
-    if {![\fBbinary\fR scan [read $channel 4] I length]} {
+    if {![\fBbinary scan\fR [read $channel 4] I length]} {
         error "missing length"
     }
     set data [read $channel $length]

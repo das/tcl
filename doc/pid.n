@@ -32,7 +32,7 @@ All process identifiers are returned as decimal strings.
 .SH EXAMPLE
 Print process information about the processes in a pipeline using the
 SysV \fBps\fR program before reading the output of that pipeline:
-
+.PP
 .CS
 set pipeline [open "| zcat somefile.gz | grep foobar | sort -u"]
 # Print process information

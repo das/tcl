@@ -189,11 +189,11 @@ package require registry
 set ext .tcl
 
 # Read the type name
-set type [registry get HKEY_CLASSES_ROOT\e\e$ext {}]
+set type [\fBregistry get\fR HKEY_CLASSES_ROOT\e\e$ext {}]
 # Work out where to look for the command
 set path HKEY_CLASSES_ROOT\e\e$type\e\eShell\e\eOpen\e\ecommand
 # Read the command!
-set command [registry get $path {}]
+set command [\fBregistry get\fR $path {}]
 
 puts "$ext opens with $command"
 .CE

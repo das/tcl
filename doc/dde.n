@@ -149,7 +149,7 @@ This asks Internet Explorer (which must already be running) to go to a
 particularly important website:
 .CS
 package require dde
-\fBdde\fR execute iexplore WWW_OpenURL http://www.tcl.tk/
+\fBdde execute\fR iexplore WWW_OpenURL http://www.tcl.tk/
 .CE
 
 .SH "SEE ALSO"

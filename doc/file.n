@@ -437,22 +437,22 @@ that have a correspondingly-named object file in the current
 directory:
 .CS
 proc findMatchingCFiles {dir} {
-    set files {}
-    switch $::tcl_platform(platform) {
-        windows {
-            set ext .obj
-        }
-        unix {
-            set ext .o
-        }
-    }
-    foreach file [glob -nocomplain -directory $dir *.c] {
-        set objectFile [\fBfile\fR tail [\fBfile\fR rootname $file]]$ext
-        if {[\fBfile\fR exists $objectFile]} {
-            lappend files $file
-        }
-    }
-    return $files
+   set files {}
+   switch $::tcl_platform(platform) {
+      windows {
+         set ext .obj
+      }
+      unix {
+         set ext .o
+      }
+   }
+   foreach file [glob -nocomplain -directory $dir *.c] {
+      set objectFile [\fBfile tail\fR [\fBfile rootname\fR $file]]$ext
+      if {[\fBfile exists\fR $objectFile]} {
+         lappend files $file
+      }
+   }
+   return $files
 }
 .CE
 .PP
@@ -462,11 +462,11 @@ to the new place:
 set oldName foobar.txt
 set newName foo/bar.txt
 # Make sure that where we're going to move to exists...
-if {![\fBfile\fR isdirectory [\fBfile\fR dirname $newName]]} {
-    \fBfile\fR mkdir [\fBfile\fR dirname $newName]
+if {![\fBfile isdirectory\fR [\fBfile dirname\fR $newName]]} {
+   \fBfile mkdir\fR [\fBfile dirname\fR $newName]
 }
-\fBfile\fR rename $oldName $newName
-\fBfile\fR link -symbolic $oldName $newName
+\fBfile rename\fR $oldName $newName
+\fBfile link\fR -symbolic $oldName $newName
 .CE
 
 .SH "SEE ALSO"

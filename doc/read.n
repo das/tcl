@@ -73,14 +73,12 @@ In this form \fBread\fR blocks until the reception of the end-of-file
 character, see \fBfconfigure -eofchar\fR. If there no end-of-file
 character has been configured for the channel, then \fBread\fR will
 block forever.
-
 .SH "EXAMPLE"
 This example code reads a file all at once, and splits it into a list,
 with each line in the file corresponding to an element in the list:
-
 .CS
 set fl [open /proc/meminfo]
-set data [read $fl]
+set data [\fBread\fR $fl]
 close $fl
 set lines [split $data \\n]
 .CE
