@@ -128,7 +128,7 @@ declare 28 generic {
 }
 declare 29 generic {
     Tcl_Obj * TclGetElementOfIndexedArray(Tcl_Interp *interp, \
-	    int localIndex, Tcl_Obj *elemPtr, int leaveErrorMsg)
+	    int localIndex, Tcl_Obj *elemPtr, int flags)
 }
 # Replaced by char * TclGetEnv(CONST char *name, Tcl_DString *valuePtr) in 8.1:
 #  declare 30 generic {
@@ -149,7 +149,7 @@ declare 34 generic {
 }
 declare 35 generic {
     Tcl_Obj * TclGetIndexedScalar(Tcl_Interp *interp, int localIndex, \
-	    int leaveErrorMsg)
+	    int flags)
 }
 declare 36 generic {
     int TclGetLong(Tcl_Interp *interp, char *str, long *longPtr)
@@ -374,11 +374,11 @@ declare 98 generic {
 }
 declare 99 generic {
     Tcl_Obj * TclSetElementOfIndexedArray(Tcl_Interp *interp, \
-	    int localIndex, Tcl_Obj *elemPtr, Tcl_Obj *objPtr, int leaveErrorMsg)
+	    int localIndex, Tcl_Obj *elemPtr, Tcl_Obj *objPtr, int flags)
 }
 declare 100 generic {
     Tcl_Obj * TclSetIndexedScalar(Tcl_Interp *interp, int localIndex, \
-	    Tcl_Obj *objPtr, int leaveErrorMsg)
+	    Tcl_Obj *objPtr, int flags)
 }
 declare 101 {unix win} {
     char * TclSetPreInitScript(char *string)

@@ -232,8 +232,6 @@ InstructionDesc instructionTable[] = {
 	/* Append scalar variable at op1<=255 in frame; value is stktop */
     {"appendScalar4",	  5,   1,   {OPERAND_UINT4}},
 	/* Append scalar variable at op1 > 255 in frame; value is stktop */
-    {"appendScalarStk",	  1,   0,   {OPERAND_NONE}},
-	/* Append scalar; value is stktop, scalar name is stknext */
     {"appendArray1",	  2,   1,   {OPERAND_UINT1}},
 	/* Append array element; array at op1<=255, value is top then elem */
     {"appendArray4",	  5,   1,   {OPERAND_UINT4}},
@@ -246,8 +244,6 @@ InstructionDesc instructionTable[] = {
 	/* Lappend scalar variable at op1<=255 in frame; value is stktop */
     {"lappendScalar4",	  5,   1,   {OPERAND_UINT4}},
 	/* Lappend scalar variable at op1 > 255 in frame; value is stktop */
-    {"lappendScalarStk",	  1,   0,   {OPERAND_NONE}},
-	/* Lappend scalar; value is stktop, scalar name is stknext */
     {"lappendArray1",	  2,   1,   {OPERAND_UINT1}},
 	/* Lappend array element; array at op1<=255, value is top then elem */
     {"lappendArray4",	  5,   1,   {OPERAND_UINT4}},
