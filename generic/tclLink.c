@@ -60,7 +60,7 @@ typedef struct Link {
  */
 
 static char *		LinkTraceProc _ANSI_ARGS_((ClientData clientData,
-			    Tcl_Interp *interp, char *name1, char *name2,
+			    Tcl_Interp *interp, char *name1, CONST char *name2,
 			    int flags));
 static Tcl_Obj *	ObjValue _ANSI_ARGS_((Link *linkPtr));
 
@@ -230,7 +230,7 @@ LinkTraceProc(clientData, interp, name1, name2, flags)
     ClientData clientData;	/* Contains information about the link. */
     Tcl_Interp *interp;		/* Interpreter containing Tcl variable. */
     char *name1;		/* First part of variable name. */
-    char *name2;		/* Second part of variable name. */
+    CONST char *name2;		/* Second part of variable name. */
     int flags;			/* Miscellaneous additional information. */
 {
     Link *linkPtr = (Link *) clientData;

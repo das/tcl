@@ -68,7 +68,7 @@ static Tcl_TraceTypeObjCmd* traceSubCmds[] = {
 };
 
 static char *		TraceVarProc _ANSI_ARGS_((ClientData clientData,
-			    Tcl_Interp *interp, char *name1, char *name2,
+			    Tcl_Interp *interp, char *name1, CONST char *name2,
 			    int flags));
 static void		TraceCommandProc _ANSI_ARGS_((ClientData clientData,
 			    Tcl_Interp *interp, CONST char *oldName,
@@ -3722,7 +3722,7 @@ TraceVarProc(clientData, interp, name1, name2, flags)
     ClientData clientData;	/* Information about the variable trace. */
     Tcl_Interp *interp;		/* Interpreter containing variable. */
     char *name1;		/* Name of variable or array. */
-    char *name2;		/* Name of element within array;  NULL means
+    CONST char *name2;		/* Name of element within array;  NULL means
 				 * scalar variable is being referenced. */
     int flags;			/* OR-ed bits giving operation and other
 				 * information. */
