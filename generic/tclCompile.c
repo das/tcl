@@ -1381,15 +1381,10 @@ TclCompileExprWords(interp, tokenPtr, numWords, envPtr)
 
     /*
      * If the expression is a single word that doesn't require
-     * substitutions, just compile it's string into inline instructions.
+     * substitutions, just compile its string into inline instructions.
      */
 
     if ((numWords == 1) && (tokenPtr->type == TCL_TOKEN_SIMPLE_WORD)) {
-	/*
-	 * Temporarily overwrite the character just after the end of the
-	 * string with a 0 byte.
-	 */
-
 	script = tokenPtr[1].start;
 	numBytes = tokenPtr[1].size;
 	code = TclCompileExpr(interp, script, numBytes, envPtr);
