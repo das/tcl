@@ -860,7 +860,6 @@ typedef struct TclStubHooks {
     struct TclPlatStubs *tclPlatStubs;
     struct TclIntStubs *tclIntStubs;
     struct TclIntPlatStubs *tclIntPlatStubs;
-    struct TclCompileStubs *tclCompileStubs;
 } TclStubHooks;
 
 typedef struct TclStubs {

@@ -18,10 +18,9 @@ library tcl
 #     tclPlat	 - platform specific public
 #     tclInt	 - generic private
 #     tclPlatInt - platform specific private
-#     tclCompile - private compiler/execution module fucntions
 
 interface tcl
-hooks {tclPlat tclInt tclIntPlat tclCompile}
+hooks {tclPlat tclInt tclIntPlat}
 
 # Declare each of the functions in the public Tcl interface.  Note that
 # the an index should never be reused for a different function in order
