@@ -976,7 +976,7 @@ TclObjInterpProc(clientData, interp, objc, objv)
      */
 
     result = Tcl_PushCallFrame(interp, (Tcl_CallFrame *) framePtr,
-	    (Tcl_Namespace *) nsPtr, /*isProcCallFrame*/ 1);
+	    (Tcl_Namespace *) nsPtr, FRAME_IS_PROC);
 
     if (result != TCL_OK) {
 	return result;

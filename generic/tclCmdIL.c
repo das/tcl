@@ -1382,7 +1382,8 @@ InfoLocalsCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
 
-    if (iPtr->varFramePtr == NULL || !iPtr->varFramePtr->isProcCallFrame) {
+    if (iPtr->varFramePtr == NULL ||
+	    !(iPtr->varFramePtr->isProcCallFrame & FRAME_IS_PROC )) {
 	return TCL_OK;
     }
 
@@ -1959,7 +1960,7 @@ InfoVarsCmd(dummy, interp, objc, objv)
     listPtr = Tcl_NewListObj(0, (Tcl_Obj **) NULL);
 
     if ((iPtr->varFramePtr == NULL)
-	    || !iPtr->varFramePtr->isProcCallFrame
+	    || !(iPtr->varFramePtr->isProcCallFrame & FRAME_IS_PROC)
 	    || specificNsInPattern) {
 	/*
 	 * There is no frame pointer, the frame pointer was pushed only
