@@ -572,11 +572,7 @@ distclean: clean
 
 $(GENERIC_DIR)/tclStubInit.c: $(GENERIC_DIR)/tcl.decls \
 		$(GENERIC_DIR)/tclInt.decls
-	@TCL_LIBRARY="$(ROOT_DIR_NATIVE)/library"; export TCL_LIBRARY; \
-	$(TCLSH) "$(ROOT_DIR_NATIVE)\tools\genStubs.tcl" \
-	    "$(GENERIC_DIR_NATIVE)" \
-	    "$(GENERIC_DIR_NATIVE)\tcl.decls" \
-            "$(GENERIC_DIR_NATIVE)\tclInt.decls"
+	@echo "Warning: run \"make genstubs\" to regenerate tclStubInit.c"
 
 genstubs:
 	@TCL_LIBRARY="$(ROOT_DIR_NATIVE)/library"; export TCL_LIBRARY; \
