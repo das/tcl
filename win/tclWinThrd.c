@@ -293,7 +293,29 @@ TclpMasterLock()
     }
     EnterCriticalSection(&masterLock);
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclpMasterUnlock
+ *
+ *	This procedure is used to release a lock that serializes creation
+ *	and deletion of synchronization objects.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Release the master mutex.
+ *
+ *----------------------------------------------------------------------
+ */
 
+void
+TclpMasterUnlock()
+{
+    LeaveCriticalSection(&masterLock);
+}
 
 /*
  *----------------------------------------------------------------------
@@ -327,30 +349,6 @@ Tcl_GetAllocMutex()
 
 
 #ifdef TCL_THREADS
-/*
- *----------------------------------------------------------------------
- *
- * TclpMasterUnlock
- *
- *	This procedure is used to release a lock that serializes creation
- *	and deletion of synchronization objects.
- *
- * Results:
- *	None.
- *
- * Side effects:
- *	Release the master mutex.
- *
- *----------------------------------------------------------------------
- */
-
-void
-TclpMasterUnlock()
-{
-    LeaveCriticalSection(&masterLock);
-}
-
-
 /*
  *----------------------------------------------------------------------
  *
