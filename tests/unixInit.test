@@ -353,7 +353,9 @@ test unixInit-5.1 {Tcl_Init} {emptyTest unixOnly} {
 test unixInit-6.1 {Tcl_SourceRCFile} {emptyTest unixOnly} {
 } {}
 
-test unixInit-7.1 {closed standard channel: Bug 772288} -body {
+test unixInit-7.1 {closed standard channel: Bug 772288} -constraints {
+	unixOnly stdio
+} -body {
     set tclsh [interpreter]
     makeFile {puts [open /dev/null]} crash.tcl
     makeFile [subst -nocommands {
