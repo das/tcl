@@ -527,6 +527,14 @@ test format-18.2 {do not demote existing numeric values} {wideIntExpressions} {
     list [catch {format %08x $a} msg] $msg [expr {$a == $b}]
 } {1 {integer value too large to represent} 1}
 
+test format-19.1 {
+    regression test - tcl-core message by Brian Griffin on
+    26 0ctober 2004
+} {
+    set x 0x8fedc654
+    list [expr { ~ $x }] [format %08x [expr { ~$x }]]
+} {-2414724693 701239ab}
+
 # cleanup
 catch {unset a}
 catch {unset b}
