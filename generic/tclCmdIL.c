@@ -3703,7 +3703,7 @@ SortCompare(objPtr1, objPtr2, infoPtr)
 		Tcl_GetObjResult(infoPtr->interp), &order) != TCL_OK) {
 	    Tcl_ResetResult(infoPtr->interp);
 	    Tcl_AppendToObj(Tcl_GetObjResult(infoPtr->interp),
-		    "-compare command returned non-numeric result", -1);
+		    "-compare command returned non-integer result", -1);
 	    infoPtr->resultCode = TCL_ERROR;
 	    return order;
 	}
