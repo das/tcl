@@ -12,8 +12,9 @@
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
 Tcl_StandardChannels \- How the Tcl library deals with the standard channels
-.SH SYNOPSIS
-.nf
+
+.SH DESCRIPTION
+.PP
 This page explains the initialization and use of standard channels in
 the Tcl library.
 .PP
@@ -26,6 +27,7 @@ output and the other for error messages.
 .PP
 Tcl generalizes this concept in a cross-platform way and
 exposes standard channels to the script level.
+
 .SH APIs
 .PP
 The public API procedures dealing directly with standard channels are
@@ -40,7 +42,7 @@ channel information, or when implicitly required during registration
 of a new channel.
 .PP
 These cases differ in how they handle unavailable platform- specific
-standard channels.  (A channel is not "available" if it could not be
+standard channels.  (A channel is not ``available'' if it could not be
 successfully opened; for example, in a Tcl application run as a
 Windows NT service.)
 .TP
