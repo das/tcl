@@ -215,6 +215,16 @@ DoRenameFile(src, dst)
 	errno = EEXIST;
     }
 
+    /*
+     * IRIX returns EIO when you attept to move a directory into
+     * itself.  We just map EIO to EINVAL get the right message on SGI.
+     * Most platforms don't return EIO except in really strange cases.
+     */
+    
+    if (errno == EIO) {
+	errno = EINVAL;
+    }
+    
 #ifndef NO_REALPATH
     /*
      * SunOS 4.1.4 reports overwriting a non-empty directory with a
