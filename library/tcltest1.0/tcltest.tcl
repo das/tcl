@@ -529,8 +529,12 @@ proc ::tcltest::initConstraints {} {
     set ::tcltest::testConstraints(userInteraction) 0
 
     # Some tests must be skipped if the interpreter is not in interactive mode
-
-    set ::tcltest::testConstraints(interactive) $tcl_interactive
+    
+    if {[info exists tcl_interactive]} {
+	set ::tcltest::testConstraints(interactive) $::tcl_interactive
+    } else {
+	set ::tcltest::testConstraints(interactive) 0
+    }
 
     # Some tests can only be run if the installation came from a CD image
     # instead of a web image
@@ -1239,7 +1243,7 @@ proc ::tcltest::cleanupTests {{calledFromAllFile 0}} {
 	# exit only if running Tk in non-interactive mode
 
 	global tk_version tcl_interactive
-	if {[info exists tk_version] && !$tcl_interactive} {
+	if {[info exists tk_version] && ![info exists tcl_interactive]} {
 	    exit
 	}
     } else {
