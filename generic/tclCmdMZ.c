@@ -3386,6 +3386,8 @@ TclTraceCommandObjCmd(interp, optionIndex, objc, objv)
 			(sizeof(TraceCommandInfo) - sizeof(tcmdPtr->command)
 				+ length + 1));
 		tcmdPtr->flags = flags;
+		tcmdPtr->stepTrace = NULL;
+		tcmdPtr->startLevel = 0;
 		tcmdPtr->length = length;
 		flags |= TCL_TRACE_DELETE;
 		strcpy(tcmdPtr->command, command);
