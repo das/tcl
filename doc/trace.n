@@ -107,7 +107,7 @@ will not result in an error and is simply ignored.
 When the trace triggers, depending on the operations being traced, a 
 number of arguments are appended to \fIcommand\fR so that the actual 
 command is as follows:
-
+.PP
 For \fBenter\fR and \fBenterstep\fR operations:
 .CS
 \fIcommand command-string op\fR
@@ -122,7 +122,7 @@ defined above.  The trace operation can be used to stop the
 command from executing, by deleting the command in question.  Of
 course when the command is subsequently executed, an 'invalid command'
 error will occur.
-.TP
+.PP
 For \fBleave\fR and \fBleavestep\fR operations:
 .CS
 \fIcommand command-string code result op\fR
