@@ -2947,7 +2947,8 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
      * array names, array get, etc.
      */
 
-    if (varPtr != NULL && varPtr->tracePtr != NULL) {
+    if (varPtr != NULL && varPtr->tracePtr != NULL
+	    && (TclIsVarArray(varPtr) || TclIsVarUndefined(varPtr))) {
 	msg = CallTraces(iPtr, arrayPtr, varPtr, varName, NULL,
 		(TCL_LEAVE_ERR_MSG|TCL_NAMESPACE_ONLY|TCL_GLOBAL_ONLY|
 		TCL_TRACE_ARRAY));
