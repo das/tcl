@@ -100,6 +100,8 @@ EXTERN TclWinProcs *tclWinProcs;
 
 EXTERN void		TclWinInit(HINSTANCE hInst);
 
+EXTERN void TclWinFlushDirtyChannels _ANSI_ARGS_((void));
+
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT
 
