@@ -99,10 +99,7 @@ EXTERN Tcl_Encoding tclWinTCharEncoding;
  * stubs table.
  */
 
-EXTERN TclPlatformType *TclWinGetPlatform(void);
-EXTERN int		TclWinGetPlatformId(void);
 EXTERN void		TclWinInit(HINSTANCE hInst);
-EXTERN void		TclWinSetInterfaces(int);
 
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT
