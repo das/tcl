@@ -2706,53 +2706,5 @@ Tcl_GetVersion(major, minor, patchLevel, type)
     (tclStubsPtr->tcl_GetVersion)(major, minor, patchLevel, type);
 }
 
-/* Slot 280 */
-# Reserved for future
-use(8.1)
-    8.0.x vs. 8.1;
-{
-    return (tclStubsPtr->use)(8.1);
-}
-
-/* Slot 281 */
-# Reserved for future
-use(8.1)
-    8.0.x vs. 8.1;
-{
-    return (tclStubsPtr->use)(8.1);
-}
-
-/* Slot 282 */
-# Reserved for future
-use(8.1)
-    8.0.x vs. 8.1;
-{
-    return (tclStubsPtr->use)(8.1);
-}
-
-/* Slot 283 */
-# Reserved for future
-use(8.1)
-    8.0.x vs. 8.1;
-{
-    return (tclStubsPtr->use)(8.1);
-}
-
-/* Slot 284 */
-# Reserved for future
-use(8.1)
-    8.0.x vs. 8.1;
-{
-    return (tclStubsPtr->use)(8.1);
-}
-
-/* Slot 285 */
-# Reserved for future
-use(8.1)
-    8.0.x vs. 8.1;
-{
-    return (tclStubsPtr->use)(8.1);
-}
-
 
 /* !END!: Do not edit above this line. */
