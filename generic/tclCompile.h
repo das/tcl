@@ -592,8 +592,9 @@ extern InstructionDesc instructionTable[];
 #define BUILTIN_FUNC_RAND		22
 #define BUILTIN_FUNC_ROUND		23
 #define BUILTIN_FUNC_SRAND		24
+#define BUILTIN_FUNC_WIDE		25
 
-#define LAST_BUILTIN_FUNC        	24
+#define LAST_BUILTIN_FUNC        	25
 
 /*
  * Table describing the built-in math functions. Entries in this table are
