@@ -341,11 +341,16 @@ typedef long LONG;
  */
 
 #if !defined(TCL_WIDE_INT_TYPE)&&!defined(TCL_WIDE_INT_IS_LONG)
-#   if defined(__CYGWIN__)
+#   if defined(__GNUC__)
 #      define TCL_WIDE_INT_TYPE long long
-#      define TCL_LL_MODIFIER	"L"
+#      if defined(__WIN32__) && !defined(__CYGWIN__)
+#         define TCL_LL_MODIFIER        "I64"
+#         define TCL_LL_MODIFIER_SIZE   3
+#      else
+#         define TCL_LL_MODIFIER	"L"
+#         define TCL_LL_MODIFIER_SIZE	1
+#      endif
 typedef struct stat	Tcl_StatBuf;
-#      define TCL_LL_MODIFIER_SIZE	1
 #   elif defined(__WIN32__)
 #      define TCL_WIDE_INT_TYPE __int64
 #      ifdef __BORLANDC__

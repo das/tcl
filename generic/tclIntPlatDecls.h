@@ -258,6 +258,12 @@ EXTERN void		TclWinFlushDirtyChannels _ANSI_ARGS_((void));
 /* 28 */
 EXTERN void		TclWinResetInterfaces _ANSI_ARGS_((void));
 #endif
+#ifndef TclWinCPUID_TCL_DECLARED
+#define TclWinCPUID_TCL_DECLARED
+/* 29 */
+EXTERN int		TclWinCPUID _ANSI_ARGS_((unsigned int index, 
+				unsigned int * regs));
+#endif
 #endif /* __WIN32__ */
 #ifdef MAC_OSX_TCL
 #ifndef TclMacOSXGetFileAttribute_TCL_DECLARED
@@ -335,6 +341,7 @@ typedef struct TclIntPlatStubs {
     void (*tclWinSetInterfaces) _ANSI_ARGS_((int wide)); /* 26 */
     void (*tclWinFlushDirtyChannels) _ANSI_ARGS_((void)); /* 27 */
     void (*tclWinResetInterfaces) _ANSI_ARGS_((void)); /* 28 */
+    int (*tclWinCPUID) _ANSI_ARGS_((unsigned int index, unsigned int * regs)); /* 29 */
 #endif /* __WIN32__ */
 #ifdef MAC_OSX_TCL
     int (*tclMacOSXGetFileAttribute) _ANSI_ARGS_((Tcl_Interp * interp, int objIndex, Tcl_Obj * fileName, Tcl_Obj ** attributePtrPtr)); /* 15 */
@@ -517,6 +524,10 @@ extern TclIntPlatStubs *tclIntPlatStubsPtr;
 #ifndef TclWinResetInterfaces
 #define TclWinResetInterfaces \
 	(tclIntPlatStubsPtr->tclWinResetInterfaces) /* 28 */
+#endif
+#ifndef TclWinCPUID
+#define TclWinCPUID \
+	(tclIntPlatStubsPtr->tclWinCPUID) /* 29 */
 #endif
 #endif /* __WIN32__ */
 #ifdef MAC_OSX_TCL
