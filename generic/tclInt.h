@@ -1563,7 +1563,8 @@ typedef struct TclFile_ *TclFile;
  * Opaque names for platform specific types.
  */
 
-typedef struct TclpTime_t_ *TclpTime_t;
+typedef struct TclpTime_t_    *TclpTime_t;
+typedef struct TclLoadHandle_ *TclLoadHandle;
 
 /*
  * The "globParameters" argument of the function TclGlob is an
@@ -1829,8 +1830,14 @@ EXTERN void		TclTransferResult _ANSI_ARGS_((Tcl_Interp *sourceInterp,
 			    int result, Tcl_Interp *targetInterp));
 EXTERN Tcl_Obj*         TclpNativeToNormalized 
                             _ANSI_ARGS_((ClientData clientData));
-EXTERN Tcl_Obj*	TclpFilesystemPathType
+EXTERN Tcl_Obj*	        TclpFilesystemPathType
 					_ANSI_ARGS_((Tcl_Obj* pathObjPtr));
+EXTERN Tcl_PackageInitProc* TclpFindSymbol _ANSI_ARGS_((Tcl_Interp *interp,
+			    TclLoadHandle loadHandle, CONST char *symbol));
+EXTERN int              TclpDlopen _ANSI_ARGS_((Tcl_Interp *interp, 
+			    Tcl_Obj *pathPtr, 
+	                    TclLoadHandle *loadHandle, 
+		            Tcl_FSUnloadFileProc **unloadProcPtr));
 
 /*
  *----------------------------------------------------------------
