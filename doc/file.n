@@ -397,7 +397,7 @@ Returns a string giving the type of file \fIname\fR, which will be one of
 \fBfile\fR, \fBdirectory\fR, \fBcharacterSpecial\fR, \fBblockSpecial\fR,
 \fBfifo\fR, \fBlink\fR, or \fBsocket\fR.
 .TP
-\fBfile volume\fR
+\fBfile volumes\fR
 . 
 Returns the absolute paths to the volumes mounted on the system, as a
 proper Tcl list.  On the Macintosh, this will be a list of the mounted
