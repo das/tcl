@@ -3581,7 +3581,8 @@ Tcl_EvalEx(interp, script, numBytes, flags)
 		code = TCL_ERROR;
 	    } else {
 		iPtr->numLevels++;    
-		code = TclEvalObjvInternal(interp, objectsUsed, objv, p, bytesLeft, 0);
+		code = TclEvalObjvInternal(interp, objectsUsed, objv, p, 
+		        parse.commandStart + parse.commandSize - p, 0);
 		iPtr->numLevels--;
 	    }
 	    if (code != TCL_OK) {
