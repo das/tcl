@@ -457,7 +457,6 @@ extern double strtod();
  * address platform-specific issues.
  */
 
-#define TclpAsyncMark(async)
 #define TclpGetPid(pid)		((unsigned long) (pid))
 #define TclpReleaseFile(file)	/* Nothing. */
 
