@@ -73,7 +73,9 @@ TclpLoadFile(interp, fileName, sym1, sym2, proc1Ptr, proc2Ptr, clientDataPtr)
      * when they are build."
      */
 
-    handle = shl_load(fileName, BIND_DEFERRED|BIND_VERBOSE, 0L);
+    handle = shl_load(fileName,
+		      BIND_DEFERRED|BIND_VERBOSE|DYNAMIC_PATH,
+		      0L);
     if (handle == NULL) {
 	Tcl_AppendResult(interp, "couldn't load file \"", fileName,
 		"\": ", Tcl_PosixError(interp), (char *) NULL);
