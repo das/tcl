@@ -1244,7 +1244,8 @@ proc ::tcltest::cleanupTests {{calledFromAllFile 0}} {
 	# exit only if running Tk in non-interactive mode
 
 	global tk_version tcl_interactive
-	if {[info exists tk_version] && ![info exists tcl_interactive]} {
+	if {[info exists tk_version] 
+		&& (![info exists tcl_interactive] || !$tcl_interactive)} {
 	    exit
 	}
     } else {
