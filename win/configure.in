@@ -194,6 +194,29 @@ if test "$tcl_cv_winnt_ignore_void" = "yes" ; then
             [Defined when cygwin/mingw ignores VOID define in winnt.h])
 fi
 
+# Check to see if malloc.h is missing the alloca function
+# declaration. This is known to be a problem with Mingw.
+
+AC_CACHE_CHECK(for alloca declaration in malloc.h,
+    tcl_cv_malloc_decl_alloca,
+AC_TRY_COMPILE([
+#include <malloc.h>
+],
+[
+  size_t arg = 0;
+  void* ptr;
+  ptr = alloca;
+  ptr = alloca(arg);
+],
+        tcl_cv_malloc_decl_alloca=yes,
+        tcl_cv_malloc_decl_alloca=no)
+)
+if test "$tcl_cv_malloc_decl_alloca" = "no" ; then
+    AC_DEFINE(HAVE_NO_ALLOC_DECL, 1,
+            [Defined when alloca decl is missing from malloc.h])
+fi
+
+
 #--------------------------------------------------------------------
 # Determines the correct binary file extension (.o, .obj, .exe etc.)
 #--------------------------------------------------------------------
