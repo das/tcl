@@ -180,6 +180,10 @@ test safe-6.3 {test safe interpreters knowledge of the world} {
 	    [lsearch $r "debug"] != -1} {
 	set r [lreplace $r 1 1]
     }
+    set threaded [lsearch $r "threaded"]
+    if {$threaded != -1} {
+	set r [lreplace $r $threaded $threaded]
+    }
     set r
 } {byteOrder platform}
 
