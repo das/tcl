@@ -25,6 +25,10 @@
 #ifndef _TCLUNIXPORT
 #define _TCLUNIXPORT
 
+#ifndef _TCLINT
+#   include "tclInt.h"
+#endif
+
 /*
  *---------------------------------------------------------------------------
  * The following sets of #includes and #ifdefs are required to get Tcl to
@@ -56,9 +60,11 @@
 #ifdef HAVE_STRUCT_DIRENT64
 typedef struct dirent64	Tcl_DirEntry;
 #   define TclOSreaddir		readdir64
+#   define TclOSreaddir_r	readdir64_r
 #else
 typedef struct dirent	Tcl_DirEntry;
 #   define TclOSreaddir		readdir
+#   define TclOSreaddir_r	readdir_r
 #endif
 
 #ifdef HAVE_TYPE_OFF64_T
@@ -129,6 +135,7 @@ EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((CONST char *string,
  * Socket support stuff: This likely needs more work to parameterize for
  * each system.
  */
+
 #include <sys/socket.h>		/* struct sockaddr, SOCK_STREAM, ... */
 #ifndef NO_UNAME
 #   include <sys/utsname.h>	/* uname system call. */
@@ -457,9 +464,7 @@ EXTERN int		gettimeofday _ANSI_ARGS_((struct timeval *tp,
  * isn't generally declared in a header file anywhere.
  */
 
-#ifdef NO_ERRNO
 extern int errno;
-#endif /* NO_ERRNO */
 
 /*
  * Not all systems declare all the errors that Tcl uses!  Provide some
@@ -491,9 +496,7 @@ extern char **environ;
  * up being too many conflicts with slightly-different prototypes.
  */
 
-#ifdef NO_STDLIB_H
 extern double strtod();
-#endif
 
 /*
  * There is no platform-specific panic routine for Unix in the Tcl internals.
@@ -515,7 +518,6 @@ extern double strtod();
 
 #ifdef DJGPP
 #define	TCL_PLATFORM_TRANSLATION	TCL_TRANSLATE_CRLF
-typedef int socklen_t;
 #else
 #define	TCL_PLATFORM_TRANSLATION	TCL_TRANSLATE_LF
 #endif
@@ -529,12 +531,15 @@ typedef int socklen_t;
 #define TclpReleaseFile(file)	/* Nothing. */
 
 /*
- * The following defines wrap the system memory allocation routines.
+ * The following defines wrap the system memory allocation routines for
+ * use by tclAlloc.c.  By default off unused on Unix.
  */
 
-#define TclpSysAlloc(size, isBin)	malloc((size_t)size)
-#define TclpSysFree(ptr)		free((char*)ptr)
-#define TclpSysRealloc(ptr, size)	realloc((char*)ptr, (size_t)size)
+#if USE_TCLALLOC
+#   define TclpSysAlloc(size, isBin)	malloc((size_t)size)
+#   define TclpSysFree(ptr)		free((char*)ptr)
+#   define TclpSysRealloc(ptr, size)	realloc((char*)ptr, (size_t)size)
+#endif
 
 /*
  * The following macros and declaration wrap the C runtime library
@@ -551,47 +556,37 @@ typedef int socklen_t;
  */
 
 #ifdef TCL_THREADS
-#   include <pthread.h>
+#include <pthread.h>
 typedef pthread_mutex_t TclpMutex;
 EXTERN void	TclpMutexInit _ANSI_ARGS_((TclpMutex *mPtr));
 EXTERN void	TclpMutexLock _ANSI_ARGS_((TclpMutex *mPtr));
 EXTERN void	TclpMutexUnlock _ANSI_ARGS_((TclpMutex *mPtr));
-EXTERN struct tm *     	TclpLocaltime(CONST time_t *);
-EXTERN struct tm *     	TclpGmtime(CONST time_t *);
+EXTERN Tcl_DirEntry * 	TclpReaddir(DIR *);
+EXTERN struct tm *     	TclpLocaltime(time_t *);
+EXTERN struct tm *     	TclpGmtime(time_t *);
 EXTERN char *          	TclpInetNtoa(struct in_addr);
-/* #define localtime(x)	TclpLocaltime(x)
- * #define gmtime(x)	TclpGmtime(x)    */
-#   undef inet_ntoa
-#   define inet_ntoa(x)	TclpInetNtoa(x)
-#   ifdef MAC_OSX_TCL
+#define readdir(x)	TclpReaddir(x)
+#define localtime(x)	TclpLocaltime(x)
+#define gmtime(x)	TclpGmtime(x)
+#undef inet_ntoa
+#define inet_ntoa(x)	TclpInetNtoa(x)
+#undef TclOSreaddir
+#define TclOSreaddir(x) TclpReaddir(x)
+#ifdef MAC_OSX_TCL
 /* 
  * On Mac OS X, realpath is currently not
  * thread safe, c.f. SF bug # 711232.
  */
-#	define NO_REALPATH
-#   endif
-#   ifdef HAVE_PTHREAD_ATTR_GET_NP
-#	define TclpPthreadGetAttrs	pthread_attr_get_np
-#	ifdef ATTRGETNP_NOT_DECLARED
-/*
- * Assume it is in pthread_np.h if it isn't in pthread.h. [Bug 1064882]
- * We might need to revisit this in the future. :^(
- */
-#	    include <pthread_np.h>
-#	endif
-#   else
-#	ifdef HAVE_PTHREAD_GETATTR_NP
-#	    define TclpPthreadGetAttrs	pthread_getattr_np
-#	    ifdef GETATTRNP_NOT_DECLARED
-EXTERN int pthread_getattr_np _ANSI_ARGS_((pthread_t, pthread_attr_t *));
-#	    endif
-#	endif /* HAVE_PTHREAD_GETATTR_NP */
-#   endif /* HAVE_PTHREAD_ATTR_GET_NP */
+#define NO_REALPATH
+#endif
 #else
 typedef int TclpMutex;
-#   define	TclpMutexInit(a)
-#   define	TclpMutexLock(a)
-#   define	TclpMutexUnlock(a)
+#define	TclpMutexInit(a)
+#define	TclpMutexLock(a)
+#define	TclpMutexUnlock(a)
 #endif /* TCL_THREADS */
+
+#include "tclPlatDecls.h"
+#include "tclIntPlatDecls.h"
 
 #endif /* _TCLUNIXPORT */

@@ -13,6 +13,7 @@
  */
 
 #include "tclInt.h"
+#include "tclPort.h"
 
 /*
  * Declarations for local procedures defined in this file:
@@ -240,7 +241,6 @@ TclFileMakeDirsCmd(interp, objc, objv)
 	}
 
 	split = Tcl_FSSplitPath(objv[i],&pobjc);
-	Tcl_IncrRefCount(split);
 	if (pobjc == 0) {
 	    errno = ENOENT;
 	    errfile = objv[i];
@@ -524,23 +524,6 @@ CopyRenameOneFile(interp, source, target, copyFlag, force)
 		    Tcl_GetString(source), "\"", (char *) NULL);
 	    goto done;
 	}
-	
-	/* 
-	 * The destination exists, but appears to be ok to over-write,
-	 * and -force is given.  We now try to adjust permissions to
-	 * ensure the operation succeeds.  If we can't adjust
-	 * permissions, we'll let the actual copy/rename return
-	 * an error later.
-	 */
-	{
-	    Tcl_Obj* perm = Tcl_NewStringObj("u+w",-1);
-	    int index;
-	    Tcl_IncrRefCount(perm);
-	    if (TclFSFileAttrIndex(target, "-permissions", &index) == TCL_OK) {
-		Tcl_FSFileAttrsSet(NULL, index, target, perm);
-	    }
-	    Tcl_DecrRefCount(perm);
-	}
     }
 
     if (copyFlag == 0) {
@@ -570,18 +553,12 @@ CopyRenameOneFile(interp, source, target, copyFlag, force)
 
     actualSource = source;
     Tcl_IncrRefCount(actualSource);
-    /* 
-     * Activate the following block to copy files instead of links.
-     * However Tcl's semantics currently say we should copy links, so
-     * any such change should be the subject of careful study on 
-     * the consequences.
-     * 
-     * Perhaps there could be an optional flag to 'file copy' to
-     * dictate which approach to use, with the default being _not_
-     * to have this block active.
-     */
 #if 0
 #ifdef S_ISLNK
+    /* 
+     * To add a flag to make 'copy' copy links instead of files, we could
+     * add a condition to ignore this 'if' here.
+     */
     if (copyFlag && S_ISLNK(sourceStatBuf.st_mode)) {
 	/* 
 	 * We want to copy files not links.  Therefore we must follow the
@@ -603,19 +580,6 @@ CopyRenameOneFile(interp, source, target, copyFlag, force)
 		Tcl_Obj *path = Tcl_FSLink(actualSource, NULL, 0);
 		if (path == NULL) {
 		    break;
-		}
-		/* 
-		 * Now we want to check if this is a relative path,
-		 * and if so, to make it absolute
-		 */
-		if (Tcl_FSGetPathType(path) == TCL_PATH_RELATIVE) {
-		    Tcl_Obj *abs = Tcl_FSJoinToPath(actualSource, 1, &path);
-		    if (abs == NULL) {
-			break;
-		    }
-		    Tcl_IncrRefCount(abs);
-		    Tcl_DecrRefCount(path);
-		    path = abs;
 		}
 		Tcl_DecrRefCount(actualSource);
 		actualSource = path;
@@ -643,6 +607,7 @@ CopyRenameOneFile(interp, source, target, copyFlag, force)
 		 * cross-filesystem copy.  We do this through our Tcl
 		 * library.
 		 */
+		Tcl_SavedResult savedResult;
 		Tcl_Obj *copyCommand = Tcl_NewListObj(0,NULL);
 		Tcl_IncrRefCount(copyCommand);
 		Tcl_ListObjAppendElement(interp, copyCommand, 
@@ -656,6 +621,7 @@ CopyRenameOneFile(interp, source, target, copyFlag, force)
 		}
 		Tcl_ListObjAppendElement(interp, copyCommand, source);
 		Tcl_ListObjAppendElement(interp, copyCommand, target);
+		Tcl_SaveResult(interp, &savedResult);
 		result = Tcl_EvalObjEx(interp, copyCommand, 
 				       TCL_EVAL_GLOBAL | TCL_EVAL_DIRECT);
 		Tcl_DecrRefCount(copyCommand);
@@ -665,7 +631,11 @@ CopyRenameOneFile(interp, source, target, copyFlag, force)
 		     * We will pass on the Tcl error message and
 		     * can ensure this by setting errfile to NULL
 		     */
+		    Tcl_DiscardResult(&savedResult);
 		    errfile = NULL;
+		} else {
+		    /* The copy was successful */
+		    Tcl_RestoreResult(interp, &savedResult);
 		}
 	    } else {
 		errfile = errorBuffer;
@@ -826,8 +796,7 @@ FileBasename(interp, pathPtr)
     Tcl_Obj *resultPtr = NULL;
     
     splitPtr = Tcl_FSSplitPath(pathPtr, &objc);
-    Tcl_IncrRefCount(splitPtr);
-    
+
     if (objc != 0) {
 	if ((objc == 1) && (*Tcl_GetString(pathPtr) == '~')) {
 	    Tcl_DecrRefCount(splitPtr);
@@ -835,7 +804,6 @@ FileBasename(interp, pathPtr)
 		return NULL;
 	    }
 	    splitPtr = Tcl_FSSplitPath(pathPtr, &objc);
-	    Tcl_IncrRefCount(splitPtr);
 	}
 
 	/*
@@ -931,8 +899,9 @@ TclFileAttrsCmd(interp, objc, objv)
 		 * There was an error, probably that the filePtr is
 		 * not accepted by any filesystem
 		 */
-		Tcl_AppendResult(interp, "could not read \"",
-			Tcl_GetString(filePtr), "\": ", Tcl_PosixError(interp), 
+		Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), 
+			"could not read \"", Tcl_GetString(filePtr), 
+			"\": ", Tcl_PosixError(interp), 
 			(char *) NULL);
 		return TCL_ERROR;
 	    }
