@@ -1177,7 +1177,6 @@ Tcl_FSGetNormalizedPath(interp, pathObjPtr)
 	 */
 	Tcl_Obj *absolutePath = fsPathPtr->translatedPathPtr;
 	char *path = Tcl_GetString(absolutePath);
-	int type;
 	
 	/* 
 	 * We have to be a little bit careful here to avoid infinite loops
@@ -1186,7 +1185,7 @@ Tcl_FSGetNormalizedPath(interp, pathObjPtr)
 	 * action, which might loop back through here.
 	 */
 	if (path[0] != '\0') {
-	    type = Tcl_FSGetPathType(pathObjPtr);
+	    Tcl_PathType type = Tcl_FSGetPathType(pathObjPtr);
 	    if (type == TCL_PATH_RELATIVE) {
 		useThisCwd = Tcl_FSGetCwd(interp);
 
@@ -1195,6 +1194,7 @@ Tcl_FSGetNormalizedPath(interp, pathObjPtr)
 		absolutePath = Tcl_FSJoinToPath(useThisCwd, 1, &absolutePath);
 		Tcl_IncrRefCount(absolutePath);
 		/* We have a refCount on the cwd */
+#ifdef __WIN32__
 	    } else if (type == TCL_PATH_VOLUME_RELATIVE) {
 		/* 
 		 * Only Windows has volume-relative paths.  These
@@ -1203,6 +1203,12 @@ Tcl_FSGetNormalizedPath(interp, pathObjPtr)
 		 * handle them here, rather than in the native fs code,
 		 * because we really need to have a real absolute path
 		 * just below.
+		 * 
+		 * We do not let this block compile on non-Windows
+		 * platforms because the test suite's manual forcing
+		 * of tclPlatform can otherwise cause this code path
+		 * to be executed, causing various errors because
+		 * volume-relative paths really do not exist.
 		 */
 		useThisCwd = Tcl_FSGetCwd(interp);
 		if (useThisCwd == NULL) return NULL;
@@ -1239,6 +1245,7 @@ Tcl_FSGetNormalizedPath(interp, pathObjPtr)
 			useThisCwd = NULL;
 		    }
 		}
+#endif /* __WIN32__ */
 	    }
 	}
 	/* Already has refCount incremented */
