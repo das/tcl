@@ -4675,27 +4675,33 @@ TclExecuteByteCode(interp, codePtr)
 	Tcl_Obj *valuePtr;
 	char *bytes;
 	int length;
-	
-	
+#if TCL_COMPILE_DEBUG
+	int opnd;
+#endif
+
         /*
 	 * An external evaluation (INST_INVOKE or INST_EVAL) returned 
 	 * something different from TCL_OK, or else INST_BREAK or 
 	 * INST_CONTINUE were called.
 	 */
-	
+
 	processExceptionReturn:
 #if TCL_COMPILE_DEBUG    
 	switch (*pc) {
 	    case INST_INVOKE_STK1:
+		opnd = TclGetUInt1AtPtr(pc+1);
+		TRACE(("%u => ... after \"%.20s\": ", opnd, cmdNameBuf));
+		break;
 	    case INST_INVOKE_STK4:
+		opnd = TclGetUInt4AtPtr(pc+1);
 		TRACE(("%u => ... after \"%.20s\": ", opnd, cmdNameBuf));
 		break;
 	    case INST_EVAL_STK:
-	    /*
-	     * Note that the object at stacktop has to be used
-	     * before doing the cleanup.
-	     */
-		
+		/*
+		 * Note that the object at stacktop has to be used
+		 * before doing the cleanup.
+		 */
+
 		TRACE(("\"%.30s\" => ", O2S(*tosPtr)));
 		break;
 	    default:
