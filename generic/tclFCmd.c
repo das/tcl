@@ -936,9 +936,8 @@ TclFileAttrsCmd(interp, objc, objv)
 		 * There was an error, probably that the filePtr is
 		 * not accepted by any filesystem
 		 */
-		Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), 
-			"could not read \"", Tcl_GetString(filePtr), 
-			"\": ", Tcl_PosixError(interp), 
+		Tcl_AppendResult(interp, "could not read \"",
+			Tcl_GetString(filePtr), "\": ", Tcl_PosixError(interp), 
 			(char *) NULL);
 		return TCL_ERROR;
 	    }

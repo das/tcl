@@ -629,13 +629,7 @@ Tcl_GetEncodingNames(interp)
 	Tcl_DecrRefCount(encodingObj);
     }
 
-    /*
-     * Clear any values placed in the result by globbing.
-     */
-
-    Tcl_ResetResult(interp);
-    resultPtr = Tcl_GetObjResult(interp);
-
+    resultPtr = Tcl_NewObj();
     hPtr = Tcl_FirstHashEntry(&table, &search);
     while (hPtr != NULL) {
 	Tcl_Obj *strPtr;
@@ -645,6 +639,7 @@ Tcl_GetEncodingNames(interp)
 	hPtr = Tcl_NextHashEntry(&search);
     }
     Tcl_DeleteHashTable(&table);
+    Tcl_SetObjResult(interp, resultPtr);
 }
 
 /*

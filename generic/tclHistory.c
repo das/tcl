@@ -65,8 +65,7 @@ Tcl_RecordAndEval(interp, cmd, flags)
 	 * then reset the object result.
 	 */
 
-	Tcl_SetResult(interp, TclGetString(Tcl_GetObjResult(interp)),
-	        TCL_VOLATILE);
+	(void) Tcl_GetStringResult(interp);
 
 	/*
 	 * Discard the Tcl object created to hold the command.
