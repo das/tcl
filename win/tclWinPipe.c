@@ -1571,19 +1571,20 @@ BuildCommandLine(
     Tcl_DStringInit(&ds);
 
     /*
-     * Prime the path.
+     * Prime the path.  Add a space separator if we were primed with
+     * something.
      */
-    
+
     Tcl_DStringAppend(&ds, Tcl_DStringValue(linePtr), -1);
-    
+    if (Tcl_DStringLength(&ds) > 0) Tcl_DStringAppend(&ds, " ", 1);
+
     for (i = 0; i < argc; i++) {
 	if (i == 0) {
 	    arg = executable;
 	} else {
 	    arg = argv[i];
+	    Tcl_DStringAppend(&ds, " ", 1);
 	}
-
-	if(Tcl_DStringLength(&ds) > 0) Tcl_DStringAppend(&ds, " ", 1);
 
 	quote = 0;
 	if (arg[0] == '\0') {
