@@ -43,6 +43,20 @@ static void		RememberSyncObject _ANSI_ARGS_((char *objPtr,
 static void		ForgetSyncObject _ANSI_ARGS_((char *objPtr,
 			    SyncObjRecord *recPtr));
 
+/* 
+ * Several functions are #defined to nothing in tcl.h if TCL_THREADS is not
+ * specified.  Here we undo that so the procedures are defined in the
+ * stubs table.
+ */
+#ifndef TCL_THREADS
+#undef Tcl_MutexLock
+#undef Tcl_MutexUnlock
+#undef Tcl_MutexFinalize
+#undef Tcl_ConditionNotify
+#undef Tcl_ConditionWait
+#undef Tcl_ConditionFinalize
+#endif
+
 
 /*
  *----------------------------------------------------------------------
