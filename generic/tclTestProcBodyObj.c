@@ -261,15 +261,10 @@ ProcBodyTestProcObjCmd (dummy, interp, objc, objv)
 
     /*
      * check that this is a procedure and not a builtin command:
-     * If a procedure, cmdPtr->objProc is either 0 or TclObjInterpProc,
-     * and cmdPtr->proc is either 0 or TclProcInterpProc.
-     * Also, the compile proc should be 0, but we don't check for that.
+     * If a procedure, cmdPtr->objProc is TclObjInterpProc.
      */
 
-    if (((cmdPtr->objProc != NULL)
-            && (cmdPtr->objProc != TclGetObjInterpProc()))
-            || ((cmdPtr->proc != NULL)
-                    && (cmdPtr->proc != TclGetInterpProc()))) {
+    if (cmdPtr->objProc != TclGetObjInterpProc()) {
         Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 		"command \"", fullName,
 		"\" is not a Tcl procedure", (char *) NULL);
@@ -280,12 +275,7 @@ ProcBodyTestProcObjCmd (dummy, interp, objc, objv)
      * it is a Tcl procedure: the client data is the Proc structure
      */
     
-    if (cmdPtr->objProc != NULL) {
-        procPtr = (Proc *) cmdPtr->objClientData;
-    } else if (cmdPtr->proc != NULL) {
-        procPtr = (Proc *) cmdPtr->clientData;
-    }
-
+    procPtr = (Proc *) cmdPtr->objClientData;
     if (procPtr == NULL) {
         Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 		"procedure \"", fullName,

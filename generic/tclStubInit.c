@@ -112,7 +112,7 @@ TclIntStubs tclIntStubs = {
     NULL, /* 30 */
     TclGetExtension, /* 31 */
     TclGetFrame, /* 32 */
-    TclGetInterpProc, /* 33 */
+    NULL, /* 33 */
     TclGetIntForIndex, /* 34 */
     NULL, /* 35 */
     TclGetLong, /* 36 */
@@ -173,7 +173,7 @@ TclIntStubs tclIntStubs = {
     TclProcCleanupProc, /* 91 */
     TclProcCompileProc, /* 92 */
     TclProcDeleteProc, /* 93 */
-    TclProcInterpProc, /* 94 */
+    NULL, /* 94 */
     NULL, /* 95 */
     TclRenameCommand, /* 96 */
     TclResetShadowedCmdRefs, /* 97 */
