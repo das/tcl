@@ -433,6 +433,7 @@ Tcl_RegexpObjCmd(dummy, interp, objc, objv)
 	}
 	offset += info.matches[0].end;
 	all++;
+	eflags |= TCL_REG_NOTBOL;
 	if (offset >= stringLength) {
 	    break;
 	}
