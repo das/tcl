@@ -2025,7 +2025,7 @@ Tcl_SetCommandInfo(interp, cmdName, infoPtr)
     Tcl_Interp *interp;			/* Interpreter in which to look
 					 * for command. */
     char *cmdName;			/* Name of desired command. */
-    Tcl_CmdInfo *infoPtr;		/* Where to find store information
+    Tcl_CmdInfo *infoPtr;		/* Where to find information
 					 * to store in the command. */
 {
     Tcl_Command cmd;
