@@ -1388,7 +1388,7 @@ FreeListInternalRep(listPtr)
     }
     ckfree((char *) elemPtrs);
     ckfree((char *) listRepPtr);
-    // KBK temp
+
     listPtr->internalRep.twoPtrValue.ptr1 = NULL;
     listPtr->internalRep.twoPtrValue.ptr2 = NULL;
 }
