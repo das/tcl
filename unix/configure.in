@@ -811,7 +811,7 @@ case $system in
 	    DL_OBJS="tclLoadDl.o"
 	    DL_LIBS="-ldl"
 	    LD_FLAGS="-rdynamic"
-	    LD_SEARCH_FLAGS="-Wl,-rpath,${LIB_RUNTIME_DIR}"
+	    LD_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'
 	else
 	    AC_CHECK_HEADER(dld.h, [
 		SHLIB_LD="ld -shared"
