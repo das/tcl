@@ -106,7 +106,7 @@ TclIntStubs tclIntStubs = {
     TclFormatInt, /* 24 */
     TclFreePackageInfo, /* 25 */
     NULL, /* 26 */
-    TclGetDate, /* 27 */
+    NULL, /* 27 */
     TclpGetDefaultStdChannel, /* 28 */
     NULL, /* 29 */
     NULL, /* 30 */
@@ -218,7 +218,7 @@ TclIntStubs tclIntStubs = {
     Tcl_SetNamespaceResolvers, /* 131 */
     TclpHasSockets, /* 132 */
     TclpGetDate, /* 133 */
-    TclpStrftime, /* 134 */
+    NULL, /* 134 */
     NULL, /* 135 */
     NULL, /* 136 */
     NULL, /* 137 */
