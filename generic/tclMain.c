@@ -152,10 +152,10 @@ Tcl_Main(argc, argv, appInitProc)
     Tcl_DString argString;
     ThreadSpecificData *tsdPtr;
 
+    Tcl_FindExecutable(argv[0]);
+
     tsdPtr = (ThreadSpecificData *) 
 	Tcl_GetThreadData(&dataKey, sizeof(ThreadSpecificData));
-
-    Tcl_FindExecutable(argv[0]);
     tsdPtr->interp = interp = Tcl_CreateInterp();
 #ifdef TCL_MEM_DEBUG
     Tcl_InitMemory(interp);
