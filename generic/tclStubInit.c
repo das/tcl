@@ -956,6 +956,18 @@ TclStubs tclStubs = {
     Tcl_DiscardInterpState, /* 537 */
     Tcl_SetReturnOptions, /* 538 */
     Tcl_GetReturnOptions, /* 539 */
+    Tcl_IsEnsemble, /* 540 */
+    Tcl_CreateEnsemble, /* 541 */
+    Tcl_FindEnsemble, /* 542 */
+    Tcl_SetEnsembleSubcommandList, /* 543 */
+    Tcl_SetEnsembleMappingDict, /* 544 */
+    Tcl_SetEnsembleUnknownHandler, /* 545 */
+    Tcl_SetEnsembleFlags, /* 546 */
+    Tcl_GetEnsembleSubcommandList, /* 547 */
+    Tcl_GetEnsembleMappingDict, /* 548 */
+    Tcl_GetEnsembleUnknownHandler, /* 549 */
+    Tcl_GetEnsembleFlags, /* 550 */
+    Tcl_GetEnsembleNamespace, /* 551 */
 };
 
 /* !END!: Do not edit above this line. */
