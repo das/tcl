@@ -1495,13 +1495,13 @@ test cmdAH-30.8 {Tcl_FileObjCmd: error conditions} {
 test cmdAH-31.1 {Tcl_FileObjCmd: channels, too many args} {
     list [catch {file channels a b} msg] $msg
 } {1 {wrong # args: should be "file channels ?pattern?"}}
-test cmdAH-31.2 {Tcl_FileObjCmd: channels, too many args} {
+test cmdAH-31.2 {Tcl_FileObjCmd: channels, too many args} {singleTestInterp} {
     file chan
 } {stderr stdout stdin}
 test cmdAH-31.3 {Tcl_FileObjCmd: channels, too many args} {
     string equal [file channels] [file channels *]
 } {1}
-test cmdAH-31.4 {Tcl_FileObjCmd: channels} {
+test cmdAH-31.4 {Tcl_FileObjCmd: channels} {singleTestInterp} {
     set old [file channels gorp.file]
     set f [open gorp.file w]
     set new [file channels file*]

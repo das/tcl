@@ -51,6 +51,7 @@ extern "C" {
  * unix/README		(not patchlevel) (part (h))
  * unix/tcl.spec	(2 LOC Major/Minor, 1 LOC patch)
  * library/tcltest1.0/tcltest.tcl	(1 LOC M/M, 1 LOC patch)
+ * library/tcltest1.0/tcltest2.tcl	(1 LOC M/M, 1 LOC patch)
  * tools/tcl.hpj.in	(not patchlevel, for windows installer)
  * tools/tcl.wse.in	(for windows installer)
  * tools/tclSplash.bmp	(not patchlevel)
