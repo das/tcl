@@ -559,7 +559,7 @@ Tcl_ErrorObjCmd(dummy, interp, objc, objv)
     
     if (objc >= 3) {		/* process the optional info argument */
 	info = Tcl_GetStringFromObj(objv[2], &infoLen);
-	if (*info != 0) {
+	if (infoLen > 0) {
 	    Tcl_AddObjErrorInfo(interp, info, infoLen);
 	    iPtr->flags |= ERR_ALREADY_LOGGED;
 	}
