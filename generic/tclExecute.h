@@ -109,7 +109,7 @@
 
 #if JUMP_version == MSVC
 #define _CASE(instruction) case instruction
-#define _CASE_DECLS int intInst = (int) *pc
+#define _CASE_DECLS int intInst = (int) *pc;
 #define _CASE_START \
     intInst = (int) *pc;\
     instructions_start: \

@@ -819,7 +819,7 @@ TclExecuteByteCode(interp, codePtr)
 	valuePtr->refCount--; /* result has a reference, IT IS SHARED! */
 
 	{
-	    int currTos = tosPtr - eePtr->stackPtr;
+	    unsigned int currTos = tosPtr - eePtr->stackPtr;
 	    if (currTos != initTos) {
 		/*
 		 * if extra items in the stack, clean up the stack before return
