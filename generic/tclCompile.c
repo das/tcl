@@ -930,6 +930,7 @@ TclCompileScript(interp, script, numBytes, envPtr)
 			        && !(cmdPtr->flags & CMD_HAS_EXEC_TRACES)
 			        && !(iPtr->flags & DONT_COMPILE_CMDS_INLINE)) {
 			    int savedNumCmds = envPtr->numCommands;
+			    int savedCodeNext = envPtr->codeNext;
 
 			    code = (*(cmdPtr->compileProc))(interp, &parse,
 			            envPtr);
@@ -942,6 +943,7 @@ TclCompileScript(interp, script, numBytes, envPtr)
 				 * [Bug 705406]
 				 */
 				envPtr->numCommands = savedNumCmds;
+				envPtr->codeNext = savedCodeNext;
 			    } else { /* an error */
 				/*
 				 * There was a compilation error, the last

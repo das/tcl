@@ -123,7 +123,7 @@ test compile-3.5 {TclCompileCatchCmd: recover from error, [Bug 705406]} {
 	}   
     }
     list [catch foo msg] $msg
-} {1 {invalid command name "a"}}
+} {0 1}
 
 test compile-4.1 {TclCompileForCmd: command substituted test expression} {
     set i 0
