@@ -21,7 +21,7 @@ Tcltest \- Test harness support code and utilities
 .sp
 \fB::tcltest::cleanupTests \fI?runningMultipleTests?\fR
 .sp
-\fB::tcltest::getMatchingTestFiles\fR
+\fB::tcltest::getMatchingFiles\fR
 .sp
 \fB::tcltest::loadTestedCommands\fR
 .sp
