@@ -1169,7 +1169,30 @@ TclpObjLink(pathPtr, toPtr, linkAction)
 
 	if (linkAction & TCL_CREATE_SYMBOLIC_LINK) {
 	    /* Needs to create a new link */
-	    return NULL;
+	    FSSpec spec;
+	    FSSpec linkSpec;
+	    OSErr err;
+	    char *path;
+	    AliasHandle alias;
+	    
+	    err = FspLocationFromFsPath(toPtr, &spec);
+	    if (err != noErr) {
+		errno = ENOENT;
+		return NULL;
+	    }
+
+	    path = Tcl_FSGetNativePath(pathPtr);
+	    err = FSpLocationFromPath(strlen(path), path, &linkSpec);
+	    if (err == noErr) {
+		err = dupFNErr;		/* EEXIST. */
+	    } else {
+		err = NewAlias(&spec, &linkSpec, &alias);
+	    }
+	    if (err != noErr) {
+		errno = TclMacOSErrorToPosixError(err);
+		return NULL;
+	    }
+	    return toPtr;
 	} else {
 	    errno = ENODEV;
 	    return NULL;
