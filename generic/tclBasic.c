@@ -80,7 +80,7 @@ static CmdInfo builtInCmds[] = {
     {"continue",	(Tcl_CmdProc *) NULL,	Tcl_ContinueObjCmd,
         TclCompileContinueCmd,		1},
     {"encoding",	(Tcl_CmdProc *) NULL,	Tcl_EncodingObjCmd,
-        (CompileProc *) NULL,		1},
+        (CompileProc *) NULL,		0},
     {"error",		(Tcl_CmdProc *) NULL,	Tcl_ErrorObjCmd,
         (CompileProc *) NULL,		1},
     {"eval",		(Tcl_CmdProc *) NULL,	Tcl_EvalObjCmd,
