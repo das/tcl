@@ -452,19 +452,35 @@ WinReadLinkDirectory(LinkDirectory)
 	case 0x80000000|IO_REPARSE_TAG_SYMBOLIC_LINK: 
 	case IO_REPARSE_TAG_SYMBOLIC_LINK: 
 	case IO_REPARSE_TAG_MOUNT_POINT: {
-	    int len;
-	    ClientData clientData;
 	    Tcl_Obj *retVal;
+	    Tcl_DString ds;
+	    CONST char *copy;
+	    int len;
 	    
-	    len = reparseBuffer->SymbolicLinkReparseBuffer.SubstituteNameLength
-		+ sizeof(WCHAR);
-	    clientData = (ClientData)ckalloc(len);
-	    memcpy((VOID*)clientData,
-		   (VOID*)reparseBuffer->SymbolicLinkReparseBuffer.PathBuffer,
-		   len);
-	    
-	    retVal = Tcl_FSNewNativePath(&tclNativeFilesystem, clientData);
+	    Tcl_WinTCharToUtf( 
+		(CONST char*)reparseBuffer->SymbolicLinkReparseBuffer.PathBuffer, 
+		(int)reparseBuffer->SymbolicLinkReparseBuffer.SubstituteNameLength, 
+		&ds);
+	
+	    copy = Tcl_DStringValue(&ds);
+	    len = Tcl_DStringLength(&ds);
+	    /* 
+	     * Certain native path representations on Windows have this special
+	     * prefix to indicate that they are to be treated specially.  For
+	     * example extremely long paths, or symlinks 
+	     */
+	    if (*copy == '\\') {
+		if (0 == strncmp(copy,"\\??\\",4)) {
+		    copy += 4;
+		    len -= 4;
+		} else if (0 == strncmp(copy,"\\\\?\\",4)) {
+		    copy += 4;
+		    len -= 4;
+		}
+	    }
+	    retVal = Tcl_NewStringObj(copy,len);
 	    Tcl_IncrRefCount(retVal);
+	    Tcl_DStringFree(&ds);
 	    return retVal;
 	}
     }
@@ -1362,7 +1378,7 @@ TclpReadlink(path, linkPtr)
     Tcl_DStringFree(&ds);
     
     if (length < 0) {
-       return NULL;
+	return NULL;
     }
 
     Tcl_ExternalToUtfDString(NULL, link, length, linkPtr);

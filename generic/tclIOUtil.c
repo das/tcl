@@ -4908,6 +4908,7 @@ GetFilesystemRecord(fromFilesystem, epoch)
 	    *epoch = theFilesystemEpoch;
 	    break;
 	}
+	fsRecPtr = fsRecPtr->nextPtr;
     }
     FsReleaseIterator();
     return fsRecPtr;
