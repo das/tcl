@@ -246,6 +246,8 @@ TclIntStubs tclIntStubs = {
     TclExpandCodeArray, /* 164 */
     TclpSetInitialEncodings, /* 165 */
     TclListObjSetElement, /* 166 */
+    TclSetStartupScriptPath, /* 167 */
+    TclGetStartupScriptPath, /* 168 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {

@@ -611,10 +611,10 @@ declare 157 generic {
     Var * TclVarTraceExists (Tcl_Interp *interp, char *varName)
 }
 declare 158 generic {
-    void TclSetStartupScriptFileName(char *filename)
+    void TclSetStartupScriptFileName(CONST char *filename)
 }
 declare 159 generic {
-    char *TclGetStartupScriptFileName(void)
+    CONST char *TclGetStartupScriptFileName(void)
 }
 #declare 160 generic {
 #    int TclpMatchFilesTypes(Tcl_Interp *interp, char *separators, \
@@ -659,6 +659,15 @@ declare 166 generic {
                                int index,
                                Tcl_Obj* valuePtr   )
 }
+
+# VFS-aware versions of Tcl*StartupScriptFileName (158 and 159 above)
+declare 167 generic {
+    void TclSetStartupScriptPath(Tcl_Obj *pathPtr)
+}
+declare 168 generic {
+    Tcl_Obj *TclGetStartupScriptPath(void)
+}
+
 
 ##############################################################################
 
