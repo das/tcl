@@ -164,6 +164,10 @@ test winDde-5.3 {check for bad arguments} {pcOnly} {
     set result
 } {wrong # args: should be "dde execute ?-async? serviceName topicName value"}
 
+test winDde-5.4 {DDE eval bad arguments} {pcOnly} {
+    list [catch {dde eval "" "foo"} msg] $msg
+} {1 {invalid service name ""}}
+
 #cleanup
 file delete -force $::scriptName
 ::tcltest::cleanupTests
