@@ -52,7 +52,7 @@ with the Tcl parser's use of backslashes, so it's generally
 safest to enclose \fIsubSpec\fR in braces if it includes
 backslashes.
 .LP
-If the initial arguments to \fBregexp\fR start with \fB\-\fR then
+If the initial arguments to \fBregsub\fR start with \fB\-\fR then
 they are treated as switches.  The following switches are
 currently supported:
 .TP 10
