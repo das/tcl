@@ -2197,7 +2197,14 @@ test trace-32.1 {
     set result
 } [list [list delete foo]]
 
-test trace-33.1 {527164: Keep -errorinfo of traces} -setup {
+test trace-33.1 {variable match with remove variable} {
+    unset -nocomplain x
+    trace variable x w foo
+    trace remove variable x write foo
+    llength [trace info variable x]
+} 0
+
+test trace-34.1 {527164: Keep -errorinfo of traces} -setup {
     unset -nocomplain x y
 } -body {
     trace add variable x write {error foo;#}
@@ -2214,6 +2221,7 @@ test trace-33.1 {527164: Keep -errorinfo of traces} -setup {
     (write trace on "y")
     invoked from within
 "set y 1"}}
+
 
 # Delete procedures when done, so we don't clash with other tests
 # (e.g. foobar will clash with 'unknown' tests).
