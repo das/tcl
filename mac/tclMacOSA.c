@@ -206,6 +206,14 @@ Tclapplescript_Init(
     long appleScriptFlags;
 	
     /* 
+     * Perform the required stubs magic...
+     */
+     	
+    if (!Tcl_InitStubs(interp, "8.0", 0)) {
+	return TCL_ERROR;
+    }
+
+    /* 
      * Here We Will Get The Available Osa Languages, Since They Can Only Be 
      * Registered At Startup...  If You Dynamically Load Components, This
      * Will Fail, But This Is Not A Common Thing To Do.

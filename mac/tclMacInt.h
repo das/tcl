@@ -44,7 +44,6 @@
 /*
  * Typedefs used by Macintosh parts of Tcl.
  */
-typedef pascal void (*ExitToShellProcPtr)(void);
 
 /*
  * Prototypes of Mac only internal functions.
@@ -53,6 +52,8 @@ typedef pascal void (*ExitToShellProcPtr)(void);
 EXTERN char *	TclMacGetFontEncoding _ANSI_ARGS_((int fontId));
 EXTERN int	TclMacHaveThreads(void);
 
+#include "tclPort.h"
+#include "tclPlatDecls.h"
 #include "tclIntPlatDecls.h"
     
 #pragma export reset
