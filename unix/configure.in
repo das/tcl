@@ -293,23 +293,6 @@ if test $tcl_cv_union_wait = no; then
 fi
 
 #--------------------------------------------------------------------
-#	Check to see whether the system supports the matherr function
-#	and its associated type "struct exception".
-#--------------------------------------------------------------------
-
-AC_MSG_CHECKING([matherr support])
-AC_CACHE_VAL(tcl_cv_func_matherr,
-    AC_TRY_COMPILE([#include <math.h>], [
-	struct exception x;
-	x.type = DOMAIN;
-	x.type = SING;
-    ], tcl_cv_func_matherr=yes, tcl_cv_func_matherr=no))
-AC_MSG_RESULT($tcl_cv_func_matherr)
-if test $tcl_cv_func_matherr = yes; then
-    AC_DEFINE(NEED_MATHERR)
-fi
-
-#--------------------------------------------------------------------
 #	Check whether there is an strncasecmp function on this system.
 #	This is a bit tricky because under SCO it's in -lsocket and
 #	under Sequent Dynix it's in -linet.

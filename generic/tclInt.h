@@ -1778,7 +1778,6 @@ EXTERN Tcl_Obj *	TclLsetFlat _ANSI_ARGS_((Tcl_Interp* interp,
 						 Tcl_Obj *CONST indexArray[],
 						 Tcl_Obj* valuePtr
 						 ));
-EXTERN int		TclMathInProgress _ANSI_ARGS_((void));
 EXTERN Tcl_Obj *	TclNewProcBodyObj _ANSI_ARGS_((Proc *procPtr));
 EXTERN int		TclObjCommandComplete _ANSI_ARGS_((Tcl_Obj *cmdPtr));
 EXTERN int		TclObjInterpProc _ANSI_ARGS_((ClientData clientData,

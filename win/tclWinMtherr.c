@@ -40,9 +40,6 @@ int
 _matherr(xPtr)
     struct exception *xPtr;	/* Describes error that occurred. */
 {
-    if (!TclMathInProgress()) {
-	return 0;
-    }
     if ((xPtr->type == DOMAIN)
 #ifdef __BORLANDC__
 	    || (xPtr->type == TLOSS)
