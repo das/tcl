@@ -321,7 +321,8 @@ test unixInit-6.1 {Tcl_SourceRCFile} {emptyTest unixOnly} {
 if {[info exists oldlibrary]} {
     set env(TCL_LIBRARY) $oldlibrary
 }
-catch {unset env(LANG); set env(LANG) $oldlang}
+catch {unset env(LANG)}
+catch {set env(LANG) $oldlang}
 ::tcltest::cleanupTests
 return
 
