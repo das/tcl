@@ -325,6 +325,44 @@ test unixFCmd-18.1 {Unix pwd} {nonPortable unixOnly notRoot} {
     set r
 } {1 {error getting working directory name:}}
 
+# check whether -readonly attribute is supported
+set ::tcltest::testConstraints(readonlyAttr) 0
+if {$tcl_platform(platform) == "unix"} {
+    catch {file delete -force -- foo.test}
+    close [open foo.test w]
+    catch {
+	file attributes foo.test -readonly
+	set ::tcltest::testConstraints(readonlyAttr) 1
+    }
+    file delete -force -- foo.test
+}
+
+test unixFCmd-19.1 {GetReadOnlyAttribute - file not found} {unixOnly notRoot readonlyAttr} {
+    catch {file delete -force -- foo.test}
+    list [catch {file attributes foo.test -readonly} msg] $msg
+} {1 {could not read "foo.test": no such file or directory}}
+test unixFCmd-19.2 {GetReadOnlyAttribute} {unixOnly notRoot readonlyAttr} {
+    catch {file delete -force -- foo.test}
+    close [open foo.test w]
+    list [catch {file attribute foo.test -readonly} msg] $msg \
+	    [file delete -force -- foo.test]
+} {0 0 {}}
+
+test unixFCmd-20.1 {SetReadOnlyAttribute} {unixOnly notRoot readonlyAttr} {
+    catch {file delete -force -- foo.test}
+    close [open foo.test w]
+    list [catch {file attributes foo.test -readonly 1} msg] $msg \
+	    [catch {file attribute foo.test -readonly} msg] $msg \
+	    [catch {file delete -force -- foo.test}] \
+	    [catch {file attributes foo.test -readonly 0} msg] $msg \
+	    [catch {file attribute foo.test -readonly} msg] $msg \
+	    [file delete -force -- foo.test]
+} {0 {} 0 1 1 0 {} 0 0 {}}
+test unixFCmd-20.2 {SetReadOnlyAttribute} {unixOnly notRoot readonlyAttr} {
+    catch {file delete -force -- foo.test}
+    list [catch {file attributes foo.test -readonly 1} msg] $msg
+} {1 {could not read "foo.test": no such file or directory}}
+
 # cleanup
 cleanup
 cd $oldcwd

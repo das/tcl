@@ -993,3 +993,26 @@ declare 12 unix {
 declare 13 unix {
     char *TclpInetNtoa(struct in_addr addr)
 }
+
+# Added in 8.5:
+
+declare 14 unix {
+    int TclUnixCopyFile (CONST char *src, CONST char *dst,
+	    CONST Tcl_StatBuf *statBufPtr, int dontCopyAtts)
+}
+
+declare 15 macosx {
+    int TclMacOSXGetFileAttribute(Tcl_Interp *interp, int objIndex,
+	    Tcl_Obj *fileName, Tcl_Obj **attributePtrPtr)
+}
+
+declare 16 macosx {
+    int TclMacOSXSetFileAttribute(Tcl_Interp *interp, int objIndex,
+	    Tcl_Obj *fileName, Tcl_Obj *attributePtr)
+}
+
+declare 17 macosx {
+    int TclMacOSXCopyFileAttributes(CONST char *src, CONST char *dst,
+	    CONST Tcl_StatBuf *statBufPtr)
+}
+

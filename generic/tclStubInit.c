@@ -289,6 +289,7 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclpLocaltime, /* 11 */
     TclpGmtime, /* 12 */
     TclpInetNtoa, /* 13 */
+    TclUnixCopyFile, /* 14 */
 #endif /* UNIX */
 #ifdef __WIN32__
     TclWinConvertError, /* 0 */
@@ -350,6 +351,11 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclMacChmod, /* 25 */
     FSpLLocationFromPath, /* 26 */
 #endif /* MAC_TCL */
+#ifdef MAC_OSX_TCL
+    TclMacOSXGetFileAttribute, /* 15 */
+    TclMacOSXSetFileAttribute, /* 16 */
+    TclMacOSXCopyFileAttributes, /* 17 */
+#endif /* MAC_OSX_TCL */
 };
 
 TclPlatStubs tclPlatStubs = {
