@@ -18,6 +18,8 @@
 #include "tclPort.h"
 #include <signal.h> 
 
+extern TclStubs tclStubs;
+
 /*
  * This structure is used to keep track of the notifier info for a 
  * a registered file.
@@ -336,6 +338,10 @@ Tcl_SetTimer(timePtr)
      * because the only event loop is via Tcl_DoOneEvent, which passes
      * timeout values to Tcl_WaitForEvent.
      */
+
+    if (tclStubs.tcl_SetTimer != Tcl_SetTimer) {
+	tclStubs.tcl_SetTimer(timePtr);
+    }
 }
 
 /*
@@ -391,6 +397,11 @@ Tcl_CreateFileHandler(fd, mask, proc, clientData)
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
     FileHandler *filePtr;
     int index, bit;
+
+    if (tclStubs.tcl_CreateFileHandler != Tcl_CreateFileHandler) {
+	tclStubs.tcl_CreateFileHandler(fd, mask, proc, clientData);
+	return;
+    }
 
     for (filePtr = tsdPtr->firstFileHandlerPtr; filePtr != NULL;
 	 filePtr = filePtr->nextPtr) {
@@ -460,6 +471,11 @@ Tcl_DeleteFileHandler(fd)
     int index, bit, i;
     unsigned long flags;
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
+
+    if (tclStubs.tcl_DeleteFileHandler != Tcl_DeleteFileHandler) {
+	tclStubs.tcl_DeleteFileHandler(fd);
+	return;
+    }
 
     /*
      * Find the entry for the given file (and return if there isn't one).
@@ -631,6 +647,10 @@ Tcl_WaitForEvent(timePtr)
     int numFound;
 #endif
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
+
+    if (tclStubs.tcl_WaitForEvent != Tcl_WaitForEvent) {
+	return tclStubs.tcl_WaitForEvent(timePtr);
+    }
 
     /*
      * Set up the timeout structure.  Note that if there are no events to
