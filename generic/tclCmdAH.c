@@ -1199,7 +1199,7 @@ CheckAccess(interp, objPtr, mode)
     if (fileName == NULL) {
 	value = 0;
     } else {
-	value = (TclpAccess(fileName, mode) == 0);
+	value = (TclAccess(fileName, mode) == 0);
         Tcl_DStringFree(&ds);
     }
     Tcl_SetBooleanObj(Tcl_GetObjResult(interp), value);

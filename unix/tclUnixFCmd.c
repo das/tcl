@@ -1065,13 +1065,9 @@ GetGroupAttribute(interp, objIndex, fileName, attributePtrPtr)
 {
     struct stat statBuf;
     struct group *groupPtr;
-    Tcl_DString ds;
-    CONST char *native, *utf;
     int result;
 
-    native = Tcl_UtfToExternalDString(NULL, fileName, -1, &ds);
-    result = TclStat(native, &statBuf);			/* INTL: Native. */
-    Tcl_DStringFree(&ds);
+    result = TclStat(fileName, &statBuf);
     
     if (result != 0) {
 	Tcl_AppendResult(interp, "could not read \"", fileName, "\": ",
@@ -1083,6 +1079,9 @@ GetGroupAttribute(interp, objIndex, fileName, attributePtrPtr)
     if (groupPtr == NULL) {
 	*attributePtrPtr = Tcl_NewIntObj(statBuf.st_gid);
     } else {
+	Tcl_DString ds;
+	CONST char *utf;
+
 	utf = Tcl_ExternalToUtfDString(NULL, groupPtr->gr_name, -1, &ds); 
 	*attributePtrPtr = Tcl_NewStringObj(utf, -1);
 	Tcl_DStringFree(&ds);
@@ -1117,13 +1116,9 @@ GetOwnerAttribute(interp, objIndex, fileName, attributePtrPtr)
 {
     struct stat statBuf;
     struct passwd *pwPtr;
-    Tcl_DString ds;
-    CONST char *native, *utf;
     int result;
 
-    native = Tcl_UtfToExternalDString(NULL, fileName, -1, &ds);
-    result = TclStat(native, &statBuf);			/* INTL: Native. */
-    Tcl_DStringFree(&ds);
+    result = TclStat(fileName, &statBuf);
     
     if (result != 0) {
 	Tcl_AppendResult(interp, "could not read \"", fileName, "\": ",
@@ -1135,6 +1130,9 @@ GetOwnerAttribute(interp, objIndex, fileName, attributePtrPtr)
     if (pwPtr == NULL) {
 	*attributePtrPtr = Tcl_NewIntObj(statBuf.st_uid);
     } else {
+	Tcl_DString ds;
+	CONST char *utf;
+
 	utf = Tcl_ExternalToUtfDString(NULL, pwPtr->pw_name, -1, &ds); 
 	*attributePtrPtr = Tcl_NewStringObj(utf, Tcl_DStringLength(&ds));
 	Tcl_DStringFree(&ds);
@@ -1169,13 +1167,9 @@ GetPermissionsAttribute(interp, objIndex, fileName, attributePtrPtr)
 {
     struct stat statBuf;
     char returnString[6];
-    Tcl_DString ds;
-    CONST char *native;
     int result;
 
-    native = Tcl_UtfToExternalDString(NULL, fileName, -1, &ds);
-    result = TclStat(native, &statBuf);		/* INTL: Native. */
-    Tcl_DStringFree(&ds);
+    result = TclStat(fileName, &statBuf);
     
     if (result != 0) {
 	Tcl_AppendResult(interp, "could not read \"", fileName, "\": ",
