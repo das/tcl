@@ -92,13 +92,13 @@ TclIntStubs tclIntStubs = {
     NULL, /* 26 */
     TclGetDate, /* 27 */
     TclpGetDefaultStdChannel, /* 28 */
-    TclGetElementOfIndexedArray, /* 29 */
+    NULL, /* 29 */
     NULL, /* 30 */
     TclGetExtension, /* 31 */
     TclGetFrame, /* 32 */
     TclGetInterpProc, /* 33 */
     TclGetIntForIndex, /* 34 */
-    TclGetIndexedScalar, /* 35 */
+    NULL, /* 35 */
     TclGetLong, /* 36 */
     TclGetLoadedPackages, /* 37 */
     TclGetNamespaceForQualName, /* 38 */
@@ -110,8 +110,8 @@ TclIntStubs tclIntStubs = {
     TclGuessPackageName, /* 44 */
     TclHideUnsafeCommands, /* 45 */
     TclInExit, /* 46 */
-    TclIncrElementOfIndexedArray, /* 47 */
-    TclIncrIndexedScalar, /* 48 */
+    NULL, /* 47 */
+    NULL, /* 48 */
     TclIncrVar2, /* 49 */
     TclInitCompiledLocals, /* 50 */
     TclInterpInit, /* 51 */
@@ -162,8 +162,8 @@ TclIntStubs tclIntStubs = {
     TclRenameCommand, /* 96 */
     TclResetShadowedCmdRefs, /* 97 */
     TclServiceIdle, /* 98 */
-    TclSetElementOfIndexedArray, /* 99 */
-    TclSetIndexedScalar, /* 100 */
+    NULL, /* 99 */
+    NULL, /* 100 */
 #if !defined(__WIN32__) && !defined(MAC_TCL) /* UNIX */
     TclSetPreInitScript, /* 101 */
 #endif /* UNIX */
