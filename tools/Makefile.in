@@ -49,6 +49,7 @@ core:
 
 rtf: man2help.tcl man2tcl $(DOCS)
 	LD_LIBRARY_PATH=$(TCL_SOURCE)/unix \
+	TCL_LIBRARY=$(TCL_SOURCE)/library \
 	$(TCLSH) man2help.tcl tcl "$(VER)" $(DOCS)
 
 winhelp: tcl.rtf

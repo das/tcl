@@ -351,33 +351,6 @@ static crange graphTable[] = {
 };
 
 #define NUM_GRAPH (sizeof(graphTable)/sizeof(crange))
-
-
-/* ASCII character-class table */
-static struct cclass {
-	char *name;
-	char *chars;
-	int hasch;
-} cclasses[] = {
-	{"blank",	" \t",		0},
-	{"cntrl",	"\007\b\t\n\v\f\r\1\2\3\4\5\6\16\17\20\21\22\23\24\
-\25\26\27\30\31\32\33\34\35\36\37\177",	0},
-	{"graph",	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\
-0123456789!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~",
-					1},
-	{"lower",	"abcdefghijklmnopqrstuvwxyz",
-					1},
-	{"print",	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\
-0123456789!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ ",
-					1},
-	{"space",	"\t\n\v\f\r ",	0},
-	{"upper",	"ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-					0},
-	{"xdigit",	"0123456789ABCDEFabcdef",
-					0},
-	{NULL,		0,		0}
-};
-
 #define	CH	NOCELT
 
 /*
