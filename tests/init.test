@@ -67,10 +67,6 @@ interp eval $testInterp [list namespace import -force ::tcltest::*]
 
 interp eval $testInterp {
 
-if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
-}
-
 auto_reset
 catch {rename parray {}}
 
@@ -201,6 +197,7 @@ foreach arg [subst -nocommands -novariables {
     incr count
 }
 
+cleanupTests
 }	;#  End of [interp eval $testInterp]
 
 # cleanup

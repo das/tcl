@@ -645,6 +645,7 @@ set auto_path $oldPath
 package unknown $oldPkgUnknown
 concat
 
+cleanupTests
 }
 
 # cleanup

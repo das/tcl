@@ -48,6 +48,7 @@ catch {unset data}
 # Ensure httpd file exists
 
 set origFile [file join $::tcltest::testsDirectory httpd]
+set origFile [file join [pwd] [file dirname [info script]] httpd]
 set httpdFile [file join [temporaryDirectory] httpd_[pid]]
 if {![file exists $httpdFile]} {
     makeFile "" $httpdFile
