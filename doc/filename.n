@@ -195,6 +195,10 @@ should choose file names that do not contain special characters like:
 alphanumeric characters only.  Also Windows 3.1 only supports file
 names with a root of no more than 8 characters and an extension of no
 more than 3 characters.
+.PP
+On Windows platforms there are file and path length restrictions. 
+Complete paths or filenames longer than about 260 characters will lead
+to errors in most file operations.
 
 .SH KEYWORDS
 current directory, absolute file name, relative file name,
