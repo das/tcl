@@ -955,8 +955,6 @@ proc testIEEE {} {
 }
 ::tcltest::testConstraint ieeeFloatingPoint [testIEEE]
 
-parray ieeeValues
-
 foreach op {< <= == != > >=} {
     proc test$op {a b} [list expr "\$a $op \$b"]
 

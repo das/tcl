@@ -1823,6 +1823,8 @@ MODULE_SCOPE int	TclCheckBadOctal _ANSI_ARGS_((Tcl_Interp *interp,
 			    CONST char *value));
 MODULE_SCOPE void	TclCleanupLiteralTable _ANSI_ARGS_((
 			    Tcl_Interp* interp, LiteralTable* tablePtr));
+MODULE_SCOPE int	TclDoubleDigits _ANSI_ARGS_((char* buf,
+						      double value));
 MODULE_SCOPE void	TclExpandTokenArray _ANSI_ARGS_((
 			    Tcl_Parse *parsePtr));
 MODULE_SCOPE int	TclFileAttrsCmd _ANSI_ARGS_((Tcl_Interp *interp,

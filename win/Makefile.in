@@ -305,6 +305,7 @@ TOMMATH_OBJS = \
 	bn_mp_init.${OBJEXT} \
 	bn_mp_init_copy.${OBJEXT} \
 	bn_mp_init_multi.${OBJEXT} \
+	bn_mp_init_set.${OBJEXT} \
 	bn_mp_init_size.${OBJEXT} \
 	bn_mp_karatsuba_mul.${OBJEXT} \
 	bn_mp_karatsuba_sqr.$(OBJEXT) \

@@ -1416,7 +1416,7 @@ TclFSMakePathFromNormalized(interp, pathPtr, nativeRep)
  *
  * Tcl_FSNewNativePath --
  *
- *      This function performs the something like that reverse of the 
+ *      This function performs the something like the reverse of the 
  *      usual obj->path->nativerep conversions.  If some code retrieves
  *      a path in native form (from, e.g. readlink or a native dialog),
  *      and that path is to be used at the Tcl level, then calling

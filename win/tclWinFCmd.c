@@ -1331,7 +1331,7 @@ TraverseWinTree(
 		}
 	    }
 	    nativeName = (TCHAR *) data.w.cFileName;
-	    len = Tcl_UniCharLen(data.w.cFileName) * sizeof(WCHAR);
+	    len = wcslen(data.w.cFileName) * sizeof(WCHAR);
 	} else {
 	    if ((strcmp(data.a.cFileName, ".") == 0) 
 		    || (strcmp(data.a.cFileName, "..") == 0)) {
@@ -1396,7 +1396,7 @@ TraverseWinTree(
 	}
 	result = TCL_ERROR;
     }
-	    
+
     return result;
 }
 

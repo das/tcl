@@ -18,6 +18,7 @@
 #include "tclInt.h"
 #include "tommath.h"
 #include "tclCompile.h"
+#include <float.h>
 
 /*
  * Table of all object types.
@@ -1667,15 +1668,24 @@ Tcl_GetDoubleFromObj(interp, objPtr, dblPtr)
 
     if (objPtr->typePtr == &tclDoubleType) {
 	*dblPtr = objPtr->internalRep.doubleValue;
-	return TCL_OK;
+	result = TCL_OK;
     } else if (objPtr->typePtr == &tclIntType) {
 	*dblPtr = objPtr->internalRep.longValue;
-	return TCL_OK;
+	result = TCL_OK;
+    } else {
+	result = SetDoubleFromAny(interp, objPtr);
+	if (result == TCL_OK) {
+	    *dblPtr = objPtr->internalRep.doubleValue;
+	}
     }
-
-    result = SetDoubleFromAny(interp, objPtr);
-    if (result == TCL_OK) {
-	*dblPtr = objPtr->internalRep.doubleValue;
+    if ( result == TCL_OK && _isnan( *dblPtr ) ) {
+	if ( interp != NULL ) {
+	    Tcl_SetObjResult
+		( interp,
+		  Tcl_NewStringObj( "floating point value is Not a Number",
+				    -1 ) );
+	}
+	result = TCL_ERROR;
     }
     return result;
 }
