@@ -2973,7 +2973,7 @@ Tcl_TraceVar2(interp, part1, part2, flags, proc, clientData)
     /* 
      * We strip 'flags' down to just the parts which are relevant to
      * TclLookupVar, to avoid conflicts between trace flags and
-     * internal namespace flags such as 'FIND_ONLY_NS'.  This can
+     * internal namespace flags such as 'TCL_FIND_ONLY_NS'.  This can
      * now occur since we have trace flags with values 0x1000 and higher.
      */
     flagMask = TCL_GLOBAL_ONLY | TCL_NAMESPACE_ONLY;

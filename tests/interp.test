@@ -1490,6 +1490,19 @@ test interp-20.48 {interp hide vs namespaces} {
     interp delete a
     set l
 } {1 {cannot use namespace qualifiers in hidden command token (rename)}}
+test interp-20.49 {interp invokehidden -namespace} -setup {
+    set script [makeFile {
+	set x [namespace current]
+    } script]
+    interp create -safe slave
+} -body {
+    slave invokehidden -namespace ::foo source $script
+    slave eval {set ::foo::x}
+} -cleanup {
+    interp delete slave
+    removeFile script
+} -result ::foo
+
 
 test interp-21.1 {interp hidden} {
     interp hidden {}
