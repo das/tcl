@@ -2330,7 +2330,7 @@ TclFSFileAttrIndex(pathPtr, attributeName, indexPtr)
 	 * It's a constant attribute table, so use T_GIFO.
 	 */
 
-	Tcl_Obj *tmpObj = Tcl_NewStringObj(attributeName, NULL);
+	Tcl_Obj *tmpObj = Tcl_NewStringObj(attributeName, -1);
 	int result;
 
 	result = Tcl_GetIndexFromObj(NULL, tmpObj, attrTable, NULL, TCL_EXACT,
