@@ -694,6 +694,13 @@ test var-15.1 {segfault in [unset], [Bug 735335]} {
     namespace eval test unset useSomeUnlikelyNameHere
 } {}
 
+test var-16.1 {CallVarTraces: save/restore interp error state: 1038021} {
+    trace add variable errorCode write { ;#}
+    catch {error foo bar baz}
+    trace remove variable errorCode write { ;#}
+    set errorInfo
+} bar
+
 catch {namespace delete ns}
 catch {unset arr}
 catch {unset v}
