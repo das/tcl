@@ -244,6 +244,11 @@ be defined, but they may have empty strings as values if Tcl couldn't
 retrieve any relevant information.  In addition, extensions
 and applications may add additional values to the array.  The
 predefined elements are:
+
+
+
+
+
 .RS
 .VS
 .TP
@@ -251,6 +256,12 @@ predefined elements are:
 The native byte order of this machine: either \fBlittleEndian\fR or
 \fBbigEndian\fR. 
 .VE
+.TP
+\fBdebug\fR
+If this variable exists, then the interpreter
+was compiled with debugging symbols enabled.  This varible will only
+exist on Windows so extension writers can specify which package to load
+depending on the C run-time library that is loaded.
 .TP
 \fBmachine\fR
 The instruction set executed by this machine, such as
@@ -274,6 +285,10 @@ be 4.10.
 \fBplatform\fR
 Either \fBwindows\fR, \fBmacintosh\fR, or \fBunix\fR.  This identifies the
 general operating environment of the machine.
+.TP
+\fBthreaded\fR
+If this variable exists, then the interpreter
+was compiled with threads enabled.
 .TP
 \fBuser\fR
 Either \fBwindows\fR, \fBmacintosh\fR, or \fBunix\fR.  This identifies the
