@@ -56,7 +56,7 @@ proc createChildProcess { ddeServerName } {
     }
     close $f
     
-    set f [open "|$::tcltest $::scriptName" r]
+    set f [open "|$tcltest::tcltest $::scriptName" r]
     gets $f
     return $f
 }
