@@ -618,6 +618,7 @@ test var-12.1 {TclFindCompiledLocals, {} array name} {
 } {0 1 2 2,foo}
 
 test var-13.1 {Tcl_UnsetVar2, unset array with trace set on element} {
+    catch {unset t}
     proc foo {var ind op} {
 	global t
 	set foo bar
@@ -648,15 +649,3 @@ catch {unset aaaaa}
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
