@@ -15,6 +15,9 @@
  */
 
 #include <tclPort.h>
+#ifdef _MSC_VER
+#   pragma comment (lib, "advapi32.lib")
+#endif
 #include <stdlib.h>
 
 /*
@@ -212,7 +215,7 @@ int
 Registry_Init(
     Tcl_Interp *interp)
 {
-    if (!Tcl_InitStubs(interp, "8.0", 0)) {
+    if (Tcl_InitStubs(interp, "8.1", 0) == NULL) {
 	return TCL_ERROR;
     }
 
