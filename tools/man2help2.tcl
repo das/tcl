@@ -826,7 +826,7 @@ proc TPmacro {argList} {
 # argList -		List of arguments to the .TH macro.
 
 proc THmacro {argList} {
-    global file curPkg curSect curID id_keywords state curVer
+    global file curPkg curSect curID id_keywords state curVer bitmap
 
     if {[llength $argList] != 5} {
 	set args [join $argList " "]
@@ -864,6 +864,10 @@ proc THmacro {argList} {
     tab
     text $curSect
     font R
+    if {[info exist bitmap]} {
+	# a right justified bitmap
+	puts $file "\\\{bmrt $bitmap\\\}"
+    }
     puts $file "\\fs20"
     set state(breakPending) -1
 }
