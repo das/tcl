@@ -855,7 +855,7 @@ TclExecuteByteCode(interp, codePtr)
     _CASE(INST_DUP): /* tosPtr += 1 */
     {
 	Tcl_Obj *item = TOS;
-	PUSH_OBJECT(Tcl_DuplicateObj(item));
+	PUSH_OBJECT(item);
 	pc++;
 	NEXT_INSTR;
     }
