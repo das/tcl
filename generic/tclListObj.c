@@ -1641,7 +1641,8 @@ UpdateStringOfList(listPtr)
     dst = listPtr->bytes;
     for (i = 0; i < numElems; i++) {
 	elem = Tcl_GetStringFromObj(listRepPtr->elements[i], &length);
-	dst += Tcl_ConvertCountedElement(elem, length, dst, flagPtr[i]);
+	dst += Tcl_ConvertCountedElement(elem, length, dst, 
+		flagPtr[i] | (i==0 ? 0 : TCL_DONT_QUOTE_HASH) );
 	*dst = ' ';
 	dst++;
     }
