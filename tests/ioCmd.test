@@ -250,7 +250,7 @@ proc iocmdSSETUP {} {
 	set srv [socket -server iocmdSRV 0];
 	set port [lindex [fconfigure $srv -sockname] 2];
 	proc iocmdSRV {sock ip port} {close $sock}
-	set cli [socket localhost $port];
+	set cli [socket 127.0.0.1 $port];
   }
 }
 proc iocmdSSHTDWN {} {
