@@ -1691,6 +1691,7 @@ TclGlob(interp, pattern, pathPrefix, globFlags, types)
 		break;
 	    case TCL_PATH_RELATIVE:
 		/* Do nothing */
+		break;
             }
             Tcl_DecrRefCount(temp);
 	}
