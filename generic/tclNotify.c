@@ -9,6 +9,7 @@
  *
  * Copyright (c) 1995-1997 Sun Microsystems, Inc.
  * Copyright (c) 1998 by Scriptics Corporation.
+ * Copyright (c) 2003 by Kevin B. Kenny.  All rights reserved.
  *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -509,14 +510,14 @@ Tcl_DeleteEvents(proc, clientData)
         if ((*proc) (evPtr, clientData) == 1) {
             if (tsdPtr->firstEventPtr == evPtr) {
                 tsdPtr->firstEventPtr = evPtr->nextPtr;
-                if (evPtr->nextPtr == (Tcl_Event *) NULL) {
-                    tsdPtr->lastEventPtr = prevPtr;
-                }
-		if (tsdPtr->markerEventPtr == evPtr) {
-		    tsdPtr->markerEventPtr = prevPtr;
-		}
             } else {
                 prevPtr->nextPtr = evPtr->nextPtr;
+            }
+            if (evPtr->nextPtr == (Tcl_Event *) NULL) {
+                tsdPtr->lastEventPtr = prevPtr;
+            }
+            if (tsdPtr->markerEventPtr == evPtr) {
+                tsdPtr->markerEventPtr = prevPtr;
             }
             hold = evPtr;
             evPtr = evPtr->nextPtr;
