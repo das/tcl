@@ -678,7 +678,7 @@ TclExecuteByteCode(interp, codePtr)
 
 	case INST_DUP:
 	    valuePtr = stackPtr[stackTop];
-	    PUSH_OBJECT(Tcl_DuplicateObj(valuePtr));
+	    PUSH_OBJECT(valuePtr);
 	    TRACE_WITH_OBJ(("=> "), valuePtr);
 	    ADJUST_PC(1);
 
