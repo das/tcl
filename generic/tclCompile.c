@@ -832,7 +832,7 @@ TclWordKnownAtCompileTime(tokenPtr, valuePtr)
 
     if (tokenPtr->type == TCL_TOKEN_SIMPLE_WORD) {
 	if (valuePtr != NULL) {
-	    Tcl_AppendToObj(valuePtr, tokenPtr->start, tokenPtr->size);
+	    Tcl_AppendToObj(valuePtr, tokenPtr[1].start, tokenPtr[1].size);
 	}
 	return 1;
     }
@@ -850,7 +850,7 @@ TclWordKnownAtCompileTime(tokenPtr, valuePtr)
 		if (tempPtr != NULL) {
 		    Tcl_AppendToObj(tempPtr, tokenPtr->start, tokenPtr->size);
 		}
-		continue;
+		break;
 
 	    case TCL_TOKEN_BS:
 		if (tempPtr != NULL) {
@@ -859,7 +859,7 @@ TclWordKnownAtCompileTime(tokenPtr, valuePtr)
 			    Tcl_UtfBackslash(tokenPtr->start, NULL, utfBuf);
 		    Tcl_AppendToObj(tempPtr, utfBuf, length);
 		}
-		continue;
+		break;
 	    
 	    default:
 		if (tempPtr != NULL) {
@@ -867,6 +867,7 @@ TclWordKnownAtCompileTime(tokenPtr, valuePtr)
 		}
 		return 0;
 	}
+	tokenPtr++;
     }
     if (valuePtr != NULL) {
 	Tcl_AppendObjToObj(valuePtr, tempPtr);

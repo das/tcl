@@ -171,6 +171,16 @@ test cmdMZ-return-2.16 {return opton handling} -setup {
         rename p {}
     } -result {1 c {a b}}
    
+test cmdMZ-return-2.17 {return opton handling} -setup {
+        proc p {} {
+            return -code error -errorcode a\ b c
+        }
+    } -body {
+        list [catch p result] $result $::errorCode
+    } -cleanup {
+        rename p {}
+    } -result {1 c {a b}}
+   
 
 # Check that the result of a [return -options $opts $result] is
 # indistinguishable from that of the originally caught script, no
