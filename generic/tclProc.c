@@ -185,7 +185,7 @@ Tcl_ProcObjCmd(dummy, interp, objc, objv)
 	
 	procBody = Tcl_GetString(objv[3]);
 	while(*procBody != '\0') {
-	    if (!isspace(*procBody)) {
+	    if (!isspace(UCHAR(*procBody))) {
 		goto done;
 	    }
 	    procBody++;
