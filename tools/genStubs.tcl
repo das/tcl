@@ -717,7 +717,9 @@ proc genStubs::emitHeader {name} {
 
     append text "} ${capName}Stubs;\n"
 
-    append text "\nextern ${capName}Stubs *${name}StubsPtr;\n"
+    append text "\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n"
+    append text "extern ${capName}Stubs *${name}StubsPtr;\n"
+    append text "#ifdef __cplusplus\n}\n#endif\n"
 
     emitMacros $name text
 

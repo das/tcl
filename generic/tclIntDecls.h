@@ -608,7 +608,13 @@ typedef struct TclIntStubs {
     void (*tclHideLiteral) _ANSI_ARGS_((Tcl_Interp * interp, struct CompileEnv * envPtr, int index)); /* 144 */
 } TclIntStubs;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern TclIntStubs *tclIntStubsPtr;
+#ifdef __cplusplus
+}
+#endif
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
 

@@ -80,7 +80,13 @@ typedef struct TclPlatStubs {
 #endif /* MAC_TCL */
 } TclPlatStubs;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern TclPlatStubs *tclPlatStubsPtr;
+#ifdef __cplusplus
+}
+#endif
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
 

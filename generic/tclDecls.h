@@ -1529,7 +1529,13 @@ typedef struct TclStubs {
     int (*tcl_Stat) _ANSI_ARGS_((CONST char * path, struct stat * bufPtr)); /* 368 */
 } TclStubs;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern TclStubs *tclStubsPtr;
+#ifdef __cplusplus
+}
+#endif
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
 
