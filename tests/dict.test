@@ -538,10 +538,10 @@ test dict-15.6 {dict set command} {
     set dictVar {a {b {c y}}}
     dict set dictVar a b c x
 } {a {b {c x}}}
-test dict-15.7 {dict set command: no path creation} {
+test dict-15.7 {dict set command: path creation} {
     set dictVar {}
-    list [catch {dict set dictVar a b x} msg] $msg
-} {1 {key "a" not known in dictionary}}
+    dict set dictVar a b x
+} {a {b x}}
 test dict-15.8 {dict set command: creates variables} {
     catch {unset dictVar}
     dict set dictVar a x

@@ -1339,9 +1339,10 @@ typedef struct Tcl_HashSearch {
  */
 
 typedef struct {
-    Tcl_HashSearch search;
-    int epoch;
-    Tcl_Dict dictionaryPtr;
+    Tcl_HashSearch search;	/* Search struct for underlying hash table. */
+    int epoch;			/* Epoch marker for dictionary being searched,
+				 * or -1 if search has terminated. */
+    Tcl_Dict dictionaryPtr;	/* Reference to dictionary being searched. */
 } Tcl_DictSearch;
 
 
