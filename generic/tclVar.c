@@ -1566,7 +1566,7 @@ TclPtrSetVar(interp, varPtr, arrayPtr, part1, part2, newValuePtr, flags)
     CONST char *part2;		/* If non-NULL, gives the name of an element
 				 * in the array part1. */
     Tcl_Obj *newValuePtr;	/* New value for variable. */
-    CONST int flags;			/* OR-ed combination of TCL_GLOBAL_ONLY,
+    CONST int flags;		/* OR-ed combination of TCL_GLOBAL_ONLY,
 				 * and TCL_LEAVE_ERR_MSG bits. */
 {
     Interp *iPtr = (Interp *) interp;
@@ -1625,8 +1625,11 @@ TclPtrSetVar(interp, varPtr, arrayPtr, part1, part2, newValuePtr, flags)
      * "copy on write".
      */
 
+    if (flags & TCL_LIST_ELEMENT && !(flags & TCL_APPEND_VALUE)) {
+	TclSetVarUndefined(varPtr);
+    }
     oldValuePtr = varPtr->value.objPtr;
-    if (flags & TCL_APPEND_VALUE) {
+    if (flags & (TCL_APPEND_VALUE|TCL_LIST_ELEMENT)) {
 	if (TclIsVarUndefined(varPtr) && (oldValuePtr != NULL)) {
 	    Tcl_DecrRefCount(oldValuePtr);     /* discard old value */
 	    varPtr->value.objPtr = NULL;
