@@ -968,6 +968,7 @@ LogSyntaxError(infoPtr)
 
     sprintf(buffer, "syntax error in expression \"%.*s\"",
 	    ((numBytes > 60)? 60 : numBytes), infoPtr->expr);
+    Tcl_ResetResult(infoPtr->interp);
     Tcl_AppendStringsToObj(Tcl_GetObjResult(infoPtr->interp),
 	    buffer, (char *) NULL);
 }

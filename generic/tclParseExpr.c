@@ -1996,6 +1996,7 @@ LogSyntaxError(infoPtr, extraInfo)
 	sprintf(buffer, "syntax error in expression \"%s\"",
 		infoPtr->originalExpr);
     }
+    Tcl_ResetResult(infoPtr->parsePtr->interp);
     Tcl_AppendStringsToObj(Tcl_GetObjResult(infoPtr->parsePtr->interp),
 	    buffer, ": ", extraInfo, (char *) NULL);
     infoPtr->parsePtr->errorType = TCL_PARSE_SYNTAX;
