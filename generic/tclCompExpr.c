@@ -424,7 +424,7 @@ CompileSubExpr(exprTokenPtr, infoPtr, envPtr)
         case TCL_TOKEN_TEXT:
 	    if (tokenPtr->size > 0) {
 		objIndex = TclRegisterLiteral(envPtr, tokenPtr->start,
-	                (int)tokenPtr->size, /*onHeap*/ 0);
+	                tokenPtr->size, /*onHeap*/ 0);
 	    } else {
 		objIndex = TclRegisterLiteral(envPtr, "", 0, /*onHeap*/ 0);
 	    }
@@ -451,7 +451,7 @@ CompileSubExpr(exprTokenPtr, infoPtr, envPtr)
 	    
         case TCL_TOKEN_COMMAND:
 	    code = TclCompileScript(interp, tokenPtr->start+1,
-		    (int)tokenPtr->size-2, /*nested*/ 1, envPtr);
+		    tokenPtr->size-2, /*nested*/ 1, envPtr);
 	    if (code != TCL_OK) {
 		goto done;
 	    }
