@@ -2714,6 +2714,7 @@ TclExecuteByteCode(interp, codePtr)
 #ifndef TCL_WIDE_INT_IS_LONG
 		    if (valuePtr->typePtr == &tclWideIntType
 			    || value2Ptr->typePtr == &tclWideIntType) {
+			Tcl_WideInt wRemainder;
 			/*
 			 * Promote to wide
 			 */
@@ -2727,14 +2728,14 @@ TclExecuteByteCode(interp, codePtr)
 			    w = -w;
 			    negative = 1;
 			}
-			rem  = w % w2;
-			if (rem < 0) {
-			    rem += w2;
+			wRemainder  = w % w2;
+			if (wRemainder < 0) {
+			    wRemainder += w2;
 			}
 			if (negative) {
-			    rem = -rem;
+			    wRemainder = -wRemainder;
 			}
-			wResult = rem;
+			wResult = wRemainder;
 			doWide = 1;
 			break;
 		    }
