@@ -5049,7 +5049,8 @@ NsEnsembleImplementationCmd(clientData, interp, objc, objv)
     tempObjv = (Tcl_Obj **) ckalloc(sizeof(Tcl_Obj *)*(objc-2+prefixObjc));
     memcpy(tempObjv,            prefixObjv, sizeof(Tcl_Obj *) * prefixObjc);
     memcpy(tempObjv+prefixObjc, objv+2,     sizeof(Tcl_Obj *) * (objc-2));
-    result = Tcl_EvalObjv(interp, objc-2+prefixObjc, tempObjv, 0);
+    result = Tcl_EvalObjv(interp, objc-2+prefixObjc, tempObjv,
+	    TCL_EVAL_INVOKE);
     Tcl_DecrRefCount(prefixObj);
     ckfree((char *)tempObjv);
     return result;
