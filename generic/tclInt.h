@@ -1416,10 +1416,6 @@ typedef struct Interp {
  * SAFE_INTERP:		Non zero means that the current interp is a
  *			safe interp (ie it has only the safe commands
  *			installed, less priviledge than a regular interp).
- * USE_EVAL_DIRECT:	Non-zero means don't use the compiler or byte-code
- *			interpreter; instead, have Tcl_EvalObj call
- *			Tcl_EvalEx. Used primarily for testing the
- *			new parser.
  * INTERP_TRACE_IN_PROGRESS: Non-zero means that an interp trace is currently
  *			active; so no further trace callbacks should be
  *			invoked.
@@ -1433,7 +1429,6 @@ typedef struct Interp {
 #define DONT_COMPILE_CMDS_INLINE	 0x20
 #define RAND_SEED_INITIALIZED		 0x40
 #define SAFE_INTERP			 0x80
-#define USE_EVAL_DIRECT			0x100
 #define INTERP_TRACE_IN_PROGRESS	0x200
 
 /*

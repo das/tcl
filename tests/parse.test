@@ -392,8 +392,8 @@ test parse-9.1 {Tcl_LogCommandInfo, line numbers} testevalex {
 	# asdf
 	set x
     }}"}}
-test parse-9.2 {Tcl_LogCommandInfo, truncating long commands} testevalex {
-    list [testevalex {catch {set a b 111111111 222222222 333333333 444444444 555555555 666666666 777777777 888888888 999999999 000000000 aaaaaaaaa bbbbbbbbb ccccccccc ddddddddd eeeeeeeee fffffffff ggggggggg}}] $errorInfo
+test parse-9.2 {Tcl_LogCommandInfo, truncating long commands} {
+    list [catch {set a b 111111111 222222222 333333333 444444444 555555555 666666666 777777777 888888888 999999999 000000000 aaaaaaaaa bbbbbbbbb ccccccccc ddddddddd eeeeeeeee fffffffff ggggggggg}] $errorInfo
 } {1 {wrong # args: should be "set varName ?newValue?"
     while executing
 "set a b 111111111 222222222 333333333 444444444 555555555 666666666 777777777 888888888 999999999 000000000 aaaaaaaaa bbbbbbbbb ccccccccc ddddddddd ee..."}}
