@@ -508,5 +508,39 @@ void
 Tcl_Sleep(ms)
     int ms;			/* Number of milliseconds to sleep. */
 {
-    Sleep((DWORD) ms);
+    /*
+     * Simply calling 'Sleep' for the requisite number of milliseconds
+     * can make the process appear to wake up early because it isn't
+     * synchronized with the CPU performance counter that is used in
+     * tclWinTime.c.  This behavior is probably benign, but messes
+     * up some of the corner cases in the test suite.  We get around
+     * this problem by repeating the 'Sleep' call as many times
+     * as necessary to make the clock advance by the requisite amount.
+     */
+
+    Tcl_Time now;		/* Current wall clock time */
+    Tcl_Time desired;		/* Desired wakeup time */
+    int sleepTime = ms;		/* Time to sleep */
+
+    TclpGetTime( &now );
+    desired.sec = now.sec + ( ms / 1000 );
+    desired.usec = now.usec + 1000 * ( ms % 1000 );
+    if ( desired.usec > 1000000 ) {
+	++desired.sec;
+	desired.usec -= 1000000;
+    }
+	
+    for ( ; ; ) {
+	Sleep( sleepTime );
+	TclpGetTime( &now );
+	if ( now.sec > desired.sec ) {
+	    break;
+	} else if ( ( now.sec == desired.sec )
+	     && ( now.usec >= desired.usec ) ) {
+	    break;
+	}
+	sleepTime = ( ( 1000 * ( desired.sec - now.sec ) )
+		      + ( ( desired.usec - now.usec ) / 1000 ) );
+    }
+
 }
