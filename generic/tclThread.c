@@ -9,7 +9,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclThread.c 1.14 98/02/20 11:24:32
+ * RCS: @(#) $Id$
  */
 
 #include "tclInt.h"

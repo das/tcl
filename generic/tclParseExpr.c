@@ -11,7 +11,7 @@
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
- * SCCS: @(#) tclParseExpr.c 1.7 98/01/20 15:19:26 
+ * RCS: @(#) $Id$
  */
 
 #include "tclInt.h"
