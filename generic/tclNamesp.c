@@ -1262,6 +1262,7 @@ Tcl_Import(interp, namespacePtr, pattern, allowOverwrite)
                         (ClientData) dataPtr, DeleteImportedCmd);
 		dataPtr->realCmdPtr = cmdPtr;
 		dataPtr->selfPtr = (Command *) importedCmd;
+		dataPtr->selfPtr->compileProc = cmdPtr->compileProc;
 
 		/*
 		 * Create an ImportRef structure describing this new import

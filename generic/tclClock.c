@@ -263,6 +263,7 @@ FormatClock(interp, clockVal, useGMT, format)
     char *p;
     Tcl_Obj *resultPtr;
     int result;
+    time_t tclockVal;
 #ifndef HAVE_TM_ZONE
     int savedTimeZone = 0;	/* lint. */
     char *savedTZEnv = NULL;	/* lint. */
@@ -306,7 +307,8 @@ FormatClock(interp, clockVal, useGMT, format)
     }
 #endif
 
-    timeDataPtr = TclpGetDate((TclpTime_t) &clockVal, useGMT);
+    tclockVal = clockVal;
+    timeDataPtr = TclpGetDate((TclpTime_t) &tclockVal, useGMT);
     
     /*
      * Make a guess at the upper limit on the substituted string size

@@ -493,7 +493,7 @@ ThreadErrorProc(interp)
     Tcl_Channel errChannel;
     char *errorInfo, *script;
     char *argv[3];
-    char buf[10];
+    char buf[TCL_DOUBLE_SPACE+1];
     sprintf(buf, "%ld", (long) Tcl_GetCurrentThread());
 
     errorInfo = Tcl_GetVar(interp, "errorInfo", TCL_GLOBAL_ONLY);
