@@ -267,6 +267,7 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 		|| !S_ISDIR(statBuf.st_mode)) {
 	    Tcl_DStringFree(&dsOrig);
 	    Tcl_DStringFree(&ds);
+	    Tcl_DecrRefCount(fileNamePtr);
 	    return TCL_OK;
 	}
 
