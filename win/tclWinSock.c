@@ -903,6 +903,13 @@ CreateSocket(interp, port, host, server, myaddr, myport, async)
     }
 
     /*
+     * Win-NT has a misfeature that sockets are inherited in child
+     * processes by default.  Turn off the inherit bit.
+     */
+
+    SetHandleInformation( (HANDLE) sock, HANDLE_FLAG_INHERIT, 0 );
+	
+    /*
      * Set kernel space buffering
      */
 
@@ -1396,6 +1403,13 @@ TcpAccept(infoPtr)
         return;
     }
 
+    /*
+     * Win-NT has a misfeature that sockets are inherited in child
+     * processes by default.  Turn off the inherit bit.
+     */
+
+    SetHandleInformation( (HANDLE) newSocket, HANDLE_FLAG_INHERIT, 0 );
+	
     /*
      * Add this socket to the global list of sockets.
      */
