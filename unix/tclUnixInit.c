@@ -682,7 +682,11 @@ TclpSetVariables(interp)
 
     Tcl_SetVar(interp, "tclDefaultLibrary", defaultLibraryDir, TCL_GLOBAL_ONLY);
     Tcl_SetVar(interp, "tcl_pkgPath", pkgPath, TCL_GLOBAL_ONLY);
+#ifdef DJGPP
+    Tcl_SetVar2(interp, "tcl_platform", "platform", "dos", TCL_GLOBAL_ONLY);
+#else
     Tcl_SetVar2(interp, "tcl_platform", "platform", "unix", TCL_GLOBAL_ONLY);
+#endif
     unameOK = 0;
 #ifndef NO_UNAME
     if (uname(&name) >= 0) {
