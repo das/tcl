@@ -300,6 +300,12 @@ AC_EXEEXT
 
 SC_ENABLE_THREADS
 
+#------------------------------------------------------------------------
+# Embedded configuration information, encoding to use for the values, TIP #59
+#------------------------------------------------------------------------
+
+SC_TCL_CFG_ENCODING
+
 #--------------------------------------------------------------------
 # The statements below define a collection of symbols related to
 # building libtcl as a shared library instead of a static library.
