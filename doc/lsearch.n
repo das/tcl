@@ -87,7 +87,10 @@ for backward-compatibility reasons.)
 .TP
 \fB\-dictionary\fR
 The list elements are to be compared using dictionary-style
-comparisons.
+comparisons (see \fBlsort\fR for a fuller description). Note that this
+only makes a meaningful difference from the \fB\-ascii\fR option when
+the \fB\-sorted\fR option is given, because values are only
+dictionary-equal when exactly equal.
 .TP
 \fB\-integer\fR
 The list elements are to be compared as integers.
