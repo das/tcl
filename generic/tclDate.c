@@ -765,12 +765,16 @@ TclDatelex()
 	}
 
         if (isdigit(UCHAR(c = *TclDateInput))) { /* INTL: digit */
+	    /* convert the string into a number; count the number of digits */
+	    Count = 0;
             for (TclDatelval.Number = 0;
 		    isdigit(UCHAR(c = *TclDateInput++)); ) { /* INTL: digit */
                 TclDatelval.Number = 10 * TclDatelval.Number + c - '0';
+		Count++;
 	    }
             TclDateInput--;
-	    if (TclDatelval.Number >= 100000) {
+	    /* A number with 6 or more digits is considered an ISO 8601 base */
+	    if (Count >= 6) {
 		return tISOBASE;
 	    } else {
 		return tUNUMBER;
