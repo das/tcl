@@ -68,6 +68,11 @@ How To Compile And Install Tcl:
 	--disable-64bit		disable 64bit support (where applicable)
 	--enable-64bit-vis	enable 64bit Sparc VIS support
 	--disable-64bit-vis	disable 64bit Sparc VIS support
+	--enable-langinfo	Allows use of modern nl_langinfo check for
+				better localization support.  This is on by
+				default on platforms where nl_langinfo is
+				found.
+	--disable-langinfo	Specifically disables use of nl_langinfo.
 
     Note: by default gcc will be used if it can be located on the PATH.
     if you want to use cc instead of gcc, set the CC environment variable
