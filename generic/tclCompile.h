@@ -1136,7 +1136,7 @@ MODULE_SCOPE int	TclWordKnownAtCompileTime _ANSI_ARGS_((
 /* This test maybe should be distributed, so that it isn't performed for every
  * INST? */
 #define TclEmitInst1(op, n, envPtr) \
-    if (TclIsJump(op) && \
+    if (TclInstIsJump(op) && \
             (abs((TclPSizedInt)(n)) > HPINT_MAX)) \
         Tcl_Panic("Oversize jump.");\
     if (((envPtr)->codeNext + 1) > (envPtr)->codeEnd) { \
