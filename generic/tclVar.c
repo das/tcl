@@ -3644,11 +3644,13 @@ Tcl_UpVar2(interp, frameName, part1, part2, localName, flags)
 
     result = TclGetFrame(interp, frameName, &framePtr);
     if (result == -1) {
-	return TCL_ERROR;
+	result = TCL_ERROR;
+	goto done;
     }
     result = ObjMakeUpvar(interp, framePtr, part1Ptr, part2, 0,
 	    localName, flags, -1);
 
+    done:
     TclDecrRefCount(part1Ptr);
     return result;
 }
