@@ -457,6 +457,7 @@ extern double strtod();
 
 #define TclpFinalize()
 
+#include "tclPlatDecls.h"
 #include "tclIntPlatDecls.h"
 
 #endif /* _TCLUNIXPORT */

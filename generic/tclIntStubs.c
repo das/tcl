@@ -1296,133 +1296,13 @@ Tcl_SetNamespaceResolvers(namespacePtr, cmdProc, varProc, compiledVarProc)
 
 /* Slot 132 */
 int
-TclCompileBreakCmd(interp, string, lastChar, compileFlags, compileEnvPtr)
-    Tcl_Interp * interp;
-    char * string;
-    char * lastChar;
-    int compileFlags;
-    struct CompileEnv * compileEnvPtr;
-{
-    return (tclIntStubsPtr->tclCompileBreakCmd)(interp, string, lastChar, compileFlags, compileEnvPtr);
-}
-
-/* Slot 133 */
-int
-TclCompileCatchCmd(interp, string, lastChar, compileFlags, compileEnvPtr)
-    Tcl_Interp * interp;
-    char * string;
-    char * lastChar;
-    int compileFlags;
-    struct CompileEnv * compileEnvPtr;
-{
-    return (tclIntStubsPtr->tclCompileCatchCmd)(interp, string, lastChar, compileFlags, compileEnvPtr);
-}
-
-/* Slot 134 */
-int
-TclCompileContinueCmd(interp, string, lastChar, compileFlags, compileEnvPtr)
-    Tcl_Interp * interp;
-    char * string;
-    char * lastChar;
-    int compileFlags;
-    struct CompileEnv * compileEnvPtr;
-{
-    return (tclIntStubsPtr->tclCompileContinueCmd)(interp, string, lastChar, compileFlags, compileEnvPtr);
-}
-
-/* Slot 135 */
-int
-TclCompileExprCmd(interp, string, lastChar, compileFlags, compileEnvPtr)
-    Tcl_Interp * interp;
-    char * string;
-    char * lastChar;
-    int compileFlags;
-    struct CompileEnv * compileEnvPtr;
-{
-    return (tclIntStubsPtr->tclCompileExprCmd)(interp, string, lastChar, compileFlags, compileEnvPtr);
-}
-
-/* Slot 136 */
-int
-TclCompileForCmd(interp, string, lastChar, compileFlags, compileEnvPtr)
-    Tcl_Interp * interp;
-    char * string;
-    char * lastChar;
-    int compileFlags;
-    struct CompileEnv * compileEnvPtr;
-{
-    return (tclIntStubsPtr->tclCompileForCmd)(interp, string, lastChar, compileFlags, compileEnvPtr);
-}
-
-/* Slot 137 */
-int
-TclCompileForeachCmd(interp, string, lastChar, compileFlags, compileEnvPtr)
-    Tcl_Interp * interp;
-    char * string;
-    char * lastChar;
-    int compileFlags;
-    struct CompileEnv * compileEnvPtr;
-{
-    return (tclIntStubsPtr->tclCompileForeachCmd)(interp, string, lastChar, compileFlags, compileEnvPtr);
-}
-
-/* Slot 138 */
-int
-TclCompileIfCmd(interp, string, lastChar, compileFlags, compileEnvPtr)
-    Tcl_Interp * interp;
-    char * string;
-    char * lastChar;
-    int compileFlags;
-    struct CompileEnv * compileEnvPtr;
-{
-    return (tclIntStubsPtr->tclCompileIfCmd)(interp, string, lastChar, compileFlags, compileEnvPtr);
-}
-
-/* Slot 139 */
-int
-TclCompileIncrCmd(interp, string, lastChar, compileFlags, compileEnvPtr)
-    Tcl_Interp * interp;
-    char * string;
-    char * lastChar;
-    int compileFlags;
-    struct CompileEnv * compileEnvPtr;
-{
-    return (tclIntStubsPtr->tclCompileIncrCmd)(interp, string, lastChar, compileFlags, compileEnvPtr);
-}
-
-/* Slot 140 */
-int
-TclCompileSetCmd(interp, string, lastChar, compileFlags, compileEnvPtr)
-    Tcl_Interp * interp;
-    char * string;
-    char * lastChar;
-    int compileFlags;
-    struct CompileEnv * compileEnvPtr;
-{
-    return (tclIntStubsPtr->tclCompileSetCmd)(interp, string, lastChar, compileFlags, compileEnvPtr);
-}
-
-/* Slot 141 */
-int
-TclCompileWhileCmd(interp, string, lastChar, compileFlags, compileEnvPtr)
-    Tcl_Interp * interp;
-    char * string;
-    char * lastChar;
-    int compileFlags;
-    struct CompileEnv * compileEnvPtr;
-{
-    return (tclIntStubsPtr->tclCompileWhileCmd)(interp, string, lastChar, compileFlags, compileEnvPtr);
-}
-
-/* Slot 142 */
-int
 TclHasSockets(interp)
     Tcl_Interp * interp;
 {
     return (tclIntStubsPtr->tclHasSockets)(interp);
 }
 
-/* Slot 143 */
+/* Slot 133 */
 struct tm *
 TclpGetDate(time, useGMT)
     TclpTime_t time;
@@ -1431,7 +1311,7 @@ TclpGetDate(time, useGMT)
     return (tclIntStubsPtr->tclpGetDate)(time, useGMT);
 }
 
-/* Slot 144 */
+/* Slot 134 */
 size_t
 TclStrftime(s, maxsize, format, t)
     char * s;
@@ -1442,7 +1322,7 @@ TclStrftime(s, maxsize, format, t)
     return (tclIntStubsPtr->tclStrftime)(s, maxsize, format, t);
 }
 
-/* Slot 145 */
+/* Slot 135 */
 int
 TclpCheckStackSpace()
 {

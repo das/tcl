@@ -351,8 +351,6 @@
 
 #define TclPlatformExit(status) exit(status)
 
-#include "tclPlatDecls.h"
-
 /*
  * The following prototypes and defines replace the Windows versions
  * of POSIX function that various compiler vendors didn't implement 
@@ -363,6 +361,7 @@
 
 #define TclpReleaseFile(file)	ckfree((char *) file)
 
+#include "tclPlatDecls.h"
 #include "tclIntPlatDecls.h"
 
 # undef TCL_STORAGE_CLASS

@@ -1486,6 +1486,36 @@ extern char *		tclEmptyStringRep;
  *----------------------------------------------------------------
  */
 
+EXTERN int	TclCompileBreakCmd _ANSI_ARGS_((Tcl_Interp *interp,
+		    char *string, char *lastChar, int compileFlags,
+		    struct CompileEnv *compileEnvPtr));
+EXTERN int	TclCompileCatchCmd _ANSI_ARGS_((Tcl_Interp *interp,
+		    char *string, char *lastChar, int compileFlags,
+		    struct CompileEnv *compileEnvPtr));
+EXTERN int	TclCompileContinueCmd _ANSI_ARGS_((Tcl_Interp *interp,
+		    char *string, char *lastChar, int compileFlags,
+		    struct CompileEnv *compileEnvPtr));
+EXTERN int	TclCompileExprCmd _ANSI_ARGS_((Tcl_Interp *interp,
+		    char *string, char *lastChar, int compileFlags,
+		    struct CompileEnv *compileEnvPtr));
+EXTERN int	TclCompileForCmd _ANSI_ARGS_((Tcl_Interp *interp,
+		    char *string, char *lastChar, int compileFlags,
+		    struct CompileEnv *compileEnvPtr));
+EXTERN int	TclCompileForeachCmd _ANSI_ARGS_((Tcl_Interp *interp,
+		    char *string, char *lastChar, int compileFlags,
+		    struct CompileEnv *compileEnvPtr));
+EXTERN int	TclCompileIfCmd _ANSI_ARGS_((Tcl_Interp *interp,
+		    char *string, char *lastChar, int compileFlags,
+		    struct CompileEnv *compileEnvPtr));
+EXTERN int	TclCompileIncrCmd _ANSI_ARGS_((Tcl_Interp *interp,
+		    char *string, char *lastChar, int compileFlags,
+		    struct CompileEnv *compileEnvPtr));
+EXTERN int	TclCompileSetCmd _ANSI_ARGS_((Tcl_Interp *interp,
+		    char *string, char *lastChar, int compileFlags,
+		    struct CompileEnv *compileEnvPtr));
+EXTERN int	TclCompileWhileCmd _ANSI_ARGS_((Tcl_Interp *interp,
+		    char *string, char *lastChar, int compileFlags,
+		    struct CompileEnv *compileEnvPtr));
 EXTERN void	TclFinalizeCompExecEnv _ANSI_ARGS_((void));
 EXTERN void	TclFinalizeEnvironment _ANSI_ARGS_((void));
 EXTERN void	TclFinalizeExecEnv _ANSI_ARGS_((void));

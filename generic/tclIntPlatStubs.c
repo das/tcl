@@ -25,6 +25,97 @@
  * Exported stub functions:
  */
 
+#if !defined(__WIN32__) && !defined(MAC_TCL) /* UNIX */
+/* Slot 0 */
+void
+TclGetAndDetachPids(interp, chan)
+    Tcl_Interp * interp;
+    Tcl_Channel chan;
+{
+    (tclIntPlatStubsPtr->tclGetAndDetachPids)(interp, chan);
+}
+
+/* Slot 1 */
+int
+TclpCloseFile(file)
+    TclFile file;
+{
+    return (tclIntPlatStubsPtr->tclpCloseFile)(file);
+}
+
+/* Slot 2 */
+Tcl_Channel
+TclpCreateCommandChannel(readFile, writeFile, errorFile, numPids, pidPtr)
+    TclFile readFile;
+    TclFile writeFile;
+    TclFile errorFile;
+    int numPids;
+    Tcl_Pid * pidPtr;
+{
+    return (tclIntPlatStubsPtr->tclpCreateCommandChannel)(readFile, writeFile, errorFile, numPids, pidPtr);
+}
+
+/* Slot 3 */
+int
+TclpCreatePipe(readPipe, writePipe)
+    TclFile * readPipe;
+    TclFile * writePipe;
+{
+    return (tclIntPlatStubsPtr->tclpCreatePipe)(readPipe, writePipe);
+}
+
+/* Slot 4 */
+int
+TclpCreateProcess(interp, argc, argv, inputFile, outputFile, errorFile, pidPtr)
+    Tcl_Interp * interp;
+    int argc;
+    char ** argv;
+    TclFile inputFile;
+    TclFile outputFile;
+    TclFile errorFile;
+    Tcl_Pid * pidPtr;
+{
+    return (tclIntPlatStubsPtr->tclpCreateProcess)(interp, argc, argv, inputFile, outputFile, errorFile, pidPtr);
+}
+
+/* Slot 5 */
+TclFile
+TclpCreateTempFile(contents, namePtr)
+    char * contents;
+    Tcl_DString * namePtr;
+{
+    return (tclIntPlatStubsPtr->tclpCreateTempFile)(contents, namePtr);
+}
+
+/* Slot 6 */
+TclFile
+TclpMakeFile(channel, direction)
+    Tcl_Channel channel;
+    int direction;
+{
+    return (tclIntPlatStubsPtr->tclpMakeFile)(channel, direction);
+}
+
+/* Slot 7 */
+TclFile
+TclpOpenFile(fname, mode)
+    char * fname;
+    int mode;
+{
+    return (tclIntPlatStubsPtr->tclpOpenFile)(fname, mode);
+}
+
+/* Slot 8 */
+int
+TclUnixWaitForFile(fd, mask, timeout)
+    int fd;
+    int mask;
+    int timeout;
+{
+    return (tclIntPlatStubsPtr->tclUnixWaitForFile)(fd, mask, timeout);
+}
+
+#endif /* UNIX */
 #ifdef __WIN32__
 /* Slot 0 */
 void
@@ -211,97 +302,6 @@ TclpOpenFile(fname, mode)
 }
 
 #endif /* __WIN32__ */
-#if !defined(__WIN32__) && !defined(MAC_TCL)
-/* Slot 0 */
-void
-TclGetAndDetachPids(interp, chan)
-    Tcl_Interp * interp;
-    Tcl_Channel chan;
-{
-    (tclIntPlatStubsPtr->tclGetAndDetachPids)(interp, chan);
-}
-
-/* Slot 1 */
-int
-TclpCloseFile(file)
-    TclFile file;
-{
-    return (tclIntPlatStubsPtr->tclpCloseFile)(file);
-}
-
-/* Slot 2 */
-Tcl_Channel
-TclpCreateCommandChannel(readFile, writeFile, errorFile, numPids, pidPtr)
-    TclFile readFile;
-    TclFile writeFile;
-    TclFile errorFile;
-    int numPids;
-    Tcl_Pid * pidPtr;
-{
-    return (tclIntPlatStubsPtr->tclpCreateCommandChannel)(readFile, writeFile, errorFile, numPids, pidPtr);
-}
-
-/* Slot 3 */
-int
-TclpCreatePipe(readPipe, writePipe)
-    TclFile * readPipe;
-    TclFile * writePipe;
-{
-    return (tclIntPlatStubsPtr->tclpCreatePipe)(readPipe, writePipe);
-}
-
-/* Slot 4 */
-int
-TclpCreateProcess(interp, argc, argv, inputFile, outputFile, errorFile, pidPtr)
-    Tcl_Interp * interp;
-    int argc;
-    char ** argv;
-    TclFile inputFile;
-    TclFile outputFile;
-    TclFile errorFile;
-    Tcl_Pid * pidPtr;
-{
-    return (tclIntPlatStubsPtr->tclpCreateProcess)(interp, argc, argv, inputFile, outputFile, errorFile, pidPtr);
-}
-
-/* Slot 5 */
-TclFile
-TclpCreateTempFile(contents, namePtr)
-    char * contents;
-    Tcl_DString * namePtr;
-{
-    return (tclIntPlatStubsPtr->tclpCreateTempFile)(contents, namePtr);
-}
-
-/* Slot 6 */
-TclFile
-TclpMakeFile(channel, direction)
-    Tcl_Channel channel;
-    int direction;
-{
-    return (tclIntPlatStubsPtr->tclpMakeFile)(channel, direction);
-}
-
-/* Slot 7 */
-TclFile
-TclpOpenFile(fname, mode)
-    char * fname;
-    int mode;
-{
-    return (tclIntPlatStubsPtr->tclpOpenFile)(fname, mode);
-}
-
-/* Slot 8 */
-int
-TclUnixWaitForFile(fd, mask, timeout)
-    int fd;
-    int mask;
-    int timeout;
-{
-    return (tclIntPlatStubsPtr->tclUnixWaitForFile)(fd, mask, timeout);
-}
-
-#endif /* UNIX */
 #ifdef MAC_TCL
 /* Slot 0 */
 VOID *
