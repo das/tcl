@@ -21,7 +21,7 @@ Tcltest \- Test harness support code and utilities
 .sp
 \fB::tcltest::cleanupTests \fI?runningMultipleTests?\fR
 .sp
-\fB::tcltest::getMatchingTestFiles
+\fB::tcltest::getMatchingTestFiles\fR
 .sp
 \fB::tcltest::makeFile \fIcontents name\fR
 .sp
@@ -37,11 +37,11 @@ Tcltest \- Test harness support code and utilities
 .sp
 \fB::tcltest::bytestring \fIstring\fR
 .sp
-\fB::tcltest::saveState
+\fB::tcltest::saveState\fR
 .sp
-\fB::tcltest::restoreState
+\fB::tcltest::restoreState\fR
 .sp
-\fB::tcltest::threadReap
+\fB::tcltest::threadReap\fR
 .BE
 .SH DESCRIPTION
 .PP
@@ -617,7 +617,7 @@ print additional usage information specific to your situation.
 \fB::tcltest::processCmdLineArgsFlagHook\fP
 tell the test harness about additional flags that you want it to understand.
 .TP
-\fB::tcltest::processCmdLineArgsHook\fR flags\fP
+\fB::tcltest::processCmdLineArgsHook\fR \fIflags\fP
 process the additional flags that you told the harness about in
 ::tcltest::processCmdLineArgsFlagHook.
 .TP

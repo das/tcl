@@ -46,25 +46,21 @@ error.
 The \fBcatch\fR command may be used in an \fBif\fR to branch based on
 the success of a script.
 
-.DS
 .CS
 if { [catch {open $someFile w} fid] } {
     puts stderr "Could not open $someFile for writing\\n$fid"
     exit 1
 }
 .CE
-.DE
 The \fBcatch\fR command will not catch compiled syntax errors.  The
 first time proc \fBfoo\fR is called, the body will be compiled and a
 Tcl error will be generated. 
 
-.DS
 .CS
 proc foo {} {
     catch {expr {1 +- }}
 }
 .CE
-.DE
 
 .SH KEYWORDS
 catch, error
