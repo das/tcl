@@ -6,10 +6,10 @@
 
 AC_INIT(../generic/tcl.h)
 
-TCL_VERSION=8.1
+TCL_VERSION=8.2
 TCL_MAJOR_VERSION=8
-TCL_MINOR_VERSION=1
-TCL_PATCH_LEVEL=.2
+TCL_MINOR_VERSION=2
+TCL_PATCH_LEVEL=b1
 VER=$TCL_MAJOR_VERSION$TCL_MINOR_VERSION
 
 #--------------------------------------------------------------------
