@@ -429,6 +429,43 @@ Returns \fB1\fR if file \fIname\fR is writable by the current user,
 .
 These commands always operate using the real user and group identifiers,
 not the effective ones. 
+.SH EXAMPLES
+This procedure shows how to search for C files in a given directory
+that have a correspondingly-named object file in the current
+directory:
+.CS
+proc findMatchingCFiles {dir} {
+    set files {}
+    switch $::tcl_platform(platform) {
+        windows {
+            set ext .obj
+        }
+        unix {
+            set ext .o
+        }
+    }
+    foreach file [glob -nocomplain -directory $dir *.c] {
+        set objectFile [file tail [file rootname $file]]$ext
+        if {[file exists $objectFile]} {
+            lappend files $file
+        }
+    }
+    return $files
+}
+.CE
+.PP
+Rename a file and leave a symbolic link pointing from the old location
+to the new place:
+.CS
+set oldName foobar.txt
+set newName foo/bar.txt
+# Make sure that where we're going to move to exists...
+if {![file isdirectory [file dirname $newName]]} {
+    file mkdir [file dirname $newName]
+}
+file rename $oldName $newName
+file link -symbolic $oldName $newName
+.CE
 
 .SH "SEE ALSO"
 filename(n), open(n), close(n), eof(n), gets(n), tell(n), seek(n),
