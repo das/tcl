@@ -68,7 +68,9 @@ ThreadReap
 test thread-1.5 {Tcl_ThreadObjCmd: thread create one shot} {
     testthread create {set x 5}
     foreach try {0 1 2 4 5 6} {
+	# Try various ways to yeild
 	update
+	after 10
 	set l [llength [testthread names]]
 	if {$l == 1} {
 	    break
@@ -81,6 +83,7 @@ ThreadReap
 test thread-1.6 {Tcl_ThreadObjCmd: thread exit} {
     testthread create {testthread exit}
     update
+    after 10
     llength [testthread names]
 } {1}
 ThreadReap
