@@ -2738,7 +2738,7 @@ proc tcltest::runAllTests { {shell ""} } {
     if {[info exists testFileFailures]} {
 	puts [outputChannel] "\nTest files exiting with errors:  \n"
 	foreach file $testFileFailures {
-	    puts "  [file tail $file]\n"
+	    puts [outputChannel] "  [file tail $file]\n"
 	}
     }
 
