@@ -32,6 +32,8 @@ exec_prefix		= @exec_prefix@
 # when installing files.
 INSTALL_ROOT		=
 
+TCL_LIBRARY	= tcl$(VERSION)
+
 # Path to use at runtime to refer to LIB_INSTALL_DIR:
 LIB_RUNTIME_DIR = $(exec_prefix)/lib
 
