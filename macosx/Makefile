@@ -107,7 +107,7 @@ DYLIB_INSTALL_DIR	:= ${DYLIB_INSTALL_PATH}/${PRODUCT_NAME}.framework/Versions/${
 INCLUDEDIR		:= ${LIBDIR}/Headers
 PRIVATEINCLUDEDIR	:= ${LIBDIR}/PrivateHeaders
 SCRIPTDIR		:= ${LIBDIR}/Resources/Scripts
-DOCDIR			:= ${LIBDIR}/Resources/English.lproj/Documentation/Reference
+DOCDIR			:= ${LIBDIR}/Resources/Documentation/Reference
 INFOPLIST		:= ${LIBDIR}/Resources/Info.plist
 
 BUILD_STYLE		=
@@ -235,5 +235,7 @@ endif
 
 .PHONY: ${meta} ${targets} ${PROJECT} build-${PROJECT} install-${PROJECT} \
 	clean-${PROJECT} distclean-${PROJECT}
+
+.NOTPARALLEL:
 
 #-------------------------------------------------------------------------------------------------------

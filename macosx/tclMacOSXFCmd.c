@@ -60,7 +60,7 @@ typedef struct fileinfobuf {
        u_int32_t padding[4];
      } finder;
      off_t rsrcForkSize;
-   } data;
+   } data __attribute__ ((packed));
 } fileinfobuf;
 
 /*
