@@ -313,6 +313,25 @@ test string-11.6 {string tolower called with badly formed Utf string} {
     string tolower [bytestring "\u00fcBER"]
 } [bytestring "\u00fcber"]
 
+test string-11.7 {string totitle} {
+    string totitle ABCDeF
+} {Abcdef}
+test string-11.8 {string totitle} {
+    string totitle "aBC d Hij xyZ"
+} {Abc d hij xyz}
+test string-11.9 {string totitle} {
+    string totitle {123#$&*()}
+} {123#$&*()}
+test string-11.10 {string totitle} {
+    list [catch {string totitle} msg] $msg
+} {1 {wrong # args: should be "string totitle string"}}
+test string-11.11 {string totitle} {
+    list [catch {string totitle a b} msg] $msg
+} {1 {wrong # args: should be "string totitle string"}}
+test string-11.12 {string totitle called with badly formed Utf string} {
+    string totitle [bytestring "\u00fcBER"]
+} [bytestring "\u00fcber"]
+
 test string-12.1 {string toupper} {
     string toupper abCDEf
 } {ABCDEF}
