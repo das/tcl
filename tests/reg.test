@@ -927,6 +927,7 @@ i  10	?P	abc+?		xyabc	{2 4} {5 4}
 i  11	?P	abc+?		xyabcc	{2 4} {6 5}
 i  12	?P	abc+?		xyabcd	{2 4} {6 5}
 i  13	?	abcd|bc		xyabc	{3 4} {2 4}
+i  14	?	abc+		xyabcdd	{2 4} {7 6}
 
 
 
