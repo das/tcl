@@ -244,6 +244,7 @@ TclIntStubs tclIntStubs = {
     TclCheckInterpTraces, /* 170 */
     TclCheckExecutionTraces, /* 171 */
     TclInThreadExit, /* 172 */
+    TclUniCharMatch, /* 173 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {

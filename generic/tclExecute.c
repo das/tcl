@@ -2650,10 +2650,16 @@ TclExecuteByteCode(interp, codePtr)
 	 * Check that at least one of the objects is Unicode before
 	 * promoting both.
 	 */
+
 	if ((valuePtr->typePtr == &tclStringType)
 	        || (value2Ptr->typePtr == &tclStringType)) {
-	    match = Tcl_UniCharCaseMatch(Tcl_GetUnicode(valuePtr),
-	            Tcl_GetUnicode(value2Ptr), nocase);
+	    Tcl_UniChar *ustring1, *ustring2;
+	    int length1, length2;
+
+	    ustring1 = Tcl_GetUnicodeFromObj(valuePtr, &length1);
+	    ustring2 = Tcl_GetUnicodeFromObj(value2Ptr, &length2);
+	    match = TclUniCharMatch(ustring1, length1, ustring2, length2,
+		    nocase);
 	} else {
 	    match = Tcl_StringCaseMatch(TclGetString(valuePtr),
 		    TclGetString(value2Ptr), nocase);

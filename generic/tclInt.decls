@@ -690,6 +690,13 @@ declare 172 generic {
     int TclInThreadExit(void)
 }
 
+# added for 8.4.2
+
+declare 173 generic {
+    int TclUniCharMatch (CONST Tcl_UniChar *string, int strLen, \
+	    CONST Tcl_UniChar *pattern, int ptnLen, int nocase)
+}
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are

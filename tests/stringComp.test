@@ -643,6 +643,52 @@ test string-11.50 {string match, *special case} {
     proc foo {} {string match "\\" "\\"}
     foo
 } 0
+test string-11.51 {string match; *, -nocase and UTF-8} {
+    proc foo {} {string match -nocase [binary format I 717316707] \
+	    [binary format I 2028036707]}
+    foo
+} 1
+test string-11.52 {string match, null char in string} {
+    proc foo {} {
+	set ptn "*abc*"
+	foreach elem [list "\u0000@abc" "@abc" "\u0000@abc\u0000" "blahabcblah"] {
+	    lappend out [string match $ptn $elem]
+	}
+	set out
+    }
+    foo
+} {1 1 1 1}
+test string-11.53 {string match, null char in pattern} {
+    proc foo {} {
+	set out ""
+	foreach {ptn elem} [list \
+		"*\u0000abc\u0000"  "\u0000abc\u0000" \
+		"*\u0000abc\u0000"  "\u0000abc\u0000ef" \
+		"*\u0000abc\u0000*" "\u0000abc\u0000ef" \
+		"*\u0000abc\u0000"  "@\u0000abc\u0000ef" \
+		"*\u0000abc\u0000*"  "@\u0000abc\u0000ef" \
+		] {
+	    lappend out [string match $ptn $elem]
+	}
+	set out
+    }
+    foo
+} {1 0 1 0 1}
+test string-11.54 {string match, failure} {
+    proc foo {} {
+	set longString ""
+	for {set i 0} {$i < 10} {incr i} {
+	    append longString "abcdefghijklmnopqrstuvwxy\u0000z01234567890123"
+	}
+	list [string match *cba* $longString] \
+		[string match *a*l*\u0000* $longString] \
+		[string match *a*l*\u0000*123 $longString] \
+		[string match *a*l*\u0000*123* $longString] \
+		[string match *a*l*\u0000*cba* $longString] \
+		[string match *===* $longString]
+    }
+    foo
+} {0 1 1 1 0 0}
 
 ## string range
 ## not yet bc

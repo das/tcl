@@ -2008,6 +2008,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	    break;
 	}
 	case STR_MATCH: {
+	    Tcl_UniChar *ustring1, *ustring2;
 	    int nocase = 0;
 
 	    if (objc < 4 || objc > 5) {
@@ -2027,10 +2028,10 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		    return TCL_ERROR;
 		}
 	    }
-
-	    Tcl_SetBooleanObj(resultPtr,
-		    Tcl_UniCharCaseMatch(Tcl_GetUnicode(objv[objc-1]),
-			    Tcl_GetUnicode(objv[objc-2]), nocase));
+	    ustring1 = Tcl_GetUnicodeFromObj(objv[objc-1], &length1);
+	    ustring2 = Tcl_GetUnicodeFromObj(objv[objc-2], &length2);
+	    Tcl_SetBooleanObj(resultPtr, TclUniCharMatch(ustring1, length1,
+		    ustring2, length2, nocase));
 	    break;
 	}
 	case STR_RANGE: {
