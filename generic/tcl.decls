@@ -1262,6 +1262,21 @@ declare 369 generic {
 declare 370 generic {
     int Tcl_UtfNcasecmp(CONST char *s1, CONST char *s2, size_t n)
 }
+declare 371 generic {
+    int Tcl_StringCaseMatch(CONST char *str, CONST char *pattern, int nocase)
+}
+declare 372 generic {
+    int Tcl_UniCharIsControl(int ch)
+}
+declare 373 generic {
+    int Tcl_UniCharIsGraph(int ch)
+}
+declare 374 generic {
+    int Tcl_UniCharIsPrint(int ch)
+}
+declare 375 generic {
+    int Tcl_UniCharIsPunct(int ch)
+}
 
 ##############################################################################
 
