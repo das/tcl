@@ -27,7 +27,7 @@ set env(LANG) C
 # Some tests will fail if they are run on a machine that doesn't have
 # this Tcl version installed (as opposed to built) on it.
 if {[catch {
-    set f [open "|[list $::tcltest::tcltest]" w+]
+    set f [open "|[list $::tcltest::tcltest exit]" w+]
     exec kill -PIPE [pid $f]
     close $f
 }]} {
@@ -35,6 +35,7 @@ if {[catch {
 } else {
     set ::tcltest::testConstraints(installedTcl) 1
 }
+
 test unixInit-1.1 {TclpInitPlatform: ignore SIGPIPE} {unixOnly installedTcl} {
     set x {}
 

@@ -21,6 +21,12 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import ::tcltest::*
 }
 
+if {[info exists tk_version]} {
+    puts "When run in a Tk shell, these tests run hang.  Skipping tests ..."
+    ::tcltest::cleanupTests
+    return
+}
+
 set ::tcltest::testConstraints(testthread) \
 	[expr {[info commands testthread] != {}}]
 

@@ -1385,6 +1385,7 @@ test socket-12.1 {testing inheritance of server sockets} \
     set f [open script2 w]
     puts $f [list set tcltest $::tcltest::tcltest]
     puts $f {
+	package require tcltest
 	set f [socket -server accept 2828]
 	proc accept { file addr port } {
 	    close $file
