@@ -221,6 +221,7 @@ Tcl_Panic("Called GetDLD before SetDLD!");
 
     *savedDirectoryPtr =
 	    Tcl_NewStringObj(defaultLibraryDir, defaultLibraryDirLength);
+    Tcl_IncrRefCount(*savedDirectoryPtr);
     Tcl_CreateThreadExitHandler(FreeThreadDefaultLibraryDir,
 		(ClientData) savedDirectoryPtr);
     return *savedDirectoryPtr;
