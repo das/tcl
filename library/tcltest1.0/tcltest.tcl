@@ -653,6 +653,7 @@ proc ::tcltest::initConstraints {} {
 
     # Locate tcltest executable
 
+    variable tcltest
     if {![info exists tk_version]} {
 	set tcltest [info nameofexecutable]
 
