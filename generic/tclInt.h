@@ -873,9 +873,9 @@ typedef int (CompileHookProc) _ANSI_ARGS_((Tcl_Interp *interp,
 typedef struct ExecEnv {
     Tcl_Obj **stackPtr;		/* Points to the first item in the
 				 * evaluation stack on the heap. */
-    int stackTop;		/* Index of current top of stack; -1 when
-				 * the stack is empty. */
-    int stackEnd;		/* Index of last usable item in stack. */
+    Tcl_Obj **tosPtr;		/* Points to current top of stack; 
+				 * (stackPtr-1) when the stack is empty. */
+    Tcl_Obj **endPtr;		/* Points to last usable item in stack. */
     Tcl_Obj *errorInfo;
     Tcl_Obj *errorCode;
 } ExecEnv;
