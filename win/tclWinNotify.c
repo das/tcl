@@ -251,6 +251,16 @@ Tcl_SetTimer(
     UINT timeout;
 
     /*
+     * Allow the notifier to be hooked.  This may not make sense
+     * on Windows, but mirrors the UNIX hook.
+     */
+
+    if (tclStubs.tcl_SetTimer != Tcl_SetTimer) {
+	tclStubs.tcl_SetTimer(timePtr);
+	return;
+    }
+
+    /*
      * We only need to set up an interval timer if we're being called
      * from an external event loop.  If we don't have a window handle
      * then we just return immediately and let Tcl_WaitForEvent handle
@@ -405,6 +415,15 @@ Tcl_WaitForEvent(
     MSG msg;
     DWORD timeout, result;
     int status;
+
+    /*
+     * Allow the notifier to be hooked.  This may not make
+     * sense on windows, but mirrors the UNIX hook.
+     */
+
+    if (tclStubs.tcl_WaitForEvent != Tcl_WaitForEvent) {
+	return tclStubs.tcl_WaitForEvent(timePtr);
+    }
 
     /*
      * Compute the timeout in milliseconds.

@@ -327,6 +327,16 @@ void
 Tcl_SetTimer(
     Tcl_Time *timePtr)		/* New value for interval timer. */
 {
+    /*
+     * Allow the notifier to be hooked.  This may not make sense
+     * on Windows, but mirrors the UNIX hook.
+     */
+
+    if (tclStubs.tcl_SetTimer != Tcl_SetTimer) {
+	tclStubs.tcl_SetTimer(timePtr);
+	return;
+    }
+
     if (!timePtr) {
 	notifier.timerActive = 0;
     } else {
@@ -397,6 +407,15 @@ Tcl_WaitForEvent(
     Point currentMouse;
     void * timerToken;
     Rect mouseRect;
+
+    /*
+     * Allow the notifier to be hooked.  This may not make
+     * sense on windows, but mirrors the UNIX hook.
+     */
+
+    if (tclStubs.tcl_WaitForEvent != Tcl_WaitForEvent) {
+	return tclStubs.tcl_WaitForEvent(timePtr);
+    }
 
     /*
      * Compute the next timeout value.
