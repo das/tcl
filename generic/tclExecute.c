@@ -1786,8 +1786,8 @@ TclExecuteByteCode(interp, codePtr)
 	    opnd = TclGetUInt4AtPtr(pc+1);
 	    valuePtr = Tcl_NewListObj(opnd, &(stackPtr[stackTop - (opnd-1)]));
 
-	    for (i = 0; i < opnd; i++) {
-		TclDecrRefCount(stackPtr[stackTop--]);
+	    for (i = 0; i < opnd; stackTop--, i++) {
+		TclDecrRefCount(stackPtr[stackTop]);
 	    }
 
 	    PUSH_OBJECT(valuePtr);
