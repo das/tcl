@@ -475,7 +475,7 @@ Tcl_AppendResultVA (interp, argList)
      * Scan through all the arguments to see how much space is needed.
      */
 
-    tmpArgList = argList;
+    memcpy ((VOID *) &tmpArgList, (VOID *) &argList, sizeof (tmpArgList));
     newSpace = 0;
     while (1) {
 	string = va_arg(tmpArgList, char *);
