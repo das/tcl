@@ -139,7 +139,10 @@ as its first characters then it is assumed to be a procedure
 definition and the next word of the line is taken as the
 procedure's name.
 Procedure definitions that don't appear in this way (e.g. they
-have spaces before the \fBproc\fR) will not be indexed.
+have spaces before the \fBproc\fR) will not be indexed.  If your 
+script contains "dangerous" code, such as global initialization
+code or procedure names with special characters like \fB$\fR,
+\fB*\fR, \fB[\fR or \fB]\fR, you are safer using auto_mkindex_old.
 .RE
 .TP
 \fBauto_reset\fR

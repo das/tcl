@@ -312,10 +312,10 @@ proc auto_load {cmd {namespace {}}} {
 	    # name.  One is to use
 	    #    info commands $name
 	    # Unfortunately, if the name has glob-magic chars in it like *
-	    # or [], it may not match.  Since we really want an exact match,
-	    # a better route is to use 
-	    #    lsearch -exact [info commands] $name
-	    if {[lsearch -exact [info commands] $name] != -1 } {
+	    # or [], it may not match.  For our purposes here, a better
+	    # route is to use 
+	    #    namespace which -command $name
+	    if { ![string equal [namespace which -command $name] ""] } {
 		return 1
 	    }
 	}

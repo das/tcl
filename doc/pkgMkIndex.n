@@ -7,14 +7,14 @@
 '\" RCS: @(#) $Id$
 '\" 
 .so man.macros
-.TH pkg_mkIndex n 8.0 Tcl "Tcl Built-In Commands"
+.TH pkg_mkIndex n 8.3 Tcl "Tcl Built-In Commands"
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
 pkg_mkIndex \- Build an index for automatic loading of packages
 .SH SYNOPSIS
 .nf
-.VS 8.0.3
+.VS 8.3.0
 \fBpkg_mkIndex ?\fI-lazy\fR? ?\fI-load pkgPat\fR? ?\fI-verbose\fR? \fIdir\fR ?\fIpattern pattern ...\fR?
 .VE
 .fi
