@@ -490,9 +490,14 @@ else
 fi
 
 TCL_BUILD_STUB_LIB_SPEC="-L`pwd` ${TCL_STUB_LIB_FLAG}"
-TCL_STUB_LIB_SPEC="-L${exec_prefix}/lib ${TCL_STUB_LIB_FLAG}"
+if test "$FRAMEWORK_BUILD" = "1" ; then
+    TCL_STUB_LIB_SPEC="-L${exec_prefix}/Tcl.framework/Versions/${TCL_VERSION} ${TCL_STUB_LIB_FLAG}"
+    TCL_STUB_LIB_PATH="${exec_prefix}/Tcl.framework/Versions/${TCL_VERSION}/${TCL_STUB_LIB_FILE}"
+else
+    TCL_STUB_LIB_SPEC="-L${exec_prefix}/lib ${TCL_STUB_LIB_FLAG}"
+    TCL_STUB_LIB_PATH="${exec_prefix}/lib/${TCL_STUB_LIB_FILE}"
+fi
 TCL_BUILD_STUB_LIB_PATH="`pwd`/${TCL_STUB_LIB_FILE}"
-TCL_STUB_LIB_PATH="${exec_prefix}/lib/${TCL_STUB_LIB_FILE}"
 
 #------------------------------------------------------------------------
 # tclConfig.sh refers to this by a different name
