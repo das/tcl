@@ -766,7 +766,9 @@ Tcl_HashStats(tablePtr)
 	    overflow++;
 	}
 	tmp = j;
-	average += (tmp+1.0)*(tmp/tablePtr->numEntries)/2.0;
+	if (tablePtr->numEntries != 0) {
+	    average += (tmp+1.0)*(tmp/tablePtr->numEntries)/2.0;
+	}
     }
 
     /*
