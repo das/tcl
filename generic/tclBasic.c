@@ -2127,7 +2127,7 @@ TclRenameCommand(interp, oldName, newName)
  *
  *	Modifies various information about a Tcl command. Note that
  *	this procedure will not change a command's namespace; use
- *	Tcl_RenameCommand to do that. Also, the isNativeObjectProc
+ *	TclRenameCommand to do that. Also, the isNativeObjectProc
  *	member of *infoPtr is ignored.
  *
  * Results:
@@ -2166,7 +2166,7 @@ Tcl_SetCommandInfo(interp, cmdName, infoPtr)
  *
  *	Modifies various information about a Tcl command. Note that
  *	this procedure will not change a command's namespace; use
- *	Tcl_RenameCommand to do that. Also, the isNativeObjectProc
+ *	TclRenameCommand to do that. Also, the isNativeObjectProc
  *	member of *infoPtr is ignored.
  *
  * Results:
