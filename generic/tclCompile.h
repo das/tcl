@@ -524,6 +524,8 @@ typedef struct ByteCode {
 
 #define INST_RETURN			98
 
+#define INST_EXPON			99 /* TIP#123 - exponentiation */
+
 /* The last opcode */
 #define LAST_INST_OPCODE        	98
 

@@ -92,6 +92,7 @@ typedef struct ExprInfo {
 #define OP_BITNOT	20
 #define OP_STREQ	21
 #define OP_STRNEQ	22
+#define OP_EXPON	23
 
 /*
  * Table describing the expression operators. Entries in this table must
@@ -134,6 +135,7 @@ static OperatorDesc operatorTable[] = {
     {"~",   1,  INST_BITNOT},
     {"eq",  2,  INST_STR_EQ},
     {"ne",  2,  INST_STR_NEQ},
+    {"**",  2,	INST_EXPON},
     {NULL}
 };
 

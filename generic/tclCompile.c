@@ -271,6 +271,8 @@ InstructionDesc tclInstructionTable[] = {
 	 */
     {"return",		  1,   -1,          0,   {OPERAND_NONE}},
 	/* return TCL_RETURN code. */
+    {"expon",		  1,   -1,	    0,	 {OPERAND_NONE}},
+	/* Binary exponentiation operator: push (stknext ** stktop) */
     {0}
 };
 
