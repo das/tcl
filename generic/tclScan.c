@@ -1124,7 +1124,9 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 	    }
 	}
     }
-    ckfree((char*) objs);
+    if (objs != NULL) {
+	ckfree((char*) objs);
+    }
     if (code == TCL_OK) {
 	if (underflow && (nconversions == 0)) {
 	    if (numVars) {
