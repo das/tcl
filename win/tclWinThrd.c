@@ -218,7 +218,6 @@ TclpThreadExit(status)
     ExitThread((DWORD) status);
 #endif
 }
-
 
 /*
  *----------------------------------------------------------------------
@@ -241,7 +240,6 @@ Tcl_GetCurrentThread()
 {
     return (Tcl_ThreadId)GetCurrentThreadId();
 }
-
 
 /*
  *----------------------------------------------------------------------
@@ -279,7 +277,6 @@ TclpInitLock()
     }
     EnterCriticalSection(&initLock);
 }
-
 
 /*
  *----------------------------------------------------------------------
@@ -303,7 +300,6 @@ TclpInitUnlock()
 {
     LeaveCriticalSection(&initLock);
 }
-
 
 /*
  *----------------------------------------------------------------------
@@ -342,7 +338,29 @@ TclpMasterLock()
     }
     EnterCriticalSection(&masterLock);
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclpMasterUnlock
+ *
+ *	This procedure is used to release a lock that serializes creation
+ *	and deletion of synchronization objects.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Release the master mutex.
+ *
+ *----------------------------------------------------------------------
+ */
 
+void
+TclpMasterUnlock()
+{
+    LeaveCriticalSection(&masterLock);
+}
 
 /*
  *----------------------------------------------------------------------
@@ -384,29 +402,6 @@ Tcl_GetAllocMutex()
 
 /* locally used prototype */
 static void FinalizeConditionEvent(ClientData data);
-
-/*
- *----------------------------------------------------------------------
- *
- * TclpMasterUnlock
- *
- *	This procedure is used to release a lock that serializes creation
- *	and deletion of synchronization objects.
- *
- * Results:
- *	None.
- *
- * Side effects:
- *	Release the master mutex.
- *
- *----------------------------------------------------------------------
- */
-
-void
-TclpMasterUnlock()
-{
-    LeaveCriticalSection(&masterLock);
-}
 
 
 /*
@@ -451,7 +446,6 @@ Tcl_MutexLock(mutexPtr)
     csPtr = *((CRITICAL_SECTION **)mutexPtr);
     EnterCriticalSection(csPtr);
 }
-
 
 /*
  *----------------------------------------------------------------------
@@ -476,7 +470,6 @@ Tcl_MutexUnlock(mutexPtr)
     CRITICAL_SECTION *csPtr = *((CRITICAL_SECTION **)mutexPtr);
     LeaveCriticalSection(csPtr);
 }
-
 
 /*
  *----------------------------------------------------------------------
@@ -506,7 +499,6 @@ TclpFinalizeMutex(mutexPtr)
 	*mutexPtr = NULL;
     }
 }
-
 
 /*
  *----------------------------------------------------------------------
@@ -549,7 +541,6 @@ TclpThreadDataKeyInit(keyPtr)
     }
     MASTER_UNLOCK;
 }
-
 
 /*
  *----------------------------------------------------------------------
@@ -580,7 +571,6 @@ TclpThreadDataKeyGet(keyPtr)
 	return (VOID *) TlsGetValue(*indexPtr);
     }
 }
-
 
 /*
  *----------------------------------------------------------------------
@@ -608,7 +598,6 @@ TclpThreadDataKeySet(keyPtr, data)
     DWORD *indexPtr = *(DWORD **)keyPtr;
     TlsSetValue(*indexPtr, (void *)data);
 }
-
 
 /*
  *----------------------------------------------------------------------
@@ -856,7 +845,6 @@ Tcl_ConditionWait(condPtr, mutexPtr, timePtr)
     LeaveCriticalSection(&winCondPtr->condLock);
     EnterCriticalSection(csPtr);
 }
-
 
 /*
  *----------------------------------------------------------------------
@@ -911,7 +899,6 @@ Tcl_ConditionNotify(condPtr)
 	 */
     }
 }
-
 
 /*
  *----------------------------------------------------------------------
