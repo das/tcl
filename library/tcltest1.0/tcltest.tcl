@@ -267,10 +267,10 @@ namespace eval tcltest {
 
     # Tcl version numbers
     if {![info exists version]} {
-	variable version 8.3
+	variable version 8.4
     }
     if {![info exists patchLevel]} {
-	variable patchLevel 8.3.0
+	variable patchLevel 8.4a1
     }
 }   
 

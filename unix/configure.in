@@ -5,10 +5,10 @@ dnl	to configure the system for the local environment.
 AC_INIT(../generic/tcl.h)
 # RCS: @(#) $Id$
 
-TCL_VERSION=8.3
+TCL_VERSION=8.4
 TCL_MAJOR_VERSION=8
-TCL_MINOR_VERSION=3
-TCL_PATCH_LEVEL=".1"
+TCL_MINOR_VERSION=4
+TCL_PATCH_LEVEL="a1"
 VERSION=${TCL_VERSION}
 
 #------------------------------------------------------------------------
