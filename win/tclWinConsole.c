@@ -569,6 +569,8 @@ ConsoleCloseProc(
 		 */
 
 		Tcl_MutexLock(&consoleMutex);
+
+		/* BUG: this leaks memory. */
 		TerminateThread(consolePtr->writeThread, 0);
 		Tcl_MutexUnlock(&consoleMutex);
 	    }
