@@ -177,7 +177,7 @@ proc http::reset { token {why reset} } {
     Finish $token
     if {[info exists state(error)]} {
 	set errorlist $state(error)
-	unset state(error)
+	unset state
 	eval error $errorlist
     }
 }
@@ -545,7 +545,6 @@ proc http::Write {token} {
 	    fileevent $s readable [list http::Event $token]
 	}
     } err]} {
-	fileevent $s writable {}
 	Finish $token $err
     }
 }
@@ -718,7 +717,7 @@ proc http::wait {token} {
     }
     if {[info exists state(error)]} {
 	set errorlist $state(error)
-	unset state(error)
+	unset state
 	eval error $errorlist
     }
     return $state(status)
