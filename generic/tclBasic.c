@@ -529,9 +529,7 @@ Tcl_CreateInterp()
 
     /*
      * TIP #59: Make embedded configuration information
-     * available. This makes use of a public API call
-     * (Tcl_RegisterConfig) and thus requires that the global stub
-     * table is initialized.
+     * available.
      */
 
     TclInitEmbeddedConfigurationInformation (interp);

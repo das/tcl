@@ -437,8 +437,8 @@ tclPkgConfig.${OBJEXT}: tclPkgConfig.c
 		-DCFG_RUNTIME_SCRDIR=\"$(TCL_LIBRARY)\" \
 		-DCFG_RUNTIME_INCDIR=\"$(includedir)\" \
 		-DCFG_RUNTIME_DOCDIR=\"$(mandir)\" \
-		\
-		-DUSE_TCL_STUBS @DEPARG@ $(CC_OBJNAME)
+		-DBUILD_tcl \
+		@DEPARG@ $(CC_OBJNAME)
 
 # The following objects are part of the stub library and should not
 # be built as DLL objects but none of the symbols should be exported
