@@ -221,6 +221,10 @@ TclIntStubs tclIntStubs = {
     TclAddLiteralObj, /* 143 */
     TclHideLiteral, /* 144 */
     TclGetAuxDataType, /* 145 */
+    TclHandleCreate, /* 146 */
+    TclHandleFree, /* 147 */
+    TclHandlePreserve, /* 148 */
+    TclHandleRelease, /* 149 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {

@@ -544,6 +544,22 @@ declare 145 generic {
     struct AuxDataType *TclGetAuxDataType(char *typeName)
 }
 
+declare 146 generic {
+    TclHandle TclHandleCreate(VOID *ptr)
+}
+
+declare 147 generic {
+    void TclHandleFree(TclHandle handle)
+}
+
+declare 148 generic {
+    TclHandle TclHandlePreserve(TclHandle handle)
+}
+
+declare 149 generic {
+    void TclHandleRelease(TclHandle handle)
+}
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are
