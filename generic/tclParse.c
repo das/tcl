@@ -1955,6 +1955,7 @@ TclSubstTokens(interp, tokenPtr, count, tokensLeftPtr)
 	Tcl_Obj *appendObj = NULL;
 	CONST char *append = NULL;
 	int appendByteLength = 0;
+	char utfCharBytes[TCL_UTF_MAX];
 
 	switch (tokenPtr->type) {
 	    case TCL_TOKEN_TEXT:
@@ -1963,7 +1964,6 @@ TclSubstTokens(interp, tokenPtr, count, tokensLeftPtr)
 		break;
 
 	    case TCL_TOKEN_BS: {
-		char utfCharBytes[TCL_UTF_MAX];
 		appendByteLength = Tcl_UtfBackslash(tokenPtr->start,
 			(int *) NULL, utfCharBytes);
 		append = utfCharBytes;
