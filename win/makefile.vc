@@ -94,6 +94,12 @@ the environment.  Jump to this line to read the new instructions.
 #		memdbg   = Enables the debugging memory allocator.
 #		compdbg  = Enables byte compilation logging.
 #
+#	CHECKS=nodep,none
+#		Sets special macros for checking compatability.
+#
+#		nodep	 = Turns off compatability macros to ensure the core
+#			    isn't being built with deprecated functions. 
+#
 #	MACHINE=(IX86|IA64|ALPHA)
 #		Set the machine type used for the compiler, linker, and
 #		resource compiler.  This hook is needed to tell the tools
