@@ -602,6 +602,21 @@ test var-11.3 {array unset errors} {
     list [catch {array unset a pattern too} msg] $msg
 } {1 {wrong # args: should be "array unset arrayName ?pattern?"}}
 
+test var-12.1 {TclFindCompiledLocals, {} array name} {
+    namespace eval n {
+	proc p {} {
+	    variable {}
+	    set (0) 0
+	    set (1) 1
+	    set n 2
+	    set ($n) 2
+	    set ($n,foo) 2
+	}
+	p
+	lsort -dictionary [array names {}]
+    }
+} {0 1 2 2,foo}
+
 catch {namespace delete ns}
 catch {unset arr}
 catch {unset v}

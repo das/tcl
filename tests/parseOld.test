@@ -348,7 +348,7 @@ test parseOld-10.13 {syntax errors} {
 test parseOld-10.14 {syntax errors} {
     list [catch {eval \$x[format "%01000d" 0](} msg] $msg $errorInfo
 } {1 {missing )} {missing )
-    while compiling
+    while executing
 "$x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000..."
     ("eval" body line 1)
     invoked from within
