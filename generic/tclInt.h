@@ -536,6 +536,11 @@ typedef struct Var {
 #define TclClearVarTraceActive(varPtr) \
     (varPtr)->flags &= ~VAR_TRACE_ACTIVE
 
+#define TclSetVarNamespaceVar(varPtr) \
+    (varPtr)->flags |= VAR_NAMESPACE_VAR
+
+#define TclClearVarNamespaceVar(varPtr) \
+    (varPtr)->flags &= ~VAR_NAMESPACE_VAR
 
 /*
  * Macros to read various flag bits of variables.
