@@ -2063,7 +2063,7 @@ TclGetIntForIndex(interp, objPtr, endValue, indexPtr)
     bytes = Tcl_GetStringFromObj(objPtr, &length);
 
     if ((*bytes != 'e') ||
-	(strncmp(bytes, "end", (length > 3) ? 3 : length) != 0)) {
+	(strncmp(bytes, "end", (size_t)((length > 3) ? 3 : length)) != 0)) {
       if (Tcl_GetIntFromObj(NULL, objPtr, &offset) != TCL_OK) {
 	  goto intforindex_error;
       }

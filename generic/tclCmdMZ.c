@@ -848,10 +848,10 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	    for (i = 2; i < objc-2; i++) {
 		string2 = Tcl_GetStringFromObj(objv[i], &length2);
 		if ((length2 > 1)
-			&& strncmp(string2, "-nocase", length2) == 0) {
+			&& strncmp(string2, "-nocase", (size_t) length2) == 0) {
 		    nocase = 1;
 		} else if ((length2 > 1)
-			&& strncmp(string2, "-length", length2) == 0) {
+			&& strncmp(string2, "-length", (size_t) length2) == 0) {
 		    if (i+1 >= objc-2) {
 			goto str_cmp_args;
 		    }
@@ -1024,10 +1024,10 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		for (i = 3; i < objc-1; i++) {
 		    string2 = Tcl_GetStringFromObj(objv[i], &length2);
 		    if ((length2 > 1) &&
-			strncmp(string2, "-strict", length2) == 0) {
+			strncmp(string2, "-strict", (size_t) length2) == 0) {
 			strict = 1;
 		    } else if ((length2 > 1) &&
-			       strncmp(string2, "-failindex", length2) == 0) {
+			       strncmp(string2, "-failindex", (size_t) length2) == 0) {
 			if (i+1 >= objc-1) {
 			    Tcl_WrongNumArgs(interp, 3, objv,
 					     "?-strict? ?-failindex var? str");
@@ -1321,7 +1321,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	    if (objc == 5) {
 		string2 = Tcl_GetStringFromObj(objv[2], &length2);
 		if ((length2 > 1) &&
-		    strncmp(string2, "-nocase", length2) == 0) {
+		    strncmp(string2, "-nocase", (size_t) length2) == 0) {
 		    nocase = 1;
 		} else {
 		    Tcl_AppendStringsToObj(resultPtr, "bad option \"",
@@ -1564,8 +1564,8 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		start = Tcl_UtfAtIndex(string1, first);
 		end = Tcl_UtfAtIndex(start, last - first + 1);
 		length2 = end-start;
-		string2 = ckalloc(length2+1);
-		memcpy(string2, start, length2);
+		string2 = ckalloc((size_t) length2+1);
+		memcpy(string2, start, (size_t) length2);
 		string2[length2] = '\0';
 		if ((enum options) index == STR_TOLOWER) {
 		    length2 = Tcl_UtfToLower(string2);
