@@ -45,7 +45,7 @@ test get-1.6 {Tcl_GetInt procedure} {
 # The following tests are non-portable because they depend on
 # word size.
 
-if {0x80000000 > 0} {
+if {int(0x80000000) > int(0)} {
     test get-1.7 {Tcl_GetInt procedure} {
 	set x 44
 	list [catch {incr x 18446744073709551616} msg] $msg $errorCode
