@@ -356,6 +356,37 @@ test cmdIL-4.33 {DictionaryCompare procedure, chars between Z and a in ASCII} {
     lsort -dictionary [list AA ! c CC `]
 } [list ! ` AA c CC]
 
+test cmdIL-5.1 {lsort with list style index} {
+    lsort -ascii -decreasing -index {0 1} {
+	{{Jim Alpha} 20000410}
+	{{Joe Bravo} 19990320}
+	{{Jacky Charlie} 19390911}
+    }
+} {{{Jacky Charlie} 19390911} {{Joe Bravo} 19990320} {{Jim Alpha} 20000410}}
+test cmdIL-5.2 {lsort with list style index} {
+    lsort -decreasing -index {0 1} {
+	{{Jim Alpha} 20000410}
+	{{Joe Bravo} 19990320}
+	{{Jacky Charlie} 19390911}
+    }
+} {{{Jacky Charlie} 19390911} {{Joe Bravo} 19990320} {{Jim Alpha} 20000410}}
+test cmdIL-5.3 {lsort with list style index} {
+    lsort -integer -increasing -index {1 end} {
+	{{Jim Alpha} 20000410}
+	{{Joe Bravo} 19990320}
+	{{Jacky Charlie} 19390911}
+    }
+} {{{Jacky Charlie} 19390911} {{Joe Bravo} 19990320} {{Jim Alpha} 20000410}}
+test cmdIL-5.4 {lsort with list style index} {
+    lsort -integer -index {1 end-1} {
+	{the {0 1 2 3 4 5} quick}
+	{brown {0 1 2 3 4} fox}
+	{jumps {30 31 2 33} over}
+	{the {0 1 2} lazy}
+	{dogs {0 1}}
+    }
+} {{dogs {0 1}} {the {0 1 2} lazy} {jumps {30 31 2 33} over} {brown {0 1 2 3 4} fox} {the {0 1 2 3 4 5} quick}}
+
 # cleanup
 ::tcltest::cleanupTests
 return
