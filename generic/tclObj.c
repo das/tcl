@@ -21,6 +21,16 @@
 #include <float.h>
 
 /*
+ * Define test for NaN
+ */
+
+#ifdef _isnan
+#define IS_NAN(f) _isnan((f))
+#else
+#define IS_NAN(f) ((f) != (f))
+#endif
+
+/*
  * Table of all object types.
  */
 
@@ -1678,7 +1688,7 @@ Tcl_GetDoubleFromObj(interp, objPtr, dblPtr)
 	    *dblPtr = objPtr->internalRep.doubleValue;
 	}
     }
-    if ( result == TCL_OK && _isnan( *dblPtr ) ) {
+    if ( result == TCL_OK && IS_NAN( *dblPtr ) ) {
 	if ( interp != NULL ) {
 	    Tcl_SetObjResult
 		( interp,
