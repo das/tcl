@@ -260,6 +260,7 @@ TclpInitLock()
 	 * more threads that create interpreters in parallel.
 	 */
 	init = 1;
+	InitializeCriticalSection(&joinLock);
 	InitializeCriticalSection(&initLock);
 	InitializeCriticalSection(&masterLock);
     }
@@ -322,6 +323,7 @@ TclpMasterLock()
 	 * more threads that create interpreters in parallel.
 	 */
 	init = 1;
+	InitializeCriticalSection(&joinLock);
 	InitializeCriticalSection(&initLock);
 	InitializeCriticalSection(&masterLock);
     }
