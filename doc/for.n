@@ -56,7 +56,7 @@ for {set x 0} {$x<10} {incr x} {
    puts "x is $x"
 }
 .CE
-
+.PP
 Either loop infinitely or not at all because the expression being
 evaluated is actually the constant, or even generate an error!  The
 actual behaviour will depend on whether the variable \fIx\fR exists
@@ -69,7 +69,7 @@ for {set x 0} $x<10 {incr x} {
    puts "x is $x"
 }
 .CE
-
+.PP
 Print out the powers of two from 1 to 1024:
 .CS
 for {set x 1} {$x<=1024} {set x [expr {$x * 2}]} {

@@ -36,7 +36,7 @@ The \fBfblocked\fR command is particularly useful when writing network
 servers, as it allows you to write your code in a line-by-line style
 without preventing the servicing of other connections.  This can be
 seen in this simple echo-service:
-
+.PP
 .CS
 # This is called whenever a new client connects to the server
 proc connect {chan host port} {

@@ -185,23 +185,23 @@ join $path\fR (or \fBfile normalize $path\fR in Tcl 8.4).
 .SH EXAMPLES
 Find all the Tcl files in the current directory:
 .CS
-glob *.tcl
+\fBglob\fR *.tcl
 .CE
-
+.PP
 Find all the Tcl files in the user's home directory, irrespective of
 what the current directory is:
 .CS
-glob \-directory ~ *.tcl
+\fBglob\fR \-directory ~ *.tcl
 .CE
-
+.PP
 Find all subdirectories of the current directory:
 .CS
-glob \-type d *
+\fBglob\fR \-type d *
 .CE
-
+.PP
 Find all files whose name contains an "a", a "b" or the sequence "cde":
 .CS
-glob \-type f *{a,b,cde}*
+\fBglob\fR \-type f *{a,b,cde}*
 .CE
 
 .SH "SEE ALSO"
