@@ -133,6 +133,7 @@ TclInitObjSubsystem()
     Tcl_RegisterObjType(&tclStringType);
     Tcl_RegisterObjType(&tclListType);
     Tcl_RegisterObjType(&tclByteCodeType);
+    Tcl_RegisterObjType(&tclProcBodyType);
 
 #ifdef TCL_COMPILE_STATS
     Tcl_MutexLock(&tclObjMutex);

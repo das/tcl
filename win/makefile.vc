@@ -110,6 +110,7 @@ TCLSHOBJS = \
 TCLTESTOBJS = \
 	$(TMPDIR)\tclTest.obj \
 	$(TMPDIR)\tclTestObj.obj \
+	$(TMPDIR)\tclTestProcBodyObj.obj \
 	$(TMPDIR)\tclThreadTest.obj \
 	$(TMPDIR)\tclWinTest.obj \
 	$(TMPDIR)\testMain.obj

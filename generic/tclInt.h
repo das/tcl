@@ -1756,6 +1756,7 @@ extern Tcl_ObjType	tclByteCodeType;
 extern Tcl_ObjType	tclDoubleType;
 extern Tcl_ObjType	tclIntType;
 extern Tcl_ObjType	tclListType;
+extern Tcl_ObjType	tclProcBodyType;
 extern Tcl_ObjType	tclStringType;
 
 /*
@@ -1949,6 +1950,7 @@ EXTERN int		TclMakeFileTable _ANSI_ARGS_((Tcl_Interp *interp,
                             int noStdio));
 EXTERN int		TclMathInProgress _ANSI_ARGS_((void));
 EXTERN int		TclNeedSpace _ANSI_ARGS_((char *start, char *end));
+EXTERN Tcl_Obj *	TclNewProcBodyObj _ANSI_ARGS_((Proc *procPtr));
 EXTERN int		TclObjCommandComplete _ANSI_ARGS_((Tcl_Obj *cmdPtr));
 EXTERN int		TclObjInterpProc _ANSI_ARGS_((ClientData clientData,
 		    	    Tcl_Interp *interp, int objc,
