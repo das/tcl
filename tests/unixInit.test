@@ -139,11 +139,7 @@ test unixInit-2.1 {TclpInitLibraryPath: value of installLib, developLib} \
     set path [getlibpath]
 
     set installLib lib/tcl[info tclversion]
-    if {[string match {*[ab]*} [info patchlevel]]} {
-	set developLib tcl[info patchlevel]/library
-    } else {
-        set developLib tcl[info tclversion]/library
-    }
+    set developLib tcl[info patchlevel]/library
     set prefix [file dirname [file dirname $::tcltest::tcltest]]
 
     set x {}
@@ -269,9 +265,7 @@ test unixInit-2.9 {TclpInitLibraryPath: paths relative to executable} {
     file delete -force /tmp/library
     set x
 } [list /tmp/lib/tcl[info tclversion] /lib/tcl[info tclversion] \
-        /tmp/library /library [format /tcl%s/library \
-        [expr {[regexp {[ab]} [info patchlevel]] ?
-        [info patchleve] : [info tclversion]}]]]
+        /tmp/library /library /tcl[info patchlevel]/library]
 test unixInit-3.1 {TclpSetInitialEncodings} {unixOnly installedTcl} {
     set env(LANG) C
 

@@ -60,7 +60,7 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
 
     # The C application may have hardwired a path, which we honor
     
-    if {[info exist the_library] && [string compare $the_library {}]} {
+    if {[info exists the_library] && [string compare $the_library {}]} {
 	lappend dirs $the_library
     } else {
 
@@ -82,8 +82,10 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
 	# ../../lib/foo1.0	(From bin/arch directory in install hierarchy)
 	# ../library		(From unix directory in build hierarchy)
 	# ../../library		(From unix/arch directory in build hierarchy)
-	# ../../foo1.0b1/library (From unix directory in parallel build hierarchy)
-	# ../../../foo1.0b1/library (From unix/arch directory in parallel build hierarchy)
+	# ../../foo1.0.1/library
+	#		(From unix directory in parallel build hierarchy)
+	# ../../../foo1.0.1/library
+	#		(From unix/arch directory in parallel build hierarchy)
 
         set parentDir [file dirname [file dirname [info nameofexecutable]]]
         set grandParentDir [file dirname $parentDir]
@@ -91,11 +93,9 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
         lappend dirs [file join $grandParentDir lib $basename$version]
         lappend dirs [file join $parentDir library]
         lappend dirs [file join $grandParentDir library]
-        if {![regexp {.*[ab][0-9]*} $patch ver]} {
-            set ver $version
-        }
-        lappend dirs [file join $grandParentDir $basename$ver library]
-        lappend dirs [file join [file dirname $grandParentDir] $basename$ver library]
+        lappend dirs [file join $grandParentDir $basename$patch library]
+        lappend dirs [file join [file dirname $grandParentDir] \
+		$basename$patch library]
     }
     foreach i $dirs {
         set the_library $i
