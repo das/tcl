@@ -2553,5 +2553,40 @@ EXTERN void	TclDbInitNewObj _ANSI_ARGS_((Tcl_Obj *objPtr));
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT
 
+/*
+ * Data structure used to hold information returned from TclGetDate
+ */
+
+typedef struct TclGetDateInfo {
+
+    time_t   dateYear;
+    time_t   dateMonth;
+    time_t   dateDay;
+    int      dateHaveDate;
+
+    time_t   dateHour;
+    time_t   dateMinutes;
+    time_t   dateSeconds;
+    int      dateMeridian;
+    int      dateHaveTime;
+
+    time_t   dateTimezone;
+    int      dateDSTmode;
+    int      dateHaveZone;
+
+    time_t   dateRelMonth;
+    time_t   dateRelDay;
+    time_t   dateRelSeconds;
+    int      dateHaveRel;
+
+    time_t   dateMonthOrdinal;
+    int      dateHaveOrdinalMonth;
+
+    time_t   dateDayOrdinal;
+    time_t   dateDayNumber;
+    int      dateHaveDay;
+
+} TclGetDateInfo;
+
 #endif /* _TCLINT */
 
