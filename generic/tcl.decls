@@ -1649,7 +1649,7 @@ declare 467 generic {
     int Tcl_FSEvalFile(Tcl_Interp *interp, Tcl_Obj *fileName)
 }
 declare 468 generic {
-    Tcl_Obj* Tcl_FSNewNativePath(Tcl_Obj* fromFilesystem,
+    Tcl_Obj* Tcl_FSNewNativePath(Tcl_Filesystem* fromFilesystem,
 	    ClientData clientData)
 }
 declare 469 generic {
