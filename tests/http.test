@@ -475,4 +475,3 @@ if {[info exist removeHttpd]} {
 }
 
 ::tcltest::cleanupTests
-return
