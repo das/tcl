@@ -44,7 +44,7 @@ TOOLS32_rc	= c:\Progra~1\devstudio\sharedide
 #THREADDEFINES = -DTCL_THREADS=1
 
 # Set NODEBUG to 0 to compile with symbols
-NODEBUG = 0
+NODEBUG = 1
 
 # The following defines can be used to control the amount of debugging
 # code that is added to the compilation.
