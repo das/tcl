@@ -131,14 +131,14 @@ Tcl_CreateThread(idPtr, proc, clientData, stackSize, flags)
     int flags;				/* Flags controlling behaviour of
 					 * the new thread */
 {
-    unsigned long code;
+    HANDLE tHandle;
 
     EnterCriticalSection(&joinLock);
 
-    code = _beginthreadex(NULL, (unsigned) stackSize, proc, clientData, 0,
-	(unsigned *)idPtr);
+    tHandle = (HANDLE) _beginthreadex(NULL, (unsigned) stackSize, proc,
+	clientData, 0, (unsigned *)idPtr);
 
-    if (code == 0) {
+    if (tHandle == 0) {
         LeaveCriticalSection(&joinLock);
 	return TCL_ERROR;
     } else {
@@ -146,6 +146,7 @@ Tcl_CreateThread(idPtr, proc, clientData, stackSize, flags)
 	    TclRememberJoinableThread (*idPtr);
 	}
 
+	CloseHandle(tHandle);
 	LeaveCriticalSection(&joinLock);
 	return TCL_OK;
     }
