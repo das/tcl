@@ -1254,7 +1254,7 @@ EXTERN int		Tcl_GetIntFromObj _ANSI_ARGS_((Tcl_Interp *interp,
 EXTERN int		Tcl_GetLongFromObj _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *objPtr, long *longPtr));
 EXTERN Tcl_Interp *	Tcl_GetMaster _ANSI_ARGS_((Tcl_Interp *interp));
-EXTERN CONST char *	Tcl_GetNameOfExecutable();
+EXTERN CONST char *	Tcl_GetNameOfExecutable _ANSI_ARGS_((void));
 EXTERN Tcl_Obj *	Tcl_GetObjResult _ANSI_ARGS_((Tcl_Interp *interp));
 EXTERN Tcl_ObjType *	Tcl_GetObjType _ANSI_ARGS_((char *typeName));
 EXTERN int		Tcl_GetOpenFile _ANSI_ARGS_((Tcl_Interp *interp,
