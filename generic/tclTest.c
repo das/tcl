@@ -2007,7 +2007,8 @@ TestfilelinkCmd(clientData, interp, objc, objv)
     
     if (objc == 3) {
 	/* Create link from source to target */
-	contents = Tcl_FSLink(objv[1], objv[2], 0);
+	contents = Tcl_FSLink(objv[1], objv[2], 
+			TCL_CREATE_SYMBOLIC_LINK|TCL_CREATE_HARD_LINK);
 	if (contents == NULL) {
 	    Tcl_AppendResult(interp, "could not create link from \"", 
 		    Tcl_GetString(objv[1]), "\" to \"", 

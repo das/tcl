@@ -1840,6 +1840,17 @@ typedef struct Tcl_Filesystem {
 			     */
 } Tcl_Filesystem;
 
+/*
+ * The following definitions are used as values for the 'linkAction' flag
+ * to Tcl_FSLink, or the linkProc of any filesystem.  Any combination
+ * of flags can be given.  For link creation, the linkProc should create
+ * a link which matches any of the types given.
+ * 
+ * TCL_CREATE_SYMBOLIC_LINK:  Create a symbolic or soft link.
+ * TCL_CREATE_HARD_LINK:      Create a hard link.
+ */
+#define TCL_CREATE_SYMBOLIC_LINK   0x01
+#define TCL_CREATE_HARD_LINK       0x02
 
 /*
  * The following structure represents the Notifier functions that
