@@ -2610,6 +2610,13 @@ Tcl_FSLoadFile(interp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr,
 		Tcl_DecrRefCount(perm);
 #endif
 		
+		/* 
+		 * We need to reset the result now, because the cross-
+		 * filesystem copy may have stored the number of bytes
+		 * in the result
+		 */
+		Tcl_ResetResult(interp);
+		
 		retVal = Tcl_FSLoadFile(interp, copyToPtr, sym1, sym2,
 					proc1Ptr, proc2Ptr, 
 					&newLoadHandle,
@@ -3491,7 +3498,7 @@ TclCrossFilesystemCopy(interp, source, target)
 	    if (Tcl_FSLstat(source, &sourceStatBuf) != 0) {
 		tval.actime = sourceStatBuf.st_atime;
 		tval.modtime = sourceStatBuf.st_mtime;
-		Tcl_FSUtime(source, &tval);
+		Tcl_FSUtime(target, &tval);
 	    }
 	}
     }
@@ -4843,6 +4850,7 @@ Tcl_FSGetFileSystemForPath(pathObjPtr)
      */
     
     if (pathObjPtr->refCount == 0) {
+	panic("Tcl_FSGetFileSystemForPath called with object with refCount == 0");
         return NULL;
     }
     
