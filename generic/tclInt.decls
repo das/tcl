@@ -681,6 +681,12 @@ declare 18 win {
 declare 19 win {
     TclFile TclpOpenFile(char *fname, int mode)
 }
+declare 20 win {
+    void TclWinAddProcess(HANDLE hProcess, DWORD id)
+}
+declare 21 win {
+    void TclpAsyncMark(Tcl_AsyncHandler async)
+}
 
 #########################
 # Unix specific internals

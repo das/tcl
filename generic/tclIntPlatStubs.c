@@ -301,6 +301,23 @@ TclpOpenFile(fname, mode)
     return (tclIntPlatStubsPtr->tclpOpenFile)(fname, mode);
 }
 
+/* Slot 20 */
+void
+TclWinAddProcess(hProcess, id)
+    HANDLE hProcess;
+    DWORD id;
+{
+    (tclIntPlatStubsPtr->tclWinAddProcess)(hProcess, id);
+}
+
+/* Slot 21 */
+void
+TclpAsyncMark(async)
+    Tcl_AsyncHandler async;
+{
+    (tclIntPlatStubsPtr->tclpAsyncMark)(async);
+}
+
 #endif /* __WIN32__ */
 #ifdef MAC_TCL
 /* Slot 0 */

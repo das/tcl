@@ -452,10 +452,11 @@ extern double strtod();
 #define TclpReleaseFile(file)	
 
 /*
- * TclpFinalize is a noop on Unix systems.
+ * The following defines stub out functions that aren't needed on Unix.
  */
 
 #define TclpFinalize()
+#define TclpAsyncMark(async)
 
 #include "tclPlatDecls.h"
 #include "tclIntPlatDecls.h"

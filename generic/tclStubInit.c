@@ -532,6 +532,8 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclpGetTZName, /* 17 */
     TclpMakeFile, /* 18 */
     TclpOpenFile, /* 19 */
+    TclWinAddProcess, /* 20 */
+    TclpAsyncMark, /* 21 */
 #endif /* __WIN32__ */
 #ifdef MAC_TCL
     TclpSysAlloc, /* 0 */

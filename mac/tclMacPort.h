@@ -207,6 +207,7 @@ EXTERN int	strncasecmp _ANSI_ARGS_((CONST char *s1,
  */
 #define TclCreateCommandChannel(out, in, err, num, pidPtr)	NULL
 #define TclClosePipeFile(x)
+#define TclpAsyncMark(async)
 
 /*
  * These definitions force putenv & company to use the version

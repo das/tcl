@@ -962,18 +962,18 @@ declare 279 generic {
 	    Tcl_ReleaseType *type)
 }
 # Reserved for future use (8.0.x vs. 8.1)
-declare 280 generic {
-}
-declare 281 generic {
-}
-declare 282 generic {
-}
-declare 283 generic {
-}
-declare 284 generic {
-}
-declare 285 generic {
-}
+#  declare 280 generic {
+#  }
+#  declare 281 generic {
+#  }
+#  declare 282 generic {
+#  }
+#  declare 283 generic {
+#  }
+#  declare 284 generic {
+#  }
+#  declare 285 generic {
+#  }
 
 ##############################################################################
 

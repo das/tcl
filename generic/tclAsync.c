@@ -16,6 +16,7 @@
  */
 
 #include "tclInt.h"
+#include "tclPort.h"
 
 /*
  * One of the following structures exists for each asynchronous
@@ -125,6 +126,7 @@ Tcl_AsyncMark(async)
 {
     ((AsyncHandler *) async)->ready = 1;
     if (!asyncActive) {
+	TclpAsyncMark(async);
 	asyncReady = 1;
     }
 }
