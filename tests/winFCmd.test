@@ -1028,6 +1028,15 @@ test winFCmd-16.11 {Windows file normalization} {pcOnly cdrom} {
     # Must not crash
     set result "no crash"
 } {no crash}
+test winFCmd-16.12 {Windows file normalization} {pcOnly} {
+    set oldhome ""
+    catch {set oldhome $::env(HOME)}
+    set ::env(HOME) ${d}:
+    cd
+    set result [pwd]; # <- Must not crash
+    set ::env(HOME) $oldhome
+    set result
+} ${d}:/
 
 cd $pwd
 unset d dd pwd
