@@ -44,14 +44,12 @@ Tcl_ProcObjCmd(dummy, interp, objc, objv)
 {
     register Interp *iPtr = (Interp *) interp;
     Proc *procPtr;
-    char *fullName, *procName, *args, *bytes, *p;
+    char *fullName, *procName;
     char **argArray = NULL;
     Namespace *nsPtr, *altNsPtr, *cxtNsPtr;
-    Tcl_Obj *defPtr, *bodyPtr;
     Tcl_Command cmd;
     Tcl_DString ds;
-    int numArgs, length, result, i;
-    register CompiledLocal *localPtr;
+    int result;
 
     if (objc != 4) {
 	Tcl_WrongNumArgs(interp, 1, objv, "name args body");
@@ -167,7 +165,7 @@ TclCreateProc(interp, nsPtr, procName, argsPtr, bodyPtr, procPtrPtr)
     int i, length, result, numArgs;
     char *args, *bytes, *p;
     register CompiledLocal *localPtr;
-    Tcl_Obj *defPtr, *resultPtr;
+    Tcl_Obj *defPtr;
 
     /*
      * If the procedure's body object is shared because its string value is
