@@ -2409,6 +2409,8 @@ Tcl_CutChannel(chan)
     }
 
     statePtr->nextCSPtr = (ChannelState *) NULL;
+
+    TclpCutFileChannel(chan);
 }
 
 /*
@@ -2460,6 +2462,8 @@ Tcl_SpliceChannel(chan)
      */
 
     statePtr->managingThread = Tcl_GetCurrentThread ();
+
+    TclpSpliceFileChannel(chan);
 }
 
 /*

@@ -15,6 +15,7 @@
 
 #include "tclInt.h"	/* Internal definitions for Tcl. */
 #include "tclPort.h"	/* Portability features for Tcl. */
+#include "tclIO.h"	/* To get Channel type declaration. */
 
 /*
  * sys/ioctl.h has already been included by tclPort.h.	Including termios.h
@@ -555,15 +556,6 @@ FileCloseProc(instanceData, interp)
 	    errorCode = errno;
 	}
     }
-#ifdef DEPRECATED
-    for (nextPtrPtr = &(tsdPtr->firstFilePtr); (*nextPtrPtr) != NULL;
-	 nextPtrPtr = &((*nextPtrPtr)->nextPtr)) {
-	if ((*nextPtrPtr) == fsPtr) {
-	    (*nextPtrPtr) = fsPtr->nextPtr;
-	    break;
-	}
-    }
-#endif /* DEPRECATED */
     ckfree((char *) fsPtr);
     return errorCode;
 }
@@ -1834,8 +1826,10 @@ TclpOpenFileChannel(interp, pathPtr, mode, permissions)
     }
 
 #ifdef DEPRECATED
-    fsPtr->nextPtr = tsdPtr->firstFilePtr;
-    tsdPtr->firstFilePtr = fsPtr;
+    if (channelTypePtr == &fileChannelType) {
+        fsPtr->nextPtr = tsdPtr->firstFilePtr;
+        tsdPtr->firstFilePtr = fsPtr;
+    }
 #endif /* DEPRECATED */
     fsPtr->validMask = channelPermissions | TCL_EXCEPTION;
     fsPtr->fd = fd;
@@ -1933,8 +1927,10 @@ Tcl_MakeFileChannel(handle, mode)
     }
 
 #ifdef DEPRECATED
-    fsPtr->nextPtr = tsdPtr->firstFilePtr;
-    tsdPtr->firstFilePtr = fsPtr;
+    if (channelTypePtr == &fileChannelType) {
+        fsPtr->nextPtr = tsdPtr->firstFilePtr;
+        tsdPtr->firstFilePtr = fsPtr;
+    }
 #endif /* DEPRECATED */
     fsPtr->fd = fd;
     fsPtr->validMask = mode | TCL_EXCEPTION;
@@ -3242,4 +3238,98 @@ TclUnixWaitForFile(fd, mask, timeout)
 	}
     }
     return result;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclpCutFileChannel --
+ *
+ *	Remove any thread local refs to this channel. See
+ *	Tcl_CutChannel for more info.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Changes thread local list of valid channels.
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+TclpCutFileChannel(chan)
+    Tcl_Channel chan;			/* The channel being removed. Must
+                                         * not be referenced in any
+                                         * interpreter. */
+{
+#ifdef DEPRECATED
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
+    Channel *chanPtr = (Channel *) chan;
+    FileState *fsPtr;
+    FileState **nextPtrPtr;
+    int removed = 0;
+
+    if (chanPtr->typePtr != &fileChannelType)
+        return;
+
+    fsPtr = (FileState *) chanPtr->instanceData;
+
+    for (nextPtrPtr = &(tsdPtr->firstFilePtr); (*nextPtrPtr) != NULL;
+	 nextPtrPtr = &((*nextPtrPtr)->nextPtr)) {
+	if ((*nextPtrPtr) == fsPtr) {
+	    (*nextPtrPtr) = fsPtr->nextPtr;
+	    removed = 1;
+	    break;
+	}
+    }
+
+    /*
+     * This could happen if the channel was created in one thread
+     * and then moved to another without updating the thread
+     * local data in each thread.
+     */
+
+    if (!removed)
+        panic("file info ptr not on thread channel list");
+
+#endif /* DEPRECATED */
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclpSpliceFileChannel --
+ *
+ *	Insert thread local ref for this channel.
+ *	Tcl_SpliceChannel for more info.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Changes thread local list of valid channels.
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+TclpSpliceFileChannel(chan)
+    Tcl_Channel chan;			/* The channel being removed. Must
+                                         * not be referenced in any
+                                         * interpreter. */
+{
+#ifdef DEPRECATED
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
+    Channel *chanPtr = (Channel *) chan;
+    FileState *fsPtr;
+
+    if (chanPtr->typePtr != &fileChannelType)
+        return;
+
+    fsPtr = (FileState *) chanPtr->instanceData;
+
+    fsPtr->nextPtr = tsdPtr->firstFilePtr;
+    tsdPtr->firstFilePtr = fsPtr;
+#endif /* DEPRECATED */
 }
