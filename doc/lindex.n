@@ -35,3 +35,6 @@ the list minus the specified integer offset.
 
 .SH KEYWORDS
 element, index, list
+
+.SH SEE ALSO
+lappend, linsert, list, llength, lsearch, lsort, lrange, lreplace

@@ -31,3 +31,6 @@ specified integer offset.
 
 .SH KEYWORDS
 element, insert, list
+
+.SH SEE ALSO
+lappend, lindex, list, llength, lsearch, lsort, lrange, lreplace

@@ -80,3 +80,6 @@ last takes precendence.  If more than one of \fB\-increasing\fR and
 
 .SH KEYWORDS
 list, match, pattern, regular expression, search, string
+
+.SH SEE ALSO
+lappend, lindex, linsert, list, llength, lrange, lreplace, lsort

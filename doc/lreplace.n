@@ -45,3 +45,6 @@ is empty, any \fIelement\fR arguments are added to the end of the list.
 
 .SH KEYWORDS
 element, list, replace
+
+.SH SEE ALSO
+lappend, lindex, linsert, list, llength, lrange, lsearch, lsort

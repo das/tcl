@@ -24,3 +24,6 @@ the number of elements in it.
 
 .SH KEYWORDS
 element, list, length
+
+.SH SEE ALSO
+lappend, lindex, linsert, list, lsearch, lsort, lrange, lreplace

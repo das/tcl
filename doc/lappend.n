@@ -33,3 +33,6 @@ more efficient than ``\fBset a [concat $a [list $b]]\fR'' when
 
 .SH KEYWORDS
 append, element, list, variable
+
+.SH SEE ALSO
+lindex, linsert, list, llength, lsearch, lsort, lrange, lreplace

@@ -90,3 +90,6 @@ be retained.
 
 .SH KEYWORDS
 element, list, order, sort
+
+.SH SEE ALSO
+lappend, lindex, linsert, list, llength, lrange, lreplace, lsearch

@@ -37,3 +37,6 @@ produce exactly the same results as ``\fBlist [lindex \fIlist first\fB]\fR''
 
 .SH KEYWORDS
 element, list, range, sublist
+
+.SH SEE ALSO
+lappend, lindex, linsert, list, llength, lreplace, lsearch, lsort
