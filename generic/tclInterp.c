@@ -1804,6 +1804,11 @@ SlaveCreate(interp, pathPtr, safe)
         if (Tcl_Init(slaveInterp) == TCL_ERROR) {
             goto error;
         }
+	/*
+	 * This will create the "memory" command in slave interpreters
+	 * if we compiled with TCL_MEM_DEBUG, otherwise it does nothing.
+	 */
+	Tcl_InitMemory(slaveInterp);
     }
     return slaveInterp;
 
