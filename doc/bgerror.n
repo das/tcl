@@ -72,5 +72,8 @@ command when it is evaluated.  If either of these options is set to
 the empty string, then the additional button will not be displayed in
 the dialog.
 
+.SH "SEE ALSO"
+after(n), tclvars(n)
+
 .SH KEYWORDS
 background error, reporting

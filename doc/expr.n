@@ -395,5 +395,8 @@ unbraced expressions that contain command substitutions.
 These expressions must be implemented by generating new code
 each time the expression is executed.
 
+.SH "SEE ALSO"
+array(n), string(n), Tcl(n)
+
 .SH KEYWORDS
 arithmetic, boolean, compare, expression, fuzzy comparison

@@ -40,5 +40,8 @@ deleted.  An error can occur when the named variable doesn't exist, or the
 name refers to an array element but the variable is a scalar, or the name
 refers to a variable in a non-existent namespace.
 
+.SH "SEE ALSO"
+set(n), trace(n)
+
 .SH KEYWORDS
 remove, variable

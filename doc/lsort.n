@@ -88,8 +88,9 @@ considered duplicates and only the second element, \fB{1 b}\fR, would
 be retained.
 .VE
 
+.SH "SEE ALSO"
+lappend(n), lindex(n), linsert(n), list(n), llength(n), lrange(n),
+lreplace(n), lsearch(n)
+
 .SH KEYWORDS
 element, list, order, sort
-
-.SH SEE ALSO
-lappend, lindex, linsert, list, llength, lrange, lreplace, lsearch

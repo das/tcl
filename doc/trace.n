@@ -238,5 +238,8 @@ future version of Tcl.  They use an older syntax in which \fBarray\fR,
 list, but simply a string concatenation of the operations, such as
 \fBrwua\fR.
 
+.SH "SEE ALSO"
+set(n), unset(n)
+
 .SH KEYWORDS
 read, command, rename, variable, write, trace, unset

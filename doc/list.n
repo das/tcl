@@ -41,8 +41,9 @@ while \fBconcat\fR with the same arguments will return
 \fBa b c d e f {g h}\fR
 .CE
 
+.SH "SEE ALSO"
+lappend(n), lindex(n), linsert(n), llength(n), lsearch(n), lsort(n),
+lrange(n), lreplace(n)
+
 .SH KEYWORDS
 element, list
-
-.SH SEE ALSO
-lappend, lindex, linsert, llength, lsearch, lsort, lrange, lreplace

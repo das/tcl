@@ -338,7 +338,8 @@ These commands always operate using the real user and group identifiers,
 not the effective ones. 
 
 .SH "SEE ALSO"
-filename
+filename(n), open(n), close(n), eof(n), gets(n), tell(n), seek(n),
+fblocked(n), flush(n)
 
 .SH KEYWORDS
 attributes, copy files, delete files, directory, file, move files, name, rename files, stat

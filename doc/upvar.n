@@ -106,7 +106,7 @@ made to \fImyVar\fR will not be passed to subprocesses correctly.
 .VE
 
 .SH "SEE ALSO"
-namespace(n)
+namespace(n), uplevel(n)
 
 .SH KEYWORDS
 context, frame, global, level, namespace, procedure, variable

@@ -134,5 +134,8 @@ an array variable, then the command unsets the entire array.
 The command always returns an empty string.
 .VE 8.3
 
+.SH "SEE ALSO"
+list(n), string(n), variable(n), trace(n)
+
 .SH KEYWORDS
 array, element names, search

@@ -210,5 +210,8 @@ unit of the value is seconds, allowing it to be used for relative time
 calculations.  The value is usually defined as total elapsed time from
 an ``epoch''.  You shouldn't assume the value of the epoch.
 
+.SH "SEE ALSO"
+date(1), time(n)
+
 .SH KEYWORDS
 clock, date, time

@@ -232,5 +232,8 @@ If you must use \fB\-load\fP,
 then you must specify the scripts first; otherwise the package loaded from
 the binary file may mask the package defined by the scripts.
 
+.SH "SEE ALSO"
+package(n)
+
 .SH KEYWORDS
 auto-load, index, package, version

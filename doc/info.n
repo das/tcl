@@ -185,5 +185,8 @@ the resulting list of variable names
 has each matching namespace variable qualified with the name
 of its namespace.
 
+.SH "SEE ALSO"
+global(n), proc(n)
+
 .SH KEYWORDS
 command, information, interpreter, level, namespace, procedure, variable

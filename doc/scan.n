@@ -190,5 +190,8 @@ If the end of the input string is reached before any conversions have been
 performed and no variables are given, and empty string is returned.
 .VE 8.3
 
+.SH "SEE ALSO"
+format(n), sscanf(3)
+
 .SH KEYWORDS
 conversion specifier, parse, scan

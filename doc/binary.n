@@ -542,7 +542,7 @@ element of the \fBtcl_platform\fR array to decide which type character
 to use when formatting or scanning integers.
 
 .SH "SEE ALSO"
-format, scan, tclvars
+format(n), scan(n), tclvars(n)
 
 .SH KEYWORDS
 binary, format, scan

@@ -51,5 +51,8 @@ searches all open resource files, which include the current
 application and any loaded C extensions.  Alternatively, you may
 specify the \fIfileName\fR where the \fBTEXT\fR resource can be found.
 
+.SH "SEE ALSO"
+file(n), cd(n)
+
 .SH KEYWORDS
 file, script

@@ -78,8 +78,9 @@ precendence.  If more than one of \fB\-ascii\fR, \fB\-dictionary\fR,
 last takes precendence.  If more than one of \fB\-increasing\fR and
 \fB\-decreasing\fR is specified, the option specified last takes precedence.
 
+.SH "SEE ALSO"
+lappend(n), lindex(n), linsert(n), list(n), llength(n), lrange(n),
+lreplace(n), lsort(n)
+
 .SH KEYWORDS
 list, match, pattern, regular expression, search, string
-
-.SH SEE ALSO
-lappend, lindex, linsert, list, llength, lrange, lreplace, lsort

@@ -304,7 +304,7 @@ infinitely.
 The variable is unset before \fBunknown\fR returns.
 
 .SH "SEE ALSO"
-re_syntax(n)
+info(n), re_syntax(n)
 
 .SH KEYWORDS
 auto-exec, auto-load, library, unknown, word, whitespace 
