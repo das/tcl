@@ -535,6 +535,15 @@ typedef struct stat *Tcl_Stat_;
 #define TCL_RESULT_SIZE 200
 
 /*
+ * Flags to control what substitutions are performed by Tcl_SubstObj():
+ */
+
+#define TCL_SUBST_COMMANDS	001
+#define TCL_SUBST_VARIABLES	002
+#define TCL_SUBST_BACKSLASHES	004
+#define TCL_SUBST_ALL		007
+
+/*
  * Argument descriptors for math function callbacks in expressions:
  */
 

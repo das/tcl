@@ -1527,7 +1527,9 @@ declare 435 generic {
 declare 436 generic {
     Tcl_Obj * Tcl_ListMathFuncs(Tcl_Interp *interp, CONST char *pattern)
 }
-
+declare 437 generic {
+    Tcl_Obj * Tcl_SubstObj(Tcl_Interp *interp, Tcl_Obj *objPtr, int flags)
+}
 
 ##############################################################################
 

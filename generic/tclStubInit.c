@@ -832,6 +832,7 @@ TclStubs tclStubs = {
     Tcl_GetUnicodeFromObj, /* 434 */
     Tcl_GetMathFuncInfo, /* 435 */
     Tcl_ListMathFuncs, /* 436 */
+    Tcl_SubstObj, /* 437 */
 };
 
 /* !END!: Do not edit above this line. */
