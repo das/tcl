@@ -425,6 +425,7 @@ TclStubs tclStubs = {
     Tcl_UniCharNcmp, /* 353 */
     Tcl_UniCharToUtfDString, /* 354 */
     Tcl_UtfToUniCharDString, /* 355 */
+    Tcl_GetRegExpFromObj, /* 356 */
 };
 
 TclIntStubs tclIntStubs = {

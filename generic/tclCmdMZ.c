@@ -8,6 +8,7 @@
  *
  * Copyright (c) 1987-1993 The Regents of the University of California.
  * Copyright (c) 1994-1997 Sun Microsystems, Inc.
+ * Copyright (c) 1998-1999 by Scriptics Corporation.
  *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -206,7 +207,7 @@ Tcl_RegexpObjCmd(dummy, interp, objc, objv)
     objc -= i;
     objv += i;
 
-    regExpr = TclRegCompObj(interp, objv[0], cflags);
+    regExpr = Tcl_GetRegExpFromObj(interp, objv[0], cflags);
     if (regExpr == NULL) {
 	return TCL_ERROR;
     }
@@ -370,7 +371,7 @@ Tcl_RegsubObjCmd(dummy, interp, objc, objv)
     }
 
     objv += i;
-    regExpr = TclRegCompObj(interp, objv[0], flags | REG_ADVANCED);
+    regExpr = Tcl_GetRegExpFromObj(interp, objv[0], flags | REG_ADVANCED);
     if (regExpr == NULL) {
 	return TCL_ERROR;
     }

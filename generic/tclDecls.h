@@ -1079,6 +1079,10 @@ EXTERN char *		Tcl_UniCharToUtfDString _ANSI_ARGS_((
 EXTERN Tcl_UniChar *	Tcl_UtfToUniCharDString _ANSI_ARGS_((
 				CONST char * string, int length, 
 				Tcl_DString * dsPtr));
+/* 356 */
+EXTERN Tcl_RegExp	Tcl_GetRegExpFromObj _ANSI_ARGS_((
+				Tcl_Interp * interp, Tcl_Obj * patObj, 
+				int flags));
 
 typedef struct TclStubHooks {
     struct TclPlatStubs *tclPlatStubs;
@@ -1470,6 +1474,7 @@ typedef struct TclStubs {
     int (*tcl_UniCharNcmp) _ANSI_ARGS_((const Tcl_UniChar * cs, const Tcl_UniChar * ct, size_t n)); /* 353 */
     char * (*tcl_UniCharToUtfDString) _ANSI_ARGS_((CONST Tcl_UniChar * string, int numChars, Tcl_DString * dsPtr)); /* 354 */
     Tcl_UniChar * (*tcl_UtfToUniCharDString) _ANSI_ARGS_((CONST char * string, int length, Tcl_DString * dsPtr)); /* 355 */
+    Tcl_RegExp (*tcl_GetRegExpFromObj) _ANSI_ARGS_((Tcl_Interp * interp, Tcl_Obj * patObj, int flags)); /* 356 */
 } TclStubs;
 
 extern TclStubs *tclStubsPtr;
@@ -2891,6 +2896,10 @@ extern TclStubs *tclStubsPtr;
 #ifndef Tcl_UtfToUniCharDString
 #define Tcl_UtfToUniCharDString \
 	(tclStubsPtr->tcl_UtfToUniCharDString) /* 355 */
+#endif
+#ifndef Tcl_GetRegExpFromObj
+#define Tcl_GetRegExpFromObj \
+	(tclStubsPtr->tcl_GetRegExpFromObj) /* 356 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

@@ -1209,6 +1209,9 @@ declare 355 generic {
     Tcl_UniChar * Tcl_UtfToUniCharDString(CONST char *string, int length, \
 	    Tcl_DString *dsPtr)
 }
+declare 356 generic {
+    Tcl_RegExp	Tcl_GetRegExpFromObj(Tcl_Interp *interp, Tcl_Obj *patObj, int flags)
+}
 
 ##############################################################################
 
