@@ -517,7 +517,8 @@ proc http::Write {token} {
 
 	if {[info exists state(-query)]} {
 	    set outStr [string range $state(-query) $state(queryoffset) \
-		[incr state(queryoffset) $state(-queryblocksize)]]
+		    [expr {$state(queryoffset) + $state(-queryblocksize) - 1}]]
+	    incr state(queryoffset) $state(-queryblocksize)
 	} else {
 	    # querychannel
 	    set outStr [read $state(-querychannel) $state(-queryblocksize)]
