@@ -127,7 +127,7 @@ Insert double-quotes around the first instance of the word
 regsub -nocase {\e<interesting\e>} $string {"&"} string
 .CE
 
-Convert all non-ASCII and tcl-significant characters into \eu escape
+Convert all non-ASCII and Tcl-significant characters into \eu escape
 sequences by using \fBregsub\fR and \fBsubst\fR in combination:
 .CS
 # This RE is just a character class for everything "bad"
