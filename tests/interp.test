@@ -497,6 +497,12 @@ test interp-14.3 {testing interp aliases} {
     interp alias {a x3} froboz "" puts
     interp aliases {a x3}
 } froboz
+test interp-14.4 {testing interp alias - alias over master} {
+    # SF Bug 641195
+    catch {interp delete a}
+    interp create a
+    list [catch {interp alias "" a a eval} msg] $msg [info commands a]
+} {1 {cannot define or rename alias "a": interpreter deleted} {}}
 
 # part 15: testing file sharing
 test interp-15.1 {testing file sharing} {
