@@ -71,6 +71,12 @@
 #   ifndef USE_PROTOTYPE
 #	define USE_PROTOTYPE 1
 #   endif
+
+/*
+ * Under Windows we need to call Tcl_Alloc in all cases to avoid competing
+ * C run-time library issues.
+ */
+
 #   ifndef USE_TCLALLOC
 #	define USE_TCLALLOC 1
 #   endif
@@ -742,6 +748,14 @@ EXTERN void		Tcl_ValidateAllMemory _ANSI_ARGS_((char *file,
 			    int line));
 
 #else
+
+/*
+ * If USE_TCLALLOC is true, then we need to call Tcl_Alloc instead of
+ * the native malloc/free.  The only time USE_TCLALLOC should not be
+ * true is when compiling the Tcl/Tk libraries on Unix systems.  In this
+ * case we can safely call the native malloc/free directly as a performance
+ * optimization.
+ */
 
 #  if USE_TCLALLOC
 #     define ckalloc(x) Tcl_Alloc(x)
