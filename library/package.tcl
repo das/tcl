@@ -302,7 +302,8 @@ proc pkg_mkIndex {args} {
 			    # special case so that global names have no leading
 			    # ::, this is required by the unknown command
 			    
-			    set ::tcl::abs [auto_qualify $::tcl::abs ::]
+			    set ::tcl::abs \
+				    [lindex [auto_qualify $::tcl::abs ::] 0]
 			    
 			    if {[string compare $::tcl::x $::tcl::abs]} {
 				# Name changed during qualification

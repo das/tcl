@@ -356,6 +356,12 @@ test pkgMkIndex-12.1 {same name procs in different namespace} {
     pkgtest::runIndex -lazy $fullPkgPath samename.tcl
 } {0 {{football:1.0 {tclPkgSetup {samename.tcl source {::college::team ::pro::team}}}}}}
 
+# Proc names with embedded spaces are properly listed (ie, correct number of
+# braces) in result
+test pkgMkIndex-13.1 {proc names with embedded spaces} {
+    pkgtest::runIndex -lazy $fullPkgPath spacename.tcl
+} {0 {{spacename:1.0 {tclPkgSetup {spacename.tcl source {{a b} {c d}}}}}}}
+
 # cleanup
 
 namespace delete pkgtest
