@@ -483,6 +483,9 @@ TCL_STUB_LIB_SPEC="-L${exec_prefix}/lib ${TCL_STUB_LIB_FLAG}"
 TCL_BUILD_STUB_LIB_PATH="`pwd`/${TCL_STUB_LIB_FILE}"
 TCL_STUB_LIB_PATH="${exec_prefix}/lib/${TCL_STUB_LIB_FILE}"
 
+# Install time header dir can be set via --includedir
+eval "TCL_INCLUDE_SPEC=\"-I${includedir}\""
+
 #------------------------------------------------------------------------
 # tclConfig.sh refers to this by a different name
 #------------------------------------------------------------------------
@@ -501,6 +504,7 @@ AC_SUBST(TCL_STUB_LIB_FILE)
 AC_SUBST(TCL_STUB_LIB_FLAG)
 AC_SUBST(TCL_STUB_LIB_SPEC)
 AC_SUBST(TCL_STUB_LIB_PATH)
+AC_SUBST(TCL_INCLUDE_SPEC)
 AC_SUBST(TCL_BUILD_STUB_LIB_SPEC)
 AC_SUBST(TCL_BUILD_STUB_LIB_PATH)
 
