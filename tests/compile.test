@@ -323,6 +323,17 @@ test compile-13.1 {testing underestimate of maxStackSize in list cmd} {exec} {
     list [catch {exec [interpreter] << $script} msg] $msg
 } {0 OK}
 
+# Special test for compiling tokens from a copy of the source
+# string [Bug #599788]
+test compile-14.1 {testing errors in element name; segfault?} {} {
+     catch {set a([error])} msg1
+     catch {set bubba([join $abba $jubba]) $vol} msg2
+     list $msg1 $msg2
+} {{wrong # args: should be "error message ?errorInfo? ?errorCode?"} {can't read "abba": no such variable}}
+
+
+
+
 # cleanup
 catch {rename p ""}
 catch {namespace delete test_ns_compile}

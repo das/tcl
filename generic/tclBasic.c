@@ -5023,8 +5023,7 @@ Tcl_DeleteTrace(interp, trace)
 
     /* Delete the trace object */
 
-    ckfree( (char*) tracePtr );
-
+    Tcl_EventuallyFree( (char*) tracePtr, TCL_DYNAMIC);
 }
 
 /*

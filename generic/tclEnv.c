@@ -275,6 +275,11 @@ TclSetEnv(name, value)
 
     if ((index != -1) && (environ[index] == p)) {
 	ReplaceString(oldValue, p);
+#ifdef HAVE_PUTENV_THAT_COPIES
+    } else {
+	/* This putenv() copies instead of taking ownership */
+	ckfree(p);
+#endif
     }
 
     Tcl_MutexUnlock(&envMutex);
