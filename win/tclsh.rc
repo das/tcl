@@ -21,7 +21,7 @@
 #define SUFFIX_STATIC	    ""
 #endif
 
-#if DEBUG
+#if DEBUG && !UNCHECKED
 #define SUFFIX_DEBUG	    "g"
 #else
 #define SUFFIX_DEBUG	    ""
