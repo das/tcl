@@ -692,7 +692,7 @@ TclpCreateTempFile(contents)
     CONST char *contents;	/* String to write into temp file, or NULL. */
 {
     WCHAR name[MAX_PATH];
-    char *native;
+    CONST char *native;
     Tcl_DString dstring;
     HANDLE handle;
 
