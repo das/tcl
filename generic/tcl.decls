@@ -1086,7 +1086,7 @@ declare 303 generic {
 }
 declare 304 generic {
     int Tcl_GetIndexFromObjStruct(Tcl_Interp *interp, Tcl_Obj *objPtr,
-	    CONST84 char **tablePtr, int offset, CONST char *msg, int flags,
+	    CONST VOID *tablePtr, int offset, CONST char *msg, int flags,
 	    int *indexPtr)
 }
 declare 305 generic {

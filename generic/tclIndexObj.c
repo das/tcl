@@ -161,7 +161,7 @@ Tcl_GetIndexFromObjStruct(interp, objPtr, tablePtr, offset, msg, flags,
 	indexPtr)
     Tcl_Interp *interp; 	/* Used for error reporting if not NULL. */
     Tcl_Obj *objPtr;		/* Object containing the string to lookup. */
-    CONST char **tablePtr;	/* The first string in the table. The second
+    CONST VOID *tablePtr;	/* The first string in the table. The second
 				 * string will be at this address plus the
 				 * offset, the third plus the offset again,
 				 * etc. The last entry must be NULL
@@ -274,7 +274,7 @@ Tcl_GetIndexFromObjStruct(interp, objPtr, tablePtr, offset, msg, flags,
 	resultPtr = Tcl_GetObjResult(interp);
 	Tcl_AppendStringsToObj(resultPtr,
 		(numAbbrev > 1) ? "ambiguous " : "bad ", msg, " \"",
-		key, "\": must be ", *tablePtr, (char *) NULL);
+		key, "\": must be ", STRING_AT(tablePtr,offset,0), (char*)NULL);
 	for (entryPtr = NEXT_ENTRY(tablePtr, offset), count = 0;
 		*entryPtr != NULL;
 		entryPtr = NEXT_ENTRY(entryPtr, offset), count++) {
