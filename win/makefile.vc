@@ -352,9 +352,9 @@ cdebug	=
 !endif
 !else if "$(MACHINE)" == "IA64"
 ### Warnings are too many, can't support warnings into errors.
-cdebug	= -Z7 -Od
+cdebug	= -Z7 -Od -GZ
 !else
-cdebug	= -Z7 -WX -Od
+cdebug	= -Z7 -WX -Od -GZ
 !endif
 
 ### Declarations common to all compiler options
