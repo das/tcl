@@ -103,9 +103,9 @@ EXTERN TclWinProcs *tclWinProcs;
 
 EXTERN void		TclWinInit(HINSTANCE hInst);
 
+#include "tclIntPlatDecls.h"
+
 # undef TCL_STORAGE_CLASS
 # define TCL_STORAGE_CLASS DLLIMPORT
-
-#include "tclIntPlatDecls.h"
 
 #endif	/* _TCLWININT */
