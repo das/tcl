@@ -62,6 +62,7 @@ NODEBUG = 1
 #
 #DEBUGDEFINES = -DTCL_MEM_DEBUG -DTCL_COMPILE_DEBUG -DTCL_COMPILE_STATS
 #DEBUGDEFINES = -DUSE_TCLALLOC=0
+DEBUGDEFINES = -DTCL_COMPILE_DEBUG
 
 ######################################################################
 # Do not modify below this line
