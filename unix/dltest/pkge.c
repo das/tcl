@@ -15,14 +15,6 @@
 
 #include "tcl.h"
 
-/*
- * Prototypes for procedures defined later in this file:
- */
-
-static int	Pkgd_SubCmd _ANSI_ARGS_((ClientData clientData,
-		    Tcl_Interp *interp, int argc, char **argv));
-static int	Pkgd_UnsafeCmd _ANSI_ARGS_((ClientData clientData,
-		    Tcl_Interp *interp, int argc, char **argv));
 
 /*
  *----------------------------------------------------------------------
