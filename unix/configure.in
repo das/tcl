@@ -497,6 +497,7 @@ if test "$FRAMEWORK_BUILD" = "1" ; then
     TCL_BUILD_LIB_SPEC="-F`pwd` -framework Tcl"
     TCL_LIB_SPEC="-framework Tcl"
     TCL_LIB_FILE="Tcl"
+    AC_DEFINE(TCL_FRAMEWORK, 1, [Is Tcl built as a framework?]))
 elif test "$SHARED_BUILD" = "0" || test "$TCL_NEEDS_EXP_FILE" = "0"; then
     if test "${TCL_LIB_VERSIONS_OK}" = "ok"; then
         TCL_LIB_FLAG="-ltcl${TCL_VERSION}\${TCL_DBGX}"
