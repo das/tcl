@@ -192,6 +192,9 @@ the reference count for each element object
 then deallocates the storage for the array of pointers.
 The \fIfreeIntRepProc\fR member can be set to NULL
 to indicate that the internal representation does not require freeing.
+The \fIfreeIntRepProc\fR implementation should not access the
+\fIbytes\fR member of the object, as this may potentially have already
+been deleted.
 
 .SH "SEE ALSO"
 Tcl_NewObj, Tcl_DecrRefCount, Tcl_IncrRefCount
