@@ -2928,10 +2928,11 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 	if (result != TCL_OK) {
 	    return result;
 	}
+	if (offset > listc-1) {
+	    offset = listc-1;
+	}
 	if (offset < 0) {
 	    offset = 0;
-	} else if (offset > listc-1) {
-	    offset = listc-1;
 	}
     }
 

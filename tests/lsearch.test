@@ -289,6 +289,10 @@ test lsearch-10.6 {binary search with offset} {
     }
     set res
 } [concat -1 -1 [lrange $increasingIntegers 2 end]]
+test lsearch-10.7 {offset searching with an empty list} {
+    # Stop bug #694232 from reocurring
+    lsearch -start 0 {} x
+} -1
 
 test lsearch-11.1 {negated searches} {
     lsearch -not {a a a b a a a} a
