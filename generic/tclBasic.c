@@ -4232,20 +4232,20 @@ Tcl_AllowExceptions(interp)
  *----------------------------------------------------------------------
  */
 
-void Tcl_GetVersion(major, minor, patchLevel, type)
-    int *major;
-    int *minor;
-    int *patchLevel;
+void Tcl_GetVersion(majorV, minorV, patchLevelV, type)
+    int *majorV;
+    int *minorV;
+    int *patchLevelV;
     int *type;
 {
-    if (major != NULL) {
-        *major = TCL_MAJOR_VERSION;
+    if (majorV != NULL) {
+        *majorV = TCL_MAJOR_VERSION;
     }
-    if (minor != NULL) {
-        *minor = TCL_MINOR_VERSION;
+    if (minorV != NULL) {
+        *minorV = TCL_MINOR_VERSION;
     }
-    if (patchLevel != NULL) {
-        *patchLevel = TCL_RELEASE_SERIAL;
+    if (patchLevelV != NULL) {
+        *patchLevelV = TCL_RELEASE_SERIAL;
     }
     if (type != NULL) {
         *type = TCL_RELEASE_LEVEL;
