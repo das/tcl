@@ -145,11 +145,11 @@ always searched or returned in preference to numbers.  For example,
 the \fBresource list\fR command will return names if they exist or
 numbers if the name is NULL.
 
-.SH "SEE ALSO"
-open
-
 .SH "PORTABILITY ISSUES"
 The resource command is only available on Macintosh.
+
+.SH "SEE ALSO"
+open
 
 .SH KEYWORDS
 open, resource

@@ -71,7 +71,7 @@ Second, \fBglob\fR only returns the names of files that actually
 exist;  in csh no check for existence is made unless a pattern
 contains a ?, *, or [] construct.
 
-.SH PORTABILITY ISSUES
+.SH "PORTABILITY ISSUES"
 .PP
 Unlike other Tcl commands that will accept both network and native
 style names (see the \fBfilename\fR manual entry for details on how

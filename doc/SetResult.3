@@ -117,7 +117,7 @@ and the result is left as a empty string.
 \fBTcl_AddErrorInfo\fR, \fBTcl_AddObjErrorInfo\fR,
 and \fBTcl_SetErrorCode\fR.
 
-.SH OLD STRING PROCEDURES
+.SH "OLD STRING PROCEDURES"
 .PP
 Use of the following procedures is deprecated
 since they manipulate the Tcl result as a string.
@@ -170,7 +170,7 @@ change \fIinterp->result\fR or clear error state.
 \fBTcl_FreeResult\fR is most commonly used when a procedure
 is about to replace one result value with another.
 
-.SH DIRECT ACCESS TO INTERP->RESULT IS DEPRECATED
+.SH "DIRECT ACCESS TO INTERP->RESULT IS DEPRECATED"
 .PP
 It used to be legal for programs to
 directly read and write \fIinterp->result\fR
@@ -181,7 +181,7 @@ Programs should always read the result
 using the procedures \fBTcl_GetObjResult\fR or \fBTcl_GetStringResult\fR,
 and write the result using \fBTcl_SetObjResult\fR or \fBTcl_SetResult\fR.
 
-.SH THE TCL_FREEPROC ARGUMENT TO TCL_SETRESULT
+.SH "THE TCL_FREEPROC ARGUMENT TO TCL_SETRESULT"
 .PP
 \fBTcl_SetResult\fR's \fIfreeProc\fR argument specifies how 
 the Tcl system is to manage the storage for the \fIstring\fR argument.

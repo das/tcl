@@ -101,7 +101,7 @@ event loop, for example by invoking the \fBvwait\fR command or
 calling the C procedure \fBTcl_DoOneEvent\fR, then no connections
 will be accepted.
 
-.SH CONFIGURATION OPTIONS
+.SH "CONFIGURATION OPTIONS"
 The \fBfconfigure\fR command can be used to query several readonly
 configuration options for socket channels:
 .VS 8.0.5
