@@ -100,8 +100,10 @@ static int libraryPathEncodingFixed = 0;
 static void		AppendEnvironment(Tcl_Obj *listPtr, CONST char *lib);
 static void		AppendDllPath(Tcl_Obj *listPtr, HMODULE hModule,
 			    CONST char *lib);
+static void		FreeDefaultLibraryDir(ClientData);
+static void		FreeThreadDefaultLibraryDir(ClientData);
+static Tcl_Obj *	GetDefaultLibraryDir();
 static void		SetDefaultLibraryDir(Tcl_Obj *directory);
-static Tcl_Obj *	GetDefaultLibraryDir(Tcl_Obj *directory);
 static int		ToUtf(CONST WCHAR *wSrc, char *dst);
 
 /*
@@ -151,7 +153,6 @@ static void
 SetDefaultLibraryDir(directory)
     Tcl_Obj *directory;
 {
-    int numBytes;
     CONST char *bytes;
     Tcl_Obj **savedDirectoryPtr = (Tcl_Obj **)
 	    Tcl_GetThreadData(&defaultLibraryDirKey, (int)sizeof(Tcl_Obj *));
