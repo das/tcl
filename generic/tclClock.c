@@ -361,8 +361,7 @@ FormatClock(interp, clockVal, useGMT, format)
     }
 
     /*
-     * Convert the time to external encoding, in case we asked for
-     * a localized return value.  [Bug: 3345]
+     * Convert the time to UTF from external encoding [Bug: 3345]
      */
     Tcl_DStringInit(&uniBuffer);
     Tcl_ExternalToUtfDString(NULL, buffer.string, -1, &uniBuffer);
