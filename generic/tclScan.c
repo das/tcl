@@ -284,7 +284,6 @@ ValidateFormat(interp, format, numVars, totalSubs)
     for (i = 0; i < nspace; i++) {
 	nassign[i] = 0;
     }
-    //memset(nassign, 0, nspace * sizeof(int));
 
     objIndex = gotXpg = gotSequential = 0;
 
@@ -441,8 +440,6 @@ ValidateFormat(interp, format, numVars, totalSubs)
 		for (i = nspace-STATIC_LIST_SIZE; i < nspace; i++) {
 		    nassign[i] = 0;
 		}
-		//memset((VOID *) nassign[nspace-STATIC_LIST_SIZE], 0,
-		//	STATIC_LIST_SIZE * sizeof(int));
 	    }
 	    nassign[objIndex]++;
 	    objIndex++;
