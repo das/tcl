@@ -1168,7 +1168,6 @@ TclCompileIncrCmd(interp, parsePtr, envPtr)
 	if (incrTokenPtr->type == TCL_TOKEN_SIMPLE_WORD) {
 	    CONST char *word = incrTokenPtr[1].start;
 	    int numBytes = incrTokenPtr[1].size;
-	    int validLength = TclParseInteger(word, numBytes);
 	    int n;
 
 	    /*
