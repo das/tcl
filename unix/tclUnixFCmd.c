@@ -1417,7 +1417,6 @@ SetPermissionsAttribute(interp, objIndex, fileName, attributePtr)
     if (Tcl_GetLongFromObj(NULL, attributePtr, &mode) == TCL_OK) {
         newMode = (mode_t) (mode & 0x00007FFF);
     } else {
-	Tcl_DString ds;
 	struct stat buf;
 	char *modeStringPtr = Tcl_GetString(attributePtr);
 

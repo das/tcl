@@ -538,9 +538,9 @@ Tcl_SplitPath(path, argcPtr, argvPtr)
 				 * of pointers to path elements. */
 {
     Tcl_Obj *resultPtr = NULL;  /* Needed only to prevent gcc warnings. */
-    Tcl_Obj *tmpPtr;
-    int i, size;
-    char *p;
+    Tcl_Obj *tmpPtr, *eltPtr;
+    int i, size, len;
+    char *p, *str;
 
     /*
      * Perform the splitting, using objectified, vfs-aware code.
@@ -555,11 +555,8 @@ Tcl_SplitPath(path, argcPtr, argvPtr)
     
     size = 1;
     for (i = 0; i < *argcPtr; i++) {
-	int len;
-	Tcl_Obj *elt;
-	
-	Tcl_ListObjIndex(NULL, resultPtr, i, &elt);
-	Tcl_GetStringFromObj(elt, &len);
+	Tcl_ListObjIndex(NULL, resultPtr, i, &eltPtr);
+	Tcl_GetStringFromObj(eltPtr, &len);
 	size += len + 1;
     }
     
@@ -578,13 +575,9 @@ Tcl_SplitPath(path, argcPtr, argvPtr)
 
     p = (char *) &(*argvPtr)[(*argcPtr) + 1];
     for (i = 0; i < *argcPtr; i++) {
-	int len;
-	Tcl_Obj *elt;
-	char *str;
-	
-	Tcl_ListObjIndex(NULL, resultPtr, i, &elt);
-	str = Tcl_GetStringFromObj(elt, &len);
-	strncpy(p, str, len+1);
+	Tcl_ListObjIndex(NULL, resultPtr, i, &eltPtr);
+	str = Tcl_GetStringFromObj(eltPtr, &len);
+	memcpy((VOID *) p, (VOID *) str, (size_t) len+1);
 	p += len+1;
     }
     
@@ -1048,7 +1041,7 @@ TclpNativeJoinPath(prefix, joining)
 	     * slashes.
 	     */
 
-	    Tcl_SetObjLength(prefix, length + strlen(p));
+	    Tcl_SetObjLength(prefix, length + (int) strlen(p));
 	    
 	    dest = Tcl_GetString(prefix) + length;
 	    for (; *p != '\0'; p++) {
@@ -1087,7 +1080,7 @@ TclpNativeJoinPath(prefix, joining)
 	     * trailing slashes.
 	     */
 
-	    Tcl_SetObjLength(prefix, length + strlen(p));
+	    Tcl_SetObjLength(prefix, length + (int) strlen(p));
 	    dest = Tcl_GetString(prefix) + length;
 	    for (; *p != '\0'; p++) {
 		if ((*p == '/') || (*p == '\\')) {

@@ -2680,7 +2680,7 @@ Tcl_FSJoinPath(listObj, elements)
 	        Tcl_AppendToObj(res, &separator, 1);
 		length++;
 	    }
-	    Tcl_SetObjLength(res, length + strlen(strElt));
+	    Tcl_SetObjLength(res, length + (int) strlen(strElt));
 	    
 	    ptr = Tcl_GetString(res) + length;
 	    for (; *strElt != '\0'; strElt++) {
@@ -2790,7 +2790,7 @@ GetPathType(pathObjPtr, filesystemPtrPtr, driveNameLengthPtr, driveNameRef)
 		    if (pathLen < len) {
 			continue;
 		    }
-		    if (strncmp(strVol, path, len) == 0) {
+		    if (strncmp(strVol, path, (size_t) len) == 0) {
 			type = TCL_PATH_ABSOLUTE;
 			if (filesystemPtrPtr != NULL) {
 			    *filesystemPtrPtr = fsRecPtr->fsPtr;
