@@ -221,6 +221,7 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 	if (NativeMatchType(native, types)) {
 	    Tcl_ListObjAppendElement(interp, resultPtr, pathPtr);
 	}
+	Tcl_DecrRefCount(fileNamePtr);
 	return TCL_OK;
     } else {
 	DIR *d;
