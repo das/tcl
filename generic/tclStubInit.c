@@ -838,6 +838,8 @@ TclStubs tclStubs = {
     Tcl_AttemptSetObjLength, /* 432 */
     Tcl_GetChannelThread, /* 433 */
     Tcl_GetUnicodeFromObj, /* 434 */
+    Tcl_GetMathFuncInfo, /* 435 */
+    Tcl_ListMathFuncs, /* 436 */
 };
 
 /* !END!: Do not edit above this line. */

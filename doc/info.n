@@ -75,6 +75,15 @@ into variable \fIvarname\fR.
 Returns \fB1\fR if the variable named \fIvarName\fR exists in the
 current context (either as a global or local variable) and has been
 defined by being given a value, returns \fB0\fR otherwise.
+.VS 8.4
+.TP
+\fBinfo functions \fR?\fIpattern\fR?
+If \fIpattern\fR isn't specified, returns a list of all the math
+functions currently defined.
+If \fIpattern\fR is specified, only those functions whose name matches
+\fIpattern\fR are returned.  Matching is determined using the same
+rules as for \fBstring match\fR.
+.VE
 .TP
 \fBinfo globals \fR?\fIpattern\fR?
 If \fIpattern\fR isn't specified, returns a list of all the names
