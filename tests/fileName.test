@@ -1475,13 +1475,13 @@ test filename-16.4 {windows specific globbing} {pcOnly} {
     glob c:/
 } c:/
 test filename-16.5 {windows specific globbing} {pcOnly} {
-    glob c:*Test
+    glob c:*bTest
 } c:globTest
 test filename-16.6 {windows specific globbing} {pcOnly} {
-    glob c:\\\\*Test
+    glob c:\\\\*bTest
 } c:/globTest
 test filename-16.7 {windows specific globbing} {pcOnly} {
-    glob c:/*Test
+    glob c:/*bTest
 } c:/globTest
 test filename-16.8 {windows specific globbing} {pcOnly} {
     lsort [glob c:globTest/*.bat]
