@@ -164,6 +164,9 @@ TclInitObjSubsystem()
     Tcl_RegisterObjType(&tclByteArrayType);
     Tcl_RegisterObjType(&tclDoubleType);
     Tcl_RegisterObjType(&tclIntType);
+#ifndef TCL_WIDE_INT_IS_LONG
+    Tcl_RegisterObjType(&tclWideIntType);
+#endif
     Tcl_RegisterObjType(&tclStringType);
     Tcl_RegisterObjType(&tclListType);
     Tcl_RegisterObjType(&tclByteCodeType);
