@@ -384,6 +384,19 @@ Tcl_CreateInterp()
     iPtr->execEnvPtr = TclCreateExecEnv(interp);
 
     /*
+     * Initialise the resource limiting framework.
+     */
+
+    iPtr->limitCheckCounter = 0;
+    iPtr->limits = 0;
+    iPtr->timeGranularity = 0;
+    iPtr->timeLimit = 0;
+    iPtr->timeLimitHandlers = NULL;
+    iPtr->cmdcountGranularity = 0;
+    iPtr->cmdcountLimit = 0;
+    iPtr->cmdcountLimitHandlers = NULL;
+
+    /*
      * Initialize the compilation and execution statistics kept for this
      * interpreter.
      */
@@ -969,6 +982,7 @@ DeleteInterpProc(interp)
     Tcl_HashSearch search;
     Tcl_HashTable *hTablePtr;
     ResolverScheme *resPtr, *nextResPtr;
+    LimitHandler *lhPtr, *nextLhPtr;
 
     /*
      * Punt if there is an error in the Tcl_Release/Tcl_Preserve matchup.
@@ -988,6 +1002,26 @@ DeleteInterpProc(interp)
     }
 
     TclHandleFree(iPtr->handle);
+
+    /*
+     * Destroy any resource limiting handlers that this interpreter
+     * has; we're on our way out now, so failing because of resource
+     * limits now would be very silly indeed.
+     */
+
+    iPtr->limits = 0;
+    for (lhPtr=iPtr->timeLimitHandlers ; lhPtr!=NULL ; lhPtr=nextLhPtr) {
+	nextLhPtr = lhPtr->next;
+	Tcl_DecrRefCount(lhPtr->handlerObj);
+	lhPtr->handlerObj = NULL;
+	Tcl_EventuallyFree((char *) lhPtr, TCL_DYNAMIC);
+    }
+    for (lhPtr=iPtr->cmdcountLimitHandlers ; lhPtr!=NULL ; lhPtr=nextLhPtr) {
+	nextLhPtr = lhPtr->next;
+	Tcl_DecrRefCount(lhPtr->handlerObj);
+	lhPtr->handlerObj = NULL;
+	Tcl_EventuallyFree((char *) lhPtr, TCL_DYNAMIC);
+    }
 
     /*
      * Dismantle everything in the global namespace except for the

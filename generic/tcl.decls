@@ -1854,6 +1854,12 @@ declare 518 generic {
     int Tcl_FSEvalFileEx(Tcl_Interp *interp, Tcl_Obj *fileName,
             CONST char *encodingName)
 }
+
+# New export due to TIP#121
+declare 519 generic {
+    Tcl_ExitProc *Tcl_SetExitProc(Tcl_ExitProc *proc)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are
