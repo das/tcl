@@ -382,7 +382,7 @@ TclpGetNativePathType(pathObjPtr, driveNameLengthPtr, driveNameRef)
 		    if (!Tcl_RegExpExec(NULL, re, path, path)) {
 			type = TCL_PATH_RELATIVE;
 		    } else {
-			CONST char *root, *end;
+			char *root, *end;
 			Tcl_RegExpRange(re, 2, &root, &end);
 			if (root != NULL) {
 			    type = TCL_PATH_RELATIVE;
@@ -814,7 +814,7 @@ SplitMacPath(path)
     re = Tcl_GetRegExpFromObj(NULL, tsdPtr->macRootPatternPtr, REG_ADVANCED);
 
     if (Tcl_RegExpExec(NULL, re, path, path) == 1) {
-	CONST char *start, *end;
+	char *start, *end;
 	Tcl_Obj *nextElt;
 
 	/*
