@@ -147,7 +147,7 @@ proc text {string} {
     set string [string map [list \
 	    "\\"	"\\\\" \
 	    "\{"	"\\\{" \
-	    "\}"	"\}" \
+	    "\}"	"\\\}" \
 	    "\t"	{\tab } \
 	    ''		\" \
 	    ``		\" \
