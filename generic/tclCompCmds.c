@@ -1558,10 +1558,6 @@ TclCompileIncrCmd(interp, parsePtr, envPtr)
 	    code = TclCompileTokens(interp, incrTokenPtr+1, 
 	            incrTokenPtr->numComponents, envPtr);
 	    if (code != TCL_OK) {
-		if (code == TCL_ERROR) {
-		    Tcl_AddObjErrorInfo(interp,
-	                    "\n    (increment expression)", -1);
-		}
 		goto done;
 	    }
 	}

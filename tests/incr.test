@@ -181,7 +181,6 @@ test incr-1.19 {TclCompileIncrCmd: increment given, but erroneous} {
 } {wrong # args: should be "set varName ?newValue?"
     while compiling
 "set"
-    (increment expression)
     while compiling
 "incr i [set]"}
 test incr-1.20 {TclCompileIncrCmd: increment given, in quotes} {
