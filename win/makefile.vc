@@ -65,8 +65,8 @@ NODEBUG = 1
 
 NAMEPREFIX = tcl
 STUBPREFIX = $(NAMEPREFIX)stub
-DOTVERSION = 8.4
-VERSION = 84
+DOTVERSION = 8.3
+VERSION = 83
 
 BINROOT		= .
 !IF "$(NODEBUG)" == "1"
@@ -152,6 +152,7 @@ TCLOBJS = \
 	$(TMPDIR)\tclInterp.obj \
 	$(TMPDIR)\tclIO.obj \
 	$(TMPDIR)\tclIOCmd.obj \
+	$(TMPDIR)\tclIOGT.obj \
 	$(TMPDIR)\tclIOSock.obj \
 	$(TMPDIR)\tclIOUtil.obj \
 	$(TMPDIR)\tclLink.obj \
@@ -178,7 +179,6 @@ TCLOBJS = \
 	$(TMPDIR)\tclStubInit.obj \
 	$(TMPDIR)\tclStubLib.obj \
 	$(TMPDIR)\tclThread.obj \
-	$(TMPDIR)\tclThreadJoin.obj \
 	$(TMPDIR)\tclTimer.obj \
 	$(TMPDIR)\tclUtf.obj \
 	$(TMPDIR)\tclUtil.obj \
