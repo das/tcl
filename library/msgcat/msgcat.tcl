@@ -229,7 +229,12 @@ proc msgcat::mclocale {args} {
     }
 
     if {$len == 1} {
-	set Locale [string tolower [lindex $args 0]]
+	set newLocale [lindex $args 0]
+	if {$newLocale ne [file tail $newLocale]} {
+	    return -code error "invalid newLocale value \"$newLocale\":\
+		    could be path to unsafe code."
+	}
+	set Locale [string tolower $newLocale]
 	set Loclist {}
 	set word ""
 	foreach part [split $Locale _] {
