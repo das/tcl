@@ -2929,6 +2929,7 @@ TclPrintInstruction(codePtr, pc)
 	opnds[0] = opnd;
     }
     for (i = 0;  i < instDesc->numOperands;  i++) {
+	opnd = opnds[i];
 	switch (instDesc->opTypes[i]) {
         case OPERAND_OFFSET:
 	    if (opCode == INST_START_CMD) {
@@ -4002,11 +4003,11 @@ OptInitCounts(codePtr, auxCount)
 	    case INST_LOAD:
 	    case INST_STORE:
 	        {
-		    int index, flags;
+		    TclPSizedInt index, flags;
 		    
 		    HP_EXTRACT(opnd, flags, index);
 		    
-		    if ((index < HPUINT_MAX)
+		    if ((index < (TclPSizedInt) HPUINT_MAX)
 			    && ((flags & ~VM_VAR_OMIT_PUSH) == TCL_LEAVE_ERR_MSG)) {
 			/*
 			 * A local scalar, plain load/store instructions: use
