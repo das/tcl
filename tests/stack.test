@@ -19,8 +19,8 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 # Note that a failure in this test results in a crash of the executable.
 
 test stack-1.1 {maxNestingDepth reached on infinite recursion} {
-    proc recurse {i} { return [recurse [incr i]] }
-    catch {recurse 0} rv
+    proc recurse {} { return [recurse] }
+    catch {recurse} rv
     rename recurse {}
     set rv
 } {too many nested calls to Tcl_EvalObj (infinite loop?)}
