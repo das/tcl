@@ -86,7 +86,6 @@ determined relative to the comparison used in the sort.  Thus if
 considered duplicates and only the second element, \fB{1 b}\fR, would
 be retained.
 
-.VS
 .SH "NOTES"
 .PP
 The options to \fBlsort\fR only control what sort of comparison is
@@ -167,7 +166,7 @@ More complex sorting using a comparison function:
 % lsort -command compare \\
         {{3 apple} {0x2 carrot} {1 dingo} {2 banana}}
 {1 dingo} {2 banana} {0x2 carrot} {3 apple}
-.VE
+.CE
 
 .SH "SEE ALSO"
 lappend(n), lindex(n), linsert(n), list(n), llength(n), lrange(n),
