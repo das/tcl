@@ -27,11 +27,11 @@
  * needed by stdlib.h in some configurations.
  */
 
-#include <stdio.h>
-
 #ifndef _TCL
 #include "tcl.h"
 #endif
+
+#include <stdio.h>
 
 #include <ctype.h>
 #ifdef NO_LIMITS_H

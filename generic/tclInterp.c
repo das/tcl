@@ -12,8 +12,8 @@
  * RCS: @(#) $Id$
  */
 
-#include <stdio.h>
 #include "tclInt.h"
+#include <stdio.h>
 #include "tclPort.h"
 
 /*

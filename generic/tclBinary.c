@@ -13,8 +13,8 @@
  * RCS: @(#) $Id$
  */
 
-#include <math.h>
 #include "tclInt.h"
+#include <math.h>
 #include "tclPort.h"
 
 /*
