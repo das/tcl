@@ -586,11 +586,11 @@ FsRecacheFilesystemList(void)
     /* Trash the current cache */
     fsRecPtr = tsdPtr->filesystemList;
     while (fsRecPtr != NULL) {
-	tmpFsRecPtr = fsRecPtr;
+	tmpFsRecPtr = fsRecPtr->nextPtr;
 	if (--fsRecPtr->fileRefCount <= 0) {
 	    ckfree((char *)fsRecPtr);
 	}
-	fsRecPtr = tmpFsRecPtr->nextPtr;
+	fsRecPtr = tmpFsRecPtr;
     }
     tsdPtr->filesystemList = NULL;
 
