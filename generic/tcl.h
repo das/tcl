@@ -19,6 +19,14 @@
 #define _TCL
 
 /*
+ * For C++ compilers, use extern "C"
+ */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
+/*
  * The following defines are used to indicate the various release levels.
  */
 
@@ -1543,4 +1551,12 @@ EXTERN int		Tcl_AppInit _ANSI_ARGS_((Tcl_Interp *interp));
 #undef TCL_STORAGE_CLASS
 #define TCL_STORAGE_CLASS DLLIMPORT
 
+/*
+ * end block for C++
+ */
+    
+#ifdef __cplusplus
+}
+#endif
+    
 #endif /* _TCL */

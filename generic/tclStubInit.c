@@ -686,6 +686,11 @@ TclStubs tclStubs = {
     Tcl_Stat, /* 368 */
     Tcl_UtfNcmp, /* 369 */
     Tcl_UtfNcasecmp, /* 370 */
+    Tcl_StringCaseMatch, /* 371 */
+    Tcl_UniCharIsControl, /* 372 */
+    Tcl_UniCharIsGraph, /* 373 */
+    Tcl_UniCharIsPrint, /* 374 */
+    Tcl_UniCharIsPunct, /* 375 */
 };
 
 /* !END!: Do not edit above this line. */

@@ -381,11 +381,14 @@ test regexp-13.2 {CompileRegexp: regexp cache, different flags} {
     append x *a
     regexp -nocase $x bbba
 } 1
+test regexp-13.3 {CompileRegexp: regexp cache, empty regexp and empty cache} {
+    makeFile {puts [regexp {} foo]} junk.tcl
+    exec $tcltest junk.tcl
+} 1
 
 set x 1
 set y 2
 regexp "$x$y" 123
-    
 
 # cleanup
 ::tcltest::cleanupTests
