@@ -2581,7 +2581,7 @@ TclCompileWhileCmd(interp, parsePtr, envPtr)
  *----------------------------------------------------------------------
  */
 
-int
+static int
 TclPushVarName(interp, varTokenPtr, envPtr, flags, localIndexPtr,
 	maxDepthPtr, simpleVarNamePtr, isScalarPtr)
     Tcl_Interp *interp;		/* Used for error reporting. */
