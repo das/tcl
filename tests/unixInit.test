@@ -281,7 +281,11 @@ test unixInit-2.10 {TclpInitLibraryPath: executable relative} -constraints {
     cd $libDir
 } -body {
     # Checking for Bug 832657
-    lrange [getlibpath [file join .. bin tcltest]] 2 3
+    set x [lrange [getlibpath [file join .. bin tcltest]] 2 3]
+    foreach p $x {
+	lappend y [file normalize $p]
+    }
+    set y
 } -cleanup {
     cd $saveDir
     unset saveDir
@@ -297,6 +301,7 @@ test unixInit-2.10 {TclpInitLibraryPath: executable relative} -constraints {
     removeDirectory sparkly $tmpDir
     unset tmpDir
     removeDirectory tmp
+    unset x p y
 } -result [list [file join [temporaryDirectory] tmp sparkly library] \
 	[file join [temporaryDirectory] tmp library] ]
 
