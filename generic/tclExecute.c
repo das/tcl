@@ -1063,7 +1063,6 @@ TclExecuteByteCode(interp, codePtr)
 #endif
     register int cleanup;
     Tcl_Obj *objResultPtr;
-//
     char *part1, *part2;
     Var *varPtr, *arrayPtr;
     CallFrame *varFramePtr = iPtr->varFramePtr;
@@ -1169,6 +1168,11 @@ TclExecuteByteCode(interp, codePtr)
 	    valuePtr = POP_OBJECT();
 	    TclDecrRefCount(valuePtr);
         case 0:
+	    /*
+	     * We really want to do nothing now, but this is needed
+	     * for some compilers (SunPro CC)
+	     */
+	    break;
     }
 
     cleanup0:
