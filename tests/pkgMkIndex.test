@@ -347,6 +347,8 @@ if {[file exists $x]} {
 namespace delete pkgtest
 cd $::test::tmpDir
 if {[info exists removePkgDir]} {
+    # strange error deleting the pkg dir only once--needs be done twice!
+    catch {file delete -force $newPkgDir}
     catch {file delete -force $newPkgDir}
 }
 if {[info exists removePkg1Dir]} {
