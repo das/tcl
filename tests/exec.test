@@ -582,7 +582,9 @@ test exec-17.1 { inheriting standard I/O } {exec} {
 } {{foobar
 }}
 
-test exec-18.1 { exec cat deals with weird file names} {exec} {
+test exec-18.1 { exec cat deals with weird file names} {exec unixOnly} {
+    # This is cross-platform, but the cat isn't predictably correct on
+    # Windows.
     set f "foo\[\{blah"
     set path(fooblah) [makeFile {} $f]
     set fout [open $path(fooblah) w]
