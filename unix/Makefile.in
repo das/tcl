@@ -259,7 +259,7 @@ TCLTEST_OBJS = tclTestInit.o tclTest.o tclTestObj.o tclTestProcBodyObj.o \
 XTTEST_OBJS = tclTest.o tclTestObj.o tclUnixTest.o tclXtNotify.o \
 	tclXtTest.o xtTestInit.o
 
-GENERIC_OBJS = regcomp.o regexec.o regfree.o regerror.o \
+GENERIC_OBJS = regcomp.o regexec.o regfree.o regerror.o tclAlloc.o \
 	tclAsync.o tclBasic.o tclBinary.o \
 	tclCkalloc.o tclClock.o tclCmdAH.o tclCmdIL.o tclCmdMZ.o \
 	tclCompCmds.o tclCompExpr.o tclCompile.o tclDate.o tclEncoding.o \

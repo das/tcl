@@ -1671,7 +1671,7 @@ Tcl_ParseVarName(interp, string, numBytes, parsePtr, append)
 	while (src != end) {
 	    offset = Tcl_UtfToUniChar(src, &ch);
 	    c = UCHAR(ch);
-	    if (isalnum(c) || (c == '_')) { /* INTL: ISO only. */
+	    if (isalnum(c) || (c == '_')) { /* INTL: ISO only, UCHAR. */
 		src += offset;
 		continue;
 	    }

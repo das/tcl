@@ -416,7 +416,6 @@ Tcl_AppendStringsToObjVA (objPtr, argList)
     int newLength, oldLength;
     register char *string, *dst;
 
-    objPtr = (Tcl_Obj *) TCL_VARARGS_START(Tcl_Obj *,objPtr,argList);
     if (Tcl_IsShared(objPtr)) {
 	panic("Tcl_AppendStringsToObj called with shared object");
     }

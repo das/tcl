@@ -141,6 +141,18 @@
 #define TCL_DECLARE_MUTEX(name)
 #endif
 
+/*
+ * Macros that eliminate the overhead of the thread synchronization
+ * functions when compiling without thread support.
+ */
+
+#ifndef TCL_THREADS
+#define Tcl_MutexLock(mutexPtr)
+#define Tcl_MutexUnlock(mutexPtr)
+#define Tcl_ConditionNotify(condPtr)
+#define Tcl_ConditionWait(condPtr, mutexPtr, timePtr)
+#endif /* TCL_THREADS */
+
 /* 
  * A special definition used to allow this header file to be included 
  * in resource files so that they can get obtain version information from
@@ -1325,19 +1337,6 @@ EXTERN void		Tcl_Main _ANSI_ARGS_((int argc, char **argv,
 #define TCL_STORAGE_CLASS
 
 EXTERN int		Tcl_AppInit _ANSI_ARGS_((Tcl_Interp *interp));
-
-/*
- ***************************************************************************
- * new Functions
- ***************************************************************************
- */
-
-#ifndef TCL_THREADS
-#define Tcl_MutexLock(mutexPtr)
-#define Tcl_MutexUnlock(mutexPtr)
-#define Tcl_ConditionNotify(condPtr)
-#define Tcl_ConditionWait(condPtr, mutexPtr, timePtr)
-#endif /* TCL_THREADS */
 
 #endif /* RESOURCE_INCLUDED */
 
