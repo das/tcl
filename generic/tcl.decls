@@ -972,7 +972,7 @@ declare 280 generic {
 #
 # C-Level API for (un)stacking of channels. This allows the introduction
 # of filtering channels with relatively little changes to the core.
-# This patch was created in cooperation with Jan Nijtmans <nijtmans@wxs.nl>
+# This patch was created in cooperation with Jan Nijtmans j.nijtmans@chello.nl
 # and is therefore part of his plus-patches too.
 #
 # It would have been possible to place the following definitions according

@@ -261,7 +261,6 @@ FormatClock(interp, clockVal, useGMT, format)
     Tcl_DString buffer;
     int bufSize;
     char *p;
-    Tcl_Obj *resultPtr;
     int result;
     time_t tclockVal;
 #ifndef HAVE_TM_ZONE
@@ -269,7 +268,6 @@ FormatClock(interp, clockVal, useGMT, format)
     char *savedTZEnv = NULL;	/* lint. */
 #endif
 
-    resultPtr = Tcl_GetObjResult(interp);
 #ifdef HAVE_TZSET
     /*
      * Some systems forgot to call tzset in localtime, make sure its done.
@@ -343,12 +341,12 @@ FormatClock(interp, clockVal, useGMT, format)
     }
 #endif
     if ((result == 0) && (*format != '\0')) {
-	Tcl_AppendStringsToObj(resultPtr, "bad format string \"", format, 
-		"\"", (char *) NULL);
+	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
+		"bad format string \"", format, "\"", (char *) NULL);
 	return TCL_ERROR;
     }
 
-    Tcl_SetStringObj(resultPtr, buffer.string, -1);
+    Tcl_SetStringObj(Tcl_GetObjResult(interp), buffer.string, -1);
     Tcl_DStringFree(&buffer);
     return TCL_OK;
 }

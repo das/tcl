@@ -2600,14 +2600,18 @@ Tcl_LsortObjCmd(clientData, interp, objc, objv)
 	 */
 
         Tcl_Obj *newCommandPtr = Tcl_DuplicateObj(cmdPtr);
+	Tcl_Obj *newObjPtr = Tcl_NewObj();
 
-	if (Tcl_ListObjAppendElement(interp, newCommandPtr, Tcl_NewObj()) 
-	        != TCL_OK) {
+	Tcl_IncrRefCount(newCommandPtr);
+	if (Tcl_ListObjAppendElement(interp, newCommandPtr, newObjPtr)
+		!= TCL_OK) {
+	    Tcl_DecrRefCount(newCommandPtr);
+	    Tcl_IncrRefCount(newObjPtr);
+	    Tcl_DecrRefCount(newObjPtr);
 	    return TCL_ERROR;
 	}
 	Tcl_ListObjAppendElement(interp, newCommandPtr, Tcl_NewObj());
 	sortInfo.compareCmdPtr = newCommandPtr;
-	Tcl_IncrRefCount(newCommandPtr);
     }
 
     sortInfo.resultCode = Tcl_ListObjGetElements(interp, objv[objc-1],
