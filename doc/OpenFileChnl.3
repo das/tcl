@@ -337,6 +337,13 @@ be registered in a Tcl interpreter and it will only be closed when the
 matching number of calls to \fBTcl_UnregisterChannel\fR have been made.
 This allows code executing outside of any interpreter to safely hold a
 reference to a channel that is also registered in a Tcl interpreter.
+.PP
+This procedure interacts with the code managing the standard
+channels. If no standard channels were initialized before the first
+call to \fBTcl_RegisterChannel\fR they will get initialized by that
+call. See \fBTcl_StandardChannel\fR for a general treatise about
+standard channels and the behaviour of the Tcl library with regard to
+them.
 
 .SH TCL_UNREGISTERCHANNEL
 .PP

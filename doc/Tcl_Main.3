@@ -77,5 +77,14 @@ typedef void Tcl_MainLoopProc(void);
 .CE
 .VE 8.4
 
+.PP
+\fBTcl_Main\fR and therefore all applications based upon it, like
+\fBtclsh\fR, use \fBTcl_GetStdChannel\fR to initialize the standard
+channels to their default values. See \fBTcl_StandardChannel\fR for
+more information.
+
+.SH "SEE ALSO"
+Tcl_GetStdChannel(3)
+
 .SH KEYWORDS
 application-specific initialization, command-line arguments, main program
