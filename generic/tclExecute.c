@@ -765,13 +765,7 @@ TclExecuteByteCode(interp, codePtr)
 		    for (tracePtr = iPtr->tracePtr;  tracePtr != NULL;
 		            tracePtr = nextTracePtr) {
 			nextTracePtr = tracePtr->nextPtr;
-
-			/*
-			 * TclEvalObjvInternal will increment numLevels 
-			 * so use "<" rather than "<="
-			 */
-
-			if (iPtr->numLevels < tracePtr->level) {
+			if (iPtr->numLevels <= tracePtr->level) {
 			    /*
 			     * Traces will be called: get command string
 			     */
@@ -795,15 +789,12 @@ TclExecuteByteCode(interp, codePtr)
 		preservedStack = stackPtr;
 
 		/*
-		 * Finally, let TclEvalObjvInternal handle the command. As it
-		 * will increase the numLevels, decrease them here to compensate.
+		 * Finally, let TclEvalObjvInternal handle the command. 
 		 */
 
-		iPtr->numLevels--;
 		DECACHE_STACK_INFO();
 		result = TclEvalObjvInternal(interp, objc, objv, bytes, length, 0);
 		CACHE_STACK_INFO();
-		iPtr->numLevels++;
 
 		/*
 		 * If the old stack is going to be released, it is
