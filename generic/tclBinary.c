@@ -575,7 +575,7 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 				 * character. */
     char *format;		/* Pointer to current position in format
 				 * string. */
-    Tcl_Obj *resultPtr;		/* Object holding result buffer. */
+    Tcl_Obj *resultPtr = NULL;	/* Object holding result buffer. */
     unsigned char *buffer;	/* Start of result buffer. */
     unsigned char *cursor;	/* Current position within result buffer. */
     unsigned char *maxPos;	/* Greatest position within result buffer that
