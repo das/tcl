@@ -618,16 +618,15 @@ TclThreadStorageDataKeyGet(keyPtr)
 				 * really (int **) */
 {
     int *indexPtr = *(int **)keyPtr;
-    void *result;
 
     if (indexPtr == NULL) {
 	return NULL;
     } else {
 	Tcl_HashTable *hashTablePtr =
-		TclThreadStorageGetHashTable(Tcl_GetCurrentThread(););
+		TclThreadStorageGetHashTable(Tcl_GetCurrentThread());
 	Tcl_HashEntry *hPtr;
 
-	if (hashTablePtr != NULL) {
+	if (hashTablePtr == NULL) {
 	    Tcl_Panic("TclThreadStorageGetHashTable failed from "
 		    "TclThreadStorageDataKeyGet!");
 	}
@@ -639,7 +638,6 @@ TclThreadStorageDataKeyGet(keyPtr)
 	}
 	return (void *)Tcl_GetHashValue(hPtr);
     }
-    return result;
 }
 
 /*
