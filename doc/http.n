@@ -110,7 +110,7 @@ non-empty.
 .TP
 \fB\-useragent\fP \fIstring\fP
 The value of the User-Agent header in the HTTP request.  The default
-is \fB"Tcl http client package 2.2."\fR
+is \fB"Tcl http client package 2.4."\fR
 .RE
 .TP
 \fB::http::geturl\fP \fIurl\fP ?\fIoptions\fP? 

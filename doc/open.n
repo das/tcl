@@ -233,7 +233,7 @@ applications on the various platforms
 
 .SH "SEE ALSO"
 file(n), close(n), filename(n), fconfigure(n), gets(n), read(n),
-puts(n), exec(n), pid(n), fopen(1)
+puts(n), exec(n), pid(n), fopen(3)
 
 .SH KEYWORDS
 access mode, append, create, file, non-blocking, open, permissions,
