@@ -952,7 +952,7 @@ Tcl_Finalize()
 	TclFinalizeMemorySubsystem();
 	inFinalize = 0;
     }
-    TclpInitUnlock();
+    TclFinalizeLock();
 }
 
 /*

@@ -30,9 +30,9 @@ typedef struct {
     char **list;	/* List of pointers */
 } SyncObjRecord;
 
-static SyncObjRecord keyRecord;
-static SyncObjRecord mutexRecord;
-static SyncObjRecord condRecord;
+static SyncObjRecord keyRecord = {0, 0, NULL};
+static SyncObjRecord mutexRecord = {0, 0, NULL};
+static SyncObjRecord condRecord = {0, 0, NULL};
 
 /*
  * Prototypes of functions used only in this file
