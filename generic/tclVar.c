@@ -2729,8 +2729,7 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 	    ArraySearch *searchPtr;
 	    
 	    if (objc != 4) {
-	        Tcl_WrongNumArgs(interp, 2, objv, 
-                        "arrayName searchId");
+	        Tcl_WrongNumArgs(interp, 2, objv, "arrayName searchId");
 		return TCL_ERROR;
 	    }
 	    if (notArray) {
@@ -2762,8 +2761,7 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 	    ArraySearch *searchPtr, *prevPtr;
 
 	    if (objc != 4) {
-	        Tcl_WrongNumArgs(interp, 2, objv, 
-                        "arrayName searchId");
+	        Tcl_WrongNumArgs(interp, 2, objv, "arrayName searchId");
 		return TCL_ERROR;
 	    }
 	    if (notArray) {
@@ -2914,8 +2912,7 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 	    mode = OPT_GLOB;
 	    
 	    if ((objc < 3) || (objc > 5)) {
-  	        Tcl_WrongNumArgs(interp, 2, objv,
-			"arrayName ?mode? ?pattern?");
+  	        Tcl_WrongNumArgs(interp, 2,objv, "arrayName ?mode? ?pattern?");
 		return TCL_ERROR;
 	    }
 	    if (notArray) {
@@ -2975,8 +2972,7 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 	    Tcl_HashEntry *hPtr;
 	    
 	    if (objc != 4) {
-	        Tcl_WrongNumArgs(interp, 2, objv, 
-                        "arrayName searchId");
+	        Tcl_WrongNumArgs(interp, 2, objv, "arrayName searchId");
 		return TCL_ERROR;
 	    }
 	    if (notArray) {

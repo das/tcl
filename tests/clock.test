@@ -35223,7 +35223,7 @@ test clock-35.1 {clock seconds tests} {
 } {}
 test clock-35.2 {clock seconds tests} {
     list [catch {clock seconds foo} msg] $msg
-} {1 {wrong # args: should be "::tcl::clock::seconds "}}
+} {1 {wrong # args: should be "clock seconds"}}
 test clock-35.3 {clock seconds tests} {
     set start [clock seconds]
     after 2000

@@ -314,6 +314,14 @@ Tcl_CreateInterp()
     iPtr->stubTable = &tclStubs;
 
     /*
+     * Initialize the ensemble error message rewriting support.
+     */
+
+    iPtr->ensembleRewrite.sourceObjs = NULL;
+    iPtr->ensembleRewrite.numRemovedObjs = 0;
+    iPtr->ensembleRewrite.numInsertedObjs = 0;
+
+    /*
      * TIP#143: Initialise the resource limit support.
      */
 
@@ -3030,6 +3038,11 @@ TclEvalObjvInternal(interp, objc, objv, command, length, flags)
 	savedVarFramePtr = iPtr->varFramePtr;
 	if (flags & TCL_EVAL_GLOBAL) {
 	    iPtr->varFramePtr = NULL;
+	}
+	if (!(flags & TCL_EVAL_INVOKE) &&
+		(iPtr->ensembleRewrite.sourceObjs != NULL) &&
+		!TclIsEnsemble(cmdPtr)) {
+	    iPtr->ensembleRewrite.sourceObjs = NULL;
 	}
 	code = (*cmdPtr->objProc)(cmdPtr->objClientData, interp, objc, objv);
 	iPtr->varFramePtr = savedVarFramePtr;
