@@ -269,7 +269,9 @@ test unixInit-2.9 {TclpInitLibraryPath: paths relative to executable} {
     file delete -force /tmp/library
     set x
 } [list /tmp/lib/tcl[info tclversion] /lib/tcl[info tclversion] \
-	/tmp/library /library /tcl[info patchlevel]/library]
+        /tmp/library /library [format /tcl%s/library \
+        [expr {[regexp {[ab]} [info patchlevel]] ?
+        [info patchleve] : [info tclversion]}]]]
 test unixInit-3.1 {TclpSetInitialEncodings} {unixOnly installedTcl} {
     set env(LANG) C
 
