@@ -1754,7 +1754,7 @@ BuildCommandLine(
 	    }
 	}
 	if (quote) {
-	    Tcl_DStringAppend(linePtr, "\"", 1);
+	    Tcl_DStringAppend(&ds, "\"", 1);
 	}
 
 	start = arg;	    
