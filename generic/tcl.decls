@@ -1569,7 +1569,7 @@ declare 444 generic {
 	    Tcl_Obj *pathPtr, CONST char * sym1, CONST char * sym2,
 	    Tcl_PackageInitProc ** proc1Ptr,
 	    Tcl_PackageInitProc ** proc2Ptr,
-	    ClientData * clientDataPtr,
+	    Tcl_LoadHandle * handlePtr,
 	    Tcl_FSUnloadFileProc **unloadProcPtr)
 }
 declare 445 generic {

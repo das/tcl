@@ -1618,10 +1618,7 @@ typedef Tcl_Obj* (Tcl_FSLinkProc) _ANSI_ARGS_((Tcl_Obj *pathPtr,
 					       Tcl_Obj *toPtr, int linkType));
 typedef int (Tcl_FSLoadFileProc) _ANSI_ARGS_((Tcl_Interp * interp, 
 			    Tcl_Obj *pathPtr,
-			    CONST char * sym1, CONST char * sym2, 
-			    Tcl_PackageInitProc ** proc1Ptr, 
-			    Tcl_PackageInitProc ** proc2Ptr, 
-			    ClientData * clientDataPtr,
+			    Tcl_LoadHandle *handlePtr,
 			    Tcl_FSUnloadFileProc **unloadProcPtr));
 typedef int (Tcl_FSPathInFilesystemProc) _ANSI_ARGS_((Tcl_Obj *pathPtr, 
 			    ClientData *clientDataPtr));
