@@ -210,6 +210,7 @@ GetDefaultLibraryDir()
     }
 
     if (NULL == defaultLibraryDir) {
+Tcl_Panic("Called GetDLD before SetDLD!");
 	TclpInitLibraryPath(NULL);
 	if (NULL != *savedDirectoryPtr) {
 	    return *savedDirectoryPtr;
