@@ -295,6 +295,7 @@ test winpipe-6.1 {PipeSetupProc & PipeCheckProc: read threads} \
     lappend x [read $f]
     after 100 { lappend x timeout }
     vwait x
+    fconfigure $f -blocking 1
     lappend x [catch {close $f} msg] $msg
 } {writable timeout readable {foobar
 } timeout 1 stderr32}
