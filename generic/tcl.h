@@ -1292,6 +1292,9 @@ typedef unsigned short Tcl_UniChar;
 /*
  * The following constant is used to test for older versions of Tcl
  * in the stubs tables.
+ *
+ * Jan Nijtman's plus patch uses 0xFCA1BACF, so we need to pick a different
+ * value since the stubs tables don't match.
  */
 
 #define TCL_STUB_MAGIC 0xFCA3BACF
