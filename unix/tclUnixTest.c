@@ -274,7 +274,7 @@ TestfilehandlerCmd(clientData, interp, argc, argv)
     } else if (strcmp(argv[1], "fill") == 0) {
 	if (argc != 3) {
 	    Tcl_AppendResult(interp, "wrong # arguments: should be \"",
-                    argv[0], " empty index\"", (char *) NULL);
+                    argv[0], " fill index\"", (char *) NULL);
 	    return TCL_ERROR;
 	}
 
@@ -287,7 +287,7 @@ TestfilehandlerCmd(clientData, interp, argc, argv)
 	
 	if (argc != 3) {
 	    Tcl_AppendResult(interp, "wrong # arguments: should be \"",
-                    argv[0], " empty index\"", (char *) NULL);
+                    argv[0], " fillpartial index\"", (char *) NULL);
 	    return TCL_ERROR;
 	}
 
