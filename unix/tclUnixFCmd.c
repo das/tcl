@@ -1644,7 +1644,7 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 
     while (1) {
 	char cur = *currentPathEndPosition;
-	if (cur == '/' || cur == 0) {
+	if ((cur == '/' || cur == 0) && (path != currentPathEndPosition)) {
 	    /* Reached directory separator, or end of string */
 	    Tcl_DString ds;
 	    char *nativePath;
