@@ -165,7 +165,7 @@ proc unknown args {
     set cmd [lindex $args 0]
     if {[regexp "^namespace\[ \t\n\]+inscope" $cmd] && [llength $cmd] == 4} {
         set arglist [lrange $args 1 end]
-	set ret [catch {uplevel $cmd $arglist} result]
+	set ret [catch {uplevel 1 $cmd $arglist} result]
         if {$ret == 0} {
             return $result
         } else {
@@ -228,7 +228,7 @@ proc unknown args {
 		if {[string equal [info commands console] ""]} {
 		    set redir ">&@stdout <@stdin"
 		}
-		return [uplevel exec $redir $new [lrange $args 1 end]]
+		return [uplevel 1 exec $redir $new [lrange $args 1 end]]
 	    }
 	}
 	set errorCode $savedErrorCode
@@ -244,7 +244,7 @@ proc unknown args {
 	if {[info exists newcmd]} {
 	    tclLog $newcmd
 	    history change $newcmd 0
-	    return [uplevel $newcmd]
+	    return [uplevel 1 $newcmd]
 	}
 
 	set ret [catch {set cmds [info commands $name*]} msg]
@@ -256,7 +256,7 @@ proc unknown args {
 		"error in unknown while checking if \"$name\" is a unique command abbreviation: $msg"
 	}
 	if {[llength $cmds] == 1} {
-	    return [uplevel [lreplace $args 0 0 $cmds]]
+	    return [uplevel 1 [lreplace $args 0 0 $cmds]]
 	}
 	if {[llength $cmds]} {
 	    if {[string equal $name ""]} {
@@ -286,7 +286,7 @@ proc auto_load {cmd {namespace {}}} {
     global auto_index auto_oldpath auto_path
 
     if {[string length $namespace] == 0} {
-	set namespace [uplevel {namespace current}]
+	set namespace [uplevel 1 [list namespace current]]
     }
     set nameList [auto_qualify $cmd $namespace]
     # workaround non canonical auto_index entries that might be around
@@ -461,7 +461,7 @@ proc auto_import {pattern} {
 	return
     }
 
-    set ns [uplevel namespace current]
+    set ns [uplevel 1 [list namespace current]]
     set patternList [auto_qualify $pattern $ns]
 
     auto_load_index
