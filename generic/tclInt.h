@@ -851,6 +851,21 @@ typedef struct ImportRef {
 } ImportRef;
 
 /*
+ * Data structure used as the ClientData of imported commands: commands
+ * created in an namespace when it imports a "real" command from another
+ * namespace.
+ */
+
+typedef struct ImportedCmdData {
+    struct Command *realCmdPtr;	/* "Real" command that this imported command
+                                 * refers to. */
+    struct Command *selfPtr;	/* Pointer to this imported command. Needed
+				 * only when deleting it in order to remove
+				 * it from the real command's linked list of
+				 * imported commands that refer to it. */
+} ImportedCmdData;
+
+/*
  * A Command structure exists for each command in a namespace. The
  * Tcl_Command opaque type actually refers to these structures.
  */
