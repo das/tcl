@@ -154,7 +154,7 @@ time interval between checking for events throughout the Tcl
 interpreter (the smallest value always wins).  Use this option only if
 you want to poll the serial port more often than 10 msec (the default).
 .TP
-\fB\-lasterror
+\fB\-lasterror\fR
 .
 This option is available only on Windows for serial ports, and is
 query only (will only be reported when directly requested).
