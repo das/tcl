@@ -145,8 +145,7 @@ Tcl_GetIndexFromObjStruct(interp, objPtr, tablePtr, offset, msg, flags,
     int flags;			/* 0 or TCL_EXACT */
     int *indexPtr;		/* Place to store resulting integer index. */
 {
-    int index, i, numAbbrev;
-    Tcl_Length length;
+    int index, length, i, numAbbrev;
     char *key, *p1, *p2, **entryPtr;
     Tcl_Obj *resultPtr;
 

@@ -19,7 +19,7 @@
 
 static void             ResetObjResult _ANSI_ARGS_((Interp *iPtr));
 static void		SetupAppendBuffer _ANSI_ARGS_((Interp *iPtr,
-			    Tcl_Length newSpace));
+			    int newSpace));
 
 
 /*
@@ -460,8 +460,7 @@ Tcl_AppendResultVA (interp, argList)
     char *string, *static_list[STATIC_LIST_SIZE];
     char **args = static_list;
     int nargs_space = STATIC_LIST_SIZE;
-    int nargs, i;
-    Tcl_Length newSpace;
+    int nargs, newSpace, i;
 
     /*
      * If the string result is empty, move the object result to the
@@ -665,7 +664,7 @@ Tcl_AppendElement(interp, string)
 static void
 SetupAppendBuffer(iPtr, newSpace)
     Interp *iPtr;		/* Interpreter whose result is being set up. */
-    Tcl_Length newSpace;	/* Make sure that at least this many bytes
+    int newSpace;		/* Make sure that at least this many bytes
 				 * of new information may be added. */
 {
     int totalSpace;
