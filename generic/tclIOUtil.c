@@ -548,6 +548,7 @@ Tcl_FSRegister(clientData, fsPtr)
 
     newFilesystemPtr->clientData = clientData;
     newFilesystemPtr->fsPtr = fsPtr;
+    newFilesystemPtr->refCount = 0;
     
     /* 
      * Is this lock and wait strictly speaking necessary?  Since any
