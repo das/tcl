@@ -672,9 +672,6 @@ Tcl_UtfPrev(str, start)
 	    break;
 	} 
 	if (byte >= 0xC0) {
-	    if (totalBytes[byte] != i + 1) {
-		break;
-	    }
 	    return (char *) look;
 	}
 	look--;
