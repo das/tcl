@@ -65,7 +65,7 @@ typedef struct TclRegexp {
 				 * with this regexp to indicate the location
 				 * of subexpressions. */
     int refCount;		/* Count of number of references to this
-				 * compiled regexp.
+				 * compiled regexp. */
 } TclRegexp;
 
 /*
