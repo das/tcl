@@ -1232,12 +1232,12 @@ void
 TclFinalizeMemorySubsystem()
 {
 #ifdef TCL_MEM_DEBUG
-    Tcl_MutexLock(ckallocMutexPtr);
     if (tclMemDumpFileName != NULL) {
 	Tcl_DumpActiveMemory(tclMemDumpFileName);
     } else if (onExitMemDumpFileName != NULL) {
 	Tcl_DumpActiveMemory(onExitMemDumpFileName);
     }
+    Tcl_MutexLock(ckallocMutexPtr);
     if (curTagPtr != NULL) {
 	TclpFree((char *) curTagPtr);
 	curTagPtr = NULL;
