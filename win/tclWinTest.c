@@ -11,8 +11,7 @@
  * RCS: @(#) $Id$
  */
 
-#include "tclInt.h"
-#include "tclPort.h"
+#include "tclWinInt.h"
 
 /*
  * Forward declarations of procedures defined later in this file:

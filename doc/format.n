@@ -154,9 +154,11 @@ Convert integer to unsigned octal string.
 \fBx\fR or \fBX\fR
 Convert integer to unsigned hexadecimal string, using digits
 ``0123456789abcdef'' for \fBx\fR and ``0123456789ABCDEF'' for \fBX\fR).
+.VS
 .TP 10
 \fBc\fR
-Convert integer to the 8-bit character it represents.
+Convert integer to the Unicode character it represents.
+.VE
 .TP 10
 \fBs\fR
 No conversion; just insert string.

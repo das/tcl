@@ -5,7 +5,7 @@
  *	in systems that don't support dynamic loading; it just returns
  *	an error.
  *
- * Copyright (c) 1995-1996 Sun Microsystems, Inc.
+ * Copyright (c) 1995-1997 Sun Microsystems, Inc.
  *
  * See the file "license.terms" for information on usage and redistribution
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -26,7 +26,7 @@
  *
  * Results:
  *	The result is TCL_ERROR, and an error message is left in
- *	interp->result.
+ *	the interp's result.
  *
  * Side effects:
  *	None.

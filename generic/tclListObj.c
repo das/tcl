@@ -239,11 +239,13 @@ Tcl_SetListObj(objPtr, objc, objv)
     Tcl_InvalidateStringRep(objPtr);
     if ((oldTypePtr != NULL) && (oldTypePtr->freeIntRepProc != NULL)) {
 	oldTypePtr->freeIntRepProc(objPtr);
-	objPtr->typePtr = NULL;
     }
+    objPtr->typePtr = NULL;
         
     /*
      * Set the object's type to "list" and initialize the internal rep.
+     * However, if there are no elements to put in the list, just give
+     * the object an empty string rep and a NULL type.
      */
 
     if (objc > 0) {
@@ -877,10 +879,11 @@ SetListFromAny(interp, objPtr)
     Tcl_Obj *objPtr;		/* The object to convert. */
 {
     Tcl_ObjType *oldTypePtr = objPtr->typePtr;
-    char *string, *elemStart, *nextElem, *s;
+    char *string, *s;
+    CONST char *elemStart, *nextElem;
     int lenRemain, length, estCount, elemSize, hasBrace, i, j, result;
     char *limit;		/* Points just after string's last byte. */
-    register char *p;
+    register CONST char *p;
     register Tcl_Obj **elemPtrs;
     register Tcl_Obj *elemPtr;
     List *listRepPtr;
@@ -889,7 +892,7 @@ SetListFromAny(interp, objPtr)
      * Get the string representation. Make it up-to-date if necessary.
      */
 
-    string = TclGetStringFromObj(objPtr, &length);
+    string = Tcl_GetStringFromObj(objPtr, &length);
 
     /*
      * Parse the string into separate string objects, and create a List
@@ -903,7 +906,7 @@ SetListFromAny(interp, objPtr)
     limit = (string + length);
     estCount = 1;
     for (p = string;  p < limit;  p++) {
-	if (isspace(UCHAR(*p))) {
+	if (isspace(UCHAR(*p))) { /* INTL: ISO space. */
 	    estCount++;
 	}
     }

@@ -250,7 +250,9 @@ Use this construct to create an easy-to-use array variable:
 .CS
 upvar #0 $token state
 .CE
-The following elements of the array are supported:
+Once the data associated with the url is no longer needed, the state
+array should be unset to free up storage.  The following elements of
+the array are supported:
 .RS
 .TP
 \fBbody\fR

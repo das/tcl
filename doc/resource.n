@@ -55,7 +55,7 @@ If the \fB-file\fR option is specified then the resource will be
 deleted from the file pointed to by \fIresourceRef\fR.  Otherwise the
 first resource with the given \fIresourceName\fR and or
 \fIresourceId\fR which is found on the resource file path will be 
-deleted.  To inspect the file path, use the \fIresource files\fB command.
+deleted.  To inspect the file path, use the \fIresource files\fR command.
 .RE
 .TP
 \fBresource files ?\fIresourceRef\fR?

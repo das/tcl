@@ -141,9 +141,7 @@ resource 'STR ' (-16397, purgeable) {
  * will load the TEXT resource named "Init".
  */
 
-read 'TEXT' (TCL_LIBRARY_RESOURCES, "Init", purgeable) "::library:init.tcl";
-read 'TEXT' (TCL_LIBRARY_RESOURCES + 1, "History", purgeable) "::library:history.tcl";
-read 'TEXT' (TCL_LIBRARY_RESOURCES + 2, "Word", purgeable,preload) "::library:word.tcl";
+#include "tclMacTclCode.r"
 
 /*
  * The following are icons for the shared library.

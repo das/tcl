@@ -105,7 +105,7 @@ static size_t		_fmt _ANSI_ARGS_((const char *format,
 			    const struct tm *t));
 
 size_t
-TclStrftime(s, maxsize, format, t)
+TclpStrftime(s, maxsize, format, t)
     char *s;
     size_t maxsize;
     const char *format;
@@ -315,7 +315,7 @@ _fmt(format, t)
 		    continue;
 #ifndef MAC_TCL
 		case 'Z': {
-		    char *name = TclpGetTZName();
+		    char *name = TclpGetTZName(t->tm_isdst);
 		    if (name && !_add(name)) {
 			return 0;
 		    }

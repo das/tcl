@@ -12,8 +12,7 @@
  * RCS: @(#) $Id$
  */
 
-#include "tclInt.h"
-#include "tclPort.h"
+#include "tclWinInt.h"
 
 /*
  * The following table contains the mapping from Win32 errors to

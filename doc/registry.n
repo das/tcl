@@ -112,7 +112,6 @@ registry command:
 .
 The registry value contains arbitrary binary data.  The data is represented
 exactly in Tcl, including any embedded nulls.
-Tcl 
 .TP
 \fBnone\fR
 .

@@ -40,8 +40,8 @@ before reaching the end of the file.
 \fBRead\fR translates end-of-line sequences in the input into
 newline characters according to the \fB\-translation\fR option
 for the channel.
-See the manual entry for \fBfconfigure\fR for details on the
-\fB\-translation\fR option.
+See the \fBfconfigure\fR manual entry for a discussion on ways in
+which \fBfconfigure\fR will alter input.
 
 .SH "SEE ALSO"
 eof(n), fblocked(n), fconfigure(n)

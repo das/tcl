@@ -16,7 +16,7 @@
 #ifndef _TCLPORT
 #define _TCLPORT
 
-#if defined(__WIN32__) || defined(_WIN32)
+#if defined(__WIN32__)
 #   include "../win/tclWinPort.h"
 #else
 #   if defined(MAC_TCL)

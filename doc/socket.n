@@ -104,14 +104,14 @@ will be accepted.
 .SH CONFIGURATION OPTIONS
 The \fBfconfigure\fR command can be used to query several readonly
 configuration options for socket channels:
-.VS
+.VS 8.0.5
 .TP
 \fB\-error\fR
 This option gets the current error status of the given socket.  This
 is useful when you need to determine if an asynchronous connect
 operation succeeded.  If there was an error, the error message is
 returned.  If there was no error, an empty string is returned.
-.VE
+.VE 8.0.5
 .TP
 \fB\-sockname\fR
 This option returns a list of three elements, the address, the host name

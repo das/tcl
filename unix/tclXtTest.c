@@ -28,7 +28,7 @@ static int	TesteventloopCmd _ANSI_ARGS_((ClientData clientData,
  *
  * Results:
  *	Returns a standard Tcl completion code, and leaves an error
- *	message in interp->result if an error occurs.
+ *	message in the interp's result if an error occurs.
  *
  * Side effects:
  *	Depends on the startup script.

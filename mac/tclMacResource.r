@@ -67,9 +67,7 @@ resource 'vers' (2) {
  * will load the TEXT resource named "Init".
  */
 
-read 'TEXT' (0, "Init", purgeable, preload) "::library:init.tcl";
-read 'TEXT' (1, "History", purgeable,preload) "::library:history.tcl";
-read 'TEXT' (2, "Word", purgeable,preload) "::library:word.tcl";
+#include "tclMacTclCode.r"
 
 /*
  * The following resource is used when creating the 'env' variable in

@@ -8,4 +8,5 @@
 # 
 # RCS: @(#) $Id$
 
-package ifneeded registry 1.0 [list tclPkgSetup $dir registry 1.0 {{tclreg80.dll load registry}}]
+package ifneeded registry 1.0 [list tclPkgSetup $dir registry 1.0 {{tclreg81.dll load registry}}]
+package ifneeded dde 1.0 [list tclPkgSetup $dir dde 1.0 {{tcldde81.dll load dde}}]

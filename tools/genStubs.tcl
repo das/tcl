@@ -421,7 +421,7 @@ proc genStubs::makeMacro {name decl index} {
 	    append argList ")"
 	}
     }
-    append text $argList " \\\n\t(${name}StubsPtr->$lfname)$argList"
+    append text " \\\n\t(${name}StubsPtr->$lfname)"
     append text " /* $index */\n#endif\n"
     return $text
 }
@@ -778,8 +778,7 @@ proc genStubs::emitInit {name textVar} {
     
     forAllStubs $name makeInit 1 text {"    NULL, /* $i */\n"}
 
-    append text "\};\n\n"
-    append text "${capName}Stubs *${name}StubsPtr = &${name}Stubs;\n"
+    append text "\};\n"
     return
 }
 
@@ -832,7 +831,7 @@ proc genStubs::emitInits {} {
 #	None.
 
 proc genStubs::init {} {
-    global argv
+    global argv argv0
     variable outDir
     variable interfaces
 
@@ -850,7 +849,6 @@ proc genStubs::init {} {
     foreach name [lsort [array names interfaces]] {
 	puts "Emitting $name"
 	emitHeader $name
-	emitStubs $name
     }
 
     emitInits
