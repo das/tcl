@@ -1335,7 +1335,8 @@ TclExecuteByteCode(interp, codePtr)
 	    bytes = GetSrcInfoForPc(pc, codePtr, &length);
 	    result = Tcl_EvalEx(interp, bytes, length, 0);
 	    if (result != TCL_OK) {
-		goto checkForCatch;
+		cleanup = 0;
+		goto processExceptionReturn;
 	    }
 	    opnd = TclGetUInt4AtPtr(pc+1);
 	    objResultPtr = Tcl_GetObjResult(interp);

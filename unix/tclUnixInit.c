@@ -423,7 +423,8 @@ CONST char *path;		/* Path to the executable in native
       * overwrite pathv[0] since that might produce a relative path.
       */
 
-    if (0 && path != NULL) {
+    //if (0 && path != NULL) {
+    if (path != NULL) {
 	int i, origc;
 	CONST char **origv;
 
