@@ -2169,7 +2169,7 @@ UpdateStringOfWideInt(objPtr)
     register Tcl_WideInt wideVal = objPtr->internalRep.wideValue;
 
 #ifdef TCL_PRINTF_SUPPORTS_LL
-    sprintf(buffer, "%" TCL_LL_FORMAT "d", wideVal);
+    sprintf(buffer, "%" TCL_LL_MODIFIER "d", wideVal);
     len = strlen(start = buffer);
 #else
     buffer[TCL_INTEGER_SPACE*2+1] = '\0';
