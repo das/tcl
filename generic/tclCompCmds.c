@@ -244,7 +244,6 @@ TclCompileCatchCmd(interp, parsePtr, envPtr)
     char *name;
     int localIndex, nameChars, range, startOffset, jumpDist;
     int code;
-    char buffer[32 + TCL_INTEGER_SPACE];
     int savedStackDepth = envPtr->currStackDepth;
 
     if ((parsePtr->numWords != 2) && (parsePtr->numWords != 3)) {
@@ -321,11 +320,7 @@ TclCompileCatchCmd(interp, parsePtr, envPtr)
     envPtr->exceptArrayPtr[range].codeOffset = startOffset;
 
     if (code != TCL_OK) {
-	if (code == TCL_ERROR) {
-	    sprintf(buffer, "\n    (\"catch\" body line %d)",
-		    interp->errorLine);
-            Tcl_AddObjErrorInfo(interp, buffer, -1);
-        }
+	code = TCL_OUT_LINE_COMPILE;
 	goto done;
     }
     envPtr->exceptArrayPtr[range].numCodeBytes =
