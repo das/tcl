@@ -31,6 +31,7 @@ INSTALL_MANPAGES 	?=
 TCL_PACKAGE_PATH	?= "~/Library/Tcl /Library/Tcl /Network/Library/Tcl /System/Library/Tcl \
 			    ~/Library/Frameworks /Library/Frameworks /Network/Library/Frameworks \
 			    /System/Library/Frameworks"
+TCL_MODULE_PATH		?= "~/Library/Tcl /Library/Tcl /Network/Library/Tcl /System/Library/Tcl"
 
 #-------------------------------------------------------------------------------------------------------
 # meta targets
@@ -114,7 +115,7 @@ OBJ_DIR			= ${OBJROOT}/${BUILD_STYLE}
 
 ${PROJECT}:		override INSTALL_ROOT = ${OBJ_DIR}/
 
-MAKE_VARS		:= INSTALL_ROOT TCL_PACKAGE_PATH TCL_LIBRARY DYLIB_INSTALL_DIR
+MAKE_VARS		:= INSTALL_ROOT TCL_PACKAGE_PATH TCL_MODULE_PATH TCL_LIBRARY DYLIB_INSTALL_DIR
 MAKE_ARGS_V		= $(foreach v,${MAKE_VARS},$v=${$v})
 export CPPROG		:= cp -p
 

@@ -78,6 +78,9 @@ MANN_INSTALL_DIR	= $(MAN_INSTALL_DIR)/mann
 # Package search path.
 TCL_PACKAGE_PATH	= @TCL_PACKAGE_PATH@
 
+# Tcl Module default path roots (TIP189).
+TCL_MODULE_PATH		=
+
 # Libraries built with optimization switches have this additional extension
 TCL_DBGX		= @TCL_DBGX@
 
@@ -691,6 +694,11 @@ install-libraries: libraries install-tzdata install-msgs
 	@for i in $(TOP_DIR)/library/encoding/*.enc ; do \
 		$(INSTALL_DATA) $$i $(SCRIPT_INSTALL_DIR)/encoding; \
 	done;
+	@if [ -n "$(TCL_MODULE_PATH)" -a -e $(TOP_DIR)/library/tm.tcl ]; then \
+	    echo "Customizing tcl module path"; \
+	    echo "::tcl::tm::roots {$(TCL_MODULE_PATH)}" >> \
+	        $(SCRIPT_INSTALL_DIR)/tm.tcl; \
+	fi
 
 install-tzdata:
 	@echo "Installing time zone data"
