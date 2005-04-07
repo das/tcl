@@ -980,6 +980,8 @@ TclFinalizeThreadAlloc()
 
     TclpFreeAllocMutex(listLockPtr);
     listLockPtr = NULL;
+
+    TclpFreeAllocCache(NULL);
 }
 
 #else /* ! defined(TCL_THREADS) && ! defined(USE_THREAD_ALLOC) */
