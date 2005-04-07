@@ -748,8 +748,6 @@ MODULE_SCOPE AuxDataType		tclForeachInfoType;
 MODULE_SCOPE int	TclEvalObjvInternal _ANSI_ARGS_((Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[],
 			    CONST char *command, int length, int flags));
-MODULE_SCOPE int	TclInterpReady _ANSI_ARGS_((Tcl_Interp *interp));
-
 
 /*
  *----------------------------------------------------------------

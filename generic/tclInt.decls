@@ -734,14 +734,15 @@ declare 179 generic {
     Tcl_Obj *Tcl_GetStartupScript(CONST char **encodingNamePtr)
 }
 
+# REMOVED
 # Allocate lists without copying arrays
-declare 180 generic {
-    Tcl_Obj *TclNewListObjDirect(int objc, Tcl_Obj **objv)
-}
-declare 181 generic {
-    Tcl_Obj *TclDbNewListObjDirect(int objc, Tcl_Obj **objv,
-	    CONST char *file, int line)
-}
+# declare 180 generic {
+#    Tcl_Obj *TclNewListObjDirect(int objc, Tcl_Obj **objv)
+# }
+#declare 181 generic {
+#    Tcl_Obj *TclDbNewListObjDirect(int objc, Tcl_Obj **objv,
+#	    CONST char *file, int line)
+#}
 
 # TclpGmtime and TclpLocaltime promoted to the generic interface from unix
 

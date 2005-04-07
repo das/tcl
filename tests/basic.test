@@ -604,9 +604,7 @@ test basic-46.4 {Tcl_AllowExceptions: exception return not allowed} -setup {
 } -cleanup {
     removeFile BREAKtest
 } -returnCodes error -match glob -result {invoked "break" outside of a loop
-    while executing
-"break"
-    invoked from within
+    while executing*
 "foo \[set a 1] \[break]"
     (file "*BREAKtest" line 2)}
 

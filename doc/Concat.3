@@ -44,12 +44,9 @@ copies strings from \fBargv\fR to the result.  If an element of
 is ignored entirely.  This white-space removal was added to make
 the output of the \fBconcat\fR command cleaner-looking.
 .PP
-.VS
 The result string is dynamically allocated
 using \fBTcl_Alloc\fR;  the caller must eventually release the space
 by calling \fBTcl_Free\fR.
-.VE
-.VS
 .SH "SEE ALSO"
 Tcl_ConcatObj
 .SH KEYWORDS
