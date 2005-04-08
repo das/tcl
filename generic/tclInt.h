@@ -1884,6 +1884,8 @@ MODULE_SCOPE void	TclFinalizeThreadData _ANSI_ARGS_((void));
 MODULE_SCOPE int	TclFSFileAttrIndex _ANSI_ARGS_((Tcl_Obj *pathPtr,
 			    CONST char *attributeName, int *indexPtr));
 MODULE_SCOPE Tcl_Obj *	TclGetBgErrorHandler _ANSI_ARGS_((Tcl_Interp *interp));
+MODULE_SCOPE int	TclGetEncodingFromObj _ANSI_ARGS_((Tcl_Interp *interp,
+			    Tcl_Obj *objPtr, Tcl_Encoding *encodingPtr));
 MODULE_SCOPE int        TclGetNamespaceFromObj _ANSI_ARGS_((
 			    Tcl_Interp *interp, Tcl_Obj *objPtr,
 			    Tcl_Namespace **nsPtrPtr));
