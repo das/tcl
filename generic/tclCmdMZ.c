@@ -2506,6 +2506,11 @@ Tcl_SwitchObjCmd(dummy, interp, objc, objv)
     Tcl_Obj *stringObj, *indexVarObj, *matchVarObj;
     Tcl_Obj *CONST *savedObjv = objv;
     Tcl_RegExp regExpr = NULL;
+    /*
+     * If you add options that make -e and -g not unique prefixes of
+     * -exact or -glob, you *must* fix TclCompileSwitchCmd's option
+     * parser as well.
+     */
     static CONST char *options[] = {
 	"-exact", "-glob", "-indexvar", "-matchvar", "-regexp", "--", 
 	NULL
