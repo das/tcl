@@ -622,7 +622,8 @@ Tcl_ListObjIndex(interp, listPtr, index, objPtrPtr)
 
 	(void) Tcl_GetStringFromObj(listPtr, &length);
 	if (!length) {
-	    return 0;
+	    *objPtrPtr = NULL;
+	    return TCL_OK;
 	}
 
 	result = SetListFromAny(interp, listPtr);

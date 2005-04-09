@@ -2762,8 +2762,8 @@ MODULE_SCOPE void	TclDbInitNewObj _ANSI_ARGS_((Tcl_Obj *objPtr));
     TclAllocObjStorage(objPtr); \
     (objPtr)->refCount = 0; \
     (objPtr)->bytes = NULL; \
-    (objPtr)->internalRep.longValue = (long)(i); \
-    (objPtr)->typePtr = &tclIntType
+    (objPtr)->typePtr = &tclIntType; \
+    (objPtr)->internalRep.longValue = (long)(i)
 
 #define TclNewLongObj(objPtr, l) \
     TclNewIntObj((objPtr), (l))
@@ -2777,16 +2777,16 @@ MODULE_SCOPE void	TclDbInitNewObj _ANSI_ARGS_((Tcl_Obj *objPtr));
     TclAllocObjStorage(objPtr); \
     (objPtr)->refCount = 0; \
     (objPtr)->bytes = NULL; \
-    (objPtr)->internalRep.wideValue = (Tcl_WideInt)(w); \
-    (objPtr)->typePtr = &tclWideIntType
+    (objPtr)->typePtr = &tclWideIntType; \
+    (objPtr)->internalRep.wideValue = (Tcl_WideInt)(w)
 
 #define TclNewDoubleObj(objPtr, d) \
     TclIncrObjsAllocated(); \
     TclAllocObjStorage(objPtr); \
     (objPtr)->refCount = 0; \
     (objPtr)->bytes = NULL; \
-    (objPtr)->internalRep.doubleValue = (double)(d); \
-    (objPtr)->typePtr = &tclDoubleType
+    (objPtr)->typePtr = &tclDoubleType; \
+    (objPtr)->internalRep.doubleValue = (double)(d)
 
 #define TclNewStringObj(objPtr, s, len) \
     TclNewObj(objPtr); \
