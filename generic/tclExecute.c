@@ -5061,10 +5061,19 @@ TclExecuteByteCode(interp, codePtr)
 	
 	abnormalReturn:
 	{
+	    /*
+	     * Clear all expansions. 
+	     */
+	    
+	    while (expandNestList) {
+		Tcl_Obj *objPtr = expandNestList->internalRep.twoPtrValue.ptr2;
+		TclDecrRefCount(expandNestList);
+		expandNestList = objPtr;
+	    }
 	    Tcl_Obj **initTosPtr = eePtr->stackPtr + initStackTop;
 	    while (tosPtr > initTosPtr) {
-		valuePtr = POP_OBJECT();
-		TclDecrRefCount(valuePtr);
+		Tcl_Obj *objPtr = POP_OBJECT();
+		TclDecrRefCount(objPtr);
 	    }
 	    if (tosPtr < initTosPtr) {
 		fprintf(stderr, "\nTclExecuteByteCode: abnormal return at pc %u: stack top %d < entry stack top %d\n",
