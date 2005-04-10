@@ -92,13 +92,10 @@ This may be done differently on different platforms.
 The default guess, which is used on most UNIX platforms, is to
 take the last element of \fIfileName\fR, strip off the first
 three characters if they are \fBlib\fR, and use any following
-.VS
 alphabetic and underline characters as the module name.
-.VE
 For example, the command \fBload libxyz4.2.so\fR uses the module
 name \fBxyz\fR and the command \fBload bin/last.so {}\fR uses the
 module name \fBlast\fR.
-.VS "" br
 .PP
 If \fIfileName\fR is an empty string, then \fIpackageName\fR must
 be specified.
@@ -109,7 +106,6 @@ Otherwise, the \fBload\fR command searches for a dynamically loaded
 package by that name, and uses it if it is found.  If several
 different files have been \fBload\fRed with different versions of
 the package, Tcl picks the file that was loaded first.
-.VE
 .SH "PORTABILITY ISSUES"
 .TP
 \fBWindows\fR\0\0\0\0\0

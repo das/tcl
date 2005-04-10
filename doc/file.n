@@ -81,7 +81,6 @@ the length of the resource fork of the file, this attribute can only be
 set to the value 0, which results in the resource fork being stripped
 off the file.
 .RE
-.VS
 .TP
 \fBfile channels ?\fIpattern\fR?
 .
@@ -89,7 +88,6 @@ If \fIpattern\fR isn't specified, returns a list of names of all
 registered open channels in this interpreter.  If \fIpattern\fR is
 specified, only those names matching \fIpattern\fR are returned.  Matching
 is determined using the same rules as for \fBstring match\fR.
-.VE
 .TP
 \fBfile copy \fR?\fB\-force\fR? ?\fB\-\|\-\fR? \fIsource\fR \fItarget\fR
 .TP

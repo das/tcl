@@ -70,15 +70,11 @@ Specifies which range is desired:  0 means the range of the entire
 match, 1 or greater means the range that matched a parenthesized
 sub-expression.
 .AP "const char" **startPtr out
-.VS 8.4
 The address of the first character in the range is stored here, or
 NULL if there is no such range.
-.VE 8.4
 .AP "const char" **endPtr out
-.VS 8.4
 The address of the character just after the last one in the range
 is stored here, or NULL if there is no such range.
-.VE 8.4
 .AP int cflags in
 OR-ed combination of compilation flags. See below for more information.
 .AP Tcl_Obj *objPtr in/out

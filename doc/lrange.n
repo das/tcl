@@ -66,10 +66,8 @@ elements to
 .CE
 
 .SH "SEE ALSO"
-.VS 8.4
 list(n), lappend(n), lindex(n), linsert(n), llength(n), lsearch(n), 
 lset(n), lreplace(n), lsort(n)
-.VE
 
 .SH KEYWORDS
 element, list, range, sublist

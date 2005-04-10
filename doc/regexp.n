@@ -83,7 +83,6 @@ manual page).
 \fB\-nocase\fR
 Causes upper-case characters in \fIstring\fR to be treated as
 lower case during the matching process.
-.VS 8.3
 .TP 15
 \fB\-all\fR
 Causes the regular expression to be matched as many times as possible
@@ -114,7 +113,6 @@ match the start of the string at \fIindex\fR.  If \fB\-indices\fR
 is specified, the indices will be indexed starting from the
 absolute beginning of the input string.
 \fIindex\fR will be constrained to the bounds of the input string.
-.VE 8.3
 .TP 15
 \fB\-\|\-\fR
 Marks the end of switches.  The argument following this one will

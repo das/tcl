@@ -208,8 +208,7 @@ Tcl_NewStringObj(bytes, length)
     if (length < 0) {
 	length = (bytes? strlen(bytes) : 0);
     }
-    TclNewObj(objPtr);
-    TclInitStringRep(objPtr, bytes, length);
+    TclNewStringObj(objPtr, bytes, length);
     return objPtr;
 }
 #endif /* TCL_MEM_DEBUG */

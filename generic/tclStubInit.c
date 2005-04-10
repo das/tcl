@@ -264,8 +264,8 @@ TclIntStubs tclIntStubs = {
     TclVarErrMsg, /* 177 */
     Tcl_SetStartupScript, /* 178 */
     Tcl_GetStartupScript, /* 179 */
-    TclNewListObjDirect, /* 180 */
-    TclDbNewListObjDirect, /* 181 */
+    NULL, /* 180 */
+    NULL, /* 181 */
     TclpLocaltime, /* 182 */
     TclpGmtime, /* 183 */
     TclThreadStorageLockInit, /* 184 */

@@ -1120,6 +1120,14 @@ test winFCmd-18.1.5 {Windows reserved path names} -constraints win -body {
     file pathtype lpt4
 } -result "relative"
 
+test winFCmd-18.1.6 {Windows reserved path names} -constraints win -body {
+    file pathtype nul
+} -result "absolute"
+
+test winFCmd-18.1.7 {Windows reserved path names} -constraints win -body {
+    file pathtype null
+} -result "relative"
+
 test winFCmd-18.2 {Windows reserved path names} -constraints win -body {
     file pathtype com1:
 } -result "absolute"
