@@ -4017,6 +4017,17 @@ OptInitCounts(codePtr, auxCount)
 		    }
 		}
 		break;
+#if !defined(VM_USE_PACKED)
+	    case INST_PUSH:
+		/* //// Move to TEBC: ptr opnd, and instructions
+		 * /// UNHOLY CAST: fix by making the opnd a union
+		 */ 
+	        {
+		    Tcl_Obj *objPtr = codePtr->objArrayPtr[opnd];
+		    TclVMStoreOpndAtPtr((TclPSizedInt) objPtr, pc);
+		}
+		break;		
+#endif
 	}
     }
 }
