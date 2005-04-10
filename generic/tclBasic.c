@@ -4309,6 +4309,7 @@ TclObjInvoke(interp, objc, objv, flags)
 	CONST char* cmdString = Tcl_GetStringFromObj(command, &length);
 
 	Tcl_LogCommandInfo(interp, cmdString, cmdString, length);
+	Tcl_DecrRefCount(command);
 	iPtr->flags &= ~ERR_ALREADY_LOGGED;
     }
     return result;
