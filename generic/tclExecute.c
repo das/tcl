@@ -2049,7 +2049,7 @@ TclExecuteByteCode(interp, codePtr)
 		    if (valuePtr != NULL) {
 			TclDecrRefCount(valuePtr);
 		    } else {
-			TclSetVarScalar(varPtr);
+			TclSetVarDirectScalar(varPtr);
 		    }
 		    varPtr->value.objPtr = objResultPtr;
 		    if (pushRes) {
@@ -2137,7 +2137,7 @@ TclExecuteByteCode(interp, codePtr)
 			if (valuePtr != NULL) {
 			    TclDecrRefCount(valuePtr);
 			} else {
-			    TclSetVarScalar(varPtr);
+			    TclSetVarDirectScalar(varPtr);
 			}
 			varPtr->value.objPtr = objResultPtr;
 			Tcl_IncrRefCount(objResultPtr);
@@ -4394,10 +4394,10 @@ TclExecuteByteCode(interp, codePtr)
 	    if (oldValuePtr == NULL) {
 		TclNewLongObj(iterVarPtr->value.objPtr, -1);
 		Tcl_IncrRefCount(iterVarPtr->value.objPtr);
+		TclSetVarDirectScalar(iterVarPtr);
 	    } else {
 		TclSetLongObj(oldValuePtr, -1);
 	    }
-	    TclSetVarScalar(iterVarPtr);
 	    TRACE(("%u => loop iter count temp %d\n", 
 		   (unsigned) opnd, iterTmpIndex));
 
@@ -4509,7 +4509,7 @@ TclExecuteByteCode(interp, codePtr)
 				if (value2Ptr != NULL) {
 				    TclDecrRefCount(value2Ptr);
 				} else {
-				    TclSetVarScalar(varPtr);
+				    TclSetVarDirectScalar(varPtr);
 				}
 				varPtr->value.objPtr = valuePtr;
 				Tcl_IncrRefCount(valuePtr);
