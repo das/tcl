@@ -412,16 +412,15 @@ TclCreateProc(interp, nsPtr, procName, argsPtr, bodyPtr, procPtrPtr)
 	if (precompiled) {
 	    /*
 	     * Compare the parsed argument with the stored one.
-	     * For the flags, we and out VAR_UNDEFINED to support bridging
-	     * precompiled <= 8.3 code in 8.4 where this is now used as an
-	     * optimization indicator.	Yes, this is a hack. -- hobbs
+	     *
+	     * NOTE: code precompiled under older versions of Tcl will not
+	     * work properly.
 	     */
 
 	    if ((localPtr->nameLength != nameLength)
 		    || (strcmp(localPtr->name, fieldValues[0]))
 		    || (localPtr->frameIndex != i)
-		    || ((localPtr->flags & ~VAR_UNDEFINED)
-			    != (VAR_SCALAR | VAR_ARGUMENT))
+		    || (localPtr->flags != VAR_ARGUMENT)
 		    || (localPtr->defValuePtr == NULL && fieldCount == 2)
 		    || (localPtr->defValuePtr != NULL && fieldCount != 2)) {
 		char buf[40 + TCL_INTEGER_SPACE];
@@ -477,7 +476,7 @@ TclCreateProc(interp, nsPtr, procName, argsPtr, bodyPtr, procPtrPtr)
 	    localPtr->nextPtr = NULL;
 	    localPtr->nameLength = nameLength;
 	    localPtr->frameIndex = i;
-	    localPtr->flags = VAR_SCALAR | VAR_ARGUMENT;
+	    localPtr->flags = VAR_ARGUMENT;
 	    localPtr->resolveInfo = NULL;
 
 	    if (fieldCount == 2) {

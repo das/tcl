@@ -1726,8 +1726,8 @@ TclFindCompiledLocal(name, nameBytes, create, flags, procPtr)
     int create;			/* If 1, allocate a local frame entry for
 				 * the variable if it is new. */
     int flags;			/* Flag bits for the compiled local if
-				 * created. Only VAR_SCALAR, VAR_ARRAY, and
-				 * VAR_LINK make sense. */
+				 * created. Only VAR_ARRAY, and VAR_LINK make
+				 * sense. */ 
     register Proc *procPtr;	/* Points to structure describing procedure
 				 * containing the variable reference. */
 {
@@ -1773,7 +1773,7 @@ TclFindCompiledLocal(name, nameBytes, create, flags, procPtr)
 	localPtr->nextPtr = NULL;
 	localPtr->nameLength = nameBytes;
 	localPtr->frameIndex = localVar;
-	localPtr->flags = flags | VAR_UNDEFINED;
+	localPtr->flags = flags;
 	if (name == NULL) {
 	    localPtr->flags |= VAR_TEMPORARY;
 	}
@@ -2715,10 +2715,10 @@ TclPrintByteCodeObj(interp, objPtr)
 	if (numCompiledLocals > 0) {
 	    CompiledLocal *localPtr = procPtr->firstLocalPtr;
 	    for (i = 0;  i < numCompiledLocals;  i++) {
-		fprintf(stdout, "      slot %d%s%s%s%s%s%s", i, 
-			((localPtr->flags & VAR_SCALAR)?  ", scalar"  : ""),
-			((localPtr->flags & VAR_ARRAY)?  ", array"  : ""),
-			((localPtr->flags & VAR_LINK)?  ", link"  : ""),
+		fprintf(stdout, "      slot %d%s%s%s%s", i,
+			((localPtr->flags & VAR_ARRAY)?  ", array"  : 
+				((localPtr->flags & VAR_LINK)?  ", link"  :
+					", scalar")),			
 			((localPtr->flags & VAR_ARGUMENT)?  ", arg"  : ""),
 			((localPtr->flags & VAR_TEMPORARY)? ", temp" : ""),
 			((localPtr->flags & VAR_RESOLVED)? ", resolved" : ""));
