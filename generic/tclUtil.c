@@ -2745,14 +2745,14 @@ TclGetProcessGlobalValue(pgvPtr)
 
 	/* If no thread has set the shared value, call the initializer */
 	Tcl_MutexLock(&pgvPtr->mutex);
-	if (NULL == pgvPtr->value) {
-	    if (pgvPtr->proc) {
-		pgvPtr->epoch++;
-		(*(pgvPtr->proc))(&pgvPtr->value, &pgvPtr->numBytes,
-			&pgvPtr->encoding);
-		Tcl_CreateExitHandler(FreeProcessGlobalValue,
-			(ClientData) pgvPtr);
+	if ((NULL == pgvPtr->value) && (pgvPtr->proc)) {
+	    pgvPtr->epoch++;
+	    (*(pgvPtr->proc))(&pgvPtr->value, &pgvPtr->numBytes,
+		    &pgvPtr->encoding);
+	    if (pgvPtr->value == NULL) {
+		Tcl_Panic("PGV Initializer did not initialize.");
 	    }
+	    Tcl_CreateExitHandler(FreeProcessGlobalValue, (ClientData) pgvPtr);
 	}
 
 	/* Store a copy of the shared value in our epoch-indexed cache */

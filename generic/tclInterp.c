@@ -466,8 +466,8 @@ done:
     if (strcmp(Tcl_DStringValue(&encodingName), Tcl_GetEncodingName(NULL))) {
 	code = Tcl_SetSystemEncoding(NULL, Tcl_DStringValue(&encodingName));
 	if (code == TCL_ERROR) {
-	    Tcl_Panic("system encoding \"", Tcl_DStringValue(&encodingName),
-		    "\" not available");
+	    Tcl_Panic("system encoding \"%s\" not available",
+		    Tcl_DStringValue(&encodingName));
 	}
     }
     Tcl_DStringFree(&encodingName);
