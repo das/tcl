@@ -2071,6 +2071,7 @@ TclExecuteByteCode(interp, codePtr)
 			TclDecrRefCount(objResultPtr);
 		    }		    
 		}
+		TclSetVarDirectScalar(varPtr);
 		pc++;
 		NEXT_INST_F(0,0);
 	    }
@@ -2142,6 +2143,7 @@ TclExecuteByteCode(interp, codePtr)
 			varPtr->value.objPtr = objResultPtr;
 			Tcl_IncrRefCount(objResultPtr);
 		    }
+		    TclSetVarDirectScalar(varPtr);
 		    pc++;
 		    NEXT_INST_F(cleanup, pushRes);
 		}

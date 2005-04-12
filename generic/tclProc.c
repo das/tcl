@@ -420,7 +420,8 @@ TclCreateProc(interp, nsPtr, procName, argsPtr, bodyPtr, procPtrPtr)
 	    if ((localPtr->nameLength != nameLength)
 		    || (strcmp(localPtr->name, fieldValues[0]))
 		    || (localPtr->frameIndex != i)
-		    || (localPtr->flags != VAR_ARGUMENT)
+		    || (localPtr->flags !=
+			    (VAR_ARGUMENT|VAR_DIRECT_READABLE|VAR_DIRECT_WRITABLE))
 		    || (localPtr->defValuePtr == NULL && fieldCount == 2)
 		    || (localPtr->defValuePtr != NULL && fieldCount != 2)) {
 		char buf[40 + TCL_INTEGER_SPACE];
@@ -476,7 +477,7 @@ TclCreateProc(interp, nsPtr, procName, argsPtr, bodyPtr, procPtrPtr)
 	    localPtr->nextPtr = NULL;
 	    localPtr->nameLength = nameLength;
 	    localPtr->frameIndex = i;
-	    localPtr->flags = VAR_ARGUMENT;
+	    localPtr->flags = (VAR_ARGUMENT|VAR_DIRECT_READABLE|VAR_DIRECT_WRITABLE);
 	    localPtr->resolveInfo = NULL;
 
 	    if (fieldCount == 2) {

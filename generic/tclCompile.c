@@ -1773,7 +1773,7 @@ TclFindCompiledLocal(name, nameBytes, create, flags, procPtr)
 	localPtr->nextPtr = NULL;
 	localPtr->nameLength = nameBytes;
 	localPtr->frameIndex = localVar;
-	localPtr->flags = flags;
+	localPtr->flags = (flags | VAR_DIRECT_WRITABLE);
 	if (name == NULL) {
 	    localPtr->flags |= VAR_TEMPORARY;
 	}
