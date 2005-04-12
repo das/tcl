@@ -1427,7 +1427,7 @@ AppendLocals(interp, listPtr, pattern, includeLinks)
 {
     Interp *iPtr = (Interp *) interp;
     CompiledLocal *localPtr;
-    Var *varPtr;
+    ShortVar *varPtr;
     int i, localVarCt;
     char *varName;
     Tcl_HashTable *localVarTablePtr;
@@ -1460,7 +1460,7 @@ AppendLocals(interp, listPtr, pattern, includeLinks)
 	for (entryPtr = Tcl_FirstHashEntry(localVarTablePtr, &search);
 		entryPtr != NULL;
 		entryPtr = Tcl_NextHashEntry(&search)) {
-	    varPtr = (Var *) Tcl_GetHashValue(entryPtr);
+	    varPtr = (ShortVar *) Tcl_GetHashValue(entryPtr);
 	    if (!TclIsVarUndefined(varPtr)
 		    && (includeLinks || !TclIsVarLink(varPtr))) {
 		varName = Tcl_GetHashKey(localVarTablePtr, entryPtr);
