@@ -3108,6 +3108,7 @@ TclPrintByteCodeObj(interp, objPtr)
 }
 #endif /* TCL_COMPILE_DEBUG */
 
+#ifdef TCL_COMPILE_DEBUG
 /*
  *----------------------------------------------------------------------
  *
@@ -3238,7 +3239,9 @@ TclPrintInstruction(codePtr, pc)
     fprintf(stdout, "\n");
     return numBytes;
 }
+#endif /* TCL_COMPILE_DEBUG */
 
+#ifdef TCL_COMPILE_DEBUG
 /*
  *----------------------------------------------------------------------
  *
@@ -3269,7 +3272,9 @@ TclPrintObject(outFile, objPtr, maxChars)
     bytes = Tcl_GetStringFromObj(objPtr, &length);
     TclPrintSource(outFile, bytes, TclMin(length, maxChars));
 }
+#endif /* TCL_COMPILE_DEBUG */
 
+#ifdef TCL_COMPILE_DEBUG
 /*
  *----------------------------------------------------------------------
  *
@@ -3331,6 +3336,7 @@ TclPrintSource(outFile, stringPtr, maxChars)
     }
     fprintf(outFile, "\"");
 }
+#endif /* TCL_COMPILE_DEBUG */
 
 #ifdef TCL_COMPILE_STATS
 /*
