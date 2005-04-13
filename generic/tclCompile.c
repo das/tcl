@@ -4017,7 +4017,7 @@ OptInitCounts(codePtr, auxCount)
 		    }
 		}
 		break;
-#if !defined(VM_USE_PACKED)
+#if 0&&!defined(VM_USE_PACKED)
 	    case INST_PUSH:
 		/* //// Move to TEBC: ptr opnd, and instructions
 		 * /// UNHOLY CAST: fix by making the opnd a union

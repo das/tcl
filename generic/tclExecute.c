@@ -1371,7 +1371,7 @@ TclExecuteByteCode(interp, codePtr)
 #if ENABLE_PEEPHOLE
 	instPushPeephole:
 #endif
-#if defined(VM_USE_PACKED)
+#if 1||defined(VM_USE_PACKED)
 	PUSH_OBJECT(codePtr->objArrayPtr[opnd]);
 	TRACE_WITH_OBJ(("%u => ", (unsigned) opnd), *(tosPtr));
 #else
