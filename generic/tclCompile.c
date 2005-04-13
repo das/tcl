@@ -2889,6 +2889,7 @@ TclPrintByteCodeObj(interp, objPtr)
 }
 #endif /* TCL_COMPILE_DEBUG */
 
+#ifdef TCL_COMPILE_DEBUG
 /*
  *----------------------------------------------------------------------
  *
@@ -3032,7 +3033,9 @@ TclPrintInstruction(codePtr, pc)
     fprintf(stdout, "\n");
     return 1; /* Every instruction takes 1 word */
 }
+#endif /* TCL_COMPILE_DEBUG */
 
+#ifdef TCL_COMPILE_DEBUG
 /*
  *----------------------------------------------------------------------
  *
@@ -3063,7 +3066,9 @@ TclPrintObject(outFile, objPtr, maxChars)
     bytes = Tcl_GetStringFromObj(objPtr, &length);
     TclPrintSource(outFile, bytes, TclMin(length, maxChars));
 }
+#endif /* TCL_COMPILE_DEBUG */
 
+#ifdef TCL_COMPILE_DEBUG
 /*
  *----------------------------------------------------------------------
  *
@@ -3125,6 +3130,7 @@ TclPrintSource(outFile, stringPtr, maxChars)
     }
     fprintf(outFile, "\"");
 }
+#endif /* TCL_COMPILE_DEBUG */
 
 #ifdef TCL_COMPILE_STATS
 /*
@@ -4017,7 +4023,7 @@ OptInitCounts(codePtr, auxCount)
 		    }
 		}
 		break;
-#if 0&&!defined(VM_USE_PACKED)
+#if !(defined(TCL_COMPILE_DEBUG)||defined(VM_USE_PACKED))
 	    case INST_PUSH:
 		/* //// Move to TEBC: ptr opnd, and instructions
 		 * /// UNHOLY CAST: fix by making the opnd a union
