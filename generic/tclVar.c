@@ -3628,7 +3628,7 @@ Tcl_GetVariableFullName(interp, variable, objPtr)
 	    char **varNames = (char **) &(compiledLocals[localCt]);
 
 	    if ((index < localCt)
-		    && (varPtr == (Var *) compiledLocals[index])) {
+		    && (varPtr == (Var *) &compiledLocals[index])) {
 		Tcl_AppendToObj(objPtr, varNames[index], -1);
 	    }			    
 	} else if (varPtr->id.hPtr) {
