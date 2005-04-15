@@ -2074,7 +2074,7 @@ TclExecuteByteCode(interp, codePtr)
 	    cleanup = 1;
 	    part2 = NULL;
 	    arrayPtr = NULL;
-	    flags = TCL_LEAVE_ERR_MSG;
+	    HP_EXTRACT(opnd, flags, index);
 	    goto doCallPtrSetVar;
 	    
     case INST_STORE:
