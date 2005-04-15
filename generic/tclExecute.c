@@ -4323,7 +4323,7 @@ TclExecuteByteCode(interp, codePtr)
 		 */
 		if ((tPtr == &tclIntType) || (tPtr == &tclBooleanType)) {
 		    i = valuePtr->internalRep.longValue;
-		    TclNewLongObj(objResultPtr, -i)
+		    TclNewLongObj(objResultPtr, -i);
 			TRACE_WITH_OBJ(("%ld => ", i), objResultPtr);
 		} else if (tPtr == &tclWideIntType) {
 		    TclGetWide(w,valuePtr);
@@ -4363,7 +4363,7 @@ TclExecuteByteCode(interp, codePtr)
 		i = (w == W0);
 		TRACE_WITH_OBJ((LLD" => ", w), objResultPtr);
 	    } else {
-		i = (valuePtr->internalRep.doubleValue == 0.0)
+		i = (valuePtr->internalRep.doubleValue == 0.0);
 		TRACE_WITH_OBJ(("%.6g => ", d), objResultPtr);
 	    }
 	    objResultPtr = eePtr->constants[i];
