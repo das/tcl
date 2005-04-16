@@ -2955,8 +2955,8 @@ Tcl_ArrayObjCmd(dummy, interp, objc, objv)
 		    Tcl_DecrRefCount(namePtr); /* free unneeded name obj */
 		    return result;
 		}
-		Tcl_SetObjResult(interp, resultPtr);
 	    }
+	    Tcl_SetObjResult(interp, resultPtr);
 	    break;
 	}
         case ARRAY_NEXTELEMENT: {
