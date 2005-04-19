@@ -87,7 +87,7 @@ if {(![interp issafe]) && ($tcl_platform(platform) eq "windows")} {
 	    global env tcl_platform
 	    foreach p [array names env] {
 		set u [string toupper $p]
-		if {$u ne $p]} {
+		if {$u ne $p} {
 		    switch -- $u {
 			COMSPEC -
 			PATH {
