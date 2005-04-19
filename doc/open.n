@@ -136,7 +136,8 @@ command, using the channel id returned by \fBopen\fR as argument.
 If the command (or one of the commands) executed in the command
 pipeline returns an error (according to the definition in \fBexec\fR),
 a Tcl error is generated when \fBclose\fR is called on the channel
-(similar to the \fBclose\fR command.)
+unless the pipeline is in non-blocking mode then no exit status is
+returned (a silent \fBclose\fR with -blocking 0).
 .PP
 It is often useful to use the \fBfileevent\fR command with pipelines
 so other processing may happen at the same time as running the command
