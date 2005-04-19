@@ -530,6 +530,45 @@ Tcl_EncodingObjCmd(dummy, interp, objc, objv)
 /*
  *----------------------------------------------------------------------
  *
+ * TclEncodingDirsObjCmd --
+ *
+ *	This command manipulates the encoding search path.
+ *
+ * Results:
+ *	A standard Tcl result.
+ *
+ * Side effects:
+ *	Can set the encoding search path.
+ *
+ *----------------------------------------------------------------------
+ */
+
+int
+TclEncodingDirsObjCmd(dummy, interp, objc, objv)
+    ClientData dummy;		/* Not used. */
+    Tcl_Interp *interp;		/* Current interpreter. */
+    int objc;			/* Number of arguments. */
+    Tcl_Obj *CONST objv[];	/* Argument objects. */
+{
+    if (objc > 2) {
+	Tcl_WrongNumArgs(interp, 1, objv, "?dirList?");
+    }
+    if (objc == 1) {
+	Tcl_SetObjResult(interp, TclGetEncodingSearchPath());
+	return TCL_OK;
+    }
+    if (TclSetEncodingSearchPath(objv[1]) == TCL_ERROR) {
+	Tcl_AppendResult(interp, "expected directory list but got \"",
+		Tcl_GetString(objv[1]), "\"", NULL);
+	return TCL_ERROR;
+    }
+    Tcl_SetObjResult(interp, objv[1]);
+    return TCL_OK;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
  * Tcl_ErrorObjCmd --
  *
  *	This procedure is invoked to process the "error" Tcl command.
