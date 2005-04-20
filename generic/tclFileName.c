@@ -2302,7 +2302,7 @@ DoGlob(interp, matchesObj, separators, pathPtr, flags, pattern, types)
 	     * The current prefix must end in a separator, unless
 	     * this is a volume-relative path.  In particular
 	     * globbing in Windows shares, when not using -dir
-	     * or -path, e.g. 'glob //machine/share/subdir/*'
+	     * or -path, e.g. 'glob [file join //machine/share/subdir *]'
  	     * requires adding a separator here.  This behaviour
  	     * is not currently tested for in the test suite.
 	     */
