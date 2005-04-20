@@ -91,7 +91,11 @@ Tcl_GetInt(interp, string, intPtr)
      * an int.
      */
 
-    if ((errno == ERANGE) || (((long)(int) i) != i)) {
+    if ((errno == ERANGE) 
+#if (LONG_MAX > INT_MAX)
+	    || (i > UINT_MAX) || (i < -(long)UINT_MAX)
+#endif
+    ) {
         if (interp != (Tcl_Interp *) NULL) {
 	    Tcl_SetResult(interp, "integer value too large to represent",
 		    TCL_STATIC);
