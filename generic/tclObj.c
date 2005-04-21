@@ -1299,7 +1299,6 @@ TclGetTruthValueFromObj(interp, objPtr, boolPtr)
 {
     double d;
     long l;
-    Tcl_WideInt w;
 
     /* 
      * The following call retrieves a numeric value without shimmering
@@ -1318,13 +1317,16 @@ TclGetTruthValueFromObj(interp, objPtr, boolPtr)
 	return TCL_OK;
     }
 #ifndef TCL_WIDE_INT_IS_LONG
-    /*
-     * ...then a wide.  Check in that order so that we don't promote
-     * anything to wide unnecessarily.
-     */
-    if (Tcl_GetWideIntFromObj(NULL, objPtr, &w) == TCL_OK) {
-	*boolPtr = (w != 0);
-	return TCL_OK;
+    else {
+	Tcl_WideInt w;
+	/*
+	 * ...then a wide.  Check in that order so that we don't promote
+	 * anything to wide unnecessarily.
+	 */
+	if (Tcl_GetWideIntFromObj(NULL, objPtr, &w) == TCL_OK) {
+	    *boolPtr = (w != 0);
+	    return TCL_OK;
+	}
     }
 #endif
     /*
