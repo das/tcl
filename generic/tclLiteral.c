@@ -366,6 +366,7 @@ TclRegisterLiteral(envPtr, bytes, length, flags)
 	TclInitStringRep(objPtr, bytes, length);
     }
 
+#if 0
     if (TclLooksLikeInt(bytes, length)) {
 	/*
 	 * From here we use the objPtr, because it is NULL terminated
@@ -378,6 +379,7 @@ TclRegisterLiteral(envPtr, bytes, length, flags)
 	    }
 	}
     }
+#endif
     
 #ifdef TCL_COMPILE_DEBUG
     if (TclLookupLiteralEntry((Tcl_Interp *) iPtr, objPtr) != NULL) {
