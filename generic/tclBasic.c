@@ -4042,20 +4042,7 @@ Tcl_ExprBoolean(interp, string, ptr)
 	    /*
 	     * Store a boolean based on the expression result.
 	     */
-
-	    if (resultPtr->typePtr == &tclIntType) {
-		*ptr = (resultPtr->internalRep.longValue != 0);
-	    } else if (resultPtr->typePtr == &tclDoubleType) {
-		*ptr = (resultPtr->internalRep.doubleValue != 0.0);
-	    } else if (resultPtr->typePtr == &tclWideIntType) {
-#ifndef TCL_WIDE_INT_IS_LONG
-		*ptr = (resultPtr->internalRep.wideValue != 0);
-#else
-		*ptr = (resultPtr->internalRep.longValue != 0);
-#endif
-	    } else {
-		result = Tcl_GetBooleanFromObj(interp, resultPtr, ptr);
-	    }
+	    result = TclGetTruthValueFromObj(interp, resultPtr, ptr);
 	    Tcl_DecrRefCount(resultPtr);  /* discard the result object */
 	}
 	if (result != TCL_OK) {
@@ -4165,13 +4152,7 @@ Tcl_ExprBooleanObj(interp, objPtr, ptr)
 
     result = Tcl_ExprObj(interp, objPtr, &resultPtr);
     if (result == TCL_OK) {
-	if (resultPtr->typePtr == &tclIntType) {
-	    *ptr = (resultPtr->internalRep.longValue != 0);
-	} else if (resultPtr->typePtr == &tclDoubleType) {
-	    *ptr = (resultPtr->internalRep.doubleValue != 0.0);
-	} else {
-	    result = Tcl_GetBooleanFromObj(interp, resultPtr, ptr);
-	}
+	result = TclGetTruthValueFromObj(interp, resultPtr, ptr);
 	Tcl_DecrRefCount(resultPtr);  /* discard the result object */
     }
     return result;

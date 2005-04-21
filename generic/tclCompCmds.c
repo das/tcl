@@ -1113,7 +1113,7 @@ TclCompileIfCmd(interp, parsePtr, envPtr)
 	    Tcl_Obj *boolObj = Tcl_NewStringObj(testTokenPtr[1].start,
 		    testTokenPtr[1].size);
 	    Tcl_IncrRefCount(boolObj);
-	    code = Tcl_GetBooleanFromObj(NULL, boolObj, &boolVal);
+	    code = TclGetTruthValueFromObj(NULL, boolObj, &boolVal);
 	    Tcl_DecrRefCount(boolObj);
 	    if (code == TCL_OK) {
 		/*
@@ -3247,7 +3247,7 @@ TclCompileWhileCmd(interp, parsePtr, envPtr)
 
     boolObj = Tcl_NewStringObj(testTokenPtr[1].start, testTokenPtr[1].size);
     Tcl_IncrRefCount(boolObj);
-    code = Tcl_GetBooleanFromObj(NULL, boolObj, &boolVal);
+    code = TclGetTruthValueFromObj(NULL, boolObj, &boolVal);
     Tcl_DecrRefCount(boolObj);
     if (code == TCL_OK) {
 	if (boolVal) {
