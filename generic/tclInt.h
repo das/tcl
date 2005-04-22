@@ -1892,8 +1892,6 @@ MODULE_SCOPE int        TclGetNamespaceFromObj _ANSI_ARGS_((
 
 MODULE_SCOPE Tcl_Obj *	TclGetProcessGlobalValue _ANSI_ARGS_ ((
 			    ProcessGlobalValue *pgvPtr));
-MODULE_SCOPE int	TclGetTruthValueFromObj _ANSI_ARGS_ ((
-			    Tcl_Interp *interp, Tcl_Obj *objPtr, int *boolPtr));
 MODULE_SCOPE int	TclGlob _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *pattern, Tcl_Obj *unquotedPrefix, 
 			    int globFlags, Tcl_GlobTypeData* types));

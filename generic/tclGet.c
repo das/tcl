@@ -183,9 +183,12 @@ Tcl_GetBoolean(interp, str, boolPtr)
     obj.length = strlen(str);
     obj.typePtr = NULL;
 
-    code = Tcl_GetBooleanFromObj(interp, &obj, boolPtr);
+    code = Tcl_ConvertToType(interp, &obj, &tclBooleanType);
     if (obj.refCount > 1) {
 	Tcl_Panic("invalid sharing of Tcl_Obj on C stack");
+    }
+    if (code == TCL_OK) {
+	*boolPtr = obj.internalRep.longValue;
     }
     return code;
 }

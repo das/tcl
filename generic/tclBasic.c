@@ -4042,7 +4042,7 @@ Tcl_ExprBoolean(interp, string, ptr)
 	    /*
 	     * Store a boolean based on the expression result.
 	     */
-	    result = TclGetTruthValueFromObj(interp, resultPtr, ptr);
+	    result = Tcl_GetBooleanFromObj(interp, resultPtr, ptr);
 	    Tcl_DecrRefCount(resultPtr);  /* discard the result object */
 	}
 	if (result != TCL_OK) {
@@ -4152,7 +4152,7 @@ Tcl_ExprBooleanObj(interp, objPtr, ptr)
 
     result = Tcl_ExprObj(interp, objPtr, &resultPtr);
     if (result == TCL_OK) {
-	result = TclGetTruthValueFromObj(interp, resultPtr, ptr);
+	result = Tcl_GetBooleanFromObj(interp, resultPtr, ptr);
 	Tcl_DecrRefCount(resultPtr);  /* discard the result object */
     }
     return result;

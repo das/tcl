@@ -2645,7 +2645,7 @@ DictFilterCmd(interp, objc, objv)
 		boolObj = Tcl_GetObjResult(interp);
 		Tcl_IncrRefCount(boolObj);
 		Tcl_ResetResult(interp);
-		if (TclGetTruthValueFromObj(interp, boolObj,
+		if (Tcl_GetBooleanFromObj(interp, boolObj,
 			&satisfied) != TCL_OK) {
 		    TclDecrRefCount(boolObj);
 		    result = TCL_ERROR;
