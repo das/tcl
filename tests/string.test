@@ -1391,7 +1391,7 @@ test string-22.13 {string wordstart, unicode} {
 
 test string-23.0 {string is boolean, Bug 1187123} testindexobj {
     set x 5
-    catch {testindexobj $x foo}
+    catch {testindexobj $x foo bar soom}
     string is boolean $x
 } 0
 
