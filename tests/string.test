@@ -23,6 +23,8 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 
 set ::tcltest::testConstraints(testobj) \
 	[expr {[info commands testobj] != {}}]
+set ::tcltest::testConstraints(testindexobj) \
+	[expr {[info commands testindexobj] != {}}]
 
 test string-1.1 {error conditions} {
     list [catch {string gorp a b} msg] $msg
@@ -1339,6 +1341,13 @@ test string-22.12 {string wordstart, unicode} {
 test string-22.13 {string wordstart, unicode} {
     string wordstart "\uc700\uc700 abc" 8
 } 3
+
+test string-23.0 {string is boolean, Bug 1187123} testindexobj {
+    set x 5
+    catch {testindexobj $x foo bar soom}
+    string is boolean $x
+} 0
+
 
 # cleanup
 ::tcltest::cleanupTests

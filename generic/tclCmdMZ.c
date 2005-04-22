@@ -1592,14 +1592,8 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		case STR_IS_BOOL:
 		case STR_IS_TRUE:
 		case STR_IS_FALSE:
-		    if (objPtr->typePtr == &tclBooleanType) {
-			if ((((enum isOptions) index == STR_IS_TRUE) &&
-			     objPtr->internalRep.longValue == 0) ||
-			    (((enum isOptions) index == STR_IS_FALSE) &&
-			     objPtr->internalRep.longValue != 0)) {
-			    result = 0;
-			}
-		    } else if ((Tcl_GetBoolean(NULL, string1, &i)
+		    /* Optimizers, beware Bug 1187123 ! */
+		    if ((Tcl_GetBoolean(NULL, string1, &i)
 				== TCL_ERROR) ||
 			       (((enum isOptions) index == STR_IS_TRUE) &&
 				i == 0) ||
