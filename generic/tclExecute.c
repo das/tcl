@@ -4724,7 +4724,7 @@ TclExecuteByteCode(interp, codePtr)
 
 		    listVarPtr = &(compiledLocals[listTmpIndex]);
 		    listPtr = listVarPtr->value.objPtr;
-		    TclListObjGetElements(listPtr, listLen, elements);
+		    Tcl_ListObjGetElements(interp, listPtr, &listLen, &elements);
 			
 		    valIndex = (iterNum * numVars);
 		    for (j = 0;  j < numVars;  j++) {
