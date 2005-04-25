@@ -1677,7 +1677,7 @@ Tcl_GetDoubleFromObj(interp, objPtr, dblPtr)
 	*dblPtr = objPtr->internalRep.longValue;
 	return TCL_OK;
     } else if (objPtr->typePtr == &tclWideIntType) {
-	*dblPtr = objPtr->internalRep.wideValue;
+	*dblPtr = (double) objPtr->internalRep.wideValue;
 	return TCL_OK;
     }
 

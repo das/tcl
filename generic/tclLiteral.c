@@ -270,8 +270,6 @@ TclRegisterLiteral(envPtr, bytes, length, flags)
     register Tcl_Obj *objPtr;
     unsigned int hash;
     int localHash, globalHash, objIndex;
-    long n;
-    char buf[TCL_INTEGER_SPACE];
     Namespace *nsPtr;
 
     if (length < 0) {
@@ -371,6 +369,8 @@ TclRegisterLiteral(envPtr, bytes, length, flags)
 	/*
 	 * From here we use the objPtr, because it is NULL terminated
 	 */
+	long n;
+	char buf[TCL_INTEGER_SPACE];
 	if (TclGetLong((Tcl_Interp *) NULL, objPtr->bytes, &n) == TCL_OK) {
 	    TclFormatInt(buf, n);
 	    if (strcmp(objPtr->bytes, buf) == 0) {
