@@ -49,18 +49,18 @@ if {![info exists auto_path]} {
 namespace eval tcl {
     variable Dir
     foreach Dir [list $::tcl_library [file dirname $::tcl_library]] {
-	if {[lsearch -exact $::auto_path $Dir] < 0} {
+	if {$Dir ni $::auto_path} {
 	    lappend ::auto_path $Dir
 	}
     }
     set Dir [file join [file dirname [file dirname \
 	    [info nameofexecutable]]] lib]
-    if {[lsearch -exact $::auto_path $Dir] < 0} {
+    if {$Dir ni $::auto_path} {
 	lappend ::auto_path $Dir
     }
     catch {
 	foreach Dir $::tcl_pkgPath {
-	    if {[lsearch -exact $::auto_path $Dir] < 0} {
+	    if {$Dir ni $::auto_path} {
 		lappend ::auto_path $Dir
 	    }
 	}
@@ -68,7 +68,7 @@ namespace eval tcl {
 
     variable Path [unsupported::EncodingDirs]
     set Dir [file join $::tcl_library encoding]
-    if {[lsearch -exact $Path $Dir] < 0} {
+    if {$Dir ni $Path} {
 	lappend Path $Dir
 	unsupported::EncodingDirs $Path
     }
@@ -603,7 +603,7 @@ proc auto_execok name {
 	set execExtensions [list {} .com .exe .bat]
     }
 
-    if {[lsearch -exact $shellBuiltins $name] != -1} {
+    if {$name in $shellBuiltins} {
 	# When this is command.com for some reason on Win2K, Tcl won't
 	# exec it unless the case is right, which this corrects.  COMSPEC
 	# may not point to a real file, so do the check.
@@ -707,7 +707,7 @@ proc tcl::CopyDirectory {action src dest} {
     if {$action eq "renaming"} {
 	# Can't rename volumes.  We could give a more precise
 	# error message here, but that would break the test suite.
-	if {[lsearch -exact [file volumes] $nsrc] != -1} {
+	if {$nsrc in [file volumes]} {
 	    return -code error "error $action \"$src\" to\
 	      \"$dest\": trying to rename a volume or move a directory\
 	      into itself"
