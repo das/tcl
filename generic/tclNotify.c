@@ -68,6 +68,7 @@ typedef struct ThreadSpecificData {
     Tcl_ThreadId threadId;	/* Thread that owns this notifier instance. */
     ClientData clientData;	/* Opaque handle for platform specific
 				 * notifier. */
+    int initialized;		/* 1 if notifier has been initialized. */
     struct ThreadSpecificData *nextPtr;
 				/* Next notifier in global list of notifiers.
 				 * Access is controlled by the listLock global
@@ -118,6 +119,7 @@ TclInitNotifier()
 
     tsdPtr->threadId = Tcl_GetCurrentThread();
     tsdPtr->clientData = tclStubs.tcl_InitNotifier();
+    tsdPtr->initialized = 1;
     tsdPtr->nextPtr = firstNotifierPtr;
     firstNotifierPtr = tsdPtr;
 
@@ -157,7 +159,7 @@ TclFinalizeNotifier()
     ThreadSpecificData **prevPtrPtr;
     Tcl_Event *evPtr, *hold;
 
-    if (tsdPtr->threadId == (Tcl_ThreadId)0) {
+    if (!tsdPtr->initialized) {
         return; /* Notifier not initialized for the current thread */
     }
 
@@ -184,6 +186,7 @@ TclFinalizeNotifier()
 	    break;
 	}
     }
+    tsdPtr->initialized = 0;
 
     Tcl_MutexUnlock(&listLock);
 }
@@ -876,7 +879,7 @@ Tcl_DoOneEvent(flags)
 	 */
 
 	if (Tcl_ServiceEvent(flags)) {
-	    result = 1;	    
+	    result = 1;
 	    break;
 	}
 
