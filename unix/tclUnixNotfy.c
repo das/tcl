@@ -685,7 +685,9 @@ Tcl_WaitForEvent(timePtr)
         myTime.sec  = timePtr->sec;
 	myTime.usec = timePtr->usec;
 
-	(*tclScaleTimeProcPtr) (&myTime, tclTimeClientData);
+	if (myTime.sec != 0 || myTime.usec != 0) {
+	    (*tclScaleTimeProcPtr) (&myTime, tclTimeClientData);
+	}
 
 #ifdef TCL_THREADS
 	myTimePtr = &myTime;
