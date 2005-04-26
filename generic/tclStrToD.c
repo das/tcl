@@ -574,6 +574,15 @@ RefineResult( double approxResult,
     CONST char* p;
 
     /*
+     * The first approximation is always low.  If we find that
+     * it's HUGE_VAL, we're done.
+     */
+
+    if ( approxResult == HUGE_VAL ) {
+	return approxResult;
+    }
+
+    /*
      * Find a common denominator for the decimal and binary fractions.
      * The common denominator will be 2**M2 + 5**M5.
      */
