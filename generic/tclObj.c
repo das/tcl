@@ -1721,31 +1721,29 @@ Tcl_GetDoubleFromObj(interp, objPtr, dblPtr)
 {
     register int result;
 
-    if (objPtr->typePtr == &tclDoubleType) {
-	*dblPtr = objPtr->internalRep.doubleValue;
-	result = TCL_OK;
-    } else if (objPtr->typePtr == &tclIntType) {
+    if (objPtr->typePtr == &tclIntType) {
 	*dblPtr = objPtr->internalRep.longValue;
 	return TCL_OK;
     } else if (objPtr->typePtr == &tclWideIntType) {
 	*dblPtr = (double) objPtr->internalRep.wideValue;
 	return TCL_OK;
-    }
-
-    result = SetDoubleFromAny(interp, objPtr);
-    if ( result == TCL_OK ) {
-	if ( IS_NAN( objPtr->internalRep.doubleValue ) ) {
-	    if ( interp != NULL ) {
-		Tcl_SetObjResult
-		    ( interp,
-		      Tcl_NewStringObj( "floating point value is Not a Number",
-					-1 ) );
-	    }
+    } else if (objPtr->typePtr != &tclDoubleType) {
+	result = SetDoubleFromAny(interp, objPtr);
+	if ( result != TCL_OK ) {
 	    return TCL_ERROR;
 	}
-	*dblPtr = objPtr->internalRep.doubleValue;
     }
-    return result;
+    if ( IS_NAN( objPtr->internalRep.doubleValue ) ) {
+	if ( interp != NULL ) {
+	    Tcl_SetObjResult
+		( interp,
+		  Tcl_NewStringObj( "floating point value is Not a Number",
+				    -1 ) );
+	}
+	return TCL_ERROR;
+    }
+    *dblPtr = objPtr->internalRep.doubleValue;
+    return TCL_OK;
 }
 
 /*

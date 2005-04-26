@@ -1613,6 +1613,7 @@ FormatNumber(interp, type, src, cursorPtr)
 	    if ( src->typePtr != &tclDoubleType ) {
 		return TCL_ERROR;
 	    }
+	    dvalue = src->internalRep.doubleValue;
 	}
 	CopyNumber(&dvalue, *cursorPtr, sizeof(double), type);
 	*cursorPtr += sizeof(double);
