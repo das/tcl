@@ -1734,7 +1734,7 @@ Tcl_GetDoubleFromObj(interp, objPtr, dblPtr)
 
     result = SetDoubleFromAny(interp, objPtr);
     if ( result == TCL_OK ) {
-	if ( IS_NAN( *dblPtr ) ) {
+	if ( IS_NAN( objPtr->internalRep.doubleValue ) ) {
 	    if ( interp != NULL ) {
 		Tcl_SetObjResult
 		    ( interp,
