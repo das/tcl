@@ -1815,7 +1815,7 @@ SetDoubleFromAny(interp, objPtr)
 	goto badDouble;
     }
 
-    if (errno != 0) {
+    if (errno != 0 && errno != ERANGE) {
 	if (interp != NULL) {
 	    TclExprFloatError(interp, newDouble);
 	}
