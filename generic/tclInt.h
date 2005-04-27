@@ -1889,7 +1889,9 @@ MODULE_SCOPE int	TclGetEncodingFromObj _ANSI_ARGS_((Tcl_Interp *interp,
 MODULE_SCOPE int        TclGetNamespaceFromObj _ANSI_ARGS_((
 			    Tcl_Interp *interp, Tcl_Obj *objPtr,
 			    Tcl_Namespace **nsPtrPtr));
-
+MODULE_SCOPE int	TclGetOpenModeEx _ANSI_ARGS_((Tcl_Interp *interp,
+			    CONST char *modeString, int *seekFlagPtr,
+			    int *binaryPtr));
 MODULE_SCOPE Tcl_Obj *	TclGetProcessGlobalValue _ANSI_ARGS_ ((
 			    ProcessGlobalValue *pgvPtr));
 MODULE_SCOPE int	TclGlob _ANSI_ARGS_((Tcl_Interp *interp,
