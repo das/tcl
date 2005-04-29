@@ -78,10 +78,7 @@ sublists, \fBlsort\fR will extract the \fIindexList\fR'th element from
 each sublist
 .VS 8.5
 (as if the overall element and the \fIindexList\fR were passed to
-\fBlindex\fR) and sort based on the given element.  The keyword
-\fBend\fP is allowed for each element of the \fIindexList\fR to sort
-on the last sublist element, and \fBend-\fIindex\fR sorts on a sublist
-element offset from the end.
+\fBlindex\fR) and sort based on the given element.  
 .VE 8.5
 For example,
 .RS
