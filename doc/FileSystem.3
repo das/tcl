@@ -58,7 +58,8 @@ int
 \fBTcl_FSEvalFile\fR(\fIinterp, pathPtr\fR)
 .sp
 int
-\fBTcl_FSLoadFile\fR(\fIinterp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr, handlePtr, unloadProcPtr\fR)
+\fBTcl_FSLoadFile\fR(\fIinterp, pathPtr, sym1, sym2, proc1Ptr, proc2Ptr,
+               handlePtr, unloadProcPtr\fR)
 .sp
 int
 \fBTcl_FSMatchInDirectory\fR(\fIinterp, result, pathPtr, pattern, types\fR)
@@ -200,6 +201,8 @@ Name of a procedure to look up in the file's symbol table
 Filled with the init function for this code.
 .AP Tcl_PackageInitProc **proc2Ptr out
 Filled with the safe-init function for this code.
+.AP Tcl_LoadHandle *handlePtr out
+Filled with an abstract token representing the loaded file.
 .AP ClientData *clientDataPtr out
 Filled with the clientData value to pass to this code's unload
 function when it is called.
