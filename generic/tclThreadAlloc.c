@@ -988,6 +988,8 @@ TclFinalizeThreadAlloc()
 
     TclpFreeAllocMutex(listLockPtr);
     listLockPtr = NULL;
+
+    TclpFreeAllocCache(NULL);
 }
 
 #else

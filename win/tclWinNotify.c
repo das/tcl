@@ -452,7 +452,9 @@ Tcl_WaitForEvent(
         myTime.sec  = timePtr->sec;
 	myTime.usec = timePtr->usec;
 
-	(*tclScaleTimeProcPtr) (&myTime, tclTimeClientData);
+	if (myTime.sec != 0 || myTime.usec != 0) {
+	    (*tclScaleTimeProcPtr) (&myTime, tclTimeClientData);
+	}
 
 	timeout = myTime.sec * 1000 + myTime.usec / 1000;
     } else {

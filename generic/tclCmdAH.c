@@ -455,21 +455,18 @@ Tcl_EncodingObjCmd(dummy, interp, objc, objv)
     switch ((enum options) index) {
 	case ENC_CONVERTTO:
 	case ENC_CONVERTFROM: {
-	    char *name;
 	    Tcl_Obj *data;
 	    if (objc == 3) {
-		name = NULL;
+		encoding = Tcl_GetEncoding(interp, NULL);
 		data = objv[2];
 	    } else if (objc == 4) {
-		name = TclGetString(objv[2]);
+		if (TclGetEncodingFromObj(interp, objv[2], &encoding)
+			!= TCL_OK) {
+		    return TCL_ERROR;
+		}
 		data = objv[3];
 	    } else {
 		Tcl_WrongNumArgs(interp, 2, objv, "?encoding? data");
-		return TCL_ERROR;
-	    }
-
-	    encoding = Tcl_GetEncoding(interp, name);
-	    if (!encoding) {
 		return TCL_ERROR;
 	    }
 
@@ -527,6 +524,45 @@ Tcl_EncodingObjCmd(dummy, interp, objc, objv)
 	    break;
 	}
     }
+    return TCL_OK;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclEncodingDirsObjCmd --
+ *
+ *	This command manipulates the encoding search path.
+ *
+ * Results:
+ *	A standard Tcl result.
+ *
+ * Side effects:
+ *	Can set the encoding search path.
+ *
+ *----------------------------------------------------------------------
+ */
+
+int
+TclEncodingDirsObjCmd(dummy, interp, objc, objv)
+    ClientData dummy;		/* Not used. */
+    Tcl_Interp *interp;		/* Current interpreter. */
+    int objc;			/* Number of arguments. */
+    Tcl_Obj *CONST objv[];	/* Argument objects. */
+{
+    if (objc > 2) {
+	Tcl_WrongNumArgs(interp, 1, objv, "?dirList?");
+    }
+    if (objc == 1) {
+	Tcl_SetObjResult(interp, TclGetEncodingSearchPath());
+	return TCL_OK;
+    }
+    if (TclSetEncodingSearchPath(objv[1]) == TCL_ERROR) {
+	Tcl_AppendResult(interp, "expected directory list but got \"",
+		Tcl_GetString(objv[1]), "\"", NULL);
+	return TCL_ERROR;
+    }
+    Tcl_SetObjResult(interp, objv[1]);
     return TCL_OK;
 }
 

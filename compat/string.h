@@ -26,7 +26,11 @@
 
 #include <sys/types.h>
 
+#ifdef __APPLE__
+extern VOID *		memchr _ANSI_ARGS_((CONST VOID *s, int c, size_t n));
+#else
 extern char *		memchr _ANSI_ARGS_((CONST VOID *s, int c, size_t n));
+#endif
 extern int		memcmp _ANSI_ARGS_((CONST VOID *s1, CONST VOID *s2,
 			    size_t n));
 extern char *		memcpy _ANSI_ARGS_((VOID *t, CONST VOID *f, size_t n));

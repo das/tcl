@@ -92,7 +92,12 @@ by \fIsubSpec\fR use the original unconverted form of \fIstring\fR.
 .TP 10
 \fB\-start\fR \fIindex\fR
 Specifies a character index offset into the string to start
-matching the regular expression at.  When using this switch, `^'
+matching the regular expression at.  
+.VS 8.5
+The \fIindex\fR value is interpreted in the same manner
+as the \fIindex\fR argument to \fBstring index\fR.
+.VE 8.5
+When using this switch, `^'
 will not match the beginning of the line, and \\A will still
 match the start of the string at \fIindex\fR.
 \fIindex\fR will be constrained to the bounds of the input string.
@@ -134,7 +139,11 @@ set quoted [subst [\fBregsub\fR -all $RE $string $substitution]]
 .CE
 
 .SH "SEE ALSO"
-regexp(n), re_syntax(n), subst(n)
+regexp(n), re_syntax(n), subst(n),
+.VS 8.5
+string(n)
+.VE
+
 
 .SH KEYWORDS
 match, pattern, regular expression, substitute

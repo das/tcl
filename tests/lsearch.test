@@ -284,7 +284,7 @@ test lsearch-10.3 {offset searching} {
 } 3
 test lsearch-10.4 {offset searching} {
     list [catch {lsearch -start foobar {a b c a b c} a} msg] $msg
-} {1 {bad index "foobar": must be integer or end?-integer?}}
+} {1 {bad index "foobar": must be integer?[+-]integer? or end?[+-]integer?}}
 test lsearch-10.5 {offset searching} {
     list [catch {lsearch -start 1 2} msg] $msg
 } {1 {missing starting index}}
@@ -415,7 +415,7 @@ test lsearch-20.1 {lsearch -index option, index larger than sublists} {
 } {1 {element 2 missing from sublist "a c"}}
 test lsearch-20.2 {lsearch -index option, malformed index} {
     list [catch {lsearch -index foo {{a c} {a b} {a a}} a} msg] $msg
-} {1 {bad index "foo": must be integer or end?-integer?}}
+} {1 {bad index "foo": must be integer?[+-]integer? or end?[+-]integer?}}
 test lsearch-20.3 {lsearch -index option, malformed index} {
     list [catch {lsearch -index \{ {{a c} {a b} {a a}} a} msg] $msg
 } {1 {unmatched open brace in list}}
