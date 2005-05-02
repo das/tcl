@@ -509,7 +509,7 @@ declare 141 generic {
 	    Tcl_Obj **resultPtrPtr)
 }
 declare 142 generic {
-    int Tcl_ExprString(Tcl_Interp *interp, CONST char *string)
+    int Tcl_ExprString(Tcl_Interp *interp, CONST char *exprString)
 }
 declare 143 generic {
     void Tcl_Finalize(void)
