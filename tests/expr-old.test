@@ -972,6 +972,13 @@ test expr-old-38.1 {Verify Tcl_ExprString's basic operation} testexprstring {
     list [testexprstring "1+4"] [testexprstring "2*3+4.2"] \
 	    [catch {testexprstring "1+"} msg] $msg
 } {5 10.2 1 {syntax error in expression "1+": premature end of expression}}
+test expr-old-38.2 {Tcl_ExprString} testexprstring {
+    # This one is "magical"
+    testexprstring {}
+} 0
+test expr-old-38.3 {Tcl_ExprString} -constraints testexprstring -body {
+    testexprstring { }
+} -returnCodes error -match glob -result *
 
 #
 # Test for bug #908375: rounding numbers that do not fit in a
