@@ -906,6 +906,22 @@ namespace eval ::tcl::test::main {
 	file delete result
     } -result "1\n% "
 
+    test Tcl_Main-6.7 {
+	[unknown]: interactive auto-completion.
+    } -constraints {
+	exec
+    } -body {
+	exec [interpreter] << {
+		proc foo\{ x {}
+		set tcl_interactive 1
+		foo y} >& result
+	set f [open result]
+	read $f
+    } -cleanup {
+	close $f
+	file delete result
+    } -result "1\n% % "
+
     # Tests Tcl_Main-7.*: exiting
 
     test Tcl_Main-7.1 {

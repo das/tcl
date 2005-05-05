@@ -429,12 +429,12 @@ test unixInit-7.1 {closed standard channel: Bug 772288} -constraints {
 	unix stdio
 } -body {
     set tclsh [interpreter]
-    makeFile {puts [open /dev/null]} crash.tcl
-    makeFile "
+    set crash [makeFile {puts [open /dev/null]} crash.tcl]
+    set crashtest [makeFile "
 	close stdin
-	[list exec $tclsh [file join [temporaryDirectory] crash.tcl]]
-    " crashtest.tcl
-    exec $tclsh [file join [temporaryDirectory] crashtest.tcl]
+	[list exec $tclsh $crash]
+    " crashtest.tcl]
+    exec $tclsh $crashtest
 } -cleanup {
     removeFile crash.tcl
     removeFile crashtest.tcl

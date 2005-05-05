@@ -342,7 +342,7 @@ proc unknown args {
 	    }
 	}
 	if {[llength $cmds] == 1} {
-	    return [uplevel 1 [lreplace $args 0 0 $cmds]]
+	    return [uplevel 1 [lreplace $args 0 0 [lindex $cmds 0]]]
 	}
 	if {[llength $cmds]} {
 	    if {$name eq ""} {

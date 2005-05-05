@@ -16,12 +16,12 @@ Tcl_PutEnv \- procedures to manipulate the environment
 \fB#include <tcl.h>\fR
 .sp
 int
-\fBTcl_PutEnv\fR(\fIstring\fR)
+\fBTcl_PutEnv\fR(\fIassignment\fR)
 .SH ARGUMENTS
-.AS "const char" *string
-.AP "const char" *string in
-Info about environment variable in the form NAME=value. The string is
-in native format.
+.AS "const char" *assignment
+.AP "const char" *assignnment in
+Info about environment variable in the format NAME=value.
+The \fIassignment\fR argument is in the system encoding.
 .BE
 
 .SH DESCRIPTION
