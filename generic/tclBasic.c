@@ -2822,6 +2822,14 @@ Tcl_ListMathFuncs(interp, pattern)
     Tcl_HashSearch hSearch;
     CONST char *name;
 
+    if ((pattern != NULL) && TclMatchIsTrivial(pattern)) {
+	if ((Tcl_FindHashEntry(&iPtr->mathFuncTable, pattern) != NULL)
+		&& (Tcl_ListObjAppendElement(interp, resultList,
+		Tcl_NewStringObj(pattern,-1)) != TCL_OK)) {
+	    goto error;
+	}
+	return resultList;
+    }
     for (hPtr = Tcl_FirstHashEntry(&iPtr->mathFuncTable, &hSearch);
 	 hPtr != NULL; hPtr = Tcl_NextHashEntry(&hSearch)) {
         name = Tcl_GetHashKey(&iPtr->mathFuncTable, hPtr);
@@ -2829,6 +2837,7 @@ Tcl_ListMathFuncs(interp, pattern)
 	    /* I don't expect this to fail, but... */
 	    Tcl_ListObjAppendElement(interp, resultList,
 				     Tcl_NewStringObj(name,-1)) != TCL_OK) {
+error:
 	    Tcl_DecrRefCount(resultList);
 	    return NULL;
 	}

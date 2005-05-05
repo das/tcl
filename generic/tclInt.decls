@@ -807,9 +807,9 @@ declare 198 generic {
 	    CallFrame **framePtrPtr)
 }
 
-declare 199 generic {
-    int TclMatchIsTrivial(CONST char *pattern)
-}
+#declare 199 generic {
+#    int TclMatchIsTrivial(CONST char *pattern)
+#}
 
 # 200-208 exported for use by the test suite [Bug 1054748]
 declare 200 generic {

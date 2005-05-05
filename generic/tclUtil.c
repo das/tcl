@@ -1416,43 +1416,6 @@ Tcl_StringCaseMatch(str, pattern, nocase)
 /*
  *----------------------------------------------------------------------
  *
- * TclMatchIsTrivial --
- *
- *	Test whether a particular glob pattern is a trivial pattern.
- *	(i.e. where matching is the same as equality testing).
- *
- * Results:
- *	A boolean indicating whether the pattern is free of all of the
- *	glob special chars.
- *
- * Side effects:
- *	None.
- *
- *----------------------------------------------------------------------
- */
-
-int
-TclMatchIsTrivial(pattern)
-    CONST char *pattern;
-{
-    CONST char *p = pattern;
-
-    while (1) {
-	switch (*p++) {
-	case '\0':
-	    return 1;
-	case '*':
-	case '?':
-	case '[':
-	case '\\':
-	    return 0;
-	}
-    }
-}
-
-/*
- *----------------------------------------------------------------------
- *
  * Tcl_DStringInit --
  *
  *	Initializes a dynamic string, discarding any previous contents

@@ -2718,6 +2718,19 @@ MODULE_SCOPE void	TclDbInitNewObj _ANSI_ARGS_((Tcl_Obj *objPtr));
 
 /*
  *----------------------------------------------------------------
+ * Macro used by the Tcl core to check whether a pattern has
+ * any characters special to [string match].
+ * The ANSI C "prototype" for this macro is:
+ *
+ * MODULE_SCOPE int	TclMatchIsTrivial _ANSI_ARGS_((
+ * 			    CONST char *pattern));
+ *----------------------------------------------------------------
+ */
+
+#define TclMatchIsTrivial(pattern) strpbrk((pattern), "*[]]?\\") == NULL
+
+/*
+ *----------------------------------------------------------------
  * Macros used by the Tcl core to set a Tcl_Obj's numeric representation
  * avoiding the corresponding function calls in time critical parts of the
  * core. They should only be called on unshared objects. The ANSI C

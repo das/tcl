@@ -2612,18 +2612,13 @@ TclCompileStringCmd(interp, parsePtr, envPtr)
 		    length = varTokenPtr[1].size;
 		    if (!nocase && (i == 0)) {
 			/*
-			 * On the first (pattern) arg, check to see if any
-			 * glob special characters are in the word '*[]?\\'.
-			 * If not, this is the same as 'string equal'.  We
-			 * can use strpbrk here because the glob chars are all
-			 * in the ascii-7 range.  If -nocase was specified,
-			 * we can't do this because INST_STR_EQ has no support
-			 * for nocase.
+			 * Trivial matches can be done by 'string equal'.  
+			 * If -nocase was specified, we can't do this
+			 * because INST_STR_EQ has no support for nocase.
 			 */
 			Tcl_Obj *copy = Tcl_NewStringObj(str, length);
 			Tcl_IncrRefCount(copy);
-			exactMatch = (strpbrk(Tcl_GetString(copy),
-				"*[]?\\") == NULL);
+			exactMatch = TclMatchIsTrivial(Tcl_GetString(copy));
 			Tcl_DecrRefCount(copy);
 		    }
 		    TclEmitPush(
