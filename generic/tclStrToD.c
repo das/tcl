@@ -60,6 +60,10 @@ typedef unsigned int fpu_control_t __attribute__ ((__mode__ (__HI__)));
 #define _FPU_SETCW(cw) __asm__ ("fldcw %0" : : "m" (*&cw))
 #endif
 
+#ifdef _MSC_VER
+static double DoNothing( double v );
+#endif
+
 /* The powers of ten that can be represented exactly as IEEE754 doubles. */
 
 #define MAXPOW 22
@@ -470,6 +474,7 @@ TclStrToD( CONST char* s,
 	errno = ERANGE;
 	goto returnValue;
     }
+
     v = SafeLdExp( v, machexp );
     if ( v == 0.0 ) {
 	v = tiny;
@@ -1181,7 +1186,7 @@ TclInitDoubleConversion( void )
     }
     tiny = SafeLdExp( 1.0, DBL_MIN_EXP * log2FLT_RADIX - mantBits );
     maxDigits = (int) ((DBL_MAX_EXP * log((double) FLT_RADIX)
-			+ 0.5 * log(10))
+			+ 0.5 * log(10.))
 		       / log( 10. ));
     minDigits = (int) floor ( ( DBL_MIN_EXP - DBL_MANT_DIG )
 			      * log( (double) FLT_RADIX ) / log( 10. ) );
@@ -1228,7 +1233,7 @@ TclFinalizeDoubleConversion()
  *----------------------------------------------------------------------
  */
 
-static double
+double
 TclBignumToDouble( mp_int* a )
 				/* Integer to convert */
 {
@@ -1301,10 +1306,20 @@ static double
 SafeLdExp( double fract, int expt )
 {
     int minexpt = DBL_MIN_EXP * log2FLT_RADIX;
-    volatile double retval;
+    volatile double a, b, retval;
     if ( expt < minexpt ) {
-	retval = ldexp( fract, expt - mantBits - minexpt );
-	retval *= ldexp( 1.0, mantBits + minexpt );
+	a = ldexp( fract, expt - mantBits - minexpt );
+	b = ldexp( 1.0, mantBits + minexpt );
+#ifdef _MSC_VER
+	/*
+	 * MS VC++ returns the value in a register, and storing it
+	 * in a volatile temp doesn't help.  Explicitly pass it as
+	 * a parameter to another function to force truncation.
+	 */
+	retval = DoNothing( a * b );
+#else
+	retval = a * b;
+#endif
     } else {
 	retval = ldexp( fract, expt );
     }
@@ -1357,3 +1372,11 @@ TclFormatNaN( double value,	/* The Not-a-Number to format */
 
 #endif
 }
+
+#ifdef _MSC_VER
+double
+DoNothing( double v )
+{
+    return v;
+}
+#endif
