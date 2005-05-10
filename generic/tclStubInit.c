@@ -303,6 +303,11 @@ TclIntStubs tclIntStubs = {
     TclStackFree, /* 216 */
     TclPushStackFrame, /* 217 */
     TclPopStackFrame, /* 218 */
+    TclBN_mp_div_d, /* 219 */
+    TclBN_mp_mul_d, /* 220 */
+    TclBN_mp_clear, /* 221 */
+    TclBN_mp_init, /* 222 */
+    TclBN_mp_read_radix, /* 223 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
@@ -971,6 +976,10 @@ TclStubs tclStubs = {
     Tcl_SetTimeProc, /* 552 */
     Tcl_QueryTimeProc, /* 553 */
     Tcl_ChannelThreadActionProc, /* 554 */
+    Tcl_NewBignumObj, /* 555 */
+    Tcl_DbNewBignumObj, /* 556 */
+    Tcl_SetBignumObj, /* 557 */
+    Tcl_GetBignumFromObj, /* 558 */
 };
 
 /* !END!: Do not edit above this line. */

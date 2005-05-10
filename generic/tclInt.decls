@@ -874,6 +874,23 @@ declare 218 generic {
     void TclPopStackFrame(Tcl_Interp *interp)
 }
 
+# Entries in tommath needed only by tcltest
+
+declare 219 generic {
+    int TclBN_mp_div_d(mp_int *a, mp_digit b, mp_int *c, mp_digit *d)
+}
+declare 220 generic {
+    int TclBN_mp_mul_d(mp_int *a, mp_digit b, mp_int *c)
+}
+declare 221 generic {
+    void TclBN_mp_clear(mp_int *a)
+}
+declare 222 generic {
+    int TclBN_mp_init(mp_int *a)
+}
+declare 223 generic {
+    int TclBN_mp_read_radix(mp_int *a, const char *str, int radix)
+}
 
 ##############################################################################
 

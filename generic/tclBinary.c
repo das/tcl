@@ -1605,10 +1605,15 @@ FormatNumber(interp, type, src, cursorPtr)
     case 'Q':
 	/*
 	 * Double-precision floating point values.
+	 * Tcl_GetDoubleFromObj returns TCL_ERROR for NaN, but
+	 * we can check by comparing the object's type pointer.
 	 */
 
 	if (Tcl_GetDoubleFromObj(interp, src, &dvalue) != TCL_OK) {
-	    return TCL_ERROR;
+	    if ( src->typePtr != &tclDoubleType ) {
+		return TCL_ERROR;
+	    }
+	    dvalue = src->internalRep.doubleValue;
 	}
 	CopyNumber(&dvalue, *cursorPtr, sizeof(double), type);
 	*cursorPtr += sizeof(double);
@@ -1619,10 +1624,14 @@ FormatNumber(interp, type, src, cursorPtr)
     case 'R':
 	/*
 	 * Single-precision floating point values.
+	 * Tcl_GetDoubleFromObj returns TCL_ERROR for NaN, but
+	 * we can check by comparing the object's type pointer.
 	 */
 
 	if (Tcl_GetDoubleFromObj(interp, src, &dvalue) != TCL_OK) {
-	    return TCL_ERROR;
+	    if ( src->typePtr != &tclDoubleType ) {
+		return TCL_ERROR;
+	    }
 	}
 
 	/*
