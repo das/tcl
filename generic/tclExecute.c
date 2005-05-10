@@ -6917,7 +6917,7 @@ ExponWide(w, w2, errExpon)
 	}
     } else if (w == -1) {
 	return (w2 & 1) ? Tcl_LongAsWide(-1) :  Tcl_LongAsWide(1);
-    } else if (w == 1) {
+    } else if ((w == 1) || (w2 == 0)) {
 	return Tcl_LongAsWide(1);
     } else if (w>1 && w2<0) {
 	return W0;
@@ -6987,7 +6987,7 @@ ExponLong(i, i2, errExpon)
         }
     } else if (i == -1) {
         return (i2&1) ? -1L : 1L;
-    } else if (i == 1) {
+    } else if ((i == 1) || (i2 == 0)) {
         return 1L;
     } else if (i > 1 && i2 < 0) {
         return 0L;
