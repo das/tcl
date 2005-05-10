@@ -16,7 +16,7 @@
  */
 
 /* read a string [ASCII] in a given radix */
-int mp_read_radix (mp_int * a, char *str, int radix)
+int mp_read_radix (mp_int * a, const char *str, int radix)
 {
   int     y, res, neg;
   char    ch;
@@ -69,6 +69,13 @@ int mp_read_radix (mp_int * a, char *str, int radix)
     ++str;
   }
   
+  /* if an illegal character was found, fail. */
+
+  if ( *str != '\0' ) {
+      mp_zero( a );
+      return MP_VAL;
+  }
+
   /* set the sign only if a != 0 */
   if (mp_iszero(a) != 1) {
      a->sign = neg;
