@@ -123,7 +123,6 @@ typedef struct allocMutex {
     Tcl_Mutex        tlock;
     CRITICAL_SECTION wlock;
 } allocMutex;
-
 #endif
 
 /*
