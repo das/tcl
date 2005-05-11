@@ -60,6 +60,19 @@ typedef unsigned int fpu_control_t __attribute__ ((__mode__ (__HI__)));
 #define _FPU_SETCW(cw) __asm__ ("fldcw %0" : : "m" (*&cw))
 #endif
 
+/*
+ * HP's PA_RISC architecture uses 7ff4000000000000 to represent a
+ * quiet NaN. Everyone else uses 7ff8000000000000.  (Why, HP, why?)
+ */
+
+#ifdef __hppa
+#  define NAN_START 0x7ff4
+#  define NAN_MASK (((Tcl_WideUInt) 1) << 50)
+#else
+#  define NAN_START 0x7ff8
+#  define NAN_MASK (((Tcl_WideUInt) 1) << 51)
+#endif
+
 /* The powers of ten that can be represented exactly as IEEE754 doubles. */
 
 #define MAXPOW 22
@@ -762,7 +775,7 @@ ParseNaN( int signum,		/* Flag == 1 if minus sign has been
 	    } else if ( c >= 'a' && c <= 'f' ) {
 		c = c - 'a' + 10;
 	    } else {
-		theNaN.iv = ( ((Tcl_WideUInt) 0x7ff8) << 48 )
+		theNaN.iv = ( ((Tcl_WideUInt) NAN_START) << 48 )
 		    | ( ((Tcl_WideUInt) signum) << 63 );
 		return theNaN.dv;
 	    }
@@ -778,7 +791,7 @@ ParseNaN( int signum,		/* Flag == 1 if minus sign has been
     if ( signum ) {
 	theNaN.iv |= ((Tcl_WideUInt) 0xfff8) << 48;
     } else {
-	theNaN.iv |= ((Tcl_WideUInt) 0x7ff8) << 48;
+	theNaN.iv |= ((Tcl_WideUInt) NAN_START) << 48;
     }
 
     *endPtr = p;

@@ -135,6 +135,7 @@ enum {
     MACOSX_HIDDEN_ATTRIBUTE,
     MACOSX_RSRCLENGTH_ATTRIBUTE,
 #endif
+    UNIX_INVALID_ATTRIBUTE /* lint - last enum value needs no trailing , */
 };
 
 CONST char *tclpFileAttrStrings[] = {
