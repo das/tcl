@@ -241,7 +241,7 @@ TclStrToD( CONST char* s,
 	if ( c == '.' && !seenDp ) {
 	    seenDp = 1;
 	    ++p;
-	} else if ( isdigit(c) ) {
+	} else if ( isdigit( UCHAR(c) ) ) {
 	    if ( c == '0' ) {
 		if ( startOfSignificand != NULL ) {
 		    ++nTrailZero;
@@ -292,7 +292,7 @@ TclStrToD( CONST char* s,
 	CONST char* stringSave = p;
 	++p;
 	c = *p;
-	if ( isdigit( c ) || c == '+' || c == '-' ) {
+	if ( isdigit( UCHAR( c ) ) || c == '+' || c == '-' ) {
 	    errno = 0;
 	    exponent = strtol( p, (char**)&p, 10 );
 	    if ( errno == ERANGE ) {
@@ -651,7 +651,7 @@ RefineResult( double approxResult,
     i = nSigDigs;
     for ( p = sigStart ; ; ++p ) {
 	char c = *p;
-	if ( isdigit( c ) ) {
+	if ( isdigit( UCHAR( c ) ) ) {
 	    mp_mul_d( &twoMd, (unsigned) 10, &twoMd );
 	    mp_add_d( &twoMd, (unsigned) (c - '0'), &twoMd );
 	    --i;
@@ -763,12 +763,12 @@ ParseNaN( int signum,		/* Flag == 1 if minus sign has been
 	++p;
 	for ( ; ; ) {
 	    c = *p++;
-	    if ( isspace(c) ) {
+	    if ( isspace( UCHAR(c) ) ) {
 		continue;
 	    } else if ( c == ')' ) {
 		*endPtr = p;
 		break;
-	    } else if ( isdigit(c) ) {
+	    } else if ( isdigit( UCHAR(c) ) ) {
 		c -= '0';
 	    } else if ( c >= 'A' && c <= 'F' ) {
 		c = c - 'A' + 10;
