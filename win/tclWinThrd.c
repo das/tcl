@@ -112,6 +112,18 @@ typedef struct WinCondition {
     struct ThreadSpecificData *lastPtr;
 } WinCondition;
 
+/*
+ * Additions by AOL for specialized thread memory allocator.
+ */
+#ifdef USE_THREAD_ALLOC
+static int once;
+static DWORD key;
+
+typedef struct allocMutex {
+    Tcl_Mutex        tlock;
+    CRITICAL_SECTION wlock;
+} allocMutex;
+#endif
 
 /*
  *----------------------------------------------------------------------
@@ -1044,13 +1056,6 @@ TclpFinalizeCondition(condPtr)
  * Additions by AOL for specialized thread memory allocator.
  */
 #ifdef USE_THREAD_ALLOC
-static int once;
-static DWORD key;
-
-typedef struct allocMutex {
-    Tcl_Mutex        tlock;
-    CRITICAL_SECTION wlock;
-} allocMutex;
 
 Tcl_Mutex *
 TclpNewAllocMutex(void)

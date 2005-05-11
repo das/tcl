@@ -1027,7 +1027,7 @@ TclCompileScriptTokens(interp, tokens, lastTokenPtr, envPtr)
 		    (Command *) Tcl_GetCommandFromObj(interp, cmdName);
 	    int savedNumCmds = envPtr->numCommands;
 	    unsigned int savedCodeNext = envPtr->codeNext - envPtr->codeStart;
-	    int code = TCL_OUT_LINE_COMPILE;
+	    int code = TCL_ERROR;
 
 	    if ((cmdPtr != NULL) && (cmdPtr->compileProc != NULL)
 		    && !(cmdPtr->flags & CMD_HAS_EXEC_TRACES)

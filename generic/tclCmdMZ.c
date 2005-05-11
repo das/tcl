@@ -1536,17 +1536,8 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 			}
 		    }
 		    errno = 0;
-		    strtod(string1, &stop); /* INTL: Tcl source. */
-		    if (errno == ERANGE) {
-			/*
-			 * if (errno == ERANGE), then it was an over/underflow
-			 * problem, but in this method, we only want to know
-			 * yes or no, so bad flow returns 0 (false) and sets
-			 * the failVarObj to the string length.
-			 */
-			result = 0;
-			failat = -1;
-		    } else if (stop == string1) {
+		    TclStrToD(string1, (CONST char **) &stop); /* INTL: Tcl source. */
+		    if (stop == string1) {
 			/*
 			 * In this case, nothing like a number was found
 			 */
@@ -1916,7 +1907,8 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 
 		ustring2 = Tcl_GetUnicodeFromObj(mapElemv[0], &length2);
 		p = ustring1;
-		if (length2 == 0) {
+		if ((length2 > length1) || (length2 == 0)) {
+		    /* match string is either longer than input or empty */
 		    ustring1 = end;
 		} else {
 		    mapString = Tcl_GetUnicodeFromObj(mapElemv[1], &mapLen);
@@ -1974,6 +1966,8 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 			if ((length2 > 0) && ((*ustring1 == *ustring2) ||
 				(nocase && (Tcl_UniCharToLower(*ustring1) ==
 					u2lc[index/2]))) &&
+				/* restrict max compare length */
+				((end - ustring1) >= length2) &&
 				((length2 == 1) || strCmpFn(ustring2, ustring1,
 					(unsigned long) length2) == 0)) {
 			    if (p != ustring1) {

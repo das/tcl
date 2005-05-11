@@ -798,6 +798,8 @@ TclInitSubsystems()
 #endif
 
 	    TclpInitPlatform(); /* creates signal handler(s) */
+	    TclInitDoubleConversion(); /* initializes constants for
+					* converting to/from double */
     	    TclInitObjSubsystem(); /* register obj types, create mutexes */
 	    TclInitIOSubsystem(); /* inits a tsd key (noop) */
 	    TclInitEncodingSubsystem(); /* process wide encoding init */
@@ -938,6 +940,10 @@ Tcl_Finalize()
 
 	TclFinalizeLoad();
 	TclResetFilesystem();
+
+	/* Now we can free constants for conversions to/from double */
+
+	TclFinalizeDoubleConversion();
 	
 	/*
 	 * There shouldn't be any malloc'ed memory after this.

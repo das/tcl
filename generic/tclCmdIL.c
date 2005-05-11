@@ -1455,6 +1455,13 @@ AppendLocals(interp, listPtr, pattern, includeLinks)
     }
 
     if (localVarTablePtr != NULL) {
+	if ((pattern != NULL) && TclMatchIsTrivial(pattern)) {
+	    if (Tcl_FindHashEntry(localVarTablePtr, pattern)) {
+		Tcl_ListObjAppendElement(interp, listPtr,
+			Tcl_NewStringObj(pattern,-1));
+	    }
+	    return;
+	}
 	for (entryPtr = Tcl_FirstHashEntry(localVarTablePtr, &search);
 		entryPtr != NULL;
 		entryPtr = Tcl_NextHashEntry(&search)) {

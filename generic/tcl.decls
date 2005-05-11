@@ -1989,6 +1989,21 @@ declare 554 generic {
     Tcl_DriverThreadActionProc *Tcl_ChannelThreadActionProc(Tcl_ChannelType *chanTypePtr)
 }
 
+# TIP #237:
+
+declare 555 generic {
+    Tcl_Obj* Tcl_NewBignumObj( mp_int* value )
+}
+declare 556 generic {
+    Tcl_Obj* Tcl_DbNewBignumObj( mp_int* value, CONST char* file, int line )
+}
+declare 557 generic {
+    void Tcl_SetBignumObj( Tcl_Obj* obj, mp_int* value )
+}
+declare 558 generic {
+    int Tcl_GetBignumFromObj( Tcl_Interp* interp, Tcl_Obj* obj, mp_int* value )
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are
