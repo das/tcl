@@ -782,7 +782,7 @@ foobar grill
 .PP
 Look up where the command imported in the previous example came from:
 .CS
-puts "grill came from [\fBnamespace which\fR grill]"
+puts "grill came from [\fBnamespace origin\fR grill]"
 .CE
 
 .SH "SEE ALSO"
