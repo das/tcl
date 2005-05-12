@@ -13,7 +13,7 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-expr \- Evaluate an expression
+mathfunc \- Mathematical functions for Tcl expressions
 .SH SYNOPSIS
 package require \fBTcl 8.5\fR
 .sp
