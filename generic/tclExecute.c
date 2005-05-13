@@ -17,9 +17,7 @@
 #include "tclInt.h"
 #include "tclCompile.h"
 
-#ifndef TCL_NO_MATH
-#   include <math.h>
-#endif
+#include <math.h>
 #include <float.h>
 
 /*

@@ -15,11 +15,7 @@
 
 #include "tclInt.h"
 
-#ifdef TCL_NO_MATH
-#define fabs(x) (x<0 ? -x : x)
-#else
 #include <math.h>
-#endif
 
 /*
  * The following constants are used by GetFormatSpec to indicate various
