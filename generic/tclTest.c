@@ -2457,11 +2457,7 @@ TestgetplatformCmd(clientData, interp, argc, argv)
     static CONST char *platformStrings[] = { "unix", "mac", "windows" };
     TclPlatformType *platform;
 
-#ifdef __WIN32__
-    platform = TclWinGetPlatform();
-#else
-    platform = &tclPlatform;
-#endif
+    platform = TclGetPlatform();
     
     if (argc != 1) {
         Tcl_AppendResult(interp, "wrong # arguments: should be \"", argv[0],
@@ -3697,11 +3693,7 @@ TestsetplatformCmd(clientData, interp, argc, argv)
     size_t length;
     TclPlatformType *platform;
 
-#ifdef __WIN32__
-    platform = TclWinGetPlatform();
-#else
-    platform = &tclPlatform;
-#endif
+    platform = TclGetPlatform();
     
     if (argc != 2) {
         Tcl_AppendResult(interp, "wrong # arguments: should be \"", argv[0],
