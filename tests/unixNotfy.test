@@ -29,13 +29,18 @@ if {[info exists tk_version]} {
 
 set ::tcltest::testConstraints(testthread) \
 	[expr {[info commands testthread] != {}}]
+# Darwin always uses a threaded notifier
+testConstraint unthreaded [expr {
+    (![info exist tcl_platform(threaded)] || !$tcl_platform(threaded))
+    && $tcl_platform(os) ne "Darwin"
+}]
 
 # The next two tests will hang if threads are enabled because the notifier
 # will not necessarily wait for ever in this case, so it does not generate
 # an error.
 
 test unixNotfy-1.1 {Tcl_DeleteFileHandler} \
-    -constraints {unixOnly && !testthread} \
+    -constraints {unixOnly && unthreaded} \
     -body {
 	catch {vwait x}
 	set f [open [makeFile "" foo] w]
@@ -51,7 +56,7 @@ test unixNotfy-1.1 {Tcl_DeleteFileHandler} \
     }
 
 test unixNotfy-1.2 {Tcl_DeleteFileHandler} \
-    -constraints {unixOnly && !testthread} \
+    -constraints {unixOnly && unthreaded} \
     -body {
 	catch {vwait x}
 	set f1 [open [makeFile "" foo] w]
