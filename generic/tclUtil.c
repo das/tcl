@@ -2993,3 +2993,26 @@ TclpGetTime(timePtr)
 {
     Tcl_GetTime(timePtr);
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclGetPlatform --
+ *
+ *      This is a kludge that allows the test library to get access
+ *      the internal tclPlatform variable.
+ *
+ * Results:
+ *      Returns a pointer to the tclPlatform variable.
+ *
+ * Side effects:
+ *      None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+TclPlatformType *
+TclGetPlatform()
+{
+    return &tclPlatform;
+}
