@@ -155,7 +155,7 @@ it can then be loaded into Tcl with the following:
 # Load the extension
 switch $tcl_platform(platform) {
    windows {
-      \fBload\fR ./foo.dll
+      \fBload\fR [file join [pwd] foo.dll]
    }
    unix {
       \fBload\fR ./libfoo[info sharedlibextension]
