@@ -133,7 +133,7 @@ The following is a minimal extension:
 #include <tcl.h>
 #include <stdio.h>
 static int fooCmd(ClientData clientData,
-        Tcl_Interp *interp, int objc, char * CONST objv[]) {
+        Tcl_Interp *interp, int objc, Tcl_Obj *const objv[]) {
     printf("called with %d arguments\\n", objc);
     return TCL_OK;
 }
