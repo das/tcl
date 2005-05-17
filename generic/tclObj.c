@@ -383,18 +383,12 @@ TclInitObjSubsystem()
     Tcl_RegisterObjType(&tclWideIntType);
     Tcl_RegisterObjType( &tclBignumType );
     Tcl_RegisterObjType(&tclStringType);
-    Tcl_RegisterObjType(&tclListType);
     Tcl_RegisterObjType(&tclDictType);
     Tcl_RegisterObjType(&tclByteCodeType);
-    Tcl_RegisterObjType(&tclProcBodyType);
     Tcl_RegisterObjType(&tclArraySearchType);
-    Tcl_RegisterObjType(&tclIndexType);
     Tcl_RegisterObjType(&tclNsNameType);
-    Tcl_RegisterObjType(&tclEnsembleCmdType);
     Tcl_RegisterObjType(&tclCmdNameType);
-    Tcl_RegisterObjType(&tclLocalVarNameType);
     Tcl_RegisterObjType(&tclRegexpType);
-    Tcl_RegisterObjType(&tclLevelReferenceType);
 
 #ifdef TCL_COMPILE_STATS
     Tcl_MutexLock(&tclObjMutex);
