@@ -52,11 +52,11 @@ value \fIboolValue\fR in it, and returns a pointer to the new Tcl_Obj.
 The new Tcl_Obj has reference count of zero.
 .PP
 \fBTcl_SetBooleanObj\fR accepts \fIobjPtr\fR, a pointer to
-an existing Tcl_Obj, and sets the value of \fI*objPtr\fR to
+an existing Tcl_Obj, and stores in the Tcl_Obj \fI*objPtr\fR 
 the boolean value \fIboolValue\fR.  This is a write operation
 on \fI*objPtr\fR, so \fIobjPtr\fR must be unshared.  Attempts to
 write to a shared Tcl_Obj will panic.  A successful write
-of \fIboolValue\fR to \fI*objPtr\fR implies the freeing of
+of \fIboolValue\fR into \fI*objPtr\fR implies the freeing of
 any former value stored in \fI*objPtr\fR.
 .PP
 \fBTcl_GetBooleanFromObj\fR attempts to retrive a boolean value
