@@ -248,7 +248,6 @@ Tcl_InitNotifier()
             Tcl_Panic("Tcl_InitNotifier: could not create CFRunLoopSource.");
         }
         CFRunLoopAddSource(runLoop, runLoopSource, kCFRunLoopCommonModes);
-        CFRelease(runLoopSource);
         tsdPtr->runLoopSource = runLoopSource;
         tsdPtr->runLoop = runLoop;
     }
@@ -363,6 +362,7 @@ Tcl_FinalizeNotifier(clientData)
         tsdPtr->runLoop = NULL;
         /* Remove runLoopSource from all CFRunLoops and release it */
         CFRunLoopSourceInvalidate(tsdPtr->runLoopSource);
+        CFRelease(runLoopSource);
         tsdPtr->runLoopSource = NULL;
     }
     UNLOCK_NOTIFIER;
