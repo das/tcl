@@ -1699,10 +1699,11 @@ Tcl_ForgetImport(interp, namespacePtr, pattern)
 	if (TclMatchIsTrivial(simplePattern)) {
 	    Command *cmdPtr;
 	    hPtr = Tcl_FindHashEntry(&nsPtr->cmdTable, simplePattern);
-	    (hPtr != NULL)
+	    if ((hPtr != NULL)
 		    && (cmdPtr = (Command *) Tcl_GetHashValue(hPtr))
-		    && (cmdPtr->deleteProc == DeleteImportedCmd)
-		    && Tcl_DeleteCommandFromToken(interp, (Tcl_Command) cmdPtr);
+		    && (cmdPtr->deleteProc == DeleteImportedCmd)) {
+		Tcl_DeleteCommandFromToken(interp, (Tcl_Command) cmdPtr);
+	    }
 	    return TCL_OK;
 	}
 	for (hPtr = Tcl_FirstHashEntry(&nsPtr->cmdTable, &search);
