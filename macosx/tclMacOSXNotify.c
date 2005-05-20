@@ -362,7 +362,7 @@ Tcl_FinalizeNotifier(clientData)
         tsdPtr->runLoop = NULL;
         /* Remove runLoopSource from all CFRunLoops and release it */
         CFRunLoopSourceInvalidate(tsdPtr->runLoopSource);
-        CFRelease(runLoopSource);
+        CFRelease(tsdPtr->runLoopSource);
         tsdPtr->runLoopSource = NULL;
     }
     UNLOCK_NOTIFIER;
