@@ -1387,8 +1387,7 @@ ParsePrimaryExpr(infoPtr)
 	    Tcl_DString functionName;
 	    Tcl_HashEntry *hPtr;
 	    Interp *iPtr = (Interp *) infoPtr->parsePtr->interp;
-	    Tcl_Obj *errMsg, *objPtr
-		    = Tcl_NewStringObj(savedInfo.start, savedInfo.size);
+	    Tcl_Obj *objPtr = Tcl_NewStringObj(savedInfo.start, savedInfo.size);
 
 	    /* Check for boolean literals (true, false, yes, no, on, off) */
 	    Tcl_IncrRefCount(objPtr);
