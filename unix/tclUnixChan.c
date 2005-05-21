@@ -43,6 +43,13 @@
 
 #define SUPPORTS_TTY
 
+#undef DIRECT_BAUD
+#ifdef B4800
+#   if (B4800 == 4800)
+#	define DIRECT_BAUD
+#   endif /* B4800 == 4800 */
+#endif /* B4800 */
+
 #ifdef USE_TERMIOS
 #   include <termios.h>
 #   ifdef HAVE_SYS_IOCTL_H
@@ -261,11 +268,15 @@ static int		TtyCloseProc _ANSI_ARGS_((ClientData instanceData,
 			    Tcl_Interp *interp));
 static void		TtyGetAttributes _ANSI_ARGS_((int fd,
 			    TtyAttrs *ttyPtr));
+#ifndef DIRECT_BAUD
 static int		TtyGetBaud _ANSI_ARGS_((unsigned long speed));
+#endif
 static int		TtyGetOptionProc _ANSI_ARGS_((ClientData instanceData,
 			    Tcl_Interp *interp, CONST char *optionName,
 			    Tcl_DString *dsPtr));
+#ifndef DIRECT_BAUD
 static unsigned long	TtyGetSpeed _ANSI_ARGS_((int baud));
+#endif
 static FileState *	TtyInit _ANSI_ARGS_((int fd, int initialize));
 static void		TtyModemStatusStr _ANSI_ARGS_((int status,
 			    Tcl_DString *dsPtr));
@@ -1190,13 +1201,6 @@ TtyGetOptionProc(instanceData, interp, optionName, dsPtr)
     }
 }
 
-#undef DIRECT_BAUD
-#ifdef B4800
-#   if (B4800 == 4800)
-#	define DIRECT_BAUD
-#   endif /* B4800 == 4800 */
-#endif /* B4800 */
-
 #ifdef DIRECT_BAUD
 #   define TtyGetSpeed(baud)   ((unsigned) (baud))
 #   define TtyGetBaud(speed)   ((int) (speed))

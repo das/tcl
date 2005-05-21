@@ -124,7 +124,7 @@ export CPPROG		:= cp -p
 ${PROJECT}: install-${PROJECT}
 
 ${OBJ_DIR}/Makefile: ${UNIX_DIR}/Makefile.in ${UNIX_DIR}/configure
-	mkdir -p ${OBJ_DIR} && cd ${OBJ_DIR} && ${UNIX_DIR}/configure \
+	mkdir -p ${OBJ_DIR} && cd ${OBJ_DIR} && ${UNIX_DIR}/configure -C \
 	--prefix=${PREFIX} --bindir=${BINDIR} --libdir=${LIBDIR} \
 	--includedir=${INCLUDEDIR} --mandir=${MANDIR} --enable-threads \
 	--enable-framework ${CONFIGURE_ARGS} ${EXTRA_CONFIGURE_ARGS}

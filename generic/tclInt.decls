@@ -891,6 +891,10 @@ declare 222 generic {
 declare 223 generic {
     int TclBN_mp_read_radix(mp_int *a, const char *str, int radix)
 }
+# for use in tclTest.c
+declare 224 generic {
+    TclPlatformType *TclGetPlatform(void)
+}
 
 ##############################################################################
 
@@ -993,9 +997,10 @@ declare 23 win {
 declare 24 win {
     char *TclWinNoBackslash(char *path)
 }
-declare 25 win {
-    TclPlatformType *TclWinGetPlatform(void)
-}
+# replaced by generic TclGetPlatform
+#declare 25 win {
+#    TclPlatformType *TclWinGetPlatform(void)
+#}
 declare 26 win {
     void TclWinSetInterfaces(int wide)
 }
