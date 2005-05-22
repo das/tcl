@@ -5380,6 +5380,7 @@ ExprRoundFunc(clientData, interp, objc, objv)
     }
     if ((valuePtr->typePtr == &tclIntType) ||
 	    (valuePtr->typePtr == &tclWideIntType)) {
+	Tcl_SetObjResult(interp, valuePtr);
 	return TCL_OK;
     }
     GET_DOUBLE_VALUE(d, valuePtr, valuePtr->typePtr);
