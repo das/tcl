@@ -221,7 +221,7 @@ of an expression such as:
 .CE
 is the same in every way as the processing of:
 .CS
-\fBexpr {[tcl::mathfunc::sin [expr {$x+$y}]]}
+\fBexpr {[tcl::mathfunc::sin [expr {$x+$y}]]}\fR
 .CE
 The executor will search for \fBtcl::mathfunc::sin\fR using the
 usual rules for resolving functions in namespaces. Either
