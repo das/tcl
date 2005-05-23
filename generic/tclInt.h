@@ -2075,6 +2075,14 @@ MODULE_SCOPE int	TclpDlopen _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_FSUnloadFileProc **unloadProcPtr));
 MODULE_SCOPE int	TclpUtime _ANSI_ARGS_((Tcl_Obj *pathPtr,
 			    struct utimbuf *tval));
+#ifdef TCL_LOAD_FROM_MEMORY
+MODULE_SCOPE void*	TclpLoadMemoryGetBuffer _ANSI_ARGS_((
+			    Tcl_Interp *interp, int size));
+MODULE_SCOPE int	TclpLoadMemory _ANSI_ARGS_((Tcl_Interp *interp, 
+			    void *buffer, int size, int codeSize, 
+			    Tcl_LoadHandle *loadHandle, 
+			    Tcl_FSUnloadFileProc **unloadProcPtr));
+#endif
 
 /*
  *----------------------------------------------------------------
