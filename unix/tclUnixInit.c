@@ -1138,7 +1138,7 @@ MacOSXGetLibraryPath(Tcl_Interp *interp, int maxPathLen, char *tclLibPath)
     int foundInFramework = TCL_ERROR;
 #ifdef TCL_FRAMEWORK
     foundInFramework = Tcl_MacOSXOpenVersionedBundleResources(interp, 
-	"com.tcltk.tcllibrary", TCL_VERSION, 0, maxPathLen, tclLibPath);
+	"com.tcltk.tcllibrary", TCL_FRAMEWORK_VERSION, 0, maxPathLen, tclLibPath);
 #endif
     return foundInFramework;
 }
