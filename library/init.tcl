@@ -293,7 +293,8 @@ proc unknown args {
 		return -code error -errorcode $errorCode \
 			-errorinfo $einfo $msg
 	    } else {
-		return -code $code $msg
+		dict incr opts -level
+		return -options $opts $msg
 	    }
 	}
     }
