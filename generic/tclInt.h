@@ -1789,6 +1789,15 @@ EXTERN int              TclpDlopen _ANSI_ARGS_((Tcl_Interp *interp,
 EXTERN int              TclpUtime _ANSI_ARGS_((Tcl_Obj *pathPtr,
 					       struct utimbuf *tval));
 
+#ifdef TCL_LOAD_FROM_MEMORY
+EXTERN void*	        TclpLoadMemoryGetBuffer _ANSI_ARGS_((
+			    Tcl_Interp *interp, int size));
+EXTERN int	        TclpLoadMemory _ANSI_ARGS_((Tcl_Interp *interp, 
+			    void *buffer, int size, int codeSize, 
+			    Tcl_LoadHandle *loadHandle, 
+			    Tcl_FSUnloadFileProc **unloadProcPtr));
+#endif
+
 /*
  *----------------------------------------------------------------
  * Command procedures in the generic core:
