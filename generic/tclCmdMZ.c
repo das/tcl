@@ -2921,7 +2921,8 @@ Tcl_TimeObjCmd(dummy, interp, objc, objv)
     totalMicroSec = ( ( (double) ( stop.sec - start.sec ) ) * 1.0e6
 		      + ( stop.usec - start.usec ) );
     if (count <= 1) {
-	objs[0] = Tcl_NewIntObj((count <= 0) ? 0 : totalMicroSec);
+	/* Use int obj since we know time is not fractional [Bug 1202178] */
+	objs[0] = Tcl_NewIntObj((count <= 0) ? 0 : (int) totalMicroSec);
     } else {
 	objs[0] = Tcl_NewDoubleObj(totalMicroSec/count);
     }
