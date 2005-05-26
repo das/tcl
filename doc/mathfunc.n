@@ -87,12 +87,12 @@ Tcl supports the following mathematical functions in expressions, all
 of which work solely with floating-point numbers unless otherwise noted:
 .DS
 .ta 3c 6c 9c
-\fBabs\fR      \fBcos\fR       \fBint\fR       \fBsinh\fR
-\fBacos\fR     \fBcosh\fR      \fBlog\fR       \fBsqrt\fR
-\fBasin\fR     \fBdouble\fR    \fBlog10\fR     \fBsrand\fR
-\fBatan\fR     \fBexp\fR       \fBpow\fR       \fBtan\fR
-\fBatan2\fR    \fBfloor\fR     \fBrand\fR      \fBtanh\fR
-\fBbool\fR     \fBfmod\fR      \fBround\fR     \fBwide\fR
+\fBabs\fR	\fBcos\fR	\fBint\fR	\fBsinh\fR
+\fBacos\fR	\fBcosh\fR	\fBlog\fR	\fBsqrt\fR
+\fBasin\fR	\fBdouble\fR	\fBlog10\fR	\fBsrand\fR
+\fBatan\fR	\fBexp\fR	\fBpow\fR	\fBtan\fR
+\fBatan2\fR	\fBfloor\fR	\fBrand\fR	\fBtanh\fR
+\fBbool\fR	\fBfmod\fR	\fBround\fR	\fBwide\fR
 \fBceil\fR	\fBhypot\fR	\fBsin\fR
 .DE
 .PP
