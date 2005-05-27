@@ -26,7 +26,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
+
 /*
  * The following defines are used to indicate the various release levels.
  */
@@ -58,10 +58,10 @@ extern "C" {
 #define TCL_MAJOR_VERSION   8
 #define TCL_MINOR_VERSION   4
 #define TCL_RELEASE_LEVEL   TCL_FINAL_RELEASE
-#define TCL_RELEASE_SERIAL  9
+#define TCL_RELEASE_SERIAL  10
 
 #define TCL_VERSION	    "8.4"
-#define TCL_PATCH_LEVEL	    "8.4.9"
+#define TCL_PATCH_LEVEL	    "8.4.10"
 
 /*
  * The following definitions set up the proper options for Windows
