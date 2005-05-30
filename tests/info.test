@@ -151,6 +151,7 @@ catch {rename _t2_ {}}
 test info-4.5 {info commands option} {
     list [catch {info commands a b} msg] $msg
 } {1 {wrong # args: should be "info commands ?pattern?"}}
+# Also some tests in namespace.test
 
 test info-5.1 {info complete option} {
     list [catch {info complete} msg] $msg

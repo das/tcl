@@ -1579,6 +1579,7 @@ Tcl_CreateCommand(interp, cmdName, proc, clientData, deleteProc)
 	 */
 
 	TclInvalidateNsCmdLookup(nsPtr);
+	TclInvalidateNsPath(nsPtr);
     }
     cmdPtr = (Command *) ckalloc(sizeof(Command));
     Tcl_SetHashValue(hPtr, cmdPtr);
@@ -1703,6 +1704,7 @@ Tcl_CreateObjCommand(interp, cmdName, proc, clientData, deleteProc)
     }
 
     hPtr = Tcl_CreateHashEntry(&nsPtr->cmdTable, tail, &new);
+    TclInvalidateNsPath(nsPtr);
     if (!new) {
 	cmdPtr = (Command *) Tcl_GetHashValue(hPtr);
 
@@ -1749,6 +1751,7 @@ Tcl_CreateObjCommand(interp, cmdName, proc, clientData, deleteProc)
 	 */
 
 	TclInvalidateNsCmdLookup(nsPtr);
+	TclInvalidateNsPath(nsPtr);
     }
     cmdPtr = (Command *) ckalloc(sizeof(Command));
     Tcl_SetHashValue(hPtr, cmdPtr);
