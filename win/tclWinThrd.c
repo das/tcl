@@ -88,6 +88,20 @@ static Tcl_ThreadDataKey dataKey;
 #endif /* TCL_THREADS */
 
 /*
+ * Additions by AOL for specialized thread memory allocator.
+ */
+
+#if defined(USE_THREAD_ALLOC) && !defined(TCL_MEM_DEBUG)
+static int   once;
+static DWORD tlsKey;
+
+typedef struct allocMutex {
+    Tcl_Mutex        tlock;
+    CRITICAL_SECTION wlock;
+} allocMutex;
+#endif
+
+/*
  * State bits for the thread.
  * WIN_THREAD_UNINIT		Uninitialized.  Must be zero because
  *				of the way ThreadSpecificData is created.
@@ -685,10 +699,10 @@ TclpFinalizeThreadData(keyPtr)
 	result = (VOID *)TlsGetValue(*indexPtr);
 	if (result != NULL) {
 #if defined(USE_THREAD_ALLOC) && !defined(TCL_MEM_DEBUG)
-        if (indexPtr == &key) {
-            TclpFreeAllocCache(result);
-            return;
-        }
+	    if (indexPtr == &tlsKey) {
+		TclpFreeAllocCache(result);
+		return;
+	    }
 #endif
 	    ckfree((char *)result);
 	    success = TlsSetValue(*indexPtr, (void *)NULL);
@@ -1042,14 +1056,6 @@ TclpFinalizeCondition(condPtr)
  */
 
 #if defined(USE_THREAD_ALLOC) && !defined(TCL_MEM_DEBUG)
-static int once;
-static DWORD key;
-
-typedef struct allocMutex {
-    Tcl_Mutex        tlock;
-    CRITICAL_SECTION wlock;
-} allocMutex;
-
 Tcl_Mutex *
 TclpNewAllocMutex(void)
 {
@@ -1085,14 +1091,14 @@ TclpGetAllocCache(void)
 	 * on each thread that calls this, but only on threads that
 	 * call this.
 	 */
-    	key = TlsAlloc();
+    	tlsKey = TlsAlloc();
 	once = 1;
-	if (key == TLS_OUT_OF_INDEXES) {
+	if (tlsKey == TLS_OUT_OF_INDEXES) {
 	    panic("could not allocate thread local storage");
 	}
     }
 
-    result = TlsGetValue(key);
+    result = TlsGetValue(tlsKey);
     if ((result == NULL) && (GetLastError() != NO_ERROR)) {
         panic("TlsGetValue failed from TclpGetAllocCache!");
     }
@@ -1103,7 +1109,7 @@ void
 TclpSetAllocCache(void *ptr)
 {
     BOOL success;
-    success = TlsSetValue(key, ptr);
+    success = TlsSetValue(tlsKey, ptr);
     if (!success) {
         panic("TlsSetValue failed from TclpSetAllocCache!");
     }
@@ -1119,7 +1125,7 @@ TclpFreeAllocCache(void *ptr)
          * Called by the pthread lib when a thread exits
          */
         TclFreeAllocCache(ptr);
-        success = TlsSetValue(key, NULL);
+        success = TlsSetValue(tlsKey, NULL);
         if (!success) {
             panic("TlsSetValue failed from TclpFreeAllocCache!");
         }
@@ -1127,8 +1133,8 @@ TclpFreeAllocCache(void *ptr)
         /*
          * Called by us in TclFinalizeThreadAlloc() during
          * the library finalization initiated from Tcl_Finalize()
-         */   
-        success = TlsFree(key);
+         */
+        success = TlsFree(tlsKey);
         if (!success) {
             Tcl_Panic("TlsFree failed from TclpFreeAllocCache!");
         }
