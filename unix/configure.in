@@ -432,7 +432,8 @@ SC_BLOCKING_STYLE
 #------------------------------------------------------------------------
 
 AC_ARG_ENABLE(dll-unloading,
-    [  --enable-dll-unloading  turn on the 'unload' command (default: on)],
+    AC_HELP_STRING([--enable-dll-unloading],
+	[turn on the 'unload' command (default: on)]),
     [tcl_ok=$enableval], [tcl_ok=yes])
 if test $tcl_ok = yes; then
     AC_DEFINE(TCL_UNLOAD_DLLS, 1, [Do we allow unloading of shared libraries?])
