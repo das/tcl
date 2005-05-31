@@ -295,9 +295,9 @@ Tcl_FinalizeNotifier(clientData)
 
 	Tcl_ConditionWait(&notifierCV, &notifierMutex, NULL);
 	result = Tcl_JoinThread(notifierThread);
-        if (result) {
-            Tcl_Panic("Tcl_FinalizeNotifier: unable to join notifier thread");
-        }
+	if (result) {
+	    Tcl_Panic("Tcl_FinalizeNotifier: unable to join notifier thread");
+	}
     }
 
     /*
