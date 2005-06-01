@@ -1711,7 +1711,36 @@ TclCompileLindexCmd(interp, parsePtr, envPtr)
     }
 
     varTokenPtr = parsePtr->tokenPtr
-	+ (parsePtr->tokenPtr->numComponents + 1);
+	    + (parsePtr->tokenPtr->numComponents + 1);
+
+    if ((numWords == 3) && (varTokenPtr->type == TCL_TOKEN_SIMPLE_WORD) &&
+	    TclLooksLikeInt(varTokenPtr[1].start, varTokenPtr[1].size)) {
+	Tcl_Obj *tmpObj;
+	int idx;
+
+	tmpObj = Tcl_NewStringObj(varTokenPtr[1].start, varTokenPtr[1].size);
+	if (Tcl_GetIntFromObj(NULL, tmpObj, &idx) == TCL_OK && idx >= 0) {
+	    TclDecrRefCount(tmpObj);
+	    varTokenPtr += varTokenPtr->numComponents + 1;
+	    /*
+	     * All checks have been completed, and we have exactly
+	     * this construct:
+	     *	 lindex <posInt> <arbitraryValue>
+	     * This is best compiled as a push of the arbitrary value
+	     * followed by an "immediate lindex" which is the most
+	     * efficient variety.
+	     */
+	    CompileWord(envPtr, varTokenPtr, interp);
+	    TclEmitInstInt4(INST_LIST_INDEX_IMM, idx, envPtr);
+	    return TCL_OK;
+	} else {
+	    /*
+	     * If the conversion failed or the value was negative, we
+	     * just keep on going with the more complex compilation.
+	     */
+	    TclDecrRefCount(tmpObj);
+	}
+    }
 
     /*
      * Push the operands onto the stack.
@@ -1719,7 +1748,7 @@ TclCompileLindexCmd(interp, parsePtr, envPtr)
 
     for (i=1 ; i<numWords ; i++) {
 	CompileWord(envPtr, varTokenPtr, interp);
-	varTokenPtr = varTokenPtr + (varTokenPtr->numComponents + 1);
+	varTokenPtr += varTokenPtr->numComponents + 1;
     }
 
     /*
