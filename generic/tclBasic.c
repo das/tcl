@@ -358,7 +358,7 @@ Tcl_CreateInterp()
     iPtr->errorCode = NULL;
     iPtr->ecVar = Tcl_NewStringObj("errorCode", -1);
     Tcl_IncrRefCount(iPtr->ecVar);
-    iPtr->returnLevel = 0;
+    iPtr->returnLevel = 1;
     iPtr->returnCode = TCL_OK;
 
     iPtr->appendResult = NULL;
