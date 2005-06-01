@@ -95,6 +95,13 @@ dictionary-equal when exactly equal.
 .TP
 \fB\-integer\fR
 The list elements are to be compared as integers.
+.VS 8.5
+.TP
+\fB\-nocase\fR
+Causes comparisons to be handled in a case-insensitive manner.  Has no
+effect if combined with the \fB\-dictionary\fR, \fB\-integer\fR, or 
+\fB\-real\fR options.
+.VE 8.5
 .TP
 \fB\-real\fR
 The list elements are to be compared as floating-point values.
