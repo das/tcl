@@ -927,6 +927,8 @@ Tcl_ResetResult(interp)
 	Tcl_DecrRefCount(iPtr->errorInfo);
 	iPtr->errorInfo = NULL;
     }
+    iPtr->returnLevel = 1;
+    iPtr->returnCode = TCL_OK;
     if (iPtr->returnOpts) {
 	Tcl_DecrRefCount(iPtr->returnOpts);
 	iPtr->returnOpts = NULL;
