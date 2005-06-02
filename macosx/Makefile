@@ -130,11 +130,6 @@ ${OBJ_DIR}/Makefile: ${UNIX_DIR}/Makefile.in ${UNIX_DIR}/configure
 	${CONFIGURE_ARGS} ${EXTRA_CONFIGURE_ARGS}
 
 build-${PROJECT}: ${OBJ_DIR}/Makefile
-ifeq (${EMBEDDED_BUILD}_${INSTALL_ROOT},1_)
-	@echo "Cannot install-embedded with empty INSTALL_ROOT !" && false
-else
-	@rm -rf "${INSTALL_ROOT}/${LIBDIR}/Tcl.framework"
-endif
 	${DO_MAKE}
 # symolic link hackery to trick
 # 'make install INSTALL_ROOT=${OBJ_DIR}'
@@ -144,6 +139,12 @@ endif
 	ln -fs ${SYMROOT} ./${BINDIR} && ln -fs ${OBJ_DIR}/tcltest ${SYMROOT}
 
 install-${PROJECT}: build-${PROJECT}
+ifeq (${EMBEDDED_BUILD}_${INSTALL_ROOT},1_)
+	@echo "Cannot install-embedded with empty INSTALL_ROOT !" && false
+endif
+ifeq (${EMBEDDED_BUILD},1)
+	@rm -rf "${INSTALL_ROOT}/${LIBDIR}/Tcl.framework"
+endif
 	${DO_MAKE}
 ifeq (${INSTALL_BUILD},1)
 ifeq (${EMBEDDED_BUILD},1)

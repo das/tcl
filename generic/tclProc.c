@@ -1671,7 +1671,7 @@ TclUpdateReturnInfo(iPtr)
     }
     if (iPtr->returnLevel == 0) {
 	/* Now we've reached the level to return the requested -code */
-	return iPtr->returnCode;
+	code = iPtr->returnCode;
     }
     return code;
 }
