@@ -16,13 +16,14 @@ proc parray {a {pattern *}} {
 	error "\"$a\" isn't an array"
     }
     set maxl 0
-    foreach name [lsort [array names array $pattern]] {
+    set names [lsort [array names array $pattern]]
+    foreach name $names {
 	if {[string length $name] > $maxl} {
 	    set maxl [string length $name]
 	}
     }
     set maxl [expr {$maxl + [string length $a] + 2}]
-    foreach name [lsort [array names array $pattern]] {
+    foreach name $names {
 	set nameString [format %s(%s) $a $name]
 	puts stdout [format "%-*s = %s" $maxl $nameString $array($name)]
     }
