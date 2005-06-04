@@ -1627,6 +1627,9 @@ dist: $(UNIX_DIR)/configure $(UNIX_DIR)/tclConfig.h.in
 		$(DISTDIR)/tools
 	$(TCL_EXE) $(TOOL_DIR)/eolFix.tcl -crlf $(DISTDIR)/tools/tcl.hpj.in \
 		$(DISTDIR)/tools/tcl.wse.in
+	mkdir $(DISTDIR)/libtommath
+	cp -p $(TOP_DIR)/libtommath/*.* \
+		$(DISTDIR)/libtommath
 
 #
 # The following target can only be used for non-patch releases.  Use
