@@ -17,6 +17,7 @@
 #include "tclInt.h"
 #include "tclPort.h"
 #include <mach-o/dyld.h>
+#undef panic
 #include <mach/mach.h>
 
 typedef struct Tcl_DyldModuleHandle {
