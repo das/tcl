@@ -1420,19 +1420,19 @@ SetBooleanFromAny(interp, objPtr)
 	}
 	if (objPtr->typePtr == &tclIntType) {
 	    switch (objPtr->internalRep.longValue) {
-		case 0: case 1:
+		case 0L: case 1L:
 		    return TCL_OK;
 	    }
 	    goto badBoolean;
 	}
 	if (objPtr->typePtr == &tclWideIntType) {
 	    Tcl_WideInt w = objPtr->internalRep.wideValue;
-	    switch (w) {
-		case 0: case 1:
-		    newBool = (int)w;
-		    goto numericBoolean;
+	    if ( w == 0 || w == 1 ) {
+		newBool = (int)w;
+		goto numericBoolean;
+	    } else {
+		goto badBoolean;
 	    }
-	    goto badBoolean;
 	}
     }
 
@@ -2996,7 +2996,7 @@ SetBignumFromAny( interp, objPtr )
  * is called.
  */
 
-void
+static void
 UpdateStringOfBignum( Tcl_Obj* objPtr )
 {
     mp_int bignumVal;
