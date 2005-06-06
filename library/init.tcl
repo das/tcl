@@ -72,6 +72,26 @@ namespace eval tcl {
 	lappend Path $Dir
 	unsupported::EncodingDirs $Path
     }
+
+    # Set up the 'chan' ensemble
+    namespace eval chan {
+	namespace ensemble create -command ::chan -map {
+	    blocked	::fblocked
+	    close	::close
+	    configure	::fconfigure
+	    copy	::fcopy
+	    eof		::eof
+	    event	::fileevent
+	    flush	::flush
+	    gets	::gets
+	    names	{::file channels}
+	    puts	::puts
+	    read	::read
+	    seek	::seek
+	    tell	::tell
+	    truncate	::tcl::chan::Truncate
+	}
+    }
 }
 
 # Windows specific end of initialization

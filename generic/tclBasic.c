@@ -527,6 +527,9 @@ Tcl_CreateInterp()
     Tcl_CreateObjCommand(interp,	"::tcl::clock::Oldscan",
 	    TclClockOldscanObjCmd,	(ClientData) NULL,
 	    (Tcl_CmdDeleteProc*) NULL);
+    Tcl_CreateObjCommand(interp, "::tcl::chan::Truncate",
+	    TclChanTruncateObjCmd, (ClientData) NULL,
+	    (Tcl_CmdDeleteProc*) NULL);
 
     /*
      * Register the built-in functions
