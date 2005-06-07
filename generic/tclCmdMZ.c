@@ -2146,7 +2146,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 
 	    if (objc < 5 || objc > 6) {
 	        Tcl_WrongNumArgs(interp, 2, objv,
-				 "string first last ?string?");
+			"string first last ?string?");
 		return TCL_ERROR;
 	    }
 
