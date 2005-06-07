@@ -305,10 +305,18 @@ Tcl_ReadObjCmd(dummy, interp, objc, objv)
     Tcl_Obj *resultPtr;
 
     if ((objc != 2) && (objc != 3)) {
-	argerror:
+	Interp *iPtr;
+
+      argerror:
+	iPtr = (Interp *) interp;
 	Tcl_WrongNumArgs(interp, 1, objv, "channelId ?numChars?");
-	Tcl_AppendResult(interp, " or \"", Tcl_GetString(objv[0]),
-		" ?-nonewline? channelId\"", (char *) NULL);
+	/*
+	 * Do not append directly; that makes ensembles using this
+	 * command as a subcommand produce the wrong message.
+	 */
+	iPtr->flags |= INTERP_ALTERNATE_WRONG_ARGS;
+	Tcl_WrongNumArgs(interp, 1, objv, "?-nonewline? channelId");
+	iPtr->flags &= ~INTERP_ALTERNATE_WRONG_ARGS;
 	return TCL_ERROR;
     }
 

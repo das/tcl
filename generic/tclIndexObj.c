@@ -462,7 +462,12 @@ Tcl_WrongNumArgs(interp, objc, objv, message)
 #endif /* AVOID_HACKS_FOR_ITCL */
 
     TclNewObj(objPtr);
-    Tcl_AppendToObj(objPtr, "wrong # args: should be \"", -1);
+    if (iPtr->flags & INTERP_ALTERNATE_WRONG_ARGS) {
+	Tcl_AppendObjToObj(objPtr, Tcl_GetObjResult(interp));
+	Tcl_AppendToObj(objPtr, " or \"", -1);
+    } else {
+	Tcl_AppendToObj(objPtr, "wrong # args: should be \"", -1);
+    }
 
     /*
      * Check to see if we are processing an ensemble implementation,
