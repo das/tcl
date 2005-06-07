@@ -1564,9 +1564,8 @@ TclChanTruncateObjCmd(dummy, interp, objc, objv)
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
     Tcl_Channel chan;
-    Tcl_Obj *cmdPtr;
     int mode;
-    Tcl_WideInt targetLength;
+    Tcl_WideInt length;
     char *chanName;
 
     if ((objc < 2) || (objc > 3)) {
