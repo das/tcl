@@ -1830,13 +1830,9 @@ MODULE_SCOPE Tcl_ObjType tclDictType;
 MODULE_SCOPE Tcl_ObjType tclProcBodyType;
 MODULE_SCOPE Tcl_ObjType tclStringType;
 MODULE_SCOPE Tcl_ObjType tclArraySearchType;
-MODULE_SCOPE Tcl_ObjType tclIndexType;
 MODULE_SCOPE Tcl_ObjType tclNsNameType;
-MODULE_SCOPE Tcl_ObjType tclEnsembleCmdType;
 MODULE_SCOPE Tcl_ObjType tclWideIntType;
-MODULE_SCOPE Tcl_ObjType tclLocalVarNameType;
 MODULE_SCOPE Tcl_ObjType tclRegexpType;
-MODULE_SCOPE Tcl_ObjType tclLevelReferenceType;
 
 /*
  * Variables denoting the hash key types defined in the core.
