@@ -275,7 +275,7 @@ Tcl_FinalizeNotifier(clientData)
      */
 
     if (notifierCount == 0) {
-	int result;
+	int result, dummy;
 	if (triggerPipe < 0) {
 	    panic("Tcl_FinalizeNotifier: notifier pipe not initialized");
 	}
@@ -294,7 +294,7 @@ Tcl_FinalizeNotifier(clientData)
 	close(triggerPipe);
 
 	Tcl_ConditionWait(&notifierCV, &notifierMutex, NULL);
-	result = Tcl_JoinThread(notifierThread);
+	result = Tcl_JoinThread(notifierThread, &dummy);
 	if (result) {
 	    Tcl_Panic("Tcl_FinalizeNotifier: unable to join notifier thread");
 	}
