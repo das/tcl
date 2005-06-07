@@ -552,6 +552,7 @@ TclEncodingDirsObjCmd(dummy, interp, objc, objv)
 {
     if (objc > 2) {
 	Tcl_WrongNumArgs(interp, 1, objv, "?dirList?");
+	return TCL_ERROR;
     }
     if (objc == 1) {
 	Tcl_SetObjResult(interp, TclGetEncodingSearchPath());
