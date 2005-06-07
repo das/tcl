@@ -76,6 +76,19 @@ test chan-14.1 {chan command: tell subcommand} -body {
 test chan-15.1 {chan command: truncate subcommand} -body {
     chan truncate foo bar foo bar
 } -returnCodes error -result "wrong \# args: should be \"chan truncate channelId ?length?\""
+test chan-15.2 {chan command: truncate subcommand} -constraints unix -setup {
+    set file [makeFile {} testTruncate]
+    set f [open $file w+]
+} -body {
+    fconfigure $f -translation binary
+    puts -nonewline $f 12345
+    seek $f 0
+    chan truncate $f 2
+    read $f
+} -result 12 -cleanup {
+    catch {close $f}
+    catch {removeFile $file}
+}
 
 cleanupTests
 return
