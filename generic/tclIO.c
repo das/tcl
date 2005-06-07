@@ -5812,7 +5812,7 @@ Tcl_TruncateChannel(chan, length)
 	return TCL_ERROR;
     }
 
-    if (!(chanPtr->stateptr->flags & TCL_WRITABLE)) {
+    if (!(chanPtr->state->flags & TCL_WRITABLE)) {
 	/*
 	 * We require that the file was opened of writing. Do that
 	 * check now so that we only flush if we think we're going to
