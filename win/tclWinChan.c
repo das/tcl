@@ -100,7 +100,7 @@ static void		FileWatchProc _ANSI_ARGS_((ClientData instanceData,
 		            int mask));
 static void             FileThreadActionProc _ANSI_ARGS_ ((
 			   ClientData instanceData, int action));
-static void		FileTruncateProc _ANSI_ARGS_ ((
+static int		FileTruncateProc _ANSI_ARGS_ ((
 			   ClientData instanceData, Tcl_WideInt length));
 
 /*
