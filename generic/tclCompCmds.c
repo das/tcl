@@ -332,7 +332,7 @@ TclCompileCatchCmd(interp, parsePtr, envPtr)
 
     if (cmdTokenPtr->type == TCL_TOKEN_SIMPLE_WORD) {
 	startOffset = CurrentOffset(envPtr);
-	CompileBody(envPtr, cmdTokenPtr, envPtr);
+	CompileBody(envPtr, cmdTokenPtr, interp);
     } else {
 	TclCompileTokens(interp, cmdTokenPtr+1,
 		cmdTokenPtr->numComponents, envPtr);
