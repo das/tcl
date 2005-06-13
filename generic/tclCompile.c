@@ -1089,18 +1089,17 @@ TclCompileScript(interp, script, numBytes, envPtr)
 				    TclVMStoreOpndAtPtr((fixLen << 1), fixPtr);
 				}				
 				goto finishCommand;
-			    } else if (code == TCL_OUT_LINE_COMPILE) {
+			    } else {
 				/*
 				 * Restore numCommands and codeNext to their
 				 * correct values, removing any commands
-				 * compiled before TCL_OUT_LINE_COMPILE
+				 * compiled before the failure to produce
+				 * bytecode got reported.
 				 * [Bugs 705406 and 735055]
 				 */
 				envPtr->numCommands = savedNumCmds;
 				envPtr->codeNext = envPtr->codeStart
 					+ savedCodeNext;
-			    } else { /* an error */
-				Tcl_Panic("TclCompileScript: compileProc returned TCL_ERROR\n");
 			    }
 			}
 

@@ -784,9 +784,7 @@ Tcl_AfterObjCmd(clientData, interp, objc, objv)
 
     /*
      * Create the "after" information associated for this interpreter,
-     * if it doesn't already exist.  Associate it with the command too,
-     * so that it will be passed in as the ClientData argument in the
-     * future.
+     * if it doesn't already exist.  
      */
 
     assocPtr = Tcl_GetAssocData( interp, "tclAfter", NULL );

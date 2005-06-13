@@ -556,6 +556,19 @@ foreach from {cp932 shiftjis euc-jp iso2022-jp} {
     }
 }
 
+testConstraint testgetdefenc [llength [info commands testgetdefenc]]
+
+test encoding-26.0 {Tcl_GetDefaultEncodingDir} -constraints {
+    testgetdefenc 
+} -setup {
+     set origDir [testgetdefenc]
+     testsetdefenc slappy
+} -body {
+     testgetdefenc
+} -cleanup {
+     testsetdefenc $origDir
+} -result slappy
+
 file delete {expand}[glob -directory [temporaryDirectory] *.chars *.tcltestout]
 # ===> Cut here <===
 

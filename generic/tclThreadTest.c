@@ -160,9 +160,6 @@ TclThread_Init(interp)
     
     Tcl_CreateObjCommand(interp,"testthread", Tcl_ThreadObjCmd, 
 	    (ClientData)NULL ,NULL);
-    if (Tcl_PkgProvide(interp, "Thread", "1.0" ) != TCL_OK) {
-	return TCL_ERROR;
-    }
     return TCL_OK;
 }
 

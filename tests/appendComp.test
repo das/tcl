@@ -351,7 +351,7 @@ test appendComp-7.9 {append var does not trigger read trace} {
     bar
 } {0}
 
-test appendComp-8.1 {TCL_OUT_LINE_COMPILE, not TCL_ERROR} -setup {
+test appendComp-8.1 {defer error to runtime} -setup {
     interp create slave
 } -body {
     slave eval {
