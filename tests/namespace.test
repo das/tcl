@@ -1924,6 +1924,19 @@ test namespace-49.1 {ensemble subcommand caching} -body {
     rename c {}
     rename x {}
 }
+test namespace-49.2 {strange delete crash} -body {
+    namespace eval foo {namespace ensemble create -command ::bar}
+    trace add command ::bar delete DeleteTrace
+    proc DeleteTrace {old new op} {
+	trace remove command ::bar delete DeleteTrace
+	rename $old ""
+	# This next line caused a bus error in [Bug 1220058]
+	namespace delete foo
+    }
+    rename ::bar ""
+} -result "" -cleanup {
+    rename DeleteTrace ""
+}
 
 test namespace-50.1 {ensembles affect proc arguments error messages} -body {
     namespace ens cre -command a -map {b {bb foo}}

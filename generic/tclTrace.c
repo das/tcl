@@ -1284,6 +1284,7 @@ TraceCommandProc(clientData, interp, oldName, newName, flags)
      */
     if (flags & (TCL_TRACE_DESTROYED | TCL_TRACE_DELETE)) {
 	int untraceFlags = tcmdPtr->flags;
+	Tcl_InterpState state;
 
 	if (tcmdPtr->stepTrace != NULL) {
 	    Tcl_DeleteTrace(interp, tcmdPtr->stepTrace);
@@ -1315,9 +1316,14 @@ TraceCommandProc(clientData, interp, oldName, newName, flags)
 	 * Remove the trace since TCL_TRACE_DESTROYED tells us to, or the
 	 * command we're tracing has just gone away.  Then decrement the
 	 * clientData refCount that was set up by trace creation.
+	 *
+	 * Note that we save the (return) state of the interpreter to
+	 * prevent bizarre error messages.
 	 */
+	state = Tcl_SaveInterpState(interp, TCL_OK);
 	Tcl_UntraceCommand(interp, oldName, untraceFlags,
 		TraceCommandProc, clientData);
+	(void) Tcl_RestoreInterpState(interp, state);
 	tcmdPtr->refCount--;
     }
     if ((--tcmdPtr->refCount) <= 0) {
