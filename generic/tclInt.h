@@ -60,6 +60,31 @@ typedef int ptrdiff_t;
 #endif
 
 /*
+ * Ensure WORDS_BIGENDIAN is defined correcly:
+ * Needs to happen here in addition to configure to work with
+ * fat compiles on Darwin (i.e. ppc and i386 at the same time).
+ */
+
+#ifdef HAVE_SYS_TYPES_H
+#    include <sys/types.h>
+#endif
+#ifdef HAVE_SYS_PARAM_H
+#    include <sys/param.h>
+#endif
+#ifdef BYTE_ORDER
+#    ifdef BIG_ENDIAN
+#        if BYTE_ORDER == BIG_ENDIAN
+#            define WORDS_BIGENDIAN
+#        endif
+#    endif
+#    ifdef LITTLE_ENDIAN
+#        if BYTE_ORDER == LITTLE_ENDIAN
+#            undef WORDS_BIGENDIAN
+#        endif
+#    endif
+#endif
+
+/*
  * Used to tag functions that are only to be visible within the module
  * being built and not outside it (where this is supported by the
  * linker).
