@@ -6206,3 +6206,11 @@ Can support [load] from memory as well (steffen)
 Documentation improvements [1075433,1085127,1117017,1124160,1149605,etc.]
 
 --- Released 8.4.10, June 4, 2005 --- See ChangeLog for details ---
+
+2005-06-06 (bug fix)[1213678] Windows/gcc: crash in stack.test (kenny)
+
+2005-06-07 (bug fix) Unix: --enable-threads compile failure (fellows)
+
+2005-06-18 (bug fix)[1154163] [format %h] on 64-bit OS's (kraft,fellows)
+
+--- Released 8.4.11, June 24, 2005 --- See ChangeLog for details ---
