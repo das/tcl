@@ -1542,6 +1542,7 @@ TclExecuteByteCode(interp, codePtr)
 
 	valuePtr = *tosPtr;
 	if (Tcl_ListObjGetElements(interp, valuePtr, &objc, &objv) != TCL_OK) {
+	    result = TCL_ERROR;
 	    TRACE_WITH_OBJ(("%.30s => ERROR: ", O2S(valuePtr)),
 		    Tcl_GetObjResult(interp));
 	    objPtr = expandNestList;

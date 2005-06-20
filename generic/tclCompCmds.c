@@ -273,7 +273,7 @@ TclCompileCatchCmd(interp, parsePtr, envPtr)
      * If syntax does not match what we expect for [catch], do not compile.
      * Let runtime checks determine if syntax has changed.
      */
-    if ((parsePtr->numWords < 2) && (parsePtr->numWords > 4)) {
+    if ((parsePtr->numWords < 2) || (parsePtr->numWords > 4)) {
 	return TCL_ERROR;
     }
 
