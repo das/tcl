@@ -2520,7 +2520,7 @@ Tcl_SwitchObjCmd(dummy, interp, objc, objv)
     int objc;			/* Number of arguments. */
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
-    int i, j, index, mode, result, splitObjs, numMatchesSaved, noCase;
+    int i, j, index, mode, foundmode, result, splitObjs, numMatchesSaved, noCase;
     char *pattern;
     Tcl_Obj *stringObj, *indexVarObj, *matchVarObj;
     Tcl_Obj *CONST *savedObjv = objv;
@@ -2542,6 +2542,7 @@ Tcl_SwitchObjCmd(dummy, interp, objc, objv)
     strCmpFn_t strCmpFn = strcmp;
 
     mode = OPT_EXACT;
+    foundmode = 0;
     indexVarObj = NULL;
     matchVarObj = NULL;
     numMatchesSaved = 0;
@@ -2588,6 +2589,18 @@ Tcl_SwitchObjCmd(dummy, interp, objc, objv)
 	    strCmpFn = strcasecmp;
 	    noCase = 1;
 	} else {
+	    if ( foundmode ) {
+		/* Mode already set via -exact, -glob, or -regexp */
+		Tcl_AppendResult(interp,
+			"bad option \"",
+			TclGetString(objv[i]),
+			"\": ",
+			options[mode],
+			" option already found",
+			(char *) NULL);
+		return TCL_ERROR;
+	    }
+	    foundmode = 1;
 	    mode = index;
 	}
     }
