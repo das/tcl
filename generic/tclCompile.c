@@ -308,7 +308,7 @@ InstructionDesc tclInstructionTable[] = {
     {"listNotIn",	  1,	-1,	   0,	{OPERAND_NONE}},
 	/* List negated containment: push [lsearch stktop stknext]<0) */
 
-    {"pushReturnOpts",	  1,	+1,	   0,	{OPERAND_NONE}}
+    {"pushReturnOpts",	  1,	+1,	   0,	{OPERAND_NONE}},
 	/* Push the interpreter's return option dictionary as an object on the
 	 * stack. */
     {0}
