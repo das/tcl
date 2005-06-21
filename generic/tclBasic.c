@@ -2683,6 +2683,7 @@ CallCommandTraces(iPtr, cmdPtr, oldName, newName, flags)
 
     result = NULL;
     active.nextPtr = iPtr->activeCmdTracePtr;
+    active.reverseScan = 0;
     iPtr->activeCmdTracePtr = &active;
 
     if (flags & TCL_TRACE_DELETE) {
