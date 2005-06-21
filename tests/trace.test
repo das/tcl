@@ -2139,6 +2139,23 @@ test trace-33.1 {variable match with remove variable} {
     llength [trace info variable x]
 } 0
 
+test trace-34.1 {Bug 1201035} {
+    set ::x [list]
+    proc foo {} {lappend ::x foo}
+    proc bar args {
+	lappend ::x $args
+	trace remove execution foo leavestep bar
+	trace remove execution foo enterstep bar
+	trace add execution foo leavestep bar
+	trace add execution foo enterstep bar
+	lappend ::x done
+    }
+    trace add execution foo leavestep bar
+    trace add execution foo enterstep bar
+    foo
+    set ::x
+} {{{lappend ::x foo} enterstep} done foo}
+
 # Delete procedures when done, so we don't clash with other tests
 # (e.g. foobar will clash with 'unknown' tests).
 catch {rename foobar {}}
