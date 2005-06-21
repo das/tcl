@@ -6213,4 +6213,6 @@ Documentation improvements [1075433,1085127,1117017,1124160,1149605,etc.]
 
 2005-06-18 (bug fix)[1154163] [format %h] on 64-bit OS's (kraft,fellows)
 
+2005-06-21 (bug fix)[1201035,1224585] execution trace crashes (porter)
+
 --- Released 8.4.11, June 24, 2005 --- See ChangeLog for details ---

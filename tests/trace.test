@@ -2156,6 +2156,22 @@ test trace-34.1 {Bug 1201035} {
     set ::x
 } {{{lappend ::x foo} enterstep} done foo}
 
+test trace-34.2 {Bug 1224585} {
+    proc foo {} {}
+    proc bar args {trace remove execution foo leave soom}
+    trace add execution foo leave bar
+    trace add execution foo leave soom
+    foo
+} {}
+
+test trace-34.3 {Bug 1224585} {
+    proc foo {} {set x {}}
+    proc bar args {trace remove execution foo enterstep soom}
+    trace add execution foo enterstep soom
+    trace add execution foo enterstep bar
+    foo
+} {}
+
 # Delete procedures when done, so we don't clash with other tests
 # (e.g. foobar will clash with 'unknown' tests).
 catch {rename foobar {}}
