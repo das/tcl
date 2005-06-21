@@ -74,6 +74,7 @@ typedef int ptrdiff_t;
 #ifdef BYTE_ORDER
 #    ifdef BIG_ENDIAN
 #        if BYTE_ORDER == BIG_ENDIAN
+#            undef WORDS_BIGENDIAN
 #            define WORDS_BIGENDIAN
 #        endif
 #    endif
