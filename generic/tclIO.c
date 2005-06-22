@@ -274,6 +274,7 @@ TclFinalizeIOSubsystem()
             statePtr->flags |= CHANNEL_DEAD;
         }
     }
+    TclpFinalizePipes();
 }
 
 

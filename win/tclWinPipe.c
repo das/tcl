@@ -201,7 +201,6 @@ static DWORD WINAPI	PipeReaderThread(LPVOID arg);
 static void		PipeSetupProc(ClientData clientData, int flags);
 static void		PipeWatchProc(ClientData instanceData, int mask);
 static DWORD WINAPI	PipeWriterThread(LPVOID arg);
-static void		ProcExitHandler(ClientData clientData);
 static int		TempFileName(WCHAR name[MAX_PATH]);
 static int		WaitForRead(PipeInfo *infoPtr, int blocking);
 
@@ -263,7 +262,6 @@ PipeInit()
 	if (!initialized) {
 	    initialized = 1;
 	    procList = NULL;
-	    Tcl_CreateExitHandler(ProcExitHandler, NULL);
 	}
 	Tcl_MutexUnlock(&pipeMutex);
     }
@@ -304,7 +302,7 @@ PipeExitHandler(
 /*
  *----------------------------------------------------------------------
  *
- * ProcExitHandler --
+ * TclpFinalizePipes --
  *
  *	This function is called to cleanup the process list before
  *	Tcl is unloaded.
@@ -318,9 +316,8 @@ PipeExitHandler(
  *----------------------------------------------------------------------
  */
 
-static void
-ProcExitHandler(
-    ClientData clientData)	/* Old window proc */
+void
+TclpFinalizePipes()
 {
     Tcl_MutexLock(&pipeMutex);
     initialized = 0;

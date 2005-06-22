@@ -1247,3 +1247,24 @@ Tcl_PidObjCmd(dummy, interp, objc, objv)
     }
     return TCL_OK;
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclpFinalizePipes --
+ *
+ *	Cleans up the pipe subsystem from Tcl_FinalizeThread
+ *
+ * Results:
+ *	None.
+ *
+ * This procedure carries out no operation on Unix.
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+TclpFinalizePipes()
+{
+}
+

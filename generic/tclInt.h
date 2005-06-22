@@ -1721,6 +1721,7 @@ EXTERN int              TclpDeleteFile _ANSI_ARGS_((CONST char *path));
 EXTERN void		TclpFinalizeCondition _ANSI_ARGS_((
 			    Tcl_Condition *condPtr));
 EXTERN void		TclpFinalizeMutex _ANSI_ARGS_((Tcl_Mutex *mutexPtr));
+EXTERN void		TclpFinalizePipes _ANSI_ARGS_((void));
 EXTERN void		TclpFinalizeThreadData _ANSI_ARGS_((
 			    Tcl_ThreadDataKey *keyPtr));
 EXTERN void		TclpFinalizeThreadDataKey _ANSI_ARGS_((
