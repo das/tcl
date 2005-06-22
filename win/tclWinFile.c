@@ -2085,7 +2085,7 @@ TclpFilesystemPathType(pathObjPtr)
 {
 #define VOL_BUF_SIZE 32
     int found;
-    char volType[VOL_BUF_SIZE];
+    WCHAR volType[VOL_BUF_SIZE];
     char* firstSeparator;
     CONST char *path;
     
@@ -2114,7 +2114,7 @@ TclpFilesystemPathType(pathObjPtr)
 	Tcl_DString ds;
 	Tcl_Obj *objPtr;
 	
-	Tcl_WinTCharToUtf(volType, -1, &ds);
+	Tcl_WinTCharToUtf((CONST char *)volType, -1, &ds);
 	objPtr = Tcl_NewStringObj(Tcl_DStringValue(&ds),Tcl_DStringLength(&ds));
 	Tcl_DStringFree(&ds);
 	return objPtr;
