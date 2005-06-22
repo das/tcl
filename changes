@@ -6222,4 +6222,6 @@ blocking during close led to multiple test suite failures.  Undone.  (kenny)
 ***POTENTIAL INCOMPATIBILITY***
 with Tcl 8.4.10 and 8.5.  Restores compatibility with 8.4.9 and earlier.
 
+2005-06-22 (bug fix)[1225727] Windows: pipe finalization crash (kenny)
+
 --- Released 8.4.11, June 24, 2005 --- See ChangeLog for details ---
