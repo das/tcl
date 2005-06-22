@@ -2031,6 +2031,7 @@ MODULE_SCOPE int	TclpDeleteFile _ANSI_ARGS_((CONST char *path));
 MODULE_SCOPE void	TclpFinalizeCondition _ANSI_ARGS_((
 			    Tcl_Condition *condPtr));
 MODULE_SCOPE void	TclpFinalizeMutex _ANSI_ARGS_((Tcl_Mutex *mutexPtr));
+MODULE_SCOPE void	TclpFinalizePipes _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclpFinalizeThreadData _ANSI_ARGS_((
 			    Tcl_ThreadDataKey *keyPtr));
 MODULE_SCOPE int	TclpThreadCreate _ANSI_ARGS_((
