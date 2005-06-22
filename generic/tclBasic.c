@@ -527,6 +527,9 @@ Tcl_CreateInterp()
     Tcl_CreateObjCommand(interp,	"::tcl::clock::Oldscan",
 	    TclClockOldscanObjCmd,	(ClientData) NULL,
 	    (Tcl_CmdDeleteProc*) NULL);
+    Tcl_CreateObjCommand(interp, "::tcl::chan::Truncate",
+	    TclChanTruncateObjCmd, (ClientData) NULL,
+	    (Tcl_CmdDeleteProc*) NULL);
 
     /*
      * Register the built-in functions
@@ -2501,11 +2504,16 @@ Tcl_DeleteCommandFromToken(interp, cmd)
 	/*
 	 * Another deletion is already in progress.  Remove the hash
 	 * table entry now, but don't invoke a callback or free the
-	 * command structure.
+	 * command structure. Take care to only remove the hash entry
+	 * if it has not already been removed; otherwise if we manage
+	 * to hit this function three times, everything goes up in
+	 * smoke. [Bug 1220058]
 	 */
 
-	Tcl_DeleteHashEntry(cmdPtr->hPtr);
-	cmdPtr->hPtr = NULL;
+	if (cmdPtr->hPtr != NULL) {
+	    Tcl_DeleteHashEntry(cmdPtr->hPtr);
+	    cmdPtr->hPtr = NULL;
+	}
 	return 0;
     }
 
@@ -2675,6 +2683,7 @@ CallCommandTraces(iPtr, cmdPtr, oldName, newName, flags)
 
     result = NULL;
     active.nextPtr = iPtr->activeCmdTracePtr;
+    active.reverseScan = 0;
     iPtr->activeCmdTracePtr = &active;
 
     if (flags & TCL_TRACE_DELETE) {

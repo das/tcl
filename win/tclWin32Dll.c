@@ -37,15 +37,6 @@ typedef VOID (WINAPI UTUNREGISTER)(HANDLE hModule);
 static HINSTANCE hInstance;	/* HINSTANCE of this DLL. */
 static int platformId;		/* Running under NT, or 95/98? */
 
-#if defined(HAVE_NO_SEH) && defined(TCL_MEM_DEBUG)
-static void *INITIAL_ESP,
-            *INITIAL_EBP,
-            *INITIAL_HANDLER,
-            *RESTORED_ESP,
-            *RESTORED_EBP,
-            *RESTORED_HANDLER;
-#endif /* HAVE_NO_SEH && TCL_MEM_DEBUG */
-
 #ifdef HAVE_NO_SEH
 
 /*
@@ -328,7 +319,7 @@ DllMain(hInst, reason, reserved)
             /*
              * Call Tcl_Finalize
              */
-            "call       %[Tcl_Finalize]"                "\n\t"
+            "call       _Tcl_Finalize"                  "\n\t"
 
             /*
              * Come here on a normal exit. Recover the EXCEPTION_REGISTRATION
@@ -365,7 +356,6 @@ DllMain(hInst, reason, reserved)
             /* No outputs */
             :
             [registration]      "m"     (registration),
-            [Tcl_Finalize]      "m"     (Tcl_Finalize),
             [ok]                "i"     (TCL_OK),
             [error]             "i"     (TCL_ERROR)
             :
@@ -602,7 +592,6 @@ TclpCheckStackSpace()
         /* No outputs */
         :
         [registration]  "m"     (registration),
-        [Tcl_Finalize]  "m"     (Tcl_Finalize),
         [ok]            "i"     (TCL_OK),
         [error]         "i"     (TCL_ERROR),
         [size]          "i"     (TCL_WIN_STACK_THRESHOLD)
