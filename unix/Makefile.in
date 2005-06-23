@@ -742,11 +742,14 @@ install-private-headers: libraries
 	    fi
 	@echo "Installing private header files";
 	@for i in $(GENERIC_DIR)/tclInt.h $(GENERIC_DIR)/tclIntDecls.h \
-		$(GENERIC_DIR)/tclIntPlatDecls.h $(GENERIC_DIR)/tclPort.h \
+		$(GENERIC_DIR)/tclIntPlatDecls.h \
 		$(UNIX_DIR)/tclUnixPort.h $(GENERIC_DIR)/tclMath.h; \
 	    do \
 	    $(INSTALL_DATA) $$i $(PRIVATE_INCLUDE_INSTALL_DIR); \
 	    done;
+	@sed -e 's#\.\./unix/##' $(GENERIC_DIR)/tclPort.h > tclPort.h; \
+	    $(INSTALL_DATA) tclPort.h $(PRIVATE_INCLUDE_INSTALL_DIR); \
+	    rm -f tclPort.h
 
 Makefile: $(UNIX_DIR)/Makefile.in $(DLTEST_DIR)/Makefile.in
 	$(SHELL) config.status
