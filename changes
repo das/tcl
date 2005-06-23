@@ -6223,4 +6223,6 @@ Documentation improvements [1075433,1085127,1117017,1124160,1149605,etc.]
 
 2005-06-22 (bug fix)[1225044] Windows: UMR in pipe close (kenny)
 
+2005-06-23 (bug fix)[1225957] Windows/gcc: crashes in assembler code (kenny)
+
 --- Released 8.4.11, June 24, 2005 --- See ChangeLog for details ---
