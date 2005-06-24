@@ -1652,6 +1652,7 @@ EXTERN int		TclFileMakeDirsCmd _ANSI_ARGS_((Tcl_Interp *interp,
 EXTERN int		TclFileRenameCmd _ANSI_ARGS_((Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[])) ;
 EXTERN void		TclFinalizeAllocSubsystem _ANSI_ARGS_((void));
+EXTERN void		TclFinalizeAsync _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeCompExecEnv _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeCompilation _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeEncodingSubsystem _ANSI_ARGS_((void));
@@ -1661,11 +1662,11 @@ EXTERN void		TclFinalizeIOSubsystem _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeFilesystem _ANSI_ARGS_((void));
 EXTERN void		TclResetFilesystem _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeLoad _ANSI_ARGS_((void));
+EXTERN void		TclFinalizeLock _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeMemorySubsystem _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeNotifier _ANSI_ARGS_((void));
-EXTERN void		TclFinalizeAsync _ANSI_ARGS_((void));
+EXTERN void		TclFinalizePreserve _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeSynchronization _ANSI_ARGS_((void));
-EXTERN void		TclFinalizeLock _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeThreadData _ANSI_ARGS_((void));
 EXTERN int		TclGlob _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *pattern, Tcl_Obj *unquotedPrefix, 

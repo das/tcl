@@ -904,13 +904,16 @@ Tcl_Finalize()
 	 * nobody's done this.
 	 */
 
+#ifdef TCL_MEM_DEBUG
 	if ( firstExitPtr != NULL ) {
 	    Tcl_Panic( "exit handlers were created during Tcl_Finalize" );
 	}
+#endif
 
 	/*
 	 * There shouldn't be any malloc'ed memory after this.
 	 */
+	TclFinalizePreserve();
 #if defined(TCL_THREADS) && defined(USE_THREAD_ALLOC) && !defined(TCL_MEM_DEBUG) && !defined(PURIFY)
 	TclFinalizeThreadAlloc();
 #endif
