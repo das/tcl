@@ -962,6 +962,7 @@ Tcl_Finalize()
 	/*
 	 * There shouldn't be any malloc'ed memory after this.
 	 */
+	TclFinalizePreserve();
 #if defined(TCL_THREADS) && defined(USE_THREAD_ALLOC)
 	TclFinalizeThreadAlloc();
 #endif
