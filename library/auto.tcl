@@ -518,6 +518,28 @@ proc auto_mkindex_parser::fullname {name} {
     return [string map [list \0 \$] $name]
 }
 
+if {[llength $::auto_mkindex_parser::initCommands]} {
+    return
+}
+
+# Register all of the procedures for the auto_mkindex parser that
+# will build the "tclIndex" file.
+
+# AUTO MKINDEX:  proc name arglist body
+# Adds an entry to the auto index list for the given procedure name.
+
+auto_mkindex_parser::command proc {name args} {
+    variable index
+    variable scriptFile
+    # Do some fancy reformatting on the "source" call to handle platform
+    # differences with respect to pathnames.  Use format just so that the
+    # command is a little easier to read (otherwise it'd be full of 
+    # backslashed dollar signs, etc.
+    append index [list set auto_index([fullname $name])] \
+	    [format { [list source [file join $dir %s]]} \
+	    [file split $scriptFile]] "\n"
+}
+
 # Conditionally add support for Tcl byte code files.  There are some
 # tricky details here.  First, we need to get the tbcload library
 # initialized in the current interpreter.  We cannot load tbcload into the
@@ -549,28 +571,6 @@ auto_mkindex_parser::hook {
 		    [file split $scriptFile]] "\n"
 	}
     }
-}
-
-if {[llength $::auto_mkindex_parser::initCommands]} {
-    return
-}
-
-# Register all of the procedures for the auto_mkindex parser that
-# will build the "tclIndex" file.
-
-# AUTO MKINDEX:  proc name arglist body
-# Adds an entry to the auto index list for the given procedure name.
-
-auto_mkindex_parser::command proc {name args} {
-    variable index
-    variable scriptFile
-    # Do some fancy reformatting on the "source" call to handle platform
-    # differences with respect to pathnames.  Use format just so that the
-    # command is a little easier to read (otherwise it'd be full of 
-    # backslashed dollar signs, etc.
-    append index [list set auto_index([fullname $name])] \
-	    [format { [list source [file join $dir %s]]} \
-	    [file split $scriptFile]] "\n"
 }
 
 # AUTO MKINDEX:  namespace eval name command ?arg arg...?
