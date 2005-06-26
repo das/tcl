@@ -73,6 +73,12 @@ typedef unsigned int fpu_control_t __attribute__ ((__mode__ (__HI__)));
 #  define NAN_MASK (((Tcl_WideUInt) 1) << 51)
 #endif
 
+/*
+ * There now follows a lot of static variables that are shared across all
+ * threads but which are not guarded by mutexes. This is OK, because they are
+ * only ever assigned _ONCE_ during Tcl's library initialization sequence.
+ */
+
 /* The powers of ten that can be represented exactly as IEEE754 doubles. */
 
 #define MAXPOW 22
