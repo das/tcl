@@ -6225,4 +6225,7 @@ Documentation improvements [1075433,1085127,1117017,1124160,1149605,etc.]
 
 2005-06-23 (bug fix)[1225957] Windows/gcc: crashes in assembler code (kenny)
 
+2005-06-27 (revert)[1101670] [auto_reset] disabled in non-global namespace.
+Restores Tcl 8.4.9 behavior (porter)
+
 --- Released 8.4.11, June 28, 2005 --- See ChangeLog for details ---
