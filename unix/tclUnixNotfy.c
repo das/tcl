@@ -275,7 +275,7 @@ Tcl_FinalizeNotifier(clientData)
      */
 
     if (notifierCount == 0) {
-	int result, dummy;
+	int result;
 	if (triggerPipe < 0) {
 	    panic("Tcl_FinalizeNotifier: notifier pipe not initialized");
 	}
@@ -288,13 +288,15 @@ Tcl_FinalizeNotifier(clientData)
 	 * not just close the pipe and check for EOF in the notifier
 	 * thread because if a background child process was created with
 	 * exec, select() would not register the EOF on the pipe until the
-	 * child processes had terminated. [Bug: 4139]
+	 * child processes had terminated. [Bug: 4139] [Bug: 1222872]
 	 */
+
 	write(triggerPipe, "q", 1);
 	close(triggerPipe);
-
-	Tcl_ConditionWait(&notifierCV, &notifierMutex, NULL);
-	result = Tcl_JoinThread(notifierThread, &dummy);
+	while(triggerPipe >= 0) {
+	    Tcl_ConditionWait(&notifierCV, &notifierMutex, NULL);
+	}
+	result = Tcl_JoinThread(notifierThread, NULL);
 	if (result) {
 	    Tcl_Panic("Tcl_FinalizeNotifier: unable to join notifier thread");
 	}
