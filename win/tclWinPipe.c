@@ -2068,8 +2068,13 @@ PipeClose2Proc(
 	Tcl_ReapDetachedProcs();
 
 	if (pipePtr->errorFile) {
-	    TclpCloseFile(pipePtr->errorFile);
+	    if (TclpCloseFile(pipePtr->errorFile) != 0) {
+		if ( errorCode == 0 ) {
+		    errorCode = errno;
+		}
+	    }
 	}
+	result = 0;
     } else {
 	/*
 	 * Wrap the error file into a channel and give it to the cleanup

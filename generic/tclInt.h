@@ -2016,6 +2016,7 @@ MODULE_SCOPE int	TclFileMakeDirsCmd _ANSI_ARGS_((Tcl_Interp *interp,
 MODULE_SCOPE int	TclFileRenameCmd _ANSI_ARGS_((Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[])) ;
 MODULE_SCOPE void	TclFinalizeAllocSubsystem _ANSI_ARGS_((void));
+MODULE_SCOPE void	TclFinalizeAsync _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeCompExecEnv _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeCompilation _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeDoubleConversion _ANSI_ARGS_((void));
@@ -2026,11 +2027,11 @@ MODULE_SCOPE void	TclFinalizeIOSubsystem _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeFilesystem _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclResetFilesystem _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeLoad _ANSI_ARGS_((void));
+MODULE_SCOPE void	TclFinalizeLock _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeMemorySubsystem _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeNotifier _ANSI_ARGS_((void));
-MODULE_SCOPE void	TclFinalizeAsync _ANSI_ARGS_((void));
+MODULE_SCOPE void	TclFinalizePreserve _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeSynchronization _ANSI_ARGS_((void));
-MODULE_SCOPE void	TclFinalizeLock _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeThreadData _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFormatNaN _ANSI_ARGS_((double value, char* buffer));
 MODULE_SCOPE int	TclFSFileAttrIndex _ANSI_ARGS_((Tcl_Obj *pathPtr,
