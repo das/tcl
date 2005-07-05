@@ -1277,6 +1277,16 @@ Tcl_Import(interp, namespacePtr, pattern, allowOverwrite)
                 refPtr->nextPtr = cmdPtr->importRefPtr;
                 cmdPtr->importRefPtr = refPtr;
             } else {
+		Command *overwrite = (Command *) Tcl_GetHashValue(found);
+		if (overwrite->deleteProc == DeleteImportedCmd) {
+		    ImportedCmdData *dataPtr =
+			    (ImportedCmdData *) overwrite->objClientData;
+		    if (dataPtr->realCmdPtr
+			    == (Command *) Tcl_GetHashValue(hPtr)) {
+			/* Repeated import of same command -- acceptable */
+			return TCL_OK;
+		    }
+		}
 		Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 		        "can't import command \"", cmdName,
 			"\": already exists", (char *) NULL);
