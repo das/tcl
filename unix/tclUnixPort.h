@@ -60,11 +60,9 @@
 #ifdef HAVE_STRUCT_DIRENT64
 typedef struct dirent64	Tcl_DirEntry;
 #   define TclOSreaddir		readdir64
-#   define TclOSreaddir_r	readdir64_r
 #else
 typedef struct dirent	Tcl_DirEntry;
 #   define TclOSreaddir		readdir
-#   define TclOSreaddir_r	readdir_r
 #endif
 
 #ifdef HAVE_TYPE_OFF64_T
@@ -571,10 +569,7 @@ EXTERN struct tm *     	TclpLocaltime(CONST TclpTime_t);
 EXTERN struct tm *     	TclpGmtime(CONST TclpTime_t);
 #endif
 EXTERN char *          	TclpInetNtoa(struct in_addr);
-#define readdir(x)	TclpReaddir(x)
 #define inet_ntoa(x)	TclpInetNtoa(x)
-#undef TclOSreaddir
-#define TclOSreaddir(x) TclpReaddir(x)
 #else
 typedef int TclpMutex;
 #define	TclpMutexInit(a)
