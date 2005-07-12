@@ -34,7 +34,8 @@ is \fB\-glob\fR.  If more than one matching style is specified, the
 last matching style given takes precedence.
 .TP
 \fB\-exact\fR
-The list element must contain exactly the same string as \fIpattern\fR.
+\fIPattern\fR is a literal string that is compared for exact equality
+against each list element.
 .TP
 \fB\-glob\fR
 \fIPattern\fR is a glob-style pattern which is matched against each list
