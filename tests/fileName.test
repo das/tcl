@@ -1519,6 +1519,13 @@ test filename-17.2 {windows specific glob with executable} {win} {
     set res
 } {abc.exe}
 
+test fileName-18.1 {windows - split ADS name correctly} {winOnly} {
+    # bug 1194458
+    set x [file split c:/c:d]
+    set y [eval [linsert $x 0 file join]]
+    list $x $y
+} {{c:/ ./c:d} c:/c:d}
+
 # cleanup
 catch {file delete -force C:/globTest}
 cd [temporaryDirectory]

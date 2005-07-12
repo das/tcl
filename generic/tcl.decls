@@ -2004,6 +2004,15 @@ declare 558 generic {
     int Tcl_GetBignumFromObj( Tcl_Interp* interp, Tcl_Obj* obj, mp_int* value )
 }
 
+# TIP #208:
+declare 559 generic {
+    int Tcl_TruncateChannel(Tcl_Channel chan, Tcl_WideInt length)
+}
+declare 560 generic {
+    Tcl_DriverTruncateProc *Tcl_ChannelTruncateProc(
+	    Tcl_ChannelType *chanTypePtr)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are

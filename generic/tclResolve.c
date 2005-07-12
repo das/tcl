@@ -273,8 +273,8 @@ BumpCmdRefEpochs(nsPtr)
         childNsPtr = (Namespace *) Tcl_GetHashValue(entry);
         BumpCmdRefEpochs(childNsPtr);
     }
+    TclInvalidateNsPath(nsPtr);
 }
-
 
 /*
  *----------------------------------------------------------------------
@@ -369,6 +369,7 @@ Tcl_SetNamespaceResolvers(namespacePtr, cmdProc, varProc, compiledVarProc)
 
     nsPtr->cmdRefEpoch++;
     nsPtr->resolverEpoch++;
+    TclInvalidateNsPath(nsPtr);
 }
 
 /*

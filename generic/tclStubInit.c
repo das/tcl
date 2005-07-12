@@ -103,7 +103,7 @@ TclIntStubs tclIntStubs = {
     NULL, /* 21 */
     TclFindElement, /* 22 */
     TclFindProc, /* 23 */
-    TclFormatInt, /* 24 */
+    NULL, /* 24 */
     TclFreePackageInfo, /* 25 */
     NULL, /* 26 */
     NULL, /* 27 */
@@ -981,6 +981,8 @@ TclStubs tclStubs = {
     Tcl_DbNewBignumObj, /* 556 */
     Tcl_SetBignumObj, /* 557 */
     Tcl_GetBignumFromObj, /* 558 */
+    Tcl_TruncateChannel, /* 559 */
+    Tcl_ChannelTruncateProc, /* 560 */
 };
 
 /* !END!: Do not edit above this line. */

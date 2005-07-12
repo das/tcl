@@ -309,6 +309,9 @@ static int		TestparsevarnameObjCmd _ANSI_ARGS_((ClientData dummy,
 static int		TestregexpObjCmd _ANSI_ARGS_((ClientData dummy,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[]));
+static int		TestreturnObjCmd _ANSI_ARGS_((ClientData dummy,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *CONST objv[]));
 static void		TestregexpXflags _ANSI_ARGS_((char *string,
 			    int length, int *cflagsPtr, int *eflagsPtr));
 static int		TestsaveresultCmd _ANSI_ARGS_((ClientData dummy,
@@ -663,6 +666,8 @@ Tcltest_Init(interp)
     Tcl_CreateObjCommand(interp, "testparsevarname", TestparsevarnameObjCmd,
 	    (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
     Tcl_CreateObjCommand(interp, "testregexp", TestregexpObjCmd,
+	    (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
+    Tcl_CreateObjCommand(interp, "testreturn", TestreturnObjCmd,
 	    (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
     Tcl_CreateObjCommand(interp, "testsaveresult", TestsaveresultCmd,
 	    (ClientData) 0, (Tcl_CmdDeleteProc *) NULL);
@@ -3610,6 +3615,37 @@ TestregexpXflags(string, length, cflagsPtr, eflagsPtr)
 
     *cflagsPtr = cflags;
     *eflagsPtr = eflags;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TestreturnObjCmd --
+ *
+ *	This procedure implements the "testreturn" command. It is
+ *	used to verify that a
+ *		return TCL_RETURN;
+ *	has same behavior as
+ *		return Tcl_SetReturnOptions(interp, Tcl_NewObj());
+ *
+ * Results:
+ *	A standard Tcl result.
+ *
+ * Side effects:
+ *	See the user documentation.
+ *
+ *----------------------------------------------------------------------
+ */
+
+	/* ARGSUSED */
+static int
+TestreturnObjCmd(dummy, interp, objc, objv)
+    ClientData dummy;			/* Not used. */
+    Tcl_Interp *interp;			/* Current interpreter. */
+    int objc;				/* Number of arguments. */
+    Tcl_Obj *CONST objv[];		/* Argument objects. */
+{
+    return TCL_RETURN;
 }
 
 /*

@@ -552,6 +552,7 @@ TclEncodingDirsObjCmd(dummy, interp, objc, objv)
 {
     if (objc > 2) {
 	Tcl_WrongNumArgs(interp, 1, objv, "?dirList?");
+	return TCL_ERROR;
     }
     if (objc == 1) {
 	Tcl_SetObjResult(interp, TclGetEncodingSearchPath());
@@ -2220,15 +2221,22 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 		goto fmtError;
 	    }
 #if (LONG_MAX > INT_MAX)
-	    /*
-	     * Add the 'l' for long format type because we are on an
-	     * LP64 archtecture and we are really going to pass a long
-	     * argument to sprintf.
-	     */
-	    newPtr++;
-	    *newPtr = 0;
-	    newPtr[-1] = newPtr[-2];
-	    newPtr[-2] = 'l';
+	    if (!useShort) {
+		/*
+		 * Add the 'l' for long format type because we are on an
+		 * LP64 archtecture and we are really going to pass a long
+		 * argument to sprintf.
+		 *
+		 * Do not add this if we're going to pass in a short (i.e.
+		 * if we've got an 'h' modifier already in the string); some
+		 * libc implementations of sprintf() do not like it at all.
+		 * [Bug 1154163]
+		 */
+		newPtr++;
+		*newPtr = 0;
+		newPtr[-1] = newPtr[-2];
+		newPtr[-2] = 'l';
+	    }
 #endif /* LONG_MAX > INT_MAX */
 	    whichValue = INT_VALUE;
 	    size = 40 + precision;

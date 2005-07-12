@@ -81,16 +81,16 @@ the char specified at this integral index
 .IP \fBend\fR 10
 The last char of the string
 (e.g. \fBend\fR would refer to the "d" in "abcd").
-.IP \fBend\-\fIN\fR 10
+.IP \fBend\fR\-\fIN\fR 10
 The last char of the string minus the specified integer offset \fIN\fR
-(e.g. \fBend\-1\fR would refer to the "c" in "abcd").
-.IP \fBend\+\fIN\fR 10
+(e.g. \fBend\fR\-1 would refer to the "c" in "abcd").
+.IP \fBend\fR+\fIN\fR 10
 The last char of the string plus the specified integer offset \fIN\fR
-(e.g. \fBend\+\-1\fR would refer to the "c" in "abcd").
-.IP \fIM\fR\+\fIN\fR 10
+(e.g. \fBend\fR+\-1 would refer to the "c" in "abcd").
+.IP \fIM\fR+\fIN\fR 10
 The char specified at the integral index that is the sum of 
 integer values \fIM\fR and \fIN\fR
-(e.g. \fB1\+1\fR would refer to the "c" in "abcd").
+(e.g. \fB1+1\fR would refer to the "c" in "abcd").
 .IP \fIM\fR\-\fIN\fR 10
 The char specified at the integral index that is the difference of 
 integer values \fIM\fR and \fIN\fR

@@ -114,9 +114,10 @@ declare 22 generic {
 declare 23 generic {
     Proc *TclFindProc(Interp *iPtr, CONST char *procName)
 }
-declare 24 generic {
-    int TclFormatInt(char *buffer, long n)
-}
+# Replaced with macro (see tclInt.h) in Tcl 8.5
+#declare 24 generic {
+#    int TclFormatInt(char *buffer, long n)
+#}
 declare 25 generic {
     void TclFreePackageInfo(Interp *iPtr)
 }

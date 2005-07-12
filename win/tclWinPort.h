@@ -45,6 +45,13 @@
 #include <string.h>
 
 /*
+ * These string functions are not defined with the same names on Windows.
+ */
+
+#define strcasecmp stricmp
+#define strncasecmp strnicmp
+
+/*
  * Need to block out these includes for building extensions with MetroWerks
  * compiler for Win32.
  */
