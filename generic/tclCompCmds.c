@@ -72,7 +72,7 @@
  * Macro to get the offset to the next instruction to be issued. The ANSI C
  * "prototype" for this macro is:
  *
- * static int	TokenAfter(CompileEnv *envPtr);
+ * static int	CurrentOffset(CompileEnv *envPtr);
  */
 
 #define CurrentOffset(envPtr) \
