@@ -796,7 +796,7 @@ InfoCommandsCmd(dummy, interp, objc, objv)
 	    return TCL_OK;
 	}
 	if ((nsPtr != globalNsPtr) && !specificNsInPattern) {
-	    Tcl_HashTable *tablePtr;
+	    Tcl_HashTable *tablePtr = NULL;	/* Quell warning */
 
 	    for (i=0 ; i<nsPtr->commandPathLength ; i++) {
 		Namespace *pathNsPtr = nsPtr->commandPathArray[i].nsPtr;
