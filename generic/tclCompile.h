@@ -565,7 +565,7 @@ typedef enum InstOperandType {
     OPERAND_INT4,		/* Four byte signed integer. */
     OPERAND_UINT1,		/* One byte unsigned integer. */
     OPERAND_UINT4,		/* Four byte unsigned integer. */
-    OPERAND_IDX4		/* Four byte signed index (actually an
+    OPERAND_IDX4,		/* Four byte signed index (actually an
 				 * integer, but displayed differently.) */
     OPERAND_LVT1,		/* One byte unsigned index into the local
 				 * variable table. */
