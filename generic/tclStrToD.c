@@ -675,6 +675,8 @@ RefineResult(double approxResult, /* Approximate result of conversion. */
      */
 
     if (mp_cmp_mag(&twoMd, &twoMv) == MP_LT) {
+	mp_clear(&twoMd);
+	mp_clear(&twoMv);
 	return approxResult;
     }
 
