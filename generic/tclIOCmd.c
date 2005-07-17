@@ -1395,7 +1395,7 @@ Tcl_SocketObjCmd(notUsed, interp, objc, objv)
 	host = Tcl_GetString(objv[a]);
 	a++;
     } else {
-	Interp *iPtr;
+	Interp *iPtr = (Interp *) interp;
 
     wrongNumArgs:
 	Tcl_WrongNumArgs(interp, 1, objv,
