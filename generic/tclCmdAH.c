@@ -1554,8 +1554,8 @@ StoreStatData(interp, varName, statPtr)
      * cast might fail when there isn't a real arithmentic 'long long' type...
      */
 
-    STORE_ARY("ino",	Tcl_NewWideIntObj((Tcl_WideInt)statPtr->st_ino));
     STORE_ARY("dev",	Tcl_NewLongObj((long)statPtr->st_dev));
+    STORE_ARY("ino",	Tcl_NewWideIntObj((Tcl_WideInt)statPtr->st_ino));
     STORE_ARY("nlink",	Tcl_NewLongObj((long)statPtr->st_nlink));
     STORE_ARY("uid",	Tcl_NewLongObj((long)statPtr->st_uid));
     STORE_ARY("gid",	Tcl_NewLongObj((long)statPtr->st_gid));
