@@ -1395,9 +1395,10 @@ Tcl_SocketObjCmd(notUsed, interp, objc, objv)
 	host = Tcl_GetString(objv[a]);
 	a++;
     } else {
-	Interp *iPtr = (Interp *) interp;
+	Interp *iPtr;
 
     wrongNumArgs:
+	iPtr = (Interp *) interp;
 	Tcl_WrongNumArgs(interp, 1, objv,
 		"?-myaddr addr? ?-myport myport? ?-async? host port");
 	iPtr->flags |= INTERP_ALTERNATE_WRONG_ARGS;
