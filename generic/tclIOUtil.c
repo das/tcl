@@ -1597,7 +1597,7 @@ TclGetOpenModeEx(interp, modeString, seekFlagPtr, binaryPtr)
     if (Tcl_SplitList(interp, modeString, &modeArgc, &modeArgv) != TCL_OK) {
 	if (interp != (Tcl_Interp *) NULL) {
 	    Tcl_AddErrorInfo(interp,
-		    "\n	   while processing open access modes \"");
+		    "\n    while processing open access modes \"");
 	    Tcl_AddErrorInfo(interp, modeString);
 	    Tcl_AddErrorInfo(interp, "\"");
 	}
