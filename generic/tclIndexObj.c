@@ -503,7 +503,7 @@ Tcl_WrongNumArgs(interp, objc, objv, message)
     if (iPtr->ensembleRewrite.sourceObjs != NULL) {
 	int toSkip = iPtr->ensembleRewrite.numInsertedObjs;
 	int toPrint = iPtr->ensembleRewrite.numRemovedObjs;
-	Tcl_Obj *origObjv = iPtr->ensembleRewrite.sourceObjs;
+	Tcl_Obj * CONST *origObjv = iPtr->ensembleRewrite.sourceObjs;
 
 	/*
 	 * We only know how to do rewriting if all the replaced objects are
