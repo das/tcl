@@ -897,6 +897,12 @@ declare 224 generic {
     TclPlatformType *TclGetPlatform(void)
 }
 
+# 
+declare 225 generic {
+    Tcl_Obj *TclTraceDictPath(Tcl_Interp *interp, Tcl_Obj *rootPtr,
+	    int keyc, Tcl_Obj *CONST keyv[], int flags)
+}
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are

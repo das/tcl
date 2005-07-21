@@ -309,6 +309,7 @@ TclIntStubs tclIntStubs = {
     TclBN_mp_init, /* 222 */
     TclBN_mp_read_radix, /* 223 */
     TclGetPlatform, /* 224 */
+    TclTraceDictPath, /* 225 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
