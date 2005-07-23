@@ -4888,7 +4888,7 @@ TclExecuteByteCode(interp, codePtr)
 		Tcl_DictObjPut(NULL, dictPtr, *tosPtr,
 			Tcl_NewLongObj(value + opnd));
 	    } else {
-		long value;
+		long value = 0; /* stop compiler warning */
 		Tcl_WideInt wvalue;
 
 		REQUIRE_WIDE_OR_INT(result, valPtr, value, wvalue);
@@ -4910,6 +4910,7 @@ TclExecuteByteCode(interp, codePtr)
 		    tosPtr - (opnd-1));
 	    break;
 	default:
+	    cleanup = 0; /* stop compiler warning */
 	    Tcl_Panic("Should not happen!");
 	}
 
