@@ -553,7 +553,7 @@ auto_mkindex_parser::command proc {name args} {
 
 auto_mkindex_parser::hook {
     if {![catch {package require tbcload}]} {
-	if {[namespace which -command tbcload::bcproc] ne ""} {
+	if {[namespace which -command tbcload::bcproc] eq ""} {
 	    auto_load tbcload::bcproc
 	}
 	load {} tbcload $auto_mkindex_parser::parser
