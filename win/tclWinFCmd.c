@@ -33,11 +33,11 @@ static int		GetWinFileAttributes(Tcl_Interp *interp, int objIndex,
 static int		GetWinFileLongName(Tcl_Interp *interp, int objIndex,
 			    Tcl_Obj *fileName, Tcl_Obj **attributePtrPtr);
 static int		GetWinFileShortName(Tcl_Interp *interp, int objIndex,
-			    Tcl_Obj *fileName, Tcl_Obj **attributePtrPtr));
+			    Tcl_Obj *fileName, Tcl_Obj **attributePtrPtr);
 static int		SetWinFileAttributes(Tcl_Interp *interp, int objIndex,
 			    Tcl_Obj *fileName, Tcl_Obj *attributePtr);
 static int		CannotSetAttribute(Tcl_Interp *interp, int objIndex,
-			    Tcl_Obj *fileName, Tcl_Obj *attributePtr));
+			    Tcl_Obj *fileName, Tcl_Obj *attributePtr);
 
 /*
  * Constants and variables necessary for file attributes subcommand.
