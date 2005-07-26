@@ -114,9 +114,10 @@ declare 22 generic {
 declare 23 generic {
     Proc *TclFindProc(Interp *iPtr, CONST char *procName)
 }
-declare 24 generic {
-    int TclFormatInt(char *buffer, long n)
-}
+# Replaced with macro (see tclInt.h) in Tcl 8.5
+#declare 24 generic {
+#    int TclFormatInt(char *buffer, long n)
+#}
 declare 25 generic {
     void TclFreePackageInfo(Interp *iPtr)
 }
@@ -894,6 +895,12 @@ declare 223 generic {
 # for use in tclTest.c
 declare 224 generic {
     TclPlatformType *TclGetPlatform(void)
+}
+
+# 
+declare 225 generic {
+    Tcl_Obj *TclTraceDictPath(Tcl_Interp *interp, Tcl_Obj *rootPtr,
+	    int keyc, Tcl_Obj *CONST keyv[], int flags)
 }
 
 ##############################################################################

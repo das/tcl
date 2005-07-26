@@ -154,7 +154,7 @@ static CmdInfo builtInCmds[] = {
     {"catch",		Tcl_CatchObjCmd,	TclCompileCatchCmd,	1},
     {"concat",		Tcl_ConcatObjCmd,	(CompileProc *) NULL,	1},
     {"continue",	Tcl_ContinueObjCmd,	TclCompileContinueCmd,	1},
-    {"dict",		Tcl_DictObjCmd,		(CompileProc *) NULL,	1},
+    {"dict",		Tcl_DictObjCmd,		TclCompileDictCmd,	1},
     {"encoding",	Tcl_EncodingObjCmd,	(CompileProc *) NULL,	0},
     {"error",		Tcl_ErrorObjCmd,	(CompileProc *) NULL,	1},
     {"eval",		Tcl_EvalObjCmd,		(CompileProc *) NULL,	1},

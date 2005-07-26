@@ -15,7 +15,7 @@
 # The following variables are used to determine which characters are
 # interpreted as white space.  
 
-if {[string equal $::tcl_platform(platform) "windows"]} {
+if {$::tcl_platform(platform) eq "windows"} {
     # Windows style - any but a unicode space char
     set tcl_wordchars "\\S"
     set tcl_nonwordchars "\\s"
@@ -58,7 +58,7 @@ proc tcl_wordBreakAfter {str start} {
 
 proc tcl_wordBreakBefore {str start} {
     global tcl_nonwordchars tcl_wordchars
-    if {[string equal $start end]} {
+    if {$start eq "end"} {
 	set start [string length $str]
     }
     if {[regexp -indices "^.*($tcl_wordchars$tcl_nonwordchars|$tcl_nonwordchars$tcl_wordchars)" [string range $str 0 $start] result]} {
@@ -120,7 +120,7 @@ proc tcl_startOfNextWord {str start} {
 
 proc tcl_startOfPreviousWord {str start} {
     global tcl_nonwordchars tcl_wordchars
-    if {[string equal $start end]} {
+    if {$start eq "end"} {
 	set start [string length $str]
     }
     if {[regexp -indices \

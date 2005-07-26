@@ -103,7 +103,7 @@ TclIntStubs tclIntStubs = {
     NULL, /* 21 */
     TclFindElement, /* 22 */
     TclFindProc, /* 23 */
-    TclFormatInt, /* 24 */
+    NULL, /* 24 */
     TclFreePackageInfo, /* 25 */
     NULL, /* 26 */
     NULL, /* 27 */
@@ -309,6 +309,7 @@ TclIntStubs tclIntStubs = {
     TclBN_mp_init, /* 222 */
     TclBN_mp_read_radix, /* 223 */
     TclGetPlatform, /* 224 */
+    TclTraceDictPath, /* 225 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
