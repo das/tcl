@@ -737,6 +737,21 @@ TclTeardownNamespace(nsPtr)
     }
 
     /*
+     * Delete all commands in this namespace. Be careful when traversing the
+     * hash table: when each command is deleted, it removes itself from the
+     * command table.
+     */
+
+    for (entryPtr = Tcl_FirstHashEntry(&nsPtr->cmdTable, &search);
+            entryPtr != NULL;
+            entryPtr = Tcl_FirstHashEntry(&nsPtr->cmdTable, &search)) {
+        cmd = (Tcl_Command) Tcl_GetHashValue(entryPtr);
+        Tcl_DeleteCommandFromToken((Tcl_Interp *) iPtr, cmd);
+    }
+    Tcl_DeleteHashTable(&nsPtr->cmdTable);
+    Tcl_InitHashTable(&nsPtr->cmdTable, TCL_STRING_KEYS);
+
+    /*
      * Remove the namespace from its parent's child hashtable.
      */
 
@@ -764,21 +779,6 @@ TclTeardownNamespace(nsPtr)
         childNsPtr = (Tcl_Namespace *) Tcl_GetHashValue(entryPtr);
         Tcl_DeleteNamespace(childNsPtr);
     }
-
-    /*
-     * Delete all commands in this namespace. Be careful when traversing the
-     * hash table: when each command is deleted, it removes itself from the
-     * command table.
-     */
-
-    for (entryPtr = Tcl_FirstHashEntry(&nsPtr->cmdTable, &search);
-            entryPtr != NULL;
-            entryPtr = Tcl_FirstHashEntry(&nsPtr->cmdTable, &search)) {
-        cmd = (Tcl_Command) Tcl_GetHashValue(entryPtr);
-        Tcl_DeleteCommandFromToken((Tcl_Interp *) iPtr, cmd);
-    }
-    Tcl_DeleteHashTable(&nsPtr->cmdTable);
-    Tcl_InitHashTable(&nsPtr->cmdTable, TCL_STRING_KEYS);
 
     /*
      * Free the namespace's export pattern array.
