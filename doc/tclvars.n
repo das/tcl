@@ -110,9 +110,8 @@ applications needs.
 .TP
 \fBerrorCode\fR
 After an error has occurred, this variable will be set to hold
-additional information about the error in a form that is easy
-to process with programs.
-\fBerrorCode\fR consists of a Tcl list with one or more elements.
+a list value representing additional information about the error
+in a form that is easy to process with programs.
 The first element of the list identifies a general class of
 errors, and determines the format of the rest of the list.
 The following formats for \fBerrorCode\fR are used by the
