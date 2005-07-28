@@ -666,11 +666,11 @@ if {[testConstraint testsetplatform]} {
     testsetplatform $platform
 }
 
-test filename-10.23 {Tcl_TranslateFileName} {unix nonPortable} {
+test filename-10.23 {Tcl_TranslateFileName} {nonPortable} {
     # this test fails if ~ouster is not /home/ouster
     list [catch {testtranslatefilename ~ouster} msg] $msg
 } {0 /home/ouster}
-test filename-10.24 {Tcl_TranslateFileName} {unix nonPortable} {
+test filename-10.24 {Tcl_TranslateFileName} {nonPortable} {
     # this test fails if ~ouster is not /home/ouster
     list [catch {testtranslatefilename ~ouster/foo} msg] $msg
 } {0 /home/ouster/foo}
