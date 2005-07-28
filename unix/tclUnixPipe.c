@@ -156,7 +156,7 @@ TclpOpenFile(fname, mode)
 	 * append to any data already in the file.
 	 */
 
-	if (mode & O_WRONLY) {
+	if ((mode & O_WRONLY) && !(mode & O_APPEND)) {
 	    TclOSseek(fd, (Tcl_SeekOffset) 0, SEEK_END);
 	}
 
