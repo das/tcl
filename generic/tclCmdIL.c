@@ -1105,8 +1105,11 @@ InfoGlobalsCmd(dummy, interp, objc, objv)
     if (pattern != NULL && TclMatchIsTrivial(pattern)) {
 	entryPtr = Tcl_FindHashEntry(&globalNsPtr->varTable, pattern);
  	if (entryPtr != NULL) {
-	    Tcl_ListObjAppendElement(interp, listPtr,
-		    Tcl_NewStringObj(pattern, -1));
+	    varPtr = (Var *) Tcl_GetHashValue(entryPtr);
+	    if (!TclIsVarUndefined(varPtr)) {
+		Tcl_ListObjAppendElement(interp, listPtr,
+			Tcl_NewStringObj(pattern, -1));
+	    }
 	}
     } else {
 	for (entryPtr = Tcl_FirstHashEntry(&globalNsPtr->varTable, &search);
