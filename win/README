@@ -30,7 +30,7 @@ In order to compile Tcl for Windows, you need the following:
 
 	Msys + Mingw
 
-	http://prdownloads.sourceforge.net/tcl/msys_mingw7.zip
+	http://prdownloads.sourceforge.net/tcl/msys_mingw8.zip
 
 	This Msys + Mingw download is the minimal environment
 	needed to build Tcl/Tk under Windows. It includes a
