@@ -665,7 +665,7 @@ TclpOpenFile(path, mode)
      * Seek to the end of file if we are writing.
      */
 
-    if (mode & O_WRONLY) {
+    if (mode & (O_WRONLY|O_APPEND)) {
 	SetFilePointer(handle, 0, NULL, FILE_END);
     }
 

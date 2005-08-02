@@ -2237,6 +2237,17 @@ test trace-34.3 {Bug 1224585} {
     foo
 } {}
 
+test trace-34.4 {Bug 1047286} {
+    variable x notrace
+    proc callback {old - -} {
+        variable x "$old exists: [namespace which -command $old]"
+    }
+    namespace eval ::foo {proc bar {} {}}
+    trace add command ::foo::bar delete [namespace code callback]
+    namespace delete ::foo
+    set x
+} {::foo::bar exists: ::foo::bar}
+
 test trace-35.1 {527164: Keep -errorinfo of traces} -setup {
     unset -nocomplain x y
 } -body {

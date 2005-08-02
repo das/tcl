@@ -19,7 +19,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 }
 
 catch {unset x}
-test listobj-1.1 {Tcl_GetListObjType} empty {
+test listobj-1.1 {Tcl_GetListObjType} emptyTest {
     # Test removed; tested an internal detail
     # that's no longer correct, and duplicated test obj-1.1
 } {}

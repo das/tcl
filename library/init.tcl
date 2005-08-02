@@ -328,7 +328,11 @@ proc unknown args {
 		if {[namespace which -command console] eq ""} {
 		    set redir ">&@stdout <@stdin"
 		}
-		return [uplevel 1 exec $redir $new [lrange $args 1 end]]
+		uplevel 1 [list ::catch \
+			[concat exec $redir $new [lrange $args 1 end]] \
+			::tcl::UnknownResult ::tcl::UnknownOptions]
+		dict incr ::tcl::UnknownOptions -level
+		return -options $::tcl::UnknownOptions $::tcl::UnknownResult
 	    }
 	}
 	if {$name eq "!!"} {
@@ -342,7 +346,10 @@ proc unknown args {
 	if {[info exists newcmd]} {
 	    tclLog $newcmd
 	    history change $newcmd 0
-	    return [uplevel 1 $newcmd]
+	    uplevel 1 [list ::catch $newcmd \
+		    ::tcl::UnknownResult ::tcl::UnknownOptions]
+	    dict incr ::tcl::UnknownOptions -level
+	    return -options $::tcl::UnknownOptions $::tcl::UnknownResult
 	}
 
 	set ret [catch {set candidates [info commands $name*]} msg]
@@ -371,7 +378,10 @@ proc unknown args {
 	    }
 	}
 	if {[llength $cmds] == 1} {
-	    return [uplevel 1 [lreplace $args 0 0 [lindex $cmds 0]]]
+	    uplevel 1 [list ::catch [lreplace $args 0 0 [lindex $cmds 0]] \
+		    ::tcl::UnknownResult ::tcl::UnknownOptions]
+	    dict incr ::tcl::UnknownOptions -level
+	    return -options $::tcl::UnknownOptions $::tcl::UnknownResult
 	}
 	if {[llength $cmds]} {
 	    return -code error "ambiguous command name \"$name\": [lsort $cmds]"

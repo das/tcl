@@ -68,10 +68,14 @@ test error-1.7 {simple errors from commands} {
     set b
 } {wrong # args: should be "catch script ?resultVarName? ?optionVarName?"}
 
-test error-1.8 {simple errors from commands} {nonPortable} {
+test error-1.8 {simple errors from commands} {
     # This test is non-portable: it generates a memory fault on
     # machines like DEC Alphas (infinite recursion overflows
     # stack?)
+    #
+    # That claims sounds like a bug to be fixed rather than a portability
+    # problem.  Anyhow, I believe it's out of date (bug's been fixed) so
+    # this test is re-enabled.
 
     proc p {} {
         uplevel 1 catch p error

@@ -701,19 +701,16 @@ Tcl_CallWhenDeleted(interp, proc, clientData)
     ClientData clientData;	/* One-word value to pass to proc. */
 {
     Interp *iPtr = (Interp *) interp;
-    static int assocDataCounter = 0;
-#ifdef TCL_THREADS
-    static Tcl_Mutex assocMutex;
-#endif
+    static Tcl_ThreadDataKey assocDataCounterKey;
+    int *assocDataCounterPtr =
+	    Tcl_GetThreadData(&assocDataCounterKey, (int)sizeof(int));
     int new;
     char buffer[32 + TCL_INTEGER_SPACE];
     AssocData *dPtr = (AssocData *) ckalloc(sizeof(AssocData));
     Tcl_HashEntry *hPtr;
 
-    Tcl_MutexLock(&assocMutex);
-    sprintf(buffer, "Assoc Data Key #%d", assocDataCounter);
-    assocDataCounter++;
-    Tcl_MutexUnlock(&assocMutex);
+    sprintf(buffer, "Assoc Data Key #%d", *assocDataCounterPtr);
+    (*assocDataCounterPtr)++;
 
     if (iPtr->assocData == (Tcl_HashTable *) NULL) {
 	iPtr->assocData = (Tcl_HashTable *) ckalloc(sizeof(Tcl_HashTable));

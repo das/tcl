@@ -592,7 +592,13 @@ TclCreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
 	    if (*p == '>') {
 		p++;
 		atOK = 0;
-		flags = O_WRONLY | O_CREAT;
+
+		/*
+		 * Note that the O_APPEND flag only has an effect on POSIX
+		 * platforms. On Windows, we just have to carry on regardless.
+		 */
+
+		flags = O_WRONLY | O_CREAT | O_APPEND;
 	    }
 	    if (*p == '&') {
 		if (errorClose != 0) {
