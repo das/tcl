@@ -286,9 +286,7 @@ TclCompileExpr(interp, script, numBytes, envPtr)
  * TclFinalizeCompilation --
  *
  *	Clean up the compilation environment so it can later be
- *	properly reinitialized. This procedure is called by
- *	TclFinalizeCompExecEnv() in tclObj.c, which in turn is called
- *	by Tcl_Finalize().
+ *	properly reinitialized. This procedure is called by Tcl_Finalize().
  *
  * Results:
  *	None.
