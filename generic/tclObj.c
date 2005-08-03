@@ -17,7 +17,6 @@
 
 #include "tclInt.h"
 #include "tommath.h"
-#include "tclCompile.h"
 #include <float.h>
 
 /*
@@ -405,23 +404,22 @@ TclInitObjSubsystem()
 /*
  *----------------------------------------------------------------------
  *
- * TclFinalizeCompExecEnv --
+ * TclFinalizeObjects --
  *
- *	This procedure is called by Tcl_Finalize to clean up the Tcl
- *	compilation and execution environment so it can later be properly
- *	reinitialized.
+ *	This procedure is called by Tcl_Finalize to clean up all
+ *	registered Tcl_ObjType's and to reset the tclFreeObjList.
  *
  * Results:
  *	None.
  *
  * Side effects:
- *	Cleans up the compilation and execution environment
+ *	None.
  *
  *----------------------------------------------------------------------
  */
 
 void
-TclFinalizeCompExecEnv()
+TclFinalizeObjects()
 {
     Tcl_MutexLock(&tableMutex);
     if (typeTableInitialized) {
@@ -429,12 +427,15 @@ TclFinalizeCompExecEnv()
 	typeTableInitialized = 0;
     }
     Tcl_MutexUnlock(&tableMutex);
+
+    /*
+     * All we do here is reset the head pointer of the linked list of
+     * free Tcl_Obj's to NULL;  the memory finalization will take care
+     * of releasing memory for us.
+     */
     Tcl_MutexLock(&tclObjMutex);
     tclFreeObjList = NULL;
     Tcl_MutexUnlock(&tclObjMutex);
-
-    TclFinalizeCompilation();
-    TclFinalizeExecution();
 }
 
 /*

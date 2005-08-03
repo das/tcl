@@ -1960,7 +1960,6 @@ MODULE_SCOPE int	TclFileRenameCmd _ANSI_ARGS_((Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[])) ;
 MODULE_SCOPE void	TclFinalizeAllocSubsystem _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeAsync _ANSI_ARGS_((void));
-MODULE_SCOPE void	TclFinalizeCompExecEnv _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeCompilation _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeDoubleConversion _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeEncodingSubsystem _ANSI_ARGS_((void));
@@ -1973,6 +1972,7 @@ MODULE_SCOPE void	TclFinalizeLoad _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeLock _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeMemorySubsystem _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeNotifier _ANSI_ARGS_((void));
+MODULE_SCOPE void	TclFinalizeObjects _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizePreserve _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeSynchronization _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclFinalizeThreadData _ANSI_ARGS_((void));
