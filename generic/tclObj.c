@@ -502,7 +502,7 @@ Tcl_AppendAllObjTypes(interp, objPtr)
 {
     register Tcl_HashEntry *hPtr;
     Tcl_HashSearch search;
-    int result, objc;
+    int objc;
     Tcl_Obj **objv;
 
     /* 
