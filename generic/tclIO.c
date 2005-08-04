@@ -2329,7 +2329,7 @@ CloseChannel(interp, chanPtr, errorCode)
      * There is only the TOP Channel, so we free the remaining pointers we
      * have and then ourselves.  Since this is the last of the channels in the
      * stack, make sure to free the ChannelState structure associated with it.
-     * We use Tcl_EventuallyFree to allow for any last
+     * We use Tcl_EventuallyFree to allow for any last references.
      */
 
     chanPtr->typePtr = NULL;

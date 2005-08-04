@@ -3264,7 +3264,7 @@ Tcl_DbDecrRefCount(objPtr, file, line)
 	hPtr = Tcl_FindHashEntry(tablePtr, (char *) objPtr);
 	if (!hPtr) {
 	    Tcl_Panic("%s%s",
-		    "Trying to decr ref count of",
+		    "Trying to decr ref count of ",
 		    "Tcl_Obj allocated in another thread");
 	}
 
