@@ -81,6 +81,7 @@ typedef struct LocaleTable {
 static CONST LocaleTable localeTable[] = {
 #ifdef HAVE_LANGINFO
     {"gb2312-1980",	"gb2312"},
+    {"ansi-1251",	"cp1251"},		/* Solaris gets this wrong. */
 #ifdef __hpux
     {"SJIS",		"shiftjis"},
     {"eucjp",		"euc-jp"},
