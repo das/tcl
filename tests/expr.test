@@ -6453,6 +6453,10 @@ test expr-37.14 {expr edge cases} {wideIs64bit} {
 } {1 * -9223372036854775806 + -2 = -9223372036854775808}
 
 
+test expr-38.1 {abs of smallest 32-bit integer [Bug 1241572]} {wideIs64bit} {
+    expr {abs(-2147483648)}
+} 2147483648
+
 # cleanup
 if {[info exists a]} {
     unset a
