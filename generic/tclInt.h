@@ -2171,6 +2171,16 @@ MODULE_SCOPE int	TclpLoadMemory _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_LoadHandle *loadHandle, 
 			    Tcl_FSUnloadFileProc **unloadProcPtr));
 #endif
+MODULE_SCOPE void	TclThreadStorageDataKeyInit(
+			    Tcl_ThreadDataKey *keyPtr);
+MODULE_SCOPE void *	TclThreadStorageDataKeyGet(Tcl_ThreadDataKey *keyPtr);
+MODULE_SCOPE void	TclThreadStorageDataKeySet(Tcl_ThreadDataKey *keyPtr,
+			    void *data);
+MODULE_SCOPE void	TclFinalizeThreadStorage(void);
+MODULE_SCOPE void	TclFinalizeThreadStorageData(
+			    Tcl_ThreadDataKey *keyPtr);
+MODULE_SCOPE void	TclFinalizeThreadStorageDataKey(
+			    Tcl_ThreadDataKey *keyPtr);
 
 /*
  *----------------------------------------------------------------
