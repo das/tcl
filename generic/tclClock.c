@@ -207,10 +207,8 @@ TclClockLocaltimeObjCmd( ClientData clientData,
 
 static struct tm *
 ThreadSafeLocalTime(timePtr)
-    CONST time_t *timePtr;	/* Pointer to the number of seconds
-				 * since the local system's epoch
-				 */
-
+    CONST time_t *timePtr;	/* Pointer to the number of seconds since the
+				 * local system's epoch */
 {
     /*
      * Get a thread-local buffer to hold the returned time.
@@ -218,20 +216,21 @@ ThreadSafeLocalTime(timePtr)
 
     struct tm *tmPtr = (struct tm *)
 	    Tcl_GetThreadData(&tmKey, (int) sizeof(struct tm));
-    struct tm *sysTmPtr;
 #ifdef HAVE_LOCALTIME_R
     localtime_r(timePtr, tmPtr);
 #else
+    struct tm *sysTmPtr;
+
     Tcl_MutexLock(&clockMutex);
     sysTmPtr = localtime(timePtr);
-    if ( sysTmPtr == NULL ) {
-	Tcl_MutexUnlock( &clockMutex );
+    if (sysTmPtr == NULL) {
+	Tcl_MutexUnlock(&clockMutex);
 	return NULL;
     } else {
 	memcpy((VOID *) tmPtr, (VOID *) localtime(timePtr), sizeof(struct tm));
 	Tcl_MutexUnlock(&clockMutex);
     }
-#endif    
+#endif
     return tmPtr;
 }
 
