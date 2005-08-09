@@ -609,6 +609,7 @@ TclPathPart(interp, pathPtr, portion)
 		    if (root->bytes != NULL && root->length > 0) {
 			/* Have string rep as well */
 			root->length -= strlen(extension);
+			root->bytes[root->length] = 0;
 		    }
 		    return root;
 		}
