@@ -606,8 +606,12 @@ TclPathPart(interp, pathPtr, portion)
 			Tcl_SetObjLength(fsDupPtr->normPathPtr,
 				(int)(length - strlen(extension)));
 		    }
+
+		    /*
+		     * Must also trim the string representation if we have it.
+		     */
+
 		    if (root->bytes != NULL && root->length > 0) {
-			/* Have string rep as well */
 			root->length -= strlen(extension);
 			root->bytes[root->length] = 0;
 		    }
