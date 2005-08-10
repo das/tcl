@@ -98,9 +98,13 @@ void* TclBNCalloc( size_t, size_t );
 #define mp_radix_size TclBN_mp_radix_size
 #define mp_read_radix TclBN_mp_read_radix
 #define mp_rshd TclBN_mp_rshd
+#define mp_shrink TclBN_mp_shrink
 #define mp_sub TclBN_mp_sub
+#define mp_to_unsigned_bin TclBN_mp_to_unsigned_bin
+#define mp_to_unsigned_bin_n TclBN_mp_to_unsigned_bin_n
 #define mp_toom_mul TclBN_mp_toom_mul
 #define mp_toradix_n TclBN_mp_toradix_n
+#define mp_unsigned_bin_size TclBN_mp_unsigned_bin_size
 #define mp_zero TclBN_mp_zero
 #define s_mp_add TclBN_s_mp_add
 #define s_mp_mul_digs TclBN_s_mp_mul_digs

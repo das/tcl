@@ -169,14 +169,14 @@ TclBNInitBignumFromWideUInt(mp_int* a,
     mp_digit* p;
 
     /*
-     * Allocate enough memory to hold the largest possible long
+     * Allocate enough memory to hold the largest possible Tcl_WideUInt 
      */
 
     status = mp_init_size(a, ((CHAR_BIT * sizeof( Tcl_WideUInt )
 			       + DIGIT_BIT - 1)
 			      / DIGIT_BIT));
     if (status != MP_OKAY) {
-	Tcl_Panic( "initialization failure in TclBNInitBignumFromLong" );
+	Tcl_Panic( "initialization failure in TclBNInitBignumFromWideUInt" );
     }
     
     a->sign = MP_ZPOS;

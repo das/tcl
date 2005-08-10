@@ -2768,6 +2768,7 @@ MODULE_SCOPE void	TclDbInitNewObj _ANSI_ARGS_((Tcl_Obj *objPtr));
  *----------------------------------------------------------------
  */
 
+#ifndef NO_WIDE_TYPE
 #ifdef TCL_WIDE_INT_IS_LONG
 #    define TclGetWide(resultVar, objPtr) \
 	(resultVar) = (objPtr)->internalRep.longValue
@@ -2778,6 +2779,7 @@ MODULE_SCOPE void	TclDbInitNewObj _ANSI_ARGS_((Tcl_Obj *objPtr));
 	(resultVar) = (objPtr)->internalRep.wideValue
 #    define TclGetLongFromWide(resultVar, objPtr) \
 	(resultVar) = Tcl_WideAsLong((objPtr)->internalRep.wideValue)
+#endif
 #endif
 
 /*
@@ -2915,11 +2917,13 @@ MODULE_SCOPE void TclBNInitBignumFromWideUInt(mp_int* bignum,
 #define TclSetBooleanObj(objPtr, b) \
     TclSetIntObj((objPtr), ((b)? 1 : 0));
 
+#ifndef NO_WIDE_TYPE
 #define TclSetWideIntObj(objPtr, w) \
     TclInvalidateStringRep(objPtr);\
     TclFreeIntRep(objPtr); \
     (objPtr)->internalRep.wideValue = (Tcl_WideInt)(w); \
     (objPtr)->typePtr = &tclWideIntType
+#endif
 
 #define TclSetDoubleObj(objPtr, d) \
     TclInvalidateStringRep(objPtr);\
@@ -2968,6 +2972,7 @@ MODULE_SCOPE void TclBNInitBignumFromWideUInt(mp_int* bignum,
 #define TclNewBooleanObj(objPtr, b) \
     TclNewIntObj((objPtr), ((b)? 1 : 0))
 
+#ifndef NO_WIDE_TYPE
 #define TclNewWideIntObj(objPtr, w) \
     TclIncrObjsAllocated(); \
     TclAllocObjStorage(objPtr); \
@@ -2975,6 +2980,7 @@ MODULE_SCOPE void TclBNInitBignumFromWideUInt(mp_int* bignum,
     (objPtr)->bytes = NULL; \
     (objPtr)->internalRep.wideValue = (Tcl_WideInt)(w); \
     (objPtr)->typePtr = &tclWideIntType
+#endif
 
 #define TclNewDoubleObj(objPtr, d) \
     TclIncrObjsAllocated(); \
