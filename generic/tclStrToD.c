@@ -873,6 +873,22 @@ TclParseNumber( Tcl_Interp* interp,
 	    if (!octalSignificandOverflow) {
 		if (octalSignificandWide > 
 			(Tcl_WideUInt)(((~(unsigned long)0) >> 1) + signum)) {
+#ifndef TCL_WIDE_INT_IS_LONG
+#ifndef NO_WIDE_TYPE
+		    if (octalSignificandWide 
+			    <= (((~(Tcl_WideUInt)0) >> 1) + signum)) {
+			objPtr->typePtr = &tclWideIntType;
+			if (signum) {
+			    objPtr->internalRep.wideValue =
+				    - (Tcl_WideInt) octalSignificandWide;
+			} else {
+			    objPtr->internalRep.wideValue =
+				    (Tcl_WideInt) octalSignificandWide;
+			}
+			break;
+		    }
+#endif
+#endif
 		    TclBNInitBignumFromWideUInt(&octalSignificandBig,
 						octalSignificandWide);
 		    octalSignificandOverflow = 1;
@@ -922,6 +938,22 @@ TclParseNumber( Tcl_Interp* interp,
 	    if (!significandOverflow) {
 		if (significandWide > 
 			(Tcl_WideUInt)(((~(unsigned long)0) >> 1) + signum)) {
+#ifndef TCL_WIDE_INT_IS_LONG
+#ifndef NO_WIDE_TYPE
+		    if (significandWide 
+			    <= (((~(Tcl_WideUInt)0) >> 1) + signum)) {
+			objPtr->typePtr = &tclWideIntType;
+			if (signum) {
+			    objPtr->internalRep.wideValue =
+				    - (Tcl_WideInt) significandWide;
+			} else {
+			    objPtr->internalRep.wideValue =
+				    (Tcl_WideInt) significandWide;
+			}
+			break;
+		    }
+#endif
+#endif
 		    TclBNInitBignumFromWideUInt(&significandBig,
 						significandWide);
 		    significandOverflow = 1;
