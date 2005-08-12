@@ -319,8 +319,8 @@ TclClockMktimeObjCmd(  ClientData clientData,
     }
     toConvert.tm_sec = i;
     toConvert.tm_isdst = -1;
-    toConvert.tm_wday = 0;
-    toConvert.tm_yday = 0;
+    toConvert.tm_wday = -1;
+    toConvert.tm_yday = -1;
 
     /* Convert the time.  It is rumored that mktime is not thread
      * safe on some platforms. */
@@ -334,7 +334,9 @@ TclClockMktimeObjCmd(  ClientData clientData,
 
     /* Return the converted time, or an error if conversion fails */
 
-    if ( localErrno != 0 ) {
+    if ( localErrno != 0
+	 || ( convertedTime == -1
+	      && toConvert.tm_yday == -1 ) ) {
 	Tcl_SetObjResult
 	    ( interp,
 	      Tcl_NewStringObj( "time value too large/small to represent", 
