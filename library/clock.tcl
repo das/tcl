@@ -258,6 +258,7 @@ proc ::tcl::clock::Initialize {} {
     foreach path {
 	/usr/share/zoneinfo
 	/usr/share/lib/zoneinfo
+	/usr/lib/zoneinfo
 	/usr/local/etc/zoneinfo
 	C:/Progra~1/cygwin/usr/local/etc/zoneinfo
     } {
