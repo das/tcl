@@ -228,7 +228,7 @@ TclIntStubs tclIntStubs = {
     NULL, /* 137 */
     TclGetEnv, /* 138 */
     NULL, /* 139 */
-    TclLooksLikeInt, /* 140 */
+    NULL, /* 140 */
     TclpGetCwd, /* 141 */
     TclSetByteCodeFromAny, /* 142 */
     TclAddLiteralObj, /* 143 */

@@ -553,9 +553,9 @@ declare 138 generic {
 #	    char *sym2, Tcl_PackageInitProc **proc1Ptr,
 #	    Tcl_PackageInitProc **proc2Ptr, ClientData *clientDataPtr)
 #}
-declare 140 generic {
-    int TclLooksLikeInt(CONST char *bytes, int length)
-}
+#declare 140 generic {
+#    int TclLooksLikeInt(CONST char *bytes, int length)
+#}
 # This is used by TclX, but should otherwise be considered private
 declare 141 generic {
     CONST84_RETURN char *TclpGetCwd(Tcl_Interp *interp, Tcl_DString *cwdPtr)
