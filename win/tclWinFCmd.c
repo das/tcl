@@ -587,7 +587,7 @@ DoCopyFile(
      * arguments is a char block device.
      */
 
-#ifndef HAVE_NO_SEHq
+#ifndef HAVE_NO_SEH
     __try {
 	if ((*tclWinProcs->copyFileProc)(nativeSrc, nativeDst, 0) != FALSE) {
 	    retval = TCL_OK;

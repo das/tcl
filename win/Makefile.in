@@ -719,7 +719,7 @@ clean: cleanhelp
 
 distclean: clean
 	$(RM) Makefile config.status config.cache config.log tclConfig.sh \
-		tcl.hpj
+		tcl.hpj config.status.lineno
 
 #
 # Regenerate the stubs files.

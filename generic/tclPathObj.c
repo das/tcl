@@ -572,7 +572,6 @@ TclPathPart(interp, pathPtr, portion)
 	    case TCL_PATH_EXTENSION:
 		return GetExtension(fsPathPtr->normPathPtr);
 	    case TCL_PATH_ROOT: {
-		/* Unimplemented */
 		CONST char *fileName, *extension;
 		int length;
 
@@ -606,6 +605,15 @@ TclPathPart(interp, pathPtr, portion)
 		    } else {
 			Tcl_SetObjLength(fsDupPtr->normPathPtr,
 				(int)(length - strlen(extension)));
+		    }
+
+		    /*
+		     * Must also trim the string representation if we have it.
+		     */
+
+		    if (root->bytes != NULL && root->length > 0) {
+			root->length -= strlen(extension);
+			root->bytes[root->length] = 0;
 		    }
 		    return root;
 		}

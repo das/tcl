@@ -141,6 +141,7 @@ typedef struct LocaleTable {
 
 static CONST LocaleTable localeTable[] = {
 	    {"",		"iso8859-1"},
+		    {"ansi-1251",	"cp1251"},
 	    {"ansi_x3.4-1968",	"iso8859-1"},
     {"ascii",		"ascii"},
     {"big5",		"big5"},

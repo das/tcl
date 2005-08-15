@@ -221,7 +221,8 @@ test compExpr-old-3.6 {CompileCondExpr: error compiling false arm} {
 test compExpr-old-3.7 {CompileCondExpr: long arms & nested cond exprs} {
     hello_world
 } {Hello world}
-test compExpr-old-3.8 {CompileCondExpr: long arms & nested cond exprs} {
+test compExpr-old-3.8 {CompileCondExpr: long arms & nested cond exprs} unix {
+    # Fails with a stack overflow on threaded Windows builds
     do_twelve_days
 } 2358
 
