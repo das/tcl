@@ -380,6 +380,8 @@ Tcl_GetCharLength(objPtr)
 	 * string to count continuous ascii characters before resorting to the
 	 * Tcl_NumUtfChars call. This is a long form of:
 	 stringPtr->numChars = Tcl_NumUtfChars(objPtr->bytes,objPtr->length);
+	 *
+	 * TODO: Consider macro-izing this.
 	 */
 
 	while (i && (*str < 0xC0)) {
