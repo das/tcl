@@ -214,7 +214,7 @@ static double SafeLdExp _ANSI_ARGS_(( double fraction, int exponent ));
  * number begins within the string.  (The default is the start of
  * objPtr's string rep, which will be constructed if necessary.)
  *
- * If 'strPtr' is not supplied, 'objPtr' may be NULL.  In this case,
+ * If 'strPtr' is supplied, 'objPtr' may be NULL.  In this case,
  * no internal representation will be generated; instead, the routine
  * will simply check for a syntactically correct number, returning
  * TCL_OK or TCL_ERROR as appropriate, and setting *endPtrPtr if

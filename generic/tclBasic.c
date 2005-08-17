@@ -4908,6 +4908,7 @@ ExprUnaryFunc(clientData, interp, objc, objv)
 
 	/* Evaluate the function */
 
+	errno = 0;
 	dResult = (*func)(d);
 	if ((errno != 0) || IS_NAN(dResult)) {
 	    if (errno != ERANGE || (dResult != 0.0 && !IS_INF(dResult))) {
