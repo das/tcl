@@ -4278,8 +4278,10 @@ Tcl_ExprLongObj(interp, objPtr, ptr)
 	    Tcl_SetResult(interp, "integer value too large to represent",
 			  TCL_STATIC);
 	    result = TCL_ERROR;
+	} else if (d >= 0) {
+	    *ptr = (long)(unsigned long)d;
 	} else {
-	    *ptr = (long)d;
+	    *ptr = -(long)(unsigned long)-d;
 	}
     } else {
 	result = Tcl_GetLongFromObj(interp, resultPtr, ptr);
