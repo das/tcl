@@ -1108,10 +1108,10 @@ test expr-old-37.22 {Tcl_ExprDouble handles overflows that look like int} {
 test expr-old-37.23 {Tcl_ExprDouble handles overflows} {
     testexprdouble 17976931348623165[string repeat 0 292].
 } {This is a result: Inf}
-test expr-old-37.22 {Tcl_ExprDouble handles overflows that look like int} {
+test expr-old-37.24 {Tcl_ExprDouble handles overflows that look like int} {
     testexprdouble 17976931348623165[string repeat 0 292]
 } {This is a result: Inf}
-test expr-old-37.23 {Tcl_ExprDouble and NaN} {
+test expr-old-37.25 {Tcl_ExprDouble and NaN} {
     list [catch {testexprdouble 0.0/0.0} result] $result
 } {1 {floating point value is Not a Number}}
     
