@@ -245,7 +245,7 @@ typedef struct {
     Tcl_ObjCmdProc* objCmdProc;	/* Procedure that evaluates the function */
     ClientData clientData;	/* Client data for the procedure */
 } BuiltinFuncDef;
-BuiltinFuncDef BuiltinFuncTable[] = {
+static BuiltinFuncDef BuiltinFuncTable[] = {
     { "::tcl::mathfunc::abs",	ExprAbsFunc,	NULL 			},
     { "::tcl::mathfunc::acos",	ExprUnaryFunc,	(ClientData) acos 	},
     { "::tcl::mathfunc::asin",	ExprUnaryFunc,	(ClientData) asin 	},
