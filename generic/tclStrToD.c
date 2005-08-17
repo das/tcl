@@ -784,6 +784,10 @@ TclParseNumber( Tcl_Interp* interp,
 
     /* Skip past trailing whitespace */
 
+    if (endPtrPtr != NULL) {
+	*endPtrPtr = p;
+    }
+
     while (len > 0 && isspace(UCHAR(*p))) {
 	++p;
 	--len;
@@ -791,9 +795,7 @@ TclParseNumber( Tcl_Interp* interp,
 
     /* Determine whether a partial string is acceptable. */
 
-    if (endPtrPtr != NULL) {
-	*endPtrPtr = p;
-    } else if (len != 0 && *p != '\0') {
+    if (endPtrPtr == NULL && len != 0 && *p != '\0') {
 	status = TCL_ERROR;
     }
 
