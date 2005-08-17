@@ -973,24 +973,6 @@ Tcl_Finalize()
 	TclResetFilesystem();
 
 	/*
-	 * We defer unloading of packages until very late to avoid memory
-	 * access issues.  Both exit callbacks and synchronization variables
-	 * may be stored in packages.
-	 * 
-	 * Note that TclFinalizeLoad unloads packages in the reverse of the
-	 * order they were loaded in (i.e. last to be loaded is the first to
-	 * be unloaded).  This can be important for correct unloading when
-	 * dependencies exist.
-	 * 
-	 * Once load has been finalized, we will have deleted any temporary
-	 * copies of shared libraries and can therefore reset the filesystem
-	 * to its original state.
-	 */
-
-	TclFinalizeLoad();
-	TclResetFilesystem();
-
-	/*
 	 * At this point, there should no longer be any ckalloc'ed memory.
 	 */
 
