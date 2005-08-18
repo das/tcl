@@ -4175,6 +4175,9 @@ Tcl_ExprLong(interp, exprstring, ptr)
 	Tcl_IncrRefCount(exprPtr);
 	result = Tcl_ExprLongObj(interp, exprPtr, ptr);
 	Tcl_DecrRefCount(exprPtr);
+	if (result != TCL_OK) {
+	    (void) Tcl_GetStringResult(interp);
+	}
     }
     return result;
 }
@@ -4197,6 +4200,9 @@ Tcl_ExprDouble(interp, exprstring, ptr)
 	Tcl_IncrRefCount(exprPtr);
 	result = Tcl_ExprDoubleObj(interp, exprPtr, ptr);
 	Tcl_DecrRefCount(exprPtr);  /* discard the expression object */
+	if (result != TCL_OK) {
+	    (void) Tcl_GetStringResult(interp);
+	}
     }
     return result;
 }
