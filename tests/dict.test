@@ -317,6 +317,13 @@ test dict-11.16 {dict incr command: compilation} {
     }
     dicttest
 } {1 1 2 3}
+test dict-11.17 {dict incr command: compilation} {
+    proc dicttest {} {
+	set dictv {a 1}
+	dict incr dictv a 2
+    }
+    dicttest
+} {a 3}
 
 test dict-12.1 {dict lappend command} {
     set dictv {a a}

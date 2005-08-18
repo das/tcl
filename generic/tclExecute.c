@@ -5670,6 +5670,9 @@ TclExecuteByteCode(interp, codePtr)
 		    Tcl_DictObjPut(NULL, dictPtr, *tosPtr, valPtr);
 		}
 		result = TclIncrObj(interp, valPtr, incrPtr);
+		if (result == TCL_OK) {
+		    Tcl_InvalidateStringRep(dictPtr);
+		}
 		Tcl_DecrRefCount(incrPtr);
 	    }
 	    break;
