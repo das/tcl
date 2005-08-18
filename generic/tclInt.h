@@ -1994,6 +1994,8 @@ MODULE_SCOPE Tcl_Obj *	TclGetProcessGlobalValue _ANSI_ARGS_ ((
 MODULE_SCOPE int	TclGlob _ANSI_ARGS_((Tcl_Interp *interp,
 			    char *pattern, Tcl_Obj *unquotedPrefix, 
 			    int globFlags, Tcl_GlobTypeData* types));
+MODULE_SCOPE int	TclIncrObj _ANSI_ARGS_((Tcl_Interp *interp,
+			    Tcl_Obj *valuePtr, Tcl_Obj *incrPtr));
 MODULE_SCOPE void	TclInitAlloc _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclInitDbCkalloc _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclInitDoubleConversion _ANSI_ARGS_((void));

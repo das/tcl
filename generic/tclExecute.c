@@ -374,8 +374,6 @@ static Tcl_ObjType dictIteratorType = {
 
 static int		TclExecuteByteCode _ANSI_ARGS_((Tcl_Interp *interp,
 			    ByteCode *codePtr));
-static int		TclIncrObj _ANSI_ARGS_((Tcl_Interp *interp,
-			    Tcl_Obj *valuePtr, Tcl_Obj *incrPtr));
 #ifdef TCL_COMPILE_STATS
 static int		EvalStatsCmd _ANSI_ARGS_((ClientData clientData,
 			    Tcl_Interp *interp, int objc,
@@ -1063,7 +1061,7 @@ TclCompEvalObj(interp, objPtr)
  *----------------------------------------------------------------------
  */
 
-static int
+int
 TclIncrObj(interp, valuePtr, incrPtr)
     Tcl_Interp *interp;
     Tcl_Obj *valuePtr;
@@ -1079,6 +1077,7 @@ TclIncrObj(interp, valuePtr, incrPtr)
 	return TCL_ERROR;
     }
     if (Tcl_GetBignumFromObj(interp, incrPtr, &incr) != TCL_OK) {
+	Tcl_AddErrorInfo(interp, "\n    (reading increment)");
 	return TCL_ERROR;
     }
     mp_add(&value, &incr, &value);
