@@ -210,10 +210,10 @@ declare 46 generic {
 #    Tcl_Obj *TclIncrIndexedScalar(Tcl_Interp *interp, int localIndex,
 #	    long incrAmount)
 #}
-declare 49 generic {
-    Tcl_Obj *TclIncrVar2(Tcl_Interp *interp, Tcl_Obj *part1Ptr,
-	    Tcl_Obj *part2Ptr, long incrAmount, int part1NotParsed)
-}
+#declare 49 generic {
+#    Tcl_Obj *TclIncrVar2(Tcl_Interp *interp, Tcl_Obj *part1Ptr,
+#	    Tcl_Obj *part2Ptr, long incrAmount, int part1NotParsed)
+#}
 declare 50 generic {
     void TclInitCompiledLocals(Tcl_Interp *interp, CallFrame *framePtr,
 	    Namespace *nsPtr)
@@ -709,10 +709,10 @@ declare 173 generic {
 
 # added for 8.4.3
 
-declare 174 generic {
-    Tcl_Obj *TclIncrWideVar2(Tcl_Interp *interp, Tcl_Obj *part1Ptr,
-	    Tcl_Obj *part2Ptr, Tcl_WideInt wideIncrAmount, int part1NotParsed)
-}
+#declare 174 generic {
+#    Tcl_Obj *TclIncrWideVar2(Tcl_Interp *interp, Tcl_Obj *part1Ptr,
+#	    Tcl_Obj *part2Ptr, Tcl_WideInt wideIncrAmount, int part1NotParsed)
+#}
 
 # Factoring out of trace code
 

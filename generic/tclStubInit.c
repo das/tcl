@@ -132,7 +132,7 @@ TclIntStubs tclIntStubs = {
     TclInExit, /* 46 */
     NULL, /* 47 */
     NULL, /* 48 */
-    TclIncrVar2, /* 49 */
+    NULL, /* 49 */
     TclInitCompiledLocals, /* 50 */
     TclInterpInit, /* 51 */
     NULL, /* 52 */
@@ -262,7 +262,7 @@ TclIntStubs tclIntStubs = {
     TclCheckExecutionTraces, /* 171 */
     TclInThreadExit, /* 172 */
     TclUniCharMatch, /* 173 */
-    TclIncrWideVar2, /* 174 */
+    NULL, /* 174 */
     TclCallVarTraces, /* 175 */
     TclCleanupVar, /* 176 */
     TclVarErrMsg, /* 177 */

@@ -1996,6 +1996,9 @@ MODULE_SCOPE int	TclGlob _ANSI_ARGS_((Tcl_Interp *interp,
 			    int globFlags, Tcl_GlobTypeData* types));
 MODULE_SCOPE int	TclIncrObj _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *valuePtr, Tcl_Obj *incrPtr));
+MODULE_SCOPE Tcl_Obj *	TclIncrObjVar2 _ANSI_ARGS_((Tcl_Interp *interp,
+			    Tcl_Obj *part1Ptr, Tcl_Obj *part2Ptr,
+			    Tcl_Obj *incrPtr, int flags));
 MODULE_SCOPE void	TclInitAlloc _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclInitDbCkalloc _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclInitDoubleConversion _ANSI_ARGS_((void));
@@ -2532,6 +2535,11 @@ MODULE_SCOPE Tcl_Obj *	TclPtrSetVar _ANSI_ARGS_((Tcl_Interp *interp,
 			    Var *varPtr, Var *arrayPtr, CONST char *part1,
 			    CONST char *part2, Tcl_Obj *newValuePtr,
 			    CONST int flags));
+MODULE_SCOPE Tcl_Obj *	TclPtrIncrObjVar _ANSI_ARGS_((Tcl_Interp *interp,
+			    Var *varPtr, Var *arrayPtr, CONST char *part1,
+			    CONST char *part2, Tcl_Obj *incrPtr,
+			    CONST int flags));
+#if 0
 MODULE_SCOPE Tcl_Obj *	TclPtrIncrVar _ANSI_ARGS_((Tcl_Interp *interp,
 			    Var *varPtr, Var *arrayPtr, CONST char *part1,
 			    CONST char *part2, CONST long i, CONST int flags));
@@ -2539,6 +2547,7 @@ MODULE_SCOPE Tcl_Obj *	TclPtrIncrWideVar _ANSI_ARGS_((Tcl_Interp *interp,
 			    Var *varPtr, Var *arrayPtr, CONST char *part1,
 			    CONST char *part2, CONST Tcl_WideInt i,
 			    CONST int flags));
+#endif
 MODULE_SCOPE void	TclInvalidateNsPath _ANSI_ARGS_((Namespace *nsPtr));
 
 /*
