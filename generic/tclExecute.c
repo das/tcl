@@ -2272,6 +2272,8 @@ TclExecuteByteCode(interp, codePtr)
      * common execution code.
      */
 
+/*TODO: Consider more untangling here;  merge with LOAD and STORE ? */
+
     {
 	Tcl_Obj *objPtr, *incrPtr;
 	int opnd, pcAdjustment;

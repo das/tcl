@@ -665,8 +665,12 @@ TclObjGetFrame(interp, objPtr, framePtrPtr)
 	if (level < 0) {
 	    goto levelError;
 	}
-    } else if (objPtr->typePtr == &tclIntType ||
-	    objPtr->typePtr == &tclWideIntType) {
+	/* TODO: Consider skipping the typePtr checks */
+    } else if (objPtr->typePtr == &tclIntType
+#ifndef NO_WIDE_TYPE
+	    || objPtr->typePtr == &tclWideIntType
+#endif
+	    ) {
 	if (Tcl_GetIntFromObj(NULL, objPtr, &level) != TCL_OK || level < 0) {
 	    goto levelError;
 	}
@@ -679,6 +683,8 @@ TclObjGetFrame(interp, objPtr, framePtrPtr)
 
 	    /*
 	     * Cache for future reference.
+	     *
+	     * TODO: Use the new bignumValue (long + pointer) intrep
 	     */
 
 	    TclFreeIntRep(objPtr);
@@ -692,6 +698,8 @@ TclObjGetFrame(interp, objPtr, framePtrPtr)
 
 	    /*
 	     * Cache for future reference.
+	     *
+	     * TODO: Use the new bignumValue (long + pointer) intrep
 	     */
 
 	    TclFreeIntRep(objPtr);

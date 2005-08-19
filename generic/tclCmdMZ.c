@@ -1532,9 +1532,12 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	case STR_IS_DOUBLE: {
 	    char *stop;
 
+	    /* TODO */
 	    if ((objPtr->typePtr == &tclDoubleType) ||
 		(objPtr->typePtr == &tclIntType) ||
+#ifndef NO_WIDE_TYPE
 		(objPtr->typePtr == &tclWideIntType) ||
+#endif
 		(objPtr->typePtr == &tclBignumType)) {
 		break;
 	    }

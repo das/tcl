@@ -2314,7 +2314,7 @@ Tcl_NewWideIntObj(wideValue)
 #ifndef NO_WIDE_TYPE
     TclNewWideIntObj(objPtr, wideValue);
 #else
-    TclNewObj(objPtr)
+    TclNewObj(objPtr);
     Tcl_SetWideIntObj(objPtr, wideValue);
 #endif
     return objPtr;
