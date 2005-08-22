@@ -18,7 +18,12 @@
 #ifndef _TCLINT
 #define _TCLINT
 
+/*
+ * Some numerics configuration options
+ */
+
 #define NO_WIDE_TYPE
+#undef ACCEPT_NAN
 
 /*
  * Common include files needed by most of the Tcl source files are
@@ -2012,8 +2017,8 @@ MODULE_SCOPE Tcl_Obj *	TclIncrObjVar2 _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *part1Ptr, Tcl_Obj *part2Ptr,
 			    Tcl_Obj *incrPtr, int flags));
 MODULE_SCOPE void	TclInitAlloc _ANSI_ARGS_((void));
-MODULE_SCOPE void	TclInitBignumFromDouble _ANSI_ARGS_((double d,
-			    mp_int *b));
+MODULE_SCOPE int	TclInitBignumFromDouble _ANSI_ARGS_((Tcl_Interp *interp,
+			    double d, mp_int *b));
 MODULE_SCOPE void	TclInitDbCkalloc _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclInitDoubleConversion _ANSI_ARGS_((void));
 MODULE_SCOPE void	TclInitEmbeddedConfigurationInformation 
