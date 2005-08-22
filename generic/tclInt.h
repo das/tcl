@@ -2147,6 +2147,8 @@ MODULE_SCOPE void	TclRemoveScriptLimitCallbacks _ANSI_ARGS_((
 			    Tcl_Interp *interp));
 MODULE_SCOPE void	TclSetBgErrorHandler _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *cmdPrefix));
+MODULE_SCOPE void	TclSetBignumIntRep _ANSI_ARGS_((Tcl_Obj *objPtr,
+			    mp_int *bignumValue));
 MODULE_SCOPE void	TclSetProcessGlobalValue _ANSI_ARGS_ ((
 			    ProcessGlobalValue *pgvPtr, Tcl_Obj *newValue,
 			    Tcl_Encoding encoding));
