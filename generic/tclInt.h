@@ -19,6 +19,7 @@
 #define _TCLINT
 
 #define NO_WIDE_TYPE
+
 /*
  * Common include files needed by most of the Tcl source files are
  * included here, so that system-dependent personalizations for the
@@ -98,6 +99,14 @@ typedef int ptrdiff_t;
 #   else
 #	define MODULE_SCOPE extern
 #   endif
+#endif
+
+/*
+ * When Tcl_WideInt and long are the same type, there's no value in
+ * having a tclWideIntType separate from the tclIntType.
+ */
+#ifdef TCL_WIDE_INT_IS_LONG
+#define NO_WIDE_TYPE
 #endif
 
 /*
@@ -2777,23 +2786,15 @@ MODULE_SCOPE void	TclDbInitNewObj _ANSI_ARGS_((Tcl_Obj *objPtr));
 /*
  *----------------------------------------------------------------
  * Macro used by the Tcl core to get a Tcl_WideInt value out of
- * a Tcl_Obj of the "wideInt" type.  Different implementation on
- * different platforms depending whether TCL_WIDE_INT_IS_LONG.
+ * a Tcl_Obj of the "wideInt" type.  
  *----------------------------------------------------------------
  */
 
 #ifndef NO_WIDE_TYPE
-#ifdef TCL_WIDE_INT_IS_LONG
-#    define TclGetWide(resultVar, objPtr) \
-	(resultVar) = (objPtr)->internalRep.longValue
-#    define TclGetLongFromWide(resultVar, objPtr) \
-	(resultVar) = (objPtr)->internalRep.longValue
-#else
 #    define TclGetWide(resultVar, objPtr) \
 	(resultVar) = (objPtr)->internalRep.wideValue
 #    define TclGetLongFromWide(resultVar, objPtr) \
 	(resultVar) = Tcl_WideAsLong((objPtr)->internalRep.wideValue)
-#endif
 #endif
 #endif
 
