@@ -22,16 +22,6 @@
 #define BIGNUM_AUTO_NARROW 1
 
 /*
- * Define test for NaN
- */
-
-#ifdef _MSC_VER
-#define IS_NAN(f) _isnan((f))
-#else
-#define IS_NAN(f) ((f) != (f))
-#endif
-
-/*
  * Table of all object types.
  */
 
@@ -1670,12 +1660,12 @@ Tcl_GetDoubleFromObj(interp, objPtr, dblPtr)
 {
     do {
 	if (objPtr->typePtr == &tclDoubleType) {
-	    if (IS_NAN(objPtr->internalRep.doubleValue)) {
-	    if (interp != NULL) {
-		Tcl_SetObjResult(interp, Tcl_NewStringObj(
-			"floating point value is Not a Number", -1));
-	    }
-	    return TCL_ERROR;
+	    if (TclIsNaN(objPtr->internalRep.doubleValue)) {
+		if (interp != NULL) {
+		    Tcl_SetObjResult(interp, Tcl_NewStringObj(
+			    "floating point value is Not a Number", -1));
+		}
+		return TCL_ERROR;
 	    }
 	    *dblPtr = (double) objPtr->internalRep.doubleValue;
 	    return TCL_OK;
@@ -2197,7 +2187,9 @@ Tcl_GetLongFromObj(interp, objPtr, longPtr)
 		    return TCL_OK;
 		}
 	    }
+#ifndef NO_WIDE_TYPE
 	tooLarge:
+#endif
 	    if (interp != NULL) {
 		char *s = "integer value too large to represent";
 		Tcl_Obj* msg = Tcl_NewStringObj(s, -1);

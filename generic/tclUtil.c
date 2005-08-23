@@ -19,26 +19,6 @@
 #include <math.h>
 
 /*
- * Define test for NaN
- */
-
-#ifdef _MSC_VER
-#define IS_NAN(f) (_isnan((f)))
-#else
-#define IS_NAN(f) ((f) != (f))
-#endif
-
-/*
- * Define test for Inf
- */
-
-#ifdef _MSC_VER
-#define IS_INF(f) ( ! (_finite((f))))
-#else
-#define IS_INF(f) ( (f) > DBL_MAX || (f) < -DBL_MAX )
-#endif
-
-/*
  * The absolute pathname of the executable in which this Tcl library
  * is running.
  */
@@ -1903,7 +1883,7 @@ Tcl_PrintDouble(interp, value, dst)
 	 * Handle NaN.
 	 */
 
-	if (IS_NAN(value)) {
+	if (TclIsNaN(value)) {
 	    TclFormatNaN(value, dst);
 	    return;
 	}
@@ -1912,7 +1892,7 @@ Tcl_PrintDouble(interp, value, dst)
 	 * Handle infinities.
 	 */
 
-	if (IS_INF(value)) {
+	if (TclIsInfinite(value)) {
 	    if (value < 0) {
 		strcpy(dst, "-Inf");
 	    } else {

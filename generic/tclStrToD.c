@@ -2711,7 +2711,7 @@ TclInitBignumFromDouble(Tcl_Interp *interp,	/* For error message */
     int expt;
 
     /* Infinite values can't convert to bignum */
-    if ((d > DBL_MAX) || (d < -DBL_MAX)) {
+    if (TclIsInfinite(d)) {
 	if (interp != NULL) {
 	    char *s = "integer value too large to represent";
 	    Tcl_SetObjResult(interp, Tcl_NewStringObj(s, -1));

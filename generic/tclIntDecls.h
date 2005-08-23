@@ -148,7 +148,12 @@ EXTERN void		TclDeleteVars _ANSI_ARGS_((Interp * iPtr,
 EXTERN void		TclDumpMemoryInfo _ANSI_ARGS_((FILE * outFile));
 #endif
 /* Slot 15 is reserved */
-/* Slot 16 is reserved */
+#ifndef TclExprFloatError_TCL_DECLARED
+#define TclExprFloatError_TCL_DECLARED
+/* 16 */
+EXTERN void		TclExprFloatError _ANSI_ARGS_((Tcl_Interp * interp, 
+				double value));
+#endif
 /* Slot 17 is reserved */
 /* Slot 18 is reserved */
 /* Slot 19 is reserved */
@@ -1115,7 +1120,7 @@ typedef struct TclIntStubs {
     void *reserved13;
     void (*tclDumpMemoryInfo) _ANSI_ARGS_((FILE * outFile)); /* 14 */
     void *reserved15;
-    void *reserved16;
+    void (*tclExprFloatError) _ANSI_ARGS_((Tcl_Interp * interp, double value)); /* 16 */
     void *reserved17;
     void *reserved18;
     void *reserved19;
@@ -1414,7 +1419,10 @@ extern TclIntStubs *tclIntStubsPtr;
 	(tclIntStubsPtr->tclDumpMemoryInfo) /* 14 */
 #endif
 /* Slot 15 is reserved */
-/* Slot 16 is reserved */
+#ifndef TclExprFloatError
+#define TclExprFloatError \
+	(tclIntStubsPtr->tclExprFloatError) /* 16 */
+#endif
 /* Slot 17 is reserved */
 /* Slot 18 is reserved */
 /* Slot 19 is reserved */

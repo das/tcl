@@ -87,9 +87,9 @@ declare 14 generic {
 #  declare 15 generic {
 #      void TclExpandParseValue(ParseValue *pvPtr, int needed)
 #  }
-#declare 16 generic {
-#    void TclExprFloatError(Tcl_Interp *interp, double value)
-#}
+declare 16 generic {
+    void TclExprFloatError(Tcl_Interp *interp, double value)
+}
 # Removed in 8.4
 #declare 17 generic {
 #    int TclFileAttrsCmd(Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[])
