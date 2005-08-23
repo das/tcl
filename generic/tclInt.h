@@ -2180,8 +2180,6 @@ MODULE_SCOPE void	TclSetProcessGlobalValue _ANSI_ARGS_ ((
 			    Tcl_Encoding encoding));
 MODULE_SCOPE VOID	TclSignalExitThread _ANSI_ARGS_((Tcl_ThreadId id,
 			    int result));
-MODULE_SCOPE double	TclStrToD _ANSI_ARGS_((CONST char* string,
-					       CONST char** endPtr));
 MODULE_SCOPE int	TclSubstTokens _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Token *tokenPtr, int count,
 			    int *tokensLeftPtr));

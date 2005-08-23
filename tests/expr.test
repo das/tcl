@@ -6589,6 +6589,48 @@ test expr-42.1 {denormals} ieeeFloatingPoint {
     expr 7e-324
 } 5e-324
 
+# TIP 114
+
+test expr-43.1 {0b notation} {
+    expr 0b0
+} 0
+test expr-43.2 {0b notation} {
+    expr 0b1
+} 1
+test expr-43.3 {0b notation} {
+    expr 0b10
+} 2
+test expr-43.4 {0b notation} {
+    expr 0b11
+} 3
+test expr-43.5 {0b notation} {
+    expr 0b100
+} 4
+test expr-43.6 {0b notation} {
+    expr 0b101
+} 5
+test expr-43.7 {0b notation} {
+    expr 0b1000
+} 8
+test expr-43.8 {0b notation} {
+    expr 0b1001
+} 9
+test expr-43.9 {0b notation} {
+    expr 0b1[string repeat 0 31]
+} 2147483648
+test expr-43.10 {0b notation} {
+    expr 0b1[string repeat 0 30]1
+} 2147483649
+test expr-43.11 {0b notation} {
+    expr 0b[string repeat 1 64]
+} 18446744073709551615
+test expr-43.12 {0b notation} {
+    expr 0b1[string repeat 0 64]
+} 18446744073709551616
+test expr-43.13 {0b notation} {
+    expr 0b1[string repeat 0 63]1
+} 18446744073709551617
+
 # cleanup
 if {[info exists a]} {
     unset a
