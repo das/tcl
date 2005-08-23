@@ -5053,7 +5053,11 @@ TclExecuteByteCode(interp, codePtr)
 #else
 	valuePtr = *tosPtr;
 	result = Tcl_GetDoubleFromObj(NULL, valuePtr, &d);
-	if ((result == TCL_OK) || valuePtr->typePtr == &tclDoubleType) {
+	if ((result == TCL_OK) 
+#ifdef ACCEPT_NAN
+		|| valuePtr->typePtr == &tclDoubleType
+#endif
+		) {
 	    /* Value is now numeric (including NaN) */
 #ifdef ACCEPT_NAN
 	    if (result != TCL_OK) {
