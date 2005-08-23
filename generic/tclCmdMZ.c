@@ -1542,7 +1542,7 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		break;
 	    }
 	    if (TclParseNumber( NULL, objPtr, NULL, NULL, -1, 
-		    (CONST char**) &stop ) != TCL_OK) {
+				(CONST char**) &stop, 0 ) != TCL_OK) {
 		result = 0;
 		failat = 0;
 	    } else {

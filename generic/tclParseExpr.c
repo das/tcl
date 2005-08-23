@@ -1616,7 +1616,7 @@ GetLexeme(infoPtr)
 	CONST char *end = infoPtr->lastChar;
 	CONST char* end2;
 	int code = TclParseNumber(NULL, NULL, NULL,
-				  src, (unsigned)(end-src), &end2);
+				  src, (unsigned)(end-src), &end2, 0);
 	if ( code == TCL_OK ) {
 	    length = end2-src;
 	    if ( length > 0 ) {

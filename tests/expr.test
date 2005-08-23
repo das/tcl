@@ -6571,6 +6571,24 @@ test expr-39.25 {Tcl_ExprDoubleObj and NaN} \
 	list [catch {testexprdoubleobj 0.0/0.0} result] $result
     } {1 {floating point value is Not a Number}}
 
+test expr-40.1 {large octal shift} {
+    expr 0100000000000000000000000000000000
+} [expr 0x1000000000000000000000000]
+test expr-40.2 {large octal shift} {
+    expr 0100000000000000000000000000000001
+} [expr 0x1000000000000000000000001]
+
+test expr-41.1 {exponent overflow} {
+    expr 1.0e2147483630
+} Inf
+test expr-41.2 {exponent underflow} {
+    expr 1.0e-2147483630
+} 0.0
+
+test expr-42.1 {denormals} ieeeFloatingPoint {
+    expr 7e-324
+} 5e-324
+
 # cleanup
 if {[info exists a]} {
     unset a
