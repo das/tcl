@@ -160,9 +160,6 @@ static double MakeNaN _ANSI_ARGS_(( int signum, Tcl_WideUInt tag ));
 static double RefineApproximation _ANSI_ARGS_((double approx,
 					       mp_int* exactSignificand,
 					       int exponent));
-static double RefineResult _ANSI_ARGS_((double approx, CONST char* start,
-					int nDigits, long exponent));
-static double ParseNaN _ANSI_ARGS_(( int signum, CONST char** end ));
 static double BignumToBiasedFrExp _ANSI_ARGS_(( mp_int* big, int* machexp ));
 static double Pow10TimesFrExp _ANSI_ARGS_(( int exponent,
 					    double fraction,
@@ -2226,7 +2223,11 @@ TclBignumToDouble(mp_int *a)	/* Integer to convert. */
     bits = mp_count_bits(a);
     if (bits > DBL_MAX_EXP*log2FLT_RADIX) {
 	errno = ERANGE;
-	return HUGE_VAL;
+	if (a->sign == MP_ZPOS) {
+	    return HUGE_VAL;
+	} else {
+	    return -HUGE_VAL;
+	}
     }
     shift = mantBits + 1 - bits;
     mp_init(&b);
