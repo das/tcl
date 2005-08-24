@@ -401,6 +401,9 @@ Tcl_CreateInterp()
 
     iPtr->execEnvPtr = TclCreateExecEnv(interp);
 
+    /* TIP #219, Tcl Channel Reflection API */
+    iPtr->chanMsg  = NULL;
+
     /*
      * Initialize the compilation and execution statistics kept for this
      * interpreter.
@@ -527,8 +530,17 @@ Tcl_CreateInterp()
     Tcl_CreateObjCommand(interp,	"::tcl::clock::Oldscan",
 	    TclClockOldscanObjCmd,	(ClientData) NULL,
 	    (Tcl_CmdDeleteProc*) NULL);
+    /* TIP #208 */
     Tcl_CreateObjCommand(interp, "::tcl::chan::Truncate",
 	    TclChanTruncateObjCmd, (ClientData) NULL,
+	    (Tcl_CmdDeleteProc*) NULL);
+    /* TIP #219 */
+    Tcl_CreateObjCommand(interp, "::tcl::chan::rCreate",
+	    TclChanCreateObjCmd, (ClientData) NULL,
+	    (Tcl_CmdDeleteProc*) NULL);
+
+    Tcl_CreateObjCommand(interp, "::tcl::chan::rPostevent",
+	    TclChanPostEventObjCmd, (ClientData) NULL,
 	    (Tcl_CmdDeleteProc*) NULL);
 
     /*
@@ -971,6 +983,15 @@ Tcl_DeleteInterp(interp)
 
     iPtr->flags |= DELETED;
     iPtr->compileEpoch++;
+
+    /* TIP #219, Tcl Channel Reflection API.
+     * Discard a leftover state.
+     */
+
+    if (iPtr->chanMsg != NULL) {
+        Tcl_DecrRefCount (iPtr->chanMsg);
+	iPtr->chanMsg = NULL;
+    }
 
     /*
      * Ensure that the interpreter is eventually deleted.

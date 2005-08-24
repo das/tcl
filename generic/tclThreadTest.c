@@ -479,6 +479,12 @@ NewTestThread(clientData)
     result = Tcl_Init(tsdPtr->interp);
     result = TclThread_Init(tsdPtr->interp);
 
+    /* This is part of the test facility.
+     * Initialize _ALL_ test commands for
+     * use by the new thread.
+     */
+    result = Tcltest_Init(tsdPtr->interp);
+
     /*
      * Update the list of threads.
      */
