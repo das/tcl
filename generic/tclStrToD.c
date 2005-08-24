@@ -959,7 +959,7 @@ TclDoubleDigits(char * strPtr,	/* Buffer in which to store the result, must
 	     * smaller exponent when going to e's predecessor.
 	     */
 
-	    rfac2 += bits + log2FLT_RADIX - 1;
+	    rfac2 += bits + log2FLT_RADIX + 1;
 	    sfac2 = 1 + log2FLT_RADIX;
 	    mplusfac2 = bits + log2FLT_RADIX;
 	    mminusfac2 = bits;
