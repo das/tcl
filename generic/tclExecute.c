@@ -3713,7 +3713,27 @@ TclExecuteByteCode(interp, codePtr)
 		}
 		goto foundResult;
 	    }
-	    /* Convert first argument: double -> bignum */
+	    if (TclIsInfinite(d1)) {
+		dummy = d1;
+	    infinityCompare:
+		switch (*pc) {
+		case INST_EQ:
+		    iResult = 0;
+		    break;
+		case INST_NEQ:
+		    iResult = 1;
+		    break;
+		case INST_LT:
+		case INST_LE:
+		    iResult = (dummy < 0.0);
+		    break;
+		case INST_GT:
+		case INST_GE:
+		    iResult = (dummy > 0.0);
+		    break;
+		}
+		goto foundResult;
+	    }
 	    if (modf(d1, &dummy) != 0.0) {
 		goto doubleCompare;
 	    }
@@ -3721,6 +3741,10 @@ TclExecuteByteCode(interp, codePtr)
 	    Tcl_GetBignumFromObj(NULL, value2Ptr, &big2);
 	} else {
 	    if (value2Ptr->typePtr == &tclDoubleType) {
+		if (TclIsInfinite(d2)) {
+		    dummy = -d2;
+		    goto infinityCompare;
+		}
 		if (modf(d2, &dummy) != 0.0) {
 		    goto doubleCompare;
 		}
