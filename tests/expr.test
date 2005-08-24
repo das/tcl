@@ -6696,10 +6696,10 @@ test expr-45.7 {entier} {
     list [catch {expr entier(Inf)} result] $result
 } {1 {integer value too large to represent}}
 test expr-45.8 {entier} ieeeFloatingPoint {
-    list [catch {expr entier($ieeeValues(NaN))} result] $result
+    list [catch {expr {entier($ieeeValues(NaN))}} result] $result
 } {1 {floating point value is Not a Number}}
 test expr-45.9 {entier} ieeeFloatingPoint {
-    list [catch {expr entier($ieeeValues(-NaN))} result] $result
+    list [catch {expr {entier($ieeeValues(-NaN))}} result] $result
 } {1 {floating point value is Not a Number}}
 
 # cleanup
