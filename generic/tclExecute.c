@@ -5018,11 +5018,10 @@ TclExecuteByteCode(interp, codePtr)
 	    if (valPtr == NULL) {
 		valPtr = Tcl_NewListObj(1, tosPtr);
 	    } else if (Tcl_IsShared(valPtr)) {
-		Tcl_Obj *dupPtr = Tcl_DuplicateObj(valPtr);
-
-		result = Tcl_ListObjAppendElement(interp, dupPtr, *tosPtr);
+		valPtr = Tcl_DuplicateObj(valPtr);
+		result = Tcl_ListObjAppendElement(interp, valPtr, *tosPtr);
 		if (result != TCL_OK) {
-		    Tcl_DecrRefCount(dupPtr);
+		    Tcl_DecrRefCount(valPtr);
 		    if (allocateDict) {
 			Tcl_DecrRefCount(dictPtr);
 		    }
