@@ -35329,26 +35329,8 @@ test clock-42.1 {regression test - %z in :localtime when west of Greenwich } \
     } \
     -result {-0500}
 
-test clock-43.1 {regression test - mktime returning -1} \
-    -setup {
-	if { [info exists env(TZ)] } {
-	    set oldTZ $env(TZ)
-	}
-	set env(TZ) UTC0
-    } \
-    -body {
-	clock scan 1969-12-31T23:59:59 -format %Y-%m-%dT%T -timezone :localtime
-    } \
-    -cleanup {
-	if { [info exists oldTZ] } {
-	    set env(TZ) $oldTZ
-	    unset oldTZ
-	} else {
-	    unset env(TZ)
-	}
-    } \
-    -result {-1}
-    
+# 43.1 was a bad test - mktime returning -1 is an error according to posix.
+
 test clock-44.1 {regression test - time zone name containing hyphen } \
     -setup {
 	if { [info exists env(TZ)] } {
@@ -35471,12 +35453,24 @@ test clock-50.1 {format / scan -1 as a local time} {
 	    [clock format -1 -format %Y%m%d%H%M%S -timezone :localtime] \
 	    -format %Y%m%d%H%M%S -timezone :localtime
     } result]} {
-	if { [regexp "clock value too" $result] } {
+	if { [regexp " too large" $result] } {
 	    set result -1
 	}
     }
     set result
 } -1
+test clock-50.2 {format / scan -2 as a local time} {
+    if {[catch {
+	clock scan \
+	    [clock format -2 -format %Y%m%d%H%M%S -timezone :localtime] \
+	    -format %Y%m%d%H%M%S -timezone :localtime
+    } result]} {
+	if { [regexp " too large" $result] } {
+	    set result -2
+	}
+    }
+    set result
+} -2
 
 # cleanup
 

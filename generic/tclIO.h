@@ -235,6 +235,20 @@ typedef struct ChannelState {
 				/* Next in list of channels currently open. */
     Tcl_ThreadId managingThread; /* TIP #10: Id of the thread managing
 				  * this stack of channels. */
+
+    /* TIP #219 ... Info for the I/O system ...
+     * Error message set by channel drivers, for the propagation of
+     * arbitrary Tcl errors. This information, if present (chanMsg not
+     * NULL), takes precedence over a posix error code returned by a
+     * channel operation.
+     */
+
+    Tcl_Obj* chanMsg;
+    Tcl_Obj* unreportedMsg;     /* Non-NULL if an error report was
+                                 * deferred because it happened in the
+                                 * background. The value is the
+                                 * chanMg, if any. #219's companion to
+                                 * 'unreportedError'. */
 } ChannelState;
     
 /*
