@@ -1623,6 +1623,12 @@ UpdateStringOfList(listPtr)
 	elem = Tcl_GetStringFromObj(listRepPtr->elements[i], &length);
 	listPtr->length += Tcl_ScanCountedElement(elem, length,
 		&flagPtr[i]) + 1;
+	/*
+	 * Check for continued sanity. [Bug 1267380]
+	 */
+	if (listPtr->length < 1) {
+	    Tcl_Panic("string representation size exceeds sane bounds");
+	}
     }
 
     /*
