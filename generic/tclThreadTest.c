@@ -136,6 +136,12 @@ static int	ThreadDeleteEvent _ANSI_ARGS_((Tcl_Event *eventPtr,
 	ClientData clientData));
 static void	ThreadExitProc _ANSI_ARGS_((ClientData clientData));
 
+
+/* Forward declaration of function import from "tclTest.c".
+ */
+
+int Tcltest_Init _ANSI_ARGS_((Tcl_Interp *interp));
+
 
 /*
  *----------------------------------------------------------------------
