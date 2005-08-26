@@ -4895,9 +4895,12 @@ NamespaceEnsembleCmd(dummy, interp, objc, objv)
 	Tcl_SetEnsembleUnknownHandler(interp, token, unknownObj);
 
 	/*
-	 * Tricky! Rely on the object result not being shared!
+	 * Tricky! Must ensure that the result is not shared (command delete
+	 * traces could have corrupted the pristine object that we started
+	 * with). [Snit test rename-1.5]
 	 */
 
+	Tcl_ResetResult(interp);
 	Tcl_GetCommandFullName(interp, token, Tcl_GetObjResult(interp));
 	return TCL_OK;
     }
