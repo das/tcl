@@ -5632,12 +5632,10 @@ ExprRoundFunc(clientData, interp, objc, objv)
 	    return TCL_ERROR;
 	}
 	if (fractPart < 0.0) {
-	    if (fractPart < -0.5
-		    || (fractPart == -0.5 && fmod(intPart, 2.0) != 0.0)) {
+	    if (fractPart <= -0.5) {
 		mp_sub_d(&big, 1, &big);
 	    }
-	} else if (fractPart > 0.5
-		|| (fractPart == 0.5 && fmod(intPart, 2.0) != 0.0)) {
+	} else if (fractPart >= 0.5) {
 	    mp_add_d(&big, 1, &big);
 	}
     }
