@@ -6239,8 +6239,6 @@ test expr-38.1 {abs of smallest 32-bit integer [Bug 1241572]} {wideIs64bit} {
     expr {abs(-2147483648)}
 } 2147483648
 
-set tcl_precision 17
-
 test expr-39.1 {round() rounds to +-infinity} {
     expr round(0.5)
 } 1
