@@ -380,6 +380,7 @@ TCLOBJS = \
 	$(TMP_DIR)\bn_mp_set.obj \
 	$(TMP_DIR)\bn_mp_shrink.obj \
 	$(TMP_DIR)\bn_mp_sqr.obj \
+	$(TMP_DIR)\bn_mp_sqrt.obj \
 	$(TMP_DIR)\bn_mp_sub.obj \
 	$(TMP_DIR)\bn_mp_sub_d.obj \
 	$(TMP_DIR)\bn_mp_to_unsigned_bin.obj \
