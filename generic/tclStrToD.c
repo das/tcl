@@ -338,11 +338,17 @@ TclParseNumber( Tcl_Interp* interp,
 		    state = ZERO;
 		}
 		break;
+	    } else if (flags & TCL_PARSE_HEXADECIMAL_ONLY) {
+		goto zerox;
+	    } else if (flags & TCL_PARSE_OCTAL_ONLY) {
+		goto zeroo;
 	    } else if (isdigit(UCHAR(c))) {
 		significandWide = c - '0';
 		numSigDigs = 1;
 		state = DECIMAL;
 		break;
+	    } else if (flags & TCL_PARSE_INTEGER_ONLY) {
+		goto endgame;
 	    } else if (c == '.') {
 		state = LEADING_RADIX_POINT;
 		break;
@@ -383,6 +389,9 @@ TclParseNumber( Tcl_Interp* interp,
 		break;
 	    }
 #endif
+	    if (flags & TCL_PARSE_HEXADECIMAL_ONLY) {
+		goto zerox;
+	    }
 #ifdef KILL_OCTAL
 	    goto decimal;
 #endif
@@ -402,6 +411,7 @@ TclParseNumber( Tcl_Interp* interp,
 	    /* FALLTHROUGH */
 	case ZERO_O:
 #endif
+	zeroo:
 	    if (c == '0') {
 		++numTrailZeros;
 		state = OCTAL;
@@ -459,6 +469,10 @@ TclParseNumber( Tcl_Interp* interp,
 		goto endgame;
 	    }
 #endif
+	    if (flags & TCL_PARSE_INTEGER_ONLY) {
+		/* No seeking floating point when parsing only integer */
+		goto endgame;
+	    }
 #ifndef KILL_OCTAL
 	    /*
 	     * Scanned a number with a leading zero that contains an
@@ -507,6 +521,7 @@ TclParseNumber( Tcl_Interp* interp,
 	    acceptLen = len;
 	    /* FALLTHROUGH */
 	case ZERO_X:
+	zerox:
 	    if (c == '0') {
 		++numTrailZeros;
 		state = HEXADECIMAL;
@@ -622,6 +637,8 @@ TclParseNumber( Tcl_Interp* interp,
 		numTrailZeros = 0;
 		state = DECIMAL;
 		break;
+	    } else if (flags & TCL_PARSE_INTEGER_ONLY) {
+		goto endgame;
 	    } else if (c == '.') {
 		state = FRACTION;
 		break;
