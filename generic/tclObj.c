@@ -2209,8 +2209,8 @@ Tcl_GetLongFromObj(interp, objPtr, longPtr)
 	    }
 	    return TCL_ERROR;
 	}
-    } while (TclParseNumber(interp, objPtr, "integer",
-			    NULL, -1, NULL, 0)==TCL_OK);
+    } while (TclParseNumber(interp, objPtr, "integer", NULL, -1, NULL,
+	    TCL_PARSE_INTEGER_ONLY)==TCL_OK);
     return TCL_ERROR;
 }
 #ifndef NO_WIDE_TYPE
@@ -2505,8 +2505,8 @@ Tcl_GetWideIntFromObj(interp, objPtr, wideIntPtr)
 	    }
 	    return TCL_ERROR;
 	}
-    } while (TclParseNumber(interp, objPtr, "integer",
-			    NULL, -1, NULL, 0)==TCL_OK);
+    } while (TclParseNumber(interp, objPtr, "integer", NULL, -1, NULL,
+	    TCL_PARSE_INTEGER_ONLY)==TCL_OK);
     return TCL_ERROR;
 }
 
@@ -2758,8 +2758,8 @@ Tcl_GetBignumFromObj(
 	    }
 	    return TCL_ERROR;
 	}
-    } while (TclParseNumber(interp, objPtr, "integer",
-			    NULL, -1, NULL, 0)==TCL_OK);
+    } while (TclParseNumber(interp, objPtr, "integer", NULL, -1, NULL,
+	    TCL_PARSE_INTEGER_ONLY)==TCL_OK);
     return TCL_ERROR;
 }
 
