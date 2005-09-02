@@ -36,7 +36,7 @@ static ProcessGlobalValue hostName =
  *----------------------------------------------------------------------
  */
 
-void
+static void
 InitializeHostName(valuePtr, lengthPtr, encodingPtr)
     char **valuePtr;
     int *lengthPtr;

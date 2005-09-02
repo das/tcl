@@ -1949,7 +1949,7 @@ RcNew (interp, cmdpfxObj, mode, id)
  *----------------------------------------------------------------------
  */
 
-Tcl_Obj*
+static Tcl_Obj*
 RcNewHandle ()
 {
     /* Count number of generated reflected channels.  Used for id

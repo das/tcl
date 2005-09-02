@@ -74,7 +74,7 @@ Tcl_ObjType tclListType = {
  *----------------------------------------------------------------------
  */
 
-List*
+static List*
 NewListIntRep(objc, objv)
     int objc;
     Tcl_Obj *CONST objv[];
