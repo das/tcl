@@ -764,6 +764,7 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 	    break;
 	case 'i':
 	    op = 'i';
+	    parseFlag = TCL_PARSE_SCAN_PREFIXES;
 #if 0
 	    base = 0;
 	    fn = (long (*)_ANSI_ARGS_((char*,void*,int)))strtol;
@@ -774,7 +775,7 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 	    break;
 	case 'o':
 	    op = 'i';
-	    parseFlag = TCL_PARSE_OCTAL_ONLY;
+	    parseFlag = TCL_PARSE_OCTAL_ONLY | TCL_PARSE_SCAN_PREFIXES;
 #if 0
 	    base = 8;
 	    fn = (long (*)_ANSI_ARGS_((char*,void*,int)))strtoul;

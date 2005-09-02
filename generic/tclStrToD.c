@@ -38,6 +38,10 @@
 #define	TIP_114_FORMATS
 #undef	KILL_OCTAL
 
+#ifndef TIP_114_FORMATS
+#undef	KILL_OCTAL
+#endif
+
 /*
  * This code supports (at least hypothetically), IBM, Cray, VAX and
  * IEEE-754 floating point; of these, only IEEE-754 can represent NaN.
@@ -378,7 +382,13 @@ TclParseNumber( Tcl_Interp* interp,
 		state = ZERO_X;
 		break;
 	    }
+	    if (flags & TCL_PARSE_HEXADECIMAL_ONLY) {
+		goto zerox;
+	    }
 #ifdef TIP_114_FORMATS 
+	    if (flags & TCL_PARSE_SCAN_PREFIXES) {
+		goto zeroo;
+	    }
 	    if (c == 'b' || c == 'B') {
 		state = ZERO_B;
 		break;
@@ -388,12 +398,9 @@ TclParseNumber( Tcl_Interp* interp,
 		state = ZERO_O;
 		break;
 	    }
-#endif
-	    if (flags & TCL_PARSE_HEXADECIMAL_ONLY) {
-		goto zerox;
-	    }
 #ifdef KILL_OCTAL
 	    goto decimal;
+#endif
 #endif
 	    /* FALLTHROUGH */
 

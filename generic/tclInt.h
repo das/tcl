@@ -1889,13 +1889,16 @@ typedef struct ProcessGlobalValue {
  *----------------------------------------------------------------------
  */
 
-#define TCL_PARSE_DECIMAL_ONLY 1
+#define TCL_PARSE_DECIMAL_ONLY		1
 				/* Leading zero doesn't denote octal or hex */
-#define TCL_PARSE_OCTAL_ONLY 2	/* Parse octal even without prefix */
-#define TCL_PARSE_HEXADECIMAL_ONLY 4
+#define TCL_PARSE_OCTAL_ONLY		2
+				/* Parse octal even without prefix */
+#define TCL_PARSE_HEXADECIMAL_ONLY	4
 				/* Parse hexadecimal even without prefix */
-#define TCL_PARSE_INTEGER_ONLY 8
+#define TCL_PARSE_INTEGER_ONLY		8
 				/* Disable floating point parsing */
+#define TCL_PARSE_SCAN_PREFIXES		16
+				/* Use [scan] rules dealing with 0? prefixes */
 
 /*
  *----------------------------------------------------------------
