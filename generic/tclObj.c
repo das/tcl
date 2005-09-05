@@ -141,7 +141,7 @@ static PendingObjData pendingObjData;
 #define ObjInitDeletionContext(contextPtr) \
     PendingObjData *CONST contextPtr = &pendingObjData
 #else
-Tcl_ThreadDataKey pendingObjDataKey;
+static Tcl_ThreadDataKey pendingObjDataKey;
 #define ObjInitDeletionContext(contextPtr) \
     PendingObjData *CONST contextPtr = (PendingObjData *) \
 	    Tcl_GetThreadData(&pendingObjDataKey, sizeof(PendingObjData))
