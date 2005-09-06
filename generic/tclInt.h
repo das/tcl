@@ -1712,6 +1712,10 @@ typedef struct List {
     int refCount;
     int maxElemCount;		/* Total number of element array slots. */
     int elemCount;		/* Current number of list elements. */
+    int canonicalFlag;		/* Set if the string representation was
+				 * derived from the list representation. May
+				 * be ignored if there is no string rep at
+				 * all.*/
     Tcl_Obj *elements;		/* First list element; the struct is grown to
 				 * accomodate all elements. */
 } List;
