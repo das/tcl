@@ -169,45 +169,47 @@ Tcl_UniCharToUtf(ch, str)
 	str[0] = (char) ch;
 	return 1;
     }
-    if (ch <= 0x7FF) {
-	str[1] = (char) ((ch | 0x80) & 0xBF);
-	str[0] = (char) ((ch >> 6) | 0xC0);
-	return 2;
-    }
-    if (ch <= 0xFFFF) {
+    if (ch >= 0) {
+	if (ch <= 0x7FF) {
+	    str[1] = (char) ((ch | 0x80) & 0xBF);
+	    str[0] = (char) ((ch >> 6) | 0xC0);
+	    return 2;
+	}
+	if (ch <= 0xFFFF) {
 	three:
-	str[2] = (char) ((ch | 0x80) & 0xBF);
-	str[1] = (char) (((ch >> 6) | 0x80) & 0xBF);
-	str[0] = (char) ((ch >> 12) | 0xE0);
-	return 3;
-    }
+	    str[2] = (char) ((ch | 0x80) & 0xBF);
+	    str[1] = (char) (((ch >> 6) | 0x80) & 0xBF);
+	    str[0] = (char) ((ch >> 12) | 0xE0);
+	    return 3;
+	}
 
 #if TCL_UTF_MAX > 3
-    if (ch <= 0x1FFFFF) {
-	str[3] = (char) ((ch | 0x80) & 0xBF);
-	str[2] = (char) (((ch >> 6) | 0x80) & 0xBF);
-	str[1] = (char) (((ch >> 12) | 0x80) & 0xBF);
-	str[0] = (char) ((ch >> 18) | 0xF0);
-	return 4;
-    }
-    if (ch <= 0x3FFFFFF) {
-	str[4] = (char) ((ch | 0x80) & 0xBF);
-	str[3] = (char) (((ch >> 6) | 0x80) & 0xBF);
-	str[2] = (char) (((ch >> 12) | 0x80) & 0xBF);
-	str[1] = (char) (((ch >> 18) | 0x80) & 0xBF);
-	str[0] = (char) ((ch >> 24) | 0xF8);
-	return 5;
-    }
-    if (ch <= 0x7FFFFFFF) {
-	str[5] = (char) ((ch | 0x80) & 0xBF);
-	str[4] = (char) (((ch >> 6) | 0x80) & 0xBF);
-	str[3] = (char) (((ch >> 12) | 0x80) & 0xBF);
-	str[2] = (char) (((ch >> 18) | 0x80) & 0xBF);
-	str[1] = (char) (((ch >> 24) | 0x80) & 0xBF);
-	str[0] = (char) ((ch >> 30) | 0xFC);
-	return 6;
-    }
+	if (ch <= 0x1FFFFF) {
+	    str[3] = (char) ((ch | 0x80) & 0xBF);
+	    str[2] = (char) (((ch >> 6) | 0x80) & 0xBF);
+	    str[1] = (char) (((ch >> 12) | 0x80) & 0xBF);
+	    str[0] = (char) ((ch >> 18) | 0xF0);
+	    return 4;
+	}
+	if (ch <= 0x3FFFFFF) {
+	    str[4] = (char) ((ch | 0x80) & 0xBF);
+	    str[3] = (char) (((ch >> 6) | 0x80) & 0xBF);
+	    str[2] = (char) (((ch >> 12) | 0x80) & 0xBF);
+	    str[1] = (char) (((ch >> 18) | 0x80) & 0xBF);
+	    str[0] = (char) ((ch >> 24) | 0xF8);
+	    return 5;
+	}
+	if (ch <= 0x7FFFFFFF) {
+	    str[5] = (char) ((ch | 0x80) & 0xBF);
+	    str[4] = (char) (((ch >> 6) | 0x80) & 0xBF);
+	    str[3] = (char) (((ch >> 12) | 0x80) & 0xBF);
+	    str[2] = (char) (((ch >> 18) | 0x80) & 0xBF);
+	    str[1] = (char) (((ch >> 24) | 0x80) & 0xBF);
+	    str[0] = (char) ((ch >> 30) | 0xFC);
+	    return 6;
+	}
 #endif
+    }
 
     ch = 0xFFFD;
     goto three;
