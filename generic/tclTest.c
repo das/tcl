@@ -2566,7 +2566,7 @@ TestlinkCmd(dummy, interp, argc, argv)
     static unsigned short ushortVar = 60000;
     static unsigned int uintVar = 0xbeeffeed;
     static long longVar = 123456789L;
-    static unsigned long ulongVar = 3456789012;
+    static unsigned long ulongVar = 3456789012UL;
     static float floatVar = 4.5;
     static Tcl_WideUInt uwideVar = (Tcl_WideUInt) Tcl_LongAsWide(123);
     static int created = 0;
