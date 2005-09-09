@@ -1950,6 +1950,9 @@ MODULE_SCOPE char	tclEmptyString;
  *----------------------------------------------------------------
  */
 
+MODULE_SCOPE int	TclAppendFormattedObjs(Tcl_Interp *interp,
+			    Tcl_Obj *appendObj, CONST char *format,
+			    int objc, Tcl_Obj *CONST objv[]);
 MODULE_SCOPE void	TclAppendLimitedToObj(Tcl_Obj *objPtr,
 			    CONST char *bytes, int length, int limit,
 			    CONST char *ellipsis);
@@ -1998,6 +2001,7 @@ MODULE_SCOPE void	TclFinalizePreserve(void);
 MODULE_SCOPE void	TclFinalizeSynchronization(void);
 MODULE_SCOPE void	TclFinalizeThreadData(void);
 MODULE_SCOPE void	TclFormatNaN(double value, char* buffer);
+MODULE_SCOPE int	TclFormatObj TCL_VARARGS(Tcl_Interp *, arg1);
 MODULE_SCOPE int	TclFSFileAttrIndex(Tcl_Obj *pathPtr,
 			    CONST char *attributeName, int *indexPtr);
 MODULE_SCOPE Tcl_Obj *	TclGetBgErrorHandler(Tcl_Interp *interp);
