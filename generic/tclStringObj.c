@@ -2286,7 +2286,7 @@ ObjPrintfVA(interp, argList)
     va_list argList;
 {
     int code, objc;
-    Tcl_Obj **objv, *element, *list = Tcl_NewObj();
+    Tcl_Obj **objv, *list = Tcl_NewObj();
     CONST char *format, *p;
     Tcl_Obj *objPtr = va_arg(argList, Tcl_Obj *);
 
@@ -2331,9 +2331,6 @@ ObjPrintfVA(interp, argList)
 		seekingConversion = 0;
 		switch (size) {
 		case -1:
-		    Tcl_ListObjAppendElement(NULL, list, Tcl_NewLongObj(
-			    (long int)va_arg(argList, short int)));
-		    break;
 		case 0:
 		    Tcl_ListObjAppendElement(NULL, list, Tcl_NewLongObj(
 			    (long int)va_arg(argList, int)));
