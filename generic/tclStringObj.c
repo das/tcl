@@ -2061,7 +2061,7 @@ TclAppendFormattedObjs(interp, baseObj, format, objc, objv)
 		bytes = Tcl_GetString(pure);
 		length = numDigits;
 		while (numDigits--) {
-		    int digitOffset = bits % base;
+		    int digitOffset = (int) (bits % base);
 		    if (digitOffset > 9) {
 			bytes[numDigits] = 'a' + digitOffset - 10;
 		    } else {
@@ -2131,7 +2131,7 @@ TclAppendFormattedObjs(interp, baseObj, format, objc, objv)
 		length += precision;
 	    }
 	    /* Don't pass length modifiers ! */
-	    *p++ = ch;
+	    *p++ = (char) ch;
 	    *p = '\0';
 
 	    segment = Tcl_NewObj();
