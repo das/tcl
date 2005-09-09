@@ -1151,7 +1151,7 @@ GetKeys()
  *----------------------------------------------------------------------
  */
 
-void
+static void
 ReleaseKeys(clientData)
     ClientData clientData;
 {

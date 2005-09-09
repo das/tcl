@@ -1045,7 +1045,8 @@ Tcl_FSUnregister(fsPtr)
 
 int
 Tcl_FSMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
-    Tcl_Interp *interp;		/* Interpreter to receive error messages. */
+    Tcl_Interp *interp;		/* Interpreter to receive error 
+                       		 * messages, but may be NULL. */
     Tcl_Obj *resultPtr;		/* List object to receive results. */
     Tcl_Obj *pathPtr;		/* Contains path to directory to search. */
     CONST char *pattern;	/* Pattern to match against. */

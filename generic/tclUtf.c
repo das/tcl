@@ -168,45 +168,47 @@ Tcl_UniCharToUtf(ch, buf)
 	buf[0] = (char) ch;
 	return 1;
     }
-    if (ch <= 0x7FF) {
-	buf[1] = (char) ((ch | 0x80) & 0xBF);
-	buf[0] = (char) ((ch >> 6) | 0xC0);
-	return 2;
-    }
-    if (ch <= 0xFFFF) {
+    if (ch >= 0) {
+	if (ch <= 0x7FF) {
+	    buf[1] = (char) ((ch | 0x80) & 0xBF);
+	    buf[0] = (char) ((ch >> 6) | 0xC0);
+	    return 2;
+	}
+	if (ch <= 0xFFFF) {
 	three:
-	buf[2] = (char) ((ch | 0x80) & 0xBF);
-	buf[1] = (char) (((ch >> 6) | 0x80) & 0xBF);
-	buf[0] = (char) ((ch >> 12) | 0xE0);
-	return 3;
-    }
+	    buf[2] = (char) ((ch | 0x80) & 0xBF);
+	    buf[1] = (char) (((ch >> 6) | 0x80) & 0xBF);
+	    buf[0] = (char) ((ch >> 12) | 0xE0);
+	    return 3;
+	}
 
 #if TCL_UTF_MAX > 3
-    if (ch <= 0x1FFFFF) {
-	buf[3] = (char) ((ch | 0x80) & 0xBF);
-	buf[2] = (char) (((ch >> 6) | 0x80) & 0xBF);
-	buf[1] = (char) (((ch >> 12) | 0x80) & 0xBF);
-	buf[0] = (char) ((ch >> 18) | 0xF0);
-	return 4;
-    }
-    if (ch <= 0x3FFFFFF) {
-	buf[4] = (char) ((ch | 0x80) & 0xBF);
-	buf[3] = (char) (((ch >> 6) | 0x80) & 0xBF);
-	buf[2] = (char) (((ch >> 12) | 0x80) & 0xBF);
-	buf[1] = (char) (((ch >> 18) | 0x80) & 0xBF);
-	buf[0] = (char) ((ch >> 24) | 0xF8);
-	return 5;
-    }
-    if (ch <= 0x7FFFFFFF) {
-	buf[5] = (char) ((ch | 0x80) & 0xBF);
-	buf[4] = (char) (((ch >> 6) | 0x80) & 0xBF);
-	buf[3] = (char) (((ch >> 12) | 0x80) & 0xBF);
-	buf[2] = (char) (((ch >> 18) | 0x80) & 0xBF);
-	buf[1] = (char) (((ch >> 24) | 0x80) & 0xBF);
-	buf[0] = (char) ((ch >> 30) | 0xFC);
-	return 6;
-    }
+	if (ch <= 0x1FFFFF) {
+	    buf[3] = (char) ((ch | 0x80) & 0xBF);
+	    buf[2] = (char) (((ch >> 6) | 0x80) & 0xBF);
+	    buf[1] = (char) (((ch >> 12) | 0x80) & 0xBF);
+	    buf[0] = (char) ((ch >> 18) | 0xF0);
+	    return 4;
+	}
+	if (ch <= 0x3FFFFFF) {
+	    buf[4] = (char) ((ch | 0x80) & 0xBF);
+	    buf[3] = (char) (((ch >> 6) | 0x80) & 0xBF);
+	    buf[2] = (char) (((ch >> 12) | 0x80) & 0xBF);
+	    buf[1] = (char) (((ch >> 18) | 0x80) & 0xBF);
+	    buf[0] = (char) ((ch >> 24) | 0xF8);
+	    return 5;
+	}
+	if (ch <= 0x7FFFFFFF) {
+	    buf[5] = (char) ((ch | 0x80) & 0xBF);
+	    buf[4] = (char) (((ch >> 6) | 0x80) & 0xBF);
+	    buf[3] = (char) (((ch >> 12) | 0x80) & 0xBF);
+	    buf[2] = (char) (((ch >> 18) | 0x80) & 0xBF);
+	    buf[1] = (char) (((ch >> 24) | 0x80) & 0xBF);
+	    buf[0] = (char) ((ch >> 30) | 0xFC);
+	    return 6;
+	}
 #endif
+    }
 
     ch = 0xFFFD;
     goto three;
