@@ -16,6 +16,8 @@
 #include "tclInt.h"
 #include <locale.h>
 
+#define NEW_FORMAT 1
+
 /*
  * Prototypes for local procedures defined in this file:
  */
