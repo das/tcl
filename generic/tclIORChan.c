@@ -1838,6 +1838,7 @@ RcEncodeEventMask (interp, objName, obj, mask)
 
 static Tcl_Obj*
 RcDecodeEventMask (mask)
+     int mask;
 {
     Tcl_Obj* evObj = Tcl_NewStringObj (((mask & RANDW) == RANDW) ?
 				       "read write" :
