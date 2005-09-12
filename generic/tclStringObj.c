@@ -1921,13 +1921,15 @@ TclAppendFormattedObjs(interp, baseObj, format, objc, objv)
 	    Tcl_WideInt w;
 	    int isNegative = 0;
 
-	    if (Tcl_GetLongFromObj(NULL, segment, &l) != TCL_OK) {
+	    if (useWide) {
+		if (Tcl_GetWideIntFromObj(interp, segment, &w) != TCL_OK) {
+		    goto error;
+		}
+	    } else if (Tcl_GetLongFromObj(NULL, segment, &l) != TCL_OK) {
 		if (Tcl_GetWideIntFromObj(interp, segment, &w) != TCL_OK) {
 		    goto error;
 		}
 		l = Tcl_WideAsLong(w);
-	    } else if (useWide) {
-		w = Tcl_LongAsWide(l);
 	    }
 
 	    if (useShort) {
