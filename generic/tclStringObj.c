@@ -2056,7 +2056,7 @@ TclAppendFormattedObjs(interp, baseObj, format, objc, objv)
 	    case 'o':
 	    case 'x':
 	    case 'X': {
-		Tcl_WideUInt bits;
+		Tcl_WideUInt bits = (Tcl_WideUInt)0;
 		int length, numBits = 4, numDigits = 0, base = 16;
 		int index = 0, shift = 0;
 		Tcl_Obj *pure;
