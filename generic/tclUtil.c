@@ -1057,8 +1057,14 @@ Tcl_ConcatObj(objc, objv)
      */
 
     for (i = 0;  i < objc;  i++) {
+	List *listRepPtr;
+
 	objPtr = objv[i];
-	if ((objPtr->typePtr != &tclListType) || (objPtr->bytes != NULL)) {
+	if (objPtr->typePtr != &tclListType) {
+	    break;
+	}
+	listRepPtr = (List *) objPtr->internalRep.twoPtrValue.ptr1;
+	if (objPtr->bytes != NULL && !listRepPtr->canonicalFlag) {
 	    break;
 	}
     }
@@ -1074,6 +1080,7 @@ Tcl_ConcatObj(objc, objv)
 	     * INT_MAX tells us to always put the new stuff on the end. It
 	     * will be set right in Tcl_ListObjReplace.
 	     */
+
 	    Tcl_ListObjGetElements(NULL, objv[i], &listc, &listv);
 	    Tcl_ListObjReplace(NULL, objPtr, INT_MAX, 0, listc, listv);
 	}

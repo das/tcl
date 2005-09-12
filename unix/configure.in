@@ -6,7 +6,7 @@ dnl	to configure the system for the local environment.
 # RCS: @(#) $Id$
 
 AC_INIT([tcl],[8.5])
-AC_PREREQ(2.57)
+AC_PREREQ(2.59)
 
 dnl AC_CONFIG_HEADERS([tclConfig.h])
 dnl AC_CONFIG_COMMANDS_PRE([DEFS="-DHAVE_TCL_CONFIG_H  -imacros tclConfig.h"])

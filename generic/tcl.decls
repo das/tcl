@@ -2013,6 +2013,21 @@ declare 560 generic {
 	    Tcl_ChannelType *chanTypePtr)
 }
 
+# TIP#219 (Tcl Channel Reflection API) akupries
+
+declare 561 generic {
+    void Tcl_SetChannelErrorInterp (Tcl_Interp* interp, Tcl_Obj* msg)
+}
+declare 562 generic {
+    void Tcl_GetChannelErrorInterp (Tcl_Interp* interp, Tcl_Obj** msg)
+}
+declare 563 generic {
+    void Tcl_SetChannelError (Tcl_Channel chan, Tcl_Obj* msg)
+}
+declare 564 generic {
+    void Tcl_GetChannelError (Tcl_Channel chan, Tcl_Obj** msg)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are

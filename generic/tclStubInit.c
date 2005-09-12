@@ -984,6 +984,10 @@ TclStubs tclStubs = {
     Tcl_GetBignumFromObj, /* 558 */
     Tcl_TruncateChannel, /* 559 */
     Tcl_ChannelTruncateProc, /* 560 */
+    Tcl_SetChannelErrorInterp, /* 561 */
+    Tcl_GetChannelErrorInterp, /* 562 */
+    Tcl_SetChannelError, /* 563 */
+    Tcl_GetChannelError, /* 564 */
 };
 
 /* !END!: Do not edit above this line. */

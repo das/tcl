@@ -73,24 +73,27 @@ namespace eval tcl {
 	unsupported::EncodingDirs $Path
     }
 
-    # Set up the 'chan' ensemble
+    # Set up the 'chan' ensemble (TIP #208).
     namespace eval chan {
-	namespace ensemble create -command ::chan -map {
-	    blocked	::fblocked
-	    close	::close
-	    configure	::fconfigure
-	    copy	::fcopy
-	    eof		::eof
-	    event	::fileevent
-	    flush	::flush
-	    gets	::gets
-	    names	{::file channels}
-	    puts	::puts
-	    read	::read
-	    seek	::seek
-	    tell	::tell
-	    truncate	::tcl::chan::Truncate
-	}
+        # TIP #219. Added methods: create, postevent.
+        namespace ensemble create -command ::chan -map {
+            blocked     ::fblocked
+            close       ::close
+            configure   ::fconfigure
+            copy        ::fcopy
+            create      ::tcl::chan::rCreate
+            eof         ::eof
+            event       ::fileevent
+            flush       ::flush
+            gets        ::gets
+            names       {::file channels}
+            postevent   ::tcl::chan::rPostevent
+            puts        ::puts
+            read        ::read
+            seek        ::seek
+            tell        ::tell
+            truncate    ::tcl::chan::Truncate
+        }
     }
 }
 

@@ -1018,10 +1018,12 @@ TclpMatchInDirectory(interp, resultPtr, pathPtr, pattern, types)
 	    }
 
 	    TclWinConvertError(err);
-	    Tcl_ResetResult(interp);
-	    Tcl_AppendResult(interp, "couldn't read directory \"",
-		    Tcl_DStringValue(&dsOrig), "\": ",
-		    Tcl_PosixError(interp), (char *) NULL);
+	    if (interp != NULL) {
+		Tcl_ResetResult(interp);
+		Tcl_AppendResult(interp, "couldn't read directory \"",
+			Tcl_DStringValue(&dsOrig), "\": ",
+			Tcl_PosixError(interp), (char *) NULL);
+	    }
 	    Tcl_DStringFree(&dsOrig);
 	    return TCL_ERROR;
 	}

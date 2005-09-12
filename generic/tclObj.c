@@ -137,11 +137,11 @@ typedef struct PendingObjData {
  * Macro to set up the local reference to the deletion context.
  */
 #ifndef TCL_THREADS
-PendingObjData pendingObjData;
+static PendingObjData pendingObjData;
 #define ObjInitDeletionContext(contextPtr) \
     PendingObjData *CONST contextPtr = &pendingObjData
 #else
-Tcl_ThreadDataKey pendingObjDataKey;
+static Tcl_ThreadDataKey pendingObjDataKey;
 #define ObjInitDeletionContext(contextPtr) \
     PendingObjData *CONST contextPtr = (PendingObjData *) \
 	    Tcl_GetThreadData(&pendingObjDataKey, sizeof(PendingObjData))

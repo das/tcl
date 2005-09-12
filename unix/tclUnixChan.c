@@ -3364,7 +3364,7 @@ FileThreadActionProc (instanceData, action)
  *----------------------------------------------------------------------
  */
 
-int
+static int
 FileTruncateProc(instanceData, length)
     ClientData instanceData;
     Tcl_WideInt length;

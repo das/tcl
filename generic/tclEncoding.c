@@ -467,7 +467,7 @@ TclSetLibraryPath(path)
  *---------------------------------------------------------------------------
  */
 
-void
+static void
 FillEncodingFileMap()
 {
     int i, numDirs = 0;
@@ -3242,7 +3242,7 @@ unilen(src)
  *-------------------------------------------------------------------------
  */
 
-void
+static void
 InitializeEncodingSearchPath(valuePtr, lengthPtr, encodingPtr)
     char **valuePtr;
     int *lengthPtr;
