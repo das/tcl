@@ -4859,15 +4859,14 @@ Tcl_VarEvalVA(interp, argList)
  *
  *----------------------------------------------------------------------
  */
-	/* VARARGS2 */ /* ARGSUSED */
+	/* ARGSUSED */
 int
-Tcl_VarEval TCL_VARARGS_DEF(Tcl_Interp *,arg1)
+Tcl_VarEval(Tcl_Interp *interp, ...)
 {
-    Tcl_Interp *interp;
     va_list argList;
     int result;
 
-    interp = TCL_VARARGS_START(Tcl_Interp *,arg1,argList);
+    va_start(argList, interp);
     result = Tcl_VarEvalVA(interp, argList);
     va_end(argList);
 

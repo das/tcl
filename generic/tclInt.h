@@ -2001,7 +2001,7 @@ MODULE_SCOPE void	TclFinalizePreserve(void);
 MODULE_SCOPE void	TclFinalizeSynchronization(void);
 MODULE_SCOPE void	TclFinalizeThreadData(void);
 MODULE_SCOPE void	TclFormatNaN(double value, char* buffer);
-MODULE_SCOPE int	TclFormatObj TCL_VARARGS(Tcl_Interp *, arg1);
+MODULE_SCOPE int	TclFormatObj(Tcl_Interp *arg1, ...);
 MODULE_SCOPE int	TclFSFileAttrIndex(Tcl_Obj *pathPtr,
 			    CONST char *attributeName, int *indexPtr);
 MODULE_SCOPE Tcl_Obj *	TclGetBgErrorHandler(Tcl_Interp *interp);
@@ -2053,7 +2053,7 @@ MODULE_SCOPE int	TclMergeReturnOptions(Tcl_Interp *interp, int objc,
 MODULE_SCOPE int	TclObjInvokeNamespace(Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[],
 			    Tcl_Namespace *nsPtr, int flags);
-MODULE_SCOPE int	TclObjPrintf TCL_VARARGS(Tcl_Interp *, arg1);
+MODULE_SCOPE int	TclObjPrintf(Tcl_Interp *arg1, ...);
 MODULE_SCOPE int	TclParseBackslash(CONST char *src,
 			    int numBytes, int *readPtr, char *dst);
 MODULE_SCOPE int	TclParseHex(CONST char *src, int numBytes,
@@ -2112,7 +2112,7 @@ MODULE_SCOPE Tcl_Obj*	TclpObjLink(Tcl_Obj *pathPtr, Tcl_Obj *toPtr,
 MODULE_SCOPE int	TclpObjChdir(Tcl_Obj *pathPtr);
 MODULE_SCOPE Tcl_Obj *	TclPathPart(Tcl_Interp *interp, Tcl_Obj *pathPtr,
 			    Tcl_PathPart portion);
-MODULE_SCOPE void	TclpPanic TCL_VARARGS(CONST char *, format);
+MODULE_SCOPE void	TclpPanic(CONST char *format, ...);
 MODULE_SCOPE char *	TclpReadlink(CONST char *fileName,
 			    Tcl_DString *linkPtr);
 MODULE_SCOPE void	TclpReleaseFile(TclFile file);
