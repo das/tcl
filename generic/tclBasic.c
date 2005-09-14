@@ -3769,22 +3769,9 @@ Tcl_EvalEx(interp, script, numBytes, flags)
 		    code = Tcl_ListObjLength(interp,
 			    objv[objectsUsed], &numElements);
 		    if (code == TCL_ERROR) {
-			/*
-			 * Attempt to expand a non-list.
-			 */
-
-			Tcl_Obj *msg;
-			Tcl_Obj *wordNum;
-
-			msg = Tcl_NewStringObj("\n    (expanding word ", -1);
-			TclNewIntObj(wordNum, objectsUsed);
-			Tcl_IncrRefCount(wordNum);
-			Tcl_IncrRefCount(msg);
-			Tcl_AppendObjToObj(msg, wordNum);
-			Tcl_DecrRefCount(wordNum);
-			Tcl_AppendToObj(msg, ")", -1);
-			TclAppendObjToErrorInfo(interp, msg);
-			Tcl_DecrRefCount(msg);
+			/* Attempt to expand a non-list. */
+			TclFormatToErrorInfo(interp,
+				"\n    (expanding word %d)", objectsUsed);
 			Tcl_DecrRefCount(objv[objectsUsed]);
 			goto error;
 		    }
