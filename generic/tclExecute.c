@@ -6094,11 +6094,11 @@ TclExprFloatError(interp, value)
 	    Tcl_SetErrorCode(interp, "ARITH", "OVERFLOW", s, (char *) NULL);
 	}
     } else {
-	char msg[64 + TCL_INTEGER_SPACE];
-
-	sprintf(msg, "unknown floating-point error, errno = %d", errno);
-	Tcl_SetObjResult(interp, Tcl_NewStringObj(msg, -1));
-	Tcl_SetErrorCode(interp, "ARITH", "UNKNOWN", msg, (char *) NULL);
+	Tcl_Obj *objPtr = Tcl_GetObjResult(interp);
+	TclObjPrintf(NULL, objPtr,
+		"unknown floating-point error, errno = %d", errno);
+	Tcl_SetErrorCode(interp, "ARITH", "UNKNOWN", 
+		Tcl_GetString(objPtr), (char *) NULL);
     }
 }
 

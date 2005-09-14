@@ -2305,13 +2305,19 @@ ObjPrintfVA(
 	    case '\0':
 		seekingConversion = 0;
 		break;
-	    case 's':
+	    case 's': {
+		char *bytes = va_arg(argList, char *);
 		seekingConversion = 0;
 		if (gotPrecision) {
-		    numBytes = lastNum;
+		    char *end = bytes + lastNum;
+		    char *q = bytes;
+		    while ((q < end) && (*q != '\0')) {
+			q++;
+		    }
+		    numBytes = (int)(q - bytes);
 		}
-		Tcl_ListObjAppendElement(NULL, list, Tcl_NewStringObj(
-			va_arg(argList, char *), numBytes));
+		Tcl_ListObjAppendElement(NULL, list,
+			Tcl_NewStringObj(bytes , numBytes));
 		/* We took no more than numBytes bytes from the (char *).
 		 * In turn, [format] will take no more than numBytes
 		 * characters from the Tcl_Obj.  Since numBytes characters
@@ -2319,6 +2325,7 @@ ObjPrintfVA(
 		 * will have no effect and we can just pass it through.
 		 */
 		break;
+	    }
 	    case 'c':
 	    case 'i':
 	    case 'u':

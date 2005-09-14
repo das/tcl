@@ -3404,16 +3404,11 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 	    for (j=0 ; j<sortInfo.indexc ; j++) {
 		if (TclGetIntForIndex(interp, indices[j], SORTIDX_END,
 			&sortInfo.indexv[j]) != TCL_OK) {
-		    char buffer[TCL_INTEGER_SPACE];
-
 		    if (sortInfo.indexc > 1) {
 			ckfree((char *) sortInfo.indexv);
 		    }
-		    sprintf(buffer, "%d", j);
-		    Tcl_AddErrorInfo(interp,
-			    "\n    (-index option item number ");
-		    Tcl_AddErrorInfo(interp, buffer);
-		    Tcl_AddErrorInfo(interp, ")");
+		    TclFormatToErrorInfo(interp,
+			    "\n    (-index option item number %d)", j);
 		    return TCL_ERROR;
 		}
 	    }
@@ -4019,16 +4014,11 @@ Tcl_LsortObjCmd(clientData, interp, objc, objv)
 	    for (j=0 ; j<sortInfo.indexc ; j++) {
 		if (TclGetIntForIndex(interp, indices[j], SORTIDX_END,
 			&sortInfo.indexv[j]) != TCL_OK) {
-		    char buffer[TCL_INTEGER_SPACE];
-
 		    if (sortInfo.indexc > 1) {
 			ckfree((char *) sortInfo.indexv);
 		    }
-		    sprintf(buffer, "%d", j);
-		    Tcl_AddErrorInfo(interp,
-			    "\n    (-index option item number ");
-		    Tcl_AddErrorInfo(interp, buffer);
-		    Tcl_AddErrorInfo(interp, ")");
+		    TclFormatToErrorInfo(interp,
+			    "\n    (-index option item number %d)", j);
 		    return TCL_ERROR;
 		}
 	    }

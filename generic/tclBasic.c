@@ -4156,10 +4156,8 @@ ProcessUnexpectedResult(interp, returnCode)
 	Tcl_AppendResult(interp,
 		"invoked \"continue\" outside of a loop", (char *) NULL);
     } else {
-	char buf[30 + TCL_INTEGER_SPACE];
-
-	sprintf(buf, "command returned bad code: %d", returnCode);
-	Tcl_SetResult(interp, buf, TCL_VOLATILE);
+	TclObjPrintf(NULL, Tcl_GetObjResult(interp),
+		"command returned bad code: %d", returnCode);
     }
 }
 
