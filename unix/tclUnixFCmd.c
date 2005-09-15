@@ -1286,7 +1286,6 @@ GetPermissionsAttribute(interp, objIndex, fileName, attributePtrPtr)
     Tcl_Obj **attributePtrPtr;	    /* A pointer to return the object with. */
 {
     Tcl_StatBuf statBuf;
-    char returnString[7];
     int result;
 
     result = TclpObjStat(fileName, &statBuf);
@@ -1300,9 +1299,9 @@ GetPermissionsAttribute(interp, objIndex, fileName, attributePtrPtr)
 	return TCL_ERROR;
     }
 
-    sprintf(returnString, "%0#5lo", (long) (statBuf.st_mode & 0x00007FFF));
-
-    *attributePtrPtr = Tcl_NewStringObj(returnString, -1);
+    *attributePtrPtr = Tcl_NewObj();
+    TclObjPrintf(NULL, *attributePtrPtr, "%0#5lo",
+	    (long) (statBuf.st_mode & 0x00007FFF));
 
     return TCL_OK;
 }

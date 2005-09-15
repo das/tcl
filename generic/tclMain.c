@@ -655,20 +655,21 @@ Tcl_Main(argc, argv, appInitProc)
     /*
      * Rather than calling exit, invoke the "exit" command so that users can
      * replace "exit" with some other command to do additional cleanup on
-     * exit. The Tcl_Eval call should never return.
+     * exit. The Tcl_EvalObjEx call should never return.
      */
 
     if (!Tcl_InterpDeleted(interp)) {
 	if (!Tcl_LimitExceeded(interp)) {
-	    char buffer[TCL_INTEGER_SPACE + 5];
-
-	    sprintf(buffer, "exit %d", exitCode);
-	    Tcl_Eval(interp, buffer);
+	    Tcl_Obj *cmd = Tcl_NewObj();
+	    TclObjPrintf(NULL, cmd, "exit %d", exitCode);
+	    Tcl_IncrRefCount(cmd);
+	    Tcl_EvalObjEx(interp, cmd, TCL_EVAL_GLOBAL);
+	    Tcl_DecrRefCount(cmd);
 	}
 
 	/*
-	 * If Tcl_Eval returns, trying to eval [exit], something unusual is
-	 * happening. Maybe interp has been deleted; maybe [exit] was
+	 * If Tcl_EvalObjEx returns, trying to eval [exit], something unusual
+	 * is happening. Maybe interp has been deleted; maybe [exit] was
 	 * redefined, maybe we've blown up because of an exceeded limit. We
 	 * still want to cleanup and exit.
 	 */

@@ -2362,11 +2362,8 @@ DictForCmd(interp, objc, objv)
 	    if (result == TCL_BREAK) {
 		result = TCL_OK;
 	    } else if (result == TCL_ERROR) {
-		char msg[32 + TCL_INTEGER_SPACE];
-
-		sprintf(msg, "\n    (\"dict for\" body line %d)",
-			interp->errorLine);
-		Tcl_AddObjErrorInfo(interp, msg, -1);
+		TclFormatToErrorInfo(interp,
+			"\n    (\"dict for\" body line %d)", interp->errorLine);
 	    }
 	    break;
 	}
@@ -2545,7 +2542,6 @@ DictFilterCmd(interp, objc, objv)
     Tcl_DictSearch search;
     int index, varc, done, result, satisfied;
     char *pattern;
-    char msg[32 + TCL_INTEGER_SPACE];
 
     if (objc < 4) {
 	Tcl_WrongNumArgs(interp, 2, objv, "dictionary filterType ...");
@@ -2710,9 +2706,9 @@ DictFilterCmd(interp, objc, objv)
 		result = TCL_OK;
 		break;
 	    case TCL_ERROR:
-		sprintf(msg, "\n    (\"dict filter\" script line %d)",
+		TclFormatToErrorInfo(interp,
+			"\n    (\"dict filter\" script line %d)",
 			interp->errorLine);
-		Tcl_AddObjErrorInfo(interp, msg, -1);
 	    default:
 		goto abnormalResult;
 	    }
