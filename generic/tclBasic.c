@@ -4156,8 +4156,9 @@ ProcessUnexpectedResult(interp, returnCode)
 	Tcl_AppendResult(interp,
 		"invoked \"continue\" outside of a loop", (char *) NULL);
     } else {
-	TclObjPrintf(NULL, Tcl_GetObjResult(interp),
-		"command returned bad code: %d", returnCode);
+	Tcl_Obj *objPtr = Tcl_NewObj();
+	TclObjPrintf(NULL, objPtr, "command returned bad code: %d", returnCode);
+	Tcl_SetObjResult(interp, objPtr);
     }
 }
 

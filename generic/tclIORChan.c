@@ -1723,10 +1723,12 @@ RcGetOption (clientData, interp, optionName, dsPtr)
     if ((listc % 2) == 1) {
         /* Odd number of elements is wrong.
 	 */
+	Tcl_Obj *objPtr = Tcl_NewObj();
 	Tcl_ResetResult(interp);
-	TclObjPrintf(NULL, Tcl_GetObjResult(interp),
-	"Expected list with even number of elements, got %d element%s instead",
-		listc, (listc == 1 ? "" : "s"));
+	TclObjPrintf(NULL, objPtr, "Expected list with even number of "
+		"elements, got %d element%s instead", listc, 
+		(listc == 1 ? "" : "s"));
+	Tcl_SetObjResult(interp, objPtr);
 	Tcl_DecrRefCount (resObj); /* Remove reference we held from the invoke */
 	return TCL_ERROR;
     }

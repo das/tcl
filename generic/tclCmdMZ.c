@@ -2158,9 +2158,11 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 
 		length2 = length1 * count;
 		if ((length2 / count) != length1) {
-		    TclObjPrintf(NULL, Tcl_GetObjResult(interp),
+		    resultPtr = Tcl_NewObj();
+		    TclObjPrintf(NULL, resultPtr,
 			    "string size overflow, must be less than %d",
 			    INT_MAX);
+		    Tcl_SetObjResult(interp, resultPtr);
 		    return TCL_ERROR;
 		}
 

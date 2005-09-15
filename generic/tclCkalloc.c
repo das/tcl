@@ -843,13 +843,14 @@ MemoryCmd(clientData, interp, argc, argv)
 	return TCL_OK;
     }
     if (strcmp(argv[1],"info") == 0) {
-	TclObjPrintf(NULL, Tcl_GetObjResult(interp),
-		"%-25s %10d\n%-25s %10d\n%-25s %10d\n%-25s %10d\n%-25s %10d\n%-25s %10d\n",
+	Tcl_Obj *objPtr = Tcl_NewObj();
+	TclObjPrintf(NULL, objPtr, "%-25s %10d\n%-25s %10d\n%-25s %10d\n%-25s %10d\n%-25s %10d\n%-25s %10d\n",
 		"total mallocs", total_mallocs, "total frees", total_frees,
 		"current packets allocated", current_malloc_packets,
 		"current bytes allocated", current_bytes_malloced,
 		"maximum packets allocated", maximum_malloc_packets,
 		"maximum bytes allocated", maximum_bytes_malloced);
+	Tcl_SetObjResult(interp, objPtr);
 	return TCL_OK;
     }
     if (strcmp(argv[1],"init") == 0) {
