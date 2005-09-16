@@ -2474,7 +2474,6 @@ DictFilterCmd(interp, objc, objv)
     Tcl_DictSearch search;
     int index, varc, done, result, satisfied;
     char *pattern;
-    char msg[32 + TCL_INTEGER_SPACE];
 
     if (objc < 4) {
 	Tcl_WrongNumArgs(interp, 2, objv, "dictionary filterType ...");
