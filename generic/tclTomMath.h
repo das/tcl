@@ -75,6 +75,7 @@ void* TclBNCalloc( size_t, size_t );
 #define mp_clear TclBN_mp_clear
 #define mp_clear_multi TclBN_mp_clear_multi
 #define mp_cmp TclBN_mp_cmp
+#define mp_cmp_d TclBN_mp_cmp_d
 #define mp_cmp_mag TclBN_mp_cmp_mag
 #define mp_copy TclBN_mp_copy
 #define mp_count_bits TclBN_mp_count_bits

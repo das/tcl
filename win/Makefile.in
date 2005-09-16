@@ -294,6 +294,7 @@ TOMMATH_OBJS = \
 	bn_mp_clear.${OBJEXT} \
 	bn_mp_clear_multi.${OBJEXT} \
 	bn_mp_cmp.${OBJEXT} \
+	bn_mp_cmp_d.${OBJEXT} \
 	bn_mp_cmp_mag.${OBJEXT} \
 	bn_mp_copy.${OBJEXT} \
 	bn_mp_count_bits.${OBJEXT} \
