@@ -2869,6 +2869,8 @@ MODULE_SCOPE void *	TclBNAlloc(size_t nBytes);
 MODULE_SCOPE void *	TclBNRealloc(void *oldBlock, size_t newNBytes);
 MODULE_SCOPE void	TclBNFree(void *block);
 MODULE_SCOPE void	TclBNInitBignumFromLong(mp_int *bignum, long initVal);
+MODULE_SCOPE void	TclBNInitBignumFromWideInt(mp_int* bignum,
+			    Tcl_WideInt initVal);
 MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int* bignum,
 			    Tcl_WideUInt initVal);
 

@@ -5242,7 +5242,7 @@ ExprAbsFunc(clientData, interp, objc, objv)
      */
 
     if (Tcl_GetBignumFromObj(NULL, valuePtr, &big) == TCL_OK) {
-	big.sign = MP_ZPOS;
+	mp_neg(&big, &big);
 	Tcl_SetObjResult(interp, Tcl_NewBignumObj(&big));
     } else {
 	Tcl_SetObjResult(interp, Tcl_NewDoubleObj(-d));

@@ -1940,7 +1940,7 @@ TclAppendFormattedObjs(interp, appendObj, format, objc, objv)
 		if (Tcl_GetBignumFromObj(interp, segment, &big) != TCL_OK) {
 		    goto error;
 		}
-		isNegative = (big.sign == MP_NEG);
+		isNegative = (mp_cmp_d(&big, 0) == MP_LT);
 	    } else if (useWide) {
 		if (Tcl_GetWideIntFromObj(NULL, segment, &w) != TCL_OK) {
 		    Tcl_Obj *objPtr;

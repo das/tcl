@@ -145,6 +145,36 @@ TclBNInitBignumFromLong( mp_int* a, long initVal )
 /*
  *----------------------------------------------------------------------
  *
+ * TclBNInitBignumFromWideInt --
+ *
+ *	Allocate and initialize a 'bignum' from a Tcl_WideInt
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	The 'bignum' is constructed.
+ *
+ *----------------------------------------------------------------------
+ */
+
+extern void
+TclBNInitBignumFromWideInt(mp_int* a, 
+				/* Bignum to initialize */
+			    Tcl_WideInt v)
+				/* Initial value */
+{
+    if (v < (Tcl_WideInt)0) {
+	TclBNInitBignumFromWideUInt(a, (Tcl_WideUInt)(-v));
+	mp_neg(a, a);
+    } else {
+	TclBNInitBignumFromWideUInt(a, (Tcl_WideUInt)v);
+    }
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
  * TclBNInitBignumFromWideUInt --
  *
  *	Allocate and initialize a 'bignum' from a Tcl_WideUInt

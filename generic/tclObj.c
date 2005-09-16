@@ -2415,12 +2415,7 @@ Tcl_SetWideIntObj(objPtr, wideValue)
 	TclSetLongObj(objPtr, (long) wideValue);
     } else {
 	mp_int big;
-	if (wideValue < 0) {
-	    TclBNInitBignumFromWideUInt(&big, (Tcl_WideUInt)(-wideValue));
-	    big.sign = MP_NEG;
-	} else {
-	    TclBNInitBignumFromWideUInt(&big, (Tcl_WideUInt)(wideValue));
-	}
+	TclBNInitBignumFromWideInt(&big, wideValue);
 	Tcl_SetBignumObj(objPtr, &big);
     }
 #endif
@@ -2738,13 +2733,8 @@ Tcl_GetBignumFromObj(
 	}
 #ifndef NO_WIDE_TYPE
 	if (objPtr->typePtr == &tclWideIntType) {
-	    Tcl_WideInt w = objPtr->internalRep.wideValue;
-	    if (w < 0) {
-		TclBNInitBignumFromWideUInt(bignumValue, (Tcl_WideUInt)(-w));
-		bignumValue->sign = MP_NEG;
-	    } else {
-		TclBNInitBignumFromWideUInt(bignumValue, (Tcl_WideUInt)w);
-	    }
+	    TclBNInitBignumFromWideInt(bignumValue, 
+		    objPtr->internalRep.wideValue)
 	    return TCL_OK;
 	}
 #endif

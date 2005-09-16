@@ -3831,7 +3831,7 @@ TclExecuteByteCode(interp, codePtr)
 	    IllegalExprOperandType(interp, pc, value2Ptr);
 	    goto checkForCatch;
 	}
-	if (big2.sign == MP_NEG) {
+	if (mp_cmp_d(&big2, 0) == MP_LT) {
 	    Tcl_SetObjResult(interp,
 		    Tcl_NewStringObj("negative shift argument", -1));
 	    result = TCL_ERROR;
@@ -3857,7 +3857,7 @@ TclExecuteByteCode(interp, codePtr)
 	    mp_int bigRemainder;
 	    mp_init(&bigRemainder);
 	    mp_div_2d(&big1, shift, &bigResult, &bigRemainder);
-	    if (!mp_iszero(&bigRemainder) && (bigRemainder.sign == MP_NEG)) {
+	    if (mp_cmp_d(&bigRemainder, 0) == MP_LT) {
 		/* Convert to Tcl's integer division rules */
 		mp_sub_d(&bigResult, 1, &bigResult);
 	    }
@@ -3902,10 +3902,10 @@ TclExecuteByteCode(interp, codePtr)
 	    IllegalExprOperandType(interp, pc, value2Ptr);
 	    goto checkForCatch;
 	}
-	if (big1.sign == MP_ZPOS) {
+	if (mp_cmp_d(&big1, 0) != MP_LT) {
 	    numPos++;
 	    Pos = &big1;
-	    if (big2.sign == MP_ZPOS) {
+	    if (mp_cmp_d(&big2, 0) != MP_LT) {
 		numPos++;
 		Other = &big2;
 	    } else {
@@ -3913,7 +3913,7 @@ TclExecuteByteCode(interp, codePtr)
 	    }
 	} else {
 	    Neg = &big1;
-	    if (big2.sign == MP_ZPOS) {
+	    if (mp_cmp_d(&big2, 0) != MP_LT) {
 		numPos++;
 		Pos = &big2;
 	    } else {
@@ -4845,8 +4845,7 @@ TclExecuteByteCode(interp, codePtr)
 		    NEXT_INST_F(1, 2, 1);
 		}
 		if (mp_iszero(&big1)) {
-		    /* TODO: Use mp_cmp_d() call instead */
-		    if (big2.sign == MP_NEG) {
+		    if (mp_cmp_d(&big2, 0) == MP_LT) {
 			TRACE(("%s %s => EXPONENT OF ZERO\n", O2S(valuePtr),
 			    O2S(value2Ptr)));
 			mp_clear(&big1);
@@ -4858,7 +4857,7 @@ TclExecuteByteCode(interp, codePtr)
 		    objResultPtr = eePtr->constants[0];
 		    NEXT_INST_F(1, 2, 1);
 		}
-		if (big2.sign == MP_NEG) {
+		if (mp_cmp_d(&big2, 0) == MP_LT) {
 		    switch (mp_cmp_d(&big1, 1)) {
 		    case MP_GT:
 			objResultPtr = eePtr->constants[0];
