@@ -1041,7 +1041,7 @@ TclIncrObj(interp, valuePtr, incrPtr)
 	Tcl_Panic("shared object passed to TclIncrObj");
     }
 
-    if (Tcl_GetBignumFromObj(interp, valuePtr, &value) != TCL_OK) {
+    if (Tcl_GetBignumAndClearObj(interp, valuePtr, &value) != TCL_OK) {
 	return TCL_ERROR;
     }
     if (Tcl_GetBignumFromObj(interp, incrPtr, &incr) != TCL_OK) {

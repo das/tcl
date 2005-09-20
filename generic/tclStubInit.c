@@ -982,12 +982,13 @@ TclStubs tclStubs = {
     Tcl_DbNewBignumObj, /* 556 */
     Tcl_SetBignumObj, /* 557 */
     Tcl_GetBignumFromObj, /* 558 */
-    Tcl_TruncateChannel, /* 559 */
-    Tcl_ChannelTruncateProc, /* 560 */
-    Tcl_SetChannelErrorInterp, /* 561 */
-    Tcl_GetChannelErrorInterp, /* 562 */
-    Tcl_SetChannelError, /* 563 */
-    Tcl_GetChannelError, /* 564 */
+    Tcl_GetBignumAndClearObj, /* 559 */
+    Tcl_TruncateChannel, /* 560 */
+    Tcl_ChannelTruncateProc, /* 561 */
+    Tcl_SetChannelErrorInterp, /* 562 */
+    Tcl_GetChannelErrorInterp, /* 563 */
+    Tcl_SetChannelError, /* 564 */
+    Tcl_GetChannelError, /* 565 */
 };
 
 /* !END!: Do not edit above this line. */
