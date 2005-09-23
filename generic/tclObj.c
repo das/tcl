@@ -2914,6 +2914,7 @@ Tcl_SetBignumObj(
     TclInvalidateStringRep(objPtr);
     TclFreeIntRep(objPtr);
     TclSetBignumIntRep(objPtr, bignumValue);
+    mp_clear(bignumValue);
 }
 
 void

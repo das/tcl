@@ -1021,7 +1021,6 @@ TclParseNumber( Tcl_Interp* interp,
 		    mp_neg(&octalSignificandBig, &octalSignificandBig);
 		}
 		TclSetBignumIntRep(objPtr, &octalSignificandBig);
-		octalSignificandOverflow = 0;
 	    }		
 	    break;
 
@@ -1075,7 +1074,6 @@ TclParseNumber( Tcl_Interp* interp,
 		    mp_neg(&significandBig, &significandBig);
 		}
 		TclSetBignumIntRep(objPtr, &significandBig);
-		significandOverflow = 0;
 	    }
 	    break;
 
