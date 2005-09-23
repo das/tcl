@@ -2914,7 +2914,6 @@ Tcl_SetBignumObj(
     TclInvalidateStringRep(objPtr);
     TclFreeIntRep(objPtr);
     TclSetBignumIntRep(objPtr, bignumValue);
-    mp_clear(bignumValue);
 }
 
 void
@@ -2925,9 +2924,15 @@ TclSetBignumIntRep(objPtr, bignumValue)
     objPtr->typePtr = &tclBignumType;
     PACK_BIGNUM(*bignumValue, objPtr);
 
-    /* Clear the value with mp_init; mp_clear overwrites the digit array. */
+    /*
+     * Clear the mp_int value.
+     * Don't call mp_clear() because it would free the digit array
+     * we just packed into the Tcl_Obj.
+     */
 
-    mp_init(bignumValue);
+    bignumValue->dp = NULL;
+    bignumValue->alloc = bignumValue->used = 0;
+    bignumValue->sign = MP_NEG;
 }
 
 /*
