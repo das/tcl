@@ -770,10 +770,10 @@ typedef struct Tcl_Obj {
 	} twoPtrValue;
 	struct {		/*   - internal rep as a wide int, tightly
 				 *     packed fields */
-	    VOID *digits;	/* Pointer to digits */
-	    unsigned long misc;	/* Alloc, used, and signum packed into a
+	    VOID *ptr;		/* Pointer to digits */
+	    unsigned long value;/* Alloc, used, and signum packed into a
 				 * single word */
-	} bignumValue;
+	} ptrAndLongRep;
     } internalRep;
 } Tcl_Obj;
 

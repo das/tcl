@@ -688,7 +688,7 @@ TclObjGetFrame(interp, objPtr, framePtrPtr)
 	    /*
 	     * Cache for future reference.
 	     *
-	     * TODO: Use the new bignumValue (long + pointer) intrep
+	     * TODO: Use the new ptrAndLongRep intrep
 	     */
 
 	    TclFreeIntRep(objPtr);
@@ -703,7 +703,7 @@ TclObjGetFrame(interp, objPtr, framePtrPtr)
 	    /*
 	     * Cache for future reference.
 	     *
-	     * TODO: Use the new bignumValue (long + pointer) intrep
+	     * TODO: Use the new ptrAndLongRep intrep
 	     */
 
 	    TclFreeIntRep(objPtr);
