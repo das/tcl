@@ -1107,7 +1107,8 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 		break;
 	    }
 	    if (flags & SCAN_LONGER) {
-		if (Tcl_GetWideIntFromObj(NULL, objPtr, &wideValue) != TCL_OK) {		    wideValue = ~(Tcl_WideUInt)0 >> 1;	/* WIDE_MAX */
+		if (Tcl_GetWideIntFromObj(NULL, objPtr, &wideValue) != TCL_OK) {
+		    wideValue = ~(Tcl_WideUInt)0 >> 1;	/* WIDE_MAX */
 		    if (Tcl_GetString(objPtr)[0] == '-') {
 			wideValue++;	/* WIDE_MAX + 1 = WIDE_MIN */
 		    }
