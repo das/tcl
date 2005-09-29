@@ -95,6 +95,48 @@ namespace eval tcl {
             truncate    ::tcl::chan::Truncate
         }
     }
+
+    # TIP #255 min and max functions
+    namespace eval mathfunc {
+	proc min {args} {
+	    if {[llength $args] == 0} {
+		return -code error \
+		    "too few arguments to math function \"min\""
+	    }
+	    set val [lindex $args 0]
+	    # This will handle forcing the numeric value without
+	    # ruining the interval type of a numeric object
+	    if {[catch {expr {double($val)}} err]} {
+		return -code error $err
+	    }
+	    foreach arg [lrange $args 1 end] {
+		if {[catch {expr {double($arg)}} err]} {
+		    return -code error $err
+		}
+		if {$arg < $val} { set val $arg }
+	    }
+	    return $val
+	}
+	proc max {args} {
+	    if {[llength $args] == 0} {
+		return -code error \
+		    "too few arguments to math function \"max\""
+	    }
+	    set val [lindex $args 0]
+	    # This will handle forcing the numeric value without
+	    # ruining the interval type of a numeric object
+	    if {[catch {expr {double($val)}} err]} {
+		return -code error $err
+	    }
+	    foreach arg [lrange $args 1 end] {
+		if {[catch {expr {double($arg)}} err]} {
+		    return -code error $err
+		}
+		if {$arg > $val} { set val $arg }
+	    }
+	    return $val
+	}
+    }
 }
 
 # Windows specific end of initialization
