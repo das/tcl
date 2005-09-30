@@ -103,13 +103,10 @@ namespace eval tcl {
 		return -code error \
 		    "too few arguments to math function \"min\""
 	    }
-	    set val [lindex $args 0]
-	    # This will handle forcing the numeric value without
-	    # ruining the interval type of a numeric object
-	    if {[catch {expr {double($val)}} err]} {
-		return -code error $err
-	    }
-	    foreach arg [lrange $args 1 end] {
+	    set val Inf
+	    foreach arg $args {
+		# This will handle forcing the numeric value without
+		# ruining the interval type of a numeric object
 		if {[catch {expr {double($arg)}} err]} {
 		    return -code error $err
 		}
@@ -122,13 +119,10 @@ namespace eval tcl {
 		return -code error \
 		    "too few arguments to math function \"max\""
 	    }
-	    set val [lindex $args 0]
-	    # This will handle forcing the numeric value without
-	    # ruining the interval type of a numeric object
-	    if {[catch {expr {double($val)}} err]} {
-		return -code error $err
-	    }
-	    foreach arg [lrange $args 1 end] {
+	    set val -Inf
+	    foreach arg $args {
+		# This will handle forcing the numeric value without
+		# ruining the interval type of a numeric object
 		if {[catch {expr {double($arg)}} err]} {
 		    return -code error $err
 		}
