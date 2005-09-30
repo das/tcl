@@ -2112,7 +2112,7 @@ TclAppendFormattedObjs(interp, appendObj, format, objc, objv)
 		    int digitOffset;
 		    if (useBig) {
 			if (shift<CHAR_BIT*sizeof(Tcl_WideUInt)-DIGIT_BIT) {
-			    bits |= (big.dp[index++] << shift);
+			    bits |= (((Tcl_WideUInt)big.dp[index++]) << shift);
 			    shift += DIGIT_BIT;
 			}
 			shift -= numBits;
