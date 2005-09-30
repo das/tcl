@@ -106,7 +106,7 @@ namespace eval tcl {
 	    set val Inf
 	    foreach arg $args {
 		# This will handle forcing the numeric value without
-		# ruining the interval type of a numeric object
+		# ruining the internal type of a numeric object
 		if {[catch {expr {double($arg)}} err]} {
 		    return -code error $err
 		}
@@ -122,7 +122,7 @@ namespace eval tcl {
 	    set val -Inf
 	    foreach arg $args {
 		# This will handle forcing the numeric value without
-		# ruining the interval type of a numeric object
+		# ruining the internal type of a numeric object
 		if {[catch {expr {double($arg)}} err]} {
 		    return -code error $err
 		}
