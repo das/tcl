@@ -5613,7 +5613,7 @@ ExprRoundFunc(clientData, interp, objc, objv)
 	} else if (fractPart >= 0.5) {
 	    max--;
 	}
-	if ((intPart > (double)max) || (intPart < (double)min)) {
+	if ((intPart >= (double)max) || (intPart <= (double)min)) {
 	    mp_int big;
 	    if (TclInitBignumFromDouble(interp, intPart, &big) != TCL_OK) {
 		/* Infinity */
