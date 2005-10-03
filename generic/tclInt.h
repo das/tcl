@@ -1905,6 +1905,18 @@ typedef struct ProcessGlobalValue {
 				/* Use [scan] rules dealing with 0? prefixes */
 
 /*
+ *----------------------------------------------------------------------
+ * Type values TclGetNumberFromObj
+ *----------------------------------------------------------------------
+ */
+
+#define TCL_NUMBER_LONG		1
+#define TCL_NUMBER_WIDE		2
+#define TCL_NUMBER_BIG		3
+#define TCL_NUMBER_DOUBLE	4
+#define TCL_NUMBER_NAN		5
+
+/*
  *----------------------------------------------------------------
  * Variables shared among Tcl modules but not used by the outside world.
  *----------------------------------------------------------------
@@ -2049,6 +2061,9 @@ MODULE_SCOPE int	TclGetEncodingFromObj(Tcl_Interp *interp,
 			    Tcl_Obj *objPtr, Tcl_Encoding *encodingPtr);
 MODULE_SCOPE int	TclGetNamespaceFromObj(Tcl_Interp *interp,
 			    Tcl_Obj *objPtr, Tcl_Namespace **nsPtrPtr);
+MODULE_SCOPE int	TclGetNumberFromObj(Tcl_Interp *interp,
+			    Tcl_Obj *objPtr, ClientData *clientDataPtr,
+			    int *typePtr);
 MODULE_SCOPE int	TclGetOpenModeEx(Tcl_Interp *interp,
 			    CONST char *modeString, int *seekFlagPtr,
 			    int *binaryPtr);
