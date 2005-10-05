@@ -71,17 +71,16 @@ TclpDlopen(interp, pathPtr, loadHandle, unloadProcPtr)
      */
 
 
-    /* 
+    /*
      * First try the full path the user gave us.  This is particularly
      * important if the cwd is inside a vfs, and we are trying to load
      * using a relative path.
      */
     native = Tcl_FSGetNativePath(pathPtr);
-    handle = shl_load(native,
-		      BIND_DEFERRED|BIND_VERBOSE|DYNAMIC_PATH, 0L);
-    
+    handle = shl_load(native, BIND_DEFERRED|BIND_VERBOSE, 0L);
+
     if (handle == NULL) {
-	/* 
+	/*
 	 * Let the OS loader examine the binary search path for
 	 * whatever string the user gave us which hopefully refers
 	 * to a file on the binary path
