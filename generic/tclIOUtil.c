@@ -1319,7 +1319,7 @@ Tcl_FSData(fsPtr)
  *
  *---------------------------------------------------------------------------
  */
-Tcl_Obj*
+static Tcl_Obj *
 TclFSNormalizeAbsolutePath(interp, pathPtr, clientDataPtr)
     Tcl_Interp* interp;    /* Interpreter to use */
     Tcl_Obj *pathPtr;      /* Absolute path to normalize */

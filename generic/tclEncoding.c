@@ -3058,7 +3058,7 @@ unilen(src)
  *-------------------------------------------------------------------------
  */
 
-int
+static int
 TclFindEncodings(argv0)
     CONST char *argv0;		/* Name of executable from argv[0] to main()
 				 * in native multi-byte encoding. */
@@ -3093,7 +3093,7 @@ TclFindEncodings(argv0)
 	     * convert the UTF string back to native before setting the new
 	     * default encoding.
 	     */
-	    
+
 	    pathPtr = TclGetLibraryPath();
 	    if ((pathPtr != NULL) && mustCleanUtf) {
 		Tcl_UtfToExternalDString(NULL, Tcl_GetString(pathPtr), -1,
@@ -3105,7 +3105,7 @@ TclFindEncodings(argv0)
 	    /*
 	     * Now convert the native string back to UTF.
 	     */
-	     
+
 	    if ((pathPtr != NULL) && mustCleanUtf) {
 		Tcl_ExternalToUtfDString(NULL, Tcl_DStringValue(&libPath), -1,
 			&buffer);
