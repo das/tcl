@@ -3953,7 +3953,7 @@ TclExecuteByteCode(interp, codePtr)
 			TclNewIntObj(objResultPtr, -1);
 		    }
 		} else {
-		    TclNewIntObj(objResultPtr, (l >> shift));
+		    TclNewLongObj(objResultPtr, (l >> shift));
 		}
 		TRACE(("%s\n", O2S(objResultPtr)));
 		NEXT_INST_F(1, 2, 1);
