@@ -1766,7 +1766,7 @@ test fCmd-20.2 {TraverseUnixTree : recursive delete of large directory: Bug 1034
 	{unix notRoot} {
     catch {file delete -force -- tfa}
     file mkdir tfa
-    for {set i 1} {$i <= 200} {incr i} {createfile tfa/testfile_$i}
+    for {set i 1} {$i <= 300} {incr i} {createfile tfa/testfile_$i}
     set result [catch {file delete -force tfa} msg]
     while {[catch {file delete -force tfa}]} {}
     list $result $msg
