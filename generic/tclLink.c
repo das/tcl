@@ -383,9 +383,16 @@ LinkTraceProc(clientData, interp, name1, name2, flags)
     case TCL_LINK_DOUBLE:
 	if (Tcl_GetDoubleFromObj(NULL, valueObj, &linkPtr->lastValue.d)
 		!= TCL_OK) {
+#ifdef ACCEPT_NAN
+	  if (valueObj->typePtr != &tclDoubleType) {
+#endif
 	    Tcl_ObjSetVar2(interp, linkPtr->varName, NULL, ObjValue(linkPtr),
 		    TCL_GLOBAL_ONLY);
 	    return "variable must have real value";
+#ifdef ACCEPT_NAN
+	  }
+	  linkPtr->lastValue.d = valueObj->internalRep.doubleValue;
+#endif
 	}
 	*(double *)(linkPtr->addr) = linkPtr->lastValue.d;
 	break;

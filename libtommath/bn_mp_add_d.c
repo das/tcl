@@ -37,8 +37,9 @@ mp_add_d (mp_int * a, mp_digit b, mp_int * c)
      /* c = |a| - b */
      res = mp_sub_d(a, b, c);
 
-     /* fix sign  */
-     a->sign = c->sign = MP_NEG;
+     /* fix signs  */
+     a->sign = MP_NEG;
+     c->sign = (c->used) ? MP_NEG : MP_ZPOS;
 
      return res;
   }
@@ -103,3 +104,7 @@ mp_add_d (mp_int * a, mp_digit b, mp_int * c)
 }
 
 #endif
+
+/* $Source$ */
+/* $Revision$ */
+/* $Date$ */

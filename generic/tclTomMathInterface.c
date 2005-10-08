@@ -141,3 +141,83 @@ TclBNInitBignumFromLong( mp_int* a, long initVal )
     a->used = p - a->dp;
     
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclBNInitBignumFromWideInt --
+ *
+ *	Allocate and initialize a 'bignum' from a Tcl_WideInt
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	The 'bignum' is constructed.
+ *
+ *----------------------------------------------------------------------
+ */
+
+extern void
+TclBNInitBignumFromWideInt(mp_int* a, 
+				/* Bignum to initialize */
+			    Tcl_WideInt v)
+				/* Initial value */
+{
+    if (v < (Tcl_WideInt)0) {
+	TclBNInitBignumFromWideUInt(a, (Tcl_WideUInt)(-v));
+	mp_neg(a, a);
+    } else {
+	TclBNInitBignumFromWideUInt(a, (Tcl_WideUInt)v);
+    }
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclBNInitBignumFromWideUInt --
+ *
+ *	Allocate and initialize a 'bignum' from a Tcl_WideUInt
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	The 'bignum' is constructed.
+ *
+ *----------------------------------------------------------------------
+ */
+
+extern void
+TclBNInitBignumFromWideUInt(mp_int* a, 
+				/* Bignum to initialize */
+			    Tcl_WideUInt v)
+				/* Initial value */
+{
+
+    int status;
+    mp_digit* p;
+
+    /*
+     * Allocate enough memory to hold the largest possible Tcl_WideUInt 
+     */
+
+    status = mp_init_size(a, ((CHAR_BIT * sizeof( Tcl_WideUInt )
+			       + DIGIT_BIT - 1)
+			      / DIGIT_BIT));
+    if (status != MP_OKAY) {
+	Tcl_Panic( "initialization failure in TclBNInitBignumFromWideUInt" );
+    }
+    
+    a->sign = MP_ZPOS;
+
+    /* Store the magnitude in the bignum. */
+
+    p = a->dp;
+    while ( v ) {
+	*p++ = (mp_digit) ( v & MP_MASK );
+	v >>= MP_DIGIT_BIT;
+    }
+    a->used = p - a->dp;
+    
+}
