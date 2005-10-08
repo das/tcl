@@ -2962,6 +2962,13 @@ int TclGetNumberFromObj(interp, objPtr, clientDataPtr, typePtr)
 	    *clientDataPtr = &(objPtr->internalRep.longValue);
 	    return TCL_OK;
 	}
+#ifndef NO_WIDE_TYPE
+	if (objPtr->typePtr == &tclWideIntType) {
+	    *typePtr = TCL_NUMBER_WIDE;
+	    *clientDataPtr = &(objPtr->internalRep.wideValue);
+	    return TCL_OK;
+	}
+#endif
 	if (objPtr->typePtr == &tclBignumType) {
 	    static Tcl_ThreadDataKey bignumKey;
 	    mp_int *bigPtr = Tcl_GetThreadData(&bignumKey, (int)sizeof(mp_int));
@@ -2970,13 +2977,6 @@ int TclGetNumberFromObj(interp, objPtr, clientDataPtr, typePtr)
 	    *clientDataPtr = bigPtr;
 	    return TCL_OK;
 	}
-#ifndef NO_WIDE_TYPE
-	if (objPtr->typePtr == &tclWideIntType) {
-	    *typePtr = TCL_NUMBER_WIDE;
-	    *clientDataPtr = &(objPtr->internalRep.wideValue);
-	    return TCL_OK;
-	}
-#endif
     } while (TCL_OK ==
 	    TclParseNumber(interp, objPtr, "number", NULL, -1, NULL, 0));
     return TCL_ERROR;
