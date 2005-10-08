@@ -617,6 +617,6 @@ foreach { icudir msgdir } $argv break
 foreach fileName [glob -directory $icudir *.txt] {
     set n [file rootname [file tail $fileName]]
     if { [regexp {^[a-z]{2,3}(_[A-Z]{2,3}(_.*)?)?$} $n] } {
-	handleLocaleFile $n $fileName [file join $msgdir ${n}.msg]
+	handleLocaleFile $n $fileName [file join $msgdir [string tolower $n].msg]
     }
 }

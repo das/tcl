@@ -112,7 +112,7 @@ proc getuser {fname} {
 	if {[string match -nocase "* $tail" $line]} {
 	    set attrs [string range $line \
 	      0 end-[string length $tail]]
-	    regexp { [A-Z]+\\.*$} $attrs owner
+	    regexp { [^ \\]+\\.*$} $attrs owner
 	    set owner [string trim $owner]
 	}
     }

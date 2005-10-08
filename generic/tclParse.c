@@ -374,20 +374,28 @@ Tcl_ParseCommand(interp, start, numBytes, nested, parsePtr)
 	     */
 
 	    expPtr = &parsePtr->tokenPtr[expIdx];
-	    if ((expPfxLen == (size_t) expPtr->size)
-					/* Same length as prefix */
-		    && (0 == expandWord)
-		    			/* Haven't seen prefix already */
-		    && (1 == parsePtr->numTokens - expIdx)
-	    				/* Only one token */
-		    && (0 == strncmp(expPfx,expPtr->start,expPfxLen))
-					/* Is the prefix */
-		    && (numBytes > 0)
-		    && (TclParseWhiteSpace(termPtr, numBytes, parsePtr, &type)
-			    == 0)
-		    && (type != TYPE_COMMAND_END)
-					/* Non-whitespace follows */
-		    ) {
+	    if (
+		(0 == expandWord)
+		/* Haven't seen prefix already */
+		&& (1 == parsePtr->numTokens - expIdx)
+		/* Only one token */
+		&& (((expPfxLen == (size_t) expPtr->size)
+			    /* Same length as prefix */
+			    && (0 == strncmp(expPfx,expPtr->start,expPfxLen)))
+#ifdef ALLOW_EMPTY_EXPAND
+			/*
+			 * Allow {} in addition to {expand}
+			 */
+			|| (0 == (size_t) expPtr->size)
+#endif
+		    )
+		/* Is the prefix */
+		&& (numBytes > 0)
+		&& (TclParseWhiteSpace(termPtr, numBytes, parsePtr,
+			    &type) == 0)
+		&& (type != TYPE_COMMAND_END)
+		/* Non-whitespace follows */
+		) {
 		expandWord = 1;
 		parsePtr->numTokens--;
 		goto parseWord;
