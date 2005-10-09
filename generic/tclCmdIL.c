@@ -1256,7 +1256,8 @@ InfoGlobalsCmd(dummy, interp, objc, objv)
 	    if (TclIsVarUndefined(varPtr)) {
 		continue;
 	    }
-	    varName = Tcl_GetHashKey(&globalNsPtr->varTable, entryPtr);
+	    varName = Tcl_GetHashKey(
+		(Tcl_HashTable *)&globalNsPtr->varTable, entryPtr);
 	    if ((pattern == NULL) || Tcl_StringMatch(varName, pattern)) {
 		Tcl_ListObjAppendElement(interp, listPtr,
 			Tcl_NewStringObj(varName, -1));
@@ -2152,7 +2153,8 @@ InfoVarsCmd(dummy, interp, objc, objv)
 		varPtr = (Var *) Tcl_GetHashValue(entryPtr);
 		if (!TclIsVarUndefined(varPtr)
 			|| TclIsVarNamespaceVar(varPtr)) {
-		    varName = Tcl_GetHashKey(&nsPtr->varTable, entryPtr);
+		    varName = Tcl_GetHashKey(
+			(Tcl_HashTable *)&nsPtr->varTable, entryPtr);
 		    if ((simplePattern == NULL)
 			    || Tcl_StringMatch(varName, simplePattern)) {
 			if (specificNsInPattern) {

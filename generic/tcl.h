@@ -1230,9 +1230,6 @@ struct Tcl_HashKeyType {
  * Structure definition for a hash table.  Must be in tcl.h so clients
  * can allocate space for these structures, but clients should never
  * access any fields in this structure.
- *
- * NOTE TO MAINTAINERS: this struct must be kept in sync with
- * TclNSVarHashTable, defined in tclInt.h
  */
 
 #define TCL_SMALL_HASH_TABLE 4
