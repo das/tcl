@@ -5260,6 +5260,7 @@ ExprAbsFunc(clientData, interp, objc, objv)
 	return TCL_ERROR;
 #endif
     }
+    return TCL_OK;
 }
 
 static int

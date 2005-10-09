@@ -292,7 +292,8 @@ TclParseNumber( Tcl_Interp* interp,
 				 * in an acceptable number */
     size_t acceptLen;		/* Number of characters following that point */
     int status = TCL_OK;	/* Status to return to caller */
-    char d;			/* Last hexadecimal digit scanned */
+    char d = 0;			/* Last hexadecimal digit scanned; initialized 
+				 * to avoid a compiler warning. */
     int shift = 0;		/* Amount to shift when accumulating binary */
 #ifdef TIP_114_FORMATS
     int explicitOctal = 0;
