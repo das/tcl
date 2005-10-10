@@ -22,7 +22,7 @@
  * Some numerics configuration options
  */
 
-#undef NO_WIDE_TYPE
+#define NO_WIDE_TYPE
 #undef ACCEPT_NAN
 
 /*
