@@ -3711,6 +3711,7 @@ OptimiseByteCodeTmp(codePtr)
 		continue;
 	    }
 	}
+	
 	/*
 	 * If some range became unreachable, remove the extra reference to the
 	 * break and continue targets. 
@@ -3847,6 +3848,9 @@ OptReduceCount(codePtr, pos, auxCount)
      */
 
     if (auxCount[pos] < 0) {
+#ifdef TCL_COMPILE_DEBUG
+	TclPrintInstruction(codePtr, codeStart+pos);
+#endif
 	Tcl_Panic("Reducing auxCount of unreachable code.");
     }
     

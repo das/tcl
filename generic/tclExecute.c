@@ -860,7 +860,9 @@ Tcl_ExprObj(interp, objPtr, resultPtrPtr)
 
 	TclEmitInst0(INST_DONE, &compEnv);
 	TclInitByteCodeObj(objPtr, &compEnv);
+#if VM_ENABLE_OPTIMISER
 	TclOptimiseByteCode (interp, objPtr);
+#endif
 	TclFreeCompileEnv(&compEnv);
 	codePtr = (ByteCode *) objPtr->internalRep.otherValuePtr;
 #ifdef TCL_COMPILE_DEBUG
@@ -4049,7 +4051,7 @@ TclExecuteByteCode(interp, codePtr)
 		NEXT_INST_F(0, 0);
 	    }
 	} else { /* inst is INST_LNOT or INST_LYES*/
-	    if (tPtr == &tclIntType) {
+	    if ((tPtr == &tclIntType) || (tPtr == &tclBooleanType)){
 		i = valuePtr->internalRep.longValue;
 		TRACE_WITH_OBJ(("%ld => ", i), objResultPtr);
 	    } else if (tPtr == &tclWideIntType) {
