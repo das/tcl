@@ -4084,6 +4084,7 @@ TclExecuteByteCode(interp, codePtr)
 		break;
 	    case INST_BITXOR:
 		wResult = w1 ^ w2;
+		break;
 	    default:
 		/* Unused, here to silence compiler warning. */
 		wResult = 0;
