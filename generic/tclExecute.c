@@ -3960,7 +3960,6 @@ TclExecuteByteCode(interp, codePtr)
 		First  = &big1;
 		Second = &big2;
 	    } else {
-		/* use bigResult as temporary storage for the swap. */
 		First  = &big2;
 		Second = &big1;
 		numPos = (mp_cmp_d(First, 0) != MP_LT);
