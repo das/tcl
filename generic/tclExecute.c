@@ -3823,6 +3823,7 @@ TclExecuteByteCode(interp, codePtr)
 		case TCL_NUMBER_BIG:
 		    /* TODO: const correctness ? */
 		    zero = (mp_cmp_d((mp_int *)ptr1, 0) == MP_GT);
+		    break;
 		default:
 		    /* Unused, here to silence compiler warning. */
 		    zero = 0;
@@ -4111,6 +4112,7 @@ TclExecuteByteCode(interp, codePtr)
 		break;
 	    case INST_BITXOR:
 		lResult = l1 ^ l2;
+		break;
 	    default:
 		/* Unused, here to silence compiler warning. */
 		lResult = 0;
