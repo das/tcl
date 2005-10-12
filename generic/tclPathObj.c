@@ -2329,7 +2329,7 @@ SetFsPathFromAny(interp, pathPtr)
 
 		objc--; objv++;
 		while (objc--) {
-		    TclpNativeJoinPath(transPtr, TclGetString(*objv++));
+		    TclpNativeJoinPath(transPtr, Tcl_GetString(*objv++));
 		}
 		TclDecrRefCount(parts);
 	    } else {

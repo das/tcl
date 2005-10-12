@@ -1526,6 +1526,11 @@ test fileName-18.1 {windows - split ADS name correctly} {win} {
     list $x $y
 } {{c:/ ./c:d} c:/c:d}
 
+test fileName-19.1 {ensure that [Bug 1325099] stays fixed} {
+    # Any non-crashing result is OK
+    list [file exists ~//.nonexistant_file] [file exists ~///.nonexistant_file]
+} {0 0}
+
 # cleanup
 catch {file delete -force C:/globTest}
 cd [temporaryDirectory]
