@@ -352,13 +352,6 @@ SC_ENABLE_SYMBOLS
 
 TCL_DBGX=${DBGX}
 
-#--------------------------------------------------------------------
-# man2tcl needs this so that it can use errno.h
-#--------------------------------------------------------------------
-
-AC_CHECK_HEADER(errno.h, , MAN2TCLFLAGS="-DNO_ERRNO_H")
-AC_SUBST(MAN2TCLFLAGS)
-
 #------------------------------------------------------------------------
 # tclConfig.sh refers to this by a different name
 #------------------------------------------------------------------------

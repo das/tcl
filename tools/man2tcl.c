@@ -24,9 +24,7 @@ static char sccsid[] = "@(#) man2tcl.c 1.3 95/08/12 17:34:08";
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#ifndef NO_ERRNO_H
 #include <errno.h>
-#endif
 
 /*
  * Imported things that aren't defined in header files:
