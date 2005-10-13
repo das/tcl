@@ -2710,7 +2710,14 @@ Tcl_ClearChannelHandlers (channel)
      */
         
     statePtr->interestMask = 0;
+
+    /*
+     * TEMPORARILY DEFINED FOR THREADED BUILD ONLY. SEE SF BUG# 1323992
+     */
+
+#ifdef TCL_THREADS
     (chanPtr->typePtr->watchProc)(chanPtr->instanceData, 0);
+#endif
 
     /*
      * Remove any EventScript records for this channel.
