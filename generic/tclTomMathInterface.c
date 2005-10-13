@@ -220,7 +220,7 @@ TclBNInitBignumFromWideUInt(
      */
 
     p = a->dp;
-    while (vd) {
+    while (v) {
 	*p++ = (mp_digit) (v & MP_MASK);
 	v >>= MP_DIGIT_BIT;
     }
