@@ -2927,14 +2927,13 @@ Tcl_ClearChannelHandlers(channel)
      * file-events still sitting in the event queue of the current thread.
      * We deliberately do not call UpdateInterest() because this could
      * re-schedule new events if the channel still needs to be flushed.
+     * This should happen all the time, but Linux 2.4 systems seem to lose
+     * the flush on close in some cases (socket-9.2 socket-11.13) if this is
+     * used, so restrict it to TCL_THREADS, where you can otherwise crash
+     * numerous systems. [Bug 1323992]
      */
-        
-    statePtr->interestMask = 0;
 
-    /*
-     * TEMPORARILY DEFINED FOR THREADED BUILD ONLY. SEE SF BUG# 1323992
-     */
- 
+    statePtr->interestMask = 0;
 #ifdef TCL_THREADS
     (chanPtr->typePtr->watchProc)(chanPtr->instanceData, 0);
 #endif
