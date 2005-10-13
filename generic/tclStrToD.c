@@ -814,6 +814,7 @@ TclParseNumber( Tcl_Interp* interp,
 		state = sNAN;
 		break;
 	    }
+	    goto endgame;
 	case sNAN:
 	    acceptState = state;
 	    acceptPoint = p;
