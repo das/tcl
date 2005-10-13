@@ -2195,7 +2195,11 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 	    }
 	    if (Tcl_GetLongFromObj(interp,		/* INTL: Tcl source. */
 		    objv[objIndex], &intValue) != TCL_OK) {
-		goto fmtError;
+		if (Tcl_GetWideIntFromObj(interp,	/* INTL: Tcl source. */
+			objv[objIndex], &wideValue) != TCL_OK) {
+		    goto fmtError;
+		}
+		intValue = Tcl_WideAsLong(wideValue);
 	    }
 
 #if (LONG_MAX > INT_MAX)
