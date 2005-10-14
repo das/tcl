@@ -30,7 +30,7 @@
  * source directory to make their own modified versions).
  */
 
-extern DLLIMPORT int		isatty _ANSI_ARGS_((int fd));
+extern CRTIMPORT int		isatty _ANSI_ARGS_((int fd));
 
 static Tcl_Obj *tclStartupScriptPath = NULL;
 static Tcl_Obj *tclStartupScriptEncoding = NULL;
