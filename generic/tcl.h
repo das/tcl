@@ -202,7 +202,7 @@ extern "C" {
 #   else
 #	define DLLIMPORT
 #	define DLLEXPORT
-#	define CRTEXPORT
+#	define CRTIMPORT
 #   endif
 #endif
 
