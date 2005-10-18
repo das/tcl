@@ -1048,9 +1048,6 @@ RcClose (clientData, interp)
 #endif
 	return (res == TCL_OK) ? EOK : EINVAL;
     }
-
-    Tcl_Panic ("Should not be reached");
-    return EINVAL;
 }
 
 /*

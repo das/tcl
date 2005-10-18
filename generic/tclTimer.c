@@ -345,9 +345,12 @@ Tcl_DeleteTimerHandler(token)
 				 * Tcl_DeleteTimerHandler. */
 {
     register TimerHandler *timerHandlerPtr, *prevPtr;
-    ThreadSpecificData *tsdPtr;
+    ThreadSpecificData *tsdPtr = InitTimer();
 
-    tsdPtr = InitTimer();
+    if (token == NULL) {
+	return;
+    }
+
     for (timerHandlerPtr = tsdPtr->firstTimerHandlerPtr, prevPtr = NULL;
 	    timerHandlerPtr != NULL; prevPtr = timerHandlerPtr,
 	    timerHandlerPtr = timerHandlerPtr->nextPtr) {

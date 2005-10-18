@@ -16,6 +16,8 @@
 
 #include "tclInt.h"
 
+extern int Tcltest_Init( Tcl_Interp* );
+
 #ifdef TCL_THREADS
 /*
  * Each thread has an single instance of the following structure.  There

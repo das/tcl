@@ -2880,6 +2880,12 @@ Tcl_ClearChannelHandlers(channel)
     chanPtr = statePtr->topChanPtr;
 
     /*
+     * Cancel any outstanding timer.
+     */
+
+    Tcl_DeleteTimerHandler(statePtr->timer);
+
+    /*
      * Remove any references to channel handlers for this channel that may be
      * about to be invoked.
      */
@@ -2912,10 +2918,10 @@ Tcl_ClearChannelHandlers(channel)
     StopCopy(statePtr->csPtr);
 
     /*
-     * Must set the interest mask now to 0, otherwise infinite loops will
-     * occur if Tcl_DoOneEvent is called before the channel is finally deleted
-     * in FlushChannel. This can happen if the channel has a background flush
-     * active.
+     * Must set the interest mask now to 0, otherwise infinite loops
+     * will occur if Tcl_DoOneEvent is called before the channel is
+     * finally deleted in FlushChannel. This can happen if the channel
+     * has a background flush active.
      */
 
     statePtr->interestMask = 0;

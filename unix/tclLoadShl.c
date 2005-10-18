@@ -76,7 +76,7 @@ TclpDlopen(interp, pathPtr, loadHandle, unloadProcPtr)
      */
 
     native = Tcl_FSGetNativePath(pathPtr);
-    handle = shl_load(native, BIND_DEFERRED|BIND_VERBOSE|DYNAMIC_PATH, 0L);
+    handle = shl_load(native, BIND_DEFERRED|BIND_VERBOSE, 0L);
 
     if (handle == NULL) {
 	/*
