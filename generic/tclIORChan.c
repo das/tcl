@@ -2201,9 +2201,9 @@ ForwardProc(
 	return 1;
     }
 
-    paramPtr->code = TCL_OK;
-    paramPtr->msgStr = NULL;
-    paramPtr->mustFree = 0;
+    paramPtr->base.code = TCL_OK;
+    paramPtr->base.msgStr = NULL;
+    paramPtr->base.mustFree = 0;
 
     switch (evPtr->op) {
 	/*
