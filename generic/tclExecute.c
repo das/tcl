@@ -5882,7 +5882,7 @@ TclExecuteByteCode(interp, codePtr)
 	    }
 	}
 #ifndef TCL_COMPILE_DEBUG
-	if (*(pc+9) == INST_POP) {
+	if (*(pc+5) == INST_POP) {
 	    NEXT_INST_F(6, 2, 0);
 	}
 #endif
