@@ -359,26 +359,21 @@ static void		DstExitProc(ClientData clientData);
 	}
 #define PassReceivedErrorInterp(i,p) \
 	if ((i) != NULL) { \
-            Tcl_Obj *preiTmpObj; \
-	    TclNewStringObj(preiTmpObj, (p)->base.msgStr, -1); \
-	    Tcl_SetChannelErrorInterp((i), preiTmpObj); \
+	    Tcl_SetChannelErrorInterp((i), \
+		    Tcl_NewStringObj((p)->base.msgStr, -1)); \
 	} \
 	FreeReceivedError(p)
 #define PassReceivedError(c,p) \
-	{ \
-	    Tcl_Obj *preTmpObj; \
-	    TclNewStringObj(preTmpObj, (p)->base.msgStr, -1); \
-	    Tcl_SetChannelError((c), preTmpObj); \
-	    FreeReceivedError(p); \
-	}
+	Tcl_SetChannelError((c), Tcl_NewStringObj((p)->base.msgStr, -1)); \
+	FreeReceivedError(p)
 #define ForwardSetStaticError(p,emsg) \
 	(p)->base.code = TCL_ERROR; \
 	(p)->base.mustFree = 0; \
-	(p)->base.msgStr = (char *) (emsg);
+	(p)->base.msgStr = (char *) (emsg)
 #define ForwardSetDynamicError(p,emsg) \
 	(p)->base.code = TCL_ERROR; \
 	(p)->base.mustFree = 1; \
-	(p)->base.msgStr = (char *) (emsg);
+	(p)->base.msgStr = (char *) (emsg)
 
 static void		ForwardSetObjError(ForwardParam *p,
 			    Tcl_Obj *objPtr);
