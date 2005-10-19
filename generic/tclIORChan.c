@@ -2097,7 +2097,7 @@ ForwardOpToOwnerThread(
     evPtr->resultPtr = resultPtr;
     evPtr->op = op;
     evPtr->rcPtr = rcPtr;
-    evPtr->param = param;
+    evPtr->param = (ForwardParam *) param;
 
     resultPtr->src = Tcl_GetCurrentThread();
     resultPtr->dst = dst;
