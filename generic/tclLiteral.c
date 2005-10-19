@@ -358,25 +358,6 @@ TclRegisterLiteral(envPtr, bytes, length, flags)
 	TclInitStringRep(objPtr, bytes, length);
     }
 
-#if 0
-    if (TclLooksLikeInt(bytes, length)) {
-	/*
-	 * From here we use the objPtr, because it is NULL terminated
-	 */
-
-	long n;
-	char buf[TCL_INTEGER_SPACE];
-
-	if (TclGetLong((Tcl_Interp *) NULL, objPtr->bytes, &n) == TCL_OK) {
-	    TclFormatInt(buf, n);
-	    if (strcmp(objPtr->bytes, buf) == 0) {
-		objPtr->internalRep.longValue = n;
-		objPtr->typePtr = &tclIntType;
-	    }
-	}
-    }
-#endif
-
 #ifdef TCL_COMPILE_DEBUG
     if (TclLookupLiteralEntry((Tcl_Interp *) iPtr, objPtr) != NULL) {
 	Tcl_Panic("TclRegisterLiteral: literal \"%.*s\" found globally but shouldn't be",

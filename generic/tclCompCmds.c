@@ -622,22 +622,6 @@ TclCompileDictCmd(interp, parsePtr, envPtr)
 	    word = incrTokenPtr[1].start;
 	    numBytes = incrTokenPtr[1].size;
 
-#if 0
-	    /*
-	     * Note there is a danger that modifying the string could have
-	     * undesirable side effects.  In this case, TclLooksLikeInt has no
-	     * dependencies on shared strings so we should be safe.
-	     */
-
-	    if (!TclLooksLikeInt(word, numBytes)) {
-		return TCL_ERROR;
-	    }
-#endif
-
-	    /*
-	     * Now try to really parse the number.
-	     */
-
 	    intObj = Tcl_NewStringObj(word, numBytes);
 	    Tcl_IncrRefCount(intObj);
 	    code = Tcl_GetIntFromObj(NULL, intObj, &incrAmount);
@@ -1970,27 +1954,14 @@ TclCompileIncrCmd(interp, parsePtr, envPtr)
 	if (incrTokenPtr->type == TCL_TOKEN_SIMPLE_WORD) {
 	    CONST char *word = incrTokenPtr[1].start;
 	    int numBytes = incrTokenPtr[1].size;
-#if 0
-	    /*
-	     * Note there is a danger that modifying the string could have
-	     * undesirable side effects.  In this case, TclLooksLikeInt has
-	     * no dependencies on shared strings so we should be safe.
-	     */
-
-	    if (TclLooksLikeInt(word, numBytes)) {
-#endif
-		int code;
-		Tcl_Obj *intObj = Tcl_NewStringObj(word, numBytes);
-		Tcl_IncrRefCount(intObj);
-		code = Tcl_GetIntFromObj(NULL, intObj, &immValue);
-		Tcl_DecrRefCount(intObj);
-		if ((code == TCL_OK)
-			&& (-127 <= immValue) && (immValue <= 127)) {
-		    haveImmValue = 1;
-		}
-#if 0
+	    int code;
+	    Tcl_Obj *intObj = Tcl_NewStringObj(word, numBytes);
+	    Tcl_IncrRefCount(intObj);
+	    code = Tcl_GetIntFromObj(NULL, intObj, &immValue);
+	    Tcl_DecrRefCount(intObj);
+	    if ((code == TCL_OK) && (-127 <= immValue) && (immValue <= 127)) {
+		haveImmValue = 1;
 	    }
-#endif
 	    if (!haveImmValue) {
 		PushLiteral(envPtr, word, numBytes);
 	    }
@@ -2293,11 +2264,7 @@ TclCompileLindexCmd(interp, parsePtr, envPtr)
 
     varTokenPtr = TokenAfter(parsePtr->tokenPtr);
 
-    if ((numWords == 3) && (varTokenPtr->type == TCL_TOKEN_SIMPLE_WORD)
-#if 0
-	    && TclLooksLikeInt(varTokenPtr[1].start, varTokenPtr[1].size)
-#endif
-	    ) {
+    if ((numWords == 3) && (varTokenPtr->type == TCL_TOKEN_SIMPLE_WORD)) {
 	Tcl_Obj *tmpObj;
 	int idx, result;
 
