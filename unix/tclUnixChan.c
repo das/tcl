@@ -1624,13 +1624,11 @@ TtyParseMode(
      * sure to allow for the case where strchr is a macro.  [Bug: 5089]
      */
 
-    if (strchr(
 #if defined(PAREXT) || defined(USE_TERMIO)
-	    "noems",
+    if (strchr("noems", parity) == NULL) {
 #else
-	    "noe",
+    if (strchr("noe", parity) == NULL) {
 #endif /* PAREXT|USE_TERMIO */
-	    parity) == NULL) {
 	if (interp != NULL) {
 	    Tcl_AppendResult(interp, bad, " parity: should be ",
 #if defined(PAREXT) || defined(USE_TERMIO)
