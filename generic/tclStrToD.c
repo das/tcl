@@ -1616,8 +1616,8 @@ RefineApproximation(
      */
 
     if (mp_cmp_mag(&twoMd, &twoMv) == MP_LT) {
-        mp_clear(&twoMd);       //EPM
-        mp_clear(&twoMv);       //EPM
+        mp_clear(&twoMd);
+        mp_clear(&twoMv);
 	return approxResult;
     }
 
@@ -2082,7 +2082,7 @@ TclInitDoubleConversion(void)
     maxpow10_wide = (int)
 	    floor(sizeof(Tcl_WideUInt) * CHAR_BIT * log(2.) / log(10.));
     pow10_wide = (Tcl_WideUInt *)
-	    ckalloc((maxpow10_wide + 1) * sizeof(Tcl_WideUInt)); //EPM NETKIT
+	    ckalloc((maxpow10_wide + 1) * sizeof(Tcl_WideUInt));
     u = 1;
     for (i = 0; i < maxpow10_wide; ++i) {
 	pow10_wide[i] = u;
