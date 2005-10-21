@@ -1315,6 +1315,7 @@ MakeLowPrecisionDouble(
     TclBNInitBignumFromWideUInt(&significandBig, significand);
     retval = MakeHighPrecisionDouble(0, &significandBig, numSigDigs,
 	    exponent);
+    mp_clear(&significandBig);
     
     /*
      * Come here to return the computed value.
