@@ -233,6 +233,19 @@ test foreach-7.1 {delayed substitution of body} {
     foo
 } {0}
 
+
+# Test for [Bug 1189274]; crash on failure
+
+test foreach-8.1 {empty list handling} {
+    proc crash {} {
+	rename crash {}
+	set a "x y z"
+	set b ""
+	foreach aa $a bb $b { set x "aa = $aa bb = $bb" }
+    }
+    crash
+} {}
+
 # cleanup
 catch {unset a}
 catch {unset x}
