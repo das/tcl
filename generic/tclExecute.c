@@ -1265,10 +1265,12 @@ TclExecuteByteCode(interp, codePtr)
 	    /*
 	     * Peephole optimisation for appending an empty string.
 	     * This enables replacing 'K $x [set x{}]' by '$x[set x{}]'
-	     * for fastest execution.
+	     * for fastest execution. Avoid doing the optimisation for wide
+	     * ints - a case where equal strings may refer to different values
+	     * (see [Bug 1251791]).
 	     */
 
-	    if (opnd == 2) {
+	    if ((opnd == 2) && (stackPtr[stackTop-1]->typePtr != &tclWideIntType)) {
 		Tcl_GetStringFromObj(stackPtr[stackTop], &length);
 		if (length == 0) {
 		    /* Just drop the top item from the stack */
