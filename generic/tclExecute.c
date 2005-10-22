@@ -2382,10 +2382,10 @@ TclExecuteByteCode(interp, codePtr)
     case INST_INCR_STK_IMM:
 	i = TclGetInt1AtPtr(pc+1);
 	incrPtr = Tcl_NewIntObj(i);
+	Tcl_IncrRefCount(incrPtr);
 	pcAdjustment = 2;
 
     doIncrStk:
-	Tcl_IncrRefCount(incrPtr);
 	if ((*pc == INST_INCR_ARRAY_STK_IMM)
 		|| (*pc == INST_INCR_ARRAY_STK)) {
 	    part2 = TclGetString(*tosPtr);
@@ -2416,10 +2416,10 @@ TclExecuteByteCode(interp, codePtr)
 	opnd = TclGetUInt1AtPtr(pc+1);
 	i = TclGetInt1AtPtr(pc+2);
 	incrPtr = Tcl_NewIntObj(i);
+	Tcl_IncrRefCount(incrPtr);
 	pcAdjustment = 3;
 
     doIncrArray:
-	Tcl_IncrRefCount(incrPtr);
 	part2 = TclGetString(*tosPtr);
 	arrayPtr = &(compiledLocals[opnd]);
 	part1 = arrayPtr->name;
@@ -2540,9 +2540,9 @@ TclExecuteByteCode(interp, codePtr)
 	}
 	/* All other cases, flow through to generic handling */
 	TclNewLongObj(incrPtr, i);
+	Tcl_IncrRefCount(incrPtr);
 
     doIncrScalar:
-	Tcl_IncrRefCount(incrPtr);
 	varPtr = &(compiledLocals[opnd]);
 	part1 = varPtr->name;
 	while (TclIsVarLink(varPtr)) {
