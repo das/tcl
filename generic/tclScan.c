@@ -1168,15 +1168,17 @@ Tcl_ScanObjCmd(dummy, interp, objc, objv)
 	 */
 	for (i = 0; i < totalVars; i++) {
 	    if (objs[i] != NULL) {
+		Tcl_Obj *tmpPtr;
+		
 		result++;
-		if (Tcl_ObjSetVar2(interp, objv[i+3], NULL,
-			objs[i], 0) == NULL) {
+		tmpPtr = Tcl_ObjSetVar2(interp, objv[i+3], NULL, objs[i], 0);
+		Tcl_DecrRefCount(objs[i]);
+		if (tmpPtr == NULL) {
 		    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 			    "couldn't set variable \"",
 			    Tcl_GetString(objv[i+3]), "\"", (char *) NULL);
 		    code = TCL_ERROR;
 		}
-		Tcl_DecrRefCount(objs[i]);
 	    }
 	}
     } else {

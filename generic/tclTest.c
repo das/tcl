@@ -3437,9 +3437,10 @@ TestregexpObjCmd(dummy, interp, objc, objv)
 			info.matches[ii].end - 1);
 	    }
 	}
+	Tcl_IncrRefCount(newPtr);
 	valuePtr = Tcl_ObjSetVar2(interp, varPtr, NULL, newPtr, 0);
+	Tcl_DecrRefCount(newPtr);
 	if (valuePtr == NULL) {
-	    Tcl_DecrRefCount(newPtr);
 	    Tcl_AppendResult(interp, "couldn't set variable \"",
 		    Tcl_GetString(varPtr), "\"", (char *) NULL);
 	    return TCL_ERROR;

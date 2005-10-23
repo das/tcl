@@ -1083,12 +1083,13 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 			    }
 			}
 			valuePtr = Tcl_NewByteArrayObj(src, size);
+			Tcl_IncrRefCount(valuePtr);
 			resultPtr = Tcl_ObjSetVar2(interp, objv[arg],
 				NULL, valuePtr, TCL_LEAVE_ERR_MSG);
+			Tcl_DecrRefCount(valuePtr);
 			arg++;
 			if (resultPtr == NULL) {
 			    DeleteScanNumberCache(numberCachePtr);
-			    Tcl_DecrRefCount(valuePtr);	/* unneeded */
 			    return TCL_ERROR;
 			}
 			offset += count;
@@ -1137,13 +1138,14 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 				*dest++ = (char) ((value & 0x80) ? '1' : '0');
 			    }
 			}
-			
+
+			Tcl_IncrRefCount(valuePtr);			
 			resultPtr = Tcl_ObjSetVar2(interp, objv[arg],
 				NULL, valuePtr, TCL_LEAVE_ERR_MSG);
+			Tcl_DecrRefCount(valuePtr);
 			arg++;
 			if (resultPtr == NULL) {
 			    DeleteScanNumberCache(numberCachePtr);
-			    Tcl_DecrRefCount(valuePtr);	/* unneeded */
 			    return TCL_ERROR;
 			}
 			offset += (count + 7 ) / 8;
@@ -1195,12 +1197,13 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 			    }
 			}
 			
+			Tcl_IncrRefCount(valuePtr);
 			resultPtr = Tcl_ObjSetVar2(interp, objv[arg],
 				NULL, valuePtr, TCL_LEAVE_ERR_MSG);
+			Tcl_DecrRefCount(valuePtr);
 			arg++;
 			if (resultPtr == NULL) {
 			    DeleteScanNumberCache(numberCachePtr);
-			    Tcl_DecrRefCount(valuePtr);	/* unneeded */
 			    return TCL_ERROR;
 			}
 			offset += (count + 1) / 2;
@@ -1266,12 +1269,13 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 			    offset += count*size;
 			}
 
+			Tcl_IncrRefCount(valuePtr); 
 			resultPtr = Tcl_ObjSetVar2(interp, objv[arg],
 				NULL, valuePtr, TCL_LEAVE_ERR_MSG);
+			Tcl_DecrRefCount(valuePtr);
 			arg++;
 			if (resultPtr == NULL) {
 			    DeleteScanNumberCache(numberCachePtr);
-			    Tcl_DecrRefCount(valuePtr);	/* unneeded */
 			    return TCL_ERROR;
 			}
 			break;

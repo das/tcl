@@ -210,6 +210,7 @@ Tcl_Main(argc, argv, appInitProc)
     Tcl_Channel inChannel, outChannel, errChannel;
     Tcl_Interp *interp;
     Tcl_DString appName;
+    Tcl_Obj *objPtr;
 
     Tcl_FindExecutable(argv[0]);
 
@@ -241,8 +242,11 @@ Tcl_Main(argc, argv, appInitProc)
     argc--;
     argv++;
 
-    Tcl_SetVar2Ex(interp, "argc", NULL, Tcl_NewIntObj(argc), TCL_GLOBAL_ONLY);
-
+    objPtr = Tcl_NewIntObj(argc);
+    Tcl_IncrRefCount(objPtr);
+    Tcl_SetVar2Ex(interp, "argc", NULL, objPtr, TCL_GLOBAL_ONLY);
+    Tcl_DecrRefCount(objPtr);
+    
     argvPtr = Tcl_NewListObj(0, NULL);
     while (argc--) {
 	Tcl_DString ds;
@@ -251,7 +255,9 @@ Tcl_Main(argc, argv, appInitProc)
 		Tcl_DStringValue(&ds), Tcl_DStringLength(&ds)));
 	Tcl_DStringFree(&ds);
     }
+    Tcl_IncrRefCount(argvPtr);
     Tcl_SetVar2Ex(interp, "argv", NULL, argvPtr, TCL_GLOBAL_ONLY);
+    Tcl_DecrRefCount(argvPtr);
 
     /*
      * Set the "tcl_interactive" variable.

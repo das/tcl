@@ -4038,9 +4038,7 @@ TclExecuteByteCode(interp, codePtr)
 			
 		    valIndex = (iterNum * numVars);
 		    for (j = 0;  j < numVars;  j++) {
-			int setEmptyStr = 0;
 			if (valIndex >= listLen) {
-			    setEmptyStr = 1;
 			    TclNewObj(valuePtr);
 			} else {
 			    valuePtr = listRepPtr->elements[valIndex];
@@ -4068,16 +4066,15 @@ TclExecuteByteCode(interp, codePtr)
 			    }
 			} else {
 			    DECACHE_STACK_INFO();
+			    Tcl_IncrRefCount(valuePtr);
 			    value2Ptr = TclPtrSetVar(interp, varPtr, NULL, part1, 
 						     NULL, valuePtr, TCL_LEAVE_ERR_MSG);
+			    TclDecrRefCount(valuePtr);
 			    CACHE_STACK_INFO();
 			    if (value2Ptr == NULL) {
 				TRACE_WITH_OBJ(("%u => ERROR init. index temp %d: ",
 						opnd, varIndex),
 					       Tcl_GetObjResult(interp));
-				if (setEmptyStr) {
-				    TclDecrRefCount(valuePtr);
-				}
 				result = TCL_ERROR;
 				goto checkForCatch;
 			    }

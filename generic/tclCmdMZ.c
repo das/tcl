@@ -461,9 +461,10 @@ Tcl_RegexpObjCmd(dummy, interp, objc, objv)
 		}
 	    } else {
 		Tcl_Obj *valuePtr;
+		Tcl_IncrRefCount(newPtr);
 		valuePtr = Tcl_ObjSetVar2(interp, objv[i], NULL, newPtr, 0);
+		Tcl_DecrRefCount(newPtr);
 		if (valuePtr == NULL) {
-		    Tcl_DecrRefCount(newPtr);
 		    Tcl_AppendResult(interp, "couldn't set variable \"",
 			    Tcl_GetString(objv[i]), "\"", (char *) NULL);
 		    return TCL_ERROR;
@@ -1758,10 +1759,16 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 	     * Only set the failVarObj when we will return 0
 	     * and we have indicated a valid fail index (>= 0)
 	     */
-	    if ((result == 0) && (failVarObj != NULL) &&
-		Tcl_ObjSetVar2(interp, failVarObj, NULL, Tcl_NewIntObj(failat),
-			       TCL_LEAVE_ERR_MSG) == NULL) {
-		return TCL_ERROR;
+	    if ((result == 0) && (failVarObj != NULL)) {
+		Tcl_Obj *resPtr, *tmpPtr = Tcl_NewIntObj(failat);
+
+		Tcl_IncrRefCount(tmpPtr);
+		resPtr = Tcl_ObjSetVar2(interp, failVarObj, NULL, tmpPtr,
+			TCL_LEAVE_ERR_MSG);
+		Tcl_DecrRefCount(tmpPtr);
+		if (resPtr == NULL) {
+		    return TCL_ERROR;
+		}
 	    }
 	    Tcl_SetBooleanObj(resultPtr, result);
 	    break;

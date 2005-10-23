@@ -933,10 +933,11 @@ InfoDefaultCmd(dummy, interp, objc, objv)
 		Tcl_SetIntObj(Tcl_GetObjResult(interp), 1);
             } else {
                 Tcl_Obj *nullObjPtr = Tcl_NewObj();
+		Tcl_IncrRefCount(nullObjPtr);
                 valueObjPtr = Tcl_ObjSetVar2(interp, objv[4], NULL,
 			nullObjPtr, 0);
+		Tcl_DecrRefCount(nullObjPtr); /* free unneeded obj */
                 if (valueObjPtr == NULL) {
-                    Tcl_DecrRefCount(nullObjPtr); /* free unneeded obj */
                     goto defStoreError;
                 }
 		Tcl_SetIntObj(Tcl_GetObjResult(interp), 0);

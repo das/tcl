@@ -1826,20 +1826,17 @@ Tcl_ForeachObjCmd(dummy, interp, objc, objv)
 	    for (v = 0;  v < varcList[i];  v++) {
 		int k = index[i]++;
 		Tcl_Obj *valuePtr, *varValuePtr;
-		int isEmptyObj = 0;
 		
 		if (k < argcList[i]) {
 		    valuePtr = argvList[i][k];
 		} else {
 		    valuePtr = Tcl_NewObj(); /* empty string */
-		    isEmptyObj = 1;
 		}
+		Tcl_IncrRefCount(valuePtr);
 		varValuePtr = Tcl_ObjSetVar2(interp, varvList[i][v],
 			NULL, valuePtr, 0);
+		Tcl_DecrRefCount(valuePtr);
 		if (varValuePtr == NULL) {
-		    if (isEmptyObj) {
-			Tcl_DecrRefCount(valuePtr);
-		    }
 		    Tcl_ResetResult(interp);
 		    Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 			"couldn't set loop variable: \"",

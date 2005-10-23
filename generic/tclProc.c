@@ -1464,19 +1464,24 @@ TclUpdateReturnInfo(iPtr)
 {
     int code;
     char *errorCode;
+    Tcl_Obj *objPtr;
 
     code = iPtr->returnCode;
     iPtr->returnCode = TCL_OK;
     if (code == TCL_ERROR) {
 	errorCode = ((iPtr->errorCode != NULL) ? iPtr->errorCode : "NONE");
+	objPtr = Tcl_NewStringObj(errorCode, -1);
+	Tcl_IncrRefCount(objPtr);
 	Tcl_ObjSetVar2((Tcl_Interp *) iPtr, iPtr->execEnvPtr->errorCode,
-	        NULL, Tcl_NewStringObj(errorCode, -1),
-		TCL_GLOBAL_ONLY);
+	        NULL, objPtr, TCL_GLOBAL_ONLY);
+	Tcl_DecrRefCount(objPtr);
 	iPtr->flags |= ERROR_CODE_SET;
 	if (iPtr->errorInfo != NULL) {
+	    objPtr = Tcl_NewStringObj(iPtr->errorInfo, -1);
+	    Tcl_IncrRefCount(objPtr);
 	    Tcl_ObjSetVar2((Tcl_Interp *) iPtr, iPtr->execEnvPtr->errorInfo,
-	            NULL, Tcl_NewStringObj(iPtr->errorInfo, -1),
-		    TCL_GLOBAL_ONLY);
+		    NULL, objPtr, TCL_GLOBAL_ONLY);
+	    Tcl_DecrRefCount(objPtr);
 	    iPtr->flags |= ERR_IN_PROGRESS;
 	}
     }
