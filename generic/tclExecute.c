@@ -5501,7 +5501,7 @@ ExprRoundFunc(interp, eePtr, clientData)
 	    }
 	    if (i <= Tcl_WideAsDouble(LLONG_MIN)) {
 		goto tooLarge;
-	    } else if (d <= (double) LONG_MIN) {
+	    } else if (i <= (double) LONG_MIN) {
 		resPtr = Tcl_NewWideIntObj(Tcl_DoubleAsWide(i));
 	    } else {
 		resPtr = Tcl_NewLongObj((long) i);
