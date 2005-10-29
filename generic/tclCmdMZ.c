@@ -4694,7 +4694,7 @@ TraceVarProc(clientData, interp, name1, name2, flags)
     Tcl_SavedResult state;
     TraceVarInfo *tvarPtr = (TraceVarInfo *) clientData;
     char *result;
-    int code;
+    int code, destroy = 0;
     Tcl_DString cmd;
 
     /* 
@@ -4755,7 +4755,9 @@ TraceVarProc(clientData, interp, name1, name2, flags)
 	     */
 
 	    Tcl_SaveResult(interp, &state);
-	    if (flags & TCL_TRACE_DESTROYED) {
+	    if ((flags & TCL_TRACE_DESTROYED)
+		    && !(tvarPtr->flags & TCL_TRACE_DESTROYED)) {
+		destroy = 1;
 		tvarPtr->flags |= TCL_TRACE_DESTROYED;
 	    }
 
@@ -4772,7 +4774,7 @@ TraceVarProc(clientData, interp, name1, name2, flags)
 	    Tcl_DStringFree(&cmd);
 	}
     }
-    if (flags & TCL_TRACE_DESTROYED) {
+    if (destroy) {
 	if (result != NULL) {
 	    register Tcl_Obj *errMsgObj = (Tcl_Obj *) result;
 
