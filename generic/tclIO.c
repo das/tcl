@@ -6262,7 +6262,7 @@ Tcl_OutputBuffered(
     if (statePtr->curOutPtr != NULL) {
 	register ChannelBuffer *curOutPtr = statePtr->curOutPtr;
 
-	if {curOutPtr->nextAdded > curOutPtr->nextRemoved) {
+	if (curOutPtr->nextAdded > curOutPtr->nextRemoved) {
 	    bytesBuffered += curOutPtr->nextAdded - curOutPtr->nextRemoved;
 	}
     }
