@@ -2326,7 +2326,7 @@ NativeFileAttrsGet(
     Tcl_Obj *pathPtr,		/* path of file we are operating on. */
     Tcl_Obj **objPtrRef)	/* for output. */
 {
-    return (tclpFileAttrProcs[index]->getProc)(interp, index, pathPtr,
+    return (*tclpFileAttrProcs[index].getProc)(interp, index, pathPtr,
 	    objPtrRef);
 }
 
@@ -2356,7 +2356,7 @@ NativeFileAttrsSet(
     Tcl_Obj *pathPtr,		/* path of file we are operating on. */
     Tcl_Obj *objPtr)		/* set to this value. */
 {
-    return (tclpFileAttrProcs[index]->setProc)(interp, index, pathPtr, objPtr);
+    return (*tclpFileAttrProcs[index].setProc)(interp, index, pathPtr, objPtr);
 }
 
 /*
