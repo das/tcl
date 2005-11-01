@@ -1426,18 +1426,20 @@ TclCheckExecutionTraces(interp, command, numChars, cmdPtr, code, traceFlags,
 	    active.reverseScan = 0;
 	    active.nextTracePtr = tracePtr->nextPtr;
 	}
-	tcmdPtr = (TraceCommandInfo*)tracePtr->clientData;
-	if (tcmdPtr->flags != 0) {
-	    tcmdPtr->curFlags = traceFlags | TCL_TRACE_EXEC_DIRECT;
-	    tcmdPtr->curCode  = code;
-	    tcmdPtr->refCount++;
-	    if (state == NULL) {
-		state = Tcl_SaveInterpState(interp, code);
-	    }
-	    traceCode = TraceExecutionProc((ClientData)tcmdPtr, interp,
-		    curLevel, command, (Tcl_Command)cmdPtr, objc, objv);
-	    if ((--tcmdPtr->refCount) <= 0) {
-		ckfree((char*)tcmdPtr);
+	if (tracePtr->traceProc == TraceCommandProc) {
+	    tcmdPtr = (TraceCommandInfo*)tracePtr->clientData;
+	    if (tcmdPtr->flags != 0) {
+		tcmdPtr->curFlags = traceFlags | TCL_TRACE_EXEC_DIRECT;
+		tcmdPtr->curCode  = code;
+		tcmdPtr->refCount++;
+		if (state == NULL) {
+		    state = Tcl_SaveInterpState(interp, code);
+		}
+		traceCode = TraceExecutionProc((ClientData)tcmdPtr, interp,
+			curLevel, command, (Tcl_Command)cmdPtr, objc, objv);
+		if ((--tcmdPtr->refCount) <= 0) {
+		    ckfree((char*)tcmdPtr);
+		}
 	    }
 	}
 	if (active.nextTracePtr) {
