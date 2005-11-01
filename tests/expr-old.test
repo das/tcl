@@ -875,7 +875,7 @@ test expr-old-32.51 {math functions in expressions} knownBug {
     list [catch {expr {srand([lindex "6ty" 0])}} msg] $msg
 } {1 {argument to math function didn't have numeric value}}
 test expr-old-32.52 {math functions in expressions} {
-    expr {srand(1<<37) < 1}
+    expr {srand(int(1<<37)) < 1}
 } {1}
 test expr-old-32.53 {math functions in expressions} {
     expr {srand((1<<31) - 1) > 0}
