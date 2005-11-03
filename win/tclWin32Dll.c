@@ -118,6 +118,8 @@ static TclWinProcs asciiProcs = {
     (int (__cdecl*)(CONST TCHAR *, struct _utimbuf *)) _utime,
     NULL,
     NULL,
+    (BOOL (WINAPI *)(HANDLE, LPVOID, DWORD, LPDWORD, LPVOID)) ReadConsoleA,
+    (BOOL (WINAPI *)(HANDLE, const VOID*, DWORD, LPDWORD, LPVOID)) WriteConsoleA    
 };
 
 static TclWinProcs unicodeProcs = {
@@ -167,6 +169,8 @@ static TclWinProcs unicodeProcs = {
     (int (__cdecl*)(CONST TCHAR *, struct _utimbuf *)) _wutime,
     NULL,
     NULL,
+    (BOOL (WINAPI *)(HANDLE, LPVOID, DWORD, LPDWORD, LPVOID)) ReadConsoleW,
+    (BOOL (WINAPI *)(HANDLE, const VOID*, DWORD, LPDWORD, LPVOID)) WriteConsoleW
 };
 
 TclWinProcs *tclWinProcs;

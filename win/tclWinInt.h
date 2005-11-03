@@ -111,6 +111,20 @@ typedef struct TclWinProcs {
 					 LPVOID, UINT,
 					 LPVOID, DWORD);
     BOOL (WINAPI *getVolumeNameForVMPProc)(CONST TCHAR*, TCHAR*, DWORD);
+
+   /*
+    * Unicode console support. WriteConsole and ReadConsole
+    */
+    BOOL (WINAPI *readConsoleProc)(HANDLE hConsoleInput,
+	                           LPVOID lpBuffer,
+	                           DWORD nNumberOfCharsToRead,
+	                           LPDWORD lpNumberOfCharsRead,
+	                           LPVOID lpReserved);
+    BOOL (WINAPI *writeConsoleProc)(HANDLE hConsoleOutput,
+				    const VOID* lpBuffer,
+				    DWORD nNumberOfCharsToWrite,
+				    LPDWORD lpNumberOfCharsWritten,
+				    LPVOID lpReserved);
 } TclWinProcs;
 
 EXTERN TclWinProcs *tclWinProcs;
