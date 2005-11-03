@@ -118,8 +118,13 @@ static TclWinProcs asciiProcs = {
     /* deleted (int (__cdecl*)(CONST TCHAR *, struct _utimbuf *)) _utime, */
     NULL,
     NULL,
+    /* getLongPathNameProc */ 
+    NULL,
     /* Security SDK - not available on 95,98,ME */
-    NULL, NULL, NULL, NULL, NULL, NULL
+    NULL, NULL, NULL, NULL, NULL, NULL,
+    /* ReadConsole and WriteConsole */
+    (BOOL (WINAPI *)(HANDLE, LPVOID, DWORD, LPDWORD, LPVOID)) ReadConsoleA,
+    (BOOL (WINAPI *)(HANDLE, const VOID*, DWORD, LPDWORD, LPVOID)) WriteConsoleA
 };
 
 static TclWinProcs unicodeProcs = {
@@ -171,8 +176,13 @@ static TclWinProcs unicodeProcs = {
     /* deleted (int (__cdecl*)(CONST TCHAR *, struct _utimbuf *)) _wutime, */
     NULL,
     NULL,
+    /* getLongPathNameProc */
+    NULL, 
     /* Security SDK - will be filled in on NT,XP,2000,2003 */
-    NULL, NULL, NULL, NULL, NULL, NULL
+    NULL, NULL, NULL, NULL, NULL, NULL,
+    /* ReadConsole and WriteConsole */
+    (BOOL (WINAPI *)(HANDLE, LPVOID, DWORD, LPDWORD, LPVOID)) ReadConsoleW,
+    (BOOL (WINAPI *)(HANDLE, const VOID*, DWORD, LPDWORD, LPVOID)) WriteConsoleW
 };
 
 TclWinProcs *tclWinProcs;

@@ -1875,6 +1875,9 @@ TclGlob(
 	    result = TCL_OK;
 	}
 	TclDecrRefCount(savedResultObj);
+	if (pathPrefix != NULL) {
+	    Tcl_DecrRefCount(pathPrefix);
+	}
 	return result;
     }
 
@@ -1951,6 +1954,9 @@ TclGlob(
     }
     TclDecrRefCount(savedResultObj);
     TclDecrRefCount(filenamesObj);
+    if (pathPrefix != NULL) {
+	Tcl_DecrRefCount(pathPrefix);
+    }
 
     return result;
 }

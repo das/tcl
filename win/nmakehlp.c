@@ -192,8 +192,13 @@ CheckForCompilerFeature (const char *option)
     CloseHandle(pipeThreads[0]);
     CloseHandle(pipeThreads[1]);
 
-    /* look for the commandline warning code in both streams. */
-    return !(strstr(Out.buffer, "D4002") != NULL || strstr(Err.buffer, "D4002") != NULL);
+    /* look for the commandline warning code in both streams. 
+     *  - in MSVC 6 & 7 we get D4002, in MSVC 8 we get D9002.
+     */
+    return !(strstr(Out.buffer, "D4002") != NULL 
+             || strstr(Err.buffer, "D4002") != NULL
+             || strstr(Out.buffer, "D9002") != NULL
+             || strstr(Err.buffer, "D9002") != NULL);
 }
 
 int

@@ -1,4 +1,4 @@
-/* 
+/*
  * tclUnixEvent.c --
  *
  *	This file implements Unix specific event related routines.
@@ -30,8 +30,8 @@
  */
 
 void
-Tcl_Sleep(ms)
-    int ms;			/* Number of milliseconds to sleep. */
+Tcl_Sleep(
+    int ms)			/* Number of milliseconds to sleep. */
 {
     struct timeval delay;
     Tcl_Time before, after, vdelay;

@@ -413,6 +413,17 @@
 #   endif
 #endif
 
+
+/*
+ * MSVC 8.0 started to mark many standard C library functions depreciated
+ * including the *printf family and others. Tell it to shut up.
+ * (_MSC_VER is 1200 for VC6, 1300 or 1310 for vc7.net, 1400 for 8.0)
+ */
+#if _MSC_VER >= 1400
+#pragma warning(disable:4996)
+#endif
+
+
 /*
  * There is no platform-specific panic routine for Windows in the Tcl internals.
  */

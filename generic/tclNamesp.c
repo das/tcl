@@ -1019,15 +1019,6 @@ TclTeardownNamespace(nsPtr)
     int i;
 
     /*
-     * Start by destroying the namespace's variable table, since variables
-     * might trigger traces. Variable table should be cleared but not freed!
-     * TclDeleteVars frees it, so we reinitialize it afterwards.
-     */
-
-    TclDeleteVars(iPtr, &nsPtr->varTable);
-    Tcl_InitHashTable(&nsPtr->varTable, TCL_STRING_KEYS);
-
-    /*
      * Delete all commands in this namespace. Be careful when traversing the
      * hash table: when each command is deleted, it removes itself from the
      * command table.
@@ -1056,6 +1047,15 @@ TclTeardownNamespace(nsPtr)
 	}
     }
     nsPtr->parentPtr = NULL;
+
+    /*
+     * Destroy the namespace's variable table
+     * Variable table should be cleared but not freed!
+     * TclDeleteVars frees it, so we reinitialize it afterwards.
+     */
+
+    TclDeleteVars(iPtr, &nsPtr->varTable);
+    Tcl_InitHashTable(&nsPtr->varTable, TCL_STRING_KEYS);
 
     /*
      * Delete the namespace path if one is installed.
