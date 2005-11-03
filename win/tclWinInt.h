@@ -127,6 +127,23 @@ typedef struct TclWinProcs {
 		    LPDWORD PrivilegeSetLength,
 		    LPDWORD GrantedAccess,
 		    LPBOOL AccessStatus);
+    /*
+     * Unicode console support. WriteConsole and ReadConsole
+     */
+    BOOL (WINAPI *readConsoleProc)(
+      HANDLE hConsoleInput,
+      LPVOID lpBuffer,
+      DWORD nNumberOfCharsToRead,
+      LPDWORD lpNumberOfCharsRead,
+      LPVOID lpReserved
+    );
+    BOOL (WINAPI *writeConsoleProc)(
+      HANDLE hConsoleOutput,
+      const VOID* lpBuffer,
+      DWORD nNumberOfCharsToWrite,
+      LPDWORD lpNumberOfCharsWritten,
+      LPVOID lpReserved
+    );
 } TclWinProcs;
 
 MODULE_SCOPE TclWinProcs *tclWinProcs;
