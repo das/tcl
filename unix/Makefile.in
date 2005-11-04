@@ -1676,7 +1676,7 @@ dist: $(UNIX_DIR)/configure $(UNIX_DIR)/tclConfig.h.in
 	$(TCL_EXE) $(TOOL_DIR)/eolFix.tcl -crlf $(DISTDIR)/tools/tcl.hpj.in \
 		$(DISTDIR)/tools/tcl.wse.in
 	mkdir $(DISTDIR)/libtommath
-	cp -p $(TOP_DIR)/libtommath/*.* \
+	cp -p $(TOMMATH_SRCS) $(TOMMATH_DIR)/*.h \
 		$(DISTDIR)/libtommath
 
 #
