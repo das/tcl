@@ -558,7 +558,10 @@ proc ::tcl::clock::Initialize {} {
 	jt	+0730 \
 	cct	+0800 \
 	jst	+0900 \
+	kst     +0900 \
 	cast	+0930 \
+        jdt     +1000 \
+        kdt     +1000 \
 	cadt	+1030 \
 	east	+1000 \
 	eadt	+1030 \

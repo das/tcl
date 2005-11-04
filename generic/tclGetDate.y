@@ -579,6 +579,9 @@ static TABLE    TimezoneTable[] = {
     { "jt",     tZONE,    -HOUR(15/2) },    /* Java (3pm in Cronusland!) */
     { "cct",    tZONE,    -HOUR( 8) },      /* China Coast, USSR Zone 7 */
     { "jst",    tZONE,    -HOUR( 9) },      /* Japan Standard, USSR Zone 8 */
+    { "jdt",    tDAYZONE, -HOUR( 9) },      /* Japan Daylight */
+    { "kst",    tZONE,    -HOUR( 9) },      /* Korea Standard */
+    { "kdt",    tDAYZONE, -HOUR( 9) },      /* Korea Daylight */
     { "cast",   tZONE,    -HOUR(19/2) },    /* Central Australian Standard */
     { "cadt",   tDAYZONE, -HOUR(19/2) },    /* Central Australian Daylight */
     { "east",   tZONE,    -HOUR(10) },      /* Eastern Australian Standard */
