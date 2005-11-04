@@ -1,13 +1,13 @@
-/* 
+/*
  * tclWinError.c --
  *
- *	This file contains code for converting from Win32 errors to
- *	errno errors.
+ *	This file contains code for converting from Win32 errors to errno
+ *	errors.
  *
  * Copyright (c) 1995-1996 by Sun Microsystems, Inc.
  *
- * See the file "license.terms" for information on usage and redistribution
- * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
+ * See the file "license.terms" for information on usage and redistribution of
+ * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
  * RCS: @(#) $Id$
  */
@@ -15,8 +15,7 @@
 #include "tclInt.h"
 
 /*
- * The following table contains the mapping from Win32 errors to
- * errno errors.
+ * The following table contains the mapping from Win32 errors to errno errors.
  */
 
 static char errorTable[] = {
@@ -354,8 +353,8 @@ static int wsaErrorTable[] = {
  */
 
 void
-TclWinConvertError(errCode)
-    DWORD errCode;		/* Win32 error code. */
+TclWinConvertError(
+    DWORD errCode)		/* Win32 error code. */
 {
     if (errCode >= tableLen) {
 	Tcl_SetErrno(EINVAL);
@@ -381,8 +380,8 @@ TclWinConvertError(errCode)
  */
 
 void
-TclWinConvertWSAError(errCode)
-    DWORD errCode;		/* Win32 error code. */
+TclWinConvertWSAError(
+    DWORD errCode)		/* Win32 error code. */
 {
     if ((errCode >= WSAEWOULDBLOCK) && (errCode <= WSAEREMOTE)) {
 	Tcl_SetErrno(wsaErrorTable[errCode - WSAEWOULDBLOCK]);
