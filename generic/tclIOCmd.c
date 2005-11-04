@@ -289,7 +289,6 @@ Tcl_GetsObjCmd(
     if (objc == 3) {
 	if (Tcl_ObjSetVar2(interp, objv[2], NULL, linePtr,
 		TCL_LEAVE_ERR_MSG) == NULL) {
-	    Tcl_DecrRefCount(linePtr);
 	    return TCL_ERROR;
 	}
 	Tcl_SetObjResult(interp, Tcl_NewIntObj(lineLen));

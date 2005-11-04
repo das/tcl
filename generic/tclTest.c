@@ -3843,7 +3843,6 @@ TestregexpObjCmd(dummy, interp, objc, objv)
 	}
 	valuePtr = Tcl_ObjSetVar2(interp, varPtr, NULL, newPtr, 0);
 	if (valuePtr == NULL) {
-	    Tcl_DecrRefCount(newPtr);
 	    Tcl_AppendResult(interp, "couldn't set variable \"",
 		    Tcl_GetString(varPtr), "\"", NULL);
 	    return TCL_ERROR;

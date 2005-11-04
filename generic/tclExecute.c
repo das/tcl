@@ -5503,10 +5503,7 @@ TclExecuteByteCode(
 
 		valIndex = (iterNum * numVars);
 		for (j = 0;  j < numVars;  j++) {
-		    int setEmptyStr = 0;
-
 		    if (valIndex >= listLen) {
-			setEmptyStr = 1;
 			TclNewObj(valuePtr);
 		    } else {
 			valuePtr = elements[valIndex];
@@ -5538,9 +5535,6 @@ TclExecuteByteCode(
 			if (value2Ptr == NULL) {
 			    TRACE_WITH_OBJ(("%u => ERROR init. index temp %d: ",
 				    opnd, varIndex), Tcl_GetObjResult(interp));
-			    if (setEmptyStr) {
-				TclDecrRefCount(valuePtr);
-			    }
 			    result = TCL_ERROR;
 			    goto checkForCatch;
 			}
