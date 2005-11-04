@@ -629,7 +629,7 @@ Tcl_DeleteNamespace(namespacePtr)
              * variable list one last time.
 	     */
 
-            TclDeleteVars((Interp *) nsPtr->interp, &nsPtr->varTable);
+            TclDeleteNamespaceVars(nsPtr);
 	    
             Tcl_DeleteHashTable(&nsPtr->childTable);
             Tcl_DeleteHashTable(&nsPtr->cmdTable);
@@ -713,7 +713,7 @@ TclTeardownNamespace(nsPtr)
 	    Tcl_IncrRefCount(errorCode);
 	}
 
-        TclDeleteVars(iPtr, &nsPtr->varTable);
+        TclDeleteNamespaceVars(nsPtr);
         Tcl_InitHashTable(&nsPtr->varTable, TCL_STRING_KEYS);
 
 	if (errorInfo) {
@@ -732,7 +732,7 @@ TclTeardownNamespace(nsPtr)
 	 * frees it, so we reinitialize it afterwards.
 	 */
     
-        TclDeleteVars(iPtr, &nsPtr->varTable);
+        TclDeleteNamespaceVars(nsPtr);
         Tcl_InitHashTable(&nsPtr->varTable, TCL_STRING_KEYS);
     }
 
