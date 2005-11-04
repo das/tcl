@@ -1179,7 +1179,7 @@ test trace-18.4 {namespace delete / trace vdelete combo, Bug \#1338280} {
     namespace delete ::ref
     rename doTrace {}
     set info
-} 1010
+} 1110
 
 # Delete arrays when done, so they can be re-used as scalars
 # elsewhere.

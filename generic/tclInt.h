@@ -2019,6 +2019,7 @@ MODULE_SCOPE int	TclChanCaughtErrorBypass(Tcl_Interp *interp,
 MODULE_SCOPE void	TclCleanupLiteralTable(Tcl_Interp* interp,
 			    LiteralTable* tablePtr);
 MODULE_SCOPE int	TclDoubleDigits(char* buf, double value, int* signum);
+MODULE_SCOPE void       TclDeleteNamespaceVars(Namespace *nsPtr);
 MODULE_SCOPE void	TclExpandTokenArray(Tcl_Parse *parsePtr);
 MODULE_SCOPE int	TclFileAttrsCmd(Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[]);
