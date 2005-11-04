@@ -339,9 +339,11 @@ _fmt(format, t)
 		 * we must make use of the special localized calls.
 		 */
 		case 'c':
-		    if (!GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE,
-			    &syst, NULL, buf, BUF_SIZ) || !_add(buf)
-			    || !_add(" ")) {
+		    if (!GetDateFormat(LOCALE_USER_DEFAULT,
+				       DATE_LONGDATE | LOCALE_USE_CP_ACP,
+				       &syst, NULL, buf, BUF_SIZ)
+			|| !_add(buf)
+			|| !_add(" ")) {
 			return(0);
 		    }
 		    /*
@@ -349,14 +351,18 @@ _fmt(format, t)
 		     * so continue to %X case here.
 		     */
 		case 'X':
-		    if (!GetTimeFormat(LOCALE_USER_DEFAULT, 0,
-			    &syst, NULL, buf, BUF_SIZ) || !_add(buf)) {
+		    if (!GetTimeFormat(LOCALE_USER_DEFAULT,
+				       LOCALE_USE_CP_ACP,
+				       &syst, NULL, buf, BUF_SIZ)
+			|| !_add(buf)) {
 			return(0);
 		    }
 		    continue;
 		case 'x':
-		    if (!GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE,
-			    &syst, NULL, buf, BUF_SIZ) || !_add(buf)) {
+		    if (!GetDateFormat(LOCALE_USER_DEFAULT,
+				       DATE_SHORTDATE | LOCALE_USE_CP_ACP,
+				       &syst, NULL, buf, BUF_SIZ)
+			|| !_add(buf)) {
 			return(0);
 		    }
 		    continue;
@@ -385,9 +391,11 @@ _fmt(format, t)
 		    continue;
 		case 'Z': {
 		    char *name = (isGMT ? "GMT" : TclpGetTZName(t->tm_isdst));
-		    if (name && !_add(name)) {
-			return 0;
-		    }
+		    int wrote;
+		    Tcl_UtfToExternal(NULL, NULL, name, -1, 0, NULL,
+				      pt, gsize, NULL, &wrote, NULL);
+		    pt += wrote;
+		    gsize -= wrote;
 		    continue;
 		}
 		case '%':
