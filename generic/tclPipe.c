@@ -317,7 +317,8 @@ TclCleanupChildren(
 	    sprintf(msg1, "%lu", resolvedPid);
 	    if (WIFEXITED(waitStatus)) {
                 if (interp != (Tcl_Interp *) NULL) {
-		    sprintf(msg2, "%lu", WEXITSTATUS(waitStatus));
+		    sprintf(msg2, "%lu",
+			    (unsigned long) WEXITSTATUS(waitStatus));
                     Tcl_SetErrorCode(interp, "CHILDSTATUS", msg1, msg2, NULL);
                 }
 		abnormalExit = 1;
