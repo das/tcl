@@ -78,9 +78,9 @@ static JoinableThread* firstThreadPtr;
  */
 
 int
-TclJoinThread(id, result)
-    Tcl_ThreadId id;		/* The id of the thread to wait upon. */
-    int *result;		/* Reference to a location for the result of
+TclJoinThread(
+    Tcl_ThreadId id,		/* The id of the thread to wait upon. */
+    int *result)		/* Reference to a location for the result of
 				 * the thread we are waiting upon. */
 {
     JoinableThread *threadPtr;
@@ -226,9 +226,9 @@ TclJoinThread(id, result)
  *----------------------------------------------------------------------
  */
 
-VOID
-TclRememberJoinableThread(id)
-    Tcl_ThreadId id; /* The thread to remember as joinable */
+void
+TclRememberJoinableThread(
+    Tcl_ThreadId id)		/* The thread to remember as joinable */
 {
     JoinableThread *threadPtr;
 
@@ -265,10 +265,10 @@ TclRememberJoinableThread(id)
  *----------------------------------------------------------------------
  */
 
-VOID
-TclSignalExitThread(id,result)
-    Tcl_ThreadId id;		/* Id of the thread signaling its exit. */
-    int result;			/* The result from the thread. */
+void
+TclSignalExitThread(
+    Tcl_ThreadId id,		/* Id of the thread signaling its exit. */
+    int result)			/* The result from the thread. */
 {
     JoinableThread *threadPtr;
 

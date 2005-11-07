@@ -121,8 +121,8 @@ static Tcl_Config cfg[] = {
 };
 
 void
-TclInitEmbeddedConfigurationInformation(interp)
-    Tcl_Interp* interp;		/* Interpreter the configuration command is
+TclInitEmbeddedConfigurationInformation(
+    Tcl_Interp* interp)		/* Interpreter the configuration command is
 				 * registered in. */
 {
     Tcl_RegisterConfig(interp, "tcl", cfg, TCL_CFGVAL_ENCODING);
