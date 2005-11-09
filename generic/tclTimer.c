@@ -781,7 +781,8 @@ Tcl_AfterObjCmd(clientData, interp, objc, objv)
 	goto processInteger;
     }
     argString = Tcl_GetStringFromObj(objv[1], &length);
-    if (isdigit(UCHAR(argString[0]))) {	/* INTL: digit */
+    if (argString[0] == '+' || argString[0] == '-'
+	|| isdigit(UCHAR(argString[0]))) {	/* INTL: digit */
 	if (Tcl_GetIntFromObj(interp, objv[1], &ms) != TCL_OK) {
 	    return TCL_ERROR;
 	}

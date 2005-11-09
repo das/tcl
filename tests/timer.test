@@ -549,18 +549,16 @@ test timer-10.1 {Bug 1016167: [after] overwrites imports} -setup {
     interp delete slave
 } -result ::after
 
+test timer-11.2 {Bug 1350293: [after] negative argument} \
+    -body {
+	set l {}
+	after 100 {lappend l 100; set done 1}
+	after -1 {lappend l -1}
+	vwait done
+	set l
+    } \
+    -result {-1 100}
+
 # cleanup
 ::tcltest::cleanupTests
 return
-
-
-
-
-
-
-
-
-
-
-
-
