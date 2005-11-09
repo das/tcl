@@ -206,13 +206,6 @@ if {[catch {\fBpackage require\fR Snack}]} {
    # Set up a dummy interface to work around the absence
 }
 .CE
-.PP
-When writing a package implementation, you should put the following at
-the \fIbottom\fR of your library script so it is only called once the
-package has been successfully set up:
-.CS
-\fBpackage provide\fR foobar 1.0
-.CE
 
 .SH "SEE ALSO"
 msgcat(n), packagens(n), pkgMkIndex(n)
