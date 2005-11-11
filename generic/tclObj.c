@@ -3503,7 +3503,7 @@ Tcl_GetCommandFromObj(
 	    && (resPtr->refNsId == currNsPtr->nsId)
 	    && (resPtr->refNsCmdEpoch == currNsPtr->cmdRefEpoch)) {
 	cmdPtr = resPtr->cmdPtr;
-	if (cmdPtr->cmdEpoch != resPtr->cmdEpoch) {
+	if ((cmdPtr->cmdEpoch != resPtr->cmdEpoch) || (cmdPtr->hPtr == NULL)) {
 	    cmdPtr = NULL;
 	}
     }
