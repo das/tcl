@@ -5778,7 +5778,7 @@ MathFuncWrongNumArgs(
     TclNewObj(errorMessage);
     TclObjPrintf(NULL, errorMessage,
 	    "too %s arguments for math function \"%s\"",
-	    (found < expected ? "few", "many"), name);
+	    (found < expected ? "few" : "many"), name);
     Tcl_SetObjResult(interp, errorMessage);
 }
 
