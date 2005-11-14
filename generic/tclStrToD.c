@@ -934,7 +934,8 @@ TclParseNumber(
 	case sNA:
 	case sNANPAREN:
 	case sNANHEX:
-	    panic("in TclParseNumber: bad acceptState, can't happen.");
+	    Tcl_Panic("TclParseNumber: bad acceptState %d parsing '%s'",
+		    acceptState, bytes);
 
 #ifdef TIP_114_FORMATS
 	case BINARY:
