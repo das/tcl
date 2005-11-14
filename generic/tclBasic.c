@@ -2612,6 +2612,7 @@ CallCommandTraces(
     ActiveCommandTrace active;
     char *result;
     Tcl_Obj *oldNamePtr = NULL;
+    Tcl_InterpState state = NULL;
 
     if (cmdPtr->flags & CMD_TRACE_ACTIVE) {
 	/*
@@ -2662,12 +2663,19 @@ CallCommandTraces(
 	    oldName = TclGetString(oldNamePtr);
 	}
 	tracePtr->refCount++;
+	if (state == NULL) {
+	    state = Tcl_SaveInterpState((Tcl_Interp *)iPtr, TCL_OK);
+	}
 	(*tracePtr->traceProc)(tracePtr->clientData,
 		(Tcl_Interp *) iPtr, oldName, newName, flags);
 	cmdPtr->flags &= ~tracePtr->flags;
 	if ((--tracePtr->refCount) <= 0) {
 	    ckfree((char*)tracePtr);
 	}
+    }
+
+    if (state) {
+	Tcl_RestoreInterpState((Tcl_Interp *)iPtr, state);
     }
 
     /*
