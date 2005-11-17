@@ -158,7 +158,7 @@ test namespace-7.5 {recursive Tcl_DeleteNamespace, no active call frames in ns} 
     }
     namespace delete test_ns_2
 } {}
-test namespace-7.6 {recursive Tcl_DeleteNamespace, active call frames in ns} {
+test namespace-7.6 {recursive Tcl_DeleteNamespace, no active call frames in ns} {
     # [Bug 1355942]
     # Currently fails due to [Bug 1355342]
     namespace eval test_ns_2 {
