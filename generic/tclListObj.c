@@ -43,7 +43,7 @@ Tcl_ObjType tclListType = {
     FreeListInternalRep,	/* freeIntRepProc */
     DupListInternalRep,		/* dupIntRepProc */
     UpdateStringOfList,		/* updateStringProc */
-    NULL			/* setFromAnyProc */
+    SetListFromAny		/* setFromAnyProc */
 };
 
 /*
