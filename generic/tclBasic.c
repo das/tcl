@@ -2431,6 +2431,13 @@ Tcl_DeleteCommandFromToken(interp, cmd)
     cmdPtr->flags |= CMD_IS_DELETED;
 
     /*
+     * Bump the command epoch counter. This will invalidate all cached
+     * references that point to this command.
+     */
+    
+    cmdPtr->cmdEpoch++;
+
+    /*
      * Call trace procedures for the command being deleted. Then delete
      * its traces. 
      */
@@ -2483,13 +2490,6 @@ Tcl_DeleteCommandFromToken(interp, cmd)
 
 	(*cmdPtr->deleteProc)(cmdPtr->deleteData);
     }
-
-    /*
-     * Bump the command epoch counter. This will invalidate all cached
-     * references that point to this command.
-     */
-    
-    cmdPtr->cmdEpoch++;
 
     /*
      * If this command was imported into other namespaces, then imported

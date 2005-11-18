@@ -4167,9 +4167,18 @@ TraceCommandProc(clientData, interp, oldName, newName, flags)
 	 * Remove the trace since TCL_TRACE_DESTROYED tells us to, or the
 	 * command we're tracing has just gone away.  Then decrement the
 	 * clientData refCount that was set up by trace creation.
+	 *
+	 * Note that we save the (return) state of the interpreter to prevent
+	 * bizarre error messages.
 	 */
+
+	Tcl_SaveResult(interp, &state);
+	stateCode = iPtr->returnCode;
 	Tcl_UntraceCommand(interp, oldName, untraceFlags,
 		TraceCommandProc, clientData);
+	Tcl_RestoreResult(interp, &state);
+	iPtr->returnCode = stateCode;
+
 	tcmdPtr->refCount--;
     }
     tcmdPtr->refCount--;

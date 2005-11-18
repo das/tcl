@@ -133,6 +133,38 @@ test namespace-7.2 {Tcl_DeleteNamespace, no active call frames in ns} {
     }
     list [test_ns_2::p] [namespace delete test_ns_2]
 } {::test_ns_2 {}}
+test namespace-7.3 {recursive Tcl_DeleteNamespace, active call frames in ns} {
+    # [Bug 1355942]
+    namespace eval test_ns_2 {
+        set x 1
+	trace add variable x unset "namespace delete [namespace current];#"
+	namespace delete [namespace current]
+    }
+} {}
+test namespace-7.4 {recursive Tcl_DeleteNamespace, active call frames in ns} {
+    # [Bug 1355942]
+    namespace eval test_ns_2 {
+        proc x {} {}
+	trace add command x delete "namespace delete [namespace current];#"
+	namespace delete [namespace current]
+    }
+} {}
+test namespace-7.5 {recursive Tcl_DeleteNamespace, no active call frames in ns} {
+    # [Bug 1355942]
+    namespace eval test_ns_2 {
+        set x 1
+	trace add variable x unset "namespace delete [namespace current];#"
+    }
+    namespace delete test_ns_2
+} {}
+test namespace-7.6 {recursive Tcl_DeleteNamespace, no active call frames in ns} {
+    # [Bug 1355942]
+    namespace eval test_ns_2 {
+        proc x {} {}
+	trace add command x delete "namespace delete [namespace current];#"
+    }
+    namespace delete test_ns_2
+} {}
 
 test namespace-8.1 {TclTeardownNamespace, delete global namespace} {
     catch {interp delete test_interp}
