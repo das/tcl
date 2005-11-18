@@ -6309,4 +6309,6 @@ Restores Tcl 8.4.9 behavior (porter)
 
 2005-11-15 (Win bug fix)[926016,1353840] correct [file mtime] (kenny)
 
+2005-11-18 (bug fix)[1358369] URL parsing standards compliance (wu,fellows)
+
 --- Released 8.4.12, November 30, 2005 --- See ChangeLog for details ---
