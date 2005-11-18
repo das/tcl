@@ -351,6 +351,22 @@ test pkg-2.34 {Tcl_PkgRequire: consistent return values (1162286)} -setup {
     package require foo 1
 } -cleanup {
     package forget foo
+} -match glob -result 1.1 -errorOutput {attempt to provide package * failed:*}
+test pkg-2.34.1 {Tcl_PkgRequire: consistent return values (1162286)} -setup {
+    package forget foo
+} -body {
+    package ifneeded foo 1.1 {package provide foo 1}
+    package require foo 1
+} -cleanup {
+    package forget foo
+} -match glob -result 1 -errorOutput {attempt to provide package * failed:*}
+test pkg-2.34.2 {Tcl_PkgRequire: consistent return values (1162286)} -setup {
+    package forget foo
+} -body {
+    package ifneeded foo 1.1 {package provide foo 1}
+    package require foo 1.1
+} -cleanup {
+    package forget foo
 } -returnCodes error -match glob -result {attempt to provide package * failed:*}
 test pkg-2.35 {Tcl_PkgRequire: consistent return values (1162286)} -setup {
     package forget foo
