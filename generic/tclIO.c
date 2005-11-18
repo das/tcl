@@ -210,7 +210,6 @@ TclFinalizeIOSubsystem()
     for (statePtr = tsdPtr->firstCSPtr; statePtr != (ChannelState *) NULL;
 	 statePtr = nextCSPtr) {
 	chanPtr		= statePtr->topChanPtr;
-        nextCSPtr	= statePtr->nextCSPtr;
 
         /*
          * Set the channel back into blocking mode to ensure that we wait
@@ -273,6 +272,11 @@ TclFinalizeIOSubsystem()
             chanPtr->instanceData = (ClientData) NULL;
             statePtr->flags |= CHANNEL_DEAD;
         }
+	/*
+	 * We look for the next pointer now in case we had one closed on up during
+	 * the current channel's closeproc. (eg: rechan extension). [PT]
+	 */
+	nextCSPtr = statePtr->nextCSPtr;
     }
     TclpFinalizePipes();
 }
