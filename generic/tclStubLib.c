@@ -33,9 +33,6 @@
  * functions should be built as non-exported symbols.
  */
 
-#undef TCL_STORAGE_CLASS
-#define TCL_STORAGE_CLASS DLLEXPORT
-
 TclStubs *tclStubsPtr = NULL;
 TclPlatStubs *tclPlatStubsPtr = NULL;
 TclIntStubs *tclIntStubsPtr = NULL;
@@ -87,7 +84,7 @@ Tcl_InitStubs (interp, version, exact)
     int exact;
 {
     CONST char *actualVersion = NULL;
-    TclStubs *tmp;
+    ClientData pkgData = NULL;
 
     /*
      * We can't optimize this check by caching tclStubsPtr because
@@ -100,12 +97,11 @@ Tcl_InitStubs (interp, version, exact)
 	return NULL;
     }
 
-    actualVersion = Tcl_PkgRequireEx(interp, "Tcl", version, exact,
-	    (ClientData *) &tmp);
+    actualVersion = Tcl_PkgRequireEx(interp, "Tcl", version, exact, &pkgData);
     if (actualVersion == NULL) {
-	tclStubsPtr = NULL;
 	return NULL;
     }
+    tclStubsPtr = (TclStubs*)pkgData;
 
     if (tclStubsPtr->hooks) {
 	tclPlatStubsPtr = tclStubsPtr->hooks->tclPlatStubs;
