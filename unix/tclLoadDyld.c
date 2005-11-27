@@ -21,6 +21,7 @@
 #include <mach-o/fat.h>
 #include <mach-o/swap.h>
 #include <mach-o/arch.h>
+#include <libkern/OSByteOrder.h>
 #undef panic
 #include <mach/mach.h>
 
