@@ -14,10 +14,10 @@
  * RCS: @(#) $Id$
  */
 
-#ifndef HAVE_COREFOUNDATION /* Darwin/Mac OS X CoreFoundation notifier
-                             * is in tclMacOSXNotify.c */
 #include "tclInt.h"
 #include "tclPort.h"
+#ifndef HAVE_COREFOUNDATION /* Darwin/Mac OS X CoreFoundation notifier
+                             * is in tclMacOSXNotify.c */
 #include <signal.h> 
 
 extern TclStubs tclStubs;

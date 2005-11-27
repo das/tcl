@@ -53,8 +53,8 @@
 
 /*
  * Ensure WORDS_BIGENDIAN is defined correcly:
- * Needs to happen here in addition to configure to work with
- * fat compiles on Darwin (i.e. ppc and i386 at the same time).
+ * Needs to happen here in addition to configure to work with fat compiles on
+ * Darwin (where configure runs only once for multiple architectures).
  */
 
 #ifdef HAVE_SYS_TYPES_H

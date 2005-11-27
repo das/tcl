@@ -397,6 +397,9 @@ DoCopyFile(src, dst)
 	    if (symlink(link, dst) < 0) {		/* INTL: Native. */
 		return TCL_ERROR;
 	    }
+#ifdef HAVE_COPYFILE
+	    copyfile(src, dst, NULL, COPYFILE_XATTR|COPYFILE_NOFOLLOW_SRC);
+#endif
 	    break;
 	}
 #endif
@@ -1118,6 +1121,9 @@ CopyFileAtts(src, dst, statBufPtr)
     if (utime(dst, &tval)) {				/* INTL: Native. */
 	return TCL_ERROR;
     }
+#ifdef HAVE_COPYFILE
+    copyfile(src, dst, NULL, COPYFILE_XATTR|COPYFILE_ACL);
+#endif
     return TCL_OK;
 }
 

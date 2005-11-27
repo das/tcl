@@ -505,6 +505,39 @@ extern double strtod();
 #define TclpPanic ((Tcl_PanicProc *) NULL)
 
 /*
+ * Darwin specifc configure overrides (to support fat compiles, where
+ * configure runs only once for multiple architectures):
+ */
+
+#ifdef __APPLE__
+#   ifdef __LP64__
+#       undef HAVE_COREFOUNDATION
+#    endif /* __LP64__ */
+#   ifdef __DARWIN_UNIX03
+#       define USE_TERMIOS 1
+#       undef HAVE_PUTENV_THAT_COPIES
+#    else /* !__DARWIN_UNIX03 */
+#       undef USE_TERMIOS
+#       define HAVE_PUTENV_THAT_COPIES 1
+#    endif /* __DARWIN_UNIX03 */
+#endif /* __APPLE__ */
+
+/*
+ * Darwin 8 copyfile API
+ */
+
+#ifdef HAVE_COPYFILE
+#ifdef HAVE_COPYFILE_H
+#include <copyfile.h>
+#else
+int copyfile(const char *from, const char *to, void *state, uint32_t flags);
+#define COPYFILE_ACL            (1<<0)
+#define COPYFILE_XATTR          (1<<2)
+#define COPYFILE_NOFOLLOW_SRC   (1<<18)
+#endif
+#endif
+
+/*
  *---------------------------------------------------------------------------
  * The following macros and declarations represent the interface between 
  * generic and unix-specific parts of Tcl.  Some of the macros may override 

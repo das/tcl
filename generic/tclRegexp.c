@@ -105,7 +105,7 @@ static int		SetRegexpFromAny _ANSI_ARGS_((Tcl_Interp *interp,
  * of the compiled form of the regular expression.
  */
 
-Tcl_ObjType tclRegexpType = {
+static Tcl_ObjType tclRegexpType = {
     "regexp",				/* name */
     FreeRegexpInternalRep,		/* freeIntRepProc */
     DupRegexpInternalRep,		/* dupIntRepProc */

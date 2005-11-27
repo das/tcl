@@ -4592,7 +4592,7 @@ static int 		FindSplitPos _ANSI_ARGS_((char *path, char *separator));
  * Define the 'path' object type, which Tcl uses to represent
  * file paths internally.
  */
-Tcl_ObjType tclFsPathType = {
+static Tcl_ObjType tclFsPathType = {
     "path",				/* name */
     FreeFsPathInternalRep,		/* freeIntRepProc */
     DupFsPathInternalRep,	        /* dupIntRepProc */

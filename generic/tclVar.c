@@ -111,17 +111,17 @@ static Tcl_UpdateStringProc UpdateParsedVarName;
  *                      it is a scalar variable
  */
 
-Tcl_ObjType tclLocalVarNameType = {
+static Tcl_ObjType tclLocalVarNameType = {
     "localVarName",
     FreeLocalVarName, DupLocalVarName, UpdateLocalVarName, NULL
 };
 
-Tcl_ObjType tclNsVarNameType = {
+static Tcl_ObjType tclNsVarNameType = {
     "namespaceVarName",
     FreeNsVarName, DupNsVarName, NULL, NULL
 };
 
-Tcl_ObjType tclParsedVarNameType = {
+static Tcl_ObjType tclParsedVarNameType = {
     "parsedVarName",
     FreeParsedVarName, DupParsedVarName, UpdateParsedVarName, NULL
 };
