@@ -18,6 +18,7 @@
 #ifdef HAVE_GETATTRLIST
 #include <sys/attr.h>
 #include <sys/paths.h>
+#include <libkern/OSByteOrder.h>
 #endif
 
 /* Darwin 8 copyfile API */
