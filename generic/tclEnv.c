@@ -43,6 +43,7 @@ static int environSize = 0;	/* Non-zero means that the environ array was
 
 #if defined(__APPLE__) && defined(__DYNAMIC__)
 #include <crt_externs.h>
+MODULE_SCOPE char **environ;
 char **environ = NULL;
 #endif
 
@@ -53,8 +54,8 @@ char **environ = NULL;
 static char *		EnvTraceProc(ClientData clientData, Tcl_Interp *interp,
 			    CONST char *name1, CONST char *name2, int flags);
 static void		ReplaceString(CONST char *oldStr, char *newStr);
-void			TclSetEnv(CONST char *name, CONST char *value);
-void			TclUnsetEnv(CONST char *name);
+MODULE_SCOPE void	TclSetEnv(CONST char *name, CONST char *value);
+MODULE_SCOPE void	TclUnsetEnv(CONST char *name);
 #if defined(__CYGWIN__) && defined(__WIN32__)
 static void		TclCygwinPutenv(CONST char *string);
 #endif

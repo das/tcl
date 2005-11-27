@@ -7,7 +7,8 @@
  *
  * Copyright (c) 1995-1997 Sun Microsystems, Inc.
  * Copyright 2001, Apple Computer, Inc.
- * Copyright 2005, Tcl Core Team.
+ * Copyright (c) 2005 Tcl Core Team.
+ * Copyright (c) 2005 Daniel A. Steffen <das@users.sourceforge.net>
  *
  * See the file "license.terms" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -15,9 +16,9 @@
  * RCS: @(#) $Id$
  */
 
+#include "tclInt.h"
 #ifdef HAVE_COREFOUNDATION	/* Traditional unix select-based notifier is
 				 * in tclUnixNotfy.c */
-#include "tclInt.h"
 #include <CoreFoundation/CoreFoundation.h>
 #include <pthread.h>
 
@@ -350,7 +351,7 @@ Tcl_FinalizeNotifier(
 	 * and check for EOF in the notifier thread because if a background
 	 * child process was created with exec, select() would not register
 	 * the EOF on the pipe until the child processes had terminated. [Bug:
-	 * 4139]
+	 * 4139] [Bug: 1222872]
 	 */
 
 	write(triggerPipe, "q", 1);
@@ -494,8 +495,8 @@ Tcl_CreateFileHandler(
 				 * TCL_WRITABLE, and TCL_EXCEPTION: indicates
 				 * conditions under which proc should be
 				 * called. */
-    Tcl_FileProc *proc,		/* Function to call for each
-				 * selected event. */
+    Tcl_FileProc *proc,		/* Function to call for each selected
+				 * event. */
     ClientData clientData)	/* Arbitrary data to pass to proc. */
 {
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);

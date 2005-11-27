@@ -3151,7 +3151,7 @@ TclUnixWaitForFile(
 				 * at all, and a value of -1 means wait
 				 * forever. */
 {
-    Tcl_Time abortTime, now;
+    Tcl_Time abortTime = {0, 0}, now; /* silence gcc 4 warning */
     struct timeval blockTime, *timeoutPtr;
     int index, bit, numFound, result = 0;
     fd_mask readyMasks[3*MASK_SIZE];

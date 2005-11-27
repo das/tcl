@@ -29,8 +29,13 @@
 
 /*
  * Ensure that Tcl_InitStubs is built as an exported symbol. The other stub
- * functions should be built as non-exported symbols.
+ * symbols should be built as non-exported symbols.
  */
+
+MODULE_SCOPE TclStubs *tclStubsPtr;
+MODULE_SCOPE TclPlatStubs *tclPlatStubsPtr;
+MODULE_SCOPE TclIntStubs *tclIntStubsPtr;
+MODULE_SCOPE TclIntPlatStubs *tclIntPlatStubsPtr;
 
 TclStubs *tclStubsPtr = NULL;
 TclPlatStubs *tclPlatStubsPtr = NULL;
@@ -75,7 +80,7 @@ HasStubSupport(
 #undef Tcl_InitStubs
 #endif
 
-CONST char *
+MODULE_SCOPE CONST char *
 Tcl_InitStubs(
     Tcl_Interp *interp,
     CONST char *version,

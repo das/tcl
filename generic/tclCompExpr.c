@@ -323,7 +323,8 @@ CompileSubExpr(
     CompileEnv *envPtr)		/* Holds resulting instructions. */
 {
     Tcl_Interp *interp = infoPtr->interp;
-    Tcl_Token *tokenPtr, *endPtr, *afterSubexprPtr;
+    Tcl_Token *tokenPtr, *endPtr = NULL; /* silence gcc 4 warning */
+    Tcl_Token *afterSubexprPtr;
     OperatorDesc *opDescPtr;
     Tcl_HashEntry *hPtr;
     CONST char *operator;

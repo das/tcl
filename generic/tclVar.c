@@ -62,10 +62,10 @@ static int		SetArraySearchObj(Tcl_Interp *interp, Tcl_Obj *objPtr);
  * by the bytecode compiler and engine or to the public interface.
  */
 
-Var *			TclLookupSimpleVar(Tcl_Interp *interp,
+MODULE_SCOPE Var *	TclLookupSimpleVar(Tcl_Interp *interp,
 			    CONST char *varName, int flags, CONST int create,
 			    CONST char **errMsgPtr, int *indexPtr);
-int			TclObjUnsetVar2(Tcl_Interp *interp,
+MODULE_SCOPE int	TclObjUnsetVar2(Tcl_Interp *interp,
 			    Tcl_Obj *part1Ptr, CONST char *part2, int flags);
 
 static Tcl_DupInternalRepProc	DupLocalVarName;
@@ -111,13 +111,13 @@ static Tcl_ObjType localVarNameType = {
 static Tcl_FreeInternalRepProc FreeNsVarName;
 static Tcl_DupInternalRepProc DupNsVarName;
 
-Tcl_ObjType tclNsVarNameType = {
+static Tcl_ObjType tclNsVarNameType = {
     "namespaceVarName",
     FreeNsVarName, DupNsVarName, PanicOnUpdateVarName, PanicOnSetVarName
 };
 #endif
 
-Tcl_ObjType tclParsedVarNameType = {
+static Tcl_ObjType tclParsedVarNameType = {
     "parsedVarName",
     FreeParsedVarName, DupParsedVarName, UpdateParsedVarName, PanicOnSetVarName
 };

@@ -128,6 +128,7 @@ enum {
     UNIX_INVALID_ATTRIBUTE /* lint - last enum value needs no trailing , */
 };
 
+MODULE_SCOPE CONST char *tclpFileAttrStrings[];
 CONST char *tclpFileAttrStrings[] = {
     "-group", "-owner", "-permissions",
 #if defined(HAVE_CHFLAGS) && defined(UF_IMMUTABLE)
@@ -139,6 +140,7 @@ CONST char *tclpFileAttrStrings[] = {
     NULL
 };
 
+MODULE_SCOPE CONST TclFileAttrProcs tclpFileAttrProcs[];
 CONST TclFileAttrProcs tclpFileAttrProcs[] = {
     {GetGroupAttribute, SetGroupAttribute},
     {GetOwnerAttribute, SetOwnerAttribute},
@@ -422,6 +424,9 @@ DoCopyFile(
 	if (symlink(link, dst) < 0) {			/* INTL: Native. */
 	    return TCL_ERROR;
 	}
+#ifdef MAC_OSX_TCL
+	TclMacOSXCopyFileAttributes(src, dst, &srcStatBuf);
+#endif
 	break;
     }
 #endif

@@ -33,7 +33,7 @@ static Tcl_Obj* GetExtension(Tcl_Obj *pathPtr);
  * internally.
  */
 
-Tcl_ObjType tclFsPathType = {
+static Tcl_ObjType tclFsPathType = {
     "path",				/* name */
     FreeFsPathInternalRep,		/* freeIntRepProc */
     DupFsPathInternalRep,		/* dupIntRepProc */

@@ -27,6 +27,9 @@ foreach line [split $data \n] {
 	    puts "\#ifndef TOMMATH_STORAGE_CLASS"
 	    puts "\#define TOMMATH_STORAGE_CLASS extern"
 	    puts "\#endif"
+	    puts "\#ifndef MODULE_SCOPE"
+	    puts "\#define MODULE_SCOPE extern"
+	    puts "\#endif"
 	}
 	{typedef.*mp_digit;} {
 	    puts "\#ifndef MP_DIGIT_DECLARED"
@@ -44,8 +47,14 @@ foreach line [split $data \n] {
 	\}\ mp_int\; {
 	    puts "\};"
 	}
-	"^(char|int|void)" {
+	{^(char|int|void) mp_(div_d|mul_d|clear|init|read_radix)\(} {
 	    puts "TOMMATH_STORAGE_CLASS $line"
+	}
+	{^(char|int|void)} {
+	    puts "TOMMATH_STORAGE_CLASS MODULE_SCOPE $line"
+	}
+	{^extern (int|const)} {
+	    puts [regsub {^extern} $line "MODULE_SCOPE"]
 	}
 	default {
 	    puts $line

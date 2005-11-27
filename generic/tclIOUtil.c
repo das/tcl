@@ -49,8 +49,8 @@ static void		FsRecacheFilesystemList(void);
  * they are not (and should not be) used anywhere else.
  */
 
-extern CONST char *		tclpFileAttrStrings[];
-extern CONST TclFileAttrProcs	tclpFileAttrProcs[];
+MODULE_SCOPE CONST char *		tclpFileAttrStrings[];
+MODULE_SCOPE CONST TclFileAttrProcs	tclpFileAttrProcs[];
 
 /*
  * The following functions are obsolete string based APIs, and should be

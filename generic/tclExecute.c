@@ -2353,7 +2353,9 @@ TclExecuteByteCode(
     {
 	Tcl_Obj *objPtr, *incrPtr;
 	int opnd, pcAdjustment;
+#ifndef NO_WIDE_TYPE
 	Tcl_WideInt w;
+#endif
 	long i;
 	char *part1, *part2;
 	Var *varPtr, *arrayPtr;

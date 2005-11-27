@@ -16,6 +16,7 @@
  */
 
 #include "tclInt.h"
+#include "tclCompile.h"
 #include "tommath.h"
 #include <float.h>
 
@@ -41,6 +42,7 @@ Tcl_Obj *tclFreeObjList = NULL;
  */
 
 #ifdef TCL_THREADS
+MODULE_SCOPE Tcl_Mutex tclObjMutex;
 Tcl_Mutex tclObjMutex;
 #endif
 
