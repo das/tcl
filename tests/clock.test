@@ -35474,6 +35474,19 @@ test clock-50.2 {format / scan -2 as a local time} {
     set result
 } -2
 
+test clock-51.1 {correct conversion of times in Sydney} {
+    # Paul Mackerras reported a bug where DST rollover in New South Wales
+    # was miscalculated.  The problem was that tclZIC.tcl had a
+    # typo in the switch case where DST begins/ends at a given time
+    # Standard Time (that is, winter time).
+    set result {}
+    foreach t {1130601599 1130601600 1130637599 1130637600} {
+	lappend result [clock format $t -format %H:%M:%S \
+			    -timezone :Australia/Sydney]
+    }
+    set result
+} {01:59:59 03:00:00 12:59:59 13:00:00}
+
 # cleanup
 
 namespace delete ::testClock
