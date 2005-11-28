@@ -1088,7 +1088,7 @@ CreateSocket(interp, port, host, server, myaddr, myport, async)
 				 * in progress. */
     SOCKADDR_IN sockaddr;	/* Socket address */
     SOCKADDR_IN mysockaddr;	/* Socket address for client */
-    SOCKET sock;
+    SOCKET sock = INVALID_SOCKET;
     SocketInfo *infoPtr;	/* The returned value. */
     ThreadSpecificData *tsdPtr = 
 	(ThreadSpecificData *)TclThreadDataKeyGet(&dataKey);
