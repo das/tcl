@@ -44,10 +44,6 @@ set olsonFiles {
     pacificnew southamerica systemv
 }
 
-# Temporary scaffolding - load up the new 'clock' package.
-
-source [file join [file dirname [info script]] .. library clock.tcl]
-
 # Define the year at which the DST information will stop.
 
 set maxyear 2100
@@ -56,7 +52,7 @@ set maxyear 2100
 
 set MAXWIDE [expr {wide(1)}]
 while 1 {
-    set next [expr {$MAXWIDE + $MAXWIDE + 1}]
+    set next [expr {wide($MAXWIDE + $MAXWIDE + 1)}]
     if {$next < 0} {
 	break
     }
@@ -1334,6 +1330,9 @@ proc writeLinks {outDir} {
 # MAIN PROGRAM
 #
 #----------------------------------------------------------------------
+
+puts "Compiling time zones -- [clock format [clock seconds] \
+                                   -format {%x %X} -locale system]"
 
 # Determine directories
 
