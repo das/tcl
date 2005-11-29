@@ -3394,12 +3394,26 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
     if ((enum modes) mode == REGEXP) {
 	/*
 	 * We can shimmer regexp/list if listv[i] == pattern, so get the
-	 * regexp rep before the list rep.
+	 * regexp rep before the list rep. First time round, omit the interp
+	 * and hope that the compilation will succeed. If it fails, we'll
+	 * recompile in "expensive" mode with a place to put error messages.
 	 */
 
-	regexp = Tcl_GetRegExpFromObj(interp, objv[objc - 1],
+	regexp = Tcl_GetRegExpFromObj(NULL, objv[objc - 1],
 		TCL_REG_ADVANCED | TCL_REG_NOSUB |
 		(noCase ? TCL_REG_NOCASE : 0));
+	if (regexp == NULL) {
+	    /*
+	     * Failed to compile the RE. Try again without the TCL_REG_NOSUB
+	     * flag in case the RE had sub-expressions in it [Bug 1366683].
+	     * If this fails, an error message will be left in the
+	     * interpreter.
+	     */
+
+	    regexp = Tcl_GetRegExpFromObj(interp, objv[objc - 1],
+		    TCL_REG_ADVANCED | (noCase ? TCL_REG_NOCASE : 0));
+	}
+
 	if (regexp == NULL) {
 	    if (startPtr != NULL) {
 		Tcl_DecrRefCount(startPtr);
