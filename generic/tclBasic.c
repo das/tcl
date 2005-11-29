@@ -466,22 +466,8 @@ Tcl_CreateInterp(void)
      * Tcl_CreateObjCommand, since they aren't in the global namespace.
      */
 
-    Tcl_CreateObjCommand(interp,	"::tcl::clock::clicks",
-	    TclClockClicksObjCmd,	(ClientData) NULL, NULL);
-    Tcl_CreateObjCommand(interp,	"::tcl::clock::getenv",
-	    TclClockGetenvObjCmd,	(ClientData) NULL, NULL);
-    Tcl_CreateObjCommand(interp,	"::tcl::clock::microseconds",
-	    TclClockMicrosecondsObjCmd,	(ClientData) NULL, NULL);
-    Tcl_CreateObjCommand(interp,	"::tcl::clock::milliseconds",
-	    TclClockMillisecondsObjCmd,	(ClientData) NULL, NULL);
-    Tcl_CreateObjCommand(interp,	"::tcl::clock::seconds",
-	    TclClockSecondsObjCmd,	(ClientData) NULL, NULL);
-    Tcl_CreateObjCommand(interp,	"::tcl::clock::Localtime",
-	    TclClockLocaltimeObjCmd,	(ClientData) NULL, NULL);
-    Tcl_CreateObjCommand(interp,	"::tcl::clock::Mktime",
-	    TclClockMktimeObjCmd,	(ClientData) NULL, NULL);
-    Tcl_CreateObjCommand(interp,	"::tcl::clock::Oldscan",
-	    TclClockOldscanObjCmd,	(ClientData) NULL, NULL);
+    TclClockInit(interp);
+
     /* TIP #208 */
     Tcl_CreateObjCommand(interp, "::tcl::chan::Truncate",
 	    TclChanTruncateObjCmd, (ClientData) NULL, NULL);
