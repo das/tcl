@@ -29,8 +29,10 @@
  * Constants
  */
 
-#define JULIAN_SEC_POSIX_EPOCH		((Tcl_WideInt) 210866803200)
+#define JULIAN_DAY_POSIX_EPOCH		2440588
 #define SECONDS_PER_DAY			86400
+#define JULIAN_SEC_POSIX_EPOCH	      (((Tcl_WideInt) JULIAN_DAY_POSIX_EPOCH) \
+                                       * SECONDS_PER_DAY)
 #define FOUR_CENTURIES			146097 /* days */
 #define JDAY_1_JAN_1_CE_JULIAN		1721424
 #define JDAY_1_JAN_1_CE_GREGORIAN	1721426
