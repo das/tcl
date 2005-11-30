@@ -562,8 +562,15 @@ typedef struct ByteCode {
 #define INST_DICT_UPDATE_START		119
 #define INST_DICT_UPDATE_END		120
 
+/*
+ * Instruction to support jumps defined by tables (instead of the classic
+ * [switch] technique of chained comparisons).
+ */
+
+#define INST_JUMP_TABLE			121
+
 /* The last opcode */
-#define LAST_INST_OPCODE		120
+#define LAST_INST_OPCODE		121
 
 /*
  * Table describing the Tcl bytecode instructions: their name (for displaying
@@ -694,7 +701,20 @@ typedef struct ForeachInfo {
 				 * LAST FIELD IN THE STRUCTURE! */
 } ForeachInfo;
 
-MODULE_SCOPE AuxDataType		tclForeachInfoType;
+MODULE_SCOPE AuxDataType	tclForeachInfoType;
+
+/*
+ * Structure used to hold information about a switch command that is needed
+ * during program execution. These structures are stored in CompileEnv and
+ * ByteCode structures as auxiliary data.
+ */
+
+typedef struct JumptableInfo {
+    Tcl_HashTable hashTable;	/* Hash that maps strings to signed ints (PC
+				 * offsets). */
+} JumptableInfo;
+
+MODULE_SCOPE AuxDataType	tclJumptableInfoType;
 
 /*
  *----------------------------------------------------------------
