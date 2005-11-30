@@ -399,7 +399,11 @@ conlflags = $(lflags) -subsystem:console
 guilflags = $(lflags) -subsystem:windows
 
 baselibs   = kernel32.lib advapi32.lib user32.lib
-
+# Avoid 'unresolved external symbol __security_cookie' errors.
+# c.f. http://support.microsoft.com/?id=894573
+!if "$(MACHINE)" == "IA64" || "$(MACHINE)" == "AMD64"
+baselibs   = $(baselibs) bufferoverflowU.lib
+!endif
 
 #---------------------------------------------------------------------
 # TclTest flags
