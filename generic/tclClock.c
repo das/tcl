@@ -233,6 +233,7 @@ TclClockInit(
     Tcl_CreateObjCommand(interp,	"::tcl::clock::ConvertLocalToUTC",
 	    ClockConvertlocaltoutcObjCmd, (ClientData) data,
 	    ClockDeleteCmdProc);
+    ++data->refCount;
     Tcl_CreateObjCommand(interp,	"::tcl::clock::GetDateFields",
 	    ClockGetdatefieldsObjCmd,(ClientData) data,
 	    ClockDeleteCmdProc);
