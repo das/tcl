@@ -1481,13 +1481,10 @@ ClockGetenvObjCmd(
     varName = Tcl_GetStringFromObj(objv[1], NULL);
     varValue = getenv(varName);
     if (varValue == NULL) {
-	Tcl_SetObjResult(interp,
-		Tcl_NewStringObj("variable not found", -1));
-	return TCL_ERROR;
-    } else {
-	Tcl_SetObjResult(interp, Tcl_NewStringObj(varValue, -1));
-	return TCL_OK;
+	varValue = "";
     }
+    Tcl_SetObjResult(interp, Tcl_NewStringObj(varValue, -1));
+    return TCL_OK;
 }
 
 /*

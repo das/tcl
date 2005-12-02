@@ -3087,9 +3087,9 @@ proc ::tcl::clock::GetSystemTimeZone {} {
     variable CachedSystemTimeZone
     variable TimeZoneBad
 
-    if { ![catch {getenv TCL_TZ} result] } {
+    if {[set result [getenv TCL_TZ]] ne {}} {
 	set timezone $result
-    } elseif { ![catch {getenv TZ} result] } {
+    } elseif {[set result [getenv TZ]] ne {}} {
 	set timezone $result
     } elseif { [info exists CachedSystemTimeZone] } {
 	set timezone $CachedSystemTimeZone
