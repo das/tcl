@@ -253,10 +253,10 @@ test compile-11.5 {Tcl_Append*: ensure Tcl_ResetResult is used properly} {
     proc p {} { set r [list foobar] ; incr foo }
     list [catch {p} msg] $msg
 } {1 {can't read "foo": no such variable}}
-test compile-11.6 {Tcl_Append*: ensure Tcl_ResetResult is used properly} knownBug {
+test compile-11.6 {Tcl_Append*: ensure Tcl_ResetResult is used properly} {
     proc p {} { set r [list foobar] ; incr foo bogus }
     list [catch {p} msg] $msg
-} {1 {expected integer but got "bogus"}}
+} {1 {can't read "foo": no such variable}}
 test compile-11.7 {Tcl_Append*: ensure Tcl_ResetResult is used properly} -body {
     proc p {} { set r [list foobar] ; expr !a }
     list [catch {p} msg] $msg

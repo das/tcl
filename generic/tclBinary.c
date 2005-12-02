@@ -1085,7 +1085,6 @@ Tcl_BinaryObjCmd(
 		arg++;
 		if (resultPtr == NULL) {
 		    DeleteScanNumberCache(numberCachePtr);
-		    Tcl_DecrRefCount(valuePtr);	/* unneeded */
 		    return TCL_ERROR;
 		}
 		offset += count;
@@ -1140,7 +1139,6 @@ Tcl_BinaryObjCmd(
 		arg++;
 		if (resultPtr == NULL) {
 		    DeleteScanNumberCache(numberCachePtr);
-		    Tcl_DecrRefCount(valuePtr);	/* unneeded */
 		    return TCL_ERROR;
 		}
 		offset += (count + 7 ) / 8;
@@ -1197,7 +1195,6 @@ Tcl_BinaryObjCmd(
 		arg++;
 		if (resultPtr == NULL) {
 		    DeleteScanNumberCache(numberCachePtr);
-		    Tcl_DecrRefCount(valuePtr);	/* unneeded */
 		    return TCL_ERROR;
 		}
 		offset += (count + 1) / 2;
@@ -1267,7 +1264,6 @@ Tcl_BinaryObjCmd(
 		arg++;
 		if (resultPtr == NULL) {
 		    DeleteScanNumberCache(numberCachePtr);
-		    Tcl_DecrRefCount(valuePtr);	/* unneeded */
 		    return TCL_ERROR;
 		}
 		break;

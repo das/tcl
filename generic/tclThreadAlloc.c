@@ -611,7 +611,7 @@ TclThreadFreeObj(
  *----------------------------------------------------------------------
  */
 
-void
+MODULE_SCOPE void
 Tcl_GetMemoryInfo(
     Tcl_DString *dsPtr)
 {

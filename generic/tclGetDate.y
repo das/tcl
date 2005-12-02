@@ -157,6 +157,8 @@ static time_t	ToSeconds(time_t Hours, time_t Minutes,
 static int	LookupWord(char *buff);
 static int	TclDatelex(void* info);
 
+MODULE_SCOPE int yyparse (void *);
+
 
 %}
 
@@ -433,6 +435,10 @@ o_merid : /* NULL */ {
 
 %%
 
+MODULE_SCOPE int yychar;
+MODULE_SCOPE YYSTYPE yylval;
+MODULE_SCOPE int yynerrs;
+
 /*
  * Month and day table.
  */
@@ -579,6 +585,9 @@ static TABLE    TimezoneTable[] = {
     { "jt",     tZONE,    -HOUR(15/2) },    /* Java (3pm in Cronusland!) */
     { "cct",    tZONE,    -HOUR( 8) },      /* China Coast, USSR Zone 7 */
     { "jst",    tZONE,    -HOUR( 9) },      /* Japan Standard, USSR Zone 8 */
+    { "jdt",    tDAYZONE, -HOUR( 9) },      /* Japan Daylight */
+    { "kst",    tZONE,    -HOUR( 9) },      /* Korea Standard */
+    { "kdt",    tDAYZONE, -HOUR( 9) },      /* Korea Daylight */
     { "cast",   tZONE,    -HOUR(19/2) },    /* Central Australian Standard */
     { "cadt",   tDAYZONE, -HOUR(19/2) },    /* Central Australian Daylight */
     { "east",   tZONE,    -HOUR(10) },      /* Eastern Australian Standard */

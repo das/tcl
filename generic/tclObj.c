@@ -16,6 +16,7 @@
  */
 
 #include "tclInt.h"
+#include "tclCompile.h"
 #include "tommath.h"
 #include <float.h>
 
@@ -41,6 +42,7 @@ Tcl_Obj *tclFreeObjList = NULL;
  */
 
 #ifdef TCL_THREADS
+MODULE_SCOPE Tcl_Mutex tclObjMutex;
 Tcl_Mutex tclObjMutex;
 #endif
 
@@ -352,6 +354,7 @@ TclInitObjSubsystem(void)
     Tcl_RegisterObjType(&tclEndOffsetType);
     Tcl_RegisterObjType(&tclIntType);
     Tcl_RegisterObjType(&tclStringType);
+    Tcl_RegisterObjType(&tclListType);
     Tcl_RegisterObjType(&tclDictType);
     Tcl_RegisterObjType(&tclByteCodeType);
     Tcl_RegisterObjType(&tclArraySearchType);
@@ -2745,7 +2748,7 @@ GetBignumFromObj(
 		objPtr->internalRep.ptrAndLongRep.value = 0;
 		objPtr->typePtr = NULL;
 		if (objPtr->bytes == NULL) {
-		    TclInitStringRep(objPtr, NULL, 0);
+		    TclInitStringRep(objPtr, tclEmptyStringRep, 0);
 		}
 	    }
 	    return TCL_OK;
@@ -3504,7 +3507,7 @@ Tcl_GetCommandFromObj(
 	    && (resPtr->refNsId == currNsPtr->nsId)
 	    && (resPtr->refNsCmdEpoch == currNsPtr->cmdRefEpoch)) {
 	cmdPtr = resPtr->cmdPtr;
-	if (cmdPtr->cmdEpoch != resPtr->cmdEpoch) {
+	if ((cmdPtr->cmdEpoch != resPtr->cmdEpoch) || (cmdPtr->flags & CMD_IS_DELETED)) {
 	    cmdPtr = NULL;
 	}
     }

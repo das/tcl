@@ -51,7 +51,7 @@ static Tcl_HashTable *	ThreadStorageGetHashTable(Tcl_ThreadId id);
  * because these hash tables MAY be used by the threaded memory allocator.
  */
 
-Tcl_HashKeyType tclThreadStorageHashKeyType = {
+static Tcl_HashKeyType tclThreadStorageHashKeyType = {
     TCL_HASH_KEY_TYPE_VERSION,		/* version */
     TCL_HASH_KEY_SYSTEM_HASH | TCL_HASH_KEY_RANDOMIZE_HASH,
 				        /* flags */

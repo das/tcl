@@ -1024,7 +1024,7 @@ TclpMatchInDirectory(
 		Tcl_ResetResult(interp);
 		Tcl_AppendResult(interp, "couldn't read directory \"",
 			Tcl_DStringValue(&dsOrig), "\": ",
-			Tcl_PosixError(interp), (char *) NULL);
+			Tcl_PosixError(interp), NULL);
 	    }
 	    Tcl_DStringFree(&dsOrig);
 	    return TCL_ERROR;
@@ -1916,7 +1916,7 @@ TclpGetCwd(
 	TclWinConvertError(GetLastError());
 	if (interp != NULL) {
 	    Tcl_AppendResult(interp, "error getting working directory name: ",
-		    Tcl_PosixError(interp), (char *) NULL);
+		    Tcl_PosixError(interp), NULL);
 	}
 	return NULL;
     }

@@ -2069,3 +2069,11 @@ declare 1 macosx {
 	    int maxPathLen,
 	    char *libraryPath)
 }
+
+##############################################################################
+
+# Public functions that are not accessible via the stubs table:
+# (listed here _as comments_ so that the 'checkstubs' make target does not 
+# complain about them) 
+
+# void Tcl_Main(int argc, char **argv, Tcl_AppInitProc *appInitProc)
