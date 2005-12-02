@@ -652,6 +652,7 @@ proc ::tcl::clock::Initialize {} {
 
 proc ::tcl::clock::format { args } {
 
+    variable TZData
     set format {}
 
     # Check the count of args
@@ -724,9 +725,11 @@ proc ::tcl::clock::format { args } {
     if {$timezone eq ""} {
 	set timezone [GetSystemTimeZone]
     }
-    if {[catch {SetupTimeZone $timezone} retval opts]} {
-	dict unset opts -errorinfo
-	return -options $opts $retval
+    if {![info exists TZData($timezone)]} {
+	if {[catch {SetupTimeZone $timezone} retval opts]} {
+	    dict unset opts -errorinfo
+	    return -options $opts $retval
+	}
     }
     
     # Format the result
