@@ -652,8 +652,6 @@ proc ::tcl::clock::Initialize {} {
 
 proc ::tcl::clock::format { args } {
 
-    variable TZData
-
     set format {}
 
     # Check the count of args
@@ -731,16 +729,10 @@ proc ::tcl::clock::format { args } {
 	return -options $opts $retval
     }
     
-    # Extract the fields of the date.
-    
-    set date [GetDateFields $clockval \
-		  $TZData($timezone) \
-		  [mc GREGORIAN_CHANGE_DATE]]
-    
     # Format the result
     
     set formatter [ParseClockFormatFormat $format $locale]
-    return [$formatter $date $TZData($timezone)]
+    return [$formatter $clockval $timezone]
 
 }
 
@@ -802,7 +794,15 @@ proc ::tcl::clock::ParseClockFormatFormat2 {format locale procName} {
 
     set didLocaleEra 0
     set didLocaleNumerals 0
-    set preFormatCode {}
+    set preFormatCode \
+	[string map [list @GREGORIAN_CHANGE_DATE@ \
+				       [mc GREGORIAN_CHANGE_DATE]] \
+	     {
+		 variable TZData
+		 set date [GetDateFields $clockval \
+			       $TZData($timezone) \
+			       @GREGORIAN_CHANGE_DATE@]
+	     }]
     set formatString {}
     set substituents {}
     set state {}
@@ -1207,7 +1207,7 @@ proc ::tcl::clock::ParseClockFormatFormat2 {format locale procName} {
 	}
     }
 
-    proc $procName {date changeover} "
+    proc $procName {clockval timezone} "
         $preFormatCode
         return \[::format [list $formatString] $substituents\]
     "
