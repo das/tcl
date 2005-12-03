@@ -6321,4 +6321,4 @@ Restores Tcl 8.4.9 behavior (porter)
 
 2005-11-29 (enhancement)[1369597] Win 64: --enable-64bit=amd64|ia64 (hobbs)
 
---- Released 8.4.12, Decemeber 1, 2005 --- See ChangeLog for details ---
+--- Released 8.4.12, Decemeber 3, 2005 --- See ChangeLog for details ---
