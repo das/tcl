@@ -1,6 +1,18 @@
-Tcl 8.5 for Macintosh
+Tcl 8.4 for Macintosh
 
 RCS: @(#) $Id$
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Note that Tcl on Mac OS Classic is no longer supported and likely no longer
+compiles, the last release known to work is 8.4.2. The 'mac' source
+directory and all other Mac Classic code have been removed from Tk 8.5.
+
+The Mac OS X port of Tcl can be found in the 'macosx' source directory.
+
+The information and URLs below are known to be outdated and incorrect.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 1. Introduction
 ---------------
@@ -10,7 +22,7 @@ scripting language.  The home page for the Mac/Tcl info is
 	http://www.tcl.tk/software/mac/
 
 A summary of what's new in this release is at
-	http://www.tcl.tk/software/tcltk/8.5.html
+	http://www.tcl.tk/software/tcltk/8.4.html
 
 A summary of Macintosh-specific features is at
 	http://www.tcl.tk/software/mac/features.html

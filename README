@@ -92,7 +92,7 @@ Windows help Tcl documentation will appear in the "Start" menu:
 3. Compiling and installing Tcl
 -------------------------------
 
-There are brief notes in the unix/README, win/README, and mac/README about
+There are brief notes in the unix/README, win/README, and macosx/README about
 compiling on these different platforms.  There is additional information
 about building Tcl from sources at
 
