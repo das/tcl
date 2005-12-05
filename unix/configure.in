@@ -433,6 +433,22 @@ AC_CHECK_FUNCS(chflags)
 AC_CHECK_FUNCS(getattrlist)
 
 #--------------------------------------------------------------------
+# Check for support of fts functions (readdir replacement)
+#--------------------------------------------------------------------
+
+AC_CACHE_CHECK([for fts], tcl_cv_api_fts, [
+    AC_TRY_LINK([#include <sys/param.h>
+            #include <sys/stat.h>
+            #include <fts.h>], 
+        [char*const p[2] = {"/", NULL};
+            FTS *f = fts_open(p, FTS_PHYSICAL|FTS_NOCHDIR|FTS_NOSTAT, NULL);
+            FTSENT *e = fts_read(f); fts_close(f);], 
+        tcl_cv_api_fts=yes, tcl_cv_api_fts=no)])
+if test $tcl_cv_api_fts = yes; then
+    AC_DEFINE(HAVE_FTS, 1, [Do we have fts functions?])
+fi
+
+#--------------------------------------------------------------------
 #	The statements below check for systems where POSIX-style
 #	non-blocking I/O (O_NONBLOCK) doesn't work or is unimplemented. 
 #	On these systems (mostly older ones), use the old BSD-style
