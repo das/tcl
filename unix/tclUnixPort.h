@@ -518,6 +518,8 @@ extern double strtod();
 #           define HAVE_PUTENV_THAT_COPIES 1
 #        endif /* __DARWIN_UNIX03 */
 #        define USE_TERMIOS 1
+#        undef USE_TERMIO
+#        undef USE_SGTTY
 #    endif /* defined(__DARWIN_UNIX03) */
 #endif /* __APPLE__ */
 
