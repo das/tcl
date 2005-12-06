@@ -510,13 +510,15 @@ extern double strtod();
 #   ifdef __LP64__
 #       undef HAVE_COREFOUNDATION
 #    endif /* __LP64__ */
-#   ifdef __DARWIN_UNIX03
-#       define USE_TERMIOS 1
-#       undef HAVE_PUTENV_THAT_COPIES
-#    else /* !__DARWIN_UNIX03 */
-#       undef USE_TERMIOS
-#       define HAVE_PUTENV_THAT_COPIES 1
-#    endif /* __DARWIN_UNIX03 */
+#   include <sys/cdefs.h>
+#   if defined(__DARWIN_UNIX03)
+#       if __DARWIN_UNIX03
+#           undef HAVE_PUTENV_THAT_COPIES
+#        else /* !__DARWIN_UNIX03 */
+#           define HAVE_PUTENV_THAT_COPIES 1
+#        endif /* __DARWIN_UNIX03 */
+#        define USE_TERMIOS 1
+#    endif /* defined(__DARWIN_UNIX03) */
 #endif /* __APPLE__ */
 
 /*
