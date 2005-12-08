@@ -111,7 +111,7 @@ the build instructions.
 #		fullwarn = Builds with full compiler and link warnings enabled.
 #			    Very verbose.
 #
-#	MACHINE=(IX86|IA64|ALPHA)
+#	MACHINE=(IX86|IA64|AMD64|ALPHA)
 #		Set the machine type used for the compiler, linker, and
 #		resource compiler.  This hook is needed to tell the tools
 #		when alternate platforms are requested.  IX86 is the default
@@ -515,7 +515,11 @@ conlflags = $(lflags) -subsystem:console
 guilflags = $(lflags) -subsystem:windows
 
 baselibs   = kernel32.lib user32.lib
-
+# Avoid 'unresolved external symbol __security_cookie' errors.
+# c.f. http://support.microsoft.com/?id=894573
+!if "$(MACHINE)" == "IA64" || "$(MACHINE)" == "AMD64"
+baselibs   = $(baselibs) bufferoverflowU.lib
+!endif
 
 #---------------------------------------------------------------------
 # TclTest flags
