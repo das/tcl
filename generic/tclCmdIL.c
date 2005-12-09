@@ -3066,8 +3066,19 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 	if (result != TCL_OK) {
 	    return result;
 	}
+
+	/*
+	 * If the search started past the end of the list, we just return a
+	 * "did not match anything at all" result straight away. [Bug 1374778]
+	 */
+
 	if (offset > listc-1) {
-	    offset = listc-1;
+	    if (allMatches || inlineReturn) {
+		Tcl_ResetResult(interp);
+	    } else {
+		Tcl_SetObjResult(interp, Tcl_NewIntObj(-1));
+	    }
+	    return TCL_OK;
 	}
 	if (offset < 0) {
 	    offset = 0;
