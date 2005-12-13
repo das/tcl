@@ -5922,7 +5922,6 @@ TclExecuteByteCode(
 	searchPtr = (Tcl_DictSearch *) ckalloc(sizeof(Tcl_DictSearch));
 	result = Tcl_DictObjFirst(interp, dictPtr, searchPtr, &keyPtr,
 		&valuePtr, &done);
-	Tcl_DecrRefCount(dictPtr);
 	if (result != TCL_OK) {
 	    ckfree((char *) searchPtr);
 	    cleanup = 0;
@@ -5930,7 +5929,8 @@ TclExecuteByteCode(
 	}
 	TclNewObj(statePtr);
 	statePtr->typePtr = &dictIteratorType;
-	statePtr->internalRep.otherValuePtr = (void *) searchPtr;
+	statePtr->internalRep.twoPtrValue.ptr1 = (void *) searchPtr;
+	statePtr->internalRep.twoPtrValue.ptr2 = (void *) dictPtr;
 	varPtr = compiledLocals + opnd;
 	if (varPtr->value.objPtr == NULL) {
 	    TclSetVarScalar(compiledLocals + opnd);
@@ -5976,9 +5976,12 @@ TclExecuteByteCode(
 	    Tcl_Panic("mis-issued dictDone!");
 	}
 	if (statePtr->typePtr == &dictIteratorType) {
-	    searchPtr = (Tcl_DictSearch *) statePtr->internalRep.otherValuePtr;
+	    searchPtr = (Tcl_DictSearch *)
+		    statePtr->internalRep.twoPtrValue.ptr1;
+	    dictPtr = (Tcl_Obj *) statePtr->internalRep.twoPtrValue.ptr2;
 	    Tcl_DictObjDone(searchPtr);
 	    ckfree((char *) searchPtr);
+	    Tcl_DecrRefCount(dictPtr);
 	}
 
 	/*

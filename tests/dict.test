@@ -540,6 +540,17 @@ test dict-14.16 {dict for command in compilation context} {
     }
     dicttest
 } {a b c d e f}
+test dict-14.17 {dict for command in compilation context} {
+    # Bug 1379349
+    proc dicttest {} {
+	set d [dict create a 1]		;# Dict must be unshared!
+	dict for {k v} $d {
+	    dict set d $k 0		;# Any modification will do
+	}
+	return $d
+    }
+    dicttest
+} {a 0}
 # There's probably a lot more tests to add here.  Really ought to use
 # a coverage tool for this job...
 
