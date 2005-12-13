@@ -830,7 +830,7 @@ Tcl_AfterObjCmd(
      * to wait, or else index is the index of a subcommand.
      */
 
-    switch ((enum afterSubCmds) index) {
+    switch (index) {
     case -1: {
 	if (ms < 0) {
 	    ms = 0;

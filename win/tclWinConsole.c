@@ -815,9 +815,9 @@ ConsoleOutputProc(
 		ckfree(infoPtr->writeBuf);
 	    }
 	    infoPtr->writeBufLen = toWrite;
-	    infoPtr->writeBuf = ckalloc(toWrite);
+	    infoPtr->writeBuf = ckalloc((size_t)toWrite);
 	}
-	memcpy(infoPtr->writeBuf, buf, toWrite);
+	memcpy(infoPtr->writeBuf, buf, (size_t)toWrite);
 	infoPtr->toWrite = toWrite;
 	ResetEvent(infoPtr->writable);
 	SetEvent(infoPtr->startWriter);
@@ -828,7 +828,8 @@ ConsoleOutputProc(
 	 * avoids an unnecessary copy.
 	 */
 
-	if (writeConsoleBytes(infoPtr->handle, buf, toWrite, &bytesWritten)
+	if (writeConsoleBytes(infoPtr->handle, buf, (DWORD)toWrite,
+			      &bytesWritten)
 		== FALSE) {
 	    TclWinConvertError(GetLastError());
 	    goto error;
@@ -1275,7 +1276,8 @@ ConsoleWriterThread(
 	 */
 
 	while (toWrite > 0) {
-	    if (writeConsoleBytes(handle, buf, toWrite, &count) == FALSE) {
+	    if (writeConsoleBytes(handle, buf, (DWORD)toWrite,
+				  &count) == FALSE) {
 		infoPtr->writeError = GetLastError();
 		break;
 	    } else {

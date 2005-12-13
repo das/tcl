@@ -1171,7 +1171,7 @@ TclObjInterpProc(
      */
 
     localCt = procPtr->numCompiledLocals;
-    compiledLocals = (Var *) TclStackAlloc(interp, localCt*sizeof(Var));
+    compiledLocals = (Var *) TclStackAlloc(interp, (int)(localCt*sizeof(Var)));
     framePtr->numCompiledLocals = localCt;
     framePtr->compiledLocals = compiledLocals;
 

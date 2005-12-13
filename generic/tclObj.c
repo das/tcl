@@ -149,7 +149,7 @@ static Tcl_ThreadDataKey pendingObjDataKey;
 	mp_int *temp = (void *) ckalloc((unsigned) sizeof(mp_int)); \
 	*temp = bignum; \
 	(objPtr)->internalRep.ptrAndLongRep.ptr = (void*) temp; \
-	(objPtr)->internalRep.ptrAndLongRep.value = -1; \
+	(objPtr)->internalRep.ptrAndLongRep.value = (unsigned long)(-1); \
     } else { \
 	if ((bignum).alloc > 0x7fff) { \
 	    mp_shrink(&(bignum)); \

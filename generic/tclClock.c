@@ -422,7 +422,7 @@ ClockGetdatefieldsObjCmd(
     Tcl_DictObjPut((Tcl_Interp*) NULL, dict, literals[LIT_TZOFFSET],
 		   Tcl_NewIntObj(fields.tzOffset));
     Tcl_DictObjPut((Tcl_Interp*) NULL, dict, literals[LIT_JULIANDAY],
-		   Tcl_NewWideIntObj(fields.julianDay));
+		   Tcl_NewIntObj(fields.julianDay));
     Tcl_DictObjPut((Tcl_Interp*) NULL, dict, literals[LIT_GREGORIAN],
 		   Tcl_NewIntObj(fields.gregorian));
     Tcl_DictObjPut((Tcl_Interp*) NULL, dict, literals[LIT_ERA],

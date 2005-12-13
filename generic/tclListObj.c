@@ -554,7 +554,7 @@ Tcl_ListObjAppendElement(
 	oldListRepPtr->refCount--;
 	listPtr->internalRep.twoPtrValue.ptr1 = (VOID *) listRepPtr;
     } else if (newSize) {
-	listRepPtr = (List *) ckrealloc((char *)listRepPtr, newSize);
+	listRepPtr = (List *) ckrealloc((char *)listRepPtr, (size_t)newSize);
 	listRepPtr->maxElemCount = newMax;
 	listPtr->internalRep.twoPtrValue.ptr1 = (VOID *) listRepPtr;
     }

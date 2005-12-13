@@ -582,6 +582,10 @@ Tcl_CreateInterp(void)
 #endif
     Tcl_InitStubs(interp, TCL_VERSION, 1);
 
+    if (TclTommath_Init(interp) != TCL_OK) {
+	panic(Tcl_GetString(Tcl_GetObjResult(interp)));
+    }
+
     return interp;
 }
 

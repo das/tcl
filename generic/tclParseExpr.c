@@ -1615,7 +1615,7 @@ GetLexeme(
     if ((c != '+') && (c != '-')) {
 	CONST char *end = infoPtr->lastChar;
 	CONST char* end2;
-	int code = TclParseNumber(NULL, NULL, NULL, src, (unsigned)(end-src),
+	int code = TclParseNumber(NULL, NULL, NULL, src, (int)(end-src),
 		&end2, 0);
 
 	if (code == TCL_OK) {

@@ -849,8 +849,8 @@ TclpOpenFileChannel(
 				 * what modes to create it? */
 {
     Tcl_Channel channel = 0;
-    int channelPermissions;
-    DWORD accessMode, createMode, shareMode, flags, consoleParams, type;
+    int channelPermissions = 0;
+    DWORD accessMode = 0, createMode, shareMode, flags, consoleParams, type;
     CONST TCHAR *nativeName;
     HANDLE handle;
     char channelName[16 + TCL_INTEGER_SPACE];
@@ -1267,9 +1267,10 @@ TclpGetDefaultStdChannel(
 {
     Tcl_Channel channel;
     HANDLE handle;
-    int mode;
-    char *bufMode;
-    DWORD handleId;		/* Standard handle to retrieve. */
+    int mode = -1;
+    char *bufMode = NULL;
+    DWORD handleId = (DWORD)INVALID_HANDLE_VALUE;
+				/* Standard handle to retrieve. */
 
     switch (type) {
     case TCL_STDIN:
