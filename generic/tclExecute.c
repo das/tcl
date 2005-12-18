@@ -5951,7 +5951,7 @@ TclExecuteByteCode(
 	if (statePtr == NULL || statePtr->typePtr != &dictIteratorType) {
 	    Tcl_Panic("mis-issued dictNext!");
 	}
-	searchPtr = (Tcl_DictSearch *) statePtr->internalRep.otherValuePtr;
+	searchPtr = (Tcl_DictSearch *) statePtr->internalRep.twoPtrValue.ptr1;
 	Tcl_DictObjNext(searchPtr, &keyPtr, &valuePtr, &done);
     pushDictIteratorResult:
 	if (done) {
@@ -5975,24 +5975,31 @@ TclExecuteByteCode(
 	if (statePtr == NULL) {
 	    Tcl_Panic("mis-issued dictDone!");
 	}
+
 	if (statePtr->typePtr == &dictIteratorType) {
+	    /*
+	     * First kill the search, and then release the reference to the
+	     * dictionary that we were holding.
+	     */
+
 	    searchPtr = (Tcl_DictSearch *)
 		    statePtr->internalRep.twoPtrValue.ptr1;
-	    dictPtr = (Tcl_Obj *) statePtr->internalRep.twoPtrValue.ptr2;
 	    Tcl_DictObjDone(searchPtr);
 	    ckfree((char *) searchPtr);
+
+	    dictPtr = (Tcl_Obj *) statePtr->internalRep.twoPtrValue.ptr2;
 	    Tcl_DecrRefCount(dictPtr);
+
+	    /*
+	     * Set the internal variable to an empty object to signify that we
+	     * don't hold an iterator.
+	     */
+
+	    Tcl_DecrRefCount(statePtr);
+	    TclNewObj(emptyPtr);
+	    compiledLocals[opnd].value.objPtr = emptyPtr;
+	    Tcl_IncrRefCount(emptyPtr);
 	}
-
-	/*
-	 * Set the internal variable to an empty object to signify that we
-	 * don't hold an iterator.
-	 */
-
-	Tcl_DecrRefCount(statePtr);
-	TclNewObj(emptyPtr);
-	compiledLocals[opnd].value.objPtr = emptyPtr;
-	Tcl_IncrRefCount(emptyPtr);
 	NEXT_INST_F(5, 0, 0);
     }
 
