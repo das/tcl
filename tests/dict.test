@@ -551,8 +551,16 @@ test dict-14.17 {dict for command in compilation context} {
     }
     dicttest
 } {a 0}
-# There's probably a lot more tests to add here.  Really ought to use
-# a coverage tool for this job...
+test dict-14.17 {dict for command in compilation context} {
+    # Bug 1382528
+    proc dicttest {} {
+	dict for {k v} {} {}		;# Note empty dict
+	catch { error foo }		;# Note compiled [catch]
+    }
+    dicttest
+} 1
+# There's probably a lot more tests to add here. Really ought to use a
+# coverage tool for this job...
 
 test dict-15.1 {dict set command} {
     set dictVar {}
