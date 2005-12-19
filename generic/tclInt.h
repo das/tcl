@@ -1906,6 +1906,8 @@ typedef struct ProcessGlobalValue {
 				/* Disable floating point parsing */
 #define TCL_PARSE_SCAN_PREFIXES		16
 				/* Use [scan] rules dealing with 0? prefixes */
+#define TCL_PARSE_NO_WHITESPACE		32
+				/* Reject leading/trailing whitespace */
 
 /*
  *----------------------------------------------------------------------

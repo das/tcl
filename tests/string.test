@@ -661,6 +661,14 @@ test string-6.107 {string is integer, bad integers} {
     }
     set result
 } {1 1 0 0 0 1 0 0}
+test string-6.108 {string is double, Bug 1382287} {
+    set x 2turtledoves
+    string is double $x
+    string is double $x
+} 0
+test string-6.109 {string is double, Bug 1360532} {
+    string is double 1\u00a0
+} 0
 
 catch {rename largest_int {}}
 

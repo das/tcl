@@ -1544,8 +1544,11 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 		failat = 0;
 	    } else {
 		failat = stop - string1;
-		string1 = stop;
-		chcomp = Tcl_UniCharIsSpace;
+		if (stop < end) {
+		    result = 0;
+		    TclFreeIntRep(objPtr);
+		    objPtr->typePtr = NULL;
+		}
 	    }
 	    break;
 	}
