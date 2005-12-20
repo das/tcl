@@ -90,12 +90,12 @@ typedef struct Block {
 
 typedef struct Bucket {
     Block *firstPtr;
-    int nfree;
-    int nget;
-    int nput;
-    int nwait;
-    int nlock;
-    int nrequest;
+    long nfree;
+    long nget;
+    long nput;
+    long nwait;
+    long nlock;
+    long nrequest;
 } Bucket;
 
 /*
@@ -637,8 +637,8 @@ Tcl_GetMemoryInfo(Tcl_DString *dsPtr)
     	    Tcl_DStringAppendElement(dsPtr, buf);
 	}
 	for (n = 0; n < NBUCKETS; ++n) {
-    	    sprintf(buf, "%d %d %d %d %d %d %d",
-		(int) binfo[n].blocksize,
+    	    sprintf(buf, "%lu %ld %ld %ld %ld %ld %ld",
+		(unsigned long) binfo[n].blocksize,
 		cachePtr->buckets[n].nfree,
 		cachePtr->buckets[n].nget,
 		cachePtr->buckets[n].nput,
