@@ -2214,7 +2214,7 @@ TclFinalizeDoubleConversion()
 /*
  *----------------------------------------------------------------------
  *
- * TclInitBignumFromDouble --
+ * Tcl_InitBignumFromDouble --
  *
  *	Extracts the integer part of a double and converts it to an arbitrary
  *	precision integer.
@@ -2223,14 +2223,14 @@ TclFinalizeDoubleConversion()
  *	None.
  *
  * Side effects:
- *	Initializes the bignum supplied, and stores the converted number * in
- *	it.
+ *	Initializes the bignum supplied, and stores the converted number 
+ *      in it.
  *
  *----------------------------------------------------------------------
  */
 
 int
-TclInitBignumFromDouble(
+Tcl_InitBignumFromDouble(
     Tcl_Interp *interp,		/* For error message */
     double d,			/* Number to convert */
     mp_int *b)			/* Place to store the result */

@@ -2082,8 +2082,6 @@ MODULE_SCOPE int	TclIncrObj(Tcl_Interp *interp, Tcl_Obj *valuePtr,
 MODULE_SCOPE Tcl_Obj *	TclIncrObjVar2(Tcl_Interp *interp, Tcl_Obj *part1Ptr,
 			    Tcl_Obj *part2Ptr, Tcl_Obj *incrPtr, int flags);
 MODULE_SCOPE void	TclInitAlloc(void);
-MODULE_SCOPE int	TclInitBignumFromDouble(Tcl_Interp *interp, double d,
-			    mp_int *b);
 MODULE_SCOPE void	TclInitDbCkalloc(void);
 MODULE_SCOPE void	TclInitDoubleConversion(void);
 MODULE_SCOPE void	TclInitEmbeddedConfigurationInformation(

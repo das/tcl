@@ -2030,6 +2030,13 @@ declare 564 generic {
 declare 565 generic {
     void Tcl_GetChannelError (Tcl_Channel chan, Tcl_Obj** msg)
 }
+
+# Additional conversion functions for bignum support
+
+declare 566 generic {
+    int Tcl_InitBignumFromDouble(Tcl_Interp* interp, double initval, 
+		mp_int *toInit)
+}
   
 
 ##############################################################################

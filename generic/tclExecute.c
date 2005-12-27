@@ -3643,7 +3643,7 @@ TclExecuteByteCode(
 		    mp_clear(&big2);
 		    goto doubleCompare;
 		}
-		TclInitBignumFromDouble(NULL, d1, &big1);
+		Tcl_InitBignumFromDouble(NULL, d1, &big1);
 		goto bigCompare;
 	    }
 	    break;
@@ -3680,7 +3680,7 @@ TclExecuteByteCode(
 		    mp_clear(&big1);
 		    goto doubleCompare;
 		}
-		TclInitBignumFromDouble(NULL, d2, &big2);
+		Tcl_InitBignumFromDouble(NULL, d2, &big2);
 		goto bigCompare;
 	    case TCL_NUMBER_BIG:
 		if (Tcl_IsShared(value2Ptr)) {
