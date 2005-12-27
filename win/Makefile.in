@@ -628,7 +628,9 @@ install-libraries: libraries install-tzdata install-msgs
 	@for i in "$(GENERIC_DIR)/tcl.h" "$(GENERIC_DIR)/tclDecls.h" \
 		"$(GENERIC_DIR)/tclPlatDecls.h" \
 		"$(GENERIC_DIR)/tclTomMath.h" \
-		"$(GENERIC_DIR)/tclTomMathDecls.h" ; \
+		"$(GENERIC_DIR)/tclTomMathDecls.h" \
+		"$(TOMMATH_DIR)/tommath_class.h" \
+		"$(TOMMATH_DIR)/tommath_superclass.h" ; \
 	    do \
 	    $(COPY) "$$i" "$(INCLUDE_INSTALL_DIR)"; \
 	    done;

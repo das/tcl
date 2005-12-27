@@ -1062,7 +1062,6 @@ TclStubs tclStubs = {
     Tcl_GetChannelErrorInterp, /* 563 */
     Tcl_SetChannelError, /* 564 */
     Tcl_GetChannelError, /* 565 */
-    TclTomMathInitializeStubs, /* 566 */
 };
 
 /* !END!: Do not edit above this line. */

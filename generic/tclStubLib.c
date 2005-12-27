@@ -135,9 +135,6 @@ Tcl_InitStubs(
  * the TclTomMath_InitStubs macro, to insure that the Stubs table
  * matches the header files used in compilation.
  *
- * This procedure assumes that Tcl_InitStubs has been called first.
- * Hence, it appears in Tcl's internal Stubs table.
- *
  *----------------------------------------------------------------------
  */
 
@@ -145,7 +142,7 @@ Tcl_InitStubs(
 #undef TclTomMathInitializeStubs
 #endif
 
-const char*
+MODULE_SCOPE CONST char*
 TclTomMathInitializeStubs(
     Tcl_Interp* interp,		/* Tcl interpreter */
     CONST char* version,	/* Tcl version needed */

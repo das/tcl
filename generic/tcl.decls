@@ -2030,12 +2030,6 @@ declare 564 generic {
 declare 565 generic {
     void Tcl_GetChannelError (Tcl_Channel chan, Tcl_Obj** msg)
 }
-
-declare 566 generic {
-    const char*      TclTomMathInitializeStubs(Tcl_Interp* interp, 
-                        CONST char* version, int epoch, int revision)
-}
-
   
 
 ##############################################################################
