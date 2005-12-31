@@ -161,7 +161,7 @@ TclTomMathInitializeStubs(
 	return NULL;
     }
     if (pkgClientData == NULL) {
-	errMsg = "missing stub täble pointer";
+	errMsg = "missing stub table pointer";
     } else if ((stubsPtr->tclBN_epoch)() != epoch) {
 	errMsg = "epoch number mismatch";
     } else if ((stubsPtr->tclBN_revision)() != revision) {
