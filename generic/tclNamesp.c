@@ -3754,7 +3754,7 @@ NamespaceInscopeCmd(
     Tcl_Obj *CONST objv[])	/* Argument objects. */
 {
     Tcl_Namespace *namespacePtr;
-    Tcl_CallFrame *framePtr;
+    CallFrame *framePtr;
     int i, result;
 
     if (objc < 4) {
@@ -3780,11 +3780,13 @@ NamespaceInscopeCmd(
      * Make the specified namespace the current namespace.
      */
 
-    result = TclPushStackFrame(interp, &framePtr, namespacePtr,
-	    /*isProcCallFrame*/ 0);
+    result = TclPushStackFrame(interp, (Tcl_CallFrame **)&framePtr,
+	    namespacePtr, /*isProcCallFrame*/ 0);
     if (result != TCL_OK) {
 	return result;
     }
+    framePtr->objc = objc;
+    framePtr->objv = objv;
 
     /*
      * Execute the command. If there is just one argument, just treat it as a
