@@ -14,7 +14,7 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
@@ -219,6 +219,25 @@ test error-6.9 {catch must reset error state} {
     catch foo
     list $errorCode
 } {NONE}
+
+namespace eval ::tcl::test::error {
+    test error-7.0 {Bug 1397843} -body {
+	variable cmds
+	proc EIWrite args {
+	    variable cmds
+	    lappend cmds [lindex [info level -2] 0]
+	}
+	proc BadProc {} {
+	    set i a
+	    incr i
+	}
+	trace add variable ::errorInfo write [namespace code EIWrite]
+	catch BadProc
+	trace remove variable ::errorInfo write [namespace code EIWrite]
+	set cmds
+    } -match glob -result {*BadProc*}
+}
+namespace delete ::tcl::test::error
 
 # cleanup
 catch {rename p ""}
