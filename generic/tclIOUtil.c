@@ -5863,12 +5863,16 @@ Tcl_FSGetInternalRep(pathObjPtr, fsPtr)
 
     if (srcFsPathPtr->nativePathPtr == NULL) {
 	Tcl_FSCreateInternalRepProc *proc;
-	proc = srcFsPathPtr->fsRecPtr->fsPtr->createInternalRepProc;
+	char *nativePathPtr;
 
+	proc = srcFsPathPtr->fsRecPtr->fsPtr->createInternalRepProc;
 	if (proc == NULL) {
 	    return NULL;
 	}
-	srcFsPathPtr->nativePathPtr = (*proc)(pathObjPtr);
+
+	nativePathPtr = (*proc)(pathObjPtr);
+	srcFsPathPtr  = (FsPath*) PATHOBJ(pathObjPtr);
+	srcFsPathPtr->nativePathPtr = nativePathPtr;
     }
 
     return srcFsPathPtr->nativePathPtr;
