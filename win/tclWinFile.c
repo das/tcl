@@ -2018,7 +2018,8 @@ NativeStat(
      * and if that isn't available, then on even simpler routines.
      */
     fileHandle = (tclWinProcs->createFileProc) (
-	nativePath, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+	nativePath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 
+	NULL, OPEN_EXISTING,
 	FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, NULL);
 
     if (fileHandle != INVALID_HANDLE_VALUE) {
