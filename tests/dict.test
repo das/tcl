@@ -551,7 +551,7 @@ test dict-14.17 {dict for command in compilation context} {
     }
     dicttest
 } {a 0}
-test dict-14.17 {dict for command in compilation context} {
+test dict-14.18 {dict for command in compilation context} {
     # Bug 1382528
     proc dicttest {} {
 	dict for {k v} {} {}		;# Note empty dict

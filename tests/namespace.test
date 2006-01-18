@@ -2353,6 +2353,9 @@ test namespace-51.13 {name resolution path control} -body {
     catch {namespace delete ::test_ns_4}
 }
 test namespace-51.14 {name resolution path control} -body {
+    foreach cmd [info commands foo*] {
+	rename $cmd {}
+    }
     proc foo0 {} {}
     namespace eval ::test_ns_1 {
 	proc foo1 {} {}

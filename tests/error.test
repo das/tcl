@@ -18,6 +18,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
+namespace eval ::tcl::test::error {
 proc foo {} {
     global errorInfo
     set a [catch {format [error glorp2]} b]
@@ -220,7 +221,6 @@ test error-6.9 {catch must reset error state} {
     list $errorCode
 } {NONE}
 
-namespace eval ::tcl::test::error {
     test error-7.0 {Bug 1397843} -body {
 	variable cmds
 	proc EIWrite args {
