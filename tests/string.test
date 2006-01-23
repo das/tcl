@@ -1110,7 +1110,7 @@ test string-12.20 {string range, out of bounds indices} {
     string range \u00ff 0 1
 } \u00ff
 # Bug 1410553
-test string-12.21 {string range, regenerates correct reps} {
+test string-12.21 {string range, regenerates correct reps, bug 1410553} {
     set bytes "\x00 \x03 \x41"
     set rxBuffer {}
     foreach ch $bytes {
