@@ -1052,6 +1052,16 @@ test string-12.19 {string range, bytearray object} {
 test string-12.20 {string range, out of bounds indices} {
     string range \u00ff 0 1
 } \u00ff
+test string-12.21 {string range, unicode, bug 1410553} {
+    set buf {}
+    foreach ch "\x00 \x03 \x41" {
+	append buf $ch
+	if {$ch == "\x03"} {
+	    string length $buf
+	}
+    }
+    expr {[string range $buf end-1 end] eq "\x03\x41"}
+} 1
 
 test string-13.1 {string repeat} {
     list [catch {string repeat} msg] $msg
