@@ -457,12 +457,12 @@ TclCreateProc(
 		    ckfree((char *) fieldValues);
 		    goto procError;
 		}
-		if ((i == numArgs - 1)
-			&& (localPtr->nameLength == 4)
-			&& (localPtr->name[0] == 'a')
-			&& (strcmp(localPtr->name, "args") == 0)) {
-		    localPtr->flags |= VAR_IS_ARGS;
-		}
+	    }
+	    if ((i == numArgs - 1)
+		    && (localPtr->nameLength == 4)
+		    && (localPtr->name[0] == 'a')
+		    && (strcmp(localPtr->name, "args") == 0)) {
+		localPtr->flags |= VAR_IS_ARGS;
 	    }
 
 	    localPtr = localPtr->nextPtr;
