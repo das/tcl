@@ -636,7 +636,7 @@ Tcl_GetRange(
 	stringPtr = GET_STRING(objPtr);
     }
 
-    if (stringPtr->numChars == objPtr->length) {
+    if (objPtr->bytes && (stringPtr->numChars == objPtr->length)) {
 	char *str = Tcl_GetString(objPtr);
 
 	/*

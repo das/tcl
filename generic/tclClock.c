@@ -422,7 +422,7 @@ ClockGetdatefieldsObjCmd(
     Tcl_DictObjPut((Tcl_Interp*) NULL, dict, literals[LIT_TZOFFSET],
 		   Tcl_NewIntObj(fields.tzOffset));
     Tcl_DictObjPut((Tcl_Interp*) NULL, dict, literals[LIT_JULIANDAY],
-		   Tcl_NewWideIntObj(fields.julianDay));
+		   Tcl_NewIntObj(fields.julianDay));
     Tcl_DictObjPut((Tcl_Interp*) NULL, dict, literals[LIT_GREGORIAN],
 		   Tcl_NewIntObj(fields.gregorian));
     Tcl_DictObjPut((Tcl_Interp*) NULL, dict, literals[LIT_ERA],
@@ -1481,13 +1481,10 @@ ClockGetenvObjCmd(
     varName = Tcl_GetStringFromObj(objv[1], NULL);
     varValue = getenv(varName);
     if (varValue == NULL) {
-	Tcl_SetObjResult(interp,
-		Tcl_NewStringObj("variable not found", -1));
-	return TCL_ERROR;
-    } else {
-	Tcl_SetObjResult(interp, Tcl_NewStringObj(varValue, -1));
-	return TCL_OK;
+	varValue = "";
     }
+    Tcl_SetObjResult(interp, Tcl_NewStringObj(varValue, -1));
+    return TCL_OK;
 }
 
 /*

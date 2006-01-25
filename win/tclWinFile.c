@@ -28,7 +28,8 @@
  * on the proleptic Gregorian calendar) and the Posix epoch (1970-01-01).
  */
 
-#define POSIX_EPOCH_AS_FILETIME		116444736000000000
+#define POSIX_EPOCH_AS_FILETIME		((Tcl_WideInt)116444736 \
+                                         * (Tcl_WideInt) 1000000000)
 
 /*
  * Declarations for 'link' related information. This information should come
@@ -1445,7 +1446,7 @@ TclpGetUserHome(
 	    if (domain != NULL) {
 		Tcl_DStringInit(&ds);
 		wName = Tcl_UtfToUniCharDString(domain + 1, -1, &ds);
-		badDomain = (*netGetDCNameProc)(NULL, wName,
+		badDomain = (netGetDCNameProc)(NULL, wName,
 			(LPBYTE *) &wDomain);
 		Tcl_DStringFree(&ds);
 		nameLen = domain - name;
@@ -1453,7 +1454,7 @@ TclpGetUserHome(
 	    if (badDomain == 0) {
 		Tcl_DStringInit(&ds);
 		wName = Tcl_UtfToUniCharDString(name, nameLen, &ds);
-		if ((*netUserGetInfoProc)(wDomain, wName, 1,
+		if ((netUserGetInfoProc)(wDomain, wName, 1,
 			(LPBYTE *) &uiPtr) == 0) {
 		    wHomeDir = uiPtr->usri1_home_dir;
 		    if ((wHomeDir != NULL) && (wHomeDir[0] != L'\0')) {
@@ -1609,7 +1610,7 @@ NativeAccess(
 	     * to EACCES - just what we want!
 	     */
 
-	    TclWinConvertError(error);
+	    TclWinConvertError((DWORD)error);
 	    return -1;
 	}
 
@@ -2017,7 +2018,8 @@ NativeStat(
      * and if that isn't available, then on even simpler routines.
      */
     fileHandle = (tclWinProcs->createFileProc) (
-	nativePath, GENERIC_READ, 0, NULL, OPEN_EXISTING,
+	nativePath, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 
+	NULL, OPEN_EXISTING,
 	FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, NULL);
 
     if (fileHandle != INVALID_HANDLE_VALUE) {
@@ -2799,7 +2801,7 @@ TclpObjNormalizePath(
 				}
 			    }
 			    Tcl_DStringAppend(&dsNorm, nativePath,
-				    sizeof(WCHAR)*len);
+				    (int)(sizeof(WCHAR)*len));
 			    lastValidPathEnd = currentPathEndPosition;
 			}
 		    }

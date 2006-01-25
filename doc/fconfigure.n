@@ -49,7 +49,8 @@ channel can cause the process to block indefinitely.
 The value of the option must be a proper boolean value.
 Channels are normally in blocking mode;  if a channel is placed into
 nonblocking mode it will affect the operation of the \fBgets\fR,
-\fBread\fR, \fBputs\fR, \fBflush\fR, and \fBclose\fR commands;
+\fBread\fR, \fBputs\fR, \fBflush\fR, and \fBclose\fR commands by
+allowing them to operate asynchronously;
 see the documentation for those commands for details.
 For nonblocking mode to work correctly, the application must be
 using the Tcl event loop (e.g. by calling \fBTcl_DoOneEvent\fR or

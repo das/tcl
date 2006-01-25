@@ -80,8 +80,8 @@ package require \fBTcl 8.5\fR
 .PP
 The \fBexpr\fR command handles mathematical functions of the form
 \fBsin($x)\fR or \fBatan2($y,$x)\fR by converting them to calls of the
-form \fB[tcl::math::sin [expr {$x}]]\fR or
-\fB[tcl::math::atan2 [expr {$y}] [expr {$x}]]\fR.
+form \fB[tcl::mathfunc::sin [expr {$x}]]\fR or
+\fB[tcl::mathfunc::atan2 [expr {$y}] [expr {$x}]]\fR.
 A number of math functions are available by default within the
 namespace \fB::tcl::mathfunc\fR; these functions are also available
 for code apart from \fBexpr\fR, by invoking the given commands

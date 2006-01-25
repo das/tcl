@@ -68,7 +68,7 @@ test eval-3.3 {eval and canonical lists} {
     set cmd [list list 1 2 3 4 5]
     # Force existance of utf-8 rep
     set dummy($cmd) $cmd
-    unset dummy($cmd)
+    unset dummy
     eval $cmd
 } {1 2 3 4 5}
 test eval-3.4 {concatenating eval and canonical lists} {
@@ -77,7 +77,7 @@ test eval-3.4 {concatenating eval and canonical lists} {
     # Force existance of utf-8 rep
     set dummy($cmd) $cmd
     set dummy($cmd2) $cmd2
-    unset dummy($cmd) dummy($cmd2)
+    unset dummy
     eval $cmd $cmd2
 } {1 2 3 4 5}
 

@@ -6023,7 +6023,7 @@ Tcl_TruncateChannel(
      * pre-read input data.
      */
 
-    if (Tcl_Seek(chan, 0, SEEK_CUR) == Tcl_LongAsWide(-1)) {
+    if (Tcl_Seek(chan, (Tcl_WideInt)0, SEEK_CUR) == Tcl_LongAsWide(-1)) {
 	return TCL_ERROR;
     }
 

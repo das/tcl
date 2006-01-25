@@ -2015,12 +2015,16 @@ Tcl_FSGetInternalRep(
 
     if (srcFsPathPtr->nativePathPtr == NULL) {
 	Tcl_FSCreateInternalRepProc *proc;
-	proc = srcFsPathPtr->fsRecPtr->fsPtr->createInternalRepProc;
+	char *nativePathPtr;
 
+	proc = srcFsPathPtr->fsRecPtr->fsPtr->createInternalRepProc;
 	if (proc == NULL) {
 	    return NULL;
 	}
-	srcFsPathPtr->nativePathPtr = (*proc)(pathPtr);
+
+	nativePathPtr = (*proc)(pathPtr);
+	srcFsPathPtr  = (FsPath*) PATHOBJ(pathPtr);
+	srcFsPathPtr->nativePathPtr = nativePathPtr;
     }
 
     return srcFsPathPtr->nativePathPtr;

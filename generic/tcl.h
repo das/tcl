@@ -396,7 +396,7 @@ typedef struct stati64 Tcl_StatBuf;
 #         if _MSC_VER < 1400
 typedef struct _stati64	Tcl_StatBuf;
 #         else
-typedef struct _stat64	Tcl_StatBuf;
+typedef struct __stat64	Tcl_StatBuf;
 #         endif /* _MSC_VER < 1400 */
 #         define TCL_LL_MODIFIER	"I64"
 #         define TCL_LL_MODIFIER_SIZE	3
@@ -2385,6 +2385,8 @@ typedef unsigned long mp_digit;
 
 EXTERN CONST char *	Tcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp,
 			    CONST char *version, int exact));
+EXTERN CONST char*	TclTomMathInitializeStubs(Tcl_Interp* interp,
+ 		            CONST char* version, int epoch, int revision);
 
 #ifndef USE_TCL_STUBS
 
@@ -2396,6 +2398,11 @@ EXTERN CONST char *	Tcl_InitStubs _ANSI_ARGS_((Tcl_Interp *interp,
     Tcl_PkgRequire(interp, "Tcl", version, exact)
 
 #endif
+
+    /*
+     * TODO - tommath stubs export goes here!
+     */
+
 
 /*
  * Public functions that are not accessible via the stubs table.

@@ -1233,7 +1233,7 @@ TraverseWinTree(
 {
     DWORD sourceAttr;
     TCHAR *nativeSource, *nativeTarget, *nativeErrfile;
-    int result, found, sourceLen, targetLen, oldSourceLen, oldTargetLen;
+    int result, found, sourceLen, targetLen = 0, oldSourceLen, oldTargetLen;
     HANDLE handle;
     WIN32_FIND_DATAT data;
 
@@ -1448,9 +1448,9 @@ TraversalCopy(
 	break;
     case DOTREE_PRED:
 	if (DoCreateDirectory(nativeDst) == TCL_OK) {
-	    DWORD attr = (*tclWinProcs->getFileAttributesProc)(nativeSrc);
+	    DWORD attr = (tclWinProcs->getFileAttributesProc)(nativeSrc);
 
-	    if ((*tclWinProcs->setFileAttributesProc)(nativeDst,
+	    if ((tclWinProcs->setFileAttributesProc)(nativeDst,
 		    attr) != FALSE) {
 		return TCL_OK;
 	    }

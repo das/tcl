@@ -87,7 +87,8 @@ characters between them.
 There may be any number of command substitutions in a single word.
 Command substitution is not performed on words enclosed in braces.
 .IP "[8] \fBVariable substitution.\fR"
-If a word contains a dollar-sign (``$'') then Tcl performs \fIvariable
+If a word contains a dollar-sign (``$'') followed by one of the forms
+described below, then Tcl performs \fIvariable
 substitution\fR:  the dollar-sign and the following characters are
 replaced in the word by the value of a variable.
 Variable substitution may take any of the following forms:
