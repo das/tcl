@@ -19,7 +19,7 @@
 #ifdef HAVE_LANGINFO
 #include <langinfo.h>
 #endif
-#if defined(__FreeBSD__)
+#if defined(__FreeBSD__) && defined(__GNUC__)
 #   include <floatingpoint.h>
 #endif
 #if defined(__bsdi__)
@@ -204,7 +204,14 @@ TclpInitPlatform()
     (void) signal(SIGPIPE, SIG_IGN);
 #endif /* SIGPIPE */
 
-#ifdef __FreeBSD__
+#if defined(__FreeBSD__) && defined(__GNUC__)
+    /*
+     * Adjust the rounding mode to be more conventional. Note that FreeBSD
+     * only provides the __fpsetreg() used by the following two for the GNU
+     * Compiler. When using, say, Intel's icc they break. (Partially based on
+     * patch in BSD ports system from root@celsius.bychok.com)
+     */
+
     fpsetround(FP_RN);
     fpsetmask(0L);
 #endif
