@@ -262,7 +262,7 @@ A localizable version of \fBstring toupper\fR:
 .CS
 # Set up the basic C locale
 set capital [\fBdict create\fR C [\fBdict create\fR]]
-foreach c {abcdefghijklmnopqrstuvwxyz} {
+foreach c [split {abcdefghijklmnopqrstuvwxyz} ""] {
    \fBdict set\fR capital C $c [string toupper $c]
 }
 
