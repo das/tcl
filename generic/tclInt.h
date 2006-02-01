@@ -2246,6 +2246,9 @@ MODULE_SCOPE int	Tcl_AfterObjCmd(ClientData clientData,
 MODULE_SCOPE int	Tcl_AppendObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[]);
+MODULE_SCOPE int	Tcl_ApplyObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *CONST objv[]);
 MODULE_SCOPE int	Tcl_ArrayObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[]);

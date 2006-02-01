@@ -274,10 +274,10 @@ test proc-old-5.4 {error conditions} {
 } {1 {unmatched open brace in list}}
 test proc-old-5.5 {error conditions} {
     list [catch {proc tproc {{} y} {return foo}} msg] $msg
-} {1 {procedure "tproc" has argument with no name}}
+} {1 {argument with no name}}
 test proc-old-5.6 {error conditions} {
     list [catch {proc tproc {{} y} {return foo}} msg] $msg
-} {1 {procedure "tproc" has argument with no name}}
+} {1 {argument with no name}}
 test proc-old-5.7 {error conditions} {
     list [catch {proc tproc {{x 1 2} y} {return foo}} msg] $msg
 } {1 {too many fields in argument specifier "x 1 2"}}

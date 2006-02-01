@@ -105,6 +105,7 @@ static CmdInfo builtInCmds[] = {
      */
 
     {"append",		Tcl_AppendObjCmd,	TclCompileAppendCmd,	1},
+    {"apply",	        Tcl_ApplyObjCmd,        NULL,                   1},
     {"array",		Tcl_ArrayObjCmd,	NULL,			1},
     {"binary",		Tcl_BinaryObjCmd,	NULL,			1},
     {"break",		Tcl_BreakObjCmd,	TclCompileBreakCmd,	1},
