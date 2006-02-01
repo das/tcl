@@ -1063,6 +1063,8 @@ TclStubs tclStubs = {
     Tcl_SetChannelError, /* 564 */
     Tcl_GetChannelError, /* 565 */
     Tcl_InitBignumFromDouble, /* 566 */
+    Tcl_GetNamespaceUnknownHandler, /* 567 */
+    Tcl_SetNamespaceUnknownHandler, /* 568 */
 };
 
 /* !END!: Do not edit above this line. */

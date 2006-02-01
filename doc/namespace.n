@@ -256,6 +256,17 @@ procedure to refer to variables in \fInamespace\fR. The command
 \fBupvar 0 $ns::a b\fR.  
 \fBnamespace upvar\fR returns an empty string.
 .TP
+\fBnamespace unknown\fR ?\fIscript\fR?
+Sets or returns the unknown command handler for the current namespace.
+The handler is invoked when a command called from within the namespace
+cannot be found (in either the current namespace or the global namespace). 
+The \fIscript\fR argument, if given, should be a well
+formed list representing a command name and optional arguments. When
+the handler is invoked, the full invocation line will be appended to the
+script and the result evaluated in the context of the namespace. The 
+default handler for all namespaces is \fB::unknown\fR. If no argument
+is given, it returns the handler for the current namespace.
+.TP
 \fBnamespace which\fR ?\-\fBcommand\fR? ?\-\fBvariable\fR? \fIname\fR
 Looks up \fIname\fR as either a command or variable
 and returns its fully-qualified name.

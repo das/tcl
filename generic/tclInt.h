@@ -263,6 +263,9 @@ typedef struct Namespace {
     Tcl_Ensemble *ensembles;	/* List of structures that contain the details
 				 * of the ensembles that are implemented on
 				 * top of this namespace. */
+    Tcl_Obj *unknownHandlerPtr;	/* A script fragment to be used when command
+				 * resolution in this namespace fails. TIP
+				 * 181. */
     int commandPathLength;	/* The length of the explicit path. */
     NamespacePathEntry *commandPathArray;
 				/* The explicit path of the namespace as an

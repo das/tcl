@@ -2037,7 +2037,17 @@ declare 566 generic {
     int Tcl_InitBignumFromDouble(Tcl_Interp* interp, double initval, 
 		mp_int *toInit)
 }
-  
+
+# TIP 181
+declare 567 generic {
+    Tcl_Obj *Tcl_GetNamespaceUnknownHandler(Tcl_Interp *interp,
+        Tcl_Namespace *nsPtr)
+}
+declare 568 generic {
+    int Tcl_SetNamespaceUnknownHandler(
+        Tcl_Interp *interp, Tcl_Namespace *nsPtr,
+        Tcl_Obj *handlerPtr)
+}
 
 ##############################################################################
 
@@ -2077,6 +2087,7 @@ declare 1 macosx {
 	    int maxPathLen,
 	    char *libraryPath)
 }
+
 
 ##############################################################################
 
