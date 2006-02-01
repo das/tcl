@@ -249,6 +249,13 @@ This command is the complement of the \fBnamespace qualifiers\fR command.
 It does not check whether the namespace names are, in fact,
 the names of currently defined namespaces.
 .TP
+\fBnamespace upvar\fR \fInamespace\fR \fIotherVar myVar \fR?\fIotherVar myVar \fR...
+This command arranges for one or more local variables in the current
+procedure to refer to variables in \fInamespace\fR. The command 
+\fBnamespace upvar $ns a b\fR has the same behaviour as
+\fBupvar 0 $ns::a b\fR.  
+\fBnamespace upvar\fR returns an empty string.
+.TP
 \fBnamespace which\fR ?\-\fBcommand\fR? ?\-\fBvariable\fR? \fIname\fR
 Looks up \fIname\fR as either a command or variable
 and returns its fully-qualified name.
@@ -812,7 +819,7 @@ puts "grill came from [\fBnamespace origin\fR grill]"
 .CE
 
 .SH "SEE ALSO"
-interp(n), variable(n)
+interp(n), upvar(n), variable(n)
 
 .SH KEYWORDS
 command, ensemble, exported, internal, variable

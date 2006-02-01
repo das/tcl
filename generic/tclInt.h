@@ -2118,6 +2118,9 @@ MODULE_SCOPE int	TclMergeReturnOptions(Tcl_Interp *interp, int objc,
 MODULE_SCOPE int	TclObjInvokeNamespace(Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[],
 			    Tcl_Namespace *nsPtr, int flags);
+MODULE_SCOPE int	TclPtrMakeUpvar (Tcl_Interp *interp,
+			    Var *otherP1Ptr, CONST char *myName,
+	                    int myFlags, int index);
 MODULE_SCOPE int	TclObjPrintf(Tcl_Interp *interp, Tcl_Obj *objPtr,
 			    CONST char *format, ...);
 MODULE_SCOPE int	TclParseBackslash(CONST char *src,
