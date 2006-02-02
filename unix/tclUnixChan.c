@@ -267,15 +267,13 @@ static void		TcpWatchProc(ClientData instanceData, int mask);
 static int		TtyCloseProc(ClientData instanceData,
 			    Tcl_Interp *interp);
 static void		TtyGetAttributes(int fd, TtyAttrs *ttyPtr);
-#ifndef DIRECT_BAUD
-static int		TtyGetBaud(unsigned long speed);
-#endif
 static int		TtyGetOptionProc(ClientData instanceData,
 			    Tcl_Interp *interp, CONST char *optionName,
 			    Tcl_DString *dsPtr);
 #ifndef DIRECT_BAUD
+static int		TtyGetBaud(unsigned long speed);
 static unsigned long	TtyGetSpeed(int baud);
-#endif
+#endif /* DIRECT_BAUD */
 static FileState *	TtyInit(int fd, int initialize);
 static void		TtyModemStatusStr(int status, Tcl_DString *dsPtr);
 #if BAD_TIP35_FLUSH
