@@ -571,7 +571,7 @@ TclpSetInitialEncodings(void)
 {
     Tcl_DString encodingName;
     Tcl_SetSystemEncoding(NULL,
-	    TclpGetEncodingNameFromEnvironment(&encodingName));
+	    Tcl_GetEncodingNameFromEnvironment(&encodingName));
     Tcl_DStringFree(&encodingName);
 }
 
@@ -605,7 +605,7 @@ SearchKnownEncodings(
 }
 
 CONST char *
-TclpGetEncodingNameFromEnvironment(
+Tcl_GetEncodingNameFromEnvironment(
     Tcl_DString *bufPtr)
 {
     CONST char *encoding;

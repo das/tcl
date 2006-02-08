@@ -493,13 +493,6 @@ Tcl_CreateInterp(void)
 	    TclDefaultBgErrorHandlerObjCmd,	(ClientData) NULL, NULL);
 
     /*
-     * Register the unsupported encoding search path command.
-     */
-
-    Tcl_CreateObjCommand(interp, "::tcl::unsupported::EncodingDirs",
-	    TclEncodingDirsObjCmd, NULL, NULL);
-
-    /*
      * Register the builtin math functions.
      */
 

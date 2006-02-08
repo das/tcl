@@ -2066,8 +2066,6 @@ MODULE_SCOPE int	TclFormatToErrorInfo(Tcl_Interp *interp,
 MODULE_SCOPE int	TclFSFileAttrIndex(Tcl_Obj *pathPtr,
 			    CONST char *attributeName, int *indexPtr);
 MODULE_SCOPE Tcl_Obj *	TclGetBgErrorHandler(Tcl_Interp *interp);
-MODULE_SCOPE int	TclGetEncodingFromObj(Tcl_Interp *interp,
-			    Tcl_Obj *objPtr, Tcl_Encoding *encodingPtr);
 MODULE_SCOPE int	TclGetNamespaceFromObj(Tcl_Interp *interp,
 			    Tcl_Obj *objPtr, Tcl_Namespace **nsPtrPtr);
 MODULE_SCOPE int	TclGetNumberFromObj(Tcl_Interp *interp,
@@ -2295,9 +2293,6 @@ MODULE_SCOPE int	Tcl_DictObjCmd(ClientData clientData,
 MODULE_SCOPE int	Tcl_EncodingObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[]);
-MODULE_SCOPE int	TclEncodingDirsObjCmd(
-			    ClientData clientData, Tcl_Interp *interp,
-			    int objc, Tcl_Obj *CONST objv[]);
 MODULE_SCOPE int	Tcl_EofObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[]);

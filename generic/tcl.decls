@@ -2049,6 +2049,22 @@ declare 568 generic {
         Tcl_Obj *handlerPtr)
 }
 
+# TIP#258 Enhanced Interface for Encodings
+
+declare 569 generic {
+    int Tcl_GetEncodingFromObj(Tcl_Interp* interp, Tcl_Obj* objPtr,
+          Tcl_Encoding* encodingPtr)
+}
+declare 570 generic {
+    Tcl_Obj* Tcl_GetEncodingSearchPath(void)
+}
+declare 571 generic {
+    int Tcl_SetEncodingSearchPath(Tcl_Obj* searchPath)
+}
+declare 572 generic {
+    CONST char *Tcl_GetEncodingNameFromEnvironment(Tcl_DString* bufPtr)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are
