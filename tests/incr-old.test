@@ -47,11 +47,8 @@ test incr-old-2.2 {incr errors} {
 } {1 {wrong # args: should be "incr varName ?increment?"}}
 test incr-old-2.3 {incr errors} {
     catch {unset x}
-    list [catch {incr x} msg] $msg $errorInfo
-} {1 {can't read "x": no such variable} {can't read "x": no such variable
-    (reading value of variable to increment)
-    invoked from within
-"incr x"}}
+    incr x
+} 1
 test incr-old-2.4 {incr errors} {
     set x abc
     list [catch {incr x} msg] $msg $errorInfo

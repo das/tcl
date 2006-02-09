@@ -913,6 +913,7 @@ namespace eval ::tcl::test::main {
     } -body {
 	exec [interpreter] << {
 		proc foo\{ x {}
+		set ::auto_noexec xxx
 		set tcl_interactive 1
 		foo y} >& result
 	set f [open result]

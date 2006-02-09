@@ -66,11 +66,13 @@ namespace eval tcl {
 	}
     }
 
-    variable Path [unsupported::EncodingDirs]
-    set Dir [file join $::tcl_library encoding]
-    if {$Dir ni $Path} {
-	lappend Path $Dir
-	unsupported::EncodingDirs $Path
+    if {![interp issafe]} {
+        variable Path [encoding dirs]
+        set Dir [file join $::tcl_library encoding]
+        if {$Dir ni $Path} {
+	    lappend Path $Dir
+	    encoding dirs $Path
+        }
     }
 
     # Set up the 'chan' ensemble (TIP #208).

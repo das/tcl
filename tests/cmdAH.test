@@ -124,7 +124,7 @@ test cmdAH-4.1 {Tcl_EncodingObjCmd} {
 } {1 {wrong # args: should be "encoding option ?arg ...?"}}
 test cmdAH-4.2 {Tcl_EncodingObjCmd} {
     list [catch {encoding foo} msg] $msg
-} {1 {bad option "foo": must be convertfrom, convertto, names, or system}}
+} {1 {bad option "foo": must be convertfrom, convertto, dirs, names, or system}}
 test cmdAH-4.3 {Tcl_EncodingObjCmd} {
     list [catch {encoding convertto} msg] $msg
 } {1 {wrong # args: should be "encoding convertto ?encoding? data"}}

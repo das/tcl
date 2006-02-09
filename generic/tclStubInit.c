@@ -300,9 +300,9 @@ TclIntStubs tclIntStubs = {
     TclpObjStat, /* 206 */
     TclpObjAccess, /* 207 */
     TclpOpenFileChannel, /* 208 */
-    TclGetEncodingSearchPath, /* 209 */
-    TclSetEncodingSearchPath, /* 210 */
-    TclpGetEncodingNameFromEnvironment, /* 211 */
+    NULL, /* 209 */
+    NULL, /* 210 */
+    NULL, /* 211 */
     TclpFindExecutable, /* 212 */
     TclGetObjNameOfExecutable, /* 213 */
     TclSetObjNameOfExecutable, /* 214 */
@@ -1063,6 +1063,12 @@ TclStubs tclStubs = {
     Tcl_SetChannelError, /* 564 */
     Tcl_GetChannelError, /* 565 */
     Tcl_InitBignumFromDouble, /* 566 */
+    Tcl_GetNamespaceUnknownHandler, /* 567 */
+    Tcl_SetNamespaceUnknownHandler, /* 568 */
+    Tcl_GetEncodingFromObj, /* 569 */
+    Tcl_GetEncodingSearchPath, /* 570 */
+    Tcl_SetEncodingSearchPath, /* 571 */
+    Tcl_GetEncodingNameFromEnvironment, /* 572 */
 };
 
 /* !END!: Do not edit above this line. */

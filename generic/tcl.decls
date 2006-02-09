@@ -2037,7 +2037,33 @@ declare 566 generic {
     int Tcl_InitBignumFromDouble(Tcl_Interp* interp, double initval, 
 		mp_int *toInit)
 }
-  
+
+# TIP 181
+declare 567 generic {
+    Tcl_Obj *Tcl_GetNamespaceUnknownHandler(Tcl_Interp *interp,
+        Tcl_Namespace *nsPtr)
+}
+declare 568 generic {
+    int Tcl_SetNamespaceUnknownHandler(
+        Tcl_Interp *interp, Tcl_Namespace *nsPtr,
+        Tcl_Obj *handlerPtr)
+}
+
+# TIP#258 Enhanced Interface for Encodings
+
+declare 569 generic {
+    int Tcl_GetEncodingFromObj(Tcl_Interp* interp, Tcl_Obj* objPtr,
+          Tcl_Encoding* encodingPtr)
+}
+declare 570 generic {
+    Tcl_Obj* Tcl_GetEncodingSearchPath(void)
+}
+declare 571 generic {
+    int Tcl_SetEncodingSearchPath(Tcl_Obj* searchPath)
+}
+declare 572 generic {
+    CONST char *Tcl_GetEncodingNameFromEnvironment(Tcl_DString* bufPtr)
+}
 
 ##############################################################################
 
@@ -2077,6 +2103,7 @@ declare 1 macosx {
 	    int maxPathLen,
 	    char *libraryPath)
 }
+
 
 ##############################################################################
 
