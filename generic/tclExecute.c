@@ -2403,7 +2403,7 @@ TclExecuteByteCode(
 	part1 = TclGetString(objPtr);
 
 	varPtr = TclObjLookupVar(interp, objPtr, part2,
-		TCL_LEAVE_ERR_MSG, "read", 0, 1, &arrayPtr);
+		TCL_LEAVE_ERR_MSG, "read", 1, 1, &arrayPtr);
 	if (varPtr == NULL) {
 	    Tcl_AddObjErrorInfo(interp,
 		    "\n    (reading value of variable to increment)", -1);
