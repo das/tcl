@@ -1864,7 +1864,9 @@ Tcl_PosixError(interp)
 
     msg = Tcl_ErrnoMsg(errno);
     id = Tcl_ErrnoId();
-    Tcl_SetErrorCode(interp, "POSIX", id, msg, (char *) NULL);
+    if (interp) {
+	Tcl_SetErrorCode(interp, "POSIX", id, msg, (char *) NULL);
+    }
     return msg;
 }
 
