@@ -845,6 +845,9 @@ UnmarshallErrorResult(
     if (Tcl_ListObjGetElements(interp, msgObj, &lc, &lv) != TCL_OK) {
 	Tcl_Panic("TclChanCaughtErrorBypass: Bad syntax of caught result");
     }
+    if (interp == NULL) {
+	return;
+    }
 
     explicitResult = lc & 1;		/* Odd number of values? */
     numOptions = lc - explicitResult;
