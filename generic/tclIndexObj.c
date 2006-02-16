@@ -274,8 +274,8 @@ Tcl_GetIndexFromObjStruct(interp, objPtr, tablePtr, offset, msg, flags,
 
 	TclNewObj(resultPtr);
 	Tcl_SetObjResult(interp, resultPtr);
-	Tcl_AppendStringsToObj(resultPtr,
-		(numAbbrev > 1) ? "ambiguous " : "bad ", msg, " \"",
+	Tcl_AppendStringsToObj(resultPtr, (numAbbrev > 1) &&
+		!(flags & TCL_EXACT) ? "ambiguous " : "bad ", msg, " \"",
 		key, "\": must be ", STRING_AT(tablePtr,offset,0), (char*)NULL);
 	for (entryPtr = NEXT_ENTRY(tablePtr, offset), count = 0;
 		*entryPtr != NULL;
