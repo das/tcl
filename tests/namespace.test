@@ -2508,7 +2508,10 @@ test namespace-52.9 {unknown: refcounting} -setup {
     namespace unknown $handler
     rename this {}
 } -result {this is a test noSuchCommand}
-test namespace-52.10 {unknown: with TCL_EVAL_GLOBAL} -setup {
+testConstraint testevalobjv [llength [info commands testevalobjv]]
+test namespace-52.10 {unknown: with TCL_EVAL_GLOBAL} -constraints {
+    testevalobjv
+} -setup {
     rename ::unknown unknown.save
     proc ::unknown args {
 	set caller [uplevel 1 {namespace current}]
