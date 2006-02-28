@@ -2545,18 +2545,19 @@ test namespace-52.11 {unknown: with TCL_EVAL_INVOKE} -setup {
 	}
     }
     catch {rename ::noSuchCommand {}}
-    set slave [interp create]
+    set ::slave [interp create]
 } -body {
-    $slave alias bar noSuchCommand
+    $::slave alias bar noSuchCommand
     namespace eval test_ns_1 {
 	namespace unknown unknown
 	proc unknown args {
 	    return FAIL
 	}
-	$slave eval bar
+	$::slave eval bar
     }
 } -cleanup {
-    interp delete $slave
+    interp delete $::slave
+    unset ::slave
     namespace delete test_ns_1
     rename ::unknown {}
     rename unknown.save ::unknown
