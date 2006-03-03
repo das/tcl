@@ -309,10 +309,18 @@ TclFSNormalizeAbsolutePath(
 		     * Either way, we now remove the last path element.
 		     */
 
-		    while (--curLen >= 0) {
+		    while (--curLen > 0) {
 			if (IsSeparatorOrNull(linkStr[curLen])) {
 			    Tcl_SetObjLength(retVal, curLen);
 			    break;
+			}
+		    }
+		    if (curLen == 0) {
+			/* Attempt to .. beyond root becomes root: "/" */
+			if (dirSep[3] != 0) {
+			    Tcl_SetObjLength(retVal, 0);
+			} else {
+			    Tcl_SetObjLength(retVal, 1);
 			}
 		    }
 		}
