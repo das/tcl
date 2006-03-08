@@ -2431,7 +2431,7 @@ TclExecuteByteCode(
 	}
 	TRACE(("%u \"%.30s\" (by %ld) => ", opnd, part2, i));
 	varPtr = TclLookupArrayElement(interp, part1, part2,
-		TCL_LEAVE_ERR_MSG, "read", 0, 1, arrayPtr);
+		TCL_LEAVE_ERR_MSG, "read", 1, 1, arrayPtr);
 	if (varPtr == NULL) {
 	    TRACE_APPEND(("ERROR: %.30s\n", O2S(Tcl_GetObjResult(interp))));
 	    result = TCL_ERROR;
