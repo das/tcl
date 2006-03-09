@@ -100,8 +100,8 @@ Tcl_PanicVA(
 		arg7, arg8);
 	(void) fprintf(stderr, "\n");
 	(void) fflush(stderr);
+	abort();
     }
-    abort();
 }
 
 /*
