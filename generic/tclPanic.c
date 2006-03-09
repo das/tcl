@@ -103,8 +103,8 @@ Tcl_PanicVA (format, argList)
 		arg7, arg8);
 	(void) fprintf(stderr, "\n");
 	(void) fflush(stderr);
-	abort();
     }
+    abort();
 }
 
 /*
