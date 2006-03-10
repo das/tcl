@@ -1405,7 +1405,22 @@ ObjInterpProcEx(
     }
 
     if (result != TCL_OK) {
-	result = ProcessProcResultCode(interp, procName, nameLen, result);
+	if (skip == 1) {
+	    result = ProcessProcResultCode(interp, procName, nameLen, result);
+	} else {
+	    /*
+	     * Use a 'procName' that contains the first skip elements of objv
+	     * for error reporting. This insures that we do not see just
+	     * 'apply', but also the lambda expression that caused the error.
+	     */
+	     
+	    Tcl_Obj *namePtr;
+
+	    namePtr = Tcl_NewListObj(skip, objv);
+	    procName = Tcl_GetStringFromObj(namePtr, &nameLen);
+	    result = ProcessProcResultCode(interp, procName, nameLen, result);
+	    TclDecrRefCount(namePtr);
+	}
     }
 
     /*
