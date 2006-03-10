@@ -148,3 +148,25 @@ TclpHasSockets(interp)
 {
     return TCL_OK;
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclpFinalizeSockets --
+ *
+ *	Performs per-thread socket subsystem finalization.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+TclpFinalizeSockets()
+{
+    return;
+}
