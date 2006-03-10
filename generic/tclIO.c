@@ -179,6 +179,11 @@ TclFinalizeIOSubsystem(void)
     ChannelState *nextCSPtr;	/* Iterates over open channels. */
     ChannelState *statePtr;	/* state of channel stack */
 
+    /*
+     * Walk all channel state structures known to this thread and
+     * close corresponding channels.
+     */
+
     for (statePtr = tsdPtr->firstCSPtr; statePtr != NULL;
 	 statePtr = nextCSPtr) {
 	chanPtr = statePtr->topChanPtr;
@@ -250,6 +255,8 @@ TclFinalizeIOSubsystem(void)
 	nextCSPtr = statePtr->nextCSPtr;
 	Tcl_Release(statePtr);
     }
+
+    TclpFinalizeSockets();
     TclpFinalizePipes();
 }
 
