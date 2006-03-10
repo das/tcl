@@ -2735,7 +2735,7 @@ Tcl_DbNewBignumObj(
  *----------------------------------------------------------------------
  */
 
-int
+static int
 GetBignumFromObj(
     Tcl_Interp *interp,		/* Tcl interpreter for error reporting */
     Tcl_Obj *objPtr,		/* Object to read */
