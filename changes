@@ -6700,6 +6700,10 @@ Reduces the ***POTENTIAL INCOMPATIBILITY*** from 2005-05-17.
 2006-03-06 (bug fix)[1439836,1444291] fix TCL_EVAL_{GLOBAL,INVOKE} handling
 when auto-loading or exec traces are present (porter)
 
+2006-03-10 (bug fix)[1437595] Win socket finalize with threads (vasiljevic)
+
+2005-03-13 (revert 2005-07-26 change) ${prefix}/share on ::tcl_pkgPath (porter)
+
 (platform support) Use of _ANSI_ARGS_ purged.  ANSI compiler required (fellows)
 
 Documentation improvements [1211078,1190891,1292427,1277503,1104682,1359183,
