@@ -1355,6 +1355,9 @@ LoadEncodingFile(interp, name)
     }
     if ((encoding == NULL) && (interp != NULL)) {
 	Tcl_AppendResult(interp, "invalid encoding file \"", name, "\"", NULL);
+	if (ch == 'E') {
+	    Tcl_AppendResult(interp, " or missing sub-encoding", NULL);
+	}
     }
     Tcl_Close(NULL, chan);
     return encoding;
@@ -1722,7 +1725,7 @@ LoadEscapeEncoding(name, chan)
     CONST char *name;		/* Name for new encoding. */
     Tcl_Channel chan;		/* File containing new encoding. */
 {
-    int i;
+    int i, missingSubEncoding = 0;
     unsigned int size;
     Tcl_DString escapeData;
     char init[16], final[16];
@@ -1766,15 +1769,26 @@ LoadEscapeEncoding(name, chan)
 		strncpy(est.name, argv[0], sizeof(est.name));
 		est.name[sizeof(est.name) - 1] = '\0';
 
-		/* To avoid infinite recursion in [encoding system iso2022-*]*/
-		Tcl_GetEncoding(NULL, est.name);
+		/*
+		 * Load the subencodings first so we're never stuck
+		 * trying to use a half-loaded system encoding to
+		 * open/read a *.enc file.
+		 */
 
-		est.encodingPtr = NULL;
+		est.encodingPtr = (Encoding *) Tcl_GetEncoding(NULL, est.name);
+		if ((est.encodingPtr == NULL) 
+			|| (est.encodingPtr->toUtfProc != TableToUtfProc)) {
+		    missingSubEncoding = 1;
+		}
 		Tcl_DStringAppend(&escapeData, (char *) &est, sizeof(est));
 	    }
 	}
 	ckfree((char *) argv);
 	Tcl_DStringFree(&lineString);
+    }
+    if (missingSubEncoding) {
+	Tcl_DStringFree(&escapeData);
+	return NULL;
     }
 
     size = sizeof(EscapeEncodingData)
@@ -2997,6 +3011,11 @@ GetTableEncoding(dataPtr, state)
     subTablePtr = &dataPtr->subTables[state];
     encodingPtr = subTablePtr->encodingPtr;
     if (encodingPtr == NULL) {
+	/*
+	 * Now that escape encodings load their sub-encodings first, and
+	 * fail to load if any sub-encodings are missing, this branch should
+	 * never happen.  
+	 */
 	encodingPtr = (Encoding *) Tcl_GetEncoding(NULL, subTablePtr->name);
 	if ((encodingPtr == NULL) 
 		|| (encodingPtr->toUtfProc != TableToUtfProc)) {
