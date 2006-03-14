@@ -1547,8 +1547,7 @@ NativeAccess(
     }
 
     if ((mode & W_OK) 
-      && !(attr & FILE_ATTRIBUTE_DIRECTORY)
-	/* && (tclWinProcs->getFileSecurityProc == NULL) */
+      && (tclWinProcs->getFileSecurityProc == NULL)
       && (attr & FILE_ATTRIBUTE_READONLY)) {
 	/*
 	 * We don't have the advanced 'getFileSecurityProc', and
@@ -1725,6 +1724,7 @@ NativeAccess(
 	 * we must still check the 'attr' value.
 	 */
 	if ((mode & W_OK)
+	  && !(attr & FILE_ATTRIBUTE_DIRECTORY)
 	  && (attr & FILE_ATTRIBUTE_READONLY)) {
 	    Tcl_SetErrno(EACCES);
 	    return -1;
