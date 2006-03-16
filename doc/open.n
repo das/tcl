@@ -55,7 +55,7 @@ If it doesn't exist, create a new file.
 \fBa\fR
 Open the file for writing only.  If the file doesn't exist,
 create a new empty file.
-Set the initial access position  to the end of the file.
+Set the file pointer to the end of the file prior to each write.
 .TP 15
 \fBa+\fR
 Open the file for reading and writing.  If the file doesn't exist,
