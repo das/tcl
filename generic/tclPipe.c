@@ -508,7 +508,7 @@ TclCreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
     int errorRelease = 0;
     CONST char *p;
     CONST char *nextArg;
-    int skip, lastBar, lastArg, i, j, atOK, flags, errorToOutput = 0;
+    int skip, lastBar, lastArg, i, j, atOK, flags, needCmd, errorToOutput = 0;
     Tcl_DString execBuffer;
     TclFile pipeIn;
     TclFile curInFile, curOutFile, curErrFile;
@@ -546,6 +546,7 @@ TclCreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
 
     lastBar = -1;
     cmdCount = 1;
+    needCmd = 1;
     for (i = 0; i < argc; i++) {
 	errorToOutput = 0;
 	skip = 0;
@@ -565,6 +566,7 @@ TclCreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
 	    }
 	    lastBar = i;
 	    cmdCount++;
+	    needCmd = 1;
 	    break;
 
 	case '<':
@@ -706,6 +708,11 @@ TclCreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
 		}
 	    }
 	    break;
+
+	default:
+	  /* Got a command word, not a redirection */
+	  needCmd = 0;
+	  break;
 	}
 
 	if (skip != 0) {
@@ -715,6 +722,15 @@ TclCreatePipeline(interp, argc, argv, pidArrayPtr, inPipePtr,
 	    argc -= skip;
 	    i -= 1;
 	}
+    }
+
+    if (needCmd) {
+        /* We had a bar followed only by redirections. */
+
+        Tcl_SetResult(interp,
+		      "illegal use of | or |& in command",
+		      TCL_STATIC);
+	goto error;
     }
 
     if (inputFile == NULL) {
