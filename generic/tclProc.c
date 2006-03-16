@@ -76,7 +76,7 @@ static Tcl_ObjType levelReferenceType = {
  * will execute within.
  */
 
-Tcl_ObjType lambdaType = {
+static Tcl_ObjType lambdaType = {
     "lambdaExpr",		/* name */
     FreeLambdaInternalRep,	/* freeIntRepProc */
     DupLambdaInternalRep,	/* dupIntRepProc */

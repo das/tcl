@@ -214,7 +214,7 @@ static int		SetCmdNameFromAny(Tcl_Interp *interp, Tcl_Obj *objPtr);
  * implementations.
  */
 
-Tcl_ObjType oldBooleanType = {
+static Tcl_ObjType oldBooleanType = {
     "boolean",				/* name */
     NULL,				/* freeIntRepProc */
     NULL,				/* dupIntRepProc */
