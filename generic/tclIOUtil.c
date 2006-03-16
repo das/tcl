@@ -1558,7 +1558,11 @@ TclGetOpenModeEx(
 	    mode = O_WRONLY|O_CREAT|O_TRUNC;
 	    break;
 	case 'a':
-	    mode = O_WRONLY|O_CREAT;
+	    /* [Bug 680143].
+	     * Added O_APPEND for proper automatic
+	     * seek-to-end-on-write by the OS.
+	     */
+	    mode = O_WRONLY|O_CREAT|O_APPEND;
 	    *seekFlagPtr = 1;
 	    break;
 	default:
