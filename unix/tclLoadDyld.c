@@ -537,7 +537,7 @@ TclpLoadMemory(interp, buffer, size, codeSize, loadHandle, unloadProcPtr)
 	vm_deallocate(mach_task_self(), (vm_address_t) buffer, size);
 	if (objFileImageErrMsg != NULL) {
 	    Tcl_AppendResult(interp,
-		    "NSCreateObjectFileImageFromFile() error: ",
+		    "NSCreateObjectFileImageFromMemory() error: ",
 		    objFileImageErrMsg, (char *) NULL);
 	}
 	return TCL_ERROR;
