@@ -580,6 +580,7 @@ EXTERN char *          	TclpInetNtoa(struct in_addr);
  * Assume it is in pthread_np.h if it isn't in pthread.h. [Bug 1064882]
  * We might need to revisit this in the future. :^(
  */
+#	    include <pthread.h>
 #	    include <pthread_np.h>
 #	endif
 #   else
