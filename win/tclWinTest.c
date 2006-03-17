@@ -567,7 +567,7 @@ TestplatformChmod(CONST char *nativePath, int pmode)
 
     static int initialized = 0;
     if (!initialized) {
-	TCL_DECLARE_MUTEX(initialzeMutex)
+	TCL_DECLARE_MUTEX(initializeMutex)
 	Tcl_MutexLock(&initializeMutex);
 	if (!initialized) {
 	    HINSTANCE hInstance = LoadLibrary("Advapi32");
@@ -604,7 +604,7 @@ TestplatformChmod(CONST char *nativePath, int pmode)
 	    if (!initialized)
 		initialized = -1;
 	}
-	Tcl_MutexUnlock(&intializeMutex);
+	Tcl_MutexUnlock(&initializeMutex);
     }
 
     /* Process the chmod request */
