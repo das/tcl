@@ -703,11 +703,11 @@ test winFCmd-7.10 {TraverseWinTree: can't read directory: handle == INVALID} \
 test winFCmd-7.11 {TraverseWinTree: call TraversalCopy: DOTREE_PRED} {win} {
     cleanup
     file mkdir td1
-    testchmod 000 td1
     createfile td1/tf1 tf1
+    testchmod 000 td1
     testfile cpdir td1 td2
     list [file exists td2] [file writable td2]
-} {1 0}
+} {1 1}
 test winFCmd-7.12 {TraverseWinTree: call TraversalDelete: DOTREE_PRED} {win} {
     cleanup
     file mkdir td1
@@ -759,11 +759,11 @@ test winFCmd-7.18 {TraverseWinTree: recurse on files: several files and dir} \
 test winFCmd-7.19 {TraverseWinTree: call TraversalCopy: DOTREE_POSTD} {win} {
     cleanup
     file mkdir td1
-    testchmod 000 td1
     createfile td1/tf1 tf1
+    testchmod 000 td1
     testfile cpdir td1 td2
     list [file exists td2] [file writable td2]
-} {1 0}
+} {1 1}
 test winFCmd-7.20 {TraverseWinTree: call TraversalDelete: DOTREE_POSTD} \
 	{win} {
     cleanup
