@@ -558,6 +558,7 @@ switch $tcl_platform(platform) {
     }
     default {
 	catch {file attributes $notWriteableDir -readonly 1}
+	catch {testchmod 000 $notWriteableDir}
     }
 }
 
