@@ -80,7 +80,10 @@ proc cleanup {args} {
 	    set x [glob -directory $p tf* td*]
 	}
 	foreach file $x {
-	    if {[catch {file delete -force -- $file}]} {
+	    if {
+		[catch {file delete -force -- $file}]
+		&& [testConstraint testchmod]
+	    } then {
 		catch {openup $file}
 		catch {file delete -force -- $file}
 	    }
