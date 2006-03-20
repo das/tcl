@@ -333,12 +333,12 @@ test unixFCmd-18.1 {Unix pwd} {nonPortable unix notRoot} {
 # check whether -readonly attribute is supported
 testConstraint readonlyAttr 0
 if {$tcl_platform(platform) == "unix"} {
-    set f [makeFile "whatever"]
+    set f [makeFile "whatever" probe]
     catch {
 	file attributes $f -readonly
 	testConstraint readonlyAttr 1
     }
-    removeFile $f
+    removeFile probe
 }
 
 test unixFCmd-19.1 {GetReadOnlyAttribute - file not found} {unix notRoot readonlyAttr} {
