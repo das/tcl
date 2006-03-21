@@ -27,14 +27,13 @@ catch {unset x}
 catch {unset y}
 catch {unset msg}
 
-::tcltest::testConstraint testobj \
-	[expr {[info commands testobj] != {} \
-	&& [info commands testdoubleobj] != {} \
-	&& [info commands teststringobj] != {} \
-	&& [info commands testobj] != {}}]
+testConstraint testobj [expr {
+    [llength [info commands testobj]]
+    && [llength [info commands testdoubleobj]]
+    && [llength [info commands teststringobj]]
+}]
 
-::tcltest::testConstraint longIs32bit \
-	[expr {int(0x80000000) < 0}]
+testConstraint longIs32bit [expr {int(0x80000000) < 0}]
 
 # Tests for the omnibus TclExecuteByteCode function:
 
@@ -775,3 +774,7 @@ catch {unset y}
 catch {unset msg}
 ::tcltest::cleanupTests
 return
+
+# Local Variables:
+# mode: tcl
+# End:

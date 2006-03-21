@@ -18,8 +18,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
-::tcltest::testConstraint testlink \
-        [expr {[info commands testlink] != {}}]
+testConstraint testlink [llength [info commands testlink]]
 
 foreach i {int real bool string} {
     catch {unset $i}

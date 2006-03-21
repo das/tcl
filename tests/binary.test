@@ -16,8 +16,8 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     package require tcltest
     namespace import -force ::tcltest::*
 }
-::tcltest::testConstraint bigEndian [expr {$tcl_platform(byteOrder) eq "bigEndian"}]
-::tcltest::testConstraint littleEndian [expr {$tcl_platform(byteOrder) eq "littleEndian"}]
+testConstraint bigEndian [expr {$tcl_platform(byteOrder) eq "bigEndian"}]
+testConstraint littleEndian [expr {$tcl_platform(byteOrder) eq "littleEndian"}]
 
 test binary-0.1 {DupByteArrayInternalRep} {
     set hdr [binary format cc 0 0316]

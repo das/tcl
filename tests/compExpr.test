@@ -15,7 +15,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
-if {([catch {expr T1()} msg] == 1) && ($msg == {unknown math function "T1"})} {
+if {[catch {expr T1()} msg] && $msg eq {unknown math function "T1"}} {
     testConstraint testmathfunctions 0
 } else {
     testConstraint testmathfunctions 1

@@ -83,7 +83,7 @@ proc testIEEE {} {
 	}
     }
 }
-::tcltest::testConstraint ieeeFloatingPoint [testIEEE]
+testConstraint ieeeFloatingPoint [testIEEE]
 
 ######################################################################
 
