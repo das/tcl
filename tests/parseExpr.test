@@ -756,6 +756,16 @@ test parseExpr-19.1 {TclParseInteger: [Bug 648441]} {
     list [catch {expr 0x} result] $result
 } [list 1 {syntax error in expression "0x": extra tokens at end of expression}]
 
+test parseExpr-20.1 {Bug 1451233} {
+    expr 1000000000000000000042
+} 1000000000000000000042
+test parseExpr-20.2 {Bug 1451233} {
+    expr 10000000000000000000420000000042
+} 10000000000000000000420000000042
+test parseExpr-20.2 {Bug 1451233} {
+    expr 10000000000000000000020000000002
+} 10000000000000000000020000000002
+
 # cleanup
 ::tcltest::cleanupTests
 return
