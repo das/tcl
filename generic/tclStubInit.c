@@ -375,6 +375,7 @@ TclIntPlatStubs tclIntPlatStubs = {
     TclMacOSXGetFileAttribute, /* 15 */
     TclMacOSXSetFileAttribute, /* 16 */
     TclMacOSXCopyFileAttributes, /* 17 */
+    TclMacOSXMatchType, /* 18 */
 #endif /* MAC_OSX_TCL */
 };
 
