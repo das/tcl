@@ -1250,6 +1250,7 @@ AccumulateDecimalDigit(
 	    n -= 256;
 	}
 	mp_mul_2d(bignumRepPtr, (int)(numZeros+1)&~0x7, bignumRepPtr);
+	mp_add_d(bignumRepPtr, (mp_digit) digit, bignumRepPtr);
     }
 
     return bignumFlag;
