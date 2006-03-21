@@ -168,7 +168,7 @@ proc SafeEval {script} {
 }
 
 test safe-6.1 {test safe interpreters knowledge of the world} {
-    lsort [SaveEval {info globals}]
+    lsort [SafeEval {info globals}]
 } {tcl_interactive tcl_patchLevel tcl_platform tcl_version}
 test safe-6.2 {test safe interpreters knowledge of the world} {
     SafeEval {info script}

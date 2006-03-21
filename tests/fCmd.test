@@ -27,7 +27,7 @@ testConstraint 2000orNewer [expr {![testConstraint 95or98]}]
 
 # Find a group that exists on this Unix system, or else skip tests that
 # require Unix groups.
-testConstraint foundGroup [expr {![textConstraint unix]}]
+testConstraint foundGroup [expr {![testConstraint unix]}]
 if {[testConstraint unix]} {
     catch {
 	set groupList [exec groups]
