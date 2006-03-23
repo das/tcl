@@ -2194,6 +2194,7 @@ TclAppendFormattedObjs(
 	    char *bytes;
 
 	    if (Tcl_GetDoubleFromObj(interp, segment, &d) != TCL_OK) {
+		/* TODO: Figure out ACCEPT_NAN here */
 		goto error;
 	    }
 	    *p++ = '%';

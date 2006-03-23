@@ -2234,7 +2234,6 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 	case 'G':
 	    if (Tcl_GetDoubleFromObj(interp,	/* INTL: Tcl source. */
 		    objv[objIndex], &doubleValue) != TCL_OK) {
-		/*TODO: figure out ACCEPT_NAN */
 		goto fmtError;
 	    }
 	    whichValue = DOUBLE_VALUE;
