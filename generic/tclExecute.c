@@ -4576,14 +4576,14 @@ TclExecuteByteCode(
 	    switch (type2) {
 	    case TCL_NUMBER_LONG: {
 		negativeExponent = (l2 < 0);
-		oddExponent = (l2 & 1);
+		oddExponent = (int) (l2 & 1);
 		break;
 	    }
 #ifndef NO_WIDE_TYPE
 	    case TCL_NUMBER_WIDE: {
 		Tcl_WideInt w2 = *((CONST Tcl_WideInt *)ptr2);
 		negativeExponent = (w2 < 0);
-		oddExponent = (w2 & (Tcl_WideInt)1);
+		oddExponent = (int) (w2 & (Tcl_WideInt)1);
 		break;
 	    }
 #endif
