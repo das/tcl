@@ -4764,9 +4764,9 @@ TclExecuteByteCode(
 	 */
 
 	double d1, d2;
-	double dResult = 0.0;		/* Init. avoids compiler warning. */
 	Tcl_Obj *valuePtr,*value2Ptr;
 #if 0
+	double dResult = 0.0;		/* Init. avoids compiler warning. */
 	Tcl_ObjType *t1Ptr, *t2Ptr;
 	long i = 0, i2 = 0, quot;	/* Init. avoids compiler warning. */
 	long iResult = 0;		/* Init. avoids compiler warning. */
