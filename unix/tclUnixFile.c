@@ -1080,6 +1080,9 @@ TclNativeCreateNativeRep(
 	 */
 
 	validPathPtr = Tcl_FSGetTranslatedPath(NULL, pathPtr);
+	if (validPathPtr == NULL) {
+	    return NULL;
+	}
     } else {
 	/*
 	 * Make sure the normalized path is set.
