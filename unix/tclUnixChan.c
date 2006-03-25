@@ -3183,7 +3183,7 @@ TclUnixWaitForFile(
 
     if (fd >= FD_SETSIZE) {
 	Tcl_Panic("TclWaitForFile can't handle file id %d", fd);
-	return 0;
+	/* must never get here, or readyMasks overrun will occur below */
     }
     memset((void *) readyMasks, 0, 3*MASK_SIZE*sizeof(fd_mask));
     index = fd/(NBBY*sizeof(fd_mask));
