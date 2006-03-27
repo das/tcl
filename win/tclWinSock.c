@@ -265,7 +265,7 @@ static Tcl_DriverGetHandleProc	TcpGetHandleProc;
 
 static Tcl_ChannelType tcpChannelType = {
     "tcp",		    /* Type name. */
-    TCL_CHANNEL_VERSION_4,  /* v4 channel */
+    TCL_CHANNEL_VERSION_5,  /* v5 channel */
     TcpCloseProc,	    /* Close proc. */
     TcpInputProc,	    /* Input proc. */
     TcpOutputProc,	    /* Output proc. */
@@ -280,6 +280,7 @@ static Tcl_ChannelType tcpChannelType = {
     NULL,		    /* handler proc. */
     NULL,		    /* wide seek proc */
     TcpThreadActionProc,    /* thread action proc */
+    NULL,                   /* truncate */
 };
 
 /*

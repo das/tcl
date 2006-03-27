@@ -9263,6 +9263,8 @@ Tcl_ChannelVersion(
 	return TCL_CHANNEL_VERSION_3;
     } else if (chanTypePtr->version == TCL_CHANNEL_VERSION_4) {
 	return TCL_CHANNEL_VERSION_4;
+    } else if (chanTypePtr->version == TCL_CHANNEL_VERSION_5) {
+	return TCL_CHANNEL_VERSION_5;
     } else {
 	/*
 	 * In <v2 channel versions, the version field is occupied by the
@@ -9953,7 +9955,7 @@ Tcl_DriverTruncateProc *
 Tcl_ChannelTruncateProc(
     Tcl_ChannelType *chanTypePtr)	/* Pointer to channel type. */
 {
-    if (HaveVersion(chanTypePtr, TCL_CHANNEL_VERSION_4)) {
+    if (HaveVersion(chanTypePtr, TCL_CHANNEL_VERSION_5)) {
 	return chanTypePtr->truncateProc;
     } else {
 	return NULL;

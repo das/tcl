@@ -298,7 +298,7 @@ static Tcl_Channel	MakeTcpClientChannelMode(ClientData tcpSocket,
 
 static Tcl_ChannelType fileChannelType = {
     "file",			/* Type name. */
-    TCL_CHANNEL_VERSION_4,	/* v4 channel */
+    TCL_CHANNEL_VERSION_5,	/* v5 channel */
     FileCloseProc,		/* Close proc. */
     FileInputProc,		/* Input proc. */
     FileOutputProc,		/* Output proc. */
@@ -328,7 +328,7 @@ static Tcl_ChannelType fileChannelType = {
 
 static Tcl_ChannelType ttyChannelType = {
     "tty",			/* Type name. */
-    TCL_CHANNEL_VERSION_4,	/* v4 channel */
+    TCL_CHANNEL_VERSION_5,	/* v5 channel */
     TtyCloseProc,		/* Close proc. */
     FileInputProc,		/* Input proc. */
 #if BAD_TIP35_FLUSH
@@ -358,7 +358,7 @@ static Tcl_ChannelType ttyChannelType = {
 
 static Tcl_ChannelType tcpChannelType = {
     "tcp",			/* Type name. */
-    TCL_CHANNEL_VERSION_4,	/* v4 channel */
+    TCL_CHANNEL_VERSION_5,	/* v5 channel */
     TcpCloseProc,		/* Close proc. */
     TcpInputProc,		/* Input proc. */
     TcpOutputProc,		/* Output proc. */
