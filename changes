@@ -6718,7 +6718,7 @@ no other errors (darley)
 
 2006-03-21 (platform enhancement)[823329] HFS globbing support (steffen)
 
-2006-03-23 (platform suppirt) updated tcl.spec file (max)
+2006-03-23 (platform support) updated tcl.spec file (max)
 
 (platform support) Use of _ANSI_ARGS_ purged.  ANSI compiler required (fellows)
 
