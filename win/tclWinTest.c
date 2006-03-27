@@ -26,7 +26,7 @@
  */
 #ifndef INHERITED_ACE
 #define INHERITED_ACE (0x10)
-#endif // INHERITED_ACE
+#endif
 
 /*
  * Forward declarations of procedures defined later in this file:
