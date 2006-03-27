@@ -312,7 +312,7 @@ long		tclObjsShared[TCL_MAX_SHARED_OBJ_STATS] = { 0, 0, 0, 0, 0 };
 
 #define TclGetBooleanFromObj(interp, objPtr, boolPtr)			\
     ((((objPtr)->typePtr == &tclIntType)				\
-	|| ((objPtr)->typePtr == &tclIntType))				\
+	|| ((objPtr)->typePtr == &tclBooleanType))			\
 	? (*(boolPtr) = ((objPtr)->internalRep.longValue!=0), TCL_OK)	\
 	: Tcl_GetBooleanFromObj((interp), (objPtr), (boolPtr)))
 
