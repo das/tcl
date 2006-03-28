@@ -612,7 +612,7 @@ FsRecacheFilesystemList(void)
     /*
      * Code below operates on shared data. We
      * are already called under mutex lock so   
-     * we can safely proceede.
+     * we can safely proceed.
      */
 
     /* Locate tail of the global filesystem list */
