@@ -748,7 +748,7 @@ TclFinalizeFilesystem()
 	FilesystemRecord *tmpFsRecPtr = fsRecPtr->nextPtr;
 	if (fsRecPtr->fileRefCount <= 0) {
 	    /* The native filesystem is static, so we don't free it */
-	    if (fsRecPtr != &nativeFilesystemRecord) {
+	    if (fsRecPtr->fsPtr != &tclNativeFilesystem) {
 		ckfree((char *)fsRecPtr);
 	    }
 	}
@@ -931,7 +931,7 @@ Tcl_FSUnregister(fsPtr)
      */
 
     fsRecPtr = filesystemList;
-    while ((retVal == TCL_ERROR) && (fsRecPtr != &nativeFilesystemRecord)) {
+    while ((retVal == TCL_ERROR) && (fsRecPtr->fsPtr != &tclNativeFilesystem)) {
 	if (fsRecPtr->fsPtr == fsPtr) {
 	    if (fsRecPtr->prevPtr) {
 		fsRecPtr->prevPtr->nextPtr = fsRecPtr->nextPtr;
@@ -1471,7 +1471,7 @@ TclFSNormalizeToUniquePath(interp, pathPtr, startAt, clientDataPtr)
 
     fsRecPtr = firstFsRecPtr;
     while (fsRecPtr != NULL) {
-        if (fsRecPtr == &nativeFilesystemRecord) {
+        if (fsRecPtr->fsPtr == &tclNativeFilesystem) {
 	    Tcl_FSNormalizePathProc *proc = fsRecPtr->fsPtr->normalizePathProc;
 	    if (proc != NULL) {
 		startAt = (*proc)(interp, pathPtr, startAt);
@@ -1484,7 +1484,7 @@ TclFSNormalizeToUniquePath(interp, pathPtr, startAt, clientDataPtr)
     fsRecPtr = firstFsRecPtr; 
     while (fsRecPtr != NULL) {
 	/* Skip the native system next time through */
-	if (fsRecPtr != &nativeFilesystemRecord) {
+	if (fsRecPtr->fsPtr != &tclNativeFilesystem) {
 	    Tcl_FSNormalizePathProc *proc = fsRecPtr->fsPtr->normalizePathProc;
 	    if (proc != NULL) {
 		startAt = (*proc)(interp, pathPtr, startAt);
@@ -3278,7 +3278,7 @@ FsListMounts(pathPtr, pattern)
 
     fsRecPtr = FsGetFirstFilesystem();
     while (fsRecPtr != NULL) {
-	if (fsRecPtr != &nativeFilesystemRecord) {
+	if (fsRecPtr->fsPtr != &tclNativeFilesystem) {
 	    Tcl_FSMatchInDirectoryProc *proc = 
 				  fsRecPtr->fsPtr->matchInDirectoryProc;
 	    if (proc != NULL) {
