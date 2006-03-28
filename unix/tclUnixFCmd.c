@@ -1884,9 +1884,17 @@ TclpObjNormalizePath(
 	    nativePath = Tcl_UtfToExternalDString(NULL, path,
 		    lastDir-path, &ds);
 	    if (Realpath(nativePath, normPath) != NULL) {
-		nextCheckpoint = lastDir - path;
-		goto wholeStringOk;
+		if (*nativePath != '/' && *normPath == '/') {
+		    /*
+		     * realpath has transformed a relative path into an
+		     * absolute path, we do not know how to handle this.
+		     */
+		} else {
+		    nextCheckpoint = lastDir - path;
+		    goto wholeStringOk;
+		}
 	    }
+	    Tcl_DStringFree(&ds);
 	}
     }
 
