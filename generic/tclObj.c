@@ -2735,6 +2735,12 @@ Tcl_DbNewBignumObj(
  *----------------------------------------------------------------------
  */
 
+/*
+ * TODO: Consider a smarter Tcl_GetBignumAndClearObj() that doesn't
+ * require caller to check for a shared Tcl_Obj, but falls back to
+ * Tcl_GetBignumFromObj() when sharing is an issue.
+ */
+
 static int
 GetBignumFromObj(
     Tcl_Interp *interp,		/* Tcl interpreter for error reporting */
