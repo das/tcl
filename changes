@@ -6720,6 +6720,8 @@ no other errors (darley)
 
 2006-03-23 (platform support) updated tcl.spec file (max)
 
+2006-03-28 (bug fix)[1064247] BSD: path normalization with realpath() (steffen)
+
 (platform support) Use of _ANSI_ARGS_ purged.  ANSI compiler required (fellows)
 
 Documentation improvements [1211078,1190891,1292427,1277503,1104682,1359183,
