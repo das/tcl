@@ -158,14 +158,14 @@ TclFSNormalizeAbsolutePath(
 				 * of normalization. */
 {
     ClientData clientData = NULL;
-    CONST char *dirSep, *oldDirSep, *pathString;
+    CONST char *dirSep, *oldDirSep, *path;
     int first = 1;		/* Set to zero once we've passed the first
 				 * directory separator - we can't use '..' to
 				 * remove the volume in a path. */
     int rootOffset = -1;
     int unc = 0;
     Tcl_Obj *retVal = NULL;
-    pathString = dirSep = TclGetString(pathPtr);
+    path = dirSep = TclGetString(pathPtr);
 
     if (tclPlatform == TCL_PLATFORM_WINDOWS) {
 	if (dirSep[0] != 0 && dirSep[1] == ':' &&
@@ -196,7 +196,7 @@ TclFSNormalizeAbsolutePath(
 
     while (*dirSep != 0) {
 	if ((rootOffset == -1) && IsSeparatorOrNull(dirSep[0])) {
-	    rootOffset = dirSep - pathString;
+	    rootOffset = dirSep - path;
 	}
 	oldDirSep = dirSep;
 	if (!first) {
@@ -204,7 +204,7 @@ TclFSNormalizeAbsolutePath(
 	}
 	dirSep += FindSplitPos(dirSep, '/');
 	if (rootOffset == -1) {
-	    rootOffset = dirSep - pathString;
+	    rootOffset = dirSep - path;
 	}
 	if (dirSep[0] == 0 || dirSep[1] == 0) {
 	    if (retVal != NULL) {
@@ -224,8 +224,8 @@ TclFSNormalizeAbsolutePath(
 		 */
 
 		if (retVal == NULL) {
-		    CONST char *path = TclGetString(pathPtr);
-		    retVal = Tcl_NewStringObj(path, dirSep - path);
+		    retVal = Tcl_NewStringObj(path, dirSep - path
+				    + (rootOffset == dirSep - path));
 		    Tcl_IncrRefCount(retVal);
 		}
 		dirSep += 2;
@@ -245,8 +245,8 @@ TclFSNormalizeAbsolutePath(
 		 */
 
 		if (retVal == NULL) {
-		    CONST char *path = TclGetString(pathPtr);
-		    retVal = Tcl_NewStringObj(path, dirSep - path);
+		    retVal = Tcl_NewStringObj(path, dirSep - path
+				    + (rootOffset == dirSep - path));
 		    Tcl_IncrRefCount(retVal);
 		}
 		if (!first || (tclPlatform == TCL_PLATFORM_UNIX)) {
@@ -331,6 +331,12 @@ TclFSNormalizeAbsolutePath(
 			} else {
 			    Tcl_SetObjLength(retVal, rootOffset+1);
 			}
+		    }
+		} else {
+		    if ((dirSep[3] != 0) || unc) {
+			Tcl_SetObjLength(retVal, rootOffset);
+		    } else {
+			Tcl_SetObjLength(retVal, rootOffset+1);
 		    }
 		}
 		dirSep += 3;
