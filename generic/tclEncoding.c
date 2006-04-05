@@ -2225,6 +2225,16 @@ UtfToUtfProc(
 
 	    *dst++ = 0;
 	    src += 2;
+	} else if (!Tcl_UtfCharComplete(src, srcEnd - src)) {
+	    /* Always check before using Tcl_UtfToUniChar. Not doing
+	     * can so cause it run beyond the endof the buffer!  If we
+	     * * happen such an incomplete char its byts are made to *
+	     * represent themselves.
+	     */
+
+	    ch = (Tcl_UniChar) *src;
+	    src += 1;
+	    dst += Tcl_UniCharToUtf(ch, dst);
 	} else {
 	    src += Tcl_UtfToUniChar(src, &ch);
 	    dst += Tcl_UniCharToUtf(ch, dst);
