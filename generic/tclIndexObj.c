@@ -223,14 +223,10 @@ Tcl_GetIndexFromObjStruct(
     }
 
     /*
-     * Check if we were instructed to disallow abbreviations. Note that we do
-     * not allow the empty string as an abbreviation of anything; it is only
-     * processed by this function as a non-error case if the table of strings
-     * has an entry in it that is itself an empty string. This only matters in
-     * the case where the table has a singleton entry.
+     * Check if we were instructed to disallow abbreviations.
      */
 
-    if ((flags & TCL_EXACT) || (key[0] == '\0') || (numAbbrev != 1)) {
+    if ((flags & TCL_EXACT) || (numAbbrev != 1)) {
 	goto error;
     }
 

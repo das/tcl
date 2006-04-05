@@ -67,8 +67,11 @@ test indexObj-2.7 {exact match of empty values} testindexobj {
     list [catch {testindexobj 1 1 {} a b c} msg] $msg
 } {1 {ambiguous token "": must be a, b, or c}}
 test indexObj-2.8 {exact match of empty values: singleton case} testindexobj {
-    list [catch {testindexobj 1 1 {} a} msg] $msg
+    list [catch {testindexobj 1 0 {} a} msg] $msg
 } {1 {bad token "": must be a}}
+test indexObj-2.9 {non-exact match of empty values: singleton case} testindexobj {
+    testindexobj 1 1 {} a
+} 0
 
 test indexObj-3.1 {cache result to skip next lookup} testindexobj {
     testindexobj check 42
