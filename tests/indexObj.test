@@ -65,7 +65,7 @@ test indexObj-2.6 {TCL_EXACT => no "ambiguous" error message} {
 } {1 {bad token "d": must be dumb, daughter, a, or c}}
 test indexObj-2.7 {exact match of empty values} testindexobj {
     list [catch {testindexobj 1 1 {} a b c} msg] $msg
-} {1 {bad token "": must be a, b, or c}}
+} {1 {ambiguous token "": must be a, b, or c}}
 test indexObj-2.8 {exact match of empty values: singleton case} testindexobj {
     list [catch {testindexobj 1 1 {} a} msg] $msg
 } {1 {bad token "": must be a}}
