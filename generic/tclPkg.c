@@ -355,8 +355,12 @@ Tcl_PkgRequireEx(interp, name, version, exact, clientDataPtr)
 		     * It's a bit too harsh to make a large number of
 		     * existing packages start failing by releasing a
 		     * new patch release, so we forgive this type of error
-		     * for the rest of the Tcl 8.4 series, and only report
-		     * a warning.  We limit the error reporting to only
+		     * for the rest of the Tcl 8.4 series.
+		     *
+		     * We considered reporting a warning, but in practice
+		     * even that appears too harsh a change for a patch release.
+		     *
+		     * We limit the error reporting to only
 		     * the situation where a broken ifneeded script leads
 		     * to a failure to satisfy the requirement.
 		     */
@@ -373,8 +377,9 @@ Tcl_PkgRequireEx(interp, name, version, exact, clientDataPtr)
 				    " provided instead", NULL);
 			}
 		    }
+		    /*
+		     * Warning generation now disabled
 		    if (code == TCL_OK) {
-			/* Forgiving the error, report warning instead */
 			Tcl_Obj *msg = Tcl_NewStringObj(
 				"attempt to provide package ", -1);
 			Tcl_Obj *cmdPtr = Tcl_NewListObj(0, NULL);
@@ -389,6 +394,7 @@ Tcl_PkgRequireEx(interp, name, version, exact, clientDataPtr)
 			Tcl_DecrRefCount(cmdPtr);
 			Tcl_ResetResult(interp);
 		    }
+		    */
 		}
 	    } else if (code != TCL_ERROR) {
 		Tcl_Obj *codePtr = Tcl_NewIntObj(code);
