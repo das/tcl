@@ -470,7 +470,9 @@ Tcl_GetEncodingNameFromEnvironment(
     Tcl_DString *bufPtr)
 {
     Tcl_DStringInit(bufPtr);
+    Tcl_DStringSetLength(&bufPtr, 2+TCL_INTEGER_SPACE);
     wsprintfA(Tcl_DStringValue(bufPtr), "cp%d", GetACP());
+    Tcl_DStringSetLength(&bufPtr, strlen(Tcl_DStringValue(bufPtr)));
     return Tcl_DStringValue(bufPtr);
 }
 

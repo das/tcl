@@ -2564,6 +2564,8 @@ InitializeHostName(
 	if (winSock.gethostname(Tcl_DStringValue(&ds),
 		Tcl_DStringLength(&ds)) == 0) {
 	    Tcl_DStringSetLength(&ds, 0);
+	} else {
+	    Tcl_DStringSetLength(&ds, strlen(Tcl_DStringValue(&ds)));
 	}
     }
 

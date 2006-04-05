@@ -81,7 +81,7 @@ static DWORD ddeInstance;	/* The application instance handle given to us
 				 * by DdeInitialize. */
 static int ddeIsServer = 0;
 
-#define TCL_DDE_VERSION		"1.3.1"
+#define TCL_DDE_VERSION		"1.3.2"
 #define TCL_DDE_PACKAGE_NAME	"dde"
 #define TCL_DDE_SERVICE_NAME	"TclEval"
 #define TCL_DDE_EXECUTE_RESULT	"$TCLEVAL$EXECUTE$RESULT"
@@ -377,6 +377,8 @@ DdeSetServerName(
 		}
 	    }
 	}
+	Tcl_DStringSetLength(&dString,
+		offset + strlen(Tcl_DStringValue(&dString)+offset));
     }
 
     /*
