@@ -229,7 +229,7 @@ Tcl_GetIndexFromObjStruct(interp, objPtr, tablePtr, offset, msg, flags,
     /*
      * Check if we were instructed to disallow abbreviations. 
      */
-    if ((flags & TCL_EXACT) || (numAbbrev != 1)) {
+    if ((flags & TCL_EXACT) || (key[0] == '\0') || (numAbbrev != 1)) {
 	goto error;
     }
 
