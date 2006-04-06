@@ -18,7 +18,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 }
 
 testConstraint testmathfunctions [expr {
-    ([catch {expr T1()} msg] != 1) || ($msg ne {unknown math function "T1"})
+    ([catch {expr T1()} msg] != 1) || ($msg ne {invalid command name "tcl::mathfunc::T1"})
 }]
 
 # Determine if "long int" type is a 32 bit number and if the wide

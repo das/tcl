@@ -25,7 +25,7 @@ testConstraint testexprdouble [llength [info commands testexprdouble]]
 testConstraint testexprstring [llength [info commands testexprstring]]
 testConstraint longIs32bit    [expr {int(0x80000000) < 0}]
 
-if {[catch {expr T1()} msg] && $msg eq {unknown math function "T1"}} {
+if {[catch {expr T1()} msg] && $msg eq {invalid command name "tcl::mathfunc::T1"}} {
     testConstraint testmathfunctions 0
 } else {
     testConstraint testmathfunctions 1
