@@ -1014,7 +1014,13 @@ FinalizeRegexp(
 	    FreeRegexp(regexpPtr);
 	}
 	ckfree(tsdPtr->patterns[i]);
+	tsdPtr->patterns[i] = NULL;
     }
+    /*
+     * We may find ourselves reinitialized if another finalization routine
+     * invokes regexps.
+     */
+    tsdPtr->initialized = 0;
 }
 
 /*
