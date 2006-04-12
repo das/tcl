@@ -279,8 +279,8 @@ Standard character classes are:
 .PP
 .RS
 .ne 5
-.nf
 .ta 3c
+.nf
 \fBalpha\fR	A letter. 
 \fBupper\fR	An upper-case letter. 
 \fBlower\fR	A lower-case letter. 
