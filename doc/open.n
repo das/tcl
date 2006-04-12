@@ -85,8 +85,8 @@ Open the file for both reading and writing.
 .TP 15
 \fBAPPEND\fR
 Set the file pointer to the end of the file prior to each write.
-.TP 15
 .VS 8.5
+.TP 15
 \fBBINARY\fR
 Configure the opened channed with the \fB-translation binary\fR option.
 .VE 8.5

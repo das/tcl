@@ -262,7 +262,7 @@ interface are not available to channels reflected to the Tcl level.
 The function \fBTcl_DriverGetHandleProc\fR is not supported; i.e.
 reflected channels do not have OS specific handles.
 .PP
-The function \fBTcl_DriverHandlerProc\fI is not supported. This driver
+The function \fBTcl_DriverHandlerProc\fR is not supported. This driver
 function is relevant only for stacked channels, i.e. transformations.
 Reflected channels are always base channels, not transformations.
 .PP
