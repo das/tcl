@@ -6366,4 +6366,6 @@ buffers at end of file (kraft,kupries)
 2006-04-06 (bug fix)[1457515] TCL_IO_TRACK_OS_FOR_DRIVER_WITH_BAD_BLOCKING
 removed (steffen)
 
---- Released 8.4.13, April 14, 2006 --- See ChangeLog for details ---
+2006-04-11 (bug fix)[1458266] enter/enterstep trace interference (leunissen)
+
+--- Released 8.4.13, April 19, 2006 --- See ChangeLog for details ---
