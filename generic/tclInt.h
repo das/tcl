@@ -112,6 +112,8 @@ typedef int ptrdiff_t;
 #define NO_WIDE_TYPE
 #endif
 
+struct Foundation; // Forward decl for OO support
+
 /*
  * The following procedures allow namespaces to be customized to support
  * special name resolution rules for commands/variables.
@@ -892,7 +894,8 @@ typedef struct CallFrame {
 				 * using an index into this array. */
 } CallFrame;
 
-#define FRAME_IS_PROC 0x1
+#define FRAME_IS_PROC	0x1
+#define FRAME_IS_METHOD	0x2
 
 /*
  *----------------------------------------------------------------
@@ -1510,11 +1513,13 @@ typedef struct Interp {
      * TIP #219 ... Global info for the I/O system ...
      */
 
-    Tcl_Obj* chanMsg;		/* Error message set by channel drivers, for
+    Tcl_Obj *chanMsg;		/* Error message set by channel drivers, for
 				 * the propagation of arbitrary Tcl errors.
 				 * This information, if present (chanMsg not
 				 * NULL), takes precedence over a posix error
 				 * code returned by a channel operation. */
+
+    struct Foundation *ooFoundation; // OO support
 
     /*
      * Statistical information about the bytecode compiler and interpreter's
@@ -3030,6 +3035,10 @@ MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int* bignum,
 #define TclIsInfinite(d)	( (d) > DBL_MAX || (d) < -DBL_MAX )
 #define TclIsNaN(d)		((d) != (d))
 #endif
+
+// MOVE ME TO tclInt.decls
+void			TclSetNsPath(Namespace *nsPtr, int pathLength,
+			    Tcl_Namespace *pathAry[]);
 
 #include "tclPort.h"
 #include "tclIntDecls.h"
