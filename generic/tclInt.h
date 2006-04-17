@@ -892,10 +892,12 @@ typedef struct CallFrame {
 				 * recognized by the compiler. The compiler
 				 * emits code that refers to these variables
 				 * using an index into this array. */
+    void *methodChain;		/* TODO: Docme */
+    int methodChainIdx;		/* TODO: Docme */
 } CallFrame;
 
 #define FRAME_IS_PROC	0x1
-#define FRAME_IS_METHOD	0x2
+#define FRAME_IS_METHOD	0x2	/* TODO: Docme */
 
 /*
  *----------------------------------------------------------------
