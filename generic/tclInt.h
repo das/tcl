@@ -167,6 +167,10 @@ typedef struct Tcl_ResolverInfo {
 typedef struct Tcl_Ensemble Tcl_Ensemble;
 typedef struct NamespacePathEntry NamespacePathEntry;
 
+// FIXME: Tidy up
+typedef void (*TclEnsembleCallbackProc)(ClientData clientData);
+MODULE_SCOPE void TclEnsembleSetCallbacks(Tcl_Command ensemble, TclEnsembleCallbackProc enterProc, TclEnsembleCallbackProc leaveProc, ClientData clientData);
+
 /*
  * The structure below defines a namespace.
  * Note: the first five fields must match exactly the fields in a
