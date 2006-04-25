@@ -429,6 +429,10 @@ test scan-5.13 {integer scanning and overflow} {
     scan {300000000 3000000000 30000000000} {%ld %ld %ld}
 } {300000000 3000000000 30000000000}
 
+test scan-5.14 {integer scanning} {
+    scan 0xff %u
+} 0
+
 test scan-6.1 {floating-point scanning} {
     set a {}; set b {}; set c {}; set d {}
     list [scan "2.1 -3.0e8 .99962 a" "%f%g%e%f" a b c d] $a $b $c $d
