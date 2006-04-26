@@ -2703,6 +2703,22 @@ Nokia770Twiddle(
 }
 
 /*
+ *----------------------------------------------------------------------
+ *
+ * TclNokia770Doubles --
+ *
+ * 	Transpose the two words of a number for Nokia 770 floating
+ *	point handling.
+ *
+ *----------------------------------------------------------------------
+ */
+
+int
+TclNokia770Doubles()
+{
+    return n770_fp;
+}
+/*
  * Local Variables:
  * mode: c
  * c-basic-offset: 4
