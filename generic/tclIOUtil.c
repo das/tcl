@@ -608,7 +608,7 @@ FsRecacheFilesystemList(void)
 
     /*
      * Code below operates on shared data. We are already called under mutex
-     * lock so we can safely proceede.
+     * lock so we can safely proceed.
      *
      * Locate tail of the global filesystem list.
      */
@@ -794,7 +794,7 @@ TclFinalizeFilesystem(void)
 	     * The native filesystem is static, so we don't free it.
 	     */
 
-	    if (fsRecPtr != &nativeFilesystemRecord) {
+	    if (fsRecPtr->fsPtr != &tclNativeFilesystem) {
 		ckfree((char *)fsRecPtr);
 	    }
 	}
@@ -977,7 +977,7 @@ Tcl_FSUnregister(
      */
 
     fsRecPtr = filesystemList;
-    while ((retVal == TCL_ERROR) && (fsRecPtr != &nativeFilesystemRecord)) {
+    while ((retVal == TCL_ERROR) && (fsRecPtr->fsPtr != &tclNativeFilesystem)) {
 	if (fsRecPtr->fsPtr == fsPtr) {
 	    if (fsRecPtr->prevPtr) {
 		fsRecPtr->prevPtr->nextPtr = fsRecPtr->nextPtr;
@@ -1426,7 +1426,7 @@ TclFSNormalizeToUniquePath(
 
     fsRecPtr = firstFsRecPtr;
     while (fsRecPtr != NULL) {
-	if (fsRecPtr == &nativeFilesystemRecord) {
+	if (fsRecPtr->fsPtr == &tclNativeFilesystem) {
 	    Tcl_FSNormalizePathProc *proc = fsRecPtr->fsPtr->normalizePathProc;
 	    if (proc != NULL) {
 		startAt = (*proc)(interp, pathPtr, startAt);
@@ -1442,7 +1442,7 @@ TclFSNormalizeToUniquePath(
 	 * Skip the native system next time through.
 	 */
 
-	if (fsRecPtr != &nativeFilesystemRecord) {
+	if (fsRecPtr->fsPtr != &tclNativeFilesystem) {
 	    Tcl_FSNormalizePathProc *proc = fsRecPtr->fsPtr->normalizePathProc;
 	    if (proc != NULL) {
 		startAt = (*proc)(interp, pathPtr, startAt);
@@ -1558,7 +1558,11 @@ TclGetOpenModeEx(
 	    mode = O_WRONLY|O_CREAT|O_TRUNC;
 	    break;
 	case 'a':
-	    mode = O_WRONLY|O_CREAT;
+	    /* [Bug 680143].
+	     * Added O_APPEND for proper automatic
+	     * seek-to-end-on-write by the OS.
+	     */
+	    mode = O_WRONLY|O_CREAT|O_APPEND;
 	    *seekFlagPtr = 1;
 	    break;
 	default:
@@ -3664,7 +3668,7 @@ FsListMounts(
 
     fsRecPtr = FsGetFirstFilesystem();
     while (fsRecPtr != NULL) {
-	if (fsRecPtr != &nativeFilesystemRecord) {
+	if (fsRecPtr->fsPtr != &tclNativeFilesystem) {
 	    Tcl_FSMatchInDirectoryProc *proc =
 		    fsRecPtr->fsPtr->matchInDirectoryProc;
 	    if (proc != NULL) {

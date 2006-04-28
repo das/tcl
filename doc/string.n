@@ -139,9 +139,9 @@ false.
 .IP \fBgraph\fR 12
 Any Unicode printing character, except space.
 .IP \fBinteger\fR 12
-Any of the valid forms for an ordinary integer in Tcl, with optional
-surrounding whitespace.  In case of under/overflow in the value, 0 is
-returned and the \fIvarname\fR will contain \-1.
+Any of the valid string formats for a 32-bit integer value in Tcl,
+with optional surrounding whitespace.  In case of under/overflow in
+the value, 0 is returned and the \fIvarname\fR will contain \-1.
 .IP \fBlower\fR 12
 Any Unicode lower case alphabet character.
 .IP \fBprint\fR 12

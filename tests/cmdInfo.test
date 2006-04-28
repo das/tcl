@@ -20,10 +20,8 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
-::tcltest::testConstraint testcmdinfo \
-	[llength [info commands testcmdinfo]]
-::tcltest::testConstraint testcmdtoken \
-	[llength [info commands testcmdtoken]]
+testConstraint testcmdinfo  [llength [info commands testcmdinfo]]
+testConstraint testcmdtoken [llength [info commands testcmdtoken]]
 
 test cmdinfo-1.1 {command procedure and clientData} {testcmdinfo} {
     testcmdinfo create x1
@@ -104,3 +102,7 @@ catch {namespace delete cmdInfoNs1::cmdInfoNs2 cmdInfoNs1}
 catch {rename x1 ""}
 ::tcltest::cleanupTests
 return
+
+# Local Variables:
+# mode: tcl
+# End:

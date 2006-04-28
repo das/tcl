@@ -384,7 +384,8 @@ Note that the \fBglob\fR code implements recursive patterns internally, so
 this function will only ever be passed simple patterns, which can be
 matched using the logic of \fBstring match\fR.  To handle recursion, Tcl
 will call this function frequently asking only for directories to be
-returned.
+returned.  A special case of being called with a NULL pattern indicates
+that the path needs to be checked only for the correct type.
 .PP
 \fBTcl_FSLink\fR replaces the library version of \fBreadlink\fR, and
 extends it to support the creation of links.  The appropriate function

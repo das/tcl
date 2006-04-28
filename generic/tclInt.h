@@ -2202,6 +2202,7 @@ MODULE_SCOPE Tcl_Obj *	TclLsetFlat(Tcl_Interp* interp, Tcl_Obj* listPtr,
 MODULE_SCOPE int	TclMergeReturnOptions(Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[], Tcl_Obj **optionsPtrPtr,
 			    int *codePtr, int *levelPtr);
+MODULE_SCOPE int	TclNokia770Doubles();
 MODULE_SCOPE int	TclObjInvokeNamespace(Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[],
 			    Tcl_Namespace *nsPtr, int flags);
@@ -2241,6 +2242,7 @@ MODULE_SCOPE int	TclpDeleteFile(CONST char *path);
 MODULE_SCOPE void	TclpFinalizeCondition(Tcl_Condition *condPtr);
 MODULE_SCOPE void	TclpFinalizeMutex(Tcl_Mutex *mutexPtr);
 MODULE_SCOPE void	TclpFinalizePipes(void);
+MODULE_SCOPE void	TclpFinalizeSockets _ANSI_ARGS_((void));
 MODULE_SCOPE int	TclpThreadCreate(Tcl_ThreadId *idPtr,
 			    Tcl_ThreadCreateProc proc, ClientData clientData,
 			    int stackSize, int flags);

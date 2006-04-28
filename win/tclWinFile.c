@@ -1546,9 +1546,14 @@ NativeAccess(
 	return -1;
     }
 
-    if ((mode & W_OK) && (attr & FILE_ATTRIBUTE_READONLY)) {
+    if ((mode & W_OK) 
+      && (tclWinProcs->getFileSecurityProc == NULL)
+      && (attr & FILE_ATTRIBUTE_READONLY)) {
 	/*
-	 * File is not writable.
+	 * We don't have the advanced 'getFileSecurityProc', and
+	 * our attributes say the file is not writable.  If we
+	 * do have 'getFileSecurityProc', we'll do a more
+	 * robust XP-related check below.
 	 */
 
 	Tcl_SetErrno(EACCES);
@@ -1584,8 +1589,8 @@ NativeAccess(
 	GENERIC_MAPPING genMap;
 	HANDLE hToken = NULL;
 	DWORD desiredAccess = 0;
-	DWORD grantedAccess;
-	BOOL accessYesNo;
+	DWORD grantedAccess = 0;
+	BOOL accessYesNo = FALSE;
 	PRIVILEGE_SET privSet;
 	DWORD privSetSize = sizeof(PRIVILEGE_SET);
 	int error;
@@ -1647,27 +1652,25 @@ NativeAccess(
 	    /*
 	     * Unable to perform security impersonation.
 	     */
-
+	    
 	    goto accessError;
 	}
 	if (!(*tclWinProcs->openThreadTokenProc)(GetCurrentThread (),
-			TOKEN_DUPLICATE | TOKEN_QUERY, FALSE, &hToken)) {
+		TOKEN_DUPLICATE | TOKEN_QUERY, FALSE, &hToken)) {
 	    /*
 	     * Unable to get current thread's token.
 	     */
-
+	    
 	    goto accessError;
 	}
+	
 	(*tclWinProcs->revertToSelfProc)();
-
-	memset (&genMap, 0x00, sizeof (GENERIC_MAPPING));
-
+	
 	/*
 	 * Setup desiredAccess according to the access priveleges we are
 	 * checking.
 	 */
 
-	genMap.GenericAll = 0;
 	if (mode & R_OK) {
 	    desiredAccess |= FILE_GENERIC_READ;
 	}
@@ -1678,6 +1681,12 @@ NativeAccess(
 	    desiredAccess |= FILE_GENERIC_EXECUTE;
 	}
 
+	memset (&genMap, 0x0, sizeof (GENERIC_MAPPING));
+	genMap.GenericRead = FILE_GENERIC_READ;
+	genMap.GenericWrite = FILE_GENERIC_WRITE;
+	genMap.GenericExecute = FILE_GENERIC_EXECUTE;
+	genMap.GenericAll = FILE_ALL_ACCESS;
+	
 	/*
 	 * Perform access check using the token.
 	 */
@@ -1707,6 +1716,16 @@ NativeAccess(
 	HeapFree(GetProcessHeap (), 0, sdPtr);
 	CloseHandle(hToken);
 	if (!accessYesNo) {
+	    Tcl_SetErrno(EACCES);
+	    return -1;
+	}
+	/*
+	 * For directories the above checks are ok.  For files, though,
+	 * we must still check the 'attr' value.
+	 */
+	if ((mode & W_OK)
+	  && !(attr & FILE_ATTRIBUTE_DIRECTORY)
+	  && (attr & FILE_ATTRIBUTE_READONLY)) {
 	    Tcl_SetErrno(EACCES);
 	    return -1;
 	}

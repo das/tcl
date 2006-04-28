@@ -132,7 +132,7 @@ test apply-5.1 {runtime error in lambda expression} {
 } {1 {foo
     while executing
 "error foo"
-    (procedure "apply" line 1) CHECK & MODIFY
+    (procedure "apply {{} {error foo}}" line 1)
     invoked from within
 "apply $lambda"}}
 

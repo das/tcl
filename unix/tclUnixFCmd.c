@@ -527,11 +527,11 @@ TclUnixCopyFile(
 
     buffer = ckalloc(blockSize);
     while (1) {
-	nread = read(srcFd, buffer, blockSize);
-	if ((nread == -1) || (nread == 0)) {
+	nread = (size_t) read(srcFd, buffer, blockSize);
+	if ((nread == (size_t) -1) || (nread == 0)) {
 	    break;
 	}
-	if (write(dstFd, buffer, nread) != nread) {
+	if ((size_t) write(dstFd, buffer, nread) != nread) {
 	    nread = (size_t) -1;
 	    break;
 	}
@@ -539,7 +539,7 @@ TclUnixCopyFile(
 
     ckfree(buffer);
     close(srcFd);
-    if ((close(dstFd) != 0) || (nread == -1)) {
+    if ((close(dstFd) != 0) || (nread == (size_t) -1)) {
 	unlink(dst);					/* INTL: Native. */
 	return TCL_ERROR;
     }
@@ -1884,9 +1884,17 @@ TclpObjNormalizePath(
 	    nativePath = Tcl_UtfToExternalDString(NULL, path,
 		    lastDir-path, &ds);
 	    if (Realpath(nativePath, normPath) != NULL) {
-		nextCheckpoint = lastDir - path;
-		goto wholeStringOk;
+		if (*nativePath != '/' && *normPath == '/') {
+		    /*
+		     * realpath has transformed a relative path into an
+		     * absolute path, we do not know how to handle this.
+		     */
+		} else {
+		    nextCheckpoint = lastDir - path;
+		    goto wholeStringOk;
+		}
 	    }
+	    Tcl_DStringFree(&ds);
 	}
     }
 

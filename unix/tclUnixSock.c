@@ -159,6 +159,28 @@ TclpHasSockets(
 }
 
 /*
+ *----------------------------------------------------------------------
+ *
+ * TclpFinalizeSockets --
+ *
+ *	Performs per-thread socket subsystem finalization.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+TclpFinalizeSockets()
+{
+    return;
+}
+
+/*
  * Local Variables:
  * mode: c
  * c-basic-offset: 4

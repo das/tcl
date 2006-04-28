@@ -1015,6 +1015,7 @@ void
 Tcl_FinalizeThread(void)
 {
     ExitHandler *exitPtr;
+    ThreadSpecificData *tsdPtr;
 
     /*
      * We use TclThreadDataKeyGet here, rather than Tcl_GetThreadData, because
@@ -1022,9 +1023,7 @@ Tcl_FinalizeThread(void)
      * initialized already.
      */
 
-    ThreadSpecificData *tsdPtr = (ThreadSpecificData *)
-	    TclThreadDataKeyGet(&dataKey);
-
+    tsdPtr = (ThreadSpecificData *)TclThreadDataKeyGet(&dataKey);
     if (tsdPtr != NULL) {
 	tsdPtr->inExit = 1;
 

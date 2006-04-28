@@ -751,6 +751,7 @@ Tcl_ScanObjCmd(
 	    break;
 	case 'u':
 	    op = 'i';
+	    parseFlag |= TCL_PARSE_DECIMAL_ONLY;
 	    flags |= SCAN_UNSIGNED;
 	    break;
 

@@ -1097,3 +1097,9 @@ declare 17 macosx {
 	    CONST Tcl_StatBuf *statBufPtr)
 }
 
+declare 18 macosx {
+    int TclMacOSXMatchType(Tcl_Interp *interp, CONST char *pathName,
+	    CONST char *fileName, Tcl_StatBuf *statBufPtr,
+	    Tcl_GlobTypeData *types)
+}
+

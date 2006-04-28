@@ -15,12 +15,10 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
-::tcltest::testConstraint testopenfilechannelproc \
+testConstraint testopenfilechannelproc \
 	[llength [info commands testopenfilechannelproc]]
-::tcltest::testConstraint testaccessproc \
-	[llength [info commands testaccessproc]]
-::tcltest::testConstraint teststatproc \
-	[llength [info commands teststatproc]]
+testConstraint testaccessproc [llength [info commands testaccessproc]]
+testConstraint teststatproc   [llength [info commands teststatproc]]
 
 set unsetScript {
     catch {unset testStat1(size)}
@@ -308,3 +306,7 @@ cd $oldpwd
 # cleanup
 ::tcltest::cleanupTests
 return
+
+# Local Variables:
+# mode: tcl
+# End:

@@ -120,7 +120,7 @@ static void		ResultAdd(ResultBuffer *r, unsigned char *buf,
 
 static Tcl_ChannelType transformChannelType = {
     "transform",			/* Type name. */
-    TCL_CHANNEL_VERSION_3,
+    TCL_CHANNEL_VERSION_5,              /* v5 channel */
     TransformCloseProc,			/* Close proc. */
     TransformInputProc,			/* Input proc. */
     TransformOutputProc,		/* Output proc. */
@@ -134,6 +134,8 @@ static Tcl_ChannelType transformChannelType = {
     NULL,				/* Flush proc. */
     TransformNotifyProc,                /* Handling of events bubbling up */
     TransformWideSeekProc,		/* Wide seek proc */
+    NULL,                               /* thread action */
+    NULL,                               /* truncate */
 };
 
 /*

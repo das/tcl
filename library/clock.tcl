@@ -3947,12 +3947,12 @@ proc ::tcl::clock::DeterminePosixDSTTime { z bound y } {
 	# Time was specified as a day of the week within a month
 
 	dict set date month [dict get $z ${bound}Month]
-	dict set date dayOfWeekInMonth [dict get $z ${bound}WeekOfMonth]
-	set dow [dict get $z ${bound}DayOfWeek]
-	if { $dow >= 5 } {
-	    set dow -1
+	dict set date dayOfWeek [dict get $z ${bound}DayOfWeek]
+	set dowim [dict get $z ${bound}WeekOfMonth]
+	if { $dowim >= 5 } {
+	    set dowim -1
 	}
-	dict set date dayOfWeek $dow
+	dict set date dayOfWeekInMonth $dowim
 	set date [GetJulianDayFromEraYearMonthWeekDay $date[set date {}] 2361222]
 
     }

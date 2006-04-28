@@ -1789,7 +1789,7 @@ TraceExecutionProc(
 	if (call) {
 	    Tcl_DString cmd;
 	    Tcl_DString sub;
-	    int i;
+	    int i, saveInterpFlags;
 
 	    Tcl_DStringInit(&cmd);
 	    Tcl_DStringAppend(&cmd, tcmdPtr->command, (int)tcmdPtr->length);
@@ -1852,8 +1852,9 @@ TraceExecutionProc(
 	     * returns.
 	     */
 
-	    tcmdPtr->flags |= TCL_TRACE_EXEC_IN_PROGRESS;
+	    saveInterpFlags = iPtr->flags;
 	    iPtr->flags    |= INTERP_TRACE_IN_PROGRESS;
+	    tcmdPtr->flags |= TCL_TRACE_EXEC_IN_PROGRESS;
 	    tcmdPtr->refCount++;
 
 	    /*
@@ -1864,7 +1865,12 @@ TraceExecutionProc(
 
 	    traceCode = Tcl_Eval(interp, Tcl_DStringValue(&cmd));
 	    tcmdPtr->flags &= ~TCL_TRACE_EXEC_IN_PROGRESS;
-	    iPtr->flags    &= ~INTERP_TRACE_IN_PROGRESS;
+
+	    /* 
+	     * Restore the interp tracing flag to prevent cmd traces
+	     * from affecting interp traces.
+	     */
+	    iPtr->flags = saveInterpFlags;
 	    if (tcmdPtr->flags == 0) {
 		flags |= TCL_TRACE_DESTROYED;
 	    }

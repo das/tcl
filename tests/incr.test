@@ -514,6 +514,13 @@ test incr-3.2 {increment by wide amount: command route} {
     $z x 123123123123
 } 123123123123
 
+test incr-4.1 {increment non-existing array element [Bug 1445454]} -body {
+    proc x {} {incr a(1)}
+    x
+} -cleanup {
+    rename x {}
+} -result 1
+
 # cleanup
 ::tcltest::cleanupTests
 return

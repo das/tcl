@@ -3784,7 +3784,7 @@ NamespaceInscopeCmd(
     Tcl_Obj *CONST objv[])	/* Argument objects. */
 {
     Tcl_Namespace *namespacePtr;
-    CallFrame *framePtr;
+    CallFrame *framePtr, **framePtrPtr;
     int i, result;
 
     if (objc < 4) {
@@ -3810,7 +3810,8 @@ NamespaceInscopeCmd(
      * Make the specified namespace the current namespace.
      */
 
-    result = TclPushStackFrame(interp, (Tcl_CallFrame **)&framePtr,
+    framePtrPtr = &framePtr; /* This is needed to satisfy GCC's strict aliasing rules */
+    result = TclPushStackFrame(interp, (Tcl_CallFrame **)framePtrPtr,
 	    namespacePtr, /*isProcCallFrame*/ 0);
     if (result != TCL_OK) {
 	return result;
