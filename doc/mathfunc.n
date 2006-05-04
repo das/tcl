@@ -232,9 +232,8 @@ argument is a numeric value that exceeds the square of the maximum value of
 the floating-point range.
 .TP
 \fBsrand(\fIarg\fB)\fR
-The \fIarg\fR, which must be an integer value acceptable to
-\fBstring is integer\fR (that is, a 32-bit integer), is used to reset the
-seed for the random number generator of \fBrand\fR.  Returns the first random
+The \fIarg\fR, which must be an integer, is used to reset the seed for
+the random number generator of \fBrand\fR.  Returns the first random
 number (see \fBrand()\fR) from that seed.  Each interpreter has its own seed.
 .TP
 \fBtan(\fIarg\fB)\fR
