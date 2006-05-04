@@ -5578,17 +5578,17 @@ ExprSrandFunc(interp, eePtr, clientData)
     }
 
     if (Tcl_GetLongFromObj(NULL, valuePtr, &i) != TCL_OK) {
-	/*
-	 * At this point, the only other possible type is double
-	 */
-	Tcl_ResetResult(interp);
-	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
-		"can't use floating-point value as argument to srand",
-		(char *) NULL);
+	Tcl_WideInt w;
+
+	if (Tcl_GetWideIntFromObj(interp, valuePtr, &w) != TCL_OK) {
 	badValue:
-	TclDecrRefCount(valuePtr);
-	DECACHE_STACK_INFO();
-	return TCL_ERROR;
+	    Tcl_AddErrorInfo(interp, "\n    (argument to \"srand()\")");
+	    TclDecrRefCount(valuePtr);
+	    DECACHE_STACK_INFO();
+	    return TCL_ERROR;
+	}
+
+	i = Tcl_WideAsLong(w);
     }
     
     /*

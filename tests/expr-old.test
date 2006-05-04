@@ -811,7 +811,7 @@ test expr-old-32.47 {math functions in expressions} {
 } {1 {too few arguments for math function}}
 test expr-old-32.48 {math functions in expressions} {
     list [catch {expr srand(3.79)} msg] $msg
-} {1 {can't use floating-point value as argument to srand}}
+} {1 {expected integer but got "3.79"}}
 test expr-old-32.49 {math functions in expressions} {
     list [catch {expr srand("")} msg] $msg
 } {1 {argument to math function didn't have numeric value}}
