@@ -499,6 +499,27 @@ namespace eval ::tcl::test::main {
     } -result "application-specific initialization failed:\
 	\nIn script\nExit MainLoop\nIn exit\neven 0\n"
 
+    test Tcl_Main-4.5 {
+	Tcl_Main: Bug 1481986
+    } -constraints {
+	exec Tcltest
+    } -setup {
+	set rc [makeFile {
+		testsetmainloop
+		after 0 {puts "Event callback"}
+	} rc]
+    } -body {
+	set f [open "|[list [interpreter] -appinitprocsetrcfile $rc]" w+]
+	after 1000
+	type $f {puts {Interactive output}
+	    exit
+	}
+	read $f
+    } -cleanup {
+	catch {close $f}
+	removeFile rc
+    } -result "Event callback\nInteractive output\n"
+
     # Tests Tcl_Main-5.*: interactive operations
 
     test Tcl_Main-5.1 {
