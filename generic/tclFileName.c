@@ -2346,6 +2346,9 @@ TclDoGlob(interp, separators, headPtr, tail, types)
 	} else if (strchr(separators, *tail) == NULL) {
 	    break;
 	}
+	if (tclPlatform != TCL_PLATFORM_MAC) {
+	    Tcl_DStringAppend(headPtr, tail, 1);
+	}
 	count++;
     }
 
@@ -2387,7 +2390,6 @@ TclDoGlob(interp, separators, headPtr, tail, types)
 	     * trailing slash if needed.  Otherwise add the slash if
 	     * this is the first absolute element, or a later relative
 	     * element.  Add an extra slash if this is a UNC path.
-	     */
 
 	    if (*name == ':') {
 		Tcl_DStringAppend(headPtr, ":", 1);
@@ -2403,13 +2405,13 @@ TclDoGlob(interp, separators, headPtr, tail, types)
 		    Tcl_DStringAppend(headPtr, "/", 1);
 		}
 	    }
+	     */
 	    
 	    break;
-	case TCL_PLATFORM_UNIX:
+	case TCL_PLATFORM_UNIX: {
 	    /*
 	     * Add a separator if this is the first absolute element, or
 	     * a later relative element.
-	     */
 
 	    if ((*tail != '\0')
 		    && (((length > 0)
@@ -2417,7 +2419,9 @@ TclDoGlob(interp, separators, headPtr, tail, types)
 			    || ((length == 0) && (count > 0)))) {
 		Tcl_DStringAppend(headPtr, "/", 1);
 	    }
+	     */
 	    break;
+	}
     }
 
     /*
