@@ -1572,7 +1572,8 @@ ProcCompileProc(
 
 	    new->iPtr = procPtr->iPtr;
 	    new->refCount = 1;
-	    token = (Tcl_Command) new->cmdPtr = procPtr->cmdPtr;
+	    new->cmdPtr = procPtr->cmdPtr;
+	    token = (Tcl_Command) new->cmdPtr;
 	    new->bodyPtr = Tcl_DuplicateObj(bodyPtr);
 	    bodyPtr = new->bodyPtr;
 	    Tcl_IncrRefCount(bodyPtr);
