@@ -53,6 +53,16 @@ by calling \fBTcl_SetStdChannel\fR with a new channel or NULL in the
 \fBTcl_Close\fR, then the corresponding standard channel will automatically be
 set to NULL.
 .PP
+If a non-NULL value for \fIchannel\fR is passed to \fBTcl_SetStdChannel\fR,
+then that same value should be passed to \fBTcl_RegisterChannel\fR, like so:
+.CS
+Tcl_RegisterChannel(NULL, channel);
+.CE
+This is a workaround for a misfeature in \fBTcl_SetStdChannel\fR that it
+fails to do some reference counting housekeeping.  This misfeature cannot
+be corrected without contradicting the assumptions of some existing
+code that calls \fBTcl_SetStdChannel\fR.
+.PP
 If \fBTcl_GetStdChannel\fR is called before \fBTcl_SetStdChannel\fR, Tcl will
 construct a new channel to wrap the appropriate platform-specific standard 
 file handle.  If \fBTcl_SetStdChannel\fR is called before
