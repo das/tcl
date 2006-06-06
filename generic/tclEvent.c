@@ -221,6 +221,7 @@ HandleBgErrors(
 	Tcl_DecrRefCount(errPtr->returnOpts);
 	assocPtr->firstBgPtr = errPtr->nextPtr;
 	ckfree((char *) errPtr);
+	ckfree((char *) tempObjv);
 
 	if (code == TCL_BREAK) {
 	    /*
