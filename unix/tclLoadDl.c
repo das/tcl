@@ -90,9 +90,15 @@ TclpDlopen(interp, pathPtr, loadHandle, unloadProcPtr)
     }
     
     if (handle == NULL) {
+	/*
+	 * Write the string to a variable first to work around a compiler bug
+	 * in the Sun Forte 6 compiler. [Bug 1503729]
+	 */
+
+	CONST char *errorStr = dlerror();
+
 	Tcl_AppendResult(interp, "couldn't load file \"", 
-			 Tcl_GetString(pathPtr),
-			 "\": ", dlerror(), (char *) NULL);
+		Tcl_GetString(pathPtr), "\": ", errorStr, (char *) NULL);
 	return TCL_ERROR;
     }
 
