@@ -478,7 +478,7 @@ Convert(Month, Day, Year, Hours, Minutes, Seconds, Meridian, DSTmode, TimePtr)
         for (i = EPOCH; i < Year; i++)
             Julian += 365 + IsLeapYear(i);
     } else {
-        for (i = Year; i < EPOCH; i++)
+        for (i = (int)Year; i < EPOCH; i++)
             Julian -= 365 + IsLeapYear(i);
     }
     Julian *= SECSPERDAY;
@@ -547,7 +547,7 @@ NamedMonth(Start, MonthOrdinal, MonthNumber)
      *  doing next february from january gives us february of the current year)
      * set day to 1, time to 0
      */
-    tm->tm_year += MonthOrdinal;
+    tm->tm_year += (int)MonthOrdinal;
     if (tm->tm_mon < MonthNumber - 1) {
 	tm->tm_year--;
     }

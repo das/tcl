@@ -385,7 +385,11 @@ typedef struct stati64 Tcl_StatBuf;
 #         define TCL_LL_MODIFIER	"L"
 #         define TCL_LL_MODIFIER_SIZE	1
 #      else /* __BORLANDC__ */
+#         if _MSC_VER < 1400
 typedef struct _stati64	Tcl_StatBuf;
+#         else
+typedef struct _stat64 Tcl_StatBuf;
+#         endif /* _MSC_VER < 1400 */
 #         define TCL_LL_MODIFIER	"I64"
 #         define TCL_LL_MODIFIER_SIZE	3
 #      endif /* __BORLANDC__ */
