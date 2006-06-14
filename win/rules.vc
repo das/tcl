@@ -268,9 +268,9 @@ DBGX	    =
 SUFX	    = $(SUFX:g=)
 !endif
 
-!if $(VCVER) > 6
-BUILDDIRTOP =$(BUILDDIRTOP)_VC$(VCVER)
-!endif
+#!if $(VCVER) > 6
+#BUILDDIRTOP =$(BUILDDIRTOP)_VC$(VCVER)
+#!endif
 
 TMP_DIRFULL = .\$(BUILDDIRTOP)\$(PROJECT)_ThreadedDynamicStaticX
 
