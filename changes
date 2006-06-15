@@ -6379,6 +6379,9 @@ bytecode while references still on the stack (porter,ryazanov)
 
 2006-05-13 (bug fix)[943995] fixed [glob] on VFS (porter)
 
+2006-05-13 (bug fix)[923072] Darwin: made unthreaded CoreFoundation notifier
+naked-fork safe on Tiger (steffen)
+
 2006-05-31 (revert 2006-01-09)[1400572] namespace inscope & info level (porter)
         *** POTENTIAL INCOMPATIBILITY ***
 
