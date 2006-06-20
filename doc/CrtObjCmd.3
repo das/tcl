@@ -112,7 +112,7 @@ Additionally, when \fIproc\fR is invoked, it must not modify the contents
 of the \fIobjv\fR array by assigning new pointer values to any element of the
 array (for example, \fIobjv\fR[\fB2\fR] = \fBNULL\fR) because this will
 cause memory to be lost and the runtime stack to be corrupted.  The
-\fBCONST\fR in the declaration of \fIobjv\fR will cause ANSI-compliant
+\fBconst\fR in the declaration of \fIobjv\fR will cause ANSI-compliant
 compilers to report any such attempted assignment as an error.  However,
 it is acceptable to modify the internal representation of any individual
 object argument.  For instance, the user may call
