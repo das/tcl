@@ -240,7 +240,7 @@ Tcl_EvalFile(
  * support, I suggest all these hooks are removed.
  */
 
-#define USE_OBSOLETE_FS_HOOKS
+#undef USE_OBSOLETE_FS_HOOKS
 
 #ifdef USE_OBSOLETE_FS_HOOKS
 
@@ -807,9 +807,11 @@ TclFinalizeFilesystem(void)
      * filesystem is likely to fail.
      */
 
+#ifdef USE_OBSOLETE_FS_HOOKS
     statProcList = NULL;
     accessProcList = NULL;
     openFileChannelProcList = NULL;
+#endif
 #ifdef __WIN32__
     TclWinEncodingsCleanup();
 #endif
@@ -2149,9 +2151,9 @@ Tcl_FSOpenFileChannel(
 				 * what modes to create it? */
 {
     Tcl_Filesystem *fsPtr;
-#ifdef USE_OBSOLETE_FS_HOOKS
     Tcl_Channel retVal = NULL;
 
+#ifdef USE_OBSOLETE_FS_HOOKS
     /*
      * Call each of the "Tcl_OpenFileChannel" functions in succession. A
      * non-NULL return value indicates the particular function has succeeded.
