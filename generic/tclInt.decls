@@ -29,12 +29,12 @@ interface tclInt
 #declare 0 generic {
 #    int TclAccess(CONST char *path, int mode)
 #}
-declare 1 generic {
-    int TclAccessDeleteProc(TclAccessProc_ *proc)
-}
-declare 2 generic {
-    int TclAccessInsertProc(TclAccessProc_ *proc)
-}
+#declare 1 generic {
+#    int TclAccessDeleteProc(TclAccessProc_ *proc)
+#}
+#declare 2 generic {
+#    int TclAccessInsertProc(TclAccessProc_ *proc)
+#}
 declare 3 generic {
     void TclAllocateFreeObjects(void)
 }
@@ -278,12 +278,12 @@ declare 64 generic {
 #    int TclObjInvokeGlobal(Tcl_Interp *interp, int objc,
 #	    Tcl_Obj *CONST objv[], int flags)
 #}
-declare 66 generic {
-    int TclOpenFileChannelDeleteProc(TclOpenFileChannelProc_ *proc)
-}
-declare 67 generic {
-    int TclOpenFileChannelInsertProc(TclOpenFileChannelProc_ *proc)
-}
+#declare 66 generic {
+#    int TclOpenFileChannelDeleteProc(TclOpenFileChannelProc_ *proc)
+#}
+#declare 67 generic {
+#    int TclOpenFileChannelInsertProc(TclOpenFileChannelProc_ *proc)
+#}
 # Replaced by Tcl_FSAccess in 8.4:
 #declare 68 generic {
 #    int TclpAccess(CONST char *path, int mode)
@@ -425,12 +425,12 @@ declare 104 {unix win} {
 #declare 105 generic {
 #    int TclStat(CONST char *path, Tcl_StatBuf *buf)
 #}
-declare 106 generic {
-    int TclStatDeleteProc(TclStatProc_ *proc)
-}
-declare 107 generic {
-    int TclStatInsertProc(TclStatProc_ *proc)
-}
+#declare 106 generic {
+#    int TclStatDeleteProc(TclStatProc_ *proc)
+#}
+#declare 107 generic {
+#    int TclStatInsertProc(TclStatProc_ *proc)
+#}
 declare 108 generic {
     void TclTeardownNamespace(Namespace *nsPtr)
 }

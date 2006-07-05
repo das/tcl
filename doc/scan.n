@@ -194,6 +194,12 @@ modifier has no \fBsscanf\fR counterpart.
 If the end of the input string is reached before any conversions have been
 performed and no variables are given, an empty string is returned.
 .SH EXAMPLES
+Convert a UNICODE character to its numeric value:
+.CS
+set char "x"
+set value [\fBscan\fR $char %c]
+.CE
+.PP
 Parse a simple color specification of the form \fI#RRGGBB\fR using
 hexadecimal conversions with substring sizes:
 .CS

@@ -3735,7 +3735,6 @@ TclExecuteByteCode(
 	}
 
 	if (*pc == INST_MOD) {
-	    /* Following section assumes BIGNUM_AUTO_NARROW */
 	    /* TODO: Attempts to re-use unshared operands on stack */
 
 	    long l2 = 0; /* silence gcc warning */
@@ -4703,7 +4702,6 @@ TclExecuteByteCode(
 	    NEXT_INST_F(1, 1, 0);
 	}
 
-	/* Following section assumes BIGNUM_AUTO_NARROW */
 	/* TODO: Attempts to re-use unshared operands on stack */
 	if (*pc == INST_EXPON) {
 	    long l2 = 0;

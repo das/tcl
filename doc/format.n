@@ -201,6 +201,13 @@ which will then be converted to the corresponding character value.
 The size modifiers are ignored when formatting floating-point values.
 The \fBll\fR modifier has no \fBsprintf\fR counterpart.
 .SH EXAMPLES
+Convert the numeric value of a UNICODE character to the character
+itself:
+.CS
+set value 120
+set char [\fBformat\fR %c $value]
+.CE
+.PP
 Convert the output of \fBtime\fR into seconds to an accuracy of
 hundredths of a second:
 .CS
