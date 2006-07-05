@@ -2293,6 +2293,8 @@ Tcl_ParseExpr(
 		code = Tcl_ParseQuotedString(interp, start, numBytes,
 			&scratch, 1, &end);
 		if (code != TCL_OK) {
+		    scanned = scratch.term - start;
+		    scanned += (scanned < numBytes);
 		    continue;
 		}
 		scanned = end - start;
@@ -2310,6 +2312,8 @@ Tcl_ParseExpr(
 	    case VARIABLE:
 		code = Tcl_ParseVarName(interp, start, numBytes, &scratch, 1);
 		if (code != TCL_OK) {
+		    scanned = scratch.term - start;
+		    scanned += (scanned < numBytes);
 		    continue;
 		}
 		tokenPtr = scratch.tokenPtr + nodePtr->token + 1;
@@ -2356,11 +2360,13 @@ Tcl_ParseExpr(
 			break;
 		    }
 		}
-		if (code != TCL_OK) {
-		    continue;
-		}
 		end = start;
 		start = tokenPtr->start;
+		if (code != TCL_OK) {
+		    scanned = parsePtr->term - start;
+		    scanned += (scanned < numBytes);
+		    continue;
+		}
 		scanned = end - start;
 		tokenPtr->size = scanned;
 		scratch.numTokens++;
