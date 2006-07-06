@@ -2398,7 +2398,7 @@ TclParseExpr(
 			    &term);
 		    int numTokens = 1 + (int) (lastTokenPtr - appendTokens);
 
-		    TclGrowParseTokenArray(&scratch, numTokens);
+		    TclGrowParseTokenArray(&scratch, numTokens + 1);
 		    tokenPtr = scratch.tokenPtr + scratch.numTokens;
 		    tokenPtr->type = TCL_TOKEN_SCRIPT_SUBST;
 		    tokenPtr->size = term - (start + scanned) + 2;
