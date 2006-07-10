@@ -18,6 +18,10 @@
 #include "tclIO.h"
 #include <assert.h>
 
+#ifndef TCL_INHERIT_STD_CHANNELS
+#define TCL_INHERIT_STD_CHANNELS 1
+#endif
+
 
 /*
  * All static variables used in this file are collected into a single
@@ -1247,7 +1251,7 @@ Tcl_CreateChannel(typePtr, chanName, instanceData, mask)
      * Install this channel in the first empty standard channel slot, if
      * the channel was previously closed explicitly.
      */
-
+#if TCL_INHERIT_STD_CHANNELS
     if ((tsdPtr->stdinChannel == NULL) &&
 	    (tsdPtr->stdinInitialized == 1)) {
 	Tcl_SetStdChannel((Tcl_Channel) chanPtr, TCL_STDIN);
@@ -1260,7 +1264,8 @@ Tcl_CreateChannel(typePtr, chanName, instanceData, mask)
 	    (tsdPtr->stderrInitialized == 1)) {
 	Tcl_SetStdChannel((Tcl_Channel) chanPtr, TCL_STDERR);
         Tcl_RegisterChannel((Tcl_Interp *) NULL, (Tcl_Channel) chanPtr);
-    } 
+    }
+#endif
     return (Tcl_Channel) chanPtr;
 }
 
