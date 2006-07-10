@@ -167,10 +167,6 @@ typedef struct Tcl_ResolverInfo {
 typedef struct Tcl_Ensemble Tcl_Ensemble;
 typedef struct NamespacePathEntry NamespacePathEntry;
 
-// FIXME: Tidy up
-typedef void (*TclEnsembleCallbackProc)(ClientData clientData);
-MODULE_SCOPE void TclEnsembleSetCallbacks(Tcl_Command ensemble, TclEnsembleCallbackProc enterProc, TclEnsembleCallbackProc leaveProc, ClientData clientData);
-
 /*
  * The structure below defines a namespace.
  * Note: the first five fields must match exactly the fields in a
@@ -902,6 +898,7 @@ typedef struct CallFrame {
 
 #define FRAME_IS_PROC	0x1
 #define FRAME_IS_METHOD	0x2	/* TODO: Docme */
+#define FRAME_IS_FILTER	0x4	/* TODO: Docme */
 
 /*
  *----------------------------------------------------------------
@@ -2106,7 +2103,7 @@ MODULE_SCOPE void	TclInitLimitSupport(Tcl_Interp *interp);
 MODULE_SCOPE void	TclInitNamespaceSubsystem(void);
 MODULE_SCOPE void	TclInitNotifier(void);
 MODULE_SCOPE void	TclInitObjSubsystem(void);
-MODULE_SCOPE void	TclInitSubsystems ();
+MODULE_SCOPE void	TclInitSubsystems(void);
 MODULE_SCOPE int	TclInterpReady(Tcl_Interp *interp);
 MODULE_SCOPE int	TclIsLocalScalar(CONST char *src, int len);
 MODULE_SCOPE int	TclJoinThread(Tcl_ThreadId id, int* result);
