@@ -92,6 +92,7 @@ typedef struct Foundation {
     struct Class *classCls;
     struct Class *definerCls;
     struct Class *structCls;
+    Tcl_Namespace *defineNs;
     Tcl_Namespace *helpersNs;
     int epoch;
     int nsCount;

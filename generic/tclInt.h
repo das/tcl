@@ -892,13 +892,13 @@ typedef struct CallFrame {
 				 * recognized by the compiler. The compiler
 				 * emits code that refers to these variables
 				 * using an index into this array. */
-    void *methodChain;		/* TODO: Docme */
-    int methodChainIdx;		/* TODO: Docme */
+    void *ooContextPtr;		/* TODO: Docme */
 } CallFrame;
 
 #define FRAME_IS_PROC	0x1
 #define FRAME_IS_METHOD	0x2	/* TODO: Docme */
 #define FRAME_IS_FILTER	0x4	/* TODO: Docme */
+#define FRAME_IS_OO_DEFINE 0x8	/* TODO: Docme */
 
 /*
  *----------------------------------------------------------------
@@ -2507,6 +2507,47 @@ MODULE_SCOPE int	Tcl_VwaitObjCmd(ClientData clientData,
 MODULE_SCOPE int	Tcl_WhileObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[]);
+
+MODULE_SCOPE void	TclOOInit(Tcl_Interp *interp);
+MODULE_SCOPE int	TclOODefineObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *const *objv);
+MODULE_SCOPE int	TclOODefineConstructorObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *const *objv);
+MODULE_SCOPE int	TclOODefineCopyObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *const *objv);
+MODULE_SCOPE int	TclOODefineDestructorObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *const *objv);
+MODULE_SCOPE int	TclOODefineExportObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *const *objv);
+MODULE_SCOPE int	TclOODefineFilterObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *const *objv);
+MODULE_SCOPE int	TclOODefineForwardObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *const *objv);
+MODULE_SCOPE int	TclOODefineMethodObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *const *objv);
+MODULE_SCOPE int	TclOODefineMixinObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *const *objv);
+MODULE_SCOPE int	TclOODefineParameterObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *const *objv);
+MODULE_SCOPE int	TclOODefineSuperclassObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *const *objv);
+MODULE_SCOPE int	TclOODefineUnexportObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *const *objv);
+MODULE_SCOPE int	TclOODefineSelfClassObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *const *objv);
 
 /*
  *----------------------------------------------------------------

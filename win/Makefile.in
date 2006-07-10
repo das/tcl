@@ -254,6 +254,7 @@ GENERIC_OBJS = \
 	tclNotify.$(OBJEXT) \
 	tclObj.$(OBJEXT) \
 	tclOO.$(OBJEXT) \
+	tclOODefineCmds.$(OBJEXT) \
 	tclPanic.$(OBJEXT) \
 	tclParse.$(OBJEXT) \
 	tclParseExpr.$(OBJEXT) \
