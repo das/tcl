@@ -286,20 +286,29 @@ Tcl_AsyncDelete(async)
     AsyncHandler *asyncPtr = (AsyncHandler *) async;
     AsyncHandler *prevPtr;
 
+    /*
+     * Conservatively check the existence of the linked list of
+     * registered handlers, as we may come at this point even
+     * when the TSD's for the current thread have been already
+     * garbage-collected.
+     */
+
     Tcl_MutexLock(&tsdPtr->asyncMutex);
-    if (tsdPtr->firstHandler == asyncPtr) {
-	tsdPtr->firstHandler = asyncPtr->nextPtr;
-	if (tsdPtr->firstHandler == NULL) {
-	    tsdPtr->lastHandler = NULL;
-	}
-    } else {
-	prevPtr = tsdPtr->firstHandler;
-	while (prevPtr->nextPtr != asyncPtr) {
-	    prevPtr = prevPtr->nextPtr;
-	}
-	prevPtr->nextPtr = asyncPtr->nextPtr;
-	if (tsdPtr->lastHandler == asyncPtr) {
-	    tsdPtr->lastHandler = prevPtr;
+    if (tsdPtr->firstHandler != NULL ) {
+	if (tsdPtr->firstHandler == asyncPtr) {
+	    tsdPtr->firstHandler = asyncPtr->nextPtr;
+	    if (tsdPtr->firstHandler == NULL) {
+		tsdPtr->lastHandler = NULL;
+	    }
+	} else {
+	    prevPtr = tsdPtr->firstHandler;
+	    while (prevPtr->nextPtr != asyncPtr) {
+		prevPtr = prevPtr->nextPtr;
+	    }
+	    prevPtr->nextPtr = asyncPtr->nextPtr;
+	    if (tsdPtr->lastHandler == asyncPtr) {
+		tsdPtr->lastHandler = prevPtr;
+	    }
 	}
     }
     Tcl_MutexUnlock(&tsdPtr->asyncMutex);
