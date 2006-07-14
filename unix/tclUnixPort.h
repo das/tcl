@@ -509,6 +509,11 @@ extern double strtod();
  */
 
 #ifdef __APPLE__
+/*
+ * Translate the symbolic values for MAC_OS_X_VERSION_MAX_ALLOWED to
+ * the numbers used in the comparisons below.
+ */
+#include <AvailabilityMacros.h>
 /* 
  * Support for fat compiles: configure runs only once for multiple architectures
  */
