@@ -450,7 +450,7 @@ TclParseNumber(
 			 */
 
 			if ((octalSignificandWide != 0) 
-				&& ((shift >= CHAR_BIT*sizeof(Tcl_WideUInt)) 
+				&& (((size_t)shift >= CHAR_BIT*sizeof(Tcl_WideUInt)) 
 				|| (octalSignificandWide 
 				> (~(Tcl_WideUInt)0 >> shift)))) {
 			    octalSignificandOverflow = 1;
@@ -569,7 +569,7 @@ TclParseNumber(
 		     */
 
 		    if (significandWide != 0 &&
-			    (shift >= CHAR_BIT*sizeof(Tcl_WideUInt) ||
+			    ((size_t)shift >= CHAR_BIT*sizeof(Tcl_WideUInt) ||
 			    significandWide > (~(Tcl_WideUInt)0 >> shift))) {
 			significandOverflow = 1;
 			TclBNInitBignumFromWideUInt(&significandBig,
@@ -609,7 +609,7 @@ TclParseNumber(
 		     */
 
 		    if (significandWide != 0 &&
-			    (shift >= CHAR_BIT*sizeof(Tcl_WideUInt) ||
+			    ((size_t)shift >= CHAR_BIT*sizeof(Tcl_WideUInt) ||
 			    significandWide > (~(Tcl_WideUInt)0 >> shift))) {
 			significandOverflow = 1;
 			TclBNInitBignumFromWideUInt(&significandBig,
@@ -930,7 +930,7 @@ TclParseNumber(
 	case BINARY:
 	    shift = numTrailZeros;
 	    if (!significandOverflow && significandWide != 0 &&
-		    (shift >= CHAR_BIT*sizeof(Tcl_WideUInt) ||
+		    ((size_t)shift >= CHAR_BIT*sizeof(Tcl_WideUInt) ||
 		    significandWide > (MOST_BITS + signum) >> shift)) {
 		significandOverflow = 1;
 		TclBNInitBignumFromWideUInt(&significandBig, significandWide);
@@ -951,7 +951,7 @@ TclParseNumber(
 
 	    shift = 4 * numTrailZeros;
 	    if (!significandOverflow && significandWide !=0 &&
-		    (shift >= CHAR_BIT*sizeof(Tcl_WideUInt) ||
+		    ((size_t)shift >= CHAR_BIT*sizeof(Tcl_WideUInt) ||
 		    significandWide > (MOST_BITS + signum) >> shift)) {
 		significandOverflow = 1;
 		TclBNInitBignumFromWideUInt(&significandBig, significandWide);
@@ -972,7 +972,7 @@ TclParseNumber(
 
 	    shift = 3 * numTrailZeros;
 	    if (!octalSignificandOverflow && octalSignificandWide != 0 &&
-		    (shift >= CHAR_BIT*sizeof(Tcl_WideUInt) ||
+		    ((size_t)shift >= CHAR_BIT*sizeof(Tcl_WideUInt) ||
 		    octalSignificandWide > (MOST_BITS + signum) >> shift)) {
 		octalSignificandOverflow = 1;
 		TclBNInitBignumFromWideUInt(&octalSignificandBig,

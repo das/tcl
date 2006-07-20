@@ -395,7 +395,7 @@ TclpCreateProcess(
 				 * process. */
 {
     TclFile errPipeIn, errPipeOut;
-    int joinThisError, count, status, fd;
+    int count, status, fd;
     char errSpace[200 + TCL_INTEGER_SPACE];
     Tcl_DString *dsArray;
     char **newArgv;
@@ -428,9 +428,10 @@ TclpCreateProcess(
 	newArgv[i] = Tcl_UtfToExternalDString(NULL, argv[i], -1, &dsArray[i]);
     }
 
-    joinThisError = errorFile && (errorFile == outputFile);
     pid = fork();
     if (pid == 0) {
+	int joinThisError = errorFile && (errorFile == outputFile);
+
 	fd = GetFd(errPipeOut);
 
 	/*

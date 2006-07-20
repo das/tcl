@@ -90,7 +90,7 @@ NewListIntRep(
      * requires API changes to fix.
      */
 
-    if (objc > INT_MAX/sizeof(Tcl_Obj *)) {
+    if ((size_t)objc > INT_MAX/sizeof(Tcl_Obj *)) {
 	return NULL;
     }
 

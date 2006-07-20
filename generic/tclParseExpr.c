@@ -2107,7 +2107,7 @@ Tcl_ParseExpr(
     Tcl_Obj *msg = NULL;
     unsigned char precedence;
     CONST char *space, *operand, *end;
-    int scanned, size, limit = 25, code = TCL_OK;
+    int scanned = 0, size, limit = 25, code = TCL_OK;
 
     if (numBytes < 0) {
 	numBytes = (start ? strlen(start) : 0);
