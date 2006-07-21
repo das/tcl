@@ -2624,15 +2624,20 @@ MODULE_SCOPE void	TclInvalidateNsPath(Namespace *nsPtr);
     (objPtr)->length   = 0; \
     (objPtr)->typePtr  = NULL
 
+/* Invalidate the string rep first so we can use the bytes value \
+ * for our pointer chain, and signal an obj deletion (as opposed \
+ * to shimmering) with 'length == -1' */ \
+
 # define TclDecrRefCount(objPtr) \
     if (--(objPtr)->refCount <= 0) { \
+	if ((objPtr)->bytes \
+	        && ((objPtr)->bytes != tclEmptyStringRep)) { \
+	    ckfree((char *) (objPtr)->bytes); \
+	} \
+        (objPtr)->length = -1; \
 	if ((objPtr)->typePtr && (objPtr)->typePtr->freeIntRepProc) { \
 	    TclFreeObj(objPtr); \
 	} else { \
-	    if ((objPtr)->bytes \
-		    && ((objPtr)->bytes != tclEmptyStringRep)) { \
-		ckfree((char *) (objPtr)->bytes); \
-	    } \
 	    TclFreeObjStorage(objPtr); \
 	    TclIncrObjsFreed(); \
 	} \
