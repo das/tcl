@@ -2551,21 +2551,23 @@ InitializeHostName(
 
 	Tcl_UtfToLower(Tcl_WinTCharToUtf((TCHAR *) wbuf, -1, &ds));
 
-    } else if (TclpHasSockets(NULL) == TCL_OK) {
-	/*
-	 * Buffer length of 255 copied slavishly from previous version of this
-	 * routine. Presumably there's a more "correct" macro value for a
-	 * properly sized buffer for a gethostname() call. Maintainers are
-	 * welcome to supply it.
-	 */
-
+    } else {
 	Tcl_DStringInit(&ds);
-	Tcl_DStringSetLength(&ds, 255);
-	if (winSock.gethostname(Tcl_DStringValue(&ds),
-		Tcl_DStringLength(&ds)) == 0) {
-	    Tcl_DStringSetLength(&ds, 0);
-	} else {
-	    Tcl_DStringSetLength(&ds, strlen(Tcl_DStringValue(&ds)));
+	if (TclpHasSockets(NULL) == TCL_OK) {
+	    /*
+	     * Buffer length of 255 copied slavishly from previous version
+	     * of this routine. Presumably there's a more "correct" macro
+	     * value for a properly sized buffer for a gethostname() call.
+	     * Maintainers are welcome to supply it.
+	     */
+
+	    Tcl_DStringSetLength(&ds, 255);
+	    if (winSock.gethostname(Tcl_DStringValue(&ds),
+		    Tcl_DStringLength(&ds)) == 0) {
+		Tcl_DStringSetLength(&ds, 0);
+	    } else {
+		Tcl_DStringSetLength(&ds, strlen(Tcl_DStringValue(&ds)));
+	    }
 	}
     }
 
