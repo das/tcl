@@ -4858,7 +4858,7 @@ TclExecuteByteCode(
 		w2 /= 2;
 		for (; w2>Tcl_LongAsWide(1) ; w1*=w1,w2/=2) {
 		    wasNegative = (wResult < 0);
-		    if (w1 < 0) {
+		    if (w1 <= 0) {
 			goto overflow;
 		    }
 		    if (w2 & 1) {
@@ -4869,6 +4869,9 @@ TclExecuteByteCode(
 		    }
 		}
 		wasNegative = (wResult < 0);
+		if (w1 <= 0) {
+		    goto overflow;
+		}
 		wResult *=  w1;
 		if (wasNegative != (wResult < 0)) {
 		    goto overflow;
