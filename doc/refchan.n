@@ -227,7 +227,7 @@ have thrown this error. Any exception beyond \fIerror\fR (e.g.
 \fIcmdPrefix \fBcgetall \fIchannelId\fR
 .
 This \fIoptional\fR subcommand is used for reading all type-specific options
-of channel \fIchannelId\fr. If this subcommand is supported then the
+of channel \fIchannelId\fR. If this subcommand is supported then the
 subcommand \fBcget\fR has to be supported as well.
 .RS
 .PP
