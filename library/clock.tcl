@@ -757,7 +757,7 @@ proc ::tcl::clock::format { args } {
 proc ::tcl::clock::ParseClockFormatFormat {format locale} {
 
     set procName [namespace current]::formatproc'$format'$locale
-    if {[info procs $procName] != {}} {
+    if {[namespace which $procName] != {}} {
 	return $procName
     }
 
@@ -1563,7 +1563,7 @@ proc ::tcl::clock::ParseClockScanFormat {formatString locale} {
     # the existing recognizer if it has.
 
     set procName [namespace current]::scanproc'$formatString'$locale
-    if { [info procs $procName] != {} } {
+    if { [namespace which $procName] != {} } {
 	return $procName
     }
 

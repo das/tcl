@@ -36023,6 +36023,24 @@ test clock-53.1 {%EC %Ey} {
     clock format 0 -gmt true -locale en_US_roman -format %EC%Ey
 } mcmlxx
 
+# Test that glob-special characters can be handled in [clock]
+
+test clock-54.1 {glob specials in [clock format]} \
+    -setup {
+	clock format 0 -gmt 1 -format %Y
+    } \
+    -body {
+	clock format 0 -gmt 1 -format {*[%Y%m%d]*}
+    } \
+    -result {*[19700101]*}
+test clock-54.2 {glob specials in [clock scan]} \
+    -setup {
+	clock scan 1970 -gmt 1 -format %Y
+    } \
+    -body {
+	clock scan {*[19700101]*} -format {*[%Y%m%d]*} -gmt 1
+    } \
+    -result 0
 
 # cleanup
 
