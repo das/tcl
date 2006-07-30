@@ -889,7 +889,7 @@ proc ::tcl::clock::ParseClockFormatFormat2 {format locale procName} {
 				     {
 					 set date [GetLocaleEra \
 						       $date[set date {}] \
-						       @LOCALE_ERAS@]}]
+						       @LOCALE_ERAS@]}] \n
 			    set didLocaleEra 1
 			}
 			if {!$didLocaleNumerals} {
@@ -1061,7 +1061,7 @@ proc ::tcl::clock::ParseClockFormatFormat2 {format locale procName} {
 					/ 7 }]
 			}
 			append formatString %02d
-			append substituents { $Wweeknumber}
+			append substituents { $WweekNumber}
 		    }
 		    y {			# The two-digit year of the century
 			append formatString %02d
