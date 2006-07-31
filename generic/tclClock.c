@@ -792,14 +792,15 @@ ConvertLocalToUTCUsingC(
     struct tm timeVal;
     int localErrno;
     int secondOfDay;
+    Tcl_WideInt jsec;
 
     /*
      * Convert the given time to a date.
      */
 
-    fields->julianDay = (int) ((fields->localSeconds + JULIAN_SEC_POSIX_EPOCH)
-	    / SECONDS_PER_DAY);
-    secondOfDay = (int)(fields->localSeconds % SECONDS_PER_DAY);
+    jsec = fields->localSeconds + JULIAN_SEC_POSIX_EPOCH;
+    fields->julianDay = (int) (jsec / SECONDS_PER_DAY);
+    secondOfDay = (int)(jsec % SECONDS_PER_DAY);
     if (secondOfDay < 0) {
 	secondOfDay += SECONDS_PER_DAY;
 	--fields->julianDay;
