@@ -17,6 +17,10 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
+# Constraint set on tests that depend on the exact format of the error messages
+# of the pre-2006/07/05 expression parser (-DOLD_EXPR_PARSER=1)
+testConstraint oldExprParser [expr {![testConstraint newExprParser]}]
+
 # Basic "while" operation.
 
 catch {unset i}
@@ -26,7 +30,7 @@ test while-1.1 {TclCompileWhileCmd: missing test expression} {
     catch {while } msg
     set msg
 } {wrong # args: should be "while test command"}
-test while-1.2 {TclCompileWhileCmd: error in test expression} -body {
+test while-1.2 {TclCompileWhileCmd: error in test expression} -constraints {oldExprParser} -body {
     set i 0
     catch {while {$i<} break} msg
     set errorInfo
@@ -301,7 +305,7 @@ test while-4.2 {while (not compiled): missing test expression} {
     catch {$z } msg
     set msg
 } {wrong # args: should be "while test command"}
-test while-4.3 {while (not compiled): error in test expression} {
+test while-4.3 {while (not compiled): error in test expression} {oldExprParser} {
     set i 0
     set z while
     catch {$z {$i<} {set x 1}} msg
