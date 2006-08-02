@@ -428,6 +428,23 @@ TclpCreateProcess(
 	newArgv[i] = Tcl_UtfToExternalDString(NULL, argv[i], -1, &dsArray[i]);
     }
 
+#ifdef USE_VFORK
+    /*
+     * After vfork(), do not call code in the child that changes global state,
+     * because it is using the parent's memory space at that point and writes
+     * might corrupt the parent: so ensure standard channels are initialized in
+     * the parent, otherwise SetupStdFile() might initialize them in the child.
+     */
+    if (!inputFile) {
+	Tcl_GetStdChannel(TCL_STDIN);
+    }
+    if (!outputFile) {
+        Tcl_GetStdChannel(TCL_STDOUT);
+    }
+    if (!errorFile) {
+        Tcl_GetStdChannel(TCL_STDERR);
+    }
+#endif
     pid = fork();
     if (pid == 0) {
 	int joinThisError = errorFile && (errorFile == outputFile);
