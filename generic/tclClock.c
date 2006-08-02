@@ -370,7 +370,7 @@ ClockConvertlocaltoutcObjCmd(
  *		tzOffset - Time zone offset in seconds east of Greenwich
  *		tzName - Time zone name
  *		julianDay - Julian Day Number in the local time zone
-v *
+ *
  *----------------------------------------------------------------------
  */
 
