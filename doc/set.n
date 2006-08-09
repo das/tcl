@@ -44,7 +44,7 @@ unless \fIvarName\fR was declared to resolve differently through one of the
 .SH EXAMPLES
 Store a random number in the variable \fIr\fR:
 .CS
-\fBset\fR r [expr rand()]
+\fBset\fR r [expr {rand()}]
 .CE
 .PP
 Store a short message in an array element:
