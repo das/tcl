@@ -2028,9 +2028,7 @@ BinaryProc(
     *srcReadPtr = srcLen;
     *dstWrotePtr = srcLen;
     *dstCharsPtr = srcLen;
-    for ( ; --srcLen >= 0; ) {
-	*dst++ = *src++;
-    }
+    memcpy((void *) dst, (void *) src, (size_t) srcLen);
     return result;
 }
 
