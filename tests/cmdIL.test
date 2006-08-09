@@ -440,7 +440,7 @@ test cmdIL-6.1 {lassign command syntax} -body {
     testLassign
 } -returnCodes 1 -cleanup {
     rename testLassign {}
-} -result {wrong # args: should be "lassign list varname ?varname ...?"}
+} -result {wrong # args: should be "lassign list varName ?varName ...?"}
 test cmdIL-6.2 {lassign command syntax} -body {
     proc testLassign {} {
 	lassign x
@@ -448,7 +448,7 @@ test cmdIL-6.2 {lassign command syntax} -body {
     testLassign
 } -returnCodes 1 -cleanup {
     rename testLassign {}
-} -result {wrong # args: should be "lassign list varname ?varname ...?"}
+} -result {wrong # args: should be "lassign list varName ?varName ...?"}
 test cmdIL-6.3 {lassign command} -body {
     proc testLassign {} {
 	set x FAIL
@@ -571,7 +571,7 @@ test cmdIL-6.13 {lassign command syntax} -body {
     testLassign
 } -returnCodes 1 -cleanup {
     rename testLassign {}
-} -result {wrong # args: should be "lassign list varname ?varname ...?"}
+} -result {wrong # args: should be "lassign list varName ?varName ...?"}
 test cmdIL-6.14 {lassign command syntax} -body {
     proc testLassign {} {
 	set lassign lassign
@@ -580,7 +580,7 @@ test cmdIL-6.14 {lassign command syntax} -body {
     testLassign
 } -returnCodes 1 -cleanup {
     rename testLassign {}
-} -result {wrong # args: should be "lassign list varname ?varname ...?"}
+} -result {wrong # args: should be "lassign list varName ?varName ...?"}
 test cmdIL-6.15 {lassign command} -body {
     proc testLassign {} {
 	set lassign lassign
