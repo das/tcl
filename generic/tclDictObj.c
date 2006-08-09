@@ -2182,6 +2182,11 @@ DictForCmd(
     valueVarObj = varv[1];
     scriptObj = objv[4];
 
+    if (Tcl_DictObjFirst(interp, objv[3], &search, &keyObj, &valueObj,
+	    &done) != TCL_OK) {
+	return TCL_ERROR;
+    }
+
     /*
      * Make sure that these objects (which we need throughout the body of the
      * loop) don't vanish. Note that the dictionary internal rep is locked
@@ -2192,12 +2197,7 @@ DictForCmd(
     Tcl_IncrRefCount(valueVarObj);
     Tcl_IncrRefCount(scriptObj);
 
-    result = Tcl_DictObjFirst(interp, objv[3],
-	    &search, &keyObj, &valueObj, &done);
-    if (result != TCL_OK) {
-	goto doneFor;
-    }
-
+    result = TCL_OK;
     while (!done) {
 	/*
 	 * Stop the value from getting hit in any way by any traces on the key
@@ -2211,7 +2211,7 @@ DictForCmd(
 		    TclGetString(keyVarObj), "\"", NULL);
 	    TclDecrRefCount(valueObj);
 	    result = TCL_ERROR;
-	    goto doneFor;
+	    break;
 	}
 	TclDecrRefCount(valueObj);
 	if (Tcl_ObjSetVar2(interp, valueVarObj, NULL, valueObj, 0) == NULL) {
@@ -2219,7 +2219,7 @@ DictForCmd(
 	    Tcl_AppendResult(interp, "couldn't set value variable: \"",
 		    TclGetString(valueVarObj), "\"", NULL);
 	    result = TCL_ERROR;
-	    goto doneFor;
+	    break;
 	}
 
 	result = Tcl_EvalObjEx(interp, scriptObj, 0);
@@ -2230,7 +2230,8 @@ DictForCmd(
 		result = TCL_OK;
 	    } else if (result == TCL_ERROR) {
 		TclFormatToErrorInfo(interp,
-			"\n    (\"dict for\" body line %d)", interp->errorLine);
+			"\n    (\"dict for\" body line %d)",
+			interp->errorLine);
 	    }
 	    break;
 	}
@@ -2238,7 +2239,6 @@ DictForCmd(
 	Tcl_DictObjNext(&search, &keyObj, &valueObj, &done);
     }
 
- doneFor:
     /*
      * Stop holding a reference to these objects.
      */
