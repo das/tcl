@@ -2199,7 +2199,7 @@ TclInitDoubleConversion(void)
     } else if ((bitwhack.iv & 0xffffffff) == 0x3ff00000) {
 	n770_fp = 1;
     } else {
-	Tcl_Panic("unknown floating point word order on this machine.");
+	Tcl_Panic("unknown floating point word order on this machine");
     }
 #endif
 }

@@ -1761,7 +1761,7 @@ TclInitByteCodeObj(
 #else
     nextPtr = EncodeCmdLocMap(envPtr, codePtr, (unsigned char *) p);
     if (((size_t)(nextPtr - p)) != cmdLocBytes) {
-	Tcl_Panic("TclInitByteCodeObj: encoded cmd location bytes %d != expected size %d\n", (nextPtr - p), cmdLocBytes);
+	Tcl_Panic("TclInitByteCodeObj: encoded cmd location bytes %d != expected size %d", (nextPtr - p), cmdLocBytes);
     }
 #endif
 
@@ -1971,7 +1971,7 @@ EnterCmdStartData(
     CmdLocation *cmdLocPtr;
 
     if ((cmdIndex < 0) || (cmdIndex >= envPtr->numCommands)) {
-	Tcl_Panic("EnterCmdStartData: bad command index %d\n", cmdIndex);
+	Tcl_Panic("EnterCmdStartData: bad command index %d", cmdIndex);
     }
 
     if (cmdIndex >= envPtr->cmdMapEnd) {
@@ -2048,11 +2048,11 @@ EnterCmdExtentData(
     CmdLocation *cmdLocPtr;
 
     if ((cmdIndex < 0) || (cmdIndex >= envPtr->numCommands)) {
-	Tcl_Panic("EnterCmdExtentData: bad command index %d\n", cmdIndex);
+	Tcl_Panic("EnterCmdExtentData: bad command index %d", cmdIndex);
     }
 
     if (cmdIndex > envPtr->cmdMapEnd) {
-	Tcl_Panic("EnterCmdExtentData: missing start data for command %d\n",
+	Tcl_Panic("EnterCmdExtentData: missing start data for command %d",
 		cmdIndex);
     }
 
@@ -2480,7 +2480,7 @@ TclFixupForwardJump(
 	    rangePtr->catchOffset += 3;
 	    break;
 	default:
-	    Tcl_Panic("TclFixupForwardJump: bad ExceptionRange type %d\n",
+	    Tcl_Panic("TclFixupForwardJump: bad ExceptionRange type %d",
 		    rangePtr->type);
 	}
     }
@@ -2995,7 +2995,7 @@ TclPrintByteCodeObj(
 		fprintf(stdout,	"catch %d\n", rangePtr->catchOffset);
 		break;
 	    default:
-		Tcl_Panic("TclPrintByteCodeObj: bad ExceptionRange type %d\n",
+		Tcl_Panic("TclPrintByteCodeObj: bad ExceptionRange type %d",
 			rangePtr->type);
 	    }
 	}
@@ -3233,7 +3233,7 @@ TclPrintInstruction(
 	printLVTindex:
 	    if (localPtr != NULL) {
 		if (opnd >= localCt) {
-		    Tcl_Panic("TclPrintInstruction: bad local var index %u (%u locals)\n",
+		    Tcl_Panic("TclPrintInstruction: bad local var index %u (%u locals)",
 			    (unsigned int) opnd, localCt);
 		}
 		for (j = 0;  j < opnd;  j++) {

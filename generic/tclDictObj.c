@@ -732,7 +732,7 @@ Tcl_DictObjPut(
     int isNew;
 
     if (Tcl_IsShared(dictPtr)) {
-	Tcl_Panic("Tcl_DictObjPut called with shared object");
+	Tcl_Panic("%s called with shared object", "Tcl_DictObjPut");
     }
 
     if (dictPtr->typePtr != &tclDictType) {
@@ -833,7 +833,7 @@ Tcl_DictObjRemove(
     Tcl_HashEntry *hPtr;
 
     if (Tcl_IsShared(dictPtr)) {
-	Tcl_Panic("Tcl_DictObjRemove called with shared object");
+	Tcl_Panic("%s called with shared object", "Tcl_DictObjRemove");
     }
 
     if (dictPtr->typePtr != &tclDictType) {
@@ -1107,10 +1107,10 @@ Tcl_DictObjPutKeyList(
     int isNew;
 
     if (Tcl_IsShared(dictPtr)) {
-	Tcl_Panic("Tcl_DictObjPutKeyList called with shared object");
+	Tcl_Panic("%s called with shared object", "Tcl_DictObjPutKeyList");
     }
     if (keyc < 1) {
-	Tcl_Panic("Tcl_DictObjPutKeyList called with empty key list");
+	Tcl_Panic("%s called with empty key list", "Tcl_DictObjPutKeyList");
     }
 
     dictPtr = TclTraceDictPath(interp, dictPtr, keyc-1,keyv, DICT_PATH_CREATE);
@@ -1164,10 +1164,10 @@ Tcl_DictObjRemoveKeyList(
     Tcl_HashEntry *hPtr;
 
     if (Tcl_IsShared(dictPtr)) {
-	Tcl_Panic("Tcl_DictObjRemoveKeyList called with shared object");
+	Tcl_Panic("%s called with shared object", "Tcl_DictObjRemoveKeyList");
     }
     if (keyc < 1) {
-	Tcl_Panic("Tcl_DictObjRemoveKeyList called with empty key list");
+	Tcl_Panic("%s called with empty key list", "Tcl_DictObjRemoveKeyList");
     }
 
     dictPtr = TclTraceDictPath(interp, dictPtr, keyc-1,keyv, DICT_PATH_UPDATE);
@@ -2982,7 +2982,7 @@ Tcl_DictObjCmd(
     case DICT_VALUES:	return DictValuesCmd(interp, objc, objv);
     case DICT_WITH:	return DictWithCmd(interp, objc, objv);
     }
-    Tcl_Panic("unexpected fallthrough!");
+    Tcl_Panic("unexpected fallthrough");
 
     /*
      * Next line is NOT REACHED - stops compliler complaint though...

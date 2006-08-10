@@ -178,7 +178,7 @@ Tcl_InitCustomHashTable(
 				 * behaviour of this table. */
 {
 #if (TCL_SMALL_HASH_TABLE != 4)
-    Tcl_Panic("Tcl_InitCustomHashTable: TCL_SMALL_HASH_TABLE is %d, not 4\n",
+    Tcl_Panic("Tcl_InitCustomHashTable: TCL_SMALL_HASH_TABLE is %d, not 4",
 	    TCL_SMALL_HASH_TABLE);
 #endif
 
@@ -282,7 +282,7 @@ Tcl_FindHashEntry(
 #else
     typePtr = tablePtr->typePtr;
     if (typePtr == NULL) {
-	Tcl_Panic("called Tcl_FindHashEntry on deleted table");
+	Tcl_Panic("called %s on deleted table", "Tcl_FindHashEntry");
 	return NULL;
     }
 #endif
@@ -381,7 +381,7 @@ Tcl_CreateHashEntry(
 #else
     typePtr = tablePtr->typePtr;
     if (typePtr == NULL) {
-	Tcl_Panic("called Tcl_CreateHashEntry on deleted table");
+	Tcl_Panic("called %s on deleted table", "Tcl_CreateHashEntry");
 	return NULL;
     }
 #endif
@@ -753,7 +753,7 @@ Tcl_HashStats(
 #else
     typePtr = tablePtr->typePtr;
     if (typePtr == NULL) {
-	Tcl_Panic("called Tcl_HashStats on deleted table");
+	Tcl_Panic("called %s on deleted table", "Tcl_HashStats");
 	return NULL;
     }
 #endif
@@ -1072,7 +1072,7 @@ BogusFind(
     Tcl_HashTable *tablePtr,	/* Table in which to lookup entry. */
     CONST char *key)		/* Key to use to find matching entry. */
 {
-    Tcl_Panic("called Tcl_FindHashEntry on deleted table");
+    Tcl_Panic("called %s on deleted table", "Tcl_FindHashEntry");
     return NULL;
 }
 
@@ -1102,7 +1102,7 @@ BogusCreate(
     int *newPtr)		/* Store info here telling whether a new entry
 				 * was created. */
 {
-    Tcl_Panic("called Tcl_CreateHashEntry on deleted table");
+    Tcl_Panic("called %s on deleted table", "Tcl_CreateHashEntry");
     return NULL;
 }
 #endif

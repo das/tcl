@@ -278,7 +278,7 @@ Tcl_FinalizeNotifier(
 	int result;
 
 	if (triggerPipe < 0) {
-	    Tcl_Panic("Tcl_FinalizeNotifier: notifier pipe not initialized.");
+	    Tcl_Panic("Tcl_FinalizeNotifier: notifier pipe not initialized");
 	}
 
 	/*
@@ -300,7 +300,7 @@ Tcl_FinalizeNotifier(
 
 	result = Tcl_JoinThread(notifierThread, NULL);
 	if (result) {
-	    Tcl_Panic("Tcl_FinalizeNotifier: unable to join notifier thread.");
+	    Tcl_Panic("Tcl_FinalizeNotifier: unable to join notifier thread");
 	}
     }
 
@@ -903,7 +903,7 @@ NotifierThreadProc(
     char buf[2];
 
     if (pipe(fds) != 0) {
-	Tcl_Panic("NotifierThreadProc: could not create trigger pipe.");
+	Tcl_Panic("NotifierThreadProc: could not create trigger pipe");
     }
 
     receivePipe = fds[0];
@@ -912,19 +912,19 @@ NotifierThreadProc(
     status = fcntl(receivePipe, F_GETFL);
     status |= O_NONBLOCK;
     if (fcntl(receivePipe, F_SETFL, status) < 0) {
-	Tcl_Panic("NotifierThreadProc: could not make receive pipe non blocking.");
+	Tcl_Panic("NotifierThreadProc: could not make receive pipe non blocking");
     }
     status = fcntl(fds[1], F_GETFL);
     status |= O_NONBLOCK;
     if (fcntl(fds[1], F_SETFL, status) < 0) {
-	Tcl_Panic("NotifierThreadProc: could not make trigger pipe non blocking.");
+	Tcl_Panic("NotifierThreadProc: could not make trigger pipe non blocking");
     }
 #else
     if (ioctl(receivePipe, (int) FIONBIO, &status) < 0) {
-	Tcl_Panic("NotifierThreadProc: could not make receive pipe non blocking.");
+	Tcl_Panic("NotifierThreadProc: could not make receive pipe non blocking");
     }
     if (ioctl(fds[1], (int) FIONBIO, &status) < 0) {
-	Tcl_Panic("NotifierThreadProc: could not make trigger pipe non blocking.");
+	Tcl_Panic("NotifierThreadProc: could not make trigger pipe non blocking");
     }
 #endif /* FIONBIO */
 

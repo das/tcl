@@ -262,7 +262,7 @@ Tcl_SetByteArrayObj(
     ByteArray *byteArrayPtr;
 
     if (Tcl_IsShared(objPtr)) {
-	Tcl_Panic("Tcl_SetByteArrayObj called with shared object");
+	Tcl_Panic("%s called with shared object", "Tcl_SetByteArrayObj");
     }
     TclFreeIntRep(objPtr);
     Tcl_InvalidateStringRep(objPtr);
@@ -341,7 +341,7 @@ Tcl_SetByteArrayLength(
     ByteArray *byteArrayPtr, *newByteArrayPtr;
 
     if (Tcl_IsShared(objPtr)) {
-	Tcl_Panic("Tcl_SetObjLength called with shared object");
+	Tcl_Panic("%s called with shared object", "Tcl_SetByteArrayLength");
     }
     if (objPtr->typePtr != &tclByteArrayType) {
 	SetByteArrayFromAny(NULL, objPtr);
@@ -1498,7 +1498,7 @@ NeedReversing(
 #endif
     }
 
-    Tcl_Panic("unexpected fall-through");
+    Tcl_Panic("unexpected fallthrough");
     return 0;
 }
 
