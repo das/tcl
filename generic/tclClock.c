@@ -234,7 +234,7 @@ void
 TclClockInit(
     Tcl_Interp *interp)		/* Tcl interpreter */
 {
-    struct ClockCommand *clockCmdPtr;
+    const struct ClockCommand *clockCmdPtr;
     char cmdName[50];		/* Buffer large enough to hold the string
 				 *::tcl::clock::GetJulianDayFromEraYearMonthDay
 				 * plus a terminating NULL. */
@@ -262,7 +262,7 @@ TclClockInit(
     for (clockCmdPtr=clockCommands ; clockCmdPtr->name!=NULL ; clockCmdPtr++) {
 	strcpy(cmdName + TCL_CLOCK_PREFIX_LEN, clockCmdPtr->name);
 	data->refCount++;
-	Tcl_CreateObjCmd(interp, cmdName, clockCmdPtr->objCmdProc, data,
+	Tcl_CreateObjCommand(interp, cmdName, clockCmdPtr->objCmdProc, data,
 		ClockDeleteCmdProc);
     }
 }
