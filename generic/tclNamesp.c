@@ -860,6 +860,14 @@ Tcl_CreateNamespace(
 		    Tcl_DStringLength(namePtr));
 
 	    /*
+	     * Clear the unwanted buffer or we end up appending to previous
+	     * results, making the namespace fullNames of nested namespaces
+	     * very wrong (and strange).
+	     */
+
+	    Tcl_DStringSetLength(namePtr, 0);
+
+	    /*
 	     * Now swap the buffer pointers so that we build in the other
 	     * buffer. This is faster than repeated copying back and forth
 	     * between buffers.
