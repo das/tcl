@@ -119,6 +119,22 @@ typedef struct CallContext {
 
 #define OO_UNKNOWN_METHOD	1
 #define PUBLIC_METHOD		2
+
+MODULE_SCOPE Object *	TclGetObjectFromObj(Tcl_Interp *interp,
+			    Tcl_Obj *objPtr);
+MODULE_SCOPE Method *	TclNewProcMethod(Tcl_Interp *interp, Object *oPtr,
+			    int isPublic, Tcl_Obj *nameObj, Tcl_Obj *argsObj,
+			    Tcl_Obj *bodyObj);
+MODULE_SCOPE Method *	TclNewForwardMethod(Tcl_Interp *interp, Object *oPtr,
+			    int isPublic, Tcl_Obj *nameObj,
+			    Tcl_Obj *prefixObj);
+MODULE_SCOPE Method *	TclNewProcClassMethod(Tcl_Interp *interp, Class *cPtr,
+			    int isPublic, Tcl_Obj *nameObj, Tcl_Obj *argsObj,
+			    Tcl_Obj *bodyObj);
+MODULE_SCOPE Method *	TclNewForwardClassMethod(Tcl_Interp *interp,
+			    Class *cPtr, int isPublic, Tcl_Obj *nameObj,
+			    Tcl_Obj *prefixObj);
+MODULE_SCOPE void	TclDeleteMethod(Method *method);
 
 /*
  * Local Variables:
