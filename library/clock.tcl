@@ -4341,7 +4341,7 @@ proc ::tcl::clock::add { clockval args } {
              ?number units?...\
              ?-gmt boolean? ?-locale LOCALE? ?-timezone ZONE?\""
     }
-    if { [catch { expr wide($clockval) } result] } {
+    if { [catch { expr {wide($clockval)} } result] } {
 	return -code error $result
     }
 
