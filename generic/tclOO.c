@@ -815,6 +815,33 @@ TclNewForwardMethod(
 	    isPublic, &InvokeForwardMethod, fmPtr, &DeleteForwardMethod);
 }
 
+Method *
+TclNewForwardClassMethod(
+    Tcl_Interp *interp,
+    Class *cPtr,
+    int isPublic,
+    Tcl_Obj *nameObj,
+    Tcl_Obj *prefixObj)
+{
+    int prefixLen;
+    register ForwardMethod *fmPtr;
+
+    if (Tcl_ListObjLength(interp, prefixObj, &prefixLen) != TCL_OK) {
+	return NULL;
+    }
+    if (prefixLen < 1) {
+	Tcl_AppendResult(interp, "method forward prefix must be non-empty",
+		NULL);
+	return NULL;
+    }
+
+    fmPtr = (ForwardMethod *) ckalloc(sizeof(ForwardMethod));
+    fmPtr->prefixObj = prefixObj;
+    Tcl_IncrRefCount(prefixObj);
+    return (Method *) Tcl_OONewClassMethod(interp, (Tcl_Class) cPtr, nameObj,
+	    isPublic, &InvokeForwardMethod, fmPtr, &DeleteForwardMethod);
+}
+
 static int
 InvokeForwardMethod(
     ClientData clientData,
