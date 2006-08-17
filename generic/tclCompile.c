@@ -1604,6 +1604,7 @@ TclCompileExprWords(
 	if (TclCompileExpr(interp, script, numBytes, envPtr) == TCL_OK) {
 	    return;
 	}
+	Tcl_ResetResult(interp);
 	envPtr->numCommands = savedNumCmds;
 	envPtr->codeNext = envPtr->codeStart + savedCodeNext;
     }
