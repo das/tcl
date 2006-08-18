@@ -135,6 +135,9 @@ MODULE_SCOPE Method *	TclNewForwardClassMethod(Tcl_Interp *interp,
 			    Class *cPtr, int isPublic, Tcl_Obj *nameObj,
 			    Tcl_Obj *prefixObj);
 MODULE_SCOPE void	TclDeleteMethod(Method *method);
+MODULE_SCOPE int	TclObjInterpProcCore(register Tcl_Interp *interp,
+			    CallFrame *framePtr, Tcl_Obj *procNameObj,
+			    int skip);
 
 /*
  * Local Variables:

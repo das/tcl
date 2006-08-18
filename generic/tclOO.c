@@ -1036,8 +1036,8 @@ GetSortedMethodList(
 
 	if (!publicOnly || methodPtr->flags & PUBLIC_METHOD) {
 	    (void) Tcl_CreateHashEntry(&names, (char *) namePtr, &isNew);
-	    hPtr = Tcl_NextHashEntry(&hSearch);
 	}
+	hPtr = Tcl_NextHashEntry(&hSearch);
     }
 
     AddClassMethodNames(oPtr->selfCls, publicOnly, &names);
@@ -1103,8 +1103,8 @@ AddClassMethodNames(
 
 	    if (!publicOnly || methodPtr->flags & PUBLIC_METHOD) {
 		(void) Tcl_CreateHashEntry(namesPtr, (char *) namePtr, &isNew);
-		hPtr = Tcl_NextHashEntry(&hSearch);
 	    }
+	    hPtr = Tcl_NextHashEntry(&hSearch);
 	}
     }
     if (clsPtr->numSuperclasses != 0) {
