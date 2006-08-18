@@ -3282,6 +3282,9 @@ TclUnixWaitForFile(fd, mask, timeout)
 	if (timeout == 0) {
 	    break;
 	}
+	if (timeout < 0) {
+	    continue;
+	}
 
 	/*
 	 * The select returned early, so we need to recompute the timeout.
