@@ -31,10 +31,7 @@ typedef struct Method {
 } Method;
 
 typedef struct ProcedureMethod {
-    Tcl_Obj *bodyObj;
     Proc *procPtr;
-    int formalc;
-    Tcl_Obj **formalv;
 } ProcedureMethod;
 
 typedef struct ForwardMethod {
