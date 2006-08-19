@@ -308,13 +308,24 @@ AllocObject(
     Tcl_DString buffer;
 
     oPtr = (Object *) ckalloc(sizeof(Object));
-    do {
+    while (1) {
 	char objName[10 + TCL_INTEGER_SPACE];
 
 	sprintf(objName, "::oo::Obj%d", ++fPtr->nsCount);
 	oPtr->nsPtr = (Namespace *) Tcl_CreateNamespace(interp, objName,
 		oPtr, ObjectNamespaceDeleted);
-    } while (oPtr->nsPtr == NULL);
+	if (oPtr->nsPtr != NULL) {
+	    break;
+	}
+
+	/*
+	 * Could not make that namespace, so we make another. But first we
+	 * have to get rid of the error message from Tcl_CreateNamespace,
+	 * since that's something that should not be exposed to the user.
+	 */
+
+	Tcl_ResetResult(interp);
+    }
     TclSetNsPath(oPtr->nsPtr, 1, &fPtr->helpersNs);
     oPtr->selfCls = fPtr->objectCls;
     Tcl_InitObjHashTable(&oPtr->methods);
