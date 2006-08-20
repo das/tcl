@@ -4,7 +4,7 @@
  *	This file contains the structures for the object-system (NB:
  *	not Tcl_Obj, but ::oo)
  *
- * Copyright (c) 2005 by Donal K. Fellows
+ * Copyright (c) 2006 by Donal K. Fellows
  *
  * See the file "license.terms" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -108,6 +108,7 @@ typedef struct CallContext {
     int epoch;
     int flags;
     int index;
+    int skip;
     int numCallChain;
     struct MInvoke **callChain;
     struct MInvoke *staticCallChain[CALL_CHAIN_STATIC_SIZE];
@@ -116,6 +117,8 @@ typedef struct CallContext {
 
 #define OO_UNKNOWN_METHOD	1
 #define PUBLIC_METHOD		2
+#define CONSTRUCTOR		4
+#define DESTRUCTOR		8
 
 MODULE_SCOPE Object *	TclGetObjectFromObj(Tcl_Interp *interp,
 			    Tcl_Obj *objPtr);

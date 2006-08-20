@@ -899,6 +899,8 @@ typedef struct CallFrame {
 #define FRAME_IS_METHOD	0x2	/* TODO: Docme */
 #define FRAME_IS_FILTER	0x4	/* TODO: Docme */
 #define FRAME_IS_OO_DEFINE 0x8	/* TODO: Docme */
+#define FRAME_IS_CONSTRUCTOR 0x10
+#define FRAME_IS_DESTRUCTOR 0x20
 
 /*
  *----------------------------------------------------------------
