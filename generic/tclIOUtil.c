@@ -546,6 +546,7 @@ FsThrExitProc(cd)
     /* Trash the cwd copy */
     if (tsdPtr->cwdPathPtr != NULL) {
 	Tcl_DecrRefCount(tsdPtr->cwdPathPtr);
+	tsdPtr->cwdPathPtr = NULL;
     }
     /* Trash the filesystems cache */
     fsRecPtr = tsdPtr->filesystemList;
@@ -556,6 +557,7 @@ FsThrExitProc(cd)
 	}
 	fsRecPtr = tmpFsRecPtr;
     }
+    tsdPtr->initialized = 0;
 }
 
 int 
