@@ -1689,7 +1689,12 @@ ClockClicksObjCmd(
 	break;
     case CLICKS_NATIVE:
 	Tcl_SetObjResult(interp, Tcl_NewWideIntObj( (Tcl_WideInt)
-		TclpGetClicks()));
+#ifndef TCL_WIDE_CLICKS
+		TclpGetClicks()
+#else
+		TclpGetWideClicks()
+#endif
+		));
 	break;
     case CLICKS_MICROS:
 	Tcl_GetTime(&now);
