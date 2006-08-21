@@ -44,6 +44,22 @@ test oo-2.1 {basic test of OO functionality: constructor} -setup {
     interp delete subinterp
 } -result {1 {oo::object create foo} 2 ::foo}
 
+test oo-3.1 {basic test of OO functionality: destructor} -setup {
+    # This is a bit complex because it needs to run in a sub-interp as
+    # we're modifying the root object class's constructor
+    interp create subinterp
+} -body {
+    subinterp eval {
+	oo::define oo::object destructor {
+	    lappend ::result died
+	}
+	lappend result 1 [oo::object create foo]
+	lappend result 2 [rename foo {}]
+    }
+} -cleanup {
+    interp delete subinterp
+} -result {1 ::foo died 2 {}}
+
 cleanupTests
 return
 
