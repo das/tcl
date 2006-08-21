@@ -470,6 +470,7 @@ FsThrExitProc(
 
     if (tsdPtr->cwdPathPtr != NULL) {
 	Tcl_DecrRefCount(tsdPtr->cwdPathPtr);
+	tsdPtr->cwdPathPtr = NULL;
     }
     if (tsdPtr->cwdClientData != NULL) {
 	NativeFreeInternalRep(tsdPtr->cwdClientData);
@@ -487,6 +488,7 @@ FsThrExitProc(
 	}
 	fsRecPtr = tmpFsRecPtr;
     }
+    tsdPtr->initialized = 0;
 }
 
 int
