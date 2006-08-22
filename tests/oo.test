@@ -119,6 +119,44 @@ test oo-6.1 {OO: filter} {
     return $result
 } {1 2}
 
+test oo-7.1 {OO: inheritance 101} -setup {
+    oo::class create superClass
+    oo::class create subClass
+    subClass create instance
+} -body {
+    oo::define superClass method doit x {lappend ::result $x}
+    oo::define subClass superclass superClass
+    set result [list [catch {subClass doit bad} msg] $msg]
+    instance doit ok
+    return $result
+} -cleanup {
+    instance destroy
+    subClass destroy
+    superClass destroy
+} -result {1 {unknown method "doit": must be create, destroy or new} ok}
+test oo-7.2 {OO: inheritance 101} -constraints knownBug -setup {
+    oo::class create superClass
+    oo::class create subClass
+    subClass create instance
+} -body {
+    # This crashes; don't know why yet
+    oo::define superClass method doit x {lappend ::result | $x |}
+    oo::define subClass {
+	superclass superClass
+	method doit x {lappend ::result - $x -; next [incr x]}
+    }
+    oo::define instance method doit x {
+	lappend ::result = $x =; next [incr x]
+    }
+    set result {}
+    instance doit 1
+    return $result
+} -cleanup {
+    instance destroy
+    subClass destroy
+    superClass destroy
+} -result {= 1 = - 2 - | 3 |}
+
 cleanupTests
 return
 
