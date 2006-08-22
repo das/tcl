@@ -663,12 +663,7 @@ test for-6.7 {Tcl_ForObjCmd: error in test expression} -body {
     set z for
     catch {$z {set i 0} {i < 5} {incr i} {body}}
     set errorInfo
-} -result {invalid bareword "i"
-in expression "i < 5";
-should be "$i" or "{i}" or "i(...)" or ...
-    (parsing expression "i < 5")
-    invoked from within
-"$z {set i 0} {i < 5} {incr i} {body}"}
+} -match glob -result {*"$z {set i 0} {i < 5} {incr i} {body}"}
 test for-6.8 {Tcl_ForObjCmd: test expression is enclosed in quotes} {
     set z for
     set i 0
