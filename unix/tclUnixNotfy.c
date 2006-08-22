@@ -714,7 +714,7 @@ Tcl_WaitForEvent(timePtr)
     Tcl_MutexLock(&notifierMutex);
 
     waitForFiles = (tsdPtr->numFdBits > 0);
-    if (timePtr != NULL && timePtr->sec == 0 && timePtr->usec == 0) {
+    if (timePtr != NULL && timePtr->sec == 0 && (timePtr->usec == 0
 #if defined(__APPLE__) && defined(__LP64__)
 	    /*
 	     * On 64-bit Darwin, pthread_cond_timedwait() appears to have a bug
