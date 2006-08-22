@@ -317,6 +317,7 @@ AllocObject(
     oPtr->numMixins = 0;
     oPtr->mixins = NULL;
     oPtr->classPtr = NULL;
+    oPtr->flags = 0;
 
     /*
      * Initialize the traces.
@@ -366,11 +367,12 @@ ObjNameChangedTrace(
     CallContext *contextPtr = GetCallContext(((Interp *)interp)->ooFoundation,
 	    oPtr, NULL, DESTRUCTOR, NULL);
 
+    Tcl_Preserve(oPtr);
+    oPtr->flags |= OBJECT_DELETED;
     if (contextPtr != NULL) {
 	int result;
 	Tcl_InterpState state;
 
-	Tcl_Preserve(oPtr);
 	contextPtr->flags |= DESTRUCTOR;
 	contextPtr->skip = 0;
 	state = Tcl_SaveInterpState(interp, TCL_OK);
@@ -380,10 +382,10 @@ ObjNameChangedTrace(
 	}
 	(void) Tcl_RestoreInterpState(interp, state);
 	DeleteContext(contextPtr);
-	Tcl_Release(oPtr);
     }
 
     Tcl_DeleteNamespace((Tcl_Namespace *) oPtr->nsPtr);
+    Tcl_Release(oPtr);
 
     /*
      * What else to do to delete an object?
@@ -406,7 +408,7 @@ ObjectNamespaceDeleted(
      * Delete the object structure itself.
      */
 
-    ckfree((char *) oPtr);
+    Tcl_EventuallyFree(oPtr, TCL_DYNAMIC);
 }
 
 /*
@@ -782,7 +784,8 @@ DeleteProcedureMethod(
 {
     register ProcedureMethod *pmPtr = (ProcedureMethod *) clientData;
 
-    TclProcDeleteProc(pmPtr->procPtr);
+    //TclProcDeleteProc(pmPtr->procPtr);
+    TclProcCleanupProc(pmPtr->procPtr);
     ckfree((char *) pmPtr);
 }
 

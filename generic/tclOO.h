@@ -82,9 +82,13 @@ typedef struct Object {
     struct Class *classPtr;	/* All classes have this non-NULL; it points
 				 * to the class structure. Everything else has
 				 * this NULL. */
+    int flags;
     Tcl_HashTable publicContextCache;	/* Place to keep unused contexts. */
     Tcl_HashTable privateContextCache;	/* Place to keep unused contexts. */
 } Object;
+
+#define OBJECT_DELETED	1	/* Flag to say that an object has been
+				 * destroyed. */
 
 /*
  * And the definition of a class. Note that every class also has an associated
