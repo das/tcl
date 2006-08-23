@@ -134,20 +134,14 @@ test oo-7.1 {OO: inheritance 101} -setup {
     subClass destroy
     superClass destroy
 } -result {1 {unknown method "doit": must be create, destroy or new} ok}
-test oo-7.2 {OO: inheritance 101} -constraints knownBug -setup {
+test oo-7.2 {OO: inheritance 101} -setup {
     oo::class create superClass
     oo::class create subClass
     subClass create instance
 } -body {
-    # This crashes; don't know why yet
-    oo::define superClass method doit x {lappend ::result | $x |}
-    oo::define subClass {
-	superclass superClass
-	method doit x {lappend ::result - $x -; next [incr x]}
-    }
-    oo::define instance method doit x {
-	lappend ::result = $x =; next [incr x]
-    }
+    oo::define superClass method doit x {lappend ::result |$x|}
+    oo::define subClass superclass superClass
+    oo::define instance method doit x {lappend ::result =$x=; next [incr x]}
     set result {}
     instance doit 1
     return $result
@@ -155,7 +149,26 @@ test oo-7.2 {OO: inheritance 101} -constraints knownBug -setup {
     instance destroy
     subClass destroy
     superClass destroy
-} -result {= 1 = - 2 - | 3 |}
+} -result {=1= |2|}
+test oo-7.3 {OO: inheritance 101} -setup {
+    oo::class create superClass
+    oo::class create subClass
+    subClass create instance
+} -body {
+    oo::define superClass method doit x {lappend ::result |$x|}
+    oo::define subClass {
+	superclass superClass
+	method doit x {lappend ::result -$x-; next [incr x]}
+    }
+    oo::define instance method doit x {lappend ::result =$x=; next [incr x]}
+    set result {}
+    instance doit 1
+    return $result
+} -cleanup {
+    instance destroy
+    subClass destroy
+    superClass destroy
+} -result {=1= -2- |3|}
 
 cleanupTests
 return
