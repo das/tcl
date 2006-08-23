@@ -2510,7 +2510,7 @@ MODULE_SCOPE int	Tcl_WhileObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[]);
 
-MODULE_SCOPE void	TclOOInit(Tcl_Interp *interp);
+MODULE_SCOPE int	TclOOInit(Tcl_Interp *interp);
 MODULE_SCOPE int	TclOODefineObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *const *objv);
