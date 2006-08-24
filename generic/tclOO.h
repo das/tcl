@@ -40,6 +40,9 @@ typedef struct Method {
     Tcl_OOMethodCallProc callPtr;
     ClientData clientData;
     Tcl_OOMethodDeleteProc deletePtr;
+    Tcl_Obj *namePtr;
+    struct Object *declaringObjectPtr;
+    struct Class *declaringClassPtr;
     int epoch;
     int flags;
 } Method;
@@ -165,8 +168,8 @@ typedef struct CallContext {
     int index;
     int skip;
     int numCallChain;
-    struct MInvoke **callChain;
-    struct MInvoke *staticCallChain[CALL_CHAIN_STATIC_SIZE];
+    struct MInvoke *callChain;
+    struct MInvoke staticCallChain[CALL_CHAIN_STATIC_SIZE];
     int filterLength;
 } CallContext;
 
