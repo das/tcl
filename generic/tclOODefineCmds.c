@@ -16,7 +16,6 @@
 #include "tclOO.h"
 
 static Object *		GetDefineCmdContext(Tcl_Interp *interp);
-static int		IsReachable(Class *targetPtr, Class *startPtr);
 
 int
 TclOODefineObjCmd(
@@ -553,18 +552,17 @@ TclOODefineSuperclassObjCmd(
     for (i=0 ; i<objc-1 ; i++) {
 	o2Ptr = TclGetObjectFromObj(interp, objv[i+1]);
 	if (o2Ptr == NULL) {
-	    ckfree((char *) superclasses);
-	    return TCL_ERROR;
+	    goto failedAfterAlloc;
 	}
 	if (o2Ptr->classPtr == NULL) {
-	    ckfree((char *) superclasses);
 	    Tcl_AppendResult(interp, "only a class can be a superclass", NULL);
-	    return TCL_ERROR;
+	    goto failedAfterAlloc;
 	}
-	if (IsReachable(oPtr->classPtr, o2Ptr->classPtr)) {
-	    ckfree((char *) superclasses);
+	if (TclOOIsReachable(oPtr->classPtr, o2Ptr->classPtr)) {
 	    Tcl_AppendResult(interp,
 		    "attempt to form circular dependency graph", NULL);
+	failedAfterAlloc:
+	    ckfree((char *) superclasses);
 	    return TCL_ERROR;
 	}
 	superclasses[i] = o2Ptr->classPtr;
@@ -574,34 +572,17 @@ TclOODefineSuperclassObjCmd(
      * Install the list of superclasses into the class.
      */
 
-    if (oPtr->classPtr->numSuperclasses != 0) {
+    if (oPtr->classPtr->superclasses.num != 0) {
 	// TODO: Splice out from old superclasses' subclass list.
 
-	ckfree((char *) oPtr->classPtr->superclasses);
+	ckfree((char *) oPtr->classPtr->superclasses.list);
     }
-    oPtr->classPtr->superclasses = superclasses;
-    oPtr->classPtr->numSuperclasses = objc-1;
+    oPtr->classPtr->superclasses.list = superclasses;
+    oPtr->classPtr->superclasses.num = objc-1;
     // TODO: Splice into new superclasses' subclass list.
     fPtr->epoch++;
 
     return TCL_OK;
-}
-
-static int
-IsReachable(
-    Class *targetPtr,
-    Class *startPtr)
-{
-    int i;
-
-    for (i=0 ; i<startPtr->numSuperclasses ; i++) {
-	if (startPtr->superclasses[i] == targetPtr) {
-	    return 1;
-	} else if (IsReachable(targetPtr, startPtr->superclasses[i])) {
-	    return 1;
-	}
-    }
-    return 0;
 }
 
 int
