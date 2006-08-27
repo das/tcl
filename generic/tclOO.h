@@ -108,14 +108,12 @@ typedef struct Class {
 	struct Class **list;
     } superclasses;
     struct {
-	int num;
+	int num, size;
 	struct Class **list;
-	int size;
     } subclasses;
     struct {
-	int num;
+	int num, size;
 	struct Object **list;
-	int size;
     } instances;
     Tcl_HashTable classMethods;
     struct Method *constructorPtr;
@@ -215,6 +213,9 @@ MODULE_SCOPE int	TclObjInterpProcCore(register Tcl_Interp *interp,
 			    int skip);
 // Expose this one?
 MODULE_SCOPE int	TclOOIsReachable(Class *targetPtr, Class *startPtr);
+MODULE_SCOPE void	TclOOAddToSubclasses(Class *subPtr, Class *superPtr);
+MODULE_SCOPE void	TclOORemoveFromSubclasses(Class *subPtr,
+			    Class *superPtr);
 
 /*
  * Local Variables:
