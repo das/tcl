@@ -4608,7 +4608,7 @@ NamespaceUpvarCmd(
 	Tcl_Obj *resPtr;
 
 	TclNewObj(resPtr);
-	TclFormatObj(NULL, resPtr, "namespace \"%s\" does not exist", objv[2], NULL);
+	TclFormatObj(NULL, resPtr, "namespace \"%s\" does not exist", objv[2]);
 	Tcl_SetObjResult(interp, resPtr);
 	return TCL_ERROR;
     }
