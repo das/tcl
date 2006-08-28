@@ -222,6 +222,19 @@ MODULE_SCOPE void	TclOOAddToSubclasses(Class *subPtr, Class *superPtr);
 MODULE_SCOPE void	TclOORemoveFromInstances(Object *oPtr, Class *cPtr);
 MODULE_SCOPE void	TclOORemoveFromSubclasses(Class *subPtr,
 			    Class *superPtr);
+MODULE_SCOPE Tcl_Method	TclOONewMethod(Tcl_Interp *interp, Tcl_Object object,
+			    Tcl_Obj *nameObj, int isPublic,
+			    Tcl_OOMethodCallProc callProc,
+			    ClientData clientData,
+			    Tcl_OOMethodDeleteProc deleteProc);
+MODULE_SCOPE Tcl_Method	TclOONewClassMethod(Tcl_Interp *interp, Tcl_Class cls,
+			    Tcl_Obj *nameObj, int isPublic,
+			    Tcl_OOMethodCallProc callProc,
+			    ClientData clientData,
+			    Tcl_OOMethodDeleteProc deleteProc);
+MODULE_SCOPE Object *	TclOONewInstance(Tcl_Interp *interp, Class *clsPtr,
+			    char *name, int objc, Tcl_Obj *const *objv,
+			    int skip);
 
 /*
  * Local Variables:
