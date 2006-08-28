@@ -2314,12 +2314,19 @@ FormatObjVA(
 {
     int code, objc;
     Tcl_Obj **objv, *element, *list = Tcl_NewObj();
+    CONST char *p = format;
 
     Tcl_IncrRefCount(list);
-    element = va_arg(argList, Tcl_Obj *);
-    while (element != NULL) {
-	Tcl_ListObjAppendElement(NULL, list, element);
+    while (*p != '\0') {
+	if (*p++ != '%') {
+	    continue;
+	}
+	if (*p == '%') {
+	    continue;
+	}
+	p++;
 	element = va_arg(argList, Tcl_Obj *);
+	Tcl_ListObjAppendElement(NULL, list, element);
     }
     Tcl_ListObjGetElements(NULL, list, &objc, &objv);
     code = TclAppendFormattedObjs(interp, objPtr, format, objc, objv);
