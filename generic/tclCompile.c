@@ -2930,8 +2930,8 @@ TclPrintByteCodeObj(
 
 #ifdef TCL_COMPILE_STATS
     fprintf(stdout,
-	    "  Code %d = header %d+inst %d+litObj %d+exc %d+aux %d+cmdMap %d\n",
-	    codePtr->structureSize,
+	    "  Code %ld = header %ld+inst %d+litObj %ld+exc %ld+aux %ld+cmdMap %d\n",
+	    (unsigned long) codePtr->structureSize,
 	    (sizeof(ByteCode) - (sizeof(size_t) + sizeof(Tcl_Time))),
 	    codePtr->numCodeBytes,
 	    (codePtr->numLitObjects * sizeof(Tcl_Obj *)),
