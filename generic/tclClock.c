@@ -1666,11 +1666,6 @@ ClockClicksObjCmd(
     };
     int index = CLICKS_NATIVE;
     Tcl_Time now;
-#ifndef TCL_WIDE_CLICKS
-    unsigned long clicks;
-#else
-    Tcl_WideInt clicks;
-#endif
 
     switch (objc) {
     case 1:
@@ -1689,18 +1684,18 @@ ClockClicksObjCmd(
     switch (index) {
     case CLICKS_MILLIS:
 	Tcl_GetTime(&now);
-	Tcl_SetObjResult(interp, Tcl_NewWideIntObj( (Tcl_WideInt)
-		now.sec * 1000 + now.usec / 1000 ) );
+	Tcl_SetObjResult(interp, Tcl_NewWideIntObj((Tcl_WideInt)
+		now.sec * 1000 + now.usec / 1000));
 	break;
-    case CLICKS_NATIVE:
+    case CLICKS_NATIVE: {
 #ifndef TCL_WIDE_CLICKS
-	clicks = TclpGetClicks();
+	unsigned long clicks = TclpGetClicks();
 #else
-	clicks = TclpGetWideClicks();
+	Tcl_WideInt clicks = TclpGetWideClicks();
 #endif
-	Tcl_SetObjResult(interp, Tcl_NewWideIntObj( (Tcl_WideInt)
-		clicks ) );
+	Tcl_SetObjResult(interp, Tcl_NewWideIntObj((Tcl_WideInt) clicks));
 	break;
+    }
     case CLICKS_MICROS:
 	Tcl_GetTime(&now);
 	Tcl_SetObjResult(interp, Tcl_NewWideIntObj(
