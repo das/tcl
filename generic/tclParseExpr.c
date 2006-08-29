@@ -2404,7 +2404,7 @@ Tcl_ParseExpr(
 	    break;
 
 	case BINARY: {
-	    ExprNode *otherPtr;
+	    ExprNode *otherPtr = NULL;
 
 	    if ((nodePtr->lexeme == CLOSE_PAREN)
 		    && (lastNodePtr->lexeme == OPEN_PAREN)) {
