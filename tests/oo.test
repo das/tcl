@@ -18,6 +18,9 @@ test oo-0.1 {basic test of OO's ability to clean up its initial state} {
     interp create t
     interp delete t
 } {}
+test oo-0.2 {basic test of OO's ability to clean up its initial state} {
+    interp eval [interp create] { namespace delete :: }
+} {}
 
 test oo-1.1 {basic test of OO functionality: no classes} {
     set result {}
