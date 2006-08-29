@@ -1599,7 +1599,9 @@ Tcl_FSGetTranslatedPath(
 	retObj = srcFsPathPtr->translatedPathPtr;
     }
 
-    Tcl_IncrRefCount(retObj);
+    if (retObj != NULL) {
+	Tcl_IncrRefCount(retObj);
+    }
     return retObj;
 }
 
