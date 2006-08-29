@@ -15,7 +15,7 @@
  * RCS: @(#) $Id$
  */
 
-#define OLD_EXPR_PARSER 1
+#define OLD_EXPR_PARSER 0
 #if OLD_EXPR_PARSER
 
 #include "tclInt.h"
