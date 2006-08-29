@@ -14,6 +14,11 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
+test oo-0.1 {basic test of OO's ability to clean up its initial state} {
+    interp create t
+    interp delete t
+} {}
+
 test oo-1.1 {basic test of OO functionality: no classes} {
     set result {}
     lappend result [oo::object create foo]
