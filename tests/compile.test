@@ -259,12 +259,12 @@ test compile-11.6 {Tcl_Append*: ensure Tcl_ResetResult is used properly} {
 } {1 {wrong # args: should be "incr varName ?increment?"}}
 test compile-11.7 {Tcl_Append*: ensure Tcl_ResetResult is used properly} -body {
     proc p {} { set r [list foobar] ; expr !a }
-    list [catch {p} msg] $msg
-} -match glob -result {1 {syntax error in expression "!a": * preceding $*}}
+    p
+} -returnCodes error -match glob -result *
 test compile-11.8 {Tcl_Append*: ensure Tcl_ResetResult is used properly} -body {
     proc p {} { set r [list foobar] ; expr {!a} }
-    list [catch {p} msg] $msg
-} -match glob -result {1 {syntax error in expression "!a": * preceding $*}}
+    p
+} -returnCodes error -match glob -result *
 test compile-11.9 {Tcl_Append*: ensure Tcl_ResetResult is used properly} {
     proc p {} { set r [list foobar] ; llength "\{" }
     list [catch {p} msg] $msg
@@ -320,7 +320,7 @@ test compile-12.3 {check for a buffer overrun} -body {
     crash
 } -returnCodes error -cleanup {
     rename crash {}
-} -match glob -result {syntax error in expression "a+2": * preceding $*}
+} -match glob -result *
 test compile-12.4 {TclCleanupLiteralTable segfault} -body {
     # Tcl Bug 1001997
     # Here, we're trying to test a case that causes a crash in

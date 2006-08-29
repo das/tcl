@@ -760,6 +760,20 @@ test execute-8.3 {Stack restoration} -body {
      interp recursionlimit {} $limit
  } -result {too many nested evaluations (infinite loop?)}
 
+test execute-9.1 {Interp result resetting [Bug 1522803]} {
+    set c 0
+    catch {
+	catch {set foo}
+	expr {1/$c}
+    }
+    if {[string match *foo* $::errorInfo]} {
+	set result "Bad errorInfo: $::errorInfo"
+    } else {
+	set result SUCCESS
+    }
+    set result
+} SUCCESS
+
 # cleanup
 if {[info commands testobj] != {}} {
    testobj freeallvars

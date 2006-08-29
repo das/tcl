@@ -349,6 +349,7 @@ typedef long LONG;
 #	undef TCL_WIDE_INT_IS_LONG
 #	undef TCL_CFG_DO64BIT
 #    endif /* __LP64__ */
+#    undef HAVE_STRUCT_STAT64
 #endif /* __APPLE__ */
 
 /*

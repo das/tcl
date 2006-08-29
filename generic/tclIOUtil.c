@@ -470,6 +470,7 @@ FsThrExitProc(
 
     if (tsdPtr->cwdPathPtr != NULL) {
 	Tcl_DecrRefCount(tsdPtr->cwdPathPtr);
+	tsdPtr->cwdPathPtr = NULL;
     }
     if (tsdPtr->cwdClientData != NULL) {
 	NativeFreeInternalRep(tsdPtr->cwdClientData);
@@ -487,6 +488,7 @@ FsThrExitProc(
 	}
 	fsRecPtr = tmpFsRecPtr;
     }
+    tsdPtr->initialized = 0;
 }
 
 int
@@ -1232,6 +1234,7 @@ FsAddMountsToGlobResult(
 	    int len, mlen;
 	    CONST char *path;
 	    CONST char *mount;
+	    Tcl_Obj *norm;
 
 	    /*
 	     * We know mElt is absolute normalized and lies inside pathPtr, so
@@ -1240,18 +1243,19 @@ FsAddMountsToGlobResult(
 	     */
 
 	    mount = Tcl_GetStringFromObj(mElt, &mlen);
-	    path = Tcl_GetStringFromObj(Tcl_FSGetNormalizedPath(NULL, pathPtr),
-		    &len);
-	    if (path[len-1] == '/') {
-		/*
-		 * Deal with the root of the volume.
-		 */
+	    norm = Tcl_FSGetNormalizedPath(NULL, pathPtr);
+	    if (norm != NULL) {
+		path = Tcl_GetStringFromObj(norm, &len);
+		if (path[len-1] == '/') {
+		    /*
+		     * Deal with the root of the volume.
+		     */
 
-		len--;
+		    len--;
+		}
+		mElt = TclNewFSPathObj(pathPtr, mount + len + 1, mlen - len);
+		Tcl_ListObjAppendElement(NULL, resultPtr, mElt);
 	    }
-	    mElt = TclNewFSPathObj(pathPtr, mount + len + 1, mlen - len);
-	    Tcl_ListObjAppendElement(NULL, resultPtr, mElt);
-
 	    /*
 	     * No need to increment gLength, since we don't want to compare
 	     * mounts against mounts.

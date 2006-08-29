@@ -852,7 +852,7 @@ Tcl_ExecObjCmd(
 
     argv = argStorage;
     argc = objc - skip;
-    if ((argc + 1) > sizeof(argv) / sizeof(argv[0])) {
+    if ((size_t)(argc + 1) > sizeof(argv) / sizeof(argv[0])) {
 	argv = (CONST char **) ckalloc((unsigned)(argc + 1) * sizeof(char *));
     }
 

@@ -292,7 +292,7 @@ Tcl_EventuallyFree(
 	    continue;
 	}
 	if (refPtr->mustFree) {
-	    Tcl_Panic("Tcl_EventuallyFree called twice for 0x%x\n",
+	    Tcl_Panic("Tcl_EventuallyFree called twice for 0x%x",
 		    clientData);
         }
         refPtr->mustFree = 1;

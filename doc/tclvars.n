@@ -263,7 +263,7 @@ binary number.
 double-precision values to be converted to strings and back to
 binary with no loss of information.  However, using 17 digits prevents
 any rounding, which produces longer, less intuitive results.  For example,
-\fBexpr 1.4\fR returns 1.3999999999999999 with \fBtcl_precision\fR
+\fBexpr {1.4}\fR returns 1.3999999999999999 with \fBtcl_precision\fR
 set to 17, vs. 1.4 if \fBtcl_precision\fR is 12.
 .RE
 .PP

@@ -466,7 +466,7 @@ TclCompileCatchCmd(
      */
 
     if (TclFixupForwardJumpToHere(envPtr, &jumpFixup, 127)) {
-	Tcl_Panic("TclCompileCatchCmd: bad jump distance %d\n",
+	Tcl_Panic("TclCompileCatchCmd: bad jump distance %d",
 		CurrentOffset(envPtr) - jumpFixup.codeOffset);
     }
     TclEmitOpcode(INST_END_CATCH, envPtr);

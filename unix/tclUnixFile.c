@@ -1089,6 +1089,9 @@ TclNativeCreateNativeRep(
 	 */
 
 	validPathPtr = Tcl_FSGetNormalizedPath(NULL, pathPtr);
+	if (validPathPtr == NULL) {
+	    return NULL;
+	}
 	Tcl_IncrRefCount(validPathPtr);
     }
 

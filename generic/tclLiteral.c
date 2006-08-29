@@ -61,7 +61,7 @@ TclInitLiteralTable(
 				 * supplied by the caller. */
 {
 #if (TCL_SMALL_HASH_TABLE != 4)
-    Tcl_Panic("TclInitLiteralTable: TCL_SMALL_HASH_TABLE is %d, not 4\n",
+    Tcl_Panic("TclInitLiteralTable: TCL_SMALL_HASH_TABLE is %d, not 4",
 	    TCL_SMALL_HASH_TABLE);
 #endif
 

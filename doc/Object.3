@@ -121,7 +121,7 @@ typedef struct Tcl_Obj {
                 long \fIlongValue\fR;
                 double \fIdoubleValue\fR;
                 void *\fIotherValuePtr\fR;
-		Tcl_WideInt \fIwideValue\fR;
+                Tcl_WideInt \fIwideValue\fR;
                 struct {
                         void *\fIptr1\fR;
                         void *\fIptr2\fR;
@@ -129,7 +129,7 @@ typedef struct Tcl_Obj {
                 struct {
                         void *\fIptr\fR;
                         unsigned long \fIvalue\fR;
-                } \fItwoPtrValue\fR;
+                } \fIptrAndLongRep\fR;
         } \fIinternalRep\fR;
 } Tcl_Obj;
 .CE

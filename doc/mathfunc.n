@@ -159,8 +159,8 @@ The argument may be any numeric value.  The integer part of \fIarg\fR
 is determined and returned.  The integer range returned by this function
 is unlimited, unlike functions \fBint()\fR and \fBwide()\fR which
 truncate their range to fit in particular storage widths.
-.TP
 .VE 8.5
+.TP
 \fBexp(\fIarg\fB)\fR
 Returns the exponential of \fIarg\fR, defined as \fIe\fR**\fIarg\fR.
 If the result would cause an overflow, an error is returned.

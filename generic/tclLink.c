@@ -474,7 +474,7 @@ LinkTraceProc(
 
     case TCL_LINK_ULONG:
 	if (Tcl_GetWideIntFromObj(interp, valueObj, &valueWide) != TCL_OK
-		|| valueWide < 0 || valueWide > ULONG_MAX) {
+		|| valueWide < 0 || (Tcl_WideUInt) valueWide > ULONG_MAX) {
 	    Tcl_ObjSetVar2(interp, linkPtr->varName, NULL, ObjValue(linkPtr),
 		    TCL_GLOBAL_ONLY);
 	    return "variable must have unsigned long value";

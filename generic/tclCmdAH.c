@@ -1784,12 +1784,12 @@ Tcl_ForeachObjCmd(dummy, interp, objc, objv)
 	    result = Tcl_ListObjGetElements(interp, argObjv[1+i*2],
 		    &varcList[i], &varvList[i]);
 	    if (result != TCL_OK) {
-		Tcl_Panic("Tcl_ForeachObjCmd: could not reconvert variable list %d to a list object\n", i);
+		Tcl_Panic("Tcl_ForeachObjCmd: could not reconvert variable list %d to a list object", i);
 	    }
 	    result = Tcl_ListObjGetElements(interp, argObjv[2+i*2],
 		    &argcList[i], &argvList[i]);
 	    if (result != TCL_OK) {
-		Tcl_Panic("Tcl_ForeachObjCmd: could not reconvert value list %d to a list object\n", i);
+		Tcl_Panic("Tcl_ForeachObjCmd: could not reconvert value list %d to a list object", i);
 	    }
 
 	    for (v=0 ; v<varcList[i] ; v++) {

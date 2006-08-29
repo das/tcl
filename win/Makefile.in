@@ -717,7 +717,7 @@ shell: binaries
 # This target can be used to run tclsh inside either gdb or insight
 gdb: binaries
 	@echo "set env TCL_LIBRARY=$(LIBRARY_DIR)" > gdb.run
-	gdb ./tclsh --command=gdb.run
+	gdb ./$(TCLSH) --command=gdb.run
 	rm gdb.run
 
 depend:

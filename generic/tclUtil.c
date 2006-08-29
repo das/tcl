@@ -2779,7 +2779,7 @@ TclGetProcessGlobalValue(
 	    (*(pgvPtr->proc))(&pgvPtr->value, &pgvPtr->numBytes,
 		    &pgvPtr->encoding);
 	    if (pgvPtr->value == NULL) {
-		Tcl_Panic("PGV Initializer did not initialize.");
+		Tcl_Panic("PGV Initializer did not initialize");
 	    }
 	    Tcl_CreateExitHandler(FreeProcessGlobalValue, (ClientData) pgvPtr);
 	}
