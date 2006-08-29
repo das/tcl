@@ -284,7 +284,7 @@ ObjNameChangedTrace(
 
     Tcl_Preserve(oPtr);
     oPtr->flags |= OBJECT_DELETED;
-    if (contextPtr != NULL) {
+    if (contextPtr != NULL && !Tcl_InterpDeleted(interp)) {
 	int result;
 	Tcl_InterpState state;
 
