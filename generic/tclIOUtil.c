@@ -4013,6 +4013,9 @@ NativeCreateNativeRep(pathObjPtr)
 
     /* Make sure the normalized path is set */
     validPathObjPtr = Tcl_FSGetNormalizedPath(NULL, pathObjPtr);
+    if (validPathObjPtr == NULL) {
+	return NULL;
+    }
 
     str = Tcl_GetStringFromObj(validPathObjPtr, &len);
 #ifdef __WIN32__
@@ -4028,7 +4031,7 @@ NativeCreateNativeRep(pathObjPtr)
 #endif
     nativePathPtr = ckalloc((unsigned) len);
     memcpy((VOID*)nativePathPtr, (VOID*)Tcl_DStringValue(&ds), (size_t) len);
-	  
+
     Tcl_DStringFree(&ds);
     return (ClientData)nativePathPtr;
 }
@@ -5436,7 +5439,9 @@ Tcl_FSGetTranslatedPath(interp, pathPtr)
 	retObj = srcFsPathPtr->translatedPathPtr;
     }
 
-    Tcl_IncrRefCount(retObj);
+    if (retObj) {
+	Tcl_IncrRefCount(retObj);
+    }
     return retObj;
 }
 

@@ -902,8 +902,14 @@ TclpObjCopyDirectory(srcPathPtr, destPathPtr, errorPtr)
     int ret;
 
     normSrcPtr = Tcl_FSGetNormalizedPath(NULL,srcPathPtr);
+    if (normSrcPtr == NULL) {
+	return TCL_ERROR;
+    }
     Tcl_WinUtfToTChar(Tcl_GetString(normSrcPtr), -1, &srcString);
     normDestPtr = Tcl_FSGetNormalizedPath(NULL,destPathPtr);
+    if (normDestPtr == NULL) {
+	return TCL_ERROR;
+    }
     Tcl_WinUtfToTChar(Tcl_GetString(normDestPtr), -1, &dstString);
 
     ret = TraverseWinTree(TraversalCopy, &srcString, &dstString, &ds);
@@ -971,6 +977,9 @@ TclpObjRemoveDirectory(pathPtr, recursive, errorPtr)
 	 */
 	Tcl_DString native;
 	normPtr = Tcl_FSGetNormalizedPath(NULL, pathPtr);
+	if (normPtr == NULL) {
+	    return TCL_ERROR;
+	}
 	Tcl_WinUtfToTChar(Tcl_GetString(normPtr), -1, &native);
 	ret = DoRemoveDirectory(&native, recursive, &ds);
 	Tcl_DStringFree(&native);
