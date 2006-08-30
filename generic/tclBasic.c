@@ -363,6 +363,7 @@ Tcl_CreateInterp()
     iPtr->emptyObjPtr = Tcl_NewObj(); /* another empty object */
     Tcl_IncrRefCount(iPtr->emptyObjPtr);
     iPtr->resultSpace[0] = 0;
+    iPtr->threadId = Tcl_GetCurrentThread();
 
     iPtr->globalNsPtr = NULL;	/* force creation of global ns below */
     iPtr->globalNsPtr = (Namespace *) Tcl_CreateNamespace(interp, "",
