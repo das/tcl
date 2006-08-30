@@ -1828,6 +1828,7 @@ TclGlob(
     Tcl_IncrRefCount(savedResultObj);
     Tcl_ResetResult(interp);
     TclNewObj(filenamesObj);
+    Tcl_IncrRefCount(filenamesObj);
 
     /*
      * Now we do the actual globbing, adding filenames as we go to buffer in
@@ -2290,6 +2291,7 @@ DoGlob(
 
 	*p = '\0';
 	TclNewObj(subdirsPtr);
+	Tcl_IncrRefCount(subdirsPtr);
 	result = Tcl_FSMatchInDirectory(interp, subdirsPtr, pathPtr,
 		pattern, &dirOnly);
 	*p = save;
