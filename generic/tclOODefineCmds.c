@@ -282,10 +282,17 @@ TclOODefineCopyObjCmd(
     for (;hPtr; hPtr = Tcl_NextHashEntry(&search)) {
 	Tcl_Obj *keyPtr = (Tcl_Obj *) Tcl_GetHashKey(&oPtr->methods, hPtr);
 	Method *mPtr = Tcl_GetHashValue(hPtr);
+	ClientData newClientData;
 
-	TclOONewMethod(interp, (Tcl_Object) o2Ptr, keyPtr,
-		mPtr->flags & PUBLIC_METHOD, mPtr->callPtr, mPtr->clientData,
-		mPtr->deletePtr); // TODO: need to clone the clientData
+	if (mPtr->typePtr == NULL) {
+	    TclOONewMethod(interp, (Tcl_Object) o2Ptr, keyPtr,
+		    mPtr->flags & PUBLIC_METHOD, NULL, NULL);
+	} else if (mPtr->typePtr->clonePtr &&
+		mPtr->typePtr->clonePtr(mPtr->clientData,
+		&newClientData) == TCL_OK) {
+	    TclOONewMethod(interp, (Tcl_Object) o2Ptr, keyPtr,
+		    mPtr->flags & PUBLIC_METHOD, mPtr->typePtr, newClientData);
+	}
     }
     o2Ptr->mixins.num = oPtr->mixins.num;
     o2Ptr->mixins.list = (Class **) ckalloc(sizeof(Class*) * oPtr->mixins.num);
