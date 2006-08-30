@@ -255,6 +255,7 @@ GENERIC_OBJS = \
 	tclObj.$(OBJEXT) \
 	tclOO.$(OBJEXT) \
 	tclOODefineCmds.$(OBJEXT) \
+	tclOOInfo.$(OBJEXT) \
 	tclPanic.$(OBJEXT) \
 	tclParse.$(OBJEXT) \
 	tclParseExpr.$(OBJEXT) \
