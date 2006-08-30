@@ -2533,17 +2533,17 @@ TclDoGlob(interp, separators, headPtr, tail, types)
 	    ret = Tcl_FSMatchInDirectory(interp, Tcl_GetObjResult(interp), 
 					 head, tail, types);
 	} else {
-	    Tcl_Obj* resultPtr;
-
 	    /* 
 	     * We do the recursion ourselves.  This makes implementing
 	     * Tcl_FSMatchInDirectory for each filesystem much easier.
 	     */
 	    Tcl_GlobTypeData dirOnly = { TCL_GLOB_TYPE_DIR, 0, NULL, NULL };
 	    char save = *p;
-	    
-	    *p = '\0';
+	    Tcl_Obj *resultPtr;
+
 	    resultPtr = Tcl_NewListObj(0, NULL);
+	    Tcl_IncrRefCount(resultPtr);
+	    *p = '\0';
 	    ret = Tcl_FSMatchInDirectory(interp, resultPtr, 
 					 head, tail, &dirOnly);
 	    *p = save;
@@ -2560,7 +2560,7 @@ TclDoGlob(interp, separators, headPtr, tail, types)
 			Tcl_DStringAppend(&ds, Tcl_GetString(elt), -1);
 			if(tclPlatform == TCL_PLATFORM_MAC) {
 			    Tcl_DStringAppend(&ds, ":",1);
-			} else {			
+			} else {
 			    Tcl_DStringAppend(&ds, "/",1);
 			}
 			ret = TclDoGlob(interp, separators, &ds, p+1, types);
