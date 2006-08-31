@@ -805,6 +805,7 @@ CompileMathFuncCall(
     Tcl_Token *tokenPtr, *afterSubexprPtr;
     int argCount;
     int code = TCL_OK;
+    int saveHasOperators = infoPtr->hasOperators;
 
     /*
      * Prepend "tcl::mathfunc::" to the function name, to produce the name of
@@ -846,6 +847,7 @@ CompileMathFuncCall(
     }
 
     *endPtrPtr = afterSubexprPtr;
+    infoPtr->hasOperators = saveHasOperators;
     return TCL_OK;
 }
 
