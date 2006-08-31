@@ -224,12 +224,10 @@ MODULE_SCOPE int	TclObjInterpProcCore(register Tcl_Interp *interp,
 			    CallFrame *framePtr, Tcl_Obj *procNameObj,
 			    int skip);
 // Expose this one?
-MODULE_SCOPE int	TclOOIsReachable(Class *targetPtr, Class *startPtr);
 MODULE_SCOPE void	TclOOAddToInstances(Object *oPtr, Class *cPtr);
 MODULE_SCOPE void	TclOOAddToSubclasses(Class *subPtr, Class *superPtr);
-MODULE_SCOPE void	TclOORemoveFromInstances(Object *oPtr, Class *cPtr);
-MODULE_SCOPE void	TclOORemoveFromSubclasses(Class *subPtr,
-			    Class *superPtr);
+MODULE_SCOPE Proc *	TclOOGetProcFromMethod(Method *mPtr);
+MODULE_SCOPE int	TclOOIsReachable(Class *targetPtr, Class *startPtr);
 MODULE_SCOPE Tcl_Method	TclOONewMethod(Tcl_Interp *interp, Tcl_Object object,
 			    Tcl_Obj *nameObj, int isPublic,
 			    const Tcl_OOMethodType *typePtr,
@@ -241,6 +239,9 @@ MODULE_SCOPE Tcl_Method	TclOONewClassMethod(Tcl_Interp *interp, Tcl_Class cls,
 MODULE_SCOPE Object *	TclOONewInstance(Tcl_Interp *interp, Class *clsPtr,
 			    char *name, int objc, Tcl_Obj *const *objv,
 			    int skip);
+MODULE_SCOPE void	TclOORemoveFromInstances(Object *oPtr, Class *cPtr);
+MODULE_SCOPE void	TclOORemoveFromSubclasses(Class *subPtr,
+			    Class *superPtr);
 
 /*
  * Local Variables:

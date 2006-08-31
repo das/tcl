@@ -2085,6 +2085,18 @@ TclOOIsReachable(
     return 0;
 }
 
+Proc *
+TclOOGetProcFromMethod(
+    Method *mPtr)
+{
+    if (mPtr->typePtr == &procMethodType) {
+	ProcedureMethod *pmPtr = mPtr->clientData;
+
+	return pmPtr->procPtr;
+    }
+    return NULL;
+}
+
 /*
  * Local Variables:
  * mode: c
