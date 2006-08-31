@@ -184,6 +184,7 @@ TclOOInit(
 
     fPtr->definerCls = AllocClass(interp,
 	    AllocObject(interp, "::oo::definer"));
+    fPtr->definerCls->superclasses.list[0] = fPtr->classCls;
     fPtr->structCls = AllocClass(interp, AllocObject(interp, "::oo::struct"));
 
     /*
