@@ -1623,8 +1623,10 @@ ProcessProcResultCode(
     }
     if (isMethod & FRAME_IS_CONSTRUCTOR) {
 	// TODO: incorporate declaring class name
-	TclFormatToErrorInfo(interp, "\n    (constructor line %d)",
-		interp->errorLine);
+	if (interp->errorLine != 0xDEADBEEF) { /* hack! */
+	    TclFormatToErrorInfo(interp, "\n    (constructor line %d)",
+		    interp->errorLine);
+	}
     } else if (isMethod & FRAME_IS_DESTRUCTOR) {
 	// TODO: incorporate declaring class name
 	TclFormatToErrorInfo(interp, "\n    (destructor line %d)",

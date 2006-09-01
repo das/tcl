@@ -65,9 +65,8 @@ TclOODefineObjCmd(
 	    int limit = 200;
 	    int overflow = (length > limit);
 
-	    // TODO: fix trace
 	    TclFormatToErrorInfo(interp,
-		    "\n    (in ::oo::define \"%.*s%s\" script line %d)",
+		    "\n    (in definition script for object \"%.*s%s\" line %d)",
 		    (overflow ? limit : length), objName,
 		    (overflow ? "..." : ""), interp->errorLine);
 	}

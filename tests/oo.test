@@ -678,6 +678,28 @@ test oo-17.8 {OO: object introspection} -setup {
     superClass2 destroy
 } -result {{::superClass1 ::superClass2} {::superClass1 ::superClass2}}
 
+test oo-18.1 {OO: define command support} {
+    list [catch {oo::define oo::object {error foo}} msg] $msg $errorInfo
+} {1 foo {foo
+    while executing
+"error foo"
+    (in definition script for object "oo::object" line 1)
+    invoked from within
+"oo::define oo::object {error foo}"}}
+test oo-18.2 {OO: define command support} {
+    list [catch {oo::define oo::object error foo} msg] $msg $errorInfo
+} {1 foo {foo
+    while executing
+"oo::define oo::object error foo"}}
+test oo-18.3 {OO: define command support} {
+    list [catch {oo::class create foo {error bar}} msg] $msg $errorInfo
+} {1 bar {bar
+    while executing
+"error bar"
+    (in definition script for object "::foo" line 1)
+    invoked from within
+"oo::class create foo {error bar}"}}
+
 cleanupTests
 return
 
