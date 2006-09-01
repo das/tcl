@@ -20,7 +20,6 @@ struct Class;
 struct Object;
 struct Method;
 struct CallContext;
-//struct Foundation;
 
 /*
  * The types of callbacks used in method implementations.
