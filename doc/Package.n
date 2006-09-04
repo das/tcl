@@ -201,9 +201,10 @@ To test to see if the Snack package is available and load if it is
 the functionality is not critical) do this:
 .CS
 if {[catch {\fBpackage require\fR Snack}]} {
-   # We have the package, configure the app to use it
-} else {
+   # Error thrown - package not found.
    # Set up a dummy interface to work around the absence
+} else {
+   # We have the package, configure the app to use it
 }
 .CE
 
