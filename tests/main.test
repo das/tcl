@@ -488,7 +488,7 @@ namespace eval ::tcl::test::main {
 		}
 	} rc]
     } -body {
-	exec [interpreter] << {puts "In script"} \
+	exec [interpreter] << {} \
 		-appinitprocsetrcfile $rc >& result
 	set f [open result]
 	read $f
@@ -497,7 +497,7 @@ namespace eval ::tcl::test::main {
 	file delete result
 	removeFile rc
     } -result "application-specific initialization failed:\
-	\nIn script\nExit MainLoop\nIn exit\neven 0\n"
+	\nExit MainLoop\nIn exit\neven 0\n"
 
     test Tcl_Main-4.5 {
 	Tcl_Main: Bug 1481986
