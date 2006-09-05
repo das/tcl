@@ -406,7 +406,7 @@ ExecuteCallback(
      * current interpreter. Don't copy if in preservation mode.
      */
 
-    res = Tcl_GlobalEvalObj(dataPtr->interp, command);
+    res = Tcl_EvalObjEx(dataPtr->interp, command, TCL_EVAL_GLOBAL);
     Tcl_DecrRefCount(command);
     command = NULL;
 

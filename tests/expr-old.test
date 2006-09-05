@@ -1120,7 +1120,7 @@ test expr-old-37.24 {Tcl_ExprDouble handles overflows that look like int} \
 test expr-old-37.25 {Tcl_ExprDouble and NaN} \
     {ieeeFloatingPoint testexprdouble} {
 	list [catch {testexprdouble 0.0/0.0} result] $result
-    } {1 {floating point value is Not a Number}}
+    } {1 {domain error: argument not in valid range}}
     
 test expr-old-38.1 {Verify Tcl_ExprString's basic operation} -constraints {testexprstring} -body {
     list [testexprstring "1+4"] [testexprstring "2*3+4.2"] \
