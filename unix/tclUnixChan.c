@@ -2301,14 +2301,25 @@ TcpGetOptionProc(instanceData, interp, optionName, dsPtr)
 		    (strncmp(optionName, "-peername", len) == 0))) {
 	if (getpeername(statePtr->fd, (struct sockaddr *) &peername,
 		&size) >= 0) {
+#ifdef TCL_THREADS
+	    int buflen = 1024, herrno;
+	    char hbuf[1024];
+	    struct hostent he;        
+#endif
 	    if (len == 0) {
 		Tcl_DStringAppendElement(dsPtr, "-peername");
 		Tcl_DStringStartSublist(dsPtr);
 	    }
 	    Tcl_DStringAppendElement(dsPtr, inet_ntoa(peername.sin_addr));
+#ifdef TCL_THREADS
+	    hostEntPtr = TclpGetHostByAddr(		/* INTL: Native. */
+		    (char *) &peername.sin_addr, sizeof(peername.sin_addr),
+		    AF_INET, &he, hbuf, buflen, &herrno);
+#else
 	    hostEntPtr = gethostbyaddr(			/* INTL: Native. */
 		    (char *) &peername.sin_addr,
 		    sizeof(peername.sin_addr), AF_INET);
+#endif
 	    if (hostEntPtr != NULL) {
 		Tcl_DString ds;
 
@@ -2348,14 +2359,25 @@ TcpGetOptionProc(instanceData, interp, optionName, dsPtr)
 	    (strncmp(optionName, "-sockname", len) == 0))) {
 	if (getsockname(statePtr->fd, (struct sockaddr *) &sockname,
 		&size) >= 0) {
+#ifdef TCL_THREADS
+	    int buflen = 1024, herrno;
+	    char hbuf[1024];
+	    struct hostent he;        
+#endif
 	    if (len == 0) {
 		Tcl_DStringAppendElement(dsPtr, "-sockname");
 		Tcl_DStringStartSublist(dsPtr);
 	    }
 	    Tcl_DStringAppendElement(dsPtr, inet_ntoa(sockname.sin_addr));
+#ifdef TCL_THREADS
+	    hostEntPtr = TclpGetHostByAddr(		/* INTL: Native. */
+		    (char *) &sockname.sin_addr, sizeof(sockname.sin_addr),
+		    AF_INET, &he, hbuf, buflen, &herrno);
+#else
 	    hostEntPtr = gethostbyaddr(			/* INTL: Native. */
 		    (char *) &sockname.sin_addr,
 		    sizeof(sockname.sin_addr), AF_INET);
+#endif
 	    if (hostEntPtr != (struct hostent *) NULL) {
 		Tcl_DString ds;
 
@@ -2686,7 +2708,15 @@ CreateSocketAddress(sockaddrPtr, host, port)
 	 * on either 32 or 64 bits systems.
 	 */
 	if (addr.s_addr == 0xFFFFFFFF) {
+#ifdef TCL_THREADS
+	    int buflen = 1024, herrno;
+	    char hbuf[1024];
+	    struct hostent he;
+	    hostent = TclpGetHostByName(		/* INTL: Native. */
+		    native, &he, hbuf, buflen, &herrno);
+#else
 	    hostent = gethostbyname(native);		/* INTL: Native. */
+#endif
 	    if (hostent != NULL) {
 		memcpy((VOID *) &addr,
 			(VOID *) hostent->h_addr_list[0],
