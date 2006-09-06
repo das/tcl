@@ -658,24 +658,24 @@ EXTERN int pthread_getattr_np _ANSI_ARGS_((pthread_t, pthread_attr_t *));
  */
 #include <pwd.h>
 #include <grp.h>
-EXTERN int
+MODULE_SCOPE int
 TclpGetPwNam(const char *name, struct passwd *pwbuf, char *buf, size_t buflen, 
              struct passwd **pwbufp);
-EXTERN int 
+MODULE_SCOPE int 
 TclpGetPwUid(uid_t uid, struct passwd *pwbuf, char  *buf, size_t buflen,
              struct passwd **pwbufp);
-EXTERN int
+MODULE_SCOPE int
 TclpGetGrNam(const char *name, struct group *gbuf, char *buf, size_t buflen, 
              struct group **gbufp);
-EXTERN int
+MODULE_SCOPE int
 TclpGetGrGid(gid_t gid, struct group *gbuf, char *buf, size_t buflen, 
              struct group **gbufp);
 
-EXTERN struct hostent *
+MODULE_SCOPE struct hostent *
 TclpGetHostByName(const char *name, struct hostent *hbuf, char *buf,
                   size_t buflen, int *h_errnop);
 
-EXTERN struct hostent *
+MODULE_SCOPE struct hostent *
 TclpGetHostByAddr(const char *addr, int length, int type, struct hostent *hbuf,
                   char *buf, size_t buflen, int *h_errnop);
 
