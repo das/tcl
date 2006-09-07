@@ -339,7 +339,7 @@ TclpGetPwNam(const char *name)
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
 
 #if defined(HAVE_GETPWNAM_R_5)
-    struct group *pwPtr;
+    struct passwd *pwPtr;
     return (getpwnam_r(name, &tsdPtr->pwd, tsdPtr->pbuf, sizeof(tsdPtr->pbuf),
                        &pwPtr) == 0) ? &tsdPtr->pwd : NULL;
 
@@ -387,7 +387,7 @@ TclpGetPwUid(uid_t uid)
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
 
 #if defined(HAVE_GETPWUID_R_5)
-    struct group *pwPtr;
+    struct passwd *pwPtr;
     return (getpwuid_r(uid, &tsdPtr->pwd, tsdPtr->pbuf, sizeof(tsdPtr->pbuf),
                        &pwPtr) == 0) ? &tsdPtr->pwd : NULL;
 
