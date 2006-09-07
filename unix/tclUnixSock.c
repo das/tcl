@@ -72,11 +72,6 @@ Tcl_GetHostName()
     char buffer[sizeof(hostname)];
 #endif
     CONST char *native;
-#ifdef TCL_THREADS
-    int buflen = 1024, herrno;
-    char buf[1024];
-    struct hostent he;
-#endif
 
     Tcl_MutexLock(&hostMutex);
     if (hostnameInited) {
