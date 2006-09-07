@@ -1422,7 +1422,7 @@ SetGroupAttribute(interp, objIndex, fileName, attributePtr)
 	groupPtr = TclpGetGrNam(native); /* INTL: Native. */
 	Tcl_DStringFree(&ds);
 
-	if (result == -1 || groupPtr == NULL) {
+	if (groupPtr == NULL) {
 	    endgrent();
 	    Tcl_AppendResult(interp, "could not set group for file \"",
 		    Tcl_GetString(fileName), "\": group \"", 
@@ -1484,7 +1484,7 @@ SetOwnerAttribute(interp, objIndex, fileName, attributePtr)
 	pwPtr = TclpGetPwNam(native); /* INTL: Native. */
 	Tcl_DStringFree(&ds);
 
-	if (result == -1 || pwPtr == NULL) {
+	if (pwPtr == NULL) {
 	    endpwent();
 	    Tcl_AppendResult(interp, "could not set owner for file \"",
 			     Tcl_GetString(fileName), "\": user \"", 
