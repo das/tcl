@@ -88,12 +88,7 @@ Tcl_GetHostName()
 #ifndef NO_UNAME
     (VOID *) memset((VOID *) &u, (int) 0, sizeof(struct utsname));
     if (uname(&u) > -1) {				/* INTL: Native. */
-#ifdef TCL_THREADS
-        hp = TclpGetHostByName(				/* INTL: Native. */
-		u.nodename, &he, buf, buflen, &herrno);
-#else
-        hp = gethostbyname(u.nodename);			/* INTL: Native. */
-#endif
+        hp = TclpGetHostByName(u.nodename);			/* INTL: Native. */
 	if (hp == NULL) {
 	    /*
 	     * Sometimes the nodename is fully qualified, but gets truncated
@@ -105,11 +100,7 @@ Tcl_GetHostName()
 		char *node = ckalloc((unsigned) (dot - u.nodename + 1));
 		memcpy(node, u.nodename, (size_t) (dot - u.nodename));
 		node[dot - u.nodename] = '\0';
-#ifdef TCL_THREADS
-		hp = TclpGetHostByName(node, &he, buf, buflen, &herrno);
-#else
-		hp = gethostbyname(node);
-#endif
+		hp = TclpGetHostByName(node);
 		ckfree(node);
 	    }
 	}
