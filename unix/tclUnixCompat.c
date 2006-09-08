@@ -561,7 +561,7 @@ TclpGetGrGid(gid_t gid)
 struct hostent *
 TclpGetHostByName(const char *name)
 {
-#if !defined(TCL_THREADS)
+#if !defined(TCL_THREADS) || defined(HAVE_MTSAFE_GETHOSTBYNAME)
     return gethostbyname(name);
 #else
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
@@ -622,7 +622,7 @@ TclpGetHostByName(const char *name)
 struct hostent *
 TclpGetHostByAddr(const char *addr, int length, int type)
 {
-#if !defined(TCL_THREADS)
+#if !defined(TCL_THREADS) || defined(HAVE_MTSAFE_GETHOSTBYADDR)
     return gethostbyaddr(addr, length, type);
 #else
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
