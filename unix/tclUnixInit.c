@@ -783,6 +783,30 @@ TclpSetVariables(interp)
 #ifdef HAVE_COREFOUNDATION
     char tclLibPath[MAXPATHLEN + 1];
 
+#if MAC_OS_X_VERSION_MAX_ALLOWED > 1020
+    /*
+     * Set msgcat fallback locale to current CFLocale identifier.
+     */
+    CFLocaleRef localeRef;
+    
+    if (CFLocaleCopyCurrent != NULL && CFLocaleGetIdentifier != NULL &&
+	    (localeRef = CFLocaleCopyCurrent())) {
+	CFStringRef locale = CFLocaleGetIdentifier(localeRef);
+
+	if (locale) {
+	    char loc[256];
+
+	    if (CFStringGetCString(locale, loc, 256, kCFStringEncodingUTF8)) {
+		if (!Tcl_CreateNamespace(interp, "::tcl::mac", NULL, NULL)) {
+		    Tcl_ResetResult(interp);
+		}
+		Tcl_SetVar(interp, "::tcl::mac::locale", loc, TCL_GLOBAL_ONLY);
+	    }
+	}
+	CFRelease(localeRef);
+    }
+#endif
+
     if (MacOSXGetLibraryPath(interp, MAXPATHLEN, tclLibPath) == TCL_OK) {
         CONST char *str;
         Tcl_DString ds;
