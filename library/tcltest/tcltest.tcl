@@ -609,15 +609,15 @@ namespace eval tcltest {
     proc AcceptVerbose { level } {
 	set level [AcceptList $level]
 	if {[llength $level] == 1} {
-	    if {![regexp {^(pass|body|skip|start|error)$} $level]} {
+	    if {![regexp {^(pass|body|skip|start|error|line)$} $level]} {
 		# translate single characters abbreviations to expanded list
-		set level [string map {p pass b body s skip t start e error} \
+		set level [string map {p pass b body s skip t start e error l line} \
 			[split $level {}]]
 	    }
 	}
 	set valid [list]
 	foreach v $level {
-	    if {[regexp {^(pass|body|skip|start|error)$} $v]} {
+	    if {[regexp {^(pass|body|skip|start|error|line)$} $v]} {
 		lappend valid $v
 	    }
 	}
@@ -631,11 +631,12 @@ namespace eval tcltest {
 
     # Default verbosity is to show bodies of failed tests
     Option -verbose {body error} {
-	Takes any combination of the values 'p', 's', 'b', 't' and 'e'.
+	Takes any combination of the values 'p', 's', 'b', 't', 'e' and 'l'.
 	Test suite will display all passed tests if 'p' is specified, all
 	skipped tests if 's' is specified, the bodies of failed tests if
 	'b' is specified, and when tests start if 't' is specified.
-	ErrorInfo is displayed if 'e' is specified.
+	ErrorInfo is displayed if 'e' is specified. Source file line
+	information of failed tests is displayed if 'l' is specified. 
     } AcceptVerbose verbose
 
     # Match and skip patterns default to the empty list, except for
@@ -2087,7 +2088,19 @@ proc tcltest::test {name description args} {
     if {![IsVerbose body]} {
 	set body ""
     }	
-    puts [outputChannel] "\n==== $name\
+    puts [outputChannel] "\n"
+    if {[IsVerbose line]} {
+	set testFile [file normalize [uplevel 1 {info script}]]
+	if {[file readable $testFile]} {
+	    set testFd [open $testFile r]
+	    set lineNo [expr {[lsearch -regexp [split [read $testFd] "\n"] \
+		    "^\[ \t\]*test [string map {. \\.} $name] "]+1}]
+	    close $testFd
+	    puts [outputChannel] "$testFile:$lineNo: test failed:\
+		    $name [string trim $description]"
+	}
+    }	
+    puts [outputChannel] "==== $name\
 	    [string trim $description] FAILED"
     if {[string length $body]} {
 	puts [outputChannel] "==== Contents of test case:"

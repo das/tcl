@@ -54,11 +54,15 @@ namespace eval ::msgcat::test {
     foreach setVars [PowerSet $envVars] { 
 	set result [string tolower [lindex $setVars 0]]
 	if {[string length $result] == 0} {
-	    set result c
+	    if {[info exists ::tcl::mac::locale]} {
+		set result [string tolower $::tcl::mac::locale]
+	    } else {
+		set result c
+	    }
 	}
-	test msgcat-0.$count {
-	    locale initialization from environment variables
-	} -setup {
+	test msgcat-0.$count [list \
+	    locale initialization from environment variables $setVars \
+	] -setup {
 	    variable var
 	    foreach var $envVars {
 		catch {variable $var $::env($var)}

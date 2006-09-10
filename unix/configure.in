@@ -175,9 +175,11 @@ if test "${TCL_THREADS}" = 1; then
 	    test "`uname -r | awk -F. '{print [$]1}'`" -gt 5; then
 	# Starting with Darwin 6 (Mac OSX 10.2), gethostbyX
 	# are actually MT-safe as they always return pointers
-	# from the TSD instead of the static storage.
-	AC_DEFINE(HAVE_MTSAFE_GETHOSTBYNAME)
-	AC_DEFINE(HAVE_MTSAFE_GETHOSTBYADDR)
+	# from TSD instead of static storage.
+	AC_DEFINE(HAVE_MTSAFE_GETHOSTBYNAME, 1,
+		[Do we have MT-safe gethostbyname() ?])
+	AC_DEFINE(HAVE_MTSAFE_GETHOSTBYADDR, 1,
+		[Do we have MT-safe gethostbyaddr() ?])
     else
 	SC_TCL_GETHOSTBYNAME_R
 	SC_TCL_GETHOSTBYADDR_R
