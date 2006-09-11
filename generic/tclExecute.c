@@ -4856,6 +4856,9 @@ TclExecuteByteCode(
 		}
 		w1 *= w1;
 		w2 /= 2;
+		if (w2 == 0) {
+		    break;
+		}
 		for (; w2>Tcl_LongAsWide(1) ; w1*=w1,w2/=2) {
 		    wasNegative = (wResult < 0);
 		    if (w1 <= 0) {
