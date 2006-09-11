@@ -996,9 +996,9 @@ install-libraries: tclConfig install-msgs install-tzdata
 	@echo installing msgcat1.4
 	@$(CPY) "$(ROOT)\library\msgcat\*.tcl" \
 	    "$(SCRIPT_INSTALL_DIR)\msgcat1.4\"
-	@echo installing tcltest2.2 
+	@echo installing tcltest2.3 
 	@$(CPY) "$(ROOT)\library\tcltest\*.tcl" \
-	    "$(SCRIPT_INSTALL_DIR)\tcltest2.2\"
+	    "$(SCRIPT_INSTALL_DIR)\tcltest2.3\"
 	@echo installing $(TCLDDELIBNAME)
 !if $(STATIC_BUILD)
 	@$(CPY) "$(TCLDDELIB)" "$(LIB_INSTALL_DIR)\"

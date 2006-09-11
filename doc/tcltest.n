@@ -11,14 +11,14 @@
 '\" RCS: @(#) $Id$
 '\" 
 .so man.macros
-.TH "tcltest" n 2.2 tcltest "Tcl Bundled Packages"
+.TH "tcltest" n 2.3 tcltest "Tcl Bundled Packages"
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
 tcltest \- Test harness support code and utilities
 .SH SYNOPSIS
 .nf
-\fBpackage require tcltest ?2.2.5?\fR
+\fBpackage require tcltest ?2.3?\fR
 .sp
 \fBtcltest::test \fIname description ?option value ...?\fR
 \fBtcltest::test \fIname description ?constraints? body result\fR
