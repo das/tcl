@@ -552,10 +552,10 @@ test: setup $(TCLTEST) dlls $(CAT32)
 <<
 !else
 	@echo Please wait while the tests are collected...
-	$(TCLTEST) "$(ROOT)/tests/all.tcl" $(TESTFLAGS) -loadfile <<
+	$(TCLTEST) "$(ROOT)/tests/all.tcl" $(TESTFLAGS) -loadfile << > tests.log
 		set ::ddelib [file normalize $(TCLDDELIB:\=/)]
 		set ::reglib [file normalize $(TCLREGLIB:\=/)]
-<< > tests.log
+<<
 	type tests.log | more
 !endif
 
