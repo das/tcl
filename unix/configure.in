@@ -158,6 +158,13 @@ if test "${TCL_THREADS}" = 1; then
 	# from the TSD instead of the static storage.
 	AC_DEFINE(HAVE_MTSAFE_GETHOSTBYNAME)
 	AC_DEFINE(HAVE_MTSAFE_GETHOSTBYADDR)
+    elif test "`uname -s`" = "HP-UX" && \
+	      test "`uname -r|sed -e 's|B\.||' -e 's|\..*$||'`" -gt 10; then
+        # Starting with HPUX 11.00 (we believe), gethostbyX
+        # are actually MT-safe as they always return pointers
+	# from TSD instead of static storage.
+	AC_DEFINE(HAVE_MTSAFE_GETHOSTBYNAME)
+	AC_DEFINE(HAVE_MTSAFE_GETHOSTBYADDR)
     else
 	SC_TCL_GETHOSTBYNAME_R
 	SC_TCL_GETHOSTBYADDR_R
