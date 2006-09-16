@@ -24,7 +24,7 @@
 package require Tcl 8.4
 # Keep this in sync with pkgIndex.tcl and with the install directories
 # in Makefiles
-package provide http 2.5.2
+package provide http 2.5.3
 
 namespace eval http {
     variable http
@@ -50,7 +50,7 @@ namespace eval http {
 	    }
 	}
 	# These are handled specially
-	array set map { " " + \n %0d%0a }
+	set map(\n) %0d%0a
 	variable formMap [array get map]
     }
     init
