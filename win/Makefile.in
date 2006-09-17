@@ -388,6 +388,10 @@ tcltest: $(TCLTEST)
 
 binaries: @LIBRARIES@ $(TCLSH)
 
+# Special dependencies to make development easier
+tclOO.$(OBJEXT) tclOODefineCmds.$(OBJEXT) tclOOInfo.$(OBJEXT) tclProc.$(OBJEXT): \
+    $(GENERIC_DIR)/tclOO.h
+
 libraries:
 
 doc:
