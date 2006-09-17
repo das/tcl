@@ -1,8 +1,8 @@
 /*
- * tclOO.c --
+ * tclOO.h --
  *
- *	This file contains the structures for the object-system (NB:
- *	not Tcl_Obj, but ::oo)
+ *	This file contains the structure definitions and some of the function
+ *	declarations for the object-system (NB: not Tcl_Obj, but ::oo).
  *
  * Copyright (c) 2006 by Donal K. Fellows
  *
@@ -52,7 +52,7 @@ typedef struct {
 
 typedef struct Method {
     const Tcl_OOMethodType *typePtr;
-				/* The type of method.  If NULL, this is a
+				/* The type of method. If NULL, this is a
 				 * special flag record which is just used for
 				 * the setting of the flags field. */
     ClientData clientData;	/* Type-specific data. */
@@ -64,8 +64,6 @@ typedef struct Method {
 				/* The class that declares this method, or
 				 * NULL if it was declared directly on an
 				 * object. */
-    int epoch;			/* The epoch that this method originates
-				 * in. */ // TODO: Check if needed!
     int flags;			/* Assorted flags. Includes whether this
 				 * method is public/exported or not. */
 } Method;
