@@ -15,9 +15,6 @@
 #include "tclInt.h"
 #include "tclOO.h"
 
-#define FOREACH(var,ary) \
-	for(i=0 ; (i<(ary).num?((var=(ary).list[i]),1):0) ; i++)
-
 static int		InfoObjectArgsCmd(Object *oPtr, Tcl_Interp *interp,
 			    int objc, Tcl_Obj *const objv[]);
 static int		InfoObjectBodyCmd(Object *oPtr, Tcl_Interp *interp,

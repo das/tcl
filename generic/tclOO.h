@@ -270,6 +270,14 @@ MODULE_SCOPE Object *	TclOONewInstance(Tcl_Interp *interp, Class *clsPtr,
 MODULE_SCOPE void	TclOORemoveFromInstances(Object *oPtr, Class *cPtr);
 MODULE_SCOPE void	TclOORemoveFromSubclasses(Class *subPtr,
 			    Class *superPtr);
+
+/*
+ * A convenience macro for iterating through the lists used in the internal
+ * memory management of objects.
+ */
+
+#define FOREACH(var,ary) \
+	for(i=0 ; (i<(ary).num?((var=(ary).list[i]),1):0) ; i++)
 
 /*
  * Local Variables:
