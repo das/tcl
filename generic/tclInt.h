@@ -1161,6 +1161,17 @@ typedef struct ResolverScheme {
 				/* Pointer to next record in linked list. */
 } ResolverScheme;
 
+#ifdef TCL_TIP268
+/*
+ * TIP #268.
+ * Values for the selection mode, i.e the package require preferences.
+ */
+
+enum PkgPreferOptions {
+    PKG_PREFER_LATEST, PKG_PREFER_STABLE
+};
+#endif
+
 /*
  *----------------------------------------------------------------
  * This structure defines an interpreter, which is a collection of
@@ -1284,6 +1295,15 @@ typedef struct Interp {
 				 * require" commands for packages that
 				 * aren't described in packageTable. 
 				 * Malloc'ed, may be NULL. */
+#ifdef TCL_TIP268
+    /*
+     * TIP #268.
+     * The currently active selection mode,
+     * i.e the package require preferences.
+     */
+
+    int packagePrefer;          /* Current package selection mode. */
+#endif
 
     /*
      * Miscellaneous information:

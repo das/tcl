@@ -548,7 +548,12 @@ Tcltest_Init(interp)
 	"-appinitprocclosestderr", "-appinitprocsetrcfile", (char *) NULL
     };
 
+#ifndef TCL_TIP268
     if (Tcl_PkgProvide(interp, "Tcltest", TCL_VERSION) == TCL_ERROR) {
+#else
+    /* TIP #268: Full patchlevel instead of just major.minor */
+    if (Tcl_PkgProvide(interp, "Tcltest", TCL_PATCH_LEVEL) == TCL_ERROR) {
+#endif
         return TCL_ERROR;
     }
 
