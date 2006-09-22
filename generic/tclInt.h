@@ -1260,6 +1260,15 @@ typedef struct ResolverScheme {
 typedef struct LimitHandler LimitHandler;
 
 /*
+ * TIP #268.
+ * Values for the selection mode, i.e the package require preferences.
+ */
+
+enum PkgPreferOptions {
+    PKG_PREFER_LATEST, PKG_PREFER_STABLE
+};
+
+/*
  *----------------------------------------------------------------
  * This structure defines an interpreter, which is a collection of commands
  * plus other state information related to interpreting commands, such as
@@ -1374,6 +1383,15 @@ typedef struct Interp {
 				 * commands for packages that aren't described
 				 * in packageTable. Ckalloc'ed, may be
 				 * NULL. */
+
+    /*
+     * TIP #268.
+     * The currently active selection mode,
+     * i.e the package require preferences.
+     */
+
+    int packagePrefer;          /* Current package selection mode.
+				 */
 
     /*
      * Miscellaneous information:

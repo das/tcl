@@ -3571,6 +3571,14 @@ EXTERN int		Tcl_SetEncodingSearchPath _ANSI_ARGS_((
 EXTERN CONST char *	Tcl_GetEncodingNameFromEnvironment _ANSI_ARGS_((
 				Tcl_DString* bufPtr));
 #endif
+#ifndef Tcl_PkgRequireProc_TCL_DECLARED
+#define Tcl_PkgRequireProc_TCL_DECLARED
+/* 573 */
+EXTERN int		Tcl_PkgRequireProc _ANSI_ARGS_((Tcl_Interp * interp, 
+				CONST char * name, int objc, 
+				Tcl_Obj *CONST objv[], 
+				ClientData * clientDataPtr));
+#endif
 
 typedef struct TclStubHooks {
     struct TclPlatStubs *tclPlatStubs;
@@ -4185,6 +4193,7 @@ typedef struct TclStubs {
     Tcl_Obj* (*tcl_GetEncodingSearchPath) _ANSI_ARGS_((void)); /* 570 */
     int (*tcl_SetEncodingSearchPath) _ANSI_ARGS_((Tcl_Obj* searchPath)); /* 571 */
     CONST char * (*tcl_GetEncodingNameFromEnvironment) _ANSI_ARGS_((Tcl_DString* bufPtr)); /* 572 */
+    int (*tcl_PkgRequireProc) _ANSI_ARGS_((Tcl_Interp * interp, CONST char * name, int objc, Tcl_Obj *CONST objv[], ClientData * clientDataPtr)); /* 573 */
 } TclStubs;
 
 #ifdef __cplusplus
@@ -6516,6 +6525,10 @@ extern TclStubs *tclStubsPtr;
 #ifndef Tcl_GetEncodingNameFromEnvironment
 #define Tcl_GetEncodingNameFromEnvironment \
 	(tclStubsPtr->tcl_GetEncodingNameFromEnvironment) /* 572 */
+#endif
+#ifndef Tcl_PkgRequireProc
+#define Tcl_PkgRequireProc \
+	(tclStubsPtr->tcl_PkgRequireProc) /* 573 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

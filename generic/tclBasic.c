@@ -326,6 +326,12 @@ Tcl_CreateInterp(void)
 
     Tcl_InitHashTable(&iPtr->packageTable, TCL_STRING_KEYS);
     iPtr->packageUnknown = NULL;
+
+    /* TIP #268 */
+    iPtr->packagePrefer = (getenv ("TCL_PKG_PREFER_LATEST") == NULL ? 
+			   PKG_PREFER_STABLE   :
+			   PKG_PREFER_LATEST);
+
     iPtr->cmdCount = 0;
     TclInitLiteralTable(&(iPtr->literalTable));
     iPtr->compileEpoch = 0;
@@ -562,9 +568,10 @@ Tcl_CreateInterp(void)
 
     /*
      * Register Tcl's version number.
+     * TIP #268: Full patchlevel instead of just major.minor
      */
 
-    Tcl_PkgProvideEx(interp, "Tcl", TCL_VERSION, (ClientData) &tclStubs);
+    Tcl_PkgProvideEx(interp, "Tcl", TCL_PATCH_LEVEL, (ClientData) &tclStubs);
 
 #ifdef Tcl_InitStubs
 #undef Tcl_InitStubs

@@ -1070,6 +1070,7 @@ TclStubs tclStubs = {
     Tcl_GetEncodingSearchPath, /* 570 */
     Tcl_SetEncodingSearchPath, /* 571 */
     Tcl_GetEncodingNameFromEnvironment, /* 572 */
+    Tcl_PkgRequireProc, /* 573 */
 };
 
 /* !END!: Do not edit above this line. */
