@@ -1295,15 +1295,6 @@ typedef struct Interp {
 				 * require" commands for packages that
 				 * aren't described in packageTable. 
 				 * Malloc'ed, may be NULL. */
-#ifdef TCL_TIP268
-    /*
-     * TIP #268.
-     * The currently active selection mode,
-     * i.e the package require preferences.
-     */
-
-    int packagePrefer;          /* Current package selection mode. */
-#endif
 
     /*
      * Miscellaneous information:
@@ -1372,6 +1363,15 @@ typedef struct Interp {
     int tracesForbiddingInline; /* Count of traces (in the list headed by
 				 * tracePtr) that forbid inline bytecode
 				 * compilation */
+#ifdef TCL_TIP268
+    /*
+     * TIP #268.
+     * The currently active selection mode,
+     * i.e the package require preferences.
+     */
+
+    int packagePrefer;          /* Current package selection mode. */
+#endif
     /*
      * Statistical information about the bytecode compiler and interpreter's
      * operation.
