@@ -238,7 +238,7 @@ Tcl_ParseCommand(interp, string, numBytes, nested, parsePtr)
 				 * point to char after terminating one. */
     int scanned;
     
-    if ((string == NULL) && (numBytes>0)) {
+    if ((string == NULL) && (numBytes!=0)) {
 	if (interp != NULL) {
 	    Tcl_SetResult(interp, "can't parse a NULL pointer", TCL_STATIC);
 	}
