@@ -110,7 +110,9 @@ typedef struct String {
 #define STRING_UALLOC(numChars)	\
 	(numChars * sizeof(Tcl_UniChar))
 #define STRING_SIZE(ualloc) \
-	((unsigned) (sizeof(String) - sizeof(Tcl_UniChar) + ualloc))
+	((unsigned) ((ualloc) \
+                 ? sizeof(String) - sizeof(Tcl_UniChar) + (ualloc) \
+                 : sizeof(String)))
 #define GET_STRING(objPtr) \
 	((String *) (objPtr)->internalRep.otherValuePtr)
 #define SET_STRING(objPtr, stringPtr) \
