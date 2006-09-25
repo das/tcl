@@ -578,16 +578,16 @@ Tcl_CreateInterp()
 
     /*
      * Register Tcl's version number.
-     * TIP #268: Full patchlevel instead of just major.minor
+     * TIP#268: Expose information about its status,
+     *          for runtime switches in the core library
+     *          and tests.
      */
 
-#ifndef TCL_TIP268
     Tcl_PkgProvideEx(interp, "Tcl", TCL_VERSION, (ClientData) &tclStubs);
-#else
+
+#ifdef TCL_TIP268
     Tcl_SetVar2(interp, "tcl_platform", "tip,268", "1",
 	    TCL_GLOBAL_ONLY);
-
-    Tcl_PkgProvideEx(interp, "Tcl", TCL_PATCH_LEVEL, (ClientData) &tclStubs);
 #endif
 #ifdef Tcl_InitStubs
 #undef Tcl_InitStubs
