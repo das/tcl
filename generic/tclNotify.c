@@ -531,7 +531,11 @@ Tcl_DeleteEvents(
 	    if (tsdPtr->firstEventPtr == evPtr) {
 		tsdPtr->firstEventPtr = evPtr->nextPtr;
 	    } else {
-		prevPtr->nextPtr = evPtr->nextPtr;
+		if (prevPtr == NULL) {
+		    Tcl_Panic("badly connected event list");
+		} else {
+		    prevPtr->nextPtr = evPtr->nextPtr;
+		}
 	    }
 	    if (evPtr->nextPtr == NULL) {
 		tsdPtr->lastEventPtr = prevPtr;
