@@ -1323,7 +1323,7 @@ Tcl_StackChannel(interp, typePtr, instanceData, mask, prevChan)
     statePtr    = (ChannelState *) tsdPtr->firstCSPtr;
     prevChanPtr = ((Channel *) prevChan)->state->topChanPtr;
 
-    while (statePtr->topChanPtr != prevChanPtr) {
+    while ((statePtr != NULL) && (statePtr->topChanPtr != prevChanPtr)) {
 	statePtr = statePtr->nextCSPtr;
     }
 
