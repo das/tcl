@@ -561,7 +561,7 @@ Tcl_DeleteEvents(
 	    hold = evPtr;
 	    evPtr = evPtr->nextPtr;
 	    ckfree((char *) hold);
-
+
 	} else {
 
 	    /* Event is to be retained. */
