@@ -132,18 +132,22 @@ typedef struct Class {
     Object *thisPtr;		/* Reference to the object associated with
 				 * this class. */
     int flags;			/* Assorted flags. */
-    struct {
+    struct {			/* List of superclasses; length=space=num. */
 	int num;
 	struct Class **list;
-    } superclasses;		/* List of superclasses; length=space=num. */
-    struct {
+    } superclasses;
+    struct {			/* List of subclasses; length=num,space=size */
 	int num, size;
 	struct Class **list;
-    } subclasses;		/* List of subclasses; length=num,space=size */
-    struct {
+    } subclasses;
+    struct {			/* List of instances; length=num,space=size */
 	int num, size;
 	Object **list;
-    } instances;		/* List of instances; length=num,space=size */
+    } instances;
+    struct {			/* List of filter names; length=space=num. */
+	int num;
+	Tcl_Obj **list;
+    } filters;
     Tcl_HashTable classMethods;	/* Hash table of all methods. Hash maps from
 				 * the (Tcl_Obj*) method name to the (Method*)
 				 * method record. */

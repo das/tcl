@@ -2516,6 +2516,12 @@ MODULE_SCOPE int	Tcl_WhileObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[]);
 
+/*
+ *----------------------------------------------------------------
+ * Commands relating to OO support.
+ *----------------------------------------------------------------
+ */
+
 MODULE_SCOPE int	TclOOInit(Tcl_Interp *interp);
 MODULE_SCOPE int	TclOODefineObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
@@ -2544,9 +2550,11 @@ MODULE_SCOPE int	TclOODefineMethodObjCmd(ClientData clientData,
 MODULE_SCOPE int	TclOODefineMixinObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *const *objv);
+#ifdef SUPPORT_OO_PARAMETERS
 MODULE_SCOPE int	TclOODefineParameterObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *const *objv);
+#endif
 MODULE_SCOPE int	TclOODefineSuperclassObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *const *objv);
