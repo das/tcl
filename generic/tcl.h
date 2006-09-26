@@ -321,10 +321,6 @@ typedef long LONG;
  * Miscellaneous declarations.
  */
 
-#ifndef NULL
-#   define NULL 0
-#endif
-
 #ifndef _CLIENTDATA
 #   ifndef NO_VOID
 	typedef void *ClientData;
