@@ -983,7 +983,7 @@ Tcl_SetSystemEncoding(
 
 Tcl_Encoding
 Tcl_CreateEncoding(
-    Tcl_EncodingType *typePtr)	/* The encoding type. */
+    const Tcl_EncodingType *typePtr)	/* The encoding type. */
 {
     Tcl_HashEntry *hPtr;
     int new;
