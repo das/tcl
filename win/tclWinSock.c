@@ -2356,7 +2356,7 @@ SocketThread(LPVOID arg)
 
     SetEvent(tsdPtr->readyEvent);
 
-    return msg.wParam;
+    return (DWORD)msg.wParam;
 }
 
 

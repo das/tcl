@@ -486,7 +486,7 @@ StopCalibration( ClientData unused )
 char *
 TclpGetTZName(int dst)
 {
-    int len;
+    size_t len;
     char *zone, *p;
     TIME_ZONE_INFORMATION tz;
     Tcl_Encoding encoding;
@@ -533,7 +533,7 @@ TclpGetTZName(int dst)
 		}
 	    }
 	}
-	Tcl_ExternalToUtf(NULL, NULL, zone, len, 0, NULL, name,
+	Tcl_ExternalToUtf(NULL, NULL, zone, (int)len, 0, NULL, name,
 		sizeof(tsdPtr->tzName), NULL, NULL, NULL);
     }
     if (name[0] == '\0') {
