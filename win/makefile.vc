@@ -474,7 +474,7 @@ ldebug	= -release -opt:ref -opt:icf,3
 !endif
 
 ### Declarations common to all linker options
-lflags	= -nologo -machine:$(MACHINE) $(ldebug)
+lflags	= -nologo -machine:$(MACHINE) $(LINKERFLAGS) $(ldebug)
 
 !if $(FULLWARNINGS)
 lflags = $(lflags) -warn:3
