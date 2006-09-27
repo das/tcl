@@ -269,7 +269,7 @@ MODULE_SCOPE Tcl_Method	TclOONewClassMethod(Tcl_Interp *interp, Tcl_Class cls,
 			    const Tcl_OOMethodType *typePtr,
 			    ClientData clientData);
 MODULE_SCOPE Object *	TclOONewInstance(Tcl_Interp *interp, Class *clsPtr,
-			    char *name, int objc, Tcl_Obj *const *objv,
+			    const char *name, int objc, Tcl_Obj *const *objv,
 			    int skip);
 MODULE_SCOPE void	TclOORemoveFromInstances(Object *oPtr, Class *cPtr);
 MODULE_SCOPE void	TclOORemoveFromSubclasses(Class *subPtr,
