@@ -1,3 +1,4 @@
+# -*- tcl -*-
 # Commands covered:  pkg
 #
 # This file contains a collection of tests for one or more of the Tcl
@@ -956,6 +957,11 @@ foreach {r p vs vc} {
 
     incr n
 }
+
+test package-vcompare-2.0 {package vcompare at 32bit boundary} {
+    package vcompare [expr {1<<31}] [expr {(1<<31)-1}]
+} 1
+
 
 set n 0
 foreach {required provided satisfied} {
