@@ -1391,6 +1391,7 @@ CompareVersions(
 	o2 = *e2 ; *e2 = '\0';
 
 	res = strcmp (s1, s2);
+	res = (res < 0) ? -1 : (res ? 1 : 0);
 
 	*e1 = o1;
 	*e2 = o2;
