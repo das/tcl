@@ -26,7 +26,7 @@ struct CallContext;
  */
 
 typedef int (*Tcl_OOMethodCallProc)(ClientData clientData, Tcl_Interp *interp,
-	struct CallContext *contextPtr, int objc, Tcl_Obj *const *objv);
+	Tcl_ObjectContext objectContext, int objc, Tcl_Obj *const *objv);
 typedef void (*Tcl_OOMethodDeleteProc)(ClientData clientData);
 typedef int (*Tcl_OOMethodCloneProc)(ClientData oldClientData,
 	ClientData *newClientData);
@@ -69,7 +69,9 @@ typedef struct Method {
 } Method;
 
 /*
- * Procedure-like methods have the following extra information.
+ * Procedure-like methods have the following extra information. It is a
+ * single-field structure because this allows for future expansion without
+ * changing vast amounts of code.
  */
 
 typedef struct ProcedureMethod {
@@ -77,7 +79,9 @@ typedef struct ProcedureMethod {
 } ProcedureMethod;
 
 /*
- * Forwarded methods have the following extra information.
+ * Forwarded methods have the following extra information. It is a
+ * single-field structure because this allows for future expansion without
+ * changing vast amounts of code.
  */
 
 typedef struct ForwardMethod {

@@ -516,6 +516,7 @@ typedef struct Tcl_LoadHandle_ *Tcl_LoadHandle;
 typedef struct Tcl_Method_ *Tcl_Method;
 typedef struct Tcl_Mutex_ *Tcl_Mutex;
 typedef struct Tcl_Object_ *Tcl_Object;
+typedef struct Tcl_ObjectContext_ *Tcl_ObjectContext;
 typedef struct Tcl_Pid_ *Tcl_Pid;
 typedef struct Tcl_RegExp_ *Tcl_RegExp;
 typedef struct Tcl_ThreadDataKey_ *Tcl_ThreadDataKey;
