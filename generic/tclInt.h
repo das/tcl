@@ -2554,6 +2554,8 @@ MODULE_SCOPE int	TclCompileLlengthCmd(Tcl_Interp *interp,
 			    Tcl_Parse *parsePtr, struct CompileEnv *envPtr);
 MODULE_SCOPE int	TclCompileLsetCmd(Tcl_Interp* interp,
 			    Tcl_Parse* parsePtr, struct CompileEnv* envPtr);
+MODULE_SCOPE int	TclCompileNoOp(Tcl_Interp *interp, Tcl_Parse *parsePtr,
+			    struct CompileEnv *envPtr);
 MODULE_SCOPE int	TclCompileRegexpCmd(Tcl_Interp* interp,
 			    Tcl_Parse* parsePtr, struct CompileEnv* envPtr);
 MODULE_SCOPE int	TclCompileReturnCmd(Tcl_Interp *interp,
