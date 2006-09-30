@@ -317,6 +317,7 @@ TclIntStubs tclIntStubs = {
     NULL, /* 223 */
     TclGetPlatform, /* 224 */
     TclTraceDictPath, /* 225 */
+    TclObjBeingDeleted, /* 226 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
