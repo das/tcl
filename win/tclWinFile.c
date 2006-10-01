@@ -89,6 +89,9 @@
 #  define FSCTL_DELETE_REPARSE_POINT \
     CTL_CODE(FILE_DEVICE_FILE_SYSTEM, 43, METHOD_BUFFERED, FILE_SPECIAL_ACCESS)
 #endif
+#ifndef INVALID_FILE_ATTRIBUTES
+#define INVALID_FILE_ATTRIBUTES ((DWORD)-1)
+#endif
 
 /*
  * Maximum reparse buffer info size. The max user defined reparse data is
@@ -2116,7 +2119,7 @@ NativeStat(
 	     */
 
 	    attr = (*tclWinProcs->getFileAttributesProc)(nativePath);
-	    if (attr == 0xffffffff) {
+	    if (attr == INVALID_FILE_ATTRIBUTES) {
 		Tcl_SetErrno(ENOENT);
 		return -1;
 	    }
@@ -2659,7 +2662,7 @@ TclpObjNormalizePath(
 		 */
 
 		if (isDrive) {
-		    if (GetFileAttributesA(nativePath) == 0xffffffff) {
+		    if (GetFileAttributesA(nativePath) == INVALID_FILE_ATTRIBUTES) {
 			/*
 			 * File doesn't exist.
 			 */
@@ -2726,7 +2729,7 @@ TclpObjNormalizePath(
 
 			handle = FindFirstFileA(nativePath, &fData);
 			if (handle == INVALID_HANDLE_VALUE) {
-			    if (GetFileAttributesA(nativePath) == 0xffffffff) {
+			    if (GetFileAttributesA(nativePath) == INVALID_FILE_ATTRIBUTES) {
 				/*
 				 * File doesn't exist.
 				 */
