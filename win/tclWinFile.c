@@ -82,6 +82,9 @@
 #  define FSCTL_GET_REPARSE_POINT    CTL_CODE(FILE_DEVICE_FILE_SYSTEM, 42, METHOD_BUFFERED, FILE_ANY_ACCESS) 
 #  define FSCTL_DELETE_REPARSE_POINT CTL_CODE(FILE_DEVICE_FILE_SYSTEM, 43, METHOD_BUFFERED, FILE_SPECIAL_ACCESS) 
 #endif
+#ifndef INVALID_FILE_ATTRIBUTES
+#define INVALID_FILE_ATTRIBUTES ((DWORD)-1)
+#endif
 
 /* 
  * Maximum reparse buffer info size. The max user defined reparse
@@ -1851,7 +1854,7 @@ NativeStat(nativePath, statPtr, checkLinks)
 	     */
 
 	    attr = (*tclWinProcs->getFileAttributesProc)(nativePath);
-	    if (attr == 0xffffffff) {
+	    if (attr == INVALID_FILE_ATTRIBUTES) {
 		Tcl_SetErrno(ENOENT);
 		return -1;
 	    }
@@ -2355,7 +2358,7 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 		 * the current normalized path, if the file exists.
 		 */
 		if (isDrive) {
-		    if (GetFileAttributesA(nativePath) == 0xffffffff) {
+		    if (GetFileAttributesA(nativePath) == INVALID_FILE_ATTRIBUTES) {
 			/* File doesn't exist */
 			if (isDrive) {
 			    int len = WinIsReserved(path);
@@ -2385,7 +2388,7 @@ TclpObjNormalizePath(interp, pathPtr, nextCheckpoint)
 		    handle = FindFirstFileA(nativePath, &fData);
 		    if (handle == INVALID_HANDLE_VALUE) {
 			if (GetFileAttributesA(nativePath) 
-			    == 0xffffffff) {
+			    == INVALID_FILE_ATTRIBUTES) {
 			    /* File doesn't exist */
 			    Tcl_DStringFree(&ds);
 			    break;
