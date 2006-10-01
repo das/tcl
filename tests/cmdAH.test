@@ -1449,6 +1449,21 @@ test cmdAH-24.12 {Tcl_FileObjCmd: mtime and daylight savings} {
     expr {$newmtime == $time ? 1 : "$newmtime != $time"}
 } {1}
 
+# bug 1420432: setting mtime fails for directories on windows.
+test cmdAH-24.13 {Tcl_FileObjCmd: directory mtime} {
+    set dirname [file join [temporaryDirectory] tmp[pid]]
+    file delete -force $dirname
+    file mkdir $dirname
+    set res [catch {
+        set old [file mtime $dirname]
+        file mtime $dirname 0
+        set new [file mtime $dirname]
+        list $new [expr {$old != $new}]
+    } err]
+    file delete -force $dirname
+    list $res $err
+} {0 {0 1}}
+
 # owned
 
 test cmdAH-25.1 {Tcl_FileObjCmd: owned} {
