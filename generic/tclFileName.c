@@ -2130,6 +2130,10 @@ TclGlob(interp, pattern, unquotedPrefix, globFlags, types)
 	     */
 	    if (globFlags & TCL_GLOBMODE_DIR) {
 		Tcl_DStringAppend(&buffer,separators,1);
+		/* Try to borrow that separator from the tail */
+		if (*tail == *separators) {
+		    tail++;
+		}
 	    }
 	    prefixLen++;
 	}
