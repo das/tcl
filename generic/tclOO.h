@@ -137,6 +137,10 @@ typedef struct Object {
 #define ROOT_OBJECT 0x1000	/* Flag to say that this object is the root of
 				 * the class hierarchy and should be treated
 				 * specially during teardown. */
+#define FILTER_HANDLING 0x2000	/* Flag set when the object is processing a
+				 * filter; when set, filters are *not*
+				 * processed on the object, preventing nasty
+				 * recursive filtering problems. */
 
 /*
  * And the definition of a class. Note that every class also has an associated

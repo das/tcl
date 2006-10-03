@@ -520,6 +520,72 @@ test oo-12.3 {OO: filters} -setup {
 } -cleanup {
     Aclass destroy
 } -result {{calling ::Aobject->logFilter 1 2 3 4 5} 1 2 3 4 5 result=12345 {calling ::Aobject->logFilter } result= 12345 {}}
+test oo-12.4 {OO: filters} -setup {
+    oo::class create Aclass
+    Aclass create Aobject
+} -body {
+    oo::define Aclass {
+	method foo {} { return foo }
+	method Bar {} { return 1 }
+	method boo {} { if {[my Bar]} { next } { error forbidden } }
+	filter boo
+    }
+    Aobject foo
+} -cleanup {
+    Aclass destroy
+} -result foo
+test oo-12.5 {OO: filters} -setup {
+    oo::class create Aclass
+    Aclass create Aobject
+} -body {
+    oo::define Aclass {
+	method foo {} { return foo }
+	method Bar {} { return [my Bar2] }
+	method Bar2 {} { return 1 }
+	method boo {} { if {[my Bar]} { next } { error forbidden } }
+	filter boo
+    }
+    Aobject foo
+} -cleanup {
+    Aclass destroy
+} -result foo
+test oo-12.6 {OO: filters} -setup {
+    oo::class create Aclass
+    Aclass create Aobject
+} -body {
+    oo::define Aclass {
+	method foo {} { return foo }
+	method Bar {} { return [my Bar2] }
+	method Bar2 {} { return [my Bar3] }
+	method Bar3 {} { return 1 }
+	method boo {} { if {[my Bar]} { next } { error forbidden } }
+	filter boo
+    }
+    Aobject foo
+} -cleanup {
+    Aclass destroy
+} -result foo
+test oo-12.7 {OO: filters} -setup {
+    oo::class create Aclass
+    Aclass create Aobject
+} -body {
+    oo::define Aclass {
+	method outerfoo {} { return [my InnerFoo] }
+	method InnerFoo {} { return foo }
+	method Bar {} { return [my Bar2] }
+	method Bar2 {} { return [my Bar3] }
+	method Bar3 {} { return 1 }
+	method boo {} {
+	    lappend ::log [self target]
+	    if {[my Bar]} { next } else { error forbidden }
+	}
+	filter boo
+    }
+    set log {}
+    list [Aobject outerfoo] $log
+} -cleanup {
+    Aclass destroy
+} -result {foo {{::Aclass outerfoo} {::Aclass InnerFoo}}}
 
 test oo-13.1 {OO: changing an object's class} {
     oo::class create Aclass
