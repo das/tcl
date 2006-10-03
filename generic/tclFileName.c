@@ -2351,7 +2351,11 @@ TclDoGlob(interp, separators, headPtr, tail, types)
 	    break;
 	}
 	if (tclPlatform != TCL_PLATFORM_MAC) {
-	    Tcl_DStringAppend(headPtr, tail, 1);
+	    if (*tail == '\\') {
+		Tcl_DStringAppend(headPtr, separators, 1);
+	    } else {
+		Tcl_DStringAppend(headPtr, tail, 1);
+	    }
 	}
 	count++;
     }
