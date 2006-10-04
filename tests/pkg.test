@@ -1180,7 +1180,7 @@ test package-prefer-3.3 {set latest, keep} {
     prefer  latest latest
 } {stable latest latest}
 
-test package-prefer-3.3 {set stable, rejected} {
+test package-prefer-3.4 {set stable, rejected} {
     prefer latest stable
 } {stable latest latest}
 
