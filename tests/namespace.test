@@ -1123,7 +1123,7 @@ test namespace-29.5 {NamespaceInscopeCmd, has lappend semantics} {
     list [namespace inscope test_ns_1 cmd x y z] \
          [namespace eval test_ns_1 [concat cmd [list x y z]]]
 } {{::test_ns_1::cmd: v=747, args=x y z} {::test_ns_1::cmd: v=747, args=x y z}}
-test namespace-29.6 {NamespaceInscopeCmd, 1400572} {
+test namespace-29.6 {NamespaceInscopeCmd, 1400572} knownBug {
     namespace inscope test_ns_1 {info level 0}
 } {namespace inscope test_ns_1 {info level 0}}
 
