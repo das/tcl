@@ -1882,7 +1882,8 @@ GetCallContext(
     Tcl_HashEntry *hPtr;
     Tcl_HashTable doneFilters;
 
-    if (flags & (CONSTRUCTOR|DESTRUCTOR|FILTER_HANDLING) || (oPtr->flags & FILTER_HANDLING)) {
+    if (flags & (CONSTRUCTOR|DESTRUCTOR|FILTER_HANDLING)
+	    || (oPtr->flags & FILTER_HANDLING)) {
 	hPtr = NULL;
 	doFilters = 0;
     } else {
@@ -1907,8 +1908,8 @@ GetCallContext(
     contextPtr->flags = 0;
     contextPtr->skip = 2;
     if (flags & (PUBLIC_METHOD | CONSTRUCTOR | DESTRUCTOR | FILTER_HANDLING)) {
-	contextPtr->flags |=
-		flags & (PUBLIC_METHOD | CONSTRUCTOR | DESTRUCTOR | FILTER_HANDLING);
+	contextPtr->flags |= flags &
+		(PUBLIC_METHOD | CONSTRUCTOR | DESTRUCTOR | FILTER_HANDLING);
     }
     contextPtr->oPtr = oPtr;
     contextPtr->index = 0;
