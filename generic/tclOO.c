@@ -3141,9 +3141,10 @@ TclOOIsReachable(
 /*
  * ----------------------------------------------------------------------
  *
- * TclOOGetProcFromMethod --
+ * TclOOGetProcFromMethod, TclOOGetFwdFromMethod --
  *
- *	Utility function used for procedure-like method introspection.
+ *	Utility functions used for procedure-like and forwarding method
+ *	introspection.
  *
  * ----------------------------------------------------------------------
  */
@@ -3156,6 +3157,18 @@ TclOOGetProcFromMethod(
 	ProcedureMethod *pmPtr = mPtr->clientData;
 
 	return pmPtr->procPtr;
+    }
+    return NULL;
+}
+
+Tcl_Obj *
+TclOOGetFwdFromMethod(
+    Method *mPtr)
+{
+    if (mPtr->typePtr == &fwdMethodType) {
+	ForwardMethod *fwPtr = mPtr->clientData;
+
+	return fwPtr->prefixObj;
     }
     return NULL;
 }
