@@ -107,7 +107,7 @@ levels are allowed to vary. Examples:
 For more explanations see below.
 .RE
 .TP
-\fBpackage require \fR\fIpackage \fR?\frequirement...\fR?
+\fBpackage require \fR\fIpackage \fR?\fIrequirement...\fR?
 This command is typically invoked by Tcl code that wishes to use
 a particular version of a particular package.  The arguments
 indicate which package is wanted, and the command ensures that
