@@ -143,6 +143,15 @@ test append-4.20 {lappend command} {
     catch {unset x}
     lappend x(0) abc
 } {abc}
+unset x
+test append-4.21 {lappend command} {
+    set x \"
+    list [catch {lappend x} msg] $msg
+} {1 {unmatched open quote in list}}
+test append-4.22 {lappend command} {
+    set x \"
+    list [catch {lappend x abc} msg] $msg
+} {1 {unmatched open quote in list}}
 
 proc check {var size} {
     set l [llength $var]
