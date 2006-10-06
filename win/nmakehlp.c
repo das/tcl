@@ -407,7 +407,7 @@ ReadFromPipe(
   again:
     if (lastBuf - pi->buffer + CHUNK > STATICBUFFERSIZE) {
 	CloseHandle(pi->pipe);
-	return -1;
+	return (DWORD)-1;
     }
     ok = ReadFile(pi->pipe, lastBuf, CHUNK, &dwRead, 0L);
     if (!ok || dwRead == 0) {
