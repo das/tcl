@@ -121,10 +121,6 @@ DEBUGFLAGS     = $(DEBUGFLAGS) -RTC1
 DEBUGFLAGS     = $(DEBUGFLAGS) -GZ
 !endif
 
-!if [nmakehlp -c -RTCc]
-DEBUGFLAGS     = $(DEBUGFLAGS) -RTCc
-!endif
-
 COMPILERFLAGS  =-W3
 
 !if [nmakehlp -c -YX]
