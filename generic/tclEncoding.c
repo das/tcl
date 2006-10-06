@@ -2176,7 +2176,7 @@ UnicodeToUtfProc(clientData, src, srcLen, flags, statePtr, dst, dstLen,
 	 */
 	ch = *(Tcl_UniChar *)src;
 	if (ch && ch < 0x80) {
-	    *dst++ = *src;
+	    *dst++ = (ch & 0xFF);
 	} else {
 	    dst += Tcl_UniCharToUtf(ch, dst);
 	}
