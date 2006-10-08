@@ -1117,7 +1117,7 @@ TclInitCompiledLocals(
 /*
  *----------------------------------------------------------------------
  *
- * TclObjInterpProc --
+ * TclObjInterpProc, ObjInterpProcEx --
  *
  *	When a Tcl procedure gets invoked during bytecode evaluation, this
  *	object-based routine gets invoked to interpret the procedure.
@@ -1197,6 +1197,24 @@ ObjInterpProcEx(
 
     return TclObjInterpProcCore(interp, framePtr, objv[0], skip);
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclObjInterpProcCore --
+ *
+ *	When a Tcl procedure, procedure-like method or lambda term gets
+ *	invoked during bytecode evaluation, this object-based routine gets
+ *	invoked to interpret the body.
+ *
+ * Results:
+ *	A standard Tcl object result value.
+ *
+ * Side effects:
+ *	Depends on the commands in the procedure body.
+ *
+ *----------------------------------------------------------------------
+ */
 
 int
 TclObjInterpProcCore(
@@ -2134,6 +2152,23 @@ SetLambdaFromAny(
     objPtr->typePtr = &lambdaType;
     return TCL_OK;
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * Tcl_ApplyObjCmd --
+ *
+ *	This object-based function is invoked to process the "apply" Tcl
+ *	command. See the user documentation for details on what it does.
+ *
+ * Results:
+ *	A standard Tcl object result value.
+ *
+ * Side effects:
+ *	Depends on the content of the lambda term (i.e., objv[1]).
+ *
+ *----------------------------------------------------------------------
+ */
 
 int
 Tcl_ApplyObjCmd(
