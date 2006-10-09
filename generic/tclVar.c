@@ -758,12 +758,8 @@ TclLookupSimpleVar(
 	    flags = (flags | TCL_GLOBAL_ONLY) &
 		    ~(TCL_NAMESPACE_ONLY | LOOKUP_FOR_UPVAR);
 	} else {
-	    if (flags & LOOKUP_FOR_UPVAR) {
-		flags = (flags | TCL_NAMESPACE_ONLY) & ~LOOKUP_FOR_UPVAR;
-	    }
-	    if (flags & TCL_NAMESPACE_ONLY) {
-		*indexPtr = -2;
-	    }
+	    flags = (flags | TCL_NAMESPACE_ONLY) & ~LOOKUP_FOR_UPVAR;
+	    *indexPtr = -2;
 	}
 
 	/*
