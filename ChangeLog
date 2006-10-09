@@ -1,3 +1,7 @@
+==
+== updated to tag tip-278-20061009
+==
+	
 2006-10-09  Miguel Sofer  <msofer@users.sf.net>
 
 	* tests/*.test: updated all tests to refer explicitly to the
@@ -13,6 +17,10 @@
 	parseOld.test, pkg.test, proc-old.test, set.test, switch.test,
 	tcltest.test, thread.test, var.test, while-old.test, while.test.
 
+==	
+== BRANCH from tag tip-278-branch-root	
+=====================================================================
+	
 2006-10-06  Pat Thoyts  <patthoyts@users.sourceforge.net>
 
 	* win/rules.vc: bug #1571954: avoid /RTCc flag with MSVC8
