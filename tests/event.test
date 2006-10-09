@@ -365,8 +365,8 @@ test event-9.4 {Tcl_DeleteExitHandler procedure} {stdio testexithandler} {
 test event-10.1 {Tcl_Exit procedure} {stdio} {
     set child [open |[list [interpreter]] r+]
     puts $child "exit 3"
-    list [catch {close $child} msg] $msg [lindex $errorCode 0] \
-        [lindex $errorCode 2]
+    list [catch {close $child} msg] $msg [lindex $::errorCode 0] \
+        [lindex $::errorCode 2]
 } {1 {child process exited abnormally} CHILDSTATUS 3}
 
 test event-11.1 {Tcl_VwaitCmd procedure} {

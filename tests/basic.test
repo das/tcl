@@ -550,7 +550,7 @@ test basic-46.1 {Tcl_AllowExceptions: exception return not allowed} {stdio} {
 	fconfigure $f -buffering line
 	puts $f {fconfigure stdout -buffering line}
 	puts $f continue
-	puts $f {puts $errorInfo}
+	puts $f {puts $::errorInfo}
 	puts $f {puts DONE}
 	set newMsg {}
 	set msg {}

@@ -128,7 +128,7 @@ test apply-4.2 {error in arguments to lambda expression} {
 test apply-5.1 {runtime error in lambda expression} {
     set lambda [list {} {error foo}]
     set res [catch {apply $lambda}]
-    list $res $errorInfo
+    list $res $::errorInfo
 } {1 {foo
     while executing
 "error foo"
