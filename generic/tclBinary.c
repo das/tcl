@@ -1879,7 +1879,7 @@ ScanNumber(
 	 */
 
 	if ((flags & BINARY_UNSIGNED)) {
-	    return Tcl_NewWideIntObj((unsigned long)value);
+	    return Tcl_NewWideIntObj((Tcl_WideInt)(unsigned long)value);
 	} else {
 	    if ((value & (((unsigned int)1)<<31)) && (value > 0)) {
 		value -= (((unsigned int)1)<<31);
