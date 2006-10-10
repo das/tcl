@@ -1278,7 +1278,7 @@ test package-prefer-3.3 {set latest, keep} tip268 {
     prefer  latest latest
 } {stable latest latest}
 
-test package-prefer-3.3 {set stable, rejected} tip268 {
+test package-prefer-3.4 {set stable, rejected} tip268 {
     prefer latest stable
 } {stable latest latest}
 
