@@ -1112,6 +1112,7 @@ TclTeardownNamespace(
 	    nsPathPtr->nsPtr = NULL;
 	    nsPathPtr = nsPathPtr->nextPtr;
 	} while (nsPathPtr != NULL);
+	nsPtr->commandPathSourceList = NULL;
     }
 
     /*
