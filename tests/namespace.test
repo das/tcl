@@ -2402,6 +2402,11 @@ test namespace-51.15 {namespace resolution path control} -body {
     namespace delete ::test_ns_1
     namespace delete ::test_ns_2
 }
+test namespace-51.16 {Bug 1566526} {
+    interp create slave
+    slave eval namespace eval demo namespace path ::
+    interp delete slave
+} {}
 
 # TIP 181 - namespace unknown tests
 test namespace-52.1 {unknown: default handler ::unknown} {
