@@ -2598,6 +2598,10 @@ Tcl_FindNamespaceVar(
      * Find the namespace(s) that contain the variable.
      */
 
+    if (!(flags&TCL_GLOBAL_ONLY)) {
+	flags |= TCL_NAMESPACE_ONLY;
+    }
+    
     TclGetNamespaceForQualName(interp, name, (Namespace *) contextNsPtr,
 	    flags, &nsPtr[0], &nsPtr[1], &cxtNsPtr, &simpleName);
 

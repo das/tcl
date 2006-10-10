@@ -39,9 +39,9 @@ test namespace-2.2 {Tcl_GetCurrentNamespace} {
     set l {}
     lappend l [namespace current]
     namespace eval test_ns_1 {
-        lappend l [namespace current]
+        lappend ::l [namespace current]
         namespace eval foo {
-            lappend l [namespace current]
+            lappend ::l [namespace current]
         }
     }
     lappend l [namespace current]
