@@ -332,15 +332,19 @@ Tcl_PkgRequireEx(interp, name, version, exact, clientDataPtr)
 #ifdef TCL_TIP268
     /* Translate between old and new API, and defer to the new function. */
 
-    if (exact) {
-	ov = ExactRequirement (version);
+    if (version == NULL) {
+	res = Tcl_PkgRequireProc(interp, name, 0, NULL, clientDataPtr);
     } else {
-	ov = Tcl_NewStringObj (version,-1);
-    }
+	if (exact) {
+	    ov = ExactRequirement (version);
+	} else {
+	    ov = Tcl_NewStringObj (version,-1);
+	}
 
-    Tcl_IncrRefCount (ov);
-    res = Tcl_PkgRequireProc(interp, name, 1, &ov, clientDataPtr);
-    Tcl_DecrRefCount (ov);
+	Tcl_IncrRefCount (ov);
+	res = Tcl_PkgRequireProc(interp, name, 1, &ov, clientDataPtr);
+	Tcl_DecrRefCount (ov);
+    }
 
     if (res != TCL_OK) {
 	return NULL;
