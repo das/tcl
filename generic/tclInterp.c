@@ -1691,13 +1691,13 @@ AliasObjCmd(
     Tcl_Obj *CONST objv[])	/* Argument vector. */
 {
 #define ALIAS_CMDV_PREALLOC 10
-    Tcl_Interp *targetInterp;
-    Alias *aliasPtr;
+    Alias *aliasPtr = (Alias *) clientData;
+    Tcl_Interp *targetInterp = aliasPtr->targetInterp;
     int result, prefc, cmdc, i;
     Tcl_Obj **prefv, **cmdv;
     Tcl_Obj *cmdArr[ALIAS_CMDV_PREALLOC];
-    aliasPtr = (Alias *) clientData;
-    targetInterp = aliasPtr->targetInterp;
+    Interp *tPtr = (Interp *) targetInterp;	
+    int isRootEnsemble = (tPtr->ensembleRewrite.sourceObjs == NULL);
 
     /*
      * Append the arguments to the command prefix and invoke the command in
@@ -1724,6 +1724,20 @@ AliasObjCmd(
     for (i=0; i<cmdc; i++) {
 	Tcl_IncrRefCount(cmdv[i]);
     }
+
+    /*
+     * Use the ensemble rewriting machinery to insure correct error messages:
+     * only the source command should show, not the full target prefix. 
+     */
+    
+    if (isRootEnsemble) {
+	tPtr->ensembleRewrite.sourceObjs = objv;
+	tPtr->ensembleRewrite.numRemovedObjs = 1;
+	tPtr->ensembleRewrite.numInsertedObjs = prefc;
+    } else {
+	tPtr->ensembleRewrite.numInsertedObjs += prefc - 1;
+    }
+    
     if (targetInterp != interp) {
 	Tcl_Preserve((ClientData) targetInterp);
 	result = Tcl_EvalObjv(targetInterp, cmdc, cmdv, TCL_EVAL_INVOKE);
@@ -1732,6 +1746,13 @@ AliasObjCmd(
     } else {
 	result = Tcl_EvalObjv(targetInterp, cmdc, cmdv, TCL_EVAL_INVOKE);
     }
+
+    if (isRootEnsemble) {
+	tPtr->ensembleRewrite.sourceObjs = NULL;
+	tPtr->ensembleRewrite.numRemovedObjs = 0;
+	tPtr->ensembleRewrite.numInsertedObjs = 0;
+    }
+    
     for (i=0; i<cmdc; i++) {
 	Tcl_DecrRefCount(cmdv[i]);
     }
