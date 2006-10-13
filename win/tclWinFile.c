@@ -2486,12 +2486,16 @@ TclpObjLink(
     int linkAction)
 {
     if (toPtr != NULL) {
-	toPtr = Tcl_FSGetNormalizedPath(NULL, toPtr);
-    }
-    if (toPtr != NULL) {
 	int res;
-	TCHAR *LinkTarget = (TCHAR *) Tcl_FSGetNativePath(toPtr);
+	TCHAR *LinkTarget;
 	TCHAR *LinkSource = (TCHAR *) Tcl_FSGetNativePath(pathPtr);
+
+	toPtr = Tcl_FSGetNormalizedPath(NULL, toPtr);
+	if (toPtr == NULL) {
+	    return NULL;
+	}
+
+	LinkTarget = (TCHAR *) Tcl_FSGetNativePath(toPtr);
 
 	if (LinkSource == NULL || LinkTarget == NULL) {
 	    return NULL;
