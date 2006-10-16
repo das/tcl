@@ -2036,7 +2036,11 @@ SetLambdaFromAny(
 		Tcl_GetString(objPtr), NULL);
 	return TCL_ERROR;
     }
-    procPtr->refCount++;
+
+    /* CAREFUL: TclCreateProc returns refCount==1! [Bug 1578454]
+     * procPtr->refCount = 1;
+     */
+    
     procPtr->cmdPtr = NULL;
 
     /*
