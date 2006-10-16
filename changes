@@ -6391,6 +6391,8 @@ naked-fork safe on Tiger (steffen)
 
 2006-07-20 (bug fix) Darwin: execve() works iff event loop not yet run (steffen)
 
+2006-08-18 (bug fix) intermittent failures in TclUnixWaitForFile() (steffen)
+
 2006-08-18 (platform support) Darwin x86_64 (steffen)
 
 2006-08-21 (bug fix)[1457797] Darwin 64-bit notifier hang (steffen)
