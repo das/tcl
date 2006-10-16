@@ -919,15 +919,6 @@ Tcl_DeleteInterp(
     iPtr->compileEpoch++;
 
     /*
-     * TIP #219, Tcl Channel Reflection API. Discard a leftover state.
-     */
-
-    if (iPtr->chanMsg != NULL) {
-        Tcl_DecrRefCount (iPtr->chanMsg);
-	iPtr->chanMsg = NULL;
-    }
-
-    /*
      * Ensure that the interpreter is eventually deleted.
      */
 
@@ -980,6 +971,15 @@ DeleteInterpProc(
 
     if (!(iPtr->flags & DELETED)) {
 	Tcl_Panic("DeleteInterpProc called on interpreter not marked deleted");
+    }
+
+    /*
+     * TIP #219, Tcl Channel Reflection API. Discard a leftover state.
+     */
+
+    if (iPtr->chanMsg != NULL) {
+        Tcl_DecrRefCount (iPtr->chanMsg);
+	iPtr->chanMsg = NULL;
     }
 
     /*
