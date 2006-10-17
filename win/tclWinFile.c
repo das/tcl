@@ -172,8 +172,6 @@ typedef NET_API_STATUS NET_API_FUNCTION NETAPIBUFFERFREEPROC
 typedef NET_API_STATUS NET_API_FUNCTION NETGETDCNAMEPROC
 	(LPWSTR servername, LPWSTR domainname, LPBYTE *bufptr);
 
-extern Tcl_FSDupInternalRepProc NativeDupInternalRep;
-
 /*
  * Declarations for local procedures defined in this file:
  */
