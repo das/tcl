@@ -1742,7 +1742,6 @@ AliasObjCmd(
 	Tcl_Preserve((ClientData) targetInterp);
 	result = Tcl_EvalObjv(targetInterp, cmdc, cmdv, TCL_EVAL_INVOKE);
 	TclTransferResult(targetInterp, result, interp);
-	Tcl_Release((ClientData) targetInterp);
     } else {
 	result = Tcl_EvalObjv(targetInterp, cmdc, cmdv, TCL_EVAL_INVOKE);
     }
@@ -1753,6 +1752,10 @@ AliasObjCmd(
 	tPtr->ensembleRewrite.numInsertedObjs = 0;
     }
     
+    if (targetInterp != interp) {
+	Tcl_Release((ClientData) targetInterp);
+    }
+
     for (i=0; i<cmdc; i++) {
 	Tcl_DecrRefCount(cmdv[i]);
     }
