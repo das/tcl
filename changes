@@ -6839,4 +6839,4 @@ URL validity checking against RFC 2986 (hobbs)
 
 2006-10-13 (platform support) get stack size on Darwin (steffen)
 
---- Released 8.5a5, June XX, 2006 --- See ChangeLog for details ---
+--- Released 8.5a5, October 20, 2006 --- See ChangeLog for details ---
