@@ -50,12 +50,12 @@ ClientData		Tcl_ClassGetMetadata(Tcl_Class clazz,
 			    const Tcl_ObjectMetadataType *typePtr);
 void			Tcl_ClassSetMetadata(Tcl_Class clazz,
 			    const Tcl_ObjectMetadataType *typePtr,
-			    ClientData clientData);
+			    ClientData metadata);
 ClientData		Tcl_ObjectGetMetadata(Tcl_Object object,
 			    const Tcl_ObjectMetadataType *typePtr);
 void			Tcl_ObjectSetMetadata(Tcl_Object object,
 			    const Tcl_ObjectMetadataType *typePtr,
-			    ClientData clientData);
+			    ClientData metadata);
 // ^^^^^^^^^^^^^^^^^^^^^^ MOVE TO TCL.DECLS ^^^^^^^^^^^^^^^^^^^^^^
 
 /*
