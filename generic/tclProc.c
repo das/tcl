@@ -1733,7 +1733,7 @@ ProcessProcResultCode(
 		"\" outside of a loop", NULL);
     }
     if (isMethod & FRAME_IS_CONSTRUCTOR) {
-	if (interp->errorLine != 0xDEADBEEF) { /* hack! */
+	if ((unsigned int)(interp->errorLine) != 0xDEADBEEF) { /* hack! */
 	    CallContext *contextPtr =
 		    ((Interp *) interp)->varFramePtr->ooContextPtr;
 	    Method *mPtr = contextPtr->callChain[contextPtr->index].mPtr;
