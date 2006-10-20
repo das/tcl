@@ -424,7 +424,7 @@ EXTERN void		TclProcDeleteProc _ANSI_ARGS_((ClientData clientData));
 #define TclRenameCommand_TCL_DECLARED
 /* 96 */
 EXTERN int		TclRenameCommand _ANSI_ARGS_((Tcl_Interp * interp, 
-				CONST char * oldName, CONST char * newName));
+				char * oldName, char * newName));
 #endif
 #ifndef TclResetShadowedCmdRefs_TCL_DECLARED
 #define TclResetShadowedCmdRefs_TCL_DECLARED
@@ -1136,7 +1136,7 @@ typedef struct TclIntStubs {
     void (*tclProcDeleteProc) _ANSI_ARGS_((ClientData clientData)); /* 93 */
     void *reserved94;
     void *reserved95;
-    int (*tclRenameCommand) _ANSI_ARGS_((Tcl_Interp * interp, CONST char * oldName, CONST char * newName)); /* 96 */
+    int (*tclRenameCommand) _ANSI_ARGS_((Tcl_Interp * interp, char * oldName, char * newName)); /* 96 */
     void (*tclResetShadowedCmdRefs) _ANSI_ARGS_((Tcl_Interp * interp, Command * newCmdPtr)); /* 97 */
     int (*tclServiceIdle) _ANSI_ARGS_((void)); /* 98 */
     void *reserved99;

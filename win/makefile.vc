@@ -294,10 +294,6 @@ TCLOBJS = \
 	$(TMP_DIR)\tclNamesp.obj \
 	$(TMP_DIR)\tclNotify.obj \
 	$(TMP_DIR)\tclObj.obj \
-	$(TMP_DIR)\tclOO.obj \
-	$(TMP_DIR)\tclOOCall.obj \
-	$(TMP_DIR)\tclOODefineCmds.obj \
-	$(TMP_DIR)\tclOOInfo.obj \
 	$(TMP_DIR)\tclPanic.obj \
 	$(TMP_DIR)\tclParse.obj \
 	$(TMP_DIR)\tclParseExpr.obj \

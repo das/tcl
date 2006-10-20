@@ -357,17 +357,17 @@ Tcl_InfoObjCmd(clientData, interp, objc, objv)
     Tcl_Obj *CONST objv[];	/* Argument objects. */
 {
     static CONST char *subCmds[] = {
-	    "args", "body", "class", "cmdcount", "commands",
+	    "args", "body", "cmdcount", "commands",
 	    "complete", "default", "exists", "functions", "globals",
-	    "hostname", "level", "library", "loaded", "locals",
-	    "nameofexecutable", "object", "patchlevel", "procs",
+	    "hostname", "level", "library", "loaded",
+	    "locals", "nameofexecutable", "patchlevel", "procs",
 	    "script", "sharedlibextension", "tclversion", "vars",
 	    (char *) NULL};
     enum ISubCmdIdx {
-	    IArgsIdx, IBodyIdx, IClassIdx, ICmdCountIdx, ICommandsIdx,
+	    IArgsIdx, IBodyIdx, ICmdCountIdx, ICommandsIdx,
 	    ICompleteIdx, IDefaultIdx, IExistsIdx, IFunctionsIdx, IGlobalsIdx,
-	    IHostnameIdx, ILevelIdx, ILibraryIdx, ILoadedIdx, ILocalsIdx,
-	    INameOfExecutableIdx, IObjectIdx, IPatchLevelIdx, IProcsIdx,
+	    IHostnameIdx, ILevelIdx, ILibraryIdx, ILoadedIdx,
+	    ILocalsIdx, INameOfExecutableIdx, IPatchLevelIdx, IProcsIdx,
 	    IScriptIdx, ISharedLibExtensionIdx, ITclVersionIdx, IVarsIdx
     };
     int index, result;
@@ -389,9 +389,6 @@ Tcl_InfoObjCmd(clientData, interp, objc, objv)
 	    break;
 	case IBodyIdx:
 	    result = InfoBodyCmd(clientData, interp, objc, objv);
-	    break;
-	case IClassIdx:
-	    result = TclInfoClassCmd(clientData, interp, objc, objv);
 	    break;
 	case ICmdCountIdx:
 	    result = InfoCmdCountCmd(clientData, interp, objc, objv);
@@ -431,9 +428,6 @@ Tcl_InfoObjCmd(clientData, interp, objc, objv)
 	    break;
 	case INameOfExecutableIdx:
 	    result = InfoNameOfExecutableCmd(clientData, interp, objc, objv);
-	    break;
-	case IObjectIdx:
-	    result = TclInfoObjectCmd(clientData, interp, objc, objv);
 	    break;
 	case IPatchLevelIdx:
 	    result = InfoPatchLevelCmd(clientData, interp, objc, objv);
