@@ -2421,7 +2421,7 @@ typedef struct {
  * without breaking binary compatability.
  */
 
-#define TCL_OO_METHOD_VERSION_CURRENT 1
+#define TCL_OO_METADATA_VERSION_CURRENT 1
 
 #ifndef TCL_NO_DEPRECATED
     /*

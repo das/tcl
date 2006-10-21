@@ -331,7 +331,7 @@ AddClassMethodNames(
 	Class *mixinPtr;
 	int i;
 
-	// TODO: Beware of infinite loops!
+	/* TODO: Beware of infinite loops! */
 	FOREACH(mixinPtr, clsPtr->mixins) {
 	    AddClassMethodNames(mixinPtr, publicOnly, namesPtr);
 	}
@@ -621,7 +621,7 @@ AddSimpleChainToCallContext(
 		    contextPtr, doneFilters, flags);
 	}
 	FOREACH(superPtr, oPtr->selfCls->classHierarchy) {
-	    int j=i;// HACK: save index so we can nest FOREACHes
+	    int j=i;		/* HACK: save index so can nest FOREACHes. */
 	    FOREACH(mixinPtr, superPtr->mixins) {
 		AddSimpleClassChainToCallContext(mixinPtr, methodNameObj,
 			contextPtr, doneFilters, flags);

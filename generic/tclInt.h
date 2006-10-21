@@ -112,7 +112,7 @@ typedef int ptrdiff_t;
 #define NO_WIDE_TYPE
 #endif
 
-struct Foundation; // Forward decl for OO support
+struct Foundation;		/* Forward decl for OO support. */
 
 /*
  * The following procedures allow namespaces to be customized to support
@@ -1524,7 +1524,16 @@ typedef struct Interp {
 				 * NULL), takes precedence over a posix error
 				 * code returned by a channel operation. */
 
-    struct Foundation *ooFoundation; // OO support
+    /*
+     * TIP #257 - Object Orientation Programming Infrastructure.
+     */
+
+    struct Foundation *ooFoundation;
+				/* Pointer to the structure that manages the
+				 * core of the object-orientation support.
+				 * The actual definition of this structure is
+				 * in tclOO.h, so this is just an opaque
+				 * pointer if that file isn't #included. */
 
     /*
      * Statistical information about the bytecode compiler and interpreter's
@@ -2529,9 +2538,6 @@ MODULE_SCOPE int	TclOODefineObjCmd(ClientData clientData,
 MODULE_SCOPE int	TclOODefineConstructorObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *const *objv);
-MODULE_SCOPE int	TclOODefineCopyObjCmd(ClientData clientData,
-			    Tcl_Interp *interp, int objc,
-			    Tcl_Obj *const *objv);
 MODULE_SCOPE int	TclOODefineDestructorObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *const *objv);
@@ -3096,9 +3102,11 @@ MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int* bignum,
 #define TclIsNaN(d)		((d) != (d))
 #endif
 
-// MOVE ME TO tclInt.decls
+// vvvvvvvvvvvvvvvvvvvvvv MOVE TO TCLINT.DECLS vvvvvvvvvvvvvvvvvvvvvv
 void			TclSetNsPath(Namespace *nsPtr, int pathLength,
 			    Tcl_Namespace *pathAry[]);
+Tcl_Object		TclOOGetDefineCmdContext(Tcl_Interp *interp);
+// ^^^^^^^^^^^^^^^^^^^^^^ MOVE TO TCLINT.DECLS ^^^^^^^^^^^^^^^^^^^^^^
 
 #include "tclPort.h"
 #include "tclIntDecls.h"
