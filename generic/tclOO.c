@@ -35,9 +35,6 @@ static const struct {
     {"self.method", TclOODefineMethodObjCmd, 1},
     {"mixin", TclOODefineMixinObjCmd, 0},
     {"self.mixin", TclOODefineMixinObjCmd, 1},
-#ifdef SUPPORT_OO_PARAMETERS
-    {"parameter", TclOODefineParameterObjCmd, 0},
-#endif
     {"superclass", TclOODefineSuperclassObjCmd, 0},
     {"unexport", TclOODefineUnexportObjCmd, 0},
     {"self.unexport", TclOODefineUnexportObjCmd, 1},
@@ -266,6 +263,11 @@ TclOOInit(
 		fPtr->classCls, 0, NULL, argsPtr, bodyPtr);
     }
 
+    /*
+     * Finish setting up the [info object] and [info class] commands.
+     */
+
+    TclOOInitInfo(interp);
     return TCL_OK;
 }
 
@@ -2872,19 +2874,24 @@ SelfObjCmd(
 	    Tcl_AppendResult(interp, "not inside a filtering context", NULL);
 	    return TCL_ERROR;
 	} else {
-	    Method *mPtr =
-		    contextPtr->callChain[contextPtr->filterLength].mPtr;
-	    Tcl_Obj *cmdName;
+	    struct MInvoke *miPtr = &contextPtr->callChain[contextPtr->index];
+	    Tcl_Obj *result[3];
+	    Object *oPtr;
+	    const char *type;
 
-	    /* TODO: should indicate who has the filter registration, not the
-	     * first non-filter after the filter! */
-	    TclNewObj(cmdName);
-	    Tcl_GetCommandFullName(interp, contextPtr->oPtr->command,
-		    cmdName);
-	    Tcl_ListObjAppendElement(NULL, Tcl_GetObjResult(interp), cmdName);
-	    /* TODO: Add what type of filter this is */
-	    Tcl_ListObjAppendElement(NULL, Tcl_GetObjResult(interp),
-		    mPtr->namePtr);
+	    if (miPtr->filterDeclarer != NULL) {
+		oPtr = miPtr->filterDeclarer->thisPtr;
+		type = "class";
+	    } else {
+		oPtr = contextPtr->oPtr;
+		type = "object";
+	    }
+
+	    TclNewObj(result[0]);
+	    Tcl_GetCommandFullName(interp, oPtr->command, result[0]);
+	    result[1] = Tcl_NewStringObj(type, -1);
+	    result[2] = miPtr->mPtr->namePtr;
+	    Tcl_SetObjResult(interp, Tcl_NewListObj(3, result));
 	    return TCL_OK;
 	}
     case SELF_CALLER:
