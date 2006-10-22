@@ -183,8 +183,8 @@ TclOODefineConstructorObjCmd(
 
 	Method *mPtr;
 
-	mPtr = TclOONewProcClassMethod(interp, clsPtr, 1, NULL, objv[1],
-		objv[2]);
+	mPtr = TclOONewProcClassMethod(interp, clsPtr, PUBLIC_METHOD, NULL,
+		objv[1], objv[2]);
 	if (mPtr == NULL) {
 	    return TCL_ERROR;
 	}
@@ -245,8 +245,8 @@ TclOODefineDestructorObjCmd(
 
 	Method *mPtr;
 
-	mPtr = TclOONewProcClassMethod(interp, clsPtr, 1, NULL, NULL,
-		objv[1]);
+	mPtr = TclOONewProcClassMethod(interp, clsPtr, PUBLIC_METHOD, NULL,
+		NULL, objv[1]);
 	if (mPtr == NULL) {
 	    return TCL_ERROR;
 	}
@@ -449,7 +449,8 @@ TclOODefineForwardObjCmd(
 	return TCL_ERROR;
     }
     isSelfForward |= (oPtr->classPtr == NULL);
-    isPublic = Tcl_StringMatch(TclGetString(objv[1]), "[a-z]*");
+    isPublic = Tcl_StringMatch(TclGetString(objv[1]), "[a-z]*")
+	    ? PUBLIC_METHOD : 0;
 
     /*
      * Create the method structure.
@@ -499,7 +500,8 @@ TclOODefineMethodObjCmd(
 	 */
 
 	Method *mPtr;
-	int isPublic = Tcl_StringMatch(TclGetString(objv[1]), "[a-z]*");
+	int isPublic = Tcl_StringMatch(TclGetString(objv[1]), "[a-z]*")
+		? PUBLIC_METHOD : 0;
 
 	if (isSelfMethod) {
 	    mPtr = TclOONewProcMethod(interp, oPtr, isPublic, objv[1],

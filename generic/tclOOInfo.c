@@ -503,12 +503,15 @@ InfoObjectMethodsCmd(
 	int len;
 	const char *str = Tcl_GetStringFromObj(objv[2], &len);
 
-	if (len < 2 || strncmp("-private", str, (unsigned)len)) {
+	if (len == 13 && !strcmp("-localprivate", str)) {
+	    flag = PRIVATE_METHOD;
+	} else if (len < 2 || strncmp("-private", str, (unsigned)len)) {
 	    Tcl_AppendResult(interp, "unknown switch \"", str,
 		    "\": must be -private", NULL);
 	    return TCL_ERROR;
+	} else {
+	    flag = 0;
 	}
-	flag = 0;
     }
 
     FOREACH_HASH(namePtr, mPtr, &oPtr->methods) {
@@ -916,12 +919,15 @@ InfoClassMethodsCmd(
 	int len;
 	const char *str = Tcl_GetStringFromObj(objv[2], &len);
 
-	if (len < 2 || strncmp("-private", str, (unsigned) len)) {
+	if (len == 13 && !strcmp("-localprivate", str)) {
+	    flag = PRIVATE_METHOD;
+	} else if (len < 2 || strncmp("-private", str, (unsigned)len)) {
 	    Tcl_AppendResult(interp, "unknown switch \"", str,
 		    "\": must be -private", NULL);
 	    return TCL_ERROR;
+	} else {
+	    flag = 0;
 	}
-	flag = 0;
     }
 
     FOREACH_HASH(namePtr, mPtr, &clsPtr->classMethods) {
