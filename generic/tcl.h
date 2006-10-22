@@ -1394,7 +1394,9 @@ typedef struct Tcl_HashSearch {
  * Macro to use new extended version of Tcl_InitHashTable.
  */
 #   define Tcl_InitHashTable(tablePtr, keyType) \
-	Tcl_InitHashTableEx(tablePtr, keyType, NULL)
+	Tcl_InitHashTableEx((tablePtr), (keyType), NULL)
+#   define Tcl_FindHashEntry(tablePtr, key) \
+        Tcl_CreateHashEntry((tablePtr), (key), NULL)
 #endif /* TCL_PRESERVE_BINARY_COMPATABILITY */
 
 /*
