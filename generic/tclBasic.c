@@ -362,6 +362,8 @@ Tcl_CreateInterp(void)
     if (iPtr->globalNsPtr == NULL) {
 	Tcl_Panic("Tcl_CreateInterp: can't create global namespace");
     }
+    iPtr->callObjc = 0;
+    iPtr->callObjv = NULL;
 
     /*
      * Initialise the rootCallframe. It cannot be allocated on the stack, as
@@ -3299,6 +3301,16 @@ TclEvalObjvInternal(
 	} else {
 	    varFramePtr->nsPtr = iPtr->globalNsPtr;
 	}
+    }
+
+
+    /*
+     * Record the calling objc/objv except if requested not to
+     */
+    
+    if (!(flags & TCL_EVAL_NOREWRITE)) {
+	iPtr->callObjc = objc;
+	iPtr->callObjv = objv;
     }
 
     /*

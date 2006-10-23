@@ -1198,9 +1198,6 @@ ObjInterpProcEx(
 	return result;
     }
 
-
-    framePtr->objc = objc;
-    framePtr->objv = objv;	/* ref counts for args are incremented below */
     framePtr->procPtr = procPtr;
 
     /*

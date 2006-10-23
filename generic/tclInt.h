@@ -1529,8 +1529,16 @@ typedef struct Interp {
      * i.e the package require preferences.
      */
 
-    int packagePrefer;          /* Current package selection mode.
-				 */
+    int packagePrefer;          /* Current package selection mode. */
+
+    /*
+     * Let [info level] know about ensemble rewriting
+     */
+
+    int callObjc;
+    Tcl_Obj *CONST *callObjv;
+    
+    
     /*
      * Statistical information about the bytecode compiler and interpreter's
      * operation.
