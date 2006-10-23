@@ -3424,8 +3424,7 @@ TclEvalObjvInternal(
     iPtr->cmdCount++;
     if (code == TCL_OK && traceCode == TCL_OK && !Tcl_LimitExceeded(interp)) {
 	if (!(flags & TCL_EVAL_INVOKE) &&
-		(iPtr->ensembleRewrite.sourceObjs != NULL) &&
-		!Tcl_IsEnsemble((Tcl_Command) cmdPtr)) {
+		(iPtr->ensembleRewrite.sourceObjs != NULL)) {
 	    iPtr->ensembleRewrite.sourceObjs = NULL;
 	}
 	code = (*cmdPtr->objProc)(cmdPtr->objClientData, interp, objc, objv);
