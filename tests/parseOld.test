@@ -352,7 +352,7 @@ test parseOld-10.13 {syntax errors} {
 # since MetroWerks may some day fix this.
 
 test parseOld-10.14 {syntax errors} {
-    list [catch {eval \$x[format "%01000d" 0](} msg] $msg $errorInfo
+    list [catch {eval \$x[format "%01000d" 0](} msg] $msg $::errorInfo
 } {1 {missing )} {missing )
     while executing
 "$x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000..."

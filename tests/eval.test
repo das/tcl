@@ -47,7 +47,7 @@ test eval-2.5 {error in eval'ed command: setting errorInfo} {
 	set a 1
 	error "test error"
     }} msg
-    set errorInfo
+    set ::errorInfo
 } "test error
     while executing
 \"error \"test error\"\"

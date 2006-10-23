@@ -103,7 +103,7 @@ test while-old-4.5 {errors in while loops} {
 } {1 {expected boolean value but got "foo"}}
 test while-old-4.6 {errors in while loops} {
     set err [catch {while {1} {error "loop aborted"}} msg]
-    list $err $msg $errorInfo
+    list $err $msg $::errorInfo
 } {1 {loop aborted} {loop aborted
     while executing
 "error "loop aborted""}}

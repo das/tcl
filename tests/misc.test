@@ -53,7 +53,7 @@ test misc-1.2 {error in variable ref. in command in array reference} {
 	# this is a bogus comment
     "
     set msg {}
-    join [list [catch tstProc msg] $msg $errorInfo] \n
+    join [list [catch tstProc msg] $msg $::errorInfo] \n
 } [subst -novariables -nocommands {1
 missing close-brace for variable name
 missing close-brace for variable name

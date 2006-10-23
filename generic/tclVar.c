@@ -2365,7 +2365,12 @@ Tcl_LappendObjCmd(
 	    if (newValuePtr == NULL) {
 		return TCL_ERROR;
 	    }
-	}
+	} else {
+	    result = Tcl_ListObjLength(interp, newValuePtr, &numElems);
+	    if (result != TCL_OK) {
+		return result;
+	    }
+	}	    
     } else {
 	/*
 	 * We have arguments to append. We used to call Tcl_SetVar2 to append

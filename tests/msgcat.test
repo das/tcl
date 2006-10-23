@@ -19,8 +19,8 @@ if {[catch {package require tcltest 2}]} {
     puts stderr "Skipping tests in [info script].  tcltest 2 required."
     return
 }
-if {[catch {package require msgcat 1.4.1}]} {
-    puts stderr "Skipping tests in [info script].  No msgcat 1.4.1 found to test."
+if {[catch {package require msgcat 1.4.2}]} {
+    puts stderr "Skipping tests in [info script].  No msgcat 1.4.2 found to test."
     return
 }
 
@@ -54,11 +54,15 @@ namespace eval ::msgcat::test {
     foreach setVars [PowerSet $envVars] { 
 	set result [string tolower [lindex $setVars 0]]
 	if {[string length $result] == 0} {
-	    set result c
+	    if {[info exists ::tcl::mac::locale]} {
+		set result [string tolower $::tcl::mac::locale]
+	    } else {
+		set result c
+	    }
 	}
-	test msgcat-0.$count {
-	    locale initialization from environment variables
-	} -setup {
+	test msgcat-0.$count [list \
+	    locale initialization from environment variables $setVars \
+	] -setup {
 	    variable var
 	    foreach var $envVars {
 		catch {variable $var $::env($var)}

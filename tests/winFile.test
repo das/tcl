@@ -95,23 +95,32 @@ proc cacls {fname args} {
 
 # dir/q output:
 # 2003-11-03  20:36                  598 OCTAVIAN\benny         filename.txt
+# Modified to cope with Msys environment and use ls -l.
 proc getuser {fname} {
+    global env
     set tryname $fname
     if {[file isdirectory $fname]} {
 	set tryname [file dirname $fname]
     }
-    set tail [file tail $tryname]
-    set dirtext [exec cmd /c dir /q [file nativename $fname]]
     set owner ""
-    foreach line [split $dirtext "\n"] {
-	if {[string match -nocase "* $tail" $line]} {
-	    set attrs [string range $line \
-	      0 end-[string length $tail]]
-	    regexp { [^ \\]+\\.*$} $attrs owner
-	    set owner [string trim $owner]
-	}
+    set tail [file tail $tryname]
+    if {[info exists env(OSTYPE)] && [string equal $env(OSTYPE) "msys"]} {
+        set dirtext [exec ls -l $fname]
+        foreach line [split $dirtext "\n"] {
+            set owner [lindex $line 2]
+        }
+    } else {
+        set dirtext [exec cmd /c dir /q [file nativename $fname]]
+        foreach line [split $dirtext "\n"] {
+            if {[string match -nocase "* $tail" $line]} {
+                set attrs [string range $line \
+                               0 end-[string length $tail]]
+                regexp { [^ \\]+\\.*$} $attrs owner
+                set owner [string trim $owner]
+            }
+        }
     }
-    if {"" == "$owner"} {
+    if {[string length $owner] == 0} {
 	error "getuser: Owner not found in output of dir/q"
     }
     return $owner

@@ -1151,9 +1151,7 @@ Tcl_VwaitObjCmd(
     while (!done && foundEvent) {
 	foundEvent = Tcl_DoOneEvent(TCL_ALL_EVENTS);
 	if (Tcl_LimitExceeded(interp)) {
-	    Tcl_ResetResult(interp);
-	    Tcl_AppendResult(interp, "limit exceeded", NULL);
-	    return TCL_ERROR;
+	    break;
 	}
     }
     Tcl_UntraceVar(interp, nameString,
@@ -1169,6 +1167,10 @@ Tcl_VwaitObjCmd(
     if (!foundEvent) {
 	Tcl_AppendResult(interp, "can't wait for variable \"", nameString,
 		"\": would wait forever", NULL);
+	return TCL_ERROR;
+    }
+    if (!done) {
+	Tcl_AppendResult(interp, "limit exceeded", NULL);
 	return TCL_ERROR;
     }
     return TCL_OK;

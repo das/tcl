@@ -890,6 +890,10 @@ declare 225 generic {
 	    int keyc, Tcl_Obj *CONST keyv[], int flags)
 }
 
+declare 226 generic {
+    int TclObjBeingDeleted(Tcl_Obj *objPtr)
+}
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are

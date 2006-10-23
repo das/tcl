@@ -50,7 +50,7 @@ InitializeHostName(
 
     (void *) memset((void *) &u, (int) 0, sizeof(struct utsname));
     if (uname(&u) > -1) {				/* INTL: Native. */
-        hp = gethostbyname(u.nodename);			/* INTL: Native. */
+        hp = TclpGetHostByName(u.nodename);			/* INTL: Native. */
 	if (hp == NULL) {
 	    /*
 	     * Sometimes the nodename is fully qualified, but gets truncated
@@ -65,7 +65,7 @@ InitializeHostName(
 
 		memcpy(node, u.nodename, (size_t) (dot - u.nodename));
 		node[dot - u.nodename] = '\0';
-		hp = gethostbyname(node);
+		hp = TclpGetHostByName(node);
 		ckfree(node);
 	    }
 	}

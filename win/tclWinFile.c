@@ -89,6 +89,9 @@
 #  define FSCTL_DELETE_REPARSE_POINT \
     CTL_CODE(FILE_DEVICE_FILE_SYSTEM, 43, METHOD_BUFFERED, FILE_SPECIAL_ACCESS)
 #endif
+#ifndef INVALID_FILE_ATTRIBUTES
+#define INVALID_FILE_ATTRIBUTES ((DWORD)-1)
+#endif
 
 /*
  * Maximum reparse buffer info size. The max user defined reparse data is
@@ -2116,7 +2119,7 @@ NativeStat(
 	     */
 
 	    attr = (*tclWinProcs->getFileAttributesProc)(nativePath);
-	    if (attr == 0xffffffff) {
+	    if (attr == INVALID_FILE_ATTRIBUTES) {
 		Tcl_SetErrno(ENOENT);
 		return -1;
 	    }
@@ -2483,12 +2486,16 @@ TclpObjLink(
     int linkAction)
 {
     if (toPtr != NULL) {
-	toPtr = Tcl_FSGetNormalizedPath(NULL, toPtr);
-    }
-    if (toPtr != NULL) {
 	int res;
-	TCHAR *LinkTarget = (TCHAR *) Tcl_FSGetNativePath(toPtr);
+	TCHAR *LinkTarget;
 	TCHAR *LinkSource = (TCHAR *) Tcl_FSGetNativePath(pathPtr);
+	Tcl_Obj *normalizedToPtr = Tcl_FSGetNormalizedPath(NULL, toPtr);
+
+	if (normalizedToPtr == NULL) {
+	    return NULL;
+	}
+
+	LinkTarget = (TCHAR *) Tcl_FSGetNativePath(normalizedToPtr);
 
 	if (LinkSource == NULL || LinkTarget == NULL) {
 	    return NULL;
@@ -2659,7 +2666,7 @@ TclpObjNormalizePath(
 		 */
 
 		if (isDrive) {
-		    if (GetFileAttributesA(nativePath) == 0xffffffff) {
+		    if (GetFileAttributesA(nativePath) == INVALID_FILE_ATTRIBUTES) {
 			/*
 			 * File doesn't exist.
 			 */
@@ -2726,7 +2733,7 @@ TclpObjNormalizePath(
 
 			handle = FindFirstFileA(nativePath, &fData);
 			if (handle == INVALID_HANDLE_VALUE) {
-			    if (GetFileAttributesA(nativePath) == 0xffffffff) {
+			    if (GetFileAttributesA(nativePath) == INVALID_FILE_ATTRIBUTES) {
 				/*
 				 * File doesn't exist.
 				 */
@@ -3355,10 +3362,21 @@ TclpUtime(
 {
     int res = 0;
     HANDLE fileHandle;
+    CONST TCHAR *native;
+    DWORD attr = 0;
+    DWORD flags = FILE_ATTRIBUTE_NORMAL;
     FILETIME lastAccessTime, lastModTime;
 
     FromCTime(tval->actime, &lastAccessTime);
     FromCTime(tval->modtime, &lastModTime);
+    
+    native = (CONST TCHAR *)Tcl_FSGetNativePath(pathPtr);
+
+    attr = (*tclWinProcs->getFileAttributesProc)(native);
+
+    if (attr != INVALID_FILE_ATTRIBUTES && attr & FILE_ATTRIBUTE_DIRECTORY) {
+	flags = FILE_FLAG_BACKUP_SEMANTICS;
+    }
 
     /*
      * We use the native APIs (not 'utime') because there are some daylight
@@ -3366,9 +3384,8 @@ TclpUtime(
      */
 
     fileHandle = (tclWinProcs->createFileProc) (
-	    (CONST TCHAR *) Tcl_FSGetNativePath(pathPtr),
-	    FILE_WRITE_ATTRIBUTES, 0, NULL, OPEN_EXISTING,
-	    FILE_ATTRIBUTE_NORMAL, NULL);
+	    native, FILE_WRITE_ATTRIBUTES, 0, NULL,
+	    OPEN_EXISTING, flags, NULL);
 
     if (fileHandle == INVALID_HANDLE_VALUE ||
 	    !SetFileTime(fileHandle, NULL, &lastAccessTime, &lastModTime)) {

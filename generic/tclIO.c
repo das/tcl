@@ -1274,7 +1274,7 @@ Tcl_StackChannel(
     statePtr = (ChannelState *) tsdPtr->firstCSPtr;
     prevChanPtr = ((Channel *) prevChan)->state->topChanPtr;
 
-    while (statePtr->topChanPtr != prevChanPtr) {
+    while ((statePtr != NULL) && (statePtr->topChanPtr != prevChanPtr)) {
 	statePtr = statePtr->nextCSPtr;
     }
 
@@ -3995,6 +3995,9 @@ Tcl_GetsObj(
 
   gotEOL:
     bufPtr = gs.bufPtr;
+    if (bufPtr == NULL) {
+	Tcl_Panic("Tcl_GetsObj: gotEOL reached with bufPtr==NULL");
+    }
     statePtr->inputEncodingState = gs.state;
     Tcl_ExternalToUtf(NULL, gs.encoding, bufPtr->buf + bufPtr->nextRemoved,
 	    gs.rawRead, statePtr->inputEncodingFlags,
@@ -4021,6 +4024,9 @@ Tcl_GetsObj(
 
   restore:
     bufPtr = statePtr->inQueueHead;
+    if (bufPtr == NULL) {
+	Tcl_Panic("Tcl_GetsObj: restore reached with bufPtr==NULL");
+    }
     bufPtr->nextRemoved = oldRemoved;
 
     for (bufPtr = bufPtr->nextPtr; bufPtr != NULL; bufPtr = bufPtr->nextPtr) {

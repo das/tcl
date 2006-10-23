@@ -39,9 +39,10 @@ variable so that references to \fIdestName\fR
 refer to the other variable.  Must not currently exist except as
 an upvar-ed variable.
 .AP int flags in
-Either \fBTCL_GLOBAL_ONLY\fR or 0;  if non-zero, then \fIdestName\fR is
-a global variable;  otherwise it is a local to the current procedure
-(or global if no procedure is active).
+One of \fBTCL_GLOBAL_ONLY\fR, \fBTCL_NAMESPACE_ONLY\fR or 0;  if non-zero,
+then \fIdestName\fR is a global or namespace variable;  otherwise it is
+local to the current procedure (or current namespace if no procedure is
+active). 
 .AP "const char" *name1 in
 First part of source variable's name (scalar name, or name of array
 without array index).

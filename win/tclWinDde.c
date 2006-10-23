@@ -378,7 +378,7 @@ DdeSetServerName(
 	    }
 	}
 	Tcl_DStringSetLength(&dString,
-		offset + strlen(Tcl_DStringValue(&dString)+offset));
+		offset + (int)strlen(Tcl_DStringValue(&dString)+offset));
     }
 
     /*

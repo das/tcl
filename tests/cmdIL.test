@@ -206,7 +206,7 @@ test cmdIL-3.15 {SortCompare procedure, -command option} -body {
     proc cmp {a b} {
 	error "comparison error"
     }
-    list [catch {lsort -command cmp {48 6}} msg] $msg $errorInfo
+    list [catch {lsort -command cmp {48 6}} msg] $msg $::errorInfo
 } -cleanup {
     rename cmp ""
 } -result {1 {comparison error} {comparison error

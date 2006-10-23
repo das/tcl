@@ -42,7 +42,9 @@ int
 TclTommath_Init(
     Tcl_Interp* interp		/* Tcl interpreter */
 ) {
-    if (Tcl_PkgProvideEx(interp, "tcl::tommath", TCL_VERSION,
+    /* TIP #268: Full patchlevel instead of just major.minor */
+
+    if (Tcl_PkgProvideEx(interp, "tcl::tommath", TCL_PATCH_LEVEL,
 			 (ClientData)&tclTomMathStubs) != TCL_OK) {
 	return TCL_ERROR;
     }

@@ -110,6 +110,9 @@ script.  The \fIobjc\fR and \fIobjv\fR arguments contain the values
 of the words for the Tcl command, one word in each object in
 \fIobjv\fR.  \fBTcl_EvalObjv\fR evaluates the command and returns
 a completion code and result just like \fBTcl_EvalObjEx\fR.
+The caller of \fBTcl_EvalObjv\fR has to manage the reference count of the
+elements of \fIobjv\fR, insuring that the objects are valid until
+\fBTcl_EvalObjv\fR returns.  
 .PP
 \fBTcl_Eval\fR is similar to \fBTcl_EvalObjEx\fR except that the script to
 be executed is supplied as a string instead of an object and no compilation

@@ -81,7 +81,7 @@ test load-2.4 {loading with no _SafeInit procedure} [list $dll $loaded] {
 test load-3.1 {error in _Init procedure, same interpreter} \
 	[list $dll $loaded] {
     list [catch {load [file join $testDir pkge$ext] pkge} msg] \
-	    $msg $errorInfo $errorCode
+	    $msg $::errorInfo $::errorCode
 } {1 {couldn't open "non_existent": no such file or directory} {couldn't open "non_existent": no such file or directory
     while executing
 "open non_existent"
@@ -93,10 +93,10 @@ test load-3.2 {error in _Init procedure, slave interpreter} \
 	[list $dll $loaded] {
     catch {interp delete x}
     interp create x
-    set errorCode foo
-    set errorInfo bar
+    set ::errorCode foo
+    set ::errorInfo bar
     set result [list [catch {load [file join $testDir pkge$ext] pkge x} msg] \
-	    $msg $errorInfo $errorCode]
+	    $msg $::errorInfo $::errorCode]
     interp delete x
     set result
 } {1 {couldn't open "non_existent": no such file or directory} {couldn't open "non_existent": no such file or directory

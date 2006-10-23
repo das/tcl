@@ -652,4 +652,22 @@ EXTERN int pthread_getattr_np _ANSI_ARGS_((pthread_t, pthread_attr_t *));
 #   endif /* HAVE_PTHREAD_ATTR_GET_NP */
 #endif /* TCL_THREADS */
 
+/*
+ * Set of MT-safe implementations of some
+ * known-to-be-MT-unsafe library calls.
+ * Instead of returning pointers to the
+ * static storage, those return pointers
+ * to the TSD data. 
+ */
+
+#include <pwd.h>
+#include <grp.h>
+
+MODULE_SCOPE struct passwd*  TclpGetPwNam(const char *name);
+MODULE_SCOPE struct group*   TclpGetGrNam(const char *name);
+MODULE_SCOPE struct passwd*  TclpGetPwUid(uid_t uid);
+MODULE_SCOPE struct group*   TclpGetGrGid(gid_t gid);
+MODULE_SCOPE struct hostent* TclpGetHostByName(const char *name);
+MODULE_SCOPE struct hostent* TclpGetHostByAddr(const char *addr, int length, int type);
+
 #endif /* _TCLUNIXPORT */

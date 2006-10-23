@@ -615,7 +615,7 @@ ParseCommand(
     CONST char *commandStart;
     int numWords = 0;
 
-    if ((start == NULL) && (numBytes>0)) {
+    if ((start == NULL) && (numBytes != 0)) {
 	if (interp != NULL) {
 	    Tcl_SetResult(interp, "can't parse a NULL pointer", TCL_STATIC);
 	}
