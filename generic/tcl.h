@@ -39,7 +39,7 @@ extern "C" {
  * When version numbers change here, must also go into the following files and
  * update the version numbers:
  *
- * library/init.tcl	(only if Major.minor changes, not patchlevel) 1 LOC
+ * library/init.tcl	(1 LOC patch)
  * unix/configure.in	(2 LOC Major, 2 LOC minor, 1 LOC patch)
  * win/configure.in	(as above)
  * win/tcl.m4		(not patchlevel)
