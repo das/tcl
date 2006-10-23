@@ -1344,19 +1344,18 @@ typedef struct Interp {
 				 * assumes that infinite recursion has
 				 * occurred and it generates an error. */
     CallFrame *framePtr;	/* Points to top-most in stack of all nested
-				 * procedure invocations. NULL means there are
-				 * no active procedures. */
+				 * procedure invocations. */
     CallFrame *varFramePtr;	/* Points to the call frame whose variables
 				 * are currently in use (same as framePtr
-				 * unless an "uplevel" command is executing).
-				 * NULL means no procedure is active or
-				 * "uplevel 0" is executing. */
+				 * unless an "uplevel" command is
+				 * executing). */ 
     ActiveVarTrace *activeVarTracePtr;
 				/* First in list of active traces for interp,
 				 * or NULL if no active traces. */
     int returnCode;		/* [return -code] parameter */
-    char *unused3;		/* No longer used (was errorInfo) */
-    char *unused4;		/* No longer used (was errorCode) */
+    CallFrame *rootFramePtr;    /* Global frame pointer for this interpreter */
+    Namespace *lookupNsPtr;	/* Namespace to use ONLY on the next
+                                * TCL_EVAL_INVOKE call to Tcl_EvalObjv */
 
     /*
      * Information used by Tcl_AppendResult to keep track of partial results.

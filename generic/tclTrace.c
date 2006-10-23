@@ -1417,7 +1417,7 @@ TclCheckExecutionTraces(
 	return traceCode;
     }
 
-    curLevel = ((iPtr->varFramePtr == NULL) ? 0 : iPtr->varFramePtr->level);
+    curLevel = iPtr->varFramePtr->level;
 
     active.nextPtr = iPtr->activeCmdTracePtr;
     iPtr->activeCmdTracePtr = &active;

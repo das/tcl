@@ -604,7 +604,7 @@ TclGetFrame(
      */
 
     result = 1;
-    curLevel = (iPtr->varFramePtr == NULL) ? 0 : iPtr->varFramePtr->level;
+    curLevel = iPtr->varFramePtr->level;
     if (*name== '#') {
 	if (Tcl_GetInt(interp, name+1, &level) != TCL_OK || level < 0) {
 	    goto levelError;
@@ -623,19 +623,16 @@ TclGetFrame(
      * Figure out which frame to use, and return it to the caller.
      */
 
-    if (level == 0) {
-	framePtr = NULL;
-    } else {
-	for (framePtr = iPtr->varFramePtr; framePtr != NULL;
-		framePtr = framePtr->callerVarPtr) {
-	    if (framePtr->level == level) {
-		break;
-	    }
-	}
-	if (framePtr == NULL) {
-	    goto levelError;
+    for (framePtr = iPtr->varFramePtr; framePtr != NULL;
+	 framePtr = framePtr->callerVarPtr) {
+	if (framePtr->level == level) {
+	    break;
 	}
     }
+    if (framePtr == NULL) {
+	goto levelError;
+    }
+    
     *framePtrPtr = framePtr;
     return result;
 
@@ -687,7 +684,7 @@ TclObjGetFrame(
      */
 
     result = 1;
-    curLevel = (iPtr->varFramePtr == NULL) ? 0 : iPtr->varFramePtr->level;
+    curLevel = iPtr->varFramePtr->level;
     if (objPtr->typePtr == &levelReferenceType) {
 	if ((int) objPtr->internalRep.twoPtrValue.ptr1) {
 	    level = curLevel - (int) objPtr->internalRep.twoPtrValue.ptr2;
@@ -753,18 +750,14 @@ TclObjGetFrame(
      * Figure out which frame to use, and return it to the caller.
      */
 
-    if (level == 0) {
-	framePtr = NULL;
-    } else {
-	for (framePtr = iPtr->varFramePtr; framePtr != NULL;
-		framePtr = framePtr->callerVarPtr) {
-	    if (framePtr->level == level) {
-		break;
-	    }
+    for (framePtr = iPtr->varFramePtr; framePtr != NULL;
+	 framePtr = framePtr->callerVarPtr) {
+	if (framePtr->level == level) {
+	    break;
 	}
-	if (framePtr == NULL) {
-	    goto levelError;
-	}
+    }
+    if (framePtr == NULL) {
+	goto levelError;
     }
     *framePtrPtr = framePtr;
     return result;
