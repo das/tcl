@@ -1884,7 +1884,7 @@ InvokeForwardMethod(
      * can ignore here.
      */
 
-    Tcl_ListObjGetElements(NULL, fmPtr->prefixObj, &numPrefixes, &prefixObjs);
+    TclListObjGetElements(fmPtr->prefixObj, numPrefixes, prefixObjs);
     argObjs = InitEnsembleRewrite(interp, objc, objv, contextPtr->skip,
 	    numPrefixes, prefixObjs, &len);
 
