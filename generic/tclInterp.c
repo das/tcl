@@ -1740,10 +1740,12 @@ AliasObjCmd(
     
     if (targetInterp != interp) {
 	Tcl_Preserve((ClientData) targetInterp);
-	result = Tcl_EvalObjv(targetInterp, cmdc, cmdv, TCL_EVAL_INVOKE);
+	result = Tcl_EvalObjv(targetInterp, cmdc, cmdv,
+		TCL_EVAL_INVOKE|TCL_EVAL_NOREWRITE);
 	TclTransferResult(targetInterp, result, interp);
     } else {
-	result = Tcl_EvalObjv(targetInterp, cmdc, cmdv, TCL_EVAL_INVOKE);
+	result = Tcl_EvalObjv(targetInterp, cmdc, cmdv,
+		TCL_EVAL_INVOKE|TCL_EVAL_NOREWRITE);
     }
 
     if (isRootEnsemble) {
