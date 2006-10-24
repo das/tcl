@@ -1316,7 +1316,7 @@ ObjInterpProcEx(
 #ifdef AVOID_HACKS_FOR_ITCL
 	desiredObjs[0] = objv[0];
 #else
-	desiredObjs[0] = Tcl_NewListObj(1, objv);
+	desiredObjs[0] = (isLambda? objv[0]: Tcl_NewListObj(1, objv));
 #endif /* AVOID_HACKS_FOR_ITCL */
 
 	localPtr = procPtr->firstLocalPtr;
@@ -1337,15 +1337,15 @@ ObjInterpProcEx(
 	Tcl_WrongNumArgs(interp, numArgs+1, desiredObjs, NULL);
 	result = TCL_ERROR;
 
-#ifdef AVOID_HACKS_FOR_ITCL
+#ifndef AVOID_HACKS_FOR_ITCL
+	if (!isLambda) {
+	    TclDecrRefCount(desiredObjs[0]);
+	}
+#endif /* AVOID_HACKS_FOR_ITCL */
+
 	for (i=1 ; i<=numArgs ; i++) {
 	    TclDecrRefCount(desiredObjs[i]);
 	}
-#else
-	for (i=0 ; i<=numArgs ; i++) {
-	    TclDecrRefCount(desiredObjs[i]);
-	}
-#endif /* AVOID_HACKS_FOR_ITCL */
 	ckfree((char *) desiredObjs);
 	goto procDone;
     }
