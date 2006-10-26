@@ -6272,13 +6272,13 @@ NsEnsembleImplementationCmd(
 		iPtr->ensembleRewrite.numInsertedObjs += prefixObjc - 2;
 	    }
 	}
-	tempObjv = (Tcl_Obj **) ckalloc(sizeof(Tcl_Obj *)*(objc-2+prefixObjc));
+	tempObjv = (Tcl_Obj **) TclStackAlloc(interp, sizeof(Tcl_Obj *)*(objc-2+prefixObjc));
 	memcpy(tempObjv, prefixObjv, sizeof(Tcl_Obj *) * prefixObjc);
 	memcpy(tempObjv+prefixObjc, objv+2, sizeof(Tcl_Obj *) * (objc-2));
 	result = Tcl_EvalObjv(interp, objc-2+prefixObjc, tempObjv,
 		TCL_EVAL_INVOKE|TCL_EVAL_NOREWRITE);
 	Tcl_DecrRefCount(prefixObj);
-	ckfree((char *) tempObjv);
+	TclStackFree(interp);
 	if (isRootEnsemble) {
 	    iPtr->ensembleRewrite.sourceObjs = NULL;
 	    iPtr->ensembleRewrite.numRemovedObjs = 0;

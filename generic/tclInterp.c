@@ -1710,7 +1710,8 @@ AliasObjCmd(
     if (cmdc <= ALIAS_CMDV_PREALLOC) {
 	cmdv = cmdArr;
     } else {
-	cmdv = (Tcl_Obj **) ckalloc((unsigned) (cmdc * sizeof(Tcl_Obj *)));
+	cmdv = (Tcl_Obj **) TclStackAlloc(interp,
+		(unsigned) (cmdc * sizeof(Tcl_Obj *)));
     }
 
     prefv = &aliasPtr->objPtr;
@@ -1763,7 +1764,7 @@ AliasObjCmd(
     }
 
     if (cmdv != cmdArr) {
-	ckfree((char *) cmdv);
+	TclStackFree(interp);
     }
     return result;
 #undef ALIAS_CMDV_PREALLOC
