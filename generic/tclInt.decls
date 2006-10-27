@@ -894,6 +894,10 @@ declare 225 generic {
 declare 226 generic {
     int TclObjBeingDeleted(Tcl_Obj *objPtr)
 }
+declare 227 generic {
+    void TclSetNsPath(Namespace *nsPtr, int pathLength,
+            Tcl_Namespace *pathAry[])
+}
 
 ##############################################################################
 
