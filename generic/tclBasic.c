@@ -1969,8 +1969,8 @@ TclInvokeObjectCommand(
 int
 TclRenameCommand(
     Tcl_Interp *interp,		/* Current interpreter. */
-    char *oldName,		/* Existing command name. */
-    char *newName)		/* New command name. */
+    const char *oldName,	/* Existing command name. */
+    const char *newName)	/* New command name. */
 {
     Interp *iPtr = (Interp *) interp;
     CONST char *newTail;
@@ -1987,8 +1987,7 @@ TclRenameCommand(
      * found.
      */
 
-    cmd = Tcl_FindCommand(interp, oldName, NULL,
-	    /*flags*/ 0);
+    cmd = Tcl_FindCommand(interp, oldName, NULL, /*flags*/ 0);
     cmdPtr = (Command *) cmd;
     if (cmdPtr == NULL) {
 	Tcl_AppendResult(interp, "can't ",

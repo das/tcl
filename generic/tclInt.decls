@@ -390,7 +390,8 @@ declare 93 generic {
 #    int TclpStat(CONST char *path, Tcl_StatBuf *buf)
 #}
 declare 96 generic {
-    int TclRenameCommand(Tcl_Interp *interp, char *oldName, char *newName)
+    int TclRenameCommand(Tcl_Interp *interp, CONST char *oldName,
+            CONST char *newName)
 }
 declare 97 generic {
     void TclResetShadowedCmdRefs(Tcl_Interp *interp, Command *newCmdPtr)
