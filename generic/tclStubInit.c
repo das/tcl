@@ -318,6 +318,7 @@ TclIntStubs tclIntStubs = {
     TclGetPlatform, /* 224 */
     TclTraceDictPath, /* 225 */
     TclObjBeingDeleted, /* 226 */
+    TclSetNsPath, /* 227 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
