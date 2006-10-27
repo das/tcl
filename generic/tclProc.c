@@ -2027,7 +2027,7 @@ SetLambdaFromAny(
 	    bodyPtr, &procPtr) != TCL_OK) {
 	TclFormatToErrorInfo(interp,
 		"\n    (parsing lambda expression \"%s\")",
-		Tcl_GetString(objPtr), NULL);
+		name, NULL);
 	return TCL_ERROR;
     }
 
