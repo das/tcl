@@ -894,9 +894,15 @@ declare 225 generic {
 declare 226 generic {
     int TclObjBeingDeleted(Tcl_Obj *objPtr)
 }
+
 declare 227 generic {
     void TclSetNsPath(Namespace *nsPtr, int pathLength,
             Tcl_Namespace *pathAry[])
+}
+declare 228 generic {
+    int TclObjInterpProcCore(register Tcl_Interp *interp, CallFrame *framePtr,
+            Tcl_Obj *procNameObj, int isLambda, int skip,
+            ProcErrorProc errorProc)
 }
 
 ##############################################################################

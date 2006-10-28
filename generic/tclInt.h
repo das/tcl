@@ -770,6 +770,13 @@ typedef struct Proc {
 } Proc;
 
 /*
+ * The type of functions called to process errors found during the execution
+ * of a procedure (or lambda term or ...).
+ */
+
+typedef void (*ProcErrorProc)(Tcl_Interp *interp, Tcl_Obj *procNameObj);
+
+/*
  * The structure below defines a command trace. This is used to allow Tcl
  * clients to find out whenever a command is about to be executed.
  */
