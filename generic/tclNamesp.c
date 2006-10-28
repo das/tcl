@@ -117,8 +117,8 @@ typedef struct EnsembleConfig {
 				 * all lists, and cannot be found by scanning
 				 * the list from the namespace's ensemble
 				 * field. */
-    int flags;			/* ORed combo of ENS_DEAD and
-				 * TCL_ENSEMBLE_PREFIX. */
+    int flags;			/* ORed combo of TCL_ENSEMBLE_PREFIX and
+				 * ENS_DEAD. */
 
     /* OBJECT FIELDS FOR ENSEMBLE CONFIGURATION */
 
