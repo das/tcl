@@ -1889,6 +1889,24 @@ test namespace-47.6 {ensemble: unknown handler} {
     while parsing result of ensemble unknown subcommand handler
     invoked from within
 "foo bar"}}
+test namespace-47.7 {ensemble: unknown handler, commands with spaces} {
+    namespace ensemble create -command foo -unknown bar
+    proc bar {args} {
+	list ::set ::x [join $args |]
+    }
+    set result [foo {one two three}]
+    rename foo {}
+    set result
+} {::foo|one two three}
+test namespace-47.8 {ensemble: unknown handler, commands with spaces} {
+    namespace ensemble create -command foo -unknown {bar boo}
+    proc bar {args} {
+	list ::set ::x [join $args |]
+    }
+    set result [foo {one two three}]
+    rename foo {}
+    set result
+} {boo|::foo|one two three}
 
 test namespace-48.1 {ensembles and namespace import: unknown handler} {
     namespace eval foo {

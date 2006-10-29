@@ -6297,7 +6297,7 @@ NsEnsembleImplementationCmd(
 	int paramc, i;
 	Tcl_Obj **paramv, *unknownCmd, *ensObj;
 
-	unknownCmd = Tcl_NewListObj(1, &ensemblePtr->unknownHandler);
+	unknownCmd = Tcl_DuplicateObj(ensemblePtr->unknownHandler);
 	TclNewObj(ensObj);
 	Tcl_GetCommandFullName(interp, ensemblePtr->token, ensObj);
 	Tcl_ListObjAppendElement(NULL, unknownCmd, ensObj);
