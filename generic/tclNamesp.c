@@ -444,6 +444,7 @@ Tcl_PushCallFrame(
 
     iPtr->framePtr = framePtr;
     iPtr->varFramePtr = framePtr;
+    iPtr->clientData = NULL;
     return TCL_OK;
 }
 
