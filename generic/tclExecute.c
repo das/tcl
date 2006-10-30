@@ -3796,7 +3796,7 @@ TclExecuteByteCode(
 		    }
 
 		    /* TODO: internals intrusion */
-		    if ((l1 > 0) ^ big2.sign) {
+		    if ((l1 > 0) ^ (big2.sign == MP_ZPOS)) {
 			/* Arguments are opposite sign; remainder is sum */
 			mp_int big1;
 			TclBNInitBignumFromLong(&big1, l1);
@@ -3844,7 +3844,7 @@ TclExecuteByteCode(
 		    }
 
 		    /* TODO: internals intrusion */
-		    if ((w1 > ((Tcl_WideInt) 0)) ^ big2.sign) {
+		    if ((w1 > ((Tcl_WideInt) 0)) ^ (big2.sign == MP_ZPOS)) {
 			/* Arguments are opposite sign; remainder is sum */
 			mp_int big1;
 			TclBNInitBignumFromWideInt(&big1, w1);

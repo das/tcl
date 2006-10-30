@@ -5368,6 +5368,19 @@ test expr-32.2 {expr div basics} {
     -3 -2 -1 -1 -1 \
     ]
 
+test expr-32.3 {Bug 1585704} {
+    expr 1%(1<<63)
+} 1
+test expr-32.4 {Bug 1585704} {
+    expr -1%(1<<63)
+} [expr (1<<63)-1]
+test expr-32.5 {Bug 1585704} {
+    expr (1<<32)%(1<<63)
+} [expr 1<<32]
+test expr-32.6 {Bug 1585704} {
+    expr -(1<<32)%(1<<63)
+} [expr (1<<63)-(1<<32)]
+
 test expr-33.1 {parse largest long value} longIs32bit {
     set max_long_str 2147483647
     set max_long_hex "0x7FFFFFFF "
