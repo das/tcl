@@ -56,6 +56,8 @@ ClientData		Tcl_ObjectGetMetadata(Tcl_Object object,
 void			Tcl_ObjectSetMetadata(Tcl_Object object,
 			    const Tcl_ObjectMetadataType *typePtr,
 			    ClientData metadata);
+Tcl_Class		Tcl_GetClassOfClasses(Tcl_Interp *interp);
+Tcl_Class		Tcl_GetClassOfObjects(Tcl_Interp *interp);
 // ^^^^^^^^^^^^^^^^^^^^^^ MOVE TO TCL.DECLS ^^^^^^^^^^^^^^^^^^^^^^
 
 /*

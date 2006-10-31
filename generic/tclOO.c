@@ -3419,7 +3419,7 @@ Tcl_GetClassAsObject(
  */
 
 Tcl_Class
-Tcl_OOGetObjectClass(
+Tcl_GetClassOfObjects(
     Tcl_Interp *interp)
 {
     Foundation *fPtr = ((Interp *) interp)->ooFoundation;
@@ -3427,7 +3427,7 @@ Tcl_OOGetObjectClass(
 }
 
 Tcl_Class
-Tcl_OOGetClassClass(
+Tcl_GetClassOfClasses(
     Tcl_Interp *interp)
 {
     Foundation *fPtr = ((Interp *) interp)->ooFoundation;
