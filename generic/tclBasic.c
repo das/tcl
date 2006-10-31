@@ -3414,7 +3414,7 @@ TclEvalObjvInternal(
 	 * Restore the calling objc/objv, in case it was spoiled by traces 
 	 */
 	
-	if (!(checktraces && (flags & TCL_EVAL_NOREWRITE)) {
+	if (!(checkTraces && (flags & TCL_EVAL_NOREWRITE))) {
 	    iPtr->callObjc = objc;
 	    iPtr->callObjv = objv;
 	}
