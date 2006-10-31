@@ -43,7 +43,7 @@ static int environSize = 0;	/* Non-zero means that the environ array was
 
 #if defined(__APPLE__) && defined(__DYNAMIC__)
 #include <crt_externs.h>
-MODULE_SCOPE char **environ;
+__private_extern__ char **environ;
 char **environ = NULL;
 #endif
 
