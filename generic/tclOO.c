@@ -3285,6 +3285,19 @@ InitEnsembleRewrite(
     return argObjs;
 }
 
+/*
+ * ----------------------------------------------------------------------
+ *
+ * Tcl_ObjectContextMethod, ... --
+ *
+ *	Simple introspector functions. People would read the structures
+ *	directly for this sort of information, except that we discourage that
+ *	sort of thing as it makes it harder to evolve the internal data
+ *	structures. None of these change anything.
+ *
+ * ----------------------------------------------------------------------
+ */
+
 Tcl_Method
 Tcl_ObjectContextMethod(
     Tcl_ObjectContext context)
@@ -3393,6 +3406,32 @@ Tcl_GetClassAsObject(
     Tcl_Class clazz)
 {
     return (Tcl_Object) ((Class *)clazz)->thisPtr;
+}
+
+/*
+ * ----------------------------------------------------------------------
+ *
+ * Tcl_OOGetObjectClass, Tcl_OOGetClassClass --
+ *
+ *	Get the basic ::oo::object and ::oo::class classes.
+ *
+ * ----------------------------------------------------------------------
+ */
+
+Tcl_Class
+Tcl_OOGetObjectClass(
+    Tcl_Interp *interp)
+{
+    Foundation *fPtr = ((Interp *) interp)->ooFoundation;
+    return (Tcl_Class) fPtr->objectCls;
+}
+
+Tcl_Class
+Tcl_OOGetClassClass(
+    Tcl_Interp *interp)
+{
+    Foundation *fPtr = ((Interp *) interp)->ooFoundation;
+    return (Tcl_Class) fPtr->classCls;
 }
 
 /*
