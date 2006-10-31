@@ -781,7 +781,6 @@ Tcl_AfterObjCmd(
     static CONST char *afterSubCmds[] = {
 	"cancel", "idle", "info", NULL
     };
-    Tcl_Obj *objPtr;
     enum afterSubCmds {AFTER_CANCEL, AFTER_IDLE, AFTER_INFO};
     ThreadSpecificData *tsdPtr = InitTimer();
 
