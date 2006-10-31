@@ -2229,9 +2229,9 @@ DictForCmd(
 	    if (result == TCL_BREAK) {
 		result = TCL_OK;
 	    } else if (result == TCL_ERROR) {
-		TclFormatToErrorInfo(interp,
+		TclAppendObjToErrorInfo(interp, TclObjPrintf(NULL,
 			"\n    (\"dict for\" body line %d)",
-			interp->errorLine);
+			interp->errorLine));
 	    }
 	    break;
 	}
@@ -2575,9 +2575,9 @@ DictFilterCmd(
 		result = TCL_OK;
 		break;
 	    case TCL_ERROR:
-		TclFormatToErrorInfo(interp,
+		TclAppendObjToErrorInfo(interp, TclObjPrintf(NULL,
 			"\n    (\"dict filter\" script line %d)",
-			interp->errorLine);
+			interp->errorLine));
 	    default:
 		goto abnormalResult;
 	    }

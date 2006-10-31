@@ -1651,13 +1651,11 @@ ReflectGetOption(
 	 * Odd number of elements is wrong.
 	 */
 
-	Tcl_Obj *objPtr = Tcl_NewObj();
-
 	Tcl_ResetResult(interp);
-	TclObjPrintf(NULL, objPtr, "Expected list with even number of "
+	Tcl_SetObjResult(interp, TclObjPrintf(NULL,
+		"Expected list with even number of "
 		"elements, got %d element%s instead", listc,
-		(listc == 1 ? "" : "s"));
-	Tcl_SetObjResult(interp, objPtr);
+		(listc == 1 ? "" : "s")));
 	Tcl_DecrRefCount(resObj);	/* Remove reference held from invoke */
 	return TCL_ERROR;
     } else {
@@ -1910,9 +1908,8 @@ NextHandle(void)
     static unsigned long rcCounter = 0;
     Tcl_Obj *resObj;
 
-    TclNewObj(resObj);
     Tcl_MutexLock(&rcCounterMutex);
-    TclObjPrintf(NULL, resObj, "rc%lu", rcCounter);
+    resObj = TclObjPrintf(NULL, "rc%lu", rcCounter);
     rcCounter++;
     Tcl_MutexUnlock(&rcCounterMutex);
 
@@ -2043,19 +2040,17 @@ InvokeTclMethod(
 		Tcl_Obj *cmd = Tcl_NewListObj(cmdc, rcPtr->argv);
 		int cmdLen;
 		CONST char *cmdString = Tcl_GetStringFromObj(cmd, &cmdLen);
-		Tcl_Obj *msg = Tcl_NewObj();
 
 		Tcl_IncrRefCount(cmd);
-		TclObjPrintf(NULL, msg, "chan handler returned bad code: %d",
-			result);
 		Tcl_ResetResult(rcPtr->interp);
-		Tcl_SetObjResult(rcPtr->interp, msg);
+		Tcl_SetObjResult(rcPtr->interp, TclObjPrintf(NULL,
+			"chan handler returned bad code: %d", result));
 		Tcl_LogCommandInfo(rcPtr->interp, cmdString, cmdString, cmdLen);
 		Tcl_DecrRefCount(cmd);
 		result = TCL_ERROR;
 	    }
-	    TclFormatToErrorInfo(rcPtr->interp,
-		    "\n    (chan handler subcommand \"%s\")", method);
+	    TclAppendObjToErrorInfo(rcPtr->interp, TclObjPrintf(NULL,
+		    "\n    (chan handler subcommand \"%s\")", method));
 	    resObj = MarshallError(rcPtr->interp);
 	}
 	Tcl_IncrRefCount(resObj);

@@ -1413,10 +1413,8 @@ GetPermissionsAttribute(
 	return TCL_ERROR;
     }
 
-    *attributePtrPtr = Tcl_NewObj();
-    TclObjPrintf(NULL, *attributePtrPtr, "%0#5lo",
-	    (long) (statBuf.st_mode & 0x00007FFF));
-
+    *attributePtrPtr = TclObjPrintf(NULL,
+	    "%0#5lo", (long) (statBuf.st_mode & 0x00007FFF));
     return TCL_OK;
 }
 

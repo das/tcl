@@ -870,9 +870,7 @@ Tcl_AfterObjCmd(
 							(ClientData) afterPtr);
 	afterPtr->nextPtr = assocPtr->firstAfterPtr;
 	assocPtr->firstAfterPtr = afterPtr;
-	objPtr = Tcl_NewObj();
-	TclObjPrintf(NULL, objPtr, "after#%d", afterPtr->id);
-	Tcl_SetObjResult(interp, objPtr);
+	Tcl_SetObjResult(interp, TclObjPrintf(NULL, "after#%d", afterPtr->id));
 	return TCL_OK;
     }
     case AFTER_CANCEL: {
@@ -935,9 +933,7 @@ Tcl_AfterObjCmd(
 	afterPtr->nextPtr = assocPtr->firstAfterPtr;
 	assocPtr->firstAfterPtr = afterPtr;
 	Tcl_DoWhenIdle(AfterProc, (ClientData) afterPtr);
-	objPtr = Tcl_NewObj();
-	TclObjPrintf(NULL, objPtr, "after#%d", afterPtr->id);
-	Tcl_SetObjResult(interp, objPtr);
+	Tcl_SetObjResult(interp, TclObjPrintf(NULL, "after#%d", afterPtr->id));
 	break;
     case AFTER_INFO: {
 	Tcl_Obj *resultListPtr;

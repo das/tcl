@@ -215,17 +215,15 @@ TclFindElement(
 		 */
 
 		if (interp != NULL) {
-		    Tcl_Obj *objPtr = Tcl_NewObj();
 		    p2 = p;
 		    while ((p2 < limit)
 			    && (!isspace(UCHAR(*p2)))	/* INTL: ISO space. */
 			    && (p2 < p+20)) {
 			p2++;
 		    }
-		    TclObjPrintf(NULL, objPtr,
+		    Tcl_SetObjResult(interp, TclObjPrintf(NULL,
 			    "list element in braces followed by \"%.*s\" "
-			    "instead of space", (int) (p2-p), p);
-		    Tcl_SetObjResult(interp, objPtr);
+			    "instead of space", (int) (p2-p), p));
 		}
 		return TCL_ERROR;
 	    }
@@ -276,17 +274,15 @@ TclFindElement(
 		 */
 
 		if (interp != NULL) {
-		    Tcl_Obj *objPtr = Tcl_NewObj();
 		    p2 = p;
 		    while ((p2 < limit)
 			    && (!isspace(UCHAR(*p2)))	/* INTL: ISO space */
 			    && (p2 < p+20)) {
 			p2++;
 		    }
-		    TclObjPrintf(NULL, objPtr,
+		    Tcl_SetObjResult(interp, TclObjPrintf(NULL,
 			    "list element in quotes followed by \"%.*s\" "
-			    "instead of space", (int) (p2-p), p);
-		    Tcl_SetObjResult(interp, objPtr);
+			    "instead of space", (int) (p2-p), p));
 		}
 		return TCL_ERROR;
 	    }

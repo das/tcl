@@ -1830,9 +1830,10 @@ Tcl_FSEvalFileEx(
 	int limit = 150;
 	int overflow = (length > limit);
 
-	TclFormatToErrorInfo(interp, "\n    (file \"%.*s%s\" line %d)",
+	TclAppendObjToErrorInfo(interp, TclObjPrintf(NULL,
+		"\n    (file \"%.*s%s\" line %d)",
 		(overflow ? limit : length), pathString,
-		(overflow ? "..." : ""), interp->errorLine);
+		(overflow ? "..." : ""), interp->errorLine));
     }
 
   end:

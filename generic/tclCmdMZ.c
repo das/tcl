@@ -2128,11 +2128,9 @@ Tcl_StringObjCmd(dummy, interp, objc, objv)
 
 		length2 = length1 * count;
 		if ((length2 / count) != length1) {
-		    resultPtr = Tcl_NewObj();
-		    TclObjPrintf(NULL, resultPtr,
+		    Tcl_SetObjResult(interp, TclObjPrintf(NULL,
 			    "string size overflow, must be less than %d",
-			    INT_MAX);
-		    Tcl_SetObjResult(interp, resultPtr);
+			    INT_MAX));
 		    return TCL_ERROR;
 		}
 
@@ -2884,9 +2882,10 @@ Tcl_SwitchObjCmd(dummy, interp, objc, objv)
     if (result == TCL_ERROR) {
 	int limit = 50;
 	int overflow = (patternLength > limit);
-	TclFormatToErrorInfo(interp, "\n    (\"%.*s%s\" arm line %d)",
+	TclAppendObjToErrorInfo(interp, TclObjPrintf(NULL,
+		"\n    (\"%.*s%s\" arm line %d)",
 		(overflow ? limit : patternLength), pattern,
-		(overflow ? "..." : ""), interp->errorLine);
+		(overflow ? "..." : ""), interp->errorLine));
     }
     return result;
 }
@@ -3031,8 +3030,8 @@ Tcl_WhileObjCmd(dummy, interp, objc, objv)
 	result = Tcl_EvalObjEx(interp, objv[2], 0);
 	if ((result != TCL_OK) && (result != TCL_CONTINUE)) {
 	    if (result == TCL_ERROR) {
-		TclFormatToErrorInfo(interp, "\n    (\"while\" body line %d)",
-			interp->errorLine);
+		TclAppendObjToErrorInfo(interp, TclObjPrintf(NULL,
+			"\n    (\"while\" body line %d)", interp->errorLine));
 	    }
 	    break;
 	}
