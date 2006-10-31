@@ -6282,7 +6282,7 @@ NsEnsembleImplementationCmd(
 	memcpy(tempObjv, prefixObjv, sizeof(Tcl_Obj *) * prefixObjc);
 	memcpy(tempObjv+prefixObjc, objv+2, sizeof(Tcl_Obj *) * (objc-2));
 	result = Tcl_EvalObjv(interp, objc-2+prefixObjc, tempObjv,
-		TCL_EVAL_INVOKE|TCL_EVAL_NOREWRITE);
+		TCL_EVAL_INVOKE);
 	Tcl_DecrRefCount(prefixObj);
 	TclStackFree(interp);
 	if (isRootEnsemble) {

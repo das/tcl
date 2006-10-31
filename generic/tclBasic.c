@@ -3411,7 +3411,7 @@ TclEvalObjvInternal(
     cmdPtr->refCount++;
     iPtr->cmdCount++;
     if (code == TCL_OK && traceCode == TCL_OK && !Tcl_LimitExceeded(interp)) {
-	if (!(flags & (TCL_EVAL_INVOKE|TCL_EVAL_NOREWRITE)) &&
+	if (!(flags & TCL_EVAL_INVOKE) &&
 		(iPtr->ensembleRewrite.sourceObjs != NULL)) {
 	    iPtr->ensembleRewrite.sourceObjs = NULL;
 	}
