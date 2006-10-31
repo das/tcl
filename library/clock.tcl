@@ -653,7 +653,7 @@ proc ::tcl::clock::format { args } {
     # Check the count of args
 
     if { [llength $args] < 1 || [llength $args] % 2 != 1 } {
-	set cmdName [lrange [info level 0] 0 end-[llength $args]]
+	set cmdName "clock format"
 	return -code error \
 	    -errorcode [list CLOCK wrongNumArgs] \
 	    "wrong \# args: should be\
@@ -1244,7 +1244,7 @@ proc ::tcl::clock::scan { args } {
     # Check the count of args
 
     if { [llength $args] < 1 || [llength $args] % 2 != 1 } {
-	set cmdName [lrange [info level 0] 0 end-[llength $args]]
+	set cmdName "clock scan"
 	return -code error \
 	    -errorcode [list CLOCK wrongNumArgs] \
 	    "wrong \# args: should be\
@@ -4318,11 +4318,11 @@ proc ::tcl::clock::BSearch { list key } {
 proc ::tcl::clock::add { clockval args } {
 
     if { [llength $args] % 2 != 0 } {
+	set cmdName "clock add"
 	return -code error \
 	    -errorcode [list CLOCK wrongNumArgs] \
 	    "wrong \# args: should be\
-             \"[lindex [info level 0] 0] clockval\
-             ?number units?...\
+             \"$cmdName clockval ?number units?...\
              ?-gmt boolean? ?-locale LOCALE? ?-timezone ZONE?\""
     }
     if { [catch { expr {wide($clockval)} } result] } {

@@ -1547,19 +1547,6 @@ typedef struct Interp {
     int packagePrefer;          /* Current package selection mode. */
 
     /*
-     * Let [info level] know about ensemble rewriting. Note that this is just
-     * a temporary storage location until such time as it can be written into
-     * the call frame; it has to go there because that makes reentrant calls
-     * through the command dispatcher work.
-     */
-
-    int callObjc;		/* Number of arguments to report through [info
-				 * level]. */
-    Tcl_Obj *CONST *callObjv;	/* Array of arguments to report through [info
-				 * level]. */
-    
-    
-    /*
      * Statistical information about the bytecode compiler and interpreter's
      * operation.
      */
@@ -1577,8 +1564,8 @@ typedef struct Interp {
 
 typedef struct InterpList {
     Interp *interpPtr;
-    struct InterpList* prevPtr;
-    struct InterpList* nextPtr;
+    struct InterpList *prevPtr;
+    struct InterpList *nextPtr;
 } InterpList;
 
 /*
