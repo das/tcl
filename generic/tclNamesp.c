@@ -4606,8 +4606,8 @@ NamespaceUpvarCmd(
 	/*
 	 * The namespace does not exist, leave an error message.
 	 */
-	Tcl_SetObjResult(interp, TclObjFormat(NULL,
-		"namespace \"%s\" does not exist", objv[2]));
+	Tcl_SetObjResult(interp, TclFormat(NULL,
+		"namespace \"%s\" does not exist", 1, objv+2));
 	return TCL_ERROR;
     }
 

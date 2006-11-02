@@ -1881,15 +1881,11 @@ Tcl_FormatObjCmd(dummy, interp, objc, objv)
 	return TCL_ERROR;
     }
 
-    resultPtr = Tcl_NewObj();
-    Tcl_IncrRefCount(resultPtr);
-    if (TclAppendFormattedObjs(interp, resultPtr, TclGetString(objv[1]),
-	    objc-2, objv+2) != TCL_OK) {
-	Tcl_DecrRefCount(resultPtr);
+    resultPtr = TclFormat(interp, TclGetString(objv[1]), objc-2, objv+2);
+    if (resultPtr == NULL) {
 	return TCL_ERROR;
     }
     Tcl_SetObjResult(interp, resultPtr);
-    Tcl_DecrRefCount(resultPtr);
     return TCL_OK;
 }
 
