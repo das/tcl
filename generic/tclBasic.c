@@ -3584,8 +3584,7 @@ Tcl_EvalObjv(
 	if (code == TCL_RETURN) {
 	    code = TclUpdateReturnInfo(iPtr);
 	}
-	if ((code != TCL_OK) && (code != TCL_ERROR)
-	    && !allowExceptions) {
+	if ((code != TCL_OK) && (code != TCL_ERROR) && !allowExceptions) {
 	    ProcessUnexpectedResult(interp, code);
 	    code = TCL_ERROR;
 	}
