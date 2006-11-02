@@ -1249,14 +1249,14 @@ Tcl_StringCaseMatch(
 
 	    if (UCHAR(*pattern) < 0x80) {
 		ch2 = (Tcl_UniChar)
-		    (nocase ? tolower(UCHAR(*pattern)) : UCHAR(*pattern));
+			(nocase ? tolower(UCHAR(*pattern)) : UCHAR(*pattern));
 	    } else {
 		Tcl_UtfToUniChar(pattern, &ch2);
 		if (nocase) {
 		    ch2 = Tcl_UniCharToLower(ch2);
 		}
-
 	    }
+
 	    while (1) {
 		/*
 		 * Optimization for matching - cruise through the string
@@ -1322,7 +1322,7 @@ Tcl_StringCaseMatch(
 	    pattern++;
 	    if (UCHAR(*str) < 0x80) {
 		ch1 = (Tcl_UniChar)
-		    (nocase ? tolower(UCHAR(*str)) : UCHAR(*str));
+			(nocase ? tolower(UCHAR(*str)) : UCHAR(*str));
 		str++;
 	    } else {
 		str += Tcl_UtfToUniChar(str, &ch1);
@@ -1335,8 +1335,8 @@ Tcl_StringCaseMatch(
 		    return 0;
 		}
 		if (UCHAR(*pattern) < 0x80) {
-		    startChar = (Tcl_UniChar)
-			(nocase ? tolower(UCHAR(*pattern)) : UCHAR(*pattern));
+		    startChar = (Tcl_UniChar) (nocase
+			    ? tolower(UCHAR(*pattern)) : UCHAR(*pattern));
 		    pattern++;
 		} else {
 		    pattern += Tcl_UtfToUniChar(pattern, &startChar);
@@ -1350,9 +1350,8 @@ Tcl_StringCaseMatch(
 			return 0;
 		    }
 		    if (UCHAR(*pattern) < 0x80) {
-			endChar = (Tcl_UniChar)
-			    (nocase ? tolower(UCHAR(*pattern))
-				    : UCHAR(*pattern));
+			endChar = (Tcl_UniChar) (nocase
+				? tolower(UCHAR(*pattern)) : UCHAR(*pattern));
 			pattern++;
 		    } else {
 			pattern += Tcl_UtfToUniChar(pattern, &endChar);
