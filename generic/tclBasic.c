@@ -3354,7 +3354,7 @@ TclEvalObjvInternal(
 		&handlerObjc, &handlerObjv);
         newObjc = objc + handlerObjc;
 	newObjv = (Tcl_Obj **) TclStackAlloc(interp,
-		sizeof(Tcl_Obj *) * (unsigned)newObjc);
+		(int) sizeof(Tcl_Obj *) * newObjc);
 
         /*
 	 * Copy command prefix from unknown handler and add on the real

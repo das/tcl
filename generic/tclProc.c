@@ -1346,7 +1346,7 @@ TclObjInterpProcCore(
 	 */
 
 	desiredObjs = (Tcl_Obj **) TclStackAlloc(interp,
-		sizeof(Tcl_Obj *) * (unsigned)(numArgs+1));
+		(int) sizeof(Tcl_Obj *) * (numArgs+1));
 
 #ifdef AVOID_HACKS_FOR_ITCL
 	desiredObjs[0] = framePtr->objv[skip-1];
