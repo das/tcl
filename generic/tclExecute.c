@@ -6374,7 +6374,7 @@ IllegalExprOperandType(
 	description = "(big) integer";
     }
 
-    Tcl_SetObjResult(interp, TclObjPrintf(NULL,
+    Tcl_SetObjResult(interp, TclObjPrintf(
 	    "can't use %s as operand of \"%s\"", description, operator));
 }
 
@@ -6638,7 +6638,7 @@ TclExprFloatError(
 	    Tcl_SetErrorCode(interp, "ARITH", "OVERFLOW", s, (char *) NULL);
 	}
     } else {
-	Tcl_Obj *objPtr = TclObjPrintf(NULL,
+	Tcl_Obj *objPtr = TclObjPrintf(
 		"unknown floating-point error, errno = %d", errno);
 	Tcl_SetErrorCode(interp, "ARITH", "UNKNOWN",
 		Tcl_GetString(objPtr), (char *) NULL);

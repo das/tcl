@@ -508,7 +508,7 @@ Tcl_PkgRequireProc(
 	    }
 
 	    if (code == TCL_ERROR) {
-		TclAppendObjToErrorInfo(interp, TclObjPrintf(NULL,
+		TclAppendObjToErrorInfo(interp, TclObjPrintf(
 			"\n    (\"package ifneeded %s %s\" script)",
 			name, versionToProvide));
 	    }
