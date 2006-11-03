@@ -407,7 +407,7 @@ test event-11.5 {Tcl_VwaitCmd procedure: round robin scheduling, 2 sources} {soc
 	puts $s foobar
 	close $s
     }
-    catch {set s1 [socket -server accept 0]}
+    catch {set s1 [socket -server accept -myaddr 127.0.0.1 0]}
     after 1000
     catch {set s2 [socket 127.0.0.1 [lindex [fconfigure $s1 -sockname] 2]]}
     close $s1
