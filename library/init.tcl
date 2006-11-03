@@ -266,7 +266,7 @@ proc unknown args {
 
     set cmd [lindex $args 0]
     if {[regexp "^:*namespace\[ \t\n\]+inscope" $cmd] && [llength $cmd] == 4} {
-	#return -code error "You need an {expand}"
+	#return -code error "You need an {*}"
         set arglist [lrange $args 1 end]
 	set ret [catch {uplevel 1 ::$cmd $arglist} result opts]
 	dict unset opts -errorinfo
@@ -809,7 +809,7 @@ proc tcl::CopyDirectory {action src dest} {
 	    # can be returned in various combinations.  Anyway,
 	    # if any other file is returned, we must signal an error.
 	    set existing [glob -nocomplain -directory $dest * .*]
-	    lappend existing {expand}[glob -nocomplain -directory $dest \
+	    lappend existing {*}[glob -nocomplain -directory $dest \
 		    -type hidden * .*]
 	    foreach s $existing {
 		if {([file tail $s] ne ".") && ([file tail $s] ne "..")} {

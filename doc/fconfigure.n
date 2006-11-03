@@ -256,7 +256,7 @@ set words {}
 while {[llength $words] < 3} {
    gets $f line
    if {[string match "#*" $line]} continue
-   lappend words {expand}[join [scan $line %d%d%d]]
+   lappend words {*}[join [scan $line %d%d%d]]
 }
 
 # Those words supply the size of the image and its

@@ -18,6 +18,13 @@
 #include "tclInt.h"
 
 /*
+ * For now, we enable the {expand} although it is deprecated - remove by final
+ */
+#ifndef ALLOW_EXPAND
+#define ALLOW_EXPAND 1
+#endif
+
+/*
  * The following table provides parsing information about each possible 8-bit
  * character. The table is designed to be referenced with either signed or
  * unsigned characters, so it has 384 entries. The first 128 entries
@@ -359,8 +366,6 @@ Tcl_ParseCommand(
 	    src = termPtr;
 	    numBytes = parsePtr->end - src;
 	} else if (*src == '{') {
-	    static char expPfx[] = "expand";
-	    CONST size_t expPfxLen = sizeof(expPfx) - 1;
 	    int expIdx = wordIndex + 1;
 	    Tcl_Token *expPtr;
 
@@ -372,7 +377,7 @@ Tcl_ParseCommand(
 	    numBytes = parsePtr->end - src;
 
 	    /*
-	     * Check whether the braces contained the word expansion prefix.
+	     * Check whether the braces contained the word expansion prefix {*}
 	     */
 
 	    expPtr = &parsePtr->tokenPtr[expIdx];
@@ -381,14 +386,15 @@ Tcl_ParseCommand(
 		/* Haven't seen prefix already */
 		&& (1 == parsePtr->numTokens - expIdx)
 		/* Only one token */
-		&& (((expPfxLen == (size_t) expPtr->size)
+		&& (((1 == (size_t) expPtr->size)
 			    /* Same length as prefix */
-			    && (0 == strncmp(expPfx,expPtr->start,expPfxLen)))
-#ifdef ALLOW_EMPTY_EXPAND
+			    && (expPtr->start[0] == '*'))
+#if defined(ALLOW_EXPAND) && ALLOW_EXPAND == 1
 			/*
-			 * Allow {} in addition to {expand}
+			 * Allow {expand} in addition to {*}
 			 */
-			|| (0 == (size_t) expPtr->size)
+			|| ((6 == (size_t) expPtr->size)
+				&& (0 == memcmp("expand",expPtr->start,6)))
 #endif
 		    )
 		/* Is the prefix */

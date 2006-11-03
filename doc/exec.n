@@ -367,7 +367,7 @@ remember that Tcl does not handle globbing or expand things into
 multiple arguments by default.  Instead you should write things like
 this:
 .CS
-\fBexec\fR ls -l {expand}[glob *.tcl]
+\fBexec\fR ls -l {*}[glob *.tcl]
 .CE
 .PP
 .SH "WINDOWS EXAMPLES"
@@ -407,7 +407,7 @@ applies especially when you want to run "internal" commands like
 \fIdir\fR from a Tcl script (if you just want to list filenames, use
 the \fBglob\fR command.)  To do that, use this:
 .CS
-\fBexec\fR {expand}[auto_execok dir] *.tcl
+\fBexec\fR {*}[auto_execok dir] *.tcl
 .CE
 
 .SH "SEE ALSO"

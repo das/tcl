@@ -26,7 +26,7 @@ interp eval $i [list package require tcltest 2]
 interp eval $i [list namespace import -force ::tcltest::*]
 interp eval $i {
 
-package forget {expand}[package names]
+package forget {*}[package names]
 set oldPkgUnknown [package unknown]
 package unknown {}
 set oldPath $auto_path
