@@ -3418,6 +3418,7 @@ TclEvalObjvInternal(
 
     if (checkTraces && (command != NULL)) {
 	int cmdEpoch = cmdPtr->cmdEpoch;
+	int newEpoch;
 
 	/*
 	 * Execute any command or execution traces. Note that we bump up the
@@ -3434,7 +3435,8 @@ TclEvalObjvInternal(
 	    traceCode = TclCheckExecutionTraces(interp, command, length,
 		    cmdPtr, code, TCL_TRACE_ENTER_EXEC, objc, objv);
 	}
-	cmdPtr->refCount--;
+	newEpoch = cmdPtr->cmdEpoch;
+	TclCleanupCommand(cmdPtr);
 
 	/*
 	 * If the traces modified/deleted the command or any existing traces,
@@ -3444,7 +3446,7 @@ TclEvalObjvInternal(
 	 * implementation.
 	 */
 
-	if (cmdEpoch != cmdPtr->cmdEpoch) {
+	if (cmdEpoch != newEpoch) {
 	    checkTraces = 0;
 	    goto reparseBecauseOfTraces;
 	}
