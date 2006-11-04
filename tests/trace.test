@@ -1624,6 +1624,24 @@ test trace-21.10 {trace execution: TCL_EVAL_GLOBAL} testevalobjv {
     set ::info
 } {SUCCESS 1 SUCCESS 1}
 
+test trace-21.11 {trace execution and alias} -setup {
+    set res {}
+    proc ::x {} {return ::}
+    namespace eval a {}
+    proc ::a::x {} {return ::a}
+    interp alias {} y {} x
+} -body {
+    lappend res [namespace eval ::a y]
+    trace add execution ::x enter {
+      rename ::x {}
+	proc ::x {} {return ::}
+    #}
+    lappend res [namespace eval ::a y]
+} -cleanup {
+    namespace delete a
+    rename ::x {}
+} -result {:: ::}
+
 proc factorial {n} {
     if {$n != 1} { return [expr {$n * [factorial [expr {$n -1 }]]}] }
     return 1
