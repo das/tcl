@@ -521,14 +521,18 @@ Tcl_ParseExpr(
 		    break;
 		}
 
-		/* Special association rules for the ternary operators */
 		if (prec[otherPtr->lexeme] == precedence) {
+		    /* Special association rules for the ternary operators. */
 		    if ((otherPtr->lexeme == QUESTION) 
 			    && (lastOrphanPtr->lexeme != COLON)) {
 			break;
 		    }
 		    if ((otherPtr->lexeme == COLON)
 			    && (nodePtr->lexeme == QUESTION)) {
+			break;
+		    }
+		    /* Right association rules for exponentiation. */
+		    if (nodePtr->lexeme == EXPON) {
 			break;
 		    }
 		}

@@ -980,6 +980,9 @@ test expr-23.46 {INST_EXPON: Bug 1561260} -body {
 test expr-23.47 {INST_EXPON: Bug 1561260} {
     expr 2**32*5**32
 } 1[string repeat 0 32]
+test expr-23.48 {INST_EXPON: TIP 274: right assoc} {
+expr 2**3**4
+} 2417851639229258349412352
 
 # Some compilers get this wrong; ensure that we work around it correctly
 test expr-24.1 {expr edge cases; shifting} {expr int(5)>>32} 0
