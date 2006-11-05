@@ -2456,7 +2456,8 @@ AppendPrintfToObjVA(
     Tcl_ListObjGetElements(NULL, list, &objc, &objv);
     code = TclAppendFormatToObj(NULL, objPtr, format, objc, objv);
     if (code != TCL_OK) {
-	Tcl_Panic("Unable to format \"%s\" with supplied arguments: %s",
+	TclAppendPrintfToObj(objPtr,
+		"Unable to format \"%s\" with supplied arguments: %s",
 		format, Tcl_GetString(list));
     }
     Tcl_DecrRefCount(list);
