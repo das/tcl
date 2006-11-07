@@ -506,6 +506,16 @@ CopyFile(src, dst, statBufPtr)
 #endif
 #endif
 
+    /* [SF Tcl Bug 1586470] Even if we HAVE_ST_BLKSIZE, there are
+     * filesystems which report a bogus value for the blocksize.  An
+     * example is the Andrew Filesystem (afs), reporting a blocksize
+     * of 0. When detecting such a situation we now simply fall back
+     * to a hardwired default size.
+     */
+
+    if (blockSize <= 0) {
+        blockSize = 4096;
+    }
     buffer = ckalloc(blockSize);
     while (1) {
 	nread = read(srcFd, buffer, blockSize);
