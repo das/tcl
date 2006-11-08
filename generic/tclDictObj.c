@@ -467,7 +467,7 @@ SetDictFromAny(
 
 	s = ckalloc((unsigned) elemSize + 1);
 	if (hasBrace) {
-	    memcpy((void *) s, (void *) elemStart, (size_t) elemSize);
+	    memcpy(s, elemStart, (size_t) elemSize);
 	    s[elemSize] = 0;
 	} else {
 	    elemSize = TclCopyAndCollapse(elemSize, elemStart, s);

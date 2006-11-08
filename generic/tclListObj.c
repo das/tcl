@@ -859,8 +859,7 @@ Tcl_ListObjReplace(
 	     */
 
 	    if (first > 0) {
-		memcpy((VOID *) elemPtrs, (VOID *) oldPtrs,
-			(size_t) (first * sizeof(Tcl_Obj *)));
+		memcpy(elemPtrs, oldPtrs, (size_t) first * sizeof(Tcl_Obj *));
 	    }
 
 	    /*
@@ -880,9 +879,8 @@ Tcl_ListObjReplace(
 	    start = (first + count);
 	    numAfterLast = (numElems - start);
 	    if (numAfterLast > 0) {
-		memcpy((VOID *) &(elemPtrs[first + objc]),
-			(VOID *) &(oldPtrs[start]),
-			(size_t) (numAfterLast * sizeof(Tcl_Obj *)));
+		memcpy(elemPtrs + first + objc, oldPtrs + start,
+			(size_t) numAfterLast * sizeof(Tcl_Obj *));
 	    }
 
 	    ckfree((char *) oldListRepPtr);
@@ -1563,7 +1561,7 @@ SetListFromAny(
 
 	s = ckalloc((unsigned) elemSize + 1);
 	if (hasBrace) {
-	    memcpy((void *) s, (void *) elemStart, (size_t) elemSize);
+	    memcpy(s, elemStart, (size_t) elemSize);
 	    s[elemSize] = 0;
 	} else {
 	    elemSize = TclCopyAndCollapse(elemSize, elemStart, s);
