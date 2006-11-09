@@ -724,6 +724,19 @@ test cmdIL-6.26 {lassign command - shimmering protection} -body {
     rename testLassign {}
 }
 
+test cmdIL-7.1 {lreverse command} -body {
+    lreverse
+} -returnCodes error -result "wrong # args: should be \"lreverse list\""
+test cmdIL-7.2 {lreverse command} -body {
+    lreverse a b
+} -returnCodes error -result "wrong # args: should be \"lreverse list\""
+test cmdIL-7.3 {lreverse command} -body {
+    lreverse "not \{a list"
+} -returnCodes error -result {unmatched open brace in list}
+test cmdIL-7.4 {lreverse command} {
+    lreverse {a b {c d} e f}
+} {f e {c d} b a}
+
 # cleanup
 ::tcltest::cleanupTests
 return

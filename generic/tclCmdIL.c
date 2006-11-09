@@ -3158,6 +3158,56 @@ Tcl_LreplaceObjCmd(dummy, interp, objc, objv)
  */
 
 int
+Tcl_LreverseObjCmd(
+    ClientData clientData,	/* Not used. */
+    Tcl_Interp *interp,		/* Current interpreter. */
+    int objc,			/* Number of arguments. */
+    Tcl_Obj *CONST objv[])	/* Argument values. */
+{
+    Tcl_Obj *resultObj, **dataArray, **elemv;
+    int elemc, i, j;
+    List *listPtr;
+
+    if (objc != 2) {
+	Tcl_WrongNumArgs(interp, 1, objv, "list");
+	return TCL_ERROR;
+    }
+    if (Tcl_ListObjGetElements(interp, objv[1], &elemc, &elemv) != TCL_OK) {
+	return TCL_ERROR;
+    }
+
+    resultObj = Tcl_NewListObj(elemc, NULL);
+    listPtr = (List *) resultObj->internalRep.twoPtrValue.ptr1;
+    listPtr->elemCount = elemc;
+    dataArray = &listPtr->elements;
+
+    for (i=0,j=elemc-1 ; i<elemc ; i++,j--) {
+	dataArray[j] = elemv[i];
+	Tcl_IncrRefCount(elemv[i]);
+    }
+
+    Tcl_SetObjResult(interp, resultObj);
+    return TCL_OK;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * Tcl_LsearchObjCmd --
+ *
+ *	This procedure is invoked to process the "lsearch" Tcl command. See
+ *	the user documentation for details on what it does.
+ *
+ * Results:
+ *	A standard Tcl result.
+ *
+ * Side effects:
+ *	See the user documentation.
+ *
+ *----------------------------------------------------------------------
+ */
+
+int
 Tcl_LsearchObjCmd(clientData, interp, objc, objv)
     ClientData clientData;	/* Not used. */
     Tcl_Interp *interp;		/* Current interpreter. */

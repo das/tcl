@@ -139,6 +139,7 @@ static CmdInfo builtInCmds[] = {
     {"lrange",		Tcl_LrangeObjCmd,	NULL,			1},
     {"lrepeat",		Tcl_LrepeatObjCmd,	NULL,			1},
     {"lreplace",	Tcl_LreplaceObjCmd,	NULL,			1},
+    {"lreverse",	Tcl_LreverseObjCmd,	NULL,			1},
     {"lsearch",		Tcl_LsearchObjCmd,	NULL,			1},
     {"lset",		Tcl_LsetObjCmd,		TclCompileLsetCmd,	1},
     {"lsort",		Tcl_LsortObjCmd,	NULL,			1},

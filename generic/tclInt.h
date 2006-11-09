@@ -2426,6 +2426,9 @@ MODULE_SCOPE int	Tcl_LrepeatObjCmd(ClientData clientData,
 MODULE_SCOPE int	Tcl_LreplaceObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[]);
+MODULE_SCOPE int	Tcl_LreverseObjCmd(ClientData clientData,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *CONST objv[]);
 MODULE_SCOPE int	Tcl_LsearchObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[]);
