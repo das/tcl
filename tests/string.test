@@ -1503,8 +1503,14 @@ test string-24.1 {string reverse command} -body {
 test string-24.2 {string reverse command} -body {
     string reverse a b
 } -returnCodes error -result "wrong # args: should be \"string reverse string\""
-test string-24.3 {string reverse command} {
-    string reverse abcde
+test string-24.3 {string reverse command - shared string} {
+    set x abcde
+    string reverse $x
+} edcba
+test string-24.4 {string reverse command - unshared string} {
+    set x abc
+    set y de
+    string reverse $x$y
 } edcba
 
 # cleanup
