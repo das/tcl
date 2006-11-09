@@ -255,7 +255,6 @@ GENERIC_OBJS = \
 	tclObj.$(OBJEXT) \
 	tclPanic.$(OBJEXT) \
 	tclParse.$(OBJEXT) \
-	tclParseExpr.$(OBJEXT) \
 	tclPathObj.$(OBJEXT) \
 	tclPipe.$(OBJEXT) \
 	tclPkg.$(OBJEXT) \
