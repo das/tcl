@@ -581,7 +581,7 @@ test fCmd-6.26 {CopyRenameOneFile: doesn't use original name} \
     file attributes $td2name -permissions 0755
     file delete -force ~/td1
     set msg
-} "1 {error copying \"~/td1\" to \"td1\": \"[file join [file dirname ~] [file tail ~] td1 td2]\": permission denied}"
+} "1 {error copying \"~/td1\" to \"td1\": \"[file join $::env(HOME) td1 td2]\": permission denied}"
 test fCmd-6.27 {CopyRenameOneFile: TclpCopyDirectory failed} \
 	{unix notRoot xdev} {
     cleanup /tmp
