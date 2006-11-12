@@ -320,6 +320,8 @@ TclIntStubs tclIntStubs = {
     TclObjBeingDeleted, /* 226 */
     TclSetNsPath, /* 227 */
     TclObjInterpProcCore, /* 228 */
+    TclPtrMakeUpvar, /* 229 */
+    TclObjLookupVar, /* 230 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
