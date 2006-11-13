@@ -299,7 +299,7 @@ TclInitThreadStorage(void)
      * We also initialize the cache.
      */
 
-    memset(&threadStorageCache, 0,
+    memset((void*) &threadStorageCache, 0,
 	    sizeof(ThreadStorage) * STORAGE_CACHE_SLOTS);
 
     /*
@@ -529,7 +529,7 @@ TclFinalizeThreadStorage(void)
      * Clear out the thread storage cache as well.
      */
 
-    memset(&threadStorageCache, 0,
+    memset((void*) &threadStorageCache, 0,
 	    sizeof(ThreadStorage) * STORAGE_CACHE_SLOTS);
 
     /*
