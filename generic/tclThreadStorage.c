@@ -189,7 +189,7 @@ static Tcl_HashTable *
 ThreadStorageGetHashTable(
     Tcl_ThreadId id)		/* Id of thread to get hash table for */
 {
-    int index = (unsigned) id % STORAGE_CACHE_SLOTS;
+    int index = PTR2UINT(id) % STORAGE_CACHE_SLOTS;
     Tcl_HashEntry *hPtr;
     int new;
 
@@ -397,7 +397,7 @@ TclpFinalizeThreadDataThread(void)
 {
     Tcl_ThreadId id = Tcl_GetCurrentThread();
 				/* Id of the thread to finalize. */
-    int index = (unsigned int)id % STORAGE_CACHE_SLOTS;
+    int index = PTR2UINT(id) % STORAGE_CACHE_SLOTS;
     Tcl_HashEntry *hPtr;	/* Hash entry for current thread in master
 				 * table. */
     Tcl_HashTable* hashTablePtr;/* Pointer to the hash table holding TSD

@@ -9414,7 +9414,7 @@ HaveVersion(
 {
     Tcl_ChannelTypeVersion actualVersion = Tcl_ChannelVersion(chanTypePtr);
 
-    return ((int)actualVersion) >= ((int)minimumVersion);
+    return (PTR2INT(actualVersion)) >= (PTR2INT(minimumVersion));
 }
 
 /*

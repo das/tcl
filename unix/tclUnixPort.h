@@ -104,6 +104,12 @@ EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((CONST char *string,
 #ifndef NO_SYS_WAIT_H
 #   include <sys/wait.h>
 #endif
+#if HAVE_INTTYPES_H
+#   include <inttypes.h>
+#endif
+#if HAVE_STDINT_H
+#   include <stdint.h>
+#endif
 #ifdef HAVE_UNISTD_H
 #   include <unistd.h>
 #else

@@ -293,7 +293,7 @@ TclCreateAbsoluteTimerHandler(
     timerHandlerPtr->proc = proc;
     timerHandlerPtr->clientData = clientData;
     tsdPtr->lastTimerId++;
-    timerHandlerPtr->token = (Tcl_TimerToken) tsdPtr->lastTimerId;
+    timerHandlerPtr->token = (Tcl_TimerToken) INT2PTR(tsdPtr->lastTimerId);
 
     /*
      * Add the event to the queue in the correct position
@@ -567,7 +567,7 @@ TimerHandlerEventProc(
 	 * Bail out if the next timer is of a newer generation.
 	 */
 
-	if ((currentTimerId - (int)timerHandlerPtr->token) < 0) {
+	if ((currentTimerId - PTR2INT(timerHandlerPtr->token)) < 0) {
 	    break;
 	}
 

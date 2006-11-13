@@ -682,10 +682,10 @@ TclObjGetFrame(
     result = 1;
     curLevel = iPtr->varFramePtr->level;
     if (objPtr->typePtr == &levelReferenceType) {
-	if ((int) objPtr->internalRep.twoPtrValue.ptr1) {
-	    level = curLevel - (int) objPtr->internalRep.twoPtrValue.ptr2;
+	if (PTR2INT(objPtr->internalRep.twoPtrValue.ptr1)) {
+	    level = curLevel - PTR2INT(objPtr->internalRep.twoPtrValue.ptr2);
 	} else {
-	    level = (int) objPtr->internalRep.twoPtrValue.ptr2;
+	    level = PTR2INT(objPtr->internalRep.twoPtrValue.ptr2);
 	}
 	if (level < 0) {
 	    goto levelError;
@@ -715,7 +715,7 @@ TclObjGetFrame(
 	    TclFreeIntRep(objPtr);
 	    objPtr->typePtr = &levelReferenceType;
 	    objPtr->internalRep.twoPtrValue.ptr1 = (void *) 0;
-	    objPtr->internalRep.twoPtrValue.ptr2 = (void *) level;
+	    objPtr->internalRep.twoPtrValue.ptr2 = INT2PTR(level);
 	} else if (isdigit(UCHAR(*name))) { /* INTL: digit */
 	    if (Tcl_GetInt(interp, name, &level) != TCL_OK) {
 		return -1;
@@ -730,7 +730,7 @@ TclObjGetFrame(
 	    TclFreeIntRep(objPtr);
 	    objPtr->typePtr = &levelReferenceType;
 	    objPtr->internalRep.twoPtrValue.ptr1 = (void *) 1;
-	    objPtr->internalRep.twoPtrValue.ptr2 = (void *) level;
+	    objPtr->internalRep.twoPtrValue.ptr2 = INT2PTR(level);
 	    level = curLevel - level;
 	} else {
 	    /*

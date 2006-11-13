@@ -721,7 +721,7 @@ Tcl_Exit(
 	 * returns, so critical is this dependcy.
 	 */
 
-	currentAppExitPtr((ClientData) status);
+	currentAppExitPtr((ClientData) INT2PTR(status));
 	Tcl_Panic("AppExitProc returned unexpectedly");
     } else {
 	/*

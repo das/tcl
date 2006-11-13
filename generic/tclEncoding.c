@@ -2760,7 +2760,7 @@ EscapeToUtfProc(
     dstStart = dst;
     dstEnd = dst + dstLen - TCL_UTF_MAX;
 
-    state = (int) *statePtr;
+    state = PTR2INT(*statePtr);
     if (flags & TCL_ENCODING_START) {
 	state = 0;
     }
@@ -2899,7 +2899,7 @@ EscapeToUtfProc(
 	numChars++;
     }
 
-    *statePtr = (Tcl_EncodingState) state;
+    *statePtr = (Tcl_EncodingState) INT2PTR(state);
     *srcReadPtr = src - srcStart;
     *dstWrotePtr = dst - dstStart;
     *dstCharsPtr = numChars;
@@ -2989,7 +2989,7 @@ EscapeFromUtfProc(
 	memcpy((VOID *)dst, (VOID *)dataPtr->init, (size_t)dataPtr->initLen);
 	dst += dataPtr->initLen;
     } else {
-	state = (int) *statePtr;
+	state = PTR2INT(*statePtr);
     }
 
     encodingPtr = GetTableEncoding(dataPtr, state);
@@ -3103,7 +3103,7 @@ EscapeFromUtfProc(
 	}
     }
 
-    *statePtr = (Tcl_EncodingState) state;
+    *statePtr = (Tcl_EncodingState) INT2PTR(state);
     *srcReadPtr = src - srcStart;
     *dstWrotePtr = dst - dstStart;
     *dstCharsPtr = numChars;

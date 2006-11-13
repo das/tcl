@@ -329,7 +329,7 @@ Tcl_CreateHashEntry(
 	    index = hash & tablePtr->mask;
 	}
     } else {
-	hash = (unsigned int) key;
+	hash = PTR2UINT(key);
 	index = RANDOM_INDEX (tablePtr, hash);
     }
 
@@ -342,7 +342,7 @@ Tcl_CreateHashEntry(
 	for (hPtr = tablePtr->buckets[index]; hPtr != NULL;
 		hPtr = hPtr->nextPtr) {
 #if TCL_HASH_KEY_STORE_HASH
-	    if (hash != (unsigned int) hPtr->hash) {
+	    if (hash != PTR2UINT(hPtr->hash)) {
 		continue;
 	    }
 #endif
@@ -356,7 +356,7 @@ Tcl_CreateHashEntry(
 	for (hPtr = tablePtr->buckets[index]; hPtr != NULL;
 		hPtr = hPtr->nextPtr) {
 #if TCL_HASH_KEY_STORE_HASH
-	    if (hash != (unsigned int) hPtr->hash) {
+	    if (hash != PTR2UINT(hPtr->hash)) {
 		continue;
 	    }
 #endif
@@ -387,7 +387,7 @@ Tcl_CreateHashEntry(
     hPtr->tablePtr = tablePtr;
 #if TCL_HASH_KEY_STORE_HASH
 #   if TCL_PRESERVE_BINARY_COMPATABILITY
-    hPtr->hash = (VOID *) hash;
+    hPtr->hash = UINT2PTR(hash);
 #   else
     hPtr->hash = hash;
 #   endif
@@ -464,7 +464,7 @@ Tcl_DeleteHashEntry(
 	    || typePtr->flags & TCL_HASH_KEY_RANDOMIZE_HASH) {
 	index = RANDOM_INDEX (tablePtr, entryPtr->hash);
     } else {
-	index = ((unsigned int) entryPtr->hash) & tablePtr->mask;
+	index = PTR2UINT(entryPtr->hash) & tablePtr->mask;
     }
 
     bucketPtr = &(tablePtr->buckets[index]);
@@ -1127,7 +1127,7 @@ RebuildTable(
 		    || typePtr->flags & TCL_HASH_KEY_RANDOMIZE_HASH) {
 		index = RANDOM_INDEX (tablePtr, hPtr->hash);
 	    } else {
-		index = ((unsigned int) hPtr->hash) & tablePtr->mask;
+		index = PTR2UINT(hPtr->hash) & tablePtr->mask;
 	    }
 	    hPtr->nextPtr = tablePtr->buckets[index];
 	    tablePtr->buckets[index] = hPtr;

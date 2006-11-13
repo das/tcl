@@ -1246,7 +1246,7 @@ TclCompileExpr(
 		Tcl_HashEntry *hPtr = Tcl_CreateHashEntry(&opHashTable,
 			operatorTable[i].name, &new);
 		if (new) {
-		    Tcl_SetHashValue(hPtr, (ClientData) i);
+		    Tcl_SetHashValue(hPtr, (ClientData) INT2PTR(i));
 		}
 	    }
 	    opTableInitialized = 1;
@@ -1387,7 +1387,7 @@ CompileSubExpr(
 	    break;
 	}
 	Tcl_DStringFree(&opBuf);
-	opIndex = (int) Tcl_GetHashValue(hPtr);
+	opIndex = PTR2INT(Tcl_GetHashValue(hPtr));
 	opDescPtr = &(operatorTable[opIndex]);
 
 	/*
