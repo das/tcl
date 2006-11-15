@@ -1128,7 +1128,7 @@ TclParseNumber(
 	    Tcl_Obj *msg = Tcl_NewStringObj("expected ", -1);
 	    Tcl_AppendToObj(msg, expected, -1);
 	    Tcl_AppendToObj(msg, " but got \"", -1);
-	    TclAppendLimitedToObj(msg, bytes, numBytes, 50, "");
+	    Tcl_AppendLimitedToObj(msg, bytes, numBytes, 50, "");
 	    Tcl_AppendToObj(msg, "\"", -1);
 	    if (state == BAD_OCTAL) {
 		Tcl_AppendToObj(msg, " (looks like invalid octal number)", -1);

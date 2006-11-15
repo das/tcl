@@ -3458,7 +3458,7 @@ NamespaceEvalCmd(
 	int limit = 200;
 	int overflow = (length > limit);
 
-	TclAppendObjToErrorInfo(interp, TclObjPrintf(
+	Tcl_AppendObjToErrorInfo(interp, Tcl_ObjPrintf(
 		"\n    (in namespace eval \"%.*s%s\" script line %d)",
 		(overflow ? limit : length), namespacePtr->fullName,
 		(overflow ? "..." : ""), interp->errorLine));
@@ -3898,7 +3898,7 @@ NamespaceInscopeCmd(
 	int limit = 200;
 	int overflow = (length > limit);
 
-	TclAppendObjToErrorInfo(interp, TclObjPrintf(
+	Tcl_AppendObjToErrorInfo(interp, Tcl_ObjPrintf(
 		"\n    (in namespace inscope \"%.*s%s\" script line %d)",
 		(overflow ? limit : length), namespacePtr->fullName,
 		(overflow ? "..." : ""), interp->errorLine));
@@ -4628,7 +4628,7 @@ NamespaceUpvarCmd(
 	/*
 	 * The namespace does not exist, leave an error message.
 	 */
-	Tcl_SetObjResult(interp, TclFormat(NULL,
+	Tcl_SetObjResult(interp, Tcl_Format(NULL,
 		"namespace \"%s\" does not exist", 1, objv+2));
 	return TCL_ERROR;
     }
@@ -7019,7 +7019,7 @@ Tcl_LogCommandInfo(
     }
 
     overflow = (length > limit);
-    TclAppendObjToErrorInfo(interp, TclObjPrintf(
+    Tcl_AppendObjToErrorInfo(interp, Tcl_ObjPrintf(
 	    "\n    %s\n\"%.*s%s\"", ((iPtr->errorInfo == NULL)
 	    ? "while executing" : "invoked from within"),
 	    (overflow ? limit : length), command, (overflow ? "..." : "")));

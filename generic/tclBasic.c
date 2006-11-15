@@ -3819,7 +3819,7 @@ Tcl_EvalEx(
 			 * Attempt to expand a non-list.
 			 */
 
-			TclAppendObjToErrorInfo(interp, TclObjPrintf(
+			Tcl_AppendObjToErrorInfo(interp, Tcl_ObjPrintf(
 				"\n    (expanding word %d)", objectsUsed));
 			Tcl_DecrRefCount(objv[objectsUsed]);
 			goto error;
@@ -4210,7 +4210,7 @@ ProcessUnexpectedResult(
 	Tcl_AppendResult(interp,
 		"invoked \"continue\" outside of a loop", NULL);
     } else {
-	Tcl_SetObjResult(interp, TclObjPrintf(
+	Tcl_SetObjResult(interp, Tcl_ObjPrintf(
 		"command returned bad code: %d", returnCode));
     }
 }
@@ -4647,7 +4647,7 @@ Tcl_ExprString(
 /*
  *----------------------------------------------------------------------
  *
- * TclAppendObjToErrorInfo --
+ * Tcl_AppendObjToErrorInfo --
  *
  *	Add a Tcl_Obj value to the errorInfo field that describes the current
  *	error.
@@ -4664,7 +4664,7 @@ Tcl_ExprString(
  */
 
 void
-TclAppendObjToErrorInfo(
+Tcl_AppendObjToErrorInfo(
     Tcl_Interp *interp,		/* Interpreter to which error information
 				 * pertains. */
     Tcl_Obj *objPtr)		/* Message to record. */
@@ -5839,7 +5839,7 @@ MathFuncWrongNumArgs(
 	    break;
 	}
     }
-    Tcl_SetObjResult(interp, TclObjPrintf(
+    Tcl_SetObjResult(interp, Tcl_ObjPrintf(
 	    "too %s arguments for math function \"%s\"",
 	    (found < expected ? "few" : "many"), name));
 }

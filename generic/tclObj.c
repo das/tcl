@@ -1404,7 +1404,7 @@ SetBooleanFromAny(
 	char *str = Tcl_GetStringFromObj(objPtr, &length);
 	Tcl_Obj *msg =
 		Tcl_NewStringObj("expected boolean value but got \"", -1);
-	TclAppendLimitedToObj(msg, str, length, 50, "");
+	Tcl_AppendLimitedToObj(msg, str, length, 50, "");
 	Tcl_AppendToObj(msg, "\"", -1);
 	Tcl_SetObjResult(interp, msg);
     }

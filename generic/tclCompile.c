@@ -1017,7 +1017,7 @@ TclCompileScript(
 	    Tcl_IncrRefCount(returnCmd);
 	    Tcl_IncrRefCount(errInfo);
 	    Tcl_AppendToObj(errInfo, "\n    while executing\n\"", -1);
-	    TclAppendLimitedToObj(errInfo, parse.commandStart,
+	    Tcl_AppendLimitedToObj(errInfo, parse.commandStart,
 		    /* Drop the command terminator (";","]") if appropriate */
 		    (parse.term == parse.commandStart + parse.commandSize - 1)?
 		    parse.commandSize - 1 : parse.commandSize, 153, NULL);

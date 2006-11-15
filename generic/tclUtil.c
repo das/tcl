@@ -221,7 +221,7 @@ TclFindElement(
 			    && (p2 < p+20)) {
 			p2++;
 		    }
-		    Tcl_SetObjResult(interp, TclObjPrintf(
+		    Tcl_SetObjResult(interp, Tcl_ObjPrintf(
 			    "list element in braces followed by \"%.*s\" "
 			    "instead of space", (int) (p2-p), p));
 		}
@@ -280,7 +280,7 @@ TclFindElement(
 			    && (p2 < p+20)) {
 			p2++;
 		    }
-		    Tcl_SetObjResult(interp, TclObjPrintf(
+		    Tcl_SetObjResult(interp, Tcl_ObjPrintf(
 			    "list element in quotes followed by \"%.*s\" "
 			    "instead of space", (int) (p2-p), p));
 		}

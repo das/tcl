@@ -652,7 +652,7 @@ Tcl_Main(
 
 	    if (!Tcl_InterpDeleted(interp)) {
 		if (!Tcl_LimitExceeded(interp)) {
-		    Tcl_Obj *cmd = TclObjPrintf("exit %d", exitCode);
+		    Tcl_Obj *cmd = Tcl_ObjPrintf("exit %d", exitCode);
 		    Tcl_IncrRefCount(cmd);
 		    Tcl_EvalObjEx(interp, cmd, TCL_EVAL_GLOBAL);
 		    Tcl_DecrRefCount(cmd);

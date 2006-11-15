@@ -3428,7 +3428,7 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 		    if (sortInfo.indexc > 1) {
 			ckfree((char *) sortInfo.indexv);
 		    }
-		    TclAppendObjToErrorInfo(interp, TclObjPrintf(
+		    Tcl_AppendObjToErrorInfo(interp, Tcl_ObjPrintf(
 			    "\n    (-index option item number %d)", j));
 		    return TCL_ERROR;
 		}
@@ -4066,7 +4066,7 @@ Tcl_LsortObjCmd(clientData, interp, objc, objv)
 		    if (sortInfo.indexc > 1) {
 			ckfree((char *) sortInfo.indexv);
 		    }
-		    TclAppendObjToErrorInfo(interp, TclObjPrintf(
+		    Tcl_AppendObjToErrorInfo(interp, Tcl_ObjPrintf(
 			    "\n    (-index option item number %d)", j));
 		    return TCL_ERROR;
 		}

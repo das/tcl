@@ -2072,6 +2072,29 @@ declare 573 generic {
 	    int objc, Tcl_Obj *CONST objv[], ClientData *clientDataPtr)
 }
 
+# TIP#270 Utility C Routines for String Formatting
+declare 574 generic {
+    void Tcl_AppendObjToErrorInfo(Tcl_Interp *interp, Tcl_Obj *objPtr)
+}
+declare 575 generic {
+    void Tcl_AppendLimitedToObj(Tcl_Obj *objPtr, CONST char *bytes, int length,
+	    int limit, CONST char *ellipsis)
+}
+declare 576 generic {
+    Tcl_Obj * Tcl_Format(Tcl_Interp *interp, CONST char *format, int objc,
+	    Tcl_Obj * CONST objv[])
+}
+declare 577 generic {
+    int Tcl_AppendFormatToObj(Tcl_Interp *interp, Tcl_Obj *objPtr,
+	    CONST char *format, int objc, Tcl_Obj * CONST objv[])
+}
+declare 578 generic {
+    Tcl_Obj * Tcl_ObjPrintf(CONST char *format, ...)
+}
+declare 579 generic {
+    void Tcl_AppendPrintfToObj(Tcl_Obj *objPtr, CONST char *format, ...)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are

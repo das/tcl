@@ -1076,6 +1076,12 @@ TclStubs tclStubs = {
     Tcl_SetEncodingSearchPath, /* 571 */
     Tcl_GetEncodingNameFromEnvironment, /* 572 */
     Tcl_PkgRequireProc, /* 573 */
+    Tcl_AppendObjToErrorInfo, /* 574 */
+    Tcl_AppendLimitedToObj, /* 575 */
+    Tcl_Format, /* 576 */
+    Tcl_AppendFormatToObj, /* 577 */
+    Tcl_ObjPrintf, /* 578 */
+    Tcl_AppendPrintfToObj, /* 579 */
 };
 
 /* !END!: Do not edit above this line. */
