@@ -17,12 +17,12 @@ lreverse \- Reverse the order of a list
 .BE
 .SH DESCRIPTION
 .PP
-The \fBlreverse\fP command returns a list that has the same elements as its
-input list, \fIlist\fP, except with the elements in the reverse order.
+The \fBlreverse\fR command returns a list that has the same elements as its
+input list, \fIlist\fR, except with the elements in the reverse order.
 .SH EXAMPLES
 .CS
-\fBlreverse\fP {a a b c}        => c b a a
-\fBlreverse\fP {a b {c d} e f}  => f e {c d} b a
+\fBlreverse\fR {a a b c}        => c b a a
+\fBlreverse\fR {a b {c d} e f}  => f e {c d} b a
 .CE
 .SH "SEE ALSO"
 list(n), lsearch(n), lsort(n)

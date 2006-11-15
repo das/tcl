@@ -182,7 +182,7 @@ illustration.)
 .PP
 For example, assume the collating sequence includes a \fBch\fR
 multi-character collating element.  Then the RE \fB[[.ch.]]*c\fR (zero
-or more \fBch\fP's followed by \fBc\fP) matches the first five
+or more \fBch\fR's followed by \fBc\fR) matches the first five
 characters of `\fBchchcc\fR'.  Also, the RE \fB[^c]b\fR matches all of
 `\fBchb\fR' (because \fB[^c]\fR matches the multi-character \fBch\fR).
 .PP
