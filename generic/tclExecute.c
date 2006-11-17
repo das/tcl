@@ -4781,6 +4781,11 @@ TclExecuteByteCode(
 		    NEXT_INST_F(1, 2, 1);
 		}
 	    }
+	    if (type2 == TCL_NUMBER_BIG) {
+		Tcl_SetObjResult(interp,
+			Tcl_NewStringObj("exponent too large", -1));
+		goto checkForCatch;
+	    }
 	    /* TODO: Perform those computations that fit in native types */
 	    goto overflow;
 	}
