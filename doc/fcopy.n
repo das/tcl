@@ -49,7 +49,7 @@ However, it is necessary to enter the event loop by using
 the \fBvwait\fR command or by using Tk.
 .PP
 You are not allowed to do other I/O operations with
-\fIinchan\fR or \fIoutchan\fR during a background fcopy.
+\fIinchan\fR or \fIoutchan\fR during a background \fBfcopy\fR.
 If either \fIinchan\fR or \fIoutchan\fR get closed
 while the copy is in progress, the current copy is stopped
 and the command callback is \fInot\fR made.
