@@ -51,7 +51,6 @@ extern "C" {
  * macosx/Tcl.xcode/default.pbxuser (not patchlevel) 1 LOC
  * macosx/Tcl.xcodeproj/project.pbxproj (not patchlevel) 8 LOC
  * macosx/Tcl.xcodeproj/default.pbxuser (not patchlevel) 4 LOC
- * win/README.binary	(sections 0-4, with and without separator)
  * win/README		(not patchlevel) (sections 0 and 2)
  * unix/tcl.spec	(2 LOC Major/Minor, 1 LOC patch)
  * tests/basic.test	(1 LOC M/M, not patchlevel)
