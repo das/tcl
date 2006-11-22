@@ -1553,9 +1553,13 @@ test string-25.12 {string is list} {
     set x {}
     list [string is list -failindex x {}] $x
 } {1 {}}
-test string-25.11 {string is list} {
+test string-25.13 {string is list} {
     set x {}
     list [string is list -failindex x {  {b c}d e}] $x
+} {0 2}
+test string-25.14 {string is list} {
+    set x {}
+    list [string is list -failindex x "\uabcd {b c}d e"] $x
 } {0 2}
 
 # cleanup
