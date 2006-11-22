@@ -559,15 +559,6 @@ typedef void (Tcl_ThreadCreateProc) _ANSI_ARGS_((ClientData clientData));
 					 * matches */
 
 /*
- * The following flag is experimental and only intended for use by Expect. It
- * will probably go away in a later release.
- */
-
-#define TCL_REG_BOSONLY		002000	/* prepend \A to pattern so it only
-					 * matches at the beginning of the
-					 * string. */
-
-/*
  * Flags values passed to Tcl_RegExpExecObj.
  */
 

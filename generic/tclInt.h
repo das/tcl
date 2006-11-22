@@ -947,7 +947,18 @@ typedef void **TclHandle;
 
 /*
  *----------------------------------------------------------------
- * Data structures related to expressions. These are used only in tclExpr.c.
+ * Experimental flag value passed to Tcl_GetRegExpFromObj.
+ * Intended for use only by Expect.
+ * It will probably go away in a later release.
+ *----------------------------------------------------------------
+ */
+#define TCL_REG_BOSONLY         002000  /* prepend \A to pattern so it only
+					 * matches at the beginning of the
+					 * string. */
+
+/*
+ *----------------------------------------------------------------
+ * Data structures related to expressions.
  *----------------------------------------------------------------
  */
 
