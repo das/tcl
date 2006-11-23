@@ -635,7 +635,7 @@ Tcl_Main(
 	 * If everything has gone OK so far, call the main loop proc, if it
 	 * exists. Packages (like Tk) can set it to start processing events at
 	 * this point.
-		 */
+	 */
 
 		(*mainLoopProc)();
 		mainLoopProc = NULL;
@@ -680,9 +680,9 @@ Tcl_Main(
 	    Tcl_Exit(exitCode);
 	}
 	
-	/*
-	 *---------------------------------------------------------------
-	 *
+/*
+ *---------------------------------------------------------------
+ *
  * Tcl_SetMainLoop --
  *
  *	Sets an alternative main loop function.
