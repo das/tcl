@@ -6198,9 +6198,11 @@ CompareNumbers(
   longCompare:
     *resultPtr = (l1 < l2) ? MP_LT : ((l1 > l2) ? MP_GT : MP_EQ);
     return TCL_OK;
+#ifndef NO_WIDE_TYPE
   wideCompare:
     *resultPtr = (w1 < w2) ? MP_LT : ((w1 > w2) ? MP_GT : MP_EQ);
     return TCL_OK;
+#endif
   doubleCompare:
     *resultPtr = (d1 < d2) ? MP_LT : ((d1 > d2) ? MP_GT : MP_EQ);
     return TCL_OK;
