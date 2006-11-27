@@ -1080,7 +1080,7 @@ TclIncrObj(
 	/* Produce error message (reparse?!) */
 	return Tcl_GetIntFromObj(interp, valuePtr, &type1);
     }
-    if ((type1 == TCL_NUMBER_DOUBLE) || (type1 == TCL_NUMBER_NAN)) {
+    if ((type2 == TCL_NUMBER_DOUBLE) || (type2 == TCL_NUMBER_NAN)) {
 	/* Produce error message (reparse?!) */
 	Tcl_GetIntFromObj(interp, incrPtr, &type1);
 	Tcl_AddErrorInfo(interp, "\n    (reading increment)");
