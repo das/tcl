@@ -3149,7 +3149,8 @@ TclUnixWaitForFile(
 {
     Tcl_Time abortTime = {0, 0}, now; /* silence gcc 4 warning */
     struct timeval blockTime, *timeoutPtr;
-    int index, bit, numFound, result = 0;
+    int index, numFound, result = 0;
+    fd_mask bit;
     fd_mask readyMasks[3*MASK_SIZE];
     fd_mask *maskp[3];		/* This array reflects the readable/writable
 				 * conditions that were found to exist by the
