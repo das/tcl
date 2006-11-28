@@ -1261,6 +1261,10 @@ TclCompileExpr(
     if (TCL_OK != Tcl_ParseExpr(interp, script, numBytes, &parse)) {
 	return TCL_ERROR;
     }
+
+    /* TIP #280 : Track Lines within the expression */
+    TclAdvanceLines (&envPtr->line, script, parse.tokenPtr->start);
+
     CompileSubExpr(interp, parse.tokenPtr, &needsNumConversion, envPtr);
 
     if (needsNumConversion) {

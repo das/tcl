@@ -804,7 +804,8 @@ declare 183 generic {
 # Added in tcl8.5a5 for compiler/executor experimentation.
 #
 declare 197 generic {
-    int TclCompEvalObj (Tcl_Interp *interp, Tcl_Obj *objPtr)
+    int TclCompEvalObj (Tcl_Interp *interp, Tcl_Obj *objPtr,
+		        CONST CmdFrame* invoker, int word)
 }
 
 declare 198 generic {

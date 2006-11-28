@@ -867,7 +867,8 @@ EXTERN struct tm *	TclpGmtime (CONST time_t * clock);
 #define TclCompEvalObj_TCL_DECLARED
 /* 197 */
 EXTERN int		TclCompEvalObj (Tcl_Interp * interp, 
-				Tcl_Obj * objPtr);
+				Tcl_Obj * objPtr, CONST CmdFrame* invoker, 
+				int word);
 #endif
 #ifndef TclObjGetFrame_TCL_DECLARED
 #define TclObjGetFrame_TCL_DECLARED
@@ -1237,7 +1238,7 @@ typedef struct TclIntStubs {
     void *reserved194;
     void *reserved195;
     void *reserved196;
-    int (*tclCompEvalObj) (Tcl_Interp * interp, Tcl_Obj * objPtr); /* 197 */
+    int (*tclCompEvalObj) (Tcl_Interp * interp, Tcl_Obj * objPtr, CONST CmdFrame* invoker, int word); /* 197 */
     int (*tclObjGetFrame) (Tcl_Interp * interp, Tcl_Obj * objPtr, CallFrame ** framePtrPtr); /* 198 */
     void *reserved199;
     int (*tclpObjRemoveDirectory) (Tcl_Obj * pathPtr, int recursive, Tcl_Obj ** errorPtr); /* 200 */

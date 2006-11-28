@@ -3441,7 +3441,9 @@ NamespaceEvalCmd(
     framePtr->objv = objv;
 
     if (objc == 4) {
-	result = Tcl_EvalObjEx(interp, objv[3], 0);
+        /* TIP #280 : Make invoker available to eval'd script */
+        Interp* iPtr = (Interp*) interp;
+        result = TclEvalObjEx(interp, objv[3], 0, iPtr->cmdFramePtr,3);
     } else {
 	/*
 	 * More than one argument: concatenate them together with spaces
@@ -3450,7 +3452,8 @@ NamespaceEvalCmd(
 	 */
 
 	objPtr = Tcl_ConcatObj(objc-3, objv+3);
-	result = Tcl_EvalObjEx(interp, objPtr, TCL_EVAL_DIRECT);
+	/* TIP #280. Make invoking context available to eval'd script */
+	result = TclEvalObjEx(interp, objPtr, TCL_EVAL_DIRECT, NULL, 0);
     }
 
     if (result == TCL_ERROR) {

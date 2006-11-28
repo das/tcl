@@ -114,6 +114,31 @@ typedef struct CmdLocation {
 } CmdLocation;
 
 /*
+ * TIP #280
+ * Structure to record additional location information for byte code.
+ * This information is internal and not saved. I.e. tbcload'ed code
+ * will not have this information. It records the lines for all words
+ * of all commands found in the byte code. The association with a
+ * ByteCode structure BC is done through the 'lineBCPtr' HashTable in
+ * Interp, keyed by the address of BC. Also recorded is information
+ * coming from the context, i.e. type of the frame and associated
+ * information, like the path of a sourced file.
+ */
+
+typedef struct ECL {
+  int  srcOffset; /* cmd location to find the entry */
+  int  nline;
+  int* line;      /* line information for all words in the command */
+} ECL;
+typedef struct ExtCmdLoc {
+  int      type;  /* Context type */
+  Tcl_Obj* path;  /* Path of the sourced file the command is in */
+  ECL*     loc;   /* Command word locations (lines) */
+  int      nloc;  /* Number of allocated entries in 'loc' */
+  int      nuloc; /* Number of used entries in 'loc' */
+} ExtCmdLoc;
+
+/*
  * CompileProcs need the ability to record information during compilation that
  * can be used by bytecode instructions during execution. The AuxData
  * structure provides this "auxiliary data" mechanism. An arbitrary number of
@@ -253,6 +278,12 @@ typedef struct CompileEnv {
 				/* Initial storage for cmd location map. */
     AuxData staticAuxDataArraySpace[COMPILEENV_INIT_AUX_DATA_SIZE];
 				/* Initial storage for aux data array. */
+    /* TIP #280 */
+    ExtCmdLoc* extCmdMapPtr;    /* Extended command location information
+				 * for 'info frame'. */
+    int        line;            /* First line of the script, based on the
+				 * invoking context, then the line of the
+				 * command currently compiled. */
 } CompileEnv;
 
 /*
@@ -788,7 +819,8 @@ MODULE_SCOPE void	TclInitByteCodeObj(Tcl_Obj *objPtr,
 			    CompileEnv *envPtr);
 MODULE_SCOPE void	TclInitCompilation(void);
 MODULE_SCOPE void	TclInitCompileEnv(Tcl_Interp *interp,
-			    CompileEnv *envPtr, char *string, int numBytes);
+			    CompileEnv *envPtr, char *string, int numBytes,
+			    CONST CmdFrame* invoker, int word);
 MODULE_SCOPE void	TclInitJumpFixupArray(JumpFixupArray *fixupArrayPtr);
 MODULE_SCOPE void	TclInitLiteralTable(LiteralTable *tablePtr);
 #ifdef TCL_COMPILE_STATS
@@ -819,6 +851,7 @@ MODULE_SCOPE int	TclCompileVariableCmd(Tcl_Interp *interp,
 			    Tcl_Parse *parsePtr, CompileEnv *envPtr);
 MODULE_SCOPE int	TclWordKnownAtCompileTime(Tcl_Token *tokenPtr,
 			    Tcl_Obj *valuePtr);
+MODULE_SCOPE int	TclWordSimpleExpansion(Tcl_Token *tokenPtr);
 
 /*
  *----------------------------------------------------------------

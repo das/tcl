@@ -1615,8 +1615,7 @@ proc tcltest::Eval {script {ignoreOutput 1}} {
 	set outData {}
 	set errData {}
 	rename ::puts [namespace current]::Replace::Puts
-	namespace eval :: \
-		[list namespace import [namespace origin Replace::puts]]
+	namespace eval :: [list namespace import [namespace origin Replace::puts]]
 	namespace import Replace::puts
     }
     set result [uplevel 1 $script]
