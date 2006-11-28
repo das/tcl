@@ -3188,7 +3188,7 @@ TclUnixWaitForFile(
     }
     memset((void *) readyMasks, 0, 3*MASK_SIZE*sizeof(fd_mask));
     index = fd/(NBBY*sizeof(fd_mask));
-    bit = 1 << (fd%(NBBY*sizeof(fd_mask)));
+    bit = ((fd_mask)1) << (fd%(NBBY*sizeof(fd_mask)));
 
     /*
      * Loop in a mini-event loop of our own, waiting for either the file to
