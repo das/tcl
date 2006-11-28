@@ -2091,7 +2091,13 @@ SlaveEval(interp, slaveInterp, objc, objv)
     Tcl_AllowExceptions(slaveInterp);
 
     if (objc == 1) {
+#ifndef TCL_TIP280
 	result = Tcl_EvalObjEx(slaveInterp, objv[0], 0);
+#else
+        /* TIP #280 : Make invoker available to eval'd script */
+        Interp* iPtr = (Interp*) interp;
+	result = TclEvalObjEx(slaveInterp, objv[0], 0, iPtr->cmdFramePtr,0);
+#endif
     } else {
 	objPtr = Tcl_ConcatObj(objc, objv);
 	Tcl_IncrRefCount(objPtr);

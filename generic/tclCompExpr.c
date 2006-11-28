@@ -258,6 +258,11 @@ TclCompileExpr(interp, script, numBytes, envPtr)
 	goto done;
     }
 
+#ifdef TCL_TIP280
+    /* TIP #280 : Track Lines within the expression */
+    TclAdvanceLines (&envPtr->line, script, parse.tokenPtr->start);
+#endif
+
     code = CompileSubExpr(parse.tokenPtr, &info, envPtr);
     if (code != TCL_OK) {
 	Tcl_FreeParse(&parse);

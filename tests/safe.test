@@ -191,6 +191,10 @@ test safe-6.3 {test safe interpreters knowledge of the world} {
     if {$tip != -1} {
 	set r [lreplace $r $tip $tip]
     }
+    set tip [lsearch $r "tip,280"]
+    if {$tip != -1} {
+	set r [lreplace $r $tip $tip]
+    }
     set r
 } {byteOrder platform wordSize}
 

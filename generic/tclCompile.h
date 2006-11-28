@@ -121,6 +121,33 @@ typedef struct CmdLocation {
     int numSrcBytes;		/* Number of command source chars. */
 } CmdLocation;
 
+#ifdef TCL_TIP280
+/*
+ * TIP #280
+ * Structure to record additional location information for byte code.
+ * This information is internal and not saved. I.e. tbcload'ed code
+ * will not have this information. It records the lines for all words
+ * of all commands found in the byte code. The association with a
+ * ByteCode structure BC is done through the 'lineBCPtr' HashTable in
+ * Interp, keyed by the address of BC. Also recorded is information
+ * coming from the context, i.e. type of the frame and associated
+ * information, like the path of a sourced file.
+ */
+
+typedef struct ECL {
+  int  srcOffset; /* cmd location to find the entry */
+  int  nline;
+  int* line;      /* line information for all words in the command */
+} ECL;
+typedef struct ExtCmdLoc {
+  int      type;  /* Context type */
+  Tcl_Obj* path;  /* Path of the sourced file the command is in */
+  ECL*     loc;   /* Command word locations (lines) */
+  int      nloc;  /* Number of allocated entries in 'loc' */
+  int      nuloc; /* Number of used entries in 'loc' */
+} ExtCmdLoc;
+#endif
+
 /*
  * CompileProcs need the ability to record information during compilation
  * that can be used by bytecode instructions during execution. The AuxData
@@ -264,6 +291,14 @@ typedef struct CompileEnv {
                                 /* Initial storage for cmd location map. */
     AuxData staticAuxDataArraySpace[COMPILEENV_INIT_AUX_DATA_SIZE];
                                 /* Initial storage for aux data array. */
+#ifdef TCL_TIP280
+    /* TIP #280 */
+    ExtCmdLoc* extCmdMapPtr;    /* Extended command location information
+				 * for 'info frame'. */
+    int        line;            /* First line of the script, based on the
+				 * invoking context, then the line of the
+				 * command currently compiled. */
+#endif
 } CompileEnv;
 
 /*
@@ -727,8 +762,14 @@ EXTERN int              TclInterpReady _ANSI_ARGS_((Tcl_Interp *interp));
  *----------------------------------------------------------------
  */
 
+#ifndef TCL_TIP280
 EXTERN int		TclCompEvalObj _ANSI_ARGS_((Tcl_Interp *interp,
 			    Tcl_Obj *objPtr));
+#else
+EXTERN int		TclCompEvalObj _ANSI_ARGS_((Tcl_Interp *interp,
+			    Tcl_Obj *objPtr, CONST CmdFrame* invoker,
+			    int word));
+#endif
 
 /*
  *----------------------------------------------------------------
@@ -784,9 +825,15 @@ EXTERN void		TclInitAuxDataTypeTable _ANSI_ARGS_((void));
 EXTERN void		TclInitByteCodeObj _ANSI_ARGS_((Tcl_Obj *objPtr,
 			    CompileEnv *envPtr));
 EXTERN void		TclInitCompilation _ANSI_ARGS_((void));
+#ifndef TCL_TIP280
 EXTERN void		TclInitCompileEnv _ANSI_ARGS_((Tcl_Interp *interp,
 			    CompileEnv *envPtr, char *string,
 			    int numBytes));
+#else
+EXTERN void		TclInitCompileEnv _ANSI_ARGS_((Tcl_Interp *interp,
+			    CompileEnv *envPtr, char *string,
+			    int numBytes, CONST CmdFrame* invoker, int word));
+#endif
 EXTERN void		TclInitJumpFixupArray _ANSI_ARGS_((
 			    JumpFixupArray *fixupArrayPtr));
 EXTERN void		TclInitLiteralTable _ANSI_ARGS_((
@@ -980,20 +1027,6 @@ EXTERN int		TclCompileVariableCmd _ANSI_ARGS_((
 #define TclUpdateInstInt4AtPc(op, i, pc) \
     *(pc) = (unsigned char) (op); \
     TclStoreInt4AtPtr((i), ((pc)+1))
-
-/*
- * Macro to fix up a forward jump to point to the current
- * code-generation position in the bytecode being created (the most
- * common case). The ANSI C "prototypes" for this macro is:
- *
- * EXTERN int	TclFixupForwardJumpToHere _ANSI_ARGS_((CompileEnv *envPtr,
- *		    JumpFixup *fixupPtr, int threshold));
- */
-
-#define TclFixupForwardJumpToHere(envPtr, fixupPtr, threshold) \
-    TclFixupForwardJump((envPtr), (fixupPtr), \
-	    (envPtr)->codeNext-(envPtr)->codeStart-(fixupPtr)->codeOffset, \
-	    (threshold))
     
 /*
  * Macros to get a signed integer (GET_INT{1,2}) or an unsigned int

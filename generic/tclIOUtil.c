@@ -1762,6 +1762,12 @@ Tcl_FSEvalFile(interp, pathPtr)
     iPtr->scriptFile = pathPtr;
     Tcl_IncrRefCount(iPtr->scriptFile);
     string = Tcl_GetStringFromObj(objPtr, &length);
+
+#ifdef TCL_TIP280
+    /* TIP #280 Force the evaluator to open a frame for a sourced
+     * file. */
+    iPtr->evalFlags |= TCL_EVAL_FILE;
+#endif
     result = Tcl_EvalEx(interp, string, length, 0);
     /* 
      * Now we have to be careful; the script may have changed the
