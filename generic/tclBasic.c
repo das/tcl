@@ -5188,6 +5188,7 @@ Tcl_AppendObjToErrorInfo(
     CONST char *message = Tcl_GetStringFromObj(objPtr, &length);
 
     Tcl_AddObjErrorInfo(interp, message, length);
+    Tcl_DecrRefCount(objPtr);
 }
 
 /*
