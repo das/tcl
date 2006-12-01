@@ -49,6 +49,5 @@ int mp_add (mp_int * a, mp_int * b, mp_int * c)
 #endif
 
 /* $Source$ */
-/* Tom's version 1.3 */
 /* $Revision$ */
 /* $Date$ */
