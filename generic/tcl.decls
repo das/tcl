@@ -2005,7 +2005,7 @@ declare 558 generic {
     int Tcl_GetBignumFromObj( Tcl_Interp* interp, Tcl_Obj* obj, mp_int* value )
 }
 declare 559 generic {
-    int Tcl_GetBignumAndClearObj( Tcl_Interp* interp, Tcl_Obj* obj, mp_int* value )
+    int Tcl_TakeBignumFromObj( Tcl_Interp* interp, Tcl_Obj* obj, mp_int* value )
 }
 
 # TIP #208 ('chan' Command) jeffh

@@ -1061,7 +1061,7 @@ TclStubs tclStubs = {
     Tcl_DbNewBignumObj, /* 556 */
     Tcl_SetBignumObj, /* 557 */
     Tcl_GetBignumFromObj, /* 558 */
-    Tcl_GetBignumAndClearObj, /* 559 */
+    Tcl_TakeBignumFromObj, /* 559 */
     Tcl_TruncateChannel, /* 560 */
     Tcl_ChannelTruncateProc, /* 561 */
     Tcl_SetChannelErrorInterp, /* 562 */
