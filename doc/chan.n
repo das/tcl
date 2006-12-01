@@ -493,6 +493,16 @@ Produces a list of all channel names. If \fIpattern\fR is specified,
 only those channel names that match it (according to the rules of
 \fBstring match\fR) will be returned.
 .TP
+\fBchan pending \fImode channelId\fR
+.
+Depending on whether \fImode\fr is "input" or "output", returns the number of 
+bytes of input or output (respectively) currently buffered 
+internally for \fIchannelId\fr (especially useful in a readable event 
+callback to impose application-specific limits on input line lengths to avoid
+a potential denial-of-service attack where a hostile user crafts
+an extremely long line that exceeds the available memory to buffer it).
+Returns -1 if the channel was not opened for the mode in question.
+.TP
 \fBchan postevent \fIchannelId eventSpec\fR
 .
 This subcommand is used by command handlers specified with \fBchan

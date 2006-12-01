@@ -574,6 +574,10 @@ Tcl_CreateInterp(void)
     Tcl_CreateObjCommand(interp, "::tcl::chan::rPostevent",
 	    TclChanPostEventObjCmd, (ClientData) NULL, NULL);
 
+    /* TIP #287 */
+    Tcl_CreateObjCommand(interp, "::tcl::chan::Pending",
+	    TclChanPendingObjCmd, (ClientData) NULL, NULL);
+
     /*
      * Register the built-in functions. This is empty now that they are
      * implemented as commands in the ::tcl::mathfunc namespace.

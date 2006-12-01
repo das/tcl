@@ -628,7 +628,7 @@ test iocmd-20.0 {chan, wrong#args} {
 test iocmd-20.1 {chan, unknown method} {
     catch {chan foo} msg
     set msg
-} {unknown or ambiguous subcommand "foo": must be blocked, close, configure, copy, create, eof, event, flush, gets, names, postevent, puts, read, seek, tell, or truncate}
+} {unknown or ambiguous subcommand "foo": must be blocked, close, configure, copy, create, eof, event, flush, gets, names, pending, postevent, puts, read, seek, tell, or truncate}
 
 # --- --- --- --------- --------- ---------
 # chan create, and method "initalize"

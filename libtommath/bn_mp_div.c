@@ -87,6 +87,7 @@ LBL_ERR:
 
 #else
 
+#if 0
 /* Integer signed division.
  *
  * c*b + d == a, that is, c = a/b and c = a%b
@@ -236,6 +237,7 @@ int mp_div(mp_int* a, mp_int* b, mp_int* c, mp_int* d)
     return res;
 
 }
+#endif
 
 /* integer signed division. 
  * c*b + d == a [e.g. a/b, c=quotient, d=remainder]

@@ -2465,6 +2465,9 @@ MODULE_SCOPE int	Tcl_CatchObjCmd(ClientData clientData,
 MODULE_SCOPE int	Tcl_CdObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[]);
+MODULE_SCOPE int	TclChanPendingObjCmd(
+			    ClientData clientData, Tcl_Interp *interp,
+			    int objc, Tcl_Obj *CONST objv[]); /* TIP 287 */
 MODULE_SCOPE int	TclChanTruncateObjCmd(
 			    ClientData clientData, Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[]);
