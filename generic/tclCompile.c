@@ -1281,8 +1281,8 @@ TclCompileScript(
 
 			TclMarkList (interp, start, end,
 				     &(exp     [wordIdx]),
-				     &(expLen  [wordIdx]),
-				     &(expItem [wordIdx]));
+				     (CONST int**)&(expLen  [wordIdx]),
+				     (CONST char ***)&(expItem [wordIdx]));
 
 			eliterals += exp [wordIdx] ? exp[wordIdx] : 1;
 
