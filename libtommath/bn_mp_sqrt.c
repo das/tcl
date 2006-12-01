@@ -69,7 +69,7 @@ int mp_sqrt(mp_int *arg, mp_int *ret)
   if (dig) {
       t1.used = i+2;
       d -= ldexp((double) dig, DIGIT_BIT);
-      if (d != 0,0) {
+      if (d != 0.0) {
 	  t1.dp[i+1] = dig;
 	  t1.dp[i] = ((mp_digit) d) - 1;
       } else {
