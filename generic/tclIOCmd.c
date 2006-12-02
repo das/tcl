@@ -1675,15 +1675,16 @@ TclChanPendingObjCmd(
 	} else {
 	    Tcl_SetObjResult(interp, Tcl_NewIntObj(Tcl_InputBuffered(chan)));
 	}
-	return TCL_OK;
+	break;
     case PENDING_OUTPUT:
 	if ((mode & TCL_WRITABLE) == 0) {
 	    Tcl_SetObjResult(interp, Tcl_NewIntObj(-1));
 	} else {
 	    Tcl_SetObjResult(interp, Tcl_NewIntObj(Tcl_OutputBuffered(chan)));
 	}
-	return TCL_OK;
+	break;
     }
+    return TCL_OK;
 }
 
 /*
