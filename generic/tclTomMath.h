@@ -186,8 +186,7 @@ typedef int           mp_err;
 
 /* you'll have to tune these... */
 #if defined(BUILD_tcl) || !defined(_WIN32)
-MODULE_SCOPE int BZ_DIV_CUTOFF,
-           KARATSUBA_MUL_CUTOFF,
+MODULE_SCOPE int KARATSUBA_MUL_CUTOFF,
            KARATSUBA_SQR_CUTOFF,
            TOOM_MUL_CUTOFF,
            TOOM_SQR_CUTOFF;
