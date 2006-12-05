@@ -1698,6 +1698,8 @@ AddRequirementsToDString(
 	    Tcl_DStringAppend(dsPtr, " ", 1);
 	    Tcl_DStringAppend(dsPtr, TclGetString(reqv[i]), -1);
 	}
+    } else {
+	Tcl_DStringAppend(dsPtr, " 0-", -1);
     }
 }
 
