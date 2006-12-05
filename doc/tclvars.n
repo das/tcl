@@ -237,6 +237,10 @@ and the value from GetUserName on Windows.
 \fBwordSize\fR
 This gives the size of the native-machine word in bytes (strictly, it
 is same as the result of evaluating \fIsizeof(long)\fR in C.)
+.TP
+\fBpointerSize\fR
+This gives the size of the native-machine pointer in bytes (strictly, it
+is same as the result of evaluating \fIsizeof(void*)\fR in C.)
 .RE
 .TP
 \fBtcl_precision\fR

@@ -668,6 +668,10 @@ Tcl_CreateInterp(void)
     Tcl_SetVar2Ex(interp, "tcl_platform", "wordSize",
 	    Tcl_NewLongObj((long) sizeof(long)), TCL_GLOBAL_ONLY);
 
+    /* TIP #291 */
+    Tcl_SetVar2Ex(interp, "tcl_platform", "pointerSize",
+	    Tcl_NewLongObj((long) sizeof(void*)), TCL_GLOBAL_ONLY);
+
     /*
      * Set up other variables such as tcl_version and tcl_library
      */
