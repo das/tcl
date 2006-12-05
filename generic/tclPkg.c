@@ -2143,6 +2143,8 @@ AddRequirementsToDString(dstring, reqc, reqv)
 	    Tcl_DStringAppend(dstring, " ", 1);
 	    Tcl_DStringAppend(dstring, TclGetString(reqv[i]), -1);
 	}
+    } else {
+	Tcl_DStringAppend(dstring, " 0-", -1);
     }
 }
 

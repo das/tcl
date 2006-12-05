@@ -255,7 +255,7 @@ test pkg-2.15-268 {Tcl_PkgRequire procedure, "package unknown" support} tip268 {
     package require {a b}
     package unknown {}
     set x
-} {{a b}}
+} {{a b} 0-}
 test pkg-2.16 {Tcl_PkgRequire procedure, "package unknown" error} !tip268 {
     proc pkgUnknown args {
 	error "testing package unknown"
@@ -288,7 +288,7 @@ test pkg-2.16-268 {Tcl_PkgRequire procedure, "package unknown" error} tip268 {
 "error "testing package unknown""
     (procedure "pkgUnknown" line 2)
     invoked from within
-"pkgUnknown t"
+"pkgUnknown t 0-"
     ("package unknown" script)
     invoked from within
 "package require t"}}
