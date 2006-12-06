@@ -57,7 +57,7 @@ namespace eval ::testmathop {
 	list [catch {
 	    + [set x 0] [incr x] NaN [incr x] [error expected] [incr x]
 	} msg] $msg $x
-    } -result {1 expected 2} -constraints knownBug
+    } -result {1 expected 2}
     set op +
     test mathop-1.19 {interpreted +} { $op } 0
     test mathop-1.20 {interpreted +} { $op 1 } 1
@@ -132,7 +132,7 @@ namespace eval ::testmathop {
 	list [catch {
 	    * [set x 0] [incr x] NaN [incr x] [error expected] [incr x]
 	} msg] $msg $x
-    } -result {1 expected 2} -constraints knownBug
+    } -result {1 expected 2}
     set op *
     test mathop-2.19 {interpreted *} { $op } 1
     test mathop-2.20 {interpreted *} { $op 2 } 2
