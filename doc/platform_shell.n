@@ -45,11 +45,11 @@ software.
 .SH COMMANDS
 .TP
 \fBplatform::shell::identify \fIshell\fR
-This command does the same identification as \fplatform::identify\fR,
+This command does the same identification as \fBplatform::identify\fR,
 for the specified Tcl shell, in contrast to the running shell.
 .TP
 \fBplatform::shell::generic \fIshell\fR
-This command does the same identification as \fplatform::generic\fR,
+This command does the same identification as \fBplatform::generic\fR,
 for the specified Tcl shell, in contrast to the running shell.
 .TP
 \fBplatform::shell::platform \fIshell\fR

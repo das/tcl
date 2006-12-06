@@ -495,9 +495,9 @@ only those channel names that match it (according to the rules of
 .TP
 \fBchan pending \fImode channelId\fR
 .
-Depending on whether \fImode\fr is "input" or "output", returns the number of 
+Depending on whether \fImode\fR is "input" or "output", returns the number of 
 bytes of input or output (respectively) currently buffered 
-internally for \fIchannelId\fr (especially useful in a readable event 
+internally for \fIchannelId\fR (especially useful in a readable event 
 callback to impose application-specific limits on input line lengths to avoid
 a potential denial-of-service attack where a hostile user crafts
 an extremely long line that exceeds the available memory to buffer it).

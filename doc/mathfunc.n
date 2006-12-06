@@ -51,7 +51,7 @@ package require \fBTcl 8.5\fR
 .br
 \fB::tcl::mathfunc::int\fR \fIarg\fR
 .br
-\fB::tcl::mathfunc::isqrt\fR \fIarg \F
+\fB::tcl::mathfunc::isqrt\fR \fIarg\fR
 .br
 \fB::tcl::mathfunc::log\fR \fIarg\fR
 .br
