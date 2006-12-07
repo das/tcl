@@ -335,7 +335,7 @@ Tcl_CreateInterp(void)
     char mathFuncName[32];
     CallFrame *framePtr;
     int result;
-    
+
     TclInitSubsystems();
 
     /*
@@ -631,6 +631,7 @@ Tcl_CreateInterp(void)
     if (mathopNSPtr == NULL) {
 	Tcl_Panic("can't create math operator namespace");
     }
+    (void) Tcl_Export(interp, mathopNSPtr, "*", 1);
     strcpy(mathFuncName, "::tcl::mathop::");
     for (cmdInfoPtr=mathOpCmds ; cmdInfoPtr->name!=NULL ; cmdInfoPtr++) {
 	strcpy(mathFuncName + MATH_OP_PREFIX_LEN, cmdInfoPtr->name);
@@ -641,7 +642,6 @@ Tcl_CreateInterp(void)
 	} else if (cmdInfoPtr->compileProc != NULL) {
 	    cmdPtr->compileProc = cmdInfoPtr->compileProc;
 	}
-	Tcl_Export(interp, mathopNSPtr, cmdInfoPtr->name, 0);
     }
 
     /*
