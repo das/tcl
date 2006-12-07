@@ -4658,6 +4658,13 @@ CompileAssociativeBinaryOpCmd(
 	PushLiteral(envPtr, identity, -1);
 	return TCL_OK;
     }
+    if (parsePtr->numWords == 2) {
+	/*
+	 * TODO: Fixup the single argument case to require
+	 * numeric argument.  Fallback on direct eval until fixed
+	 */
+	return TCL_ERROR;
+    }
     for (words=1 ; words<parsePtr->numWords ; words++) {
 	tokenPtr = TokenAfter(tokenPtr);
 	CompileWord(envPtr, tokenPtr, interp, words);
@@ -4968,6 +4975,12 @@ TclCompileDivOpCmd(
 	CompileWord(envPtr, tokenPtr, interp,1);
 	TclEmitOpcode(INST_DIV, envPtr);
 	return TCL_OK;
+    } else {
+	/*
+	 * TODO: get compiled version that passes mathop-6.18
+	 * For now, fallback to direct evaluation.
+	 */
+	return TCL_ERROR;
     }
     tokenPtr = TokenAfter(parsePtr->tokenPtr);
     CompileWord(envPtr, tokenPtr, interp,1);
