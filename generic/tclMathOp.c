@@ -1066,6 +1066,15 @@ TclInvertOpCmd(
 	return TCL_ERROR;
     }
     switch (type) {
+    case TCL_NUMBER_NAN:
+	Tcl_SetObjResult(interp, Tcl_ObjPrintf(
+		"can't use %s as operand of \"~\"",
+		"non-numeric floating-point value"));
+	return TCL_ERROR;
+    case TCL_NUMBER_DOUBLE:
+	Tcl_SetObjResult(interp, Tcl_ObjPrintf(
+		"can't use %s as operand of \"~\"", "floating-point value"));
+	return TCL_ERROR;
     case TCL_NUMBER_LONG: {
 	long l = *((const long *) val);
 
