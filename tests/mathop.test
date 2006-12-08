@@ -306,10 +306,10 @@ namespace eval ::testmathop {
     } -returnCodes error -result {can't use non-numeric string as operand of "~"}
     test mathop-4.9 {compiled ~: errors} -body {
 	~ 0 0
-    } -returnCodes error -result "wrong # args: should be \"~ number\""
+    } -returnCodes error -result "wrong # args: should be \"~ integer\""
     test mathop-4.10 {compiled ~: errors} -body {
 	~
-    } -returnCodes error -result "wrong # args: should be \"~ number\""
+    } -returnCodes error -result "wrong # args: should be \"~ integer\""
     test mathop-4.11 {compiled ~: errors} -returnCodes error -body {
 	~ 0.0
     } -result {can't use floating-point value as operand of "~"}
@@ -329,10 +329,10 @@ namespace eval ::testmathop {
     } -returnCodes error -result {can't use non-numeric string as operand of "~"}
     test mathop-4.21 {interpreted ~: errors} -body {
 	$op 0 0
-    } -returnCodes error -result "wrong # args: should be \"~ number\""
+    } -returnCodes error -result "wrong # args: should be \"~ integer\""
     test mathop-4.22 {interpreted ~: errors} -body {
 	$op
-    } -returnCodes error -result "wrong # args: should be \"~ number\""
+    } -returnCodes error -result "wrong # args: should be \"~ integer\""
     test mathop-4.23 {interpreted ~: errors} -returnCodes error -body {
 	$op 0.0
     } -result {can't use floating-point value as operand of "~"}
