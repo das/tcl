@@ -804,6 +804,8 @@ MODULE_SCOPE void	TclEmitForwardJump(CompileEnv *envPtr,
 MODULE_SCOPE ExceptionRange * TclGetExceptionRangeForPc(unsigned char *pc,
 			    int catchOnly, ByteCode* codePtr);
 MODULE_SCOPE void	TclExpandJumpFixupArray(JumpFixupArray *fixupArrayPtr);
+MODULE_SCOPE int	TclExecuteByteCode(Tcl_Interp *interp,
+			    ByteCode *codePtr);
 MODULE_SCOPE void	TclFinalizeAuxDataTypeTable(void);
 MODULE_SCOPE int	TclFindCompiledLocal(CONST char *name, int nameChars,
 			    int create, int flags, Proc *procPtr);

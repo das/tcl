@@ -349,8 +349,6 @@ static Tcl_ObjType dictIteratorType = {
  * Declarations for local procedures to this file:
  */
 
-static int		TclExecuteByteCode(Tcl_Interp *interp,
-			    ByteCode *codePtr);
 #ifdef TCL_COMPILE_STATS
 static int		EvalStatsCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
@@ -1142,7 +1140,7 @@ TclIncrObj(
  *----------------------------------------------------------------------
  */
 
-static int
+int
 TclExecuteByteCode(
     Tcl_Interp *interp,		/* Token for command interpreter. */
     ByteCode *codePtr)		/* The bytecode sequence to interpret. */
