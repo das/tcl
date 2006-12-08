@@ -1109,6 +1109,9 @@ TclTeardownNamespace(
     if (nsPtr->commandPathSourceList != NULL) {
 	NamespacePathEntry *nsPathPtr = nsPtr->commandPathSourceList;
 	do {
+	    if (nsPathPtr->nsPtr != NULL && nsPathPtr->creatorNsPtr != NULL) {
+		nsPathPtr->creatorNsPtr->cmdRefEpoch++;
+	    }
 	    nsPathPtr->nsPtr = NULL;
 	    nsPathPtr = nsPathPtr->nextPtr;
 	} while (nsPathPtr != NULL);
@@ -6303,7 +6306,7 @@ NsEnsembleImplementationCmd(
 	    }
 	}
 	tempObjv = (Tcl_Obj **) TclStackAlloc(interp,
-		sizeof(Tcl_Obj *) * (objc - 2 + prefixObjc));
+		(int) sizeof(Tcl_Obj *) * (objc - 2 + prefixObjc));
 	memcpy(tempObjv, prefixObjv, sizeof(Tcl_Obj *) * prefixObjc);
 	memcpy(tempObjv+prefixObjc, objv+2, sizeof(Tcl_Obj *) * (objc-2));
 	result = Tcl_EvalObjv(interp, objc-2+prefixObjc, tempObjv,
