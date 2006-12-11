@@ -298,12 +298,12 @@ static const OpCmdInfo mathOpCmds[] = {
     { "ni", TclSingleOpCmd,  TclCompileNiOpCmd,	      2, "value list"},
     { "-",  TclMinusOpCmd,   TclCompileMinusOpCmd,    0, NULL },
     { "/",  TclDivOpCmd,     TclCompileDivOpCmd,      0, NULL },
-    { "<",  TclLessOpCmd,    TclCompileLessOpCmd,     0, NULL },
-    { "<=", TclLeqOpCmd,     TclCompileLeqOpCmd,      0, NULL },
-    { ">",  TclGreaterOpCmd, TclCompileGreaterOpCmd,  0, NULL },
-    { ">=", TclGeqOpCmd,     TclCompileGeqOpCmd,      0, NULL },
-    { "==", TclEqOpCmd,	     TclCompileEqOpCmd,	      0, NULL },
-    { "eq", TclStreqOpCmd,   TclCompileStreqOpCmd,    0, NULL },
+    { "<",  TclSortingOpCmd, TclCompileLessOpCmd,     0, NULL },
+    { "<=", TclSortingOpCmd, TclCompileLeqOpCmd,      0, NULL },
+    { ">",  TclSortingOpCmd, TclCompileGreaterOpCmd,  0, NULL },
+    { ">=", TclSortingOpCmd, TclCompileGeqOpCmd,      0, NULL },
+    { "==", TclSortingOpCmd, TclCompileEqOpCmd,	      0, NULL },
+    { "eq", TclSortingOpCmd, TclCompileStreqOpCmd,    0, NULL },
     { NULL, NULL,	     NULL,		      0, NULL }
 };
 
