@@ -16,8 +16,8 @@
 #include "tclInt.h"
 #include "tclCompile.h"
 
-#define USE_EXPR_TOKENS 
-#define PARSE_DIRECT_EXPR_TOKENS
+#undef USE_EXPR_TOKENS 
+#undef PARSE_DIRECT_EXPR_TOKENS
 
 #ifdef PARSE_DIRECT_EXPR_TOKENS
 
