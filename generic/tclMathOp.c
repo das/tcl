@@ -12,6 +12,14 @@
  * RCS: @(#) $Id$
  */
 
+/*
+ * NOTE: None of the routines in this file are currently in use.
+ * The file itself may be removed, but remains in place for now in
+ * case its routine may be useful during performance testing.
+ */
+
+#if 0
+
 #include "tclInt.h"
 #include "tclCompile.h"
 #include "tommath.h"
@@ -2865,6 +2873,7 @@ TclStreqOpCmd(
     Tcl_SetBooleanObj(Tcl_GetObjResult(interp), result);
     return TCL_OK;
 }
+#endif
 
 /*
  * Local Variables:
