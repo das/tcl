@@ -319,7 +319,7 @@ set length [\fBstring length\fR $string]
 if {$length == 0} {
    set isPrefix 0
 } else {
-   set isPrefix [\fBstring equal\fR -length $string $string "foobar"]
+   set isPrefix [\fBstring equal\fR -length $length $string "foobar"]
 }
 .CE
 
