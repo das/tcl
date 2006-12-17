@@ -530,6 +530,12 @@ if test "`uname -s`" = "Darwin" ; then
 	    AC_DEFINE(HAVE_WEAK_IMPORT, 1, [Is weak import available?])
 	fi
     fi
+    # Build .bundle dltest binaries in addition to .dylib
+    DLTEST_LD='${CC} -bundle -Wl,-w ${CFLAGS} ${LDFLAGS}'
+    DLTEST_SUFFIX=".bundle"
+else
+    DLTEST_LD='${SHLIB_LD}'
+    DLTEST_SUFFIX=""
 fi
 
 #--------------------------------------------------------------------
@@ -809,6 +815,9 @@ AC_SUBST(EXTRA_CC_SWITCHES)
 AC_SUBST(EXTRA_INSTALL)
 AC_SUBST(EXTRA_INSTALL_BINARIES)
 AC_SUBST(EXTRA_BUILD_HTML)
+
+AC_SUBST(DLTEST_LD)
+AC_SUBST(DLTEST_SUFFIX)
 
 dnl	Disable the automake-friendly normalization of LIBOBJS
 dnl	performed by autoconf 2.53 and later.  It's not correct for us.
