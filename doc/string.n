@@ -1,16 +1,16 @@
-'\"
-'\" Copyright (c) 1993 The Regents of the University of California.
-'\" Copyright (c) 1994-1996 Sun Microsystems, Inc.
-'\"
-'\" See the file "license.terms" for information on usage and redistribution
-'\" of this file, and for a DISCLAIMER OF ALL WARRANTIES.
-'\" 
-'\" RCS: @(#) $Id$
-'\" 
+.\"
+.\" Copyright (c) 1993 The Regents of the University of California.
+.\" Copyright (c) 1994-1996 Sun Microsystems, Inc.
+.\"
+.\" See the file "license.terms" for information on usage and redistribution
+.\" of this file, and for a DISCLAIMER OF ALL WARRANTIES.
+.\" 
+.\" RCS: @(#) $Id$
+.\" 
 .so man.macros
 .TH string n 8.1 Tcl "Tcl Built-In Commands"
 .BS
-'\" Note:  do not modify the .SH NAME line immediately below!
+.\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
 string \- Manipulate strings
 .SH SYNOPSIS
@@ -367,6 +367,6 @@ expr(n), list(n)
 case conversion, compare, index, match, pattern, string, word, equal,
 ctype, character, reverse
 
-'\" Local Variables:
-'\" mode: nroff
-'\" End:
+.\" Local Variables:
+.\" mode: nroff
+.\" End:
