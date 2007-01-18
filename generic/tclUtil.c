@@ -580,7 +580,7 @@ TclMarkList(
 	    ckfree((char *) argv);
 	    ckfree((char *) argn);
 	    if (interp != NULL) {
-		Tcl_SetResult(interp, "internal error in Tcl_SplitList",
+		Tcl_SetResult(interp, "internal error in TclMarkList",
 			TCL_STATIC);
 	    }
 	    return TCL_ERROR;
