@@ -290,7 +290,7 @@ InstructionDesc tclInstructionTable[] = {
      */
     {"expandStart",       1,    0,          0,	{OPERAND_NONE}},
 	/* Start of command with {expand}ed arguments */
-    {"expandStkTop",      5,    0,          1,	{OPERAND_INT4}},
+    {"expandStkTop",      5,    0,          1,	{OPERAND_UINT4}},
 	/* Expand the list at stacktop: push its elements on the stack */
     {"invokeExpanded",    1,    0,          0,	{OPERAND_NONE}},
 	/* Invoke the command marked by the last 'expandStart' */
