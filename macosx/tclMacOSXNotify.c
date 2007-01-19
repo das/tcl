@@ -169,12 +169,18 @@ static int receivePipe = -1; /* Output end of triggerPipe */
  * Support for weakly importing spinlock API.
  */
 #define WEAK_IMPORT_SPINLOCKLOCK
-extern void	OSSpinLockLock(OSSpinLock *lock) WEAK_IMPORT_ATTRIBUTE;
-extern void	OSSpinLockUnlock(OSSpinLock *lock) WEAK_IMPORT_ATTRIBUTE;
-extern void	_spin_lock(OSSpinLock *lock) WEAK_IMPORT_ATTRIBUTE;
-extern void	_spin_unlock(OSSpinLock *lock) WEAK_IMPORT_ATTRIBUTE;
-static void (* lockLock)(OSSpinLock *lock) = NULL;
-static void (* lockUnlock)(OSSpinLock *lock) = NULL;
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+#define VOLATILE volatile
+#else
+#define VOLATILE
+#endif
+extern void OSSpinLockLock(VOLATILE OSSpinLock *lock) WEAK_IMPORT_ATTRIBUTE;
+extern void OSSpinLockUnlock(VOLATILE OSSpinLock *lock) WEAK_IMPORT_ATTRIBUTE;
+extern void _spin_lock(VOLATILE OSSpinLock *lock) WEAK_IMPORT_ATTRIBUTE;
+extern void _spin_unlock(VOLATILE OSSpinLock *lock) WEAK_IMPORT_ATTRIBUTE;
+static void (* lockLock)(VOLATILE OSSpinLock *lock) = NULL;
+static void (* lockUnlock)(VOLATILE OSSpinLock *lock) = NULL;
+#undef VOLATILE
 static pthread_once_t spinLockLockInitControl = PTHREAD_ONCE_INIT;
 static void SpinLockLockInit(void) {
     lockLock   = OSSpinLockLock   != NULL ? OSSpinLockLock   : _spin_lock;
