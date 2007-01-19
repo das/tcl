@@ -148,7 +148,7 @@ main(
 	}
     }
     chars = snprintf(msg, sizeof(msg) - 1,
-	    "usage: %s -c|-l|-f ...\n"
+	    "usage: %s -c|-l|-f|-g|-V ...\n"
 	    "This is a little helper app to equalize shell differences between WinNT and\n"
 	    "Win9x and get nmake.exe to accomplish its job.\n",
 	    argv[0]);
