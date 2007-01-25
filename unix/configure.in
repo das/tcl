@@ -725,5 +725,7 @@ AC_SUBST(EXTRA_INSTALL)
 AC_SUBST(EXTRA_INSTALL_BINARIES)
 AC_SUBST(EXTRA_BUILD_HTML)
 
+SC_OUTPUT_COMMANDS_PRE
+
 tcl_config_files="${tcl_config_files} [Makefile dltest/Makefile tclConfig.sh]"
 AC_OUTPUT([${tcl_config_files}])
