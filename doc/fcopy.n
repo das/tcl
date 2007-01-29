@@ -127,7 +127,7 @@ in the command callback
 proc CopyMore {in out chunk bytes {error {}}} {
     global total done
     incr total $bytes
-    if {([string length $error] != 0) || [eof $in] {
+    if {([string length $error] != 0) || [eof $in]} {
 	set done $total
 	close $in
 	close $out
