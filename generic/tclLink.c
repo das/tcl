@@ -498,7 +498,7 @@ LinkTraceProc(
 
     case TCL_LINK_FLOAT:
 	if (Tcl_GetDoubleFromObj(interp, valueObj, &valueDouble) != TCL_OK
-		|| valueDouble < FLT_MIN || valueDouble > FLT_MAX) {
+		|| valueDouble < -FLT_MAX || valueDouble > FLT_MAX) {
 	    Tcl_ObjSetVar2(interp, linkPtr->varName, NULL, ObjValue(linkPtr),
 		    TCL_GLOBAL_ONLY);
 	    return "variable must have float value";
