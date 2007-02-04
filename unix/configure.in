@@ -62,16 +62,15 @@ SC_MISSING_POSIX_HEADERS
 # It makes compiling go faster.  (This is only a performance feature.)
 #------------------------------------------------------------------------
 
-if test -z "$no_pipe"; then
-if test -n "$GCC"; then
-  AC_MSG_CHECKING([if the compiler understands -pipe])
-  OLDCC="$CC"  
-  CC="$CC -pipe"
-  AC_TRY_COMPILE(,,
-    AC_MSG_RESULT([yes]),
-    CC="$OLDCC"
-    AC_MSG_RESULT([no]))
-fi  
+if test -z "$no_pipe" && test -n "$GCC"; then
+    AC_CACHE_CHECK([if the compiler understands -pipe],
+	tcl_cv_cc_pipe, [
+	hold_cflags=$CFLAGS; CFLAGS="$CFLAGS -pipe"
+	AC_TRY_COMPILE(,, tcl_cv_cc_pipe=yes, tcl_cv_cc_pipe=no)
+	CFLAGS=$hold_cflags])
+    if test $tcl_cv_cc_pipe = yes; then
+	CFLAGS="$CFLAGS -pipe"
+    fi
 fi
 
 #------------------------------------------------------------------------
