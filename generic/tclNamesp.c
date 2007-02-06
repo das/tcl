@@ -3113,7 +3113,11 @@ NamespaceChildrenCmd(
 
     listPtr = Tcl_NewListObj(0, NULL);
     if ((pattern != NULL) && TclMatchIsTrivial(pattern)) {
-	if (Tcl_FindHashEntry(&nsPtr->childTable, pattern) != NULL) {
+	int length = strlen(nsPtr->fullName);
+	if (strncmp(pattern, nsPtr->fullName, length) != 0) {
+	    goto searchDone;
+	}
+	if (Tcl_FindHashEntry(&nsPtr->childTable, pattern+length) != NULL) {
 	    Tcl_ListObjAppendElement(interp, listPtr,
 		    Tcl_NewStringObj(pattern, -1));
 	}
