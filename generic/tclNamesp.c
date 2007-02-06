@@ -3113,7 +3113,8 @@ NamespaceChildrenCmd(
 
     listPtr = Tcl_NewListObj(0, NULL);
     if ((pattern != NULL) && TclMatchIsTrivial(pattern)) {
-	int length = strlen(nsPtr->fullName);
+	unsigned int length = strlen(nsPtr->fullName);
+
 	if (strncmp(pattern, nsPtr->fullName, length) != 0) {
 	    goto searchDone;
 	}
