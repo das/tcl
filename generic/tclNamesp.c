@@ -505,7 +505,8 @@ Tcl_PopCallFrame(
 
     nsPtr = framePtr->nsPtr;
     nsPtr->activationCount--;
-    if ((nsPtr->flags & NS_DYING) && (nsPtr->activationCount == 0)) {
+    if ((nsPtr->flags & NS_DYING)
+	    && (nsPtr->activationCount - (nsPtr == iPtr->globalNsPtr) == 0)) {
 	Tcl_DeleteNamespace((Tcl_Namespace *) nsPtr);
     }
     framePtr->nsPtr = NULL;
@@ -967,8 +968,7 @@ Tcl_DeleteNamespace(
      * refCount reaches 0.
      */
 
-    if ((nsPtr->activationCount > 0)
-	    && !((nsPtr == globalNsPtr) && (nsPtr->activationCount == 1))) {
+    if (nsPtr->activationCount - (nsPtr == globalNsPtr) > 0) {
 	nsPtr->flags |= NS_DYING;
 	if (nsPtr->parentPtr != NULL) {
 	    entryPtr = Tcl_FindHashEntry(&nsPtr->parentPtr->childTable,
