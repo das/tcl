@@ -207,7 +207,7 @@ CheckForCompilerFeature(
      * Base command line.
      */
 
-    lstrcpy(cmdline, "cl.exe -nologo -c -TC -Zs -X ");
+    lstrcpy(cmdline, "cl.exe -nologo -c -TC -Zs -X -Fp.\\_junk.pch ");
 
     /*
      * Append our option for testing
