@@ -62,6 +62,10 @@ foreach line [split $data \n] {
 		puts "\#if 0 /* these are macros in tclTomMathDecls.h */"
 		set eat_endif 1
 	    }
+	    {__x86_64__} {
+		puts "[string map {__x86_64__ NEVER} $line]\
+                      /* 128-bit ints fail in too many places */"
+	    }
 	    default {
 		puts $line
 	    }
