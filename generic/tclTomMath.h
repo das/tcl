@@ -51,7 +51,7 @@ extern "C" {
 
 
 /* detect 64-bit mode if possible */
-#if defined(NEVER) 
+#if defined(NEVER)  /* 128-bit ints fail in too many places */
    #if !(defined(MP_64BIT) && defined(MP_16BIT) && defined(MP_8BIT))
       #define MP_64BIT
    #endif
@@ -106,7 +106,7 @@ extern "C" {
 #endif
 
 #ifndef MP_DIGIT_DECLARED
-   typedef unsigned long      mp_digit;
+   typedef unsigned int      mp_digit;
 #define MP_DIGIT_DECLARED
 #endif
    typedef ulong64            mp_word;
