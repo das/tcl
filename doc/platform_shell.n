@@ -32,10 +32,10 @@ only requirement is that the other shell (identified by its path), is
 actually executable on the current machine.
 .PP
 While for most platform this means that the architecture of the
-interogated shell is identical to the architecture of the running
+interrogated shell is identical to the architecture of the running
 shell this is not generally true. A counter example are all platforms
 which have 32 and 64 bit variants and where a 64bit system is able to
-run 32bit code. For these running and interogated shell may have
+run 32bit code. For these running and interrogated shell may have
 different 32/64 bit settings and thus different identifiers.
 .PP
 For applications like a code repository it is important to identify
