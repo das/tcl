@@ -416,7 +416,7 @@ declare 102 generic {
     void TclSetupEnv(Tcl_Interp *interp)
 }
 declare 103 generic {
-    int TclSockGetPort(Tcl_Interp *interp, char *str, char *proto,
+    int TclSockGetPort(Tcl_Interp *interp, CONST char *str, CONST char *proto,
 	    int *portPtr)
 }
 declare 104 {unix win} {
@@ -1127,4 +1127,3 @@ declare 18 macosx {
 	    CONST char *fileName, Tcl_StatBuf *statBufPtr,
 	    Tcl_GlobTypeData *types)
 }
-
