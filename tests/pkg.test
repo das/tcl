@@ -1013,8 +1013,24 @@ test pkg-7.18 {Tcl_PackageCmd procedure, "present" option} {
 } {1 {wrong # args: should be "package present ?-exact? package ?version?"}}
 
 
+# Note: It is correct that the result of the very first test,
+# i.e. "5.0 5.01" is 1, i.e. that version 5.0a1 satisifes a 5.0
+# requirement.
+
+# The requirement "5.0" internally translates first to "5.0-6", and
+# then to its final form of "5.0a0-6a0". These translations are
+# explicitly specified by the TIP (Search for "padded/extended
+# internally with 'a0'"). This was done intentionally for exactly the
+# tested case, that an alpha package can satisfy a requirement for the
+# regular package. An example would be a package FOO requiring Tcl 8.X
+# for its operation. It can be used with Tcl 8.Xa0. Without our
+# translation that would not be possible.
+
 set n 0
 foreach {r p vs vc} {
+    5.0 5.0a0 1 1
+    5.0a0 5.0 1 -1
+
     8.5a0    8.5a5    1          -1
     8.5a0    8.5b1    1          -1
     8.5a0    8.5.1    1          -1
