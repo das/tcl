@@ -1014,7 +1014,7 @@ test pkg-7.18 {Tcl_PackageCmd procedure, "present" option} {
 
 
 # Note: It is correct that the result of the very first test,
-# i.e. "5.0 5.01" is 1, i.e. that version 5.0a1 satisfies a 5.0
+# i.e. "5.0 5.0a0" is 1, i.e. that version 5.0a0 satisfies a 5.0
 # requirement.
 
 # The requirement "5.0" internally translates first to "5.0-6", and
