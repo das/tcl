@@ -272,8 +272,8 @@ proc genStubs::emitSlots {name textVar} {
 
 proc genStubs::parseDecl {decl} {
     if {![regexp {^(.*)\((.*)\)$} $decl all prefix args]} {
-	puts stderr "Malformed declaration: $decl"
-	return
+	set prefix $decl
+	set args {}
     }
     set prefix [string trim $prefix]
     if {![regexp {^(.+[ ][*]*)([^ *]+)$} $prefix all rtype fname]} {
@@ -281,6 +281,9 @@ proc genStubs::parseDecl {decl} {
 	return
     }
     set rtype [string trim $rtype]
+    if {$args == ""} {
+	return [list $rtype $fname {}]
+    }
     foreach arg [split $args ,] {
 	lappend argList [string trim $arg]
     }
@@ -363,6 +366,12 @@ proc genStubs::makeDecl {name decl index} {
 	append line " "
 	set pad 0
     }
+    if {$args == ""} {
+	append line $fname
+	append text $line
+	append text ";\n"
+	return $text
+    }
     append line "$fname "
 
     set arg1 [lindex $args 0]
@@ -433,6 +442,11 @@ proc genStubs::makeMacro {name decl index} {
     append lfname [string range $fname 1 end]
 
     set text "#ifndef $fname\n#define $fname"
+    if {$args == ""} {
+	append text " \\\n\t(*${name}StubsPtr->$lfname)"
+	append text " /* $index */\n#endif\n"
+	return $text
+    }
     append text " \\\n\t(${name}StubsPtr->$lfname)"
     append text " /* $index */\n#endif\n"
     return $text
@@ -522,6 +536,10 @@ proc genStubs::makeSlot {name decl index} {
     append lfname [string range $fname 1 end]
 
     set text "    "
+    if {$args == ""} {
+	append text $rtype " *" $lfname "; /* $index */\n"
+	return $text
+    }
     append text $rtype " (*" $lfname ") "
 
     set arg1 [lindex $args 0]
@@ -566,7 +584,11 @@ proc genStubs::makeSlot {name decl index} {
 #	Returns the formatted declaration string.
 
 proc genStubs::makeInit {name decl index} {
-    append text "    " [lindex $decl 1] ", /* " $index " */\n"
+    if {[lindex $decl 2] == ""} {
+	append text "    &" [lindex $decl 1] ", /* " $index " */\n"
+    } else {
+	append text "    " [lindex $decl 1] ", /* " $index " */\n"
+    }
     return $text
 }
 
