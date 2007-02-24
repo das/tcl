@@ -345,6 +345,46 @@ Tcl_SetListObj(
 /*
  *----------------------------------------------------------------------
  *
+ * TclListObjCopy --
+ *
+ *	Makes a "pure list" copy of a list value.  This provides for the
+ *	C level a counterpart of the [lrange $list 0 end] command, while
+ *	using internals details to be as efficient as possible.
+ *
+ * Results:
+ *	Normally returns a pointer to a new Tcl_Obj, that contains the
+ *	same list value as *listPtr does.  The returned Tcl_Obj has
+ *	a refCount of zero.  If *listPtr does not hold a list, NULL
+ *	is returned, and if interp is non-NULL, an error message is
+ *	recorded there.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+Tcl_Obj *
+TclListObjCopy(
+    Tcl_Interp *interp,		/* Used to report errors if not NULL. */
+    Tcl_Obj *listPtr)		/* List object for which an element array is
+				 * to be returned. */
+{
+    Tcl_Obj *copyPtr;
+    if (listPtr->typePtr != &tclListType) {
+	if (SetListFromAny(interp, listPtr) != TCL_OK) {
+	    return NULL;
+	}
+    }
+    TclNewObj(copyPtr);
+    TclInvalidateStringRep(copyPtr);
+    DupListInternalRep(listPtr, copyPtr);
+    return copyPtr;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
  * Tcl_ListObjGetElements --
  *
  *	This function returns an (objc,objv) array of the elements in a list
