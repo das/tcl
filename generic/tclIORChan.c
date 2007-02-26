@@ -1860,6 +1860,9 @@ NewReflectedChannel(
 
     i++;				/* Skip placeholder for method */
 
+    /*
+     * [SF Bug 1667990] See [x] in FreeReflectedChannel for release
+     */
     rcPtr->argv[i] = handleObj;
     Tcl_IncrRefCount(handleObj);
 
@@ -1935,6 +1938,12 @@ FreeReflectedChannel(rcPtr)
     for (i=0; i<n; i++) {
 	Tcl_DecrRefCount(rcPtr->argv[i]);
     }
+
+    /*
+     * [SF Bug 1667990] See [x] in NewReflectedChannel for lock
+     * n+1 = argc-1.
+     */
+    Tcl_IncrRefCount(rcPtr->argv[n+1]);
 
     ckfree((char*) rcPtr->argv);
     ckfree((char*) rcPtr);
