@@ -3191,7 +3191,6 @@ Tcl_LrepeatObjCmd(
 	Tcl_WrongNumArgs(interp, 1, objv, "positiveCount value ?value ...?");
 	return TCL_ERROR;
     }
-    elementCount = 0;
     result = Tcl_GetIntFromObj(interp, objv[1], &elementCount);
     if (result == TCL_ERROR) {
 	return TCL_ERROR;
