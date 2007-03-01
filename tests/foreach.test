@@ -73,8 +73,11 @@ catch {unset a}
 test foreach-1.14 {foreach errors} {
     catch {unset a}
     set a(0) 44
-    list [catch {foreach a {1 2 3} {}} msg] $msg
-} {1 {couldn't set loop variable: "a"}}
+    list [catch {foreach a {1 2 3} {}} msg o] $msg $::errorInfo
+} {1 {can't set "a": variable is array} {can't set "a": variable is array
+    (setting foreach loop variable "a"
+    invoked from within
+"foreach a {1 2 3} {}"}}
 test foreach-1.15 {foreach errors} {
     list [catch {foreach {} {} {}} msg] $msg
 } {1 {foreach varlist is empty}}

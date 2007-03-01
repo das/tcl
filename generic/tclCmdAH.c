@@ -1804,11 +1804,11 @@ Tcl_ForeachObjCmd(
 		    valuePtr = Tcl_NewObj(); /* Empty string */
 		}
 		varValuePtr = Tcl_ObjSetVar2(interp, varvList[i][v], NULL,
-			valuePtr, 0);
+			valuePtr, TCL_LEAVE_ERR_MSG);
 		if (varValuePtr == NULL) {
-		    Tcl_ResetResult(interp);
-		    Tcl_AppendResult(interp, "couldn't set loop variable: \"",
-			    TclGetString(varvList[i][v]), "\"", NULL);
+		    Tcl_AppendObjToErrorInfo(interp, Tcl_ObjPrintf(
+			    "\n    (setting foreach loop variable \"%s\"",
+			    TclGetString(varvList[i][v])));
 		    result = TCL_ERROR;
 		    goto done;
 		}
