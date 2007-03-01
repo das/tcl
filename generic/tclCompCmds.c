@@ -902,7 +902,7 @@ TclCompileForeachCmd(interp, parsePtr, envPtr)
 		 */
 
 		if (numVars == 0) {
-		    code = TCL_ERROR;
+		    code = TCL_OUT_LINE_COMPILE;
 		    goto done;
 		}
 
