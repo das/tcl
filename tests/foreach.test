@@ -233,6 +233,16 @@ test foreach-7.1 {delayed substitution of body} {
     foo
 } {0}
 
+# [Bug 1671138]; infinite loop with empty var list in bytecompiled version
+test foreach-9.1 {compiled empty var list} {
+    proc foo {} {
+	foreach {} x {
+	    error "reached body"
+	}
+    }
+    list [catch { foo } msg] $msg
+} {1 {foreach varlist is empty}}
+
 # cleanup
 catch {unset a}
 catch {unset x}

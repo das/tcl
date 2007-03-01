@@ -894,6 +894,18 @@ TclCompileForeachCmd(interp, parsePtr, envPtr)
 		    goto done;
 		}
 		numVars = varcList[loopIndex];
+
+		/*
+		 * If the variable list is empty, we can enter an infinite
+		 * loop when the interpreted version would not. Take care to
+		 * ensure this does not happen. [Bug 1671138]
+		 */
+
+		if (numVars == 0) {
+		    code = TCL_ERROR;
+		    goto done;
+		}
+
 		for (j = 0;  j < numVars;  j++) {
 		    CONST char *varName = varvList[loopIndex][j];
 		    if (!TclIsLocalScalar(varName, (int) strlen(varName))) {
