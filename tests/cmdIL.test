@@ -740,6 +740,9 @@ test cmdIL-7.4 {lreverse command - shared object} {
 test cmdIL-7.5 {lreverse command - unshared object} {
     lreverse [list a b {c d} e f]
 } {f e {c d} b a}
+test cmdIL-7.6 {lreverse command - unshared object [Bug 1672585]} {
+    lreverse [set x {1 2 3}][unset x]
+} {3 2 1}
 
 # cleanup
 ::tcltest::cleanupTests

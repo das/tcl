@@ -3389,6 +3389,7 @@ Tcl_LreverseObjCmd(
 	    elemv[i] = elemv[j];
 	    elemv[j] = tmp;
 	}
+	TclInvalidateStringRep(objv[1]);
 	Tcl_SetObjResult(interp, objv[1]);
     }
     return TCL_OK;
