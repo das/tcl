@@ -3309,6 +3309,15 @@ Tcl_LreplaceObjCmd(
     if (Tcl_IsShared(listPtr)) {
 	listPtr = TclListObjCopy(NULL, listPtr);
     }
+
+    /*
+     * Note that we call Tcl_ListObjReplace even when numToDelete == 0
+     * and objc == 4.  In this case, the list value of listPtr is not
+     * changed (no elements are removed or added), but by making the
+     * call we are assured we end up with a list in canonical form.
+     * Resist any temptation to optimize this case away.
+     */
+
     Tcl_ListObjReplace(NULL, listPtr, first, numToDelete, objc-4, &(objv[4]));
 
     /*

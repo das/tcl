@@ -804,6 +804,14 @@ Tcl_ListObjReplace(
 	}
     }
 
+    /* 
+     * Note that when count == 0 and objc == 0, this routine is logically
+     * a no-op, removing and adding no elements to the list.  However, by
+     * flowing through this routine anyway, we get the important side effect
+     * that the resulting listPtr is a list in canoncial form.  This is
+     * important.  Resist any temptation to optimize this case.
+     */
+
     listRepPtr = (List *) listPtr->internalRep.twoPtrValue.ptr1;
     elemPtrs = &listRepPtr->elements;
     numElems = listRepPtr->elemCount;
