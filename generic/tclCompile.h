@@ -16,6 +16,8 @@
 
 #include "tclInt.h"
 
+struct ByteCode;		/* Forward declaration. */
+
 /*
  *------------------------------------------------------------------------
  * Variables related to compilation. These are used in tclCompile.c,
@@ -157,6 +159,8 @@ typedef struct ExtCmdLoc {
 
 typedef ClientData (AuxDataDupProc)  (ClientData clientData);
 typedef void       (AuxDataFreeProc) (ClientData clientData);
+typedef void	   (AuxDataPrintProc)(ClientData clientData,
+			    struct ByteCode *codePtr, unsigned int pcOffset);
 
 /*
  * We define a separate AuxDataType struct to hold type-related information
@@ -177,6 +181,9 @@ typedef struct AuxDataType {
     AuxDataFreeProc *freeProc;	/* Callback procedure to invoke when the aux
 				 * data is freed. NULL means no proc need be
 				 * called. */
+    AuxDataPrintProc *printProc;/* Callback function to invoke when printing
+				 * the aux data as part of debugging. NULL
+				 * means that the data can't be printed. */
 } AuxDataType;
 
 /*
@@ -281,8 +288,8 @@ typedef struct CompileEnv {
     AuxData staticAuxDataArraySpace[COMPILEENV_INIT_AUX_DATA_SIZE];
 				/* Initial storage for aux data array. */
     /* TIP #280 */
-    ExtCmdLoc *extCmdMapPtr;	/* Extended command location information
-				 * for 'info frame'. */
+    ExtCmdLoc *extCmdMapPtr;	/* Extended command location information for
+				 * 'info frame'. */
     int line;			/* First line of the script, based on the
 				 * invoking context, then the line of the
 				 * command currently compiled. */
@@ -631,8 +638,10 @@ typedef enum InstOperandType {
 				 * integer, but displayed differently.) */
     OPERAND_LVT1,		/* One byte unsigned index into the local
 				 * variable table. */
-    OPERAND_LVT4		/* Four byte unsigned index into the local
+    OPERAND_LVT4,		/* Four byte unsigned index into the local
 				 * variable table. */
+    OPERAND_AUX4,		/* Four byte unsigned index into the aux data
+				 * table. */
 } InstOperandType;
 
 typedef struct InstructionDesc {
@@ -752,6 +761,24 @@ typedef struct JumptableInfo {
 } JumptableInfo;
 
 MODULE_SCOPE AuxDataType	tclJumptableInfoType;
+
+/*
+ * Structure used to hold information about a [dict update] command that is
+ * needed during program execution. These structures are stored in CompileEnv
+ * and ByteCode structures as auxiliary data.
+ */
+
+typedef struct {
+    int length;			/* Size of array */
+    int varIndices[1];		/* Array of variable indices to manage when
+				 * processing the start and end of a [dict
+				 * update]. There is really more than one
+				 * entry, and the structure is allocated to
+				 * take account of this. MUST BE LAST FIELD IN
+				 * STRUCTURE. */
+} DictUpdateInfo;
+
+MODULE_SCOPE AuxDataType	tclDictUpdateInfoType;
 
 /*
  * ClientData type used by the math operator commands.
