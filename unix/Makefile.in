@@ -797,8 +797,8 @@ install-libraries: libraries $(INSTALL_TZDATA) install-msgs
 
 	@echo "Installing package platform 1.0.2 as a Tcl Module";
 	@$(INSTALL_DATA) $(TOP_DIR)/library/platform/platform.tcl $(SCRIPT_INSTALL_DIR)/../tcl8/8.4/platform-1.0.2.tm;
-	@echo "Installing package platform::shell 1.1.1 as a Tcl Module";
-	@$(INSTALL_DATA) $(TOP_DIR)/library/platform/shell.tcl $(SCRIPT_INSTALL_DIR)/../tcl8/8.4/platform/shell-1.1.1.tm;
+	@echo "Installing package platform::shell 1.1.2 as a Tcl Module";
+	@$(INSTALL_DATA) $(TOP_DIR)/library/platform/shell.tcl $(SCRIPT_INSTALL_DIR)/../tcl8/8.4/platform/shell-1.1.2.tm;
 
 	@echo "Installing library encoding directory";
 	@for i in $(TOP_DIR)/library/encoding/*.enc ; do \

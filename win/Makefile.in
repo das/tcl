@@ -646,8 +646,8 @@ install-libraries: libraries install-tzdata install-msgs
 	@$(COPY) $(ROOT_DIR)/library/tcltest/tcltest.tcl $(SCRIPT_INSTALL_DIR)/../tcl8/8.5/tcltest-2.3a1.tm;
 	@echo "Installing package platform 1.0.2 as a Tcl Module";
 	@$(COPY) $(ROOT_DIR)/library/platform/platform.tcl $(SCRIPT_INSTALL_DIR)/../tcl8/8.4/platform-1.0.2.tm;
-	@echo "Installing package platform::shell 1.1.1 as a Tcl Module";
-	@$(COPY) $(ROOT_DIR)/library/platform/shell.tcl $(SCRIPT_INSTALL_DIR)/../tcl8/8.4/platform/shell-1.1.1.tm;
+	@echo "Installing package platform::shell 1.1.2 as a Tcl Module";
+	@$(COPY) $(ROOT_DIR)/library/platform/shell.tcl $(SCRIPT_INSTALL_DIR)/../tcl8/8.4/platform/shell-1.1.2.tm;
 	@echo "Installing encodings";
 	@for i in $(ROOT_DIR)/library/encoding/*.enc ; do \
 		$(COPY) "$$i" "$(SCRIPT_INSTALL_DIR)/encoding"; \
