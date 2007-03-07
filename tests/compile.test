@@ -565,7 +565,7 @@ test compile-16.23.$noComp {
 } -returnCodes ok -result {syntax {}{}}
 test compile-16.24.$noComp {
     Bug 1638414: bad list constant as first expanded term
-} -body {
+} -constraints $constraints -body {
     run "{*}\"\{foo bar\""
 } -returnCodes error -result {unmatched open brace in list}
 }	;# End of noComp loop
