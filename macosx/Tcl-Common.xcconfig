@@ -19,8 +19,11 @@ GCC_PREFIX_HEADER = $(DERIVED_FILE_DIR)/tcl/tclConfig.h
 GCC_GENERATE_DEBUGGING_SYMBOLS = YES
 GCC_NO_COMMON_BLOCKS = YES
 GCC_DYNAMIC_NO_PIC = YES
-WARNING_CFLAGS_GCC3 = -Wall -Wno-implicit-int -Wno-unused-parameter -Wno-deprecated-declarations $(WARNING_CFLAGS)
-WARNING_CFLAGS = -Wextra -Wno-missing-field-initializers $(WARNING_CFLAGS_GCC3)
+GCC = /usr/bin/gcc
+GCC_VERSION = 4.0
+CC = $(GCC)-$(GCC_VERSION)
+WARNING_CFLAGS_GCC3 = -Wall -Wno-implicit-int -Wno-unused-parameter -Wno-deprecated-declarations
+WARNING_CFLAGS = -Wextra -Wno-missing-field-initializers $(WARNING_CFLAGS_GCC3) $(WARNING_CFLAGS)
 BINDIR = $(PREFIX)/bin
 CFLAGS = $(CFLAGS)
 CPPFLAGS = -mmacosx-version-min=$(MACOSX_DEPLOYMENT_TARGET) $(CPPFLAGS)
