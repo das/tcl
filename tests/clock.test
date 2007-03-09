@@ -19,10 +19,16 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 }
 
 if {[testConstraint win]} {
-    if {[catch {package require registry 1.1}]} {
+    if {[catch {package require registry 1.1}] 
+	&& [catch {load {} Registry}]
+	&& [catch {
+	    ::tcltest::loadTestedCommands
+	    load $::reglib Registry
+	}]} {
 	namespace eval ::tcl::clock {variable NoRegistry {}}
     }
 }
+
 package require msgcat 1.4
 
 testConstraint detroit \
