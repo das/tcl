@@ -4002,6 +4002,18 @@ Tcl_LsortObjCmd(
 
     if (sortInfo.sortMode == SORTMODE_COMMAND) {
 	/*
+	 * When sorting using a command, we are reentrant and therefore might
+	 * have the representation of the list being sorted shimmered out from
+	 * underneath our feet. Take a copy (cheap) to prevent this. [Bug
+	 * 1675116]
+	 */
+
+	listObj = TclListObjCopy(interp,listObj);
+	if (listObj == NULL) {
+	    return TCL_ERROR;
+	}
+
+	/*
 	 * The existing command is a list. We want to flatten it, append two
 	 * dummy arguments on the end, and replace these arguments later.
 	 */
@@ -4022,15 +4034,6 @@ Tcl_LsortObjCmd(
 	}
 	Tcl_ListObjAppendElement(interp, newCommandPtr, Tcl_NewObj());
 	sortInfo.compareCmdPtr = newCommandPtr;
-
-	/*
-	 * When sorting using a command, we are reentrant and therefore might
-	 * have the representation of the list being sorted shimmered out from
-	 * underneath our feet. Take a copy (cheap) to prevent this. [Bug
-	 * 1675116]
-	 */
-
-	listObj = Tcl_DuplicateObj(listObj);
     }
 
     sortInfo.resultCode = Tcl_ListObjGetElements(interp, listObj,
