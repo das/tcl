@@ -3799,6 +3799,15 @@ Tcl_LsortObjCmd(clientData, interp, objc, objv)
 	elementArray[i].objPtr = listObjPtrs[i];
 	elementArray[i].count = 0;
 	elementArray[i].nextPtr = &elementArray[i+1];
+
+	/*
+	 * When sorting using a command, we are reentrant and therefore might
+	 * have the representation of the list being sorted shimmered out from
+	 * underneath our feet. Increment the reference counts of the elements
+	 * to sort to prevent this. [Bug 1675116]
+	 */
+
+	Tcl_IncrRefCount(elementArray[i].objPtr);
     }
     elementArray[length-1].nextPtr = NULL;
     elementPtr = MergeSort(elementArray, &sortInfo);
@@ -3823,6 +3832,9 @@ Tcl_LsortObjCmd(clientData, interp, objc, objv)
 			elementPtr->objPtr);
 	    }
 	}
+    }
+    for (i=0; i<length; i++) {
+	Tcl_DecrRefCount(elementArray[i].objPtr);
     }
     ckfree((char*) elementArray);
 

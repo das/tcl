@@ -104,6 +104,11 @@ test cmdIL-1.25 {Tcl_LsortObjCmd procedure, order of -index and -command} {
 test cmdIL-1.26 {Tcl_LsortObjCmd procedure, offset indexing from end} {
     lsort -index end-1 {{a 1 e i} {b 2 3 f g} {c 4 5 6 d h}}
 } {{c 4 5 6 d h} {a 1 e i} {b 2 3 f g}}
+test cmdIL-1.29 {Tcl_LsortObjCmd procedure, loss of list rep during sorting} {
+    set l {1 2 3}
+    proc testcmp args {string length $::l}
+    string length [lsort -command testcmp $l]
+} 5
 
 # Can't think of any good tests for the MergeSort and MergeLists
 # procedures, except a bunch of random lists to sort.
