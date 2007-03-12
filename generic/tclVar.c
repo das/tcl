@@ -3023,8 +3023,7 @@ TclArraySet(
 				 * NULL, create an empty array. */
 {
     Var *varPtr, *arrayPtr;
-    Tcl_Obj **elemPtrs;
-    int result, elemLen, i, nameLen;
+    int result, i, nameLen;
     char *varName, *p;
 
     varName = Tcl_GetStringFromObj(arrayNameObj, &nameLen);
@@ -3100,6 +3099,8 @@ TclArraySet(
 	 * Not a dictionary, so assume (and convert to, for
 	 * backward-compatability reasons) a list.
 	 */
+	int elemLen;
+	Tcl_Obj **elemPtrs, *copyListObj;
 
 	result = Tcl_ListObjGetElements(interp, arrayElemObj,
 		&elemLen, &elemPtrs);
@@ -3121,6 +3122,7 @@ TclArraySet(
 	 * loop and return an error.
 	 */
 
+	copyListObj = TclListObjCopy(NULL, arrayElemObj);
 	for (i=0 ; i<elemLen ; i+=2) {
 	    char *part2 = TclGetString(elemPtrs[i]);
 	    Var *elemVarPtr = TclLookupArrayElement(interp, varName,
@@ -3133,6 +3135,7 @@ TclArraySet(
 		break;
 	    }
 	}
+	Tcl_DecrRefCount(copyListObj);
 	return result;
     }
 
