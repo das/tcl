@@ -188,6 +188,23 @@ test event-5.2 {Tcl_BackgroundError, HandleBgErrors procedures} {
     rename bgerror {}
     set x
 } {{a simple error}}
+test event-5.3 {HandleBgErrors: [Bug 1670155]} -setup {
+    variable x
+    proc demo args {variable x done}
+    variable target [list [namespace which demo] x]
+    proc trial args {variable target; string length $target}
+    trace add execution demo enter [namespace code trial]
+    variable save [interp bgerror {}]
+    interp bgerror {} $target
+} -body {
+    after 0 {error bar}
+    vwait [namespace which -variable x]
+} -cleanup {
+    interp bgerror {} $save
+    unset x target save
+    rename demo {}
+    rename trial {}
+} -result {}
 
 test event-6.1 {BgErrorDeleteProc procedure} {
     catch {interp delete foo}
