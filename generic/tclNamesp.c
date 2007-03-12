@@ -6308,8 +6308,9 @@ NsEnsembleImplementationCmd(
     {
 	Interp *iPtr = (Interp *) interp;
 	int isRootEnsemble = (iPtr->ensembleRewrite.sourceObjs == NULL);
+	Tcl_Obj *copyObj = TclListObjCopy(NULL, prefixObj);
 
-	Tcl_ListObjGetElements(NULL, prefixObj, &prefixObjc, &prefixObjv);
+	Tcl_ListObjGetElements(NULL, copyObj, &prefixObjc, &prefixObjv);
 	if (isRootEnsemble) {
 	    iPtr->ensembleRewrite.sourceObjs = objv;
 	    iPtr->ensembleRewrite.numRemovedObjs = 2;
@@ -6329,6 +6330,7 @@ NsEnsembleImplementationCmd(
 	memcpy(tempObjv+prefixObjc, objv+2, sizeof(Tcl_Obj *) * (objc-2));
 	result = Tcl_EvalObjv(interp, objc-2+prefixObjc, tempObjv,
 		TCL_EVAL_INVOKE);
+	Tcl_DecrRefCount(copyObj);
 	Tcl_DecrRefCount(prefixObj);
 	TclStackFree(interp);
 	if (isRootEnsemble) {
