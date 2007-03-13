@@ -243,6 +243,18 @@ test foreach-9.1 {compiled empty var list} {
     list [catch { foo } msg] $msg
 } {1 {foreach varlist is empty}}
 
+test foreach-10.1 {foreach: [Bug 1671087]} -setup {
+    proc demo {} {
+        set vals {1 2 3 4}
+        trace add variable x write {string length $vals ;# }
+        foreach {x y} $vals {format $y}
+    }
+} -body {
+    demo
+} -cleanup {
+    rename demo {}
+} -result {}
+
 # cleanup
 catch {unset a}
 catch {unset x}

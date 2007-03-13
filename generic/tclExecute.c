@@ -4052,7 +4052,6 @@ TclExecuteByteCode(interp, codePtr)
 	    int numLists = infoPtr->numLists;
 	    Var *compiledLocals = iPtr->varFramePtr->compiledLocals;
 	    Tcl_Obj *listPtr;
-	    List *listRepPtr;
 	    Var *iterVarPtr, *listVarPtr;
 	    int iterNum, listTmpIndex, listLen, numVars;
 	    int varIndex, valIndex, continueLoop, j;
@@ -4106,15 +4105,23 @@ TclExecuteByteCode(interp, codePtr)
 
 		    listVarPtr = &(compiledLocals[listTmpIndex]);
 		    listPtr = listVarPtr->value.objPtr;
-		    listRepPtr = (List *) listPtr->internalRep.twoPtrValue.ptr1;
-		    listLen = listRepPtr->elemCount;
-			
+
 		    valIndex = (iterNum * numVars);
 		    for (j = 0;  j < numVars;  j++) {
+			Tcl_Obj **elements;
+
+			/*
+			 * The call to TclPtrSetVar might shimmer listPtr,
+			 * so re-fetch pointers every iteration for safety.
+			 * See test foreach-10.1.
+			 */
+
+			Tcl_ListObjGetElements(NULL, listPtr,
+				&listLen, &elements);
 			if (valIndex >= listLen) {
 			    TclNewObj(valuePtr);
 			} else {
-			    valuePtr = listRepPtr->elements[valIndex];
+			    valuePtr = elements[valIndex];
 			}
 			    
 			varIndex = varListPtr->varIndexes[j];
