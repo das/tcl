@@ -3489,6 +3489,14 @@ TclArraySet(interp, arrayNameObj, arrayElemObj)
 		    result = TCL_ERROR;
 		    break;
 		}
+
+		/*
+		 * The TclPtrSetVar call might have shimmered
+		 * arrayElemObj to another type, so re-fetch
+		 * the pointers for safety.
+		 */
+		Tcl_ListObjGetElements(NULL, arrayElemObj,
+			&elemLen, &elemPtrs);
 	    }
 	    return result;
 	}
