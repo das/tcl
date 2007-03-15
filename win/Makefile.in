@@ -108,7 +108,9 @@ TOMMATH_DIR_NATIVE	= $(shell $(CYGPATH) '$(TOMMATH_DIR)' | sed 's!\\!/!g')
 WIN_DIR_NATIVE		= $(shell $(CYGPATH) '$(WIN_DIR)' | sed 's!\\!/!g')
 ROOT_DIR_NATIVE		= $(shell $(CYGPATH) '$(ROOT_DIR)' | sed 's!\\!/!g')
 
-LIBRARY_DIR   = $(ROOT_DIR_NATIVE)/library
+# Fully qualify library path so that `make test`
+# does not depend on the current directory.
+LIBRARY_DIR		= $(shell cd '$(ROOT_DIR_NATIVE)/library' ; pwd)
 
 DLLSUFFIX		= @DLLSUFFIX@
 LIBSUFFIX		= @LIBSUFFIX@
