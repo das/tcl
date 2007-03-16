@@ -68,9 +68,11 @@ Tcl_Stat(
     Tcl_StatBuf buf;
     Tcl_Obj *pathPtr = Tcl_NewStringObj(path,-1);
 
+#ifndef TCL_WIDE_INT_IS_LONG
     Tcl_WideInt tmp1, tmp2;
 #ifdef HAVE_ST_BLOCKS
     Tcl_WideInt tmp3;
+#endif
 #endif
 
     Tcl_IncrRefCount(pathPtr);

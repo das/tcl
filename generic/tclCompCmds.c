@@ -4294,7 +4294,7 @@ PrintJumptableInfo(
     hPtr = Tcl_FirstHashEntry(&jtPtr->hashTable, &search);
     for (; hPtr ; hPtr = Tcl_NextHashEntry(&search)) {
 	keyPtr = Tcl_GetHashKey(&jtPtr->hashTable, hPtr);
-	offset = (int) Tcl_GetHashValue(hPtr);
+	offset = PTR2INT(Tcl_GetHashValue(hPtr));
 
 	if (i++) {
 	    fprintf(stdout, ", ");
