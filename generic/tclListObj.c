@@ -1530,6 +1530,9 @@ TclListObjSetElement(
 	int i;
 
 	listRepPtr = NewListIntRep(listRepPtr->maxElemCount, NULL);
+	if (listRepPtr == NULL) {
+	    Tcl_Panic("Not enough memory to allocate list");
+	}
 	listRepPtr->canonicalFlag = oldListRepPtr->canonicalFlag;
 	elemPtrs = &listRepPtr->elements;
 	for (i=0; i < elemCount; i++) {
