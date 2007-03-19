@@ -461,7 +461,7 @@ SetTZIfNecessary() {
 	} else {
 	    Tcl_Free( lastTZ );
 	}
-	lastTZ = Tcl_Alloc( strlen( newTZ ) + 1 );
+	lastTZ = ckalloc( strlen( newTZ ) + 1 );
 	strcpy( lastTZ, newTZ );
     }
     Tcl_MutexUnlock(&tmMutex);
@@ -488,5 +488,5 @@ SetTZIfNecessary() {
 static void
 CleanupMemory( ClientData ignored )
 {
-    Tcl_Free( lastTZ );
+    ckfree( lastTZ );
 }

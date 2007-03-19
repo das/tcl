@@ -1224,7 +1224,7 @@ NewThreadProc(ClientData clientData)
     cdPtr = (ThreadClientData*)clientData;
     threadProc = cdPtr->proc;
     threadClientData = cdPtr->clientData;
-    Tcl_Free((char*)clientData); /* Allocated in Tcl_CreateThread() */
+    ckfree((char*)clientData); /* Allocated in Tcl_CreateThread() */
 
     (*threadProc)(threadClientData);
 
@@ -1262,7 +1262,7 @@ Tcl_CreateThread(idPtr, proc, clientData, stackSize, flags)
 #ifdef TCL_THREADS
     ThreadClientData *cdPtr;
 
-    cdPtr = (ThreadClientData*)Tcl_Alloc(sizeof(ThreadClientData));
+    cdPtr = (ThreadClientData*)ckalloc(sizeof(ThreadClientData));
     cdPtr->proc = proc;
     cdPtr->clientData = clientData;
 
