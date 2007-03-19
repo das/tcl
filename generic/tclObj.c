@@ -2633,7 +2633,7 @@ UpdateStringOfBignum(
 
 	Tcl_Panic("UpdateStringOfBignum: string length limit exceeded");
     }
-    stringVal = Tcl_Alloc((size_t) size);
+    stringVal = ckalloc((size_t) size);
     status = mp_toradix_n(&bignumVal, stringVal, 10, size);
     if (status != MP_OKAY) {
 	Tcl_Panic("conversion failure in UpdateStringOfBignum");
