@@ -1572,7 +1572,7 @@ TclExecuteByteCode(
 	 * If nothing is to be appended, just return the first object by
 	 * dropping all the others from the stack; this saves both the
 	 * computation and copy of the string rep of the first object,
-	 * enabling the fast '$x[set x {}]' idiom for 'K $x [set x{}]'.
+	 * enabling the fast '$x[set x {}]' idiom for 'K $x [set x {}]'.
 	 */
 
 	if (appendLen == 0) {
