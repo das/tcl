@@ -518,10 +518,8 @@ LinkTraceProc(
 	value = Tcl_GetStringFromObj(valueObj, &valueLength);
 	valueLength++;
 	pp = (char **) linkPtr->addr;
-	if (*pp != NULL) {
-	    ckfree(*pp);
-	}
-	*pp = (char *) ckalloc((unsigned) valueLength);
+
+	*pp = ckrealloc(*pp, valueLength);
 	memcpy(*pp, value, (unsigned) valueLength);
 	break;
 
