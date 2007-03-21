@@ -1598,9 +1598,7 @@ Tcl_DStringAppend(
     if (newSize >= dsPtr->spaceAvl) {
 	dsPtr->spaceAvl = newSize * 2;
 	if (dsPtr->string == dsPtr->staticSpace) {
-	    char *newString;
-
-	    newString = (char *) ckalloc((unsigned) dsPtr->spaceAvl);
+	    char *newString = ckalloc((unsigned) dsPtr->spaceAvl);
 	    memcpy((void *) newString, (void *) dsPtr->string,
 		    (size_t) dsPtr->length);
 	    dsPtr->string = newString;
@@ -1665,9 +1663,7 @@ Tcl_DStringAppendElement(
     if (newSize >= dsPtr->spaceAvl) {
 	dsPtr->spaceAvl = newSize * 2;
 	if (dsPtr->string == dsPtr->staticSpace) {
-	    char *newString;
-
-	    newString = (char *) ckalloc((unsigned) dsPtr->spaceAvl);
+	    char *newString = ckalloc((unsigned) dsPtr->spaceAvl);
 	    memcpy((void *) newString, (void *) dsPtr->string,
 		    (size_t) dsPtr->length);
 	    dsPtr->string = newString;
@@ -1749,9 +1745,7 @@ Tcl_DStringSetLength(
 	    dsPtr->spaceAvl = length + 1;
 	}
 	if (dsPtr->string == dsPtr->staticSpace) {
-	    char *newString;
-
-	    newString = (char *) ckalloc((unsigned) dsPtr->spaceAvl);
+	    char *newString = ckalloc((unsigned) dsPtr->spaceAvl);
 	    memcpy((void *) newString, (void *) dsPtr->string,
 		    (size_t) dsPtr->length);
 	    dsPtr->string = newString;
