@@ -28,8 +28,7 @@ static char **environCache = NULL;
 static char **ourEnviron = NULL;/* Cache of the array that we allocate. We
 				 * need to track this in case another
 				 * subsystem swaps around the environ array
-				 * like we do.
-				 */
+				 * like we do. */
 static int environSize = 0;	/* Non-zero means that the environ array was
 				 * malloced and has this many total entries
 				 * allocated to it (not all may be in use at
