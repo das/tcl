@@ -107,13 +107,11 @@ typedef struct allocMutex {
  *				of the way ThreadSpecificData is created.
  * WIN_THREAD_RUNNING		Running, not waiting.
  * WIN_THREAD_BLOCKED		Waiting, or trying to wait.
- * WIN_THREAD_DEAD		Dying - no per-thread event anymore.
  */ 
 
 #define WIN_THREAD_UNINIT	0x0
 #define WIN_THREAD_RUNNING	0x1
 #define WIN_THREAD_BLOCKED	0x2
-#define WIN_THREAD_DEAD		0x4
 
 /*
  * The per condition queue pointers and the
@@ -789,14 +787,6 @@ Tcl_ConditionWait(condPtr, mutexPtr, timePtr)
     int doExit = 0;		/* True if we need to do exit setup */
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
 
-    if (tsdPtr->flags & WIN_THREAD_DEAD) {
-	/*
-	 * No more per-thread event on which to wait.
-	 */
-
-	return;
-    }
-
     /*
      * Self initialize the two parts of the condition.
      * The per-condition and per-thread parts need to be
@@ -956,8 +946,13 @@ Tcl_ConditionNotify(condPtr)
 {
     WinCondition *winCondPtr;
     ThreadSpecificData *tsdPtr;
+
     if (condPtr != NULL) {
 	winCondPtr = *((WinCondition **)condPtr);
+
+	if (winCondPtr == NULL) {
+	    return;
+	}
 
 	/*
 	 * Loop through all the threads waiting on the condition
@@ -1008,7 +1003,7 @@ FinalizeConditionEvent(data)
     ClientData data;
 {
     ThreadSpecificData *tsdPtr = (ThreadSpecificData *)data;
-    tsdPtr->flags = WIN_THREAD_DEAD;
+    tsdPtr->flags = WIN_THREAD_UNINIT;
     CloseHandle(tsdPtr->condEvent);
 }
 
