@@ -2383,7 +2383,6 @@ Tcl_ApplyObjCmd(
      */
 
     cmd.clientData = (ClientData) lambdaPtr;
-    Tcl_IncrRefCount (lambdaPtr);
  
     /*
      * Find the namespace where this lambda should run, and push a call frame
@@ -2423,9 +2422,6 @@ Tcl_ApplyObjCmd(
 	iPtr->ensembleRewrite.numRemovedObjs = 0;
 	iPtr->ensembleRewrite.numInsertedObjs = 0;
     }
-
-    /* TIP #280 Undo the reference held inside of 'cmd, see HACK above. */
-    Tcl_DecrRefCount (lambdaPtr);
 
     return result;    
 }
