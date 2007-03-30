@@ -2303,10 +2303,8 @@ Tcl_StringObjCmd(
 
 	    start = Tcl_UtfAtIndex(string1, first);
 	    end = Tcl_UtfAtIndex(start, last - first + 1);
-	    length2 = end-start;
-	    string2 = ckalloc((size_t) length2+1);
-	    memcpy(string2, start, (size_t) length2);
-	    string2[length2] = '\0';
+	    resultPtr = Tcl_NewStringObj(string1, end - string1);
+	    string2 = Tcl_GetString(resultPtr) + (start - string1);
 
 	    if ((enum options) index == STR_TOLOWER) {
 		length2 = Tcl_UtfToLower(string2);
@@ -2315,12 +2313,10 @@ Tcl_StringObjCmd(
 	    } else {
 		length2 = Tcl_UtfToTitle(string2);
 	    }
+	    Tcl_SetObjLength(resultPtr, length2 + (start - string1));
 
-	    resultPtr = Tcl_NewStringObj(string1, start - string1);
-	    Tcl_AppendToObj(resultPtr, string2, length2);
 	    Tcl_AppendToObj(resultPtr, end, -1);
 	    Tcl_SetObjResult(interp, resultPtr);
-	    ckfree(string2);
 	}
 	break;
 
