@@ -2049,12 +2049,26 @@ TclExecuteByteCode(
 	    arrayPtr = arrayPtr->value.linkPtr;
 	}
 	TRACE(("%u \"%.30s\" => ", opnd, part2));
-	varPtr = TclLookupArrayElement(interp, part1, part2,
-		TCL_LEAVE_ERR_MSG, "read", 0, 1, arrayPtr);
+	if (!TclIsVarUndefined(arrayPtr)
+		&& TclIsVarArray(arrayPtr)
+		&& TclIsVarUntraced(arrayPtr)) {
+	    Tcl_HashEntry *hPtr = Tcl_FindHashEntry(arrayPtr->value.tablePtr, part2);
+	    if (hPtr == NULL) {
+		varPtr = NULL;
+	    } else {
+		varPtr = (Var *) Tcl_GetHashValue(hPtr);
+	    }
+	} else {
+	    varPtr = NULL;
+	}
 	if (varPtr == NULL) {
-	    TRACE_APPEND(("ERROR: %.30s\n", O2S(Tcl_GetObjResult(interp))));
-	    result = TCL_ERROR;
-	    goto checkForCatch;
+	    varPtr = TclLookupArrayElement(interp, part1, part2,
+		    TCL_LEAVE_ERR_MSG, "read", 0, 1, arrayPtr);
+	    if (varPtr == NULL) {
+		TRACE_APPEND(("ERROR: %.30s\n", O2S(Tcl_GetObjResult(interp))));
+		result = TCL_ERROR;
+		goto checkForCatch;
+	    }
 	}
 	if (TclIsVarDirectReadable(varPtr)
 		&& ((arrayPtr == NULL) || TclIsVarUntraced(arrayPtr))) {
@@ -2213,12 +2227,26 @@ TclExecuteByteCode(
 	while (TclIsVarLink(arrayPtr)) {
 	    arrayPtr = arrayPtr->value.linkPtr;
 	}
-	varPtr = TclLookupArrayElement(interp, part1, part2,
-		TCL_LEAVE_ERR_MSG, "set", 1, 1, arrayPtr);
+	if (!TclIsVarUndefined(arrayPtr)
+		&& TclIsVarArray(arrayPtr)
+		&& TclIsVarUntraced(arrayPtr)) {
+	    Tcl_HashEntry *hPtr = Tcl_FindHashEntry(arrayPtr->value.tablePtr, part2);
+	    if (hPtr == NULL) {
+		varPtr = NULL;
+	    } else {
+		varPtr = (Var *) Tcl_GetHashValue(hPtr);
+	    }
+	} else {
+	    varPtr = NULL;
+	}
 	if (varPtr == NULL) {
-	    TRACE_APPEND(("ERROR: %.30s\n", O2S(Tcl_GetObjResult(interp))));
-	    result = TCL_ERROR;
-	    goto checkForCatch;
+	    varPtr = TclLookupArrayElement(interp, part1, part2,
+		    TCL_LEAVE_ERR_MSG, "set", 1, 1, arrayPtr);
+	    if (varPtr == NULL) {
+		TRACE_APPEND(("ERROR: %.30s\n", O2S(Tcl_GetObjResult(interp))));
+		result = TCL_ERROR;
+		goto checkForCatch;
+	    }
 	}
 	cleanup = 2;
 	goto doCallPtrSetVar;
