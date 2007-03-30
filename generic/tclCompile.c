@@ -1278,9 +1278,11 @@ TclCompileScript(
 	     * might be a literal one coming after.
 	     */
 
-	    exp = (int *) ckalloc(sizeof(int) * parse.numWords);
-	    expLen = (int **) ckalloc(sizeof(int *) * parse.numWords);
-	    expItem = (char ***) ckalloc(sizeof(char **) * parse.numWords);
+	    exp = (int *) TclStackAlloc(interp, sizeof(int) * parse.numWords);
+	    expLen = (int **) TclStackAlloc(interp,
+		    sizeof(int *) * parse.numWords);
+	    expItem = (char ***) TclStackAlloc(interp,
+		    sizeof(char **) * parse.numWords);
 
 	    for (wordIdx = 0, tokenPtr = parse.tokenPtr;
 		    wordIdx < parse.numWords;
@@ -1384,9 +1386,9 @@ TclCompileScript(
 		}
 	    }
 
-	    ckfree((char *) exp);
-	    ckfree((char *) expLen);
-	    ckfree((char *) expItem);
+	    TclStackFree(interp);	/* expItem */
+	    TclStackFree(interp);	/* expLen */
+	    TclStackFree(interp);	/* exp */
 
 	    envPtr->numCommands++;
 	    currCmdIndex = (envPtr->numCommands - 1);
