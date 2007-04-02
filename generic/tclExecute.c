@@ -115,7 +115,6 @@ static char *resultStrings[] = {
 #ifdef TCL_COMPILE_STATS
 long		tclObjsAlloced = 0;
 long		tclObjsFreed = 0;
-#define TCL_MAX_SHARED_OBJ_STATS 5
 long		tclObjsShared[TCL_MAX_SHARED_OBJ_STATS] = { 0, 0, 0, 0, 0 };
 #endif /* TCL_COMPILE_STATS */
 

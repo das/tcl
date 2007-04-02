@@ -1410,7 +1410,8 @@ Tcl_GlobObjCmd(
 	 */
 
 	Tcl_ListObjLength(interp, typePtr, &length);
-	globTypes = (Tcl_GlobTypeData*) ckalloc(sizeof(Tcl_GlobTypeData));
+	globTypes = (Tcl_GlobTypeData*)
+		TclStackAlloc(interp,sizeof(Tcl_GlobTypeData));
 	globTypes->type = 0;
 	globTypes->perm = 0;
 	globTypes->macType = NULL;
@@ -1626,7 +1627,7 @@ Tcl_GlobObjCmd(
 	if (globTypes->macCreator != NULL) {
 	    Tcl_DecrRefCount(globTypes->macCreator);
 	}
-	ckfree((char *) globTypes);
+	TclStackFree(interp);	/* globTypes */
     }
     return result;
 }
