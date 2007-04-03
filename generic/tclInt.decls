@@ -915,6 +915,11 @@ declare 230 generic {
 	    CONST int createPart1, CONST int createPart2, Var **arrayPtrPtr)
 }
 
+declare 231 generic {
+    int	TclGetNamespaceFromObj(Tcl_Interp *interp, Tcl_Obj *objPtr, 
+	     Tcl_Namespace **nsPtrPtr)
+}
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are

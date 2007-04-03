@@ -322,6 +322,7 @@ TclIntStubs tclIntStubs = {
     TclObjInterpProcCore, /* 228 */
     TclPtrMakeUpvar, /* 229 */
     TclObjLookupVar, /* 230 */
+    TclGetNamespaceFromObj, /* 231 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
