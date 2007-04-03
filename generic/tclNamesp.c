@@ -622,11 +622,18 @@ ErrorCodeRead(
 {
     Interp *iPtr = (Interp *)interp;
 
-    if (flags & TCL_INTERP_DESTROYED || iPtr->errorCode == NULL) {
+    if (flags & TCL_INTERP_DESTROYED) {
 	return NULL;
     }
-    Tcl_ObjSetVar2(interp, iPtr->ecVar, NULL, iPtr->errorCode,
-	    TCL_GLOBAL_ONLY);
+    if (iPtr->errorCode) {
+	Tcl_ObjSetVar2(interp, iPtr->ecVar, NULL,
+		iPtr->errorCode, TCL_GLOBAL_ONLY);
+	return NULL;
+    }
+    if (NULL == Tcl_ObjGetVar2(interp, iPtr->ecVar, NULL, TCL_GLOBAL_ONLY)) {
+	Tcl_ObjSetVar2(interp, iPtr->ecVar, NULL,
+		Tcl_NewObj(), TCL_GLOBAL_ONLY);
+    }
     return NULL;
 }
 
@@ -689,11 +696,18 @@ ErrorInfoRead(
 {
     Interp *iPtr = (Interp *)interp;
 
-    if (flags & TCL_INTERP_DESTROYED || iPtr->errorInfo == NULL) {
+    if (flags & TCL_INTERP_DESTROYED) {
 	return NULL;
     }
-    Tcl_ObjSetVar2(interp, iPtr->eiVar, NULL, iPtr->errorInfo,
-	    TCL_GLOBAL_ONLY);
+    if (iPtr->errorInfo) {
+	Tcl_ObjSetVar2(interp, iPtr->eiVar, NULL,
+		iPtr->errorInfo, TCL_GLOBAL_ONLY);
+	return NULL;
+    }
+    if (NULL == Tcl_ObjGetVar2(interp, iPtr->eiVar, NULL, TCL_GLOBAL_ONLY)) {
+	Tcl_ObjSetVar2(interp, iPtr->eiVar, NULL,
+		Tcl_NewObj(), TCL_GLOBAL_ONLY);
+    }
     return NULL;
 }
 
