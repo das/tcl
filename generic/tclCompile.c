@@ -372,6 +372,15 @@ InstructionDesc tclInstructionTable[] = {
 	 * Stack:  ... value => ...
 	 * Note that the jump table contains offsets relative to the PC when
 	 * it points to this instruction; the code is relocatable. */
+    {"upvar",            5,     0,        1,   {OPERAND_LVT4}},
+         /* finds level and otherName in stack, links to local variable at
+	  * index op1. Leaves the level on stack. */
+    {"nsupvar",          5,     0,        1,   {OPERAND_LVT4}},
+         /* finds namespace and otherName in stack, links to local variable at 
+	  * index op1. Leaves the namespace on stack. */
+    {"variable",         5,     0,        1,   {OPERAND_LVT4}},
+         /* finds namespace and otherName in stack, links to local variable at 
+	  * index op1. Leaves the namespace on stack. */
     {0}
 };
 

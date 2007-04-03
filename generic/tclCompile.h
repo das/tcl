@@ -614,8 +614,17 @@ typedef struct ByteCode {
 
 #define INST_JUMP_TABLE			121
 
+/*
+ * Instructions to support compilation of global, variable, upvar and
+ * [namespace upvar].
+ */
+
+#define INST_UPVAR                      122
+#define INST_NSUPVAR                    123
+#define INST_VARIABLE                   124
+
 /* The last opcode */
-#define LAST_INST_OPCODE		121
+#define LAST_INST_OPCODE		124
 
 /*
  * Table describing the Tcl bytecode instructions: their name (for displaying
@@ -904,8 +913,6 @@ MODULE_SCOPE int	TclNoIdentOpCmd(ClientData clientData,
 MODULE_SCOPE void	TclVerifyGlobalLiteralTable(Interp *iPtr);
 MODULE_SCOPE void	TclVerifyLocalLiteralTable(CompileEnv *envPtr);
 #endif
-MODULE_SCOPE int	TclCompileVariableCmd(Tcl_Interp *interp,
-			    Tcl_Parse *parsePtr, CompileEnv *envPtr);
 MODULE_SCOPE int	TclWordKnownAtCompileTime(Tcl_Token *tokenPtr,
 			    Tcl_Obj *valuePtr);
 MODULE_SCOPE int	TclWordSimpleExpansion(Tcl_Token *tokenPtr);

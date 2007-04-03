@@ -3243,7 +3243,7 @@ ObjMakeUpvar(
      */
 
     if (index < 0) {
-	if (((otherP2 ? arrayPtr->nsPtr : otherPtr->nsPtr) == NULL)
+	if (((arrayPtr ? arrayPtr->nsPtr : otherPtr->nsPtr) == NULL)
 		&& ((myFlags & (TCL_GLOBAL_ONLY | TCL_NAMESPACE_ONLY))
 			|| (varFramePtr == NULL)
 			|| !HasLocalVars(varFramePtr)
@@ -3301,6 +3301,7 @@ TclPtrMakeUpvar(
 	    Tcl_Panic("ObjMakeUpvar called with an index outside from a proc");
 	}
 	varPtr = &(varFramePtr->compiledLocals[index]);
+	myName = varPtr->name;
     } else {
 	/*
 	 * Do not permit the new variable to look like an array reference, as
