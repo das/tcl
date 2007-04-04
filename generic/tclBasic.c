@@ -3392,6 +3392,10 @@ TclInterpReady(
  * Side effects:
  *	Depends on the command.
  *
+ * Note to maintainers:
+ *      This function has to be kept in sync with the shortcut version in
+ *      TclExecuteByteCode (INST_INVOKE).
+ *
  *----------------------------------------------------------------------
  */
 
