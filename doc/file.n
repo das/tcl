@@ -468,8 +468,8 @@ if {![\fBfile isdirectory\fR [\fBfile dirname\fR $newName]]} {
 .CE
 
 .SH "SEE ALSO"
-filename(n), open(n), close(n), eof(n), gets(n), tell(n), seek(n),
-fblocked(n), flush(n)
+chan(n), close(n), eof(n), fblocked(n), filename(n), flush(n), gets(n),
+open(n), seek(n), tell(n)
 
 .SH KEYWORDS
 attributes, copy files, delete files, directory, file, move files, name, rename files, stat
