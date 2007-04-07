@@ -1828,7 +1828,6 @@ TclExecuteByteCode(
 		if (result == TCL_OK && Tcl_LimitReady(interp)) {
 		    result = Tcl_LimitCheck(interp);
 		}
-
 	    } else {
 
 		/*
@@ -1837,29 +1836,7 @@ TclExecuteByteCode(
 		 * will be made there to include the ending \0.
 		 */
 		
-		if (!cmdPtr || (cmdPtr->flags & CMD_HAS_EXEC_TRACES)) {
-		    bytes = GetSrcInfoForPc(pc, codePtr, &length);
-		} else {
-		    Trace *tracePtr, *nextTracePtr;
-
-		    bytes = NULL;
-		    length = 0;
-		    
-		    for (tracePtr = iPtr->tracePtr;  tracePtr != NULL;
-			 tracePtr = nextTracePtr) {
-			nextTracePtr = tracePtr->nextPtr;
-			if (tracePtr->level == 0 ||
-				iPtr->numLevels <= tracePtr->level) {
-			    /*
-			     * Traces will be called: get command string
-			     */
-			    
-			    bytes = GetSrcInfoForPc(pc, codePtr, &length);
-			    break;
-			}
-		    }
-		}
-
+		bytes = GetSrcInfoForPc(pc, codePtr, &length);
 		result = TclEvalObjvInternal(interp, objc, objv, bytes, length, 0);
 	    }
 	    
