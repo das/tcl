@@ -299,7 +299,7 @@ InstructionDesc tclInstructionTable[] = {
 	/* List Index:	push (lindex stktop op4) */
     {"listRangeImm",	  9,	0,	   2,	{OPERAND_IDX4, OPERAND_IDX4}},
 	/* List Range:	push (lrange stktop op4 op4) */
-    {"startCommand",	  9,	0,	   1,	{OPERAND_INT4,OPERAND_UINT4}},
+    {"startCommand",	  9,	0,	   2,	{OPERAND_INT4,OPERAND_UINT4}},
 	/* Start of bytecoded command: op is the length of the cmd's code, op2
 	 * is number of commands here */
 
