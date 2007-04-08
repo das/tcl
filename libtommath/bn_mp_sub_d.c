@@ -36,10 +36,6 @@ mp_sub_d (mp_int * a, mp_digit b, mp_int * c)
      a->sign = MP_ZPOS;
      res     = mp_add_d(a, b, c);
      a->sign = c->sign = MP_NEG;
-
-     /* clamp */
-     mp_clamp(c);
-
      return res;
   }
 
@@ -87,7 +83,3 @@ mp_sub_d (mp_int * a, mp_digit b, mp_int * c)
 }
 
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

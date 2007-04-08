@@ -112,7 +112,3 @@ mp_montgomery_reduce (mp_int * x, mp_int * n, mp_digit rho)
   return MP_OKAY;
 }
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

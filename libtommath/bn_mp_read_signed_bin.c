@@ -16,7 +16,8 @@
  */
 
 /* read signed bin, big endian, first byte is 0==positive or 1==negative */
-int mp_read_signed_bin (mp_int * a, const unsigned char *b, int c)
+int
+mp_read_signed_bin (mp_int * a, unsigned char *b, int c)
 {
   int     res;
 
@@ -35,7 +36,3 @@ int mp_read_signed_bin (mp_int * a, const unsigned char *b, int c)
   return MP_OKAY;
 }
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

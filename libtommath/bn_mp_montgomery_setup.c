@@ -53,7 +53,3 @@ mp_montgomery_setup (mp_int * n, mp_digit * rho)
   return MP_OKAY;
 }
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

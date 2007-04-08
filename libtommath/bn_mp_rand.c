@@ -49,7 +49,3 @@ mp_rand (mp_int * a, int digits)
   return MP_OKAY;
 }
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

@@ -53,7 +53,3 @@ int mp_montgomery_calc_normalization (mp_int * a, mp_int * b)
   return MP_OKAY;
 }
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

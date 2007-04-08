@@ -55,7 +55,3 @@ const mp_digit ltm_prime_tab[] = {
 #endif
 };
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

@@ -38,7 +38,3 @@ ERR:
    return res;
 }
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

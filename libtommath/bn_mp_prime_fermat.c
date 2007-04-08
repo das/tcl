@@ -56,7 +56,3 @@ LBL_T:mp_clear (&t);
   return err;
 }
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

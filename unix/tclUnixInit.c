@@ -1030,7 +1030,7 @@ TclpCheckStackSpace(void)
 				/* Most variables are actually in a
 				 * thread-specific data block to minimise the
 				 * impact on the stack. */
-    register ptrdiff_t stackUsed;
+    register size_t stackUsed;
     int localVar;		/* Reference to somewhere on the local stack.
 				 * This is declared last so it's as "deep" as
 				 * possible. */
@@ -1089,7 +1089,7 @@ TclpCheckStackSpace(void)
      * Now we perform the actual check. Are we about to blow our stack frame?
      */
 
-    if (stackUsed < (ptrdiff_t) tsdPtr->stackSize) {
+    if (stackUsed < tsdPtr->stackSize) {
 	STACK_DEBUG(("stack OK\tin:%p\tout:%p\tuse:%04X\tmax:%04X\n",
 		&localVar, tsdPtr->outerVarPtr, stackUsed, tsdPtr->stackSize));
 	return 1;

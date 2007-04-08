@@ -999,8 +999,8 @@ TclFileAttrsCmd(
 	if (Tcl_ListObjLength(interp, objStrings, &numObjStrings) != TCL_OK) {
 	    goto end;
 	}
-	attributeStrings = (CONST char **)
-		ckalloc((1+numObjStrings) * sizeof(char*));
+	attributeStrings = (CONST char **) TclStackAlloc(interp,
+		(1+numObjStrings) * sizeof(char*));
 	for (index = 0; index < numObjStrings; index++) {
 	    Tcl_ListObjIndex(interp, objStrings, index, &objPtr);
 	    attributeStrings[index] = TclGetString(objPtr);
@@ -1110,7 +1110,7 @@ TclFileAttrsCmd(
 	 * Free up the array we allocated.
 	 */
 
-	ckfree((char*)attributeStrings);
+	TclStackFree(interp);	/* attributeStrings */
 
 	/*
 	 * We don't need this object that was passed to us any more.

@@ -46,7 +46,3 @@ int mp_prime_rabin_miller_trials(int size)
 
 
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

@@ -26,7 +26,3 @@ void mp_dr_setup(mp_int *a, mp_digit *d)
 }
 
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

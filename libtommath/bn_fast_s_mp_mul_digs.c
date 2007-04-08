@@ -70,7 +70,6 @@ int fast_s_mp_mul_digs (mp_int * a, mp_int * b, mp_int * c, int digs)
       /* execute loop */
       for (iz = 0; iz < iy; ++iz) {
          _W += ((mp_word)*tmpx++)*((mp_word)*tmpy--);
-
       }
 
       /* store term */
@@ -101,7 +100,3 @@ int fast_s_mp_mul_digs (mp_int * a, mp_int * b, mp_int * c, int digs)
   return MP_OKAY;
 }
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

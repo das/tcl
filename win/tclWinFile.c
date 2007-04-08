@@ -3277,6 +3277,13 @@ TclNativeCreateNativeRep(
     }
 
     str = Tcl_GetStringFromObj(validPathPtr, &len);
+    if (str[0] == '/' && str[1] == '/' && str[2] == '?' && str[3] == '/')
+    {
+	char *p;
+	for (p = str; p && *p; ++p) {
+	    if (*p == '/') *p = '\\';
+	}
+    }
     Tcl_WinUtfToTChar(str, len, &ds);
     if (tclWinProcs->useWide) {
 	len = Tcl_DStringLength(&ds) + sizeof(WCHAR);

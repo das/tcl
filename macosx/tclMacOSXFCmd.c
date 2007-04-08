@@ -333,6 +333,17 @@ TclMacOSXSetFileAttribute(
 	    Tcl_DStringAppend(&ds, _PATH_RSRCFORKSPEC, -1);
 
 	    result = truncate(Tcl_DStringValue(&ds), (off_t)0);
+	    if (result != 0) {
+		/*
+		 * truncate() on a valid resource fork path may fail with
+		 * a permission error in some OS releases, try truncating
+		 * with open() instead:
+		 */
+		int fd = open(Tcl_DStringValue(&ds), O_WRONLY | O_TRUNC);
+		if (fd > 0) {
+		    result = close(fd);
+		}
+	    }
 
 	    Tcl_DStringFree(&ds);
 

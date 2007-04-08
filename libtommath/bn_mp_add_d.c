@@ -40,9 +40,6 @@ mp_add_d (mp_int * a, mp_digit b, mp_int * c)
      /* fix sign  */
      a->sign = c->sign = MP_NEG;
 
-     /* clamp */
-     mp_clamp(c);
-
      return res;
   }
 
@@ -108,5 +105,6 @@ mp_add_d (mp_int * a, mp_digit b, mp_int * c)
 #endif
 
 /* $Source$ */
+/* Tom's revision is 1.2 */
 /* $Revision$ */
 /* $Date$ */

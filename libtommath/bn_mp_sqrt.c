@@ -40,8 +40,44 @@ int mp_sqrt(mp_int *arg, mp_int *ret)
     goto E2;
   }
 
-  /* First approx. (not very bad for large arg) */
-  mp_rshd (&t1,t1.used/2);
+  for (k = 0; k < i; ++k) {
+      t1.dp[k] = (mp_digit) 0;
+  }
+      
+#ifndef NO_FLOATING_POINT
+
+  /* Estimate the square root using the hardware floating point unit. */
+
+  d = 0.0;
+  for (k = arg->used-1; k >= j; --k) {
+      d = ldexp(d, DIGIT_BIT) + (double) (arg->dp[k]);
+  }
+  d = sqrt(d);
+  dig = (mp_digit) ldexp(d, -DIGIT_BIT);
+  if (dig) {
+      t1.used = i+2;
+      d -= ldexp((double) dig, DIGIT_BIT);
+      if (d != 0.0) {
+	  t1.dp[i+1] = dig;
+	  t1.dp[i] = ((mp_digit) d) - 1;
+      } else {
+	  t1.dp[i+1] = dig-1;
+	  t1.dp[i] = MP_DIGIT_MAX;
+      }
+  } else {
+      t1.used = i+1;
+      t1.dp[i] = ((mp_digit) d) - 1;
+  }
+
+#else
+
+  /* Estimate the square root as having 1 in the most significant place. */
+
+  t1.used = i + 2;
+  t1.dp[i+1] = (mp_digit) 1;
+  t1.dp[i] = (mp_digit) 0;
+
+#endif
 
   /* t1 > 0  */ 
   if ((res = mp_div(arg,&t1,&t2,NULL)) != MP_OKAY) {
@@ -77,5 +113,6 @@ E2: mp_clear(&t1);
 #endif
 
 /* $Source$ */
+/* Based on Tom's 1.3 */
 /* $Revision$ */
 /* $Date$ */

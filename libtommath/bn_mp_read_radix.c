@@ -21,9 +21,6 @@ int mp_read_radix (mp_int * a, const char *str, int radix)
   int     y, res, neg;
   char    ch;
 
-  /* zero the digit bignum */
-  mp_zero(a);
-
   /* make sure the radix is ok */
   if (radix < 2 || radix > 64) {
     return MP_VAL;
@@ -72,6 +69,13 @@ int mp_read_radix (mp_int * a, const char *str, int radix)
     ++str;
   }
   
+  /* if an illegal character was found, fail. */
+
+  if ( *str != '\0' ) {
+      mp_zero( a );
+      return MP_VAL;
+  }
+
   /* set the sign only if a != 0 */
   if (mp_iszero(a) != 1) {
      a->sign = neg;
@@ -81,5 +85,7 @@ int mp_read_radix (mp_int * a, const char *str, int radix)
 #endif
 
 /* $Source$ */
+/* Tom's revision is 1.4. */
 /* $Revision$ */
 /* $Date$ */
+

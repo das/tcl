@@ -142,7 +142,3 @@ LBL_ERR:mp_clear_multi (&x, &y, &u, &v, &B, &D, NULL);
   return res;
 }
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

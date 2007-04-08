@@ -25,7 +25,3 @@ int mp_to_signed_bin_n (mp_int * a, unsigned char *b, unsigned long *outlen)
    return mp_to_signed_bin(a, b);
 }
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

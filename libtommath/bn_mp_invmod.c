@@ -37,7 +37,3 @@ int mp_invmod (mp_int * a, mp_int * b, mp_int * c)
   return MP_VAL;
 }
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

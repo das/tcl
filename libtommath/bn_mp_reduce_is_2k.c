@@ -46,7 +46,3 @@ int mp_reduce_is_2k(mp_int *a)
 }
 
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

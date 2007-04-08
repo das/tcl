@@ -28,8 +28,8 @@
  * the same as NULL. Note that this code is duplicated from tclUnixPipe.c
  */
 
-#define MakeFile(fd) ((TclFile)((fd)+1))
-#define GetFd(file) (((int)file)-1)
+#define MakeFile(fd)	((TclFile)INT2PTR(((int)(fd))+1))
+#define GetFd(file)	(PTR2INT(file)-1)
 
 /*
  * The stuff below is used to keep track of file handlers created and
@@ -402,7 +402,7 @@ TestfilewaitCmd(
 	Tcl_SetResult(interp, "couldn't get channel file", TCL_STATIC);
 	return TCL_ERROR;
     }
-    fd = (int) data;
+    fd = PTR2INT(data);
     if (Tcl_GetInt(interp, argv[3], &timeout) != TCL_OK) {
 	return TCL_ERROR;
     }

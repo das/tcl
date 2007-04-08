@@ -37,7 +37,3 @@ int mp_dr_is_modulus(mp_int *a)
 }
 
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

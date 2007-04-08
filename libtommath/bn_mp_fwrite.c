@@ -46,7 +46,3 @@ int mp_fwrite(mp_int *a, int radix, FILE *stream)
 }
 
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */

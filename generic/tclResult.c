@@ -1542,15 +1542,27 @@ TclTransferResult(
 				 * should be stored. If source and target are
 				 * the same, nothing is done. */
 {
-    Interp *iPtr = (Interp *) targetInterp;
+    Interp *tiPtr = (Interp *) targetInterp;
+    Interp *siPtr = (Interp *) sourceInterp;
 
     if (sourceInterp == targetInterp) {
 	return;
     }
 
-    Tcl_SetReturnOptions(targetInterp,
-	    Tcl_GetReturnOptions(sourceInterp, result));
-    iPtr->flags &= ~(ERR_ALREADY_LOGGED);
+    if (result == TCL_OK && siPtr->returnOpts == NULL) {
+	/*
+	 * Special optimization for the common case of normal
+	 * command return code and no explicit return options.
+	 */
+	if (tiPtr->returnOpts) {
+	    Tcl_DecrRefCount(tiPtr->returnOpts);
+	    tiPtr->returnOpts = NULL;
+	}
+    } else {
+	Tcl_SetReturnOptions(targetInterp,
+		Tcl_GetReturnOptions(sourceInterp, result));
+	tiPtr->flags &= ~(ERR_ALREADY_LOGGED);
+    }
     Tcl_SetObjResult(targetInterp, Tcl_GetObjResult(sourceInterp));
     Tcl_ResetResult(sourceInterp);
 }

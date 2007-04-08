@@ -36,7 +36,7 @@ int mp_radix_size (mp_int * a, int radix, int *size)
   }
 
   if (mp_iszero(a) == MP_YES) {
-    *size = 2;
+     *size = 2;
     return MP_OKAY;
   }
 
@@ -66,13 +66,23 @@ int mp_radix_size (mp_int * a, int radix, int *size)
   }
   mp_clear (&t);
 
-  /* return digs + 1, the 1 is for the NULL byte that would be required. */
-  *size = digs + 1;
+  /* 
+   * return digs + 1, the 1 is for the NULL byte that would be required.
+   * mp_toradix_n requires a minimum of 3 bytes, so never report less than
+   * that.
+   */
+
+  if ( digs >= 2 ) {
+      *size = digs + 1;
+  } else {
+      *size = 3;
+  }
   return MP_OKAY;
 }
 
 #endif
 
 /* $Source$ */
+/* Tom's revision is 1.4 */
 /* $Revision$ */
 /* $Date$ */

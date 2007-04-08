@@ -54,7 +54,3 @@ LBL_T:
   return res;
 }
 #endif
-
-/* $Source$ */
-/* $Revision$ */
-/* $Date$ */
