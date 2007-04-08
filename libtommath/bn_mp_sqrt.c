@@ -1,4 +1,5 @@
 #include <tommath.h>
+
 #ifdef BN_MP_SQRT_C
 /* LibTomMath, multiple-precision integer library -- Tom St Denis
  *
@@ -15,11 +16,20 @@
  * Tom St Denis, tomstdenis@gmail.com, http://math.libtomcrypt.com
  */
 
+#ifndef NO_FLOATING_POINT
+#include <math.h>
+#endif
+
 /* this function is less generic than mp_n_root, simpler and faster */
 int mp_sqrt(mp_int *arg, mp_int *ret) 
 {
   int res;
   mp_int t1,t2;
+  int i, j, k;
+#ifndef NO_FLOATING_POINT
+  double d;
+  mp_digit dig;
+#endif
 
   /* must be positive */
   if (arg->sign == MP_NEG) {
@@ -31,11 +41,13 @@ int mp_sqrt(mp_int *arg, mp_int *ret)
     mp_zero(ret);
     return MP_OKAY;
   }
-
-  if ((res = mp_init_copy(&t1, arg)) != MP_OKAY) {
-    return res;
+  
+  i = (arg->used / 2) - 1;
+  j = 2 * i;
+  if ((res = mp_init_size(&t1, i+2)) != MP_OKAY) {
+      return res;
   }
-
+  
   if ((res = mp_init(&t2)) != MP_OKAY) {
     goto E2;
   }

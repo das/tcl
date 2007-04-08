@@ -2230,7 +2230,7 @@ Tcl_SubstObj(
 	if (tokensLeft == 0) {
 	    /* Check for a parse error */
 	    if (code != TCL_BREAK && endTokenPtr[-1].type == TCL_TOKEN_ERROR) {
-		TclSubstTokens(interp, endTokenPtr - 1, 1, NULL, 0);
+		TclSubstTokens(interp, endTokenPtr - 1, 1, NULL, 1, 0);
 		Tcl_DecrRefCount(result);
 		result = NULL;
 	    }
@@ -2320,7 +2320,7 @@ TclSubstTokens(
 	    if (code == TCL_OK) {
 		/* TIP #280: Transfer line information to nested command */
 		code = TclEvalEx(interp, tokenPtr->start+1, tokenPtr->size-2,
-			0, line, flags);
+			flags, line);
 	    }
 	    iPtr->numLevels--;
 	    appendObj = Tcl_GetObjResult(interp);

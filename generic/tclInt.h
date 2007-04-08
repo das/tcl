@@ -2307,8 +2307,8 @@ MODULE_SCOPE int        TclEvalObjEx(Tcl_Interp *interp,
 				     register Tcl_Obj *objPtr, int flags,
 				     CONST CmdFrame* invoker, int word);
 MODULE_SCOPE int	TclEvalScriptTokens (Tcl_Interp *interp,
-			    Tcl_Token *tokenPtr, int length, int flags);
-MODULE_SCOPE void	TclExpandTokenArray(Tcl_Parse *parsePtr);
+			    Tcl_Token *tokenPtr, int length, int flags,
+			    int line);
 MODULE_SCOPE int	TclFileAttrsCmd(Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[]);
 MODULE_SCOPE int	TclFileCopyCmd(Tcl_Interp *interp,
