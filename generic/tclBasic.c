@@ -4588,7 +4588,7 @@ TclEvalObjEx(
  * which the error happens.
  */
 
-	iPtr->evalFlags = 0;
+	/*iPtr->evalFlags = 0;*/
 	Tcl_IncrRefCount(objPtr);
 	if (flags & TCL_EVAL_DIRECT) { /* Caller requests no bytecode */
 	    /* Parse the script into tokens, and eval the tokens */
