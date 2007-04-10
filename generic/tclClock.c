@@ -845,9 +845,8 @@ ConvertLocalToUTCUsingC(
 
     if (localErrno != 0
 	    || (fields->seconds == -1 && timeVal.tm_yday == -1)) {
-	Tcl_SetObjResult(interp,
-		Tcl_NewStringObj("time value too large/small to represent",
-		-1));
+	Tcl_SetResult(interp, "time value too large/small to represent",
+		TCL_STATIC);
 	return TCL_ERROR;
     }
     return TCL_OK;

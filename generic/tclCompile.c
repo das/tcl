@@ -1176,8 +1176,7 @@ TclCompileScript(
 	     * Compile bytecodes to report the parse error at runtime.
 	     */
 
-	    Tcl_Obj *returnCmd = Tcl_NewStringObj(
-		    "return -code 1 -level 0 -errorinfo", -1);
+	    Tcl_Obj *returnCmd;
 	    Tcl_Obj *errMsg = Tcl_GetObjResult(interp);
 	    Tcl_Obj *errInfo = Tcl_DuplicateObj(errMsg);
 	    char *cmdString;
@@ -1185,6 +1184,8 @@ TclCompileScript(
 	    Tcl_Parse subParse;
 	    int errorLine = 1;
 
+	    TclNewLiteralStringObj(returnCmd,
+		    "return -code 1 -level 0 -errorinfo");
 	    Tcl_IncrRefCount(returnCmd);
 	    Tcl_IncrRefCount(errInfo);
 	    Tcl_AppendToObj(errInfo, "\n    while executing\n\"", -1);

@@ -118,7 +118,7 @@ TclSetupEnv(
     if (environ[0] == NULL) {
 	Tcl_Obj *varNamePtr;
 
-	varNamePtr = Tcl_NewStringObj("env", -1);
+	TclNewLiteralStringObj(varNamePtr, "env");
 	Tcl_IncrRefCount(varNamePtr);
 	TclArraySet(interp, varNamePtr, NULL);
 	Tcl_DecrRefCount(varNamePtr);
