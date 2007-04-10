@@ -1919,8 +1919,8 @@ NextHandle(void)
 }
 
 static void
-FreeReflectedChannel(rcPtr)
-    ReflectedChannel *rcPtr;
+FreeReflectedChannel(
+    ReflectedChannel *rcPtr)
 {
     Channel *chanPtr = (Channel *) rcPtr->chan;
     int i, n;
