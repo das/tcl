@@ -2612,9 +2612,9 @@ TclCallVarTraces(
 	if (leaveErrMsg) {
 	    CONST char *type = "";
 	    Tcl_Obj *options = Tcl_GetReturnOptions((Tcl_Interp *)iPtr, code);
-	    Tcl_Obj *errorInfoKey = Tcl_NewStringObj("-errorinfo", -1);
-	    Tcl_Obj *errorInfo;
+	    Tcl_Obj *errorInfoKey, *errorInfo;
 
+	    TclNewLiteralStringObj(errorInfoKey, "-errorinfo");
 	    Tcl_IncrRefCount(errorInfoKey);
 	    Tcl_DictObjGet(NULL, options, errorInfoKey, &errorInfo);
 	    Tcl_IncrRefCount(errorInfo);

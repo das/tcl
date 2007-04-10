@@ -568,8 +568,10 @@ CopyRenameOneFile(
 	 */
 
 	{
-	    Tcl_Obj* perm = Tcl_NewStringObj("u+w",-1);
+	    Tcl_Obj *perm;
 	    int index;
+
+	    TclNewLiteralStringObj(perm, "u+w");
 	    Tcl_IncrRefCount(perm);
 	    if (TclFSFileAttrIndex(target, "-permissions", &index) == TCL_OK) {
 		Tcl_FSFileAttrsSet(NULL, index, target, perm);

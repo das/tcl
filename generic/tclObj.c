@@ -1402,8 +1402,9 @@ SetBooleanFromAny(
     if (interp != NULL) {
 	int length;
 	char *str = Tcl_GetStringFromObj(objPtr, &length);
-	Tcl_Obj *msg =
-		Tcl_NewStringObj("expected boolean value but got \"", -1);
+	Tcl_Obj *msg;
+
+	TclNewLiteralStringObj(msg, "expected boolean value but got \"");
 	Tcl_AppendLimitedToObj(msg, str, length, 50, "");
 	Tcl_AppendToObj(msg, "\"", -1);
 	Tcl_SetObjResult(interp, msg);
@@ -2178,9 +2179,9 @@ Tcl_GetLongFromObj(
 #endif
         if (objPtr->typePtr == &tclDoubleType) {
             if (interp != NULL) {
-		Tcl_Obj *msg =
-			Tcl_NewStringObj("expected integer but got \"", -1);
+		Tcl_Obj *msg;
 
+		TclNewLiteralStringObj(msg, "expected integer but got \"");
 		Tcl_AppendObjToObj(msg, objPtr);
 		Tcl_AppendToObj(msg, "\"", -1);
 		Tcl_SetObjResult(interp, msg);
@@ -2480,8 +2481,9 @@ Tcl_GetWideIntFromObj(
 	}
         if (objPtr->typePtr == &tclDoubleType) {
             if (interp != NULL) {
-		Tcl_Obj *msg =
-			Tcl_NewStringObj("expected integer but got \"", -1);
+		Tcl_Obj *msg;
+
+		TclNewLiteralStringObj(msg, "expected integer but got \"");
 		Tcl_AppendObjToObj(msg, objPtr);
 		Tcl_AppendToObj(msg, "\"", -1);
 		Tcl_SetObjResult(interp, msg);
@@ -2781,9 +2783,9 @@ GetBignumFromObj(
 #endif
 	if (objPtr->typePtr == &tclDoubleType) {
 	    if (interp != NULL) {
-		Tcl_Obj *msg =
-			Tcl_NewStringObj("expected integer but got \"", -1);
+		Tcl_Obj *msg;
 
+		TclNewLiteralStringObj(msg, "expected integer but got \"");
 		Tcl_AppendObjToObj(msg, objPtr);
 		Tcl_AppendToObj(msg, "\"", -1);
 		Tcl_SetObjResult(interp, msg);

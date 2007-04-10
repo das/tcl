@@ -1770,12 +1770,13 @@ TclCompileTokens(
 	    /*
 	     * Compile bytecodes to report the parse error at runtime.
 	     */
-	    Tcl_Obj *errMsg, *errInfo, *returnCmd = Tcl_NewStringObj(
-			"return -code 1 -level 0 -errorinfo", -1);
+	    Tcl_Obj *errMsg, *errInfo, *returnCmd;
 	    int cmdLength, errorLine = 1;
 	    char *p, *cmdString;
 	    Tcl_Parse subParse;
 
+	    TclNewLiteralStringObj(returnCmd,
+		    "return -code 1 -level 0 -errorinfo");
 	    TclSubstTokens(interp, tokenPtr, 1, NULL, 1, 0);
 	    errMsg = Tcl_GetObjResult(interp);
 	    errInfo = Tcl_DuplicateObj(errMsg);

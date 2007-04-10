@@ -1479,7 +1479,7 @@ Tcl_Import(
 	Tcl_Obj *objv[2];
 	int result;
 
-	objv[0] = Tcl_NewStringObj("auto_import", -1);
+	TclNewLiteralStringObj(objv[0], "auto_import");
 	objv[1] = Tcl_NewStringObj(pattern, -1);
 
 	Tcl_IncrRefCount(objv[0]);
@@ -3228,7 +3228,7 @@ NamespaceCodeCmd(
 
     currNsPtr = (Namespace *) Tcl_GetCurrentNamespace(interp);
     if (currNsPtr == (Namespace *) Tcl_GetGlobalNamespace(interp)) {
-	objPtr = Tcl_NewStringObj("::", 2);
+	TclNewLiteralStringObj(objPtr, "::");
     } else {
 	objPtr = Tcl_NewStringObj(currNsPtr->fullName, -1);
     }
@@ -4468,7 +4468,7 @@ Tcl_GetNamespaceUnknownHandler(
 	 * handler).
 	 */
 
-	currNsPtr->unknownHandlerPtr = Tcl_NewStringObj("::unknown", -1);
+	TclNewLiteralStringObj(currNsPtr->unknownHandlerPtr, "::unknown");
 	Tcl_IncrRefCount(currNsPtr->unknownHandlerPtr);
     }
     return currNsPtr->unknownHandlerPtr;

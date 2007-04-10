@@ -731,7 +731,7 @@ TclPathPart(
 		resultPtr = Tcl_FSJoinPath(splitPtr, splitElements - 1);
 	    } else if (splitElements == 0 ||
 		    (Tcl_FSGetPathType(pathPtr) == TCL_PATH_RELATIVE)) {
-		resultPtr = Tcl_NewStringObj(".", 1);
+		TclNewLiteralStringObj(resultPtr, ".");
 	    } else {
 		Tcl_ListObjIndex(NULL, splitPtr, 0, &resultPtr);
 	    }
