@@ -105,9 +105,6 @@
     ((envPtr)->codeNext - (envPtr)->codeStart)
 
 /*
- */
-
-/*
  * Note: the exceptDepth is a bit of a misnomer: TEBC only needs the
  * maximal depth of nested CATCH ranges in order to alloc runtime
  * memory. These macros should compute precisely that? OTOH, the nesting depth
