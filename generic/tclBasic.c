@@ -4548,7 +4548,7 @@ TclEvalObjEx(
 	Tcl_Obj **elements;
 
 	eoFrame.type = TCL_LOCATION_EVAL_LIST;
-	eoFrame.level = 1 + iPtr->cmdFramePtr ? iPtr->cmdFramePtr->level : 0;
+	eoFrame.level = 1 + (iPtr->cmdFramePtr ? iPtr->cmdFramePtr->level : 0);
 	eoFrame.framePtr = iPtr->framePtr;
 	eoFrame.nextPtr = iPtr->cmdFramePtr;
 
