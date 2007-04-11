@@ -57,7 +57,10 @@ static int		DoGlob(Tcl_Interp *interp, Tcl_Obj *resultPtr,
  */
 
 static void
-SetResultLength(Tcl_DString *resultPtr, int offset, int extended)
+SetResultLength(
+    Tcl_DString *resultPtr,
+    int offset,
+    int extended)
 {
     Tcl_DStringSetLength(resultPtr, offset);
     if (extended == 2) {

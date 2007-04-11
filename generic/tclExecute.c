@@ -6802,8 +6802,8 @@ IllegalExprOperandType(
  */
 
 void
-TclGetSrcInfoForPc (cfPtr)
-     CmdFrame *cfPtr;
+TclGetSrcInfoForPc(
+    CmdFrame *cfPtr)
 {
     ByteCode *codePtr = (ByteCode *) cfPtr->data.tebc.codePtr;
 

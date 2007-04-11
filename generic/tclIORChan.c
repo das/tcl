@@ -422,7 +422,6 @@ static const char *msg_send_dstlost = "{Destination thread lost}";
 
 /*
  * Main methods to plug into the 'chan' ensemble'. ==================
- */
 
 /*
  *----------------------------------------------------------------------
@@ -1919,8 +1918,8 @@ NextHandle(void)
 }
 
 static void
-FreeReflectedChannel(rcPtr)
-    ReflectedChannel *rcPtr;
+FreeReflectedChannel(
+    ReflectedChannel *rcPtr)
 {
     Channel *chanPtr = (Channel *) rcPtr->chan;
     int i, n;
