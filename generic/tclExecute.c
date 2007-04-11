@@ -653,7 +653,7 @@ TclStackAlloc(
      * Reserve the space in the exec stack, and store the data for freeing.
      */
 
-    eePtr->tosPtr += numWords;//
+    eePtr->tosPtr += numWords;
     *(eePtr->tosPtr-1) = (Tcl_Obj *) stackRefCountPtr;
     *(eePtr->tosPtr) = (Tcl_Obj *) INT2PTR(numWords);
 
