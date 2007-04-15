@@ -689,16 +689,16 @@ proc ::tcl::clock::format { args } {
     foreach { flag value } [lreplace $args 0 0] {
 	set saw($flag) {}
 	switch -exact -- $flag {
-	    -format {
+	    -f - -fo - -for - -form - -forma - -format {
 		set format $value
 	    }
-	    -gmt {
+	    -g - -gm - -gmt {
 		set gmt $value
 	    }
-	    -locale {
+	    -l - -lo - -loc - -loca - -local - -locale {
 		set locale $value
 	    }
-	    -timezone {
+	    -t - -ti - -tim - -time - -timez - -timezo - -timezon - -timezone {
 		set timezone $value
 	    }
 	    default {
@@ -1282,19 +1282,19 @@ proc ::tcl::clock::scan { args } {
     foreach { flag value } [lreplace $args 0 0] {
 	set saw($flag) {}
 	switch -exact -- $flag {
-	    -base {
+	    -b - -ba - -bas - -base {
 		set base $value
 	    }
-	    -format {
+	    -f - -fo - -for - -form - -forma - -format {
 		set format $value
 	    }
-	    -gmt {
+	    -g - -gm - -gmt {
 		set gmt $value
 	    }
-	    -locale {
+	    -l - -lo - -loc - -loca - -local - -locale {
 		set locale $value
 	    }
-	    -timezone {
+	    -t - -ti - -tim - -time - -timez - -timezo - -timezon - -timezone {
 		set timezone $value
 	    }
 	    default {
@@ -4404,12 +4404,13 @@ proc ::tcl::clock::add { clockval args } {
 
 	    switch -exact -- $a {
 
-		-gmt {
+		-g - -gm - -gmt {
 		    set gmt $b
 		}
-		-locale {
+		-l - -lo - -loc - -loca - -local - -locale {
 		    set locale $b
 		}
+		-t - -ti - -tim - -time - -timez - -timezo - -timezon -
 		-timezone {
 		    set timezone $b
 		}

@@ -1440,7 +1440,7 @@ TclCompileForeachCmd(
     memset(varcList, 0, numLists * sizeof(int));
     varvList = (const char ***) TclStackAlloc(interp,
 	    numLists * sizeof(const char **));
-    memset(varvList, 0, numLists * sizeof(const char **));
+    memset((char*) varvList, 0, numLists * sizeof(const char **));
 
     /*
      * Break up each var list and set the varcList and varvList arrays. Don't
