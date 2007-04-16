@@ -284,6 +284,10 @@ test clock-1.6 "clock format - gmt + timezone" {
     list [catch {clock format 0 -timezone :GMT -gmt true} msg] $msg $::errorCode
 } {1 {cannot use -gmt and -timezone in same call} {CLOCK gmtWithTimezone}}
 
+test clock-1.7 "clock format - option abbreviations" {
+    clock format 0 -g true -f "%Y-%m-%d"
+} 1970-01-01
+
 # BEGIN testcases2
 
 # Test formatting of Gregorian year, month, day, all formats
@@ -36435,6 +36439,10 @@ test clock-56.3 {use of zoneinfo, version 2, Y2038 compliance} {*}{
     }
     -result {2040-07-01 00:00:00 PDT}
 }
+
+test clock-57.1 {clock scan - abbreviated options} {
+    clock scan 1970-01-01 -f %Y-%m-%d -g true
+} 0
 
 # cleanup
 

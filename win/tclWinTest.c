@@ -505,7 +505,9 @@ TestExceptionCmd(
 }
 
 static int 
-TestplatformChmod(const char *nativePath, int pmode)
+TestplatformChmod(
+    const char *nativePath,
+    int pmode)
 {
     SID_IDENTIFIER_AUTHORITY userSidAuthority =
     { SECURITY_WORLD_SID_AUTHORITY };
@@ -776,11 +778,11 @@ TestplatformChmod(const char *nativePath, int pmode)
  */
 
 static int
-TestchmodCmd(dummy, interp, argc, argv)
-    ClientData dummy;			/* Not used. */
-    Tcl_Interp *interp;			/* Current interpreter. */
-    int argc;				/* Number of arguments. */
-    const char **argv;			/* Argument strings. */
+TestchmodCmd(
+    ClientData dummy,			/* Not used. */
+    Tcl_Interp *interp,			/* Current interpreter. */
+    int argc,				/* Number of arguments. */
+    const char **argv)			/* Argument strings. */
 {
     int i, mode;
     char *rest;
