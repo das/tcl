@@ -193,7 +193,8 @@ TclpGetWideClicks(void)
  */
 
 Tcl_WideInt
-TclpWideClicksToNanoseconds(Tcl_WideInt clicks)
+TclpWideClicksToNanoseconds(
+    Tcl_WideInt clicks)
 {
     Tcl_WideInt nsec;
 

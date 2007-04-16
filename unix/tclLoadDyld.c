@@ -55,7 +55,9 @@ MODULE_SCOPE long tclMacOSXDarwinRelease;
  */
 
 static CONST char*
-DyldOFIErrorMsg(int err) {
+DyldOFIErrorMsg(
+    int err)
+{
     switch(err) {
     case NSObjectFileImageSuccess:
 	return NULL;
