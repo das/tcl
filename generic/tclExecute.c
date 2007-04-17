@@ -673,7 +673,7 @@ TclStackFree(
 
     --*stackRefCountPtr;
     if (*stackRefCountPtr == (char *) 0) {
-	ckfree((VOID *) stackRefCountPtr);
+	ckfree((char *) stackRefCountPtr);
     }
 }
 
@@ -1855,7 +1855,7 @@ TclExecuteByteCode(
 
 	    --*preservedStackRefCountPtr;
 	    if (*preservedStackRefCountPtr == (char *) 0) {
-		ckfree((VOID *) preservedStackRefCountPtr);
+		ckfree((char *) preservedStackRefCountPtr);
 	    }
 
 	    if (result == TCL_OK) {
