@@ -4265,7 +4265,7 @@ TclExecuteByteCode(
 	    TRACE(("%s %s => ", O2S(valuePtr), O2S(value2Ptr)));
 	    if ((type1 == TCL_NUMBER_LONG)
 		    && (size_t) shift < CHAR_BIT*sizeof(long)
-		    && l1 == *(const long *)ptr1
+		    && ((l1 = *(const long *)ptr1) != 0)
 		    && !((l1>0 ? l1 : ~l1)
 			    & -(1L<<(CHAR_BIT*sizeof(long) - 1 - shift)))) {
 		TclNewLongObj(objResultPtr, (l1<<shift));
