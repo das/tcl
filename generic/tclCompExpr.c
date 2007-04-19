@@ -1832,7 +1832,7 @@ GenerateTokens(
 		    destPtr->type = TCL_TOKEN_WORD;
 		    destPtr->numComponents = toCopy;
 		    destPtr++;
-		    memcpy((VOID *) destPtr, (VOID *) sourcePtr,
+		    memcpy(destPtr, sourcePtr,
 			    (size_t) (toCopy * sizeof(Tcl_Token)));
 		    parsePtr->numTokens += toCopy + 2;
 		    break;
@@ -1847,7 +1847,7 @@ GenerateTokens(
 		}
 		TclGrowParseTokenArray(parsePtr, toCopy);
 		destPtr = parsePtr->tokenPtr + parsePtr->numTokens;
-		memcpy((VOID *) destPtr, (VOID *) sourcePtr,
+		memcpy(destPtr, sourcePtr,
 			(size_t) (toCopy * sizeof(Tcl_Token)));
 		parsePtr->numTokens += toCopy;
 		break;

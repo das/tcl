@@ -428,8 +428,7 @@ TclpGmtime(
     gmtime_r(timePtr, &(tsdPtr->gmtime_buf));
 #else
     Tcl_MutexLock(&tmMutex);
-    memcpy((VOID *) &(tsdPtr->gmtime_buf), (VOID *) gmtime(timePtr),
-	    sizeof(struct tm));
+    memcpy(&(tsdPtr->gmtime_buf), gmtime(timePtr), sizeof(struct tm));
     Tcl_MutexUnlock(&tmMutex);
 #endif
 
@@ -480,8 +479,7 @@ TclpLocaltime(
     localtime_r(timePtr, &(tsdPtr->localtime_buf));
 #else
     Tcl_MutexLock(&tmMutex);
-    memcpy((VOID *) &(tsdPtr->localtime_buf), (VOID *) localtime(timePtr),
-	    sizeof(struct tm));
+    memcpy(&(tsdPtr->localtime_buf), localtime(timePtr), sizeof(struct tm));
     Tcl_MutexUnlock(&tmMutex);
 #endif
 

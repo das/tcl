@@ -1651,8 +1651,8 @@ Tcl_FSGetTranslatedStringPath(
 	const char *result, *orig;
 
 	orig = Tcl_GetStringFromObj(transPtr, &len);
-	result = (char*) ckalloc((unsigned)(len+1));
-	memcpy((VOID*) result, (VOID*) orig, (size_t) (len+1));
+	result = (char *) ckalloc((unsigned)(len+1));
+	memcpy(result, orig, (size_t) (len+1));
 	TclDecrRefCount(transPtr);
 	return result;
     }

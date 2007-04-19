@@ -9,7 +9,7 @@
 #
 #----------------------------------------------------------------------
 #
-# Copyright (c) 2004 by Kevin B. Kenny.  All rights reserved.
+# Copyright (c) 2004,2005,2006,2007 by Kevin B. Kenny
 # See the file "license.terms" for information on usage and redistribution
 # of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 #
@@ -3519,7 +3519,7 @@ proc ::tcl::clock::LoadZoneinfoFile { fileName } {
 
 #----------------------------------------------------------------------
 #
-# LoadZoneinfoFile --
+# ReadZoneinfoFile --
 #
 #	Loads a binary time zone information file in Olson format.
 #
@@ -3538,7 +3538,7 @@ proc ::tcl::clock::LoadZoneinfoFile { fileName } {
 #----------------------------------------------------------------------
 
 
-proc ReadZoneinfoFile {fileName fname} {
+proc ::tcl::clock::ReadZoneinfoFile {fileName fname} {
     variable MINWIDE
     variable TZData
     if { ![info exists fname] } {

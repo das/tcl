@@ -275,7 +275,7 @@ TestfilehandlerCmd(
 	    return TCL_ERROR;
 	}
 
-	memset((VOID *) buffer, 'a', 4000);
+	memset(buffer, 'a', 4000);
         while (write(GetFd(pipePtr->writeFile), buffer, 4000) > 0) {
             /* Empty loop body. */
         }
@@ -288,7 +288,7 @@ TestfilehandlerCmd(
 	    return TCL_ERROR;
 	}
 
-	memset((VOID *) buffer, 'b', 10);
+	memset(buffer, 'b', 10);
 	TclFormatInt(buf, write(GetFd(pipePtr->writeFile), buffer, 10));
 	Tcl_SetResult(interp, buf, TCL_VOLATILE);
     } else if (strcmp(argv[1], "oneevent") == 0) {
