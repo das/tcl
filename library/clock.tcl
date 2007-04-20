@@ -1893,7 +1893,6 @@ proc ::tcl::clock::ParseClockScanFormat {formatString locale} {
 			}
 			foreach { regex lookup } [UniquePrefixRegexp $d] break
 			append re (?: $regex )
-		        
 		    }
 		    E {
 			set l {}
@@ -1915,7 +1914,7 @@ proc ::tcl::clock::ParseClockScanFormat {formatString locale} {
 			foreach {regex lookup} \
 			    [LocaleNumeralMatcher $locale] break
 			append re $regex
-			incr fieldCount
+			incr captureCount
 		    }
 		    default {
 			append re %E

@@ -771,7 +771,7 @@ Tcl_CreateNamespace(
 	simpleName = "";
     } else if (*name == '\0') {
 	Tcl_ResetResult(interp);
-	Tcl_AppendResult(interp, "can't create namespace \"\": ",
+	Tcl_AppendResult(interp, "can't create namespace \"\": "
 		"only global namespace can have empty name", NULL);
 	return NULL;
     } else {

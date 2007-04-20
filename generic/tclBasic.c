@@ -1397,7 +1397,7 @@ Tcl_HideCommand(
 
     if (strstr(hiddenCmdToken, "::") != NULL) {
 	Tcl_AppendResult(interp,
-		"cannot use namespace qualifiers in hidden command",
+		"cannot use namespace qualifiers in hidden command"
 		" token (rename)", NULL);
 	return TCL_ERROR;
     }
@@ -1420,7 +1420,7 @@ Tcl_HideCommand(
      */
 
     if (cmdPtr->nsPtr != iPtr->globalNsPtr) {
-	Tcl_AppendResult(interp, "can only hide global namespace commands",
+	Tcl_AppendResult(interp, "can only hide global namespace commands"
 		" (use rename then hide)", NULL);
 	return TCL_ERROR;
     }
@@ -1547,7 +1547,7 @@ Tcl_ExposeCommand(
      */
 
     if (strstr(cmdName, "::") != NULL) {
-	Tcl_AppendResult(interp, "can not expose to a namespace ",
+	Tcl_AppendResult(interp, "cannot expose to a namespace "
 		"(use expose to toplevel, then rename)", NULL);
 	return TCL_ERROR;
     }

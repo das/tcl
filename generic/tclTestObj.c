@@ -1025,7 +1025,7 @@ TestobjCmd(
     } else {
 	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 		"bad option \"", Tcl_GetString(objv[1]),
-		"\": must be assign, convert, duplicate, freeallvars, ",
+		"\": must be assign, convert, duplicate, freeallvars, "
 		"newobj, objcount, objtype, refcount, type, or types", NULL);
 	return TCL_ERROR;
     }

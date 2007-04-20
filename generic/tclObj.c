@@ -3076,7 +3076,7 @@ Tcl_DbIncrRefCount(
 	hPtr = Tcl_FindHashEntry(tablePtr, (char *) objPtr);
 	if (!hPtr) {
 	    Tcl_Panic("%s%s",
-		    "Trying to incr ref count of ",
+		    "Trying to incr ref count of "
 		    "Tcl_Obj allocated in another thread");
 	}
     }
@@ -3141,7 +3141,7 @@ Tcl_DbDecrRefCount(
 	hPtr = Tcl_FindHashEntry(tablePtr, (char *) objPtr);
 	if (!hPtr) {
 	    Tcl_Panic("%s%s",
-		    "Trying to decr ref count of ",
+		    "Trying to decr ref count of "
 		    "Tcl_Obj allocated in another thread");
 	}
 
@@ -3211,7 +3211,7 @@ Tcl_DbIsShared(
 	hPtr = Tcl_FindHashEntry(tablePtr, (char *) objPtr);
 	if (!hPtr) {
 	    Tcl_Panic("%s%s",
-		    "Trying to check shared status of",
+		    "Trying to check shared status of"
 		    "Tcl_Obj allocated in another thread");
 	}
     }

@@ -994,7 +994,7 @@ ConvertUTCToLocalUsingC(
     timeVal = ThreadSafeLocalTime(&tock);
     if (timeVal == NULL) {
 	Tcl_AppendResult(interp,
-		"localtime failed (clock value may be too ",
+		"localtime failed (clock value may be too "
 		"large/small to represent)", NULL);
 	Tcl_SetErrorCode(interp, "CLOCK", "localtimeFailed", NULL);
 	return TCL_ERROR;
