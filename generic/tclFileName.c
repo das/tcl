@@ -1153,7 +1153,7 @@ DoTildeSubst(
 	if (dir == NULL) {
 	    if (interp) {
 		Tcl_ResetResult(interp);
-		Tcl_AppendResult(interp, "couldn't find HOME environment ",
+		Tcl_AppendResult(interp, "couldn't find HOME environment "
 			"variable to expand path", (char *) NULL);
 	    }
 	    return NULL;
@@ -1305,7 +1305,7 @@ Tcl_GlobObjCmd(
     }
     if ((globFlags & TCL_GLOBMODE_TAILS) && (pathOrDir == NULL)) {
 	Tcl_AppendResult(interp,
-		"\"-tails\" must be used with either ",
+		"\"-tails\" must be used with either "
 		"\"-directory\" or \"-path\"", NULL);
 	return TCL_ERROR;
     }

@@ -185,7 +185,7 @@ Tcl_RegexpObjCmd(
      */
 
     if (doinline && ((objc - 2) != 0)) {
-	Tcl_AppendResult(interp, "regexp match variables not allowed",
+	Tcl_AppendResult(interp, "regexp match variables not allowed"
 		" when using -inline", NULL);
 	goto optionError;
     }
@@ -2748,9 +2748,9 @@ Tcl_SwitchObjCmd(
 	if (splitObjs) {
 	    for (i=0 ; i<objc ; i+=2) {
 		if (TclGetString(objv[i])[0] == '#') {
-		    Tcl_AppendResult(interp, ", this may be due to a ",
-			    "comment incorrectly placed outside of a ",
-			    "switch body - see the \"switch\" ",
+		    Tcl_AppendResult(interp, ", this may be due to a "
+			    "comment incorrectly placed outside of a "
+			    "switch body - see the \"switch\" "
 			    "documentation", NULL);
 		    break;
 		}

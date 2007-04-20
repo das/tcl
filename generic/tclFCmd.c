@@ -589,7 +589,7 @@ CopyRenameOneFile(
 	if (errno == EINVAL) {
 	    Tcl_AppendResult(interp, "error renaming \"",
 		    TclGetString(source), "\" to \"", TclGetString(target),
-		    "\": trying to rename a volume or ",
+		    "\": trying to rename a volume or "
 		    "move a directory into itself", NULL);
 	    goto done;
 	} else if (errno != EXDEV) {

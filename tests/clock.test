@@ -36548,10 +36548,6 @@ test clock-59.1 {military time zones} {
     }
     join $trouble \n
 } {}
-	
-
-	
-	
 
 # cleanup
 
