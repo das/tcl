@@ -1341,7 +1341,7 @@ TclMergeReturnOptions(
 	    Tcl_ResetResult(interp);
 	    Tcl_AppendResult(interp, "bad completion code \"",
 		    TclGetString(valuePtr),
-		    "\": must be ok, error, return, break, ",
+		    "\": must be ok, error, return, break, "
 		    "continue, or an integer", NULL);
 	    goto error;
 	}
@@ -1361,7 +1361,7 @@ TclMergeReturnOptions(
 	     */
 
 	    Tcl_ResetResult(interp);
-	    Tcl_AppendResult(interp, "bad -level value: ",
+	    Tcl_AppendResult(interp, "bad -level value: "
 		    "expected non-negative integer but got \"",
 		    TclGetString(valuePtr), "\"", NULL);
 	    goto error;

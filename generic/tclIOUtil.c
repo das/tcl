@@ -1697,7 +1697,7 @@ TclGetOpenModeEx(
 
     if (!gotRW) {
 	if (interp != NULL) {
-	    Tcl_AppendResult(interp, "access mode must include either",
+	    Tcl_AppendResult(interp, "access mode must include either"
 		    " RDONLY, WRONLY, or RDWR", NULL);
 	}
 	return -1;
@@ -2243,7 +2243,7 @@ Tcl_FSOpenFileChannel(
 	    if (seekFlag && Tcl_Seek(retVal, (Tcl_WideInt)0,
 		    SEEK_END) < (Tcl_WideInt)0) {
 		if (interp != NULL) {
-		    Tcl_AppendResult(interp, "could not seek to end ",
+		    Tcl_AppendResult(interp, "could not seek to end "
 			    "of file while opening \"", Tcl_GetString(pathPtr),
 			    "\": ", Tcl_PosixError(interp), NULL);
 		}

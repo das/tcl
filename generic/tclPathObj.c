@@ -1327,7 +1327,7 @@ TclFSMakePathRelative(
 		    if (pathPtr->typePtr->updateStringProc == NULL) {
 			if (interp != NULL) {
 			    Tcl_ResetResult(interp);
-			    Tcl_AppendResult(interp, "can't find object",
+			    Tcl_AppendResult(interp, "can't find object"
 				    "string representation", (char *) NULL);
 			}
 			return NULL;
@@ -1449,7 +1449,7 @@ TclFSMakePathFromNormalized(
 	    if (pathPtr->typePtr->updateStringProc == NULL) {
 		if (interp != NULL) {
 		    Tcl_ResetResult(interp);
-		    Tcl_AppendResult(interp, "can't find object",
+		    Tcl_AppendResult(interp, "can't find object"
 			    "string representation", (char *) NULL);
 		}
 		return TCL_ERROR;
@@ -2318,7 +2318,7 @@ SetFsPathFromAny(
 	    if (dir == NULL) {
 		if (interp) {
 		    Tcl_ResetResult(interp);
-		    Tcl_AppendResult(interp, "couldn't find HOME environment ",
+		    Tcl_AppendResult(interp, "couldn't find HOME environment "
 			    "variable to expand path", (char *) NULL);
 		}
 		return TCL_ERROR;

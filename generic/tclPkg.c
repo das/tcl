@@ -286,7 +286,7 @@ Tcl_PkgRequireEx(
 
 	tclEmptyStringRep = &tclEmptyString;
 	Tcl_AppendResult(interp, "Cannot load package \"", name,
-		"\" in standalone executable: This package is not ",
+		"\" in standalone executable: This package is not "
 		"compiled with stub support", NULL);
 	return NULL;
     }
@@ -380,7 +380,7 @@ Tcl_PkgRequireProc(
 	 */
 
 	if (pkgPtr->clientData != NULL) {
-	    Tcl_AppendResult(interp, "circular package dependency: ",
+	    Tcl_AppendResult(interp, "circular package dependency: "
 		    "attempt to provide ", name, " ",
 		    (char *) pkgPtr->clientData, " requires ", name, NULL);
 	    AddRequirementsToResult(interp, reqc, reqv);
@@ -532,7 +532,7 @@ Tcl_PkgRequireProc(
 		Tcl_Obj *codePtr = Tcl_NewIntObj(code);
 		Tcl_ResetResult(interp);
 		Tcl_AppendResult(interp, "attempt to provide package ",
-			name, " ", versionToProvide, " failed: ",
+			name, " ", versionToProvide, " failed: "
 			"bad return code: ", TclGetString(codePtr), NULL);
 		TclDecrRefCount(codePtr);
 		code = TCL_ERROR;

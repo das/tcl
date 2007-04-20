@@ -324,7 +324,7 @@ TestfilehandlerCmd(
 	Tcl_DoOneEvent(TCL_WINDOW_EVENTS|TCL_DONT_WAIT);
     } else {
 	Tcl_AppendResult(interp, "bad option \"", argv[1],
-		"\": must be close, clear, counts, create, empty, fill, ",
+		"\": must be close, clear, counts, create, empty, fill, "
 		"fillpartial, oneevent, wait, or windowevent", NULL);
 	return TCL_ERROR;
     }
