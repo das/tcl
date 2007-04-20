@@ -1648,7 +1648,8 @@ Tcl_FSGetTranslatedStringPath(
 
     if (transPtr != NULL) {
 	int len;
-	const char *result, *orig;
+	const char* orig;
+	char *result;
 
 	orig = Tcl_GetStringFromObj(transPtr, &len);
 	result = (char *) ckalloc((unsigned)(len+1));
