@@ -700,10 +700,10 @@ declare 173 generic {
 # TclpGmtime and TclpLocaltime promoted to the generic interface from unix
 
 declare 182 generic {
-     struct tm *TclpLocaltime(CONST TclpTime_t clock)
+     struct tm *TclpLocaltime(TclpTime_t_CONST clock)
 }
 declare 183 generic {
-     struct tm *TclpGmtime(CONST TclpTime_t clock)
+     struct tm *TclpGmtime(TclpTime_t_CONST clock)
 }
 
 declare 199 generic {
@@ -998,11 +998,11 @@ declare 10 unix {
 # generic Stubs
 
 declare 11 unix {
-    struct tm * TclpLocaltime_unix(CONST TclpTime_t clock)
+    struct tm * TclpLocaltime_unix(TclpTime_t_CONST clock)
 }
 
 declare 12 unix {
-    struct tm * TclpGmtime_unix(CONST TclpTime_t clock)
+    struct tm * TclpGmtime_unix(TclpTime_t_CONST clock)
 }
 
 declare 13 unix {

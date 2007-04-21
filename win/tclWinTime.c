@@ -1100,7 +1100,7 @@ AccumulateSample( Tcl_WideInt perfCounter,
 
 struct tm *
 TclpGmtime( tt )
-    CONST TclpTime_t tt;
+    TclpTime_t_CONST tt;
 {
     CONST time_t *timePtr = (CONST time_t *) tt;
 				/* Pointer to the number of seconds
@@ -1132,7 +1132,7 @@ TclpGmtime( tt )
 
 struct tm *
 TclpLocaltime( tt )
-    CONST TclpTime_t tt;
+    TclpTime_t_CONST tt;
 {
     CONST time_t *timePtr = (CONST time_t *) tt;
 				/* Pointer to the number of seconds

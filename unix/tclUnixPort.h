@@ -671,10 +671,10 @@ EXTERN void	TclpMutexLock _ANSI_ARGS_((TclpMutex *mPtr));
 EXTERN void	TclpMutexUnlock _ANSI_ARGS_((TclpMutex *mPtr));
 EXTERN Tcl_DirEntry * 	TclpReaddir(DIR *);
 #ifndef TclpLocaltime
-EXTERN struct tm *     	TclpLocaltime(CONST TclpTime_t);
+EXTERN struct tm *     	TclpLocaltime(TclpTime_t_CONST);
 #endif
 #ifndef TclpGmtime
-EXTERN struct tm *     	TclpGmtime(CONST TclpTime_t);
+EXTERN struct tm *     	TclpGmtime(TclpTime_t_CONST);
 #endif
 EXTERN char *          	TclpInetNtoa(struct in_addr);
 #define inet_ntoa(x)	TclpInetNtoa(x)

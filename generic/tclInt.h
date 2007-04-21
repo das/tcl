@@ -1702,6 +1702,7 @@ typedef struct TclFile_ *TclFile;
  */
 
 typedef struct TclpTime_t_    *TclpTime_t;
+typedef struct TclpTime_t_    *CONST TclpTime_t_CONST;
 
 /*
  * The "globParameters" argument of the function TclGlob is an
