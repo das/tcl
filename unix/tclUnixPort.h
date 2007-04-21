@@ -95,6 +95,14 @@ EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((CONST char *string,
 #   include <sys/select.h>
 #endif
 #include <sys/stat.h>
+
+#ifdef __CYGWIN__
+#   define timezone _timezone
+    typedef long TIMEZONE_t;
+#else	/* !__CYGWIN__ */
+    typedef int TIMEZONE_t;
+#endif	/* !__CYGWIN__ */
+
 #if TIME_WITH_SYS_TIME
 #   include <sys/time.h>
 #   include <time.h>
