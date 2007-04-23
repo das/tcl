@@ -2117,7 +2117,7 @@ UnsetVarStruct(
 	    || ((arrayPtr != NULL) && (arrayPtr->tracePtr != NULL))) {
 	dummyVar.flags &= ~VAR_TRACE_ACTIVE;
 	TclCallVarTraces(iPtr, arrayPtr, &dummyVar, part1, part2,
-		(flags & (TCL_GLOBAL_ONLY|TCL_NAMESPACE_ONLY))
+		(flags & (TCL_GLOBAL_ONLY|TCL_NAMESPACE_ONLY|TCL_INTERP_DESTROYED))
 		| TCL_TRACE_UNSETS, /* leaveErrMsg */ 0);
 	while (dummyVar.tracePtr != NULL) {
 	    VarTrace *tracePtr = dummyVar.tracePtr;
