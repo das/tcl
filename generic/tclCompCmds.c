@@ -5366,11 +5366,13 @@ TclCompileUpvarCmd(
     Tcl_Obj *objPtr = Tcl_NewObj();
     
     if (envPtr->procPtr == NULL) {
+	Tcl_DecrRefCount(objPtr);
 	return TCL_ERROR;
     }
     
     numWords = parsePtr->numWords;
     if (numWords < 3) {
+	Tcl_DecrRefCount(objPtr);
 	return TCL_ERROR;
     }
 
@@ -5409,6 +5411,7 @@ TclCompileUpvarCmd(
 	    i = 3;
 	}
     } else {
+	Tcl_DecrRefCount(objPtr);
 	return TCL_ERROR;
     }
     
