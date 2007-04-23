@@ -1029,8 +1029,8 @@ ReflectClose(
 
 	Tcl_DecrRefCount(resObj);	/* Remove reference we held from the
 					 * invoke */
-#ifdef TCL_THREADS
 	FreeReflectedChannel(rcPtr);
+#ifdef TCL_THREADS
     }
 #endif
     return (result == TCL_OK) ? EOK : EINVAL;
@@ -1942,7 +1942,7 @@ FreeReflectedChannel(
      * [SF Bug 1667990] See [x] in NewReflectedChannel for lock
      * n+1 = argc-1.
      */
-    Tcl_IncrRefCount(rcPtr->argv[n+1]);
+    Tcl_DecrRefCount(rcPtr->argv[n+1]);
 
     ckfree((char*) rcPtr->argv);
     ckfree((char*) rcPtr);
