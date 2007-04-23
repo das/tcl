@@ -994,6 +994,9 @@ TclFreeCompileEnv(
     if (envPtr->mallocedAuxDataArray) {
 	ckfree((char *) envPtr->auxDataArrayPtr);
     }
+    if (envPtr->extCmdMapPtr) {
+	ckfree((char *) envPtr->extCmdMapPtr);
+    }
 }
 
 /*
