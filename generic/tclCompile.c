@@ -3405,9 +3405,8 @@ TclPrintByteCodeObj(
      */
 
     fprintf(stdout,
-	    "\nByteCode 0x%x, refCt %u, epoch %u, interp 0x%x (epoch %u)\n",
-	    (unsigned int) codePtr, codePtr->refCount,
-	    codePtr->compileEpoch, (unsigned int) iPtr,
+	    "\nByteCode 0x%p, refCt %u, epoch %u, interp 0x%p (epoch %u)\n",
+	    codePtr, codePtr->refCount, codePtr->compileEpoch, iPtr,
 	    iPtr->compileEpoch);
     fprintf(stdout, "  Source ");
     TclPrintSource(stdout, codePtr->source,
@@ -3444,8 +3443,8 @@ TclPrintByteCodeObj(
 	Proc *procPtr = codePtr->procPtr;
 	int numCompiledLocals = procPtr->numCompiledLocals;
 	fprintf(stdout,
-		"  Proc 0x%x, refCt %d, args %d, compiled locals %d\n",
-		(unsigned int) procPtr, procPtr->refCount, procPtr->numArgs,
+		"  Proc 0x%p, refCt %d, args %d, compiled locals %d\n",
+		procPtr, procPtr->refCount, procPtr->numArgs,
 		numCompiledLocals);
 	if (numCompiledLocals > 0) {
 	    CompiledLocal *localPtr = procPtr->firstLocalPtr;
