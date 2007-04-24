@@ -2453,6 +2453,12 @@ DictFilterCmd(
 	pattern = TclGetString(objv[4]);
 	resultObj = Tcl_NewDictObj();
 	if (TclMatchIsTrivial(pattern)) {
+	    /*
+	     * Must release the search lock here to prevent a memory leak
+	     * since we are not exhausing the search. [Bug 1705778, leak K05]
+	     */
+
+	    Tcl_DictObjDone(&search);
 	    Tcl_DictObjGet(interp, objv[2], objv[4], &valueObj);
 	    if (valueObj != NULL) {
 		Tcl_DictObjPut(interp, resultObj, objv[4], valueObj);
