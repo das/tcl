@@ -3707,7 +3707,6 @@ TestregexpObjCmd(
     if (regExpr == NULL) {
 	return TCL_ERROR;
     }
-    objPtr = objv[1];
 
     if (about) {
 	if (TclRegAbout(interp, regExpr) < 0) {
@@ -3716,6 +3715,7 @@ TestregexpObjCmd(
 	return TCL_OK;
     }
 
+    objPtr = objv[1];
     match = Tcl_RegExpExecObj(interp, regExpr, objPtr, 0 /* offset */,
 	    objc-2 /* nmatches */, eflags);
 

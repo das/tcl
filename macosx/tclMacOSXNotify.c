@@ -7,8 +7,7 @@
  *
  * Copyright (c) 1995-1997 Sun Microsystems, Inc.
  * Copyright 2001, Apple Computer, Inc.
- * Copyright (c) 2005 Tcl Core Team.
- * Copyright (c) 2005-2006 Daniel A. Steffen <das@users.sourceforge.net>
+ * Copyright (c) 2005-2007 Daniel A. Steffen <das@users.sourceforge.net>
  *
  * See the file "license.terms" for information on usage and redistribution of
  * this file, and for a DISCLAIMER OF ALL WARRANTIES.
@@ -305,7 +304,8 @@ static CFStringRef tclEventsOnlyRunLoopMode = NULL;
  * Static routines defined in this file.
  */
 
-static void	NotifierThreadProc(ClientData clientData);
+static void	NotifierThreadProc(ClientData clientData)
+	__attribute__ ((__noreturn__));
 static int	FileHandlerEventProc(Tcl_Event *evPtr, int flags);
 
 #ifdef HAVE_PTHREAD_ATFORK
@@ -1239,7 +1239,7 @@ NotifierThreadProc(
 	    }
 	}
     }
-    pthread_exit (0);
+    pthread_exit(0);
 }
 
 #ifdef HAVE_PTHREAD_ATFORK
