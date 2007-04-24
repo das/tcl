@@ -1394,7 +1394,13 @@ TclLsetFlat(
     }
 
     if (result != TCL_OK) {
-	/* Error return; message is already in interp */
+	/* 
+	 * Error return; message is already in interp. Clean up
+	 * any excess memory. 
+	 */
+	if (retValuePtr != listPtr) {
+	    Tcl_DecrRefCount(retValuePtr);
+	}
 	return NULL;
     }
 
