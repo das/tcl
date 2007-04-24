@@ -556,6 +556,7 @@ TclChanCreateObjCmd(
 	Tcl_AppendToObj(err, " initialize\" returned non-list: ", -1);
 	Tcl_AppendObjToObj(err, resObj);
 	Tcl_SetObjResult(interp, err);
+	Tcl_DecrRefCount(resObj);
 	goto error;
     }
 
@@ -568,12 +569,14 @@ TclChanCreateObjCmd(
 	    Tcl_AppendToObj(err, " initialize\" returned ", -1);
 	    Tcl_AppendObjToObj(err, Tcl_GetObjResult(interp));
 	    Tcl_SetObjResult(interp, err);
+	    Tcl_DecrRefCount(resObj);
 	    goto error;
 	}
 
 	methods |= FLAG(methIndex);
 	listc--;
     }
+    Tcl_DecrRefCount(resObj);
 
     if ((REQUIRED_METHODS & methods) != REQUIRED_METHODS) {
 	TclNewLiteralStringObj(err, "chan handler \"");

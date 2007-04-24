@@ -411,8 +411,8 @@ Tcl_ReadObjCmd(
 	    Tcl_ResetResult(interp);
 	    Tcl_AppendResult(interp, "error reading \"", name, "\": ",
 		    Tcl_PosixError(interp), NULL);
-	    Tcl_DecrRefCount(resultPtr);
 	}
+	Tcl_DecrRefCount(resultPtr);
 	return TCL_ERROR;
     }
 
