@@ -310,6 +310,7 @@ ParseExpr(
 		    if (Tcl_GetBooleanFromObj(NULL, literal, &b) == TCL_OK) {
 			lexeme = BOOLEAN;
 		    } else {
+			Tcl_DecrRefCount(literal);
 			msg = Tcl_ObjPrintf(
 				"invalid bareword \"%.*s%s\"",
 				(scanned < limit) ? scanned : limit - 3, start,
