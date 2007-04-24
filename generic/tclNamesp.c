@@ -1035,6 +1035,13 @@ Tcl_DeleteNamespace(
 
 	    EstablishErrorInfoTraces(NULL, nsPtr->interp, NULL, NULL, 0);
 	    EstablishErrorCodeTraces(NULL, nsPtr->interp, NULL, NULL, 0);
+
+	    /*
+	     * We didn't really kill it, so remove the KILLED marks, so
+	     * it can get killed later, avoiding mem leaks
+	     */
+
+	    nsPtr->flags &= ~(NS_DYING|NS_KILLED);
 	}
     }
 }
