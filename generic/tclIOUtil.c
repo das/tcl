@@ -2971,14 +2971,17 @@ Tcl_FSChdir(
 
 	    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&tclFsDataKey);
 	    ClientData cd;
+	    ClientData oldcd = tsdPtr->cwdClientData;
 
 	    /*
 	     * Assumption we are using a filesystem version 2.
 	     */
 
 	    TclFSGetCwdProc2 *proc2 = (TclFSGetCwdProc2*)fsPtr->getCwdProc;
-	    cd = (*proc2)(tsdPtr->cwdClientData);
-	    FsUpdateCwd(normDirName, TclNativeDupInternalRep(cd));
+	    cd = (*proc2)(oldcd);
+	    if (cd != oldcd) {
+		FsUpdateCwd(normDirName, cd);
+	    }
 	} else {
 	    FsUpdateCwd(normDirName, NULL);
 	}
