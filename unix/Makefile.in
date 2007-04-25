@@ -1690,7 +1690,8 @@ dist: $(UNIX_DIR)/configure $(UNIX_DIR)/tclConfig.h.in
 	mkdir $(DISTDIR)/macosx
 	cp -p $(TOP_DIR)/macosx/GNUmakefile $(TOP_DIR)/macosx/README \
 		$(TOP_DIR)/macosx/*.c $(TOP_DIR)/macosx/*.in \
-		$(TOP_DIR)/macosx/*.ac $(DISTDIR)/macosx
+		$(TOP_DIR)/macosx/*.ac $(TOP_DIR)/macosx/*.xcconfig \
+		$(DISTDIR)/macosx
 	mkdir $(DISTDIR)/macosx/Tcl.pbproj
 	cp -p $(TOP_DIR)/macosx/Tcl.pbproj/*.pbx* $(DISTDIR)/macosx/Tcl.pbproj
 	mkdir $(DISTDIR)/macosx/Tcl.xcode
