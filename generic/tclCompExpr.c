@@ -349,6 +349,22 @@ ParseExpr(
 	    const char *end;
 	    int wordIndex;
 
+	    /*
+	     * Store away any literals on the list now, so they'll
+	     * be available for our caller to free if we error out
+	     * of this routine.  [Bug 1705778, leak K23]
+	     */
+
+	    switch (lexeme) {
+	    case NUMBER:
+	    case BOOLEAN:
+		Tcl_ListObjAppendElement(NULL, litList, literal);
+		numLiterals++;
+		break;
+	    default:
+		break;
+	    }
+
 	    if (lastWas < 0) {
 		msg = Tcl_ObjPrintf("missing operator at %s", mark);
 		if (lastStart[0] == '0') {
@@ -369,8 +385,6 @@ ParseExpr(
 	    switch (lexeme) {
 	    case NUMBER:
 	    case BOOLEAN:
-		Tcl_ListObjAppendElement(NULL, litList, literal);
-		numLiterals++;
 		lastWas = OT_LITERAL;
 		start += scanned;
 		numBytes -= scanned;
