@@ -1388,13 +1388,13 @@ allpatch: dist
 # TOOL_DIR.
 #
 
-html:
+html: tclsh
 	$(BUILD_HTML)
 	@EXTRA_BUILD_HTML@
-html-tcl:
+html-tcl: tclsh
 	$(BUILD_HTML) --tcl
 	@EXTRA_BUILD_HTML@
-html-tk:
+html-tk: tclsh
 	$(BUILD_HTML) --tk
 	@EXTRA_BUILD_HTML@
 
