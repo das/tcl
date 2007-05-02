@@ -1649,7 +1649,9 @@ TclPtrSetVar(
 	    }
 	} else {				/* append string */
 	    /*
-	     * We append newValuePtr's bytes but don't change its ref count.
+	     * We append newValuePtr's bytes but don't change its ref count if
+	     * non-zero; if newValuePtr has a zero refCount and we are not
+	     * using the obj, be sure to free it to avoid a leak.
 	     */
 
 	    if (oldValuePtr == NULL) {
@@ -1663,6 +1665,9 @@ TclPtrSetVar(
 		    Tcl_IncrRefCount(oldValuePtr);	/* since var is ref */
 		}
 		Tcl_AppendObjToObj(oldValuePtr, newValuePtr);
+		if (newValuePtr->refCount == 0) {
+		    Tcl_DecrRefCount(newValuePtr);
+		}
 	    }
 	}
     } else if (newValuePtr != oldValuePtr) {
