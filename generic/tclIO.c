@@ -247,7 +247,7 @@ void
 TclFinalizeIOSubsystem(void)
 {
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
-    Channel *chanPtr;		/* Iterates over open channels. */
+    Channel *chanPtr = NULL;	/* Iterates over open channels. */
     ChannelState *statePtr;	/* State of channel stack */
     int active = 1;		/* Flag == 1 while there's still work to do */
 
