@@ -3013,6 +3013,7 @@ MODULE_SCOPE void	TclInvalidateNsPath(Namespace *nsPtr);
 #  define TclFreeObjStorage(objPtr) \
 	ckfree((char *) (objPtr))
 
+#undef USE_THREAD_ALLOC
 #elif defined(TCL_THREADS) && defined(USE_THREAD_ALLOC)
 
 /*
