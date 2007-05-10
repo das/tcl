@@ -250,7 +250,7 @@ LinkTraceProc(clientData, interp, name1, name2, flags)
      */
 
     if (flags & TCL_TRACE_UNSETS) {
-	if (flags & TCL_INTERP_DESTROYED) {
+	if (Tcl_InterpDeleted(interp)) {
 	    Tcl_DecrRefCount(linkPtr->varName);
 	    ckfree((char *) linkPtr);
 	} else if (flags & TCL_TRACE_DESTROYED) {

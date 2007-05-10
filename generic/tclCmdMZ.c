@@ -4167,7 +4167,7 @@ TraceCommandProc(clientData, interp, oldName, newName, flags)
     
     tcmdPtr->refCount++;
     
-    if ((tcmdPtr->flags & flags) && !(flags & TCL_INTERP_DESTROYED)) {
+    if ((tcmdPtr->flags & flags) && !Tcl_InterpDeleted(interp)) {
 	/*
 	 * Generate a command to execute by appending list elements
 	 * for the old and new command name and the operation.
@@ -4627,7 +4627,7 @@ TraceExecutionProc(ClientData clientData, Tcl_Interp *interp,
 	return traceCode;
     }
     
-    if (!(flags & TCL_INTERP_DESTROYED)) {
+    if (!Tcl_InterpDeleted(interp)) {
 	/*
 	 * Check whether the current call is going to eval arbitrary
 	 * Tcl code with a generated trace, or whether we are only
@@ -4837,7 +4837,7 @@ TraceVarProc(clientData, interp, name1, name2, flags)
      */
 
     result = NULL;
-    if ((tvarPtr->flags & flags) && !(flags & TCL_INTERP_DESTROYED)) {
+    if ((tvarPtr->flags & flags) && !Tcl_InterpDeleted(interp)) {
 	if (tvarPtr->length != (size_t) 0) {
 	    /*
 	     * Generate a command to execute by appending list elements
