@@ -954,7 +954,7 @@ TclFreeObj(
  *
  *	This function returns 1 when the Tcl_Obj is being deleted. It is
  *	provided for the rare cases where the reason for the loss of an
- *	internal rep might be relevant [FR 1512138]
+ *	internal rep might be relevant. [FR 1512138]
  *
  * Results:
  *	1 if being deleted, 0 otherwise.
