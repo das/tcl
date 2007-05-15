@@ -648,7 +648,13 @@ Tcl_DeleteNamespace(namespacePtr)
             } else {
                 nsPtr->flags |= NS_DEAD;
             }
-        }
+        } else {
+	    /*
+	     * We didn't really kill it, so remove the KILLED marks, so
+	     * it can get killed later, avoiding mem leaks
+	     */
+	     nsPtr->flags &= ~(NS_DYING|NS_KILLED);
+	}
     }
 }
 
