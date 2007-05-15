@@ -228,7 +228,7 @@ Registry_Init(
     }
 
     Tcl_CreateObjCommand(interp, "registry", RegistryObjCmd, NULL, NULL);
-    return Tcl_PkgProvide(interp, "registry", "1.1.4");
+    return Tcl_PkgProvide(interp, "registry", "1.1.5");
 }
 
 /*
