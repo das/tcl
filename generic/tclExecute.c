@@ -1476,7 +1476,7 @@ TclExecuteByteCode(
 #endif
 	    goto checkForCatch;
 	} else {
-	    POP_OBJECT();
+	    (void) POP_OBJECT();
 	    goto abnormalReturn;
 	}
 
@@ -1715,7 +1715,7 @@ TclExecuteByteCode(
 	    result = TCL_ERROR;
 	    goto checkForCatch;
 	}
-	POP_OBJECT();
+	(void) POP_OBJECT();
 
 	/*
 	 * Make sure there is enough room in the stack to expand this list
