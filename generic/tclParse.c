@@ -18,13 +18,6 @@
 #include "tclInt.h"
 
 /*
- * For now, we enable the {expand} although it is deprecated - remove by final
- */
-#ifndef ALLOW_EXPAND
-#define ALLOW_EXPAND 1
-#endif
-
-/*
  * The following table provides parsing information about each possible 8-bit
  * character. The table is designed to be referenced with either signed or
  * unsigned characters, so it has 384 entries. The first 128 entries
@@ -388,13 +381,6 @@ Tcl_ParseCommand(
 		&& (((1 == (size_t) expPtr->size)
 			    /* Same length as prefix */
 			    && (expPtr->start[0] == '*'))
-#if defined(ALLOW_EXPAND) && ALLOW_EXPAND == 1
-			/*
-			 * Allow {expand} in addition to {*}
-			 */
-			|| ((6 == (size_t) expPtr->size)
-				&& (0 == memcmp("expand",expPtr->start,6)))
-#endif
 		    )
 		/* Is the prefix */
 		&& (numBytes > 0)
