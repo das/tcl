@@ -28,15 +28,8 @@
 #include "tclInt.h"
 
 /*
- * Ensure that Tcl_InitStubs is built as an exported symbol. The other stub
- * symbols should be built as non-exported symbols.
+ * Tcl_InitStubs and stub table pointers are built as exported symbols.
  */
-
-MODULE_SCOPE TclStubs *tclStubsPtr;
-MODULE_SCOPE TclPlatStubs *tclPlatStubsPtr;
-MODULE_SCOPE TclIntStubs *tclIntStubsPtr;
-MODULE_SCOPE TclIntPlatStubs *tclIntPlatStubsPtr;
-MODULE_SCOPE TclTomMathStubs *tclTomMathStubsPtr;
 
 TclStubs *tclStubsPtr = NULL;
 TclPlatStubs *tclPlatStubsPtr = NULL;
@@ -82,7 +75,7 @@ HasStubSupport(
 #undef Tcl_InitStubs
 #endif
 
-MODULE_SCOPE CONST char *
+CONST char *
 Tcl_InitStubs(
     Tcl_Interp *interp,
     CONST char *version,
@@ -142,7 +135,7 @@ Tcl_InitStubs(
 #undef TclTomMathInitializeStubs
 #endif
 
-MODULE_SCOPE CONST char*
+CONST char*
 TclTomMathInitializeStubs(
     Tcl_Interp* interp,		/* Tcl interpreter */
     CONST char* version,	/* Tcl version needed */

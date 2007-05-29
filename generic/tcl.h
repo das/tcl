@@ -52,7 +52,6 @@ extern "C" {
  * macosx/Tcl-Common.xcconfig (not patchlevel) 1 LOC
  * win/README		(not patchlevel) (sections 0 and 2)
  * unix/tcl.spec	(1 LOC patch)
- * tests/basic.test	(1 LOC M/M, not patchlevel)
  * tools/tcl.hpj.in	(not patchlevel, for windows installer)
  * tools/tcl.wse.in	(for windows installer)
  * tools/tclSplash.bmp	(not patchlevel)
@@ -61,10 +60,10 @@ extern "C" {
 #define TCL_MAJOR_VERSION   8
 #define TCL_MINOR_VERSION   5
 #define TCL_RELEASE_LEVEL   TCL_ALPHA_RELEASE
-#define TCL_RELEASE_SERIAL  6
+#define TCL_RELEASE_SERIAL  7
 
 #define TCL_VERSION	    "8.5"
-#define TCL_PATCH_LEVEL	    "8.5a6"
+#define TCL_PATCH_LEVEL	    "8.5a7"
 
 /*
  * The following definitions set up the proper options for Windows compilers.

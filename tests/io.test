@@ -22,6 +22,15 @@ if {[catch {package require tcltest 2}]} {
 namespace eval ::tcl::test::io {
     namespace import ::tcltest::*
 
+    variable umaskValue
+    variable path
+    variable f
+    variable i
+    variable n
+    variable v
+    variable msg
+    variable expected
+
 testConstraint testchannel      [llength [info commands testchannel]]
 testConstraint exec             [llength [info commands exec]]
 testConstraint openpipe         1

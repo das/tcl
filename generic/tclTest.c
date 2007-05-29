@@ -6805,7 +6805,6 @@ SimpleMatchInDirectory(
     resPtr = Tcl_NewObj();
     Tcl_IncrRefCount(resPtr);
     origPtr = SimpleRedirect(dirPtr);
-    Tcl_IncrRefCount(origPtr);
     res = Tcl_FSMatchInDirectory(interp, resPtr, origPtr, pattern, types);
     if (res == TCL_OK) {
 	int gLength, j;

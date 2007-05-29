@@ -2142,3 +2142,16 @@ declare 1 macosx {
 # complain about them) 
 
 # void Tcl_Main(int argc, char **argv, Tcl_AppInitProc *appInitProc)
+# CONST char *Tcl_InitStubs(Tcl_Interp *interp, CONST char *version, int exact)
+# CONST char *TclTomMathInitializeStubs(Tcl_Interp* interp,
+#	CONST char* version, int epoch, int revision
+
+# Global variables that need to be exported from the tcl shared library:
+# (listed here _as comments_ so that the 'checkstubs' make target does not 
+# complain about them, c.f. tk bug bug 1716117)
+
+# TclStubs *tclStubsPtr                 (fool checkstubs)
+# TclPlatStubs *tclPlatStubsPtr         (fool checkstubs)
+# TclIntStubs *tclIntStubsPtr           (fool checkstubs)
+# TclIntPlatStubs *tclIntPlatStubsPtr   (fool checkstubs)
+# TclTomMathStubs* tclTomMathStubsPtr   (fool checkstubs)
