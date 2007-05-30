@@ -217,7 +217,7 @@ test parse-5.23 {Tcl_ParseCommand: {*} parsing} testparser {
 } {- {{*} } 1 simple {{*}} 1 text * 0 {}}
 test parse-5.24 {Tcl_ParseCommand: {*} parsing} testparser {
     testparser {{*}x} 0
-} {- {{*}x} 1 expand {{*}x} 1 text x 0 {}}
+} {- {{*}x} 1 simple x 1 text x 0 {}}
 test parse-5.25 {Tcl_ParseCommand: {*} parsing} testparser {
     testparser {{*}
 } 0

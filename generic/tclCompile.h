@@ -915,7 +915,6 @@ MODULE_SCOPE void	TclVerifyLocalLiteralTable(CompileEnv *envPtr);
 #endif
 MODULE_SCOPE int	TclWordKnownAtCompileTime(Tcl_Token *tokenPtr,
 			    Tcl_Obj *valuePtr);
-MODULE_SCOPE int	TclWordSimpleExpansion(Tcl_Token *tokenPtr);
 
 /*
  *----------------------------------------------------------------
