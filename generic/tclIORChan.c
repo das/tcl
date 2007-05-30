@@ -422,6 +422,7 @@ static const char *msg_send_dstlost = "{Destination thread lost}";
 
 /*
  * Main methods to plug into the 'chan' ensemble'. ==================
+ */
 
 /*
  *----------------------------------------------------------------------

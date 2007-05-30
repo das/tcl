@@ -3534,10 +3534,6 @@ MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int *bignum,
 #include "tclIntPlatDecls.h"
 #include "tclTomMathDecls.h"
 
-
-
-MODULE_SCOPE void TclPrintTokens (Tcl_Token* token, int words, int level);
-
 #endif /* _TCLINT */
 
 /*
