@@ -5227,6 +5227,7 @@ Tcl_AddObjErrorInfo(
      * the error message in the interpreter's result.
      */
 
+    iPtr->flags |= ERR_LEGACY_COPY;
     if (iPtr->errorInfo == NULL) {
 	if (iPtr->result[0] != 0) {
 	    /*

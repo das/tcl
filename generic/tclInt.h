@@ -1848,6 +1848,7 @@ typedef struct InterpList {
 #define SAFE_INTERP			 0x80
 #define INTERP_TRACE_IN_PROGRESS	0x200
 #define INTERP_ALTERNATE_WRONG_ARGS	0x400
+#define ERR_LEGACY_COPY			0x800
 
 /*
  * Maximum number of levels of nesting permitted in Tcl commands (used to
