@@ -622,7 +622,7 @@ ErrorCodeRead(
 {
     Interp *iPtr = (Interp *)interp;
 
-    if (Tcl_InterpDeleted(interp)) {
+    if (Tcl_InterpDeleted(interp) || !(iPtr->flags & ERR_LEGACY_COPY)) {
 	return NULL;
     }
     if (iPtr->errorCode) {
@@ -696,7 +696,7 @@ ErrorInfoRead(
 {
     Interp *iPtr = (Interp *)interp;
 
-    if (Tcl_InterpDeleted(interp)) {
+    if (Tcl_InterpDeleted(interp) || !(iPtr->flags & ERR_LEGACY_COPY)) {
 	return NULL;
     }
     if (iPtr->errorInfo) {
