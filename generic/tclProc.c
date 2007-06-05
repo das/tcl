@@ -2026,6 +2026,9 @@ TclUpdateReturnInfo(
 	 */
 
 	code = iPtr->returnCode;
+	if (code == TCL_ERROR) {
+	    iPtr->flags |= ERR_LEGACY_COPY;
+	}
     }
     return code;
 }
