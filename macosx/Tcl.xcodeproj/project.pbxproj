@@ -1901,7 +1901,7 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 08FB7794FE84155DC02AAC07 /* Tcl */;
 			projectDirPath = "";
-			projectRoot = "";
+			projectRoot = ..;
 			targets = (
 				F9E61D16090A3E94002B3151 /* Tcl */,
 				8DD76FA90486AB0100D96B5E /* tcltest */,
@@ -2249,11 +2249,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CONFIGURE_ARGS = "tcl_cv_cc_visibility_hidden=no $(CONFIGURE_ARGS)";
+				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"__private_extern__=extern",
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
 				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				PRODUCT_NAME = tcltest;
 				ZERO_LINK = YES;
 			};
