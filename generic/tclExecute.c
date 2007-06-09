@@ -1863,8 +1863,6 @@ TclExecuteByteCode(
     doInvocation:
 	{
 	    Tcl_Obj **objv = &OBJ_AT_DEPTH(objc-1);
-	    int length;
-	    const char *bytes;
 	    Command *cmdPtr;
 
 #ifdef TCL_COMPILE_DEBUG
@@ -1933,6 +1931,8 @@ TclExecuteByteCode(
 		 * string to pass to TclEvalObjvInternal; note that a copy of
 		 * the string will be made there to include the ending \0.
 		 */
+		int length;
+		const char *bytes;
 
 		bytes = GetSrcInfoForPc(pc, codePtr, &length);
 		result = TclEvalObjvInternal(interp, objc, objv, bytes,
