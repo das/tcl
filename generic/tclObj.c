@@ -3659,7 +3659,7 @@ FreeCmdNameInternalRep(
 	     */
 
 	    Command *cmdPtr = resPtr->cmdPtr;
-	    TclCleanupCommand(cmdPtr);
+	    TclCleanupCommandMacro(cmdPtr);
 	    ckfree((char *) resPtr);
 	}
     }
