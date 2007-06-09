@@ -176,6 +176,7 @@
 
 /* Begin PBXFileReference section */
 		8DD76FB20486AB0100D96B5E /* tcltest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tcltest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F91E62260C1AE686006C9D96 /* Tclsh-Info.plist.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Tclsh-Info.plist.in"; sourceTree = "<group>"; };
 		F9408AF20B195C08009F7CAC /* tclMathOp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tclMathOp.c; sourceTree = "<group>"; };
 		F95FAFF90B34F1130072E431 /* macOSXLoad.test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = macOSXLoad.test; sourceTree = "<group>"; };
 		F966C07408F2820D005CB29B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
@@ -1535,6 +1536,7 @@
 				F96D433D08F272B5004A47F5 /* tclMacOSXFCmd.c */,
 				F96D433E08F272B5004A47F5 /* tclMacOSXNotify.c */,
 				F96D433208F272B5004A47F5 /* Tcl-Info.plist.in */,
+				F91E62260C1AE686006C9D96 /* Tclsh-Info.plist.in */,
 				F97AE7F10B65C1E900310EA2 /* Tcl-Common.xcconfig */,
 				F97AE8330B65C87F00310EA2 /* Tcl-Debug.xcconfig */,
 				F97AE82B0B65C69B00310EA2 /* Tcl-Release.xcconfig */,
