@@ -3410,7 +3410,7 @@ MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int *bignum,
  */
 
 #define TclCleanupCommandMacro(cmdPtr) \
-    if ((cmdPtr)->refCount <= 0) { \
+    if (--(cmdPtr)->refCount <= 0) { \
 	ckfree((char *) (cmdPtr));\
     }
 
