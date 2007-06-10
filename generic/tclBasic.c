@@ -462,7 +462,7 @@ Tcl_CreateInterp(void)
     result = Tcl_PushCallFrame(interp, (Tcl_CallFrame *) framePtr,
 	    (Tcl_Namespace *) iPtr->globalNsPtr, /*isProcCallFrame*/ 0);
     if (result != TCL_OK) {
-	Tcl_Panic("Tcl_CreateInterp: faile to push the root stack frame");
+	Tcl_Panic("Tcl_CreateInterp: failed to push the root stack frame");
     }
     framePtr->objc = 0;
 
