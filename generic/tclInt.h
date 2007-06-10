@@ -3405,6 +3405,17 @@ MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int *bignum,
 
 /*
  *----------------------------------------------------------------
+ * Inline version of Tcl_GetCurrentNamespace and Tcl_GetGlobalNamespace
+ */
+
+#define TclGetCurrentNamespace(interp) \
+    (Tcl_Namespace *) ((Interp *)(interp))->varFramePtr->nsPtr
+
+#define TclGetGlobalNamespace(interp) \
+    (Tcl_Namespace *) ((Interp *)(interp))->globalNsPtr
+
+/*
+ *----------------------------------------------------------------
  * Inline version of TclCleanupCommand; still need the function as it is in
  * the internal stubs, but the core can use the macro instead.
  */
