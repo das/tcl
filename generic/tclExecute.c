@@ -1097,7 +1097,10 @@ TclCompEvalObj(
     Namespace *namespacePtr;
 
     /*
-     * Check that the interpreter is ready to execute scripts
+     * Check that the interpreter is ready to execute scripts. Note that we
+     * manage the interp's runlevel here: it is a small white lie (maybe), but
+     * saves a ++/-- pair at each invocation. Amazingly enough, the impact on
+     * performance is noticeable.
      */
 
     iPtr->numLevels++;
