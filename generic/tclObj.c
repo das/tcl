@@ -3478,9 +3478,8 @@ Tcl_GetCommandFromObj(
 
     name = TclGetString(objPtr);
     isFQ = ((*name++ == ':') && (*name == ':'));
-    refNsPtr = (Namespace *) (isFQ
-	    ? TclGetGlobalNamespace(interp)
-	    : TclGetCurrentNamespace(interp));
+    refNsPtr = (Namespace *) (isFQ? NULL :TclGetCurrentNamespace(interp));
+    
 
     /*
      * Get the internal representation, converting to a command type if
@@ -3503,11 +3502,13 @@ Tcl_GetCommandFromObj(
     resPtr = (ResolvedCmdName *) objPtr->internalRep.twoPtrValue.ptr1;
     if ((objPtr->typePtr != &tclCmdNameType)
 	    || (resPtr == NULL)
-	    || (resPtr->refNsPtr != refNsPtr)
-	    || (resPtr->refNsId != refNsPtr->nsId)
-	    || (resPtr->refNsCmdEpoch != refNsPtr->cmdRefEpoch)
 	    || (cmdPtr = resPtr->cmdPtr, cmdPtr->cmdEpoch != resPtr->cmdEpoch)
-	    || (cmdPtr->flags & CMD_IS_DELETED)) {
+	    || (cmdPtr->flags & CMD_IS_DELETED)
+	    || ( !isFQ && 
+		     ((resPtr->refNsPtr != refNsPtr)
+		     || (resPtr->refNsId != refNsPtr->nsId)
+		     || (resPtr->refNsCmdEpoch != refNsPtr->cmdRefEpoch)))
+	) {
 	
 	if (isFQ) {
 	    refNsPtr = (Namespace *) TclGetCurrentNamespace(interp);

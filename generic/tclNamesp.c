@@ -2839,9 +2839,7 @@ TclGetNamespaceFromObj(
 
     name = TclGetString(objPtr);
     isFQ = ((*name == ':') && (*(name+1) == ':'));
-    refNsPtr = (Namespace *) (isFQ
-	    ? TclGetGlobalNamespace(interp)
-	    : TclGetCurrentNamespace(interp));
+    refNsPtr = (Namespace *) (isFQ? NULL :TclGetCurrentNamespace(interp));
 
     /*
      * Get the internal representation, converting to a namespace type if
@@ -2860,7 +2858,7 @@ TclGetNamespaceFromObj(
     resPtr = (ResolvedNsName *) objPtr->internalRep.otherValuePtr;
     if ((objPtr->typePtr != &tclNsNameType)
 	    || (resPtr == NULL)
-	    || (resPtr->refNsPtr != refNsPtr)
+	    || (!isFQ && (resPtr->refNsPtr != refNsPtr))
 	    || (nsPtr = resPtr->nsPtr, nsPtr->flags & NS_DEAD)
 	    || (resPtr->nsId != nsPtr->nsId)) {
 
