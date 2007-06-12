@@ -450,7 +450,7 @@ Tcl_WrongNumArgs(
     Tcl_Obj *objPtr;
     int i, len, elemLen, flags;
     Interp *iPtr = (Interp *) interp;
-    char *elementStr;
+    const char *elementStr;
 
     /*
      * [incr Tcl] does something fairly horrific when generating error
