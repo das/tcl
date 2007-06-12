@@ -1286,7 +1286,8 @@ Tcl_StringObjCmd(
 	int match, start;
 
 	if (objc < 4 || objc > 5) {
-	    Tcl_WrongNumArgs(interp, 2,objv, "subString string ?startIndex?");
+	    Tcl_WrongNumArgs(interp, 2, objv,
+		    "needleString haystackString ?startIndex?");
 	    return TCL_ERROR;
 	}
 
@@ -1745,7 +1746,7 @@ Tcl_StringObjCmd(
 
 	if (objc < 4 || objc > 5) {
 	    Tcl_WrongNumArgs(interp, 2, objv,
-		    "subString string ?startIndex?");
+		    "needleString haystackString ?startIndex?");
 	    return TCL_ERROR;
 	}
 

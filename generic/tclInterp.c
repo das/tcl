@@ -2904,6 +2904,9 @@ Tcl_MakeSafe(
  * Side effects:
  *	None.
  *
+ * Notes:
+ *	If you change this function, you MUST also update TclLimitExceeded() in
+ *	tclInt.h.
  *----------------------------------------------------------------------
  */
 
@@ -2933,7 +2936,7 @@ Tcl_LimitExceeded(
  *
  * Notes:
  *	If you change this function, you MUST also update TclLimitReady() in
- *	tclExecute.c.
+ *	tclInt.h.
  *
  *----------------------------------------------------------------------
  */

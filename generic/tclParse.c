@@ -807,9 +807,10 @@ ParseCommand(
 		 * list elements.
 		 */
 		 
-		while ((code == TCL_OK) && (nextElem < listEnd)) {
+		while (nextElem < listEnd) {
 		    code = TclFindElement(NULL, nextElem, listEnd - nextElem,
 			    &elemStart, &nextElem, NULL, NULL);
+		    if (code != TCL_OK) break;
 		    if (elemStart < listEnd) {
 			elemCount++;
 		    }

@@ -4063,7 +4063,7 @@ TclDeleteNamespaceVars(
 
     if (nsPtr == iPtr->globalNsPtr) {
 	flags = TCL_GLOBAL_ONLY;
-    } else if (nsPtr == (Namespace *) Tcl_GetCurrentNamespace(interp)) {
+    } else if (nsPtr == (Namespace *) TclGetCurrentNamespace(interp)) {
 	flags = TCL_NAMESPACE_ONLY;
     }
 
@@ -4131,7 +4131,7 @@ TclDeleteVars(
     int flags;
     ActiveVarTrace *activePtr;
     Tcl_Obj *objPtr;
-    Namespace *currNsPtr = (Namespace *) Tcl_GetCurrentNamespace(interp);
+    Namespace *currNsPtr = (Namespace *) TclGetCurrentNamespace(interp);
 
     /*
      * Determine what flags to pass to the trace callback functions.
