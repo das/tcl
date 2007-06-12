@@ -13,7 +13,7 @@
 //
 
 HEADER_SEARCH_PATHS = $(DERIVED_FILE_DIR)/tcl $(HEADER_SEARCH_PATHS)
-OTHER_LDFLAGS = -headerpad_max_install_names $(OTHER_LDFLAGS)
+OTHER_LDFLAGS = -headerpad_max_install_names -sectcreate __TEXT __info_plist $(DERIVED_FILE_DIR)/tcl/Tclsh-Info.plist $(OTHER_LDFLAGS)
 INSTALL_PATH = "$(BINDIR)"
 GCC_PREFIX_HEADER = $(DERIVED_FILE_DIR)/tcl/tclConfig.h
 GCC_GENERATE_DEBUGGING_SYMBOLS = YES
