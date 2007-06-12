@@ -2611,9 +2611,7 @@ MODULE_SCOPE int	Tcl_IfObjCmd(ClientData clientData,
 MODULE_SCOPE int	Tcl_IncrObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *CONST objv[]);
-MODULE_SCOPE int	Tcl_InfoObjCmd(ClientData clientData,
-			    Tcl_Interp *interp, int objc,
-			    Tcl_Obj *CONST objv[]);
+MODULE_SCOPE Tcl_Command TclInitInfoCmd(Tcl_Interp *interp);
 MODULE_SCOPE int	Tcl_InterpObjCmd(ClientData clientData,
 			    Tcl_Interp *interp, int argc,
 			    Tcl_Obj *CONST objv[]);

@@ -150,7 +150,6 @@ static const CmdInfo builtInCmds[] = {
     {"global",		Tcl_GlobalObjCmd,	TclCompileGlobalCmd,	1},
     {"if",		Tcl_IfObjCmd,		TclCompileIfCmd,	1},
     {"incr",		Tcl_IncrObjCmd,		TclCompileIncrCmd,	1},
-    {"info",		Tcl_InfoObjCmd,		NULL,			1},
     {"join",		Tcl_JoinObjCmd,		NULL,			1},
     {"lappend",		Tcl_LappendObjCmd,	TclCompileLappendCmd,	1},
     {"lassign",		Tcl_LassignObjCmd,	TclCompileLassignCmd,	1},
@@ -581,8 +580,9 @@ Tcl_CreateInterp(void)
     }
 
     /*
-     * Register clock and chan subcommands. These *do* go through
-     * Tcl_CreateObjCommand, since they aren't in the global namespace.
+     * Register "clock", "chan" and "info" subcommands. These *do* go through
+     * Tcl_CreateObjCommand, since they aren't in the global namespace and
+     * involve ensembles.
      */
 
     TclClockInit(interp);
@@ -593,6 +593,8 @@ Tcl_CreateInterp(void)
 	Tcl_CreateObjCommand(interp, cmdInfo2Ptr->name2, cmdInfo2Ptr->objProc,
 		NULL, NULL);
     }
+
+    TclInitInfoCmd(interp);
 
     /* TIP #208 */
     Tcl_CreateObjCommand(interp, "::tcl::chan::Truncate",
