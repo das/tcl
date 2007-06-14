@@ -1708,6 +1708,8 @@ ProcCompileProc(
  	}
     }
     if (bodyPtr->typePtr != &tclByteCodeType) {
+	Tcl_HashEntry *hePtr;
+
 #ifdef TCL_COMPILE_DEBUG
  	if (tclTraceCompile >= 1) {
  	    /*
@@ -1808,8 +1810,7 @@ ProcCompileProc(
 	 * was saved by 'Tcl_ProcObjCmd' (using linePBodyPtr).
 	 */
 
-	Tcl_HashEntry *hePtr = Tcl_FindHashEntry(iPtr->linePBodyPtr,
-		(char *) procPtr);
+	hePtr = Tcl_FindHashEntry(iPtr->linePBodyPtr, (char *) procPtr);
 
 	/*
 	 * Constructed saved frame has body as word 0. See Tcl_ProcObjCmd.
