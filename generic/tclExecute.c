@@ -1186,15 +1186,10 @@ TclCompEvalObj(
 
     iPtr->invokeCmdFramePtr = invoker;
     iPtr->invokeWord = word;
-    result = tclByteCodeType.setFromAnyProc(interp, objPtr);
+    tclByteCodeType.setFromAnyProc(interp, objPtr);
     iPtr->invokeCmdFramePtr = NULL;
-    if (result == TCL_OK) {
-	codePtr = (ByteCode *) objPtr->internalRep.otherValuePtr;
-	goto runCompiledObj;
-    } else {
-	iPtr->numLevels--;
-	return result;
-    }
+    codePtr = (ByteCode *) objPtr->internalRep.otherValuePtr;
+    goto runCompiledObj;
 }
 
 /*
