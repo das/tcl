@@ -901,9 +901,8 @@ declare 227 generic {
             Tcl_Namespace *pathAry[])
 }
 declare 228 generic {
-    int TclObjInterpProcCore(register Tcl_Interp *interp, CallFrame *framePtr,
-            Tcl_Obj *procNameObj, int isLambda, int skip,
-            ProcErrorProc errorProc)
+    int TclObjInterpProcCore(register Tcl_Interp *interp, Tcl_Obj *procNameObj,
+             int skip, ProcErrorProc errorProc) 
 }
 declare 229 generic {
     int	TclPtrMakeUpvar(Tcl_Interp *interp, Var *otherP1Ptr,

@@ -954,7 +954,8 @@ typedef struct CallFrame {
 				 * specify. */
 } CallFrame;
 
-#define FRAME_IS_PROC 0x1
+#define FRAME_IS_PROC   0x1
+#define FRAME_IS_LAMBDA 0x2
 
 /*
  * TIP #280
