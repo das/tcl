@@ -1456,7 +1456,8 @@ TclObjInterpProcCore(
 	desiredObjs[0] = (isLambda ? framePtr->objv[skip-1] :
 		Tcl_NewListObj(skip, framePtr->objv));
 #endif /* AVOID_HACKS_FOR_ITCL */
-
+	Tcl_IncrRefCount(desiredObjs[0]);
+	
 	localPtr = procPtr->firstLocalPtr;
 	for (i=1 ; i<=numArgs ; i++) {
 	    Tcl_Obj *argObj;
@@ -1479,14 +1480,8 @@ TclObjInterpProcCore(
 	Tcl_WrongNumArgs(interp, numArgs+1, desiredObjs, final);
 	result = TCL_ERROR;
 
-#ifndef AVOID_HACKS_FOR_ITCL
-	if (!isLambda) {
-	    TclDecrRefCount(desiredObjs[0]);
-	}
-#endif /* AVOID_HACKS_FOR_ITCL */
-
-	for (i=1 ; i<=numArgs ; i++) {
-	    TclDecrRefCount(desiredObjs[i]);
+	for (i=0 ; i<=numArgs ; i++) {
+	    Tcl_DecrRefCount(desiredObjs[i]);
 	}
 	TclStackFree(interp);
 	goto procDone;
