@@ -3983,7 +3983,6 @@ Tcl_EvalObjv(
 				 * TCL_EVAL_GLOBAL and TCL_EVAL_INVOKE are
 				 * currently supported. */
 {
-    Interp *iPtr = (Interp *) interp;
     int code = TCL_OK;
 
     code = TEOVICount(interp, objc, objv, NULL, 0, flags);

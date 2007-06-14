@@ -311,6 +311,7 @@ SetTokensFromAny (interp, objPtr)
 {
     int numBytes;
     CONST char *script = Tcl_GetStringFromObj(objPtr, &numBytes);
+    Tcl_Token *tokenPtr;
 
     /*
      * Free the old internal rep, parse the string as a Tcl script, and
@@ -322,8 +323,8 @@ SetTokensFromAny (interp, objPtr)
 	(*objPtr->typePtr->freeIntRepProc)(objPtr);
     }
     objPtr->internalRep.twoPtrValue.ptr1 = 
-	    (VOID *) TclParseScript(script, numBytes, 0, 
-	    (Tcl_Token **) &(objPtr->internalRep.twoPtrValue.ptr2), NULL);
+	    (VOID *) TclParseScript(script, numBytes, 0, &tokenPtr, NULL);
+    objPtr->internalRep.twoPtrValue.ptr2 = tokenPtr;
     objPtr->typePtr = &tclTokensType;
     return TCL_OK;
 }
