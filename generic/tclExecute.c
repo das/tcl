@@ -1109,11 +1109,7 @@ TclCompEvalObj(
 	return TCL_ERROR;
     }
 
-    if (iPtr->varFramePtr != NULL) {
-	namespacePtr = iPtr->varFramePtr->nsPtr;
-    } else {
-	namespacePtr = iPtr->globalNsPtr;
-    }
+    namespacePtr = iPtr->varFramePtr->nsPtr;
 
     /*
      * If the object is not already of tclByteCodeType, compile it (and reset
