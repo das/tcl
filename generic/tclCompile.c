@@ -585,7 +585,8 @@ SetByteCodeFromAny(
 				 * compiled. Must not be NULL. */
     Tcl_Obj *objPtr)		/* The object to make a ByteCode object. */
 {
-    return TclSetByteCodeFromAny(interp, objPtr, NULL, (ClientData) NULL);
+    (void) TclSetByteCodeFromAny(interp, objPtr, NULL, (ClientData) NULL);
+    return TCL_OK;
 }
 
 /*
