@@ -1959,14 +1959,8 @@ TclExecuteByteCode(
 	    cmdPtr = (Command *) Tcl_GetCommandFromObj(interp, objv[0]);
 
 	    if (cmdPtr && !(cmdPtr->flags & CMD_HAS_EXEC_TRACES)
-		    && iPtr->tracePtr == NULL
-		    && (!checkInterp
-		    || (codePtr->compileEpoch == iPtr->compileEpoch))) {
-		/*
-		 * No traces, the interp is ok: use the fast interface
-		 */
-
-		result = TclEvalObjvKnownCommand(interp, objc, objv, cmdPtr);
+		    && iPtr->tracePtr == NULL) {
+		result = TclEvalObjvInternal(interp, objc, objv, NULL, 0, 0);
 	    } else {
 		/*
 		 * If trace procedures will be called, we need a command

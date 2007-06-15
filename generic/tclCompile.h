@@ -808,9 +808,6 @@ typedef struct {
 MODULE_SCOPE int	TclEvalObjvInternal(Tcl_Interp *interp,
 			    int objc, Tcl_Obj *const objv[],
 			    CONST char *command, int length, int flags);
-MODULE_SCOPE int	TclEvalObjvKnownCommand(Tcl_Interp *interp,
-	                    int objc, Tcl_Obj *const objv[],
-	                    Command *cmdPtr);
 /*
  *----------------------------------------------------------------
  * Procedures exported by the engine to be used by tclBasic.c
