@@ -5637,7 +5637,6 @@ TclCompileVariableCmd(
 				 * created by Tcl_ParseCommand. */
     CompileEnv *envPtr)		/* Holds resulting instructions. */
 {
-    Interp *iPtr = (Interp *) interp;
     Tcl_Token *varTokenPtr, *valueTokenPtr;
     int localIndex, numWords, i;    
     DefineLineInformation;	/* TIP #280 */
@@ -5655,13 +5654,6 @@ TclCompileVariableCmd(
 	return TCL_ERROR;
     }
     
-    /*
-     * Push the namespace: it is the namespace corresponding to the current
-     * compilation. 
-     */
-
-    PushLiteral(envPtr, iPtr->varFramePtr->nsPtr->fullName,-1);
-
     /*
      * Loop over the (var, value) pairs. 
      */
@@ -5692,10 +5684,9 @@ TclCompileVariableCmd(
     }
     
     /*
-     * Pop the namespace, and set the result to empty
+     * Set the result to empty
      */
 
-    TclEmitOpcode(INST_POP, envPtr);
     PushLiteral(envPtr, "", 0);
     return TCL_OK;
 }
