@@ -1346,7 +1346,7 @@ TclExecuteByteCode(
     ptrdiff_t *initCatchTop;	/* Catch stack top at start of execution. */
     Var *compiledLocals;
     Namespace *namespacePtr;
-    CmdFrame *bcFramePtr;		/* TIP #280: Structure for tracking lines. */
+    CmdFrame *bcFramePtr;	/* TIP #280: Structure for tracking lines. */
     Tcl_Obj **constants = &iPtr->execEnvPtr->constants[0];
 
     /*
@@ -7040,7 +7040,7 @@ IllegalExprOperandType(
  *	unchanged.
  *
  * Side effects:
- *	None.
+ *	The CmdFrame at *cfPtr is updated.
  *
  *----------------------------------------------------------------------
  */
