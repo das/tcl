@@ -786,6 +786,11 @@ StackAllocWords(
     Tcl_Interp *interp,
     int numWords)
 {
+    /*
+     * Note that GrowEvaluationStack sets a marker in the stack. This marker
+     * is read when rewinding, e.g., by TclStackFree.
+     */
+    
     Interp *iPtr = (Interp *) interp;
     ExecEnv *eePtr = iPtr->execEnvPtr;
     Tcl_Obj **resPtr = GrowEvaluationStack(eePtr, numWords, 0);
@@ -811,6 +816,12 @@ void
 TclStackFree(
     Tcl_Interp *interp)
 {
+    /*
+     * Rewind the stack to the previous marker position. The current marker,
+     * as set in the last call to GrowEvaluationStack, contains a pointer to
+     * the previous marker.
+     */ 
+    
     Interp *iPtr = (Interp *) interp;
     ExecEnv *eePtr = iPtr->execEnvPtr;
     ExecStack *esPtr = eePtr->execStackPtr;
