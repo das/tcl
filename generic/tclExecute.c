@@ -669,6 +669,12 @@ GrowEvaluationStack(
 	    return markerPtr + 1;
 	}
     } else if (needed < 0) {
+	/*
+	 * Put a marker pointing to the previous marker in this stack, and
+	 * store it in esPtr as the current marker. Return a pointer to one
+	 * word past the marker.
+	 */
+	
 	esPtr->markerPtr = ++esPtr->tosPtr;
 	*esPtr->markerPtr = (Tcl_Obj *) markerPtr;
 	return esPtr->markerPtr + 1;
@@ -730,6 +736,12 @@ GrowEvaluationStack(
   newStackReady:
     eePtr->execStackPtr = esPtr;
 
+    /*
+     * Store a NULL marker at the beginning of the stack, to indicate that
+     * this is the first marker in this stack and that rewinding to here
+     * should actually be a return to the previous stack.
+     */
+    
     esPtr->stackWords[0] = NULL;
     esPtr->markerPtr = esPtr->tosPtr = &esPtr->stackWords[0];
 
