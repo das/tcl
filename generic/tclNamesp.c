@@ -533,8 +533,10 @@ void
 TclPopStackFrame(
     Tcl_Interp *interp)		/* Interpreter with call frame to pop. */
 {
+    Tcl_CallFrame *freePtr = ((Interp *)interp)->framePtr;
+
     Tcl_PopCallFrame(interp);
-    TclStackFree(interp);
+    TclStackFree(interp, freePtr);
 }
 
 /*
@@ -4119,7 +4121,7 @@ NamespacePathCmd(
     result = TCL_OK;
   badNamespace:
     if (namespaceList != NULL) {
-	TclStackFree(interp);	/* namespaceList */
+	TclStackFree(interp, namespaceList);
     }
     return result;
 }
@@ -6196,7 +6198,7 @@ NsEnsembleImplementationCmd(
 			    TCL_EVAL_INVOKE);
 		    Tcl_DecrRefCount(copyObj);
 		    Tcl_DecrRefCount(prefixObj);
-		    TclStackFree(interp);
+		    TclStackFree(interp, tempObjv);
 		    if (isRootEnsemble) {
 			iPtr->ensembleRewrite.sourceObjs = NULL;
 			iPtr->ensembleRewrite.numRemovedObjs = 0;

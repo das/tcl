@@ -948,7 +948,7 @@ TclInitCompileEnv(
 		    Tcl_IncrRefCount(envPtr->extCmdMapPtr->path);
 		}
 	    }
-	    TclStackFree(interp);
+	    TclStackFree(interp, ctxPtr);
 	}
     }
 

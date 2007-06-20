@@ -270,7 +270,7 @@ Tcl_ProcObjCmd(
 	    Tcl_DecrRefCount(contextPtr->data.eval.path);
 	    contextPtr->data.eval.path = NULL;
 	}
-	TclStackFree(interp); /* contextPtr */
+	TclStackFree(interp, contextPtr);
     }
 
     /*
@@ -1222,7 +1222,7 @@ InitArgsAndLocals(
     for (i=0 ; i<=numArgs ; i++) {
 	Tcl_DecrRefCount(desiredObjs[i]);
     }
-    TclStackFree(interp);
+    TclStackFree(interp, desiredObjs);
     return TCL_ERROR;
 }
 
@@ -1565,6 +1565,7 @@ TclObjInterpProcCore(
 {
     register Proc *procPtr = ((Interp *)interp)->varFramePtr->procPtr;
     int result;
+    CallFrame *freePtr;
 
     result = InitArgsAndLocals(interp, procNameObj, skip);
     if (result != TCL_OK) {
@@ -1680,9 +1681,11 @@ TclObjInterpProcCore(
      * allocated later on the stack.
      */
 
+    freePtr = ((Interp *)interp)->framePtr;
     Tcl_PopCallFrame(interp);		/* Pop but do not free. */
-    TclStackFree(interp);		/* Free compiledLocals. */
-    TclStackFree(interp);		/* Free CallFrame. */
+    TclStackFree(interp, freePtr->compiledLocals);
+					/* Free compiledLocals. */
+    TclStackFree(interp, freePtr);	/* Free CallFrame. */
     return result;
 }
 
@@ -2401,7 +2404,7 @@ SetLambdaFromAny(
 
 	    Tcl_DecrRefCount(contextPtr->data.eval.path);
 	}
-	TclStackFree(interp); /* contextPtr */
+	TclStackFree(interp, contextPtr);
     }
 
     /*

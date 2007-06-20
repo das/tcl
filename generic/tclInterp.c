@@ -1104,7 +1104,7 @@ Tcl_CreateAlias(
     for (i = 0; i < argc; i++) {
 	Tcl_DecrRefCount(objv[i]);
     }
-    TclStackFree(slaveInterp);	/* objv */
+    TclStackFree(slaveInterp, objv);
     Tcl_DecrRefCount(targetObjPtr);
     Tcl_DecrRefCount(slaveObjPtr);
 
@@ -1778,7 +1778,7 @@ AliasObjCmd(
 	Tcl_DecrRefCount(cmdv[i]);
     }
     if (cmdv != cmdArr) {
-	TclStackFree(interp);
+	TclStackFree(interp, cmdv);
     }
     return result;
 #undef ALIAS_CMDV_PREALLOC

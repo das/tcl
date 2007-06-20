@@ -1260,7 +1260,7 @@ InfoFrameCmd(
 		}
 	    }
 	}
-	TclStackFree(interp); /* fPtr */
+	TclStackFree(interp, fPtr);
 	break;
     }
 
