@@ -533,7 +533,7 @@ void
 TclPopStackFrame(
     Tcl_Interp *interp)		/* Interpreter with call frame to pop. */
 {
-    Tcl_CallFrame *freePtr = ((Interp *)interp)->framePtr;
+    CallFrame *freePtr = ((Interp *)interp)->framePtr;
 
     Tcl_PopCallFrame(interp);
     TclStackFree(interp, freePtr);
