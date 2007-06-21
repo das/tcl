@@ -2494,7 +2494,7 @@ set base {
 	set ::tracevar
     } -result {$r}
 }
-runbase {- -* - -} $base
+runbase {- - - -} $base
 
 set base {
     test trace-37.$n {dynamic trace addition: $t} -setup {

@@ -2000,9 +2000,21 @@ TclExecuteByteCode(
 	    DECACHE_STACK_INFO();
 	    cmdPtr = (Command *) Tcl_GetCommandFromObj(interp, objv[0]);
 
-	    if (cmdPtr && !(cmdPtr->flags & CMD_HAS_EXEC_TRACES)
-		    && iPtr->tracePtr == NULL) {
-		result = TclEvalObjvInternal(interp, objc, objv, NULL, 0, 0);
+	    if (cmdPtr 
+		    && !((cmdPtr->flags & CMD_HAS_EXEC_TRACES) || iPtr->tracePtr)
+		    && !(checkInterp && (codePtr->compileEpoch != iPtr->compileEpoch))
+		) {
+		cmdPtr->refCount++;
+		iPtr->cmdCount++;
+		result = (*cmdPtr->objProc)(cmdPtr->objClientData, interp, objc, objv);
+		
+		if (Tcl_AsyncReady()) {
+		    result = Tcl_AsyncInvoke(interp, result);
+		}
+		if (result == TCL_OK && TclLimitReady(iPtr->limit)) {
+		    result = Tcl_LimitCheck(interp);
+		}
+		TclCleanupCommandMacro(cmdPtr);
 	    } else {
 		/*
 		 * If trace procedures will be called, we need a command
