@@ -868,10 +868,10 @@ declare 214 generic {
     void TclSetObjNameOfExecutable(Tcl_Obj *name, Tcl_Encoding encoding)
 }
 declare 215 generic {
-    char * TclStackAlloc(Tcl_Interp *interp, int numBytes)
+    void * TclStackAlloc(Tcl_Interp *interp, int numBytes)
 }
 declare 216 generic {
-    void TclStackFree(Tcl_Interp *interp)
+    void TclStackFree(Tcl_Interp *interp, void *freePtr)
 }
 declare 217 generic {
     int TclPushStackFrame(Tcl_Interp *interp, Tcl_CallFrame **framePtrPtr,

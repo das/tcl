@@ -1629,7 +1629,7 @@ Tcl_GlobObjCmd(
 	if (globTypes->macCreator != NULL) {
 	    Tcl_DecrRefCount(globTypes->macCreator);
 	}
-	TclStackFree(interp);	/* globTypes */
+	TclStackFree(interp, globTypes);
     }
     return result;
 }

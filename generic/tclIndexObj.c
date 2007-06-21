@@ -543,7 +543,7 @@ Tcl_WrongNumArgs(
 		len = Tcl_ConvertCountedElement(elementStr, elemLen,
 			quotedElementStr, flags);
 		Tcl_AppendToObj(objPtr, quotedElementStr, len);
-		TclStackFree(interp);	/* quotedElementStr */
+		TclStackFree(interp, quotedElementStr);
 	    } else {
 		Tcl_AppendToObj(objPtr, elementStr, elemLen);
 	    }
@@ -597,7 +597,7 @@ Tcl_WrongNumArgs(
 		len = Tcl_ConvertCountedElement(elementStr, elemLen,
 			quotedElementStr, flags);
 		Tcl_AppendToObj(objPtr, quotedElementStr, len);
-		TclStackFree(interp);	/* quotedElementStr */
+		TclStackFree(interp, quotedElementStr);
 	    } else {
 		Tcl_AppendToObj(objPtr, elementStr, elemLen);
 	    }
