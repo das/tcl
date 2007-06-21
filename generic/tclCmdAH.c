@@ -1838,9 +1838,9 @@ Tcl_ForeachObjCmd(
 	    Tcl_DecrRefCount(aCopyList[i]);
 	}
     }
-    TclStackFree(interp);	/* Tcl_Obj * arrays */
-    TclStackFree(interp);	/* Tcl_Obj ** arrays */
-    TclStackFree(interp);	/* int arrays */
+    TclStackFree(interp, vCopyList);	/* Tcl_Obj * arrays */
+    TclStackFree(interp, varvList);	/* Tcl_Obj ** arrays */
+    TclStackFree(interp, index);	/* int arrays */
     return result;
 }
 
