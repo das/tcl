@@ -4026,7 +4026,9 @@ Tcl_LsortObjCmd(
     if (sortInfo.resultCode != TCL_OK || length <= 0) {
 	goto done;
     }
-    elementArray = (SortElement *) ckalloc(length * sizeof(SortElement));
+
+    elementArray = (SortElement *)
+	    TclStackAlloc(interp, length * sizeof(SortElement));
     for (i=0; i < length; i++){
 	elementArray[i].objPtr = listObjPtrs[i];
 	elementArray[i].count = 0;
@@ -4064,7 +4066,7 @@ Tcl_LsortObjCmd(
 	}
 	Tcl_SetObjResult(interp, resultPtr);
     }
-    ckfree((char *) elementArray);
+    TclStackFree(interp, elementArray);
 
   done:
     if (sortInfo.sortMode == SORTMODE_COMMAND) {

@@ -28,13 +28,6 @@
 #include "tclInt.h"
 
 /*
- * Initial size of stack allocated space for tail list - used when resetting
- * shadowed command references in the function TclResetShadowedCmdRefs.
- */
-
-#define NUM_TRAIL_ELEMS 5
-
-/*
  * Thread-local storage used to avoid having a global lock on data that is not
  * limited to a single interpreter.
  */
@@ -2661,7 +2654,7 @@ TclResetShadowedCmdRefs(
     Namespace *globalNsPtr = (Namespace *) TclGetGlobalNamespace(interp);
     int found, i;
     int trailFront = -1;
-    int trailSize = NUM_TRAIL_ELEMS;
+    int trailSize = 5;	/* formerly NUM_TRAIL_ELEMS */
     Namespace **trailPtr = (Namespace **)
 	    TclStackAlloc(interp, trailSize * sizeof(Namespace *));
 
