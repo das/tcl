@@ -2660,17 +2660,10 @@ TclResetShadowedCmdRefs(
     Namespace *trailNsPtr, *shadowNsPtr;
     Namespace *globalNsPtr = (Namespace *) TclGetGlobalNamespace(interp);
     int found, i;
-
-    /*
-     * This function generates an array used to hold the trail list. This
-     * starts out with stack-allocated space but uses dynamically-allocated
-     * storage if needed.
-     */
-
-    Namespace *(trailStorage[NUM_TRAIL_ELEMS]);
-    Namespace **trailPtr = trailStorage;
     int trailFront = -1;
     int trailSize = NUM_TRAIL_ELEMS;
+    Namespace **trailPtr = (Namespace **)
+	    TclStackAlloc(interp, trailSize * sizeof(Namespace *));
 
     /*
      * Start at the namespace containing the new command, and work up through
@@ -2748,30 +2741,14 @@ TclResetShadowedCmdRefs(
 
 	trailFront++;
 	if (trailFront == trailSize) {
-	    size_t currBytes = trailSize * sizeof(Namespace *);
 	    int newSize = 2 * trailSize;
-	    size_t newBytes = newSize * sizeof(Namespace *);
-
-	    if (trailPtr != trailStorage) {
-		trailPtr = (Namespace **) ckrealloc((char *) trailPtr,
-			newBytes);
-	    } else {
-		Namespace **newPtr = (Namespace **) ckalloc(newBytes);
-		memcpy(newPtr, trailPtr, currBytes);
-		trailPtr = newPtr;
-	    }
+	    trailPtr = (Namespace **) TclStackRealloc(interp,
+		    trailPtr, newSize * sizeof(Namespace *));
 	    trailSize = newSize;
 	}
 	trailPtr[trailFront] = nsPtr;
     }
-
-    /*
-     * Free any allocated storage.
-     */
-
-    if (trailPtr != trailStorage) {
-	ckfree((char *) trailPtr);
-    }
+    TclStackFree(interp, trailPtr);
 }
 
 /*
