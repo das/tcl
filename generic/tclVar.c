@@ -2181,6 +2181,13 @@ UnsetVarStruct(
 	}
     }
 
+    if (!reachable) {
+	TclSetVarUndefined(varPtr);
+	TclSetVarScalar(varPtr);
+	varPtr->tracePtr = NULL;
+	varPtr->searchPtr = NULL;
+    }
+    
     /*
      * If the variable was a namespace variable, decrement its reference
      * count.
