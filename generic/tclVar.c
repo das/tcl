@@ -2122,7 +2122,7 @@ UnsetVarStruct(
 	    part1 = TclGetString(part1Ptr);
 	}
 	
-	dummyVar.flags &= ~VAR_TRACE_ACTIVE;
+	dummyVarPtr->flags &= ~VAR_TRACE_ACTIVE;
 	TclCallVarTraces(iPtr, arrayPtr, dummyVarPtr, part1, part2, (flags
 		& (TCL_GLOBAL_ONLY|TCL_NAMESPACE_ONLY))
 		| TCL_TRACE_UNSETS, /* leaveErrMsg */ 0);
