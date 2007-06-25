@@ -2475,7 +2475,7 @@ MODULE_SCOPE void	TclParseInit(Tcl_Interp *interp, CONST char *string,
 #if 0
 MODULE_SCOPE int	TclParseInteger(CONST char *string, int numBytes);
 #endif
-MODULE_SCOPE Tcl_Token *TclParseScript (CONST char *script, int numBytes,
+MODULE_SCOPE Tcl_Token *TclParseScript (Tcl_Interp *interp, CONST char *script, int numBytes,
 			    int flags, Tcl_Token **lastTokenPtrPtr,
 			    CONST char **termPtr);
 MODULE_SCOPE int	TclParseAllWhiteSpace(CONST char *src, int numBytes);
@@ -2552,6 +2552,8 @@ MODULE_SCOPE void	TclSetBignumIntRep (Tcl_Obj *objPtr,
 MODULE_SCOPE void	TclSetProcessGlobalValue(ProcessGlobalValue *pgvPtr,
 			    Tcl_Obj *newValue, Tcl_Encoding encoding);
 MODULE_SCOPE void	TclSignalExitThread(Tcl_ThreadId id, int result);
+MODULE_SCOPE void *	TclStackRealloc(Tcl_Interp *interp, void *ptr,
+			    int numBytes);
 MODULE_SCOPE Tcl_Obj *	TclStringObjReverse(Tcl_Obj *objPtr);
 MODULE_SCOPE int	TclSubstTokens(Tcl_Interp *interp, Tcl_Token *tokenPtr,
 			    int count, int *tokensLeftPtr, int line, int flags);
