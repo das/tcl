@@ -2089,13 +2089,13 @@ UnsetVarStruct(
      */
 
     if (reachable && (traced || TclIsVarArray(varPtr))) {
-	    dummyVar = *varPtr;
-	    dummyVarPtr = &dummyVar;
-	    TclSetVarUndefined(varPtr);
-	    TclSetVarScalar(varPtr);
-	    varPtr->value.objPtr = NULL; /* dummyVar points to any value object */
-	    varPtr->tracePtr = NULL;
-	    varPtr->searchPtr = NULL;
+	dummyVar = *varPtr;
+	dummyVarPtr = &dummyVar;
+	TclSetVarUndefined(varPtr);
+	TclSetVarScalar(varPtr);
+	varPtr->value.objPtr = NULL; /* dummyVar points to any value object */
+	varPtr->tracePtr = NULL;
+	varPtr->searchPtr = NULL;
     } else {
 	dummyVarPtr = varPtr;
     }
@@ -2185,8 +2185,6 @@ UnsetVarStruct(
     if (dummyVarPtr == varPtr) {
 	TclSetVarUndefined(varPtr);
 	TclSetVarScalar(varPtr);
-	varPtr->tracePtr = NULL;
-	varPtr->searchPtr = NULL;
     }
     
     /*
