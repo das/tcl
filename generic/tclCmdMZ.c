@@ -4445,6 +4445,9 @@ TclCheckInterpTraces(interp, command, numChars, cmdPtr, code,
 	        active.nextTracePtr = tracePtr;
 	        tracePtr = tracePtr->nextPtr;
             }
+	    if (active.nextTracePtr) {
+		lastTracePtr = active.nextTracePtr->nextPtr;
+	    }
         } else {
 	    active.reverseScan = 0;
 	    active.nextTracePtr = tracePtr->nextPtr;
@@ -4490,9 +4493,6 @@ TclCheckInterpTraces(interp, command, numChars, cmdPtr, code,
 	    }
 	    tracePtr->flags &= ~TCL_TRACE_EXEC_IN_PROGRESS;
 	    Tcl_Release((ClientData) tracePtr);
-	}
-	if (active.nextTracePtr) {
-	    lastTracePtr = active.nextTracePtr->nextPtr;
 	}
     }
     iPtr->activeInterpTracePtr = active.nextPtr;
