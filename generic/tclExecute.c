@@ -815,12 +815,12 @@ TclStackFree(
     Tcl_Interp *interp,
     void *freePtr)
 {
-    Interp *iPtr;
+    Interp *iPtr = (Interp *) interp;
     ExecEnv *eePtr;
     ExecStack *esPtr;
     Tcl_Obj **markerPtr;
 
-    if (interp == NULL) {
+    if (iPtr == NULL || iPtr->execEnvPtr == NULL) {
 	Tcl_Free((char *) freePtr);
 	return;
     }
@@ -831,7 +831,6 @@ TclStackFree(
      * the previous marker.
      */ 
 
-    iPtr = (Interp *) interp;
     eePtr = iPtr->execEnvPtr;
     esPtr = eePtr->execStackPtr;
     markerPtr = esPtr->markerPtr;
@@ -867,9 +866,10 @@ TclStackAlloc(
     Tcl_Interp *interp,
     int numBytes)
 {
+    Interp *iPtr = (Interp *) interp;
     int numWords = (numBytes + (sizeof(Tcl_Obj *) - 1))/sizeof(Tcl_Obj *);
 
-    if (interp == NULL) {
+    if (iPtr == NULL || iPtr->execEnvPtr == NULL) {
 	return (void *) Tcl_Alloc(numBytes);
     }
 
@@ -882,17 +882,16 @@ TclStackRealloc(
     void *ptr,
     int numBytes)
 {
-    Interp *iPtr;
+    Interp *iPtr = (Interp *) interp;
     ExecEnv *eePtr;
     ExecStack *esPtr;
     Tcl_Obj **markerPtr;
     int numWords;
 
-    if (interp == NULL) {
+    if (iPtr == NULL || iPtr->execEnvPtr == NULL) {
 	return (void *) Tcl_Realloc((char *) ptr, numBytes);
     }
 
-    iPtr = (Interp *) interp;
     eePtr = iPtr->execEnvPtr;
     esPtr = eePtr->execStackPtr;
     markerPtr = esPtr->markerPtr;
