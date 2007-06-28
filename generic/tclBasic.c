@@ -3844,7 +3844,7 @@ TclEvalEx(
 {
     Interp *iPtr = (Interp *) interp;
     const char *p, *next;
-    const int minObjs = 20;
+    const unsigned int minObjs = 20;
     Tcl_Obj **objv, **objvSpace;
     int *expand, *lines, *lineSpace;
     Tcl_Token *tokenPtr;
@@ -3989,7 +3989,7 @@ TclEvalEx(
 	    int objectsNeeded = 0;
 	    unsigned int numWords = parsePtr->numWords;
 
-	    if (numWords > (unsigned int)minObjs) {
+	    if (numWords > minObjs) {
 		expand = (int *) ckalloc(numWords * sizeof(int));
 		objvSpace = (Tcl_Obj **) ckalloc(numWords * sizeof(Tcl_Obj *));
 		lineSpace = (int *) ckalloc(numWords * sizeof(int));
@@ -4063,7 +4063,7 @@ TclEvalEx(
 		int wordIdx = numWords;
 		int objIdx = objectsNeeded - 1;
 
-		if ((numWords > (unsigned int)minObjs)
+		if ((numWords > minObjs)
 			|| (objectsNeeded > minObjs)) {
 		    objv = objvSpace = (Tcl_Obj **)
 			    ckalloc((unsigned)objectsNeeded*sizeof(Tcl_Obj*));
