@@ -3986,7 +3986,7 @@ TclEvalEx(
 	     * Generate an array of objects for the words of the command.
 	     */
 
-	    int objectsNeeded = 0;
+	    unsigned int objectsNeeded = 0;
 	    unsigned int numWords = parsePtr->numWords;
 
 	    if (numWords > minObjs) {
@@ -4063,12 +4063,11 @@ TclEvalEx(
 		int wordIdx = numWords;
 		int objIdx = objectsNeeded - 1;
 
-		if ((numWords > minObjs)
-			|| (objectsNeeded > minObjs)) {
+		if ((numWords > minObjs) || (objectsNeeded >  minObjs)) {
 		    objv = objvSpace = (Tcl_Obj **)
-			    ckalloc((unsigned)objectsNeeded*sizeof(Tcl_Obj*));
+			    ckalloc(objectsNeeded * sizeof(Tcl_Obj*));
 		    lines = lineSpace = (int*)
-			    ckalloc((unsigned) objectsNeeded * sizeof(int));
+			    ckalloc(objectsNeeded * sizeof(int));
 		}
 
 		objectsUsed = 0;
