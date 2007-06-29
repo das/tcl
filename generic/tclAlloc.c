@@ -45,6 +45,16 @@ typedef unsigned long caddr_t;
 #endif
 
 /*
+ * Alignment for allocated memory.
+ */
+
+#if defined(__APPLE__)
+#define ALLOCALIGN	16
+#else
+#define ALLOCALIGN	8
+#endif
+
+/*
  * The overhead on a block is at least 8 bytes.  When free, this space
  * contains a pointer to the next free block, and the bottom two bits must
  * be zero.  When in use, the first byte is set to MAGIC, and the second
@@ -56,8 +66,8 @@ typedef unsigned long caddr_t;
  */
 
 union overhead {
-    union overhead *ov_next;	/* when free */
-    unsigned char ov_padding[8]; /* Ensure the structure is 8-byte aligned. */
+    union overhead *ov_next;		/* when free */
+    unsigned char ov_padding[ALLOCALIGN];/* align struct to ALLOCALIGN bytes */
     struct {
 	unsigned char	ovu_magic0;	/* magic number */
 	unsigned char	ovu_index;	/* bucket # */
@@ -90,11 +100,12 @@ union overhead {
 
 /*
  * nextf[i] is the pointer to the next free block of size 2^(i+3).  The
- * smallest allocatable block is 8 bytes.  The overhead information
+ * smallest allocatable block is MINBLOCK bytes. The overhead information
  * precedes the data area returned to the user.
  */
 
-#define NBUCKETS	13
+#define MINBLOCK	((sizeof(union overhead) + (ALLOCALIGN-1)) & ~(ALLOCALIGN-1))
+#define NBUCKETS	(13 - (MINBLOCK >> 4))
 #define MAXMALLOC	(1<<(NBUCKETS+2))
 static	union overhead *nextf[NBUCKETS];
 
@@ -208,7 +219,7 @@ TclInitAlloc()
 void
 TclFinalizeAllocSubsystem()
 {
-    int i;
+    unsigned int i;
     struct block *blockPtr, *nextPtr;
 
     Tcl_MutexLock(allocMutexPtr);
@@ -310,13 +321,10 @@ TclpAlloc(nbytes)
      * stored in hash buckets which satisfies request.
      * Account for space used per block for accounting.
      */
-#ifndef RCHECK
-    amt = 8;	/* size of first bucket */
-    bucket = 0;
-#else
-    amt = 16;	/* size of first bucket */
-    bucket = 1;
-#endif
+
+    amount = MINBLOCK;		/* size of first bucket */
+    bucket = MINBLOCK >> 4;
+
     while (nbytes + OVERHEAD > amt) {
 	amt <<= 1;
 	if (amt == 0) {
