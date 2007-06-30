@@ -771,6 +771,10 @@ Tcl_BinaryObjCmd(dummy, interp, objc, objv)
 	     */
 
 	    resultPtr = Tcl_GetObjResult(interp);
+	    if (Tcl_IsShared(resultPtr)) {
+		TclNewObj(resultPtr);
+		Tcl_SetObjResult(interp, resultPtr);
+	    }
 	    buffer = Tcl_SetByteArrayLength(resultPtr, length);
 	    memset((VOID *) buffer, 0, (size_t) length);
 
