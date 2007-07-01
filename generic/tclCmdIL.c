@@ -4011,7 +4011,7 @@ Tcl_LsortObjCmd(
 	if (Tcl_ListObjAppendElement(interp, newCommandPtr, newObjPtr)
 		!= TCL_OK) {
 	    TclDecrRefCount(newCommandPtr);
-	    TclDecrRefCount(listObj)
+	    TclDecrRefCount(listObj);
 	    Tcl_IncrRefCount(newObjPtr);
 	    TclDecrRefCount(newObjPtr);
 	    if (sortInfo.indexc > 1) {
