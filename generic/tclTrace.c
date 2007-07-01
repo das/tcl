@@ -2281,7 +2281,7 @@ StringTraceProc(
 
     (data->proc)(data->clientData, interp, level, (char *) command,
 	    cmdPtr->proc, cmdPtr->clientData, objc, argv);
-    TclStackFree(interp, argv);
+    TclStackFree(interp, (void *)argv);
 
     return TCL_OK;
 }
