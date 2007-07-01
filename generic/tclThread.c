@@ -159,10 +159,21 @@ RememberSyncObject(
     char **newList;
     int i, j;
 
+
     /*
-     * Save the pointer to the allocated object so it can be finalized. Grow
-     * the list of pointers if necessary, copying only non-NULL pointers to
-     * the new list.
+     * Reuse any free slot in the list.
+     */
+
+    for (i=0 ; i < recPtr->num ; ++i) {
+	if (recPtr->list[i] == NULL) {
+	    recPtr->list[i] = objPtr;
+	    return;
+	}
+    }
+
+    /*
+     * Grow the list of pointers if necessary, copying only non-NULL
+     * pointers to the new list.
      */
 
     if (recPtr->num >= recPtr->max) {
@@ -179,6 +190,7 @@ RememberSyncObject(
 	recPtr->list = newList;
 	recPtr->num = j;
     }
+
     recPtr->list[recPtr->num] = objPtr;
     recPtr->num++;
 }

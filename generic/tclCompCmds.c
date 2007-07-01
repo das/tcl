@@ -1665,7 +1665,7 @@ TclCompileForeachCmd(
 	    ckfree((char *) varvList[loopIndex]);
 	}
     }
-    TclStackFree(interp, varvList);
+    TclStackFree(interp, (void *)varvList);
     TclStackFree(interp, varcList);
     return code;
 }

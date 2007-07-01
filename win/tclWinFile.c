@@ -2322,84 +2322,6 @@ FromCTime(
     fileTime->dwHighDateTime = convertedTime.HighPart;
 }
 
-#if 0
-/*
- *-------------------------------------------------------------------------
- *
- * TclWinResolveShortcut --
- *
- *	Resolve a potential Windows shortcut to get the actual file or
- *	directory in question.
- *
- * Results:
- *	Returns 1 if the shortcut could be resolved, or 0 if there was an
- *	error or if the filename was not a shortcut. If bufferPtr did hold the
- *	name of a shortcut, it is modified to hold the resolved target of the
- *	shortcut instead.
- *
- * Side effects:
- *	Loads and unloads OLE package to determine if filename refers to a
- *	shortcut.
- *
- *-------------------------------------------------------------------------
- */
-
-int
-TclWinResolveShortcut(
-    Tcl_DString *bufferPtr)	/* Holds name of file to resolve. On return,
-				 * holds resolved file name. */
-{
-    HRESULT hres;
-    IShellLink *psl;
-    IPersistFile *ppf;
-    WIN32_FIND_DATA wfd;
-    WCHAR wpath[MAX_PATH];
-    char *path, *ext;
-    char realFileName[MAX_PATH];
-
-    /*
-     * Windows system calls do not automatically resolve shortcuts like UNIX
-     * automatically will with symbolic links.
-     */
-
-    path = Tcl_DStringValue(bufferPtr);
-    ext = strrchr(path, '.');
-    if ((ext == NULL) || (stricmp(ext, ".lnk") != 0)) {
-	return 0;
-    }
-
-    CoInitialize(NULL);
-    path = Tcl_DStringValue(bufferPtr);
-    realFileName[0] = '\0';
-    hres = CoCreateInstance(&CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER,
-	    &IID_IShellLink, &psl);
-    if (SUCCEEDED(hres)) {
-	hres = psl->lpVtbl->QueryInterface(psl, &IID_IPersistFile, &ppf);
-	if (SUCCEEDED(hres)) {
-	    MultiByteToWideChar(CP_ACP, 0, path, -1, wpath, sizeof(wpath));
-	    hres = ppf->lpVtbl->Load(ppf, wpath, STGM_READ);
-	    if (SUCCEEDED(hres)) {
-		hres = psl->lpVtbl->Resolve(psl,NULL,SLR_ANY_MATCH|SLR_NO_UI);
-		if (SUCCEEDED(hres)) {
-		    hres = psl->lpVtbl->GetPath(psl, realFileName, MAX_PATH,
-			    &wfd, 0);
-		}
-	    }
-	    ppf->lpVtbl->Release(ppf);
-	}
-	psl->lpVtbl->Release(psl);
-    }
-    CoUninitialize();
-
-    if (realFileName[0] != '\0') {
-	Tcl_DStringSetLength(bufferPtr, 0);
-	Tcl_DStringAppend(bufferPtr, realFileName, -1);
-	return 1;
-    }
-    return 0;
-}
-#endif
-
 /*
  *---------------------------------------------------------------------------
  *
