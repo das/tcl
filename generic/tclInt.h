@@ -2261,7 +2261,6 @@ MODULE_SCOPE int	TclFileRenameCmd(Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[]);
 MODULE_SCOPE void	TclFinalizeAllocSubsystem(void);
 MODULE_SCOPE void	TclFinalizeAsync(void);
-MODULE_SCOPE void	TclFinalizeCompilation(void);
 MODULE_SCOPE void	TclFinalizeDoubleConversion(void);
 MODULE_SCOPE void	TclFinalizeEncodingSubsystem(void);
 MODULE_SCOPE void	TclFinalizeEnvironment(void);

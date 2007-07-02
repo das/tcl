@@ -888,7 +888,6 @@ Tcl_Finalize(void)
      * after the exit handlers, because there are order dependencies.
      */
 
-    TclFinalizeCompilation();
     TclFinalizeExecution();
     TclFinalizeEnvironment();
 
