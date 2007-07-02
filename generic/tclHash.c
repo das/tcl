@@ -925,19 +925,7 @@ CompareStringKeys(
     register const char *p1 = (const char *) keyPtr;
     register const char *p2 = (const char *) hPtr->key.string;
 
-#ifdef TCL_COMPARE_HASHES_WITH_STRCMP
     return !strcmp(p1, p2);
-#else
-    for (;; p1++, p2++) {
-	if (*p1 != *p2) {
-	    break;
-	}
-	if (*p1 == '\0') {
-	    return 1;
-	}
-    }
-    return 0;
-#endif /* TCL_COMPARE_HASHES_WITH_STRCMP */
 }
 
 /*
@@ -1139,7 +1127,7 @@ RebuildTable(
 	    if (typePtr->hashKeyProc) {
 		unsigned int hash;
 
-		hash = typePtr->hashKeyProc(tablePtr, (VOID *) key);
+		hash = typePtr->hashKeyProc(tablePtr, key);
 		if (typePtr->flags & TCL_HASH_KEY_RANDOMIZE_HASH) {
 		    index = RANDOM_INDEX (tablePtr, hash);
 		} else {
