@@ -2350,9 +2350,6 @@ MODULE_SCOPE int	TclParseNumber(Tcl_Interp *interp, Tcl_Obj *objPtr,
 			    int numBytes, CONST char **endPtrPtr, int flags);
 MODULE_SCOPE void	TclParseInit(Tcl_Interp *interp, CONST char *string,
 			    int numBytes, Tcl_Parse *parsePtr);
-#if 0
-MODULE_SCOPE int	TclParseInteger(CONST char *string, int numBytes);
-#endif
 MODULE_SCOPE int	TclParseAllWhiteSpace(CONST char *src, int numBytes);
 MODULE_SCOPE int	TclProcessReturn(Tcl_Interp *interp,
 			    int code, int level, Tcl_Obj *returnOpts);
@@ -2922,15 +2919,6 @@ MODULE_SCOPE Tcl_Obj *	TclPtrIncrObjVar (Tcl_Interp *interp,
 			    Var *varPtr, Var *arrayPtr, CONST char *part1,
 			    CONST char *part2, Tcl_Obj *incrPtr,
 			    CONST int flags);
-#if 0
-MODULE_SCOPE Tcl_Obj *	TclPtrIncrVar(Tcl_Interp *interp,
-			    Var *varPtr, Var *arrayPtr, CONST char *part1,
-			    CONST char *part2, CONST long i, CONST int flags);
-MODULE_SCOPE Tcl_Obj *	TclPtrIncrWideVar(Tcl_Interp *interp,
-			    Var *varPtr, Var *arrayPtr, CONST char *part1,
-			    CONST char *part2, CONST Tcl_WideInt i,
-			    CONST int flags);
-#endif
 MODULE_SCOPE void	TclInvalidateNsPath(Namespace *nsPtr);
 
 /*
@@ -3151,23 +3139,6 @@ MODULE_SCOPE void	TclDbInitNewObj(Tcl_Obj *objPtr);
 	}\
 	objPtr->bytes = NULL;\
     }\
-
-
-#if 0
-/*
- *----------------------------------------------------------------
- * Macro used by the Tcl core to get a Tcl_WideInt value out of a Tcl_Obj of
- * the "wideInt" type.  
- *----------------------------------------------------------------
- */
-
-#ifndef NO_WIDE_TYPE
-#    define TclGetWide(resultVar, objPtr) \
-	(resultVar) = (objPtr)->internalRep.wideValue
-#    define TclGetLongFromWide(resultVar, objPtr) \
-	(resultVar) = Tcl_WideAsLong((objPtr)->internalRep.wideValue)
-#endif
-#endif
 
 /*
  *----------------------------------------------------------------
