@@ -31,10 +31,8 @@
 #undef Tcl_NewStringObj
 #undef Tcl_DumpActiveMemory
 #undef Tcl_ValidateAllMemory
-#if TCL_PRESERVE_BINARY_COMPATABILITY
-#   undef Tcl_FindHashEntry
-#   undef Tcl_CreateHashEntry
-#endif
+#undef Tcl_FindHashEntry
+#undef Tcl_CreateHashEntry
 
 /*
  * Keep a record of the original Notifier procedures, created in the
