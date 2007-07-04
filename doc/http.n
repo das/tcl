@@ -179,10 +179,12 @@ of bytes read from the socket.  Here is a template for the callback:
 proc httpHandlerCallback {socket token} {
     upvar #0 $token state
     # Access socket, and state as a Tcl array
+    # For example...
     ...
-    (example: set data [read $socket 1000];set nbytes [string length $data])
+    set data [read $socket 1000]
+    set nbytes [string length $data]
     ...
-    return nbytes
+    return $nbytes
 }
 .CE
 .RE
