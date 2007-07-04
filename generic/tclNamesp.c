@@ -2802,6 +2802,7 @@ TclGetNamespaceFromObj(
 	    || (resPtr->refNsPtr &&
 		    (resPtr->refNsPtr != (Namespace *) TclGetCurrentNamespace(interp)))
 	    || (nsPtr = resPtr->nsPtr, nsPtr->flags & NS_DEAD)
+	    || (interp != nsPtr->interp)
 	    || (resPtr->nsId != nsPtr->nsId)) {
 
 	result = tclNsNameType.setFromAnyProc(interp, objPtr);
