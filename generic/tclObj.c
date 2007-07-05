@@ -3722,7 +3722,7 @@ SetCmdNameFromAny(
 	if ((objPtr->typePtr == &tclCmdNameType)
 		&& resPtr && (resPtr->refCount == 1)) {
 	    /*
-	     * Reuse the old ResolvedCmdName struct after freeing it
+	     * Reuse the old ResolvedCmdName struct instead of freeing it
 	     */
 	    
 	    Command *oldCmdPtr = resPtr->cmdPtr;

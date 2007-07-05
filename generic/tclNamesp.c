@@ -4844,7 +4844,7 @@ SetNsNameFromAny(
 	if ((objPtr->typePtr == &tclNsNameType)
 		&& resNamePtr && (resNamePtr->refCount == 1)) {
 	    /*
-	     * Reuse the old ResolvedNsName struct after freeing it
+	     * Reuse the old ResolvedNsName struct instead of freeing it
 	     */
 	    
 	    Namespace *oldNsPtr = resNamePtr->nsPtr;
