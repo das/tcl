@@ -404,20 +404,18 @@ proc unknown args {
 		    "\n    (expanding command prefix \"$name\" in unknown)"
 	    return -options $opts $msg
 	}
-	# Handle empty $name separately due to strangeness in [string first]
-	if {$name eq ""} {
-	    if {[llength $candidates] != 1} {
-		return -code error "empty command name \"\""
-	    }
-	    # It's not really possible to reach here.
-	    return [uplevel 1 [lreplace $args 0 0 [lindex $candidates 0]]]
-	}
 	# Filter out bogus matches when $name contained
 	# a glob-special char [Bug 946952]
-	set cmds [list]
-	foreach x $candidates {
-	    if {[string first $name $x] == 0} {
-		lappend cmds $x
+	if {$name eq ""} {
+	    # Handle empty $name separately due to strangeness
+	    # in [string first] (See RFE 1243354)
+	    set cmds $candidates
+	} else {
+	    set cmds [list]
+	    foreach x $candidates {
+		if {[string first $name $x] == 0} {
+		    lappend cmds $x
+		}
 	    }
 	}
 	if {[llength $cmds] == 1} {
