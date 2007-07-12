@@ -4400,6 +4400,12 @@ TclCompileWhileCmd(
 	TclEmitForwardJump(envPtr, TCL_UNCONDITIONAL_JUMP, &jumpEvalCondFixup);
 	testCodeOffset = 0;	/* Avoid compiler warning. */
     } else {
+	/*
+	 * Make sure that the first command in the body is preceded by an
+	 * INST_START_CMD, and hence counted properly. [Bug 1752146]
+	 */
+
+	envPtr->atCmdStart = 0;
 	testCodeOffset = CurrentOffset(envPtr);
     }
 
