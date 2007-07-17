@@ -532,7 +532,7 @@ ParseExpr(
      * Main parsing loop parses one lexeme per iteration.  We exit the
      * loop only when there's a syntax error with a "goto error" which
      * takes us to the error handling code following the loop, or when
-     * we've successfully complete the parse and we return to the caller.
+     * we've successfully completed the parse and we return to the caller.
      */
 
     while (1) {
