@@ -1396,8 +1396,7 @@ int
 TclCheckExecutionTraces(
     Tcl_Interp *interp,		/* The current interpreter. */
     CONST char *command,	/* Pointer to beginning of the current command
-				 * string. If NULL, the string will be
-				 * generated from (objc,objv) */
+				 * string. */
     int numChars,		/* The number of characters in 'command' which
 				 * are part of the command string. */
     Command *cmdPtr,		/* Points to command's Command struct. */
