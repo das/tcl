@@ -1975,7 +1975,6 @@ TclExecuteByteCode(
     doInvocation:
 	{
 	    Tcl_Obj **objv = &OBJ_AT_DEPTH(objc-1);
-	    Command *cmdPtr;
 
 #ifdef TCL_COMPILE_DEBUG
 	    if (tclTraceExec >= 2) {
@@ -2014,37 +2013,8 @@ TclExecuteByteCode(
 	    bcFramePtr->data.tebc.pc = (char *) pc;
 	    iPtr->cmdFramePtr = bcFramePtr;
 	    DECACHE_STACK_INFO();
-	    cmdPtr = (Command *) Tcl_GetCommandFromObj(interp, objv[0]);
-
-	    if (cmdPtr 
-		    && !((cmdPtr->flags & CMD_HAS_EXEC_TRACES) || iPtr->tracePtr)
-		    && !(checkInterp && (codePtr->compileEpoch != iPtr->compileEpoch))
-		) {
-		cmdPtr->refCount++;
-		iPtr->cmdCount++;
-		result = (*cmdPtr->objProc)(cmdPtr->objClientData, interp, objc, objv);
-		
-		if (Tcl_AsyncReady()) {
-		    result = Tcl_AsyncInvoke(interp, result);
-		}
-		if (result == TCL_OK && TclLimitReady(iPtr->limit)) {
-		    result = Tcl_LimitCheck(interp);
-		}
-		TclCleanupCommandMacro(cmdPtr);
-	    } else {
-		/*
-		 * If trace procedures will be called, we need a command
-		 * string to pass to TclEvalObjvInternal; note that a copy of
-		 * the string will be made there to include the ending \0.
-		 */
-		int length;
-		const char *bytes;
-
-		bytes = GetSrcInfoForPc(pc, codePtr, &length);
-		result = TclEvalObjvInternal(interp, objc, objv, bytes,
-			length, 0);
-	    }
-
+	    result = TclEvalObjvInternal(interp, objc, objv,
+		    /* call from TEBC */(char *) -1, -1, 0);
 	    CACHE_STACK_INFO();
 	    iPtr->cmdFramePtr = iPtr->cmdFramePtr->nextPtr;
 
@@ -6858,7 +6828,7 @@ IllegalExprOperandType(
 /*
  *----------------------------------------------------------------------
  *
- * TclGetSrcInfoForPc, GetSrcInfoForPc --
+ * TclGetSrcInfoForPc, GetSrcInfoForPc, TclGetSrcInfoForCmd --
  *
  *	Given a program counter value, finds the closest command in the
  *	bytecode code unit's CmdLocation array and returns information about
@@ -6878,6 +6848,18 @@ IllegalExprOperandType(
  *
  *----------------------------------------------------------------------
  */
+
+const char *
+TclGetSrcInfoForCmd(
+    Interp *iPtr,
+    int *lenPtr)
+{
+    CmdFrame *cfPtr = iPtr->cmdFramePtr;
+    ByteCode *codePtr = (ByteCode *) cfPtr->data.tebc.codePtr;
+
+    return GetSrcInfoForPc((unsigned char *) cfPtr->data.tebc.pc,
+	    codePtr, lenPtr);
+}
 
 void
 TclGetSrcInfoForPc(

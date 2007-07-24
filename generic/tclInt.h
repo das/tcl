@@ -2289,6 +2289,7 @@ MODULE_SCOPE int	TclGetOpenModeEx(Tcl_Interp *interp,
 			    CONST char *modeString, int *seekFlagPtr,
 			    int *binaryPtr);
 MODULE_SCOPE Tcl_Obj *	TclGetProcessGlobalValue(ProcessGlobalValue *pgvPtr);
+MODULE_SCOPE const char *TclGetSrcInfoForCmd(Interp *iPtr, int *lenPtr);
 MODULE_SCOPE int	TclGlob(Tcl_Interp *interp, char *pattern,
 			    Tcl_Obj *unquotedPrefix, int globFlags,
 			    Tcl_GlobTypeData *types);
