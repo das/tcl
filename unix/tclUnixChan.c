@@ -693,7 +693,7 @@ FileWatchProc(
      * with the channel pointer as the client data.
      */
 
-    CLEAR_BITS(mask, fsPtr->validMask);
+    mask &= fsPtr->validMask;
     if (mask) {
 	Tcl_CreateFileHandler(fsPtr->fd, mask,
 		(Tcl_FileProc *) Tcl_NotifyChannel,
