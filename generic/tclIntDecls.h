@@ -123,7 +123,7 @@ EXTERN void		TclDeleteCompiledLocalVars (Interp * iPtr,
 #define TclDeleteVars_TCL_DECLARED
 /* 12 */
 EXTERN void		TclDeleteVars (Interp * iPtr, 
-				Tcl_HashTable * tablePtr);
+				TclVarHashTable * tablePtr);
 #endif
 /* Slot 13 is reserved */
 #ifndef TclDumpMemoryInfo_TCL_DECLARED
@@ -1066,7 +1066,7 @@ typedef struct TclIntStubs {
 #endif /* __WIN32__ */
     int (*tclCreateProc) (Tcl_Interp * interp, Namespace * nsPtr, CONST char * procName, Tcl_Obj * argsPtr, Tcl_Obj * bodyPtr, Proc ** procPtrPtr); /* 10 */
     void (*tclDeleteCompiledLocalVars) (Interp * iPtr, CallFrame * framePtr); /* 11 */
-    void (*tclDeleteVars) (Interp * iPtr, Tcl_HashTable * tablePtr); /* 12 */
+    void (*tclDeleteVars) (Interp * iPtr, TclVarHashTable * tablePtr); /* 12 */
     void *reserved13;
     void (*tclDumpMemoryInfo) (FILE * outFile); /* 14 */
     void *reserved15;

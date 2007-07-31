@@ -73,7 +73,7 @@ declare 11 generic {
     void TclDeleteCompiledLocalVars(Interp *iPtr, CallFrame *framePtr)
 }
 declare 12 generic {
-    void TclDeleteVars(Interp *iPtr, Tcl_HashTable *tablePtr)
+    void TclDeleteVars(Interp *iPtr, TclVarHashTable *tablePtr)
 }
 # Removed in 8.5
 #declare 13 generic {

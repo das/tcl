@@ -3288,7 +3288,8 @@ AllocObjEntry(
     hPtr = (Tcl_HashEntry *) ckalloc((unsigned) (sizeof(Tcl_HashEntry)));
     hPtr->key.oneWordValue = (char *) objPtr;
     Tcl_IncrRefCount(objPtr);
-
+    hPtr->clientData = NULL;
+    
     return hPtr;
 }
 
