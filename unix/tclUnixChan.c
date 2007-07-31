@@ -1718,7 +1718,7 @@ TtyInit(
 		!(iostate.sg_flags & RAW)) {
 	    ttyPtr->stateUpdated = 1;
 	}
-	CLEAR_BITS(iostate.sg_flags, EVENP | ODDP);
+	iostate.sg_flags &= EVENP | ODDP;
 	SET_BITS(iostate.sg_flags, RAW);
 #endif	/* USE_SGTTY */
 
