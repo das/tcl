@@ -456,7 +456,7 @@ crt = -MT
 TCL_INCLUDES	= -I"$(WINDIR)" -I"$(GENERICDIR)" -I"$(TOMMATHDIR)"
 BASE_CFLAGS	= $(cflags) $(cdebug) $(crt) $(TCL_INCLUDES) \
 			-DTCL_PIPE_DLL=\"$(TCLPIPEDLLNAME)\" -DTCL_TOMMATH \
-			-DMP_PREC=4
+			-DMP_PREC=4 -Dinline=__inline
 CON_CFLAGS	= $(cflags) $(cdebug) $(crt) -DCONSOLE
 TCL_CFLAGS	= $(BASE_CFLAGS) $(OPTDEFINES)
 STUB_CFLAGS     = $(cflags) $(cdebug) $(OPTDEFINES)
