@@ -286,7 +286,7 @@ TclCleanupVar(
     Var *arrayPtr)		/* Array that contains the variable, or NULL
 				 * if this variable isn't an array element. */
 {
-    return CleanupVar(varPtr, arrayPtr);
+    CleanupVar(varPtr, arrayPtr);
 }
 
 
