@@ -3488,6 +3488,18 @@ MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int *bignum,
 #endif
 
 /*
+ * ----------------------------------------------------------------------
+ * Macro to use to find the offset of a field in a structure.
+ * Computes number of bytes from beginning of structure to a given field.
+ */
+
+#ifdef offsetof
+#define TclOffset(type, field) ((int) offsetof(type, field))
+#else
+#define TclOffset(type, field) ((int) ((char *) &((type *) 0)->field))
+#endif
+
+/*
  *----------------------------------------------------------------
  * Inline version of Tcl_GetCurrentNamespace and Tcl_GetGlobalNamespace
  */

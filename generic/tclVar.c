@@ -46,7 +46,7 @@ static inline Var * VarHashNextVar(Tcl_HashSearch *searchPtr);
 static inline void  CleanupVar(Var *varPtr, Var *arrayPtr);
 
 #define VarHashGetValue(hPtr) \
-    ((Var *) ((char *)hPtr - offsetof(VarInHash, entry)))
+    ((Var *) ((char *)hPtr - TclOffset(VarInHash, entry)))
 
 static inline Var *
 VarHashCreateVar(TclVarHashTable *tablePtr, Tcl_Obj *key, int *newPtr)
