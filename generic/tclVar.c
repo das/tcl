@@ -238,6 +238,23 @@ Tcl_ObjType tclArraySearchType = {
     "array search",
     NULL, NULL, NULL, SetArraySearchObj
 };
+
+Var *
+TclVarHashCreateVar(
+    TclVarHashTable *tablePtr,
+    const char *key, 
+    int *newPtr)
+{
+    Tcl_Obj *keyPtr;
+    Var *varPtr;
+
+    keyPtr = Tcl_NewStringObj(key, -1);
+    Tcl_IncrRefCount(keyPtr);
+    varPtr = VarHashCreateVar(tablePtr, keyPtr, newPtr);
+    Tcl_DecrRefCount(keyPtr);
+
+    return varPtr;
+}
 
 /*
  *----------------------------------------------------------------------
@@ -2288,7 +2305,7 @@ UnsetVarStruct(
 	}
 
 	if ((dummyVar.flags & VAR_TRACED_UNSET)
-		|| (arrayPtr->flags & VAR_TRACED_UNSET)) {
+		|| (arrayPtr && (arrayPtr->flags & VAR_TRACED_UNSET))) {
 	    dummyVar.flags &= ~VAR_TRACE_ACTIVE;
 	    TclObjCallVarTraces(iPtr, arrayPtr, (Var *) &dummyVar,
 		    part1Ptr, part2Ptr,

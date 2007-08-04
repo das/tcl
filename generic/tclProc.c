@@ -1130,6 +1130,14 @@ TclInitCompiledLocals(
     }
     codePtr = bodyPtr->internalRep.otherValuePtr;
 
+    if (framePtr->numCompiledLocals) {
+	if (!codePtr->localCachePtr) {
+	    InitLocalCache(framePtr->procPtr) ;
+	}
+	framePtr->localCachePtr = codePtr->localCachePtr;
+	framePtr->localCachePtr->refCount++;
+    }    
+
     InitCompiledLocals(interp, codePtr, varPtr, nsPtr);
 }
 

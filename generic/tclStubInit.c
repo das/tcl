@@ -323,6 +323,7 @@ TclIntStubs tclIntStubs = {
     TclGetNamespaceFromObj, /* 231 */
     TclEvalObjEx, /* 232 */
     TclGetSrcInfoForPc, /* 233 */
+    TclVarHashCreateVar, /* 234 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
