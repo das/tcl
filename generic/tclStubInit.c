@@ -324,6 +324,7 @@ TclIntStubs tclIntStubs = {
     TclEvalObjEx, /* 232 */
     TclGetSrcInfoForPc, /* 233 */
     TclVarHashCreateVar, /* 234 */
+    TclInitVarHashTable, /* 235 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {

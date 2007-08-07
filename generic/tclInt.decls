@@ -928,10 +928,13 @@ declare 233 generic {
     void TclGetSrcInfoForPc(CmdFrame *contextPtr)
 }
 
-# Exports for VarReform compat: Itcl likes to peek into our varTables :(
+# Exports for VarReform compat: Itcl, XOTcl like to peek into our varTables :(
 declare 234 generic {
     Var *TclVarHashCreateVar(TclVarHashTable *tablePtr, const char *key, 
              int *newPtr)
+}
+declare 235 generic {
+    void TclInitVarHashTable(TclVarHashTable *tablePtr, Namespace *nsPtr)
 }
 
 ##############################################################################
