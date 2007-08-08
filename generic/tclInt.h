@@ -834,9 +834,8 @@ typedef struct CompiledLocal {
 				 * variables in the procedure call frame. */
     int flags;			/* Flag bits for the local variable. Same as
 				 * the flags for the Var structure above,
-				 * although only VAR_SCALAR, VAR_ARRAY,
-				 * VAR_LINK, VAR_ARGUMENT, VAR_TEMPORARY, and
-				 * VAR_RESOLVED make sense. */
+				 * although only VAR_ARGUMENT, VAR_TEMPORARY,
+				 * and VAR_RESOLVED make sense. */
     Tcl_Obj *defValuePtr;	/* Pointer to the default value of an
 				 * argument, if any. NULL if not an argument
 				 * or, if an argument, no default value. */
