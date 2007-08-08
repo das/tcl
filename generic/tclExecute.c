@@ -1325,7 +1325,7 @@ TclIncrObj(
 	    TclSetLongObj(valuePtr, sum);
 	    return TCL_OK;
 	}
-#ifndef TCL_WIDE_INT_IS_LONG
+#ifndef NO_WIDE_TYPE
 	{
 	    Tcl_WideInt w1 = (Tcl_WideInt)augend;
 	    Tcl_WideInt w2 = (Tcl_WideInt)addend;
