@@ -6658,6 +6658,10 @@ test expr-47.12 {isqrt of various sizes of integer} {
     set trouble
 } {}
 
+test expr-48.1 {Bug 1770224} {
+    expr {-0x8000000000000001 >> 0x8000000000000000}
+} -1
+
 # cleanup
 if {[info exists a]} {
     unset a
