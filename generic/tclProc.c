@@ -1171,7 +1171,6 @@ InitResolvedLocals(
     CompiledLocal *firstLocalPtr, *localPtr;
     int varNum;
     Tcl_ResolvedVarInfo *resVarInfo;
-	
 
     /*
      * Find the localPtr corresponding to varPtr
@@ -1296,28 +1295,28 @@ InitLocalCache(Proc *procPtr)
 {
     Interp *iPtr = procPtr->iPtr;
     ByteCode *codePtr = procPtr->bodyPtr->internalRep.otherValuePtr;
-    CompiledLocal *localPtr = codePtr->procPtr->firstLocalPtr;
     int localCt = procPtr->numCompiledLocals;
     int numArgs = procPtr->numArgs, i = 0;
 
     Tcl_Obj **namePtr;
     Var *varPtr;
     LocalCache *localCachePtr;
+    CompiledLocal *localPtr;
     int new;
-    
+
     /*
      * Cache the names and initial values of local variables; store the
      * cache in both the framePtr for this execution and in the codePtr
      * for future calls.
      */
-    
+
     localCachePtr = (LocalCache *) ckalloc(sizeof(LocalCache)
 	    + (localCt-1)*sizeof(Tcl_Obj *)
 	    + numArgs*sizeof(Var));
-    
+
     namePtr = &localCachePtr->varName0;
     varPtr = (Var *) (namePtr + localCt);
-    localPtr = codePtr->procPtr->firstLocalPtr;
+    localPtr = procPtr->firstLocalPtr;
     while (localPtr) {
 	if (TclIsVarTemporary(localPtr)) {
 	    *namePtr = NULL;
@@ -1327,7 +1326,7 @@ InitLocalCache(Proc *procPtr)
 		    &new, /* nsPtr */ NULL, 0, NULL);
 	    Tcl_IncrRefCount(*namePtr);
 	}
-	
+
 	if (i < numArgs) {
 	    varPtr->flags = (localPtr->flags & VAR_IS_ARGS);
 	    varPtr->value.objPtr = localPtr->defValuePtr;
