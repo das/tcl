@@ -231,6 +231,22 @@ test trace-2.5 {trace variable writes} {
     unset x
     set info
 } {}
+test trace-2.6 {trace variable writes on compiled local} {
+    #
+    # Check correct function of whole array traces on compiled local
+    # arrays [Bug 1770591]. The corresponding function for read traces is
+    # already indirectly tested in trace-1.7
+    #
+    catch {unset x}
+    set info {}
+    proc p {} {
+	trace add variable x write traceArray
+	set x(X) willy
+    }
+    p
+    set info
+} {x X write 0 willy}
+
 
 # append no longer triggers read traces when fetching the old values of
 # variables before doing the append operation. However, lappend _does_
