@@ -697,8 +697,10 @@ typedef struct VarInHash {
     (varPtr)->flags &= ~VAR_TRACE_ACTIVE
 
 #define TclSetVarNamespaceVar(varPtr) \
-    (varPtr)->flags |= VAR_NAMESPACE_VAR;\
-    ((VarInHash *)(varPtr))->refCount++
+    if (!TclIsVarNamespaceVar(varPtr)) {\
+        (varPtr)->flags |= VAR_NAMESPACE_VAR;\
+        ((VarInHash *)(varPtr))->refCount++;\
+    } 
 
 #define TclClearVarNamespaceVar(varPtr) \
     if (TclIsVarNamespaceVar(varPtr)) {\
