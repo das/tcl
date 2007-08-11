@@ -3445,8 +3445,11 @@ MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int *bignum,
     (objPtr)->typePtr = &tclDoubleType
 
 #define TclNewStringObj(objPtr, s, len) \
-    TclNewObj(objPtr); \
-    TclInitStringRep((objPtr), (s), (len))
+    TclIncrObjsAllocated(); \
+    TclAllocObjStorage(objPtr); \
+    (objPtr)->refCount = 0; \
+    TclInitStringRep((objPtr), (s), (len));\
+    (objPtr)->typePtr = NULL
 
 #else /* TCL_MEM_DEBUG */
 #define TclNewIntObj(objPtr, i)   \
