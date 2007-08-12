@@ -791,7 +791,6 @@ TclAllocateFreeObjects(void)
      */
 
     basePtr = (char *) ckalloc(bytesToAlloc);
-    memset(basePtr, 0, bytesToAlloc);
 
     prevPtr = NULL;
     objPtr = (Tcl_Obj *) basePtr;
