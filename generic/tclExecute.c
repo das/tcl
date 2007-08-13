@@ -6511,7 +6511,9 @@ TclExecuteByteCode(
 	if ((result == TCL_ERROR) && !(iPtr->flags & ERR_ALREADY_LOGGED)) {
 	    bytes = GetSrcInfoForPc(pc, codePtr, &length);
 	    if (bytes != NULL) {
+		DECACHE_STACK_INFO();
 		Tcl_LogCommandInfo(interp, codePtr->source, bytes, length);
+		CACHE_STACK_INFO();
 	    }
 	}
 	iPtr->flags &= ~ERR_ALREADY_LOGGED;
