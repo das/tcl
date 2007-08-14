@@ -256,7 +256,7 @@ test trace-2.7 {trace variable writes on errorInfo} -body {
 } -cleanup {
    # always remove trace on errorInfo otherwise further tests will fail
    unset ::errorInfo
-} -result {errorInfo {} write}
+} -result {::errorInfo {} write}
 
 
 

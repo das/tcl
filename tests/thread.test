@@ -195,7 +195,8 @@ test thread-4.4 {TclThreadSend preserve code} {testthread} {
     threadReap
     set len [llength [testthread names]]
     set serverthread [testthread create]
-    set x [catch {testthread send $serverthread {set ::errorInfo {}; break}} msg]
+    set ::errorInfo {}
+    set x [catch {testthread send $serverthread {break}} msg]
     threadReap
     list $len $x $msg $::errorInfo
 } {1 3 {} {}}

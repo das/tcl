@@ -396,10 +396,10 @@ Tcl_CreateInterp(void)
 
     iPtr->returnOpts = NULL;
     iPtr->errorInfo = NULL;
-    TclNewLiteralStringObj(iPtr->eiVar, "errorInfo");
+    TclNewLiteralStringObj(iPtr->eiVar, "::errorInfo");
     Tcl_IncrRefCount(iPtr->eiVar);
     iPtr->errorCode = NULL;
-    TclNewLiteralStringObj(iPtr->ecVar, "errorCode");
+    TclNewLiteralStringObj(iPtr->ecVar, "::errorCode");
     Tcl_IncrRefCount(iPtr->ecVar);
     iPtr->returnLevel = 1;
     iPtr->returnCode = TCL_OK;
