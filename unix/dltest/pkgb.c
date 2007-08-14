@@ -12,6 +12,7 @@
  *
  * RCS: @(#) $Id$
  */
+
 #include "tcl.h"
 
 /*
@@ -51,11 +52,11 @@ Pkgb_SubObjCmd(
 
     if (objc != 3) {
 	Tcl_WrongNumArgs(interp, 1, objv, "num num");
-        return TCL_ERROR;
+	return TCL_ERROR;
     }
     if ((Tcl_GetIntFromObj(interp, objv[1], &first) != TCL_OK)
 	    || (Tcl_GetIntFromObj(interp, objv[2], &second) != TCL_OK)) {
-        return TCL_ERROR;
+	return TCL_ERROR;
     }
     Tcl_SetObjResult(interp, Tcl_NewIntObj(first - second));
     return TCL_OK;
@@ -133,7 +134,7 @@ Pkgb_Init(
  * Pkgb_SafeInit --
  *
  *	This is a package initialization procedure, which is called by Tcl
- *	when this package is to be added to an unsafe interpreter.
+ *	when this package is to be added to a safe interpreter.
  *
  * Results:
  *	None.

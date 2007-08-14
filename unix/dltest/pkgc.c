@@ -12,6 +12,7 @@
  *
  * RCS: @(#) $Id$
  */
+
 #include "tcl.h"
 
 /*
@@ -19,9 +20,9 @@
  */
 
 static int    Pkgc_SubObjCmd(ClientData clientData,
-		Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[]);
+		Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]);
 static int    Pkgc_UnsafeObjCmd(ClientData clientData,
-		Tcl_Interp *interp, int objc, Tcl_Obj * CONST objv[]);
+		Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[]);
 
 /*
  *----------------------------------------------------------------------
@@ -95,8 +96,7 @@ Pkgc_UnsafeObjCmd(
  * Pkgc_Init --
  *
  *	This is a package initialization procedure, which is called by Tcl
- *	when this package is to be added to a normal (unsafe/trusted)
- *	interpreter.
+ *	when this package is to be added to an interpreter.
  *
  * Results:
  *	None.
