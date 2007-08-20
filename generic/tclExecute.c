@@ -5300,10 +5300,17 @@ TclExecuteByteCode(
 #endif
 		{
 		    /*
-		     * Must check for overflow.
+		     * Must check for overflow. The macro tests for overflows
+		     * in sums by looking at the sign bits. As we have a
+		     * subtraction here, we are adding -w2. As -w2 could in turn
+		     * overflow, we test with ~w2 instead: it has the opposite
+		     * sign bit to w2 so it does the job. Note that the only
+		     * "bad" case (w2==0) is irrelevant for this macro, as in
+		     * that case w1 and wResult have the same sign and there
+		     * is no overflow anyway.
 		     */
 
-		    if (Overflowing(w1, w2, wResult)) {
+		    if (Overflowing(w1, ~w2, wResult)) {
 			goto overflow;
 		    }
 		}
