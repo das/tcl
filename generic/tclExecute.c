@@ -1662,13 +1662,11 @@ TclExecuteByteCode(
      * reduces total obj size.
      */
 
-#if !TCL_COMPILE_DEBUG
     if (*pc == INST_LOAD_SCALAR1) {
 	goto instLoadScalar1;
     } else if (*pc == INST_PUSH1) {
 	goto instPush1Peephole;
     }
-#endif
     
     switch (*pc) {
     case INST_RETURN_IMM: {
