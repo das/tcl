@@ -1731,9 +1731,7 @@ TclExecuteByteCode(
 	}
 
     case INST_PUSH1:
-#if !TCL_COMPILE_DEBUG
     instPush1Peephole:
-#endif
 	PUSH_OBJECT(codePtr->objArrayPtr[TclGetUInt1AtPtr(pc+1)]);
 	TRACE_WITH_OBJ(("%u => ", TclGetInt1AtPtr(pc+1)), OBJ_AT_TOS);
 	pc += 2;

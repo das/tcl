@@ -587,6 +587,7 @@ ParseExpr(
     nodes->lexeme = START;
     nodes->precedence = prec[START];
     nodes->mark = MARK_RIGHT;
+    nodes->constant = 1;
     incomplete = lastParsed = nodesUsed;
     nodesUsed++;
 
