@@ -2307,7 +2307,6 @@ CompileExprTree(
 		Tcl_InterpState save = Tcl_SaveInterpState(interp, TCL_OK);
 		if (ExecConstantExprTree(interp, nodes, next, litObjvPtr)
 			== TCL_OK) {
-		    convert = 0;
 		    TclEmitPush(TclAddLiteralObj(envPtr,
 			    Tcl_GetObjResult(interp), NULL), envPtr);
 		} else {
@@ -2331,6 +2330,7 @@ CompileExprTree(
 		    TclStackFree(interp, parsePtr);
 		}
 		Tcl_RestoreInterpState(interp, save);
+		convert = 0;
 	    } else {
 		nodePtr = nodes + next;
 	    }
