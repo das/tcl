@@ -520,7 +520,7 @@ proc auto_load_index {} {
 		set id [gets $f]
 		if {$id eq "# Tcl autoload index file, version 2.0"} {
 		    eval [read $f]
-		} elseif {$id eq "# Tcl autoload index file: each line identifies a Tcl"]} {
+		} elseif {$id eq "# Tcl autoload index file: each line identifies a Tcl"} {
 		    while {[gets $f line] >= 0} {
 			if {([string index $line 0] eq "#") \
 				|| ([llength $line] != 2)} {
