@@ -2837,10 +2837,10 @@ TclFixupForwardJump(envPtr, jumpFixupPtr, jumpDist, distThreshold)
         TclExpandCodeArray(envPtr);
     }
     jumpPc = (envPtr->codeStart + jumpFixupPtr->codeOffset);
-    for (numBytes = envPtr->codeNext-jumpPc-2, p = jumpPc+2+numBytes-1;
-	    numBytes > 0;  numBytes--, p--) {
-	p[3] = p[0];
-    }
+    numBytes = envPtr->codeNext-jumpPc-2;
+    p = jumpPc+2;
+    memmove(p+3, p, numBytes);
+
     envPtr->codeNext += 3;
     jumpDist += 3;
     switch (jumpFixupPtr->jumpType) {
