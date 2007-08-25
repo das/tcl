@@ -328,6 +328,9 @@ FormatClock(interp, clockVal, useGMT, format)
     for (bufSize = 1, p = format; *p != '\0'; p++) {
 	if (*p == '%') {
 	    bufSize += 40;
+	    if (p[1] == 'c') {
+		bufSize += 226;
+	    }
 	} else {
 	    bufSize++;
 	}
