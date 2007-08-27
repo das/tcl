@@ -2101,9 +2101,6 @@ ExecConstantExprTree(
     TclEmitOpcode(INST_DONE, envPtr);
     Tcl_IncrRefCount(byteCodeObj);
     TclInitByteCodeObj(byteCodeObj, envPtr);
-    if (envPtr->localLitTable.buckets != envPtr->localLitTable.staticBuckets) {
-	ckfree((char *) envPtr->localLitTable.buckets);
-    }
     TclFreeCompileEnv(envPtr);
     TclStackFree(interp, envPtr);
     byteCodePtr = (ByteCode *) byteCodeObj->internalRep.otherValuePtr;

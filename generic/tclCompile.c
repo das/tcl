@@ -463,7 +463,6 @@ TclSetByteCodeFromAny(
     Interp *iPtr = (Interp *) interp;
     CompileEnv compEnv;		/* Compilation environment structure allocated
 				 * in frame. */
-    LiteralTable *localTablePtr = &(compEnv.localLitTable);
     register AuxData *auxDataPtr;
     LiteralEntry *entryPtr;
     register int i;
@@ -545,13 +544,6 @@ TclSetByteCodeFromAny(
 	}
     }
 
-    /*
-     * Free storage allocated during compilation.
-     */
-
-    if (localTablePtr->buckets != localTablePtr->staticBuckets) {
-	ckfree((char *) localTablePtr->buckets);
-    }
     TclFreeCompileEnv(&compEnv);
     return result;
 }
@@ -989,6 +981,10 @@ void
 TclFreeCompileEnv(
     register CompileEnv *envPtr)/* Points to the CompileEnv structure. */
 {
+    if (envPtr->localLitTable.buckets != envPtr->localLitTable.staticBuckets) {
+	ckfree((char *) envPtr->localLitTable.buckets);
+	envPtr->localLitTable.buckets = envPtr->localLitTable.staticBuckets;
+    }
     if (envPtr->mallocedCodeArray) {
 	ckfree((char *) envPtr->codeStart);
     }

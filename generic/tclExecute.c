@@ -1111,7 +1111,6 @@ Tcl_ExprObj(
     Interp *iPtr = (Interp *) interp;
     CompileEnv compEnv;		/* Compilation environment structure allocated
 				 * in frame. */
-    LiteralTable *localTablePtr = &(compEnv.localLitTable);
     register ByteCode *codePtr = NULL;
     				/* Tcl Internal type of bytecode. Initialized
 				 * to avoid compiler warning. */
@@ -1185,15 +1184,6 @@ Tcl_ExprObj(
 
 	TclInitCompileEnv(interp, &compEnv, string, length, NULL, 0);
 	result = TclCompileExpr(interp, string, length, &compEnv);
-
-	/*
-	 * Free the compilation environment's literal table bucket array if it
-	 * was dynamically allocated.
-	 */
-
-	if (localTablePtr->buckets != localTablePtr->staticBuckets) {
-	    ckfree((char *) localTablePtr->buckets);
-	}
 
 	if (result != TCL_OK) {
 	    /*
