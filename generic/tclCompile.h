@@ -803,7 +803,10 @@ MODULE_SCOPE AuxDataType	tclDictUpdateInfoType;
 typedef struct {
     const char *operator;
     const char *expected;
-    int numArgs;
+    union {
+	int numArgs;
+	int identity;
+    } i;
 } TclOpCmdClientData;
 
 /*
