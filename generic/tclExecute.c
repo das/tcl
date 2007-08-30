@@ -1174,6 +1174,7 @@ Tcl_ExprObj(
 #ifdef TCL_COMPILE_DEBUG
 	if (tclTraceCompile == 2) {
 	    TclPrintByteCodeObj(interp, objPtr);
+	    fflush(stdout);
 	}
 #endif /* TCL_COMPILE_DEBUG */
     }
