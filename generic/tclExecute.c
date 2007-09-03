@@ -5577,7 +5577,7 @@ TclExecuteByteCode(
 	     * word by doing table lookup
 	     */
 	    if (w1 >= 3
-		&& w1 < (sizeof(Exp64Index)
+		&& (Tcl_WideUInt) w1 < (sizeof(Exp64Index)
 			 / sizeof(unsigned short)) - 1) {
 		unsigned short base = Exp64Index[w1-3] + l2 - 17;
 		if (base < Exp64Index[w1-2]) {
@@ -5597,7 +5597,7 @@ TclExecuteByteCode(
 		}
 	    }
 	    if (-w1 >= 3
-		&& -w1 < (sizeof(Exp64Index)
+		&& (Tcl_WideUInt) (-w1) < (sizeof(Exp64Index)
 			  / sizeof(unsigned short)) - 1) {
 		unsigned short base = Exp64Index[-w1-3] + l2 - 17;
 		if (base < Exp64Index[-w1-2]) {
