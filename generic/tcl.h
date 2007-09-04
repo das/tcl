@@ -870,6 +870,7 @@ typedef struct Tcl_CallFrame {
     int dummy9;
     char *dummy10;
     char *dummy11;
+    char *dummy12;
 } Tcl_CallFrame;
 
 /*

@@ -1108,10 +1108,17 @@ TclLindexFlat(
 	    if (index<0 || index>=listLen) {
 		/*
 		 * Index is out of range. Break out of loop with empty result.
+		 * First check remaining indices for validity
 		 */
 
+		while (++i < indexCount) {
+		    if (TclGetIntForIndex(interp, indexArray[i], -1, &index)
+			!= TCL_OK) {
+			Tcl_DecrRefCount(sublistCopy);
+			return NULL;
+		    }
+		}
 		listPtr = Tcl_NewObj();
-		i = indexCount;
 	    } else {
 		/*
 		 * Extract the pointer to the appropriate element.

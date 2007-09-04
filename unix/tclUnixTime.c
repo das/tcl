@@ -401,8 +401,7 @@ TclpGetDate(
  *
  * TclpGmtime --
  *
- *	Wrapper around the 'gmtime' library function to make it thread
- *	safe.
+ *	Wrapper around the 'gmtime' library function to make it thread safe.
  *
  * Results:
  *	Returns a pointer to a 'struct tm' in thread-specific data.

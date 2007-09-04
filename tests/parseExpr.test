@@ -1,5 +1,5 @@
 # This file contains a collection of tests for the procedures in the
-# file tclParseExpr.c.  Sourcing this file into Tcl runs the tests and
+# file tclCompExpr.c.  Sourcing this file into Tcl runs the tests and
 # generates output for errors.  No output means no errors were found.
 #
 # Copyright (c) 1997 Sun Microsystems, Inc.
@@ -15,7 +15,7 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
     namespace import -force ::tcltest::*
 }
 
-# Note that the Tcl expression parser (tclParseExpr.c) does not check
+# Note that the Tcl expression parser (tclCompExpr.c) does not check
 # the semantic validity of the expressions it parses. It does not check,
 # for example, that a math function actually exists, or that the operands
 # of "<<" are integers.
