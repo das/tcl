@@ -937,6 +937,12 @@ declare 235 generic {
     void TclInitVarHashTable(TclVarHashTable *tablePtr, Namespace *nsPtr)
 }
 
+
+declare 236 generic {
+    void TclBackgroundException(Tcl_Interp *interp, int code)
+}
+
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are
