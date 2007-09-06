@@ -62,6 +62,7 @@ extern char *dlerror(void) WEAK_IMPORT_ATTRIBUTE;
 #include <mach-o/arch.h>
 #include <libkern/OSByteOrder.h>
 #include <mach/mach.h>
+#include <stdbool.h>
 
 typedef struct Tcl_DyldModuleHandle {
     struct Tcl_DyldModuleHandle *nextPtr;

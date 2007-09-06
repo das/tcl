@@ -34,22 +34,6 @@
 #endif
 
 /*
- * The stuff below is a bit of a hack so that this file can be used in
- * environments that include no UNIX.
- * TODO: Does this serve any purpose anymore?
- */
-
-#ifdef TCL_GENERIC_ONLY
-#   ifndef NO_FLOAT_H
-#	include <float.h>
-#   else /* NO_FLOAT_H */
-#	ifndef NO_VALUES_H
-#	    include <values.h>
-#	endif /* !NO_VALUES_H */
-#   endif /* !NO_FLOAT_H */
-#endif /* !TCL_GENERIC_ONLY */
-
-/*
  * A mask (should be 2**n-1) that is used to work out when the bytecode engine
  * should call Tcl_AsyncReady() to see whether there is a signal that needs
  * handling.

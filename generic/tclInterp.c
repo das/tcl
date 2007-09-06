@@ -3615,12 +3615,14 @@ TimeLimitCallback(
     ClientData clientData)
 {
     Tcl_Interp *interp = (Tcl_Interp *) clientData;
+    int code;
 
     Tcl_Preserve((ClientData) interp);
     ((Interp *)interp)->limit.timeEvent = NULL;
-    if (Tcl_LimitCheck(interp) != TCL_OK) {
+    code = Tcl_LimitCheck(interp);
+    if (code != TCL_OK) {
 	Tcl_AddErrorInfo(interp, "\n    (while waiting for event)");
-	Tcl_BackgroundError(interp);
+	TclBackgroundException(interp, code);
     }
     Tcl_Release((ClientData) interp);
 }
@@ -3788,7 +3790,7 @@ CallScriptLimitCallback(
     code = Tcl_EvalObjEx(limitCBPtr->interp, limitCBPtr->scriptObj,
 	    TCL_EVAL_GLOBAL);
     if (code != TCL_OK && !Tcl_InterpDeleted(limitCBPtr->interp)) {
-	Tcl_BackgroundError(limitCBPtr->interp);
+	TclBackgroundException(limitCBPtr->interp, code);
     }
     Tcl_Release(limitCBPtr->interp);
 }
