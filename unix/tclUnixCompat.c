@@ -11,7 +11,6 @@
  */
 
 #include "tclInt.h"
-#include "tclPort.h"
 #include <pwd.h>
 #include <grp.h>
 #include <errno.h>
