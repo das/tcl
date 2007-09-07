@@ -1204,7 +1204,9 @@ InitResolvedLocals(
 		Var *resolvedVarPtr = (Var *)
 		    (*resVarInfo->fetchProc)(interp, resVarInfo);
 		if (resolvedVarPtr) {
-		    VarHashRefCount(resolvedVarPtr)++;
+		    if (TclIsVarInHash(resolvedVarPtr)) {
+			VarHashRefCount(resolvedVarPtr)++;
+		    }
 		    varPtr->flags = VAR_LINK;
 		    varPtr->value.linkPtr = resolvedVarPtr;
 		}
