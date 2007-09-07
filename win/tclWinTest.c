@@ -676,10 +676,11 @@ TestplatformChmod(
     *(getSidSubAuthorityProc( userSid, 0)) = SECURITY_WORLD_RID;
 
     /* If curAclPresent == false then curAcl and curAclDefaulted not valid */
-    if (!getSecurityDescriptorDaclProc(secDesc, &curAclPresent, 
-      &curAcl, &curAclDefaulted))
+    if (!getSecurityDescriptorDaclProc((PSECURITY_DESCRIPTOR)secDesc,
+				       &curAclPresent, &curAcl,
+				       &curAclDefaulted)) {
 	goto done;
-
+    }
     if (!curAclPresent || !curAcl) {
 	ACLSize.AclBytesInUse = 0;
 	ACLSize.AceCount = 0;

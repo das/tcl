@@ -1284,7 +1284,7 @@ AcceptCallbackProc(
 	result = Tcl_VarEval(interp, script, " ", Tcl_GetChannelName(chan),
 		" ", address, " ", portBuf, NULL);
 	if (result != TCL_OK) {
-	    Tcl_BackgroundError(interp);
+	    TclBackgroundException(interp, result);
 	    Tcl_UnregisterChannel(interp, chan);
 	}
 

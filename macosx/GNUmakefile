@@ -76,7 +76,7 @@ OBJ_DIR			= ${OBJROOT}/${BUILD_STYLE}
 
 develop_make_args	:= BUILD_STYLE=Development CONFIGURE_ARGS=--enable-symbols
 deploy_make_args	:= BUILD_STYLE=Deployment INSTALL_TARGET=install-strip \
-			   GENERIC_FLAGS=-DNDEBUG
+			   EXTRA_CFLAGS=-DNDEBUG
 embedded_make_args	:= EMBEDDED_BUILD=1
 install_make_args	:= INSTALL_BUILD=1
 
