@@ -6724,6 +6724,9 @@ TclExecuteByteCode(
 	    }
 	    if (valPtr == NULL) {
 		Tcl_DictObjRemove(interp, dictPtr, keyPtrPtr[i]);
+	    } else if (dictPtr == valPtr) {
+		Tcl_DictObjPut(interp, dictPtr, keyPtrPtr[i],
+			Tcl_DuplicateObj(valPtr));
 	    } else {
 		Tcl_DictObjPut(interp, dictPtr, keyPtrPtr[i], valPtr);
 	    }
