@@ -630,8 +630,12 @@ typedef struct ByteCode {
 
 #define INST_SYNTAX			125
 
+/* Instruction to reverse N items on top of stack */
+
+#define INST_REVERSE			126
+
 /* The last opcode */
-#define LAST_INST_OPCODE		125
+#define LAST_INST_OPCODE		126
 
 /*
  * Table describing the Tcl bytecode instructions: their name (for displaying
