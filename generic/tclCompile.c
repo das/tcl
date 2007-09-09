@@ -383,6 +383,8 @@ InstructionDesc tclInstructionTable[] = {
 	  * index op1. Leaves the namespace on stack. */
     {"syntax",	 	 9,   -1,         2,	{OPERAND_INT4, OPERAND_UINT4}},
 	/* Compiled bytecodes to signal syntax error. */
+    {"reverse",		 5,    +1,         1,	{OPERAND_UINT4}},
+	/* Reverse the order of the arg elements at the top of stack */
     {0}
 };
 

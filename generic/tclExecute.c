@@ -1883,6 +1883,22 @@ TclExecuteByteCode(
 	NEXT_INST_F(5, 0, 1);
     }
 
+    case INST_REVERSE: {
+	int opnd;
+	Tcl_Obj **a, **b;
+
+	opnd = TclGetUInt4AtPtr(pc+1);
+	a = tosPtr-(opnd-1);
+	b = tosPtr;
+	while (a<b) {
+	    Tcl_Obj *temp = *a;
+	    *a = *b;
+	    *b = temp;
+	    a++; b--;
+	}
+	NEXT_INST_F(5, 0, 0);
+    }
+
     case INST_CONCAT1: {
 	int opnd, length, appendLen = 0;
 	char *bytes, *p;
