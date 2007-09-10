@@ -17,7 +17,7 @@ package \- Facilities for package loading and version control
 \fBpackage forget ?\fIpackage package ...\fR?
 \fBpackage ifneeded \fIpackage version\fR ?\fIscript\fR?
 \fBpackage names\fR
-\fBpackage present \fR?\fB\-exact\fR? \fIpackage \fR?\fIversion\fR?
+\fBpackage present \fR?\fB\-exact\fR? \fIpackage \fR?\fIrequirement...\fR?
 \fBpackage provide \fIpackage \fR?\fIversion\fR?
 \fBpackage require \fR?\fB\-exact\fR? \fIpackage \fR?\fIrequirement...\fR?
 \fBpackage unknown \fR?\fIcommand\fR?
