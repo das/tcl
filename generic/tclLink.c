@@ -206,7 +206,14 @@ Tcl_UpdateLinkedVar(interp, varName)
     Tcl_IncrRefCount(objPtr);
     Tcl_ObjSetVar2(interp, linkPtr->varName, NULL, objPtr, TCL_GLOBAL_ONLY);
     Tcl_DecrRefCount(objPtr);
-    linkPtr->flags = (linkPtr->flags & ~LINK_BEING_UPDATED) | savedFlag;
+    /*
+     * Callback may have unlinked the variable. [Bug 1740631]
+     */
+    linkPtr = (Link *) Tcl_VarTraceInfo(interp, varName, TCL_GLOBAL_ONLY,
+	    LinkTraceProc, (ClientData) NULL);
+    if (linkPtr != NULL) {
+	linkPtr->flags = (linkPtr->flags & ~LINK_BEING_UPDATED) | savedFlag;
+    }
 }
 
 /*
