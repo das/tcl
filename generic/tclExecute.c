@@ -621,7 +621,8 @@ InitByteCodeExecution(
 				 * instruction tracing. */
 {
 #if (LONG_MAX > 0x7fffffff) || !defined(TCL_WIDE_INT_IS_LONG)
-    int i;
+    int i, j;
+    Tcl_WideInt w, x;
 #endif
 #ifdef TCL_COMPILE_DEBUG
     if (Tcl_LinkVar(interp, "tcl_traceExec", (char *) &tclTraceExec,
@@ -634,8 +635,29 @@ InitByteCodeExecution(
 	    (ClientData) NULL, (Tcl_CmdDeleteProc *) NULL);
 #endif /* TCL_COMPILE_STATS */
 #if (LONG_MAX > 0x7fffffff) || !defined(TCL_WIDE_INT_IS_LONG)
+
+    /* 
+     * Fill in a table of what base can be raised to powers 2, 3, ... 16
+     * without overflowing a Tcl_WideInt
+     */
     for (i = 2; i <= 16; ++i) {
-	MaxBaseWide[i-2] = (Tcl_WideInt) pow((double) LLONG_MAX, 1.0 / i);
+
+	/* Compute an initial guess in floating point */
+
+	w = (Tcl_WideInt) pow((double) LLONG_MAX, 1.0 / i) + 1;
+
+	/* Correct the guess if it's too high */
+
+	for (;;) {
+	    x = LLONG_MAX;
+	    for (j = 0; j < i; ++j) {
+		x /= w;
+	    }
+	    if (x == 1) break;
+	    --w;
+	}
+
+	MaxBaseWide[i-2] = w;
     }
 #endif
 }
