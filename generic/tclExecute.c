@@ -6698,7 +6698,7 @@ TclExecuteByteCode(
 	    }
 	    CACHE_STACK_INFO();
 	}
-	NEXT_INST_F(9, 1, 0);
+	NEXT_INST_F(9, 0, 0);
 
     case INST_DICT_UPDATE_END:
 	opnd = TclGetUInt4AtPtr(pc+1);
