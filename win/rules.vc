@@ -119,10 +119,13 @@ OPTIMIZATIONS  = $(OPTIMIZATIONS) -GL
 
 DEBUGFLAGS     =
 
+#  the platform SDK has broken headers that break the runtime checks for amd64
+!if "$(MACHINE)" != "AMD64"
 !if [nmakehlp -c -RTC1]
 DEBUGFLAGS     = $(DEBUGFLAGS) -RTC1
 !elseif [nmakehlp -c -GZ]
 DEBUGFLAGS     = $(DEBUGFLAGS) -GZ
+!endif
 !endif
 
 COMPILERFLAGS  =-W3
