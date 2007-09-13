@@ -6159,7 +6159,7 @@ DTraceObjCmd(
     return TCL_OK;
 }
 #endif /* USE_DTRACE */
-
+
 /*
  * Local Variables:
  * mode: c
