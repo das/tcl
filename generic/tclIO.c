@@ -8208,13 +8208,13 @@ CopyData(
 	 * Check for unreported background errors.
 	 */
 
-	Tcl_GetChannelError (inChan, &msg);
+	Tcl_GetChannelError(inChan, &msg);
 	if ((inStatePtr->unreportedError != 0) || (msg != NULL)) {
 	    Tcl_SetErrno(inStatePtr->unreportedError);
 	    inStatePtr->unreportedError = 0;
 	    goto readError;
 	}
-	Tcl_GetChannelError (outChan, &msg);
+	Tcl_GetChannelError(outChan, &msg);
 	if ((outStatePtr->unreportedError != 0) || (msg != NULL)) {
 	    Tcl_SetErrno(outStatePtr->unreportedError);
 	    outStatePtr->unreportedError = 0;
@@ -8241,13 +8241,19 @@ CopyData(
 
 	if (size < 0) {
 	readError:
-	    TclNewObj(errObj);
-	    Tcl_AppendStringsToObj(errObj, "error reading \"",
-		    Tcl_GetChannelName(inChan), "\": ", NULL);
+	    if (interp) {
+		TclNewObj(errObj);
+		Tcl_AppendStringsToObj(errObj, "error reading \"",
+			Tcl_GetChannelName(inChan), "\": ", NULL);
+		if (msg != NULL) {
+		    Tcl_AppendObjToObj(errObj, msg);
+		} else {
+		    Tcl_AppendStringsToObj(errObj, Tcl_PosixError(interp),
+			    NULL);
+		}
+	    }
 	    if (msg != NULL) {
-		Tcl_AppendObjToObj(errObj,msg);
-	    } else {
-		Tcl_AppendStringsToObj(errObj, Tcl_PosixError(interp), NULL);
+		Tcl_DecrRefCount(msg);
 	    }
 	    break;
 	} else if (underflow) {
@@ -8305,13 +8311,19 @@ CopyData(
 
 	if (sizeb < 0) {
 	writeError:
-	    TclNewObj(errObj);
-	    Tcl_AppendStringsToObj(errObj, "error writing \"",
-		    Tcl_GetChannelName(outChan), "\": ", NULL);
+	    if (interp) {
+		TclNewObj(errObj);
+		Tcl_AppendStringsToObj(errObj, "error writing \"",
+			Tcl_GetChannelName(outChan), "\": ", NULL);
+		if (msg != NULL) {
+		    Tcl_AppendObjToObj(errObj, msg);
+		} else {
+		    Tcl_AppendStringsToObj(errObj, Tcl_PosixError(interp),
+			    NULL);
+		}
+	    }
 	    if (msg != NULL) {
-		Tcl_AppendObjToObj(errObj,msg);
-	    } else {
-		Tcl_AppendStringsToObj(errObj, Tcl_PosixError(interp), NULL);
+		Tcl_DecrRefCount(msg);
 	    }
 	    break;
 	}

@@ -521,7 +521,10 @@ TclGetBgErrorHandler(
 	    Tcl_GetAssocData(interp, "tclBgError", NULL);
 
     if (assocPtr == NULL) {
-	TclSetBgErrorHandler(interp, Tcl_NewStringObj("::tcl::Bgerror", -1));
+	Tcl_Obj *bgerrorObj;
+
+	TclNewLiteralStringObj(bgerrorObj, "::tcl::Bgerror");
+	TclSetBgErrorHandler(interp, bgerrorObj);
 	assocPtr = (ErrAssocData *)
 		Tcl_GetAssocData(interp, "tclBgError", NULL);
     }

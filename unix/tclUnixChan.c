@@ -2633,11 +2633,7 @@ CreateSocketAddress(
 	Tcl_DString ds;
 	const char *native;
 
-	if (host == NULL) {
-	    native = NULL;
-	} else {
-	    native = Tcl_UtfToExternalDString(NULL, host, -1, &ds);
-	}
+	native = Tcl_UtfToExternalDString(NULL, host, -1, &ds);
 	addr.s_addr = inet_addr(native);		/* INTL: Native. */
 
 	/*
@@ -2655,18 +2651,13 @@ CreateSocketAddress(
 		errno = ENXIO;
 #endif /* ENXIO */
 #endif /* EHOSTUNREACH */
-		if (native != NULL) {
-		    Tcl_DStringFree(&ds);
-		}
+		Tcl_DStringFree(&ds);
 		return 0;	/* Error. */
 	    }
-
 	    memcpy(&addr, (void *) hostent->h_addr_list[0],
 		    (size_t) hostent->h_length);
 	}
-	if (native != NULL) {
-	    Tcl_DStringFree(&ds);
-	}
+	Tcl_DStringFree(&ds);
     }
 
     /*

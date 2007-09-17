@@ -3026,11 +3026,11 @@ NamespaceCodeCmd(
      * "namespace inscope" command.
      */
 
-    listPtr = Tcl_NewListObj(0, NULL);
-    Tcl_ListObjAppendElement(interp, listPtr,
-	    Tcl_NewStringObj("::namespace", -1));
-    Tcl_ListObjAppendElement(interp, listPtr,
-	    Tcl_NewStringObj("inscope", -1));
+    TclNewObj(listPtr);
+    TclNewLiteralStringObj(objPtr, "::namespace");
+    Tcl_ListObjAppendElement(interp, listPtr, objPtr);
+    TclNewLiteralStringObj(objPtr, "inscope");
+    Tcl_ListObjAppendElement(interp, listPtr, objPtr);
 
     currNsPtr = (Namespace *) TclGetCurrentNamespace(interp);
     if (currNsPtr == (Namespace *) TclGetGlobalNamespace(interp)) {
