@@ -2216,7 +2216,7 @@ EXTERN CONST char*	TclTomMathInitializeStubs(Tcl_Interp* interp,
  */
 
 #define Tcl_InitStubs(interp, version, exact) \
-    Tcl_PkgRequire(interp, "Tcl", version, exact)
+    Tcl_PkgInitStubsCheck(interp, version, exact)
 
 #endif
 
@@ -2231,6 +2231,9 @@ EXTERN CONST char*	TclTomMathInitializeStubs(Tcl_Interp* interp,
 
 EXTERN void Tcl_Main _ANSI_ARGS_((int argc, char **argv,
 	Tcl_AppInitProc *appInitProc));
+
+EXTERN CONST char *Tcl_PkgInitStubsCheck _ANSI_ARGS_((Tcl_Interp *interp,
+			    CONST char *version, int exact));
 
 /*
  * Include the public function declarations that are accessible via the stubs

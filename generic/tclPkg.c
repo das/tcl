@@ -1825,6 +1825,50 @@ RequirementSatisfied(
 }
 
 /*
+ *----------------------------------------------------------------------
+ *
+ * Tcl_PkgInitStubsCheck --
+ *
+ *	This is a replacement routine for Tcl_InitStubs() that is called
+ *	from code where -DUSE_TCL_STUBS has not been enabled.
+ *
+ * Results:
+ *	Returns the version of a conforming stubs table, or NULL, if
+ *	the table version doesn't satisfy the requested requirements,
+ *	according to historical practice.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+CONST char *
+Tcl_PkgInitStubsCheck(
+    Tcl_Interp *interp,
+    CONST char * version,
+    int exact)
+{
+    CONST char *actualVersion = Tcl_PkgPresent(interp, "Tcl", version, 0);
+
+    if (exact && actualVersion) {
+	CONST char *p = version;
+	int count = 0;
+
+	while (*p) {
+	    count += !isdigit(*p++);
+	}
+	if (count == 1) {
+	    if (0 != strncmp(version, actualVersion, strlen(version))) {
+		return NULL;
+	    }
+	} else {
+	    return Tcl_PkgPresent(interp, "Tcl", version, 1);
+	}
+    }
+    return actualVersion;
+}
+/*
  * Local Variables:
  * mode: c
  * c-basic-offset: 4
