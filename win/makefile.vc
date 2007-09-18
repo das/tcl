@@ -459,7 +459,7 @@ BASE_CFLAGS	= $(cflags) $(cdebug) $(crt) $(TCL_INCLUDES) \
 			-DMP_PREC=4 -Dinline=__inline
 CON_CFLAGS	= $(cflags) $(cdebug) $(crt) -DCONSOLE
 TCL_CFLAGS	= $(BASE_CFLAGS) $(OPTDEFINES)
-STUB_CFLAGS     = $(cflags) $(cdebug) $(crt) $(OPTDEFINES)
+STUB_CFLAGS     = $(cflags) $(cdebug) $(OPTDEFINES)
 
 
 #---------------------------------------------------------------------

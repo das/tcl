@@ -107,7 +107,13 @@ Tcl_InitStubs(
 	    count += !isdigit(*p++);
 	}
 	if (count == 1) {
-	    if (0 != strncmp(version, actualVersion, strlen(version))) {
+	    CONST char *q = actualVersion;
+
+	    p = version;
+	    while (*p && (*p == *q)) {
+		p++; q++;
+	    }
+	    if (*p) {
 		return NULL;
 	    }
 	} else {
