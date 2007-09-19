@@ -397,7 +397,7 @@ PkgRequireCore(
 	    if (CheckVersionAndConvert(interp, availPtr->version,
 		    &availVersion, &availStable) != TCL_OK) {
 		/*
-		 * The provided version number is has invalid syntax. This
+		 * The provided version number has invalid syntax. This
 		 * should not happen. This should have been caught by the
 		 * 'package ifneeded' registering the package.
 		 */
@@ -421,16 +421,12 @@ PkgRequireCore(
 		}
 	    }
 
-	    /*
-	     * We have found a version which is better than our max.
-	     */
+	    /* We have found a version which is better than our max. */
 
 	    if (reqc > 0) {
-		/*
-		 * Check satisfaction of requirements.
-		 */
+		/* Check satisfaction of requirements. */
 
-		satisfies = SomeRequirementSatisfied(availVersion,reqc,reqv);
+		satisfies = SomeRequirementSatisfied(availVersion, reqc, reqv);
 		if (!satisfies) {
 		    ckfree(availVersion);
 		    availVersion = NULL;
