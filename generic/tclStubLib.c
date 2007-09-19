@@ -54,6 +54,15 @@ HasStubSupport(
 }
 
 /*
+ * Use our own isdigit to avoid linking to libc on windows
+ */
+
+static int isDigit(const int c)
+{
+    return (c >= '0' && c <= '9');
+}
+
+/*
  *----------------------------------------------------------------------
  *
  * Tcl_InitStubs --
@@ -104,7 +113,7 @@ Tcl_InitStubs(
 	int count = 0;
 
 	while (*p) {
-	    count += !isdigit(*p++);
+	    count += !isDigit(*p++);
 	}
 	if (count == 1) {
 	    CONST char *q = actualVersion;
