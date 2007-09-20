@@ -132,7 +132,7 @@ The following is a minimal extension:
 #include <tcl.h>
 #include <stdio.h>
 static int fooCmd(ClientData clientData,
-        Tcl_Interp *interp, int objc, char * CONST objv[]) {
+        Tcl_Interp *interp, int objc, Tcl_Obj *const objv[]) {
     printf("called with %d arguments\\n", objc);
     return TCL_OK;
 }
@@ -154,10 +154,10 @@ it can then be loaded into Tcl with the following:
 # Load the extension
 switch $tcl_platform(platform) {
    windows {
-      \fBload\fR ./foo.dll
+      \fBload\fR [file join [pwd] foo.dll]
    }
    unix {
-      \fBload\fR ./libfoo[info sharedlibextension]
+      \fBload\fR [file join [pwd] libfoo[info sharedlibextension]]
    }
 }
 
