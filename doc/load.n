@@ -158,7 +158,7 @@ switch $tcl_platform(platform) {
       \fBload\fR [file join [pwd] foo.dll]
    }
    unix {
-      \fBload\fR ./libfoo[info sharedlibextension]
+      \fBload\fR [file join [pwd] libfoo[info sharedlibextension]]
    }
 }
 
