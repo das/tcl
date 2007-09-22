@@ -322,7 +322,7 @@ TclpAlloc(nbytes)
      * Account for space used per block for accounting.
      */
 
-    amount = MINBLOCK;		/* size of first bucket */
+    amt = MINBLOCK;		/* size of first bucket */
     bucket = MINBLOCK >> 4;
 
     while (nbytes + OVERHEAD > amt) {
