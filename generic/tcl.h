@@ -827,10 +827,11 @@ int		Tcl_IsShared _ANSI_ARGS_((Tcl_Obj *objPtr));
 #   define Tcl_IncrRefCount(objPtr) \
 	++(objPtr)->refCount
     /*
-     * Use empty if ; else to handle use in unbraced outer if/else conditions
+     * Use do/while0 idiom for optimum correctness without compiler warnings
+     * http://c2.com/cgi/wiki?TrivialDoWhileLoop
      */
 #   define Tcl_DecrRefCount(objPtr) \
-	if (--(objPtr)->refCount > 0) ; else TclFreeObj(objPtr)
+	do { if (--(objPtr)->refCount <= 0) TclFreeObj(objPtr); } while(0)
 #   define Tcl_IsShared(objPtr) \
 	((objPtr)->refCount > 1)
 #endif
