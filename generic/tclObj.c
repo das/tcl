@@ -3015,7 +3015,8 @@ Tcl_GetCommandFromObj(interp, objPtr)
 	    && (resPtr->refNsId == currNsPtr->nsId)
 	    && (resPtr->refNsCmdEpoch == currNsPtr->cmdRefEpoch)) {
         cmdPtr = resPtr->cmdPtr;
-        if (cmdPtr->cmdEpoch != resPtr->cmdEpoch) {
+        if (cmdPtr->cmdEpoch != resPtr->cmdEpoch
+		|| (cmdPtr->flags & CMD_IS_DELETED)) {
             cmdPtr = NULL;
         }
     }
