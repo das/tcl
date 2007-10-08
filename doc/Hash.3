@@ -251,7 +251,7 @@ structure is extended in future then the version can be used
 to distinguish between different structures. It should be set
 to \fBTCL_HASH_KEY_TYPE_VERSION\fR.
 .PP
-The \fIflags\fR member is 0 or the following values OR'ed together:
+The \fIflags\fR member is 0 or one or more of the following values OR'ed together:
 .IP \fBTCL_HASH_KEY_RANDOMIZE_HASH\fR 25
 There are some things, pointers for example which don't hash well 
 because they do not use the lower bits. If this flag is set then the
