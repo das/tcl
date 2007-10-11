@@ -17,7 +17,6 @@
  */
 
 #include "tclInt.h"
-#include "tclCompile.h"
 #include "tommath.h"
 #include <float.h>
 
