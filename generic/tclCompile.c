@@ -3240,9 +3240,10 @@ TclPrintInstruction(
     unsigned char *pc)		/* Points to first byte of instruction. */
 {
     Tcl_Obj *bufferObj;
+    int numBytes;
 
     TclNewObj(bufferObj);
-    FormatInstruction(codePtr, pc, bufferObj);
+    numBytes = FormatInstruction(codePtr, pc, bufferObj);
     fprintf(stdout, "%s", TclGetString(bufferObj));
     Tcl_DecrRefCount(bufferObj);
     return numBytes;
