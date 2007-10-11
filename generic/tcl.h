@@ -348,8 +348,9 @@ typedef long LONG;
  *	longVal == Tcl_WideAsLong(Tcl_LongAsWide(longVal))
  *
  * Note on converting between Tcl_WideInt and strings. This implementation (in
- * tclObj.c) depends on the functions strtoull() and sprintf(...,"%"
- * TCL_LL_MODIFIER "d",...). TCL_LL_MODIFIER_SIZE is the length of the
+ * tclObj.c) depends on the function and
+ * sprintf(...,"%" TCL_LL_MODIFIER "d",...).
+ * TCL_LL_MODIFIER_SIZE is the length of the
  * modifier string, which is "ll" on most 32-bit Unix systems. It has to be
  * split up like this to allow for the more complex formats sometimes needed
  * (e.g. in the format(n) command.)
