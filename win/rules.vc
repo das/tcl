@@ -581,6 +581,7 @@ TCL_INCLUDES	= -I"$(_TCLDIR)\generic" -I"$(_TCLDIR)\win"
 
 !if "$(PROJECT)" == "tk"
 _TK_H          = ..\generic\tk.h
+_INSTALLDIR    = $(_INSTALLDIR)\..
 !endif
 
 !ifdef PROJECT_REQUIRES_TK
