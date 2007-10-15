@@ -299,7 +299,9 @@ CheckForCompilerFeature(
     return !(strstr(Out.buffer, "D4002") != NULL
              || strstr(Err.buffer, "D4002") != NULL
              || strstr(Out.buffer, "D9002") != NULL
-             || strstr(Err.buffer, "D9002") != NULL);
+             || strstr(Err.buffer, "D9002") != NULL
+             || strstr(Out.buffer, "D2021") != NULL
+             || strstr(Err.buffer, "D2021") != NULL);
 }
 
 int
