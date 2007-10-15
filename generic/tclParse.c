@@ -1785,7 +1785,7 @@ Tcl_ParseBraces(
     {
 	register int openBrace = 0;
 
-	for (; src > start; src--) {
+	while (--src > start) {
 	    switch (*src) {
 	    case '{':
 		openBrace = 1;
