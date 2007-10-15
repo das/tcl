@@ -1441,7 +1441,7 @@ Tcl_ParseBraces(interp, string, numBytes, parsePtr, append, termPtr)
 	     *  by a '<whitespace>#' on the same line.
 	     */
 
-	    for (; src > string; src--) {
+	    while (--src > string) {
 		switch (*src) {
 		    case '{':
 			openBrace = 1;
