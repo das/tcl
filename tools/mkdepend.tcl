@@ -363,7 +363,9 @@ proc main {} {
 		set mode mgw32
 	    }
 	    -passthru:* {
-		puts stderr [set passthru [string range $arg 10 end]]
+		set passthru [string range $arg 10 end]
+		regsub -all {"} $passthru {\"} passthru
+		regsub -all {\\} $passthru {/} passthru
 	    }
 	    -out:* {
 		openOutput [string range $arg 5 end]
