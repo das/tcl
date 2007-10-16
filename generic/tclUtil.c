@@ -2372,8 +2372,8 @@ TclGetIntForIndex(
 	    Tcl_AppendResult(interp, "bad index \"", bytes,
 		    "\": must be integer?[+-]integer? or end?[+-]integer?",
 		    (char *) NULL);
-	    if (!strncmp(bytes, "end-", 3)) {
-		bytes += 3;
+	    if (!strncmp(bytes, "end-", 4)) {
+		bytes += 4;
 	    }
 	    TclCheckBadOctal(interp, bytes);
 	}
@@ -2556,6 +2556,9 @@ TclCheckBadOctal(
 	p++;
     }
     if (*p == '0') {
+	if ((p[1] == 'o') || p[1] == 'O') {
+	    p+=2;
+	}
 	while (isdigit(UCHAR(*p))) {	/* INTL: digit. */
 	    p++;
 	}
