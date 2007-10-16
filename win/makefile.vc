@@ -844,7 +844,7 @@ depend:
 	@echo Build tclsh first!
 !else
 	$(TCLSH) $(TOOLSDIR:\=/)/mkdepend.tcl -vc32 -out:"$(OUT_DIR)\depend.mk" \
-		-passthru:"-DBUILD_tcl $(TCL_INCLUDES:"=""")" $(GENERICDIR),$$(GENERICDIR) \
+		-passthru:"-DBUILD_tcl $(TCL_INCLUDES)" $(GENERICDIR),$$(GENERICDIR) \
 		$(COMPATDIR),$$(COMPATDIR) $(TOMMATHDIR),$$(TOMMATHDIR) $(WINDIR),$$(WINDIR) @<<
 $(TCLOBJS)
 <<
