@@ -751,10 +751,11 @@ ParseExpr(
 				    && (lastStart[2] >= '0')
 				    && (lastStart[2] <= '9')) {
 				const char *end = lastStart + 2;
+				Tcl_Obj* copy;
 				while (isdigit(*end)) {
 				    end++;
 				}
-				Tcl_Obj *copy = Tcl_NewStringObj(lastStart,
+				copy = Tcl_NewStringObj(lastStart,
 					end - lastStart);
 				if (TclCheckBadOctal(NULL,
 					Tcl_GetString(copy))) {
