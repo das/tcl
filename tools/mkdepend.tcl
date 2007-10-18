@@ -244,7 +244,7 @@ proc compressDeps {depends} {
 
     set result [list]
     foreach n [array names compressed] {
-        lappend result [list $n $compressed($n)]
+        lappend result [list $n [lsort $compressed($n)]]
     }
 
     return $result
