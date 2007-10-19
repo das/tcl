@@ -1352,6 +1352,8 @@ TclMergeReturnOptions(
 		    "continue, or an integer", NULL);
 	    goto error;
 	}
+    }
+    if (valuePtr != NULL) {
 	Tcl_DictObjRemove(NULL, returnOpts, keys[KEY_CODE]);
     }
 

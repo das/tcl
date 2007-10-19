@@ -753,7 +753,7 @@ in the interpreter's global namespace without further substitutions being
 performed.
 .VE 8.5
 .SH CREDITS
-This mechanism is based on the Safe-Tcl prototype implemented
+The safe interpreter mechanism is based on the Safe-Tcl prototype implemented
 by Nathaniel Borenstein and Marshall Rose.
 .SH EXAMPLES
 Creating and using an alias for a command in the current interpreter:
