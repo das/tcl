@@ -388,7 +388,11 @@ proc macro {name args} {
 	}
 	PQ {
 	    puts -nonewline $file "(&\#147;"
-	    text [lindex $args 0]
+	    if {[lindex $args 0] eq {\N'34'}} {
+		puts -nonewline $file \"
+	    } else {
+		text [lindex $args 0]
+	    }
 	    puts -nonewline $file "&\#148;"
 	    if {[llength $args] > 1} {
 		text [lindex $args 1]
