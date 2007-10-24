@@ -158,9 +158,9 @@ InstructionDesc tclInstructionTable[] = {
     {"gt",		  1,   -1,         0,	{OPERAND_NONE}},
 	/* Greater:	push (stknext || stktop) */
     {"le",		  1,   -1,         0,	{OPERAND_NONE}},
-	/* Logical or:	push (stknext || stktop) */
+	/* Less or equal: push (stknext || stktop) */
     {"ge",		  1,   -1,         0,	{OPERAND_NONE}},
-	/* Logical or:	push (stknext || stktop) */
+	/* Greater or equal: push (stknext || stktop) */
     {"lshift",		  1,   -1,         0,	{OPERAND_NONE}},
 	/* Left shift:	push (stknext << stktop) */
     {"rshift",		  1,   -1,         0,	{OPERAND_NONE}},
