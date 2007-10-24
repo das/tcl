@@ -86,9 +86,7 @@ set s [\fBencoding convertfrom\fR euc-jp "\\xA4\\xCF"]
 .CE
 would return the Unicode string "\\u306F", which is the Hiragana
 letter HA.
-
 .SH "SEE ALSO"
-Tcl_GetEncoding(3)
-
+fconfigure(n), Tcl_GetEncoding(3)
 .SH KEYWORDS
 encoding

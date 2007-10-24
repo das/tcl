@@ -143,7 +143,10 @@ of \fIpackage\fR is acceptable to the caller.  This command is
 equivalent to \fBpackage require \fIpackage version\fR-\fIversion\fR.
 .TP
 \fBpackage unknown \fR?\fIcommand\fR?
-This command supplies a ``last resort'' command to invoke during
+.
+This command supplies a
+.QW "last resort"
+command to invoke during
 \fBpackage require\fR if no suitable version of a package can be found
 in the \fBpackage ifneeded\fR database.
 If the \fIcommand\fR argument is supplied, it contains the first part

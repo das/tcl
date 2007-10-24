@@ -87,7 +87,6 @@ is set to encoding "binary" the system will assume that the incoming
 bytes are valid UTF-8 characters and convert them according to the
 output encoding. The behaviour of the system for bytes which are not
 valid UTF-8 characters is undefined in this case.
-
 .SH EXAMPLES
 .PP
 The first example transfers the contents of one channel exactly to
@@ -144,9 +143,7 @@ set total 0
         -command [list CopyMore $in $out $chunk]
 vwait done
 .CE
-
 .SH "SEE ALSO"
 eof(n), fblocked(n), fconfigure(n), file(n)
-
 .SH KEYWORDS
 blocking, channel, end of line, end of file, nonblocking, read, translation

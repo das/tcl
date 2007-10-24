@@ -184,9 +184,7 @@ foreach color [lsort [\fBarray names\fR colorcount]] {
     number of buckets with 10 or more entries: 0
     average search distance for entry: 1.2
 .CE
-
 .SH "SEE ALSO"
 list(n), string(n), variable(n), trace(n), foreach(n)
-
 .SH KEYWORDS
 array, element names, search

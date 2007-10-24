@@ -411,7 +411,9 @@ while waiting for the data to arrive.  If an application invokes
 \fBchan gets\fR or \fBchan read\fR on a blocking channel when there is
 no input data available, the process will block; until the input data
 arrives, it will not be able to service other events, so it will
-appear to the user to ``freeze up''.  With \fBchan event\fR, the
+appear to the user to
+.QW "freeze up" .
+With \fBchan event\fR, the
 process can tell when data is present and only invoke \fBchan gets\fR
 or \fBchan read\fR when they won't block.
 .PP
