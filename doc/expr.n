@@ -107,11 +107,11 @@ the variable \fBb\fR has the value 6.
 Then the command on the left side of each of the lines below
 will produce the value on the right side of the line:
 .CS
-.ta 6c
-\fBexpr\fR 3.1 + $a	\fI6.1\fR
-\fBexpr\fR 2 + "$a.$b"	\fI5.6\fR
-\fBexpr\fR 4*[llength "6 2"]	\fI8\fR
-\fBexpr\fR {{word one} < "word $a"}	\fI0\fR
+.ta 3.5i
+\fBexpr\fR 3.1 + $a	\fB\(-> \fI6.1\fR
+\fBexpr\fR 2 + "$a.$b"	\fB\(-> \fI5.6\fR
+\fBexpr\fR 4*[llength "6 2"]	\fB\(-> \fI8\fR
+\fBexpr\fR {{word one} < "word $a"}	\fB\(-> \fI0\fR
 .CE
 .SS OPERATORS
 .PP
