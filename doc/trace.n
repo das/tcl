@@ -92,9 +92,11 @@ just after the actual execution takes place.
 \fBenterstep\fR
 Invoke \fIcommand\fR for every Tcl command which is executed 
 inside the procedure \fIname\fR, just before the actual execution
-takes place.  For example if we have 'proc foo {} { puts "hello" }',
-then an \fIenterstep\fR trace would be 
-invoked just before \fIputs "hello"\fR is executed.
+takes place.  For example if we have
+.QW "proc foo {} { puts {hello world} }" ,
+then an \fIenterstep\fR trace would be invoked just before
+.QW "puts {hello world}"
+is executed.
 Setting an \fIenterstep\fR trace on a \fIcommand\fR
 will not result in an error and is simply ignored.
 .TP
