@@ -114,12 +114,15 @@ list will be concatenated at each iteration, such that a flat list is
 always returned.  For each match iteration, the command will append the
 overall match data, plus one element for each subexpression in the
 regular expression.  Examples are:
+.RS
 .CS
-    regexp -inline -- {\\w(\\w)} " inlined "
- => {in n}
-    regexp -all -inline -- {\\w(\\w)} " inlined "
- => {in n li i ne e}
+.ta 2i
+\fBregexp\fR -inline -- {\\w(\\w)} " inlined "
+	 \fB\(->\fI in n\fR
+\fBregexp\fR -all -inline -- {\\w(\\w)} " inlined "
+	 \fB\(->\fI in n li i ne e\fR
 .CE
+.RE
 .TP 15
 \fB\-start\fR \fIindex\fR
 Specifies a character index offset into the string to start
