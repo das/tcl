@@ -274,12 +274,21 @@ Matches any character in the set given by \fIchars\fR.  If a sequence
 of the form \fIx\fB\-\fIy\fR appears in \fIchars\fR, then any
 character between \fIx\fR and \fIy\fR, inclusive, will match.  When
 used with \fB\-nocase\fR, the end points of the range are converted to
-lower case first.  Whereas {[A\-z]} matches '_' when matching
-case-sensitively ('_' falls between the 'Z' and 'a'), with
-\fB\-nocase\fR this is considered like {[A\-Za\-z]} (and probably what
-was meant in the first place).
+lower case first.  Whereas
+.QW [A\-z]
+matches
+.QW _
+when matching case-sensitively (since
+.QW _
+falls between the
+.QW Z
+and
+.QW a ),
+with \fB\-nocase\fR this is considered like
+.QW [A\-Za\-z]
+(and probably what was meant in the first place).
 .IP \fB\e\fIx\fR 10
-Matches the single character \fIx\fR.  This provides a way of avoiding
+Matches the single character \fIx\fR. This provides a way of avoiding
 the special interpretation of the characters \fB*?[]\e\fR in
 \fIpattern\fR.
 .RE

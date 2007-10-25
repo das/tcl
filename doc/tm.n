@@ -175,11 +175,11 @@ Both package name \fBPNAME\fR and package version \fBPVERSION\fR are
 extracted from the filename \fBMF\fR according to the definition
 below:
 .CS
-\fBMF\fR = /module_path/\fBPNAME'\fR-\fBPVERSION\fR.tm
+\fBMF\fR = /module_path/\fBPNAME\(fm\fR-\fBPVERSION\fR.tm
 .CE
 .PP
-Where \fBPNAME'\fR is the partial path of the module as defined in
-section \fBFINDING MODULES\fR, and translated into \fB\fRPNAME by
+Where \fBPNAME\(fm\fR is the partial path of the module as defined in
+section \fBFINDING MODULES\fR, and translated into \fBPNAME\fR by
 changing all directory separators to
 .QW \fB::\fR ,
 and \fBmodule_path\fR is the path (from the list of paths to search)

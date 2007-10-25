@@ -175,8 +175,9 @@ If the precision is 0 then no decimal point is output.
 .TP 10
 \fBe\fR or \fBE\fR
 Convert number to scientific notation in the 
-form \fIx.yyy\fBe\(+-\fIzz\fR, where the number of \fIy\fR's is determined 
-by the precision (default: 6).
+form
+.QW "\fIx.yyy\fBe\(+-\fIzz\fR" ,
+where the number of \fIy\fR's is determined by the precision (default: 6).
 If the precision is 0 then no decimal point is output.
 If the \fBE\fR form is used then \fBE\fR is 
 printed instead of \fBe\fR.

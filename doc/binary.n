@@ -396,7 +396,8 @@ position to satisfy the current field specifier, then the
 corresponding variable is left untouched and \fBbinary scan\fR returns
 immediately with the number of variables that were set.  If there are
 not enough arguments for all of the fields in the format string that
-consume arguments, then an error is generated. The flag character 'u'
+consume arguments, then an error is generated. The flag character
+.QW u
 may be given to cause some types to be read as unsigned values. The flag
 is accepted for all field types but is ignored for non-integer fields.
 .PP
@@ -435,8 +436,10 @@ will be sign extended.  Thus the following will occur:
 set signShort [\fBbinary format\fR s1 0x8000]
 \fBbinary scan\fR $signShort s1 val; \fI# val == 0xFFFF8000\fR
 .CE
-If you require unsigned values you can include the 'u' flag character following
-the field type. For example, to read an unsigned short value:
+If you require unsigned values you can include the
+.QW u
+flag character following the field type. For example, to read an
+unsigned short value:
 .CS
 set signShort [\fBbinary format\fR s1 0x8000]
 \fBbinary scan\fR $signShort su1 val; \fI# val == 0x00008000\fR

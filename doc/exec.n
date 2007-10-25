@@ -428,9 +428,10 @@ differences in behaviour between \fBexec\fR and DOS batch files.
 .PP
 When in doubt, use the command \fBauto_execok\fR: it will return the
 complete path to the program as seen by the \fBexec\fR command.  This
-applies especially when you want to run "internal" commands like
-\fIdir\fR from a Tcl script (if you just want to list filenames, use
-the \fBglob\fR command.)  To do that, use this:
+applies especially when you want to run
+.QW "internal"
+commands like \fIdir\fR from a Tcl script (if you just want to list
+filenames, use the \fBglob\fR command.)  To do that, use this:
 .CS
 \fBexec\fR {*}[auto_execok dir] *.tcl
 .CE
