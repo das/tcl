@@ -75,13 +75,13 @@ not
 .QW "\fBxyz {$a}\fR"
 and the script
 .CS
-set a "p\\} q \\{r"
+set a "p\e} q \e{r"
 \fBsubst\fR {xyz {$a}}
 .CE
 return
 .QW "\fBxyz {p} q {r}\fR" ,
 not
-.QW "\fBxyz {p\\} q \\{r}\fR" .
+.QW "\fBxyz {p\e} q \e{r}\fR" .
 .PP
 When command substitution is performed, it includes any variable
 substitution necessary to evaluate the script.  

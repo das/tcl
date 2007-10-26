@@ -247,12 +247,12 @@ and
 For example, if
 .QW \fBo\fR
 and
-.QW \fB\o'o^'\fR
+.QW \fB\N'244'\fR
 are the members of an equivalence class, then
 .QW \fB[[=o=]]\fR ,
-.QW \fB[[=\o'o^'=]]\fR ,
+.QW \fB[[=\N'244'=]]\fR ,
 and
-.QW \fB[o\o'o^']\fR \&
+.QW \fB[o\N'244']\fR \&
 are all synonymous.  An equivalence class may
 not be an endpoint of a range.  (\fINote:\fR Tcl currently implements
 only the Unicode locale.  It doesn't define any equivalence classes.
