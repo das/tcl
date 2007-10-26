@@ -207,10 +207,7 @@ Tcl list element before setting (or appending to) the variable.
 A separator space is appended before the new list element unless
 the list element is going to be the first element in a list or
 sublist (i.e. the variable's current value is empty, or contains
-the single character
-.QW { ,
-or ends in
-.QW " }" ).
+the single character ``{'', or ends in `` }'').
 When appending, the original value of the variable must also be
 a valid list, so that the operation is the appending of a new
 list element onto a list.

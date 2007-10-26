@@ -136,7 +136,9 @@ proc doOneStep {} {
 }
 doOneStep
 .CE
+
 .SH "SEE ALSO"
 concat(n), interp(n), update(n), vwait(n)
+
 .SH KEYWORDS
 cancel, delay, idle callback, sleep, time

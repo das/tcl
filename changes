@@ -7035,6 +7035,4 @@ on Windows to be larger than the default [interp recursionlimit] value.
 
 2007-10-25 (bug fix)[1726873] intermittent crash in threads (vasiljevic)
 
-New doc macros for improved formatting.  Docs updated to use. (fellows)
-
 --- Released 8.5b2, October 26, 2007 --- See ChangeLog for details ---

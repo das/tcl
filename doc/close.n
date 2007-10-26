@@ -71,7 +71,9 @@ proc withOpenFile {filename channelVar script} {
     return -options $options $result
 }
 .CE
+
 .SH "SEE ALSO"
 file(n), open(n), socket(n), eof(n), Tcl_StandardChannels(3)
+
 .SH KEYWORDS
 blocking, channel, close, nonblocking

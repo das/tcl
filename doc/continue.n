@@ -39,7 +39,9 @@ for {set x 0} {$x<10} {incr x} {
    puts "x is $x"
 }
 .CE
+
 .SH "SEE ALSO"
 break(n), for(n), foreach(n), return(n), while(n)
+
 .SH KEYWORDS
 continue, iteration, loop

@@ -90,7 +90,9 @@ if { [\fBcatch\fR {open $someFile w} fid] } {
 .PP
 There are more complex examples of \fBcatch\fR usage in the
 documentation for the \fBreturn\fR command.
+
 .SH "SEE ALSO" 
 break(n), continue(n), dict(n), error(n), return(n), tclvars(n)
+
 .SH KEYWORDS
 catch, error

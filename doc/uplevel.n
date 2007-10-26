@@ -55,9 +55,8 @@ the command
 .CE
 then the \fBset\fR command will modify the same variable \fBx\fR in \fBb\fR's
 context:  the procedure \fBc\fR does not appear to be on the call stack
-when \fBd\fR is executing.  The command
-.QW "\fBinfo level\fR"
-may be used to obtain the level of the current procedure.
+when \fBd\fR is executing.  The command ``\fBinfo level\fR'' may
+be used to obtain the level of the current procedure.
 .PP
 \fBUplevel\fR makes it possible to implement new control
 constructs as Tcl procedures (for example, \fBuplevel\fR could
@@ -93,7 +92,9 @@ proc do {body while condition} {
     }
 }
 .CE
+
 .SH "SEE ALSO"
 apply(n), namespace(n), upvar(n)
+
 .SH KEYWORDS
 context, level, namespace, stack frame, variables

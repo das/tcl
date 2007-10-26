@@ -55,7 +55,9 @@ while {1} {
     puts "Read record: $record"
 }
 .CE
+
 .SH "SEE ALSO"
 file(n), open(n), close(n), fblocked(n), Tcl_StandardChannels(3)
+
 .SH KEYWORDS
 channel, end of file

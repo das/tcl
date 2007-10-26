@@ -152,9 +152,8 @@ represented in Tcl as a string.
 .
 The registry value contains a null-terminated string that contains
 unexpanded references to environment variables in the normal Windows
-style (for example,
-.QW "%PATH%" ).
-The data is represented in Tcl as a string.
+style (for example, "%PATH%").  The data is represented in Tcl as a
+string.
 .TP
 \fBdword\fR
 .

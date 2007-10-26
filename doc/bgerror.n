@@ -86,7 +86,9 @@ proc bgerror {message} {
     close $fl
 }
 .CE
+
 .SH "SEE ALSO"
 after(n), interp(n), tclvars(n)
+
 .SH KEYWORDS
 background error, reporting

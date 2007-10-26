@@ -257,7 +257,7 @@ foreach id [\fBdict keys\fR $employeeInfo] {
    puts "Hello, [\fBdict get\fR $employeeInfo $id forenames]!"
 }
 .CE
-.PP
+
 A localizable version of \fBstring toupper\fR:
 .CS
 # Set up the basic C locale
@@ -277,7 +277,9 @@ foreach c [split {abcdefghijklmnopqrstuvwxyz} ""] {
 set upperCaseMap [\fBdict get\fR $capital $env(LANG)]
 set upperCase [string map $upperCaseMap $string]
 .CE
+
 .SH "SEE ALSO"
 append(n), array(n), foreach(n), incr(n), list(n), lappend(n), set(n)
+
 .SH KEYWORDS
 dictionary, create, update, lookup, iterate, filter

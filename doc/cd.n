@@ -37,7 +37,9 @@ current one:
 .CS
 \fBcd\fR ../lib
 .CE
+
 .SH "SEE ALSO"
 filename(n), glob(n), pwd(n)
+
 .SH KEYWORDS
 working directory

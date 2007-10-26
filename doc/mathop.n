@@ -125,10 +125,7 @@ Each \fInumber\fR must have an integral value.
 .
 Returns the result of raising each value to the power of the result of
 recursively operating on the result of processing the following arguments, so
-.QW "\fB** 2 3 4\fR"
-is the same as
-.QW "\fB** 2 [** 3 4]\fR" .
-Each \fInumber\fR may be
+\fB** 2 3 4\fR is the same as \fB** 2 [** 3 4]\fR. Each \fInumber\fR may be
 any numeric value, though the second number must not be fractional if the
 first is negative. If no arguments are given, the result will be one, and if
 only one argument is given, the result will be that argument.
