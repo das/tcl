@@ -624,9 +624,9 @@ typedef struct ByteCode {
  * [namespace upvar].
  */
 
-#define INST_UPVAR                      122
-#define INST_NSUPVAR                    123
-#define INST_VARIABLE                   124
+#define INST_UPVAR			122
+#define INST_NSUPVAR			123
+#define INST_VARIABLE			124
 
 /* Instruction to support compiling syntax error to bytecode */
 
