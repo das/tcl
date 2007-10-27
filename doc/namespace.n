@@ -57,7 +57,7 @@ and they will be passed to \fIscript\fR as additional arguments.
 For example, suppose the command
 \fBset script [namespace code {foo bar}]\fR
 is invoked in namespace \fB::a::b\fR.
-Then \fBeval "$script x y"\fR
+Then \fBeval $script [list x y]\fR
 can be executed in any namespace (assuming the value of
 \fBscript\fR has been passed in properly)
 and will have the same effect as the command
