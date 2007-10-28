@@ -503,7 +503,7 @@ The requested URL.
 # Copy a URL to a file and print meta-data
 proc httpcopy { url file {chunk 4096} } {
    set out [open $file w]
-   set token [\fB::http::geturl\fR $url -channel $out \\
+   set token [\fB::http::geturl\fR $url -channel $out \e
           -progress httpCopyProgress -blocksize $chunk]
    close $out
 

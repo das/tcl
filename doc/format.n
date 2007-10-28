@@ -228,7 +228,7 @@ reordering the data values passed to \fBformat\fR:
 set fmt1 "Today, %d shares in %s were bought at $%.2f each"
 puts [\fBformat\fR $fmt1 123 "Global BigCorp" 19.37]
 
-set fmt2 "Bought %2\\$s equity ($%3$.2f x %1\\$d) today"
+set fmt2 "Bought %2\e$s equity ($%3$.2f x %1\e$d) today"
 puts [\fBformat\fR $fmt2 123 "Global BigCorp" 19.37]
 .CE
 .PP

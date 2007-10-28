@@ -159,7 +159,7 @@ exactly matched is easily obtained using the \fB\-matchvar\fR option:
       puts "Found [string length [lindex $foo 1]] 'b's"
    }
    d(e*)f(g*)h {
-      puts "Found [string length [lindex $foo 1]] 'e's and\\
+      puts "Found [string length [lindex $foo 1]] 'e's and\e
             [string length [lindex $foo 2]] 'g's"
    }
 }

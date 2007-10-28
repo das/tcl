@@ -120,7 +120,7 @@ Any Unicode alphabet or digit character.
 .IP \fBalpha\fR 12
 Any Unicode alphabet character.
 .IP \fBascii\fR 12
-Any character with a value less than \\u0080 (those that are in the
+Any character with a value less than \eu0080 (those that are in the
 7\-bit ascii range).
 .IP \fBboolean\fR 12
 Any of the forms allowed to \fBTcl_GetBoolean\fR.

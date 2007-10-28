@@ -87,7 +87,7 @@ package.
 .PP
 The name of a module file has to match the regular expression:
 .CS
-([[:alpha:]][:[:alnum:]]*)-([[:digit:]].*)\\.tm
+([[:alpha:]][:[:alnum:]]*)-([[:digit:]].*)\e.tm
 .CE
 .PP
 The first capturing parentheses provides the name of the package, the

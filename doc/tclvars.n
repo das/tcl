@@ -336,16 +336,16 @@ This variable and functionality only exist if
 The value of this variable is a regular expression that can be set to
 control what are considered ``word'' characters, for instances like
 selecting a word by double-clicking in text in Tk.  It is platform
-dependent.  On Windows, it defaults to \fB\\S\fR, meaning anything
-but a Unicode space character.  Otherwise it defaults to \fB\\w\fR,
+dependent.  On Windows, it defaults to \fB\eS\fR, meaning anything
+but a Unicode space character.  Otherwise it defaults to \fB\ew\fR,
 which is any Unicode word character (number, letter, or underscore).
 .TP
 \fBtcl_nonwordchars\fR
 The value of this variable is a regular expression that can be set to
 control what are considered ``non-word'' characters, for instances like
 selecting a word by double-clicking in text in Tk.  It is platform
-dependent.  On Windows, it defaults to \fB\\s\fR, meaning any Unicode space
-character.  Otherwise it defaults to \fB\\W\fR, which is anything but a
+dependent.  On Windows, it defaults to \fB\es\fR, meaning any Unicode space
+character.  Otherwise it defaults to \fB\eW\fR, which is anything but a
 Unicode word character (number, letter, or underscore).
 .TP
 \fBtcl_version\fR

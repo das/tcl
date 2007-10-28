@@ -70,10 +70,10 @@ set a 44
 returns ``\fBxyz {44}\fR'', not ``\fBxyz {$a}\fR''
 and the script
 .CS
-set a "p\\} q \\{r"
+set a "p\e} q \e{r"
 \fBsubst\fR {xyz {$a}}
 .CE
-return ``\fBxyz {p} q {r}\fR'', not ``\fBxyz {p\\} q \\{r}\fR''.
+return ``\fBxyz {p} q {r}\fR'', not ``\fBxyz {p\e} q \e{r}\fR''.
 .PP
 When command substitution is performed, it includes any variable
 substitution necessary to evaluate the script.  

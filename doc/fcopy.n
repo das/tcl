@@ -132,7 +132,7 @@ proc CopyMore {in out chunk bytes {error {}}} {
 	close $in
 	close $out
     } else {
-	\fBfcopy\fR $in $out -size $chunk \\
+	\fBfcopy\fR $in $out -size $chunk \e
                 -command [list CopyMore $in $out $chunk]
     }
 }
@@ -140,7 +140,7 @@ set in [open $file1]
 set out [socket $server $port]
 set chunk 1024
 set total 0
-\fBfcopy\fR $in $out -size $chunk \\
+\fBfcopy\fR $in $out -size $chunk \e
         -command [list CopyMore $in $out $chunk]
 vwait done
 .CE

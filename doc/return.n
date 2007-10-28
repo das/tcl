@@ -228,9 +228,9 @@ to report invalid arguments.
 .CS
 proc factorial {n} {
    if {![string is integer $n] || ($n < 0)} {
-      \fBreturn\fR -code error \\
-            "expected non-negative integer,\\
-             but got \\"$n\\""
+      \fBreturn\fR -code error \e
+            "expected non-negative integer,\e
+             but got \e"$n\e""
    }
    if {$n < 2} {
       \fBreturn\fR 1
@@ -242,7 +242,7 @@ proc factorial {n} {
    }
    set product [expr {$n * $factor}]
    if {$product < 0} {
-      \fBreturn\fR -code error \\
+      \fBreturn\fR -code error \e
             "overflow computing factorial of $n"
    }
    \fBreturn\fR $product

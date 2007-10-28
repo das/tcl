@@ -68,7 +68,7 @@ set regPath [join {
     Control
     {Session Manager}
     Environment
-} "\\\\"]
+} "\e\e"]
 set curPath [\fBregistry get\fR $regPath "Path"]
 \fBregistry set\fR $regPath "Path" "$curPath;$addPath"
 \fBregistry broadcast\fR "Environment"

@@ -98,7 +98,7 @@ The \fIindex\fR value is interpreted in the same manner
 as the \fIindex\fR argument to \fBstring index\fR.
 .VE 8.5
 When using this switch, `^'
-will not match the beginning of the line, and \\A will still
+will not match the beginning of the line, and \eA will still
 match the start of the string at \fIindex\fR.
 \fIindex\fR will be constrained to the bounds of the input string.
 .TP 10

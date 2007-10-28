@@ -239,7 +239,7 @@ looking for the terminating character explicitly:
 set string "(5.2,-4e-2)"
 # Note that the spaces before the literal parts of
 # the scan pattern are significant, and that ")" is
-# the Unicode character \\u0029
+# the Unicode character \eu0029
 if {
    [\fBscan\fR $string " (%f ,%f %c" x y last] != 3
    || $last != 0x0029

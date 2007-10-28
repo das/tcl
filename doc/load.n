@@ -134,7 +134,7 @@ The following is a minimal extension:
 #include <stdio.h>
 static int fooCmd(ClientData clientData,
         Tcl_Interp *interp, int objc, Tcl_Obj *const objv[]) {
-    printf("called with %d arguments\\n", objc);
+    printf("called with %d arguments\en", objc);
     return TCL_OK;
 }
 int Foo_Init(Tcl_Interp *interp) {

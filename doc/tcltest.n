@@ -1033,7 +1033,7 @@ Here is a sketch of a sample test suite master script:
 package require Tcl 8.4
 package require tcltest 2.2
 package require example
-\fB::tcltest::configure\fR -testdir \\
+\fB::tcltest::configure\fR -testdir \e
         [file dirname [file normalize [info script]]]
 eval \fB::tcltest::configure\fR $argv
 \fB::tcltest::runAllTests\fR

@@ -83,7 +83,7 @@ The \fBcatch\fR command may be used in an \fBif\fR to branch based on
 the success of a script.
 .CS
 if { [\fBcatch\fR {open $someFile w} fid] } {
-    puts stderr "Could not open $someFile for writing\\n$fid"
+    puts stderr "Could not open $someFile for writing\en$fid"
     exit 1
 }
 .CE

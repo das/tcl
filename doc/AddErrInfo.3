@@ -138,7 +138,7 @@ if ((objc % 2) == 0) { /* explicit result argument */
 }
 return Tcl_SetReturnOptions(interp, Tcl_NewListObj(objc-1, objv+1));
 .CE
-(It's not really implemented that way.  Internal access
+(It is not really implemented that way.  Internal access
 privileges allow for a more efficient alternative that meshes
 better with the bytecode compiler.)
 .PP
