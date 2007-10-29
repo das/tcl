@@ -159,7 +159,9 @@ Using \fBlsearch\fR to filter lists:
 \fBlsearch\fR -all -not {a20 b35 c47} b*
       => 0 2
 .CE
-This can even do a "set-like" removal operation:
+This can even do a
+.QW set-like
+removal operation:
 .CS
 \fBlsearch\fR -all -inline -not -exact {a b c a d e a f g a} a
       => b c d e f g

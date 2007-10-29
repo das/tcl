@@ -59,11 +59,13 @@ be considered less than, equal to, or greater than the second,
 respectively.
 .TP 20
 \fB\-increasing\fR
-Sort the list in increasing order (``smallest'' items first).
+Sort the list in increasing order
+.PQ smallest "items first" .
 This is the default.
 .TP 20
 \fB\-decreasing\fR
-Sort the list in decreasing order (``largest'' items first).
+Sort the list in decreasing order
+.PQ largest "items first" .
 .TP 20
 \fB\-indices\fR
 .VS "8.5 (TIP#217)"

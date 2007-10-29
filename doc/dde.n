@@ -53,7 +53,11 @@ the service name \fBTclEval\fR and the topic name specified by \fItopic\fR.
 If no \fItopic\fR is given, \fBdde servername\fR returns the name
 of the current topic or the empty string if it is not registered as a
 service. If the given \fItopic\fR name is already in use, then a
-suffix of the form ' #2' or ' #3' is appended to the name to make it
+suffix of the form
+.QW " #2"
+or
+.QW " #3"
+is appended to the name to make it
 unique. The command's result will be the name actually used. The
 \fB-force\fR option is used to force registration of precisely the
 given \fItopic\fR name.

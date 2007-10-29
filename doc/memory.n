@@ -71,7 +71,7 @@ Calls to \fBckfree\fR are traced in the same manner.
 .RE
 .TP
 \fBmemory trace_on_at_malloc\fR \fIcount\fR
-Enable memory tracing after \fIcount\fR \fBckalloc\fR's have been performed.
+Enable memory tracing after \fIcount\fR \fBckalloc\fRs have been performed.
 For example, if you enter \fBmemory trace_on_at_malloc 100\fR,
 after the 100th call to \fBckalloc\fR, memory trace information will begin
 being displayed for all allocations and frees.  Since there can be a lot

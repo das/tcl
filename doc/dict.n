@@ -122,8 +122,8 @@ Return a list of all keys in the given dictionary value. If a pattern
 is supplied, only those keys that match it (according to the rules of
 \fBstring match\fR) will be returned. The returned keys will be in an
 arbitrary implementation-specific order, though where no pattern is
-supplied the i'th key returned by \fBdict keys\fR will be the key for
-the i'th value returned by \fBdict values\fR applied to the same
+supplied the \fIi\fR'th key returned by \fBdict keys\fR will be the key for
+the \fIi\fR'th value returned by \fBdict values\fR applied to the same
 dictionary value.
 .TP
 \fBdict lappend \fIdictionaryVariable key \fR?\fIvalue ...\fR?
@@ -195,8 +195,8 @@ Return a list of all values in the given dictionary value. If a
 pattern is supplied, only those values that match it (according to the
 rules of \fBstring match\fR) will be returned. The returned values
 will be in an arbitrary implementation-specific order, though where no
-pattern is supplied the i'th key returned by \fBdict keys\fR will be
-the key for the i'th value returned by \fBdict values\fR applied to
+pattern is supplied the \fIi\fR'th key returned by \fBdict keys\fR will be
+the key for the \fIi\fR'th value returned by \fBdict values\fR applied to
 the same dictionary value.
 .TP
 \fBdict with \fIdictionaryVariable \fR?\fIkey ...\fR? \fIbody\fR

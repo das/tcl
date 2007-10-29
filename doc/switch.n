@@ -102,9 +102,12 @@ no command or variable substitutions are performed on them;  this makes
 the behavior of the second form different than the first form in some
 cases.
 .PP
-If a \fIbody\fR is specified as ``\fB\-\fR'' it means that the \fIbody\fR
+If a \fIbody\fR is specified as
+.QW \fB\-\fR
+it means that the \fIbody\fR
 for the next pattern should also be used as the body for this
-pattern (if the next pattern also has a body of ``\fB\-\fR''
+pattern (if the next pattern also has a body of
+.QW \fB\-\fR
 then the body after that is used, and so on).
 This feature makes it possible to share a single \fIbody\fR among
 several patterns.
