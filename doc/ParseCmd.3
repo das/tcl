@@ -159,7 +159,7 @@ returns \fBTCL_OK\fR and fills in the structure pointed to by
 \fIparsePtr\fR with information about the structure of the variable name
 (see below for details).  If an error
 occurs while parsing the command then \fBTCL_ERROR\fR is returned, an
-error message is left in \fIinterp\fR's result (if \fIinterp\fR isn't
+error message is left in \fIinterp\fR's result (if \fIinterp\fR is not
 NULL), and no information is left at \fI*parsePtr\fR.
 .PP
 \fBTcl_ParseVar\fR parse a Tcl variable reference such as \fB$abc\fR
@@ -364,7 +364,7 @@ can be used to determine the number of operands.
 A binary operator such as \fB*\fR
 is followed by two \fBTCL_TOKEN_SUB_EXPR\fR tokens
 that describe its operands.
-A unary operator like \fB-\fR
+A unary operator like \fB\-\fR
 is followed by a single \fBTCL_TOKEN_SUB_EXPR\fR token
 for its operand.
 If the operator is a math function such as \fBlog10\fR,

@@ -200,7 +200,7 @@ The default value is \fBtrue\fR :
 safe interpreters are allowed to load statically linked packages.
 .TP
 \fB\-noStatics\fR
-This option is a convenience shortcut for \fB-statics false\fR and
+This option is a convenience shortcut for \fB\-statics false\fR and
 thus specifies that the safe interpreter will not be allowed
 to load statically linked packages.
 .TP
@@ -212,7 +212,7 @@ safe interpreters are not allowed to load packages into
 their own sub-interpreters.
 .TP
 \fB\-nestedLoadOk\fR
-This option is a convenience shortcut for \fB-nested true\fR and
+This option is a convenience shortcut for \fB\-nested true\fR and
 thus specifies the safe interpreter will be allowed
 to load packages into its own sub-interpreters.
 .TP 

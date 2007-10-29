@@ -52,7 +52,7 @@ The list elements are in sorted order.  If this option is specified,
 \fIlist\fR.  If no other options are specified, \fIlist\fR is assumed
 to be sorted in increasing order, and to contain ASCII strings.  This
 option is mutually exclusive with \fB\-glob\fR and \fB\-regexp\fR, and
-is treated exactly like \fB-exact\fR when either \fB\-all\fR or
+is treated exactly like \fB\-exact\fR when either \fB\-all\fR or
 \fB\-not\fR are specified.
 .SS "GENERAL MODIFIER OPTIONS"
 These options may be given with all matching styles.

@@ -41,7 +41,7 @@ first \fIlength\fR characters are used in the comparison.  If
 \fB\-length\fR is negative, it is ignored.  If \fB\-nocase\fR is
 specified, then the strings are compared in a case-insensitive manner.
 .TP
-\fBstring equal\fR ?\fB\-nocase\fR? ?\fB-length int\fR? \fIstring1 string2\fR
+\fBstring equal\fR ?\fB\-nocase\fR? ?\fB\-length int\fR? \fIstring1 string2\fR
 Perform a character-by-character comparison of strings \fIstring1\fR
 and \fIstring2\fR.  Returns 1 if \fIstring1\fR and \fIstring2\fR are
 identical, or 0 when not.  If \fB\-length\fR is specified, then only

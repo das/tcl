@@ -171,7 +171,7 @@ below:
 .CE
 .PP
 Where \fBPNAME\(fm\fR is the partial path of the module as defined in
-section \fBFINDING MODULES\fR, and translated into \fB\fRPNAME by
+section \fBFINDING MODULES\fR, and translated into \fBPNAME\fR by
 changing all directory separators to
 .QW "\fB::\fR" ,
 and \fBmodule_path\fR is the path (from the list of paths to search)

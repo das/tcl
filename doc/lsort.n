@@ -124,7 +124,7 @@ effect if combined with the \fB\-dictionary\fR, \fB\-integer\fR, or
 If this option is specified, then only the last set of duplicate
 elements found in the list will be retained.  Note that duplicates are
 determined relative to the comparison used in the sort.  Thus if 
-\fI-index 0\fR is used, \fB{1 a}\fR and \fB{1 b}\fR would be
+\fI\-index 0\fR is used, \fB{1 a}\fR and \fB{1 b}\fR would be
 considered duplicates and only the second element, \fB{1 b}\fR, would
 be retained.
 .SH "NOTES"

@@ -21,7 +21,7 @@ regexp \- Match a regular expression against a string
 .PP
 Determines whether the regular expression \fIexp\fR matches part or
 all of \fIstring\fR and returns 1 if it does, 0 if it does not, unless
-\fB-inline\fR is specified (see below).
+\fB\-inline\fR is specified (see below).
 (Regular expression matching is described in the \fBre_syntax\fR
 reference page.)
 .LP
@@ -109,8 +109,8 @@ the last match only.
 .TP 15
 \fB\-inline\fR
 Causes the command to return, as a list, the data that would otherwise
-be placed in match variables.  When using \fB-inline\fR,
-match variables may not be specified.  If used with \fB-all\fR, the
+be placed in match variables.  When using \fB\-inline\fR,
+match variables may not be specified.  If used with \fB\-all\fR, the
 list will be concatenated at each iteration, such that a flat list is
 always returned.  For each match iteration, the command will append the
 overall match data, plus one element for each subexpression in the

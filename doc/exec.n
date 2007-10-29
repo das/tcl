@@ -145,7 +145,7 @@ If any of the commands in the pipeline exit abnormally or
 are killed or suspended, then \fBexec\fR will return an error
 and the error message will include the pipeline's output followed by
 error messages describing the abnormal terminations; the
-\fB-errorcode\fR return option will contain additional information
+\fB\-errorcode\fR return option will contain additional information
 about the last abnormal termination encountered.
 If any of the commands writes to its standard error file and that
 standard error is not redirected
@@ -366,7 +366,7 @@ To execute a simple program and get its result:
 .PP
 To execute a program that can return a non-zero result, you should
 wrap the call to \fBexec\fR in \fBcatch\fR and check the contents
-of the \fB-errorcode\fR return option if you have an error:
+of the \fB\-errorcode\fR return option if you have an error:
 .CS
 set status 0
 if {[catch {\fBexec\fR grep foo bar.txt} results options]} {

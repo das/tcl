@@ -48,8 +48,8 @@ which will be safely substituted by the Tcl interpreter into
 .QW ^Z .
 .PP
 .VS 8.5
-The \fB-encoding\fR option is used to specify the encoding of
-the data stored in \fIfileName\fR.  When the \fB-encoding\fR option
+The \fB\-encoding\fR option is used to specify the encoding of
+the data stored in \fIfileName\fR.  When the \fB\-encoding\fR option
 is omitted, the system encoding is assumed.
 .VE 8.5
 .SH EXAMPLE
