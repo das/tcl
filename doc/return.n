@@ -169,8 +169,8 @@ evaluation to terminate without evaluating all commands in sequence.
 Some of Tcl's built-in commands evaluate scripts as part of their
 functioning.  These commands can make use of exceptional return
 codes to enable special features.  For example, the built-in
-Tcl commands that provide loops -- such as \fBwhile\fR, \fBfor\fR,
-and \fBforeach\fR -- evaluate a script that is the body of the
+Tcl commands that provide loops \(em such as \fBwhile\fR, \fBfor\fR,
+and \fBforeach\fR \(em evaluate a script that is the body of the
 loop.  If evaluation of the loop body returns the return code
 of \fBTCL_BREAK\fR or \fBTCL_CONTINUE\fR, the loop command can react in such
 a way as to give the \fBbreak\fR and \fBcontinue\fR commands
