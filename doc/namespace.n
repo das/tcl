@@ -103,11 +103,12 @@ If more than one \fIarg\fR argument is specified,
 the arguments are concatenated together with a space between each one
 in the same fashion as the \fBeval\fR command,
 and the result is evaluated.
-.br
-.sp
+.RS
+.PP
 If \fInamespace\fR has leading namespace qualifiers
 and any leading namespaces do not exist,
 they are automatically created.
+.RE
 .TP
 \fBnamespace exists\fR \fInamespace\fR
 Returns \fB1\fR if \fInamespace\fR is a valid namespace in the current
@@ -190,12 +191,18 @@ The \fBnamespace inscope\fR command is much like the \fBnamespace eval\fR
 command except that the \fInamespace\fR must already exist,
 and \fBnamespace inscope\fR appends additional \fIarg\fRs
 as proper list elements.
-.br
+.RS
+.PP
+.CS
 \fBnamespace inscope ::foo $script $x $y $z\fR
+.CE
 is equivalent to
+.CS
 \fBnamespace eval ::foo [concat $script [list $x $y $z]]\fR
+.CE
 thus additional arguments will not undergo a second round of substitution,
 as is the case with \fBnamespace eval\fR.
+.RE
 .TP
 \fBnamespace origin \fIcommand\fR
 Returns the fully-qualified name of the original command

@@ -57,7 +57,7 @@ is printed along with other information about the packet.  The
 to \fBckalloc\fR to be \fIstring\fR.  
 .TP
 \fBmemory trace [on|off]\fR
-.br
+.
 Turns memory tracing on or off.  When memory tracing is on, every call
 to \fBckalloc\fR causes a line of trace information to be written to
 \fIstderr\fR, consisting of the word \fIckalloc\fR, followed by the
