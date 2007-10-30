@@ -63,7 +63,7 @@ extern "C" {
 #define TCL_RELEASE_SERIAL  2
 
 #define TCL_VERSION	    "8.5"
-#define TCL_PATCH_LEVEL	    "8.5b2"
+#define TCL_PATCH_LEVEL	    "8.5b2.1"
 
 /*
  * The following definitions set up the proper options for Windows compilers.
