@@ -394,7 +394,8 @@ Generate a random integer in the range 0..99 inclusive:
 set randNum [\fBexpr\fR { int(100 * rand()) }]
 .CE
 .SH "SEE ALSO"
-array(n), for(n), if(n), mathfunc(n), namespace(n), proc(n), string(n), Tcl(n), while(n)
+array(n), for(n), if(n), mathfunc(n), mathop(n), namespace(n), proc(n),
+string(n), Tcl(n), while(n)
 .SH KEYWORDS
 arithmetic, boolean, compare, expression, fuzzy comparison
 .SH COPYRIGHT
