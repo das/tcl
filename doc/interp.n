@@ -274,13 +274,15 @@ and related procedures in that interpreter will return an error.
 The \fInewlimit\fR value is also returned.
 The \fInewlimit\fR value must be a positive integer between 1 and the
 maximum value of a non-long integer on the platform.
-.sp
+.RS
+.PP
 The command sets the maximum size of the Tcl call stack only. It cannot
 by itself prevent stack overflows on the C stack being used by the
 application. If your machine has a limit on the size of the C stack, you
 may get stack overflows before reaching the limit set by the command. If
 this happens, see if there is a mechanism in your system for increasing
 the maximum size of the C stack.
+.RE
 .TP
 \fBinterp\fR \fBshare\fR \fIsrcPath channelId destPath\fR
 Causes the IO channel identified by \fIchannelId\fR to become shared
@@ -452,13 +454,15 @@ and related procedures in \fIslave\fR will return an error.
 The \fInewlimit\fR value is also returned.
 The \fInewlimit\fR value must be a positive integer between 1 and the
 maximum value of a non-long integer on the platform.
-.sp
+.RS
+.PP
 The command sets the maximum size of the Tcl call stack only. It cannot
 by itself prevent stack overflows on the C stack being used by the
 application. If your machine has a limit on the size of the C stack, you
 may get stack overflows before reaching the limit set by the command. If
 this happens, see if there is a mechanism in your system for increasing
 the maximum size of the C stack.
+.RE
 .SH "SAFE INTERPRETERS"
 .PP
 A safe interpreter is one with restricted functionality, so that

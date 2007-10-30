@@ -33,7 +33,6 @@ Safe\ Base \- A mechanism for creating and manipulating safe interpreters
 ?\fB\-nested\fR \fIboolean\fR? ?\fB\-nestedLoadOk\fR?
 ?\fB\-deleteHook\fR \fIscript\fR?
 .BE
-
 .SH DESCRIPTION
 Safe Tcl is a mechanism for executing untrusted Tcl scripts
 safely and for providing mediated access by such scripts to
@@ -158,6 +157,7 @@ This prevents a safe interpreter from seeing messages about failures
 and other events that might contain sensitive information such as real
 directory names.
 .RS
+.PP
 Example of use:
 .PP
 .CS

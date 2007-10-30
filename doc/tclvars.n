@@ -36,6 +36,7 @@ If the entire \fBenv\fR array is unset then Tcl will stop
 monitoring \fBenv\fR accesses and will not update environment
 variables.
 .RS
+.PP
 Under Windows, the environment variables PATH and COMSPEC in any
 capitalization are converted automatically to upper case.  For instance, the
 PATH variable could be exported by the operating system as
