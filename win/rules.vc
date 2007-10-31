@@ -106,18 +106,8 @@ OPTIMIZATIONS  = $(OPTIMIZATIONS) -Oi
 OPTIMIZATIONS  = $(OPTIMIZATIONS) -Op
 !endif
 
-# Tk doesnt seem to be able to use -fp:strict.
-!if "$(PROJECT)" != "tk"
 !if [nmakehlp -c -fp:strict]
 OPTIMIZATIONS  = $(OPTIMIZATIONS) -fp:strict
-!endif
-!else
-!if [nmakehlp -c -fp:precise]
-OPTIMIZATIONS  = $(OPTIMIZATIONS) -fp:precise
-!endif
-!if [nmakehlp -c -fp:except]
-OPTIMIZATIONS  = $(OPTIMIZATIONS) -fp:except
-!endif
 !endif
 
 !if [nmakehlp -c -Gs]
