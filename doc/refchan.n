@@ -6,11 +6,11 @@
 '\"
 '\" RCS: @(#) $Id$
 .so man.macros
-.TH reflectedchan n 8.5 Tcl "Tcl Built-In Commands"
+.TH refchan n 8.5 Tcl "Tcl Built-In Commands"
 .BS
-'\" Note:  do not modify the .SH NAME line immediately below!
+.\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-reflectedchan \- Command handler API of reflected channels, version 1
+refchan \- Command handler API of reflected channels, version 1
 .SH SYNOPSIS
 \fBcmdPrefix \fIoption\fR ?\fIarg arg ...\fR?
 .BE

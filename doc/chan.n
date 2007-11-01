@@ -730,6 +730,6 @@ while {[\fBchan gets\fR $f line] >= 0} {
 .SH "SEE ALSO"
 close(n), eof(n), fblocked(n), fconfigure(n), fcopy(n), file(n),
 fileevent(n), flush(n), gets(n), open(n), puts(n), read(n), seek(n),
-socket(n), tell(n), reflectedchan(n)
+socket(n), tell(n), refchan(n)
 .SH KEYWORDS
 channel, input, output, events, offset
