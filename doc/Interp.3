@@ -43,7 +43,7 @@ This information is returned by command procedures back to \fBTcl_Eval\fR,
 and by \fBTcl_Eval\fR back to its callers.
 The \fIresult\fR field points to the string that represents the
 result or error message, and the \fIfreeProc\fR field tells how
-to dispose of the storage for the string when it isn't needed anymore.
+to dispose of the storage for the string when it is not needed anymore.
 The easiest way for command procedures to manipulate these
 fields is to call procedures like \fBTcl_SetResult\fR
 or \fBTcl_AppendResult\fR;  they
