@@ -2371,7 +2371,7 @@ Tcl_FindCommand(
      * signal an error.
      */
 
-    if (flags & TCL_GLOBAL_ONLY) {
+    if ((flags & TCL_GLOBAL_ONLY) || !strncmp(name, "::", 2)) {
 	cxtNsPtr = (Namespace *) TclGetGlobalNamespace(interp);
     } else if (contextNsPtr != NULL) {
 	cxtNsPtr = (Namespace *) contextNsPtr;
