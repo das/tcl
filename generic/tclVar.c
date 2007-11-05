@@ -597,7 +597,7 @@ TclObjLookupVarEx(
 
 		if (flags & TCL_LEAVE_ERR_MSG) {
 		    TclObjVarErrMsg(interp, part1Ptr, part2Ptr, msg,
-			    needArray, -1);
+			    noSuchVar, -1);
 		}
 		return NULL;
 	    }
@@ -631,6 +631,7 @@ TclObjLookupVarEx(
 			TclObjVarErrMsg(interp, part1Ptr, part2Ptr, msg,
 				needArray, -1);
 		    }
+		    return NULL;
 		}
 
 		/*
