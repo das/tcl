@@ -148,7 +148,7 @@ following examples illustrate various forms of path names:
 Absolute UNC path to a file called \fBfile\fR in the root directory of
 the export point \fBshare\fR on the host \fBHost\fR.  Note that
 repeated use of \fBfile dirname\fR on this path will give
-\fB//Host/share\fR, and will never give just /fB//Host/fR.
+\fB//Host/share\fR, and will never give just \fB//Host/fR.
 .TP 15
 \fBc:foo\fR
 Volume-relative path to a file \fBfoo\fR in the current directory on drive
