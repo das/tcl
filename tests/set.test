@@ -514,6 +514,13 @@ test set-4.6 {set command: runtime error, basic array operations} {
     list [catch {$z a} msg] $msg
 } {1 {can't read "a": variable is array}}
 
+test set-5.1 {error on malformed array name} {
+    unset -nocomplain z
+    catch {testset2 z(a) b} msg
+    catch {testset2 z(b) a} msg1
+    list $msg $msg1
+} {{can't read "z(a)(b)": variable isn't array} {can't read "z(b)(a)": variable isn't array}}
+
 # cleanup
 catch {unset a}
 catch {unset b}
