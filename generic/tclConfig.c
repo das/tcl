@@ -71,6 +71,11 @@ Tcl_RegisterConfig(
     Tcl_Config *cfg;
     Tcl_Encoding venc = Tcl_GetEncoding(NULL, valEncoding);
 
+    if (venc == NULL) {
+	/* Fall back to a builtin encoding if the user supplied one is bogus. */
+	venc = Tcl_GetEncoding(NULL, "iso8859-1");
+    }
+
     pDB = GetConfigDict(interp);
     pkg = Tcl_NewStringObj(pkgName, -1);
 
