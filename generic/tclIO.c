@@ -3232,15 +3232,20 @@ DoWriteChars(
 	/*
 	 * Inefficient way to convert UTF-8 to byte-array, but the code
 	 * parallels the way it is done for objects.
+	 * Special case for 1-byte (used by eg [puts] for the \n) could
+	 * be extended to more efficient translation of the src string.
 	 */
 
-	Tcl_Obj *objPtr;
  	int result;
 
-	objPtr = Tcl_NewStringObj(src, len);
-	src = (char *) Tcl_GetByteArrayFromObj(objPtr, &len);
-	result = WriteBytes(chanPtr, src, len);
-	TclDecrRefCount(objPtr);
+	if ((len == 1) && (UCHAR(*src) < 0xC0)) {
+	    result = WriteBytes(chanPtr, src, len);
+	} else {
+	    Tcl_Obj *objPtr = Tcl_NewStringObj(src, len);
+	    src = (char *) Tcl_GetByteArrayFromObj(objPtr, &len);
+	    result = WriteBytes(chanPtr, src, len);
+	    TclDecrRefCount(objPtr);
+	}
 	return result;
     }
     return WriteChars(chanPtr, src, len);
