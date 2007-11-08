@@ -4070,8 +4070,8 @@ TclExecuteByteCode(
 
 	    string1 = Tcl_GetByteArrayFromObj(valuePtr, &length1);
 	    string2 = Tcl_GetByteArrayFromObj(value2Ptr, &length2);
-	    match = TclByteArrayMatch(string1, length1, string2, length2,
-		    nocase);
+	    match = TclByteArrayMatch((char*) string1, length1,
+		    (char*) string2, length2, nocase);
 	} else {
 	    match = Tcl_StringCaseMatch(TclGetString(valuePtr),
 		    TclGetString(value2Ptr), nocase);

@@ -4277,7 +4277,7 @@ TclGetsObjBinary(
 	    bufPtr = statePtr->inQueueTail;
 	}
 
-	dst = RemovePoint(bufPtr);
+	dst = (unsigned char*) RemovePoint(bufPtr);
 	dstEnd = dst + BytesLeft(bufPtr);
 
 	/*
