@@ -4063,6 +4063,15 @@ TclExecuteByteCode(
 	    ustring2 = Tcl_GetUnicodeFromObj(value2Ptr, &length2);
 	    match = TclUniCharMatch(ustring1, length1, ustring2, length2,
 		    nocase);
+	} else if ((valuePtr->typePtr == &tclByteArrayType)
+		|| (value2Ptr->typePtr == &tclByteArrayType)) {
+	    unsigned char *string1, *string2;
+	    int length1, length2;
+
+	    string1 = Tcl_GetByteArrayFromObj(valuePtr, &length1);
+	    string2 = Tcl_GetByteArrayFromObj(value2Ptr, &length2);
+	    match = TclByteArrayMatch(string1, length1, string2, length2,
+		    nocase);
 	} else {
 	    match = Tcl_StringCaseMatch(TclGetString(valuePtr),
 		    TclGetString(value2Ptr), nocase);

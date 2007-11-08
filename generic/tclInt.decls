@@ -942,6 +942,11 @@ declare 236 generic {
     void TclBackgroundException(Tcl_Interp *interp, int code)
 }
 
+# Added for 8.5b3 to improve binary glob match case
+declare 237 generic {
+    int TclByteArrayMatch(CONST char *string, int strLen,
+	    CONST char *pattern, int ptnLen, int nocase)
+}
 
 ##############################################################################
 

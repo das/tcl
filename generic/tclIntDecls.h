@@ -1057,6 +1057,12 @@ EXTERN void		TclInitVarHashTable (TclVarHashTable * tablePtr,
 EXTERN void		TclBackgroundException (Tcl_Interp * interp, 
 				int code);
 #endif
+#ifndef TclByteArrayMatch_TCL_DECLARED
+#define TclByteArrayMatch_TCL_DECLARED
+/* 237 */
+EXTERN int		TclByteArrayMatch (CONST char * string, int strLen, 
+				CONST char * pattern, int ptnLen, int nocase);
+#endif
 
 typedef struct TclIntStubs {
     int magic;
@@ -1314,6 +1320,7 @@ typedef struct TclIntStubs {
     Var * (*tclVarHashCreateVar) (TclVarHashTable * tablePtr, const char * key, int * newPtr); /* 234 */
     void (*tclInitVarHashTable) (TclVarHashTable * tablePtr, Namespace * nsPtr); /* 235 */
     void (*tclBackgroundException) (Tcl_Interp * interp, int code); /* 236 */
+    int (*tclByteArrayMatch) (CONST char * string, int strLen, CONST char * pattern, int ptnLen, int nocase); /* 237 */
 } TclIntStubs;
 
 #ifdef __cplusplus
@@ -2046,6 +2053,10 @@ extern TclIntStubs *tclIntStubsPtr;
 #ifndef TclBackgroundException
 #define TclBackgroundException \
 	(tclIntStubsPtr->tclBackgroundException) /* 236 */
+#endif
+#ifndef TclByteArrayMatch
+#define TclByteArrayMatch \
+	(tclIntStubsPtr->tclByteArrayMatch) /* 237 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
