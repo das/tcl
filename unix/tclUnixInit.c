@@ -1129,9 +1129,9 @@ TclpGetCStackParams(
     }
 
     if (stackGrowsDown) {
-	*stackBoundPtr = tsdPtr->outerVarPtr - tsdPtr->stackSize;
+	*stackBoundPtr = (int *) ((char *)tsdPtr->outerVarPtr - tsdPtr->stackSize);
     } else {
-	*stackBoundPtr = tsdPtr->outerVarPtr + tsdPtr->stackSize;
+	*stackBoundPtr = (int *) ((char *)tsdPtr->outerVarPtr + tsdPtr->stackSize);
     }
     return stackGrowsDown;
 #endif
