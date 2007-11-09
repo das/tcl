@@ -324,6 +324,12 @@ Tcl_AsyncReady(void)
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
     return tsdPtr->asyncReady;
 }
+
+int *
+TclGetAsyncReadyPtr(void) {
+    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
+    return &(tsdPtr->asyncReady);
+}
 
 /*
  * Local Variables:

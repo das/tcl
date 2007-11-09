@@ -1734,7 +1734,7 @@ TclExecuteByteCode(
 	 * ASYNC_CHECK_COUNT_MASK instruction, of the form (2**n-<1).
 	 */
 
-	if (Tcl_AsyncReady()) {
+	if (TclAsyncReady(iPtr)) {
 	    int localResult;
 
 	    DECACHE_STACK_INFO();
