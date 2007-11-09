@@ -1555,9 +1555,9 @@ Tcl_StringCaseMatch(
  *
  * TclByteArrayMatch --
  *
- *	See if a particular string matches a particular pattern. Allows case
- *	insensitivity.
- *	Parallels tclUtf.c:TclUniCharMatch, adjusted for char*.
+ *	See if a particular string matches a particular pattern.  Does not
+ *	allow for case insensitivity.
+ *	Parallels tclUtf.c:TclUniCharMatch, adjusted for char* and sans nocase.
  *
  * Results:
  *	The return value is 1 if string matches pattern, and 0 otherwise. The
@@ -1572,15 +1572,14 @@ Tcl_StringCaseMatch(
 
 int
 TclByteArrayMatch(
-    CONST char *string,		/* String. */
-    int strLen,			/* Length of String */
-    CONST char *pattern,	/* Pattern, which may contain special
-				 * characters. */
-    int ptnLen,			/* Length of Pattern */
-    int nocase)			/* 0 for case sensitive, 1 for insensitive */
+    const unsigned char *string,	/* String. */
+    int strLen,				/* Length of String */
+    const unsigned char *pattern,	/* Pattern, which may contain special
+					 * characters. */
+    int ptnLen)				/* Length of Pattern */
 {
-    CONST char *stringEnd, *patternEnd;
-    char p;
+    const unsigned char *stringEnd, *patternEnd;
+    unsigned char p;
 
     stringEnd = string + strLen;
     patternEnd = pattern + ptnLen;
@@ -1620,9 +1619,6 @@ TclByteArrayMatch(
 		return 1;
 	    }
 	    p = *pattern;
-	    if (nocase) {
-		p = tolower(p);
-	    }
 	    while (1) {
 		/*
 		 * Optimization for matching - cruise through the string
@@ -1631,19 +1627,12 @@ TclByteArrayMatch(
 		 */
 
 		if ((p != '[') && (p != '?') && (p != '\\')) {
-		    if (nocase) {
-			while ((string < stringEnd) && (p != *string)
-				&& (p != tolower(*string))) {
-			    string++;
-			}
-		    } else {
-			while ((string < stringEnd) && (p != *string)) {
-			    string++;
-			}
+		    while ((string < stringEnd) && (p != *string)) {
+			string++;
 		    }
 		}
 		if (TclByteArrayMatch(string, stringEnd - string,
-			pattern, patternEnd - pattern, nocase)) {
+			pattern, patternEnd - pattern)) {
 		    return 1;
 		}
 		if (string == stringEnd) {
@@ -1671,23 +1660,23 @@ TclByteArrayMatch(
 	 */
 
 	if (p == '[') {
-	    char ch1, startChar, endChar;
+	    unsigned char ch1, startChar, endChar;
 
 	    pattern++;
-	    ch1 = (nocase ? tolower(*string) : *string);
+	    ch1 = *string;
 	    string++;
 	    while (1) {
 		if ((*pattern == ']') || (pattern == patternEnd)) {
 		    return 0;
 		}
-		startChar = (nocase ? tolower(*pattern) : *pattern);
+		startChar = *pattern;
 		pattern++;
 		if (*pattern == '-') {
 		    pattern++;
 		    if (pattern == patternEnd) {
 			return 0;
 		    }
-		    endChar = (nocase ? tolower(*pattern) : *pattern);
+		    endChar = *pattern;
 		    pattern++;
 		    if (((startChar <= ch1) && (ch1 <= endChar))
 			    || ((endChar <= ch1) && (ch1 <= startChar))) {
@@ -1727,11 +1716,7 @@ TclByteArrayMatch(
 	 * each string match.
 	 */
 
-	if (nocase) {
-	    if (tolower(*string) != tolower(*pattern)) {
-		return 0;
-	    }
-	} else if (*string != *pattern) {
+	if (*string != *pattern) {
 	    return 0;
 	}
 	string++;
