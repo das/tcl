@@ -310,7 +310,9 @@ Tcl_GetByteArrayFromObj(
 {
     ByteArray *baPtr;
 
-    SetByteArrayFromAny(NULL, objPtr);
+    if (objPtr->typePtr != &tclByteArrayType) {
+	SetByteArrayFromAny(NULL, objPtr);
+    }
     baPtr = GET_BYTEARRAY(objPtr);
 
     if (lengthPtr != NULL) {
