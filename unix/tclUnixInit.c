@@ -81,8 +81,14 @@ typedef struct ThreadSpecificData {
     int *stackBound;            /* The current stack boundary */
 } ThreadSpecificData;
 static Tcl_ThreadDataKey dataKey;
+#ifdef TCL_CROSS_COMPILE
 static int stackGrowsDown = -1;
 static int StackGrowsDown(int *parent);
+#elif defined(TCL_STACK_GROWS_UP)
+static int stackGrowsDown = 0;
+#else
+static int stackGrowsDown = 1;
+#endif
 #endif /* TCL_NO_STACK_CHECK */
 
 #ifdef TCL_DEBUG_STACK_CHECK
@@ -1035,7 +1041,7 @@ TclpGetCStackParams(
 				/* Most variables are actually in a
 				 * thread-specific data block to minimise the
 				 * impact on the stack. */
-    
+#ifdef TCL_CROSS_COMPILE    
     if (stackGrowsDown == -1) {
 	/*
 	 * Not initialised!
@@ -1043,7 +1049,8 @@ TclpGetCStackParams(
 
 	stackGrowsDown = StackGrowsDown(&result);
     }
-
+#endif
+    
     /*
      * The first time through in a thread: record the "outermost" stack
      * frame and inquire with the OS about the stack size.
@@ -1094,6 +1101,7 @@ TclpGetCStackParams(
     return stackGrowsDown;
 }
 
+#ifdef TCL_CROSS_COMPILE
 int
 StackGrowsDown(
     int *parent)
@@ -1101,6 +1109,7 @@ StackGrowsDown(
     int here;
     return (&here < parent);
 }
+#endif
 #endif
 
 
