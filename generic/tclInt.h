@@ -1855,7 +1855,7 @@ typedef struct Interp {
 				    * tclObj.c and tclThreadAlloc.c */ 
     int        *asyncReadyPtr;     /* Pointer to the asyncReady indicator for
 				    * this interp's thread; see tclAsync.c */
-    int        *stackBound;        /* Pointer to the limit stack address
+    int        **stackBoundPtr;    /* Pointer to the limit stack address
 				    * allowable for invoking a new command
 				    * without "risking" a C-stack overflow;
 				    * see TclpCheckStackSpace in the
@@ -2501,8 +2501,10 @@ MODULE_SCOPE void	TclParseInit(Tcl_Interp *interp, CONST char *string,
 MODULE_SCOPE int	TclParseAllWhiteSpace(CONST char *src, int numBytes);
 MODULE_SCOPE int	TclProcessReturn(Tcl_Interp *interp,
 			    int code, int level, Tcl_Obj *returnOpts);
+#ifndef TCL_NO_STACK_CHECK
+MODULE_SCOPE int        TclpGetCStackParams(int ***stackBound);
+#endif
 MODULE_SCOPE int	TclpObjLstat(Tcl_Obj *pathPtr, Tcl_StatBuf *buf);
-MODULE_SCOPE int	TclpCheckStackSpace(void);
 MODULE_SCOPE Tcl_Obj *	TclpTempFileName(void);
 MODULE_SCOPE Tcl_Obj *	TclNewFSPathObj(Tcl_Obj *dirPtr, CONST char *addStrRep,
 			    int len);
