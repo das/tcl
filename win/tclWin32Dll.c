@@ -544,7 +544,7 @@ TclWinNoBackslash(
 #ifndef TCL_NO_STACK_CHECK
 int
 TclpGetCStackParams(
-    int ***stackBoundPtr)
+    int **stackBoundPtr)
 {
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
     SYSTEM_INFO si;		/* The system information, used to
@@ -592,7 +592,7 @@ TclpGetCStackParams(
 			+ TCL_WIN_STACK_THRESHOLD);
 	}
     }
-    *stackBoundPtr = &(tsdPtr->stackBound);
+    *stackBoundPtr = tsdPtr->stackBound;
     return 1;
 }
 #endif

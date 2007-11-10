@@ -338,15 +338,15 @@ static const OpCmdInfo mathOpCmds[] = {
 static int stackGrowsDown = 1;
 
 #define GetCStackParams(iPtr) \
-    stackGrowsDown = TclpGetCStackParams(&((iPtr)->stackBoundPtr))
+    stackGrowsDown = TclpGetCStackParams(&((iPtr)->stackBound))
 
-#define CheckStackSpace(iPtr, localIntPtr) \
+#define StackOverflow(iPtr, localIntPtr) \
     (stackGrowsDown \
-	    ? ((localIntPtr) > *((iPtr)->stackBoundPtr))	\
-	    : ((localIntPtr) < *((iPtr)->stackBoundPtr))	\
+	    ? ((localIntPtr) < (iPtr)->stackBound) \
+	    : ((localIntPtr) > (iPtr)->stackBound) \
     )
 #else /* stack check disabled: make them noops */
-#define CheckStackSpace(interp, localIntPtr) 1
+#define StackOverflow(interp, localIntPtr) 0
 #define GetCStackParams(iPtr) 
 #endif
 
@@ -3407,7 +3407,7 @@ int
 TclInterpReady(
     Tcl_Interp *interp)
 {
-    int localInt, stackOverflow; /* used for checking the stack */
+    int localInt; /* used for checking the stack */
     register Interp *iPtr = (Interp *) interp;
 
     /*
@@ -3435,17 +3435,8 @@ TclInterpReady(
      * probably because of an infinite loop somewhere.
      */
 
-    stackOverflow = !CheckStackSpace(iPtr, &localInt); 
-    if (stackOverflow) {
-	/*
-	 * Update the stack params in case the thread's stack was grown.
-	 */
-
-	GetCStackParams(iPtr);
-	stackOverflow = !CheckStackSpace(iPtr, &localInt); 
-    }
-    
-    if (stackOverflow || ((iPtr->numLevels) > iPtr->maxNestingDepth)) {
+    if (((iPtr->numLevels) > iPtr->maxNestingDepth)
+	    || StackOverflow(iPtr, &localInt)) {
 	Tcl_AppendResult(interp,
 		"too many nested evaluations (infinite loop?)", NULL);
 	return TCL_ERROR;
