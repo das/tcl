@@ -3412,6 +3412,10 @@ TclExecuteByteCode(
     case INST_LIST_INDEX: {
 	/*** lindex with objc == 3 ***/
 
+	/* Variables also for INST_LIST_INDEX_IMM */
+	   
+	int listc, idx, opnd, pcAdjustment;
+	Tcl_Obj **listv;
 	Tcl_Obj *valuePtr, *value2Ptr;
 
 	/*
@@ -3424,6 +3428,16 @@ TclExecuteByteCode(
 	/*
 	 * Extract the desired list element.
 	 */
+
+	result = Tcl_ListObjGetElements(interp, valuePtr, &listc, &listv);
+	if ((result == TCL_OK) && (value2Ptr->typePtr != &tclListType)
+		&& (TclGetIntForIndex(NULL , value2Ptr, listc-1, &idx) == TCL_OK)) {
+
+	    Tcl_DecrRefCount(value2Ptr);
+	    tosPtr--;
+	    pcAdjustment = 1;
+	    goto lindexFastPath;
+	}
 
 	objResultPtr = TclLindexList(interp, valuePtr, value2Ptr);
 	if (objResultPtr) {
@@ -3440,14 +3454,11 @@ TclExecuteByteCode(
 	    result = TCL_ERROR;
 	    goto checkForCatch;
 	}
-    }
 
-    case INST_LIST_INDEX_IMM: {
+    case INST_LIST_INDEX_IMM: 
 	/*** lindex with objc==3 and index in bytecode stream ***/
 
-	int listc, idx, opnd;
-	Tcl_Obj **listv;
-	Tcl_Obj *valuePtr;
+	pcAdjustment = 5;
 
 	/*
 	 * Pop the list and get the index.
@@ -3473,6 +3484,8 @@ TclExecuteByteCode(
 	    } else {
 		idx = opnd;
 	    }
+
+	    lindexFastPath:
 	    if (idx >= 0 && idx < listc) {
 		objResultPtr = listv[idx];
 	    } else {
@@ -3481,7 +3494,7 @@ TclExecuteByteCode(
 
 	    TRACE_WITH_OBJ(("\"%.30s\" %d => ", O2S(valuePtr), opnd),
 		    objResultPtr);
-	    NEXT_INST_F(5, 1, 1);
+	    NEXT_INST_F(pcAdjustment, 1, 1);
 	} else {
 	    TRACE_WITH_OBJ(("\"%.30s\" %d => ERROR: ", O2S(valuePtr), opnd),
 		    Tcl_GetObjResult(interp));
