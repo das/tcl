@@ -961,9 +961,7 @@ ResetObjResult(
 	TclNewObj(objResultPtr);
 	Tcl_IncrRefCount(objResultPtr);
 	iPtr->objResultPtr = objResultPtr;
-    } else if (objResultPtr->bytes == tclEmptyStringRep) {
-	return;
-    } else {
+    } else if (objResultPtr->bytes != tclEmptyStringRep) {
 	if (objResultPtr->bytes != NULL) {
 	    ckfree((char *) objResultPtr->bytes);
 	}
