@@ -251,7 +251,7 @@ Tcl_RegExpRange(
 	*startPtr = *endPtr = NULL;
     } else {
 	if (regexpPtr->objPtr) {
-	    string = Tcl_GetString(regexpPtr->objPtr);
+	    string = TclGetString(regexpPtr->objPtr);
 	} else {
 	    string = regexpPtr->string;
 	}
@@ -562,7 +562,7 @@ Tcl_GetRegExpFromObj(
     regexpPtr = (TclRegexp *) objPtr->internalRep.otherValuePtr;
 
     if ((objPtr->typePtr != &tclRegexpType) || (regexpPtr->flags != flags)) {
-	pattern = Tcl_GetStringFromObj(objPtr, &length);
+	pattern = TclGetStringFromObj(objPtr, &length);
 
 	regexpPtr = CompileRegexp(interp, pattern, length, flags);
 	if (regexpPtr == NULL) {

@@ -1921,7 +1921,7 @@ Tcl_SubstObj(
     Tcl_Token *endTokenPtr;
     Tcl_Obj *result;
     Tcl_Obj *errMsg = NULL;
-    CONST char *p = Tcl_GetStringFromObj(objPtr, &length);
+    CONST char *p = TclGetStringFromObj(objPtr, &length);
     Tcl_Parse *parsePtr = (Tcl_Parse *) TclStackAlloc(interp, sizeof(Tcl_Parse));
 
     TclParseInit(interp, p, length, parsePtr);
@@ -2435,7 +2435,7 @@ TclObjCommandComplete(
     CONST char *script;
     int length;
 
-    script = Tcl_GetStringFromObj(objPtr, &length);
+    script = TclGetStringFromObj(objPtr, &length);
     return CommandComplete(script, length);
 }
 

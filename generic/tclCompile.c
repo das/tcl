@@ -484,7 +484,7 @@ TclSetByteCodeFromAny(
     }
 #endif
 
-    stringPtr = Tcl_GetStringFromObj(objPtr, &length);
+    stringPtr = TclGetStringFromObj(objPtr, &length);
 
     /*
      * TIP #280: Pick up the CmdFrame in which the BC compiler was invoked and
