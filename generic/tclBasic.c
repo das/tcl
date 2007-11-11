@@ -353,7 +353,7 @@ static int stackGrowsDown = 1;
     TclpGetCStackParams(&((iPtr)->stackBound))
 #ifdef TCL_STACK_GROWS_UP
 #define CheckCStack(iPtr, localIntPtr) \
-	   ((localIntPtr) < (iPtr)->stackBound)
+	   ((iPtr)->stackBound && (localIntPtr) < (iPtr)->stackBound)
 #else /* TCL_STACK_GROWS_UP */
 #define CheckCStack(iPtr, localIntPtr) \
 	   ((localIntPtr) > (iPtr)->stackBound)
