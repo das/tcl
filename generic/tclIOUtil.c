@@ -3813,7 +3813,7 @@ Tcl_FSSplitPath(
      */
 
     if (lenPtr != NULL) {
-	Tcl_ListObjLength(NULL, result, lenPtr);
+	TclListObjLength(NULL, result, lenPtr);
     }
     return result;
 }

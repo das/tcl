@@ -451,7 +451,7 @@ ExecuteCallback(
 	 */
 
 	resObj = Tcl_GetObjResult(dataPtr->interp);
-	Tcl_GetIntFromObj(dataPtr->interp, resObj, &dataPtr->maxRead);
+	TclGetIntFromObj(dataPtr->interp, resObj, &dataPtr->maxRead);
 	break;
     }
 

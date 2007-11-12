@@ -326,6 +326,8 @@ TclIntStubs tclIntStubs = {
     TclVarHashCreateVar, /* 234 */
     TclInitVarHashTable, /* 235 */
     TclBackgroundException, /* 236 */
+    TclByteArrayMatch, /* 237 */
+    TclReToGlob, /* 238 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
