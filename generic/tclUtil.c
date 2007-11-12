@@ -2024,7 +2024,6 @@ Tcl_DStringResult(
     } else {
 	Tcl_SetResult(interp, dsPtr->string, TCL_VOLATILE);
     }
-    ((Interp *) interp)->flags |= INTERP_RESULT_UNCLEAN;
 
     dsPtr->string = dsPtr->staticSpace;
     dsPtr->length = 0;

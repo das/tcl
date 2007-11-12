@@ -50,7 +50,6 @@ HasStubSupport(
     interp->result =
 	    "This interpreter does not support stubs-enabled extensions.";
     interp->freeProc = TCL_STATIC;
-    ((Interp *)interp)->flags |= INTERP_RESULT_UNCLEAN;
     return NULL;
 }
 
