@@ -494,7 +494,7 @@ Tcl_AppendAllObjTypes(
      * Get the test for a valid list out of the way first.
      */
 
-    if (Tcl_ListObjLength(interp, objPtr, &numElems) != TCL_OK) {
+    if (TclListObjLength(interp, objPtr, &numElems) != TCL_OK) {
 	return TCL_ERROR;
     }
 
@@ -1423,7 +1423,7 @@ ParseBoolean(
     register Tcl_Obj *objPtr)	/* The object to parse/convert. */
 {
     int i, length, newBool;
-    char lowerCase[6], *str = Tcl_GetStringFromObj(objPtr, &length);
+    char lowerCase[6], *str = TclGetStringFromObj(objPtr, &length);
 
     if ((length == 0) || (length > 5)) {
 	/* longest valid boolean string rep. is "false" */
@@ -1902,9 +1902,12 @@ Tcl_GetIntFromObj(
     register Tcl_Obj *objPtr,	/* The object from which to get a int. */
     register int *intPtr)	/* Place to store resulting int. */
 {
+#if (LONG_MAX == INT_MAX)
+    return TclGetLongFromObj(interp, objPtr, (long *) intPtr);
+#else
     long l;
 
-    if (Tcl_GetLongFromObj(interp, objPtr, &l) != TCL_OK) {
+    if (TclGetLongFromObj(interp, objPtr, &l) != TCL_OK) {
 	return TCL_ERROR;
     }
     if ((ULONG_MAX > UINT_MAX) && ((l > UINT_MAX) || (l < -(long)UINT_MAX))) {
@@ -1918,6 +1921,7 @@ Tcl_GetIntFromObj(
     }
     *intPtr = (int) l;
     return TCL_OK;
+#endif
 }
 
 /*
@@ -1942,7 +1946,7 @@ SetIntFromAny(
     Tcl_Obj *objPtr)		/* Pointer to the object to convert */
 {
     long l;
-    return Tcl_GetLongFromObj(interp, objPtr, &l);
+    return TclGetLongFromObj(interp, objPtr, &l);
 }
 
 /*

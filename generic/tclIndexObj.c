@@ -533,7 +533,7 @@ Tcl_WrongNumArgs(
 		elementStr = ecrPtr->fullSubcmdName;
 		elemLen = strlen(elementStr);
 	    } else {
-		elementStr = Tcl_GetStringFromObj(origObjv[i], &elemLen);
+		elementStr = TclGetStringFromObj(origObjv[i], &elemLen);
 	    }
 	    len = Tcl_ScanCountedElement(elementStr, elemLen, &flags);
 
@@ -588,7 +588,7 @@ Tcl_WrongNumArgs(
 	     * Quote the argument if it contains spaces (Bug 942757).
 	     */
 
-	    elementStr = Tcl_GetStringFromObj(objv[i], &elemLen);
+	    elementStr = TclGetStringFromObj(objv[i], &elemLen);
 	    len = Tcl_ScanCountedElement(elementStr, elemLen, &flags);
 
 	    if (MAY_QUOTE_WORD && len != elemLen) {
