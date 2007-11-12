@@ -385,6 +385,9 @@ InstructionDesc tclInstructionTable[] = {
 	/* Compiled bytecodes to signal syntax error. */
     {"reverse",		 5,    0,         1,	{OPERAND_UINT4}},
 	/* Reverse the order of the arg elements at the top of stack */
+
+    {"regexp",		 2,   -1,         1,	{OPERAND_INT1}},
+	/* Regexp:	push (regexp stknext stktop) opnd == nocase */
     {0}
 };
 

@@ -945,7 +945,13 @@ declare 236 generic {
 # Added for 8.5b3 to improve binary glob match case
 declare 237 generic {
     int TclByteArrayMatch(const unsigned char *string, int strLen,
-	    const unsigned char *pattern, int ptnLen)
+			  const unsigned char *pattern, int ptnLen)
+}
+
+# Added for 8.5b3 to generalize check for RE to glob pattern conversion
+declare 238 generic {
+    int TclReToGlob(Tcl_Interp *interp, const char *reStr, int reStrLen,
+		    Tcl_DString *dsPtr, int *exactPtr)
 }
 
 ##############################################################################
