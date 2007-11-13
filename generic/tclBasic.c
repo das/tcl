@@ -3426,7 +3426,7 @@ TclInterpReady(
      * any previous error information.
      */
 
-    TclResetResult(iPtr);
+    Tcl_ResetResult(interp);
 
     /*
      * If the interpreter has been deleted, return an error.
@@ -5398,7 +5398,6 @@ Tcl_AddObjErrorInfo(
 	}
 	Tcl_AppendToObj(iPtr->errorInfo, message, length);
     }
-    ((Interp *) interp)->flags |= INTERP_RESULT_UNCLEAN;    
 }
 
 /*

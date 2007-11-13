@@ -1218,7 +1218,7 @@ Tcl_ExprObj(
 
     saveObjPtr = Tcl_GetObjResult(interp);
     Tcl_IncrRefCount(saveObjPtr);
-    TclResetResult(interp);
+    Tcl_ResetResult(interp);
 
     /*
      * Increment the code's ref count while it is being executed. If
@@ -6336,7 +6336,7 @@ TclExecuteByteCode(
 
     case INST_END_CATCH:
 	catchTop--;
-	TclResetResult(interp);
+	Tcl_ResetResult(interp);
 	result = TCL_OK;
 	TRACE(("=> catchTop=%d\n", (catchTop - initCatchTop - 1)));
 	NEXT_INST_F(1, 0, 0);

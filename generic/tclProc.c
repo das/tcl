@@ -2218,7 +2218,6 @@ TclUpdateReturnInfo(
 	    iPtr->flags |= ERR_LEGACY_COPY;
 	}
     }
-    iPtr->flags |= INTERP_RESULT_UNCLEAN;
     return code;
 }
 
