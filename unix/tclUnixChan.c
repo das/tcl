@@ -2741,7 +2741,6 @@ CreateSocketAddress(
 	if (native != NULL) {
 	    Tcl_DStringFree(&ds);
 	}
-	Tcl_DStringFree(&ds);
     }
 
     /*
