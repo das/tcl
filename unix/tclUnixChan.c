@@ -2646,6 +2646,7 @@ CreateSocketAddress(
 {
 #ifdef HAVE_GETADDRINFO
     struct addrinfo hints, *resPtr = NULL;
+    char *native;
     Tcl_DString ds;
     int result;
 
@@ -2670,7 +2671,7 @@ CreateSocketAddress(
      */
 
     native = Tcl_UtfToExternalDString(NULL, host, -1, &ds);
-    result = getaddrinfo(Tcl_DStringValue(&ds), NULL, &hints, &resPtr);
+    result = getaddrinfo(native, NULL, &hints, &resPtr);
     Tcl_DStringFree(&ds);
     if (result == 0) {
 	memcpy(sockaddrPtr, resPtr->ai_addr, sizeof(struct sockaddr_in));
