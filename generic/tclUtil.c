@@ -3336,20 +3336,6 @@ TclReToGlob(Tcl_Interp *interp,
     }
     Tcl_DStringSetLength(dsPtr, dsStr - dsStrStart);
 
-#ifdef TCL_MEM_DEBUG
-    /*
-     * Check if this is a bad RE (do this at the end because it can be
-     * expensive).
-     * XXX: Is it possible that we can have a bad RE make it through the
-     * XXX: above checks?
-     */
-
-    if (Tcl_RegExpCompile(NULL, reStr) == NULL) {
-	msg = "couldn't compile RE";
-	goto invalidGlob;
-    }
-#endif
-
     if (exactPtr) {
 	*exactPtr = (anchorLeft && anchorRight);
     }
