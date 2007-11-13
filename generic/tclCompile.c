@@ -3621,7 +3621,7 @@ FormatInstruction(
     int opnd = 0, i, j, numBytes = 1;
     int localCt = procPtr ? procPtr->numCompiledLocals : 0;
     CompiledLocal *localPtr = procPtr ? procPtr->firstLocalPtr : NULL;
-    char suffixBuffer[64];	/* Additional info to print after main opcode
+    char suffixBuffer[128];	/* Additional info to print after main opcode
 				 * and immediates. */
     char *suffixSrc = NULL;
     Tcl_Obj *suffixObj = NULL;
@@ -3662,7 +3662,8 @@ FormatInstruction(
 	    if (opCode == INST_PUSH4) {
 		suffixObj = codePtr->objArrayPtr[opnd];
 	    } else if (opCode == INST_START_CMD && opnd != 1) {
-		sprintf(suffixBuffer, ", %u cmds start here", opnd);
+		sprintf(suffixBuffer+strlen(suffixBuffer),
+			", %u cmds start here", opnd);
 	    }
 	    Tcl_AppendPrintfToObj(bufferObj, "%u ", (unsigned int) opnd);
 	    if (instDesc->opTypes[i] == OPERAND_AUX4) {
