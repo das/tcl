@@ -5352,6 +5352,18 @@ Tcl_SetEnsembleSubcommandList(
 
     ensemblePtr->nsPtr->exportLookupEpoch++;
 
+    /*
+     * Special hack to make compiling of [info exists] work when the
+     * dictionary is modified.
+     */
+
+    if (cmdPtr->compileProc != NULL) {
+	((Interp *)interp)->compileEpoch++;
+	if (subcmdList != NULL) {
+	    cmdPtr->compileProc = NULL;
+	}
+    }
+
     return TCL_OK;
 }
 
@@ -5416,6 +5428,18 @@ Tcl_SetEnsembleMappingDict(
      */
 
     ensemblePtr->nsPtr->exportLookupEpoch++;
+
+    /*
+     * Special hack to make compiling of [info exists] work when the
+     * dictionary is modified.
+     */
+
+    if (cmdPtr->compileProc != NULL) {
+	((Interp *)interp)->compileEpoch++;
+	if (mapDict == NULL) {
+	    cmdPtr->compileProc = NULL;
+	}
+    }
 
     return TCL_OK;
 }
