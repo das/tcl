@@ -4090,7 +4090,6 @@ TclCompileSwitchCmd(
 		if (bodyToken[i]->type == TCL_TOKEN_TEXT) {
 		    Tcl_DString ds;
 
-		    simple = 1;
 		    if (bodyToken[i]->size == 0) {
 			/*
 			 * The semantics of regexps are that they always match
@@ -4106,17 +4105,15 @@ TclCompileSwitchCmd(
 		     * the converted pattern.
 		     */
 
-		    Tcl_DStringInit(&ds);
 		    if (TclReToGlob(NULL, bodyToken[i]->start,
-			    bodyToken[i]->size, &ds, &exact) != TCL_OK) {
-			TclCompileTokens(interp, bodyToken[i], 1, envPtr);
-			simple = 0;
-		    } else {
+			    bodyToken[i]->size, &ds, &exact) == TCL_OK) {
+			simple = 1;
 			PushLiteral(envPtr, Tcl_DStringValue(&ds),
 				Tcl_DStringLength(&ds));
+			Tcl_DStringFree(&ds);
 		    }
-		    Tcl_DStringFree(&ds);
-		} else {
+		}
+		if (!simple) {
 		    TclCompileTokens(interp, bodyToken[i], 1, envPtr);
 		}
 
