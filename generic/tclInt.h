@@ -2551,7 +2551,7 @@ MODULE_SCOPE int	TclpDeleteFile(CONST char *path);
 MODULE_SCOPE void	TclpFinalizeCondition(Tcl_Condition *condPtr);
 MODULE_SCOPE void	TclpFinalizeMutex(Tcl_Mutex *mutexPtr);
 MODULE_SCOPE void	TclpFinalizePipes(void);
-MODULE_SCOPE void	TclpFinalizeSockets _ANSI_ARGS_((void));
+MODULE_SCOPE void	TclpFinalizeSockets(void);
 MODULE_SCOPE int	TclpThreadCreate(Tcl_ThreadId *idPtr,
 			    Tcl_ThreadCreateProc proc, ClientData clientData,
 			    int stackSize, int flags);
