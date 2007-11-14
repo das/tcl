@@ -642,7 +642,7 @@ typedef struct ByteCode {
 
 /* For [info exists] compilation */
 #define INST_EXIST_SCALAR		128
-#define INST_EXIST_ARRAY		139
+#define INST_EXIST_ARRAY		129
 #define INST_EXIST_ARRAY_STK		130
 #define INST_EXIST_STK			131
 
