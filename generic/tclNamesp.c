@@ -5200,10 +5200,10 @@ NamespaceEnsembleCmd(
 
 	    flags = (permitPrefix ? flags|TCL_ENSEMBLE_PREFIX
 		    : flags&~TCL_ENSEMBLE_PREFIX);
-	    Tcl_SetEnsembleSubcommandList(NULL, token, subcmdObj);
-	    Tcl_SetEnsembleMappingDict(NULL, token, mapObj);
-	    Tcl_SetEnsembleUnknownHandler(NULL, token, unknownObj);
-	    Tcl_SetEnsembleFlags(NULL, token, flags);
+	    Tcl_SetEnsembleSubcommandList(interp, token, subcmdObj);
+	    Tcl_SetEnsembleMappingDict(interp, token, mapObj);
+	    Tcl_SetEnsembleUnknownHandler(interp, token, unknownObj);
+	    Tcl_SetEnsembleFlags(interp, token, flags);
 	    return TCL_OK;
 	}
 
@@ -5318,13 +5318,12 @@ Tcl_SetEnsembleSubcommandList(
     Tcl_Obj *oldList;
 
     if (cmdPtr->objProc != NsEnsembleImplementationCmd) {
-	if (interp != NULL) {
-	    Tcl_AppendResult(interp, "command is not an ensemble", NULL);
-	}
+	Tcl_AppendResult(interp, "command is not an ensemble", NULL);
 	return TCL_ERROR;
     }
     if (subcmdList != NULL) {
 	int length;
+
 	if (TclListObjLength(interp, subcmdList, &length) != TCL_OK) {
 	    return TCL_ERROR;
 	}
@@ -5395,13 +5394,12 @@ Tcl_SetEnsembleMappingDict(
     Tcl_Obj *oldDict;
 
     if (cmdPtr->objProc != NsEnsembleImplementationCmd) {
-	if (interp != NULL) {
-	    Tcl_AppendResult(interp, "command is not an ensemble", NULL);
-	}
+	Tcl_AppendResult(interp, "command is not an ensemble", NULL);
 	return TCL_ERROR;
     }
     if (mapDict != NULL) {
 	int size;
+
 	if (Tcl_DictObjSize(interp, mapDict, &size) != TCL_OK) {
 	    return TCL_ERROR;
 	}
@@ -5472,9 +5470,7 @@ Tcl_SetEnsembleUnknownHandler(
     Tcl_Obj *oldList;
 
     if (cmdPtr->objProc != NsEnsembleImplementationCmd) {
-	if (interp != NULL) {
-	    Tcl_AppendResult(interp, "command is not an ensemble", NULL);
-	}
+	Tcl_AppendResult(interp, "command is not an ensemble", NULL);
 	return TCL_ERROR;
     }
     if (unknownList != NULL) {
@@ -5537,9 +5533,7 @@ Tcl_SetEnsembleFlags(
     EnsembleConfig *ensemblePtr;
 
     if (cmdPtr->objProc != NsEnsembleImplementationCmd) {
-	if (interp != NULL) {
-	    Tcl_AppendResult(interp, "command is not an ensemble", NULL);
-	}
+	Tcl_AppendResult(interp, "command is not an ensemble", NULL);
 	return TCL_ERROR;
     }
 
