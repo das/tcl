@@ -554,7 +554,7 @@ TclpGetCStackParams(
 				 * area in which the stack resides */
 
     if (!tsdPtr->stackBound
-	|| ((DWORD_PTR)&tsdPtr < (DWORD_PTR)tsdPtr->stackBound)) {
+	|| ((UINT_PTR)&tsdPtr < (UINT_PTR)tsdPtr->stackBound)) {
 
 	/* 
 	 * Either we haven't determined the stack bound in this thread,
@@ -574,8 +574,8 @@ TclpGetCStackParams(
 
 	    if (!tsdPtr->stackBound) {
 		tsdPtr->stackBound =
-		    (int*) ((DWORD_PTR)(&tsdPtr)
-			    & ~ (DWORD_PTR)(si.dwPageSize - 1));
+		    (int*) ((UINT_PTR)(&tsdPtr)
+			    & ~ (UINT_PTR)(si.dwPageSize - 1));
 	    }
 
 	} else {
@@ -587,8 +587,8 @@ TclpGetCStackParams(
 	     */
 
 	    tsdPtr->stackBound =
-		(int*) ((DWORD_PTR)(mbi.AllocationBase)
-			+ (DWORD_PTR)(si.dwPageSize)
+		(int*) ((UINT_PTR)(mbi.AllocationBase)
+			+ (UINT_PTR)(si.dwPageSize)
 			+ TCL_WIN_STACK_THRESHOLD);
 	}
     }
