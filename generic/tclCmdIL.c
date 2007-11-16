@@ -110,8 +110,6 @@ static int		InfoCompleteCmd(ClientData dummy, Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[]);
 static int		InfoDefaultCmd(ClientData dummy, Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[]);
-static int		InfoExistsCmd(ClientData dummy, Tcl_Interp *interp,
-			    int objc, Tcl_Obj *CONST objv[]);
 /* TIP #280 - New 'info' subcommand 'frame' */
 static int		InfoFrameCmd(ClientData dummy, Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[]);
@@ -161,7 +159,7 @@ static const struct {
     {"commands",	InfoCommandsCmd},
     {"complete",	InfoCompleteCmd},
     {"default",		InfoDefaultCmd},
-    {"exists",		InfoExistsCmd},
+    {"exists",		TclInfoExistsCmd},
     {"frame",		InfoFrameCmd},
     {"functions",	InfoFunctionsCmd},
     {"globals",		TclInfoGlobalsCmd},
@@ -416,6 +414,13 @@ TclInitInfoCmd(
 	}
 	Tcl_SetEnsembleMappingDict(interp, ensemble, mapDict);
     }
+
+    /*
+     * Enable compilation of the [info exists] subcommand.
+     */
+
+    ((Command *)ensemble)->compileProc = &TclCompileInfoCmd;
+
     return ensemble;
 }
 
@@ -990,7 +995,7 @@ InfoDefaultCmd(
 /*
  *----------------------------------------------------------------------
  *
- * InfoExistsCmd --
+ * TclInfoExistsCmd --
  *
  *	Called to implement the "info exists" command that determines whether
  *	a variable exists. Handles the following syntax:
@@ -1007,8 +1012,8 @@ InfoDefaultCmd(
  *----------------------------------------------------------------------
  */
 
-static int
-InfoExistsCmd(
+int
+TclInfoExistsCmd(
     ClientData dummy,		/* Not used. */
     Tcl_Interp *interp,		/* Current interpreter. */
     int objc,			/* Number of arguments. */
