@@ -1721,8 +1721,6 @@ TclExecuteByteCode(
     iPtr->stats.instructionCount[*pc]++;
 #endif
 
-     TCL_DTRACE_INST_NEXT();
-
     /*
      * Check for asynchronous handlers [Bug 746722]; we do the check every
      * ASYNC_CHECK_COUNT_MASK instruction, of the form (2**n-1).
@@ -1757,6 +1755,8 @@ TclExecuteByteCode(
 	    }
 	}
     }
+
+     TCL_DTRACE_INST_NEXT();
 
     /*
      * These two instructions account for 26% of all instructions (according
