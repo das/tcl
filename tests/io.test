@@ -4352,7 +4352,7 @@ test io-34.15 {Tcl_Tell combined with seeking} {
     close $f1
     list $c1 $c2
 } {10 20}
-test io-34.16 {Tcl_tell on pipe: always -1} {stdio openpipe} {
+test io-34.16 {Tcl_Tell on pipe: always -1} {stdio openpipe} {
     set f1 [open "|[list [interpreter]]" r+]
     set c [tell $f1]
     close $f1

@@ -38,11 +38,9 @@
 #endif
 
 /*
- * Define this if you want to revert to the old behavior of never checking the
- * stack.
+ * Define TCL_NO_STACK_CHECK in the compiler options if you want to revert to
+ * the old behavior of never checking the stack.
  */
-
-#undef TCL_NO_STACK_CHECK
 
 /*
  * Define this if you want to see a lot of output regarding stack checking.
