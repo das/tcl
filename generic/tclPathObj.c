@@ -1332,7 +1332,7 @@ TclFSMakePathRelative(
 			if (interp != NULL) {
 			    Tcl_ResetResult(interp);
 			    Tcl_AppendResult(interp, "can't find object"
-				    "string representation", (char *) NULL);
+				    "string representation", NULL);
 			}
 			return NULL;
 		    }
@@ -1454,7 +1454,7 @@ TclFSMakePathFromNormalized(
 		if (interp != NULL) {
 		    Tcl_ResetResult(interp);
 		    Tcl_AppendResult(interp, "can't find object"
-			    "string representation", (char *) NULL);
+			    "string representation", NULL);
 		}
 		return TCL_ERROR;
 	    }
@@ -2326,7 +2326,7 @@ SetFsPathFromAny(
 		if (interp) {
 		    Tcl_ResetResult(interp);
 		    Tcl_AppendResult(interp, "couldn't find HOME environment "
-			    "variable to expand path", (char *) NULL);
+			    "variable to expand path", NULL);
 		}
 		return TCL_ERROR;
 	    }
@@ -2342,8 +2342,8 @@ SetFsPathFromAny(
 	    if (TclpGetUserHome(name+1, &temp) == NULL) {
 		if (interp != NULL) {
 		    Tcl_ResetResult(interp);
-		    Tcl_AppendResult(interp, "user \"", (name+1),
-			    "\" doesn't exist", (char *) NULL);
+		    Tcl_AppendResult(interp, "user \"", name+1,
+			    "\" doesn't exist", NULL);
 		}
 		Tcl_DStringFree(&temp);
 		if (split != len) {

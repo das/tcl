@@ -265,18 +265,18 @@ Tcl_GetsObjCmd(
     }
 
     linePtr = Tcl_NewObj();
-
     lineLen = Tcl_GetsObj(chan, linePtr);
     if (lineLen < 0) {
 	if (!Tcl_Eof(chan) && !Tcl_InputBlocked(chan)) {
 	    Tcl_DecrRefCount(linePtr);
 
 	    /*
-	     * TIP #219.
-	     * Capture error messages put by the driver into the bypass area
-	     * and put them into the regular interpreter result. Fall back to
-	     * the regular message if nothing was found in the bypass.
+	     * TIP #219. Capture error messages put by the driver into the
+	     * bypass area and put them into the regular interpreter result.
+	     * Fall back to the regular message if nothing was found in the
+	     * bypass.
 	     */
+
 	    if (!TclChanCaughtErrorBypass(interp, chan)) {
 		Tcl_ResetResult(interp);
 		Tcl_AppendResult(interp, "error reading \"", name, "\": ",
@@ -1665,7 +1665,7 @@ TclChanPendingObjCmd(
     Tcl_Channel chan;
     int index, mode;
     char *arg;
-    static const char *options[] = {"input", "output", (char *) NULL};
+    static const char *options[] = {"input", "output", NULL};
     enum options {PENDING_INPUT, PENDING_OUTPUT};
 
     if (objc != 3) {
