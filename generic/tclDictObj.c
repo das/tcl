@@ -624,6 +624,8 @@ TclTraceDictPath(
 		    Tcl_ResetResult(interp);
 		    Tcl_AppendResult(interp, "key \"", TclGetString(keyv[i]),
 			    "\" not known in dictionary", NULL);
+		    Tcl_SetErrorCode(interp, "TCL", "LOOKUP", "DICT",
+			    TclGetString(keyv[i]), NULL);
 		}
 		return NULL;
 	    }
@@ -2239,7 +2241,10 @@ DictForCmd(
 	    break;
 	}
 
-	/* TIP #280. Make invoking context available to loop body */
+	/*
+	 * TIP #280. Make invoking context available to loop body.
+	 */
+
 	result = TclEvalObjEx(interp, scriptObj, 0, iPtr->cmdFramePtr, 4);
 	if (result == TCL_CONTINUE) {
 	    result = TCL_OK;
@@ -2570,7 +2575,10 @@ DictFilterCmd(
 		goto abnormalResult;
 	    }
 
-	    /* TIP #280. Make invoking context available to loop body */
+	    /*
+	     * TIP #280. Make invoking context available to loop body.
+	     */
+
 	    result = TclEvalObjEx(interp, scriptObj, 0, iPtr->cmdFramePtr, 5);
 	    switch (result) {
 	    case TCL_OK:
@@ -2848,10 +2856,10 @@ DictWithCmd(
     }
 
     /*
-     * Execute the body.
+     * Execute the body, while making the invoking context available to the
+     * loop body (TIP#280).
      */
 
-    /* TIP #280. Make invoking context available to loop body */
     result = TclEvalObjEx(interp, objv[objc-1], 0, iPtr->cmdFramePtr, objc-1);
     if (result == TCL_ERROR) {
 	Tcl_AddErrorInfo(interp, "\n    (body of \"dict with\")");

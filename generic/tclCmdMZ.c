@@ -2957,7 +2957,7 @@ Tcl_SwitchObjCmd(
     }
 
     /*
-     * TIP #280. Make invoking context available to switch branch.
+     * TIP #280: Make invoking context available to switch branch.
      */
 
     result = TclEvalObjEx(interp, objv[j], 0, ctxPtr, j);
@@ -3145,6 +3145,22 @@ Tcl_WhileObjCmd(
     return result;
 }
 
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclListLines --
+ *
+ *	???
+ *
+ * Results:
+ *	Filled in array of line numbers?
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
 void
 TclListLines(
     CONST char *listStr,	/* Pointer to string with list structure.
