@@ -232,7 +232,7 @@ QueryConfigObjCmd(
     switch ((enum subcmds) index) {
     case CFG_GET:
 	if (objc != 3) {
-	    Tcl_WrongNumArgs(interp, 1, objv, "get key");
+	    Tcl_WrongNumArgs(interp, 2, objv, "key");
 	    return TCL_ERROR;
 	}
 
@@ -247,7 +247,7 @@ QueryConfigObjCmd(
 
     case CFG_LIST:
 	if (objc != 2) {
-	    Tcl_WrongNumArgs(interp, 1, objv, "list");
+	    Tcl_WrongNumArgs(interp, 2, objv, NULL);
 	    return TCL_ERROR;
 	}
 
