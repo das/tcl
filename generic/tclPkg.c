@@ -690,15 +690,20 @@ Tcl_PkgPresentEx(
     if (hPtr) {
 	pkgPtr = Tcl_GetHashValue(hPtr);
 	if (pkgPtr->version != NULL) {
-
 	    /*
 	     * At this point we know that the package is present. Make sure
 	     * that the provided version meets the current requirement by
 	     * calling Tcl_PkgRequireEx() to check for us.
 	     */
 
-	    return Tcl_PkgRequireEx(interp, name, version, exact,
-		    clientDataPtr);
+	    const char *foundVersion = Tcl_PkgRequireEx(interp, name, version,
+		    exact, clientDataPtr);
+
+	    if (foundVersion == NULL) {
+		Tcl_SetErrorCode(interp, "TCL", "LOOKUP", "PACKAGE", name,
+			NULL);
+	    }
+	    return foundVersion;
 	}
     }
 
@@ -708,6 +713,7 @@ Tcl_PkgPresentEx(
     } else {
 	Tcl_AppendResult(interp, "package ", name, " is not present", NULL);
     }
+    Tcl_SetErrorCode(interp, "TCL", "LOOKUP", "PACKAGE", name, NULL);
     return NULL;
 }
 
