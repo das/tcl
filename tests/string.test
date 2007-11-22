@@ -1131,6 +1131,11 @@ test string-12.21 {string range, regenerates correct reps, bug 1410553} {
     binary scan $rxCRC "H*" rxCRC_hex
     list $input_hex $rxBuffer_hex $rxCRC_hex
 } {000341 000341 0341}
+test string-12.22 {string range, shimmering binary/index} {
+    set s 0000000001
+    binary scan $s a* x
+    string range $s $s end
+} 000000001
 
 test string-13.1 {string repeat} {
     list [catch {string repeat} msg] $msg
