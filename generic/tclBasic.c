@@ -140,7 +140,6 @@ static const CmdInfo builtInCmds[] = {
     {"catch",		Tcl_CatchObjCmd,	TclCompileCatchCmd,	1},
     {"concat",		Tcl_ConcatObjCmd,	NULL,			1},
     {"continue",	Tcl_ContinueObjCmd,	TclCompileContinueCmd,	1},
-    {"dict",		Tcl_DictObjCmd,		TclCompileDictCmd,	1},
     {"encoding",	Tcl_EncodingObjCmd,	NULL,			0},
     {"error",		Tcl_ErrorObjCmd,	NULL,			1},
     {"eval",		Tcl_EvalObjCmd,		NULL,			1},
@@ -670,6 +669,7 @@ Tcl_CreateInterp(void)
 		NULL, NULL);
     }
 
+    TclInitDictCmd(interp);
     TclInitInfoCmd(interp);
 
     /* TIP #208 */
