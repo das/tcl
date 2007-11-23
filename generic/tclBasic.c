@@ -176,7 +176,9 @@ static const CmdInfo builtInCmds[] = {
     {"scan",		Tcl_ScanObjCmd,		NULL,			1},
     {"set",		Tcl_SetObjCmd,		TclCompileSetCmd,	1},
     {"split",		Tcl_SplitObjCmd,	NULL,			1},
+#if 0
     {"string",		Tcl_StringObjCmd,	TclCompileStringCmd,	1},
+#endif
     {"subst",		Tcl_SubstObjCmd,	NULL,			1},
     {"switch",		Tcl_SwitchObjCmd,	TclCompileSwitchCmd,	1},
     {"trace",		Tcl_TraceObjCmd,	NULL,			1},
@@ -655,7 +657,15 @@ Tcl_CreateInterp(void)
     }
 
     /*
-     * Register "clock", "chan" and "info" subcommands. These *do* go through
+     * Create the "dict", "info" and "string" ensembles.
+     */
+
+    TclInitDictCmd(interp);
+    TclInitInfoCmd(interp);
+    TclInitStringCmd(interp);
+
+    /*
+     * Register "clock" and "chan" subcommands. These *do* go through
      * Tcl_CreateObjCommand, since they aren't in the global namespace and
      * involve ensembles.
      */
@@ -668,9 +678,6 @@ Tcl_CreateInterp(void)
 	Tcl_CreateObjCommand(interp, cmdInfo2Ptr->name2, cmdInfo2Ptr->objProc,
 		NULL, NULL);
     }
-
-    TclInitDictCmd(interp);
-    TclInitInfoCmd(interp);
 
     /* TIP #208 */
     Tcl_CreateObjCommand(interp, "::tcl::chan::Truncate",
