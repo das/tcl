@@ -187,6 +187,8 @@ TclThreadDataKeySet(keyPtr, data)
  *      Keep a list of (mutexes/condition variable/data key)
  *	used during finalization.
  *
+ *	Assume master lock is held.
+ *
  * Results:
  *	None.
  *
@@ -245,6 +247,7 @@ RememberSyncObject(objPtr, recPtr)
  * ForgetSyncObject
  *
  *      Remove a single object from the list.
+ *	Assume master lock is held.
  *
  * Results:
  *	None.
@@ -276,6 +279,7 @@ ForgetSyncObject(objPtr, recPtr)
  * TclRememberMutex
  *
  *      Keep a list of mutexes used during finalization.
+ *	Assume master lock is held.
  *
  * Results:
  *	None.
@@ -317,7 +321,9 @@ Tcl_MutexFinalize(mutexPtr)
 #ifdef TCL_THREADS
     TclpFinalizeMutex(mutexPtr);
 #endif
+    TclpMasterLock();
     ForgetSyncObject((char *)mutexPtr, &mutexRecord);
+    TclpMasterUnlock();
 }
 
 /*
@@ -326,6 +332,7 @@ Tcl_MutexFinalize(mutexPtr)
  * TclRememberDataKey
  *
  *      Keep a list of thread data keys used during finalization.
+ *	Assume master lock is held.
  *
  * Results:
  *	None.
@@ -349,6 +356,7 @@ TclRememberDataKey(keyPtr)
  * TclRememberCondition
  *
  *      Keep a list of condition variables used during finalization.
+ *	Assume master lock is held.
  *
  * Results:
  *	None.
@@ -390,7 +398,9 @@ Tcl_ConditionFinalize(condPtr)
 #ifdef TCL_THREADS
     TclpFinalizeCondition(condPtr);
 #endif
+    TclpMasterLock();
     ForgetSyncObject((char *)condPtr, &condRecord);
+    TclpMasterUnlock();
 }
 
 /*
