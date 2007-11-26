@@ -2621,7 +2621,7 @@ MODULE_SCOPE void *	TclpThreadDataKeyGet(Tcl_ThreadDataKey *keyPtr);
 MODULE_SCOPE void	TclpThreadDataKeySet(Tcl_ThreadDataKey *keyPtr,
 			    void *data);
 MODULE_SCOPE void	TclpThreadExit(int status);
-MODULE_SCOPE int	TclpThreadGetStackSize(void);
+MODULE_SCOPE size_t	TclpThreadGetStackSize(void);
 MODULE_SCOPE void	TclRememberCondition(Tcl_Condition *mutex);
 MODULE_SCOPE void	TclRememberJoinableThread(Tcl_ThreadId id);
 MODULE_SCOPE void	TclRememberMutex(Tcl_Mutex *mutex);
