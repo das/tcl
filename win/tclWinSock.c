@@ -2550,14 +2550,25 @@ Tcl_GetHostName()
     Tcl_MutexUnlock(&socketMutex);
 	
     if (TclpHasSockets(NULL) == TCL_OK) {
-	/*
-	 * INTL: bug
-	 */
+	Tcl_DString ds;
 
-	if (winSock.gethostname(hostname, sizeof(hostname)) == 0) {
+	Tcl_DStringInit(&ds);
+	Tcl_DStringSetLength(&ds, 255);
+	if (winSock.gethostname(Tcl_DStringValue(&ds), Tcl_DStringLength(&ds))
+		== 0) {
+	    Tcl_DString utfDs;
+
+	    Tcl_DStringInit(&utfDs);
+	    Tcl_ExternalToUtfDString(NULL, Tcl_DStringValue(&ds),
+		    Tcl_DStringLength(&ds), &utfDs);
+	    Tcl_DStringFree(&ds);
+	    
 	    Tcl_MutexLock(&socketMutex);
+	    strcpy(hostname, Tcl_DStringValue(&utfDs));
+	    Tcl_UtfToLower(hostname);
 	    hostnameInitialized = 1;
 	    Tcl_MutexUnlock(&socketMutex);
+	    Tcl_DStringFree(&utfDs);
 	    return hostname;
 	}
     }
