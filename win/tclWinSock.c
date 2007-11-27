@@ -2576,13 +2576,18 @@ InitializeHostName(
 	     * Maintainers are welcome to supply it.
 	     */
 
-	    Tcl_DStringSetLength(&ds, 255);
-	    if (winSock.gethostname(Tcl_DStringValue(&ds),
-		    Tcl_DStringLength(&ds)) == 0) {
+	    Tcl_DString inDs;
+	
+	    Tcl_DStringInit(&inDs);
+	    Tcl_DStringSetLength(&inDs, 255);
+	    if (winSock.gethostname(Tcl_DStringValue(&inDs),
+		    Tcl_DStringLength(&inDs)) == 0) {
 		Tcl_DStringSetLength(&ds, 0);
 	    } else {
-		Tcl_DStringSetLength(&ds, strlen(Tcl_DStringValue(&ds)));
+		Tcl_ExternalToUtfDString(NULL, Tcl_DStringValue(&inDs),
+			Tcl_DStringLength(&inDs), &ds);
 	    }
+	    Tcl_DStringFree(&inDs);
 	}
     }
 
