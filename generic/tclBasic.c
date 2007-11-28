@@ -609,6 +609,11 @@ Tcl_CreateInterp(void)
     iPtr->pendingObjDataPtr = NULL;
     iPtr->asyncReadyPtr = TclGetAsyncReadyPtr();
 
+    /*
+     * Insure that the stack checking mechanism for this interp is
+     * initialized. 
+     */
+    
     GetCStackParams(iPtr);
 
     /*
@@ -831,13 +836,6 @@ Tcl_CreateInterp(void)
 	Tcl_Panic(Tcl_GetString(Tcl_GetObjResult(interp)));
     }
 
-    /*
-     * Insure that the stack checking mechanism for this interp is
-     * initialized. 
-     */
-    
-    TclInterpReady(interp);
-    
     return interp;
 }
 

@@ -7314,14 +7314,25 @@ Tcl_SetChannelOption(
 	if (argc == 0) {
 	    statePtr->inEofChar = 0;
 	    statePtr->outEofChar = 0;
-	} else if (argc == 1) {
-	    if (statePtr->flags & TCL_WRITABLE) {
-		statePtr->outEofChar = (int) argv[0][0];
+	} else if (argc == 1 || argc == 2) {
+	    int outIndex = (argc - 1);
+	    int inValue = (int) argv[0][0];
+	    int outValue = (int) argv[outIndex][0];
+	    if (inValue & 0x80 || outValue & 0x80) {
+		if (interp) {
+		    Tcl_AppendResult(interp, "bad value for -eofchar: ",
+			    "must be non-NUL ASCII character", NULL);
+		}
+		ckfree((char *) argv);
+		return TCL_ERROR;
 	    }
 	    if (statePtr->flags & TCL_READABLE) {
-		statePtr->inEofChar = (int) argv[0][0];
+		statePtr->inEofChar = inValue;
 	    }
-	} else if (argc != 2) {
+	    if (statePtr->flags & TCL_WRITABLE) {
+		statePtr->outEofChar = outValue;
+	    }
+	} else {
 	    if (interp) {
 		Tcl_AppendResult(interp,
 			"bad value for -eofchar: should be a list of zero,"
@@ -7329,13 +7340,6 @@ Tcl_SetChannelOption(
 	    }
 	    ckfree((char *) argv);
 	    return TCL_ERROR;
-	} else {
-	    if (statePtr->flags & TCL_READABLE) {
-		statePtr->inEofChar = (int) argv[0][0];
-	    }
-	    if (statePtr->flags & TCL_WRITABLE) {
-		statePtr->outEofChar = (int) argv[1][0];
-	    }
 	}
 	if (argv != NULL) {
 	    ckfree((char *) argv);
