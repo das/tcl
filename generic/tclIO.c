@@ -7318,10 +7318,10 @@ Tcl_SetChannelOption(
 	    int outIndex = (argc - 1);
 	    int inValue = (int) argv[0][0];
 	    int outValue = (int) argv[outIndex][0];
-	    if ((inValue < 0x01 || inValue > 0x7f) || (outValue < 0x01 || outValue > 0x7f)) {
+	    if ((inValue < 0 || inValue > 0x7f) || (outValue < 0 || outValue > 0x7f)) {
 		if (interp) {
 		    Tcl_AppendResult(interp,
-			    "bad value for -eofchar: must be between 0x01 and 0x7f",
+			    "bad value for -eofchar: must be between 0 and 0x7f",
 			    NULL);
 		}
 		ckfree((char *) argv);
