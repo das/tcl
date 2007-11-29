@@ -2543,52 +2543,28 @@ Tcl_GetHostName()
     Tcl_MutexLock(&socketMutex);
     InitSockets();
 
-    if (hostnameInitialized) {
-	Tcl_MutexUnlock(&socketMutex);
-        return hostname;
-    }
-    Tcl_MutexUnlock(&socketMutex);
-	
-    if (TclpHasSockets(NULL) == TCL_OK) {
-	Tcl_DString ds;
-
-	Tcl_DStringInit(&ds);
-	Tcl_DStringSetLength(&ds, 255);
-	if (winSock.gethostname(Tcl_DStringValue(&ds), Tcl_DStringLength(&ds))
-		== 0) {
-	    Tcl_DString utfDs;
-
-	    Tcl_DStringInit(&utfDs);
-	    Tcl_ExternalToUtfDString(NULL, Tcl_DStringValue(&ds),
-		    Tcl_DStringLength(&ds), &utfDs);
-	    Tcl_DStringFree(&ds);
-	    
-	    Tcl_MutexLock(&socketMutex);
-	    strcpy(hostname, Tcl_DStringValue(&utfDs));
-	    Tcl_UtfToLower(hostname);
-	    hostnameInitialized = 1;
-	    Tcl_MutexUnlock(&socketMutex);
-	    Tcl_DStringFree(&utfDs);
-	    return hostname;
-	}
-    }
-    Tcl_MutexLock(&socketMutex);
-    length = sizeof(hostname);
-    if ((*tclWinProcs->getComputerNameProc)(wbuf, &length) != 0) {
+    if (!hostnameInitialized) {
 	/*
-	 * Convert string from native to UTF then change to lowercase.
+	 * Convert hostname from native to UTF then change to lowercase.
 	 */
-
 	Tcl_DString ds;
 
-	lstrcpynA(hostname, Tcl_WinTCharToUtf((TCHAR *) wbuf, -1, &ds),
-		sizeof(hostname));
+	length = sizeof(hostname);
+	/* same as SocketsEnabled without the socketMutex lock */
+	if ((winSock.hModule != NULL)
+		&& (winSock.gethostname(hostname, length) == 0)) {
+	    Tcl_ExternalToUtfDString(NULL, hostname, -1, &ds);
+	} else if ((*tclWinProcs->getComputerNameProc)(wbuf, &length) != 0) {
+	    Tcl_WinTCharToUtf((TCHAR *) wbuf, -1, &ds);
+	} else {
+	    Tcl_DStringInit(&ds);
+	    Tcl_DStringSetLength(&ds, 0);
+	}
+	lstrcpynA(hostname, Tcl_DStringValue(&ds), sizeof(hostname));
 	Tcl_DStringFree(&ds);
 	Tcl_UtfToLower(hostname);
-    } else {
-	hostname[0] = '\0';
+	hostnameInitialized = 1;
     }
-    hostnameInitialized = 1;
     Tcl_MutexUnlock(&socketMutex);
     return hostname;
 }
