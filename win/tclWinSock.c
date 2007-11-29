@@ -2584,8 +2584,8 @@ InitializeHostName(
 		    Tcl_DStringLength(&inDs)) == 0) {
 		Tcl_DStringSetLength(&ds, 0);
 	    } else {
-		Tcl_ExternalToUtfDString(NULL, Tcl_DStringValue(&inDs),
-			Tcl_DStringLength(&inDs), &ds);
+		Tcl_ExternalToUtfDString(NULL,
+			Tcl_DStringValue(&inDs), -1, &ds);
 	    }
 	    Tcl_DStringFree(&inDs);
 	}
