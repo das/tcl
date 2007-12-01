@@ -17,7 +17,7 @@
 
 #include "tclInt.h"
 
-TCL_DECLARE_MUTEX(envMutex);	/* To serialize access to environ. */
+TCL_DECLARE_MUTEX(envMutex)	/* To serialize access to environ. */
 
 static struct {
     int cacheSize;		/* Number of env strings in cache. */
