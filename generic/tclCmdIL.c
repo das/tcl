@@ -2993,6 +2993,13 @@ Tcl_LsearchObjCmd(
 		}
 		return result;
 	    }
+
+	    /*
+	     * List representation might have been shimmered; restore it. [Bug
+	     * 1844789]
+	     */
+
+	    TclListObjGetElements(NULL, objv[objc - 2], &listc, &listv);
 	    break;
 	case REAL:
 	    result = Tcl_GetDoubleFromObj(interp, patObj, &patDouble);
@@ -3002,6 +3009,13 @@ Tcl_LsearchObjCmd(
 		}
 		return result;
 	    }
+
+	    /*
+	     * List representation might have been shimmered; restore it. [Bug
+	     * 1844789]
+	     */
+
+	    TclListObjGetElements(NULL, objv[objc - 2], &listc, &listv);
 	    break;
 	}
     } else {
