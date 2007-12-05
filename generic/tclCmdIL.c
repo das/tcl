@@ -3374,12 +3374,14 @@ Tcl_LsearchObjCmd(clientData, interp, objc, objv)
 	    if (result != TCL_OK) {
 		return result;
 	    }
+	    Tcl_ListObjGetElements(NULL, objv[objc - 2], &listc, &listv);
 	    break;
 	case REAL:
 	    result = Tcl_GetDoubleFromObj(interp, patObj, &patDouble);
 	    if (result != TCL_OK) {
 		return result;
 	    }
+	    Tcl_ListObjGetElements(NULL, objv[objc - 2], &listc, &listv);
 	    break;
 	}
     } else {

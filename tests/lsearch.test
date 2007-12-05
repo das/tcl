@@ -366,6 +366,15 @@ test lsearch-16.2 {lsearch -regexp allows internal backrefs} {
     lsearch -regexp {a aa b} {(.)\1}
 } 1
 
+test lsearch-21.1 {lsearch shimmering crash} {
+    set x 0
+    lsearch -exact -integer $x $x
+} 0
+test lsearch-21.2 {lsearch shimmering crash} {
+    set x 0.5
+    lsearch -exact -real $x $x
+} 0
+
 # cleanup
 catch {unset res}
 catch {unset increasingIntegers}
