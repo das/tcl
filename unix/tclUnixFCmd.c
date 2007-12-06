@@ -1052,7 +1052,7 @@ TraverseUnixTree(
 
     while ((ent = fts_read(fts)) != NULL) {
 	unsigned short info = ent->fts_info;
-	char * path = ent->fts_path + sourceLen;
+	char *path = ent->fts_path + sourceLen;
 	unsigned short pathlen = ent->fts_pathlen - sourceLen;
 	int type;
 	Tcl_StatBuf *statBufPtr = NULL;
@@ -1084,7 +1084,7 @@ TraverseUnixTree(
 		    break;
 		}
 	    } else {
-		statBufPtr = ent->fts_statp;
+		statBufPtr = (Tcl_StatBuf *) ent->fts_statp;
 	    }
 	}
 	result = (*traverseProc)(sourcePtr, targetPtr, statBufPtr, type,

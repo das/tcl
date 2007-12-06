@@ -426,7 +426,7 @@ TclpRealloc(
 {
     Cache *cachePtr = TclpGetAllocCache();
     Block *blockPtr;
-    void *new;
+    void *newPtr;
     size_t size, min;
     int bucket;
 
@@ -475,15 +475,15 @@ TclpRealloc(
      * Finally, perform an expensive malloc/copy/free.
      */
 
-    new = TclpAlloc(reqSize);
-    if (new != NULL) {
+    newPtr = TclpAlloc(reqSize);
+    if (newPtr != NULL) {
 	if (reqSize > blockPtr->blockReqSize) {
 	    reqSize = blockPtr->blockReqSize;
 	}
-	memcpy(new, ptr, reqSize);
+	memcpy(newPtr, ptr, reqSize);
 	TclpFree(ptr);
     }
-    return new;
+    return newPtr;
 }
 
 /*
