@@ -6360,7 +6360,7 @@ TclCompileEnsemble(
      * Copy over the real argument tokens.
      */
 
-    memcpy(synthetic.tokenPtr + 2, argTokensPtr,
+    memcpy(synthetic.tokenPtr + 2*len, argTokensPtr,
 	    sizeof(Tcl_Token) * (synthetic.numTokens - 2*len));
 
     /*
