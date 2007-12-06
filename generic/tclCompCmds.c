@@ -6098,7 +6098,10 @@ TclCompileVariableCmd(
  *
  * TclCompileEnsemble --
  *
- *	Procedure called to compile an ensemble command.
+ *	Procedure called to compile an ensemble command. Note that most
+ *	ensembles are not compiled, since modifying a compiled ensemble causes
+ *	a invalidation of all existing bytecode (expensive!) which is not
+ *	normally warranted.
  *
  * Results:
  * 	Returns TCL_OK for a successful compile. Returns TCL_ERROR to defer
@@ -6145,8 +6148,8 @@ TclCompileEnsemble(
 
     /*
      * There's a sporting chance we'll be able to compile this. But now we
-     * must check properly. To do that, check that we're compiling an
-     * ensemble that has [info exists] as its appropriate subcommand.
+     * must check properly. To do that, check that we're compiling an ensemble
+     * that has a compilable command as its appropriate subcommand.
      */
 
     if (Tcl_GetEnsembleMappingDict(NULL, ensemble, &mapObj) != TCL_OK

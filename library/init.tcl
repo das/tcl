@@ -75,31 +75,6 @@ namespace eval tcl {
         }
     }
 
-    # Set up the 'chan' ensemble (TIP #208).
-    namespace eval chan {
-        # TIP #219. Added methods: create, postevent.
-	# TIP 287.  Added method: pending.
-        namespace ensemble create -command ::chan -map {
-            blocked     ::tcl::chan::blocked
-            close       ::tcl::chan::close
-            configure   ::tcl::chan::configure
-            copy        ::tcl::chan::copy
-            create      ::tcl::chan::rCreate
-            eof         ::tcl::chan::eof
-            event       ::tcl::chan::event
-            flush       ::tcl::chan::flush
-            gets        ::tcl::chan::gets
-            names       {::file channels}
-	    pending	::tcl::chan::Pending
-            postevent   ::tcl::chan::rPostevent
-            puts        ::tcl::chan::puts
-            read        ::tcl::chan::read
-            seek        ::tcl::chan::seek
-            tell        ::tcl::chan::tell
-            truncate    ::tcl::chan::Truncate
-        }
-    }
-
     # TIP #255 min and max functions
     namespace eval mathfunc {
 	proc min {args} {
