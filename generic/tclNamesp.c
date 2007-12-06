@@ -5964,6 +5964,7 @@ TclMakeEnsemble(
 		    TCL_ENSEMBLE_PREFIX | ENSEMBLE_COMPILE);
 	}
     }
+    Tcl_DStringFree(&buf);
 
     return ensemble;
 }
