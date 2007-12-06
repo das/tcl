@@ -3554,7 +3554,7 @@ MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int *bignum,
  *----------------------------------------------------------------
  */
 
-#define TclMatchIsTrivial(pattern)	strpbrk((pattern), "*[]]?\\") == NULL
+#define TclMatchIsTrivial(pattern)	strpbrk((pattern), "*[?\\") == NULL
 
 /*
  *----------------------------------------------------------------
