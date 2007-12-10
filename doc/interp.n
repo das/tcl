@@ -489,7 +489,7 @@ built-in commands:
 .DS
 .ta 1.2i 2.4i 3.6i
 \fBafter\fR	\fBappend\fR	\fBapply\fR	\fBarray\fR
-\fBbinary\fR	\fBbreak\fR	\fBcase\fR	\fBcatch\fR
+\fBbinary\fR	\fBbreak\fR	\fBcatch\fR	\fBchan\fR
 \fBclock\fR	\fBclose\fR	\fBconcat\fR	\fBcontinue\fR
 \fBdict\fR	\fBeof\fR	\fBerror\fR	\fBeval\fR
 \fBexpr\fR	\fBfblocked\fR	\fBfcopy\fR	\fBfileevent\fR

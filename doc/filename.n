@@ -173,8 +173,8 @@ Furthermore, a file name consisting only of dots
 or dots with trailing characters
 .QW .....abc
 is illegal.
+.SH "SEE ALSO"
+file(n), glob(n)
 .SH KEYWORDS
 current directory, absolute file name, relative file name,
 volume-relative file name, portability
-.SH "SEE ALSO"
-file(n), glob(n)

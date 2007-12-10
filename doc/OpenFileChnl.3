@@ -247,8 +247,6 @@ leaves an error message in \fIinterp\fR's result after any error.
 As of Tcl 8.4, the object-based API \fBTcl_FSOpenFileChannel\fR should 
 be used in preference to \fBTcl_OpenFileChannel\fR wherever possible.
 .PP
-
-.PP
 The newly created channel is not registered in the supplied interpreter; to
 register it, use \fBTcl_RegisterChannel\fR, described below.
 If one of the standard channels, \fBstdin, stdout\fR or \fBstderr\fR was

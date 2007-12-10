@@ -205,7 +205,7 @@ static const CmdInfo builtInCmds[] = {
     {"source",		Tcl_SourceObjCmd,	NULL,			0},
     {"tell",		Tcl_TellObjCmd,		NULL,			1},
     {"time",		Tcl_TimeObjCmd,		NULL,			1},
-    {"unload",		Tcl_UnloadObjCmd,	NULL,			1},
+    {"unload",		Tcl_UnloadObjCmd,	NULL,			0},
     {"update",		Tcl_UpdateObjCmd,	NULL,			1},
     {"vwait",		Tcl_VwaitObjCmd,	NULL,			1},
     {NULL,		NULL,			NULL,			0}
