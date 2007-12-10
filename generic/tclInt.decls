@@ -798,18 +798,11 @@ declare 183 generic {
 #
 # Added in tcl8.5a5 for compiler/executor experimentation.
 #
-<<<<<<< tclInt.decls
 #declare 197 generic {
 #    int TclCompEvalObj (Tcl_Interp *interp, Tcl_Obj *objPtr,
 #		        CONST CmdFrame* invoker, int word, int flags)
 #}
 
-=======
-declare 197 generic {
-    int TclCompEvalObj(Tcl_Interp *interp, Tcl_Obj *objPtr,
-		        CONST CmdFrame* invoker, int word)
-}
->>>>>>> 1.118
 declare 198 generic {
     int TclObjGetFrame(Tcl_Interp *interp, Tcl_Obj *objPtr,
 	    CallFrame **framePtrPtr)
