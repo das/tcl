@@ -2468,6 +2468,9 @@ MODULE_SCOPE int	TclFSFileAttrIndex(Tcl_Obj *pathPtr,
 			    const char *attributeName, int *indexPtr);
 MODULE_SCOPE int *      TclGetAsyncReadyPtr(void);
 MODULE_SCOPE Tcl_Obj *	TclGetBgErrorHandler(Tcl_Interp *interp);
+MODULE_SCOPE int	TclGetChannelFromObj(Tcl_Interp *interp,
+			    Tcl_Obj *objPtr, Tcl_Channel *chanPtr,
+			    int *modePtr, int flags);
 MODULE_SCOPE int	TclGetNumberFromObj(Tcl_Interp *interp,
 			    Tcl_Obj *objPtr, ClientData *clientDataPtr,
 			    int *typePtr);
@@ -3551,7 +3554,7 @@ MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int *bignum,
  *----------------------------------------------------------------
  */
 
-#define TclMatchIsTrivial(pattern)	strpbrk((pattern), "*[]]?\\") == NULL
+#define TclMatchIsTrivial(pattern)	strpbrk((pattern), "*[?\\") == NULL
 
 /*
  *----------------------------------------------------------------
