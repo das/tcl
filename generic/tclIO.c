@@ -208,7 +208,7 @@ static int		SetChannelFromAny(Tcl_Interp *interp, Tcl_Obj *objPtr);
 static void		UpdateStringOfChannel(Tcl_Obj *objPtr);
 static void		FreeChannelIntRep(Tcl_Obj *objPtr);
 
-Tcl_ObjType tclChannelType = {
+static Tcl_ObjType tclChannelType = {
     "channel",			/* name for this type */
     FreeChannelIntRep,		/* freeIntRepProc */
     DupChannelIntRep,		/* dupIntRepProc */
