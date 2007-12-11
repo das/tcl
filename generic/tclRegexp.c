@@ -448,33 +448,15 @@ Tcl_RegExpExecObj(
     if ((offset == 0) && (nmatches == 0) && (flags == 0)
 	    && !(reflags & ~TCL_REG_GLOBOK_FLAGS)
 	    && (regexpPtr->globObjPtr != NULL)) {
-	int match, nocase = (reflags & TCL_REG_NOCASE);
+	int nocase = (reflags & TCL_REG_NOCASE) ? TCL_MATCH_NOCASE : 0;
 
 	/*
-	 * Promote based on the type of incoming object.
+	 * Pass to TclStringMatchObj for obj-specific handling.
 	 * XXX: Currently doesn't take advantage of exact-ness that
 	 * XXX: TclReToGlob tells us about
 	 */
 
-	if (textObj->typePtr == &tclStringType) {
-	    Tcl_UniChar *uptn;
-	    int plen;
-
-	    udata = Tcl_GetUnicodeFromObj(textObj, &length);
-	    uptn  = Tcl_GetUnicodeFromObj(regexpPtr->globObjPtr, &plen);
-	    match = TclUniCharMatch(udata, length, uptn, plen, nocase);
-	} else if ((textObj->typePtr == &tclByteArrayType) && !nocase) {
-	    unsigned char *data, *ptn;
-	    int plen;
-
-	    data = Tcl_GetByteArrayFromObj(textObj, &length);
-	    ptn  = Tcl_GetByteArrayFromObj(regexpPtr->globObjPtr, &plen);
-	    match = TclByteArrayMatch(data, length, ptn, plen);
-	} else {
-	    match = Tcl_StringCaseMatch(TclGetString(textObj),
-		    TclGetString(regexpPtr->globObjPtr), nocase);
-	}
-	return match;
+	return TclStringMatchObj(textObj, regexpPtr->globObjPtr, nocase);
     }
 
     /*

@@ -518,6 +518,12 @@ typedef void (Tcl_ThreadCreateProc) _ANSI_ARGS_((ClientData clientData));
 #define TCL_THREAD_JOINABLE	 (0001) /* Mark the thread as joinable */
 
 /*
+ * Flag values passed to Tcl_StringCaseMatch.
+ */
+
+#define TCL_MATCH_NOCASE	(1<<0)
+
+/*
  * Flag values passed to Tcl_GetRegExpFromObj.
  */
 
