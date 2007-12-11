@@ -3340,17 +3340,19 @@ TclReToGlob(
 	    case 'v':
 		*dsStr++ = '\v';
 		break;
-	    case 'B':
+	    case 'B': case '\\':
 		*dsStr++ = '\\';
 		*dsStr++ = '\\';
 		anchorLeft = 0; /* prevent exact match */
 		break;
-	    case '\\': case '*': case '+': case '?':
-	    case '{': case '}': case '(': case ')': case '[': case ']':
-	    case '.': case '|': case '^': case '$':
+	    case '*': case '[': case ']': case '?':
+		/* Only add \ where necessary for glob */
 		*dsStr++ = '\\';
-		*dsStr++ = *p;
 		anchorLeft = 0; /* prevent exact match */
+		/* fall through */
+	    case '{': case '}': case '(': case ')': case '+':
+	    case '.': case '|': case '^': case '$':
+		*dsStr++ = *p;
 		break;
 	    default:
 		msg = "invalid escape sequence";
