@@ -18,6 +18,7 @@ lsearch \- See if a list contains a particular element
 .SH SYNOPSIS
 \fBlsearch \fR?\fIoptions\fR? \fIlist pattern\fR
 .BE
+
 .SH DESCRIPTION
 .PP
 This command searches the elements of \fIlist\fR to see if one
