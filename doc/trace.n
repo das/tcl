@@ -387,6 +387,21 @@ proc doMult args {
 \fBtrace add\fR variable foo write doMult
 \fBtrace add\fR variable bar write doMult
 .CE
+.PP
+Print a trace of what commands are executed during the processing of a Tcl
+procedure:
+.CS
+proc x {} { y }
+proc y {} { z }
+proc z {} { puts hello }
+proc report args {puts [info level 0]}
+\fBtrace add\fR execution x enterstep report
+x
+  \(-> \fIreport y enterstep\fR
+    \fIreport z enterstep\fR
+    \fIreport {puts hello} enterstep\fR
+    \fIhello\fR
+.CE
 .SH "SEE ALSO"
 set(n), unset(n)
 .SH KEYWORDS
