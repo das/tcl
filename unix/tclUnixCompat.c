@@ -585,10 +585,11 @@ TclpGetHostByName(const char *name)
 
 #elif defined(HAVE_GETHOSTBYNAME_R_6)
     struct hostent *hePtr;
-    int h_errno;
-    return (gethostbyname_r(name, &tsdPtr->hent, tsdPtr->hbuf,
-			    sizeof(tsdPtr->hbuf), &hePtr, &h_errno) == 0) ?
-	&hePtr : NULL;
+    int result, h_errno;
+
+    result = gethostbyname_r(name, &tsdPtr->hent, tsdPtr->hbuf,
+            sizeof(tsdPtr->hbuf), &hePtr, &h_errno);
+    return (result == 0) ? hePtr : NULL;
 
 #elif defined(HAVE_GETHOSTBYNAME_R_3)
     struct hostent_data data;
