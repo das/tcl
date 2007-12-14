@@ -64,7 +64,7 @@ this error. Be aware that gcc will generate lots of compile time warnings
 when building Tcl. Warnings are not errors, so please don't file a bug
 report about them.
 
-Use the Makefile "install'"target to install Tcl.  It will install it
+Use the Makefile "install" target to install Tcl.  It will install it
 according to the prefix options you provided in the correct directory
 structure.
 
