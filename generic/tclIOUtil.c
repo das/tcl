@@ -1585,7 +1585,11 @@ TclGetOpenMode(interp, string, seekFlagPtr)
 		return -1;
 	}
 	if (string[1] == '+') {
-	    mode &= ~(O_RDONLY|O_WRONLY);
+	    /*
+	     * Must remove the O_APPEND flag so that the seek command
+	     * works. [Bug 1773127]
+	     */
+	    mode &= ~(O_RDONLY|O_WRONLY|O_APPEND);
 	    mode |= O_RDWR;
 	    if (string[2] != 0) {
 		goto error;
