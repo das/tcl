@@ -7101,6 +7101,9 @@ Many significant documentation improvements (fellows, sofer)
 
 2007-12-17 (bug fix)[1851832,1851524] memory alignment correction (sofer)
 
+2007-12-18 (bug fix)[1810264] revised regexp engine to prevent debilitating
+over-consumption of resources (drewry,lane,ormandy,fellows)
+
 Several documentation and release notes improvements
 
 --- Released 8.5.0, December 18, 2007 --- See ChangeLog for details ---
