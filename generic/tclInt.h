@@ -2034,6 +2034,17 @@ struct LimitHandler {
 #define UCHAR(c) ((unsigned char) (c))
 
 /*
+ * This macro is used to properly align the memory allocated by Tcl, giving
+ * the same alignment as the native malloc
+ */
+
+#if defined(__APPLE__)
+#define TCL_ALLOCALIGN	16
+#else
+#define TCL_ALLOCALIGN	(2*sizeof(void *))
+#endif
+
+/*
  * This macro is used to determine the offset needed to safely allocate any
  * data structure in memory. Given a starting offset or size, it "rounds up"
  * or "aligns" the offset to the next 8-byte boundary so that any data
