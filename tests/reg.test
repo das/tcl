@@ -1130,6 +1130,19 @@ test reg-33.11 {Bug 840258} {
             "TQ\r\n.?<5000267>Test already stopped\r\n" {} tmp
 } 1
 
+test reg-33.12 {Bug 1810264 - bad read} {
+    regexp {\3161573148} {\3161573148}
+} 0
+test reg-33.13 {Bug 1810264 - infinite loop} {
+    regexp {($|^)*} {x}
+} 1
+test reg-33.14 {Bug 1810264 - super-expensive expression} {
+    set start [clock seconds]
+    regexp {(x{200}){200}$y} {x}
+    set time [expr {[clock seconds] - $start}]
+    expr {$time < 5 ? "ok" : "Complex RE took $time seconds - bad!"}
+} ok
+
 # cleanup
 ::tcltest::cleanupTests
 return
