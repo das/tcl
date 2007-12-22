@@ -3605,7 +3605,7 @@ Tcl_LsortObjCmd(
     elementArray[length-1].nextPtr = NULL;
     elementPtr = MergeSort(elementArray, &sortInfo);
     if (sortInfo.resultCode == TCL_OK) {
-	resultPtr = Tcl_NewObj();
+	resultPtr = Tcl_NewListObj(length, NULL);
 	if (unique) {
 	    if (indices) {
 		for (; elementPtr != NULL ; elementPtr = elementPtr->nextPtr){
