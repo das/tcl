@@ -253,14 +253,11 @@ TclpThreadGetStackSize(void)
 
     if (!initialized) {
 	initialized = 1;
-#if 0
-	if (pthread_attr_init(&threadAttr) != 0) {
-	    return 0;
-	}
-#else
 	return 0;
-#endif
     } else {
+	if (pthread_attr_init(&threadAttr) != 0) {
+	    return -1;
+	}
 	if (TclpPthreadGetAttrs(pthread_self(), &threadAttr) != 0) {
 	    pthread_attr_destroy(&threadAttr);
 	    return (size_t)-1;
