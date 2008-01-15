@@ -817,7 +817,7 @@ MODULE_SCOPE AuxDataType	tclDictUpdateInfoType;
  */
 
 typedef struct {
-    const char *operator;
+    const char *op;   /* Do not call it 'operator': C++ reserved */
     const char *expected;
     union {
 	int numArgs;

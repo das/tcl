@@ -2411,7 +2411,7 @@ TclSingleOpCmd(
 	return TCL_ERROR;
     }
 
-    ParseLexeme(occdPtr->operator, strlen(occdPtr->operator), &lexeme, NULL);
+    ParseLexeme(occdPtr->op, strlen(occdPtr->op), &lexeme, NULL);
     nodes[0].lexeme = START;
     nodes[0].mark = MARK_RIGHT;
     nodes[0].right = 1;
@@ -2467,8 +2467,7 @@ TclSortingOpCmd(
 	int i, lastAnd = 1;
 	Tcl_Obj *const *litObjPtrPtr = litObjv;
 
-	ParseLexeme(occdPtr->operator, strlen(occdPtr->operator),
-		&lexeme, NULL);
+	ParseLexeme(occdPtr->op, strlen(occdPtr->op), &lexeme, NULL);
 
 	litObjv[0] = objv[1];
 	nodes[0].lexeme = START;
@@ -2544,7 +2543,7 @@ TclVariadicOpCmd(
 	return TCL_OK;
     }
 
-    ParseLexeme(occdPtr->operator, strlen(occdPtr->operator), &lexeme, NULL);
+    ParseLexeme(occdPtr->op, strlen(occdPtr->op), &lexeme, NULL);
     lexeme |= BINARY;
 
     if (objc == 2) {
