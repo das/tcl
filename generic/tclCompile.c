@@ -1823,7 +1823,7 @@ TclCompileExprWords(
      */
 
     if ((numWords == 1) && (tokenPtr->type == TCL_TOKEN_SIMPLE_WORD)) {
-	TclCompileExpr(interp, tokenPtr[1].start, tokenPtr[1].size, envPtr);
+	TclCompileExpr(interp, tokenPtr[1].start, tokenPtr[1].size, envPtr, 1);
 	return;
     }
 
