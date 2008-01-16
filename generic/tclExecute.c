@@ -1228,7 +1228,7 @@ Tcl_ExprObj(
 	const char *string = TclGetStringFromObj(objPtr, &length);
 
 	TclInitCompileEnv(interp, &compEnv, string, length, NULL, 0);
-	TclCompileExpr(interp, string, length, &compEnv);
+	TclCompileExpr(interp, string, length, &compEnv, 0);
 
 	/*
 	 * Successful compilation. If the expression yielded no instructions,

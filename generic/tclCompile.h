@@ -817,7 +817,7 @@ MODULE_SCOPE AuxDataType	tclDictUpdateInfoType;
  */
 
 typedef struct {
-    const char *operator;
+    const char *op;   /* Do not call it 'operator': C++ reserved */
     const char *expected;
     union {
 	int numArgs;
@@ -856,7 +856,7 @@ MODULE_SCOPE void	TclCompileCmdWord(Tcl_Interp *interp,
 			    Tcl_Token *tokenPtr, int count,
 			    CompileEnv *envPtr);
 MODULE_SCOPE void	TclCompileExpr(Tcl_Interp *interp, CONST char *script,
-			    int numBytes, CompileEnv *envPtr);
+	                    int numBytes, CompileEnv *envPtr, int optimize);
 MODULE_SCOPE void	TclCompileExprWords(Tcl_Interp *interp,
 			    Tcl_Token *tokenPtr, int numWords,
 			    CompileEnv *envPtr);

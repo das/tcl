@@ -738,7 +738,7 @@ Tcl_CreateInterp(void)
 	TclOpCmdClientData *occdPtr = (TclOpCmdClientData *)
 		ckalloc(sizeof(TclOpCmdClientData));
 
-	occdPtr->operator = opcmdInfoPtr->name;
+	occdPtr->op = opcmdInfoPtr->name;
 	occdPtr->i.numArgs = opcmdInfoPtr->i.numArgs;
 	occdPtr->expected = opcmdInfoPtr->expected;
 	strcpy(mathFuncName + MATH_OP_PREFIX_LEN, opcmdInfoPtr->name);
