@@ -1228,6 +1228,13 @@ Tcl_ExprObj(
 	const char *string = TclGetStringFromObj(objPtr, &length);
 
 	TclInitCompileEnv(interp, &compEnv, string, length, NULL, 0);
+	
+	/*
+	 * TODO: Consider creating and calling an alternative routine
+	 * that will compile bytecode for one-off expressions like this
+	 * one with optimize==0, for improved efficiency.
+	 */
+
 	TclCompileExpr(interp, string, length, &compEnv);
 
 	/*
