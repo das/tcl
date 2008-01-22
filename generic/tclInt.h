@@ -2429,7 +2429,6 @@ MODULE_SCOPE Tcl_ObjType tclEnsembleCmdType;
 MODULE_SCOPE Tcl_ObjType tclWideIntType;
 #endif
 MODULE_SCOPE Tcl_ObjType tclRegexpType;
-MODULE_SCOPE Tcl_ObjType tclTokensType;
 
 /*
  * Variables denoting the hash key types defined in the core.

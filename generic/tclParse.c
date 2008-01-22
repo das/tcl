@@ -219,7 +219,7 @@ static int              SetTokensFromAny(Tcl_Interp *interp, Tcl_Obj *objPtr);
  * The structure below defines the "tokens" Tcl object type.
  */
 
-Tcl_ObjType tclTokensType = {
+static Tcl_ObjType tokensType = {
     "tokens",                           /* name */
     FreeTokensInternalRep,              /* freeIntRepProc */
     DupTokensInternalRep,               /* dupIntRepProc */
@@ -325,7 +325,7 @@ SetTokensFromAny (interp, objPtr)
     objPtr->internalRep.twoPtrValue.ptr1 = 
 	    (VOID *) TclParseScript(interp, script, numBytes, 0, &tokenPtr, NULL);
     objPtr->internalRep.twoPtrValue.ptr2 = tokenPtr;
-    objPtr->typePtr = &tclTokensType;
+    objPtr->typePtr = &tokensType;
     return TCL_OK;
 }
 
@@ -352,7 +352,7 @@ TclGetTokensFromObj(objPtr,lastTokenPtrPtr)
     Tcl_Token **lastTokenPtrPtr; /* If not NULL, fill with pointer to last
 				  * token in the token array */
 {
-    if (objPtr->typePtr != &tclTokensType) {
+    if (objPtr->typePtr != &tokensType) {
 	SetTokensFromAny(NULL, objPtr);
     }
     if (lastTokenPtrPtr != NULL) {

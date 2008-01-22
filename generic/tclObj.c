@@ -358,7 +358,6 @@ TclInitObjSubsystem(void)
     Tcl_RegisterObjType(&tclByteCodeType);
     Tcl_RegisterObjType(&tclArraySearchType);
     Tcl_RegisterObjType(&tclCmdNameType);
-    Tcl_RegisterObjType(&tclTokensType);
     Tcl_RegisterObjType(&tclRegexpType);
     Tcl_RegisterObjType(&tclProcBodyType);
 
