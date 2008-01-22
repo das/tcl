@@ -1144,8 +1144,7 @@ AfterProc(
 
     interp = assocPtr->interp;
     Tcl_Preserve((ClientData) interp);
-    result = Tcl_EvalObjEx(interp, afterPtr->commandPtr,
-	    TCL_EVAL_GLOBAL | TCL_EVAL_DIRECT);
+    result = Tcl_EvalObjEx(interp, afterPtr->commandPtr, TCL_EVAL_GLOBAL);
     if (result != TCL_OK) {
 	Tcl_AddErrorInfo(interp, "\n    (\"after\" script)");
 	TclBackgroundException(interp, result);
