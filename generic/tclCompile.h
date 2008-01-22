@@ -863,9 +863,6 @@ MODULE_SCOPE void	TclCompileExprWords(Tcl_Interp *interp,
 MODULE_SCOPE void	TclCompileScript(Tcl_Interp *interp,
 			    CONST char *script, int numBytes,
 			    CompileEnv *envPtr);
-MODULE_SCOPE void	TclCompileScriptTokens (Tcl_Interp *interp,
-			    Tcl_Token *tokens, Tcl_Token *lastTokenPtr,
-			    CompileEnv *envPtr);
 MODULE_SCOPE void	TclCompileSyntaxError(Tcl_Interp *interp,
 			    CompileEnv *envPtr);
 MODULE_SCOPE void	TclCompileTokens(Tcl_Interp *interp,
