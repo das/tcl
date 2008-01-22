@@ -750,6 +750,9 @@ test cmdIL-7.5 {lreverse command - unshared object} {
 test cmdIL-7.6 {lreverse command - unshared object [Bug 1672585]} {
     lreverse [set x {1 2 3}][unset x]
 } {3 2 1}
+test cmdIL-7.7 {lreverse command - empty object [Bug 1876793]} {
+    lreverse [list]
+} {}
 
 testConstraint testobj [llength [info commands testobj]]
 test cmdIL-7.7 {lreverse command - shared intrep [Bug 1675044]} -setup {
