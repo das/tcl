@@ -2609,6 +2609,15 @@ Tcl_LreverseObjCmd(
 	return TCL_ERROR;
     }
 
+    /*
+     * If the list is empty, just return it [Bug 1876793]
+     */
+
+    if (!elemc) {
+	Tcl_SetObjResult(interp, objv[1]);
+	return TCL_OK;
+    }
+
     if (Tcl_IsShared(objv[1])) {
 	Tcl_Obj *resultObj, **dataArray;
 	List *listPtr;
