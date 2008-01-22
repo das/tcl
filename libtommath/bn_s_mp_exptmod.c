@@ -14,7 +14,6 @@
  *
  * Tom St Denis, tomstdenis@gmail.com, http://math.libtomcrypt.com
  */
-
 #ifdef MP_LOW_MEM
    #define TAB_SIZE 32
 #else
@@ -247,3 +246,7 @@ LBL_M:
   return err;
 }
 #endif
+
+/* $Source$ */
+/* $Revision$ */
+/* $Date$ */
