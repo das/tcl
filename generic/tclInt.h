@@ -3592,7 +3592,7 @@ MODULE_SCOPE void	TclDbInitNewObj(Tcl_Obj *objPtr);
  *
  * MODULE_SCOPE void	TclGrowTokenArray(Tcl_Token *tokenPtr, int used,
  *				int available, int append,
- *				Tcl_Token *staticPtr));
+ *				Tcl_Token *staticPtr);
  * MODULE_SCOPE void	TclGrowParseTokenArray(Tcl_Parse *parsePtr,
  *				int append);
  *----------------------------------------------------------------
