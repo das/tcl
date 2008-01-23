@@ -3509,7 +3509,7 @@ MODULE_SCOPE void	TclDbInitNewObj(Tcl_Obj *objPtr);
  * MODULE_SCOPE void	TclGrowTokenArray(Tcl_Token *tokenPtr, int used,
  *				int available, int append,
  *				Tcl_Token *staticPtr);
- * MODULE_SCOPR void	TclGrowParseTokenArray(Tcl_Parse *parsePtr,
+ * MODULE_SCOPE void	TclGrowParseTokenArray(Tcl_Parse *parsePtr,
  *				int append);
  *----------------------------------------------------------------
  */
@@ -3526,11 +3526,11 @@ MODULE_SCOPE void	TclDbInitNewObj(Tcl_Obj *objPtr);
 	    oldPtr = NULL;						\
 	}								\
 	newPtr = (Tcl_Token *) attemptckrealloc( (char *) oldPtr,	\
-		(unsigned int) (allocated * sizeof(Tcl_Token)) );	\
+		(unsigned int) (allocated * sizeof(Tcl_Token)));	\
 	if (newPtr == NULL) {						\
 	    allocated = needed + (append) + TCL_MIN_TOKEN_GROWTH;	\
 	    newPtr = (Tcl_Token *) ckrealloc( (char *) oldPtr,		\
-		    (unsigned int) (allocated * sizeof(Tcl_Token)) );	\
+		    (unsigned int) (allocated * sizeof(Tcl_Token)));	\
 	}								\
 	(available) = allocated;					\
 	if (oldPtr == NULL) {						\
