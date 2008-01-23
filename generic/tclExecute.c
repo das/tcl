@@ -1429,7 +1429,7 @@ TclCompEvalObj(
     codePtr = (ByteCode *) objPtr->internalRep.otherValuePtr;
     goto runCompiledObj;
 
-done:
+    done:
     iPtr->varFramePtr = savedVarFramePtr;
     iPtr->numLevels--;
     return result;

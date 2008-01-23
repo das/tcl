@@ -169,7 +169,7 @@ static const char charTypeTable[] = {
 
 /* Set of parsing error messages */
 
-const char *tclParseErrorMsg[] = {
+static const char *parseErrorMsg[] = {
     "",
     "extra characters after close-quote",
     "extra characters after close-brace",
@@ -2530,7 +2530,7 @@ TclSubstTokens(
 
 	case TCL_TOKEN_ERROR:
 	    Tcl_SetResult(interp, (char *)
-		    tclParseErrorMsg[tokenPtr->numComponents], TCL_STATIC);
+		    parseErrorMsg[tokenPtr->numComponents], TCL_STATIC);
 	    code = TCL_ERROR;
 	    break;
 

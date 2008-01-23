@@ -1470,7 +1470,7 @@ CompileScriptTokens(interp, tokens, lastTokenPtr, envPtr)
 	eclPtr->loc[wlineat].line = wlines;
 
 	/*
-	 * TIP #280 : Track lines in the just compiled command
+	 * TIP #280: Track lines in the just compiled command.
 	 */
 
 	if (numCommands) {
