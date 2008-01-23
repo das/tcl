@@ -595,6 +595,41 @@ test switch-13.6 {-indexvar -matchvar combinations} {
     } msg] $x $y $msg
 } {1 {{0 1}} - {can't set "y(y)": variable isn't array}}
 
+test switch-14.1 {-regexp -- compilation [Bug 1854399]} {
+    switch -regexp -- 0 {
+	{[0-9]+} {return yes}
+	default  {return no}
+    }
+    foo
+} yes
+test switch-14.2 {-regexp -- compilation [Bug 1854399]} {
+    proc foo {} {
+	switch -regexp -- 0 {
+	    {[0-9]+} {return yes}
+	    default  {return no}
+	}
+    }
+    foo
+} yes
+test switch-14.3 {-regexp -- compilation [Bug 1854399]} {
+    proc foo {} {
+	switch -regexp -- 0 {
+	    {\d+} {return yes}
+	    default  {return no}
+	}
+    }
+    foo
+} yes
+test switch-14.4 {-regexp -- compilation [Bug 1854399]} {
+    proc foo {} {
+	switch -regexp -- 0 {
+	    {0} {return yes}
+	    default  {return no}
+	}
+    }
+    foo
+} yes
+
 # cleanup
 ::tcltest::cleanupTests
 return
