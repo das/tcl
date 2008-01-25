@@ -840,11 +840,8 @@ MODULE_SCOPE int	TclEvalObjvInternal(Tcl_Interp *interp,
  *----------------------------------------------------------------
  */
 
-/*
- * Declaration moved to the internal stubs table
- *
-MODULE_SCOPE int	TclCompEvalObj(Tcl_Interp *interp, Tcl_Obj *objPtr);
- */
+MODULE_SCOPE int	TclCompEvalObj(Tcl_Interp *interp, Tcl_Obj *objPtr,
+			    const CmdFrame *invoker, int word);
 
 /*
  *----------------------------------------------------------------

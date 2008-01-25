@@ -1694,7 +1694,8 @@ TclCompileTokens(
 	    break;
 
 	default:
-	    Tcl_Panic("Unexpected token type in TclCompileTokens");
+	    Tcl_Panic("Unexpected token type in TclCompileTokens: %d; %.*s",
+		    tokenPtr->type, tokenPtr->size, tokenPtr->start);
 	}
     }
 
