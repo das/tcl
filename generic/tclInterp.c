@@ -967,7 +967,7 @@ Tcl_GetAlias(interp, aliasName, targetInterpPtr, targetNamePtr, argcPtr,
         *argvPtr = (CONST char **) 
 		ckalloc((unsigned) sizeof(CONST char *) * (objc - 1));
         for (i = 1; i < objc; i++) {
-            *argvPtr[i - 1] = Tcl_GetString(objv[i]);
+            (*argvPtr)[i - 1] = Tcl_GetString(objv[i]);
         }
     }
     return TCL_OK;
