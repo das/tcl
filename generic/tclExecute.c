@@ -2059,8 +2059,11 @@ TclExecuteByteCode(
 	objResultPtr = OBJ_AT_DEPTH(opnd-1);
 	bytes = TclGetStringFromObj(objResultPtr, &length);
 #if !TCL_COMPILE_DEBUG
-	if (!Tcl_IsShared(objResultPtr)) {
-	    Tcl_SetObjLength(objResultPtr, (length + appendLen));
+	if (bytes != tclEmptyStringRep && !Tcl_IsShared(objResultPtr)) {
+	    TclFreeIntRep(objResultPtr);
+	    objResultPtr->typePtr = NULL;
+	    objResultPtr->bytes = ckrealloc(bytes, (length + appendLen + 1));
+	    objResultPtr->length = length + appendLen;
 	    p = TclGetString(objResultPtr) + length;
 	    currPtr = &OBJ_AT_DEPTH(opnd - 2);
 	} else {
