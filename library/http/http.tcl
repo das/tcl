@@ -24,7 +24,7 @@
 package require Tcl 8.4
 # Keep this in sync with pkgIndex.tcl and with the install directories
 # in Makefiles
-package provide http 2.5.3
+package provide http 2.5.4
 
 namespace eval http {
     variable http
@@ -632,6 +632,7 @@ proc http::data {token} {
     return $state(body)
 }
 proc http::status {token} {
+    if {![info exists $token]} { return "error" }    
     variable $token
     upvar 0 $token state
     return $state(status)
@@ -940,7 +941,7 @@ proc http::Eof {token} {
 
 # http::wait --
 #
-#	See documentaion for details.
+#	See documentation for details.
 #
 # Arguments:
 #	token	Connection token.
@@ -957,7 +958,7 @@ proc http::wait {token} {
 	vwait $token\(status)
     }
 
-    return $state(status)
+    return [status $token]
 }
 
 # http::formatQuery --
