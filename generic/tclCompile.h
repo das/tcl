@@ -672,7 +672,7 @@ typedef enum InstOperandType {
 				 * variable table. */
     OPERAND_LVT4,		/* Four byte unsigned index into the local
 				 * variable table. */
-    OPERAND_AUX4,		/* Four byte unsigned index into the aux data
+    OPERAND_AUX4		/* Four byte unsigned index into the aux data
 				 * table. */
 } InstOperandType;
 
