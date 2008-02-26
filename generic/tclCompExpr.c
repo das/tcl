@@ -111,7 +111,7 @@ enum OperandTypes {
 enum Marks {
     MARK_LEFT,		/* Next step of traversal is to visit left subtree */
     MARK_RIGHT,		/* Next step of traversal is to visit right subtree */
-    MARK_PARENT,	/* Next step of traversal is to return to parent */
+    MARK_PARENT		/* Next step of traversal is to return to parent */
 };
 
 /*
