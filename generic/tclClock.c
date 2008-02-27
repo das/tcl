@@ -1830,7 +1830,7 @@ ClockParseformatargsObjCmd(
 
     /* Command line options expected */
 
-    const static char* options[] = {
+    static const char* options[] = {
 	"-format",		"-gmt",			"-locale",
 	"-timezone",		NULL };
     enum optionInd {
