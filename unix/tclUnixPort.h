@@ -122,6 +122,9 @@ typedef off_t		Tcl_SeekOffset;
 #	include	<sys/ioctl.h>	/* For FIONBIO. */
 #   endif
 #endif	/* USE_FIONBIO */
+
+MODULE_SCOPE int TclUnixSetBlockingMode(int fd, int mode);
+
 #include <utime.h>
 
 /*
