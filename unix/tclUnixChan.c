@@ -16,32 +16,6 @@
 #include "tclInt.h"	/* Internal definitions for Tcl. */
 #include "tclIO.h"	/* To get Channel type declaration. */
 
-/*
- * sys/ioctl.h has already been included by tclPort.h. Including termios.h or
- * termio.h causes a bunch of warning messages because some duplicate (but not
- * contradictory) #defines exist in termios.h and/or termio.h
- */
-
-#undef NL0
-#undef NL1
-#undef CR0
-#undef CR1
-#undef CR2
-#undef CR3
-#undef TAB0
-#undef TAB1
-#undef TAB2
-#undef XTABS
-#undef BS0
-#undef BS1
-#undef FF0
-#undef FF1
-#undef ECHO
-#undef NOFLSH
-#undef TOSTOP
-#undef FLUSHO
-#undef PENDIN
-
 #define SUPPORTS_TTY
 
 #undef DIRECT_BAUD

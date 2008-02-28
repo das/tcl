@@ -16,6 +16,17 @@
 #include <errno.h>
 #include <string.h>
 
+/* See also: SC_BLOCKING_STYLE in unix/tcl.m4
+ */
+#ifdef	USE_FIONBIO
+#   ifdef HAVE_SYS_FILIO_H
+#	include	<sys/filio.h>	/* For FIONBIO. */
+#   endif
+#   ifdef HAVE_SYS_IOCTL_H
+#	include	<sys/ioctl.h>
+#   endif
+#endif	/* USE_FIONBIO */
+
 /*
  *---------------------------------------------------------------------------
  *

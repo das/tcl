@@ -108,20 +108,6 @@ typedef off_t		Tcl_SeekOffset;
 #else
 #   include "../compat/unistd.h"
 #endif
-#ifdef	USE_FIONBIO
-    /*
-     * Not using the Posix fcntl(...,O_NONBLOCK,...) interface, instead
-     * we are using ioctl(..,FIONBIO,..).
-     */
-
-#   ifdef HAVE_SYS_FILIO_H
-#	include	<sys/filio.h>	/* For FIONBIO. */
-#   endif
-
-#   ifdef HAVE_SYS_IOCTL_H
-#	include	<sys/ioctl.h>	/* For FIONBIO. */
-#   endif
-#endif	/* USE_FIONBIO */
 
 MODULE_SCOPE int TclUnixSetBlockingMode(int fd, int mode);
 
