@@ -2154,6 +2154,9 @@ Tcl_AppendFormatToObj(
 		    }
 		    bits /= base;
 		}
+		if (useBig) {
+		    mp_clear(&big);
+		}
 		if (gotPrecision) {
 		    while (length < precision) {
 			Tcl_AppendToObj(segment, "0", 1);
