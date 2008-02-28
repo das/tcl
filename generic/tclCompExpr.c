@@ -759,8 +759,8 @@ ParseExpr(
 					end - lastStart);
 				if (TclCheckBadOctal(NULL,
 					Tcl_GetString(copy))) {
-					TclNewLiteralStringObj(post,
-						"(invalid octal number?)");
+				    Tcl_AppendToObj(post,
+					    "(invalid octal number?)", -1);
 				}
 				Tcl_DecrRefCount(copy);
 			    }
