@@ -376,7 +376,6 @@ TclDefaultBgErrorHandlerObjCmd(
     Tcl_DictObjGet(NULL, objv[2], keyPtr, &valuePtr);
     Tcl_DecrRefCount(keyPtr);
     if (valuePtr) {
-	Tcl_IncrRefCount(valuePtr);
 	Tcl_AppendObjToErrorInfo(interp, valuePtr);
     }
 
