@@ -1866,6 +1866,7 @@ TclExecuteByteCode(
 	TRACE(("=> "));
 	objResultPtr = POP_OBJECT();
 	result = Tcl_SetReturnOptions(interp, OBJ_AT_TOS);
+	Tcl_DecrRefCount(OBJ_AT_TOS);
 	OBJ_AT_TOS = objResultPtr;
 	if (result == TCL_OK) {
 	    TRACE_APPEND(("continuing to next instruction (result=\"%.30s\")",
