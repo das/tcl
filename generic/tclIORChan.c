@@ -191,7 +191,7 @@ typedef enum {
     METH_READ,
     METH_SEEK,
     METH_WATCH,
-    METH_WRITE,
+    METH_WRITE
 } MethodName;
 
 #define FLAG(m) (1 << (m))

@@ -1670,13 +1670,8 @@ TclGetOpenModeEx(
 #endif
 
 	} else if ((c == 'N') && (strcmp(flag, "NONBLOCK") == 0)) {
-#if defined(O_NDELAY) || defined(O_NONBLOCK)
-#   ifdef O_NONBLOCK
+#ifdef O_NONBLOCK
 	    mode |= O_NONBLOCK;
-#   else
-	    mode |= O_NDELAY;
-#   endif
-
 #else
 	    if (interp != NULL) {
 		Tcl_AppendResult(interp, "access mode \"", flag,
