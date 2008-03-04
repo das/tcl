@@ -590,6 +590,24 @@ test execute-6.2 {Evaluate an expression in a variable; compile the first time, 
     proc a {obj} {expr $obj}
     set res "[a $w]:[a $w]"
 } {15:15}
+test execute-6.3 {Tcl_ExprObj: don't use cached script bytecode [Bug 1899164]} -setup {
+    proc 0+0 {} {return SCRIPT}
+} -body {
+    set e { 0+0 }
+    if 1 $e
+    if 1 {expr $e}
+} -cleanup {
+    rename 0+0 {}
+} -result 0
+test execute-6.4 {TclCompEvalObj: don't use cached expr bytecode [Bug 1899164]} -setup {
+    proc 0+0 {} {return SCRIPT}
+} -body {
+    set e { 0+0 }
+    if 1 {expr $e}
+    if 1 $e
+} -cleanup {
+    rename 0+0 {}
+} -result SCRIPT
 
 test execute-7.0 {Wide int handling in INST_JUMP_FALSE/LAND} {
     set x 0x100000000
