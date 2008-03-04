@@ -64,6 +64,9 @@
 #   if !defined(CRTSCTS) && defined(CNEW_RTSCTS)
 #	define CRTSCTS CNEW_RTSCTS
 #   endif /* !CRTSCTS&CNEW_RTSCTS */
+#   if !defined(PAREXT) && defined(CMSPAR)
+#	define PAREXT CMSPAR
+#   endif /* !PAREXT&&CMSPAR */
 #else	/* !USE_TERMIOS */
 
 #ifdef USE_TERMIO
