@@ -501,6 +501,12 @@ rename cswtest-exact {}
 rename iswtest-exact {}
 rename cswtest2-exact {}
 rename iswtest2-exact {}
+# Bug 1891827
+test switch-10.15 {(not) compiled exact nocase regression} {
+    apply {{} {
+	switch -nocase -- A { a {return yes} default {return no} }
+    }}
+} yes
 
 # Added due to TIP#75
 test switch-11.1 {regexp matching with -matchvar} {

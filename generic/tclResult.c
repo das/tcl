@@ -1494,6 +1494,7 @@ Tcl_SetReturnOptions(
     int objc, level, code;
     Tcl_Obj **objv, *mergedOpts;
 
+    Tcl_IncrRefCount(options);
     if (TCL_ERROR == TclListObjGetElements(interp, options, &objc, &objv)
 	    || (objc % 2)) {
 	Tcl_ResetResult(interp);
