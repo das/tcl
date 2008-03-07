@@ -1161,6 +1161,7 @@ ReleaseKeys(
 
     for (i = KEY_CODE; i < KEY_LAST; i++) {
 	Tcl_DecrRefCount(keys[i]);
+	keys[i] = NULL;
     }
 }
 
