@@ -1215,7 +1215,7 @@ Tcl_ExprObj(
 
     /*
      * Get the expression ByteCode from the object. If it exists, make sure it
-     * is valid in the current context.  If not
+     * is valid in the current context.
      */
     if (objPtr->typePtr == &exprCodeType) {
 	Namespace *namespacePtr = iPtr->varFramePtr->nsPtr;
@@ -1350,7 +1350,7 @@ DupExprCodeInternalRep(
  *	None.
  *
  * Side effects:
- *
+ *	May free allocated memory.  Leaves objPtr untyped.
  *----------------------------------------------------------------------
  */
 
