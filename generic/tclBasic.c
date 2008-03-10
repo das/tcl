@@ -5963,7 +5963,7 @@ ExprAbsFunc(
 
     if (type == TCL_NUMBER_LONG) {
 	long l = *((const long *) ptr);
-	if (l < (long)0) {
+	if (l <= (long)0) {
 	    if (l == LONG_MIN) {
 		TclBNInitBignumFromLong(&big, l);
 		goto tooLarge;
@@ -5977,7 +5977,7 @@ ExprAbsFunc(
 
     if (type == TCL_NUMBER_DOUBLE) {
 	double d = *((const double *) ptr);
-	if (d < 0.0) {
+	if (d <= 0.0) {
 	    Tcl_SetObjResult(interp, Tcl_NewDoubleObj(-d));
 	} else {
 	    Tcl_SetObjResult(interp, objv[1]);
