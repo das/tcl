@@ -117,7 +117,7 @@ test http-2.1 {http::reset} {
 
 test http-3.1 {http::geturl} {
     list [catch {http::geturl -bogus flag} msg] $msg
-} {1 {Unknown option flag, can be: -binary, -blocksize, -channel, -command, -handler, -headers, -progress, -query, -queryblocksize, -querychannel, -queryprogress, -validate, -timeout, -type}}
+} {1 {Unknown option flag, can be: -binary, -blocksize, -channel, -command, -handler, -headers, -method, -progress, -query, -queryblocksize, -querychannel, -queryprogress, -validate, -timeout, -type}}
 test http-3.2 {http::geturl} {
     catch {http::geturl http:junk} err
     set err

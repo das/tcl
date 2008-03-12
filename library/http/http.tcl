@@ -273,9 +273,11 @@ proc http::geturl { url args } {
 	-timeout	integer
     }
     set state(charset)	$defaultCharset
-    set options {-binary -blocksize -channel -command -handler -headers \
-	    -progress -query -queryblocksize -querychannel -queryprogress\
-	    -validate -timeout -type}
+    set options {
+	-binary -blocksize -channel -command -handler -headers
+	-method -progress -query -queryblocksize
+	-querychannel -queryprogress -validate -timeout -type
+    }
     set usage [join $options ", "]
     set options [string map {- ""} $options]
     set pat ^-([join $options |])$
@@ -531,6 +533,9 @@ proc http::geturl { url args } {
 	# work properly.
 	fconfigure $state(-querychannel) -blocking 1 -translation binary
 	set contDone 0
+    }
+    if {[info exists state(-method)] && $state(-method) ne ""} {
+	set how $state(-method)
     }
 
     if {[catch {

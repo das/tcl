@@ -206,6 +206,11 @@ HTTP request:
 Pragma: no-cache
 .CE
 .TP
+\fB\-method\fR \fItype\fR
+Force the HTTP request method to \fItype\fR. \fB::http::geturl\fR will
+auto-select GET, POST or HEAD based on other optiosn, but this option
+enables choices like PUT and DELETE for webdav support.
+.TP
 \fB\-progress\fR \fIcallback\fR
 The \fIcallback\fR is made after each transfer of data from the URL.
 The callback gets three additional arguments: the \fItoken\fR from
