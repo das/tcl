@@ -38,7 +38,8 @@ if {[testConstraint unix]} {
 
 testConstraint darwin9 [expr {[testConstraint unix] &&
 	$tcl_platform(os) eq "Darwin" &&
-	int([string index $tcl_platform(osVersion) 0]) >= 9}]
+	int([string range $tcl_platform(osVersion) 0 \
+	[string first . $tcl_platform(osVersion)]]) >= 9}]
 
 testConstraint fileSharing 0
 testConstraint notFileSharing 1
