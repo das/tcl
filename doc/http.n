@@ -207,8 +207,8 @@ Pragma: no-cache
 .CE
 .TP
 \fB\-keepalive\fR \fIboolean\fR
-If true (the default), attempt to keep the connection open for servicing
-multiple requests.
+If true, attempt to keep the connection open for servicing
+multiple requests.  Default is 0.
 .TP
 \fB\-method\fR \fItype\fR
 Force the HTTP request method to \fItype\fR. \fB::http::geturl\fR will

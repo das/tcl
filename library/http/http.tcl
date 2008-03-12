@@ -79,7 +79,7 @@ namespace eval http {
     # Let user control default keepalive for compatibility
     variable defaultKeepalive
     if {![info exists defaultKeepalive]} {
-	set defaultKeepalive 1
+	set defaultKeepalive 0
     }
 
     namespace export geturl config reset wait formatQuery register unregister
@@ -570,6 +570,7 @@ proc http::geturl { url args } {
             # command callback (if available) because we're going to throw an
             # exception from here instead.
 
+	    set state(sock) $sock
             Finish $token "" 1
             cleanup $token
             return -code error $sock
