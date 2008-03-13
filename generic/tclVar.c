@@ -4360,10 +4360,16 @@ TclDeleteNamespaceVars(
 
     for (varPtr = VarHashFirstVar(tablePtr, &search);  varPtr != NULL;
 	    varPtr = VarHashFirstVar(tablePtr, &search)) {
+	Tcl_Obj *objPtr = Tcl_NewObj();
+	Tcl_IncrRefCount(objPtr);
+	
 	VarHashRefCount(varPtr)++;	/* Make sure we get to remove from
 					 * hash. */
-	UnsetVarStruct(varPtr, NULL, iPtr, /* part1 */ VarHashGetKey(varPtr),
+	Tcl_GetVariableFullName(interp, (Tcl_Var) varPtr, objPtr);
+	UnsetVarStruct(varPtr, NULL, iPtr, /* part1 */ objPtr,
 		NULL, flags);
+	Tcl_DecrRefCount(objPtr); /* free no longer needed obj */
+
 
 	/*
 	 * Remove the variable from the table and force it undefined in case
