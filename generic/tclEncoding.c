@@ -1972,6 +1972,7 @@ LoadEscapeEncoding(
 		final[sizeof(final) - 1] = '\0';
 	    } else {
 		EscapeSubTable est;
+		Encoding *e;
 
 		strncpy(est.sequence, argv[1], sizeof(est.sequence));
 		est.sequence[sizeof(est.sequence) - 1] = '\0';
@@ -1984,9 +1985,13 @@ LoadEscapeEncoding(
 		 * To avoid infinite recursion in [encoding system iso2022-*]
 		 */
 
-		Tcl_GetEncoding(NULL, est.name);
-
-		est.encodingPtr = NULL;
+		e = (Encoding *) Tcl_GetEncoding(NULL, est.name);
+		if (e && e->toUtfProc != TableToUtfProc &&
+			e->toUtfProc != Iso88591ToUtfProc) {
+		   Tcl_FreeEncoding((Tcl_Encoding) e);
+		   e = NULL;
+		}
+		est.encodingPtr = e;
 		Tcl_DStringAppend(&escapeData, (char *) &est, sizeof(est));
 	    }
 	}
