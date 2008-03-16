@@ -78,7 +78,7 @@ proc lremove {listVariable value} {
 }
 .CE
 .SH "SEE ALSO"
-list(n), lappend(n), lindex(n), linsert(n), llength(n), lsearch(n), 
+list(n), lappend(n), lindex(n), linsert(n), llength(n), lsearch(n),
 lset(n), lrange(n), lsort(n),
 .VS 8.5
 string(n)
