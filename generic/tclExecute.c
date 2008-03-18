@@ -862,16 +862,9 @@ static inline int
 OFFSET(
     Tcl_Obj **markerPtr)
 {
-    /*
-     * Note that we are only interested in the low bits of the address, so
-     * that the fact that PTR2INT may lose the high bits is irrelevant.
-     */
-
-    int mask, base, new;
-
-    mask = WALLOCALIGN-1;
-    base = (PTR2INT(markerPtr) & mask);
-    new  = ((base + 1) + mask) & ~mask;
+    int mask = TCL_ALLOCALIGN-1;
+    int base = PTR2INT(markerPtr) & 0xFFFFFF;
+    int new = (base + TCL_ALLOCALIGN) & ~mask;
     return (new - base);
 }
 
