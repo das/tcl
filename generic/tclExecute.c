@@ -860,12 +860,11 @@ TclFinalizeExecution(void)
 
 static inline int
 OFFSET(
-    Tcl_Obj **markerPtr)
+    void *ptr)
 {
     int mask = TCL_ALLOCALIGN-1;
-    int base = PTR2INT(markerPtr) & 0xFFFFFF;
-    int new = (base + TCL_ALLOCALIGN) & ~mask;
-    return (new - base);
+    int base = PTR2INT(ptr) & mask;
+    return (TCL_ALLOCALIGN - base)/sizeof(Tcl_Obj**);
 }
 
 #define MEMSTART(markerPtr) \
