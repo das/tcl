@@ -2234,6 +2234,12 @@ EXTERN CONST char *Tcl_PkgInitStubsCheck _ANSI_ARGS_((Tcl_Interp *interp,
 			    CONST char *version, int exact));
 
 /*
+ * Tcl_GetMemoryInfo is needed for AOLserver. [Bug 1868171]
+ */
+
+EXTERN void Tcl_GetMemoryInfo _ANSI_ARGS_((Tcl_DString *dsPtr));
+
+/*
  * Include the public function declarations that are accessible via the stubs
  * table.
  */
