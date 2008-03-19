@@ -2160,6 +2160,9 @@ export {
     CONST char *Tcl_PkgInitStubsCheck(Tcl_Interp *interp, CONST char *version,
 	int exact);
 }
+export {
+    void Tcl_GetMemoryInfo(Tcl_DString *dsPtr)
+}
 
 # Global variables that need to be exported from the tcl shared library.
 
