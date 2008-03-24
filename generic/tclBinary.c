@@ -785,7 +785,7 @@ Tcl_BinaryObjCmd(
 	    if (!GetFormatSpec(&format, &cmd, &count, &flags)) {
 		break;
 	    }
-	    if ((count == 0) && (cmd != '@')) {
+	    if ((count == 0) && !(cmd == '@' || cmd == 'x')) {
 		arg++;
 		continue;
 	    }
