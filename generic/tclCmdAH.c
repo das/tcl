@@ -1799,7 +1799,7 @@ Tcl_ForeachObjCmd(
 			valuePtr, TCL_LEAVE_ERR_MSG);
 		if (varValuePtr == NULL) {
 		    Tcl_AppendObjToErrorInfo(interp, Tcl_ObjPrintf(
-			    "\n    (setting foreach loop variable \"%s\"",
+			    "\n    (setting foreach loop variable \"%s\")",
 			    TclGetString(varvList[i][v])));
 		    result = TCL_ERROR;
 		    goto done;

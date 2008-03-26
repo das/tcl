@@ -2210,7 +2210,7 @@ ExitProcOdd(
     char buf[16 + TCL_INTEGER_SPACE];
 
     sprintf(buf, "odd %d\n", PTR2INT(clientData));
-    write(1, buf, strlen(buf));
+    (void)write(1, buf, strlen(buf));
 }
 
 static void
@@ -2220,7 +2220,7 @@ ExitProcEven(
     char buf[16 + TCL_INTEGER_SPACE];
 
     sprintf(buf, "even %d\n", PTR2INT(clientData));
-    write(1, buf, strlen(buf));
+    (void)write(1, buf, strlen(buf));
 }
 
 /*
