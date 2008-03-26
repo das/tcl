@@ -1,5 +1,5 @@
 '\"
-'\" Copyright (c) 2003 George Petasis, petasis@iit.demokritos.gr.
+'\" Copyright (c) 2003 George Petasis <petasis@iit.demokritos.gr>.
 '\"
 '\" See the file "license.terms" for information on usage and redistribution
 '\" of this file, and for a DISCLAIMER OF ALL WARRANTIES.
