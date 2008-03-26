@@ -463,7 +463,7 @@ TclpCreateProcess(
 			((dup2(1,2) == -1) || (fcntl(2, F_SETFD, 0) != 0)))) {
 	    sprintf(errSpace,
 		    "%dforked process couldn't set up input/output: ", errno);
-	    write(fd, errSpace, (size_t) strlen(errSpace));
+	    (void)write(fd, errSpace, (size_t) strlen(errSpace));
 	    _exit(1);
 	}
 
@@ -474,7 +474,7 @@ TclpCreateProcess(
 	RestoreSignals();
 	execvp(newArgv[0], newArgv);			/* INTL: Native. */
 	sprintf(errSpace, "%dcouldn't execute \"%.150s\": ", errno, argv[0]);
-	write(fd, errSpace, (size_t) strlen(errSpace));
+	(void)write(fd, errSpace, (size_t) strlen(errSpace));
 	_exit(1);
     }
 
