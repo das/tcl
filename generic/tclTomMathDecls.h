@@ -520,6 +520,8 @@ typedef struct TclTomMathStubs {
     int (*tclBN_s_mp_sub) (mp_int* a, mp_int* b, mp_int* c); /* 60 */
 } TclTomMathStubs;
 
+#if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -527,6 +529,8 @@ extern TclTomMathStubs *tclTomMathStubsPtr;
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
 

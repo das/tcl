@@ -1,4 +1,4 @@
-Tcl 8.5 for Windows
+Tcl 8.6 for Windows
 
 RCS: @(#) $Id$
 
@@ -21,7 +21,7 @@ when compiling Tcl extensions that will be dynamically loaded.
 
 In order to compile Tcl for Windows, you need the following:
 
-	Tcl 8.5 Source Distribution (plus any patches)
+	Tcl 8.6 Source Distribution (plus any patches)
 
 	and
 
