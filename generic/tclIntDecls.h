@@ -1079,7 +1079,7 @@ EXTERN void		TclBackgroundException (Tcl_Interp * interp,
 
 typedef struct TclIntStubs {
     int magic;
-    struct TclIntStubHooks *hooks;
+    CONST struct TclIntStubHooks *hooks;
 
     void *reserved0;
     void *reserved1;
@@ -1345,15 +1345,7 @@ typedef struct TclIntStubs {
 } TclIntStubs;
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-extern TclIntStubs *tclIntStubsPtr;
-#ifdef __cplusplus
-}
-#endif
-
+EXTERN CONST TclIntStubs *tclIntStubsPtr;
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)

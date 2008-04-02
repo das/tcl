@@ -3503,14 +3503,14 @@ EXTERN void		Tcl_AppendPrintfToObj (Tcl_Obj * objPtr,
 #endif
 
 typedef struct TclStubHooks {
-    struct TclPlatStubs *tclPlatStubs;
-    struct TclIntStubs *tclIntStubs;
-    struct TclIntPlatStubs *tclIntPlatStubs;
+    CONST struct TclPlatStubs *tclPlatStubs;
+    CONST struct TclIntStubs *tclIntStubs;
+    CONST struct TclIntPlatStubs *tclIntPlatStubs;
 } TclStubHooks;
 
 typedef struct TclStubs {
     int magic;
-    struct TclStubHooks *hooks;
+    CONST struct TclStubHooks *hooks;
 
     int (*tcl_PkgProvideEx) (Tcl_Interp* interp, CONST char* name, CONST char* version, ClientData clientData); /* 0 */
     CONST84_RETURN char * (*tcl_PkgRequireEx) (Tcl_Interp * interp, CONST char * name, CONST char * version, int exact, ClientData * clientDataPtr); /* 1 */
@@ -4143,15 +4143,7 @@ typedef struct TclStubs {
 } TclStubs;
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-extern TclStubs *tclStubsPtr;
-#ifdef __cplusplus
-}
-#endif
-
+EXTERN CONST TclStubs *tclStubsPtr;
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)

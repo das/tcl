@@ -455,7 +455,7 @@ EXTERN int		TclBN_s_mp_sub (mp_int* a, mp_int* b, mp_int* c);
 
 typedef struct TclTomMathStubs {
     int magic;
-    struct TclTomMathStubHooks *hooks;
+    CONST struct TclTomMathStubHooks *hooks;
 
     int (*tclBN_epoch) (void); /* 0 */
     int (*tclBN_revision) (void); /* 1 */
@@ -521,15 +521,7 @@ typedef struct TclTomMathStubs {
 } TclTomMathStubs;
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-extern TclTomMathStubs *tclTomMathStubsPtr;
-#ifdef __cplusplus
-}
-#endif
-
+EXTERN CONST TclTomMathStubs *tclTomMathStubsPtr;
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
