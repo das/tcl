@@ -20,10 +20,7 @@
  * including the rest of the stub functions.
  */
 
-#ifndef USE_TCL_STUBS
 #define USE_TCL_STUBS
-#endif
-#undef USE_TCL_STUB_PROCS
 
 #include "tclInt.h"
 
@@ -79,10 +76,6 @@ static int isDigit(const int c)
  *
  *----------------------------------------------------------------------
  */
-
-#ifdef Tcl_InitStubs
-#undef Tcl_InitStubs
-#endif
 
 CONST char *
 Tcl_InitStubs(
@@ -165,10 +158,6 @@ Tcl_InitStubs(
  *
  *----------------------------------------------------------------------
  */
-
-#ifdef TclTomMathInitializeStubs
-#undef TclTomMathInitializeStubs
-#endif
 
 CONST char*
 TclTomMathInitializeStubs(
