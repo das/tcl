@@ -8731,7 +8731,7 @@ CopyData(
 	 * don't starve the rest of the system.
 	 */
 
-	if (cmdPtr) {
+	if (cmdPtr && (csPtr->toRead != 0)) {
 	    /*
 	     * The first time we enter this code, there won't be a channel
 	     * handler established yet, so do it here.
