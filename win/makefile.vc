@@ -298,7 +298,6 @@ TCLOBJS = \
 	$(TMP_DIR)\tclStringObj.obj \
 	$(TMP_DIR)\tclStrToD.obj \
 	$(TMP_DIR)\tclStubInit.obj \
-	$(TMP_DIR)\tclStubLib.obj \
 	$(TMP_DIR)\tclThread.obj \
 	$(TMP_DIR)\tclThreadAlloc.obj \
 	$(TMP_DIR)\tclThreadJoin.obj \
