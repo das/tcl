@@ -1039,7 +1039,7 @@ test iocmd-24.6 {chan write, bad result, zero-length write} -match glob -body {
     close $c
     rename foo {}
     set res
-} -result {{write rc* snarf} 1 {write wrote more than requested}}
+} -result {{write rc* snarf} 1 {write wrote nothing}}
 test iocmd-24.7 {chan write, failed write, error return} -match glob -body {
     set res {}
     proc foo {args} {oninit; onfinal; track; return -code error BOOM!}
