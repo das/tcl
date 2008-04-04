@@ -58,12 +58,12 @@ extern "C" {
  */
 
 #define TCL_MAJOR_VERSION   8
-#define TCL_MINOR_VERSION   5
-#define TCL_RELEASE_LEVEL   TCL_FINAL_RELEASE
-#define TCL_RELEASE_SERIAL  2
+#define TCL_MINOR_VERSION   6
+#define TCL_RELEASE_LEVEL   TCL_ALPHA_RELEASE
+#define TCL_RELEASE_SERIAL  0
 
-#define TCL_VERSION	    "8.5"
-#define TCL_PATCH_LEVEL	    "8.5.2"
+#define TCL_VERSION	    "8.6"
+#define TCL_PATCH_LEVEL	    "8.6a0"
 
 /*
  * The following definitions set up the proper options for Windows compilers.

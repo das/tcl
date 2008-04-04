@@ -20,22 +20,21 @@
  * including the rest of the stub functions.
  */
 
-#ifndef USE_TCL_STUBS
 #define USE_TCL_STUBS
-#endif
-#undef USE_TCL_STUB_PROCS
 
 #include "tclInt.h"
 
-/*
- * Tcl_InitStubs and stub table pointers are built as exported symbols.
- */
+MODULE_SCOPE const TclStubs *tclStubsPtr;
+MODULE_SCOPE const TclPlatStubs *tclPlatStubsPtr;
+MODULE_SCOPE const TclIntStubs *tclIntStubsPtr;
+MODULE_SCOPE const TclIntPlatStubs *tclIntPlatStubsPtr;
+MODULE_SCOPE const TclTomMathStubs* tclTomMathStubsPtr;
 
-TclStubs *tclStubsPtr = NULL;
-TclPlatStubs *tclPlatStubsPtr = NULL;
-TclIntStubs *tclIntStubsPtr = NULL;
-TclIntPlatStubs *tclIntPlatStubsPtr = NULL;
-TclTomMathStubs* tclTomMathStubsPtr = NULL;
+const TclStubs *tclStubsPtr = NULL;
+const TclPlatStubs *tclPlatStubsPtr = NULL;
+const TclIntStubs *tclIntStubsPtr = NULL;
+const TclIntPlatStubs *tclIntPlatStubsPtr = NULL;
+const TclTomMathStubs* tclTomMathStubsPtr = NULL;
 
 static TclStubs *
 HasStubSupport(
@@ -80,11 +79,7 @@ static int isDigit(const int c)
  *----------------------------------------------------------------------
  */
 
-#ifdef Tcl_InitStubs
-#undef Tcl_InitStubs
-#endif
-
-CONST char *
+MODULE_SCOPE CONST char *
 Tcl_InitStubs(
     Tcl_Interp *interp,
     CONST char *version,
@@ -123,6 +118,8 @@ Tcl_InitStubs(
 		p++; q++;
 	    }
 	    if (*p) {
+		/* Construct error message */
+		Tcl_PkgRequireEx(interp, "Tcl", version, 1, NULL);
 		return NULL;
 	    }
 	} else {
@@ -164,11 +161,7 @@ Tcl_InitStubs(
  *----------------------------------------------------------------------
  */
 
-#ifdef TclTomMathInitializeStubs
-#undef TclTomMathInitializeStubs
-#endif
-
-CONST char*
+MODULE_SCOPE CONST char*
 TclTomMathInitializeStubs(
     Tcl_Interp* interp,		/* Tcl interpreter */
     CONST char* version,	/* Tcl version needed */

@@ -491,7 +491,7 @@ TclTomMathStubs tclTomMathStubs = {
     TclBN_s_mp_sub, /* 60 */
 };
 
-static TclStubHooks tclStubHooks = {
+static const TclStubHooks tclStubHooks = {
     &tclPlatStubs,
     &tclIntStubs,
     &tclIntPlatStubs

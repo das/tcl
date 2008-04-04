@@ -810,11 +810,6 @@ Tcl_CreateInterp(void)
 
     Tcl_PkgProvideEx(interp, "Tcl", TCL_PATCH_LEVEL, &tclStubs);
 
-#ifdef Tcl_InitStubs
-#undef Tcl_InitStubs
-#endif
-    Tcl_InitStubs(interp, TCL_VERSION, 1);
-
     if (TclTommath_Init(interp) != TCL_OK) {
 	Tcl_Panic(Tcl_GetString(Tcl_GetObjResult(interp)));
     }

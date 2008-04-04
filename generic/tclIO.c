@@ -8578,23 +8578,33 @@ CopyData(
 	    goto writeError;
 	}
 
-	/*
-	 * Read up to bufSize bytes.
-	 */
+	if (cmdPtr && (mask == 0)) {
+	    /*
+	     * In async mode, we skip reading synchronously and fake an
+	     * underflow instead to prime the readable fileevent.
+	     */
 
-	if ((csPtr->toRead == -1) || (csPtr->toRead > csPtr->bufSize)) {
-	    sizeb = csPtr->bufSize;
+	    size      = 0;
+	    underflow = 1;
 	} else {
-	    sizeb = csPtr->toRead;
-	}
+	    /*
+	     * Read up to bufSize bytes.
+	     */
 
-	if (inBinary || sameEncoding) {
-	    size = DoRead(inStatePtr->topChanPtr, csPtr->buffer, sizeb);
-	} else {
-	    size = DoReadChars(inStatePtr->topChanPtr, bufObj, sizeb,
-		    0 /* No append */);
+	    if ((csPtr->toRead == -1) || (csPtr->toRead > csPtr->bufSize)) {
+		sizeb = csPtr->bufSize;
+	    } else {
+		sizeb = csPtr->toRead;
+	    }
+
+	    if (inBinary || sameEncoding) {
+		size = DoRead(inStatePtr->topChanPtr, csPtr->buffer, sizeb);
+	    } else {
+		size = DoReadChars(inStatePtr->topChanPtr, bufObj, sizeb,
+				   0 /* No append */);
+	    }
+	    underflow = (size >= 0) && (size < sizeb);	/* Input underflow */
 	}
-	underflow = (size >= 0) && (size < sizeb);	/* Input underflow */
 
 	if (size < 0) {
 	readError:
@@ -8731,7 +8741,7 @@ CopyData(
 	 * don't starve the rest of the system.
 	 */
 
-	if (cmdPtr) {
+	if (cmdPtr && (csPtr->toRead != 0)) {
 	    /*
 	     * The first time we enter this code, there won't be a channel
 	     * handler established yet, so do it here.
