@@ -6982,7 +6982,7 @@ test chan-io-53.9 {CopyData: -size and event interaction, Bug 780533} -setup {
     catch {removeFile err}
     catch {unset ::forever}
 } -result OK
-test io-53.10 {Bug 1350564, multi-directional fcopy} -setup {
+test chan-io-53.10 {Bug 1350564, multi-directional fcopy} -setup {
     set err [makeFile {} err]
     set pipe [open "|[info nameofexecutable] 2> $err" r+]
     chan configure $pipe -translation binary -buffering line
