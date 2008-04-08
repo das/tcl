@@ -851,12 +851,21 @@ TclFinalizeExecution(void)
 
 /*
  * Auxiliary code to insure that GrowEvaluationStack always returns correctly 
- * aligned memory. This assumes that TCL_ALLOCALIGN is a multiple of the
- * wordsize 'sizeof(Tcl_Obj *)'. 
+ * aligned memory.
+ *
+ * WALLOCALIGN represents the alignment reqs in words, just as TCL_ALLOCALIGN
+ * represents the reqs in bytes. This assumes that TCL_ALLOCALIGN is a
+ * multiple of the wordsize 'sizeof(Tcl_Obj *)'. 
  */
 
 #define WALLOCALIGN \
     (TCL_ALLOCALIGN/sizeof(Tcl_Obj *))
+
+/*
+ * OFFSET computes how many words have to be skipped until the next aligned
+ * word. Note that we are only interested in the low order bits of ptr, so
+ * that any possible information loss in PTR2INT is of no consequence.
+ */
 
 static inline int
 OFFSET(
@@ -864,10 +873,14 @@ OFFSET(
 {
     int mask = TCL_ALLOCALIGN-1;
     int base = PTR2INT(ptr) & mask;
-    return (TCL_ALLOCALIGN - base)/sizeof(Tcl_Obj**);
+    return (TCL_ALLOCALIGN - base)/sizeof(Tcl_Obj *);
 }
 
-#define MEMSTART(markerPtr) \
+/*
+ * Given a marker, compute where the following aligned memory starts. 
+ */
+
+#define MEMSTART(markerPtr)			\
     ((markerPtr) + OFFSET(markerPtr))
 
 
