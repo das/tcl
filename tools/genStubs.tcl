@@ -998,7 +998,7 @@ proc genStubs::emitHeader {name} {
 
     set upName [string toupper $libraryName]
     append text "\n#if defined(USE_${upName}_STUBS) && !defined(USE_${upName}_STUB_PROCS)\n"
-    append text "EXTERN CONST ${capName}Stubs *${name}StubsPtr;"
+    append text "extern CONST ${capName}Stubs *${name}StubsPtr;"
     append text "\n#endif /* defined(USE_${upName}_STUBS) && !defined(USE_${upName}_STUB_PROCS) */\n"
 
     emitMacros $name text
