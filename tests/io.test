@@ -6919,8 +6919,8 @@ test io-53.8 {CopyData: async callback and error handling, Bug 1932639} -setup {
 	lappend ::RES {bgerror/FAIL timeout}
 	set ::forever has-been-reached
     }]
-    catch {after cancel $token}
     vwait ::forever
+    catch {after cancel $token}
     # Report
     set ::RES
 } -cleanup {
