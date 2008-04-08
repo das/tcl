@@ -521,7 +521,7 @@ typedef struct TclTomMathStubs {
 } TclTomMathStubs;
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
-EXTERN CONST TclTomMathStubs *tclTomMathStubsPtr;
+extern CONST TclTomMathStubs *tclTomMathStubsPtr;
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
