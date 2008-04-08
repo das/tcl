@@ -1345,7 +1345,7 @@ typedef struct TclIntStubs {
 } TclIntStubs;
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
-EXTERN CONST TclIntStubs *tclIntStubsPtr;
+extern CONST TclIntStubs *tclIntStubsPtr;
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)

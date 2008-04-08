@@ -95,7 +95,7 @@ typedef struct TclPlatStubs {
 } TclPlatStubs;
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
-EXTERN CONST TclPlatStubs *tclPlatStubsPtr;
+extern CONST TclPlatStubs *tclPlatStubsPtr;
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
