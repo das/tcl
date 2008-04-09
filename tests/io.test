@@ -6547,7 +6547,7 @@ test io-52.5 {TclCopyChannel} {fcopy} {
     set f2 [open $path(test1) w]
     fconfigure $f1 -translation lf -blocking 0
     fconfigure $f2 -translation lf -blocking 0
-    fcopy $f1 $f2 -size -1
+    fcopy $f1 $f2 ;#-size -1
     set result [list [fconfigure $f1 -blocking] [fconfigure $f2 -blocking]]
     close $f1
     close $f2
