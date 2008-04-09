@@ -1643,6 +1643,20 @@ Tcl_FcopyObjCmd(
 	    if (TclGetIntFromObj(interp, objv[i+1], &toRead) != TCL_OK) {
 		return TCL_ERROR;
 	    }
+	    if (toRead<0) {
+		Tcl_WideInt w;
+		if (Tcl_GetWideIntFromObj(interp, objv[i+1], &w) != TCL_OK) {
+		    return TCL_ERROR;
+		}
+		if (w >= (Tcl_WideInt)0) {
+		    Tcl_AppendResult(interp,
+		     "integer value to large to represent as 32bit signed value",
+		     NULL);
+		} else {
+		    Tcl_AppendResult(interp, "negative size forbidden", NULL);
+		}
+		return TCL_ERROR;
+	    }
 	    break;
 	case FcopyCommand:
 	    cmdPtr = objv[i+1];
