@@ -6547,7 +6547,7 @@ test chan-io-52.5 {TclCopyChannel} {fcopy} {
     set f2 [open $path(test1) w]
     chan configure $f1 -translation lf -blocking 0
     chan configure $f2 -translation lf -blocking 0
-    chan copy $f1 $f2 -size -1
+    chan copy $f1 $f2 ;#-size -1
     set result [list [chan configure $f1 -blocking] [chan configure $f2 -blocking]]
     chan close $f1
     chan close $f2
