@@ -1644,18 +1644,13 @@ Tcl_FcopyObjCmd(
 		return TCL_ERROR;
 	    }
 	    if (toRead<0) {
-		Tcl_WideInt w;
-		if (Tcl_GetWideIntFromObj(interp, objv[i+1], &w) != TCL_OK) {
-		    return TCL_ERROR;
-		}
-		if (w >= (Tcl_WideInt)0) {
-		    Tcl_AppendResult(interp,
-		     "integer value to large to represent as 32bit signed value",
-		     NULL);
-		} else {
-		    Tcl_AppendResult(interp, "negative size forbidden", NULL);
-		}
-		return TCL_ERROR;
+		/*
+		 * Handle all negative sizes like -1, meaning 'copy all'. By
+		 * resetting toRead we avoid changes in the core copying
+		 * functions (which explicitly check for -1 and crash on any
+		 * other negative value).
+		 */
+		toRead = -1;
 	    }
 	    break;
 	case FcopyCommand:
