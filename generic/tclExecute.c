@@ -827,7 +827,7 @@ Tcl_ExprObj(interp, objPtr, resultPtrPtr)
 		auxDataPtr++;
 	    }
 	    TclFreeCompileEnv(&compEnv);
-	    return result;
+	    goto done;
 	}
 
 	/*
@@ -888,6 +888,7 @@ Tcl_ExprObj(interp, objPtr, resultPtrPtr)
 	
 	Tcl_SetObjResult(interp, saveObjPtr);
     }
+done:
     TclDecrRefCount(saveObjPtr);
     return result;
 }
