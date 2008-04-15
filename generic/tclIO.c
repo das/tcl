@@ -8641,15 +8641,17 @@ CopyData(
 	    break;
 	} else if (underflow) {
 	    /*
-	     * We had an underflow on the read side. If we are at EOF, then
-	     * the copying is done, otherwise set up a channel handler to
-	     * detect when the channel becomes readable again.
+	     * We had an underflow on the read side. If we are at EOF, and not
+	     * in the synchronous part of an asynchronous fcopy, then the
+	     * copying is done, otherwise set up a channel handler to detect
+	     * when the channel becomes readable again.
 	     */
 
-	    if ((size == 0) && Tcl_Eof(inChan)) {
+	    if ((size == 0) && Tcl_Eof(inChan) && !(cmdPtr && (mask == 0))) {
 		break;
 	    }
-	    if (! Tcl_Eof(inChan) && !(mask & TCL_READABLE)) {
+	    if (((!Tcl_Eof(inChan)) || (cmdPtr && (mask == 0))) &&
+		!(mask & TCL_READABLE)) {
 		if (mask & TCL_WRITABLE) {
 		    Tcl_DeleteChannelHandler(outChan, CopyEventProc, csPtr);
 		}
