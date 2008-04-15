@@ -578,6 +578,7 @@ test iocmd-15.12 {Tcl_FcopyObjCmd} {fcopy} {
     list [catch {fcopy $rfile $wfile -command bar -size foo} msg] $msg
 } {1 {expected integer but got "foo"}}
 
+
 close $rfile
 close $wfile
 
