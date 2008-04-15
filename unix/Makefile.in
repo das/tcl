@@ -1448,7 +1448,7 @@ tclMacOSXNotify.o: $(MAC_OSX_DIR)/tclMacOSXNotify.c
 
 # DTrace support
 
-$(TCL_OBJS): @DTRACE_HDR@
+$(TCL_OBJS) $(STUB_LIB_OBJS): @DTRACE_HDR@
 
 $(DTRACE_HDR): $(DTRACE_SRC)
 	$(DTRACE) -h $(DTRACE_SWITCHES) -o $@ -s $(DTRACE_SRC)
