@@ -34,29 +34,6 @@
 #undef Tcl_FindHashEntry
 #undef Tcl_CreateHashEntry
 
-/*
- * Keep a record of the original Notifier procedures, created in the
- * same compilation unit as the stub tables so we can later do reliable,
- * portable comparisons to see whether a Tcl_SetNotifier() call swapped
- * new routines into the stub table.
- */
-
-Tcl_NotifierProcs tclOriginalNotifier = {
-    Tcl_SetTimer,
-    Tcl_WaitForEvent,
-#if !defined(__WIN32__) /* UNIX */
-    Tcl_CreateFileHandler,
-    Tcl_DeleteFileHandler,
-#else
-    NULL,
-    NULL,
-#endif
-    NULL,
-    NULL,
-    NULL,
-    NULL
-};
-
 MODULE_SCOPE TclIntStubs tclIntStubs;
 MODULE_SCOPE TclIntPlatStubs tclIntPlatStubs;
 MODULE_SCOPE TclPlatStubs tclPlatStubs;

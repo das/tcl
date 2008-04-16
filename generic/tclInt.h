@@ -2357,7 +2357,7 @@ MODULE_SCOPE char *	tclNativeExecutableName;
 MODULE_SCOPE int	tclFindExecutableSearchDone;
 MODULE_SCOPE char *	tclMemDumpFileName;
 MODULE_SCOPE TclPlatformType tclPlatform;
-MODULE_SCOPE Tcl_NotifierProcs tclOriginalNotifier;
+MODULE_SCOPE Tcl_NotifierProcs tclNotifierHooks;
 
 /*
  * TIP #233 (Virtualized Time)
