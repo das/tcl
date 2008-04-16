@@ -98,7 +98,7 @@ static int	DTraceObjCmd(ClientData dummy, Tcl_Interp *interp, int objc,
 		    Tcl_Obj *const objv[]);
 #endif
 
-extern TclStubs tclStubs;
+MODULE_SCOPE const TclStubs * const tclConstStubsPtr;
 
 /*
  * The following structure define the commands in the Tcl core.
@@ -582,7 +582,7 @@ Tcl_CreateInterp(void)
      * Initialise the stub table pointer.
      */
 
-    iPtr->stubTable = &tclStubs;
+    iPtr->stubTable = tclConstStubsPtr;
 
     /*
      * Initialize the ensemble error message rewriting support.
@@ -808,7 +808,8 @@ Tcl_CreateInterp(void)
      * TIP #268: Full patchlevel instead of just major.minor
      */
 
-    Tcl_PkgProvideEx(interp, "Tcl", TCL_PATCH_LEVEL, &tclStubs);
+    Tcl_PkgProvideEx(interp, "Tcl", TCL_PATCH_LEVEL,
+	    (ClientData) tclConstStubsPtr);
 
     if (TclTommath_Init(interp) != TCL_OK) {
 	Tcl_Panic(Tcl_GetString(Tcl_GetObjResult(interp)));
