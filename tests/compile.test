@@ -432,6 +432,12 @@ test compile-15.5 {proper TCL_RETURN code from [return]} {
     set result
 } ""
 
+test compile-16.0 {error return from unbraced math func call of unknown function} {
+    set l {3 4 5}
+    catch { expr bogus([join $l ,]) } msg
+    set msg
+} {unknown math function "bogus"}
+
 
 # cleanup
 catch {rename p ""}
