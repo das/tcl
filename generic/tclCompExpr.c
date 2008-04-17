@@ -852,7 +852,7 @@ CompileMathFuncCall(exprTokenPtr, funcName, infoPtr, envPtr, endPtrPtr)
     code = TCL_OK;
     hPtr = Tcl_FindHashEntry(&iPtr->mathFuncTable, funcName);
     if (hPtr == NULL) {
-        Tcl_ResetResult(interp);
+	Tcl_ResetResult(interp);
 	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp),
 		"unknown math function \"", funcName, "\"", (char *) NULL);
 	code = TCL_ERROR;

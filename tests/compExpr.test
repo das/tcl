@@ -11,7 +11,7 @@
 # RCS: @(#) $Id$
 
 if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest
+    package require tcltest 2
     namespace import -force ::tcltest::*
 }
 
@@ -317,6 +317,10 @@ test compExpr-5.8 {CompileMathFuncCall procedure, too many arguments} {
 test compExpr-5.9 {CompileMathFuncCall procedure, too many arguments} {
     list [catch {expr {0 <= rand(5.2)}} msg] $msg
 } {1 {too many arguments for math function}}
+test compExpr-5.10 {error return from unbraced math func call of unknown function} -body {
+    expr {bogus()}
+} -returnCodes error -result {unknown math function "bogus"}
+
 
 test compExpr-6.1 {LogSyntaxError procedure, error in expr longer than 60 chars} {
     list [catch {expr {(+0123456)*(+0123456)*(+0123456)*(+0123456)*(+0123456)*(+0123456)*(+0123456)/} -1 foo 3} msg] $msg
