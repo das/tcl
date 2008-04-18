@@ -36,7 +36,7 @@ const TclIntStubs *tclIntStubsPtr = NULL;
 const TclIntPlatStubs *tclIntPlatStubsPtr = NULL;
 const TclTomMathStubs* tclTomMathStubsPtr = NULL;
 
-static TclStubs *
+static const TclStubs *
 HasStubSupport(
     Tcl_Interp *interp)
 {
