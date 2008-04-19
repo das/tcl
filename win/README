@@ -41,6 +41,9 @@ In order to compile Tcl for Windows, you need the following:
 	the msys shell, you then run the configure script in the tcl/win
 	directory.
 
+	Please note that building under Cygwin is NOT supported,
+	do not file a bug report about building under Cygwin.
+
 In practice, this release is built with Visual C++ 6.0 and the TEA
 Makefile.
 
