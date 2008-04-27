@@ -294,6 +294,14 @@ Tcl_AsyncDelete(async)
     AsyncHandler *prevPtr, *thisPtr;
 
     /*
+     * Assure early handling of the constraint
+     */
+
+    if (asyncPtr->originThrdId != Tcl_GetCurrentThread()) {
+	panic("Tcl_AsyncDelete: async handler deleted by the wrong thread");
+    }
+
+    /*
      * If we come to this point when TSD's for the current
      * thread have already been garbage-collected, we are
      * in the _serious_ trouble. OTOH, we tolerate calling
