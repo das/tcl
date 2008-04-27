@@ -889,7 +889,7 @@ TclpFreeAllocMutex(
 void *
 TclpGetAllocCache(void)
 {
-    VOID *result;
+    void *result;
 
     if (!once) {
 	/*

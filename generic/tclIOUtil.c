@@ -3229,7 +3229,7 @@ TclpLoadFile(
     Tcl_Interp *interp,		/* Used for error reporting. */
     Tcl_Obj *pathPtr,		/* Name of the file containing the desired
 				 * code (UTF-8). */
-    const char *sym1, CONST char *sym2,
+    const char *sym1, const char *sym2,
 				/* Names of two functions to look up in the
 				 * file's symbol table. */
     Tcl_PackageInitProc **proc1Ptr, Tcl_PackageInitProc **proc2Ptr,

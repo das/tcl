@@ -2182,8 +2182,8 @@ TclExecuteByteCode(
 	Tcl_Obj *objPtr;
 
 	TclNewObj(objPtr);
-	objPtr->internalRep.twoPtrValue.ptr1 = (VOID *) CURR_DEPTH;
-	objPtr->internalRep.twoPtrValue.ptr2 = (VOID *) expandNestList;
+	objPtr->internalRep.twoPtrValue.ptr1 = (void *) CURR_DEPTH;
+	objPtr->internalRep.twoPtrValue.ptr2 = (void *) expandNestList;
 	expandNestList = objPtr;
 	NEXT_INST_F(1, 0, 0);
     }

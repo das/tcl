@@ -111,7 +111,7 @@ typedef struct FsPath {
 
 #define PATHOBJ(pathPtr) ((FsPath *) (pathPtr)->internalRep.otherValuePtr)
 #define SETPATHOBJ(pathPtr,fsPathPtr) \
-	((pathPtr)->internalRep.otherValuePtr = (VOID *) (fsPathPtr))
+	((pathPtr)->internalRep.otherValuePtr = (void *) (fsPathPtr))
 #define PATHFLAGS(pathPtr) (PATHOBJ(pathPtr)->flags)
 
 /*

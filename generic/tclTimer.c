@@ -769,7 +769,7 @@ Tcl_AfterObjCmd(
     ClientData clientData,	/* Unused */
     Tcl_Interp *interp,		/* Current interpreter. */
     int objc,			/* Number of arguments. */
-    Tcl_Obj *CONST objv[])	/* Argument objects. */
+    Tcl_Obj *const objv[])	/* Argument objects. */
 {
     Tcl_WideInt ms;		/* Number of milliseconds to wait */
     Tcl_Time wakeup;
@@ -778,7 +778,7 @@ Tcl_AfterObjCmd(
     int length;
     int index;
     char buf[16 + TCL_INTEGER_SPACE];
-    static CONST char *afterSubCmds[] = {
+    static const char *afterSubCmds[] = {
 	"cancel", "idle", "info", NULL
     };
     enum afterSubCmds {AFTER_CANCEL, AFTER_IDLE, AFTER_INFO};

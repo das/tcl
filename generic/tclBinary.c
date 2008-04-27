@@ -128,7 +128,7 @@ typedef struct ByteArray {
 #define GET_BYTEARRAY(objPtr) \
 		((ByteArray *) (objPtr)->internalRep.otherValuePtr)
 #define SET_BYTEARRAY(objPtr, baPtr) \
-		(objPtr)->internalRep.otherValuePtr = (VOID *) (baPtr)
+		(objPtr)->internalRep.otherValuePtr = (void *) (baPtr)
 
 
 /*
