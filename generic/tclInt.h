@@ -2269,10 +2269,10 @@ typedef enum Tcl_PathPart {
  *----------------------------------------------------------------
  */
 
-typedef int (TclStatProc_) (CONST char *path, struct stat *buf);
-typedef int (TclAccessProc_) (CONST char *path, int mode);
+typedef int (TclStatProc_) (const char *path, struct stat *buf);
+typedef int (TclAccessProc_) (const char *path, int mode);
 typedef Tcl_Channel (TclOpenFileChannelProc_) (Tcl_Interp *interp,
-	CONST char *fileName, CONST char *modeString, int permissions);
+	const char *fileName, const char *modeString, int permissions);
 
 /*
  *----------------------------------------------------------------

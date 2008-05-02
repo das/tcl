@@ -158,7 +158,7 @@ typedef struct Channel {
  */
 
 typedef struct ChannelState {
-    CONST char *channelName;	/* The name of the channel instance in Tcl
+    const char *channelName;	/* The name of the channel instance in Tcl
 				 * commands. Storage is owned by the generic
 				 * IO code, is dynamically allocated. */
     int	flags;			/* ORed combination of the flags defined
