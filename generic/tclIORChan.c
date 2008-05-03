@@ -2461,7 +2461,6 @@ static void
 DeleteThreadReflectedChannelMap(
     ClientData clientData)	/* The per-thread data structure. */
 {
-    ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
     Tcl_HashSearch hSearch;	 /* Search variable. */
     Tcl_HashEntry *hPtr;	 /* Search variable. */
     Tcl_ThreadId self = Tcl_GetCurrentThread();
