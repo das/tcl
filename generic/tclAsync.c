@@ -282,7 +282,7 @@ Tcl_AsyncDelete(
      */
 
     if (asyncPtr->originThrdId != Tcl_GetCurrentThread()) {
-	panic("Tcl_AsyncDelete: async handler deleted by the wrong thread");
+	Tcl_Panic("Tcl_AsyncDelete: async handler deleted by the wrong thread");
     }
 
     /*
@@ -300,7 +300,7 @@ Tcl_AsyncDelete(
 	    thisPtr = thisPtr->nextPtr;
 	}
 	if (thisPtr == NULL) {
-	    panic("Tcl_AsyncDelete: cannot find async handler");
+	    Tcl_Panic("Tcl_AsyncDelete: cannot find async handler");
 	}
 	if (asyncPtr == tsdPtr->firstHandler) {
 	    tsdPtr->firstHandler = asyncPtr->nextPtr;
