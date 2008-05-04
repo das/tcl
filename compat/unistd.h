@@ -1,7 +1,7 @@
 /*
  * unistd.h --
  *
- *      Macros, CONSTants and prototypes for Posix conformance.
+ *      Macros, constants and prototypes for Posix conformance.
  *
  * Copyright 1989 Regents of the University of California Permission to use,
  * copy, modify, and distribute this software and its documentation for any
