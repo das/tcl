@@ -76,7 +76,7 @@ OBJ_DIR			= ${OBJROOT}/${BUILD_STYLE}
 
 empty			:=
 space			:= ${empty} ${empty}
-objdir			:= $(subst ${space},\ ,${OBJ_DIR})
+objdir			= $(subst ${space},\ ,${OBJ_DIR})
 
 develop_make_args	:= BUILD_STYLE=Development CONFIGURE_ARGS=--enable-symbols
 deploy_make_args	:= BUILD_STYLE=Deployment INSTALL_TARGET=install-strip \
