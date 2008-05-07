@@ -1215,7 +1215,7 @@ TclCompileDictAppendCmd(
 	tokenPtr = TokenAfter(tokenPtr);
     }
     if (parsePtr->numWords > 4) {
-	TclEmitInstInt1(INST_CONCAT1, parsePtr->numWords-2, envPtr);
+	TclEmitInstInt1(INST_CONCAT1, parsePtr->numWords-3, envPtr);
     }
 
     /*
