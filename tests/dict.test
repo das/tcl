@@ -415,13 +415,8 @@ test dict-13.9 {dict append command: write failure} {
     set result
 } {1 {can't set "dictVar": variable is array}}
 test dict-13.10 {compiled dict append: crash case} {
-    apply {{} {
-	dict for {k v} {fred 1} {
-	    dict append margs body fred \n
-	}
-	return ok
-    }}
-} ok
+    apply {{} {dict append dictVar a o k}}
+} {a ok}
 
 test dict-14.1 {dict for command: syntax} {
     list [catch {dict for} msg] $msg
