@@ -924,7 +924,7 @@ test dict-19.2 {dict: testing for leaks} -setup {
 } -cleanup {
     unset -nocomplain end i tmp
     rename getbytes {}
-    rename stress {}
+#    rename stress {}
 } -result 0
 
 test dict-20.1 {dict merge command} {
