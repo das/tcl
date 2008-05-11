@@ -501,7 +501,7 @@ TestindexobjCmd(
      * Keep this structure declaration in sync with tclIndexObj.c
      */
     struct IndexRep {
-	VOID *tablePtr;			/* Pointer to the table of strings */
+	void *tablePtr;			/* Pointer to the table of strings */
 	int offset;			/* Offset between table entries */
 	int index;			/* Selected index into table. */
     };
@@ -555,10 +555,10 @@ TestindexobjCmd(
      * object, clear out the object's cached state.
      */
 
-    if ( objv[3]->typePtr != NULL
-	 && !strcmp( "index", objv[3]->typePtr->name ) ) {
+    if (objv[3]->typePtr != NULL
+	    && !strcmp("index", objv[3]->typePtr->name)) {
 	indexRep = (struct IndexRep *) objv[3]->internalRep.otherValuePtr;
-	if (indexRep->tablePtr == (VOID *) argv) {
+	if (indexRep->tablePtr == (void *) argv) {
 	    objv[3]->typePtr->freeIntRepProc(objv[3]);
 	    objv[3]->typePtr = NULL;
 	}

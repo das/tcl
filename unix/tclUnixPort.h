@@ -595,8 +595,8 @@ typedef int socklen_t;
 #define TclpExit		exit
 
 #ifdef TCL_THREADS
-EXTERN struct tm *     	TclpLocaltime(CONST time_t *);
-EXTERN struct tm *     	TclpGmtime(CONST time_t *);
+EXTERN struct tm *     	TclpLocaltime(const time_t *);
+EXTERN struct tm *     	TclpGmtime(const time_t *);
 EXTERN char *          	TclpInetNtoa(struct in_addr);
 /* #define localtime(x)	TclpLocaltime(x)
  * #define gmtime(x)	TclpGmtime(x)    */

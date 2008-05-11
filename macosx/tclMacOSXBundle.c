@@ -81,7 +81,7 @@
 int
 Tcl_MacOSXOpenBundleResources(
     Tcl_Interp *interp,
-    CONST char *bundleName,
+    const char *bundleName,
     int hasResourceFile,
     int maxPathLen,
     char *libraryPath)
@@ -114,8 +114,8 @@ Tcl_MacOSXOpenBundleResources(
 int
 Tcl_MacOSXOpenVersionedBundleResources(
     Tcl_Interp *interp,
-    CONST char *bundleName,
-    CONST char *bundleVersion,
+    const char *bundleName,
+    const char *bundleVersion,
     int hasResourceFile,
     int maxPathLen,
     char *libraryPath)

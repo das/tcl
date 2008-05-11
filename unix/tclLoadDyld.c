@@ -112,7 +112,7 @@ MODULE_SCOPE long tclMacOSXDarwinRelease;
  *----------------------------------------------------------------------
  */
 
-static CONST char*
+static const char*
 DyldOFIErrorMsg(
     int err)
 {
@@ -346,7 +346,7 @@ MODULE_SCOPE Tcl_PackageInitProc *
 TclpFindSymbol(
     Tcl_Interp *interp,		/* For error reporting. */
     Tcl_LoadHandle loadHandle,	/* Handle from TclpDlopen. */
-    CONST char *symbol)		/* Symbol name to look up. */
+    const char *symbol)		/* Symbol name to look up. */
 {
     Tcl_DyldLoadHandle *dyldLoadHandle = (Tcl_DyldLoadHandle *) loadHandle;
     Tcl_PackageInitProc *proc = NULL;
@@ -528,7 +528,7 @@ TclpUnloadFile(
 
 int
 TclGuessPackageName(
-    CONST char *fileName,	/* Name of file containing package (already
+    const char *fileName,	/* Name of file containing package (already
 				 * translated to local form if needed). */
     Tcl_DString *bufPtr)	/* Initialized empty dstring. Append package
 				 * name to this if possible. */

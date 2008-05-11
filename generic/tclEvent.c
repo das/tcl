@@ -115,7 +115,7 @@ static void		BgErrorDeleteProc(ClientData clientData,
 			    Tcl_Interp *interp);
 static void		HandleBgErrors(ClientData clientData);
 static char *		VwaitVarProc(ClientData clientData, Tcl_Interp *interp,
-			    CONST char *name1, CONST char *name2, int flags);
+			    const char *name1, const char *name2, int flags);
 
 /*
  *----------------------------------------------------------------------
@@ -305,7 +305,7 @@ TclDefaultBgErrorHandlerObjCmd(
     ClientData dummy,		/* Not used. */
     Tcl_Interp *interp,		/* Current interpreter. */
     int objc,			/* Number of arguments. */
-    Tcl_Obj *CONST objv[])	/* Argument objects. */
+    Tcl_Obj *const objv[])	/* Argument objects. */
 {
     Tcl_Obj *keyPtr, *valuePtr;
     Tcl_Obj *tempObjv[2];
@@ -1227,7 +1227,7 @@ Tcl_VwaitObjCmd(
     ClientData clientData,	/* Not used. */
     Tcl_Interp *interp,		/* Current interpreter. */
     int objc,			/* Number of arguments. */
-    Tcl_Obj *CONST objv[])	/* Argument objects. */
+    Tcl_Obj *const objv[])	/* Argument objects. */
 {
     int done, foundEvent;
     char *nameString;
@@ -1277,8 +1277,8 @@ static char *
 VwaitVarProc(
     ClientData clientData,	/* Pointer to integer to set to 1. */
     Tcl_Interp *interp,		/* Interpreter containing variable. */
-    CONST char *name1,		/* Name of variable. */
-    CONST char *name2,		/* Second part of variable name. */
+    const char *name1,		/* Name of variable. */
+    const char *name2,		/* Second part of variable name. */
     int flags)			/* Information about what happened. */
 {
     int *donePtr = (int *) clientData;
@@ -1310,11 +1310,11 @@ Tcl_UpdateObjCmd(
     ClientData clientData,	/* Not used. */
     Tcl_Interp *interp,		/* Current interpreter. */
     int objc,			/* Number of arguments. */
-    Tcl_Obj *CONST objv[])	/* Argument objects. */
+    Tcl_Obj *const objv[])	/* Argument objects. */
 {
     int optionIndex;
     int flags = 0;		/* Initialized to avoid compiler warning. */
-    static CONST char *updateOptions[] = {"idletasks", NULL};
+    static const char *updateOptions[] = {"idletasks", NULL};
     enum updateOptions {REGEXP_IDLETASKS};
 
     if (objc == 1) {
