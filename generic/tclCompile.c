@@ -3337,7 +3337,7 @@ TclPrintSource(
 
     TclNewObj(bufferObj);
     PrintSourceToObj(bufferObj, stringPtr, maxChars);
-    fprintf(outFile, TclGetString(bufferObj));
+    fprintf(outFile, "%s", TclGetString(bufferObj));
     Tcl_DecrRefCount(bufferObj);
 }
 #endif /* TCL_COMPILE_DEBUG */
