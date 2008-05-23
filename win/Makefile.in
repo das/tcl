@@ -716,8 +716,8 @@ gdb: binaries
 
 depend:
 
-Makefile: $(SRC_DIR)/Makefile.in
-	./config.status
+#Makefile: $(SRC_DIR)/Makefile.in
+#	./config.status
 
 cleanhelp:
 	$(RM) *.hlp *.cnt *.GID *.rtf man2tcl.exe
@@ -763,3 +763,4 @@ html-tcl: $(TCLSH)
 	$(MAKE) shell SCRIPT="$(TOOL_DIR)/tcltk-man2html.tcl --htmldir=$(HTML_INSTALL_DIR) --srcdir=$(ROOT_DIR)/.. $(BUILD_HTML_FLAGS) --tcl"
 html-tk: $(TCLSH)
 	$(MAKE) shell SCRIPT="$(TOOL_DIR)/tcltk-man2html.tcl --htmldir=$(HTML_INSTALL_DIR) --srcdir=$(ROOT_DIR)/.. $(BUILD_HTML_FLAGS) --tk"
+
