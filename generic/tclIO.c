@@ -224,6 +224,8 @@ static Tcl_ObjType tclChannelType = {
 #define BUSY_STATE(st,fl) \
      ((((st)->csPtrR) && ((fl) & TCL_READABLE)) || \
       (((st)->csPtrW) && ((fl) & TCL_WRITABLE)))
+
+#define MAX_CHANNEL_BUFFER_SIZE (1024*1024)
 
 /*
  *---------------------------------------------------------------------------
@@ -6937,12 +6939,13 @@ Tcl_SetChannelBufferSize(
     ChannelState *statePtr;	/* State of real channel structure. */
 
     /*
-     * If the buffer size is smaller than 1 byte or larger than one MByte, do
-     * not accept the requested size and leave the current buffer size.
+     * Clip the buffer size to force it into the [1,1M] range
      */
 
-    if (sz < 1 || sz > 1024*1024) {
-	return;
+    if (sz < 1) {
+      sz = 1;
+    } else if (sz > MAX_CHANNEL_BUFFER_SIZE) {
+      sz = MAX_CHANNEL_BUFFER_SIZE;
     }
 
     statePtr = ((Channel *) chan)->state;
