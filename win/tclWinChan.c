@@ -576,7 +576,7 @@ FileWideSeekProc(instanceData, offset, mode, errorCodePtr)
 	    return -1;
 	}
     }
-    return ((Tcl_WideInt) newPos) | (((Tcl_WideInt) newPosHigh) << 32);
+    return (((Tcl_WideInt)((unsigned)newPos)) | (Tcl_LongAsWide(newPosHigh) << 32));
 }
 
 /*
