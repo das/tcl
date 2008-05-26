@@ -382,14 +382,6 @@ libraries:
 
 doc:
 
-winhelp: $(ROOT_DIR)/tools/man2help.tcl $(MAN2TCL)
-	TCL_LIBRARY="$(LIBRARY_DIR)"; export TCL_LIBRARY; \
-	./$(TCLSH) "$(ROOT_DIR_NATIVE)"/tools/man2help.tcl tcl "$(VER)" $(TCL_DOCS)
-	hcw /c /e tcl.hpj
-
-$(MAN2TCL): $(ROOT_DIR)/tools/man2tcl.c
-	$(CC) $(CFLAGS_OPTIMIZE) $(MAN2TCLFLAGS) -o $(MAN2TCL) "$(ROOT_DIR_NATIVE)"/tools/man2tcl.c
-
 $(TCLSH): $(TCL_LIB_FILE) $(TCLSH_OBJS) tclsh.$(RES)
 	$(CC) $(CFLAGS) $(TCLSH_OBJS) $(TCL_LIB_FILE) $(LIBS) \
         tclsh.$(RES) $(CC_EXENAME) $(LDFLAGS_CONSOLE)
