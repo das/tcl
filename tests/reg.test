@@ -1138,7 +1138,7 @@ test reg-33.13 {Bug 1810264 - infinite loop} {
 } 1
 test reg-33.14 {Bug 1810264 - super-expensive expression} {
     set start [clock seconds]
-    regexp {(x{200}){200}$y} {x}
+    regexp {(x{100}){100}$y} {x}
     set time [expr {[clock seconds] - $start}]
     expr {$time < 5 ? "ok" : "Complex RE took $time seconds - bad!"}
 } ok
