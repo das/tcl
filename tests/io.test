@@ -7051,6 +7051,7 @@ test io-53.9 {CopyData: -size and event interaction, Bug 780533} -setup {
     close $pipe
     rename ::done {}
     after 1000;			# Give Windows time to kill the process
+    catch {close $out}
     catch {removeFile out}
     catch {removeFile err}
     catch {unset ::forever}
