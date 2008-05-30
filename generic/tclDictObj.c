@@ -354,7 +354,7 @@ DupDictInternalRep(
 	 * Fill in the contents.
 	 */
 
-	Tcl_SetHashValue(hPtr, (ClientData) valuePtr);
+	Tcl_SetHashValue(hPtr, valuePtr);
 	Tcl_IncrRefCount(valuePtr);
     }
 
@@ -840,7 +840,7 @@ TclTraceDictPath(
 		TclDecrRefCount(tmpObj);
 		tmpObj = Tcl_DuplicateObj(tmpObj);
 		Tcl_IncrRefCount(tmpObj);
-		Tcl_SetHashValue(hPtr, (ClientData) tmpObj);
+		Tcl_SetHashValue(hPtr, tmpObj);
 		dict->epoch++;
 		newDict = tmpObj->internalRep.otherValuePtr;
 	    }
