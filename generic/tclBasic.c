@@ -18,6 +18,7 @@
  */
 
 #include "tclInt.h"
+#include "tclOOInt.h"
 #include "tclCompile.h"
 #include <float.h>
 #include <limits.h>

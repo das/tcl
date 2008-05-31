@@ -286,6 +286,13 @@ TCLOBJS = \
 	$(TMP_DIR)\tclMain.obj \
 	$(TMP_DIR)\tclNamesp.obj \
 	$(TMP_DIR)\tclNotify.obj \
+	$(TMP_DIR)\tclOO.obj \
+	$(TMP_DIR)\tclOOBasic.obj \
+	$(TMP_DIR)\tclOOCall.obj \
+	$(TMP_DIR)\tclOODefineCmds.obj \
+	$(TMP_DIR)\tclOOInfo.obj \
+	$(TMP_DIR)\tclOOMethod.obj \
+	$(TMP_DIR)\tclOOStubInit.obj \
 	$(TMP_DIR)\tclObj.obj \
 	$(TMP_DIR)\tclPanic.obj \
 	$(TMP_DIR)\tclParse.obj \
@@ -392,7 +399,9 @@ TCLOBJS = \
 	$(TMP_DIR)\tcl.res
 !endif
 
-TCLSTUBOBJS = $(TMP_DIR)\tclStubLib.obj
+TCLSTUBOBJS = \
+	$(TMP_DIR)\tclStubLib.obj \
+	$(TMP_DIR)\tclOOStubLib.obj
 
 ### The following paths CANNOT have spaces in them.
 COMPATDIR	= $(ROOT)\compat
@@ -867,7 +876,7 @@ $<
 <<
 
 {$(GENERICDIR)}.c{$(TMP_DIR)}.obj::
-	$(cc32) $(TCL_CFLAGS) -DBUILD_tcl -Fo$(TMP_DIR)\ @<<
+	$(cc32) $(TCL_CFLAGS) -DBUILD_tcl -DBUILD_tcloo -Fo$(TMP_DIR)\ @<<
 $<
 <<
 

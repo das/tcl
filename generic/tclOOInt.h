@@ -493,9 +493,9 @@ MODULE_SCOPE int	TclOOGetSortedMethodList(Object *oPtr, int flags,
 			    const char ***stringsPtr);
 MODULE_SCOPE int	TclOOInit(Tcl_Interp *interp);
 MODULE_SCOPE void	TclOOInitInfo(Tcl_Interp *interp);
-MODULE_SCOPE int	TclOOInvokeContext(Tcl_Interp *interp,
-			    CallContext *contextPtr, int objc,
-			    Tcl_Obj *const *objv);
+MODULE_SCOPE int	TclOOInvokeContext(Tcl_Interp *const interp,
+			    CallContext *const contextPtr, int const objc,
+			    Tcl_Obj *const *const objv);
 MODULE_SCOPE void	TclOONewBasicMethod(Tcl_Interp *interp, Class *clsPtr,
 			    const DeclaredClassMethod *dcm);
 MODULE_SCOPE Tcl_Obj *	TclOOObjectName(Tcl_Interp *interp, Object *oPtr);
