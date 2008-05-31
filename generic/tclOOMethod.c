@@ -235,7 +235,7 @@ void
 TclOODelMethodRef(
     Method *mPtr)
 {
-    if ((mPtr != NULL) && (--mPtr->refCount < 0)) {
+    if ((mPtr != NULL) && (--mPtr->refCount <= 0)) {
 	if (mPtr->typePtr != NULL && mPtr->typePtr->deleteProc != NULL) {
 	    mPtr->typePtr->deleteProc(mPtr->clientData);
 	}
