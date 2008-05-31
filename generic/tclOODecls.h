@@ -118,7 +118,7 @@ typedef struct TclOOStubs {
     int magic;
     int epoch;
     int revision;
-    struct TclOOStubHooks *hooks;
+    CONST struct TclOOStubHooks *hooks;
 
     Tcl_Object (*tcl_CopyObjectInstance) (Tcl_Interp * interp, Tcl_Object sourceObject, const char * targetName, const char * targetNamespaceName); /* 0 */
     Tcl_Object (*tcl_GetClassAsObject) (Tcl_Class clazz); /* 1 */
@@ -150,13 +150,7 @@ typedef struct TclOOStubs {
     void (*tcl_ClassSetDestructor) (Tcl_Interp * interp, Tcl_Class clazz, Tcl_Method method); /* 27 */
 } TclOOStubs;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-extern const TclOOStubs *tclOOStubsPtr;
-#ifdef __cplusplus
-}
-#endif
+extern CONST TclOOStubs *tclOOStubsPtr;
 
 #if defined(USE_TCLOO_STUBS)
 

@@ -13,7 +13,7 @@
 
 /* !BEGIN!: Do not edit below this line. */
 
-TclOOStubs tclOOStubs = {
+static const TclOOStubs tclOOStubs = {
     TCL_STUB_MAGIC,
     TCLOO_STUBS_EPOCH,
     TCLOO_STUBS_REVISION,
@@ -48,7 +48,7 @@ TclOOStubs tclOOStubs = {
     Tcl_ClassSetDestructor, /* 27 */
 };
 
-TclOOIntStubs tclOOIntStubs = {
+static const TclOOIntStubs tclOOIntStubs = {
     TCL_STUB_MAGIC,
     TCLOOINT_STUBS_EPOCH,
     TCLOOINT_STUBS_REVISION,
@@ -73,7 +73,11 @@ TclOOIntStubs tclOOIntStubs = {
 
 /* !END!: Do not edit above this line. */
 
-struct TclOOStubAPI tclOOStubAPI = {
+static const struct TclOOStubAPI tclOOStubAPI = {
     &tclOOStubs,
     &tclOOIntStubs
 };
+
+MODULE_SCOPE const struct TclOOStubAPI * const tclOOStubAPIPtr;
+const struct TclOOStubAPI * const tclOOStubAPIPtr = &tclOOStubAPI;
+

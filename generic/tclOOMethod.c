@@ -915,7 +915,7 @@ ConstructorErrorHandler(
     const char *objectName, *kindName;
     int objectNameLen;
 
-    if (interp->errorLine == 0xDEADBEEF) {
+    if (interp->errorLine == (int) 0xDEADBEEF) {
 	/*
 	 * Horrible hack to deal with certain constructors that must not add
 	 * information to the error trace.
