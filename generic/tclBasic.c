@@ -815,6 +815,10 @@ Tcl_CreateInterp(void)
 	Tcl_Panic(Tcl_GetString(Tcl_GetObjResult(interp)));
     }
 
+    if (TclOOInit(interp) != TCL_OK) {
+	Tcl_Panic(Tcl_GetString(Tcl_GetObjResult(interp)));
+    }
+
     return interp;
 }
 
