@@ -1309,9 +1309,12 @@ ParseComment(
 	char type;
 	int scanned;
 
-	scanned = TclParseAllWhiteSpace(p, numBytes);
-	p += scanned;
-	numBytes -= scanned;
+	do {
+	    scanned = ParseWhiteSpace(p, numBytes,
+		    &parsePtr->incomplete, &type);
+	    p += scanned;
+	    numBytes -= scanned;
+	} while (numBytes && (*p == '\n') && (p++,numBytes--));
 
 	if ((numBytes == 0) || (*p != '#')) {
 	    break;

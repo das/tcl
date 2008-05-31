@@ -18,6 +18,7 @@
  */
 
 #include "tclInt.h"
+#include "tclOOInt.h"
 #include "tclCompile.h"
 #include <float.h>
 #include <limits.h>
@@ -812,6 +813,10 @@ Tcl_CreateInterp(void)
 	    (ClientData) tclConstStubsPtr);
 
     if (TclTommath_Init(interp) != TCL_OK) {
+	Tcl_Panic(Tcl_GetString(Tcl_GetObjResult(interp)));
+    }
+
+    if (TclOOInit(interp) != TCL_OK) {
 	Tcl_Panic(Tcl_GetString(Tcl_GetObjResult(interp)));
     }
 

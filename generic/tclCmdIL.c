@@ -31,7 +31,7 @@
 typedef struct SortElement {
     union {
 	char *strValuePtr;
-	long   intValue;
+	long intValue;
 	double doubleValue;
 	Tcl_Obj *objValuePtr;
     } index;
@@ -513,7 +513,7 @@ InfoBodyCmd(
 	 * run before. [Bug #545644]
 	 */
 
-	(void) TclGetString(bodyPtr);
+	TclGetString(bodyPtr);
     }
     resultPtr = Tcl_NewStringObj(bodyPtr->bytes, bodyPtr->length);
 
@@ -661,7 +661,7 @@ InfoCommandsCmd(
 	entryPtr = Tcl_FindHashEntry(&nsPtr->cmdTable, simplePattern);
 	if (entryPtr != NULL) {
 	    if (specificNsInPattern) {
-		cmd = (Tcl_Command) Tcl_GetHashValue(entryPtr);
+		cmd = Tcl_GetHashValue(entryPtr);
 		elemObjPtr = Tcl_NewObj();
 		Tcl_GetCommandFullName(interp, cmd, elemObjPtr);
 	    } else {
@@ -712,7 +712,7 @@ InfoCommandsCmd(
 	    if ((simplePattern == NULL)
 		    || Tcl_StringMatch(cmdName, simplePattern)) {
 		if (specificNsInPattern) {
-		    cmd = (Tcl_Command) Tcl_GetHashValue(entryPtr);
+		    cmd = Tcl_GetHashValue(entryPtr);
 		    elemObjPtr = Tcl_NewObj();
 		    Tcl_GetCommandFullName(interp, cmd, elemObjPtr);
 		} else {
@@ -1724,7 +1724,7 @@ InfoProcsCmd(
     if (simplePattern != NULL && TclMatchIsTrivial(simplePattern)) {
 	entryPtr = Tcl_FindHashEntry(&nsPtr->cmdTable, simplePattern);
 	if (entryPtr != NULL) {
-	    cmdPtr = (Command *) Tcl_GetHashValue(entryPtr);
+	    cmdPtr = Tcl_GetHashValue(entryPtr);
 
 	    if (!TclIsProc(cmdPtr)) {
 		realCmdPtr = (Command *)
@@ -1752,7 +1752,7 @@ InfoProcsCmd(
 	    cmdName = Tcl_GetHashKey(&nsPtr->cmdTable, entryPtr);
 	    if ((simplePattern == NULL)
 		    || Tcl_StringMatch(cmdName, simplePattern)) {
-		cmdPtr = (Command *) Tcl_GetHashValue(entryPtr);
+		cmdPtr = Tcl_GetHashValue(entryPtr);
 
 		if (!TclIsProc(cmdPtr)) {
 		    realCmdPtr = (Command *)
@@ -1799,7 +1799,7 @@ InfoProcsCmd(
 		if ((simplePattern == NULL)
 			|| Tcl_StringMatch(cmdName, simplePattern)) {
 		    if (Tcl_FindHashEntry(&nsPtr->cmdTable,cmdName) == NULL) {
-			cmdPtr = (Command *) Tcl_GetHashValue(entryPtr);
+			cmdPtr = Tcl_GetHashValue(entryPtr);
 			realCmdPtr = (Command *) TclGetOriginalCommand(
 				(Tcl_Command) cmdPtr);
 

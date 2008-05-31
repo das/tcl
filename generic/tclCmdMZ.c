@@ -1871,8 +1871,8 @@ StringMapCmd(
 	 * case.
 	 */
 
-	mapStrings = (Tcl_UniChar **) TclStackAlloc(interp,
-		mapElemc * 2 * sizeof(Tcl_UniChar *));
+	mapStrings = (Tcl_UniChar **)
+		TclStackAlloc(interp, mapElemc * 2 * sizeof(Tcl_UniChar *));
 	mapLens = (int *) TclStackAlloc(interp, mapElemc * 2 * sizeof(int));
 	if (nocase) {
 	    u2lc = (Tcl_UniChar *) TclStackAlloc(interp,
