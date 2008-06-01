@@ -135,6 +135,7 @@ Tcl_NewInstanceMethod(
     if (isNew) {
 	mPtr = (Method *) ckalloc(sizeof(Method));
 	mPtr->namePtr = nameObj;
+	mPtr->refCount = 1;
 	Tcl_IncrRefCount(nameObj);
 	Tcl_SetHashValue(hPtr, mPtr);
     } else {
@@ -147,7 +148,6 @@ Tcl_NewInstanceMethod(
   populate:
     mPtr->typePtr = typePtr;
     mPtr->clientData = clientData;
-    mPtr->refCount = 1;
     mPtr->flags = 0;
     mPtr->declaringObjectPtr = oPtr;
     mPtr->declaringClassPtr = NULL;
