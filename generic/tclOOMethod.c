@@ -124,6 +124,7 @@ Tcl_NewInstanceMethod(
     if (nameObj == NULL) {
 	mPtr = (Method *) ckalloc(sizeof(Method));
 	mPtr->namePtr = NULL;
+	mPtr->refCount = 1;
 	goto populate;
     }
     if (!oPtr->methodsPtr) {
@@ -191,11 +192,13 @@ Tcl_NewMethod(
     if (nameObj == NULL) {
 	mPtr = (Method *) ckalloc(sizeof(Method));
 	mPtr->namePtr = NULL;
+	mPtr->refCount = 1;
 	goto populate;
     }
     hPtr = Tcl_CreateHashEntry(&clsPtr->classMethods, (char *)nameObj,&isNew);
     if (isNew) {
 	mPtr = (Method *) ckalloc(sizeof(Method));
+	mPtr->refCount = 1;
 	mPtr->namePtr = nameObj;
 	Tcl_IncrRefCount(nameObj);
 	Tcl_SetHashValue(hPtr, mPtr);
@@ -210,7 +213,6 @@ Tcl_NewMethod(
     clsPtr->thisPtr->fPtr->epoch++;
     mPtr->typePtr = typePtr;
     mPtr->clientData = clientData;
-    mPtr->refCount = 1;
     mPtr->flags = 0;
     mPtr->declaringObjectPtr = NULL;
     mPtr->declaringClassPtr = clsPtr;
