@@ -1575,8 +1575,8 @@ genstubs:
 	$(TCL_EXE) $(TOOL_DIR)/genStubs.tcl $(GENERIC_DIR) \
 		$(GENERIC_DIR)/tcl.decls $(GENERIC_DIR)/tclInt.decls \
 		$(GENERIC_DIR)/tclTomMath.decls
-# disabled awaiting genStubs.tcl support:
-#$(GENERIC_DIR)/tclOO.decls
+	$(TCL_EXE) $(TOOL_DIR)/genStubs.tcl $(GENERIC_DIR) \
+		$(GENERIC_DIR)/tclOO.decls
 
 #
 # Target to check that all exported functions have an entry in the stubs
