@@ -45,7 +45,7 @@ const TclOOIntStubs *tclOOIntStubsPtr = NULL;
 
 MODULE_SCOPE const char *
 TclOOInitializeStubs(
-    Tcl_Interp *interp, const char *version, int epoch, int revision)
+    Tcl_Interp *interp, const char *version)
 {
     int exact = 0;
     const char *packageName = "TclOO";
@@ -70,14 +70,6 @@ TclOOInitializeStubs(
 
 	if (!stubsPtr || !intStubsPtr) {
 	    errMsg = "missing stub table pointer";
-	    goto error;
-	}
-	if (stubsPtr->epoch != epoch || intStubsPtr->epoch != epoch) {
-	    errMsg = "epoch number mismatch";
-	    goto error;
-	}
-	if (stubsPtr->revision<revision || intStubsPtr->revision<revision) {
-	    errMsg = "require later revision";
 	    goto error;
 	}
 
