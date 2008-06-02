@@ -99,7 +99,7 @@ static const EnsembleImplMap implementationMap[] = {
     {"update",	DictUpdateCmd,	TclCompileDictUpdateCmd },
     {"values",	DictValuesCmd,	NULL },
     {"with",	DictWithCmd,	NULL },
-    {NULL}
+    {NULL,      NULL,           NULL }
 };
 
 /*
