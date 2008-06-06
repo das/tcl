@@ -1838,7 +1838,9 @@ TclInitChanCmd(
 	{"flush",	Tcl_FlushObjCmd},
 	{"gets",	Tcl_GetsObjCmd},
 	{"pending",	ChanPendingObjCmd},		/* TIP #287 */
+	{"pop",         TclChanPopObjCmd},              /* TIP #230 */
 	{"postevent",	TclChanPostEventObjCmd},	/* TIP #219 */
+	{"push",        TclChanPushObjCmd},             /* TIP #230 */
 	{"puts",	Tcl_PutsObjCmd},
 	{"read",	Tcl_ReadObjCmd},
 	{"seek",	Tcl_SeekObjCmd},

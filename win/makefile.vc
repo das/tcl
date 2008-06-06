@@ -278,6 +278,7 @@ TCLOBJS = \
 	$(TMP_DIR)\tclIOSock.obj \
 	$(TMP_DIR)\tclIOUtil.obj \
 	$(TMP_DIR)\tclIORChan.obj \
+	$(TMP_DIR)\tclIORTrans.obj \
 	$(TMP_DIR)\tclLink.obj \
 	$(TMP_DIR)\tclListObj.obj \
 	$(TMP_DIR)\tclLiteral.obj \
