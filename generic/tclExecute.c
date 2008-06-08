@@ -1463,7 +1463,18 @@ TclCompEvalObj(
 	    }
 	}
 
-	/*
+	if (codePtr->procPtr == NULL) {
+	    /*
+	     * Check that any compiled locals do refer to the current proc
+	     * environment! If not, recompile.
+	     */
+
+	    if (codePtr->localCachePtr != iPtr->varFramePtr->localCachePtr) {
+		goto recompileObj;
+	    }
+	}
+
+        /*
 	 * Increment the code's ref count while it is being executed. If
 	 * afterwards no references to it remain, free the code.
 	 */
@@ -1493,7 +1504,11 @@ TclCompEvalObj(
     tclByteCodeType.setFromAnyProc(interp, objPtr);
     iPtr->invokeCmdFramePtr = NULL;
     codePtr = (ByteCode *) objPtr->internalRep.otherValuePtr;
-    goto runCompiledObj;
+    if (iPtr->varFramePtr->localCachePtr) {
+	codePtr->localCachePtr = iPtr->varFramePtr->localCachePtr;
+	codePtr->localCachePtr->refCount++;
+    }
+       goto runCompiledObj;
 
     done:
     iPtr->numLevels--;
