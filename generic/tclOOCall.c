@@ -431,8 +431,14 @@ TclOOGetSortedMethodList(
 	 * dealing with public method names.
 	 */
 
-	qsort((void *) strings, (unsigned) i, sizeof(char *), CmpStr);
-	*stringsPtr = strings;
+	if (i > 0) {
+	    if (i > 1) {
+		qsort((void *) strings, (unsigned) i, sizeof(char *), CmpStr);
+	    }
+	    *stringsPtr = strings;
+	} else {
+	    ckfree((char *) strings);
+	}
     }
 
     Tcl_DeleteHashTable(&names);
@@ -492,8 +498,14 @@ TclOOGetSortedClassMethodList(
 	 * dealing with public method names.
 	 */
 
-	qsort((void *) strings, (unsigned) i, sizeof(char *), CmpStr);
-	*stringsPtr = strings;
+	if (i > 0) {
+	    if (i > 1) {
+		qsort((void *) strings, (unsigned) i, sizeof(char *), CmpStr);
+	    }
+	    *stringsPtr = strings;
+	} else {
+	    ckfree((char *) strings);
+	}
     }
 
     Tcl_DeleteHashTable(&names);
