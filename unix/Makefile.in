@@ -883,7 +883,7 @@ Makefile: $(UNIX_DIR)/Makefile.in $(DLTEST_DIR)/Makefile.in
 
 clean:
 	rm -f *.a *.o libtcl* core errs *~ \#* TAGS *.E a.out \
-		errors tclsh tcltest lib.exp Tcl
+		errors tclsh tcltest lib.exp Tcl @DTRACE_HDR@
 	cd dltest ; $(MAKE) clean
 
 distclean: clean
