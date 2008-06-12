@@ -73,11 +73,6 @@ static const TclOOStubs tclOOStubs = {
 
 /* !END!: Do not edit above this line. */
 
-static const struct TclOOStubAPI tclOOStubAPI = {
-    &tclOOStubs,
-    &tclOOIntStubs
-};
-
-MODULE_SCOPE const struct TclOOStubAPI * const tclOOStubAPIPtr;
-const struct TclOOStubAPI * const tclOOStubAPIPtr = &tclOOStubAPI;
+MODULE_SCOPE const TclOOStubs * const tclOOConstStubPtr;
+const TclOOStubs * const tclOOConstStubPtr = &tclOOStubs;
 
