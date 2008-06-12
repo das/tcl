@@ -7057,6 +7057,7 @@ test chan-io-53.9 {CopyData: -size and event interaction, Bug 780533} -setup {
     rename ::done {}
     after 1000;			# Allow Windows time to figure out that the
                                 # process is gone
+    catch {close $out}
     catch {removeFile out}
     catch {removeFile err}
     catch {unset ::forever}
