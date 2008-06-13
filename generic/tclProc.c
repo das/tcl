@@ -1700,6 +1700,8 @@ TclObjInterpProcCore(
      * Invoke the commands in the procedure's body.
      */
 
+    TclResetCancellation(interp, 0);
+
     procPtr->refCount++;
     iPtr->numLevels++;
 

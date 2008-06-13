@@ -1472,7 +1472,7 @@ test cmdAH-30.8 {Tcl_FileObjCmd: error conditions} {
 
 interp create simpleInterp
 interp create -safe safeInterp
-interp c
+interp create
 safeInterp expose file file
 
 test cmdAH-31.1 {Tcl_FileObjCmd: channels, too many args} {

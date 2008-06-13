@@ -983,11 +983,15 @@ typedef struct Tcl_DString {
  *				o Cut out of error traces
  *				o Don't reset the flags controlling ensemble
  *				  error message rewriting.
+ *	TCL_CANCEL_UNWIND:	Magical Tcl_CancelEval mode that causes the
+ *				stack for the script in progress to be
+ *				completely unwound.
  */
 #define TCL_NO_EVAL		0x10000
 #define TCL_EVAL_GLOBAL		0x20000
 #define TCL_EVAL_DIRECT		0x40000
 #define TCL_EVAL_INVOKE		0x80000
+#define TCL_CANCEL_UNWIND	0x100000
 
 /*
  * Special freeProc values that may be passed to Tcl_SetResult (see the man
@@ -1000,6 +1004,8 @@ typedef struct Tcl_DString {
 
 /*
  * Flag values passed to variable-related functions.
+ * WARNING: these bit choices must not conflict with the bit choice for
+ * TCL_CANCEL_UNWIND, above.
  */
 
 #define TCL_GLOBAL_ONLY		 1

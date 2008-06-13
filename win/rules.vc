@@ -252,6 +252,12 @@ DEBUG		= 1
 !else
 DEBUG		= 0
 !endif
+!if [nmakehlp -f $(OPTS) "pdbs"]
+!message *** Doing pdbs
+SYMBOLS		= 1
+!else
+SYMBOLS		= 0
+!endif
 !if [nmakehlp -f $(OPTS) "profile"]
 !message *** Doing profile
 PROFILE		= 1

@@ -985,7 +985,7 @@ proc getTwips {arg} {
 	}
 	default {
 	    puts stderr "bad units in distance \"$arg\""
-	    continue
+	    return 0
 	}
     }
     return $distance

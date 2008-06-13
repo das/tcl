@@ -2099,6 +2099,15 @@ declare 579 generic {
     void Tcl_AppendPrintfToObj(Tcl_Obj *objPtr, CONST char *format, ...)
 }
 
+# TIP #285: Script cancellation support.
+declare 580 generic {
+    int Tcl_CancelEval(Tcl_Interp *interp, Tcl_Obj *resultObjPtr,
+	    ClientData clientData, int flags)
+}
+declare 581 generic {
+    int Tcl_Canceled(Tcl_Interp *interp, int flags)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are
