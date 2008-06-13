@@ -3680,7 +3680,7 @@ Tcl_Canceled(
     int flags)
 {
     register Interp *iPtr = (Interp *) interp;
-    const char *id, *message;
+    const char *id, *message = NULL;
     int length;
 
     /*
