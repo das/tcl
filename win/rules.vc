@@ -214,6 +214,7 @@ _VC_MANIFEST_EMBED_DLL=if exist $@.manifest mt -nologo -manifest $@.manifest -ou
 STATIC_BUILD	= 0
 TCL_THREADS	= 0
 DEBUG		= 0
+SYMBOLS		= 0
 PROFILE		= 0
 MSVCRT		= 0
 LOIMPACT	= 0
