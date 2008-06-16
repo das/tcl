@@ -67,7 +67,7 @@ This command also cancels the execution of a delayed command.
 The \fIscript\fR arguments are concatenated together with space
 separators (just as in the \fBconcat\fR command).
 If there is a pending command that matches the string, it is
-cancelled and will never be executed;  if no such command is
+canceled and will never be executed;  if no such command is
 currently pending then the \fBafter cancel\fR command has no effect.
 .TP
 \fBafter idle \fIscript \fR?\fIscript script ...\fR?
@@ -90,7 +90,7 @@ event handlers created by the \fBafter\fR command for this
 interpreter.
 If \fIid\fR is supplied, it specifies an existing handler;
 \fIid\fR must have been the return value from some previous call
-to \fBafter\fR and it must not have triggered yet or been cancelled.
+to \fBafter\fR and it must not have triggered yet or been canceled.
 In this case the command returns a list with two elements.
 The first element of the list is the script associated
 with \fIid\fR, and the second element is either

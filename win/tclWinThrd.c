@@ -691,7 +691,7 @@ Tcl_ConditionWait(
     while (!timeout && (tsdPtr->flags & WIN_THREAD_BLOCKED)) {
 	ResetEvent(tsdPtr->condEvent);
 	LeaveCriticalSection(&winCondPtr->condLock);
-	if (WaitForSingleObject(tsdPtr->condEvent, wtime) == WAIT_TIMEOUT) {
+	if (WaitForSingleObjectEx(tsdPtr->condEvent, wtime, TRUE) == WAIT_TIMEOUT) {
 	    timeout = 1;
 	}
 	EnterCriticalSection(&winCondPtr->condLock);

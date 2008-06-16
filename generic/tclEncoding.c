@@ -2292,7 +2292,7 @@ UtfToUtfProc(
 	     * incomplete char its byts are made to represent themselves.
 	     */
 
-	    ch = (Tcl_UniChar) *src;
+	    ch = (unsigned char) *src;
 	    src += 1;
 	    dst += Tcl_UniCharToUtf(ch, dst);
 	} else {

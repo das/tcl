@@ -299,7 +299,7 @@ Tcl_CreateEventSource(
  *	None.
  *
  * Side effects:
- *	The given event source is cancelled, so its function will never again
+ *	The given event source is canceled, so its function will never again
  *	be called. If no such source exists, nothing happens.
  *
  *----------------------------------------------------------------------

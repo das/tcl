@@ -241,6 +241,7 @@ GENERIC_OBJS = \
 	tclIOCmd.$(OBJEXT) \
 	tclIOGT.$(OBJEXT) \
 	tclIORChan.$(OBJEXT) \
+	tclIORTrans.$(OBJEXT) \
 	tclIOSock.$(OBJEXT) \
 	tclIOUtil.$(OBJEXT) \
 	tclLink.$(OBJEXT) \

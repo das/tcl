@@ -584,7 +584,7 @@ Tcl_Sleep(
     sleepTime = vdelay.sec * 1000 + vdelay.usec / 1000;
 
     for (;;) {
-	Sleep(sleepTime);
+	SleepEx(sleepTime, TRUE);
 	Tcl_GetTime(&now);
 	if (now.sec > desired.sec) {
 	    break;

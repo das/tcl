@@ -934,6 +934,11 @@ declare 236 generic {
     void TclBackgroundException(Tcl_Interp *interp, int code)
 }
 
+# TIP #285: Script cancellation support.
+declare 237 generic {
+    int TclResetCancellation(Tcl_Interp *interp, int force)
+}
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are

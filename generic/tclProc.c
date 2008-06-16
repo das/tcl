@@ -908,7 +908,7 @@ Tcl_UplevelObjCmd(
      */
 
     if (objc == 1) {
-	result = Tcl_EvalObjEx(interp, objv[0], TCL_EVAL_DIRECT);
+	result = Tcl_EvalObjEx(interp, objv[0], 0);
     } else {
 	/*
 	 * More than one argument: concatenate them together with spaces
@@ -1699,6 +1699,8 @@ TclObjInterpProcCore(
     /*
      * Invoke the commands in the procedure's body.
      */
+
+    TclResetCancellation(interp, 0);
 
     procPtr->refCount++;
     iPtr->numLevels++;
