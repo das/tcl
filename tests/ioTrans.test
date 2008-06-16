@@ -712,6 +712,7 @@ test iortrans-11.0 {origin interpreter of moved transform gone} -match glob -bod
     lappend res [catch {interp eval $idb [list close $chan]}      msg] $msg
     #lappend res [interp eval $ida {set res}]
     # actions: clear|write|clear|write|clear|flush|limit?|drain|flush
+    tempdone
     set res
     # The 'tell' is ok, as it passed through the transform to the base
     # channel without invoking the transform handler.
@@ -757,6 +758,7 @@ test iortrans-11.1 {origin interpreter of moved transform destroyed during acces
 	catch { puts $chan shoo } res
 	set res
     }]
+    tempdone
     set res
 } -constraints {testchannel impossible} \
     -result {Owner lost}
