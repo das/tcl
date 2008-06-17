@@ -36636,6 +36636,14 @@ test clock-62.1 {Bug 1902423} {*}{
     -result ok
 }
 
+test clock-63.1 {Incorrect use of internal ConvertLocalToUTC command} {*}{
+    -body {
+	::tcl::clock::ConvertLocalToUTC {immaterial stuff} {} 12345
+    }
+    -returnCodes error
+    -result {key "localseconds" not found in dictionary}
+}
+
 # cleanup
 
 namespace delete ::testClock
