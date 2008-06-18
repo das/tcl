@@ -335,7 +335,6 @@ ClockConvertlocaltoutcObjCmd(
     dict = objv[1];
     if (Tcl_DictObjGet(interp, dict, literals[LIT_LOCALSECONDS],
 		       &secondsObj)!= TCL_OK) {
-	fprintf(stderr, "fell out here\n"); fflush(stderr);
 	return TCL_ERROR;
     }
     if (secondsObj == NULL) {
