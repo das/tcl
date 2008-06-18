@@ -1369,8 +1369,14 @@ ParsePrimaryExpr(infoPtr)
 	}
 	break;
 	
+/*
+ *	Disable attempt to support functions named "eq" or "ne".  This
+ *	is unworkable in the Tcl 8.4.* releases.  See Tcl Bugs 1971879
+ *	and 1201589.
+ *
     case STREQ:
     case STRNEQ:
+*/
     case FUNC_NAME: {
 	/*
 	 * math_func '(' expr {',' expr} ')'
