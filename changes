@@ -7211,4 +7211,8 @@ variables without "." added to customization hooks (kupries)
 
 2008-05-23 (bug fix)[1965787] 32-bit overflow in [tell] result (ferrieux)
 
+2008-06-12 (platform support) Solaris static build with DTrace (steffen)
+
+2008-06-12 (platform support) Solaris/amd64 gcc 64bit support (steffen)
+
 --- Released 8.5.3, June ??, 2008 --- See ChangeLog for details ---
