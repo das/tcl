@@ -2061,9 +2061,9 @@ SlaveBgerror(
 		    NULL);
 	    return TCL_ERROR;
 	}
-	TclSetBgErrorHandler(interp, objv[0]);
+	TclSetBgErrorHandler(slaveInterp, objv[0]);
     }
-    Tcl_SetObjResult(interp, TclGetBgErrorHandler(interp));
+    Tcl_SetObjResult(interp, TclGetBgErrorHandler(slaveInterp));
     return TCL_OK;
 }
 
