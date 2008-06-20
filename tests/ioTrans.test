@@ -690,9 +690,12 @@ test iortrans-11.0 {origin interpreter of moved transform gone} -match glob -bod
 
     # Set up channel and transform in interpreter
     interp eval $ida $helperscript
+    interp eval $ida [list ::variable tempchan [tempchan]]
+    interp transfer {} $::tempchan $ida
     set chan [interp eval $ida {
+	variable tempchan
 	proc foo {args} {oninit clear drain flush limit? read write; onfinal; track; return}
-	set chan [chan push [tempchan] foo]
+	set chan [chan push $tempchan foo]
 	fconfigure $chan -buffering none
 	set chan
     }]
