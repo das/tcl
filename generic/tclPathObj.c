@@ -1596,7 +1596,14 @@ Tcl_FSGetTranslatedPath(
     srcFsPathPtr = PATHOBJ(pathPtr);
     if (srcFsPathPtr->translatedPathPtr == NULL) {
 	if (PATHFLAGS(pathPtr) != 0) {
-	    retObj = Tcl_FSGetNormalizedPath(interp, pathPtr);
+	    int numBytes;
+	    const char *bytes = Tcl_GetStringFromObj(pathPtr, &numBytes);
+	    Tcl_Obj *copy = Tcl_NewStringObj(bytes, numBytes);
+	    Tcl_IncrRefCount(copy);
+	    retObj = Tcl_FSGetTranslatedPath(interp, copy);
+	    srcFsPathPtr->translatedPathPtr = retObj;
+	    Tcl_IncrRefCount(retObj);
+	    Tcl_DecrRefCount(copy);
 	} else {
 	    /*
 	     * It is a pure absolute, normalized path object. This is
