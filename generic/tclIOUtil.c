@@ -5441,7 +5441,7 @@ Tcl_FSGetTranslatedPath(interp, pathPtr)
 	     * translated result we need, and can store it for future use.
 	     */
 	    retObj = Tcl_FSJoinToPath(Tcl_FSGetTranslatedPath(interp,
-	    srcFsPathPtr->cwdPtr), 1, &(srcFsPathPtr->normPathPtr));
+		    srcFsPathPtr->cwdPtr), 1, &(srcFsPathPtr->normPathPtr));
 	    srcFsPathPtr->translatedPathPtr = retObj;
 	    Tcl_IncrRefCount(retObj);
 	} else {
