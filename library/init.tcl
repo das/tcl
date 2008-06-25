@@ -156,7 +156,7 @@ if {(![interp issafe]) && ($tcl_platform(platform) eq "windows")} {
 
 
 if {[interp issafe]} {
-    package unknown ::tclPkgUnknown
+    package unknown {::tcl::tm::UnknownHandler ::tclPkgUnknown}
 } else {
     # Set up search for Tcl Modules (TIP #189).
     # and setup platform specific unknown package handlers
