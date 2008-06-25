@@ -333,12 +333,19 @@ ClockConvertlocaltoutcObjCmd(
 	return TCL_ERROR;
     }
     dict = objv[1];
-    if ((Tcl_DictObjGet(interp, dict, literals[LIT_LOCALSECONDS],
-		&secondsObj) != TCL_OK)
-	    || (Tcl_GetWideIntFromObj(interp, secondsObj,
-		&(fields.localSeconds)) != TCL_OK)
-	    || (TclGetIntFromObj(interp, objv[3], &changeover) != TCL_OK)
-	    || ConvertLocalToUTC(interp, &fields, objv[2], changeover)) {
+    if (Tcl_DictObjGet(interp, dict, literals[LIT_LOCALSECONDS],
+		       &secondsObj)!= TCL_OK) {
+	return TCL_ERROR;
+    }
+    if (secondsObj == NULL) {
+	Tcl_SetObjResult(interp, Tcl_NewStringObj("key \"localseconds\" not "
+						  "found in dictionary", -1));
+	return TCL_ERROR;
+    }
+    if ((Tcl_GetWideIntFromObj(interp, secondsObj,
+			      &(fields.localSeconds)) != TCL_OK)
+	|| (TclGetIntFromObj(interp, objv[3], &changeover) != TCL_OK)
+	|| ConvertLocalToUTC(interp, &fields, objv[2], changeover)) {
 	return TCL_ERROR;
     }
 

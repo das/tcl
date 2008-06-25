@@ -3768,11 +3768,15 @@ MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int *bignum,
  */
 
 #ifdef _MSC_VER
-#define TclIsInfinite(d)	( ! (_finite((d))) )
-#define TclIsNaN(d)		(_isnan((d)))
+#    define TclIsInfinite(d)	( ! (_finite((d))) )
+#    define TclIsNaN(d)		(_isnan((d)))
 #else
-#define TclIsInfinite(d)	( (d) > DBL_MAX || (d) < -DBL_MAX )
-#define TclIsNaN(d)		((d) != (d))
+#    define TclIsInfinite(d)	( (d) > DBL_MAX || (d) < -DBL_MAX )
+#    ifdef NO_ISNAN
+#        define TclIsNaN(d)	((d) != (d))
+#    else
+#        define TclIsNaN(d)     (isnan(d))
+#    endif
 #endif
 
 /*

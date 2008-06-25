@@ -2003,8 +2003,8 @@ Tcl_AppendFormatToObj(
 	    allocSegment = 1;
 	    Tcl_IncrRefCount(segment);
 
-	    if ((isNegative || gotPlus) && (useBig || (ch == 'd'))) {
-		Tcl_AppendToObj(segment, (isNegative ? "-" : "+"), 1);
+	    if ((isNegative || gotPlus || gotSpace) && (useBig || (ch == 'd'))) {
+		Tcl_AppendToObj(segment, (isNegative ? "-" : gotPlus ? "+" : " "), 1);
 	    }
 
 	    if (gotHash) {

@@ -3446,6 +3446,29 @@ test interp-36.6 {SlaveBgerror returns handler} -setup {
     interp delete slave
 } -result {foo bar soom}
 
+test interp-36.7 {SlaveBgerror sets error handler of slave [1999035]} -setup {
+    interp create slave
+    slave alias handler handler
+    slave bgerror handler
+    variable result {untouched}
+    proc handler {args} {
+	variable result
+	set result [lindex $args 0]
+    }
+} -body {
+    slave eval {
+	variable done {}
+	after 0 error foo
+	after 10 [list ::set [namespace which -variable done] {}]
+	vwait [namespace which -variable done]
+    }
+    set result
+} -cleanup {
+    variable result {}
+    unset result
+    interp delete slave
+} -result foo
+
 # cleanup
 foreach i [interp slaves] {
     interp delete $i
