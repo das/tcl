@@ -5440,10 +5440,15 @@ Tcl_FSGetTranslatedPath(interp, pathPtr)
 	     * translated version of cwdPtr to normPathPtr, we'll get the
 	     * translated result we need, and can store it for future use.
 	     */
-	    retObj = Tcl_FSJoinToPath(Tcl_FSGetTranslatedPath(interp,
-		    srcFsPathPtr->cwdPtr), 1, &(srcFsPathPtr->normPathPtr));
+
+	    Tcl_Obj *translatedCwdPtr = Tcl_FSGetTranslatedPath(interp,
+		    srcFsPathPtr->cwdPtr);
+
+	    retObj = Tcl_FSJoinToPath(translatedCwdPtr, 1,
+		    &(srcFsPathPtr->normPathPtr));
 	    srcFsPathPtr->translatedPathPtr = retObj;
 	    Tcl_IncrRefCount(retObj);
+	    Tcl_DecrRefCount(translatedCwdPtr);
 	} else {
 	    /* 
 	     * It is a pure absolute, normalized path object.
