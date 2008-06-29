@@ -73,7 +73,7 @@ typedef int \fBTcl_CmdObjTraceProc\fR(
         const char *\fIcommand\fR,
         \fBTcl_Command\fR \fIcommandToken\fR,
         int \fIobjc\fR,
-        \fBTcl_Obj\fR *const \fIobjv\fR[] );
+        \fBTcl_Obj\fR *const \fIobjv\fR[]);
 .CE
 The \fIclientData\fR and \fIinterp\fR parameters are copies of the
 corresponding arguments given to \fBTcl_CreateTrace\fR.
@@ -156,7 +156,7 @@ Tcl interpreter.  It is similar to \fBTcl_CreateObjTrace\fR, except
 that its \fIproc\fR parameter should have arguments and result that
 match the type \fBTcl_CmdTraceProc\fR:
 .CS
-typedef void Tcl_CmdTraceProc(
+typedef void \fBTcl_CmdTraceProc\fR(
         ClientData \fIclientData\fR,
         Tcl_Interp *\fIinterp\fR,
         int \fIlevel\fR,
