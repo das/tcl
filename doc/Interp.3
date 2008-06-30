@@ -17,14 +17,14 @@ Tcl_Interp \- client-visible fields of interpreter structures
 \fB#include <tcl.h>\fR
 .sp
 typedef struct {
-        char *\fIresult\fR;
-        Tcl_FreeProc *\fIfreeProc\fR;
-        int \fIerrorLine\fR;
-} Tcl_Interp;
+    char *\fIresult\fR;
+    Tcl_FreeProc *\fIfreeProc\fR;
+    int \fIerrorLine\fR;
+} \fBTcl_Interp\fR;
 
-typedef void Tcl_FreeProc(char *\fIblockPtr\fR);
+typedef void \fBTcl_FreeProc\fR(
+        char *\fIblockPtr\fR);
 .BE
-
 .SH DESCRIPTION
 .PP
 The \fBTcl_CreateInterp\fR procedure returns a pointer to a Tcl_Interp
@@ -34,11 +34,9 @@ on the interpreter.  Interpreter structures contain many fields
 that are used by Tcl, but only three that may be accessed by
 clients:  \fIresult\fR, \fIfreeProc\fR, and \fIerrorLine\fR.
 .PP
-.VS 8.5
 \fBNote that access to all three fields, \fIresult\fB, \fIfreeProc\fB and
 \fIerrorLine\fB is deprecated.\fR  Use \fBTcl_SetResult\fR,
 \fBTcl_GetResult\fR, and \fBTcl_GetReturnOptions\fR instead.
-.VE 8.5
 .PP
 The \fIresult\fR and \fIfreeProc\fR fields are used to return
 results or error messages from commands.

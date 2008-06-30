@@ -216,7 +216,8 @@ When Tcl no longer needs the storage for the string, it will
 call \fIfreeProc\fR. \fIFreeProc\fR should have arguments and
 result that match the type \fBTcl_FreeProc\fR:
 .CS
-typedef void Tcl_FreeProc(char *\fIblockPtr\fR);
+typedef void \fBTcl_FreeProc\fR(
+        char *\fIblockPtr\fR);
 .CE
 When \fIfreeProc\fR is called, its \fIblockPtr\fR will be set to
 the value of \fIresult\fR passed to \fBTcl_SetResult\fR.

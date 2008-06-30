@@ -64,7 +64,7 @@ procedure to invoke if the interpreter is deleted before the association
 is deleted.  \fIDeleteProc\fR should have arguments and result that match
 the type \fBTcl_InterpDeleteProc\fR:
 .CS
-typedef void Tcl_InterpDeleteProc(
+typedef void \fBTcl_InterpDeleteProc\fR(
         ClientData \fIclientData\fR,
         Tcl_Interp *\fIinterp\fR);
 .CE

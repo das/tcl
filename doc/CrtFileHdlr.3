@@ -34,7 +34,6 @@ by \fIfile\fR meets the conditions specified by \fImask\fR.
 .AP ClientData clientData in
 Arbitrary one-word value to pass to \fIproc\fR.
 .BE
-
 .SH DESCRIPTION
 .PP
 \fBTcl_CreateFileHandler\fR arranges for \fIproc\fR to be
@@ -52,7 +51,7 @@ as \fBvwait\fR.
 \fIProc\fR should have arguments and result that match the
 type \fBTcl_FileProc\fR:
 .CS
-typedef void Tcl_FileProc(
+typedef void \fBTcl_FileProc\fR(
         ClientData \fIclientData\fR,
         int \fImask\fR);
 .CE
@@ -86,7 +85,6 @@ complete the application will not be able to service other events. Use
 blocking or nonblocking mode as required.
 .PP
 Note that these interfaces are only supported by the Unix
-implementation of the Tcl notifier.   
-
+implementation of the Tcl notifier.
 .SH KEYWORDS
 callback, file, handler

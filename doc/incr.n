@@ -16,7 +16,6 @@ incr \- Increment the value of a variable
 .SH SYNOPSIS
 \fBincr \fIvarName \fR?\fIincrement\fR?
 .BE
-
 .SH DESCRIPTION
 .PP
 Increments the value stored in the variable whose name is \fIvarName\fR.
@@ -27,12 +26,11 @@ integer) is added to the value of variable \fIvarName\fR;  otherwise
 The new value is stored as a decimal string in variable \fIvarName\fR
 and also returned as result.
 .PP
-.VS 8.5
 Starting with the Tcl 8.5 release, the variable \fIvarName\fR passed
 to \fBincr\fR may be unset, and in that case, it will be set to
 the value \fIincrement\fR or to the default increment value of \fB1\fR.
-.VE 8.5
 .SH EXAMPLES
+.PP
 Add one to the contents of the variable \fIx\fR:
 .CS
 \fBincr\fR x
@@ -55,9 +53,7 @@ an error if it is not):
 .CS
 \fBincr\fR x 0
 .CE
-
 .SH "SEE ALSO"
 expr(n)
-
 .SH KEYWORDS
 add, increment, variable, value
