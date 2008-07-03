@@ -2126,6 +2126,18 @@ InvokeTclMethod(
 	    *resultObjPtr = resObj;
 	    Tcl_IncrRefCount(resObj);
 	}
+
+	/*
+	 * Cleanup of the dynamic parts of the command.
+	 */
+
+	if (argOneObj) {
+	    Tcl_DecrRefCount(argOneObj);
+	    if (argTwoObj) {
+		Tcl_DecrRefCount(argTwoObj);
+	    }
+	}
+
 	return TCL_ERROR;
     }
 
