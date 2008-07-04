@@ -2084,11 +2084,11 @@ UtfToUtfProc(clientData, src, srcLen, flags, statePtr, dst, dstLen,
 	} else if (!Tcl_UtfCharComplete(src, srcEnd - src)) {
 	    /* Always check before using Tcl_UtfToUniChar. Not doing
 	     * can so cause it run beyond the endof the buffer!  If we
-	     * * happen such an incomplete char its byts are made to *
+	     * happen such an incomplete char its bytes are made to
 	     * represent themselves.
 	     */
 
-	    ch = (Tcl_UniChar) *src;
+	    ch = (unsigned char) *src;
 	    src += 1;
 	    dst += Tcl_UniCharToUtf(ch, dst);
 	} else {
