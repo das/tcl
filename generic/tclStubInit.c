@@ -97,7 +97,7 @@ static const TclIntStubs tclIntStubs = {
     NULL, /* 33 */
     TclGetIntForIndex, /* 34 */
     NULL, /* 35 */
-    TclGetLong, /* 36 */
+    NULL, /* 36 */
     TclGetLoadedPackages, /* 37 */
     TclGetNamespaceForQualName, /* 38 */
     TclGetObjInterpProc, /* 39 */

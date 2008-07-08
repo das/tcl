@@ -163,9 +163,10 @@ declare 34 generic {
 #    Tcl_Obj *TclGetIndexedScalar(Tcl_Interp *interp, int localIndex,
 #	    int flags)
 #}
-declare 36 generic {
-    int TclGetLong(Tcl_Interp *interp, CONST char *str, long *longPtr)
-}
+# Removed in 8.6a2
+#declare 36 generic {
+#    int TclGetLong(Tcl_Interp *interp, CONST char *str, long *longPtr)
+#}
 declare 37 generic {
     int TclGetLoadedPackages(Tcl_Interp *interp, char *targetName)
 }
