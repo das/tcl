@@ -1707,7 +1707,7 @@ ClockClicksObjCmd(
 	}
 	break;
     default:
-	Tcl_WrongNumArgs(interp, 1, objv, "?option?");
+	Tcl_WrongNumArgs(interp, 1, objv, "?-option?");
 	return TCL_ERROR;
     }
 

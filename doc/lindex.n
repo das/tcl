@@ -15,7 +15,7 @@
 .SH NAME
 lindex \- Retrieve an element from a list
 .SH SYNOPSIS
-\fBlindex \fIlist ?index...?\fR
+\fBlindex \fIlist ?index ...?\fR
 .BE
 .SH DESCRIPTION
 .PP

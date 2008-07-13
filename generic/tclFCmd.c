@@ -121,7 +121,7 @@ FileCopyRename(
     if ((objc - i) < 2) {
 	Tcl_AppendResult(interp, "wrong # args: should be \"",
 		TclGetString(objv[0]), " ", TclGetString(objv[1]),
-		" ?options? source ?source ...? target\"", NULL);
+		" ?-option value ...? source ?source ...? target\"", NULL);
 	return TCL_ERROR;
     }
 
@@ -354,7 +354,7 @@ TclFileDeleteCmd(
     if ((objc - i) < 1) {
 	Tcl_AppendResult(interp, "wrong # args: should be \"",
 		TclGetString(objv[0]), " ", TclGetString(objv[1]),
-		" ?options? file ?file ...?\"", NULL);
+		" ?-option value ...? file ?file ...?\"", NULL);
 	return TCL_ERROR;
     }
 
@@ -955,7 +955,7 @@ TclFileAttrsCmd(
 
     if (objc < 3) {
 	Tcl_WrongNumArgs(interp, 2, objv,
-		"name ?option? ?value? ?option value ...?");
+		"name ?-option value ...?");
 	return TCL_ERROR;
     }
 
