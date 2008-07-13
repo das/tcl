@@ -4258,10 +4258,6 @@ int TclEvalObjv_NR2(
 	    iPtr->numLevels--;
 	}
 
-	if (TCL_DTRACE_CMD_RETURN_ENABLED()) {
-	    TCL_DTRACE_CMD_RETURN(TclGetString(objv[0]), result);
-	}
-
 	FREE_RECORD(iPtr, recordPtr);
     }
 
