@@ -840,7 +840,7 @@ MODULE_SCOPE int	TclEvalObjvInternal(Tcl_Interp *interp,
  *----------------------------------------------------------------
  */
 
-MODULE_SCOPE int	TclCompEvalObj(Tcl_Interp *interp, Tcl_Obj *objPtr,
+MODULE_SCOPE ByteCode *	TclCompileObj(Tcl_Interp *interp, Tcl_Obj *objPtr,
 			    const CmdFrame *invoker, int word);
 
 /*

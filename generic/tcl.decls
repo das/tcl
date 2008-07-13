@@ -2108,6 +2108,39 @@ declare 581 generic {
     int Tcl_Canceled(Tcl_Interp *interp, int flags)
 }
 
+# NRE public interface
+declare 582 generic {
+    Tcl_Command TclNR_CreateCommand(Tcl_Interp *interp, 
+		    CONST char *cmdName, Tcl_ObjCmdProc *proc, 
+	            Tcl_ObjCmdProc *nreProc, ClientData clientData, 
+		    Tcl_CmdDeleteProc *deleteProc)
+}
+declare 583 generic {
+    int TclNR_EvalObj(Tcl_Interp *interp, Tcl_Obj *objPtr, int flags)
+}
+declare 584 generic {
+    int TclNR_EvalObjv(Tcl_Interp *interp, int objc, Tcl_Obj *CONST objv[],
+	    int flags)
+}
+declare 585 generic {
+    int TclNR_ObjProc(Tcl_Interp *interp, Tcl_ObjCmdProc *objProc,
+                      ClientData clientData)
+}
+declare 586 generic {
+    void TclNR_AddCallback(Tcl_Interp *interp, TclNR_PostProc *postProcPtr, 
+                      ClientData data0, ClientData data1,
+                      ClientData data2, ClientData data3)
+}
+
+# For use by NR extenders, to have a simple way to also provide a (required!)
+# classic objProc 
+declare 587 generic {
+    int TclNR_CallObjProc(Tcl_Interp *interp, Tcl_ObjCmdProc *objProc,
+			  ClientData clientData, int objc,
+	                     Tcl_Obj *const objv[])
+}
+
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are

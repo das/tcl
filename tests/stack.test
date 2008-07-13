@@ -25,8 +25,8 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 
 testConstraint minStack2400 1
 if {[testConstraint unix]} {
-    set stackSize [exec /bin/sh -c "ulimit -s"]
-    if {[string is integer $stackSize] && ($stackSize < 2400)} {
+    set stackSize [teststacklimit]
+    if {($stackSize > -1)  && ($stackSize < 2400)} {
         puts stderr "WARNING: the default application stacksize of $stackSize\
                 may cause Tcl to\ncrash due to stack overflow before the\
                 recursion limit is reached.\nA minimum stacksize of 2400\

@@ -940,6 +940,30 @@ declare 237 generic {
     int TclResetCancellation(Tcl_Interp *interp, int force)
 }
 
+# NRE functions for "rogue" extensions to exploit NRE; they will need to
+# include NRE.h too.
+declare 238 generic {
+    int TclEvalObjv_NR2(Tcl_Interp *interp, int result,
+			struct TEOV_record *rootPtr)
+}
+declare 239 generic {
+    Tcl_ObjCmdProc TclNRInterpProc
+}
+declare 240 generic {
+    int TclNRInterpProcCore(Tcl_Interp *interp, Tcl_Obj *procNameObj,
+			    int skip, ProcErrorProc errorProc)
+}
+declare 241 generic {
+    struct TEOV_record * TclNRPushRecord(Tcl_Interp *interp)
+}
+declare 242 generic {
+    void TclNRPopAndFreeRecord(Tcl_Interp *interp)
+}
+
+declare 243 generic {
+    int TclNREvalObjEx(Tcl_Interp *interp, Tcl_Obj *objPtr, int flags,
+	    const CmdFrame *invoker, int word)
+}
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are
