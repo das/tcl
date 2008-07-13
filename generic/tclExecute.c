@@ -1797,10 +1797,12 @@ TclExecuteByteCode(
      * Globals: variables that store state, must remain valid at all times.
      */
 
-    ptrdiff_t *catchTop;
-    register Tcl_Obj **tosPtr;	/* Cached pointer to top of evaluation
+    ptrdiff_t *catchTop = 0;
+    register Tcl_Obj **tosPtr = NULL;
+                                /* Cached pointer to top of evaluation
 				 * stack. */
-    register unsigned char *pc; /* The current program counter. */
+    register unsigned char *pc = NULL;
+                                /* The current program counter. */
     int instructionCount = 0;	/* Counter that is used to work out when to
 				 * call Tcl_AsyncReady() */
     Tcl_Obj *auxObjList;        /* Linked list of aux data, used for {*} and
