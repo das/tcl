@@ -2165,8 +2165,6 @@ TclSubstTokens(
 	    break;
 
 	case TCL_TOKEN_COMMAND: {
-	    Interp *iPtr = (Interp *) interp;
-
 	    code = TclInterpReady(interp);
 	    if (code == TCL_OK) {
 		code = Tcl_Canceled(interp, TCL_LEAVE_ERR_MSG);
