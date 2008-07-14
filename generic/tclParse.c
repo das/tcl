@@ -2165,9 +2165,16 @@ TclSubstTokens(
 	    break;
 
 	case TCL_TOKEN_COMMAND: {
+  	    Interp *iPtr = (Interp *) interp;
+	    
 	    /* TIP #280: Transfer line information to nested command */
-	    code = TclEvalEx(interp, tokenPtr->start+1, tokenPtr->size-2,
-		    0, line);
+ 	    iPtr->numLevels++;
+  	    code = TclInterpReady(interp);
+  	    if (code == TCL_OK) {
+		code = TclEvalEx(interp, tokenPtr->start+1, tokenPtr->size-2,
+			0, line);
+	    }
+	    iPtr->numLevels--;
 	    appendObj = Tcl_GetObjResult(interp);
 	    break;
 	}
