@@ -1502,8 +1502,6 @@ TclCompileObj(
      * performance is noticeable.
      */
 
-    TclResetCancellation(interp, 0);
-
     if (TclInterpReady(interp) == TCL_ERROR) {
 	return NULL;
     }

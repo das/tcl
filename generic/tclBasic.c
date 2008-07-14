@@ -5041,9 +5041,6 @@ TclEvalEx(
 	    eeFramePtr->line = lines;
 
 	    iPtr->cmdFramePtr = eeFramePtr;
-
-	    TclResetCancellation(interp, 0);
-
 	    code = Tcl_EvalObjv(interp, objectsUsed, objv, TCL_EVAL_NOERR);
 	    iPtr->cmdFramePtr = iPtr->cmdFramePtr->nextPtr;
 

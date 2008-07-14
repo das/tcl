@@ -1811,8 +1811,6 @@ TclNRInterpProcCore(
      * Invoke the commands in the procedure's body.
      */
 
-    TclResetCancellation(interp, 0);
-
     procPtr->refCount++;
     codePtr = procPtr->bodyPtr->internalRep.otherValuePtr;
     if (TCL_DTRACE_PROC_ENTRY_ENABLED()) {
