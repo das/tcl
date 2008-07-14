@@ -1506,10 +1506,6 @@ TclCompileObj(
 	return NULL;
     }
 
-    if (Tcl_Canceled(interp, TCL_LEAVE_ERR_MSG) == TCL_ERROR) {
-	return NULL;
-    }
-
     namespacePtr = iPtr->varFramePtr->nsPtr;
 
     /*
