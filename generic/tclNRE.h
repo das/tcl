@@ -90,10 +90,7 @@ struct ByteCode;
 /* Fill up a SmallAlloc: 4 free ptrs for the user */
 typedef struct TEOV_callback {
     TclNR_PostProc *procPtr;
-    ClientData data0;
-    ClientData data1;
-    ClientData data2;
-    ClientData data3;
+    ClientData data[4];
     struct TEOV_callback *nextPtr;
 } TEOV_callback;
     

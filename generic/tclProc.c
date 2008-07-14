@@ -1735,7 +1735,7 @@ TclObjInterpProcCore(
     if (result == TCL_OK) {
     	result = TclExecuteByteCode(interp, record.data.codePtr);
 	result = TclEvalObjv_NR2(interp, result, rootPtr);
-	result = InterpProcNR2(&record.callbackPtr->data0, interp, result);
+	result = InterpProcNR2(record.callbackPtr->data, interp, result);
 	TclSmallFree(record.callbackPtr);
     }
     return result;
@@ -2816,8 +2816,9 @@ TclNRApplyObjCmd(
 	    /* Fix the recordPtr! */
 
 	    TEOV_record *recordPtr = TOP_RECORD(iPtr);
+
 	    recordPtr->callbackPtr->procPtr = ApplyNR2;
-	    recordPtr->callbackPtr->data2 = extraPtr;
+	    recordPtr->callbackPtr->data[2] = extraPtr;
 	}
     }
     if (result != TCL_OK) {
