@@ -2168,6 +2168,7 @@ TclSubstTokens(
   	    Interp *iPtr = (Interp *) interp;
 	    
 	    /* TIP #280: Transfer line information to nested command */
+	    TclResetCancellation(interp, 0);
  	    iPtr->numLevels++;
   	    code = TclInterpReady(interp);
   	    if (code == TCL_OK) {
