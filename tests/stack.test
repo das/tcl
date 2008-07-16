@@ -24,8 +24,14 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 # can still squeak through.  A core check is really needed. -- JH
 
 testConstraint minStack2400 1
+testConstraint teststacklimit [llength [info commands teststacklimit]]
+
 if {[testConstraint unix]} {
-    set stackSize [teststacklimit]
+    if {[testConstraint teststacklimit]} {
+	set stackSize [teststacklimit]
+    } else {
+	set stackSize [exec /bin/sh -c "ulimit -s"]
+    }
     if {($stackSize > -1)  && ($stackSize < 2400)} {
         puts stderr "WARNING: the default application stacksize of $stackSize\
                 may cause Tcl to\ncrash due to stack overflow before the\
