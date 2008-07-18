@@ -2931,13 +2931,10 @@ DictUpdateCmd(
 
     objPtr = Tcl_NewListObj(objc-3, objv+2);
     Tcl_IncrRefCount(objPtr);
+    Tcl_IncrRefCount(objv[1]);
     TclNR_AddCallback(interp, FinalizeDictUpdate, objv[1], objPtr, NULL,NULL);
-#if 0
-    /* This crashes when doing nested [dict update]s. */
+
     return TclNREvalObjEx(interp, objv[objc-1], 0, iPtr->cmdFramePtr, objc-1);
-#else
-    return TclNR_EvalObj(interp, objv[objc-1], 0);
-#endif
 }
 
 static int
@@ -3111,16 +3108,13 @@ DictWithCmd(
     pathPtr = NULL;
     if (objc > 3) {
 	pathPtr = Tcl_NewListObj(objc-3, objv+2);
+	Tcl_IncrRefCount(pathPtr);
     }
     Tcl_IncrRefCount(objv[1]);
     TclNR_AddCallback(interp, FinalizeDictWith, objv[1], keysPtr, pathPtr,
 	    NULL);
-#if 0
-    /* This crashes when doing nested [dict with]s. */
+
     return TclNREvalObjEx(interp, objv[objc-1], 0, iPtr->cmdFramePtr, objc-1);
-#else
-    return TclNR_EvalObj(interp, objv[objc-1], 0);
-#endif
 }
 
 static int
