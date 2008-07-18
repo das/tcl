@@ -32,7 +32,7 @@ static int		RestoreFrame(ClientData data[],
  *
  * AddCreateCallback, FinalizeConstruction --
  *
- *	Special version of Tcl_NRAddCallback that allows the caller to splice
+ *	Special version of TclNRAddCallback that allows the caller to splice
  *	the object created later on. Always calls FinalizeConstruction, which
  *	converts the object into its name and stores that in the interpreter
  *	result. This is shared by all the construction methods (create,
@@ -51,7 +51,7 @@ AddConstructionFinalizer(
 {
     TEOV_record *recordPtr;
 
-    Tcl_NRAddCallback(interp, FinalizeConstruction, NULL, NULL, NULL, NULL);
+    TclNRAddCallback(interp, FinalizeConstruction, NULL, NULL, NULL, NULL);
     recordPtr = TOP_RECORD(interp);
     return (Tcl_Object *) &recordPtr->callbackPtr->data[0];
 }
@@ -346,7 +346,7 @@ TclOO_Object_Eval(
      * the script completes.
      */
 
-    Tcl_NRAddCallback(interp, FinalizeEval, object, NULL, NULL, NULL);
+    TclNRAddCallback(interp, FinalizeEval, object, NULL, NULL, NULL);
     return TclNREvalObjEx(interp, scriptPtr, flags, invoker, skip);
 }
 
@@ -659,7 +659,7 @@ TclOONextObjCmd(
      * that this is like [uplevel 1] and not [eval].
      */
 
-    Tcl_NRAddCallback(interp, RestoreFrame, framePtr, NULL, NULL, NULL);
+    TclNRAddCallback(interp, RestoreFrame, framePtr, NULL, NULL, NULL);
     iPtr->varFramePtr = framePtr->callerVarPtr;
     return TclNRObjectContextInvokeNext(interp, context, objc, objv, 1);
 }

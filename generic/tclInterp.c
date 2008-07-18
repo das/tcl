@@ -14,6 +14,7 @@
  */
 
 #include "tclInt.h"
+#include "tclNRE.h"
 
 /*
  * A pointer to a string that holds an initialization script that if non-NULL
@@ -1805,7 +1806,7 @@ AliasNRCmd(
      */
 
     if (isRootEnsemble) {
-	Tcl_NRAddCallback(interp, TclClearRootEnsemble, NULL, NULL, NULL, NULL);
+	TclNRAddCallback(interp, TclClearRootEnsemble, NULL, NULL, NULL, NULL);
     }
     return TclNREvalCmd(interp, listPtr, flags);
 }

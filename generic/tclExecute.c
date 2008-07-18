@@ -7796,7 +7796,7 @@ TclExecuteByteCode(
 
 	rootPtr = TOP_RECORD(iPtr);
 	PUSH_RECORD(iPtr, recordPtr);
-	Tcl_NRAddCallback(interp, TailcallFromTebc, tailObjPtr, lookupNsPtr, NULL, NULL);
+	TclNRAddCallback(interp, TailcallFromTebc, tailObjPtr, lookupNsPtr, NULL, NULL);
 
 	/* Now swap them! */
 	recordPtr->nextPtr = rootPtr->nextPtr;

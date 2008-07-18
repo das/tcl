@@ -14,6 +14,7 @@
 
 #include <tclInt.h>
 #include "tclOO.h"
+#include "tclNRE.h"
 
 /*
  * Forward declarations.

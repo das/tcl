@@ -27,6 +27,7 @@
  */
 
 #include "tclInt.h"
+#include "tclNRE.h"
 
 /*
  * Thread-local storage used to avoid having a global lock on data that is not
@@ -3332,7 +3333,7 @@ NamespaceEvalCmd(
      * TIP #280: Make invoking context available to eval'd script.
      */
     
-    Tcl_NRAddCallback(interp, NsEval_Callback, namespacePtr, "eval",
+    TclNRAddCallback(interp, NsEval_Callback, namespacePtr, "eval",
 	    NULL, NULL);
     return TclNREvalObjEx(interp, objPtr, 0, iPtr->cmdFramePtr, 3);
 }
@@ -3778,7 +3779,7 @@ NamespaceInscopeCmd(
 	Tcl_DecrRefCount(listPtr);    /* We're done with the list object. */
     }
 
-    Tcl_NRAddCallback(interp, NsEval_Callback, namespacePtr, "inscope",
+    TclNRAddCallback(interp, NsEval_Callback, namespacePtr, "inscope",
 	    NULL, NULL);
     return TclNREvalObjEx(interp, cmdObjPtr, 0, NULL, 0);
 }
@@ -6263,7 +6264,7 @@ NsEnsembleImplementationCmdNR(
 	    iPtr->ensembleRewrite.sourceObjs = objv;
 	    iPtr->ensembleRewrite.numRemovedObjs = 2;
 	    iPtr->ensembleRewrite.numInsertedObjs = prefixObjc;
-	    Tcl_NRAddCallback(interp, TclClearRootEnsemble, NULL, NULL, NULL,
+	    TclNRAddCallback(interp, TclClearRootEnsemble, NULL, NULL, NULL,
 		    NULL);
 	} else {
 	    register int ni = iPtr->ensembleRewrite.numInsertedObjs;

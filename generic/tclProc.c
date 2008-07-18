@@ -966,7 +966,7 @@ TclNRUplevelObjCmd(
 	objPtr = Tcl_ConcatObj(objc, objv);
     }
 
-    Tcl_NRAddCallback(interp, Uplevel_Callback, savedVarFramePtr, NULL, NULL,
+    TclNRAddCallback(interp, Uplevel_Callback, savedVarFramePtr, NULL, NULL,
 	    NULL);
     return TclNREvalObjEx(interp, objPtr, 0, NULL, 0);
 }
@@ -1622,7 +1622,7 @@ Tcl_NRBC(
 
     recordPtr->type = TCL_NR_BC_TYPE;
     recordPtr->data.codePtr = codePtr;
-    Tcl_NRAddCallback(interp, postProcPtr, procNameObj, errorProc, NULL,
+    TclNRAddCallback(interp, postProcPtr, procNameObj, errorProc, NULL,
 	    NULL);
     return TCL_OK;
 }

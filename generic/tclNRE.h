@@ -171,6 +171,32 @@ typedef struct TEOV_record {
 #define TEBC_DO_EXEC             1  /* MUST NOT be 0 */
 #define TEBC_DO_TAILCALL         2
 
+#define TclNRAddCallback(\
+    interp,\
+    postProcPtr,\
+    data0,\
+    data1,\
+    data2,\
+    data3)					\
+    {						\
+	TEOV_record *recordPtr;			\
+	TEOV_callback *callbackPtr;		\
+						\
+	recordPtr = TOP_RECORD(interp);					\
+	TclSmallAlloc(sizeof(TEOV_callback), callbackPtr);		\
+									\
+	callbackPtr->procPtr = (postProcPtr);				\
+	callbackPtr->data[0] = (data0);					\
+	callbackPtr->data[1] = (data1);					\
+	callbackPtr->data[2] = (data2);					\
+	callbackPtr->data[3] = (data3);					\
+									\
+	callbackPtr->nextPtr = recordPtr->callbackPtr;			\
+	recordPtr->callbackPtr = callbackPtr;				\
+    }
+	
+
+
 /*
  * These are only used by TEOV; here for ease of ref. They should move to
  * tclBasic.c later on.
