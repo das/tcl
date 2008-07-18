@@ -2255,7 +2255,7 @@ EXTERN void		Tcl_GetMemoryInfo _ANSI_ARGS_((Tcl_DString *dsPtr));
  * Single public declaration for NRE
  */
 
-typedef int (TclNR_PostProc) (ClientData data[], Tcl_Interp *interp,
+typedef int (Tcl_NRPostProc) (ClientData data[], Tcl_Interp *interp,
 	                      int result);
 
 /*

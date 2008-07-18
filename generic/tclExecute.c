@@ -25,7 +25,7 @@
 #include <math.h>
 #include <float.h>
 
-static TclNR_PostProc TailcallFromTebc;
+static Tcl_NRPostProc TailcallFromTebc;
 
 
 /*
@@ -7796,7 +7796,7 @@ TclExecuteByteCode(
 
 	rootPtr = TOP_RECORD(iPtr);
 	PUSH_RECORD(iPtr, recordPtr);
-	TclNR_AddCallback(interp, TailcallFromTebc, tailObjPtr, lookupNsPtr, NULL, NULL);
+	Tcl_NRAddCallback(interp, TailcallFromTebc, tailObjPtr, lookupNsPtr, NULL, NULL);
 
 	/* Now swap them! */
 	recordPtr->nextPtr = rootPtr->nextPtr;

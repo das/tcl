@@ -277,7 +277,7 @@ TclOOInvokeContext(
 	 * this call is finished.
 	 */
 
-	TclNR_AddCallback(interp, FinalizeMethodRefs, contextPtr, NULL, NULL,
+	Tcl_NRAddCallback(interp, FinalizeMethodRefs, contextPtr, NULL, NULL,
 		NULL);
     }
 
@@ -286,9 +286,9 @@ TclOOInvokeContext(
      */
 
     if (contextPtr->oPtr->flags & FILTER_HANDLING) {
-	TclNR_AddCallback(interp, SetFilterFlags, contextPtr, NULL,NULL,NULL);
+	Tcl_NRAddCallback(interp, SetFilterFlags, contextPtr, NULL,NULL,NULL);
     } else {
-	TclNR_AddCallback(interp, ResetFilterFlags,contextPtr,NULL,NULL,NULL);
+	Tcl_NRAddCallback(interp, ResetFilterFlags,contextPtr,NULL,NULL,NULL);
     }
     if (isFilter || contextPtr->callPtr->flags & FILTER_HANDLING) {
 	contextPtr->oPtr->flags |= FILTER_HANDLING;

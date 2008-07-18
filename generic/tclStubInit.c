@@ -1108,12 +1108,12 @@ static const TclStubs tclStubs = {
     Tcl_AppendPrintfToObj, /* 579 */
     Tcl_CancelEval, /* 580 */
     Tcl_Canceled, /* 581 */
-    TclNR_CreateCommand, /* 582 */
-    TclNR_EvalObj, /* 583 */
-    TclNR_EvalObjv, /* 584 */
-    TclNR_ObjProc, /* 585 */
-    TclNR_AddCallback, /* 586 */
-    TclNR_CallObjProc, /* 587 */
+    Tcl_NRCreateCommand, /* 582 */
+    Tcl_NREvalObj, /* 583 */
+    Tcl_NREvalObjv, /* 584 */
+    Tcl_NRObjProc, /* 585 */
+    Tcl_NRAddCallback, /* 586 */
+    Tcl_NRCallObjProc, /* 587 */
 };
 
 /* !END!: Do not edit above this line. */

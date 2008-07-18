@@ -1486,7 +1486,7 @@ AliasCreate(
     Tcl_Preserve(masterInterp);
 
     if (slaveInterp == masterInterp) {
-	aliasPtr->slaveCmd = TclNR_CreateCommand(slaveInterp,
+	aliasPtr->slaveCmd = Tcl_NRCreateCommand(slaveInterp,
 		TclGetString(namePtr), AliasObjCmd, AliasNRCmd, aliasPtr, 
 		AliasObjCmdDeleteProc);
     } else {
@@ -1805,7 +1805,7 @@ AliasNRCmd(
      */
 
     if (isRootEnsemble) {
-	TclNR_AddCallback(interp, TclClearRootEnsemble, NULL, NULL, NULL, NULL);
+	Tcl_NRAddCallback(interp, TclClearRootEnsemble, NULL, NULL, NULL, NULL);
     }
     return TclNREvalCmd(interp, listPtr, flags);
 }

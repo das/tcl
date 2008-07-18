@@ -2932,7 +2932,7 @@ DictUpdateCmd(
     objPtr = Tcl_NewListObj(objc-3, objv+2);
     Tcl_IncrRefCount(objPtr);
     Tcl_IncrRefCount(objv[1]);
-    TclNR_AddCallback(interp, FinalizeDictUpdate, objv[1], objPtr, NULL,NULL);
+    Tcl_NRAddCallback(interp, FinalizeDictUpdate, objv[1], objPtr, NULL,NULL);
 
     return TclNREvalObjEx(interp, objv[objc-1], 0, iPtr->cmdFramePtr, objc-1);
 }
@@ -3111,7 +3111,7 @@ DictWithCmd(
 	Tcl_IncrRefCount(pathPtr);
     }
     Tcl_IncrRefCount(objv[1]);
-    TclNR_AddCallback(interp, FinalizeDictWith, objv[1], keysPtr, pathPtr,
+    Tcl_NRAddCallback(interp, FinalizeDictWith, objv[1], keysPtr, pathPtr,
 	    NULL);
 
     return TclNREvalObjEx(interp, objv[objc-1], 0, iPtr->cmdFramePtr, objc-1);
