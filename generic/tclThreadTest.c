@@ -231,7 +231,7 @@ Tcl_ThreadObjCmd(
     };
 
     if (objc < 2) {
-	Tcl_WrongNumArgs(interp, 1, objv, "option ?args?");
+	Tcl_WrongNumArgs(interp, 1, objv, "option ?arg ...?");
 	return TCL_ERROR;
     }
     if (Tcl_GetIndexFromObj(interp, objv[1], threadOptions, "option", 0,

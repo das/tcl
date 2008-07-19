@@ -1876,7 +1876,7 @@ Tcl_FormatObjCmd(
     Tcl_Obj *resultPtr;		/* Where result is stored finally. */
 
     if (objc < 2) {
-	Tcl_WrongNumArgs(interp, 1, objv, "formatString ?arg arg ...?");
+	Tcl_WrongNumArgs(interp, 1, objv, "formatString ?arg ...?");
 	return TCL_ERROR;
     }
 

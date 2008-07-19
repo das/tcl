@@ -1553,7 +1553,7 @@ DictGetCmd(
     int result;
 
     if (objc < 2) {
-	Tcl_WrongNumArgs(interp, 1, objv, "dictionary ?key key ...?");
+	Tcl_WrongNumArgs(interp, 1, objv, "dictionary ?key ...?");
 	return TCL_ERROR;
     }
 
@@ -2645,7 +2645,7 @@ DictFilterCmd(
     char *pattern;
 
     if (objc < 3) {
-	Tcl_WrongNumArgs(interp, 1, objv, "dictionary filterType ...");
+	Tcl_WrongNumArgs(interp, 1, objv, "dictionary filterType ?arg ...?");
 	return TCL_ERROR;
     }
     if (Tcl_GetIndexFromObj(interp, objv[2], filters, "filterType",

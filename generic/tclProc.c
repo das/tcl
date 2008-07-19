@@ -1103,7 +1103,7 @@ ProcWrongNumArgs(
 	    Tcl_AppendStringsToObj(argObj, "?", TclGetString(namePtr), "?", NULL);
 	} else if (defPtr->flags & VAR_IS_ARGS) {
 	    numArgs--;
-	    final = "...";
+	    final = "?arg ...?";
 	    break;
 	} else {
 	    argObj = namePtr;
@@ -2722,7 +2722,7 @@ TclNRApplyObjCmd(
     ApplyExtraData *extraPtr;
 
     if (objc < 2) {
-	Tcl_WrongNumArgs(interp, 1, objv, "lambdaExpr ?arg1 arg2 ...?");
+	Tcl_WrongNumArgs(interp, 1, objv, "lambdaExpr ?arg ...?");
 	return TCL_ERROR;
     }
 
