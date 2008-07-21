@@ -784,27 +784,26 @@ TclpCreateCommandChannel(
  *----------------------------------------------------------------------
  */
 int
-Tcl_CreatePipe (
-		    Tcl_Interp  *interp,
-		    Tcl_Channel *rchan,
-		    Tcl_Channel *wchan,
-		    int flags
-		    )
+Tcl_CreatePipe(
+    Tcl_Interp *interp,
+    Tcl_Channel *rchan,
+    Tcl_Channel *wchan,
+    int flags)
 {
-    int fileNums [2];
+    int fileNums[2];
 
-    if (pipe (fileNums) < 0) {
-        Tcl_AppendResult (interp, "pipe creation failed: ",
-			  Tcl_PosixError (interp), (char *) NULL);
-        return TCL_ERROR;
+    if (pipe(fileNums) < 0) {
+	Tcl_AppendResult(interp, "pipe creation failed: ",
+		Tcl_PosixError(interp), NULL);
+	return TCL_ERROR;
     }
-    *rchan = Tcl_MakeFileChannel ((ClientData) fileNums [0],
-				  TCL_READABLE);
-    Tcl_RegisterChannel (interp, *rchan);
 
-    *wchan = Tcl_MakeFileChannel ((ClientData) fileNums [1],
-				  TCL_WRITABLE);
-    Tcl_RegisterChannel (interp, *wchan);
+    *rchan = Tcl_MakeFileChannel((ClientData) INT2PTR(fileNums[0]),
+	    TCL_READABLE);
+    Tcl_RegisterChannel(interp, *rchan);
+    *wchan = Tcl_MakeFileChannel((ClientData) INT2PTR(fileNums[1]),
+	    TCL_WRITABLE);
+    Tcl_RegisterChannel(interp, *wchan);
 
     return TCL_OK;
 }
