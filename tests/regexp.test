@@ -194,10 +194,10 @@ test regexp-5.5 {exercise cache of compiled expressions} {
 
 test regexp-6.1 {regexp errors} {
     list [catch {regexp a} msg] $msg
-} {1 {wrong # args: should be "regexp ?-switch ...? exp string ?matchVar? ?subMatchVar subMatchVar ...?"}}
+} {1 {wrong # args: should be "regexp ?-switch ...? exp string ?matchVar? ?subMatchVar ...?"}}
 test regexp-6.2 {regexp errors} {
     list [catch {regexp -nocase a} msg] $msg
-} {1 {wrong # args: should be "regexp ?-switch ...? exp string ?matchVar? ?subMatchVar subMatchVar ...?"}}
+} {1 {wrong # args: should be "regexp ?-switch ...? exp string ?matchVar? ?subMatchVar ...?"}}
 test regexp-6.3 {regexp errors} {
     list [catch {regexp -gorp a} msg] $msg
 } {1 {bad switch "-gorp": must be -all, -about, -indices, -inline, -expanded, -line, -linestop, -lineanchor, -nocase, -start, or --}}

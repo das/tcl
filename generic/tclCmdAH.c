@@ -101,7 +101,7 @@ Tcl_CaseObjCmd(
 
     if (objc < 3) {
 	Tcl_WrongNumArgs(interp, 1, objv,
-		"string ?in? patList body ... ?default body?");
+		"string ?in? ?pattern body ...? ?default body?");
 	return TCL_ERROR;
     }
 
