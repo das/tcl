@@ -1114,6 +1114,7 @@ static const TclStubs tclStubs = {
     Tcl_NRCmdSwap, /* 585 */
     Tcl_NRAddCallback, /* 586 */
     Tcl_NRCallObjProc, /* 587 */
+    Tcl_CreatePipe, /* 588 */
 };
 
 /* !END!: Do not edit above this line. */

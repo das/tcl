@@ -2140,6 +2140,11 @@ declare 587 generic {
 	                     Tcl_Obj *const objv[])
 }
 
+# TIP#304 (chan pipe)
+
+declare 588 generic {
+    int Tcl_CreatePipe (Tcl_Interp  *interp, Tcl_Channel *rchan, Tcl_Channel *wchan, int flags)
+}
 
 ##############################################################################
 
@@ -2182,6 +2187,7 @@ declare 1 macosx {
 	    int maxPathLen,
 	    char *libraryPath)
 }
+
 
 ##############################################################################
 
