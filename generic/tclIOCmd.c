@@ -873,7 +873,7 @@ Tcl_ExecObjCmd(
 	}
     }
     if (objc <= skip) {
-	Tcl_WrongNumArgs(interp, 1, objv, "?switches? arg ?arg ...?");
+	Tcl_WrongNumArgs(interp, 1, objv, "?-switch ...? arg ?arg ...?");
 	return TCL_ERROR;
     }
 

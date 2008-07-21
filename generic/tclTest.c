@@ -3672,7 +3672,7 @@ TestregexpObjCmd(
   endOfForLoop:
     if (objc - i < hasxflags + 2 - about) {
 	Tcl_WrongNumArgs(interp, 1, objv,
-		"?switches? exp string ?matchVar? ?subMatchVar subMatchVar ...?");
+		"?-switch ...? exp string ?matchVar? ?subMatchVar ...?");
 	return TCL_ERROR;
     }
     objc -= i;
