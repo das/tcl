@@ -7775,6 +7775,7 @@ TclExecuteByteCode(
 	bottomPtr = oldBottomPtr;        /* back to old bc */
 	
 	/* Please free anything that might still be on my new stack */
+      resumeCleanup:
 	if (TOP_RECORD(iPtr) != bottomPtr->recordPtr) {
 	    CACHE_STACK_INFO();
 	    result = TclEvalObjv_NR2(interp, result, bottomPtr->recordPtr);
@@ -7809,6 +7810,10 @@ TclExecuteByteCode(
 #endif
 			tailcall = 1;
 			goto restoreStateVariables;
+		    case TCL_NR_CMDSWAP_TYPE:
+			result = TclEvalObjv(interp, recordPtr->data.objcv.objc,
+				recordPtr->data.objcv.objv, 0, recordPtr->cmdPtr);
+			goto resumeCleanup;
 		    default:
 			Tcl_Panic("TEBC: TEOV_NR2 sent us a record we cannot handle!");
 		}

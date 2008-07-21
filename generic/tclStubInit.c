@@ -1111,7 +1111,7 @@ static const TclStubs tclStubs = {
     Tcl_NRCreateCommand, /* 582 */
     Tcl_NREvalObj, /* 583 */
     Tcl_NREvalObjv, /* 584 */
-    Tcl_NRObjProc, /* 585 */
+    Tcl_NRCmdSwap, /* 585 */
     Tcl_NRAddCallback, /* 586 */
     Tcl_NRCallObjProc, /* 587 */
 };

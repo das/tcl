@@ -2123,8 +2123,8 @@ declare 584 generic {
 	    int flags)
 }
 declare 585 generic {
-    int Tcl_NRObjProc(Tcl_Interp *interp, Tcl_ObjCmdProc *objProc,
-                      ClientData clientData)
+    int Tcl_NRCmdSwap(Tcl_Interp *interp, Tcl_Command cmd, int objc, 
+                      Tcl_Obj *CONST objv[])
 }
 declare 586 generic {
     void Tcl_NRAddCallback(Tcl_Interp *interp, Tcl_NRPostProc *postProcPtr, 
