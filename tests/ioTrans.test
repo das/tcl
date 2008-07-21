@@ -115,7 +115,7 @@ eval $helperscript
 test iortrans-1.0 {chan, wrong#args} {
     catch {chan} msg
     set msg
-} {wrong # args: should be "chan subcommand ?argument ...?"}
+} {wrong # args: should be "chan subcommand ?arg ...?"}
 test iortrans-1.1 {chan, unknown method} -body {
     chan foo
 } -returnCodes error  -match glob -result {unknown or ambiguous subcommand "foo": must be*}
