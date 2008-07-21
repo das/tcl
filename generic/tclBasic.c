@@ -5059,7 +5059,7 @@ TclEvalEx(
 	    eeFramePtr->line = lines;
 
 	    iPtr->cmdFramePtr = eeFramePtr;
-	    code = Tcl_EvalObjv(interp, objectsUsed, objv, TCL_EVAL_NOERR);
+	    code = TclEvalObjv(interp, objectsUsed, objv, TCL_EVAL_NOERR, NULL);
 	    iPtr->cmdFramePtr = iPtr->cmdFramePtr->nextPtr;
 
 	    eeFramePtr->line = NULL;
@@ -7453,7 +7453,7 @@ NRPostProcess(
 		int objc;
 
 		Tcl_ListObjGetElements(NULL, objPtr, &objc, &objv);
-		result = Tcl_EvalObjv(interp, objc, objv, flags);
+		result = TclEvalObjv(interp, objc, objv, flags, NULL);
 		break;
 	    }
 	    case TCL_NR_SCRIPT_TYPE: {
