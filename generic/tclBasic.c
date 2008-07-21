@@ -7642,7 +7642,6 @@ TclTailcallObjCmd(
     TEOV_callback *headPtr, *tailPtr;
     TEOV_record *tmpPtr;
     Tcl_Obj *listPtr;
-    Command *cmdPtr;
     Namespace *nsPtr = iPtr->varFramePtr->nsPtr;
 
     if (!iPtr->varFramePtr->isProcCallFrame) {
@@ -7709,7 +7708,7 @@ TailcallCallback(
     Tcl_Obj *listPtr = data[0], *namePtr;
     Namespace *nsPtr = data[1];
     TEOV_record *recordPtr = TOP_RECORD(iPtr);
-    Command *cmdPtr;
+    Command *cmdPtr = NULL;
     
     if (!recordPtr->cmdPtr || recordPtr->callbackPtr) {
 	Tcl_Panic("TailcallCallback: should not happen!");
