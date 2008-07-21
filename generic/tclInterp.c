@@ -2614,7 +2614,7 @@ SlaveEval(
 
     if (objc == 1) {
 	/*
-	 * TIP #280: Make invoker available to eval'd script.
+	 * TIP #280: Make actual argument location available to eval'd script.
 	 *
 	 * Do not let any intReps accross, with the exception of
 	 * bytecodes. The intrep spoiling is due to happen anyway when
@@ -2622,6 +2622,8 @@ SlaveEval(
 	 */
 
         Interp *iPtr = (Interp *) interp;
+	CmdFrame* invoker = iPtr->cmdFramePtr;
+	int word          = 0;
 
 	objPtr = objv[0];
 	if (objPtr->typePtr
@@ -2631,8 +2633,10 @@ SlaveEval(
 	    TclFreeIntRep(objPtr);
 	    objPtr->typePtr = NULL;
 	}
+
+	TclArgumentGet (interp, objPtr, &invoker, &word);
 	
-	result = TclEvalObjEx(slaveInterp, objPtr, 0, iPtr->cmdFramePtr, 0);
+	result = TclEvalObjEx(slaveInterp, objPtr, 0, invoker, word);
     } else {
 	objPtr = Tcl_ConcatObj(objc, objv);
 	Tcl_IncrRefCount(objPtr);

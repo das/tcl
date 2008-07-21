@@ -919,6 +919,8 @@ TclNRUplevelObjCmd(
 {
 
     register Interp *iPtr = (Interp *) interp;
+    CmdFrame* invoker = NULL;
+    int word          = 0;
     int result;
     CallFrame *savedVarFramePtr, *framePtr;
     Tcl_Obj *objPtr;
@@ -955,7 +957,13 @@ TclNRUplevelObjCmd(
      */
 
     if (objc == 1) {
+	/*
+	 * TIP #280. Make actual argument location available to eval'd script
+	 */
+
+	TclArgumentGet (interp, objv[0], &invoker, &word);
 	objPtr = objv[0];
+
     } else {
 	/*
 	 * More than one argument: concatenate them together with spaces
@@ -968,7 +976,7 @@ TclNRUplevelObjCmd(
 
     TclNRAddCallback(interp, Uplevel_Callback, savedVarFramePtr, NULL, NULL,
 	    NULL);
-    return TclNREvalObjEx(interp, objPtr, 0, NULL, 0);
+    return TclNREvalObjEx(interp, objPtr, 0, invoker, word);
 }
 
 /*
