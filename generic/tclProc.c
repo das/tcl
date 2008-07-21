@@ -908,7 +908,15 @@ Tcl_UplevelObjCmd(
      */
 
     if (objc == 1) {
-	result = Tcl_EvalObjEx(interp, objv[0], TCL_EVAL_DIRECT);
+	/*
+	 * TIP #280. Make argument location available to eval'd script
+	 */
+
+	CmdFrame* invoker = NULL;
+	int word          = 0;
+
+	TclArgumentGet (interp, objv[0], &invoker, &word);
+	result = TclEvalObjEx(interp, objv[0], 0, invoker, word);
     } else {
 	/*
 	 * More than one argument: concatenate them together with spaces
