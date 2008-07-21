@@ -1319,9 +1319,6 @@ typedef struct ExecEnv {
     int tebcCall;                   /* used to distinguish tebc calls from
 				     * other calls to TEOV, and other comms
 				     * between TEBC and TEOV */
-    ClientData tebcData;            /* used by TEOV to pass data to its
-				     * calling TEBC */
-    
 } ExecEnv;
 
 /*

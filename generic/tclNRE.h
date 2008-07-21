@@ -102,7 +102,7 @@ typedef struct TEOV_record {
     TEOV_callback *callbackPtr;
     struct TEOV_record *nextPtr;
     union {
-	struct ByteCode *codePtr;
+	struct ByteCode *codePtr;       /* TCL_NR_BC_TYPE       */
 	struct {
 	    Tcl_Obj *objPtr;
 	    int flags;
@@ -111,10 +111,6 @@ typedef struct TEOV_record {
 	    Tcl_ObjCmdProc *objProc;
 	    ClientData clientData;
 	} objProc;
-	struct {
-	    int objc;
-	    Tcl_Obj *const *objv;
-	} objv;
     } data;
 #if !USE_SMALL_ALLOC
     /* Extra checks: can disappear later */
@@ -164,12 +160,6 @@ typedef struct TEOV_record {
 
 #define TEBC_CALL(iPtr)				\
     (((Interp *)iPtr)->execEnvPtr->tebcCall)
-
-#define TEBC_DATA(iPtr)				\
-    (((Interp *)iPtr)->execEnvPtr->tebcData)
-
-#define TEBC_DO_EXEC             1  /* MUST NOT be 0 */
-#define TEBC_DO_TAILCALL         2
 
 #define TclNRAddCallback(\
     interp,\

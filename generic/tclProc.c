@@ -1737,6 +1737,10 @@ TclObjInterpProcCore(
     if (result == TCL_OK) {
     	result = TclExecuteByteCode(interp, record.data.codePtr);
 	result = TclEvalObjv_NR2(interp, result, rootPtr);
+	if (TOP_RECORD(iPtr) != rootPtr) {
+	    /* FIXME NRE & tailcalls */
+	    Tcl_Panic("TclObjInterpProcCore not yet prepared to deal with evals in callbacks!");
+	}
 	result = InterpProcNR2(record.callbackPtr->data, interp, result);
 	TclSmallFree(record.callbackPtr);
     }
