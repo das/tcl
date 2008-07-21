@@ -137,7 +137,7 @@ typedef struct CmdLocation {
 
 typedef struct ECL {
   int  srcOffset; /* cmd location to find the entry */
-  int  nline;
+  int  nline;     /* Number of words in the command */
   int* line;      /* line information for all words in the command */
 } ECL;
 typedef struct ExtCmdLoc {
@@ -146,7 +146,15 @@ typedef struct ExtCmdLoc {
   ECL*     loc;   /* Command word locations (lines) */
   int      nloc;  /* Number of allocated entries in 'loc' */
   int      nuloc; /* Number of used entries in 'loc' */
+  Tcl_HashTable litIndex; /* HashValue is ExtIndex* */
 } ExtCmdLoc;
+typedef struct ExtIndex {
+  int pc;   /* Instruction pointer of the command in ExtCmdLoc.loc[.] */
+  int word; /* Index of word in ExtCmdLoc.loc[cmd]->line[.] */
+} ExtIndex;
+
+EXTERN void		TclEnterCmdWordIndex _ANSI_ARGS_((
+    			    ExtCmdLoc *eclPtr, Tcl_Obj* obj, int pc, int word));
 #endif
 
 /*

@@ -62,7 +62,7 @@ AuxDataType tclForeachInfoType = {
  *	The return value is a standard Tcl result, which is normally TCL_OK
  *	unless there was an error while parsing string. If an error occurs
  *	then the interpreter's result contains a standard error message. If
- *	complation fails because the command requires a second level of
+ *	compilation fails because the command requires a second level of
  *	substitutions, TCL_OUT_LINE_COMPILE is returned indicating that the
  *	command should be compiled "out of line" by emitting code to
  *	invoke its command procedure (Tcl_AppendObjCmd) at runtime.
@@ -1756,7 +1756,7 @@ TclCompileIncrCmd(interp, parsePtr, envPtr)
  *	The return value is a standard Tcl result, which is normally TCL_OK
  *	unless there was an error while parsing string. If an error occurs
  *	then the interpreter's result contains a standard error message. If
- *	complation fails because the command requires a second level of
+ *	compilation fails because the command requires a second level of
  *	substitutions, TCL_OUT_LINE_COMPILE is returned indicating that the
  *	command should be compiled "out of line" by emitting code to
  *	invoke its command procedure (Tcl_LappendObjCmd) at runtime.
@@ -1994,7 +1994,7 @@ TclCompileLindexCmd(interp, parsePtr, envPtr)
  *	The return value is a standard Tcl result, which is normally TCL_OK
  *	unless there was an error while parsing string. If an error occurs
  *	then the interpreter's result contains a standard error message. If
- *	complation fails because the command requires a second level of
+ *	compilation fails because the command requires a second level of
  *	substitutions, TCL_OUT_LINE_COMPILE is returned indicating that the
  *	command should be compiled "out of line" by emitting code to
  *	invoke its command procedure (Tcl_ListObjCmd) at runtime.
@@ -2706,7 +2706,7 @@ TclCompileReturnCmd(interp, parsePtr, envPtr)
  *	The return value is a standard Tcl result, which is normally TCL_OK
  *	unless there was an error while parsing string. If an error occurs
  *	then the interpreter's result contains a standard error message. If
- *	complation fails because the set command requires a second level of
+ *	compilation fails because the set command requires a second level of
  *	substitutions, TCL_OUT_LINE_COMPILE is returned indicating that the
  *	set command should be compiled "out of line" by emitting code to
  *	invoke its command procedure (Tcl_SetCmd) at runtime.

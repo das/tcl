@@ -2094,9 +2094,12 @@ SlaveEval(interp, slaveInterp, objc, objv)
 #ifndef TCL_TIP280
 	result = Tcl_EvalObjEx(slaveInterp, objv[0], 0);
 #else
-        /* TIP #280 : Make invoker available to eval'd script */
-        Interp* iPtr = (Interp*) interp;
-	result = TclEvalObjEx(slaveInterp, objv[0], 0, iPtr->cmdFramePtr,0);
+        /* TIP #280 : Make actual argument location available to eval'd script */
+        Interp* iPtr      = (Interp*) interp;
+	CmdFrame* invoker = iPtr->cmdFramePtr;
+	int word          = 0;
+	TclArgumentGet (interp, objv[0], &invoker, &word);
+	result = TclEvalObjEx(slaveInterp, objv[0], 0, invoker, word);
 #endif
     } else {
 	objPtr = Tcl_ConcatObj(objc, objv);

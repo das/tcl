@@ -3006,9 +3006,12 @@ NamespaceEvalCmd(dummy, interp, objc, objv)
 #ifndef TCL_TIP280
         result = Tcl_EvalObjEx(interp, objv[3], 0);
 #else
-        /* TIP #280 : Make invoker available to eval'd script */
-        Interp* iPtr = (Interp*) interp;
-        result = TclEvalObjEx(interp, objv[3], 0, iPtr->cmdFramePtr,3);
+        /* TIP #280 : Make actual argument location available to eval'd script */
+        Interp* iPtr      = (Interp*) interp;
+	CmdFrame* invoker = iPtr->cmdFramePtr;
+	int word          = 3;
+	TclArgumentGet (interp, objv[3], &invoker, &word);
+        result = TclEvalObjEx(interp, objv[3], 0, invoker, word);
 #endif
     } else {
 	/*
