@@ -1245,6 +1245,8 @@ TclExecuteByteCode(interp, codePtr)
     bcFrame.data.tebc.pc       = NULL;
     bcFrame.cmd.str.cmd        = NULL;
     bcFrame.cmd.str.len        = 0;
+
+    TclArgumentBCEnter((Tcl_Interp*) iPtr,codePtr,&bcFrame);
 #endif
 
 #ifdef TCL_COMPILE_DEBUG
@@ -4514,6 +4516,9 @@ TclExecuteByteCode(interp, codePtr)
 	ckfree((char *) catchStackPtr);
     }
     eePtr->stackTop = initStackTop;
+
+    TclArgumentBCRelease((Tcl_Interp*) iPtr,codePtr);
+
     return result;
 #undef STATIC_CATCH_STACK_SIZE
 }

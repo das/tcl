@@ -916,6 +916,19 @@ typedef struct CFWord {
   int       word;      /* Index of the word in the command */
   int       refCount;  /* #times the word is on the stack */
 } CFWord;
+
+typedef struct ExtIndex {
+    Tcl_Obj* obj; /* Reference to the word */
+    int pc;   /* Instruction pointer of a command in ExtCmdLoc.loc[.] */
+    int word; /* Index of word in ExtCmdLoc.loc[cmd]->line[.] */
+} ExtIndex;
+
+
+typedef struct CFWordBC {
+    CmdFrame* framePtr;  /* CmdFrame to acess */
+    ExtIndex* eiPtr;     /* Word info: PC and index */
+    int       refCount;  /* #times the word is on the stack */
+} CFWordBC;
 #endif /* TCL_TIP280 */
 
 /*
@@ -1505,6 +1518,7 @@ typedef struct Interp {
 				 * values are "struct ExtCmdLoc*" (See
 				 * tclCompile.h).
 				 */
+    Tcl_HashTable* lineLABCPtr;
     Tcl_HashTable* lineLAPtr;
                                 /* This table remembers for each
 				 * argument of a command on the
@@ -1858,6 +1872,10 @@ EXTERN void TclArgumentEnter   _ANSI_ARGS_((Tcl_Interp* interp,
 					    Tcl_Obj* objv[], int objc, CmdFrame* cf));
 EXTERN void TclArgumentRelease _ANSI_ARGS_((Tcl_Interp* interp,
 					    Tcl_Obj* objv[], int objc));
+EXTERN void TclArgumentBCEnter _ANSI_ARGS_((Tcl_Interp* interp,
+					    void* codePtr, CmdFrame* cfPtr));
+EXTERN void TclArgumentBCRelease _ANSI_ARGS_((Tcl_Interp* interp,
+					      void* codePtr));
 
 EXTERN void TclArgumentGet     _ANSI_ARGS_((Tcl_Interp* interp, Tcl_Obj* obj,
 					    CmdFrame** cfPtrPtr, int* wordPtr));
