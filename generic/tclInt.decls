@@ -947,7 +947,8 @@ declare 238 generic {
 			struct TEOV_record *rootPtr)
 }
 declare 239 generic {
-    Tcl_ObjCmdProc TclNRInterpProc
+    int TclNRInterpProc(ClientData clientData, Tcl_Interp *interp,
+	    int objc, Tcl_Obj *const objv[])
 }
 declare 240 generic {
     int TclNRInterpProcCore(Tcl_Interp *interp, Tcl_Obj *procNameObj,
