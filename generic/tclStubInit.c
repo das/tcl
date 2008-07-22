@@ -308,7 +308,7 @@ static const TclIntStubs tclIntStubs = {
     TclBackgroundException, /* 236 */
     TclResetCancellation, /* 237 */
     TclEvalObjv_NR2, /* 238 */
-    &TclNRInterpProc, /* 239 */
+    TclNRInterpProc, /* 239 */
     TclNRInterpProcCore, /* 240 */
     TclNRPushRecord, /* 241 */
     TclNRPopAndFreeRecord, /* 242 */
