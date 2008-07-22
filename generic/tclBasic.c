@@ -5374,6 +5374,26 @@ TclArgumentRelease(
     }
 }
 
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclArgumentBCEnter --
+ *
+ *	This procedure is a helper for the TIP #280 uplevel extension.
+ *	It enters location references for the literal arguments of commands
+ *	in bytecode about to be invoked. Only the first entry has the actual
+ *	data, further entries simply count the usage up.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	May allocate memory.
+ *
+ * TIP #280
+ *----------------------------------------------------------------------
+ */
+
 void
 TclArgumentBCEnter(
      Tcl_Interp *interp,
@@ -5421,6 +5441,26 @@ TclArgumentBCEnter(
     } /* if */
 }
 
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclArgumentBCRelease --
+ *
+ *	This procedure is a helper for the TIP #280 uplevel extension.
+ *	It removes the location references for the literal arguments of
+ *	commands in bytecode just done. Usage is counted down, the data
+ *	is removed only when no user is left over.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	May release memory.
+ *
+ * TIP #280
+ *----------------------------------------------------------------------
+ */
+
 void
 TclArgumentBCRelease(
      Tcl_Interp *interp,
