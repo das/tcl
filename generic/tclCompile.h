@@ -146,9 +146,6 @@ typedef struct ExtCmdLoc {
     int nueiloc;
 } ExtCmdLoc;
 
-EXTERN void TclEnterCmdWordIndex (ExtCmdLoc *eclPtr, Tcl_Obj* obj,
-				  int pc, int word);
-
 /*
  * CompileProcs need the ability to record information during compilation that
  * can be used by bytecode instructions during execution. The AuxData
