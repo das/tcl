@@ -150,9 +150,6 @@ typedef struct ExtCmdLoc {
   int neiloc;
   int nueiloc;
 } ExtCmdLoc;
-
-EXTERN void		TclEnterCmdWordIndex _ANSI_ARGS_((
-    			    ExtCmdLoc *eclPtr, Tcl_Obj* obj, int pc, int word));
 #endif
 
 /*
