@@ -5376,10 +5376,10 @@ TclArgumentRelease(
 
 
 void
-TclArgumentBCEnter(interp,codePtr,cfPtr)
-     Tcl_Interp* interp;
-     void*       codePtr;
-     CmdFrame*   cfPtr;
+TclArgumentBCEnter(
+     Tcl_Interp* interp,
+     void*       codePtr,
+     CmdFrame*   cfPtr)
 {
     Interp*        iPtr  = (Interp*) interp;
     Tcl_HashEntry* hePtr = Tcl_FindHashEntry (iPtr->lineBCPtr, (char *) codePtr);
@@ -5420,9 +5420,9 @@ TclArgumentBCEnter(interp,codePtr,cfPtr)
 }
 
 void
-TclArgumentBCRelease(interp,codePtr)
-     Tcl_Interp* interp;
-     void*       codePtr;
+TclArgumentBCRelease(
+     Tcl_Interp* interp,
+     void*       codePtr)
 {
     Interp*        iPtr  = (Interp*) interp;
     Tcl_HashEntry* hePtr = Tcl_FindHashEntry (iPtr->lineBCPtr, (char *) codePtr);
@@ -5503,7 +5503,9 @@ TclArgumentGet(
 	ExtIndex* eiPtr = cfwPtr->eiPtr;
 
 	framePtr = cfwPtr->framePtr;
-	framePtr->data.tebc.pc = ((ByteCode*) framePtr->data.tebc.codePtr)->codeStart + eiPtr->pc;
+	framePtr->data.tebc.pc = ((ByteCode*) 
+		  framePtr->data.tebc.codePtr)->codeStart + 
+	          eiPtr->pc;
 	*cfPtrPtr = cfwPtr->framePtr;
 	*wordPtr  = eiPtr->word;
 	return;
