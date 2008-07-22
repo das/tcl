@@ -134,6 +134,8 @@ typedef struct ECL {
 				 * command. */
 } ECL;
 
+/* ExtIndex defined in tclInt.h */
+
 typedef struct ExtCmdLoc {
     int type;			/* Context type. */
     Tcl_Obj *path;		/* Path of the sourced file the command is
@@ -141,13 +143,10 @@ typedef struct ExtCmdLoc {
     ECL *loc;			/* Command word locations (lines). */
     int nloc;			/* Number of allocated entries in 'loc'. */
     int nuloc;			/* Number of used entries in 'loc'. */
-    Tcl_HashTable litIndex;     /* HashValue is ExtIndex* */
+    ExtIndex* eiloc;
+    int neiloc;
+    int nueiloc;
 } ExtCmdLoc;
-
-typedef struct ExtIndex {
-  int pc;   /* Instruction pointer of a command in ExtCmdLoc.loc[.] */
-  int word; /* Index of word in ExtCmdLoc.loc[cmd]->line[.] */
-} ExtIndex;
 
 EXTERN void TclEnterCmdWordIndex (ExtCmdLoc *eclPtr, Tcl_Obj* obj,
 				  int pc, int word);

@@ -1877,6 +1877,9 @@ TclExecuteByteCode(
 	bcFramePtr->data.tebc.pc = NULL;
 	bcFramePtr->cmd.str.cmd = NULL;
 	bcFramePtr->cmd.str.len = 0;
+
+	TclArgumentBCEnter((Tcl_Interp*) iPtr,codePtr,bcFramePtr);
+
 #if (USE_NR_TEBC)
     } else if (tailcall) {
 	    goto tailcallEntry;	    
@@ -7756,6 +7759,8 @@ TclExecuteByteCode(
 	    Tcl_Panic("TclExecuteByteCode execution failure: end stack top < start stack top");
 	}
     }
+
+    TclArgumentBCRelease((Tcl_Interp*) iPtr,codePtr);
 
 #if USE_NR_TEBC
     oldBottomPtr = bottomPtr->prevBottomPtr;
