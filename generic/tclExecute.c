@@ -1867,6 +1867,7 @@ TclExecuteByteCode(
 	bcFramePtr->type = ((codePtr->flags & TCL_BYTECODE_PRECOMPILED)
 		? TCL_LOCATION_PREBC : TCL_LOCATION_BC);
 	bcFramePtr->level = (iPtr->cmdFramePtr ? iPtr->cmdFramePtr->level+1 : 1);
+	bcFramePtr->numLevels = iPtr->numLevels;
 	bcFramePtr->framePtr = iPtr->framePtr;
 	bcFramePtr->nextPtr = iPtr->cmdFramePtr;
 	bcFramePtr->nline = 0;
