@@ -3160,6 +3160,14 @@ CancelEvalProc(clientData, interp, code)
  *	command. This insures that traces get a correct NUL-terminated command
  *	string. The Tcl_Obj has refCount==1.
  *
+ *      *** MAINTAINER WARNING ***
+ *      The returned Tcl_Obj is all wrong for any purpose but getting the
+ *      source string for an objc/objv command line in the stringRep (no
+ *      stringRep if no source is available) and the corresponding substituted
+ *      version in the List intrep.
+ *      This means that the intRep and stringRep DO NOT COINCIDE! Using these
+ *      Tcl_Objs normally is likely to break things.
+ *
  *----------------------------------------------------------------------
  */
 
