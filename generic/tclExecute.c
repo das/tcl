@@ -4517,7 +4517,9 @@ TclExecuteByteCode(interp, codePtr)
     }
     eePtr->stackTop = initStackTop;
 
+#ifdef TCL_TIP280
     TclArgumentBCRelease((Tcl_Interp*) iPtr,codePtr);
+#endif
 
     return result;
 #undef STATIC_CATCH_STACK_SIZE
