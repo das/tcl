@@ -1153,7 +1153,7 @@ InfoFrameCmd(dummy, interp, objc, objv)
 	        lv [lc ++] = Tcl_NewStringObj ("type",-1);
 		lv [lc ++] = Tcl_NewStringObj (typeString [framePtr->type],-1);
 		lv [lc ++] = Tcl_NewStringObj ("line",-1);
-		lv [lc ++] = Tcl_NewIntObj    (framePtr->line[0]);
+		lv [lc ++] = Tcl_NewIntObj    (1);
 
 		/* We put a duplicate of the command list obj into the result
 		 * to ensure that the 'pure List'-property of the command

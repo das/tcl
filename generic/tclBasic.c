@@ -4573,6 +4573,17 @@ TclArgumentGet(interp,obj,cfPtrPtr,wordPtr)
     CmdFrame*      framePtr;
 
     /*
+     * An object which either has no string rep guaranteed to have been
+     * generated dynamically: bail out, this cannot have a usable absolute
+     * location. _Do not touch_ the information the set up by the caller. It
+     * knows better than us.
+     */
+
+    if (!obj->bytes) {
+	return;
+    }
+    
+    /*
      * First look for location information recorded in the argument
      * stack. That is nearest.
      */
@@ -4782,7 +4793,6 @@ TclEvalObjEx(interp, objPtr, flags, invoker, word)
 	     * As we know that this is dynamic execution we ignore the
 	     * invoker, even if known.
 	     */
-	    int      line;
 	    CmdFrame eoFrame;
 
 	    eoFrame.type     = TCL_LOCATION_EVAL_LIST;
@@ -4791,8 +4801,8 @@ TclEvalObjEx(interp, objPtr, flags, invoker, word)
 				iPtr->cmdFramePtr->level + 1);
 	    eoFrame.framePtr = iPtr->framePtr;
 	    eoFrame.nextPtr  = iPtr->cmdFramePtr;
-	    eoFrame.nline    = objc;
-	    eoFrame.line     = (int*) ckalloc (objc * sizeof (int));
+	    eoFrame.nline    = 0;
+	    eoFrame.line     = NULL;
 
 	    /* NOTE: Getting the string rep of the list to eval to fill the
 	     * command information required by 'info frame' implies that
@@ -4815,23 +4825,18 @@ TclEvalObjEx(interp, objPtr, flags, invoker, word)
 	     * Copy the list elements here, to avoid a segfault if
 	     * objPtr loses its List internal rep [Bug 1119369].
 	     *
-	     * TIP #280 Computes all the line numbers for the
-	     * words in the command.
+	     * TIP #280 We do _not_ compute all the line numbers for the words
+	     * in the command. For the eval of a pure list the most sensible
+	     * choice is to put all words on line 1. Given that we neither
+	     * need memory for them nor compute anything. 'line' is left
+	     * NULL. The two places using this information (TclInfoFrame, and
+	     * TclInitCompileEnv), are special-cased to use the proper line
+	     * number directly instead of accessing the 'line' array.
 	     */
 
-#ifdef TCL_TIP280
-	    line = 1;
-#endif
 	    for (i=0; i < objc; i++) {
 		objv[i] = listRepPtr->elements[i];
 		Tcl_IncrRefCount(objv[i]);
-#ifdef TCL_TIP280
-		eoFrame.line [i] = line;
-		{
-		    char* w = Tcl_GetString (objv [i]);
-		    TclAdvanceLines (&line, w, w+ strlen(w));
-		}
-#endif
 	    }
 
 #ifdef TCL_TIP280

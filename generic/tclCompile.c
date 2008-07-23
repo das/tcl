@@ -818,8 +818,12 @@ TclInitCompileEnv(interp, envPtr, string, numBytes, invoker, word)
     envPtr->extCmdMapPtr->neiloc = 0;
     envPtr->extCmdMapPtr->nueiloc = 0;
 
-    if (invoker == NULL) {
-        /* Initialize the compiler for relative counting */
+    if (invoker == NULL ||
+	(invoker->type == TCL_LOCATION_EVAL_LIST)) {
+        /*
+	 * Initialize the compiler for relative counting in case of a
+	 * dynamic context.
+	 */
 
 	envPtr->line               = 1;
 	envPtr->extCmdMapPtr->type = (envPtr->procPtr
