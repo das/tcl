@@ -1301,7 +1301,7 @@ namespace delete foo
 
 # -------------------------------------------------------------------------
 
-test info-34.0 {eval pure list, single line} {
+test info-37.0 {eval pure list, single line} {
     # Basically, counting the newline in the word seen through $foo
     # doesn't really make sense. It makes a bit of sense if the word
     # would have been a string literal in the command list.
