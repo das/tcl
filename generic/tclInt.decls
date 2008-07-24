@@ -915,7 +915,7 @@ declare 231 generic {
 # Bits and pieces of TIP#280's guts
 declare 232 generic {
     int TclEvalObjEx(Tcl_Interp *interp, Tcl_Obj *objPtr, int flags,
-	    const CmdFrame *invoker, int word)
+	    CONST CmdFrame *invoker, int word)
 }
 declare 233 generic {
     void TclGetSrcInfoForPc(CmdFrame *contextPtr)
@@ -923,7 +923,7 @@ declare 233 generic {
 
 # Exports for VarReform compat: Itcl, XOTcl like to peek into our varTables :(
 declare 234 generic {
-    Var *TclVarHashCreateVar(TclVarHashTable *tablePtr, const char *key,
+    Var *TclVarHashCreateVar(TclVarHashTable *tablePtr, CONST char *key,
              int *newPtr)
 }
 declare 235 generic {
@@ -948,7 +948,7 @@ declare 238 generic {
 }
 declare 239 generic {
     int TclNRInterpProc(ClientData clientData, Tcl_Interp *interp,
-	    int objc, Tcl_Obj *const objv[])
+	    int objc, Tcl_Obj *CONST objv[])
 }
 declare 240 generic {
     int TclNRInterpProcCore(Tcl_Interp *interp, Tcl_Obj *procNameObj,
@@ -963,7 +963,7 @@ declare 242 generic {
 
 declare 243 generic {
     int TclNREvalObjEx(Tcl_Interp *interp, Tcl_Obj *objPtr, int flags,
-	    const CmdFrame *invoker, int word)
+	    CONST CmdFrame *invoker, int word)
 }
 ##############################################################################
 
