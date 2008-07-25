@@ -1515,6 +1515,10 @@ DeleteInterpProc(
 		ckfree((char *) eclPtr->loc);
 	    }
 
+	    if (eclPtr->eiloc != NULL) {
+		ckfree((char *) eclPtr->eiloc);
+	    }
+
 	    ckfree((char *) eclPtr);
 	    Tcl_DeleteHashEntry(hPtr);
 	}
@@ -5740,6 +5744,9 @@ TclNREvalObjEx(
      * safely use Tcl_EvalObjv instead and get an appreciable improvement in
      * execution speed. This is because it allows us to avoid a setFromAny
      * step that would just pack everything into a string and back out again.
+     *
+     * This also preserves any associations between list elements and location
+     * information for such elements.
      *
      * This restriction has been relaxed a bit by storing in lists whether
      * they are "canonical" or not (a canonical list being one that is either
