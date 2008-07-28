@@ -4148,10 +4148,10 @@ TclEvalEx(
 		goto error;
 	    }
 	    eeFramePtr->data.eval.path = norm;
-	    Tcl_IncrRefCount(eeFramePtr->data.eval.path);
 	} else {
 	    TclNewLiteralStringObj(eeFramePtr->data.eval.path, "");
 	}
+	Tcl_IncrRefCount(eeFramePtr->data.eval.path);
     } else {
 	/*
 	 * Set up for plain eval.
