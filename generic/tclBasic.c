@@ -4784,7 +4784,8 @@ TclArgumentGet(interp,obj,cfPtrPtr,wordPtr)
 	ExtIndex* eiPtr = cfwPtr->eiPtr;
 
 	framePtr = cfwPtr->framePtr;
-	framePtr->data.tebc.pc = ((ByteCode*) framePtr->data.tebc.codePtr)->codeStart + eiPtr->pc;
+	framePtr->data.tebc.pc = (char *) (((ByteCode*)
+		framePtr->data.tebc.codePtr)->codeStart + eiPtr->pc);
 	*cfPtrPtr = cfwPtr->framePtr;
 	*wordPtr  = eiPtr->word;
 	return;
