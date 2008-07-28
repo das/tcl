@@ -1202,6 +1202,10 @@ DeleteInterpProc(interp)
 		ckfree ((char*) eclPtr->loc);
 	    }
 
+            if (eclPtr->eiloc != NULL) {
+		ckfree ((char*) eclPtr->eiloc);
+	    }
+
 	    ckfree ((char*) eclPtr);
 	    Tcl_DeleteHashEntry (hPtr);
 	}
@@ -3906,10 +3910,10 @@ EvalEx(interp, script, numBytes, flags, line)
 		return TCL_ERROR;
 	    }
 	    eeFrame.data.eval.path = norm;
-	    Tcl_IncrRefCount (eeFrame.data.eval.path);
 	} else {
 	    eeFrame.data.eval.path = Tcl_NewStringObj ("",-1);
 	}
+	Tcl_IncrRefCount (eeFrame.data.eval.path);
     } else {
 	/* Set up for plain eval */
 
