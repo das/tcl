@@ -692,7 +692,8 @@ Tcl_CreateInterp(void)
     TclInitLimitSupport(interp);
 
     /*
-     * Initialise the thread-specific data ekeko.
+     * Initialise the thread-specific data ekeko. Note that the thread's alloc
+     * cache was already initialised by the call to alloc the interp struct.
      */
 
 #if defined(TCL_THREADS) && defined(USE_THREAD_ALLOC)

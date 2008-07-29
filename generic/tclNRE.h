@@ -82,10 +82,10 @@ MODULE_SCOPE Tcl_ObjCmdProc TclTailcallObjCmd;
  *****************************************************************************/
 
 #if USE_SMALL_ALLOC
-#define TCLNR_ALLOC(interp, ptr) TclSmallAlloc(sizeof(TEOV_callback), ptr)
-#define TCLNR_FREE(interp, ptr)  TclSmallFree((ptr))
+#define TCLNR_ALLOC(interp, ptr) TclSmallAllocEx(interp, sizeof(TEOV_callback), (ptr))
+#define TCLNR_FREE(interp, ptr)  TclSmallFreeEx((interp), (ptr))
 #else
-#define TCLNR_ALLOC(interp, size, ptr) (ptr = ((ClientData) ckalloc(sizeof(TEOV_callback))))
+#define TCLNR_ALLOC(interp, ptr) (ptr = ((ClientData) ckalloc(sizeof(TEOV_callback))))
 #define TCLNR_FREE(interp, ptr)  ckfree((char *) (ptr))
 #endif
 
