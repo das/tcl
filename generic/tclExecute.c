@@ -915,6 +915,7 @@ GrowEvaluationStack(
     int newBytes, newElems, currElems;
     int needed = growth - (esPtr->endPtr - esPtr->tosPtr);
     Tcl_Obj **markerPtr = esPtr->markerPtr, **memStart;
+    int moveWords = 0;
 
     if (move) {
 	if (!markerPtr) {
@@ -949,9 +950,9 @@ GrowEvaluationStack(
      */
 
     if (move) {
-	move = esPtr->tosPtr - MEMSTART(markerPtr) + 1;
+	moveWords = esPtr->tosPtr - MEMSTART(markerPtr) + 1;
     }
-    needed = growth + move + WALLOCALIGN - 1;
+    needed = growth + moveWords + WALLOCALIGN - 1;
 
     /*
      * Check if there is enough room in the next stack (if there is one, it
@@ -1011,8 +1012,8 @@ GrowEvaluationStack(
     esPtr->tosPtr = memStart - 1;
     
     if (move) {
-	memcpy(memStart, MEMSTART(markerPtr), move*sizeof(Tcl_Obj *));
-	esPtr->tosPtr += move;
+	memcpy(memStart, MEMSTART(markerPtr), moveWords*sizeof(Tcl_Obj *));
+	esPtr->tosPtr += moveWords;
 	oldPtr->markerPtr = (Tcl_Obj **) *markerPtr;
 	oldPtr->tosPtr = markerPtr-1;
     }
