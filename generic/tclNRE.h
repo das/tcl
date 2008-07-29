@@ -60,7 +60,7 @@ typedef struct TEOV_callback {
     data3)								\
     {									\
 	TEOV_callback *callbackPtr;					\
-	TclSmallAlloc(sizeof(TEOV_callback), callbackPtr);		\
+	TCLNR_ALLOC((interp), (callbackPtr));				\
 	callbackPtr->procPtr = (postProcPtr);				\
 	callbackPtr->data[0] = (data0);					\
 	callbackPtr->data[1] = (data1);					\
