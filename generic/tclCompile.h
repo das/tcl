@@ -830,15 +830,16 @@ typedef struct {
     } i;
 } TclOpCmdClientData;
 
+
 /*
  *----------------------------------------------------------------
  * Procedures exported by tclBasic.c to be used within the engine.
  *----------------------------------------------------------------
  */
 
-MODULE_SCOPE int	TclEvalObjvInternal(Tcl_Interp *interp,
-			    int objc, Tcl_Obj *const objv[],
-			    const char *command, int length, int flags);
+MODULE_SCOPE Tcl_NRPostProc   NRRunBytecode;
+MODULE_SCOPE Tcl_NRPostProc   NRDropCommand;
+
 /*
  *----------------------------------------------------------------
  * Procedures exported by the engine to be used by tclBasic.c

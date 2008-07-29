@@ -49,11 +49,8 @@ static inline Tcl_Object *
 AddConstructionFinalizer(
     Tcl_Interp *interp)
 {
-    TEOV_record *recordPtr;
-
     TclNRAddCallback(interp, FinalizeConstruction, NULL, NULL, NULL, NULL);
-    recordPtr = TOP_RECORD(interp);
-    return (Tcl_Object *) &recordPtr->callbackPtr->data[0];
+    return (Tcl_Object *) &(TOP_CB(interp)->data[0]);
 }
 
 static int
