@@ -114,7 +114,7 @@ typedef struct Tcl_Obj {
     int \fIrefCount\fR;
     char *\fIbytes\fR;
     int \fIlength\fR;
-    Tcl_ObjType *\fItypePtr\fR;
+    const Tcl_ObjType *\fItypePtr\fR;
     union {
         long \fIlongValue\fR;
         double \fIdoubleValue\fR;

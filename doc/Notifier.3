@@ -83,7 +83,7 @@ queues them.
 .AP ClientData clientData in
 Arbitrary one-word value to pass to \fIsetupProc\fR, \fIcheckProc\fR, or
 \fIdeleteProc\fR.
-.AP Tcl_Time *timePtr in
+.AP "const Tcl_Time" *timePtr in
 Indicates the maximum amount of time to wait for an event.  This
 is specified as an interval (how long to wait), not an absolute
 time (when to wakeup).  If the pointer passed to \fBTcl_WaitForEvent\fR
