@@ -4329,7 +4329,8 @@ TEOV_PushExceptionHandlers(
 	 * No CONTINUE or BREAK at level 0, manage RETURN
 	 */
 
-	TclNRAddCallback(interp, TEOV_Exception, NULL, NULL, NULL, NULL);
+	TclNRAddCallback(interp, TEOV_Exception, INT2PTR(iPtr->evalFlags),
+		NULL, NULL, NULL);
     }
 }
 
@@ -4366,7 +4367,7 @@ TEOV_Exception(
     int result)
 {
     Interp *iPtr = (Interp *) interp;
-    int allowExceptions = (iPtr->evalFlags & TCL_ALLOW_EXCEPTIONS);
+    int allowExceptions = PTR2INT(data[0]);
 
     if (result != TCL_OK) {
 	if (result == TCL_RETURN) {
