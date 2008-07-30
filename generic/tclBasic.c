@@ -5631,6 +5631,8 @@ TclNREvalObjEx(
     int allowExceptions = (iPtr->evalFlags & TCL_ALLOW_EXCEPTIONS);
     List *listRepPtr = objPtr->internalRep.twoPtrValue.ptr1;
     Tcl_Token *lastTokenPtr, *tokensPtr;
+    int numBytes;
+    const char *script;
 
     Tcl_IncrRefCount(objPtr);
 
@@ -5809,6 +5811,18 @@ TclNREvalObjEx(
 		    1 + (int)(lastTokenPtr - tokensPtr), flags, 1);
 	}
 	TclStackFree(interp, ctxPtr);
+    }
+    script = Tcl_GetStringFromObj(objPtr, &numBytes);
+    if (iPtr->numLevels == 0) {
+        if (result == TCL_RETURN) {
+	    result = TclUpdateReturnInfo(iPtr);
+        }
+        if ((result != TCL_OK) && (result != TCL_ERROR)
+		&& !allowExceptions) {
+	    ProcessUnexpectedResult(interp, result);
+	    result = TCL_ERROR;
+	    Tcl_LogCommandInfo(interp, script, script, numBytes);
+        }
     }
     TclDecrRefCount(objPtr);
     return result;
