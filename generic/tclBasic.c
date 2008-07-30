@@ -4367,7 +4367,7 @@ TEOV_Exception(
     int result)
 {
     Interp *iPtr = (Interp *) interp;
-    int allowExceptions = PTR2INT(data[0]);
+    int allowExceptions = (PTR2INT(data[0]) & TCL_ALLOW_EXCEPTIONS);
 
     if (result != TCL_OK) {
 	if (result == TCL_RETURN) {
