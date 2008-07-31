@@ -23,8 +23,6 @@
 
 static int		UniCharIsAscii(int character);
 
-static Tcl_NRPostProc	NRWhileIterCallback;
-
 
 /*
  *----------------------------------------------------------------------
@@ -4026,47 +4024,13 @@ TclNRWhileObjCmd(
 	return TCL_ERROR;
     }
 
-    TclNRAddCallback(interp, NRWhileIterCallback, objv[1], objv[2], NULL, NULL);
-    return TCL_CONTINUE;
-}
+    /*
+     * We reuse [for]'s callback, passing a NULL for the 'next' script.
+     */
 
-static int
-NRWhileIterCallback(
-    ClientData data[],
-    Tcl_Interp *interp,
-    int result)
-{
-    Interp *iPtr = (Interp *) interp;
-    Tcl_Obj *cond = data[0];
-    Tcl_Obj *body = data[1];
-    int value;
-
-    if ((result != TCL_OK) && (result != TCL_CONTINUE)) {
-	goto done;
-    }
-	    
-    result = Tcl_ExprBooleanObj(interp, cond, &value);
-    if (result != TCL_OK) {
-	return result;
-    }
-    if (value) {
-	/* TIP #280. */
-	TclNRAddCallback(interp, NRWhileIterCallback, cond, body, NULL, NULL);
-	return TclNREvalObjEx(interp, body, 0, iPtr->cmdFramePtr, 2);
-    }
-
-  done:    
-    switch (result) {
-    case TCL_BREAK:
-	result = TCL_OK;
-    case TCL_OK:
-	Tcl_ResetResult(interp);
-	break;
-    case TCL_ERROR:
-	Tcl_AppendObjToErrorInfo(interp, Tcl_ObjPrintf(
-		    "\n    (\"while\" body line %d)", interp->errorLine));
-    }
-    return result;
+    TclNRAddCallback(interp, TclNRForIterCallback, objv[1], objv[2],
+	    NULL, "\n    (\"while\" body line %d)");
+    return TCL_OK;
 }
 
 /*
