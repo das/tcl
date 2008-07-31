@@ -26,7 +26,10 @@
 #include <limits.h>
 #include <math.h>
 #include "tommath.h"
-#include "tclNRE.h"
+
+#if NRE_ENABLE_ASSERTS
+#include <assert.h>
+#endif
 
 /*
  * Determine whether we're using IEEE floating point
@@ -7875,7 +7878,6 @@ TclTailcallObjCmd(
     Interp *iPtr = (Interp *) interp;
     Tcl_Obj *listPtr;
     Namespace *nsPtr = iPtr->varFramePtr->nsPtr;
-    int count;
     
     if (objc < 2) {
 	Tcl_WrongNumArgs(interp, 1, objv, "command ?arg ...?");
