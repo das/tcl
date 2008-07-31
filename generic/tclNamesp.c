@@ -27,7 +27,6 @@
  */
 
 #include "tclInt.h"
-#include "tclNRE.h"
 
 /*
  * Thread-local storage used to avoid having a global lock on data that is not

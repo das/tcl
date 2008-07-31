@@ -14,7 +14,6 @@
 
 #include "tclInt.h"
 #include "tommath.h"
-#include "tclNRE.h"
 
 /*
  * Forward declaration.

@@ -17,7 +17,6 @@
 #endif
 #include "tclInt.h"
 #include "tclOOInt.h"
-#include "tclNRE.h"
 
 static inline Tcl_Object *AddConstructionFinalizer(Tcl_Interp *interp);
 static int		FinalizeConstruction(ClientData data[],
@@ -39,8 +38,8 @@ static int		RestoreFrame(ClientData data[],
  *	createWithNamespace, new).
  *
  *	Note that this is the only code in this file (or, indeed, the whole of
- *	TclOO) that uses tclNRE.h; it is the only code that does non-standard
- *	poking in the NRE guts.
+ *	TclOO) that uses NRE internals; it is the only code that does
+ *	non-standard poking in the NRE guts.
  *
  * ----------------------------------------------------------------------
  */

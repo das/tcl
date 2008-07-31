@@ -838,7 +838,7 @@ typedef struct {
  */
 
 MODULE_SCOPE Tcl_NRPostProc   NRRunBytecode;
-MODULE_SCOPE Tcl_NRPostProc   NRDropCommand;
+MODULE_SCOPE Tcl_NRPostProc   NRDoTailcall;
 
 /*
  *----------------------------------------------------------------
