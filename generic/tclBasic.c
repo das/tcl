@@ -184,7 +184,7 @@ static const CmdInfo builtInCmds[] = {
 #ifndef EXCLUDE_OBSOLETE_COMMANDS
     {"case",		Tcl_CaseObjCmd,		NULL,			NULL,	1},
 #endif
-    {"catch",		Tcl_CatchObjCmd,	TclCompileCatchCmd,	NULL,	1},
+    {"catch",		Tcl_CatchObjCmd,	TclCompileCatchCmd,	TclNRCatchObjCmd,	1},
     {"concat",		Tcl_ConcatObjCmd,	NULL,			NULL,	1},
     {"continue",	Tcl_ContinueObjCmd,	TclCompileContinueCmd,	NULL,	1},
     {"error",		Tcl_ErrorObjCmd,	NULL,			NULL,	1},
