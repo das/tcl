@@ -139,13 +139,15 @@ static Tcl_NRPostProc	TailcallCleanup;
 	    && (PTR2INT(callbackPtr->data[1])))
 
 #define NR_CLEAR_COMMAND(interp)			\
-    TEOV_callback *callbackPtr = TOP_CB(interp);	\
+    {							\
+	TEOV_callback *callbackPtr = TOP_CB(interp);	\
 							\
-    while (!NR_IS_COMMAND(callbackPtr)) {		\
-	callbackPtr = callbackPtr->nextPtr;		\
-    }							\
-    if (callbackPtr) {					\
-	callbackPtr->data[1] = INT2PTR(0);		\
+	while (!NR_IS_COMMAND(callbackPtr)) {		\
+	    callbackPtr = callbackPtr->nextPtr;		\
+	}						\
+	if (callbackPtr) {				\
+	    callbackPtr->data[1] = INT2PTR(0);		\
+	}\
     }
 
 
