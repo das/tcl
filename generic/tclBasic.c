@@ -194,7 +194,7 @@ static const CmdInfo builtInCmds[] = {
     {"foreach",		Tcl_ForeachObjCmd,	TclCompileForeachCmd,	NULL,	1},
     {"format",		Tcl_FormatObjCmd,	NULL,			NULL,	1},
     {"global",		Tcl_GlobalObjCmd,	TclCompileGlobalCmd,	NULL,	1},
-    {"if",		Tcl_IfObjCmd,		TclCompileIfCmd,	NULL,	1},
+    {"if",		Tcl_IfObjCmd,		TclCompileIfCmd,	TclNRIfObjCmd,	1},
     {"incr",		Tcl_IncrObjCmd,		TclCompileIncrCmd,	NULL,	1},
     {"join",		Tcl_JoinObjCmd,		NULL,			NULL,	1},
     {"lappend",		Tcl_LappendObjCmd,	TclCompileLappendCmd,	NULL,	1},
