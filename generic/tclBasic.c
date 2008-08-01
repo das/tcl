@@ -190,11 +190,11 @@ static const CmdInfo builtInCmds[] = {
     {"error",		Tcl_ErrorObjCmd,	NULL,			NULL,	1},
     {"eval",		Tcl_EvalObjCmd,		NULL,			NULL,	1},
     {"expr",		Tcl_ExprObjCmd,		TclCompileExprCmd,	NULL,	1},
-    {"for",		Tcl_ForObjCmd,		TclCompileForCmd,	NULL,	1},
+    {"for",		Tcl_ForObjCmd,		TclCompileForCmd,	TclNRForObjCmd,	1},
     {"foreach",		Tcl_ForeachObjCmd,	TclCompileForeachCmd,	NULL,	1},
     {"format",		Tcl_FormatObjCmd,	NULL,			NULL,	1},
     {"global",		Tcl_GlobalObjCmd,	TclCompileGlobalCmd,	NULL,	1},
-    {"if",		Tcl_IfObjCmd,		TclCompileIfCmd,	NULL,	1},
+    {"if",		Tcl_IfObjCmd,		TclCompileIfCmd,	TclNRIfObjCmd,	1},
     {"incr",		Tcl_IncrObjCmd,		TclCompileIncrCmd,	NULL,	1},
     {"join",		Tcl_JoinObjCmd,		NULL,			NULL,	1},
     {"lappend",		Tcl_LappendObjCmd,	TclCompileLappendCmd,	NULL,	1},
@@ -227,7 +227,7 @@ static const CmdInfo builtInCmds[] = {
     {"uplevel",		Tcl_UplevelObjCmd,	NULL,			TclNRUplevelObjCmd,	1},
     {"upvar",		Tcl_UpvarObjCmd,	TclCompileUpvarCmd,	NULL,	1},
     {"variable",	Tcl_VariableObjCmd,	TclCompileVariableCmd,	NULL,	1},
-    {"while",		Tcl_WhileObjCmd,	TclCompileWhileCmd,	NULL,	1},
+    {"while",		Tcl_WhileObjCmd,	TclCompileWhileCmd,	TclNRWhileObjCmd,	1},
 
     /*
      * Commands in the OS-interface. Note that many of these are unsafe.
