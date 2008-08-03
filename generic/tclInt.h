@@ -2535,7 +2535,6 @@ MODULE_SCOPE Tcl_ObjCmdProc TclNRWhileObjCmd;
 
 MODULE_SCOPE Tcl_NRPostProc TclNRForIterCallback;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRAtProcExitObjCmd;
-MODULE_SCOPE Tcl_ObjCmdProc TclAtProcExitObjCmd;
 
 MODULE_SCOPE int        TclNREvalCmd(Tcl_Interp * interp, Tcl_Obj * objPtr,
 	                    int flags);
