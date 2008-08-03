@@ -134,6 +134,7 @@ static Tcl_NRPostProc   NRCommand;
 static Tcl_NRPostProc   NRRunObjProc;
 
 static Tcl_NRPostProc	AtProcExitCleanup;
+static Tcl_NRPostProc   NRAtProcExitEval;
 
 /*
  * The following structure define the commands in the Tcl core.
