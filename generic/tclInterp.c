@@ -1762,7 +1762,6 @@ AliasNRCmd(
     Tcl_Obj *listPtr;
     List *listRep;
     int flags = TCL_EVAL_INVOKE;
-    int result;
     
     /*
      * Append the arguments to the command prefix and invoke the command in
@@ -1808,9 +1807,7 @@ AliasNRCmd(
     if (isRootEnsemble) {
 	TclNRAddCallback(interp, TclClearRootEnsemble, NULL, NULL, NULL, NULL);
     }
-    result = Tcl_NREvalObj(interp, listPtr, flags);
-    TclNRClearCommandFlag(interp);
-    return result;
+    return Tcl_NREvalObj(interp, listPtr, flags);
 }
 
 static int
