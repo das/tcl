@@ -1871,6 +1871,10 @@ TclExecuteByteCode(
 #endif
 		newPtr->nextPtr = bottomPtr->atExitPtr;
 		bottomPtr->atExitPtr = newPtr;
+		while (cleanup--) {
+		    Tcl_Obj *objPtr = POP_OBJECT();
+		    Tcl_DecrRefCount(objPtr);
+		}
 		goto nonRecursiveCallReturn;
 	    } else {
 		
