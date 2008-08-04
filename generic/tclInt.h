@@ -2029,7 +2029,7 @@ typedef struct InterpList {
  *			other than these should be turned into errors.
  */
 
-#define TCL_ALLOW_EXCEPTIONS	4
+#define TCL_ALLOW_EXCEPTIONS	  4
 #define TCL_EVAL_FILE             2
 #define TCL_EVAL_CTX              8
 
@@ -2610,12 +2610,10 @@ MODULE_SCOPE Tcl_ObjCmdProc TclNRIfObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRWhileObjCmd;
 
 MODULE_SCOPE Tcl_NRPostProc TclNRForIterCallback;
-MODULE_SCOPE Tcl_ObjCmdProc TclTailcallObjCmd;
+MODULE_SCOPE Tcl_ObjCmdProc TclNRAtProcExitObjCmd;
 
 MODULE_SCOPE int        TclNREvalCmd(Tcl_Interp * interp, Tcl_Obj * objPtr,
 	                    int flags);
-
-MODULE_SCOPE void       TclNRClearCommandFlag(Tcl_Interp *interp);
 
 MODULE_SCOPE void       TclAdvanceLines(int *line, const char *start,
 			    const char *end);

@@ -1772,7 +1772,8 @@ TclNRInterpProcCore(
 
     TclNRAddCallback(interp, InterpProcNR2, procNameObj, errorProc,
 	    NULL, NULL);
-    TclNRAddCallback(interp, NRRunBytecode, codePtr, NULL, NULL, NULL);
+    TclNRAddCallback(interp, NRCallTEBC, INT2PTR(TCL_NR_BC_TYPE), codePtr,
+	    NULL, NULL);
     return TCL_OK;
 }
 
