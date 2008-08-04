@@ -837,8 +837,10 @@ typedef struct {
  *----------------------------------------------------------------
  */
 
-MODULE_SCOPE Tcl_NRPostProc   NRRunBytecode;
-MODULE_SCOPE Tcl_NRPostProc   NRAtProcExit;
+MODULE_SCOPE Tcl_NRPostProc   NRCallTEBC;
+
+#define TCL_NR_BC_TYPE         0
+#define TCL_NR_ATEXIT_TYPE     1
 
 /*
  *----------------------------------------------------------------
