@@ -2051,6 +2051,16 @@ TclExecuteByteCode(
 	    CACHE_STACK_INFO();
 	    if (result != TCL_OK) {
 		cleanup = 0;
+		if (result == TCL_ERROR) {
+		    /*
+		     * Tcl_EvalEx already did the task of logging
+		     * the error to the stack trace for us, so set
+		     * a flag to prevent the TEBC exception handling
+		     * machinery from trying to do it again.
+		     * Tcl Bug 2037338.  See test execute-8.4.
+		     */
+		    iPtr->flags |= ERR_ALREADY_LOGGED;
+		}
 		goto processExceptionReturn;
 	    }
 	    opnd = TclGetUInt4AtPtr(pc+1);
