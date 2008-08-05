@@ -2712,7 +2712,8 @@ TclExecuteByteCode(
 
 	    DECACHE_STACK_INFO();
 
-	    result = TclNREvalObjv(interp, objc, objv, TCL_EVAL_NOERR, NULL);
+	    result = TclNREvalObjv(interp, objc, objv,
+		    (*pc == INST_EVAL_STK) ? 0 : TCL_EVAL_NOERR, NULL);
 	    result = TclNRRunCallbacks(interp, result, bottomPtr->rootPtr, 1);
 	    CACHE_STACK_INFO();
 
