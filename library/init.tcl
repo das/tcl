@@ -241,19 +241,10 @@ proc unknown args {
     # If the command word has the form "namespace inscope ns cmd"
     # then concatenate its arguments onto the end and evaluate it.
 
-    set cmd [lindex $args 0]
-    if {[regexp "^:*namespace\[ \t\n\]+inscope" $cmd] && [llength $cmd] == 4} {
-	#return -code error "You need an {*}"
-        set arglist [lrange $args 1 end]
-	set ret [catch {uplevel 1 ::$cmd $arglist} result opts]
-	dict unset opts -errorinfo
-	dict incr opts -level
-	return -options $opts $result
-    }
-
     catch {set savedErrorInfo $::errorInfo}
     catch {set savedErrorCode $::errorCode}
-    set name $cmd
+
+    set name [lindex $args 0]
     if {![info exists auto_noload]} {
 	#
 	# Make sure we're not trying to load the same proc twice.
