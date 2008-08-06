@@ -217,11 +217,9 @@ if {[namespace which -command tclLog] eq ""} {
 # exist in the interpreter.  It takes the following steps to make the
 # command available:
 #
-#	1. See if the command has the form "namespace inscope ns cmd" and
-#	   if so, concatenate its arguments onto the end and evaluate it.
-#	2. See if the autoload facility can locate the command in a
+#	1. See if the autoload facility can locate the command in a
 #	   Tcl script file.  If so, load it and execute it.
-#	3. If the command was invoked interactively at top-level:
+#	2. If the command was invoked interactively at top-level:
 #	    (a) see if the command exists as an executable UNIX program.
 #		If so, "exec" the command.
 #	    (b) see if the command requests csh-like history substitution
@@ -237,9 +235,6 @@ if {[namespace which -command tclLog] eq ""} {
 proc unknown args {
     variable ::tcl::UnknownPending
     global auto_noexec auto_noload env tcl_interactive
-
-    # If the command word has the form "namespace inscope ns cmd"
-    # then concatenate its arguments onto the end and evaluate it.
 
     catch {set savedErrorInfo $::errorInfo}
     catch {set savedErrorCode $::errorCode}
