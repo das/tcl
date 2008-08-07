@@ -691,7 +691,8 @@ Tcl_CreateInterp(void)
 #endif
     iPtr->pendingObjDataPtr = NULL;
     iPtr->asyncReadyPtr = TclGetAsyncReadyPtr();
-
+    iPtr->atExitPtr = NULL;
+    
     /*
      * Create the core commands. Do it here, rather than calling
      * Tcl_CreateCommand, because it's faster (there's no need to check for a
@@ -4169,6 +4170,7 @@ TclNRRunCallbacks(
 	(void) Tcl_GetObjResult(interp);
     }
 
+    restart:
     while (TOP_CB(interp) != rootPtr) {
 	callbackPtr = TOP_CB(interp);
 	procPtr = callbackPtr->procPtr;
@@ -4190,6 +4192,16 @@ TclNRRunCallbacks(
 	TOP_CB(interp) = callbackPtr->nextPtr;
 	result = (procPtr)(callbackPtr->data, interp, result);
 	TCLNR_FREE(interp, callbackPtr);
+    }
+    if (iPtr->atExitPtr) {
+	callbackPtr = iPtr->atExitPtr;
+	while (callbackPtr->nextPtr) {
+	    callbackPtr = callbackPtr->nextPtr;
+	}
+	callbackPtr->nextPtr = rootPtr;
+	TOP_CB(iPtr) = iPtr->atExitPtr;
+	iPtr->atExitPtr = NULL;
+	goto restart;
     }
     return result;
 }

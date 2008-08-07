@@ -1964,6 +1964,11 @@ typedef struct Interp {
 				 * tclOOInt.h and tclOO.c for real definition
 				 * and setup. */
 
+    struct TEOV_callback *atExitPtr;
+                                /* Callbacks to be run after a command exited;
+				 * this is only set for atProcExirt or
+				 * tailcalls that fall back out of tebc. */
+    
 #ifdef TCL_COMPILE_STATS
     /*
      * Statistical information about the bytecode compiler and interpreter's
