@@ -7821,21 +7821,18 @@ TclExecuteByteCode(
 
 
     if (atExitPtr) {
-	/*
-	 * Find the last one
-	 */
-	
-	TEOV_callback *lastPtr = atExitPtr;
-	while (lastPtr->nextPtr) {
-	    lastPtr = lastPtr->nextPtr;
-	}
-	NRE_ASSERT(lastPtr->nextPtr == NULL);
 	if (!isTailcall) {
 	    /* save the interp state, arrange for restoring it after
 	       running the callbacks. Put the callback at the bottom of the
 	       atExit stack */
 	    
 	    Tcl_InterpState state = Tcl_SaveInterpState(interp, result);
+	    TEOV_callback *lastPtr = atExitPtr;
+
+	    while (lastPtr->nextPtr) {
+		lastPtr = lastPtr->nextPtr;
+	    }
+	    NRE_ASSERT(lastPtr->nextPtr == NULL);
 	    
 	    TclNRAddCallback(interp, NRRestoreInterpState, state, NULL,
 		    NULL, NULL);
