@@ -7272,8 +7272,6 @@ enables deep Tcl evaluation stacks without deep C stacks. (sofer)
 2008-07-29 (bug fix)[2030670] fix rare panic in TclStackFree (pasadyn,sofer)
 
 2008-08-01 Tcl_Finalize() no longer called implicitly on DLL_PROCESS_DETACH.
-Programs that unload the Tcl library need to call Tcl_Finalize() first.
-	*** POTENTIAL INCOMPATIBILITY ***
 
 2008-08-05 (enhancement)[1994512] async connect logic simplified (jenglish)
 
