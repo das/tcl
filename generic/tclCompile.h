@@ -841,6 +841,7 @@ MODULE_SCOPE Tcl_NRPostProc   NRCallTEBC;
 
 #define TCL_NR_BC_TYPE         0
 #define TCL_NR_ATEXIT_TYPE     1
+#define TCL_NR_TAILCALL_TYPE   2
 
 /*
  *----------------------------------------------------------------
