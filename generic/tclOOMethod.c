@@ -820,6 +820,7 @@ PushMethodCallFrame(
     fdPtr->efi.fields[0].proc = NULL;
     fdPtr->efi.fields[0].clientData = fdPtr->nameObj;
     if (pmPtr->gfivProc != NULL) {
+	fdPtr->efi.fields[1].name = "";
 	fdPtr->efi.fields[1].proc = pmPtr->gfivProc;
 	fdPtr->efi.fields[1].clientData = pmPtr;
     } else {
