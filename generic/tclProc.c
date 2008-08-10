@@ -1904,11 +1904,9 @@ TclProcCompileProc(
     const char *procName)	/* Name of this procedure. */
 {
     Interp *iPtr = (Interp *) interp;
-    int i;
     Tcl_CallFrame *framePtr;
     Proc *saveProcPtr;
     ByteCode *codePtr = bodyPtr->internalRep.otherValuePtr;
-    CompiledLocal *localPtr;
 
     /*
      * If necessary, compile the procedure's body. The compiler will allocate
