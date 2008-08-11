@@ -255,6 +255,7 @@ Tcl_ProcObjCmd(
 	    if (contextPtr->line
 		    && (contextPtr->nline >= 4) && (contextPtr->line[3] >= 0)) {
 		int isNew;
+		Tcl_HashEntry* hePtr;
 		CmdFrame *cfPtr = (CmdFrame *) ckalloc(sizeof(CmdFrame));
 
 		cfPtr->level = -1;
@@ -271,8 +272,27 @@ Tcl_ProcObjCmd(
 		cfPtr->cmd.str.cmd = NULL;
 		cfPtr->cmd.str.len = 0;
 
-		Tcl_SetHashValue(Tcl_CreateHashEntry(iPtr->linePBodyPtr,
-			(char *) procPtr, &isNew), cfPtr);
+		hePtr = Tcl_CreateHashEntry(iPtr->linePBodyPtr, (char *) procPtr,
+					    &isNew);
+		if (!isNew) {
+		    /*
+		     * Get the old command frame and release it.  See also
+		     * TclProcCleanupProc in this file. Currently it seems as
+		     * if only the procbodytest::proc command of the testsuite
+		     * is able to trigger this situation.
+		     */
+
+		    CmdFrame* cfOldPtr = (CmdFrame *) Tcl_GetHashValue(hePtr);
+
+		    if (cfOldPtr->type == TCL_LOCATION_SOURCE) {
+			Tcl_DecrRefCount(cfOldPtr->data.eval.path);
+			cfOldPtr->data.eval.path = NULL;
+		    }
+		    ckfree((char *) cfOldPtr->line);
+		    cfOldPtr->line = NULL;
+		    ckfree((char *) cfOldPtr);
+		}
+		Tcl_SetHashValue(hePtr, cfPtr);
 	    }
 
 	    /*
