@@ -10,10 +10,10 @@
 #
 # RCS: @(#) $Id$
 
-package require Tcl 8.4
+package require Tcl 8.5.0
 # Keep this in sync with pkgIndex.tcl and with the install directories
 # in Makefiles
-package provide http 2.7
+package provide http 2.7.1
 
 namespace eval http {
     # Allow resourcing to not clobber existing data
