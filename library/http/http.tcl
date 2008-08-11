@@ -1406,7 +1406,7 @@ proc http::Gunzip {data} {
         incr pos
     }
 
-    binary scan [string range $data end-7 end] ii crc size
+    binary scan [string range $data end-7 end] iuiu crc size
     set inflated [zlib inflate [string range $data $pos end-8]]
 
     if { $crc != [set chk [zlib crc32 $inflated]] } {
