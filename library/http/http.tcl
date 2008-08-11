@@ -1406,10 +1406,10 @@ proc http::Gunzip {data} {
         incr pos
     }
 
-    binary scan [string range $data end-7 end] iuiu crc size
+    binary scan [string range $data end-7 end] ii crc size
     set inflated [zlib inflate [string range $data $pos end-8]]
-
-    if { $crc != [set chk [zlib crc32 $inflated]] } {
+    set chk [zlib crc32 $inflated]
+    if { ($crc & 0xffffffff) != ($chk & 0xffffffff)} {
 	return -code error "invalid data: checksum mismatch $crc != $chk"
     }
     return $inflated
