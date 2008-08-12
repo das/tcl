@@ -1998,6 +1998,30 @@ TclProcCompileProc(
  	saveProcPtr = iPtr->compiledProcPtr;
  	iPtr->compiledProcPtr = procPtr;
 
+	if (procPtr->numCompiledLocals > procPtr->numArgs) {
+	    CompiledLocal *clPtr = procPtr->firstLocalPtr;
+	    CompiledLocal *lastPtr = NULL;
+	    int i, numArgs = procPtr->numArgs;
+
+	    for (i = 0; i < numArgs; i++) {
+		lastPtr = clPtr;
+		clPtr = clPtr->nextPtr;
+	    }
+
+	    if (lastPtr) { 
+		lastPtr->nextPtr = NULL;
+	    } else {
+		procPtr->firstLocalPtr = NULL;
+	    }
+	    procPtr->lastLocalPtr = lastPtr;
+	    while (clPtr) {
+		CompiledLocal *toFree = clPtr;
+		clPtr = clPtr->nextPtr;
+		ckfree((char *) toFree);
+	    }
+	    procPtr->numCompiledLocals = procPtr->numArgs;
+	}
+
  	(void) TclPushStackFrame(interp, &framePtr,
 		(Tcl_Namespace *) nsPtr, /* isProcCallFrame */ 0);
 
