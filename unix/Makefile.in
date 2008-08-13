@@ -139,7 +139,7 @@ NO_DEPRECATED_FLAGS	=
 
 # Some versions of make, like SGI's, use the following variable to determine
 # which shell to use for executing commands:
-SHELL			= /bin/sh
+SHELL			= @MAKEFILE_SHELL@
 
 # Tcl used to let the configure script choose which program to use for
 # installing, but there are just too many different versions of "install"
