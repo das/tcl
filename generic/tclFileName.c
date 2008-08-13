@@ -1774,6 +1774,9 @@ Tcl_GlobObjCmd(dummy, interp, objc, objv)
 	 * on an incompatible platform.
 	 */
 	Tcl_ListObjLength(interp, typePtr, &length);
+	if (length <= 0) {
+	    goto skipTypes;
+	}
 	globTypes = (Tcl_GlobTypeData*) ckalloc(sizeof(Tcl_GlobTypeData));
 	globTypes->type = 0;
 	globTypes->perm = 0;
@@ -1879,6 +1882,7 @@ Tcl_GlobObjCmd(dummy, interp, objc, objv)
 	}
     }
 
+  skipTypes:
     /* 
      * Now we perform the actual glob below.  This may involve joining
      * together the pattern arguments, dealing with particular file types
