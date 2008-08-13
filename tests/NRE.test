@@ -236,6 +236,22 @@ test nre-7.5 {[foreach] is not recursive} -constraints {knownbug} -setup {
     unset abs
 } -result {{0 2 2 0} 0}
 
+test nre-8.1 {nre and {*}} -body {
+    # force an expansion that grows the evaluation stack, check that nre
+    # adapts the bottomPtr. This crashes on failure.
+
+    proc inner {} {
+	set long [lrepeat 1000000 1]
+	list {*}$long
+    }
+    proc outer {} inner
+    lrange [outer] 0 2
+} -cleanup {
+    rename inner {}
+    rename outer {}
+} -result {1 1 1} 
+
+
 #
 #  Basic TclOO tests
 #
