@@ -1236,9 +1236,11 @@ MODULE_SCOPE int	TclWordKnownAtCompileTime(Tcl_Token *tokenPtr,
  * by default due to the significant performance impact).
  */
 
+/*
 #define TCL_DTRACE_DEBUG 1
-//#define TCL_DTRACE_DEBUG_LOG_ENABLED 1
+#define TCL_DTRACE_DEBUG_LOG_ENABLED 1
 #define TCL_DTRACE_DEBUG_INST_PROBES 1
+*/
 
 #if !(defined(TCL_DTRACE_DEBUG) && defined(__GNUC__))
 
