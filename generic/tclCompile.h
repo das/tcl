@@ -1301,9 +1301,9 @@ MODULE_SCOPE void TclDTraceInfo(Tcl_Obj *info, char **args, int *argsi);
 #define TCL_DTRACE_PROC_RESULT_ENABLED()    0
 #define TCL_DTRACE_PROC_ARGS_ENABLED()	    0
 #define TCL_DTRACE_PROC_INFO_ENABLED()	    0
-#define TCL_DTRACE_PROC_ENTRY(a0, a1, a2)   {}
-#define TCL_DTRACE_PROC_RETURN(a0, a1)	    {}
-#define TCL_DTRACE_PROC_RESULT(a0, a1, a2, a3) {}
+#define TCL_DTRACE_PROC_ENTRY(a0, a1, a2)   {if (a0) {}}
+#define TCL_DTRACE_PROC_RETURN(a0, a1)	    {if (a0) {}}
+#define TCL_DTRACE_PROC_RESULT(a0, a1, a2, a3) {if (a0) {}; if (a3) {}}
 #define TCL_DTRACE_PROC_ARGS(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9) {}
 #define TCL_DTRACE_PROC_INFO(a0, a1, a2, a3, a4, a5, a6, a7) {}
 
