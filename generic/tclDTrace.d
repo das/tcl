@@ -63,9 +63,11 @@ provider tcl {
      *		arg3: TIP 280 file			(string)
      *		arg4: TIP 280 line			(int)
      *		arg5: TIP 280 level			(int)
+     *		arg6: TclOO method			(string)
+     *		arg7: TclOO class/object		(string)
      */
     probe proc__info(char* cmd, char* type, char* proc, char* file, int line,
-	    int level);
+	    int level, char* method, char* class);
 
     /***************************** cmd probes ******************************/
     /*
@@ -112,9 +114,11 @@ provider tcl {
      *		arg3: TIP 280 file			(string)
      *		arg4: TIP 280 line			(int)
      *		arg5: TIP 280 level			(int)
+     *		arg6: TclOO method			(string)
+     *		arg7: TclOO class/object		(string)
      */
     probe cmd__info(char* cmd, char* type, char* proc, char* file, int line,
-	    int level);
+	    int level, char* method, char* class);
 
     /***************************** inst probes *****************************/
     /*
