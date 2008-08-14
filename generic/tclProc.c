@@ -1786,14 +1786,6 @@ TclNRInterpProcCore(
 
     procPtr->refCount++;
     codePtr = procPtr->bodyPtr->internalRep.otherValuePtr;
-    if (TCL_DTRACE_PROC_ENTRY_ENABLED()) {
-	int l;
-	
-	l = iPtr->varFramePtr->isProcCallFrame & FRAME_IS_LAMBDA ? 2 : 1;
-	TCL_DTRACE_PROC_ENTRY(TclGetString(procNameObj),
-		iPtr->varFramePtr->objc - l,
-		(Tcl_Obj **)(iPtr->varFramePtr->objv + l));
-    }
 
     TclNRAddCallback(interp, InterpProcNR2, procNameObj, errorProc,
 	    NULL, NULL);
