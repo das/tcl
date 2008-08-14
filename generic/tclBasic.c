@@ -6489,6 +6489,9 @@ DTraceObjCmd(
     }
     return TCL_OK;
 }
+
+TCL_DTRACE_DEBUG_LOG();
+
 #endif /* USE_DTRACE */
 
 /*
