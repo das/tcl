@@ -1337,9 +1337,6 @@ MODULE_SCOPE void TclDTraceInfo(Tcl_Obj *info, char **args, int *argsi);
 #undef TCL_DTRACE_DEBUG_INST_PROBES
 #define TCL_DTRACE_DEBUG_INST_PROBES 0
 #endif
-OG_ENABLED 0
-#endif
-
 
 MODULE_SCOPE int tclDTraceDebugEnabled, tclDTraceDebugIndent;
 MODULE_SCOPE FILE *tclDTraceDebugLog;
