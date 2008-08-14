@@ -107,6 +107,8 @@ static int	DTraceObjCmd(ClientData dummy, Tcl_Interp *interp, int objc,
 		    Tcl_Obj *const objv[]);
 static int	DTraceCmdReturn(ClientData data[], Tcl_Interp *interp,
 		    int result);
+#else
+#define		DTraceCmdReturn NULL
 #endif
 
 MODULE_SCOPE const TclStubs * const tclConstStubsPtr;
