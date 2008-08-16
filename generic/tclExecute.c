@@ -1971,6 +1971,9 @@ TclExecuteByteCode(
 	 * reset, now process the return.
 	 */
 
+	NRE_ASSERT(iPtr->cmdFramePtr == bcFramePtr);
+	iPtr->cmdFramePtr = bcFramePtr->nextPtr;
+	
 	if (result == TCL_OK) {
 	    /*
 	     * Reset the interp's result to avoid possible duplications of
