@@ -1197,11 +1197,7 @@ Tcl_ConcatObj(
 		if (resPtr) {
 		    Tcl_ListObjReplace(NULL, resPtr, INT_MAX, 0, listc, listv);
 		} else {
-		    if (Tcl_IsShared(objPtr)) {
-			resPtr = TclListObjCopy(NULL, objPtr);
-		    } else {
-			resPtr = objPtr;
-		    }
+		    resPtr = TclListObjCopy(NULL, objPtr);
 		}
 	    }
 	}
