@@ -278,13 +278,13 @@ CatchObjCmdCallback(
     int objc = PTR2INT(data[0]);
     Tcl_Obj *varNamePtr = data[1];
     Tcl_Obj *optionVarNamePtr = data[2];
-    
+    int rewind = ((Interp *) interp)->execEnvPtr->rewind;
     
     /*
      * We disable catch in interpreters where the limit has been exceeded.
      */
 
-    if (Tcl_LimitExceeded(interp)) {
+    if (rewind || Tcl_LimitExceeded(interp)) {
 	Tcl_AppendObjToErrorInfo(interp, Tcl_ObjPrintf(
 		"\n    (\"catch\" body line %d)", interp->errorLine));
 	return TCL_ERROR;
