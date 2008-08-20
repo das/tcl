@@ -799,7 +799,7 @@ PushMethodCallFrame(
 	ByteCode *codePtr =
 		pmPtr->procPtr->bodyPtr->internalRep.otherValuePtr;
 
-	codePtr->nsPtr = nsPtr;
+	codePtr->nsPtr = (Namespace *) nsPtr;
     }
     result = TclProcCompileProc(interp, pmPtr->procPtr,
 	    pmPtr->procPtr->bodyPtr, (Namespace *) nsPtr, "body of method",
