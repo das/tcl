@@ -1350,6 +1350,7 @@ TclCompileScript(
 
 		    if ((cmdPtr != NULL)
 			    && (cmdPtr->compileProc != NULL)
+			    && !(cmdPtr->nsPtr->flags&NS_SUPPRESS_COMPILATION)
 			    && !(cmdPtr->flags & CMD_HAS_EXEC_TRACES)
 			    && !(iPtr->flags & DONT_COMPILE_CMDS_INLINE)) {
 			int savedNumCmds = envPtr->numCommands;
@@ -1474,10 +1475,10 @@ TclCompileScript(
 			    tokenPtr[1].start, tokenPtr[1].size);
 
 		    if (eclPtr->type == TCL_LOCATION_SOURCE) {
-			EnterCmdWordIndex (eclPtr,
-					   envPtr->literalArrayPtr[objIndex].objPtr,
-					   envPtr->codeNext - envPtr->codeStart,
-					   wordIdx);
+			EnterCmdWordIndex(eclPtr,
+				envPtr->literalArrayPtr[objIndex].objPtr,
+				envPtr->codeNext - envPtr->codeStart,
+				wordIdx);
 		    }
 		}
 		TclEmitPush(objIndex, envPtr);
