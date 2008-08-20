@@ -1307,6 +1307,7 @@ CompileScriptTokens(interp, tokens, lastTokenPtr, envPtr)
 	    int update = 0, code = TCL_ERROR;
 
 	    if ((cmdPtr != NULL) && (cmdPtr->compileProc != NULL)
+		    && !(cmdPtr->nsPtr->flags & NS_SUPPRESS_COMPILATION)
 		    && !(cmdPtr->flags & CMD_HAS_EXEC_TRACES)
 		    && !(iPtr->flags & DONT_COMPILE_CMDS_INLINE)) {
 		Tcl_Parse *parsePtr = (Tcl_Parse *)

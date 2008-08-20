@@ -455,6 +455,14 @@ AllocObject(
     TclSetNsPath((Namespace *) oPtr->namespacePtr, 1, &fPtr->helpersNs);
 
     /*
+     * Suppress use of compiled versions of the commands in this object's
+     * namespace and its children; causes wrong behaviour without expensive
+     * recompilation. [Bug 2037727]
+     */
+
+    ((Namespace *) oPtr->namespacePtr)->flags |= NS_SUPPRESS_COMPILATION;
+
+    /*
      * Fill in the rest of the non-zero/NULL parts of the structure.
      */
 

@@ -2370,7 +2370,7 @@ TclExecuteByteCode(
 	    goto instStartCmdOK;
 	} else {
 	    const char *bytes;
-	    int length, opnd;
+	    int length = 0, opnd;
 	    Tcl_Obj *newObjResultPtr;
 
 	    bytes = GetSrcInfoForPc(pc, codePtr, &length);
