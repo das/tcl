@@ -1045,14 +1045,26 @@ InfoFrameCmd(
     Interp *iPtr = (Interp *) interp;
     int level;
     CmdFrame *framePtr;
+    int absoluteLevel = ((iPtr->cmdFramePtr == NULL)
+	    ? 0
+	    : iPtr->cmdFramePtr->level);
 
+    if (iPtr->execEnvPtr->corPtr) {
+	/*
+	 * We are running within a coroutine, the levels are relative to the
+	 * coroutine's initial frame: do the correction here.
+	 */
+
+	absoluteLevel += iPtr->execEnvPtr->corPtr->levelOffset;
+    }
+    
     if (objc == 1) {
 	/*
 	 * Just "info frame".
 	 */
 
 	int levels =
-		(iPtr->cmdFramePtr == NULL ? 0 : iPtr->cmdFramePtr->level);
+		(iPtr->cmdFramePtr == NULL ? 0 : absoluteLevel);
 
 	Tcl_SetObjResult(interp, Tcl_NewIntObj (levels));
 	return TCL_OK;
@@ -1090,7 +1102,16 @@ InfoFrameCmd(
 
     for (framePtr = iPtr->cmdFramePtr; framePtr != NULL;
 	    framePtr = framePtr->nextPtr) {
-	if (framePtr->level == level) {
+	absoluteLevel = framePtr->level;
+	if (iPtr->execEnvPtr->corPtr) {
+	    /*
+	     * We are running within a coroutine, the levels are relative to
+	     * the coroutine's initial frame: do the correction here.
+	     */
+	    
+	    absoluteLevel += iPtr->execEnvPtr->corPtr->levelOffset;
+	}
+	if (absoluteLevel == level) {
 	    break;
 	}
     }

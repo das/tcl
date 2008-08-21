@@ -8102,10 +8102,12 @@ static void
 DeleteCoroutine(
     ClientData clientData)
 {
-    register CoroutineData *corPtr = clientData;
-
+    CoroutineData *corPtr = (CoroutineData *) clientData;
+    Tcl_Interp *interp = corPtr->eePtr->interp;
+    TEOV_callback *rootPtr = TOP_CB(interp);
+    
     if (COR_IS_SUSPENDED(corPtr)) {
-	RewindCoroutine(corPtr, TCL_OK);
+	(void) TclNRRunCallbacks(interp, RewindCoroutine(corPtr, TCL_OK), rootPtr, 0);
     }
 }
 
@@ -8129,9 +8131,7 @@ PlugCoroutineChains(
     corPtr->base.framePtr->callerVarPtr = corPtr->caller.varFramePtr;
 
     corPtr->base.cmdFramePtr->nextPtr = corPtr->caller.cmdFramePtr;
-    corPtr->base.cmdFramePtr->level = (iPtr->cmdFramePtr == NULL?
-	    1 : iPtr->cmdFramePtr->level + 1);
-    corPtr->base.cmdFramePtr->numLevels = iPtr->numLevels;
+    corPtr->levelOffset = iPtr->cmdFramePtr->level;
 }
 
 static int
@@ -8147,6 +8147,13 @@ NRCoroutineFirstCallback(
 	while (tmpPtr->nextPtr != corPtr->caller.cmdFramePtr) {
 	    tmpPtr = tmpPtr->nextPtr;
 	}
+
+	/*
+	 * Set the base cmdFrame level to zero, it will be computed using the
+	 * offset. 
+	 */
+	
+	tmpPtr->level = 0;
 	corPtr->base.cmdFramePtr = tmpPtr;
     }
 
@@ -8342,6 +8349,13 @@ TclNRCoroutineObjCmd(
     corPtr->eePtr->corPtr = corPtr;
     corPtr->stackLevel = NULL;
 
+    /*
+     * On first run just set a 0 level-offset, the natural numbering is
+     * correct. The offset will be fixed for later runs.
+     */
+    
+    corPtr->levelOffset = 0;
+    
     Tcl_DStringInit(&ds);
     if (nsPtr != iPtr->globalNsPtr) {
 	Tcl_DStringAppend(&ds, nsPtr->fullName, -1);
