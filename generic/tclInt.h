@@ -1347,6 +1347,7 @@ typedef struct CoroutineData {
     CorContext caller;
     CorContext running;
     CorContext base;
+    int levelOffset;
     int *stackLevel;
 } CoroutineData;
 
