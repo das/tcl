@@ -2270,7 +2270,7 @@ TclInvokeStringCommand(
 
     result = (*cmdPtr->proc)(cmdPtr->clientData, interp, objc, argv);
 
-    TclStackFree(interp, argv);
+    TclStackFree(interp, (char **)argv);
     return result;
 }
 
