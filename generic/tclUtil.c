@@ -3278,10 +3278,9 @@ TclReToGlob(
      */
 
     if ((reStrLen >= 4) && (memcmp("***=", reStr, 4) == 0)) {
-	if (exactPtr) {
-	    *exactPtr = 1;
-	}
+	Tcl_DStringAppend(dsPtr, "*", 1);
 	Tcl_DStringAppend(dsPtr, reStr + 4, reStrLen - 4);
+	Tcl_DStringAppend(dsPtr, "*", 1);
 	return TCL_OK;
     }
 
