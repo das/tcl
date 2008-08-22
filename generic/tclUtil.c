@@ -3301,6 +3301,9 @@ TclReToGlob(
 	}
 	*dsStr++ = '*';
 	Tcl_DStringSetLength(dsPtr, dsStr - dsStrStart);
+	if (exactPtr) {
+	    *exactPtr = 0;
+	}
 	return TCL_OK;
     }
 
