@@ -261,9 +261,7 @@ extern "C" {
 #   endif
 #endif
 
-#ifdef USE_COMPAT85_CONST
-#      define CONST86
-#else
+#ifndef CONST86
 #      define CONST86 CONST
 #endif
 
