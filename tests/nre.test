@@ -223,7 +223,7 @@ test nre-7.4 {[for] is not recursive} -setup {
     unset abs
 } -result {{0 2 2 0} 0}
 
-test nre-7.5 {[foreach] is not recursive} -constraints {knownbug} -setup {
+test nre-7.5 {[foreach] is not recursive} -constraints {knownBug} -setup {
     #
     # Enable once [foreach] is NR-enabled
     #
