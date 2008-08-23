@@ -8305,6 +8305,7 @@ NRInterpCoroutine(
 	Tcl_ResetResult(interp);
 	Tcl_AppendResult(interp, "coroutine \"", Tcl_GetString(objv[0]),
 		"\" is already running", NULL);
+	Tcl_SetErrorCode(interp, "COROUTINE_BUSY", NULL);
 	return TCL_ERROR;
     }
 
