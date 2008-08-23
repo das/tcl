@@ -8159,8 +8159,6 @@ static void
 PlugCoroutineChains(
     CoroutineData *corPtr)
 {
-    Tcl_Interp *interp = corPtr->eePtr->interp;
-
     /*
      * Called to plug the coroutine's running environment into the caller's,
      * so that the frame chains are uninterrupted. Note that the levels and

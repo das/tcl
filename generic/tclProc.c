@@ -1805,7 +1805,7 @@ InterpProcNR2(
     Proc *procPtr = iPtr->varFramePtr->procPtr;
     CallFrame *freePtr;
     Tcl_Obj *procNameObj = data[0];
-    ProcErrorProc errorProc = data[1];
+    ProcErrorProc *errorProc = data[1];
 
     if (TCL_DTRACE_PROC_RETURN_ENABLED()) {
 	int l = iPtr->varFramePtr->isProcCallFrame & FRAME_IS_LAMBDA ? 1 : 0;
