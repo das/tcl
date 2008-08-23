@@ -6009,7 +6009,7 @@ TclMakeEnsemble(
 	TclNewObj(mapDict);
 	for (i=0 ; map[i].name != NULL ; i++) {
 	    Tcl_Obj *fromObj, *toObj;
-	    Command *cmdPtr;
+	    register Command *cmdPtr;
 
 	    fromObj = Tcl_NewStringObj(map[i].name, -1);
 	    TclNewStringObj(toObj, Tcl_DStringValue(&buf),
@@ -6019,6 +6019,7 @@ TclMakeEnsemble(
 	    cmdPtr = (Command *) Tcl_CreateObjCommand(interp,
 		    TclGetString(toObj), map[i].proc, NULL, NULL);
 	    cmdPtr->compileProc = map[i].compileProc;
+	    cmdPtr->nreProc = map[i].nreProc;
 	    compile |= (map[i].compileProc != NULL);
 	}
 	Tcl_SetEnsembleMappingDict(interp, ensemble, mapDict);
