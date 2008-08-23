@@ -1946,6 +1946,7 @@ TclExecuteByteCode(
                if (!corPtr) {
                    Tcl_SetResult(interp,
                            "yield can only be called in a coroutine", TCL_STATIC);
+		   Tcl_SetErrorCode(interp, "COROUTINE_ILLEGAL_YIELD", NULL);		   
                    result = TCL_ERROR;
                    goto checkForCatch;
                }
@@ -1955,6 +1956,7 @@ TclExecuteByteCode(
                if (corPtr->stackLevel != &initLevel) {
                    Tcl_SetResult(interp,
                            "cannot yield: C stack busy", TCL_STATIC);
+		   Tcl_SetErrorCode(interp, "COROUTINE_CANT_YIELD", NULL);		   
                    result = TCL_ERROR;
                    goto checkForCatch;
                }
