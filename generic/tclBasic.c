@@ -8218,7 +8218,6 @@ NRCoroutineExitCallback(
     NRE_ASSERT(TOP_CB(interp) == NULL);
     NRE_ASSERT(iPtr->execEnvPtr == corPtr->eePtr);
     NRE_ASSERT(!COR_IS_SUSPENDED(corPtr));
-    NRE_ASSERT(TOP_CB(interp) == NULL);
     NRE_ASSERT((corPtr->callerEEPtr->callbackPtr->procPtr == NRCoroutineCallerCallback)
 	    || ((corPtr->callerEEPtr->callbackPtr->procPtr == NRCoroutineFirstCallback) &&
 		    (corPtr->callerEEPtr->callbackPtr->nextPtr->procPtr == NRCoroutineCallerCallback)));
@@ -8284,6 +8283,7 @@ NRInterpCoroutine(
     TclNRAddCallback(interp, NRCoroutineCallerCallback, corPtr, NULL, NULL,
 	    NULL);
 
+    corPtr->callerEEPtr = iPtr->execEnvPtr;
     iPtr->execEnvPtr = corPtr->eePtr;
     return TclExecuteByteCode(interp, NULL);
 }
