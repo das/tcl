@@ -746,6 +746,28 @@ test unsupported-C.3.2 {info frame computation} -constraints {coroutine} \
     rename b {}
 } -result 1
 
+test unsupported-C.3.3 {info coroutine} -constraints {coroutine} \
+-setup {
+    proc a {} {infoCoroutine}
+    proc b {} a
+} -body {
+    b
+} -cleanup {
+    rename a {}
+    rename b {}
+} -result {}
+
+test unsupported-C.3.4 {info coroutine} -constraints {coroutine} \
+-setup {
+    proc a {} {infoCoroutine}
+    proc b {} a
+} -body {
+    coroutine foo b
+} -cleanup {
+    rename a {}
+    rename b {}
+} -result ::foo
+
 
 # cleanup
 ::tcltest::cleanupTests

@@ -140,6 +140,9 @@ static Tcl_NRPostProc   NRRunObjProc;
 static Tcl_NRPostProc	AtProcExitCleanup;
 static Tcl_NRPostProc   NRAtProcExitEval;
 
+static int		InfoCoroutineCmd(ClientData dummy, Tcl_Interp *interp, 
+			    int objc, Tcl_Obj *const objv[]);
+
 /*
  * The following structure define the commands in the Tcl core.
  */
@@ -792,6 +795,8 @@ Tcl_CreateInterp(void)
 	    /*objProc*/ NULL, TclNRCoroutineObjCmd, NULL, NULL);
     Tcl_NRCreateCommand(interp, "::tcl::unsupported::yield",
 	    /*objProc*/ NULL, TclNRYieldObjCmd, NULL, NULL);
+    Tcl_NRCreateCommand(interp, "::tcl::unsupported::infoCoroutine",
+	    /*objProc*/ NULL, InfoCoroutineCmd, NULL, NULL);
 
 #ifdef USE_DTRACE
     /*
@@ -8459,6 +8464,32 @@ TclNRCoroutineObjCmd(
     return TclNRRunCallbacks(interp,
 	    TclNREvalObjEx(interp, cmdObjPtr, 0, NULL, 0), rootPtr, 0);
 }
+
+/*
+ * This belongs in the [info] ensemble later on
+ */
+
+static int
+InfoCoroutineCmd(
+    ClientData dummy,
+    Tcl_Interp *interp,
+    int objc,
+    Tcl_Obj *const objv[])
+{
+    CoroutineData *corPtr = ((Interp *)interp)->execEnvPtr->corPtr;
+
+    if (corPtr) {
+	Tcl_Command cmd = (Tcl_Command) corPtr->cmdPtr;
+	Tcl_Obj *namePtr;
+
+	TclNewObj(namePtr);
+	Tcl_GetCommandFullName(interp, cmd, namePtr);
+	Tcl_SetObjResult(interp, namePtr);
+    }
+    return TCL_OK;
+}
+
+
 
 /*
  * Local Variables:
