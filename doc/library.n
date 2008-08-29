@@ -294,6 +294,6 @@ considered to be a word character.  On Windows platforms, words are
 comprised of any character that is not a space, tab, or newline.  Under
 Unix, words are comprised of numbers, letters or underscores.
 .SH "SEE ALSO"
-info(n), re_syntax(n)
+info(n), re_syntax(n), tclvars(n)
 .SH KEYWORDS
 auto-exec, auto-load, library, unknown, word, whitespace 
