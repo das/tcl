@@ -618,7 +618,7 @@ test unsupported-C.1.9 {yield in nested eval} -constraints {coroutine} \
 } -cleanup {
     rename moo {}
     unset body res
-} -returnCodes error -result {cannot yield: C stack busy}
+} -result {0 10 20}
 
 test unsupported-C.1.10 {yield in nested eval} -constraints {coroutine} \
 -setup {
@@ -629,7 +629,7 @@ test unsupported-C.1.10 {yield in nested eval} -constraints {coroutine} \
 	yield
 	
 	while {$i < $imax} {
-	    eval yield
+	    eval yield [expr {$i*$stop}]
 	    incr i
 	}
     }
@@ -642,7 +642,7 @@ test unsupported-C.1.10 {yield in nested eval} -constraints {coroutine} \
     set res
 } -cleanup {
     unset body res
-} -returnCodes error -result {cannot yield: C stack busy}
+} -result {0 10 20}
 
 test unsupported-C.1.11 {yield outside coroutine} -constraints {coroutine} \
 -setup {
