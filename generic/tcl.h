@@ -223,11 +223,23 @@ extern "C" {
 #endif
 
 /*
- * Definitions that allow this header file to be used either with or without
- * ANSI C features like function prototypes.
+ * The following _ANSI_ARGS_ macro is to support old extensions
+ * written for older versions of Tcl where it permitted support
+ * for compilers written in the pre-prototype era of C.
+ *
+ * New code should use prototypes.
  */
 
-#undef _ANSI_ARGS_
+#ifndef TCL_NO_DEPRECATED
+#   undef _ANSI_ARGS_
+#   define _ANSI_ARGS_(x)	x
+#endif
+
+/*
+ * Definitions that allow this header file to be used either with or without
+ * ANSI C features.
+ */
+
 #undef CONST
 #ifndef INLINE
 #   define INLINE
@@ -237,12 +249,6 @@ extern "C" {
 #   define CONST const
 #else
 #   define CONST
-#endif
-
-#ifndef NO_PROTOTYPES
-#   define _ANSI_ARGS_(x)	x
-#else
-#   define _ANSI_ARGS_(x)	()
 #endif
 
 #ifdef USE_NON_CONST
