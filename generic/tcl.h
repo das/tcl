@@ -233,6 +233,8 @@ extern "C" {
 #ifndef TCL_NO_DEPRECATED
 #   undef _ANSI_ARGS_
 #   define _ANSI_ARGS_(x)	x
+#else
+#   define _ANSI_ARGS_(x)	x
 #endif
 
 /*
