@@ -49,14 +49,14 @@ extern "C" {
  * that contains functions to be called to initialize and terminate.
  */
 struct dl_info {
-	void (*init) _ANSI_ARGS_((void));
-	void (*fini) _ANSI_ARGS_((void));
+	void (*init) (void);
+	void (*fini) (void);
 };
 
-VOID *dlopen _ANSI_ARGS_((const char *path, int mode));
-VOID *dlsym _ANSI_ARGS_((void *handle, const char *symbol));
-char *dlerror _ANSI_ARGS_((void));
-int dlclose _ANSI_ARGS_((void *handle));
+VOID *dlopen (const char *path, int mode);
+VOID *dlsym (void *handle, const char *symbol);
+char *dlerror (void);
+int dlclose (void *handle);
 
 #ifdef __cplusplus
 }
