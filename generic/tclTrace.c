@@ -1947,7 +1947,8 @@ TraceVarProc(
     char *result;
     int code, destroy = 0;
     Tcl_DString cmd;
-
+    int rewind = ((Interp *)interp)->execEnvPtr->rewind;
+    
     /*
      * We might call Tcl_Eval() below, and that might evaluate [trace vdelete]
      * which might try to free tvarPtr. We want to use tvarPtr until the end
@@ -2008,8 +2009,20 @@ TraceVarProc(
 		destroy = 1;
 		tvarPtr->flags |= TCL_TRACE_DESTROYED;
 	    }
+
+	    /*
+	     * Make sure that unset traces are rune even if the execEnv is
+	     * rewinding (coroutine deletion, [Bug 2093947]
+	     */
+
+	    if (rewind && (flags & TCL_TRACE_UNSETS)) {
+		((Interp *)interp)->execEnvPtr->rewind = 0;
+	    }
 	    code = Tcl_EvalEx(interp, Tcl_DStringValue(&cmd),
 		    Tcl_DStringLength(&cmd), 0);
+	    if (rewind) {
+		((Interp *)interp)->execEnvPtr->rewind = rewind;
+	    }
 	    if (code != TCL_OK) {		/* copy error msg to result */
 		Tcl_Obj *errMsgObj = Tcl_GetObjResult(interp);
 		Tcl_IncrRefCount(errMsgObj);

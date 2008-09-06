@@ -313,7 +313,8 @@ VarHashCreateVar(
     checkInterp = 1
 
 #define DECACHE_STACK_INFO() \
-    esPtr->tosPtr = tosPtr
+    esPtr->tosPtr = tosPtr;  \
+    iPtr->execEnvPtr->bottomPtr = bottomPtr
 
 /*
  * Macros used to access items on the Tcl evaluation stack. PUSH_OBJECT
