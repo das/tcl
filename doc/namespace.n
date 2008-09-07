@@ -275,7 +275,7 @@ procedure to refer to variables in \fInamespace\fR. The namespace name is
 resolved as described in section \fBNAME RESOLUTION\fR.
 The command
 \fBnamespace upvar $ns a b\fR has the same behaviour as
-\fBupvar 0 $ns::a b\fR, with the sole exception of the resolution rules
+\fBupvar 0 ${ns}::a b\fR, with the sole exception of the resolution rules
 used for qualified namespace or variable names.
 \fBnamespace upvar\fR returns an empty string.
 .TP
