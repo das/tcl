@@ -1631,19 +1631,17 @@ TclCompileTokens(
 
 	    name = tokenPtr[1].start;
 	    nameBytes = tokenPtr[1].size;
-	    localVarName = -1;
-	    if (envPtr->procPtr != NULL) {
-		localVarName = 1;
-		for (i = 0, p = name;  i < nameBytes;  i++, p++) {
-		    if ((*p == ':') && (i < nameBytes-1) && (*(p+1) == ':')) {
-			localVarName = -1;
-			break;
-		    } else if ((*p == '(')
-			    && (tokenPtr->numComponents == 1)
-			    && (*(name + nameBytes - 1) == ')')) {
-			localVarName = 0;
-			break;
-		    }
+
+	    localVarName = 1;
+	    for (i = 0, p = name;  i < nameBytes;  i++, p++) {
+		if ((*p == ':') && (i < nameBytes-1) && (*(p+1) == ':')) {
+		    localVarName = -1;
+		    break;
+		} else if ((*p == '(')
+			&& (tokenPtr->numComponents == 1)
+			&& (*(name + nameBytes - 1) == ')')) {
+		    localVarName = 0;
+		    break;
 		}
 	    }
 
