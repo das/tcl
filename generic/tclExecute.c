@@ -2700,6 +2700,13 @@ TclExecuteByteCode(
 		    }
 		    objc = listRepPtr->elemCount;
 		    objv = &listRepPtr->elements;
+
+		    /*
+		     * Fix for [Bug 2102930]
+		     */
+		    
+		    iPtr->numLevels++;
+		    Tcl_NRAddCallback(interp, NRCommand, NULL, NULL, NULL, NULL);		    
 		    goto doInvocationFromEval;
 		}
 	    }
