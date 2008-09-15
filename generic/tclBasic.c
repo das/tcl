@@ -134,7 +134,6 @@ static Tcl_NRPostProc	TEOV_Error;
 static Tcl_NRPostProc	TEOEx_ListCallback;
 static Tcl_NRPostProc	TEOEx_ByteCodeCallback;
 
-static Tcl_NRPostProc   NRCommand;
 static Tcl_NRPostProc   NRRunObjProc;
 
 static Tcl_NRPostProc	AtProcExitCleanup;
@@ -4228,7 +4227,7 @@ TclNRRunCallbacks(
     return result;
 }
 
-static int
+int
 NRCommand(
     ClientData data[],
     Tcl_Interp *interp,
