@@ -109,6 +109,7 @@ namespace eval tcl {
 	    }
 	    return $val
 	}
+	namespace export min max
     }
 }
 
