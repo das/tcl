@@ -4032,8 +4032,7 @@ TclNREvalObjv(
 
     TclNRAddCallback(interp, NRCommand, NULL, NULL, NULL, NULL);
     cmdPtrPtr = (Command **) &(TOP_CB(interp)->data[0]);
-    
-    TclResetCancellation(interp, 0);
+
     iPtr->numLevels++;
     result = TclInterpReady(interp);
 
@@ -4411,6 +4410,14 @@ TEOV_Exception(
 	    result = TCL_ERROR;
 	}
     }
+
+    /*
+     * We are returning to level 0, so should process TclResetCancellation. As
+     * numLevels has not *yet* been decreased, do not call it: do the thing
+     * here directly.
+     */
+    
+    iPtr->flags &= (~(CANCELED | TCL_CANCEL_UNWIND));    
     return result;
 }
 
@@ -5885,6 +5892,13 @@ TEOEx_ByteCodeCallback(
 	    script = Tcl_GetStringFromObj(objPtr, &numSrcBytes);
 	    Tcl_LogCommandInfo(interp, script, script, numSrcBytes);
 	}
+
+	/*
+	 * We are returning to level 0, so should call TclResetCancellation. 
+	 * Let us just unset the flags inline.
+	 */
+	
+	iPtr->flags &= (~(CANCELED | TCL_CANCEL_UNWIND));
     }
     iPtr->evalFlags = 0;
 
