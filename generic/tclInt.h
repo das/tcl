@@ -4045,10 +4045,8 @@ MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int *bignum,
  * http://www.pixelbeat.org/programming/gcc/static_assert.html
  */
 
-#define TCL_ASSERT_CONCAT_(a, b) a##b
-#define TCL_ASSERT_CONCAT(a, b) TCL_ASSERT_CONCAT_(a, b)
 #define TCL_CT_ASSERT(e) \
-    {enum { TCL_ASSERT_CONCAT(tclCtAssert_, __LINE__) = 1/(!!(e)) };}
+    {enum { ct_assert_value = 1/(!!(e)) };}
 
 /*
  *----------------------------------------------------------------
