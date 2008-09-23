@@ -1,4 +1,4 @@
-.\" -*- nroff -*-
+.\"
 .\" Copyright (c) 2006-2007 Donal K. Fellows.
 .\"
 .\" See the file "license.terms" for information on usage and redistribution
@@ -298,3 +298,6 @@ set sorted [\fB<=\fR {*}$list]
 expr(n), mathfunc(n), namespace(n)
 .SH KEYWORDS
 command, expression, operator
+'\" Local Variables:
+'\" mode: nroff
+'\" End:
