@@ -2146,6 +2146,47 @@ declare 588 generic {
 	                     Tcl_Obj *CONST objv[])
 }
 
+# Tcl_StatBuf reader functions. [TIP #316]
+declare 589 generic {
+    unsigned Tcl_GetFSDeviceFromStat(const Tcl_StatBuf *statPtr)
+}
+declare 590 generic {
+    unsigned Tcl_GetFSInodeFromStat(const Tcl_StatBuf *statPtr)
+}
+declare 591 generic {
+    unsigned Tcl_GetModeFromStat(const Tcl_StatBuf *statPtr)
+}
+declare 592 generic {
+    int Tcl_GetLinkCountFromStat(const Tcl_StatBuf *statPtr)
+}
+declare 593 generic {
+    int Tcl_GetUserIdFromStat(const Tcl_StatBuf *statPtr)
+}
+declare 594 generic {
+    int Tcl_GetGroupIdFromStat(const Tcl_StatBuf *statPtr)
+}
+declare 595 generic {
+    int Tcl_GetDeviceTypeFromStat(const Tcl_StatBuf *statPtr)
+}
+declare 596 generic {
+    Tcl_WideInt Tcl_GetAccessTimeFromStat(const Tcl_StatBuf *statPtr)
+}
+declare 597 generic {
+    Tcl_WideInt Tcl_GetModificationTimeFromStat(const Tcl_StatBuf *statPtr)
+}
+declare 598 generic {
+    Tcl_WideInt Tcl_GetChangeTimeFromStat(const Tcl_StatBuf *statPtr)
+}
+declare 599 generic {
+    Tcl_WideUInt Tcl_GetSizeFromStat(const Tcl_StatBuf *statPtr)
+}
+declare 600 generic {
+    Tcl_WideUInt Tcl_GetBlocksFromStat(const Tcl_StatBuf *statPtr)
+}
+declare 601 generic {
+    unsigned Tcl_GetBlockSizeFromStat(const Tcl_StatBuf *statPtr)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are

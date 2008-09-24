@@ -1114,6 +1114,19 @@ static const TclStubs tclStubs = {
     Tcl_NRCmdSwap, /* 586 */
     Tcl_NRAddCallback, /* 587 */
     Tcl_NRCallObjProc, /* 588 */
+    Tcl_GetFSDeviceFromStat, /* 589 */
+    Tcl_GetFSInodeFromStat, /* 590 */
+    Tcl_GetModeFromStat, /* 591 */
+    Tcl_GetLinkCountFromStat, /* 592 */
+    Tcl_GetUserIdFromStat, /* 593 */
+    Tcl_GetGroupIdFromStat, /* 594 */
+    Tcl_GetDeviceTypeFromStat, /* 595 */
+    Tcl_GetAccessTimeFromStat, /* 596 */
+    Tcl_GetModificationTimeFromStat, /* 597 */
+    Tcl_GetChangeTimeFromStat, /* 598 */
+    Tcl_GetSizeFromStat, /* 599 */
+    Tcl_GetBlocksFromStat, /* 600 */
+    Tcl_GetBlockSizeFromStat, /* 601 */
 };
 
 /* !END!: Do not edit above this line. */
