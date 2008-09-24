@@ -1093,6 +1093,10 @@ test cmdAH-23.10 {Tcl_FileObjCmd: mkdir} -setup {
     file delete -force $dirA
     file delete -force $dirB
 } -result {1 1}
+test cmdAH-23.11 {Tcl_FileObjCmd: mkdir} {
+    # Allow zero arguments (TIP 323)
+    file mkdir
+} {}
 
 # mtime
 
