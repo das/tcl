@@ -18,12 +18,6 @@
 #include "tclOOInt.h"
 #include "tclCompile.h"
 
-#if 0
-#define DBPRINT(format, ...) (fprintf(stderr, "DEBUG:" format "\n", __VA_ARGS__))
-#else
-#define DBPRINT(format, ...) ((void) 0)
-#endif
-
 /*
  * Structure used to help delay computing names of objects or classes for
  * [info frame] until needed, making invokation faster in the normal case.
