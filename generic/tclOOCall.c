@@ -837,8 +837,6 @@ InitCallChain(
     if (oPtr->flags & USE_CLASS_CACHE) {
 	oPtr = oPtr->selfCls->thisPtr;
 	callPtr->flags |= USE_CLASS_CACHE;
-    } else {
-	callPtr->flags &= ~USE_CLASS_CACHE;
     }
     callPtr->epoch = oPtr->fPtr->epoch;
     callPtr->objectCreationEpoch = oPtr->creationEpoch;
