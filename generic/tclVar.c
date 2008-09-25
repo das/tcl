@@ -3833,11 +3833,6 @@ Tcl_GlobalObjCmd(
     register char *tail;
     int result, i;
 
-    if (objc < 2) {
-	Tcl_WrongNumArgs(interp, 1, objv, "varName ?varName ...?");
-	return TCL_ERROR;
-    }
-
     /*
      * If we are not executing inside a Tcl procedure, just return.
      */
