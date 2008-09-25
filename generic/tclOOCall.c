@@ -832,14 +832,17 @@ InitCallChain(
     Object *oPtr,
     int flags)
 {
+    callPtr->flags = flags &
+	    (PUBLIC_METHOD | PRIVATE_METHOD | SPECIAL | FILTER_HANDLING);
     if (oPtr->flags & USE_CLASS_CACHE) {
 	oPtr = oPtr->selfCls->thisPtr;
+	callPtr->flags |= USE_CLASS_CACHE;
+    } else {
+	callPtr->flags &= ~USE_CLASS_CACHE;
     }
     callPtr->epoch = oPtr->fPtr->epoch;
     callPtr->objectCreationEpoch = oPtr->creationEpoch;
     callPtr->objectEpoch = oPtr->epoch;
-    callPtr->flags = flags &
-	    (PUBLIC_METHOD | PRIVATE_METHOD | SPECIAL | FILTER_HANDLING);
     callPtr->refCount = 1;
     callPtr->numChain = 0;
     callPtr->chain = callPtr->staticChain;
@@ -869,12 +872,8 @@ IsStillValid(
     int mask)
 {
     if ((oPtr->flags & USE_CLASS_CACHE)) {
-	register Object *coPtr = oPtr->selfCls->thisPtr;
-
-	return ((callPtr->objectCreationEpoch == coPtr->creationEpoch)
-		&& (callPtr->epoch == coPtr->fPtr->epoch)
-		&& (callPtr->objectEpoch == coPtr->epoch)
-		&& ((callPtr->flags & mask) == (flags & mask)));
+	oPtr = oPtr->selfCls->thisPtr;
+	flags |= USE_CLASS_CACHE;
     }
     return ((callPtr->objectCreationEpoch == oPtr->creationEpoch)
 	    && (callPtr->epoch == oPtr->fPtr->epoch)
