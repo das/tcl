@@ -3938,11 +3938,6 @@ Tcl_VariableObjCmd(
     int i, result;
     Tcl_Obj *varNamePtr, *tailPtr;
 
-    if (objc < 2) {
-	Tcl_WrongNumArgs(interp, 1, objv, "?name value ...? name ?value?");
-	return TCL_ERROR;
-    }
-
     for (i=1 ; i<objc ; i+=2) {
 	/*
 	 * Look up each variable in the current namespace context, creating it
