@@ -351,12 +351,6 @@ TclFileDeleteCmd(
 	return TCL_ERROR;
     }
     i += 2;
-    if ((objc - i) < 1) {
-	Tcl_AppendResult(interp, "wrong # args: should be \"",
-		TclGetString(objv[0]), " ", TclGetString(objv[1]),
-		" ?-option value ...? file ?file ...?\"", NULL);
-	return TCL_ERROR;
-    }
 
     errfile = NULL;
     result = TCL_OK;
