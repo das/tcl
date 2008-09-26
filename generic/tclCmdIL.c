@@ -2060,8 +2060,8 @@ Tcl_LassignObjCmd(
     int listObjc;		/* The length of the list. */
     int code = TCL_OK;
 
-    if (objc < 3) {
-	Tcl_WrongNumArgs(interp, 1, objv, "list varName ?varName ...?");
+    if (objc < 2) {
+	Tcl_WrongNumArgs(interp, 1, objv, "list ?varName ...?");
 	return TCL_ERROR;
     }
 
