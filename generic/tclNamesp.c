@@ -4495,9 +4495,9 @@ NamespaceUpvarCmd(
     Var *otherPtr, *arrayPtr;
     char *myName;
 
-    if (objc < 5 || !(objc & 1)) {
+    if (objc < 3 || !(objc & 1)) {
 	Tcl_WrongNumArgs(interp, 2, objv,
-		"ns otherVar myVar ?otherVar myVar ...?");
+		"ns ?otherVar myVar ...?");
 	return TCL_ERROR;
     }
 

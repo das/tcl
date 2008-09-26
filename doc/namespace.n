@@ -278,9 +278,9 @@ This command is the complement of the \fBnamespace qualifiers\fR command.
 It does not check whether the namespace names are, in fact,
 the names of currently defined namespaces.
 .TP
-\fBnamespace upvar\fR \fInamespace\fR \fIotherVar myVar \fR?\fIotherVar myVar \fR...
+\fBnamespace upvar\fR \fInamespace\fR ?\fIotherVar myVar \fR...
 .
-This command arranges for one or more local variables in the current
+This command arranges for zero or more local variables in the current
 procedure to refer to variables in \fInamespace\fR. The namespace name is
 resolved as described in section \fBNAME RESOLUTION\fR.
 The command
