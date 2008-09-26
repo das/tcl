@@ -467,9 +467,9 @@ TclOO_Object_LinkVar(
     Namespace *savedNsPtr;
     int i;
 
-    if (objc-Tcl_ObjectContextSkippedArgs(context) < 1) {
+    if (objc-Tcl_ObjectContextSkippedArgs(context) < 0) {
 	Tcl_WrongNumArgs(interp, Tcl_ObjectContextSkippedArgs(context), objv,
-		"varName ?varName ...?");
+		"?varName ...?");
 	return TCL_ERROR;
     }
 

@@ -63,7 +63,7 @@ by the \fBoo::object\fR class) generates a suitable error, detailing what
 methods the object supports given whether the object was invoked by its public
 name or through the \fBmy\fR command.
 .TP
-\fIobj \fBvariable \fIvarName \fR?\fIvarName ...\fR?
+\fIobj \fBvariable \fR?\fIvarName ...\fR?
 .
 This method arranges for each variable called \fIvarName\fR to be linked from
 the object \fIobj\fR's unique namespace into the caller's context. Thus, if it
