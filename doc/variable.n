@@ -14,7 +14,9 @@
 .SH NAME
 variable \- create and initialize a namespace variable
 .SH SYNOPSIS
-\fBvariable \fR?\fIname value...\fR? \fIname \fR?\fIvalue\fR?
+\fBvariable \fIname
+.sp
+\fBvariable \fR?\fIname value...\fR?
 .BE
 
 .SH DESCRIPTION
