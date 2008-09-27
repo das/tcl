@@ -2479,7 +2479,8 @@ Tcl_LrepeatObjCmd(
      */
 
     totalElems = objc * elementCount;
-    if (totalElems/objc != elementCount || totalElems/elementCount != objc) {
+    if (totalElems != 0 && (totalElems/objc != elementCount
+	    || totalElems/elementCount != objc)) {
 	Tcl_AppendResult(interp, "too many elements in result list", NULL);
 	return TCL_ERROR;
     }
