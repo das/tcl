@@ -527,6 +527,8 @@ TclUnixCopyFile(
 #define BINMODE
 #endif
 
+#define DEFAULT_COPY_BLOCK_SIZE 4069
+
     if ((srcFd = TclOSopen(src, O_RDONLY BINMODE, 0)) < 0) { /* INTL: Native */
 	return TCL_ERROR;
     }
@@ -553,11 +555,11 @@ TclUnixCopyFile(
 	if (fstatfs(srcFd, &fs, sizeof(fs), 0) == 0) {
 	    blockSize = fs.f_bsize;
 	} else {
-	    blockSize = 4096;
+	    blockSize = DEFAULT_COPY_BLOCK_SIZE;
 	}
     }
 #else
-    blockSize = 4096;
+    blockSize = DEFAULT_COPY_BLOCK_SIZE;
 #endif /* HAVE_ST_BLKSIZE */
 
     /*
@@ -568,7 +570,7 @@ TclUnixCopyFile(
      */
 
     if (blockSize <= 0) {
-	blockSize = 4096;
+	blockSize = DEFAULT_COPY_BLOCK_SIZE;
     }
     buffer = ckalloc(blockSize);
     while (1) {
