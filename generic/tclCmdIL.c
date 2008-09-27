@@ -2455,7 +2455,7 @@ Tcl_LrepeatObjCmd(
      * init value elementCount times.
      */
 
-    listPtr = Tcl_NewListObj(elementCount*objc, NULL);
+    listPtr = Tcl_NewListObj(totalElems, NULL);
     listRepPtr = (List *) listPtr->internalRep.twoPtrValue.ptr1;
     listRepPtr->elemCount = elementCount*objc;
     dataArray = &listRepPtr->elements;
