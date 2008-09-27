@@ -2443,7 +2443,7 @@ Tcl_LrepeatObjCmd(
     register Tcl_Obj *const objv[])
 				/* The argument objects. */
 {
-    int elementCount, i;
+    int elementCount, i, totalElems;
     Tcl_Obj *listPtr, **dataArray;
     List *listRepPtr;
 
@@ -2473,12 +2473,28 @@ Tcl_LrepeatObjCmd(
     objv += 2;
 
     /*
+     * Final sanity check. Total number of elements must fit in a signed
+     * integer. We also limit the number of elements to 512M-1 so allocations
+     * on 32-bit machines are guaranteed to be less than 2GB! [Bug 2130992]
+     */
+
+    totalElems = objc * elementCount;
+    if (totalElems/objc != elementCount || totalElems/elementCount != objc) {
+	Tcl_AppendResult(interp, "too many elements in result list", NULL);
+	return TCL_ERROR;
+    }
+    if (totalElems >= 0x20000000) {
+	Tcl_AppendResult(interp, "too many elements in result list", NULL);
+	return TCL_ERROR;
+    }
+
+    /*
      * Get an empty list object that is allocated large enough to hold each
      * init value elementCount times.
      */
 
-    listPtr = Tcl_NewListObj(elementCount*objc, NULL);
-    listRepPtr = (List *) listPtr->internalRep.twoPtrValue.ptr1;
+    listPtr = Tcl_NewListObj(totalElems, NULL);
+    listRepPtr = listPtr->internalRep.twoPtrValue.ptr1;
     listRepPtr->elemCount = elementCount*objc;
     dataArray = &listRepPtr->elements;
 
