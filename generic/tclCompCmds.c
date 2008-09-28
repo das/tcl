@@ -6219,6 +6219,20 @@ TclCompileEnsemble(
     }
 
     /*
+     * Also refuse to compile anything that uses a formal parameter list for
+     * now, on the grounds that it is too complex.
+     */
+
+    if (Tcl_GetEnsembleParameterList(NULL, ensemble, &listObj) != TCL_OK
+	    || listObj != NULL) {
+	/*
+	 * Figuring out how to compile this has become too much. Bail out.
+	 */
+
+	return TCL_ERROR;
+    }
+
+    /*
      * Next, get the flags. We need them on several code paths.
      */
 
