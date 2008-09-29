@@ -1342,6 +1342,9 @@ typedef struct CoroutineData {
     CorContext running;
     CorContext base;
     int *stackLevel;
+    int auxNumLevels;  /* While the coroutine is running the numLevels of the
+			* create/resume command is stored here; for suspended
+			* coroutines it holds the nesting numLevels at yield*/
 } CoroutineData;
 
 typedef struct ExecEnv {

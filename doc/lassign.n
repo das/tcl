@@ -14,7 +14,7 @@
 .SH NAME
 lassign \- Assign list elements to variables
 .SH SYNOPSIS
-\fBlassign \fIlist varName \fR?\fIvarName ...\fR?
+\fBlassign \fIlist \fR?\fIvarName ...\fR?
 .BE
 
 .SH DESCRIPTION

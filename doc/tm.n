@@ -24,7 +24,7 @@ tm \- Facilities for locating and loading of Tcl Modules
 This document describes the facilities for locating and loading Tcl
 Modules. The following commands are supported:
 .TP
-\fB::tcl::tm::path\fR \fBadd\fR \fIpath\fR...
+\fB::tcl::tm::path\fR \fBadd \fR?\fIpath\fR...?
 .
 The paths are added at the head to the list of module paths, in order
 of appearance. This means that the last argument ends up as the new
@@ -46,7 +46,7 @@ reverse order of addition. In other words, the paths added last are
 looked at first.
 .RE
 .TP
-\fB::tcl::tm::path\fR \fBremove\fR \fIpath\fR...
+\fB::tcl::tm::path\fR \fBremove \fR?\fIpath\fR...?
 .
 Removes the paths from the list of module paths. The command silently
 ignores all paths which are not on the list.

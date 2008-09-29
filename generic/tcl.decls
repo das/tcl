@@ -2187,6 +2187,17 @@ declare 601 generic {
     unsigned Tcl_GetBlockSizeFromStat(const Tcl_StatBuf *statPtr)
 }
 
+# TIP#314 (ensembles with parameters)
+declare 602 generic {
+    int Tcl_SetEnsembleParameterList(Tcl_Interp *interp, Tcl_Command token,
+	    Tcl_Obj *paramList)
+}
+declare 603 generic {
+    int Tcl_GetEnsembleParameterList(Tcl_Interp *interp, Tcl_Command token,
+	    Tcl_Obj **paramListPtr)
+}
+
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are

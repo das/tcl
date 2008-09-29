@@ -1542,6 +1542,16 @@ test oo-20.11 {OO: variable mustn't crash when recursing} -body {
 } -cleanup {
     catch {A destroy}
 } -match glob -result *
+test oo-20.12 {OO: variable method accept zero args (TIP 323)} -setup {
+    oo::object create foo
+} -cleanup {
+    foo destroy
+} -body {
+    oo::objdefine foo method demo {} {
+	my variable
+    }
+    foo demo
+} -result {}
 
 test oo-21.1 {OO: inheritance ordering} -setup {
     oo::class create A
