@@ -1309,10 +1309,6 @@ Tcl_GlobObjCmd(
     }
 
   endOfForLoop:
-    if (objc - i < 1) {
-	Tcl_WrongNumArgs(interp, 1, objv, "?-switch ...? name ?name ...?");
-	return TCL_ERROR;
-    }
     if ((globFlags & TCL_GLOBMODE_TAILS) && (pathOrDir == NULL)) {
 	Tcl_AppendResult(interp,
 		"\"-tails\" must be used with either "

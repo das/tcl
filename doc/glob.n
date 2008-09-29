@@ -14,7 +14,7 @@
 .SH NAME
 glob \- Return names of files that match patterns
 .SH SYNOPSIS
-\fBglob \fR?\fIswitches\fR? \fIpattern \fR?\fIpattern ...\fR?
+\fBglob \fR?\fIswitches\fR? ?\fIpattern ...\fR?
 .BE
 
 .SH DESCRIPTION
