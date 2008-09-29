@@ -2189,8 +2189,8 @@ Tcl_LinsertObjCmd(
     Tcl_Obj *listPtr;
     int index, len, result;
 
-    if (objc < 4) {
-	Tcl_WrongNumArgs(interp, 1, objv, "list index element ?element ...?");
+    if (objc < 3) {
+	Tcl_WrongNumArgs(interp, 1, objv, "list index ?element ...?");
 	return TCL_ERROR;
     }
 
