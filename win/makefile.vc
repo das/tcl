@@ -761,12 +761,11 @@ install-docs:
 !if exist($(CHMFILE))
 	@echo Installing compiled html help
 	@$(CPY) "$(CHMFILE)" "$(DOC_INSTALL_DIR)\"
-!else
+!endif
 !if exist($(HELPFILE))
 	@echo Installing Windows help
 	@$(CPY) "$(HELPFILE)" "$(DOC_INSTALL_DIR)\"
 	@$(CPY) "$(HELPCNT)" "$(DOC_INSTALL_DIR)\"
-!endif
 !endif
 
 #"
