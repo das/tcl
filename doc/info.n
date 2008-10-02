@@ -458,7 +458,7 @@ inheritance precedence order.
 \fBinfo class variables\fI class\fR
 .VS 8.6
 This subcommand returns a list of all variables that have been declared for
-the class named \Iclass\fR (i.e. that are automatically present in the
+the class named \fIclass\fR (i.e. that are automatically present in the
 class's methods, constructor and destructor).
 .SS "OBJECT INTROSPECTION"
 .PP

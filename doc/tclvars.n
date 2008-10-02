@@ -305,7 +305,7 @@ On UNIX machines, this is the value returned by \fBuname -r\fR.  On
 Windows 95, the version will be 4.0; on Windows 98, the version will
 be 4.10.
 .TP
-\fBpathSeparator
+\fBpathSeparator\fR
 .VS 8.6
 '\" Defined by TIP #315
 The character that should be used to \fBsplit\fR PATH-like environment

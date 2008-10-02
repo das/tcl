@@ -96,7 +96,7 @@ main(
     char **argv)		/* Values of command-line arguments. */
 {
     FILE *f;
-#define MAX_LINE_SIZE 1000
+#define MAX_LINE_SIZE 4000
     char line[MAX_LINE_SIZE];
     char *p;
 
