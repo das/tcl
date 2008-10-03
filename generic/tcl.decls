@@ -2197,6 +2197,11 @@ declare 603 generic {
 	    Tcl_Obj **paramListPtr)
 }
 
+# TIP#265 (option parser)
+declare 604 generic {
+    int Tcl_ParseArgsObjv(Tcl_Interp *interp, const Tcl_ArgvInfo *argTable,
+	    int *objcPtr, Tcl_Obj *const *objv, Tcl_Obj ***remObjv)
+}
 
 ##############################################################################
 
