@@ -1129,6 +1129,7 @@ static const TclStubs tclStubs = {
     Tcl_GetBlockSizeFromStat, /* 601 */
     Tcl_SetEnsembleParameterList, /* 602 */
     Tcl_GetEnsembleParameterList, /* 603 */
+    Tcl_ParseArgsObjv, /* 604 */
 };
 
 /* !END!: Do not edit above this line. */
