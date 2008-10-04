@@ -155,7 +155,7 @@ declare 35 generic {
 }
 declare 36 generic {
     int Tcl_GetIndexFromObj(Tcl_Interp *interp, Tcl_Obj *objPtr,
-	    CONST84 char **tablePtr, CONST char *msg, int flags, int *indexPtr)
+	    CONST84 char *CONST *tablePtr, CONST char *msg, int flags, int *indexPtr)
 }
 declare 37 generic {
     int Tcl_GetInt(Tcl_Interp *interp, CONST char *src, int *intPtr)

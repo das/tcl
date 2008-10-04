@@ -266,7 +266,8 @@ EXTERN int		Tcl_GetDoubleFromObj (Tcl_Interp * interp,
 #define Tcl_GetIndexFromObj_TCL_DECLARED
 /* 36 */
 EXTERN int		Tcl_GetIndexFromObj (Tcl_Interp * interp, 
-				Tcl_Obj * objPtr, CONST84 char ** tablePtr, 
+				Tcl_Obj * objPtr, 
+				CONST84 char *CONST * tablePtr, 
 				CONST char * msg, int flags, int * indexPtr);
 #endif
 #ifndef Tcl_GetInt_TCL_DECLARED
@@ -3719,7 +3720,7 @@ typedef struct TclStubs {
     unsigned char * (*tcl_GetByteArrayFromObj) (Tcl_Obj * objPtr, int * lengthPtr); /* 33 */
     int (*tcl_GetDouble) (Tcl_Interp * interp, CONST char * src, double * doublePtr); /* 34 */
     int (*tcl_GetDoubleFromObj) (Tcl_Interp * interp, Tcl_Obj * objPtr, double * doublePtr); /* 35 */
-    int (*tcl_GetIndexFromObj) (Tcl_Interp * interp, Tcl_Obj * objPtr, CONST84 char ** tablePtr, CONST char * msg, int flags, int * indexPtr); /* 36 */
+    int (*tcl_GetIndexFromObj) (Tcl_Interp * interp, Tcl_Obj * objPtr, CONST84 char *CONST * tablePtr, CONST char * msg, int flags, int * indexPtr); /* 36 */
     int (*tcl_GetInt) (Tcl_Interp * interp, CONST char * src, int * intPtr); /* 37 */
     int (*tcl_GetIntFromObj) (Tcl_Interp * interp, Tcl_Obj * objPtr, int * intPtr); /* 38 */
     int (*tcl_GetLongFromObj) (Tcl_Interp * interp, Tcl_Obj * objPtr, long * longPtr); /* 39 */
