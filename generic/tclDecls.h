@@ -3063,7 +3063,7 @@ EXTERN Tcl_Obj *	Tcl_DbNewDictObj (CONST char * file, int line);
 /* 505 */
 EXTERN void		Tcl_RegisterConfig (Tcl_Interp* interp, 
 				CONST char* pkgName, 
-				Tcl_Config* configuration, 
+				CONST Tcl_Config* configuration, 
 				CONST char* valEncoding);
 #endif
 #ifndef Tcl_CreateNamespace_TCL_DECLARED
@@ -4221,7 +4221,7 @@ typedef struct TclStubs {
     int (*tcl_DictObjRemoveKeyList) (Tcl_Interp * interp, Tcl_Obj * dictPtr, int keyc, Tcl_Obj *CONST * keyv); /* 502 */
     Tcl_Obj * (*tcl_NewDictObj) (void); /* 503 */
     Tcl_Obj * (*tcl_DbNewDictObj) (CONST char * file, int line); /* 504 */
-    void (*tcl_RegisterConfig) (Tcl_Interp* interp, CONST char* pkgName, Tcl_Config* configuration, CONST char* valEncoding); /* 505 */
+    void (*tcl_RegisterConfig) (Tcl_Interp* interp, CONST char* pkgName, CONST Tcl_Config* configuration, CONST char* valEncoding); /* 505 */
     Tcl_Namespace * (*tcl_CreateNamespace) (Tcl_Interp * interp, CONST char * name, ClientData clientData, Tcl_NamespaceDeleteProc * deleteProc); /* 506 */
     void (*tcl_DeleteNamespace) (Tcl_Namespace * nsPtr); /* 507 */
     int (*tcl_AppendExportList) (Tcl_Interp * interp, Tcl_Namespace * nsPtr, Tcl_Obj * objPtr); /* 508 */

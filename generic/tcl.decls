@@ -1804,7 +1804,7 @@ declare 504 generic {
 # New export due to TIP#59
 declare 505 generic {
     void Tcl_RegisterConfig(Tcl_Interp* interp, CONST char* pkgName,
-	    Tcl_Config* configuration, CONST char* valEncoding)
+	    CONST Tcl_Config* configuration, CONST char* valEncoding)
 }
 
 # Transferred from tclInt.decls due to TIP #139
