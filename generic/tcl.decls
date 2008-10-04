@@ -1503,7 +1503,7 @@ declare 422 generic {
 }
 declare 423 generic {
     void Tcl_InitCustomHashTable(Tcl_HashTable *tablePtr, int keyType,
-	    Tcl_HashKeyType *typePtr)
+	    CONST Tcl_HashKeyType *typePtr)
 }
 declare 424 generic {
     void Tcl_InitObjHashTable(Tcl_HashTable *tablePtr)

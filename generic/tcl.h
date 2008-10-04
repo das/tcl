@@ -1236,7 +1236,7 @@ struct Tcl_HashTable {
     Tcl_HashEntry *(*findProc) (Tcl_HashTable *tablePtr, CONST char *key);
     Tcl_HashEntry *(*createProc) (Tcl_HashTable *tablePtr, CONST char *key,
 	    int *newPtr);
-    Tcl_HashKeyType *typePtr;	/* Type of the keys used in the
+    const Tcl_HashKeyType *typePtr;	/* Type of the keys used in the
 				 * Tcl_HashTable. */
 };
 
