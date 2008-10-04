@@ -1082,8 +1082,8 @@ InfoFrameCmd(
 
     if ((level > topLevel) || (level <= - topLevel)) {
     levelError:
-	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), "bad level \"",
-		TclGetString(objv[1]), "\"", NULL);
+	Tcl_AppendResult(interp, "bad level \"", TclGetString(objv[1]), "\"",
+		NULL);
 	return TCL_ERROR;
     }
     
