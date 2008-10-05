@@ -49,7 +49,7 @@ static void		FsRecacheFilesystemList(void);
  * they are not (and should not be) used anywhere else.
  */
 
-MODULE_SCOPE const char *		tclpFileAttrStrings[];
+MODULE_SCOPE const char *const     	tclpFileAttrStrings[];
 MODULE_SCOPE const TclFileAttrProcs	tclpFileAttrProcs[];
 
 /*
@@ -2133,7 +2133,7 @@ Tcl_FSUtime(
  *----------------------------------------------------------------------
  */
 
-static const char **
+static const char *const *
 NativeFileAttrStrings(
     Tcl_Obj *pathPtr,
     Tcl_Obj **objPtrRef)
@@ -2226,7 +2226,7 @@ NativeFileAttrsSet(
  *----------------------------------------------------------------------
  */
 
-const char **
+const char *const *
 Tcl_FSFileAttrStrings(
     Tcl_Obj *pathPtr,
     Tcl_Obj **objPtrRef)
@@ -2265,7 +2265,7 @@ TclFSFileAttrIndex(
     int *indexPtr)		/* Where to write the found index. */
 {
     Tcl_Obj *listObj = NULL;
-    const char **attrTable;
+    const char *const *attrTable;
 
     /*
      * Get the attribute table for the file.

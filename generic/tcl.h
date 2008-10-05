@@ -268,7 +268,7 @@ extern "C" {
 #endif
 
 #ifndef CONST86
-#      define CONST86 CONST
+#      define CONST86 CONST84
 #endif
 
 /*
@@ -1618,7 +1618,7 @@ typedef int (Tcl_FSNormalizePathProc) (Tcl_Interp *interp, Tcl_Obj *pathPtr,
 	int nextCheckpoint);
 typedef int (Tcl_FSFileAttrsGetProc) (Tcl_Interp *interp, int index,
 	Tcl_Obj *pathPtr, Tcl_Obj **objPtrRef);
-typedef CONST char ** (Tcl_FSFileAttrStringsProc) (Tcl_Obj *pathPtr,
+typedef CONST char *CONST86 * (Tcl_FSFileAttrStringsProc) (Tcl_Obj *pathPtr,
 	Tcl_Obj **objPtrRef);
 typedef int (Tcl_FSFileAttrsSetProc) (Tcl_Interp *interp, int index,
 	Tcl_Obj *pathPtr, Tcl_Obj *objPtr);

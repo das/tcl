@@ -1613,7 +1613,7 @@ declare 452 generic {
 	    int index, Tcl_Obj *pathPtr, Tcl_Obj *objPtr)
 }
 declare 453 generic {
-    CONST char ** Tcl_FSFileAttrStrings(Tcl_Obj *pathPtr, Tcl_Obj **objPtrRef)
+    CONST char *CONST86 * Tcl_FSFileAttrStrings(Tcl_Obj *pathPtr, Tcl_Obj **objPtrRef)
 }
 declare 454 generic {
     int Tcl_FSStat(Tcl_Obj *pathPtr, Tcl_StatBuf *buf)

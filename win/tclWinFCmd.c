@@ -56,7 +56,7 @@ static int attributeArray[] = {FILE_ATTRIBUTE_ARCHIVE, FILE_ATTRIBUTE_HIDDEN,
 	0, FILE_ATTRIBUTE_READONLY, 0, FILE_ATTRIBUTE_SYSTEM};
 
 
-const char *tclpFileAttrStrings[] = {
+const char *const tclpFileAttrStrings[] = {
 	"-archive", "-hidden", "-longname", "-readonly",
 	"-shortname", "-system", (char *) NULL
 };

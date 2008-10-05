@@ -1351,7 +1351,7 @@ not implemented, there is no need to implement the \fBget\fR and \fBset\fR
 methods.
 .PP
 .CS
-typedef const char **\fBTcl_FSFileAttrStringsProc\fR(
+typedef const char *const *\fBTcl_FSFileAttrStringsProc\fR(
         Tcl_Obj *\fIpathPtr\fR,
         Tcl_Obj **\fIobjPtrRef\fR);
 .CE

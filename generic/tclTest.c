@@ -372,7 +372,7 @@ static int		TestReportLoadFile(Tcl_Interp *interp,
 			    Tcl_FSUnloadFileProc **unloadProcPtr);
 static Tcl_Obj *	TestReportLink(Tcl_Obj *path,
 			    Tcl_Obj *to, int linkType);
-static const char **	TestReportFileAttrStrings(
+static const char *const *TestReportFileAttrStrings(
 			    Tcl_Obj *fileName, Tcl_Obj **objPtrRef);
 static int		TestReportFileAttrsGet(Tcl_Interp *interp,
 			    int index, Tcl_Obj *fileName, Tcl_Obj **objPtrRef);
@@ -6173,7 +6173,7 @@ TestReportRemoveDirectory(
 	    errorPtr);
 }
 
-static const char **
+static const char *const *
 TestReportFileAttrStrings(
     Tcl_Obj *fileName,
     Tcl_Obj **objPtrRef)
