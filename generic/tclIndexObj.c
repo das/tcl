@@ -520,13 +520,17 @@ TclInitPrefixCmd(
     Tcl_Interp *interp)		/* Current interpreter. */
 {
     static const EnsembleImplMap prefixImplMap[] = {
-	{"all",		PrefixAllObjCmd,	NULL},
-	{"longest",	PrefixLongestObjCmd,	NULL},
-	{"match",	PrefixMatchObjCmd,	NULL},
+	{"all",		PrefixAllObjCmd},
+	{"longest",	PrefixLongestObjCmd},
+	{"match",	PrefixMatchObjCmd},
 	{NULL}
     };
+    Tcl_Command prefixCmd;
 
-    return TclMakeEnsemble(interp, "tcl::prefix", prefixImplMap);
+    prefixCmd = TclMakeEnsemble(interp, "::tcl::prefix", prefixImplMap);
+    Tcl_Export(interp, Tcl_FindNamespace(interp, "::tcl", NULL, 0),
+	    "prefix", 0);
+    return prefixCmd;
 }
 
 /*----------------------------------------------------------------------
