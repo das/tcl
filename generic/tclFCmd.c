@@ -1110,7 +1110,7 @@ TclFileAttrsCmd(
 	 * Free up the array we allocated.
 	 */
 
-	TclStackFree(interp, attributeStringsAllocated);
+	TclStackFree(interp, (void *)attributeStringsAllocated);
 
 	/*
 	 * We don't need this object that was passed to us any more.
