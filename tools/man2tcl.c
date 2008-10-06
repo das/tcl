@@ -352,6 +352,7 @@ DoText(
 		sscanf(p,"%d",&ch);
 		PRINT(("text \\u%04x\n", ch));
 		while(*p&&*p!='\'') p++;
+		p++;  
 	    } else if (*p != 0) {
 		PRINT(("char {\\%c}\n", *p));
 		p++;
