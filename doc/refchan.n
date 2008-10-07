@@ -10,7 +10,7 @@
 .BS
 .\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-refchan \- Command handler API of reflected channels, version 1
+refchan \- command handler API of reflected channels
 .SH SYNOPSIS
 \fBcmdPrefix \fIoption\fR ?\fIarg arg ...\fR?
 .BE
@@ -273,6 +273,6 @@ sense either. This may be altered in the future (through extending the
 API defined here and changing its version number) should the function
 be used at some time in the future.
 .SH "SEE ALSO"
-chan(n)
+chan(n), transchan(n)
 .SH KEYWORDS
-channel, reflection
+API, channel, ensemble, prefix, reflection
