@@ -8498,10 +8498,13 @@ TclInfoCoroutineCmd(
     if (corPtr) {
 	Tcl_Command cmd = (Tcl_Command) corPtr->cmdPtr;
 	Tcl_Obj *namePtr;
-
-	TclNewObj(namePtr);
-	Tcl_GetCommandFullName(interp, cmd, namePtr);
-	Tcl_SetObjResult(interp, namePtr);
+	int deleted = (((Command *)cmd)->flags & CMD_IS_DELETED);
+	
+	if (!deleted) { 
+	    TclNewObj(namePtr);
+	    Tcl_GetCommandFullName(interp, cmd, namePtr);
+	    Tcl_SetObjResult(interp, namePtr);
+	}
     }
     return TCL_OK;
 }

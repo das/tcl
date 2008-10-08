@@ -739,6 +739,16 @@ test unsupported-C.3.4 {info coroutine} -setup {
     rename b {}
 } -result ::foo
 
+test unsupported-C.3.5 {info coroutine} -setup {
+    proc a {} {info coroutine}
+    proc b {} {rename [info coroutine] {}; a}
+} -body {
+    coroutine foo b
+} -cleanup {
+    rename a {}
+    rename b {}
+} -result {}
+
 
 test unsupported-C.4.1 {bug #2093188} -setup {
     proc foo {} {
