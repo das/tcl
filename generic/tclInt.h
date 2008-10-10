@@ -3453,7 +3453,10 @@ MODULE_SCOPE unsigned	TclHashObjKey(Tcl_HashTable *tablePtr, void *keyPtr);
  */
 
 #ifdef USE_DTRACE
+#ifndef _TCLDTRACE_H
+typedef const char* TclDTraceStr;
 #include "tclDTrace.h"
+#endif
 #define	TCL_DTRACE_OBJ_CREATE(objPtr)	TCL_OBJ_CREATE(objPtr)
 #define	TCL_DTRACE_OBJ_FREE(objPtr)	TCL_OBJ_FREE(objPtr)
 #else /* USE_DTRACE */
