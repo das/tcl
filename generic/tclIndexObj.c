@@ -1186,7 +1186,7 @@ Tcl_ParseArgsObjv(
 	infoPtr = matchPtr;
 	switch (infoPtr->type) {
 	case TCL_ARGV_CONSTANT:
-	    *((int *) infoPtr->dstPtr) = (int) infoPtr->srcPtr;
+	    *((int *) infoPtr->dstPtr) = PTR2INT(infoPtr->srcPtr);
 	    break;
 	case TCL_ARGV_INT:
 	    if (objc == 0) {
