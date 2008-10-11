@@ -2800,7 +2800,7 @@ TclpGetDefaultStdChannel(
     Tcl_Channel channel = NULL;
     int fd = 0;			/* Initializations needed to prevent */
     int mode = 0;		/* compiler warning (used before set). */
-    char *bufMode = NULL;
+    const char *bufMode = NULL;
 
     /*
      * Some #def's to make the code a little clearer!

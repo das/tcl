@@ -116,7 +116,7 @@ typedef int (TraversalProc)(Tcl_DString *srcPtr, Tcl_DString *dstPtr,
  */
 
 extern TclFileAttrProcs tclpFileAttrProcs[];
-extern char *tclpFileAttrStrings[];
+extern const char *const tclpFileAttrStrings[];
 
 #else
 enum {
@@ -131,8 +131,8 @@ enum {
     UNIX_INVALID_ATTRIBUTE /* lint - last enum value needs no trailing , */
 };
 
-MODULE_SCOPE const char *tclpFileAttrStrings[];
-const char *tclpFileAttrStrings[] = {
+MODULE_SCOPE const char *const tclpFileAttrStrings[];
+const char *const tclpFileAttrStrings[] = {
     "-group", "-owner", "-permissions",
 #if defined(HAVE_CHFLAGS) && defined(UF_IMMUTABLE)
     "-readonly",

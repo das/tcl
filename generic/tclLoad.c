@@ -791,7 +791,9 @@ Tcl_UnloadObjCmd(
 
 	    if (unLoadProcPtr != NULL) {
 		Tcl_MutexLock(&packageMutex);
-		unLoadProcPtr(pkgPtr->loadHandle);
+		if (pkgPtr->unloadProc != NULL) {
+		    unLoadProcPtr(pkgPtr->loadHandle);
+		}
 
 		/*
 		 * Remove this library from the loaded library cache.
@@ -1144,7 +1146,7 @@ TclFinalizeLoad(void)
 	 */
 
 	if (pkgPtr->fileName[0] != '\0') {
-	    if (pkgPtr->unLoadProcPtr != NULL) {
+	    if ((pkgPtr->unLoadProcPtr != NULL) && (pkgPtr->unloadProc != NULL)) {
 		pkgPtr->unLoadProcPtr(pkgPtr->loadHandle);
 	    }
 	}

@@ -1305,6 +1305,9 @@ TclOODefineExportObjCmd(
 	if (isNew) {
 	    mPtr = (Method *) ckalloc(sizeof(Method));
 	    memset(mPtr, 0, sizeof(Method));
+	    mPtr->refCount = 1;
+	    mPtr->namePtr = objv[i];
+	    Tcl_IncrRefCount(objv[i]);
 	    Tcl_SetHashValue(hPtr, mPtr);
 	} else {
 	    mPtr = Tcl_GetHashValue(hPtr);
@@ -1768,6 +1771,9 @@ TclOODefineUnexportObjCmd(
 	if (isNew) {
 	    mPtr = (Method *) ckalloc(sizeof(Method));
 	    memset(mPtr, 0, sizeof(Method));
+	    mPtr->refCount = 1;
+	    mPtr->namePtr = objv[i];
+	    Tcl_IncrRefCount(objv[i]);
 	    Tcl_SetHashValue(hPtr, mPtr);
 	} else {
 	    mPtr = Tcl_GetHashValue(hPtr);

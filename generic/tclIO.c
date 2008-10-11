@@ -208,7 +208,7 @@ static int		SetChannelFromAny(Tcl_Interp *interp, Tcl_Obj *objPtr);
 static void		UpdateStringOfChannel(Tcl_Obj *objPtr);
 static void		FreeChannelIntRep(Tcl_Obj *objPtr);
 
-static Tcl_ObjType tclChannelType = {
+static const Tcl_ObjType tclChannelType = {
     "channel",			/* name for this type */
     FreeChannelIntRep,		/* freeIntRepProc */
     DupChannelIntRep,		/* dupIntRepProc */
@@ -1219,7 +1219,7 @@ TclGetChannelFromObj(
 
 Tcl_Channel
 Tcl_CreateChannel(
-    Tcl_ChannelType *typePtr, /* The channel type record. */
+    const Tcl_ChannelType *typePtr, /* The channel type record. */
     const char *chanName,	/* Name of channel to record. */
     ClientData instanceData,	/* Instance specific data. */
     int mask)			/* TCL_READABLE & TCL_WRITABLE to indicate if
@@ -1415,7 +1415,7 @@ Tcl_CreateChannel(
 Tcl_Channel
 Tcl_StackChannel(
     Tcl_Interp *interp,		/* The interpreter we are working in */
-    Tcl_ChannelType *typePtr,	/* The channel type record for the new
+    const Tcl_ChannelType *typePtr,	/* The channel type record for the new
 				 * channel. */
     ClientData instanceData,	/* Instance specific data for the new
 				 * channel. */
@@ -1909,7 +1909,7 @@ Tcl_GetChannelThread(
  *----------------------------------------------------------------------
  */
 
-Tcl_ChannelType *
+const Tcl_ChannelType *
 Tcl_GetChannelType(
     Tcl_Channel chan)		/* The channel to return type for. */
 {

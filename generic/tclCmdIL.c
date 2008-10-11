@@ -160,6 +160,7 @@ static const EnsembleImplMap defaultInfoMap[] = {
     {"cmdcount",	   InfoCmdCountCmd,	    NULL},
     {"commands",	   InfoCommandsCmd,	    NULL},
     {"complete",	   InfoCompleteCmd,	    NULL},
+    {"coroutine",          TclInfoCoroutineCmd,     NULL},
     {"default",		   InfoDefaultCmd,	    NULL},
     {"exists",		   TclInfoExistsCmd,	    TclCompileInfoExistsCmd},
     {"frame",		   InfoFrameCmd,	    NULL},
@@ -1082,8 +1083,8 @@ InfoFrameCmd(
 
     if ((level > topLevel) || (level <= - topLevel)) {
     levelError:
-	Tcl_AppendStringsToObj(Tcl_GetObjResult(interp), "bad level \"",
-		TclGetString(objv[1]), "\"", NULL);
+	Tcl_AppendResult(interp, "bad level \"", TclGetString(objv[1]), "\"",
+		NULL);
 	return TCL_ERROR;
     }
     

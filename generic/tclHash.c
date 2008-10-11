@@ -138,7 +138,7 @@ Tcl_InitHashTable(
      * extended version by a macro.
      */
 
-    Tcl_InitCustomHashTable(tablePtr, keyType, (Tcl_HashKeyType *) -1);
+    Tcl_InitCustomHashTable(tablePtr, keyType, (const Tcl_HashKeyType *) -1);
 }
 
 /*
@@ -169,7 +169,7 @@ Tcl_InitCustomHashTable(
 				 * TCL_STRING_KEYS, TCL_ONE_WORD_KEYS,
 				 * TCL_CUSTOM_TYPE_KEYS, TCL_CUSTOM_PTR_KEYS,
 				 * or an integer >= 2. */
-    Tcl_HashKeyType *typePtr) /* Pointer to structure which defines the
+    const Tcl_HashKeyType *typePtr) /* Pointer to structure which defines the
 				 * behaviour of this table. */
 {
 #if (TCL_SMALL_HASH_TABLE != 4)
