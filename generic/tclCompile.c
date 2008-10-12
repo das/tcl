@@ -3177,7 +3177,7 @@ GetCmdLocEncodingSize(
 	}
 
 	srcDelta = (mapPtr[i].srcOffset - prevSrcOffset);
-	if ((-127 <= srcDelta) && (srcDelta <= 127)) {
+	if ((-127 <= srcDelta) && (srcDelta <= 127) && (srcDelta != -1)) {
 	    srcDeltaNext++;
 	} else {
 	    srcDeltaNext += 5;	 /* 1 byte for 0xFF, 4 for delta */
@@ -3285,7 +3285,7 @@ EncodeCmdLocMap(
     prevOffset = 0;
     for (i = 0;  i < numCmds;  i++) {
 	srcDelta = (mapPtr[i].srcOffset - prevOffset);
-	if ((-127 <= srcDelta) && (srcDelta <= 127)) {
+	if ((-127 <= srcDelta) && (srcDelta <= 127) && (srcDelta != -1)) {
 	    TclStoreInt1AtPtr(srcDelta, p);
 	    p++;
 	} else {
