@@ -886,6 +886,10 @@ InfoClassDestrCmd(
 	return TCL_ERROR;
     }
     clsPtr = GetClassFromObj(interp, objv[1]);
+    if (clsPtr == NULL) {
+	return TCL_ERROR;
+    }
+
     if (clsPtr->destructorPtr == NULL) {
 	return TCL_OK;
     }

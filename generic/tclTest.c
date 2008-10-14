@@ -6550,7 +6550,7 @@ TestNRELevels(
     Interp *iPtr = (Interp *) interp;
     static ptrdiff_t *refDepth = NULL;
     ptrdiff_t depth;
-    Tcl_Obj *levels[5];
+    Tcl_Obj *levels[6];
     int i = 0;
     TEOV_callback *cbPtr = ((Interp *) interp)->execEnvPtr->callbackPtr;
     

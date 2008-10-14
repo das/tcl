@@ -2446,7 +2446,6 @@ Tcl_LrepeatObjCmd(
 {
     int elementCount, i, totalElems;
     Tcl_Obj *listPtr, **dataArray;
-    List *listRepPtr;
 
     /*
      * Check arguments for legality:
@@ -2496,9 +2495,11 @@ Tcl_LrepeatObjCmd(
      */
 
     listPtr = Tcl_NewListObj(totalElems, NULL);
-    listRepPtr = listPtr->internalRep.twoPtrValue.ptr1;
-    listRepPtr->elemCount = elementCount*objc;
-    dataArray = &listRepPtr->elements;
+    if (totalElems) {
+	List *listRepPtr = listPtr->internalRep.twoPtrValue.ptr1;
+	listRepPtr->elemCount = elementCount*objc;
+	dataArray = &listRepPtr->elements;
+    }
 
     /*
      * Set the elements. Note that we handle the common degenerate case of a

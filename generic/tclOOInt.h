@@ -12,8 +12,21 @@
  * RCS: @(#) $Id$
  */
 
+#ifndef TCL_OO_INTERNAL_H
+#define TCL_OO_INTERNAL_H 1
+
 #include <tclInt.h>
 #include "tclOO.h"
+
+/*
+ * Hack to make things work with Objective C. Note that ObjC isn't really
+ * supported, but we don't want to to be actively hostile to it. [Bug 2163447]
+ */
+
+#ifdef __OBJC__
+#define Class	TclOOClass
+#define Object	TclOOObject
+#endif /* __OBJC__ */
 
 /*
  * Forward declarations.
@@ -584,6 +597,8 @@ MODULE_SCOPE void	TclOOSetupVariableResolver(Tcl_Namespace *nsPtr);
 	    ckfree((char *) (ptr));		\
 	}					\
     } while(0)
+
+#endif /* TCL_OO_INTERNAL_H */
 
 /*
  * Local Variables:
