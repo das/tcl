@@ -211,7 +211,7 @@ test unsupported-A9 {atProcExit and uplevel} -constraints {knownBug atProcExit} 
 # Test tailcalls
 #
 
-test unsupported-T.0 {tailcall is constant space} -setup {
+test unsupported-T.0 {tailcall is constant space} -constraints testnrelevels -setup {
     proc a i {
 	if {[incr i] > 10} {
 	    return [depthDiff]
