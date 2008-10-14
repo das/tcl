@@ -1221,7 +1221,7 @@ TclpGetDefaultStdChannel(
     Tcl_Channel channel;
     HANDLE handle;
     int mode = -1;
-    char *bufMode = NULL;
+    const char *bufMode = NULL;
     DWORD handleId = (DWORD)INVALID_HANDLE_VALUE;
 				/* Standard handle to retrieve. */
 
