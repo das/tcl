@@ -789,7 +789,7 @@ test unsupported-C.4.2 {bug #2093188} -setup {
     unset ::res
 } -result {{} 3 {{v {} read} {v {} unset}}}
 
-test unsupported-C.4.2 {bug #2093947} -setup {
+test unsupported-C.4.3 {bug #2093947} -setup {
     proc foo {} {
 	set v 1
 	trace add variable v {write unset} bar
