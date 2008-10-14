@@ -42,7 +42,7 @@ static void		PrintUsage(Tcl_Interp *interp,
  * that can be invoked by generic object code.
  */
 
-static Tcl_ObjType indexType = {
+static const Tcl_ObjType indexType = {
     "index",				/* name */
     FreeIndex,				/* freeIntRepProc */
     DupIndex,				/* dupIntRepProc */
@@ -559,7 +559,7 @@ PrefixMatchObjCmd(
     int flags = 0, result, index;
     int dummyLength, i, errorLength;
     Tcl_Obj *errorPtr = NULL;
-    char *message = "option";
+    const char *message = "option";
     Tcl_Obj *tablePtr, *objPtr, *resultPtr;
     static const char *const matchOptions[] = {
 	"-error", "-exact", "-message", NULL

@@ -83,7 +83,7 @@ Tcl_ObjType tclProcBodyType = {
  * rep; it's just a cache type.
  */
 
-static Tcl_ObjType levelReferenceType = {
+static const Tcl_ObjType levelReferenceType = {
     "levelReference",
     NULL, NULL, NULL, NULL
 };
@@ -97,7 +97,7 @@ static Tcl_ObjType levelReferenceType = {
  * will execute within.
  */
 
-static Tcl_ObjType lambdaType = {
+static const Tcl_ObjType lambdaType = {
     "lambdaExpr",		/* name */
     FreeLambdaInternalRep,	/* freeIntRepProc */
     DupLambdaInternalRep,	/* dupIntRepProc */

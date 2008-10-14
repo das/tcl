@@ -47,7 +47,7 @@ HasStubSupport(
     }
 
     iPtr->result =
-	    "This interpreter does not support stubs-enabled extensions.";
+	    (char *)"This interpreter does not support stubs-enabled extensions.";
     iPtr->freeProc = TCL_STATIC;
     return NULL;
 }
