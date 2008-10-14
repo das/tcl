@@ -627,9 +627,10 @@ reverse (low-to-high) order within each byte. For example,
 .CE
 will return \fB2\fR with \fB706\fR stored in \fIvar1\fR and
 \fB502143\fR stored in \fIvar2\fR.
-.RE
+.PP
 Note that most code that wishes to parse the hexadecimal digits from
 multiple bytes in order should use the \fBH\fR format.
+.RE
 .IP \fBc\fR 5
 The data is turned into \fIcount\fR 8-bit signed integers and stored
 in the corresponding variable as a list. If \fIcount\fR is \fB*\fR,
