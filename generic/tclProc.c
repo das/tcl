@@ -63,7 +63,7 @@ static Tcl_NRPostProc Uplevel_Callback;
  * The ProcBodyObjType type
  */
 
-Tcl_ObjType tclProcBodyType = {
+const Tcl_ObjType tclProcBodyType = {
     "procbody",			/* name for this type */
     ProcBodyFree,		/* FreeInternalRep function */
     ProcBodyDup,		/* DupInternalRep function */
@@ -2801,7 +2801,7 @@ Tcl_DisassembleObjCmd(
     int objc,			/* Number of arguments. */
     Tcl_Obj *const objv[])	/* Argument objects. */
 {
-    static const char *types[] = {
+    static const char *const types[] = {
 	"lambda", "method", "objmethod", "proc", "script", NULL
     };
     enum Types {

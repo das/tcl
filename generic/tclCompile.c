@@ -441,7 +441,7 @@ static void             EnterCmdWordIndex (ExtCmdLoc *eclPtr, Tcl_Obj* obj,
  * procedures that can be invoked by generic object code.
  */
 
-Tcl_ObjType tclByteCodeType = {
+const Tcl_ObjType tclByteCodeType = {
     "bytecode",			/* name */
     FreeByteCodeInternalRep,	/* freeIntRepProc */
     DupByteCodeInternalRep,	/* dupIntRepProc */
@@ -2147,7 +2147,7 @@ TclFindCompiledLocal(
 
     if (procPtr == NULL) {
 	/*
-	 * Compiling a non-body script: give it read access to the LVT in the 
+	 * Compiling a non-body script: give it read access to the LVT in the
 	 * current localCache
 	 */
 
@@ -2171,7 +2171,7 @@ TclFindCompiledLocal(
 	}
 	return -1;
     }
-    
+
     if (name != NULL) {
 	int localCt = procPtr->numCompiledLocals;
 

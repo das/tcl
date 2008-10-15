@@ -80,7 +80,7 @@ static void		UpdateStringOfEndOffset(Tcl_Obj* objPtr);
  * integer, so no memory management is required for it.
  */
 
-Tcl_ObjType tclEndOffsetType = {
+const Tcl_ObjType tclEndOffsetType = {
     "end-offset",			/* name */
     NULL,				/* freeIntRepProc */
     NULL,				/* dupIntRepProc */
