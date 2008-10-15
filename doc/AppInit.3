@@ -57,9 +57,11 @@ for the interpreter's result;  otherwise the result is ignored.
 .PP
 In addition to \fBTcl_AppInit\fR, your application should also contain
 a procedure \fBmain\fR that calls \fBTcl_Main\fR as follows:
+.PP
 .CS
 Tcl_Main(argc, argv, Tcl_AppInit);
 .CE
+.PP
 The third argument to \fBTcl_Main\fR gives the address of the
 application-specific initialization procedure to invoke.
 This means that you do not have to use the name \fBTcl_AppInit\fR

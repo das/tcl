@@ -282,6 +282,7 @@ and the
 interfaces when running on Windows 95, you would have
 to perform the following type of test over and over in your program
 (as represented in pseudo-code):
+.PP
 .CS
 if (running NT) {
     encoding <- Tcl_GetEncoding("unicode");
@@ -291,6 +292,7 @@ if (running NT) {
     nativeBuffer <- Tcl_UtfToExternal(NULL, utfBuffer);
 }
 .CE
+.PP
 \fBTcl_WinUtfToTChar\fR and \fBTcl_WinTCharToUtf\fR automatically
 handle this test and use the proper encoding based on the current
 operating system.  \fBTcl_WinUtfToTChar\fR returns a pointer to

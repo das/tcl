@@ -215,10 +215,12 @@ This allows applications to use non-standard storage allocators.
 When Tcl no longer needs the storage for the string, it will
 call \fIfreeProc\fR. \fIFreeProc\fR should have arguments and
 result that match the type \fBTcl_FreeProc\fR:
+.PP
 .CS
 typedef void \fBTcl_FreeProc\fR(
         char *\fIblockPtr\fR);
 .CE
+.PP
 When \fIfreeProc\fR is called, its \fIblockPtr\fR will be set to
 the value of \fIresult\fR passed to \fBTcl_SetResult\fR.
 .SH "SEE ALSO"

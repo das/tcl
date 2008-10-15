@@ -92,10 +92,12 @@ by \fBTcl_FinalizeThread\fR and \fBTcl_ExitThread\fR.
 This provides a hook for cleanup operations such as flushing buffers
 and freeing global memory.
 \fIProc\fR should match the type \fBTcl_ExitProc\fR:
+.PP
 .CS
 typedef void \fBTcl_ExitProc\fR(
         ClientData \fIclientData\fR);
 .CE
+.PP
 The \fIclientData\fR parameter to \fIproc\fR is a
 copy of the \fIclientData\fR argument given to
 \fBTcl_CreateExitHandler\fR or \fBTcl_CreateThreadExitHandler\fR when
