@@ -276,12 +276,15 @@ proc unknown args {
 	    unset UnknownPending
 	}
 	if {$msg} {
-	    unset -nocomplain ::errorCode ::errorInfo
 	    if {[info exists savedErrorCode]} {
 		set ::errorCode $savedErrorCode
+	    } else {
+		unset -nocomplain ::errorCode
 	    }
 	    if {[info exists savedErrorInfo]} {
 		set ::errorInfo $savedErrorInfo
+	    } else {
+		unset -nocomplain ::errorInfo
 	    }
 	    set code [catch {uplevel 1 $args} msg opts]
 	    if {$code ==  1} {
