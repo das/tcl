@@ -415,7 +415,7 @@ InfoObjectIsACmd(
     int objc,
     Tcl_Obj *const objv[])
 {
-    static const char *categories[] = {
+    static const char *const categories[] = {
 	"class", "metaclass", "mixin", "object", "typeof", NULL
     };
     enum IsACats {
@@ -540,7 +540,7 @@ InfoObjectMethodsCmd(
     FOREACH_HASH_DECLS;
     Tcl_Obj *namePtr, *resultObj;
     Method *mPtr;
-    static const char *options[] = {
+    static const char *const options[] = {
 	"-all", "-localprivate", "-private", NULL
     };
     enum Options {
@@ -1058,7 +1058,7 @@ InfoClassMethodsCmd(
     Tcl_Obj *namePtr, *resultObj;
     Method *mPtr;
     Class *clsPtr;
-    static const char *options[] = {
+    static const char *const options[] = {
 	"-all", "-localprivate", "-private", NULL
     };
     enum Options {

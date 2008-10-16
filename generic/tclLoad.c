@@ -506,7 +506,7 @@ Tcl_UnloadObjCmd(
     int trustedRefCount = -1, safeRefCount = -1;
     const char *fullFileName = "";
     char *packageName;
-    static const char *options[] = {
+    static const char *const options[] = {
 	"-nocomplain", "-keeplibrary", "--", NULL
     };
     enum options {

@@ -688,7 +688,7 @@ TclOOSelfObjCmd(
     int objc,
     Tcl_Obj *const *objv)
 {
-    static const char *subcmds[] = {
+    static const char *const subcmds[] = {
 	"caller", "class", "filter", "method", "namespace", "next", "object",
 	"target", NULL
     };

@@ -1336,7 +1336,7 @@ TclMergeReturnOptions(
     Tcl_DictObjGet(NULL, returnOpts, keys[KEY_CODE], &valuePtr);
     if ((valuePtr != NULL)
 	    && (TCL_ERROR == TclGetIntFromObj(NULL, valuePtr, &code))) {
-	static const char *returnCodes[] = {
+	static const char *const returnCodes[] = {
 	    "ok", "error", "return", "break", "continue", NULL
 	};
 

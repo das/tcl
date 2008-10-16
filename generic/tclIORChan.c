@@ -161,7 +161,7 @@ typedef struct {
  * Event literals. ==================================================
  */
 
-static const char *eventOptions[] = {
+static const char *const eventOptions[] = {
     "read", "write", NULL
 };
 typedef enum {
@@ -172,7 +172,7 @@ typedef enum {
  * Method literals. ==================================================
  */
 
-static const char *methodNames[] = {
+static const char *const methodNames[] = {
     "blocking",		/* OPT */
     "cget",		/* OPT \/ Together or none */
     "cgetall",		/* OPT /\ of these two     */
@@ -2737,12 +2737,12 @@ ForwardProc(
 	 */
 
 	rcmPtr = GetReflectedChannelMap(interp);
-	hPtr = Tcl_FindHashEntry(&rcmPtr->map, 
+	hPtr = Tcl_FindHashEntry(&rcmPtr->map,
 		Tcl_GetChannelName(rcPtr->chan));
 	Tcl_DeleteHashEntry(hPtr);
 
         rcmPtr = GetThreadReflectedChannelMap();
-	hPtr = Tcl_FindHashEntry(&rcmPtr->map, 
+	hPtr = Tcl_FindHashEntry(&rcmPtr->map,
 		Tcl_GetChannelName(rcPtr->chan));
 	Tcl_DeleteHashEntry(hPtr);
 
