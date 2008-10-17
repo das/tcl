@@ -148,24 +148,29 @@ of regular expressions.
 .PP
 Replace (in the string in variable \fIstring\fR) every instance of
 \fBfoo\fR which is a word by itself with \fBbar\fR:
+.PP
 .CS
 \fBregsub\fR -all {\emfoo\eM} $string bar string
 .CE
+.PP
 or (using the
 .QW "basic regular expression"
 syntax):
+.PP
 .CS
 \fBregsub\fR -all {(?b)\e<foo\e>} $string bar string
 .CE
 .PP
 Insert double-quotes around the first instance of the word
 \fBinteresting\fR, however it is capitalized.
+.PP
 .CS
 \fBregsub\fR -nocase {\eyinteresting\ey} $string {"&"} string
 .CE
 .PP
 Convert all non-ASCII and Tcl-significant characters into \eu escape
 sequences by using \fBregsub\fR and \fBsubst\fR in combination:
+.PP
 .CS
 # This RE is just a character class for everything "bad"
 set RE {[][{};#\e\e\e$\es\eu0080-\euffff]}

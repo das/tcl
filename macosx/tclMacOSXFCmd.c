@@ -74,7 +74,7 @@ static Tcl_Obj *	NewOSTypeObj(const OSType newOSType);
 static int		SetOSTypeFromAny(Tcl_Interp *interp, Tcl_Obj *objPtr);
 static void		UpdateStringOfOSType(Tcl_Obj *objPtr);
 
-static Tcl_ObjType tclOSTypeType = {
+static const Tcl_ObjType tclOSTypeType = {
     "osType",				/* name */
     NULL,				/* freeIntRepProc */
     NULL,				/* dupIntRepProc */

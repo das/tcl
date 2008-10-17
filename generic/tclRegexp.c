@@ -102,7 +102,7 @@ static int		SetRegexpFromAny(Tcl_Interp *interp, Tcl_Obj *objPtr);
  * compiled form of the regular expression.
  */
 
-Tcl_ObjType tclRegexpType = {
+const Tcl_ObjType tclRegexpType = {
     "regexp",				/* name */
     FreeRegexpInternalRep,		/* freeIntRepProc */
     DupRegexpInternalRep,		/* dupIntRepProc */

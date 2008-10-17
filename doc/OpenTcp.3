@@ -116,6 +116,7 @@ allow connections from any network interface.
 Each time a client connects to this socket, Tcl creates a channel
 for the new connection and invokes \fIproc\fR with information about
 the channel. \fIProc\fR must match the following prototype:
+.PP
 .CS
 typedef void \fBTcl_TcpAcceptProc\fR(
         ClientData \fIclientData\fR,

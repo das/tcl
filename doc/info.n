@@ -604,6 +604,7 @@ proc printProc {procName} {
 .PP
 Every object necessarily knows what its class is; this information is
 trivially extractable through introspection:
+.PP
 .CS
 oo::class create c
 c create o
@@ -615,6 +616,7 @@ puts [\fBinfo object class\fR c]
 .PP
 The introspection capabilities can be used to discover what class implements a
 method and get how it is defined. This procedure illustrates how:
+.PP
 .CS
 proc getDef {obj method} {
     if {$method in [\fBinfo object methods\fR $obj]} {

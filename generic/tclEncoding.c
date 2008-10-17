@@ -277,7 +277,7 @@ static int		Iso88591ToUtfProc(ClientData clientData,
  * See concerns raised in [Bug 1077262].
  */
 
-static Tcl_ObjType encodingType = {
+static const Tcl_ObjType encodingType = {
     "encoding", FreeEncodingIntRep, DupEncodingIntRep, NULL, NULL
 };
 

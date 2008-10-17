@@ -2056,7 +2056,7 @@ SerialGetOptionProc(
     }
     if (len==0 || (len>2 && (strncmp(optionName, "-mode", len) == 0))) {
 	char parity;
-	char *stop;
+	const char *stop;
 	char buf[2 * TCL_INTEGER_SPACE + 16];
 
 	if (!GetCommState(infoPtr->handle, &dcb)) {

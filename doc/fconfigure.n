@@ -216,14 +216,17 @@ If, for example, a Tcl application is started by the \fBinet\fR
 super-server common on Unix system its Tcl standard channels will be
 sockets and thus support the socket options.
 .SH EXAMPLES
+.PP
 Instruct Tcl to always send output to \fBstdout\fR immediately,
 whether or not it is to a terminal:
+.PP
 .CS
 \fBfconfigure\fR stdout -buffering none
 .CE
 .PP
 Open a socket and read lines from it without ever blocking the
 processing of other events:
+.PP
 .CS
 set s [socket some.where.com 12345]
 \fBfconfigure\fR $s -blocking 0
@@ -244,6 +247,7 @@ proc readMe chan {
 .CE
 .PP
 Read a PPM-format image from a file:
+.PP
 .CS
 # Open the file and put it into Unix ASCII mode
 set f [open teapot.ppm]

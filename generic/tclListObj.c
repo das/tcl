@@ -38,7 +38,7 @@ static void		UpdateStringOfList(Tcl_Obj *listPtr);
  * storage to avoid an auxiliary stack.
  */
 
-Tcl_ObjType tclListType = {
+const Tcl_ObjType tclListType = {
     "list",			/* name */
     FreeListInternalRep,	/* freeIntRepProc */
     DupListInternalRep,		/* dupIntRepProc */
@@ -1326,7 +1326,7 @@ TclLsetFlat(
 	 * WARNING: the macro TclGetIntForIndexM is not safe for
 	 * post-increments, avoid '*indexArray++' here.
 	 */
-	
+
 	if (TclGetIntForIndexM(interp, *indexArray, elemCount - 1, &index)
 		!= TCL_OK)  {
 	    /* ...the index we're trying to use isn't an index at all. */
@@ -1425,9 +1425,9 @@ TclLsetFlat(
     }
 
     if (result != TCL_OK) {
-	/* 
+	/*
 	 * Error return; message is already in interp. Clean up
-	 * any excess memory. 
+	 * any excess memory.
 	 */
 	if (retValuePtr != listPtr) {
 	    Tcl_DecrRefCount(retValuePtr);

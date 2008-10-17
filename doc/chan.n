@@ -655,9 +655,11 @@ in which \fBchan configure\fR will alter input).
 .PP
 When reading from a serial port, most applications should configure
 the serial port channel to be nonblocking, like this:
+.PP
 .CS
 \fBchan configure \fIchannelId \fB\-blocking \fI0\fR.
 .CE
+.PP
 Then \fBchan read\fR behaves much like described above.  Note that
 most serial ports are comparatively slow; it is entirely possible to
 get a \fBreadable\fR event for each character read from them. Care

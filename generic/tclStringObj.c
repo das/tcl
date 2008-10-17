@@ -64,7 +64,7 @@ static void		UpdateStringOfString(Tcl_Obj *objPtr);
  * functions that can be invoked by generic object code.
  */
 
-Tcl_ObjType tclStringType = {
+const Tcl_ObjType tclStringType = {
     "string",			/* name */
     FreeStringInternalRep,	/* freeIntRepPro */
     DupStringInternalRep,	/* dupIntRepProc */
@@ -1702,7 +1702,7 @@ Tcl_AppendFormatToObj(
     int originalLength;
     static const char *mixedXPG =
 	    "cannot mix \"%\" and \"%n$\" conversion specifiers";
-    static const char *badIndex[2] = {
+    static const char *const badIndex[2] = {
 	"not enough arguments for all format specifiers",
 	"\"%n$\" argument index out of range"
     };

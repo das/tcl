@@ -219,7 +219,7 @@ Tcl_ThreadObjCmd(
 {
     ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey);
     int option;
-    static const char *threadOptions[] = {
+    static const char *const threadOptions[] = {
 	"cancel", "create", "event", "exit", "id",
 	"join", "names", "send", "wait", "errorproc",
 	NULL
@@ -984,7 +984,7 @@ TclThreadCancel(
     }
 
     /*
-     * Since Tcl_CancelEval can be safely called from any thread, 
+     * Since Tcl_CancelEval can be safely called from any thread,
      * we do it now.
      */
 

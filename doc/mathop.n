@@ -133,6 +133,7 @@ Each \fInumber\fR must have an integral value. Note that Tcl defines this
 operation exactly even for negative numbers, so that the following equality
 holds true:
 .RS
+.PP
 .CS
 (\fIx \fB/ \fIy\fR) \fB* \fIy \fB== \fIx \fB-\fR (\fIx \fB% \fIy\fR)
 .CE
@@ -272,9 +273,11 @@ Returns whether the value \fIarg\fR is present in the list \fIlist\fR
 Returns whether the value \fIarg\fR is not present in the list \fIlist\fR
 (according to exact string comparison of elements).
 .SH EXAMPLES
+.PP
 The simplest way to use the operators is often by using \fBnamespace path\fR
 to make the commands available. This has the advantage of not affecting the
 set of commands defined by the current namespace.
+.PP
 .CS
 namespace path {\fB::tcl::mathop\fR ::tcl::mathfunc}
 
