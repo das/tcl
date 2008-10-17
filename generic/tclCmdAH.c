@@ -51,7 +51,7 @@ static inline void	ForeachCleanup(Tcl_Interp *interp,
 			    struct ForeachState *statePtr);
 static int		GetStatBuf(Tcl_Interp *interp, Tcl_Obj *pathPtr,
 			    Tcl_FSStatProc *statProc, Tcl_StatBuf *statPtr);
-static const char *GetTypeFromMode(int mode);
+static const char *	GetTypeFromMode(int mode);
 static int		StoreStatData(Tcl_Interp *interp, Tcl_Obj *varName,
 			    Tcl_StatBuf *statPtr);
 static Tcl_NRPostProc	CatchObjCmdCallback;

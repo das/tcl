@@ -2445,7 +2445,7 @@ Tcl_LrepeatObjCmd(
 				/* The argument objects. */
 {
     int elementCount, i, totalElems;
-    Tcl_Obj *listPtr, **dataArray;
+    Tcl_Obj *listPtr, **dataArray = NULL;
 
     /*
      * Check arguments for legality:

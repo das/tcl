@@ -694,7 +694,7 @@ typedef struct InstructionDesc {
 				/* The type of each operand. */
 } InstructionDesc;
 
-MODULE_SCOPE InstructionDesc CONST86 tclInstructionTable[];
+MODULE_SCOPE InstructionDesc const tclInstructionTable[];
 
 /*
  * Compilation of some Tcl constructs such as if commands and the logical or
