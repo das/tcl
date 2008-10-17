@@ -105,6 +105,7 @@ For some examples of simple expressions, suppose the variable
 the variable \fBb\fR has the value 6.
 Then the command on the left side of each of the lines below
 will produce the value on the right side of the line:
+.PP
 .CS
 .ta 6c
 \fBexpr\fR 3.1 + $a	\fI6.1\fR

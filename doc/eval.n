@@ -72,6 +72,7 @@ proc lprepend {varName args} {
 .PP
 However, the last line would now normally be written without
 \fBeval\fR, like this:
+.PP
 .CS
 set var [linsert $var 0 {*}$args]
 .CE

@@ -63,15 +63,15 @@ of the error in cases where such information is available; see
 the \fBreturn\fR manual page for information on the proper format
 for this option's value.
 .SH EXAMPLE
+.PP
 Generate an error if a basic mathematical operation fails:
+.PP
 .CS
 if {1+2 != 3} {
     \fBerror\fR "something is very wrong with addition"
 }
 .CE
-
 .SH "SEE ALSO"
 catch(n), return(n)
-
 .SH KEYWORDS
 error

@@ -414,6 +414,7 @@ procedure will be a non-NULL location.
 .PP
 The callback procedure \fIfreeProc\fR, if non-NULL, should match the type 
 \fBTcl_EncodingFreeProc\fR:
+.PP
 .CS
 typedef void \fBTcl_EncodingFreeProc\fR(
         ClientData \fIclientData\fR);
@@ -490,6 +491,7 @@ Cases [1], [2], and [3] are collectively referred to as table-based encoding
 files.  The lines in a table-based encoding file are in the same
 format as this example taken from the \fBshiftjis\fR encoding (this is not
 the complete file):
+.PP
 .CS
 # Encoding file: shiftjis, multi-byte
 M
@@ -555,6 +557,7 @@ If all characters on a page would map to 0000, that page can be omitted.
 Case [4] is the escape-sequence encoding file.  The lines in an this type of
 file are in the same format as this example taken from the \fBiso2022-jp\fR
 encoding:
+.PP
 .CS
 .ta 1.5i
 # Encoding file: iso2022-jp, escape-driven
