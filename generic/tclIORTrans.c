@@ -2100,10 +2100,6 @@ DeleteReflectedTransformMap(
 	    hPtr != NULL;
 	    hPtr = Tcl_FirstHashEntry(&rtmPtr->map, &hSearch)) {
 	rtPtr = (ReflectedTransform *) Tcl_GetHashValue (hPtr);
-
-	//fprintf(stdout,"[%ld] dd t-rcm %p /h %p  /rt %p\n", (long)Tcl_GetCurrentThread(),rtmPtr,hPtr,rtPtr);fflush(stdout);
-
-
 	rtPtr->interp = NULL;
 	Tcl_DeleteHashEntry(hPtr);
     }
