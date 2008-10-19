@@ -79,6 +79,13 @@ to allow users to type in commands that span multiple lines;  if the
 command is not complete, the script can delay evaluating it until additional
 lines have been typed to complete the command.
 .TP
+\fBinfo coroutine\fR
+.VS 8.6
+Returns the name of the currently executing coroutine, or the empty string if
+either no coroutine is currently executing, or the current coroutine has been
+deleted (but has not yet returned or yielded since deletion).
+.VE 8.6
+.TP
 \fBinfo default \fIprocname arg varname\fR
 .
 \fIProcname\fR must be the name of a Tcl command procedure and \fIarg\fR
