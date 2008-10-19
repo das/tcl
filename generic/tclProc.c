@@ -2239,9 +2239,14 @@ TclUpdateReturnInfo(
     if (iPtr->returnLevel == 0) {
 	/*
 	 * Now we've reached the level to return the requested -code.
+	 * Since iPtr->returnLevel and iPtr->returnCode have completed
+	 * their task, we now reset them to default values so that any
+	 * bare "return TCL_RETURN" that may follow will work [Bug 2152286].
 	 */
 
 	code = iPtr->returnCode;
+	iPtr->returnLevel = 1;
+	iPtr->returnCode = TCL_OK;
 	if (code == TCL_ERROR) {
 	    iPtr->flags |= ERR_LEGACY_COPY;
 	}
