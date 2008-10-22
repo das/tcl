@@ -1670,7 +1670,7 @@ LoadTableEncoding(
      * sequences in the encoding files.
      */
 
-    static char staticHex[] = {
+    static const char staticHex[] = {
       0,  0,  0,  0,  0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /*   0 ...  15 */
       0,  0,  0,  0,  0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /*  16 ...  31 */
       0,  0,  0,  0,  0,  0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /*  32 ...  47 */
