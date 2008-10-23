@@ -1763,7 +1763,7 @@ ForNextCallback(
     char *msg = data[3];
 
     
-    if (result == TCL_OK) {
+    if ((result == TCL_OK) || (result == TCL_CONTINUE)) {
 	/*
 	 * TIP #280. Make invoking context available to next script.
 	 *

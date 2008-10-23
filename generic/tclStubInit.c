@@ -1,4 +1,4 @@
-/* 
+/*
  * tclStubInit.c --
  *
  *	This file contains the initializers for the Tcl stub vectors.
@@ -1134,7 +1134,7 @@ static const TclStubs tclStubs = {
 
 /* !END!: Do not edit above this line. */
 
-/* 
+/*
  * Module-scope pointers to the main static stubs tables, used for package
  * initialization via Tcl_PkgProvideEx().
  */
