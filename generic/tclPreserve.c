@@ -229,7 +229,7 @@ Tcl_Release(
 	    if (freeProc == TCL_DYNAMIC) {
 		ckfree((char *) clientData);
 	    } else {
-		(*freeProc)((char *) clientData);
+		freeProc((char *) clientData);
 	    }
 	}
 	return;
@@ -297,7 +297,7 @@ Tcl_EventuallyFree(
     if (freeProc == TCL_DYNAMIC) {
 	ckfree((char *) clientData);
     } else {
-	(*freeProc)((char *)clientData);
+	freeProc((char *)clientData);
     }
 }
 

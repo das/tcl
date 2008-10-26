@@ -1182,7 +1182,7 @@ TclTeardownNamespace(
      */
 
     if (nsPtr->deleteProc != NULL) {
-	(*nsPtr->deleteProc)(nsPtr->clientData);
+	nsPtr->deleteProc(nsPtr->clientData);
     }
     nsPtr->deleteProc = NULL;
     nsPtr->clientData = NULL;
@@ -2425,7 +2425,7 @@ Tcl_FindCommand(
 	Tcl_Command cmd;
 
 	if (cxtNsPtr->cmdResProc) {
-	    result = (*cxtNsPtr->cmdResProc)(interp, name,
+	    result = cxtNsPtr->cmdResProc(interp, name,
 		    (Tcl_Namespace *) cxtNsPtr, flags, &cmd);
 	} else {
 	    result = TCL_CONTINUE;
@@ -2433,7 +2433,7 @@ Tcl_FindCommand(
 
 	while (result == TCL_CONTINUE && resPtr) {
 	    if (resPtr->cmdResProc) {
-		result = (*resPtr->cmdResProc)(interp, name,
+		result = resPtr->cmdResProc(interp, name,
 			(Tcl_Namespace *) cxtNsPtr, flags, &cmd);
 	    }
 	    resPtr = resPtr->nextPtr;
