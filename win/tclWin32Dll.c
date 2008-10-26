@@ -660,7 +660,7 @@ TclWinDriveLetterForVolMountPoint(
 	     * Try to read the volume mount point and see where it points.
 	     */
 
-	    if ((*tclWinProcs->getVolumeNameForVMPProc)((TCHAR *) drive,
+	    if (tclWinProcs->getVolumeNameForVMPProc((TCHAR *) drive,
 		    (TCHAR *) Target, 55) != 0) {
 		if (wcscmp((WCHAR *) dlIter->volumeName, Target) == 0) {
 		    /*
@@ -719,7 +719,7 @@ TclWinDriveLetterForVolMountPoint(
 	 * Try to read the volume mount point and see where it points.
 	 */
 
-	if ((*tclWinProcs->getVolumeNameForVMPProc)((TCHAR *) drive,
+	if (tclWinProcs->getVolumeNameForVMPProc((TCHAR *) drive,
 		(TCHAR *) Target, 55) != 0) {
 	    int alreadyStored = 0;
 

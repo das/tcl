@@ -210,7 +210,7 @@ TclpInitLibraryPath(
 
     *encodingPtr = NULL;
     bytes = Tcl_GetStringFromObj(pathPtr, lengthPtr);
-    *valuePtr = ckalloc((unsigned int)(*lengthPtr)+1);
+    *valuePtr = ckalloc((unsigned)(*lengthPtr)+1);
     memcpy(*valuePtr, bytes, (size_t)(*lengthPtr)+1);
     Tcl_DecrRefCount(pathPtr);
 }
