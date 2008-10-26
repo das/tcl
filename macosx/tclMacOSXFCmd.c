@@ -132,8 +132,8 @@ TclMacOSXGetFileAttribute(
     Tcl_StatBuf statBuf;
     struct attrlist alist;
     fileinfobuf finfo;
-    finderinfo *finder = (finderinfo*)(&finfo.data);
-    off_t *rsrcForkSize = (off_t*)(&finfo.data);
+    finderinfo *finder = (finderinfo *) &finfo.data;
+    off_t *rsrcForkSize = (off_t *) &finfo.data;
     const char *native;
 
     result = TclpObjStat(fileName, &statBuf);
@@ -224,8 +224,8 @@ TclMacOSXSetFileAttribute(
     Tcl_StatBuf statBuf;
     struct attrlist alist;
     fileinfobuf finfo;
-    finderinfo *finder = (finderinfo*)(&finfo.data);
-    off_t *rsrcForkSize = (off_t*)(&finfo.data);
+    finderinfo *finder = (finderinfo *) &finfo.data;
+    off_t *rsrcForkSize = (off_t *) &finfo.data;
     const char *native;
 
     result = TclpObjStat(fileName, &statBuf);
@@ -405,7 +405,7 @@ TclMacOSXCopyFileAttributes(
 #ifdef HAVE_GETATTRLIST
     struct attrlist alist;
     fileinfobuf finfo;
-    off_t *rsrcForkSize = (off_t*)(&finfo.data);
+    off_t *rsrcForkSize = (off_t *) &finfo.data;
 
     bzero(&alist, sizeof(struct attrlist));
     alist.bitmapcount = ATTR_BIT_MAP_COUNT;
@@ -497,7 +497,7 @@ TclMacOSXMatchType(
 #ifdef HAVE_GETATTRLIST
     struct attrlist alist;
     fileinfobuf finfo;
-    finderinfo *finder = (finderinfo*)(&finfo.data);
+    finderinfo *finder = (finderinfo *) &finfo.data;
     OSType osType;
 
     bzero(&alist, sizeof(struct attrlist));
