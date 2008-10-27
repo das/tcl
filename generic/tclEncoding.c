@@ -565,9 +565,7 @@ TclInitEncodingSubsystem(void)
     type.freeProc	= NULL;
     type.nullSize	= 1;
     type.clientData	= NULL;
-
-    defaultEncoding	= Tcl_CreateEncoding(&type);
-    systemEncoding	= Tcl_GetEncoding(NULL, type.encodingName);
+    Tcl_CreateEncoding(&type);
 
     type.encodingName	= "utf-8";
     type.toUtfProc	= UtfExtToUtfIntProc;
@@ -626,7 +624,8 @@ TclInitEncodingSubsystem(void)
 	type.freeProc		= TableFreeProc;
 	type.nullSize		= 1;
 	type.clientData		= dataPtr;
-	Tcl_CreateEncoding(&type);
+	defaultEncoding	= Tcl_CreateEncoding(&type);
+	systemEncoding	= Tcl_GetEncoding(NULL, type.encodingName);
     }
 
     encodingsInitialized = 1;
