@@ -1292,7 +1292,7 @@ MODULE_SCOPE int	TclWordKnownAtCompileTime(Tcl_Token *tokenPtr,
 
 #define TCL_DTRACE_DEBUG_LOG()
 
-MODULE_SCOPE void TclDTraceInfo(Tcl_Obj *info, char **args, int *argsi);
+MODULE_SCOPE void TclDTraceInfo(Tcl_Obj *info, const char **args, int *argsi);
 
 #else /* USE_DTRACE */
 
@@ -1347,7 +1347,7 @@ MODULE_SCOPE void TclDTraceInfo(Tcl_Obj *info, char **args, int *argsi);
 MODULE_SCOPE int tclDTraceDebugEnabled, tclDTraceDebugIndent;
 MODULE_SCOPE FILE *tclDTraceDebugLog;
 MODULE_SCOPE void TclDTraceOpenDebugLog(void);
-MODULE_SCOPE void TclDTraceInfo(Tcl_Obj *info, char **args, int *argsi);
+MODULE_SCOPE void TclDTraceInfo(Tcl_Obj *info, const char **args, int *argsi);
 
 #define TCL_DTRACE_DEBUG_LOG() \
 	int tclDTraceDebugEnabled = TCL_DTRACE_DEBUG_LOG_ENABLED;\
