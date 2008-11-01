@@ -1028,7 +1028,6 @@ TclOONRUpcatch(
 {
     Interp *iPtr = (Interp *) interp;
     CallFrame *savedFramePtr = iPtr->varFramePtr;
-    Tcl_Obj *scriptObj;
 
     if (objc != 2) {
 	Tcl_WrongNumArgs(interp, 1, objv, "script");
