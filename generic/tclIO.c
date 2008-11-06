@@ -4730,7 +4730,7 @@ FilterInputBytes(
 		statePtr->inQueueTail = nextPtr;
 	    }
 	    extra = rawLen - gsPtr->rawRead;
-	    memcpy(nextPtr->buf + BUFFER_PADDING - extra,
+	    memcpy(nextPtr->buf + (BUFFER_PADDING - extra),
 		    raw + gsPtr->rawRead, (size_t) extra);
 	    nextPtr->nextRemoved -= extra;
 	    bufPtr->nextAdded -= extra;
@@ -4879,7 +4879,7 @@ CommonGetsCleanup(
 	    extra = SpaceLeft(bufPtr);
 	    if (extra > 0) {
 		memcpy(InsertPoint(bufPtr),
-			nextPtr->buf + BUFFER_PADDING - extra,
+			nextPtr->buf + (BUFFER_PADDING - extra),
 			(size_t) extra);
 		bufPtr->nextAdded += extra;
 		nextPtr->nextRemoved = BUFFER_PADDING;
