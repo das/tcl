@@ -584,8 +584,8 @@ TimerHandlerEventProc(
 	 * potential reentrancy problems.
 	 */
 
-	(*nextPtrPtr) = timerHandlerPtr->nextPtr;
-	(*timerHandlerPtr->proc)(timerHandlerPtr->clientData);
+	*nextPtrPtr = timerHandlerPtr->nextPtr;
+	timerHandlerPtr->proc(timerHandlerPtr->clientData);
 	ckfree((char *) timerHandlerPtr);
     }
     TimerSetupProc(NULL, TCL_TIMER_EVENTS);
@@ -743,7 +743,7 @@ TclServiceIdle(void)
 	if (tsdPtr->idleList == NULL) {
 	    tsdPtr->lastIdlePtr = NULL;
 	}
-	(*idlePtr->proc)(idlePtr->clientData);
+	idlePtr->proc(idlePtr->clientData);
 	ckfree((char *) idlePtr);
     }
     if (tsdPtr->idleList) {

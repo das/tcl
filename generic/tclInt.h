@@ -1455,10 +1455,11 @@ typedef struct ByteCodeStats {
  */
 
 typedef struct {
-    const char *name;		/* The name of the subcommand. */
-    Tcl_ObjCmdProc *proc;	/* The implementation of the subcommand. */
-    CompileProc *compileProc;	/* The compiler for the subcommand. */
-    Tcl_ObjCmdProc *nreProc;	/* NRE implementation of this command */
+    const char        *name;        /* The name of the subcommand           */
+    Tcl_ObjCmdProc    *proc;        /* The implementation of the subcommand */
+    CompileProc       *compileProc; /* The compiler for the subcommand      */
+    Tcl_ObjCmdProc    *nreProc;     /* NRE implementation of this command   */
+    ClientData         clientData;  /* Any clientData to give the command   */
 } EnsembleImplMap;
 
 /*

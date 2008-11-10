@@ -238,7 +238,7 @@ Tcl_TraceObjCmd(
 		0, &typeIndex) != TCL_OK) {
 	    return TCL_ERROR;
 	}
-	return (traceSubCmds[typeIndex])(interp, optionIndex, objc, objv);
+	return traceSubCmds[typeIndex](interp, optionIndex, objc, objv);
     }
     case TRACE_INFO: {
 	/*
@@ -261,7 +261,7 @@ Tcl_TraceObjCmd(
 		0, &typeIndex) != TCL_OK) {
 	    return TCL_ERROR;
 	}
-	return (traceSubCmds[typeIndex])(interp, optionIndex, objc, objv);
+	return traceSubCmds[typeIndex](interp, optionIndex, objc, objv);
 	break;
     }
 
@@ -305,9 +305,9 @@ Tcl_TraceObjCmd(
 	memcpy(copyObjv+1, objv, objc*sizeof(Tcl_Obj *));
 	copyObjv[4] = opsList;
 	if (optionIndex == TRACE_OLD_VARIABLE) {
-	    code = (traceSubCmds[2])(interp, TRACE_ADD, objc+1, copyObjv);
+	    code = traceSubCmds[2](interp, TRACE_ADD, objc+1, copyObjv);
 	} else {
-	    code = (traceSubCmds[2])(interp, TRACE_REMOVE, objc+1, copyObjv);
+	    code = traceSubCmds[2](interp, TRACE_REMOVE, objc+1, copyObjv);
 	}
 	Tcl_DecrRefCount(opsList);
 	return code;
@@ -1580,9 +1580,9 @@ TclCheckInterpTraces(
 			tcmdPtr->curFlags = traceFlags;
 			tcmdPtr->curCode = code;
 		    }
-		    traceCode = (tracePtr->proc)(tracePtr->clientData,
-			    interp, curLevel, command, (Tcl_Command) cmdPtr,
-			    objc, objv);
+		    traceCode = tracePtr->proc(tracePtr->clientData, interp,
+			    curLevel, command, (Tcl_Command) cmdPtr, objc,
+			    objv);
 		}
 	    } else {
 		/*
@@ -2365,7 +2365,7 @@ Tcl_DeleteTrace(
      */
 
     if (tracePtr->delProc != NULL) {
-	(tracePtr->delProc)(tracePtr->clientData);
+	tracePtr->delProc(tracePtr->clientData);
     }
 
     /*

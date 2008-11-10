@@ -883,13 +883,12 @@ Tcl_AttemptSetObjLength(
 	 */
 
 	if (objPtr->bytes != tclEmptyStringRep) {
-	    newBytes = attemptckrealloc(objPtr->bytes,
-		    (unsigned)(length + 1));
+	    newBytes = attemptckrealloc(objPtr->bytes, (unsigned) length+1);
 	    if (newBytes == NULL) {
 		return 0;
 	    }
 	} else {
-	    newBytes = attemptckalloc((unsigned) (length + 1));
+	    newBytes = attemptckalloc((unsigned) length+1);
 	    if (newBytes == NULL) {
 		return 0;
 	    }
@@ -2027,7 +2026,7 @@ Tcl_AppendFormatToObj(
 		const char *bytes;
 
 		if (useShort) {
-		    pure = Tcl_NewIntObj((int)(s));
+		    pure = Tcl_NewIntObj((int) s);
 		} else if (useWide) {
 		    pure = Tcl_NewWideIntObj(w);
 		} else if (useBig) {

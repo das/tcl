@@ -1506,7 +1506,7 @@ GetStatBuf(
 	return TCL_ERROR;
     }
 
-    status = (*statProc)(pathPtr, statPtr);
+    status = statProc(pathPtr, statPtr);
 
     if (status < 0) {
 	if (interp != NULL) {

@@ -28,7 +28,7 @@
  * standalone TclOO version matches...
  */
 
-#define TCLOO_VERSION "0.6"
+#define TCLOO_VERSION "0.6.1"
 #define TCLOO_PATCHLEVEL TCLOO_VERSION
 
 /*

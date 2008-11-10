@@ -368,7 +368,7 @@ Tcl_DiscardResult(
 	if (statePtr->freeProc == TCL_DYNAMIC) {
 	    ckfree(statePtr->result);
 	} else {
-	    (*statePtr->freeProc)(statePtr->result);
+	    statePtr->freeProc(statePtr->result);
 	}
     }
 }
@@ -434,7 +434,7 @@ Tcl_SetResult(
 	if (oldFreeProc == TCL_DYNAMIC) {
 	    ckfree(oldResult);
 	} else {
-	    (*oldFreeProc)(oldResult);
+	    oldFreeProc(oldResult);
 	}
     }
 
@@ -526,7 +526,7 @@ Tcl_SetObjResult(
 	if (iPtr->freeProc == TCL_DYNAMIC) {
 	    ckfree(iPtr->result);
 	} else {
-	    (*iPtr->freeProc)(iPtr->result);
+	    iPtr->freeProc(iPtr->result);
 	}
 	iPtr->freeProc = 0;
     }
@@ -579,7 +579,7 @@ Tcl_GetObjResult(
 	    if (iPtr->freeProc == TCL_DYNAMIC) {
 		ckfree(iPtr->result);
 	    } else {
-		(*iPtr->freeProc)(iPtr->result);
+		iPtr->freeProc(iPtr->result);
 	    }
 	    iPtr->freeProc = 0;
 	}
@@ -861,7 +861,7 @@ Tcl_FreeResult(
 	if (iPtr->freeProc == TCL_DYNAMIC) {
 	    ckfree(iPtr->result);
 	} else {
-	    (*iPtr->freeProc)(iPtr->result);
+	    iPtr->freeProc(iPtr->result);
 	}
 	iPtr->freeProc = 0;
     }
@@ -899,7 +899,7 @@ Tcl_ResetResult(
 	if (iPtr->freeProc == TCL_DYNAMIC) {
 	    ckfree(iPtr->result);
 	} else {
-	    (*iPtr->freeProc)(iPtr->result);
+	    iPtr->freeProc(iPtr->result);
 	}
 	iPtr->freeProc = 0;
     }

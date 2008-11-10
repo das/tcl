@@ -894,7 +894,7 @@ TclLookupSimpleVar(
 	    && !(flags & AVOID_RESOLVERS)) {
 	resPtr = iPtr->resolverPtr;
 	if (cxtNsPtr->varResProc) {
-	    result = (*cxtNsPtr->varResProc)(interp, varName,
+	    result = cxtNsPtr->varResProc(interp, varName,
 		    (Tcl_Namespace *) cxtNsPtr, flags, &var);
 	} else {
 	    result = TCL_CONTINUE;
@@ -902,7 +902,7 @@ TclLookupSimpleVar(
 
 	while (result == TCL_CONTINUE && resPtr) {
 	    if (resPtr->varResProc) {
-		result = (*resPtr->varResProc)(interp, varName,
+		result = resPtr->varResProc(interp, varName,
 			(Tcl_Namespace *) cxtNsPtr, flags, &var);
 	    }
 	    resPtr = resPtr->nextPtr;
@@ -4941,7 +4941,7 @@ ObjFindNamespaceVar(
 	resPtr = iPtr->resolverPtr;
 
 	if (cxtNsPtr->varResProc) {
-	    result = (*cxtNsPtr->varResProc)(interp, name,
+	    result = cxtNsPtr->varResProc(interp, name,
 		    (Tcl_Namespace *) cxtNsPtr, flags, &var);
 	} else {
 	    result = TCL_CONTINUE;
@@ -4949,7 +4949,7 @@ ObjFindNamespaceVar(
 
 	while (result == TCL_CONTINUE && resPtr) {
 	    if (resPtr->varResProc) {
-		result = (*resPtr->varResProc)(interp, name,
+		result = resPtr->varResProc(interp, name,
 			(Tcl_Namespace *) cxtNsPtr, flags, &var);
 	    }
 	    resPtr = resPtr->nextPtr;

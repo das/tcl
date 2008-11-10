@@ -2770,7 +2770,7 @@ TcpAccept(
 	    "auto crlf");
 
     if (sockState->acceptProc != NULL) {
-	(*sockState->acceptProc)(sockState->acceptProcData,
+	sockState->acceptProc(sockState->acceptProcData,
 		newSockState->channel, inet_ntoa(addr.sin_addr),
 		ntohs(addr.sin_port));
     }
