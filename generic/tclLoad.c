@@ -795,7 +795,7 @@ Tcl_UnloadObjCmd(
 
 	    if (unLoadProcPtr != NULL) {
 		Tcl_MutexLock(&packageMutex);
-		if (pkgPtr->unloadProc != NULL) {
+		if ((pkgPtr->unloadProc != NULL) || (unLoadProcPtr == TclFSUnloadTempFile)) {
 		    (*unLoadProcPtr)(pkgPtr->loadHandle);
 		}
 
@@ -1154,7 +1154,9 @@ TclFinalizeLoad(void)
 
 	if (pkgPtr->fileName[0] != '\0') {
 	    Tcl_FSUnloadFileProc *unLoadProcPtr = pkgPtr->unLoadProcPtr;
-	    if ((unLoadProcPtr != NULL) && (pkgPtr->unloadProc != NULL)) {
+	    if ((unLoadProcPtr != NULL)
+		    && ((pkgPtr->unloadProc != NULL)
+		    || (unLoadProcPtr == TclFSUnloadTempFile))) {
 		(*unLoadProcPtr)(pkgPtr->loadHandle);
 	    }
 	}
