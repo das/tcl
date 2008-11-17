@@ -2721,6 +2721,7 @@ MODULE_SCOPE double	TclFloor(mp_int *a);
 MODULE_SCOPE void	TclFormatNaN(double value, char *buffer);
 MODULE_SCOPE int	TclFSFileAttrIndex(Tcl_Obj *pathPtr,
 			    const char *attributeName, int *indexPtr);
+MODULE_SCOPE void	TclFSUnloadTempFile(Tcl_LoadHandle loadHandle);
 MODULE_SCOPE int *	TclGetAsyncReadyPtr(void);
 MODULE_SCOPE Tcl_Obj *	TclGetBgErrorHandler(Tcl_Interp *interp);
 MODULE_SCOPE int	TclGetChannelFromObj(Tcl_Interp *interp,

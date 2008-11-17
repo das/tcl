@@ -192,12 +192,6 @@ TCL_DECLARE_MUTEX(cwdMutex)
 Tcl_ThreadDataKey tclFsDataKey;
 
 /*
- * Declare fallback support function and information for Tcl_FSLoadFile
- */
-
-static Tcl_FSUnloadFileProc	FSUnloadTempFile;
-
-/*
  * One of these structures is used each time we successfully load a file from
  * a file system by way of making a temporary copy of the file on the native
  * filesystem. We need to store both the actual unloadProc/clientData
@@ -3185,7 +3179,7 @@ TclLoadFile(
     copyToPtr = NULL;
     *handlePtr = newLoadHandle;
     *clientDataPtr = tvdlPtr;
-    *unloadProcPtr = &FSUnloadTempFile;
+    *unloadProcPtr = TclFSUnloadTempFile;
 
     Tcl_ResetResult(interp);
     return retVal;
@@ -3250,7 +3244,7 @@ TclpLoadFile(
 /*
  *---------------------------------------------------------------------------
  *
- * FSUnloadTempFile --
+ * TclFSUnloadTempFile --
  *
  *	This function is called when we loaded a library of code via an
  *	intermediate temporary file. This function ensures the library is
@@ -3266,8 +3260,8 @@ TclpLoadFile(
  *---------------------------------------------------------------------------
  */
 
-static void
-FSUnloadTempFile(
+void
+TclFSUnloadTempFile(
     Tcl_LoadHandle loadHandle)	/* loadHandle returned by a previous call to
 				 * Tcl_FSLoadFile(). The loadHandle is a token
 				 * that represents the loaded file. */
