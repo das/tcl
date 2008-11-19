@@ -568,7 +568,7 @@ Tcl_ParseCommand(
 		tokenPtr->type = TCL_TOKEN_EXPAND_WORD;
 	    }
 	} else if ((tokenPtr->numComponents == 1)
-		   && (tokenPtr[1].type & (TCL_TOKEN_TEXT|TCL_TOKEN_UNCOLLAPSED_TEXT))) {
+		   && (tokenPtr[1].type == TCL_TOKEN_TEXT)) {
 	    tokenPtr->type = TCL_TOKEN_SIMPLE_WORD;
 	}
 
@@ -1983,7 +1983,7 @@ Tcl_SubstObj(
 		if (varTokenPtr->type != TCL_TOKEN_VARIABLE) {
 		    Tcl_Panic("Tcl_SubstObj: programming error");
 		}
-		if (!(varTokenPtr[1].type & (TCL_TOKEN_TEXT|TCL_TOKEN_UNCOLLAPSED_TEXT))) {
+		if (!(varTokenPtr[1].type == TCL_TOKEN_TEXT)) {
 		    Tcl_Panic("Tcl_SubstObj: programming error");
 		}
 		parsePtr->numTokens -= 2;
