@@ -9810,8 +9810,11 @@ Tcl_IsChannelExisting(
 	    name = statePtr->channelName;
 	}
 
+	/* Bug 2333466. Include \0 in the compare to prevent partial matching
+	 * on prefixes.
+	 */
 	if ((*chanName == *name) &&
-		(memcmp(name, chanName, (size_t) chanNameLen) == 0)) {
+		(memcmp(name, chanName, (size_t) chanNameLen+1) == 0)) {
 	    return 1;
 	}
     }
