@@ -920,7 +920,7 @@ ParseCommand(
 		tokenPtr->type = TCL_TOKEN_EXPAND_WORD;
 	    }
 	} else if ((tokenPtr->numComponents == 1)
-		   && (tokenPtr[1].type & (TCL_TOKEN_TEXT|TCL_TOKEN_UNCOLLAPSED_TEXT))) {
+		   && (tokenPtr[1].type == TCL_TOKEN_TEXT)) {
 	    tokenPtr->type = TCL_TOKEN_SIMPLE_WORD;
 	}
 

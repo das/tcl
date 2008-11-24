@@ -929,7 +929,8 @@ TclThreadSend(
 	    ckfree(resultPtr->errorInfo);
 	}
     }
-    Tcl_SetResult(interp, resultPtr->result, TCL_DYNAMIC);
+    Tcl_SetResult(interp, resultPtr->result, TCL_VOLATILE);
+    ckfree(resultPtr->result);
     Tcl_ConditionFinalize(&resultPtr->done);
     code = resultPtr->code;
 
