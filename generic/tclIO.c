@@ -364,8 +364,8 @@ TclFinalizeIOSubsystem(void)
 		 */
 
 		chanPtr->instanceData = NULL;
-		SetFlag(statePtr, CHANNEL_DEAD);
 	    }
+	    SetFlag(statePtr, CHANNEL_DEAD);
 	}
     }
 
