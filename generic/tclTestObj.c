@@ -918,8 +918,6 @@ TestobjCmd(
 	    Tcl_SetObjResult(interp, Tcl_NewStringObj(typeName, -1));
 	}
     } else if (strcmp(subCmd, "refcount") == 0) {
-	char buf[TCL_INTEGER_SPACE];
-
         if (objc != 3) {
             goto wrongNumArgs;
         }
