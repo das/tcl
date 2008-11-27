@@ -364,8 +364,8 @@ TclFinalizeIOSubsystem(void)
 		 */
 
 		chanPtr->instanceData = NULL;
-		SetFlag(statePtr, CHANNEL_DEAD);
 	    }
+	    SetFlag(statePtr, CHANNEL_DEAD);
 	}
     }
 
@@ -2383,14 +2383,7 @@ FlushChannel(
 		Tcl_SetErrno(errorCode);
 		if (interp != NULL && !TclChanCaughtErrorBypass(interp,
 			(Tcl_Channel) chanPtr)) {
-		    /*
-		     * Casting away const here is safe because the
-		     * TCL_VOLATILE flag guarantees const treatment of the
-		     * Posix error string.
-		     */
-
-		    Tcl_SetResult(interp, (char *) Tcl_PosixError(interp),
-			    TCL_VOLATILE);
+		    Tcl_SetObjResult(interp, Tcl_NewStringObj(Tcl_PosixError(interp), -1));
 		}
 
 		/*

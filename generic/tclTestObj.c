@@ -918,8 +918,6 @@ TestobjCmd(
 	    Tcl_SetObjResult(interp, Tcl_NewStringObj(typeName, -1));
 	}
     } else if (strcmp(subCmd, "refcount") == 0) {
-	char buf[TCL_INTEGER_SPACE];
-
         if (objc != 3) {
             goto wrongNumArgs;
         }
@@ -930,8 +928,7 @@ TestobjCmd(
         if (CheckIfVarUnset(interp, varIndex)) {
 	    return TCL_ERROR;
 	}
-	TclFormatInt(buf, varPtr[varIndex]->refCount);
-        Tcl_SetResult(interp, buf, TCL_VOLATILE);
+        Tcl_SetObjResult(interp, Tcl_NewIntObj(varPtr[varIndex]->refCount));
     } else if (strcmp(subCmd, "type") == 0) {
         if (objc != 3) {
             goto wrongNumArgs;
