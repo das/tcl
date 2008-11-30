@@ -36644,6 +36644,19 @@ test clock-63.1 {Incorrect use of internal ConvertLocalToUTC command} {*}{
     -result {key "localseconds" not found in dictionary}
 }
 
+test clock-64.1 {:: in format string [Bug 2362156]} {*}{
+    -body {
+	clock scan 2001-02-03::04:05:06 -gmt 1 -format %Y-%m-%d::%H:%M:%S
+    }
+    -result 981173106
+}
+test clock-64.2 {:: in format string [Bug 2362156]} {*}{
+    -body {
+	clock format 981173106 -gmt 1 -format %Y-%m-%d::%H:%M:%S
+    }
+    -result 2001-02-03::04:05:06
+}
+
 # cleanup
 
 namespace delete ::testClock
