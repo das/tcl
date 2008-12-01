@@ -1080,7 +1080,6 @@ TclWordKnownAtCompileTime(
 {
     int numComponents = tokenPtr->numComponents;
     Tcl_Obj *tempPtr = NULL;
-    char *collapsed=NULL;
 
     if (tokenPtr->type == TCL_TOKEN_SIMPLE_WORD) {
 	if (valuePtr != NULL) {
@@ -1104,17 +1103,6 @@ TclWordKnownAtCompileTime(
 	    }
 	    break;
 
-	case TCL_TOKEN_UNCOLLAPSED_TEXT:
-	    if (tempPtr != NULL) {
-		if (collapsed)
-		    collapsed=ckrealloc(collapsed,tokenPtr->size);
-		else
-		    collapsed=ckalloc(tokenPtr->size);
-		Tcl_AppendToObj(tempPtr, collapsed, TclCopyAndCollapse(tokenPtr->size,tokenPtr->start,collapsed));
-	    }
-	    break;
-
-
 	case TCL_TOKEN_BS:
 	    if (tempPtr != NULL) {
 		char utfBuf[TCL_UTF_MAX];
@@ -1125,14 +1113,12 @@ TclWordKnownAtCompileTime(
 
 	default:
 	    if (tempPtr != NULL) {
-		if (collapsed) ckfree(collapsed);
 		Tcl_DecrRefCount(tempPtr);
 	    }
 	    return 0;
 	}
 	tokenPtr++;
     }
-    if (collapsed) ckfree(collapsed);
     if (valuePtr != NULL) {
 	Tcl_AppendObjToObj(valuePtr, tempPtr);
 	Tcl_DecrRefCount(tempPtr);
@@ -1584,7 +1570,6 @@ TclCompileTokens(
     int numObjsToConcat, nameBytes, localVarName, localVar;
     int length, i;
     unsigned char *entryCodeNext = envPtr->codeNext;
-    char *collapsed=NULL;
 
     Tcl_DStringInit(&textBuffer);
     numObjsToConcat = 0;
@@ -1592,14 +1577,6 @@ TclCompileTokens(
 	switch (tokenPtr->type) {
 	case TCL_TOKEN_TEXT:
 	    Tcl_DStringAppend(&textBuffer, tokenPtr->start, tokenPtr->size);
-	    break;
-
-	case TCL_TOKEN_UNCOLLAPSED_TEXT:
-	    if (collapsed)
-		collapsed=ckrealloc(collapsed,tokenPtr->size);
-	    else
-		collapsed=ckalloc(tokenPtr->size);
-	    Tcl_DStringAppend(&textBuffer, collapsed, TclCopyAndCollapse(tokenPtr->size,tokenPtr->start,collapsed));
 	    break;
 
 	case TCL_TOKEN_BS:
@@ -1749,8 +1726,6 @@ TclCompileTokens(
 		    tokenPtr->type, tokenPtr->size, tokenPtr->start);
 	}
     }
-
-    if (collapsed) ckfree(collapsed);
 
     /*
      * Push any accumulated characters appearing at the end.
