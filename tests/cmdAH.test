@@ -1568,12 +1568,13 @@ test cmdAH-32.5 {file tempfile - templates} -constraints unix -body {
 } -cleanup {
     catch {file delete $name}
 } -result ok
-test cmdAH-32.6 {file tempfile - templates} -constraints unix -body {
+# Not portable; not all unix systems have mkstemps()
+test cmdAH-32.6 {file tempfile - templates} -body {
     set template [file join $dirfile foo]
     close [file tempfile name $template.bar]
     expr {[string match $template*.bar $name] ? "ok" :
 	  "$template.bar produced $name"}
-} -cleanup {
+} -constraints {unix nonPortable} -cleanup {
     catch {file delete $name}
 } -result ok
 
