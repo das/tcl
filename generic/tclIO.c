@@ -235,7 +235,7 @@ TclFinalizeIOSubsystem(void)
 	     statePtr != NULL;
 	     statePtr = statePtr->nextCSPtr) {
 	    chanPtr = statePtr->topChanPtr;
-	    if (!(statePtr->flags & CHANNEL_DEAD)) {
+	    if (!(statePtr->flags & (CHANNEL_INCLOSE|CHANNEL_CLOSED|CHANNEL_DEAD))) {
 		active = 1;
 		break;
 	    }
@@ -302,8 +302,8 @@ TclFinalizeIOSubsystem(void)
 		 */
 		
 		chanPtr->instanceData = NULL;
+		statePtr->flags |= CHANNEL_DEAD;
 	    }
-	    statePtr->flags |= CHANNEL_DEAD;
 	}
     }
 
