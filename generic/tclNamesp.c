@@ -3375,7 +3375,7 @@ NsEval_Callback(
 		"\n    (in namespace %s \"%.*s%s\" script line %d)",
 		cmd,
 		(overflow ? limit : length), namespacePtr->fullName,
-		(overflow ? "..." : ""), interp->errorLine));
+		(overflow ? "..." : ""), Tcl_GetErrorLine(interp)));
     }
 
     /*

@@ -2204,6 +2204,14 @@ declare 604 generic {
 	    int *objcPtr, Tcl_Obj *const *objv, Tcl_Obj ***remObjv)
 }
 
+# TIP 335
+declare 605 generic {
+    int Tcl_GetErrorLine(Tcl_Interp *interp)
+}
+declare 606 generic {
+    void Tcl_SetErrorLine(Tcl_Interp *interp, int value)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface.  These functions are

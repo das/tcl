@@ -2508,7 +2508,8 @@ DictForLoopCallback(
 	    result = TCL_OK;
 	} else if (result == TCL_ERROR) {
 	    Tcl_AppendObjToErrorInfo(interp, Tcl_ObjPrintf(
-		    "\n    (\"dict for\" body line %d)", interp->errorLine));
+		    "\n    (\"dict for\" body line %d)",
+		    Tcl_GetErrorLine(interp)));
 	}
 	goto done;
     }
@@ -2904,7 +2905,7 @@ DictFilterCmd(
 	    case TCL_ERROR:
 		Tcl_AppendObjToErrorInfo(interp, Tcl_ObjPrintf(
 			"\n    (\"dict filter\" script line %d)",
-			interp->errorLine));
+			Tcl_GetErrorLine(interp)));
 	    default:
 		goto abnormalResult;
 	    }

@@ -1130,6 +1130,8 @@ static const TclStubs tclStubs = {
     Tcl_SetEnsembleParameterList, /* 602 */
     Tcl_GetEnsembleParameterList, /* 603 */
     Tcl_ParseArgsObjv, /* 604 */
+    Tcl_GetErrorLine, /* 605 */
+    Tcl_SetErrorLine, /* 606 */
 };
 
 /* !END!: Do not edit above this line. */
