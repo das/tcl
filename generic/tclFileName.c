@@ -2662,10 +2662,10 @@ TclDoGlob(interp, separators, headPtr, tail, types)
 	nameObj = Tcl_NewStringObj(name, Tcl_DStringLength(headPtr));
 
 	Tcl_IncrRefCount(nameObj);
-	Tcl_FSMatchInDirectory(interp, Tcl_GetObjResult(interp), nameObj, 
-			       NULL, types);
+	result = Tcl_FSMatchInDirectory(interp, Tcl_GetObjResult(interp),
+		nameObj, NULL, types);
 	Tcl_DecrRefCount(nameObj);
-	return TCL_OK;
+	return result;
     }
 }
 
