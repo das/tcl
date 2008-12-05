@@ -1556,7 +1556,7 @@ Tcl_SetReturnOptions(
 /*
  *-------------------------------------------------------------------------
  *
- * TclTransferResult --
+ * Tcl_TransferResult --
  *
  *	Copy the result (and error information) from one interp to another.
  *	Used when one interp has caused another interp to evaluate a script
@@ -1582,7 +1582,7 @@ Tcl_SetReturnOptions(
  */
 
 void
-TclTransferResult(
+Tcl_TransferResult(
     Tcl_Interp *sourceInterp,	/* Interp whose result and error information
 				 * should be moved to the target interp.
 				 * After moving result, this interp's result
