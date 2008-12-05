@@ -1133,6 +1133,7 @@ static const TclStubs tclStubs = {
     Tcl_GetErrorLine, /* 605 */
     Tcl_SetErrorLine, /* 606 */
     Tcl_TransferResult, /* 607 */
+    Tcl_InterpActive, /* 608 */
 };
 
 /* !END!: Do not edit above this line. */
