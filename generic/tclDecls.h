@@ -3667,6 +3667,23 @@ EXTERN int		Tcl_GetErrorLine (Tcl_Interp * interp);
 /* 606 */
 EXTERN void		Tcl_SetErrorLine (Tcl_Interp * interp, int value);
 #endif
+#ifndef Tcl_OpenServerChannel_TCL_DECLARED
+#define Tcl_OpenServerChannel_TCL_DECLARED
+/* 607 */
+EXTERN Tcl_Channel	Tcl_OpenServerChannel (Tcl_Interp * interp,
+				const char * host, const char * port,
+				const char * type,
+				Tcl_SocketAcceptProc * acceptProc,
+				ClientData callbackData);
+#endif
+#ifndef Tcl_OpenClientChannel_TCL_DECLARED
+#define Tcl_OpenClientChannel_TCL_DECLARED
+/* 608 */
+EXTERN Tcl_Channel	Tcl_OpenClientChannel (Tcl_Interp * interp,
+				const char * host, const char * port,
+				const char * myaddr, const char * myport,
+				const char * type, int async);
+#endif
 
 typedef struct TclStubHooks {
     const struct TclPlatStubs *tclPlatStubs;
@@ -4333,6 +4350,8 @@ typedef struct TclStubs {
     int (*tcl_ParseArgsObjv) (Tcl_Interp * interp, const Tcl_ArgvInfo * argTable, int * objcPtr, Tcl_Obj *const * objv, Tcl_Obj *** remObjv); /* 604 */
     int (*tcl_GetErrorLine) (Tcl_Interp * interp); /* 605 */
     void (*tcl_SetErrorLine) (Tcl_Interp * interp, int value); /* 606 */
+    Tcl_Channel (*tcl_OpenServerChannel) (Tcl_Interp * interp, const char * host, const char * port, const char * type, Tcl_SocketAcceptProc * acceptProc, ClientData callbackData); /* 607 */
+    Tcl_Channel (*tcl_OpenClientChannel) (Tcl_Interp * interp, const char * host, const char * port, const char * myaddr, const char * myport, const char * type, int async); /* 608 */
 } TclStubs;
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
@@ -6832,6 +6851,14 @@ extern const TclStubs *tclStubsPtr;
 #ifndef Tcl_SetErrorLine
 #define Tcl_SetErrorLine \
 	(tclStubsPtr->tcl_SetErrorLine) /* 606 */
+#endif
+#ifndef Tcl_OpenServerChannel
+#define Tcl_OpenServerChannel \
+	(tclStubsPtr->tcl_OpenServerChannel) /* 607 */
+#endif
+#ifndef Tcl_OpenClientChannel
+#define Tcl_OpenClientChannel \
+	(tclStubsPtr->tcl_OpenClientChannel) /* 608 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */

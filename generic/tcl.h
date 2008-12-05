@@ -708,6 +708,8 @@ typedef int (Tcl_ObjCmdProc) (ClientData clientData, Tcl_Interp *interp,
 typedef int (Tcl_PackageInitProc) (Tcl_Interp *interp);
 typedef int (Tcl_PackageUnloadProc) (Tcl_Interp *interp, int flags);
 typedef void (Tcl_PanicProc) (const char *format, ...);
+typedef void (Tcl_SocketAcceptProc) (ClientData callbackData, Tcl_Channel chan,
+	const char *address, const char *port);
 typedef void (Tcl_TcpAcceptProc) (ClientData callbackData, Tcl_Channel chan,
 	char *address, int port);
 typedef void (Tcl_TimerProc) (ClientData clientData);

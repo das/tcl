@@ -1132,6 +1132,8 @@ static const TclStubs tclStubs = {
     Tcl_ParseArgsObjv, /* 604 */
     Tcl_GetErrorLine, /* 605 */
     Tcl_SetErrorLine, /* 606 */
+    Tcl_OpenServerChannel, /* 607 */
+    Tcl_OpenClientChannel, /* 608 */
 };
 
 /* !END!: Do not edit above this line. */
