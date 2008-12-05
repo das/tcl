@@ -3955,6 +3955,30 @@ Tcl_CancelEval(
 /*
  *----------------------------------------------------------------------
  *
+ * Tcl_InterpActive --
+ *
+ *	Returns non-zero if the specified interpreter is in use, i.e. if there
+ *	is an evaluation currently active in the interpreter.
+ *
+ * Results:
+ *	See above.
+ *
+ * Side effects:
+ *	None.
+ *
+ *----------------------------------------------------------------------
+ */
+
+int
+Tcl_InterpActive(
+    Tcl_Interp *interp)
+{
+    return ((Interp *) interp)->numLevels > 0;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
  * Tcl_EvalObjv --
  *
  *	This function evaluates a Tcl command that has already been parsed
