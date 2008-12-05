@@ -1132,6 +1132,7 @@ static const TclStubs tclStubs = {
     Tcl_ParseArgsObjv, /* 604 */
     Tcl_GetErrorLine, /* 605 */
     Tcl_SetErrorLine, /* 606 */
+    Tcl_TransferResult, /* 607 */
 };
 
 /* !END!: Do not edit above this line. */
