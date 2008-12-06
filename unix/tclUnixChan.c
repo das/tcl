@@ -2661,7 +2661,7 @@ MakeTcpClientChannelMode(
  *
  * Tcl_OpenTcpServer --
  *
- *	Opens a TCP (IPv4 only) server socket and creates a channel around it.
+ *	Opens a TCP server socket and creates a channel around it.
  *
  * Results:
  *	The channel or NULL if failed. If an error occurred, an error message
@@ -2692,7 +2692,7 @@ Tcl_OpenTcpServer(
      * Create a new client socket and wrap it in a channel.
      */
 
-    chan = Tcl_OpenServerChannel(interp, portName, myHost, "inet4", acceptProc, acceptProcData);
+    chan = Tcl_OpenServerChannel(interp, portName, myHost, "inet", acceptProc, acceptProcData);
     if chan == NULL) {
 	return NULL;
     }
