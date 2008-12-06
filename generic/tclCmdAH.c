@@ -1704,6 +1704,18 @@ FileTempfileCmd(
 		|| (tclPlatform == TCL_PLATFORM_WINDOWS
 		    && strchr(string, '\\') != NULL)) {
 	    tempDirObj = TclPathPart(interp, objv[3], TCL_PATH_DIRNAME);
+
+	    /*
+	     * Only allow creation of temporary files in the native filesystem
+	     * since they are frequently used for integration with external
+	     * tools or system libraries. [Bug 2388866]
+	     */
+
+	    if (Tcl_FSGetFileSystemForPath(tempDirObj)
+		    != &tclNativeFilesystem) {
+		TclDecrRefCount(tempDirObj);
+		tempDirObj = NULL;
+	    }
 	}
 
 	/*
