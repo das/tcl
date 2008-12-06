@@ -2214,13 +2214,13 @@ declare 606 generic {
 
 # TIP 162
 declare 607 generic {
-    Tcl_Channel Tcl_OpenServerChannel(Tcl_Interp *interp, const char *host,
-	    const char *port, const char *type, Tcl_SocketAcceptProc *acceptProc,
+    Tcl_Channel Tcl_OpenServerChannel(Tcl_Interp *interp, const char *port,
+		const char *myhost, const char *type, Tcl_SocketAcceptProc *acceptProc,
 		ClientData callbackData)
 }
 declare 608 generic {
-    Tcl_Channel Tcl_OpenClientChannel(Tcl_Interp *interp, const char *host,
-	    const char *port, const char *myaddr, const char *myport,
+    Tcl_Channel Tcl_OpenClientChannel(Tcl_Interp *interp, const char *port,
+	    const char *host, const char *myaddr, const char *myport,
 	    const char *type, int async)
 }
 

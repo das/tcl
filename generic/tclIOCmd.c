@@ -1537,7 +1537,7 @@ Tcl_SocketObjCmd(
 	memcpy(copyScript, script, len);
 	acceptCallbackPtr->script = copyScript;
 	acceptCallbackPtr->interp = interp;
-	chan = Tcl_OpenServerChannel(interp, host, port, type, AcceptCallbackProc,
+	chan = Tcl_OpenServerChannel(interp, port, host, type, AcceptCallbackProc,
 		acceptCallbackPtr);
 	if (chan == NULL) {
 	    ckfree(copyScript);
@@ -1562,7 +1562,7 @@ Tcl_SocketObjCmd(
 
 	Tcl_CreateCloseHandler(chan, TcpServerCloseProc, acceptCallbackPtr);
     } else {
-	chan = Tcl_OpenClientChannel(interp, host, port, myaddr, myport, type, async);
+	chan = Tcl_OpenClientChannel(interp, port, host, myaddr, myport, type, async);
 	if (chan == NULL) {
 	    return TCL_ERROR;
 	}
