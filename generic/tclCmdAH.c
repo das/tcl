@@ -15,6 +15,7 @@
 
 #include "tclInt.h"
 #include <locale.h>
+#include "tclFileSystem.h"
 
 /*
  * The state structure used by [foreach]. Note that the actual structure has
