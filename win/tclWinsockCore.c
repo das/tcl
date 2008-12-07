@@ -1902,7 +1902,7 @@ NewSocketInfo (SOCKET socket)
     infoPtr->outstandingRecvCap = IOCP_RECV_CAP;
     infoPtr->needRecvRestart = 0;
     InitializeCriticalSectionAndSpinCount(&infoPtr->tsdLock, 400);
-    infoPtr->recvMode = IOCP_RECVMODE_ZERO_BYTE;
+    infoPtr->recvMode = IOCP_RECVMODE_FLOW_CTRL;
     infoPtr->watchMask = 0;
     infoPtr->readyAccepts = NULL;
     infoPtr->acceptProc = NULL;
