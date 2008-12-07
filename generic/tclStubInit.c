@@ -1134,6 +1134,7 @@ static const TclStubs tclStubs = {
     Tcl_SetErrorLine, /* 606 */
     Tcl_OpenServerChannel, /* 607 */
     Tcl_OpenClientChannel, /* 608 */
+    Tcl_MakeSocketClientChannel, /* 609 */
 };
 
 /* !END!: Do not edit above this line. */

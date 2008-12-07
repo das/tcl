@@ -1430,11 +1430,10 @@ Tcl_SocketObjCmd(
     }
 
     /*
-     * Default to AF_UNSPEC for either IPv6 or IPv4 addresses
-     * for name lookup.
+     * Default to AF_INET (IPv4) for name lookups.
      */
 
-    type = "inet";
+    type = "tcp4";
 
     for (a = 1; a < objc; a++) {
 	const char *arg = Tcl_GetString(objv[a]);

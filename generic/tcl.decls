@@ -2223,6 +2223,9 @@ declare 608 generic {
 	    const char *host, const char *myaddr, const char *myport,
 	    const char *type, int async)
 }
+declare 609 generic {
+    Tcl_Channel Tcl_MakeSocketClientChannel(ClientData sock)
+}
 
 ##############################################################################
 
