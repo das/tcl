@@ -68,15 +68,31 @@
 
 #include <time.h>
 
+/*
+ * Enables NT5 special features.
+ */
+#define _WIN32_WINNT 0x0501
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #undef WIN32_LEAN_AND_MEAN
 
+/* winsock2.h should check for the intrinsic _WIN32, but doesn't. */
+#ifndef WIN32
+#define WIN32
+#endif
+
 /*
  * Ask for the winsock function typedefs, also.
  */
+
 #define INCL_WINSOCK_API_TYPEDEFS   1
 #include <winsock2.h>
+#include <ws2tcpip.h>
+#include <wspiapi.h>
+#include <mswsock.h>
+#include <svcguid.h>
+#include <nspapi.h>
 
 /*
  * Define EINPROGRESS in terms of WSAEINPROGRESS.
