@@ -2217,6 +2217,11 @@ declare 608 generic {
     int Tcl_InterpActive(Tcl_Interp *interp)
 }
 
+# TIP 337
+declare 609 generic {
+    void Tcl_BackgroundException(Tcl_Interp *interp, int code)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface. These functions are only

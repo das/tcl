@@ -8307,7 +8307,7 @@ TclChannelEventScriptInvoker(
 	if (chanPtr->typePtr != NULL) {
 	    DeleteScriptRecord(interp, chanPtr, mask);
 	}
-	TclBackgroundException(interp, result);
+	Tcl_BackgroundException(interp, result);
     }
     Tcl_Release(interp);
 }
@@ -8812,7 +8812,7 @@ CopyData(
 	}
 	code = Tcl_EvalObjEx(interp, cmdPtr, TCL_EVAL_GLOBAL);
 	if (code != TCL_OK) {
-	    TclBackgroundException(interp, code);
+	    Tcl_BackgroundException(interp, code);
 	    result = TCL_ERROR;
 	}
 	TclDecrRefCount(cmdPtr);

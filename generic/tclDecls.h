@@ -3681,6 +3681,12 @@ EXTERN void		Tcl_TransferResult (Tcl_Interp * sourceInterp,
 /* 608 */
 EXTERN int		Tcl_InterpActive (Tcl_Interp * interp);
 #endif
+#ifndef Tcl_BackgroundException_TCL_DECLARED
+#define Tcl_BackgroundException_TCL_DECLARED
+/* 609 */
+EXTERN void		Tcl_BackgroundException (Tcl_Interp * interp,
+				int code);
+#endif
 
 typedef struct TclStubHooks {
     const struct TclPlatStubs *tclPlatStubs;
@@ -4349,6 +4355,7 @@ typedef struct TclStubs {
     void (*tcl_SetErrorLine) (Tcl_Interp * interp, int value); /* 606 */
     void (*tcl_TransferResult) (Tcl_Interp * sourceInterp, int result, Tcl_Interp * targetInterp); /* 607 */
     int (*tcl_InterpActive) (Tcl_Interp * interp); /* 608 */
+    void (*tcl_BackgroundException) (Tcl_Interp * interp, int code); /* 609 */
 } TclStubs;
 
 #if defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS)
@@ -6856,6 +6863,10 @@ extern const TclStubs *tclStubsPtr;
 #ifndef Tcl_InterpActive
 #define Tcl_InterpActive \
 	(tclStubsPtr->tcl_InterpActive) /* 608 */
+#endif
+#ifndef Tcl_BackgroundException
+#define Tcl_BackgroundException \
+	(tclStubsPtr->tcl_BackgroundException) /* 609 */
 #endif
 
 #endif /* defined(USE_TCL_STUBS) && !defined(USE_TCL_STUB_PROCS) */
