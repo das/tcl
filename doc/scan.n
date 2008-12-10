@@ -104,6 +104,12 @@ The input substring must be a hexadecimal integer.
 It is read in and the integer value is stored in the variable,
 truncated as required by the size modifier value.
 .TP 10
+\fBb\fR
+.
+The input substring must be a binary integer.
+It is read in and the integer value is stored in the variable,
+truncated as required by the size modifier value.
+.TP 10
 \fBu\fR
 .
 The input substring must be a decimal integer.
