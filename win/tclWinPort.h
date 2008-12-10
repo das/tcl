@@ -510,8 +510,8 @@
 
 /*
  * The following defines map from standard socket names to our internal
- * wrappers that redirect through the winSock function table (see the
- * file tclWinSock.c).
+ * wrappers that redirect through our WinSock wrappers (see the
+ * file tclWinsockCore.c).
  */
 
 #define getservbyname	TclWinGetServByName
