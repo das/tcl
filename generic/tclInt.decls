@@ -933,8 +933,9 @@ declare 235 generic {
 }
 
 
+# TIP 337 made this one public
 declare 236 generic {
-    void TclBackgroundException(Tcl_Interp *interp, int code)
+    void Tcl_BackgroundException(Tcl_Interp *interp, int code)
 }
 
 # TIP #285: Script cancellation support.

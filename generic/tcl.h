@@ -476,9 +476,13 @@ typedef struct Tcl_Interp {
     char* unused3;
     void (*unused4) (char*);
 #endif
+#ifdef USE_INTERP_ERRORLINE
     int errorLine;		/* When TCL_ERROR is returned, this gives the
 				 * line number within the command where the
 				 * error occurred (1 if first line). */
+#else
+    int unused5;
+#endif
 } Tcl_Interp;
 
 typedef struct Tcl_AsyncHandler_ *Tcl_AsyncHandler;
