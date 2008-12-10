@@ -297,6 +297,16 @@ static const unsigned int tableLen = sizeof(errorTable);
  */
 
 static int wsaErrorTable1[] = {
+    EINVAL,		/* WSAEINTR */
+    EINVAL,		/* WSAEBADF */
+    EINVAL,		/* WSAEACCES */
+    EINVAL,		/* WSAEFAULT */
+    EINVAL,		/* WSAEINVAL */
+    EINVAL,		/* WSAEMFILE */
+};
+
+
+static int wsaErrorTable2[] = {
     EWOULDBLOCK,	/* WSAEWOULDBLOCK */
     EINPROGRESS,	/* WSAEINPROGRESS */
     EALREADY,		/* WSAEALREADY */
@@ -343,7 +353,7 @@ static int wsaErrorTable1[] = {
  * TODO: Fixme!
  */
 
-static int wsaErrorTable2[] = {
+static int wsaErrorTable3[] = {
     EINVAL,		/* WSASYSNOTREADY	    WSAStartup cannot function at this time because the underlying system it uses to provide network services is currently unavailable. */
     EINVAL,		/* WSAVERNOTSUPPORTED	    The Windows Sockets version requested is not supported. */
     EINVAL,		/* WSANOTINITIALISED	    Either the application has not called WSAStartup, or WSAStartup failed. */
@@ -375,7 +385,7 @@ static int wsaErrorTable2[] = {
  * TODO: Fixme!
  */
 
-static int wsaErrorTable3[] = {
+static int wsaErrorTable4[] = {
     EINVAL,	/* WSAHOST_NOT_FOUND,	Authoritative Answer: Host not found */
     EINVAL,	/* WSATRY_AGAIN,	Non-Authoritative: Host not found, or SERVERFAIL */
     EINVAL,	/* WSANO_RECOVERY,	Non-recoverable errors, FORMERR, REFUSED, NOTIMP */
@@ -457,12 +467,14 @@ void
 TclWinConvertWSAError(
     DWORD errCode)		/* Win32 error code. */
 {
-    if ((errCode >= WSAEWOULDBLOCK) && (errCode <= WSAEREMOTE)) {
-	Tcl_SetErrno(wsaErrorTable1[errCode - WSAEWOULDBLOCK]);
+    if ((errCode >= WSAEINTR) && (errCode <= WSAEMFILE)) {
+	Tcl_SetErrno(wsaErrorTable1[errCode - WSAEINTR]);
+    } else if ((errCode >= WSAEWOULDBLOCK) && (errCode <= WSAEREMOTE)) {
+	Tcl_SetErrno(wsaErrorTable2[errCode - WSAEWOULDBLOCK]);
     } else if ((errCode >= WSASYSNOTREADY) && (errCode <= WSAEREFUSED)) {
-	Tcl_SetErrno(wsaErrorTable2[errCode - WSASYSNOTREADY]);
+	Tcl_SetErrno(wsaErrorTable3[errCode - WSASYSNOTREADY]);
     } else if ((errCode >= WSAHOST_NOT_FOUND) && (errCode <= WSA_QOS_RESERVED_PETYPE)) {
-	Tcl_SetErrno(wsaErrorTable3[errCode - WSAHOST_NOT_FOUND]);
+	Tcl_SetErrno(wsaErrorTable4[errCode - WSAHOST_NOT_FOUND]);
     } else {
 	Tcl_SetErrno(EINVAL);
     }
