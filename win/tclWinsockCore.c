@@ -268,6 +268,7 @@ InitSockets(void)
 	AddProtocolData("ggp",		NULL);
 	AddProtocolData("idp",		NULL);
 	AddProtocolData("nd",		NULL);
+	AddProtocolData("rm",		NULL);
 	/*
 	 * UNIX domain (machine local) sockets.
 	 */
@@ -320,6 +321,7 @@ InitSockets(void)
 	AddProtocolData("iso_tp4",	NULL);
 	AddProtocolData("iso_cltp",	NULL);
 	AddProtocolData("iso_clnp",	NULL);
+	AddProtocolData("iso_inactnl",	NULL);
 	AddProtocolData("iso_x.25",	NULL);
 	AddProtocolData("iso_es-is",	NULL);
 	AddProtocolData("iso_is-is",	NULL);
@@ -328,11 +330,17 @@ InitSockets(void)
 	 */
 	AddProtocolData("netbios",	NULL);
 	/*
-	 * Banyan Vines
+	 * Banyan VINES (Virtual Integrated NEtwork Service)
 	 */
 	AddProtocolData("vines_ipc",	NULL);
 	AddProtocolData("vines_ripc",	NULL);
 	AddProtocolData("vines_spp",	NULL);
+	/*
+	 * ATM (Asynchronous Transfer Mode)
+	 */
+	AddProtocolData("atm_aal1",		NULL);
+	AddProtocolData("atm_aal2",		NULL);
+	AddProtocolData("atm_aal5",		NULL);
     }
 
     /* per thread init */

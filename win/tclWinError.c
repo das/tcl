@@ -337,7 +337,7 @@ static int wsaErrorTable2[] = {
     EAFNOSUPPORT,	/* WSAEAFNOSUPPORT  Address family not supported by protocol family. */
     EADDRINUSE,		/* WSAEADDRINUSE    Address already in use. */
     EADDRNOTAVAIL,	/* WSAEADDRNOTAVAIL Cannot assign requested address. */
-    ENETDOWN,		/* WSAENETDOWN	    Network is down. This error may be reported at any time if the Windows Sockets implementation detects an underlying failure. */
+    ENETDOWN,		/* WSAENETDOWN	    Network is down. */
     ENETUNREACH,	/* WSAENETUNREACH   Network is unreachable. */
     ENETRESET,		/* WSAENETRESET	    Network dropped connection on reset. */
     ECONNABORTED,	/* WSAECONNABORTED  Software caused connection abort. */
