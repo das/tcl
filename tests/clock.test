@@ -36083,6 +36083,28 @@ test clock-52.1 {Posix timezone and conversion on last Sunday} {
     set result
 } {01:59:59 01:59:59 03:00:00 03:00:00}
 
+test clock-52.2 {correct conversion of times in Europe} {
+   # [Bug 2207436]
+   set result {}
+   foreach t [list 1206838799 1206838800 1224982799 1224982800] {
+       lappend result [clock format $t -format %H:%M:%S \
+                           -timezone MET-1METDST]
+       lappend result [clock format $t -format %H:%M:%S \
+                           -timezone MET0METDST]
+   }
+   set result
+} {01:59:59 00:59:59 03:00:00 02:00:00 02:59:59 01:59:59 02:00:00 01:00:00}
+
+test clock-52.3 {correct conversion of times in Russia} {
+   # [Bug 2207436]
+   set result {}
+   foreach t [list 1206799199 1206799200 1224943199 1224943200] {
+       lappend result [clock format $t -format %H:%M:%S \
+                           -timezone WST-12WSTDST]
+   }
+   set result
+} {01:59:59 03:00:00 02:59:59 02:00:00}
+
 # Regression test for Bug # 1505383
 
 test clock-53.1 {%EC %Ey} {
@@ -36642,6 +36664,19 @@ test clock-63.1 {Incorrect use of internal ConvertLocalToUTC command} {*}{
     }
     -returnCodes error
     -result {key "localseconds" not found in dictionary}
+}
+
+test clock-64.1 {:: in format string [Bug 2362156]} {*}{
+    -body {
+	clock scan 2001-02-03::04:05:06 -gmt 1 -format %Y-%m-%d::%H:%M:%S
+    }
+    -result 981173106
+}
+test clock-64.2 {:: in format string [Bug 2362156]} {*}{
+    -body {
+	clock format 981173106 -gmt 1 -format %Y-%m-%d::%H:%M:%S
+    }
+    -result 2001-02-03::04:05:06
 }
 
 # cleanup
