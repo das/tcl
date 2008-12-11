@@ -113,6 +113,12 @@ LIBS="$LIBS$THREADS_LIBS"
 
 SC_ENABLE_SHARED
 
+#------------------------------------------------------------------------
+#	Add stuff for zlib
+#------------------------------------------------------------------------
+
+LIBS="$LIBS -lz"
+
 #--------------------------------------------------------------------
 # The statements below define a collection of compile flags.  This
 # macro depends on the value of SHARED_BUILD, and should be called
