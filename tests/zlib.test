@@ -35,6 +35,11 @@ test zlib-3.1 {zlib deflate/inflate} {
 test zlib-4.1 {zlib gzip/gunzip} {
     zlib gunzip [zlib gzip abcdefghijklm]
 } abcdefghijklm
+test zlib-4.2 {zlib gzip/gunzip} {
+    set s [string repeat abcdef 5]
+    list [zlib gunzip [zlib gzip $s -header {comment gorp}] -header head] \
+	[dict get $head comment] [dict get $head size]
+} {abcdefabcdefabcdefabcdefabcdef gorp 30}
 
 test zlib-5.1 {zlib adler32} {
     format %x [zlib adler32 abcdeabcdeabcdeabcdeabcdeabcde]
