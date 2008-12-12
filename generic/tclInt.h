@@ -2501,6 +2501,8 @@ typedef struct ProcessGlobalValue {
 				/* Use [scan] rules dealing with 0? prefixes */
 #define TCL_PARSE_NO_WHITESPACE		32
 				/* Reject leading/trailing whitespace */
+#define TCL_PARSE_BINARY_ONLY	64
+				/* Parse binary even without prefix */
 
 /*
  *----------------------------------------------------------------------
@@ -2929,6 +2931,7 @@ MODULE_SCOPE Tcl_WideInt TclpGetWideClicks(void);
 MODULE_SCOPE double	TclpWideClicksToNanoseconds(Tcl_WideInt clicks);
 #endif
 MODULE_SCOPE Tcl_Obj *	TclDisassembleByteCodeObj(Tcl_Obj *objPtr);
+MODULE_SCOPE int	TclZlibInit(Tcl_Interp *interp);
 
 MODULE_SCOPE void *	TclpThreadCreateKey(void);
 MODULE_SCOPE void	TclpThreadDeleteKey(void *keyPtr);
