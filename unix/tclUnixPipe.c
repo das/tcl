@@ -798,6 +798,9 @@ Tcl_CreatePipe(
 	return TCL_ERROR;
     }
 
+    fcntl(fileNums[0], F_SETFD, FD_CLOEXEC);
+    fcntl(fileNums[1], F_SETFD, FD_CLOEXEC);
+
     *rchan = Tcl_MakeFileChannel((ClientData) INT2PTR(fileNums[0]),
 	    TCL_READABLE);
     Tcl_RegisterChannel(interp, *rchan);
