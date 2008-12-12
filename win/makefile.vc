@@ -335,11 +335,8 @@ TCLOBJS = \
 	$(TMP_DIR)\tclWinLoad.obj \
 	$(TMP_DIR)\tclWinNotify.obj \
 	$(TMP_DIR)\tclWinPipe.obj \
-	$(TMP_DIR)\tclWinsockBTH.obj \
 	$(TMP_DIR)\tclWinsockCore.obj \
-	$(TMP_DIR)\tclWinsockIrDA.obj \
 	$(TMP_DIR)\tclWinsockTCP.obj \
-	$(TMP_DIR)\tclWinsockUDP.obj \
 	$(TMP_DIR)\tclWinThrd.obj \
 	$(TMP_DIR)\tclWinTime.obj \
 	$(TMP_DIR)\bncore.obj \

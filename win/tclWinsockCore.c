@@ -255,6 +255,7 @@ InitSockets(void)
 	AddProtocolData("tcp",		&tcpAnyProtoData);
 	AddProtocolData("tcp4", 	&tcp4ProtoData);
 	AddProtocolData("tcp6", 	&tcp6ProtoData);
+#if 0
 	AddProtocolData("udp",		&udpAnyProtoData);
 	AddProtocolData("udp4", 	&udp4ProtoData);
 	AddProtocolData("udp6",		&udp6ProtoData);
@@ -341,6 +342,7 @@ InitSockets(void)
 	AddProtocolData("atm_aal1",		NULL);
 	AddProtocolData("atm_aal2",		NULL);
 	AddProtocolData("atm_aal5",		NULL);
+#endif
     }
 
     /* per thread init */

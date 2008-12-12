@@ -1465,7 +1465,7 @@ Tcl_SocketObjCmd(
 			"no argument given for -myport option", NULL);
 		return TCL_ERROR;
 	    }
-	    port = TclGetString(objv[a]);
+	    myport = TclGetString(objv[a]);
 	    break;
 	case SKT_SERVER:
 	    server = 1;

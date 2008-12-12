@@ -395,6 +395,9 @@ static const TclPlatStubs tclPlatStubs = {
 #ifdef __WIN32__ /* WIN */
     Tcl_WinUtfToTChar, /* 0 */
     Tcl_WinTCharToUtf, /* 1 */
+    Tcl_WinErrId, /* 2 */
+    Tcl_WinErrMsg, /* 3 */
+    Tcl_WinError, /* 4 */
 #endif /* WIN */
 #ifdef MAC_OSX_TCL /* MACOSX */
     Tcl_MacOSXOpenBundleResources, /* 0 */
