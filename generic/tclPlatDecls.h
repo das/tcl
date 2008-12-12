@@ -68,14 +68,13 @@ EXTERN const char *	Tcl_WinErrId (unsigned int errorCode);
 #ifndef Tcl_WinErrMsg_TCL_DECLARED
 #define Tcl_WinErrMsg_TCL_DECLARED
 /* 3 */
-EXTERN const char *	Tcl_WinErrMsg (unsigned int errorCode,
-				va_list * extra);
+EXTERN const char *	Tcl_WinErrMsg (unsigned int errorCode);
 #endif
 #ifndef Tcl_WinError_TCL_DECLARED
 #define Tcl_WinError_TCL_DECLARED
 /* 4 */
 EXTERN const char *	Tcl_WinError (Tcl_Interp * interp,
-				unsigned int errorCode, va_list * extra);
+				unsigned int errorCode);
 #endif
 #endif /* WIN */
 #ifdef MAC_OSX_TCL /* MACOSX */
@@ -105,8 +104,8 @@ typedef struct TclPlatStubs {
     TCHAR * (*tcl_WinUtfToTChar) (const char * str, int len, Tcl_DString * dsPtr); /* 0 */
     char * (*tcl_WinTCharToUtf) (const TCHAR * str, int len, Tcl_DString * dsPtr); /* 1 */
     const char * (*tcl_WinErrId) (unsigned int errorCode); /* 2 */
-    const char * (*tcl_WinErrMsg) (unsigned int errorCode, va_list * extra); /* 3 */
-    const char * (*tcl_WinError) (Tcl_Interp * interp, unsigned int errorCode, va_list * extra); /* 4 */
+    const char * (*tcl_WinErrMsg) (unsigned int errorCode); /* 3 */
+    const char * (*tcl_WinError) (Tcl_Interp * interp, unsigned int errorCode); /* 4 */
 #endif /* WIN */
 #ifdef MAC_OSX_TCL /* MACOSX */
     int (*tcl_MacOSXOpenBundleResources) (Tcl_Interp * interp, const char * bundleName, int hasResourceFile, int maxPathLen, char * libraryPath); /* 0 */
