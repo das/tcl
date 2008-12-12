@@ -95,6 +95,13 @@
 #include <nspapi.h>
 
 /*
+ * TIP 162 (IPv6).  The network layer manages this for us as
+ * getaddrinfo() is an always existing inlined function from ws2tcpip.h
+ */
+
+#define HAVE_GETADDRINFO
+
+/*
  * Define EINPROGRESS in terms of WSAEINPROGRESS.
  */
 
@@ -510,7 +517,7 @@
 
 /*
  * The following defines map from standard socket names to our internal
- * wrappers that redirect through our WinSock wrappers (see the
+ * wrappers that redirect through our Winsock wrappers (see the
  * file tclWinsockCore.c).
  */
 
@@ -520,7 +527,6 @@
 #define setsockopt	TclWinSetSockOpt
 /* This type is not defined in the Windows headers */
 #define socklen_t       int
-
 
 /*
  * The following macros have trivial definitions, allowing generic code to 
