@@ -1090,7 +1090,7 @@ Tcl_ZlibDeflate(
 	 * byte of string that we add. Note that over-allocation is not a
 	 * problem. [Bug 2419061]
 	 */
-	
+
 	extraSize = 32;
 	if (gzipHeaderDictObj) {
 	    headerPtr = &header;
@@ -1245,9 +1245,9 @@ Tcl_ZlibInflate(
     if (gzipHeaderDictObj) {
 	headerPtr = &header;
 	memset(headerPtr, 0, sizeof(gz_header));
-	nameBuf = ckalloc(PATH_MAX);
+	nameBuf = ckalloc(MAXPATHLEN);
 	header.name = (void *) nameBuf;
-	header.name_max = PATH_MAX;
+	header.name_max = MAXPATHLEN;
 	commentBuf = ckalloc(256);
 	header.comment = (void *) commentBuf;
 	header.comm_max = 256;
@@ -1286,7 +1286,7 @@ Tcl_ZlibInflate(
 	goto error;
     }
     if (headerPtr) {
-	inflateGetHeader(&stream, headerPtr);
+	e = inflateGetHeader(&stream, headerPtr);
 	if (e != Z_OK) {
 	    goto error;
 	}
