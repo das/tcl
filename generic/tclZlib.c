@@ -17,6 +17,7 @@
  */
 
 #include "tclInt.h"
+#ifdef HAVE_ZLIB
 #include <zlib.h>
 
 #define GZIP_MAGIC_FLAG	16
@@ -2115,6 +2116,115 @@ TclZlibInit(
     Tcl_CreateObjCommand(interp, "zlib", ZlibCmd, 0, 0);
     return TCL_OK;
 }
+#else /* HAVE_ZLIB */
+int
+Tcl_ZlibStreamInit(
+    Tcl_Interp *interp,
+    int mode,
+    int format,
+    int level,
+    Tcl_Obj *dictObj,
+    Tcl_ZlibStream *zshandle)
+{
+    Tcl_SetResult(interp, "unimplemented", TCL_STATIC);
+    return TCL_ERROR;
+}
+
+int
+Tcl_ZlibStreamClose(
+    Tcl_ZlibStream zshandle)
+{
+    return TCL_OK;
+}
+
+int
+Tcl_ZlibStreamReset(
+    Tcl_ZlibStream zshandle)
+{
+    return TCL_OK;
+}
+
+Tcl_Obj *
+Tcl_ZlibStreamGetCommandName(
+    Tcl_ZlibStream zshandle)
+{
+    return NULL;
+}
+
+int
+Tcl_ZlibStreamEof(
+    Tcl_ZlibStream zshandle)
+{
+    return 1;
+}
+
+int
+Tcl_ZlibStreamAdler32(
+    Tcl_ZlibStream zshandle)
+{
+    return 0;
+}
+
+int
+Tcl_ZlibStreamPut(
+    Tcl_ZlibStream zshandle,
+    Tcl_Obj *data,
+    int flush)
+{
+    return TCL_OK;
+}
+
+int
+Tcl_ZlibStreamGet(
+    Tcl_ZlibStream zshandle,
+    Tcl_Obj *data,
+    int count)
+{
+    return TCL_OK;
+}
+
+int
+Tcl_ZlibDeflate(
+    Tcl_Interp *interp,
+    int format,
+    Tcl_Obj *data,
+    int level,
+    Tcl_Obj *gzipHeaderDictObj)
+{
+    Tcl_SetResult(interp, "unimplemented", TCL_STATIC);
+    return TCL_ERROR;
+}
+
+int
+Tcl_ZlibInflate(
+    Tcl_Interp *interp,
+    int format,
+    Tcl_Obj *data,
+    int bufferSize,
+    Tcl_Obj *gzipHeaderDictObj)
+{
+    Tcl_SetResult(interp, "unimplemented", TCL_STATIC);
+    return TCL_ERROR;
+}
+
+unsigned int
+Tcl_ZlibCRC32(
+    unsigned int crc,
+    const char *buf,
+    int len)
+{
+    return 0;
+}
+
+unsigned int
+Tcl_ZlibAdler32(
+    unsigned int adler,
+    const char *buf,
+    int len)
+{
+    return 0;
+}
+#endif /* HAVE_ZLIB */
 
 /*
  * Local Variables:

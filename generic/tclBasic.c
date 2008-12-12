@@ -914,9 +914,16 @@ Tcl_CreateInterp(void)
 	Tcl_Panic(Tcl_GetString(Tcl_GetObjResult(interp)));
     }
 
+    /*
+     * Only build in zlib support if we've successfully detected a library to
+     * compile and link against.
+     */
+
+#ifdef HAVE_ZLIB
     if (TclZlibInit(interp) != TCL_OK) {
 	Tcl_Panic(Tcl_GetString(Tcl_GetObjResult(interp)));
     }
+#endif
 
     TOP_CB(iPtr) = NULL;
     return interp;
