@@ -22,7 +22,7 @@ test zlib-1.1 {zlib basics} -returnCodes error -body {
 } -result {wrong # args: should be "zlib command arg ?...?"}
 test zlib-1.2 {zlib basics} -returnCodes error -body {
     zlib ? {}
-} -result {bad command "?": must be adler32, compress, crc32, decompress, deflate, gunzip, gzip, inflate, stack, stream, or unstack}
+} -result {bad command "?": must be adler32, compress, crc32, decompress, deflate, gunzip, gzip, inflate, push, or stream}
 
 test zlib-2.1 {zlib compress/decompress} {
     zlib decompress [zlib compress abcdefghijklm]
