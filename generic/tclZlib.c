@@ -1404,8 +1404,8 @@ ZlibCmd(
     int objc,
     Tcl_Obj *const objv[])
 {
-    int command, dlen, mode, format, i, option;
-    unsigned start, level = -1, buffersize = 0;
+    int command, dlen, mode, format, i, option, level = -1;
+    unsigned start, buffersize = 0;
     Tcl_ZlibStream zh;
     Byte *data;
     Tcl_Obj *obj = Tcl_GetObjResult(interp);
@@ -1479,7 +1479,7 @@ ZlibCmd(
 	    return TCL_ERROR;
 	}
 	if (objc > 3) {
-	    if (Tcl_GetIntFromObj(interp, objv[3], (int *)&level) != TCL_OK) {
+	    if (Tcl_GetIntFromObj(interp, objv[3], &level) != TCL_OK) {
 		return TCL_ERROR;
 	    }
 	    if (level < 0 || level > 9) {
@@ -1495,7 +1495,7 @@ ZlibCmd(
 	    return TCL_ERROR;
 	}
 	if (objc > 3) {
-	    if (Tcl_GetIntFromObj(interp, objv[3], (int *)&level) != TCL_OK) {
+	    if (Tcl_GetIntFromObj(interp, objv[3], &level) != TCL_OK) {
 		return TCL_ERROR;
 	    }
 	    if (level < 0 || level > 9) {
@@ -1527,7 +1527,7 @@ ZlibCmd(
 		break;
 	    case 1:
 		if (Tcl_GetIntFromObj(interp, objv[i+1],
-			(int *)&level) != TCL_OK) {
+			&level) != TCL_OK) {
 		    return TCL_ERROR;
 		}
 		if (level < 0 || level > 9) {
