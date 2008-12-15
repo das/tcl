@@ -6678,7 +6678,10 @@ TclExecuteByteCode(
 		    "%u => ERROR reading leaf dictionary key \"%s\": ",
 		    opnd, O2S(dictPtr)), Tcl_GetObjResult(interp));
 	} else {
-	    /*Tcl_ResetResult(interp);*/
+	    Tcl_Obj *tmpObj;
+
+	    TclNewObj(tmpObj);
+	    Tcl_SetObjResult(interp, tmpObj);
 	    Tcl_AppendResult(interp, "key \"", TclGetString(OBJ_AT_TOS),
 		    "\" not known in dictionary", NULL);
 	    TRACE_WITH_OBJ(("%u => ERROR ", opnd), Tcl_GetObjResult(interp));
