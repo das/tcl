@@ -2203,7 +2203,7 @@ declare 605 generic {
     int Tcl_GetErrorLine(Tcl_Interp *interp)
 }
 declare 606 generic {
-    void Tcl_SetErrorLine(Tcl_Interp *interp, int value)
+    void Tcl_SetErrorLine(Tcl_Interp *interp, int lineNum)
 }
 
 # TIP#307 (move results between interpreters)
