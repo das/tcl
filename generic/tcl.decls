@@ -2262,6 +2262,14 @@ declare 620 generic {
 declare 621 generic {
     int Tcl_ZlibStreamReset(Tcl_ZlibStream zshandle)
 }
+# TIP 338
+declare 622 generic {
+    void Tcl_SetStartupScript(Tcl_Obj *path, const char *encoding)
+}
+declare 623 generic {
+    Tcl_Obj *Tcl_GetStartupScript(const char **encodingPtr)
+}
+
 
 ##############################################################################
 
