@@ -1147,6 +1147,8 @@ static const TclStubs tclStubs = {
     Tcl_ZlibStreamGet, /* 619 */
     Tcl_ZlibStreamClose, /* 620 */
     Tcl_ZlibStreamReset, /* 621 */
+    Tcl_SetStartupScript, /* 622 */
+    Tcl_GetStartupScript, /* 623 */
 };
 
 /* !END!: Do not edit above this line. */
