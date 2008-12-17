@@ -718,7 +718,7 @@ ZlibStreamCleanup(
 	Tcl_DecrRefCount(zsh->currentInput);
     }
 
-    ckfree((void *) zsh);
+    ckfree((char *) zsh);
 }
 
 /*
