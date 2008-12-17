@@ -30,6 +30,8 @@ TCL_MINOR_VERSION=6
 TCL_PATCH_LEVEL="a4"
 VERSION=${TCL_VERSION}
 
+PKG_CFG_ARGS=$@
+
 #------------------------------------------------------------------------
 # Handle the --prefix=... option
 #------------------------------------------------------------------------
@@ -854,6 +856,7 @@ AC_SUBST(TCL_MAJOR_VERSION)
 AC_SUBST(TCL_MINOR_VERSION)
 AC_SUBST(TCL_PATCH_LEVEL)
 AC_SUBST(TCL_YEAR)
+AC_SUBST(PKG_CFG_ARGS)
 
 AC_SUBST(TCL_LIB_FILE)
 AC_SUBST(TCL_LIB_FLAG)

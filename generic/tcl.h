@@ -2268,10 +2268,9 @@ typedef int (*Tcl_ArgvGenFuncProc)(ClientData clientData, Tcl_Interp *interp,
 
 /*
  * Constants that describe whether the stream is to operate in compressing or
- * decompressing mode. The scripted level doesn't use pass-through mode.
+ * decompressing mode.
  */
 
-#define TCL_ZLIB_STREAM_PASS	0
 #define TCL_ZLIB_STREAM_DEFLATE	16
 #define TCL_ZLIB_STREAM_INFLATE	32
 
