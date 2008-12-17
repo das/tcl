@@ -1626,9 +1626,11 @@ distclean-packages:
 	    if [ -f $(PKG_DIR)/$$pkg/Makefile ]; then \
 	        ( cd $(PKG_DIR)/$$pkg; $(MAKE) distclean; ) \
 	    fi; \
+	    cd $$builddir; \
+	    rm -rf $(PKG_DIR)/$$pkg; \
 	  fi; \
 	done; \
-	cd $$builddir
+	rm -rf $(PKG_DIR)
 
 #
 # Target to regenerate header files and stub files from the *.decls tables.
