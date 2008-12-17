@@ -1633,7 +1633,7 @@ Tcl_AppendStringsToObjVA(
      */
 
     if (args != static_list) {
-	ckfree((void *) args);
+	ckfree((char *) args);
     }
 #undef STATIC_LIST_SIZE
 }
