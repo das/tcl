@@ -179,7 +179,7 @@ namespace eval ::tcl::control {
 			    must be a list"
 		    }
 		    lappend handlers [lrange $args $i $i] 1 \
-			{*}[lrange $args $i+1 $i+2]
+			{*}[lrange $args $i $i+2]
 		    incr i 3
 		}
 		"finally" {
