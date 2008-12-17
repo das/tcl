@@ -1,0 +1,89 @@
+2008-12-07  Kevin B. Kenny  <kennykb@acm.org>
+
+	* doc/tdbc.n: Added a file omitted from the 2008-11-30 commit.
+	* configure.in:
+	* generic/tdbc.h: Advanced version number to 1.0b1 in preparation
+	for release.
+	* configure: Autoconf 2.61
+	
+2008-11-30  Kevin B. Kenny  <kennykb@acm.org>
+
+	* Makefile.in: Removed nagging reminder about documentation.
+	* configure.in: Advanced revision to 0.2
+	* configure: Autoconf 2.61
+	* doc/tdbc.n:			First cut at a set of man
+	* doc/tdbc_connection.n:	pages for TDBC. Redactors
+	* doc/tdbc_resultSet.n:		and proofreaders are
+	* doc/tdbc_statement.n:		welcome to submit
+	* doc/tdbc_tokenize.n:		improvements.
+	* generic/tdbc.c: Lowercased the package name 'tdbc'
+	* generic/tdbc.h: Advanced patchlevel to 0.2a1
+	* generic/tdbcDecls.h: Lowercased the package name 'tdbc'
+	* generic/tdbcStubLib.c: Lowercased the package name 'tdbc'
+	* tests/tokenize.test: Lowercased the package name 'tdbc'
+	
+	
+2008-11-22  Kevin B. Kenny  <kennykb@acm.org>
+
+	* configure.in: Changed to make TDBC buildable on 8.6 without
+	needing to install a dummy tclooConfig.sh.
+	* configure: Autoconf 2.61.
+	
+2008-10-23  Kevin B. Kenny  <kennykb@acm.org>
+
+	* library/tdbc.tcl: Fixed the constructor of tdbc::resultset
+	to *not* have an empty constructor (which is interpreted by
+	tcloo as deleting the constructor!). Attempted to sign the commit
+	with a key that *isn't* about to expire. ;)
+	
+2008-06-11  Kevin B. Kenny  <kennykb@acm.org>
+
+	* library/tdbc.tcl: Split [$resultset nextrow] into two primitive
+	methods: [$resultset nextlist] and [$resultset nextdict]. Added
+	a [$resultset nextrow] method that delegates to one or the other
+	of these.
+	
+2008-05-24  Kevin B. Kenny  <kennykb@acm.org>
+
+	* configure.in: Changed configuration to use TEA_PATH_CONFIG to
+	* aclocal.m4:   locate tcloo.  Removed the local code that did it
+	                from aclocal.m4.
+	* configure:    Autoconf 2.61
+	
+2008-05-13  Kevin B. Kenny  <kennykb@acm.org>
+
+	* library/tdbc.tcl: Silenced tracing.
+	
+2008-05-10  Kevin B. Kenny  <kennykb@acm.org>
+
+	* library/tdbc.tcl: Simplified processing of several callbacks
+	by eliminating a useless [namespace code my] in favor of [self].
+	Added tracing to attempt to track down a bug in oo's method
+	resolution.
+	
+2008-04-30  Kevin B. Kenny  <kennykb@acm.org>
+
+	* aclocal.m4:
+	* configure:
+	* configure.in:
+	* license.terms:
+	* Makefile.in:
+	* tdbcConfig.sh.in:
+	* generic/tdbc.c:
+	* generic/tdbc.decls:
+	* generic/tdbc.h:
+	* generic/tdbcDecls.h:
+	* generic/tdbcInt.h:
+	* generic/tdbcStubInit.c:
+	* generic/tdbcStubLib.c:
+	* generic/tdbcTokenize.c:
+	* library/tdbc.tcl:
+	* tclconfig/ChangeLog:
+	* tclconfig/install-sh:
+	* tclconfig/README.txt:
+	* tclconfig/tcl.m4:
+	* tests/all.tcl:
+	* tests/tokenize.test:
+	* tools/genStubs.tcl:
+	Initial commit of the "tdbc" package - the generic base class support
+	for Tcl Data Base Connectivity (TDBC) - TIP #308.
