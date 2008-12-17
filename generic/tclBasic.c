@@ -3492,8 +3492,8 @@ OldMathFuncDeleteProc(
 {
     OldMathFuncData *dataPtr = clientData;
 
-    ckfree((void *) dataPtr->argTypes);
-    ckfree((void *) dataPtr);
+    ckfree((char *) dataPtr->argTypes);
+    ckfree((char *) dataPtr);
 }
 
 /*
