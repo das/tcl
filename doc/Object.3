@@ -334,8 +334,8 @@ by inserting \fIobjc-3\fR new elements before \fIindex\fR.
 .PP
 .CS
 listPtr = objv[1];
-if (Tcl_IsShared(listPtr)) {
-    listPtr = Tcl_DuplicateObj(listPtr);
+if (\fBTcl_IsShared\fR(listPtr)) {
+    listPtr = \fBTcl_DuplicateObj\fR(listPtr);
 }
 result = Tcl_ListObjReplace(interp, listPtr, index, 0,
         (objc-3), &(objv[3]));

@@ -31,7 +31,7 @@ Procedure to invoke to incorporate this package into a trusted
 interpreter.
 .AP Tcl_PackageInitProc *safeInitProc in
 Procedure to call to incorporate this package into a safe interpreter
-(one that will execute untrusted scripts).   NULL means the package
+(one that will execute untrusted scripts).  NULL means the package
 cannot be used in safe interpreters.
 .BE
 .SH DESCRIPTION
@@ -68,3 +68,5 @@ be returned as the result of the \fBload\fR command that caused the
 initialization procedure to be invoked.
 .SH KEYWORDS
 initialization procedure, package, static linking
+.SH "SEE ALSO"
+load(n), package(n), Tcl_PkgRequire(3)
