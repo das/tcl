@@ -552,14 +552,14 @@ structure has the following layout:
 .PP
 .CS
 typedef struct Tcl_NotifierProcs {
-    Tcl_SetTimerProc *setTimerProc;
-    Tcl_WaitForEventProc *waitForEventProc;
-    Tcl_CreateFileHandlerProc *createFileHandlerProc;
-    Tcl_DeleteFileHandlerProc *deleteFileHandlerProc;
-    Tcl_InitNotifierProc *initNotifierProc;
-    Tcl_FinalizeNotifierProc *finalizeNotifierProc;
-    Tcl_AlertNotifierProc *alertNotifierProc;
-    Tcl_ServiceModeHookProc *serviceModeHookProc;
+    Tcl_SetTimerProc *\fIsetTimerProc\fR;
+    Tcl_WaitForEventProc *\fIwaitForEventProc\fR;
+    Tcl_CreateFileHandlerProc *\fIcreateFileHandlerProc\fR;
+    Tcl_DeleteFileHandlerProc *\fIdeleteFileHandlerProc\fR;
+    Tcl_InitNotifierProc *\fIinitNotifierProc\fR;
+    Tcl_FinalizeNotifierProc *\fIfinalizeNotifierProc\fR;
+    Tcl_AlertNotifierProc *\fIalertNotifierProc\fR;
+    Tcl_ServiceModeHookProc *\fIserviceModeHookProc\fR;
 } \fBTcl_NotifierProcs\fR;
 .CE
 .PP
