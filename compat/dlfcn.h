@@ -1,4 +1,4 @@
-/* 
+/*
  * dlfcn.h --
  *
  *	This file provides a replacement for the header file "dlfcn.h"
@@ -53,8 +53,8 @@ struct dl_info {
 	void (*fini) (void);
 };
 
-VOID *dlopen (const char *path, int mode);
-VOID *dlsym (void *handle, const char *symbol);
+void *dlopen (const char *path, int mode);
+void *dlsym (void *handle, const char *symbol);
 char *dlerror (void);
 int dlclose (void *handle);
 

@@ -3166,6 +3166,21 @@ Tcl_CloseEx(
 	return TCL_ERROR;
     }
 
+	/*
+	 * Flush any data if [close w]
+	 */
+
+	if (flags & TCL_CLOSE_WRITE) {  
+		if ((statePtr->curOutPtr != NULL) && IsBufferReady(statePtr->curOutPtr)) {
+			SetFlag(statePtr, BUFFER_READY);
+		}
+		/*
+		 * Ignoring the outcome of the flush (like EPIPE), since we don't want
+		 * to disrupt the close path with such errors
+		 */
+		FlushChannel(NULL, chanPtr, 0);
+	}
+
     /*
      * Finally do what is asked of us.
      */

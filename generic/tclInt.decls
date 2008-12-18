@@ -579,7 +579,7 @@ declare 145 generic {
     CONST86 struct AuxDataType *TclGetAuxDataType(const char *typeName)
 }
 declare 146 generic {
-    TclHandle TclHandleCreate(VOID *ptr)
+    TclHandle TclHandleCreate(void *ptr)
 }
 declare 147 generic {
     void TclHandleFree(TclHandle handle)
