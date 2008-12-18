@@ -129,7 +129,7 @@ AS_IF([test $zlib_ok = yes], [
     AC_MSG_WARN([todo: Add compat/zlib to list of things to build])
   ])])
 AS_IF([test $zlib_ok = no], [
-  AC_SUBST(ZLIB_DIR,[${TOP_DIR}/compat/zlib/])
+  AC_SUBST(ZLIB_DIR,[\${TOP_DIR}/compat/zlib/])
   AC_SUBST(ZLIB_LIB,[libz.a])
   CFLAGS="$CFLAGS -I\${ZLIB_DIR}"
 ])
