@@ -2271,6 +2271,11 @@ declare 623 generic {
 }
 
 
+# TIP#332, Half Close made public
+declare 624 generic {
+    int Tcl_CloseEx(Tcl_Interp *interp, Tcl_Channel chan, int flags)
+}
+
 ##############################################################################
 
 # Define the platform specific public Tcl interface. These functions are only
