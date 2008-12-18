@@ -2044,7 +2044,9 @@ TclExecuteByteCode(
 	 * reset, now process the return.
 	 */
 
-	NRE_ASSERT(iPtr->cmdFramePtr == bcFramePtr);
+	/* Disabled the following assertion to solve the trouble reported
+	 * in Tcl Bug 2415422.  Needs review.  */
+	/*NRE_ASSERT(iPtr->cmdFramePtr == bcFramePtr);*/
 	iPtr->cmdFramePtr = bcFramePtr->nextPtr;
 
 	if (iPtr->execEnvPtr->rewind) {
