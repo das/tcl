@@ -2141,8 +2141,11 @@ test chan-io-28.6 {Tcl_CloseEx (half-close) pipe} {
     set timer [after 1000 {set ::done Failed}]
     set ::acc {}
     fileevent $::ff readable {
-	if {[gets $::ff line]<0} {set ::done Succeeded;return}
-	lappend ::acc $line
+	if {[gets $::ff line]<0} {
+	    set ::done Succeeded
+	} else {
+	    lappend ::acc $line
+	}
     }
     vwait ::done
     after cancel $timer
@@ -2169,8 +2172,11 @@ test chan-io-28.7 {Tcl_CloseEx (half-close) socket} {
     set timer [after 1000 {set ::done Failed}]
     set ::acc {}
     fileevent $::s readable {
-	if {[gets $::s line]<0} {set ::done Succeeded;return}
-	lappend ::acc $line
+	if {[gets $::s line]<0} {
+	    set ::done Succeeded
+	} else {
+	    lappend ::acc $line
+	}
     }
     vwait ::done
     after cancel $timer
