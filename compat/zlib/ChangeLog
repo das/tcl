@@ -1,6 +1,9 @@
 
                 ChangeLog file for zlib
 
+Changes in 1.2.3-f-tcl (19 Dec 2008)
+- add symbols deflateSetHeader and inflateGetHeader to win32/zlib.def
+
 Changes in 1.2.3 (18 July 2005)
 - Apply security vulnerability fixes to contrib/infback9 as well
 - Clean up some text files (carriage returns, trailing space)
