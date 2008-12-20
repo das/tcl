@@ -2229,7 +2229,7 @@ ChanClose(
 		result = TCL_ERROR;
 		break;
 	    }
-	    if (cd->outStream.avail_out != cd->outAllocated) {
+	    if (cd->outStream.avail_out != (unsigned) cd->outAllocated) {
 		if (Tcl_WriteRaw(cd->parent, cd->outBuffer,
 			cd->outAllocated - cd->outStream.avail_out) < 0) {
 		    /* TODO: is this the right way to do errors on close? */
@@ -2405,7 +2405,7 @@ ChanSetOption(			/* not used */
 
 	    if (cd->outStream.avail_out > 0) {
 		if (Tcl_WriteRaw(cd->parent, cd->outBuffer,
-			(int) cd->outStream.next_out) < 0) {
+			PTR2INT(cd->outStream.next_out)) < 0) {
 		    Tcl_AppendResult(interp, "problem flushing channel: ",
 			    Tcl_PosixError(interp), NULL);
 		    return TCL_ERROR;
