@@ -361,7 +361,6 @@ shell: setup $(PROJECT)
         $(DEBUGGER) $(TCLSH) $(SCRIPT)
 
 setup:
-	@echo kbk setup
 	@if not exist $(OUT_DIR)\nul mkdir $(OUT_DIR)
 	@if not exist $(TMP_DIR)\nul mkdir $(TMP_DIR)
 
