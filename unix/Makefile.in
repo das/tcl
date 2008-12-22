@@ -635,7 +635,6 @@ tcltest-real:
 #	% make test TESTFLAGS="-verbose bps -file fileName.test"
 
 test: test-tcl test-packages
-	@
 
 test-tcl: tcltest
 	$(SHELL_ENV) ./tcltest $(TOP_DIR)/tests/all.tcl $(TESTFLAGS)
