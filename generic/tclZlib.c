@@ -2221,7 +2221,7 @@ ChanClose(
 	cd->outStream.avail_in = 0;
 	do {
 	    cd->outStream.next_out = (Bytef *) cd->outBuffer;
-	    cd->outStream.avail_out = cd->outAllocated;
+	    cd->outStream.avail_out = (unsigned) cd->outAllocated;
 	    e = deflate(&cd->outStream, Z_FINISH);
 	    if (e != Z_OK && e != Z_STREAM_END) {
 		/* TODO: is this the right way to do errors on close? */
