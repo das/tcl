@@ -712,6 +712,10 @@ proc char {name} {
 	    textSetup
 	    puts -nonewline $file "\\'a9 "
 	}
+	{\(mi} {
+	    textSetup
+	    puts -nonewline $file "-"
+	}
 	{\(mu} {
 	    textSetup
 	    puts -nonewline $file "\\'d7 "
