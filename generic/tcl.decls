@@ -2249,10 +2249,12 @@ declare 611 generic {
 	    int buffersize, Tcl_Obj *gzipHeaderDictObj)
 }
 declare 612 generic {
-    unsigned int Tcl_ZlibCRC32(unsigned int crc, const char *buf, int len)
+    unsigned int Tcl_ZlibCRC32(unsigned int crc, const unsigned char *buf,
+	    int len)
 }
 declare 613 generic {
-    unsigned int Tcl_ZlibAdler32(unsigned int adler, const char *buf, int len)
+    unsigned int Tcl_ZlibAdler32(unsigned int adler, const unsigned char *buf,
+	    int len)
 }
 declare 614 generic {
     int Tcl_ZlibStreamInit(Tcl_Interp *interp, int mode, int format,
