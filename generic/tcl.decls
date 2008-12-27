@@ -2265,7 +2265,7 @@ declare 616 generic {
     int Tcl_ZlibStreamEof(Tcl_ZlibStream zshandle)
 }
 declare 617 generic {
-    int Tcl_ZlibStreamAdler32(Tcl_ZlibStream zshandle)
+    int Tcl_ZlibStreamChecksum(Tcl_ZlibStream zshandle)
 }
 declare 618 generic {
     int Tcl_ZlibStreamPut(Tcl_ZlibStream zshandle, Tcl_Obj *data, int flush)
