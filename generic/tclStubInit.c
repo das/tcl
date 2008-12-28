@@ -1142,7 +1142,7 @@ static const TclStubs tclStubs = {
     Tcl_ZlibStreamInit, /* 614 */
     Tcl_ZlibStreamGetCommandName, /* 615 */
     Tcl_ZlibStreamEof, /* 616 */
-    Tcl_ZlibStreamAdler32, /* 617 */
+    Tcl_ZlibStreamChecksum, /* 617 */
     Tcl_ZlibStreamPut, /* 618 */
     Tcl_ZlibStreamGet, /* 619 */
     Tcl_ZlibStreamClose, /* 620 */
