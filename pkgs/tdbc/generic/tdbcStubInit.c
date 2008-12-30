@@ -15,6 +15,8 @@
 
 #include "tdbcInt.h"
 
+MODULE_SCOPE TdbcStubs tdbcStubs;
+
 /* !BEGIN!: Do not edit below this line. */
 
 TdbcStubs tdbcStubs = {

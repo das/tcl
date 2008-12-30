@@ -1,3 +1,55 @@
+2008-12-30  Kevin B. Kenny  <kennykb@acm.org>
+
+	* generic/tdbcStubInit.c: Added MODULE_SCOPE to the tdbcStubs 
+	                          declaration to correct a linkera error on
+	                          linux-x64.
+	* generic/tdbcTokenize.c: Added explicit casts to the 'ctype' macros
+	                          to guard against possible signed characters.
+	* README:		  Advanced version to 1.0b2.
+	* configure.in:
+	* generic/tdbc.h:
+	* configure:		  autoconf-2.59
+	
+2008-12-21  Kevin B. Kenny  <kennykb@acm.org>
+
+	* win/makefile.vc:	Added files for a MSVC build system.
+	* win/rules.vc:		Thanks to Pat Thoyts <patthoyts@users.sf.net>
+	* win/versions.vc:	for developing these files.n
+	* win/tdbc.rc:		
+
+2008-12-20  Kevin B. Kenny  <kennykb@acm.org>
+
+	sign manifest
+	
+2008-12-20  Daniel Steffen  <das@users.sourceforge.net>
+
+	* Makefile.in: use INSTALL_LIBRARY instead of INSTALL_PROGRAM to
+	install libraries, avoids breakage from tcl's install-strip when
+	built as a bundled package.
+
+	* tclconfig/ChangeLog:	update to latest TEA from tcl CVS, which has
+	* tclconfig/tcl.m4:	Jan's 2008-12-19 changes (tcl.m4 r1.127)
+
+	* configure.in:		update TEA_INIT for TEA 3.7
+	* configure:		autoconf-2.59
+
+2008-12-19  Kevin Kenny  <kennykb@acm.org>
+
+	* aclocal.m4: Changed to make ADD_MANIFEST default to ':'
+	rather than an empty string, to silence a warning on BSD compiles.
+	Thanks to Stu Cassoff for reporting this bug.
+	* configure: autoconf-2.59
+	
+2008-12-19  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* tclconfig/tcl.m4: fix odbc build on mingw32
+	* configure:	autoconf-2.59
+
+2008-12-17  Don Porter  <dgp@users.sourceforge.net>
+
+	* README:	New file.
+	* configure:	autoconf-2.59
+
 2008-12-07  Kevin B. Kenny  <kennykb@acm.org>
 
 	* doc/tdbc.n: Added a file omitted from the 2008-11-30 commit.

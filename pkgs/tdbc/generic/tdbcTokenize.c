@@ -135,15 +135,18 @@ Tdbc_TokenizeSql(
             case ':':
             case '$':
             case '@': {
-                if (i>0 && (isalnum(zSql[i-1]) || zSql[i-1]=='_')) break;
-                if (!isalnum(zSql[i+1]) && zSql[i+1]!='_') break;
+                if (i>0 && (isalnum((unsigned char)(zSql[i-1]))
+			    || zSql[i-1]=='_')) break;
+                if (!isalnum((unsigned char)(zSql[i+1]))
+		    && zSql[i+1]!='_') break;
                 if (i>0 ){
                     Tcl_ListObjAppendElement(interp, resultPtr,
                               Tcl_NewStringObj(zSql, i));
                     zSql += i;
                 }
                 i = 1;
-                while (zSql[i] && (isalnum(zSql[i]) || zSql[i]=='_')) {
+                while (zSql[i] && (isalnum((unsigned char)(zSql[i]))
+				   || zSql[i]=='_')) {
                     i++;
                 }
                 Tcl_ListObjAppendElement(interp, resultPtr,
