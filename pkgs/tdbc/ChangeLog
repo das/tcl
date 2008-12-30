@@ -1,3 +1,41 @@
+2008-12-30  Kevin B. Kenny  <kennykb@acm.org>
+
+	* README:		  Advanced version to 1.0b4
+	* configure.in:
+	* generic/tdbc.h:	
+
+	* configure:		  autoconf-2.59
+
+	* Makefile.in:		Changes to 'make dist' to include all files
+				explicitly - avoids distributing Emacs backups,
+				cores, etc.  D'oh!
+	
+	* Makefile.in:
+	* README:
+	* configure.in:
+	* generic/tdbc.c:
+	* generic/tdbc.decls:
+	* generic/tdbc.h:
+	* generic/tdbcDecls.h:
+	* generic/tdbcInt.h:
+	* generic/tdbcStubInit.c:
+	* generic/tdbcStubLib.c:
+	* generic/tdbcTokenize.c:
+	* library/tdbc.tcl:
+	* tdbcConfig.sh.in:
+	* tests/all.tcl:
+	* win/makefile.vc:
+	* win/nmakehlp.c:
+	* win/rules.vc:		Many trivial changes (e.g. RCS ID strings)
+				to avoid merge conflicts when importing to
+				Tcl's vendor branch.
+
+	* generic/tdbcStubInit.c: Added MODULE_SCOPE to the tdbcStubs 
+	                          declaration to correct a linkera error on
+	                          linux-x64.
+	* generic/tdbcTokenize.c: Added explicit casts to the 'ctype' macros
+	                          to guard against possible signed characters.
+	
 2008-12-21  Kevin B. Kenny  <kennykb@acm.org>
 
 	* win/makefile.vc:	Added files for a MSVC build system.
