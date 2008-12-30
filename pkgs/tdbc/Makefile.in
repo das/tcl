@@ -298,8 +298,7 @@ pkgIndex.tcl: Makefile
 # You may need to tweak this target to make it work correctly.
 #========================================================================
 
-#COMPRESS	= tar cvf $(PKG_DIR).tar $(PKG_DIR); compress $(PKG_DIR).tar
-COMPRESS	= gtar zcvf $(PKG_DIR).tar.gz $(PKG_DIR)
+COMPRESS	= tar zcvf $(PKG_DIR).tar.gz $(PKG_DIR)
 DIST_ROOT	= /tmp/dist
 DIST_DIR	= $(DIST_ROOT)/$(PKG_DIR)
 
@@ -321,18 +320,38 @@ dist: dist-clean
 	done;
 
 	mkdir $(DIST_DIR)/tclconfig
-	cp $(srcdir)/tclconfig/install-sh $(srcdir)/tclconfig/tcl.m4 \
+	cp -p $(srcdir)/tclconfig/install-sh $(srcdir)/tclconfig/tcl.m4 \
+		$(srcdir)/tclconfig/ChangeLog $(srcdir)/tclconfig/README.txt \
 		$(DIST_DIR)/tclconfig/
 	chmod 664 $(DIST_DIR)/tclconfig/tcl.m4
 	chmod +x $(DIST_DIR)/tclconfig/install-sh
 
-	list='demos doc generic library mac tests unix win'; \
-	for p in $$list; do \
-	    if test -d $(srcdir)/$$p ; then \
-		mkdir $(DIST_DIR)/$$p; \
-		cp -p $(srcdir)/$$p/*.* $(DIST_DIR)/$$p/; \
-	    fi; \
-	done
+	mkdir $(DIST_DIR)/doc
+	cp -p $(srcdir)/doc/tdbc.n $(srcdir)/doc/tdbc_connection.n \
+		$(srcdir)/doc/tdbc_resultset.n $(srcdir)/doc/tdbc_statement.n \
+		$(srcdir)/doc/tdbc_tokenize.n $(DIST_DIR)/doc/
+
+	mkdir $(DIST_DIR)/generic
+	cp -p $(srcdir)/generic/tdbc.c $(srcdir)/generic/tdbc.decls \
+		$(srcdir)/generic/tdbc.h $(srcdir)/generic/tdbcDecls.h \
+		$(srcdir)/generic/tdbcInt.h $(srcdir)/generic/tdbcStubInit.c \
+		$(srcdir)/generic/tdbcStubLib.c \
+		$(srcdir)/generic/tdbcTokenize.c $(DIST_DIR)/generic/
+
+	mkdir $(DIST_DIR)/library
+	cp -p $(srcdir)/library/tdbc.tcl $(DIST_DIR)/library/
+
+	mkdir $(DIST_DIR)/tests
+	cp -p $(srcdir)/tests/all.tcl $(srcdir)/tests/tokenize.test \
+		$(DIST_DIR)/tests/
+
+	mkdir $(DIST_DIR)/tools
+	cp -p $(srcdir)/tools/genStubs.tcl $(DIST_DIR)/tools/
+
+	mkdir $(DIST_DIR)/win
+	cp -p $(srcdir)/win/makefile.vc $(srcdir)/win/nmakehlp.c \
+		$(srcdir)/win/rules.vc $(srcdir)/win/tdbc.rc \
+		$(DIST_DIR)/win/
 
 	(cd $(DIST_ROOT); $(COMPRESS);)
 

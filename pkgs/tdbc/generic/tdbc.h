@@ -30,8 +30,8 @@
  * appear near the top of configure.in.
  */
 
-#define	TDBC_VERSION	"1.0b2"
-#define TDBC_PATCHLEVEL "1.0b2"
+#define	TDBC_VERSION	"1.0b4"
+#define TDBC_PATCHLEVEL "1.0b4"
 
 /*
  * Include the Stubs declarations for the public API, generated from
