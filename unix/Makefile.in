@@ -617,6 +617,7 @@ tclsh: ${TCLSH_OBJS} ${TCL_LIB_FILE}
 # This keeps tcltest from picking up an already installed version of the Tcl
 # library.
 SHELL_ENV =	@LD_LIBRARY_PATH_VAR@=`pwd`:${@LD_LIBRARY_PATH_VAR@} \
+		TCLLIBPATH="@abs_builddir@/pkgs" \
 		TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"
 
 tcltest: ${TCLTEST_OBJS} ${TCL_LIB_FILE} ${BUILD_DLTEST}
