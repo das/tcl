@@ -1546,6 +1546,9 @@ fixstrtod.o: $(COMPAT_DIR)/fixstrtod.c
 opendir.o: $(COMPAT_DIR)/opendir.c
 	$(CC) -c $(STUB_CC_SWITCHES) $(COMPAT_DIR)/opendir.c
 
+mkstemp.o: $(COMPAT_DIR)/mkstemp.c
+	$(CC) -c $(STUB_CC_SWITCHES) $(COMPAT_DIR)/mkstemp.c
+
 memcmp.o: $(COMPAT_DIR)/memcmp.c
 	$(CC) -c $(STUB_CC_SWITCHES) $(COMPAT_DIR)/memcmp.c
 
