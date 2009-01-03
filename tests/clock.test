@@ -36679,6 +36679,15 @@ test clock-64.2 {:: in format string [Bug 2362156]} {*}{
     -result 2001-02-03::04:05:06
 }
 
+test clock-65.1 {clock add, bad option [Bug 2481670]} {*}{
+    -body {
+	clock add 0 1 year -foo bar
+    }
+    -match glob
+    -returnCodes error
+    -result {bad switch "-foo"*}
+}
+
 # cleanup
 
 namespace delete ::testClock
