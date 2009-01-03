@@ -34,12 +34,7 @@ VERSION=${TCL_VERSION}
 # Setup configure arguments for bundled packages
 #------------------------------------------------------------------------
 
-PKG_CFG_ARGS="$@ ${PKG_CFG_ARGS}"
-
-# Ensure environment of sub-configure is the same as ours
-for v in CC CPP CFLAGS CPPFLAGS LDFLAGS; do
-    eval 'test -n "$'$v'" && PKG_CFG_ARGS="$v=\"$'$v'\" $PKG_CFG_ARGS"'
-done
+PKG_CFG_ARGS="$ac_configure_args ${PKG_CFG_ARGS}"
 
 if test -r "$cache_file" -a -f "$cache_file"; then
     case $cache_file in
@@ -190,7 +185,7 @@ AC_CHECK_FUNCS(getcwd, , [AC_DEFINE(USEGETWD, 1, [Is getcwd Posix-compliant?])])
 # Nb: if getcwd uses popen and pwd(1) (like SunOS 4) we should really
 # define USEGETWD even if the posix getcwd exists. Add a test ?
 
-AC_REPLACE_FUNCS(opendir strtol waitpid)
+AC_REPLACE_FUNCS(mkstemp opendir strtol waitpid)
 AC_CHECK_FUNC(strerror, , [AC_DEFINE(NO_STRERROR, 1, [Do we have strerror()])])
 AC_CHECK_FUNC(getwd, , [AC_DEFINE(NO_GETWD, 1, [Do we have getwd()])])
 AC_CHECK_FUNC(wait3, , [AC_DEFINE(NO_WAIT3, 1, [Do we have wait3()])])
