@@ -971,7 +971,7 @@ TclNRSourceObjCmd(
 	encodingName = TclGetString(objv[2]);
     }
 
-    return Tcl_FSEvalFileEx(interp, fileName, encodingName);
+    return TclNREvalFile(interp, fileName, encodingName);
 }
 
 /*
