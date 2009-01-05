@@ -2565,6 +2565,7 @@ MODULE_SCOPE Tcl_ObjCmdProc TclNRCatchObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRForObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRForeachCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRIfObjCmd;
+MODULE_SCOPE Tcl_ObjCmdProc TclNRSourceObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRWhileObjCmd;
 
 MODULE_SCOPE Tcl_NRPostProc TclNRForIterCallback;
@@ -2578,7 +2579,7 @@ MODULE_SCOPE Tcl_ObjCmdProc TclNRYieldObjCmd;
  *----------------------------------------------------------------
  */
 
-MODULE_SCOPE int	TclNREvalCmd(Tcl_Interp * interp, Tcl_Obj * objPtr,
+MODULE_SCOPE int	TclNREvalCmd(Tcl_Interp *interp, Tcl_Obj *objPtr,
 			    int flags);
 MODULE_SCOPE void	TclAdvanceLines(int *line, const char *start,
 			    const char *end);
@@ -2644,6 +2645,8 @@ MODULE_SCOPE double	TclFloor(mp_int *a);
 MODULE_SCOPE void	TclFormatNaN(double value, char *buffer);
 MODULE_SCOPE int	TclFSFileAttrIndex(Tcl_Obj *pathPtr,
 			    const char *attributeName, int *indexPtr);
+MODULE_SCOPE int	TclNREvalFile(Tcl_Interp *interp, Tcl_Obj *pathPtr,
+			    const char *encodingName);
 MODULE_SCOPE void	TclFSUnloadTempFile(Tcl_LoadHandle loadHandle);
 MODULE_SCOPE int *	TclGetAsyncReadyPtr(void);
 MODULE_SCOPE Tcl_Obj *	TclGetBgErrorHandler(Tcl_Interp *interp);
@@ -2848,7 +2851,6 @@ MODULE_SCOPE double	TclpWideClicksToNanoseconds(Tcl_WideInt clicks);
 #endif
 MODULE_SCOPE Tcl_Obj *	TclDisassembleByteCodeObj(Tcl_Obj *objPtr);
 MODULE_SCOPE int	TclZlibInit(Tcl_Interp *interp);
-
 MODULE_SCOPE void *	TclpThreadCreateKey(void);
 MODULE_SCOPE void	TclpThreadDeleteKey(void *keyPtr);
 MODULE_SCOPE void	TclpThreadSetMasterTSD(void *tsdKeyPtr, void *ptr);
