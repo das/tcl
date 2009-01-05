@@ -938,6 +938,16 @@ Tcl_SourceObjCmd(
     int objc,			/* Number of arguments. */
     Tcl_Obj *const objv[])	/* Argument objects. */
 {
+    return Tcl_NRCallObjProc(interp, TclNRSourceObjCmd, dummy, objc, objv);
+}
+
+int
+TclNRSourceObjCmd(
+    ClientData dummy,		/* Not used. */
+    Tcl_Interp *interp,		/* Current interpreter. */
+    int objc,			/* Number of arguments. */
+    Tcl_Obj *const objv[])	/* Argument objects. */
+{
     const char *encodingName = NULL;
     Tcl_Obj *fileName;
 
@@ -961,7 +971,7 @@ Tcl_SourceObjCmd(
 	encodingName = TclGetString(objv[2]);
     }
 
-    return Tcl_FSEvalFileEx(interp, fileName, encodingName);
+    return TclNREvalFile(interp, fileName, encodingName);
 }
 
 /*

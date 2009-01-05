@@ -244,7 +244,7 @@ static const CmdInfo builtInCmds[] = {
     {"read",		Tcl_ReadObjCmd,		NULL,			NULL,	1},
     {"seek",		Tcl_SeekObjCmd,		NULL,			NULL,	1},
     {"socket",		Tcl_SocketObjCmd,	NULL,			NULL,	0},
-    {"source",		Tcl_SourceObjCmd,	NULL,			NULL,	0},
+    {"source",		Tcl_SourceObjCmd,	NULL,			TclNRSourceObjCmd,	0},
     {"tell",		Tcl_TellObjCmd,		NULL,			NULL,	1},
     {"time",		Tcl_TimeObjCmd,		NULL,			NULL,	1},
     {"unload",		Tcl_UnloadObjCmd,	NULL,			NULL,	0},

@@ -111,7 +111,8 @@ TclSetupEnv(
 	    if (p2 == NULL) {
 		/*
 		 * This condition seem to happen occasionally under some
-		 * versions of Solaris; ignore the entry.
+		 * versions of Solaris, or when encoding accidents swallow the
+		 * '='; ignore the entry.
 		 */
 
 		continue;
