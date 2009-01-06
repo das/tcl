@@ -586,7 +586,9 @@ InfoObjectMethodsCmd(
 	    Tcl_ListObjAppendElement(NULL, resultObj,
 		    Tcl_NewStringObj(names[i], -1));
 	}
-	ckfree((char *) names);
+	if (numNames > 0) {
+	    ckfree((char *) names);
+	}
     } else if (oPtr->methodsPtr) {
 	FOREACH_HASH(namePtr, mPtr, oPtr->methodsPtr) {
 	    if (mPtr->typePtr != NULL && (mPtr->flags & flag) == flag) {
@@ -1104,7 +1106,9 @@ InfoClassMethodsCmd(
 	    Tcl_ListObjAppendElement(NULL, resultObj,
 		    Tcl_NewStringObj(names[i], -1));
 	}
-	ckfree((char *) names);
+	if (numNames > 0) {
+	    ckfree((char *) names);
+	}
     } else {
 	FOREACH_HASH_DECLS;
 
