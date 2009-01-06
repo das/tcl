@@ -2129,10 +2129,11 @@ DictIncrCmd(
 	 */
 
 	char *saved = dictPtr->bytes;
+	Tcl_Obj *oldPtr = dictPtr;
 
 	dictPtr->bytes = NULL;
 	dictPtr = Tcl_DuplicateObj(dictPtr);
-	dictPtr->bytes = saved;
+	oldPtr->bytes = saved;
     }
     if (valuePtr == NULL) {
 	/*
