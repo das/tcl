@@ -1,3 +1,9 @@
+2009-01-07  David Gravereaux <davygrvy@pobox.com>
+
+	* win/makefile.vc: Needed quotes around	$(SCRIPT_INSTALL_DIR)
+	in the install-libraries target else directory with spaces
+	in it failed.
+
 2008-12-30  Kevin B. Kenny  <kennykb@acm.org>
 
 	* README:		  Advanced version to 1.0b4
