@@ -106,7 +106,7 @@ typedef struct String {
 } String;
 
 #define STRING_UALLOC(numChars)	\
-	(numChars * sizeof(Tcl_UniChar))
+	((numChars) * sizeof(Tcl_UniChar))
 #define STRING_SIZE(ualloc) \
 	((unsigned) ((ualloc) \
                  ? sizeof(String) - sizeof(Tcl_UniChar) + (ualloc) \
