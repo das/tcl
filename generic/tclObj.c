@@ -1411,6 +1411,7 @@ SetBooleanFromAny(
 	Tcl_AppendLimitedToObj(msg, str, length, 50, "");
 	Tcl_AppendToObj(msg, "\"", -1);
 	Tcl_SetObjResult(interp, msg);
+	Tcl_SetErrorCode(interp, "TCL", "VALUE", "BOOLEAN", NULL);
     }
     return TCL_ERROR;
 }
@@ -2192,6 +2193,7 @@ Tcl_GetLongFromObj(
 		Tcl_AppendObjToObj(msg, objPtr);
 		Tcl_AppendToObj(msg, "\"", -1);
 		Tcl_SetObjResult(interp, msg);
+		Tcl_SetErrorCode(interp, "TCL", "VALUE", "INTEGER", NULL);
 	    }
 	    return TCL_ERROR;
 	}
@@ -2494,6 +2496,7 @@ Tcl_GetWideIntFromObj(
 		Tcl_AppendObjToObj(msg, objPtr);
 		Tcl_AppendToObj(msg, "\"", -1);
 		Tcl_SetObjResult(interp, msg);
+		Tcl_SetErrorCode(interp, "TCL", "VALUE", "INTEGER", NULL);
 	    }
 	    return TCL_ERROR;
 	}
@@ -2825,6 +2828,7 @@ GetBignumFromObj(
 		Tcl_AppendObjToObj(msg, objPtr);
 		Tcl_AppendToObj(msg, "\"", -1);
 		Tcl_SetObjResult(interp, msg);
+		Tcl_SetErrorCode(interp, "TCL", "VALUE", "INTEGER", NULL);
 	    }
 	    return TCL_ERROR;
 	}
