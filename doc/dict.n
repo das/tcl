@@ -256,6 +256,32 @@ and
 are equivalent dictionaries (with different string representations).
 .SH EXAMPLES
 .PP
+Basic dictionary usage:
+.PP
+.CS
+# Make a dictionary to map extensions to descriptions
+set filetypes [\fBdict create\fR .txt "Text File" .tcl "Tcl File"]
+
+# Add/update the dictionary
+\fBdict set\fR filetypes .tcl "Tcl Script"
+\fBdict set\fR filetypes .tm  "Tcl Module"
+\fBdict set\fR filetypes .gif "GIF Image"
+\fBdict set\fR filetypes .png "PNG Image"
+
+# Simple read from the dictionary
+set ext ".tcl"
+set desc [\fBdict get\fR $filetypes $ext]
+puts "$ext is for a $desc"
+
+# Somewhat more complex, with existence test
+foreach filename [glob *] {
+    set ext [file extension $filename]
+    if {[\fBdict exists\fR $filetypes $ext]} {
+        puts "$filename is a [\fBdict get\fR $filetypes $ext]"
+    }
+}
+.CE
+.PP
 Constructing and using nested dictionaries:
 .PP
 .CS

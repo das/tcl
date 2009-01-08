@@ -1705,6 +1705,7 @@ SetListFromAny(
 	    Tcl_SetResult(interp,
 		    "insufficient memory to allocate list working space",
 		    TCL_STATIC);
+	    Tcl_SetErrorCode(interp, "TCL", "MEMORY", NULL);
 	    return TCL_ERROR;
 	}
 	listRepPtr->elemCount = 2 * size;
@@ -1764,6 +1765,7 @@ SetListFromAny(
     if (!listRepPtr) {
 	Tcl_SetObjResult(interp, Tcl_NewStringObj(
 		"Not enough memory to allocate the list internal rep", -1));
+	Tcl_SetErrorCode(interp, "TCL", "MEMORY", NULL);
 	return TCL_ERROR;
     }
     elemPtrs = &listRepPtr->elements;
@@ -1779,6 +1781,9 @@ SetListFromAny(
 		Tcl_DecrRefCount(elemPtr);
 	    }
 	    ckfree((char *) listRepPtr);
+	    if (interp != NULL) {
+		Tcl_SetErrorCode(interp, "TCL", "VALUE", "LIST", NULL);
+	    }
 	    return result;
 	}
 	if (elemStart >= limit) {
