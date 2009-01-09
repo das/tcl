@@ -597,8 +597,8 @@ TclInitBinaryCmd(
     const EnsembleImplMap binaryMap[] = {
 	{ "format", BinaryFormatCmd, NULL },
 	{ "scan",   BinaryScanCmd,   NULL },
-	{ "encode", NULL,            NULL },
-	{ "decode", NULL,            NULL },
+	{ "encode", NULL,	     NULL },
+	{ "decode", NULL,	     NULL },
 	{ NULL, NULL, NULL }
     };
     const EnsembleImplMap encodeMap[] = {
@@ -613,7 +613,6 @@ TclInitBinaryCmd(
 	{ "base64",   BinaryDecode64,  NULL },
 	{ NULL, NULL, NULL }
     };
-
     Tcl_Command binaryEnsemble;
 
     binaryEnsemble = TclMakeEnsemble(interp, "binary", binaryMap);

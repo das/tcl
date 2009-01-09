@@ -680,10 +680,11 @@ Tcl_CloseObjCmd(
 	 * never opened for that direction).
 	 */
 
-	if (!(dir & Tcl_GetChannelMode (chan))) {
-	    Tcl_AppendResult (interp, "Half-close of ", dirOptions[optionIndex],
-			      "-side not possible, side not opened or already closed",
-			      NULL);
+	if (!(dir & Tcl_GetChannelMode(chan))) {
+	    Tcl_AppendResult(interp, "Half-close of ",
+		    dirOptions[optionIndex],
+		    "-side not possible, side not opened or already closed",
+		    NULL);
 	    return TCL_ERROR;
 	}
 
@@ -694,8 +695,9 @@ Tcl_CloseObjCmd(
 	 * process.
 	 */
 
-	if ((Tcl_GetChannelMode (chan) & (TCL_CLOSE_READ|TCL_CLOSE_WRITE)) != dir) {
-	    return Tcl_CloseEx (interp, chan, dir) != TCL_OK;
+	if ((Tcl_GetChannelMode(chan) &
+		(TCL_CLOSE_READ|TCL_CLOSE_WRITE)) != dir) {
+	    return Tcl_CloseEx(interp, chan, dir);
 	}
     }
 
@@ -1931,9 +1933,9 @@ TclInitChanCmd(
 	{"flush",	Tcl_FlushObjCmd},
 	{"gets",	Tcl_GetsObjCmd},
 	{"pending",	ChanPendingObjCmd},		/* TIP #287 */
-	{"pop",         TclChanPopObjCmd},              /* TIP #230 */
+	{"pop",		TclChanPopObjCmd},		/* TIP #230 */
 	{"postevent",	TclChanPostEventObjCmd},	/* TIP #219 */
-	{"push",        TclChanPushObjCmd},             /* TIP #230 */
+	{"push",	TclChanPushObjCmd},		/* TIP #230 */
 	{"puts",	Tcl_PutsObjCmd},
 	{"read",	Tcl_ReadObjCmd},
 	{"seek",	Tcl_SeekObjCmd},

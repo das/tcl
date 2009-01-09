@@ -70,10 +70,10 @@ TclUnixSetBlockingMode(
  * 'length' stay aligned.
  */
 
-#define PadBuffer(buffer, length, size)             \
-    if (((length) % (size))) {                      \
-	(buffer) += ((size) - ((length) % (size))); \
-	(length) += ((size) - ((length) % (size))); \
+#define PadBuffer(buffer, length, size)			\
+    if (((length) % (size))) {				\
+	(buffer) += ((size) - ((length) % (size)));	\
+	(length) += ((size) - ((length) % (size)));	\
     }
 
 /*

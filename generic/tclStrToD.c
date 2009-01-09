@@ -1231,7 +1231,7 @@ AccumulateDecimalDigit(
 	     * number to a bignum and fall through into the bignum case.
 	     */
 
-	    TclBNInitBignumFromWideUInt (bignumRepPtr, w);
+	    TclBNInitBignumFromWideUInt(bignumRepPtr, w);
 	} else {
 	    /*
 	     * Wide multiplication.
@@ -1694,8 +1694,8 @@ RefineApproximation(
      */
 
     if (mp_cmp_mag(&twoMd, &twoMv) == MP_LT) {
-        mp_clear(&twoMd);
-        mp_clear(&twoMv);
+	mp_clear(&twoMd);
+	mp_clear(&twoMv);
 	return approxResult;
     }
 

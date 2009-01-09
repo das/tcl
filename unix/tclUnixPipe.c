@@ -87,7 +87,7 @@ static Tcl_ChannelType pipeChannelType = {
     NULL,			/* handler proc. */
     NULL,			/* wide seek proc */
     NULL,			/* thread action proc */
-    NULL,                       /* truncation */
+    NULL,			/* truncation */
 };
 
 /*
