@@ -81,7 +81,7 @@ main(
      */
 
 #if defined(__GNUC__)
-    setargv( &argc, &argv );
+    setargv(&argc, &argv);
 #endif
     setlocale(LC_ALL, "C");
 

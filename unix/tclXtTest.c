@@ -47,7 +47,7 @@ Tclxttest_Init(
     XtToolkitInitialize();
     InitNotifier();
     Tcl_CreateCommand(interp, "testeventloop", TesteventloopCmd,
-            (ClientData) 0, NULL);
+	    (ClientData) 0, NULL);
     return TCL_OK;
 }
 
@@ -82,7 +82,7 @@ TesteventloopCmd(
 
    if (argc < 2) {
 	Tcl_AppendResult(interp, "wrong # arguments: should be \"", argv[0],
-                " option ... \"", NULL);
+		" option ... \"", NULL);
         return TCL_ERROR;
     }
     if (strcmp(argv[1], "done") == 0) {

@@ -495,8 +495,8 @@ TclpRealloc(
  *	list is empty.
  *
  * Note:
- *      If this code is updated, the changes need to be reflected in the
- *      macro TclAllocObjStorageEx() defined in tclInt.h
+ *	If this code is updated, the changes need to be reflected in the macro
+ *	TclAllocObjStorageEx() defined in tclInt.h
  *
  *----------------------------------------------------------------------
  */
@@ -568,8 +568,8 @@ TclThreadAllocObj(void)
  *	May move free Tcl_Obj's to shared list upon hitting high water mark.
  *
  * Note:
- *      If this code is updated, the changes need to be reflected in the
- *      macro TclAllocObjStorageEx() defined in tclInt.h
+ *	If this code is updated, the changes need to be reflected in the macro
+ *	TclAllocObjStorageEx() defined in tclInt.h
  *
  *----------------------------------------------------------------------
  */
@@ -985,8 +985,8 @@ TclFinalizeThreadAlloc(void)
     unsigned int i;
 
     for (i = 0; i < NBUCKETS; ++i) {
-        TclpFreeAllocMutex(bucketInfo[i].lockPtr);
-        bucketInfo[i].lockPtr = NULL;
+	TclpFreeAllocMutex(bucketInfo[i].lockPtr);
+	bucketInfo[i].lockPtr = NULL;
     }
 
     TclpFreeAllocMutex(objLockPtr);

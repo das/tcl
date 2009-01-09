@@ -99,7 +99,7 @@ Tcl_GetThreadData(
 	*keyPtr = result;
 	RememberSyncObject((char *) keyPtr, &keyRecord);
     } else {
-        result = *keyPtr;
+	result = *keyPtr;
     }
 #endif /* TCL_THREADS */
     return result;

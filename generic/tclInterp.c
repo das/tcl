@@ -2620,20 +2620,19 @@ SlaveEval(
 	 * compiling.
 	 */
 
-        Interp *iPtr = (Interp *) interp;
-	CmdFrame* invoker = iPtr->cmdFramePtr;
-	int word          = 0;
+	Interp *iPtr = (Interp *) interp;
+	CmdFrame *invoker = iPtr->cmdFramePtr;
+	int word = 0;
 
 	objPtr = objv[0];
-	if (objPtr->typePtr
-		&& (objPtr->typePtr != &tclByteCodeType)
+	if (objPtr->typePtr && (objPtr->typePtr != &tclByteCodeType)
 		&& objPtr->typePtr->freeIntRepProc) {
 	    (void) TclGetString(objPtr);
 	    TclFreeIntRep(objPtr);
 	    objPtr->typePtr = NULL;
 	}
 
-	TclArgumentGet (interp, objPtr, &invoker, &word);
+	TclArgumentGet(interp, objPtr, &invoker, &word);
 
 	result = TclEvalObjEx(slaveInterp, objPtr, 0, invoker, word);
     } else {

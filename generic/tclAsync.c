@@ -306,7 +306,7 @@ Tcl_AsyncDelete(
 	    tsdPtr->firstHandler = asyncPtr->nextPtr;
 	} else {
 	    prevPtr->nextPtr = asyncPtr->nextPtr;
-        }
+	}
 	if (asyncPtr == tsdPtr->lastHandler) {
 	    tsdPtr->lastHandler = prevPtr;
 	}

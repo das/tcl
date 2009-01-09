@@ -47,15 +47,15 @@ struct NameProcMap { const char *name; Tcl_ObjCmdProc *proc; };
  */
 
 static const struct NameProcMap infoObjectCmds[] = {
-    {"::oo::InfoObject::class",	     InfoObjectClassCmd},
-    {"::oo::InfoObject::definition", InfoObjectDefnCmd},
-    {"::oo::InfoObject::filters",    InfoObjectFiltersCmd},
-    {"::oo::InfoObject::forward",    InfoObjectForwardCmd},
-    {"::oo::InfoObject::isa",	     InfoObjectIsACmd},
-    {"::oo::InfoObject::methods",    InfoObjectMethodsCmd},
-    {"::oo::InfoObject::mixins",     InfoObjectMixinsCmd},
-    {"::oo::InfoObject::variables",  InfoObjectVariablesCmd},
-    {"::oo::InfoObject::vars",	     InfoObjectVarsCmd},
+    {"::oo::InfoObject::class",		InfoObjectClassCmd},
+    {"::oo::InfoObject::definition",	InfoObjectDefnCmd},
+    {"::oo::InfoObject::filters",	InfoObjectFiltersCmd},
+    {"::oo::InfoObject::forward",	InfoObjectForwardCmd},
+    {"::oo::InfoObject::isa",		InfoObjectIsACmd},
+    {"::oo::InfoObject::methods",	InfoObjectMethodsCmd},
+    {"::oo::InfoObject::mixins",	InfoObjectMixinsCmd},
+    {"::oo::InfoObject::variables",	InfoObjectVariablesCmd},
+    {"::oo::InfoObject::vars",		InfoObjectVarsCmd},
     {NULL, NULL}
 };
 
@@ -64,17 +64,17 @@ static const struct NameProcMap infoObjectCmds[] = {
  */
 
 static const struct NameProcMap infoClassCmds[] = {
-    {"::oo::InfoClass::constructor",  InfoClassConstrCmd},
-    {"::oo::InfoClass::definition",   InfoClassDefnCmd},
-    {"::oo::InfoClass::destructor",   InfoClassDestrCmd},
-    {"::oo::InfoClass::filters",      InfoClassFiltersCmd},
-    {"::oo::InfoClass::forward",      InfoClassForwardCmd},
-    {"::oo::InfoClass::instances",    InfoClassInstancesCmd},
-    {"::oo::InfoClass::methods",      InfoClassMethodsCmd},
-    {"::oo::InfoClass::mixins",	      InfoClassMixinsCmd},
-    {"::oo::InfoClass::subclasses",   InfoClassSubsCmd},
-    {"::oo::InfoClass::superclasses", InfoClassSupersCmd},
-    {"::oo::InfoClass::variables",    InfoClassVariablesCmd},
+    {"::oo::InfoClass::constructor",	InfoClassConstrCmd},
+    {"::oo::InfoClass::definition",	InfoClassDefnCmd},
+    {"::oo::InfoClass::destructor",	InfoClassDestrCmd},
+    {"::oo::InfoClass::filters",	InfoClassFiltersCmd},
+    {"::oo::InfoClass::forward",	InfoClassForwardCmd},
+    {"::oo::InfoClass::instances",	InfoClassInstancesCmd},
+    {"::oo::InfoClass::methods",	InfoClassMethodsCmd},
+    {"::oo::InfoClass::mixins",		InfoClassMixinsCmd},
+    {"::oo::InfoClass::subclasses",	InfoClassSubsCmd},
+    {"::oo::InfoClass::superclasses",	InfoClassSupersCmd},
+    {"::oo::InfoClass::variables",	InfoClassVariablesCmd},
     {NULL, NULL}
 };
 

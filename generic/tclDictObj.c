@@ -162,7 +162,7 @@ typedef struct Dict {
 const Tcl_ObjType tclDictType = {
     "dict",
     FreeDictInternalRep,		/* freeIntRepProc */
-    DupDictInternalRep,		        /* dupIntRepProc */
+    DupDictInternalRep,			/* dupIntRepProc */
     UpdateStringOfDict,			/* updateStringProc */
     SetDictFromAny			/* setFromAnyProc */
 };
@@ -668,8 +668,8 @@ SetDictFromAny(
 	}
 
 	TclNewObj(keyPtr);
-        keyPtr->bytes = s;
-        keyPtr->length = elemSize;
+	keyPtr->bytes = s;
+	keyPtr->length = elemSize;
 
 	p = nextElem;
 	lenRemain = (limit - nextElem);
@@ -704,8 +704,8 @@ SetDictFromAny(
 	}
 
 	TclNewObj(valuePtr);
-        valuePtr->bytes = s;
-        valuePtr->length = elemSize;
+	valuePtr->bytes = s;
+	valuePtr->length = elemSize;
 
 	/*
 	 * Store key and value in the hash table we're building.
