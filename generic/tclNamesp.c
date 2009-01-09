@@ -4861,6 +4861,14 @@ NamespaceEnsembleCmd(
 	Tcl_Obj *unknownObj = NULL;
 	Tcl_Obj *paramObj = NULL;
 
+	/*
+	 * Check that we've got option-value pairs... [Bug 1558654]
+	 */
+
+	if ((objc & 1) == 0) {
+	    Tcl_WrongNumArgs(interp, 3, objv, "?option value ...?");
+	    return TCL_ERROR;
+	}
 	objv += 3;
 	objc -= 3;
 
