@@ -113,8 +113,8 @@ namespace eval tcl {
     }
 }
 
-# TIP #329: [try] and [throw]
-# These are *temporary* implementations, to be replaced with ones in C and
+# TIP #329: [try]
+# This is a *temporary* implementation, to be replaced with one in C and
 # bytecode at a later date before 8.6.0
 namespace eval ::tcl::control {
     # These are not local, since this allows us to [uplevel] a [catch] rather
@@ -125,20 +125,7 @@ namespace eval ::tcl::control {
 
     variable magicCodes { ok 0 error 1 return 2 break 3 continue 4 }
 
-    namespace export throw try
-
-    # ::tcl::control::throw --
-    #
-    #	Creates an error with machine-readable "code" parts and
-    #	human-readable "message" parts.
-    #
-    # Arguments:
-    #	throw -		list describing errorcode
-    #	message -	Human-readable version of error
-    proc throw {type message} {
-	return -code error -errorcode $type -errorinfo $message -level 1 \
-	    $message
-    }
+    namespace export try
 
     # ::tcl::control::try --
     #
@@ -306,7 +293,7 @@ namespace eval ::tcl::control {
 	return -options $_opts $_em
     }
 }
-namespace import ::tcl::control::*
+namespace import ::tcl::control::try
 
 # Windows specific end of initialization
 
