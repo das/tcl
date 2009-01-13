@@ -3000,16 +3000,6 @@ Tcl_DeleteCommandFromToken(
     }
 
     /*
-     * Mark the Command structure as no longer valid. This allows
-     * TclExecuteByteCode to recognize when a Command has logically been
-     * deleted and a pointer to this Command structure cached in a CmdName
-     * object is invalid. TclExecuteByteCode will look up the command again in
-     * the interpreter's command hashtable.
-     */
-
-    cmdPtr->objProc = NULL;
-
-    /*
      * Now free the Command structure, unless there is another reference to it
      * from a CmdName Tcl object in some ByteCode code sequence. In that case,
      * delay the cleanup until all references are either discarded (when a
