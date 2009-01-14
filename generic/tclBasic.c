@@ -3001,6 +3001,15 @@ Tcl_DeleteCommandFromToken(
     }
 
     /*
+     * A number of tests for particular kinds of commands are done by
+     * checking whether the objProc field holds a known value.  Set the
+     * field to NULL so that such tests won't have false positives when
+     * applied to deleted commands.
+     */
+
+    cmdPtr->objProc = NULL;
+
+    /*
      * Now free the Command structure, unless there is another reference to it
      * from a CmdName Tcl object in some ByteCode code sequence. In that case,
      * delay the cleanup until all references are either discarded (when a
