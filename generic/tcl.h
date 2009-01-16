@@ -1,3 +1,4 @@
+
 /*
  * tcl.h --
  *
@@ -327,7 +328,7 @@ typedef long LONG;
 #endif
 
 /*
- * Darwin specifc configure overrides (to support fat compiles, where
+ * Darwin specific configure overrides (to support fat compiles, where
  * configure runs only once for multiple architectures):
  */
 
