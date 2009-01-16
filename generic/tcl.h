@@ -1,3 +1,4 @@
+
 /*
  * tcl.h --
  *
@@ -63,7 +64,7 @@ extern "C" {
 #define TCL_RELEASE_SERIAL  1
 
 #define TCL_VERSION	    "8.6"
-#define TCL_PATCH_LEVEL	    "8.6b1"
+#define TCL_PATCH_LEVEL	    "8.6b1.1"
 
 /*
  * The following definitions set up the proper options for Windows compilers.
@@ -327,7 +328,7 @@ typedef long LONG;
 #endif
 
 /*
- * Darwin specifc configure overrides (to support fat compiles, where
+ * Darwin specific configure overrides (to support fat compiles, where
  * configure runs only once for multiple architectures):
  */
 
