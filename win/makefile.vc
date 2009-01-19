@@ -726,21 +726,17 @@ HTMLBASE=TclTk$(VERSION)
 HHPFILE=$(HTMLDIR)\$(HTMLBASE).hhp
 CHMFILE=$(HTMLDIR)\$(HTMLBASE).chm
 
-htmlhelp: chmsetup $(HHPFILE)
+htmlhelp: chmsetup $(CHMFILE)
+
+$(CHMFILE): $(DOCDIR)\*
 	$(TCLSH) $(TOOLSDIR)\tcltk-man2html.tcl
-	$(HHC) $(HHPFILE) >NUL
-
-chmsetup:
-	@if not exist $(HTMLDIR)\nul mkdir $(HTMLDIR)
-
-$(HHPFILE):
-	type << > $@
+	$(HHC) <<$(HHPFILE)
 [OPTIONS]
 Compatibility=1.1 or later
 Compiled file=$(HTMLBASE).chm
 Display compile progress=no
 Error log file=$(HTMLBASE).log
-Language=0x809 English (United Kingdom)
+Language=0x409 English (United States)
 Title=Tcl/Tk $(DOT_VERSION) Help
 [FILES]
 contents.htm
@@ -752,6 +748,9 @@ TkCmd
 TkLib
 UserCmd
 <<
+
+chmsetup:
+	@if not exist $(HTMLDIR)\nul mkdir $(HTMLDIR)
 
 #-------------------------------------------------------------------------
 # Build the old-style Windows .hlp file
