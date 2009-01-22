@@ -1046,7 +1046,7 @@ ReflectClose(
     ReflectedChannelMap* rcmPtr; /* Map of reflected channels with handlers in this interp */
     Tcl_HashEntry* hPtr;         /* Entry in the above map */
 
-    if (interp == NULL) {
+    if (TclInThreadExit()) {
 	/*
 	 * This call comes from TclFinalizeIOSystem. There are no
 	 * interpreters, and therefore we cannot call upon the handler command
@@ -1134,13 +1134,18 @@ ReflectClose(
 	 * NOTE: The channel may not be in the map. This is ok, that happens
 	 * when the channel was created in a different interpreter and/or
 	 * thread and then was moved here.
+	 *
+	 * NOTE: The channel may have been removed from the map already via
+	 * the per-interp DeleteReflectedChannelMap exit-handler.
 	 */
-	
-	rcmPtr = GetReflectedChannelMap (interp);
-	hPtr = Tcl_FindHashEntry (&rcmPtr->map, 
-				  Tcl_GetChannelName (rcPtr->chan));
-	if (hPtr) {
-	    Tcl_DeleteHashEntry (hPtr);
+
+	if (rcPtr->interp) {
+	    rcmPtr = GetReflectedChannelMap (rcPtr->interp);
+	    hPtr = Tcl_FindHashEntry (&rcmPtr->map, 
+				      Tcl_GetChannelName (rcPtr->chan));
+	    if (hPtr) {
+		Tcl_DeleteHashEntry (hPtr);
+	    }
 	}
 #ifdef TCL_THREADS
         rcmPtr = GetThreadReflectedChannelMap();
