@@ -895,7 +895,7 @@ ReflectClose(
 				 * in this interp. */
     Tcl_HashEntry *hPtr;	/* Entry in the above map */
 
-    if (interp == NULL) {
+    if (TclInThreadExit()) {
 	/*
 	 * This call comes from TclFinalizeIOSystem. There are no
 	 * interpreters, and therefore we cannot call upon the handler command
@@ -1003,12 +1003,17 @@ ReflectClose(
      * NOTE: The transform may not be in the map. This is ok, that happens
      * when the transform was created in a different interpreter and/or thread
      * and then was moved here.
+     *
+     * NOTE: The channel may have been removed from the map already via
+     * the per-interp DeleteReflectedTransformMap exit-handler.
      */
 
-    rtmPtr = GetReflectedTransformMap(interp);
-    hPtr = Tcl_FindHashEntry(&rtmPtr->map, Tcl_GetString(rtPtr->handle));
-    if (hPtr) {
-	Tcl_DeleteHashEntry(hPtr);
+    if (rtPtr->interp) {
+	rtmPtr = GetReflectedTransformMap(rtPtr->interp);
+	hPtr = Tcl_FindHashEntry(&rtmPtr->map, Tcl_GetString(rtPtr->handle));
+	if (hPtr) {
+	    Tcl_DeleteHashEntry(hPtr);
+	}
     }
 
     /*
