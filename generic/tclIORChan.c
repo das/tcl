@@ -1061,8 +1061,9 @@ ReflectClose(
 	/*
 	 * THREADED => Forward this to the origin thread
 	 *
-	 * Note: DeleteThreadReflectedChannelMap() is the thread exit handler for the origin
-	 * thread. Use this to clean up the structure? Except if lost?
+	 * Note: DeleteThreadReflectedChannelMap() is the thread exit handler
+	 * for the origin thread. Use this to clean up the structure? Except
+	 * if lost?
 	 */
 
 #ifdef TCL_THREADS
@@ -1595,7 +1596,7 @@ ReflectBlock(
 
     blockObj = Tcl_NewBooleanObj(!nonblocking);
 
-    if (InvokeTclMethod(rcPtr, "blocking", blockObj, NULL, &resObj) != TCL_OK) {
+    if (InvokeTclMethod(rcPtr, "blocking", blockObj, NULL, &resObj)!=TCL_OK) {
 	Tcl_SetChannelError(rcPtr->chan, resObj);
 	errorNum = EINVAL;
     } else {

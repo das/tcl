@@ -2228,7 +2228,9 @@ ChanClose(
 	    e = deflate(&cd->outStream, Z_FINISH);
 	    if (e != Z_OK && e != Z_STREAM_END) {
 		/* TODO: is this the right way to do errors on close? */
-		ConvertError(interp, e);
+		if (!TclInThreadExit()) {
+		    ConvertError(interp, e);
+		}
 		result = TCL_ERROR;
 		break;
 	    }
@@ -2236,8 +2238,11 @@ ChanClose(
 		if (Tcl_WriteRaw(cd->parent, cd->outBuffer,
 			cd->outAllocated - cd->outStream.avail_out) < 0) {
 		    /* TODO: is this the right way to do errors on close? */
-		    Tcl_AppendResult(interp, "error while finalizing file: ",
-			    Tcl_PosixError(interp), NULL);
+		    if (!TclInThreadExit()) {
+			Tcl_AppendResult(interp,
+				"error while finalizing file: ",
+				Tcl_PosixError(interp), NULL);
+		    }
 		    result = TCL_ERROR;
 		    break;
 		}
@@ -2252,7 +2257,6 @@ ChanClose(
 	ckfree(cd->inBuffer);
 	cd->inBuffer = NULL;
     }
-
     if (cd->outBuffer) {
 	ckfree(cd->outBuffer);
 	cd->outBuffer = NULL;

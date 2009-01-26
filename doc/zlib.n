@@ -131,7 +131,9 @@ is to be used to receive the data.
 \fBzlib push\fI mode channel\fR ?\fIoptions ...\fR
 .
 Pushes a compressing or decompressing transformation onto the channel
-\fIchannel\fR. The \fImode\fR argument determines what type of transformation
+\fIchannel\fR.
+The transformation can be removed again with \fBchan pop\fR.
+The \fImode\fR argument determines what type of transformation
 is pushed; the following are supported:
 .RS
 .TP
