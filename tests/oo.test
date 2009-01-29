@@ -209,6 +209,18 @@ test oo-1.17 {basic test of OO functionality: Bug 2481109} -body {
 } -cleanup {
     namespace delete ::foo
 } -result ::foo::lreplace
+# Check for Bug 2519474; problem in tclNamesp.c, but tested here...
+test oo-1.18 {OO: create object in NS with same name as global cmd} -setup {
+    proc test-oo-1.18 {} return
+    oo::class create A
+    oo::class create B {superclass A}
+} -body {
+    oo::define B constructor {} {A create test-oo-1.18}
+    B create C
+} -cleanup {
+    rename test-oo-1.18 {}
+    A destroy
+} -result ::C
 
 test oo-2.1 {basic test of OO functionality: constructor} -setup {
     # This is a bit complex because it needs to run in a sub-interp as
