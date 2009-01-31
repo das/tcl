@@ -8,7 +8,7 @@
 .so man.macros
 .TH refchan n 8.5 Tcl "Tcl Built-In Commands"
 .BS
-1.\" Note:  do not modify the .SH NAME line immediately below!
+.\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
 refchan \- command handler API of reflected channels
 .SH SYNOPSIS
