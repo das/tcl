@@ -60,6 +60,10 @@ Tcl_ObjCmdProc Itcl_BiInfoDelegatedMethodCmd;
 Tcl_ObjCmdProc Itcl_BiInfoDelegatedTypeMethodCmd;
 Tcl_ObjCmdProc Itcl_ErrorDelegatedInfoCmd;
 Tcl_ObjCmdProc Itcl_BiInfoDelegatedUnknownCmd;
+Tcl_ObjCmdProc Itcl_BiInfoHullTypesCmd;
+Tcl_ObjCmdProc Itcl_BiInfoWidgetclassesCmd;
+Tcl_ObjCmdProc Itcl_BiInfoWidgetsCmd;
+Tcl_ObjCmdProc Itcl_BiInfoWidgetadaptorsCmd;
 
 typedef struct InfoMethod {
     char* name;              /* method name */
@@ -126,7 +130,7 @@ static InfoMethod InfoMethodList[] = {
     },
     { "hulltypes",
         "?pattern?",
-        NULL /* this is in package itclWidget */,
+        Itcl_BiInfoHullTypesCmd,
 	ITCL_WIDGETADAPTOR|ITCL_WIDGET
     },
     { "inherit",
@@ -214,12 +218,12 @@ static InfoMethod InfoMethodList[] = {
     },
     { "widgets",
         "?pattern?",
-	NULL /* ItclBiInfoWidgetsCmd */,
+	Itcl_BiInfoWidgetsCmd,
 	ITCL_WIDGET
     },
     { "widgetclasses",
         "?pattern?",
-	NULL /* ItclBiInfoWidgetclassesCmd */,
+	Itcl_BiInfoWidgetclassesCmd,
 	ITCL_WIDGET
     },
     { "widgetadaptor",
@@ -229,7 +233,7 @@ static InfoMethod InfoMethodList[] = {
     },
     { "widgetadaptors",
         "?pattern?",
-	NULL /* ItclBiInfoWidgetAdaptorsCmd */,
+	Itcl_BiInfoWidgetadaptorsCmd,
 	ITCL_WIDGETADAPTOR
     },
     /*
@@ -274,6 +278,7 @@ static const struct NameProcMap infoCmds2[] = {
     { "::itcl::builtin::Info::function", Itcl_BiInfoFunctionCmd },
     { "::itcl::builtin::Info::heritage", Itcl_BiInfoHeritageCmd },
     { "::itcl::builtin::Info::hulltype", Itcl_BiInfoHullTypeCmd },
+    { "::itcl::builtin::Info::hulltypes", Itcl_BiInfoHullTypesCmd },
     { "::itcl::builtin::Info::inherit", Itcl_BiInfoInheritCmd },
     { "::itcl::builtin::Info::instances", Itcl_BiInfoInstancesCmd },
     { "::itcl::builtin::Info::method", Itcl_BiInfoMethodCmd },
@@ -292,6 +297,9 @@ static const struct NameProcMap infoCmds2[] = {
     { "::itcl::builtin::Info::unknown", Itcl_BiInfoUnknownCmd },
     { "::itcl::builtin::Info::widget", Itcl_BiInfoWidgetCmd },
     { "::itcl::builtin::Info::widgetadaptor", Itcl_BiInfoWidgetadaptorCmd },
+    { "::itcl::builtin::Info::widgets", Itcl_BiInfoWidgetsCmd },
+    { "::itcl::builtin::Info::widgetclasses", Itcl_BiInfoWidgetclassesCmd },
+    { "::itcl::builtin::Info::widgetadaptors", Itcl_BiInfoWidgetadaptorsCmd },
     /*
      *  Add an error handler to support all of the usual inquiries
      *  for the "info" command in the global namespace.
@@ -637,11 +645,11 @@ Itcl_BiInfoClassCmd(
     if (Itcl_GetContext(interp, &contextIclsPtr, &contextIoPtr) != TCL_OK) {
         /* try it the hard way */
 	ClientData clientData;
-	clientData = Itcl_GetCallFrameClientData(interp);
         ItclObjectInfo *infoPtr;
+        Tcl_Object oPtr;
+	clientData = Itcl_GetCallFrameClientData(interp);
         infoPtr = (ItclObjectInfo *)Tcl_GetAssocData(interp,
                 ITCL_INTERP_DATA, NULL);
-        Tcl_Object oPtr;
 	if (clientData != NULL) {
             oPtr = Tcl_ObjectContextObject(clientData);
             contextIoPtr = Tcl_ObjectGetMetadata(oPtr,
@@ -722,6 +730,7 @@ Itcl_BiInfoInheritCmd(
     ItclMemberFunc *imPtr;
     Tcl_Obj *listPtr;
     Tcl_Obj *objPtr;
+    Tcl_Namespace *upNsPtr;
 
     ItclShowArgs(2, "Itcl_BiInfoInheritCmd", objc, objv);
     if (objc != 1) {
@@ -758,7 +767,6 @@ Itcl_BiInfoInheritCmd(
     callContextPtr = Itcl_PeekStack(&infoPtr->contextStack);
     imPtr = callContextPtr->imPtr;
     contextIclsPtr = imPtr->iclsPtr;
-    Tcl_Namespace *upNsPtr;
     upNsPtr = Itcl_GetUplevelNamespace(interp, 1);
     if (imPtr->iclsPtr->infoPtr->useOldResolvers) {
         if (contextIoPtr != NULL) {
@@ -831,6 +839,7 @@ Itcl_BiInfoHeritageCmd(
     Tcl_Obj *listPtr;
     Tcl_Obj *objPtr;
     ItclClass *iclsPtr;
+    Tcl_Namespace *upNsPtr;
 
     ItclShowArgs(2, "Itcl_BiInfoHeritageCmd", objc, objv);
     if (objc != 1) {
@@ -864,7 +873,6 @@ Itcl_BiInfoHeritageCmd(
     callContextPtr = Itcl_PeekStack(&infoPtr->contextStack);
     imPtr = callContextPtr->imPtr;
     contextIclsPtr = imPtr->iclsPtr;
-    Tcl_Namespace *upNsPtr;
     upNsPtr = Itcl_GetUplevelNamespace(interp, 1);
     if (contextIclsPtr->infoPtr->useOldResolvers) {
         if (contextIoPtr != NULL) {
@@ -1002,6 +1010,7 @@ Itcl_BiInfoFunctionCmd(
      *  Return info for a specific command.
      */
     if (cmdName) {
+	ItclCmdLookup *clookup;
 	objPtr = Tcl_NewStringObj(cmdName, -1);
         entry = Tcl_FindHashEntry(&contextIclsPtr->resolveCmds, (char *)objPtr);
 	Tcl_DecrRefCount(objPtr);
@@ -1014,7 +1023,6 @@ Itcl_BiInfoFunctionCmd(
             return TCL_ERROR;
         }
 
-	ItclCmdLookup *clookup;
 	clookup = (ItclCmdLookup *)Tcl_GetHashValue(entry);
 	imPtr = clookup->imPtr;
         mcode = imPtr->codePtr;
@@ -1221,7 +1229,7 @@ Itcl_BiInfoVariableCmd(
     };
 
 
-    ItclShowArgs(2, "Itcl_BiInfoVariableCmd", objc, objv);
+    ItclShowArgs(1, "Itcl_BiInfoVariableCmd", objc, objv);
     resultPtr = NULL;
     objPtr = NULL;
     varName = NULL;
@@ -2077,10 +2085,8 @@ Itcl_BiInfoOptionCmd(
 
     Tcl_HashSearch place;
     Tcl_HashEntry *hPtr;
-//    Tcl_Namespace *nsPtr;
     ItclClass *contextIclsPtr;
     ItclObject *contextIoPtr;
-//    ItclObjectInfo *infoPtr;
     ItclOption *ioptPtr;
     ItclHierIter hier;
     ItclClass *iclsPtr;
@@ -2587,11 +2593,11 @@ Itcl_BiInfoWidgetCmd(
     if (Itcl_GetContext(interp, &contextIclsPtr, &contextIoPtr) != TCL_OK) {
         /* try it the hard way */
 	ClientData clientData;
-	clientData = Itcl_GetCallFrameClientData(interp);
         ItclObjectInfo *infoPtr;
+        Tcl_Object oPtr;
+	clientData = Itcl_GetCallFrameClientData(interp);
         infoPtr = (ItclObjectInfo *)Tcl_GetAssocData(interp,
                 ITCL_INTERP_DATA, NULL);
-        Tcl_Object oPtr;
 	if (clientData != NULL) {
             oPtr = Tcl_ObjectContextObject(clientData);
             contextIoPtr = Tcl_ObjectGetMetadata(oPtr,
@@ -2865,11 +2871,11 @@ Itcl_BiInfoTypeCmd(
     if (Itcl_GetContext(interp, &contextIclsPtr, &contextIoPtr) != TCL_OK) {
         /* try it the hard way */
 	ClientData clientData;
-	clientData = Itcl_GetCallFrameClientData(interp);
         ItclObjectInfo *infoPtr;
+        Tcl_Object oPtr;
+	clientData = Itcl_GetCallFrameClientData(interp);
         infoPtr = (ItclObjectInfo *)Tcl_GetAssocData(interp,
                 ITCL_INTERP_DATA, NULL);
-        Tcl_Object oPtr;
 	if (clientData != NULL) {
             oPtr = Tcl_ObjectContextObject(clientData);
             contextIoPtr = Tcl_ObjectGetMetadata(oPtr,
@@ -2965,11 +2971,11 @@ Itcl_BiInfoHullTypeCmd(
     if (Itcl_GetContext(interp, &contextIclsPtr, &contextIoPtr) != TCL_OK) {
         /* try it the hard way */
 	ClientData clientData;
-	clientData = Itcl_GetCallFrameClientData(interp);
         ItclObjectInfo *infoPtr;
+        Tcl_Object oPtr;
+	clientData = Itcl_GetCallFrameClientData(interp);
         infoPtr = (ItclObjectInfo *)Tcl_GetAssocData(interp,
                 ITCL_INTERP_DATA, NULL);
-        Tcl_Object oPtr;
 	if (clientData != NULL) {
             oPtr = Tcl_ObjectContextObject(clientData);
             contextIoPtr = Tcl_ObjectGetMetadata(oPtr,
@@ -3205,6 +3211,7 @@ Itcl_BiInfoMethodCmd(
      *  Return info for a specific command.
      */
     if (cmdName) {
+	ItclCmdLookup *clookup;
 	objPtr = Tcl_NewStringObj(cmdName, -1);
         hPtr = Tcl_FindHashEntry(&contextIclsPtr->resolveCmds, (char *)objPtr);
 	Tcl_DecrRefCount(objPtr);
@@ -3217,7 +3224,6 @@ Itcl_BiInfoMethodCmd(
             return TCL_ERROR;
         }
 
-	ItclCmdLookup *clookup;
 	clookup = (ItclCmdLookup *)Tcl_GetHashValue(hPtr);
 	imPtr = clookup->imPtr;
         mcode = imPtr->codePtr;
@@ -3648,6 +3654,8 @@ Itcl_BiInfoComponentsCmd(
     ItclObject *ioPtr;
     ItclClass *iclsPtr;
     ItclComponent *icPtr;
+    ItclHierIter hier;
+    ItclClass *iclsPtr2;
     const char *name;
     const char *pattern;
 
@@ -3676,14 +3684,20 @@ Itcl_BiInfoComponentsCmd(
         pattern = Tcl_GetString(objv[1]);
     }
     listPtr = Tcl_NewListObj(0, NULL);
-    FOREACH_HASH_VALUE(icPtr, &iclsPtr->components) {
-        name = Tcl_GetString(icPtr->namePtr);
-        if ((pattern == NULL) ||
-                 Tcl_StringMatch(name, pattern)) {
-            Tcl_ListObjAppendElement(interp, listPtr,
-	            Tcl_NewStringObj(Tcl_GetString(icPtr->namePtr), -1));
+    Itcl_InitHierIter(&hier, iclsPtr);
+    iclsPtr2 = Itcl_AdvanceHierIter(&hier);
+    while (iclsPtr2 != NULL) {
+        FOREACH_HASH_VALUE(icPtr, &iclsPtr2->components) {
+            name = Tcl_GetString(icPtr->namePtr);
+            if ((pattern == NULL) ||
+                     Tcl_StringMatch(name, pattern)) {
+                Tcl_ListObjAppendElement(interp, listPtr,
+	                Tcl_NewStringObj(Tcl_GetString(icPtr->namePtr), -1));
+            }
         }
+        iclsPtr2 = Itcl_AdvanceHierIter(&hier);
     }
+    Itcl_DeleteHierIter(&hier);
     Tcl_SetResult(interp, Tcl_GetString(listPtr), TCL_VOLATILE);
     Tcl_DecrRefCount(listPtr);
     return TCL_OK;
@@ -3779,6 +3793,7 @@ Itcl_BiInfoTypeMethodCmd(
      *  Return info for a specific command.
      */
     if (cmdName) {
+	ItclCmdLookup *clookup;
 	objPtr = Tcl_NewStringObj(cmdName, -1);
         hPtr = Tcl_FindHashEntry(&contextIclsPtr->resolveCmds, (char *)objPtr);
 	Tcl_DecrRefCount(objPtr);
@@ -3791,7 +3806,6 @@ Itcl_BiInfoTypeMethodCmd(
             return TCL_ERROR;
         }
 
-	ItclCmdLookup *clookup;
 	clookup = (ItclCmdLookup *)Tcl_GetHashValue(hPtr);
 	imPtr = clookup->imPtr;
         mcode = imPtr->codePtr;
@@ -4409,11 +4423,11 @@ Itcl_BiInfoWidgetadaptorCmd(
     if (Itcl_GetContext(interp, &contextIclsPtr, &contextIoPtr) != TCL_OK) {
         /* try it the hard way */
 	ClientData clientData;
-	clientData = Itcl_GetCallFrameClientData(interp);
         ItclObjectInfo *infoPtr;
+        Tcl_Object oPtr;
+	clientData = Itcl_GetCallFrameClientData(interp);
         infoPtr = (ItclObjectInfo *)Tcl_GetAssocData(interp,
                 ITCL_INTERP_DATA, NULL);
-        Tcl_Object oPtr;
 	if (clientData != NULL) {
             oPtr = Tcl_ObjectContextObject(clientData);
             contextIoPtr = Tcl_ObjectGetMetadata(oPtr,
@@ -4782,10 +4796,10 @@ Itcl_ErrorDelegatedInfoCmd(
     int objc,              /* number of arguments */
     Tcl_Obj *const objv[]) /* argument objects */
 {
-    ItclShowArgs(1, "Itcl_ErrorDelegatedInfoCmd", objc, objv);
     /* produce usage message */
     Tcl_Obj *objPtr = Tcl_NewStringObj(
            "wrong # args: should be one of...\n", -1);
+    ItclShowArgs(1, "Itcl_ErrorDelegatedInfoCmd", objc, objv);
     ItclGetInfoDelegatedUsage(interp, objPtr, (ItclObjectInfo *)clientData);
     Tcl_SetResult(interp, Tcl_GetString(objPtr), TCL_VOLATILE);
     Tcl_DecrRefCount(objPtr);
@@ -5563,4 +5577,43 @@ Itcl_BiInfoDelegatedTypeMethodCmd(
         Tcl_DecrRefCount(resultPtr);
     }
     return TCL_OK;
+}
+/* the next 4 commands are dummies until itclWidget.tcl is loaded
+ * they just report the normal unknown message
+ */
+int
+Itcl_BiInfoHullTypesCmd(
+    ClientData clientData, /* ItclObjectInfo Ptr */
+    Tcl_Interp *interp,    /* current interpreter */
+    int objc,              /* number of arguments */
+    Tcl_Obj *const objv[]) /* argument objects */
+{
+    return Itcl_BiInfoUnknownCmd(clientData, interp, objc, objv);
+}
+int
+Itcl_BiInfoWidgetclassesCmd(
+    ClientData clientData, /* ItclObjectInfo Ptr */
+    Tcl_Interp *interp,    /* current interpreter */
+    int objc,              /* number of arguments */
+    Tcl_Obj *const objv[]) /* argument objects */
+{
+    return Itcl_BiInfoUnknownCmd(clientData, interp, objc, objv);
+}
+int
+Itcl_BiInfoWidgetsCmd(
+    ClientData clientData, /* ItclObjectInfo Ptr */
+    Tcl_Interp *interp,    /* current interpreter */
+    int objc,              /* number of arguments */
+    Tcl_Obj *const objv[]) /* argument objects */
+{
+    return Itcl_BiInfoUnknownCmd(clientData, interp, objc, objv);
+}
+int
+Itcl_BiInfoWidgetadaptorsCmd(
+    ClientData clientData, /* ItclObjectInfo Ptr */
+    Tcl_Interp *interp,    /* current interpreter */
+    int objc,              /* number of arguments */
+    Tcl_Obj *const objv[]) /* argument objects */
+{
+    return Itcl_BiInfoUnknownCmd(clientData, interp, objc, objv);
 }

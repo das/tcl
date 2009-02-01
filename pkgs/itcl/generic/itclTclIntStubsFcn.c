@@ -16,7 +16,7 @@
  */
 #include <tcl.h>
 #include <tclInt.h>
-#include "itclTclIntStubsFcn.h"
+#include "itclInt.h"
 
 Tcl_Command
 _Tcl_GetOriginalCommand(

@@ -1,4 +1,69 @@
 RCS: @(#) $Id$
+
+2008-01-24 Arnulf P. Wiedemann <wiede@users.sf.net>
+	* generic/itclBase.c:	added *Dict*Info functions to allow fully
+	* generic/itclBuiltin.c:integration of itclWidget package.
+	* generic/itclClass.c:  itclWidget package is no longer needed.
+	* generic/itclCmd.c:	The *Dict*Info* function also allow in the
+	* generic/itclObject.c: future to replace itclInfo.c by a scripted
+	* generic/itclParse.c:  version written in tcl.
+	* generic/itclInfo.c:   For replacing itclWidget package itclWidget.tcl
+	* generic/itclMethod.c: has been filled with new procs, which are
+	* library/itclWidget.tcl:called from the C parts, when needed.
+
+	* generic/itclHelpers.c:here one can find all the *Dict*Info functions
+
+	* library/ictlHullCmds.tcl:
+				here are similar funtions to itclWidget.tcl for
+				use by ::itcl::extendedclass
+
+	* generic/itclUtil.c:	malloc.h include now bracketed with 
+				#ifdef ITCL_PRESERVE_DEBUG as it is only used
+				for debugging. I have to look for a solution
+				using memory.h as a portable version, but
+				for that I have to understand that first.
+				With #ifdef ITCL_PRESERVE_DEBUG, the malloc
+				and free calls can be used again, these are
+				necessary, as im am checking stuff done by
+				ckalloc and ckfree, so these cannot be used.
+2009-01-15 David Gravereaux <davygrvy@pobox.com>
+	* generic/itcl2TclOO.h:  More cleanups changing the last of the 
+	* generic/itclClass.c:   'EXTERN' macros to just be 'extern' as we 
+	* win/.cvsignore:        aren't importing the declaration, just  
+	* win/itcl.rc:           sharing it internally.  This caused warnings 
+	* win/makefile.vc:       on windows during the link stage as it was 
+	* win/nmakehlp.c:        getting confused about 'why are you 
+	* win/rules.vc:          importing an internal function?'
+2009-01-15 David Gravereaux <davygrvy@pobox.com>
+	* generic/itclMigrate2TclCore.h:    All build errors squashed
+	* generic/itclStubLib.c:
+	* generic/itclTclIntStubFcn.h:
+	* win/makefile.vc:  
+2009-01-14 David Gravereaux <davygrvy@pobox.com>
+	* generic/itclBase.c:
+	* generic/itclBuiltin.c:
+	* generic/itclClass.c:
+	* generic/itclCmd.c:
+	* generic/itclEnsemble.c:
+	* generic/itclHelpers.c:
+	* generic/itclInfo.c:
+	* generic/itclMethod.c:
+	* generic/itclMigrate2TclCore.c:
+	* generic/itclObject.c:
+	* generic/itclParse.c:
+	* generic/itclResolve.c
+	* generic/itclStubs.c
+	* generic/itclTclIntStubsFcn.c:
+	* win/makefile.vc:
+		Changes to allow compiling on windows with
+		MSVC++.  Double declaration of internal 
+		functions not yet repaired.  DOESN'T
+		BUILD YET with makefile.vc.
+2009-01-14 Daniel A. Steffen <das@users.sourceforge.net>
+    * Makefile.in: fix itclConfig.sh install location to match TEA convention
+    * aclocal.m4: match minimum autoconf requirement with TEA
+    * configure: autoconf-2.59
+    * generic/itclUtil.c: fix Mac OS X build failure (dkf) [Bug 2505545]
 2008-12-11 Arnulf P. Wiedemann <wiede@users.sf.net>
     * itcl-ng first beta release 4.0b1
 2008-12-06 Arnulf P. Wiedemann <wiede@users.sf.net>

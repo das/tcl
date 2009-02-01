@@ -74,6 +74,7 @@ Itcl_StubCreateCmd(
 {
     Tcl_Command cmdPtr;
     char *cmdName;
+    Tcl_CmdInfo cmdInfo;
 
     if (objc != 2) {
         Tcl_WrongNumArgs(interp, 1, objv, "name");
@@ -91,7 +92,6 @@ Itcl_StubCreateCmd(
         ItclHandleStubCmd, (ClientData)NULL,
         (Tcl_CmdDeleteProc*)ItclDeleteStub);
 
-    Tcl_CmdInfo cmdInfo;
     Tcl_GetCommandInfoFromToken(cmdPtr, &cmdInfo);
     cmdInfo.objClientData = cmdPtr;
     Tcl_SetCommandInfoFromToken(cmdPtr, &cmdInfo);
