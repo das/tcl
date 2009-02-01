@@ -18,7 +18,7 @@
 # Copyright (c) 2003-2008 Pat Thoyts
 #
 #-------------------------------------------------------------------------
-# RCS: @(#) $Id$
+# RCS: @(#)$Id$
 #-------------------------------------------------------------------------
 
 # Check to see we are configured to build with MSVC (MSDEVDIR or MSVCDIR)
@@ -466,7 +466,7 @@ install-libraries: $(OUT_DIR)\pkgIndex.tcl
 	@echo Installing libraries to '$(SCRIPT_INSTALL_DIR)'
 	@if exist $(LIBDIR) $(CPY) $(LIBDIR)\*.tcl "$(SCRIPT_INSTALL_DIR)"
 	@echo Installing package index in '$(SCRIPT_INSTALL_DIR)'
-	@$(CPY) $(OUT_DIR)\pkgIndex.tcl $(SCRIPT_INSTALL_DIR)
+	@$(CPY) $(OUT_DIR)\pkgIndex.tcl "$(SCRIPT_INSTALL_DIR)"
 
 install-docs:
 	@echo Installing documentation files to '$(DOC_INSTALL_DIR)'

@@ -26,6 +26,7 @@ TdbcStubs tdbcStubs = {
     0,
     Tdbc_Init, /* 0 */
     Tdbc_TokenizeSql, /* 1 */
+    Tdbc_MapSqlState, /* 2 */
 };
 
 /* !END!: Do not edit above this line. */

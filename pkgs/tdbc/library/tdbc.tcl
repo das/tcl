@@ -15,6 +15,7 @@ package require TclOO
 
 namespace eval ::tdbc {
     namespace export connection statement resultset
+    variable generalError [list TDBC GENERAL_ERROR HY000 {}]
 }
 
 # TEMP - Allow for tracing
@@ -46,6 +47,7 @@ proc tdbc::puts args {}
 
 proc tdbc::ParseConvenienceArgs {argv optsVar} {
 
+    variable generalError
     upvar 1 $optsVar opts
 
     set opts [dict create -as dicts]
@@ -58,8 +60,10 @@ proc tdbc::ParseConvenienceArgs {argv optsVar} {
 	    switch -regexp -- $key {
 		-as? {
 		    if {$value ne {dicts} && $value ne {lists}} {
+			set errorcode $generalError
+			lappend errorcode badVarType $value
 			return -code error \
-			    -errorcode [list TDBC badvartype $value] \
+			    -errorcode $errorcode \
 			    "bad variable type \"$value\":\
                              must be lists or dicts"
 		    }
@@ -73,7 +77,10 @@ proc tdbc::ParseConvenienceArgs {argv optsVar} {
 		    break
 		}
 		default {
-		    return -code error -errorcode {TDBC badOption} \
+		    set errorcode $generalError
+		    lappend errorcode badOption $key
+		    return -code error \
+			-errorcode $errorcode \
 			"bad option \"$key\":\
                              must be -as or -columnsvariable"
 		}
@@ -188,6 +195,8 @@ oo::class create ::tdbc::connection {
 
     method allrows args {
 
+	variable ::tdbc::generalError
+
 	tdbc::puts {Entering ::tdbc::connection::allrows}
 	tdbc::puts {Class == [self class]}
 	tdbc::puts {Instance == [self]}
@@ -208,7 +217,9 @@ oo::class create ::tdbc::connection {
 	} elseif {[llength $args] == 2} {
 	    lassign $args sqlcode dict
 	} else {
-	    return -code error -errorcode {TDBC wrongNumArgs} \
+	    set errorcode $generalError
+	    lappend errorcode wrongNumArgs
+	    return -code error -errorcode $errorcode \
 		"wrong # args: should be [lrange [info level 0] 0 1]\
                  ?-option value?... ?--? sqlcode ?dictionary?"
 	}
@@ -248,6 +259,8 @@ oo::class create ::tdbc::connection {
 
     method foreach args {
 
+	variable ::tdbc::generalError
+
 	tdbc::puts {Entering ::tdbc::connection::foreach}
 	tdbc::puts {Class == [self class]}
 	tdbc::puts {Instance == [self]}
@@ -268,7 +281,9 @@ oo::class create ::tdbc::connection {
 	} elseif {[llength $args] == 4} {
 	    lassign $args varname sqlcode dict script
 	} else {
-	    return -code error -errorcode {TDBC wrongNumArgs} \
+	    set errorcode $generalError
+	    lappend errorcode wrongNumArgs
+	    return -code error -errorcode $errorcode \
 		"wrong # args: should be [lrange [info level 0] 0 1]\
                  ?-option value?... ?--? varname sqlcode ?dictionary? script"
 	}
@@ -368,6 +383,8 @@ oo::class create tdbc::statement {
 
     method allrows args {
 
+	variable ::tdbc::generalError
+
 	tdbc::puts {Entering ::tdbc::statement::allrows}
 	tdbc::puts {Class == [self class]}
 	tdbc::puts {Instance == [self]}
@@ -388,7 +405,9 @@ oo::class create tdbc::statement {
 	} elseif {[llength $args] == 1} {
 	    lappend cmd [lindex $args 0]
 	} else {
-	    return -code error -errorcode {TDBC wrongNumArgs} \
+	    set errorcode $generalError
+	    lappend errorcode wrongNumArgs
+	    return -code error -errorcode $errorcode \
 		"wrong # args: should be [lrange [info level 0] 0 1]\
                  ?-option value?... ?--? ?dictionary?"
 	}
@@ -431,6 +450,8 @@ oo::class create tdbc::statement {
 
     method foreach args {
 
+	variable ::tdbc::generalError
+
 	tdbc::puts {Entering ::tdbc::statement::foreach}
 	tdbc::puts {Class == [self class]}
 	tdbc::puts {Call == [info level 0]}
@@ -451,7 +472,9 @@ oo::class create tdbc::statement {
 	    lassign $args varname dict script
 	    lappend cmd $dict
 	} else {
-	    return -code error -errorcode {TDBC wrongNumArgs} \
+	    set errorcode $generalError
+	    lappend errorcode wrongNumArgs
+	    return -code error -errorcode $errorcode \
 		"wrong # args: should be [lrange [info level 0] 0 1]\
                  ?-option value?... ?--? varName ?dictionary? script"
 	}
@@ -514,6 +537,8 @@ oo::class create tdbc::resultset {
 
     method allrows args {
 
+	variable ::tdbc::generalError
+
 	tdbc::puts {Entering ::tdbc::resultset::allrows}
 	tdbc::puts {Class == [self class]}
 	tdbc::puts {Call == [info level 0]}
@@ -525,7 +550,9 @@ oo::class create tdbc::resultset {
 
 	set args [::tdbc::ParseConvenienceArgs $args[set args {}] opts]
 	if {[llength $args] != 0} {
-	    return -code error -errorcode {TDBC wrongNumArgs} \
+	    set errorcode $generalError
+	    lappend errorcode wrongNumArgs
+	    return -code error -errorcode $errorcode \
 		"wrong # args: should be [lrange [info level 0] 0 1]\
                  ?-option value?... ?--? varName script"
 	}
@@ -560,6 +587,8 @@ oo::class create tdbc::resultset {
 
     method foreach args {
 
+	variable ::tdbc::generalError
+
 	tdbc::puts {Entering ::tdbc::resultset::foreach}
 	tdbc::puts {Class == [self class]}
 	tdbc::puts {Call == [info level 0]}
@@ -574,7 +603,9 @@ oo::class create tdbc::resultset {
 	# Check positional parameters
 
 	if {[llength $args] != 2} {
-	    return -code error -errorcode {TDBC wrongNumArgs} \
+	    set errorcode $generalError
+	    lappend errorcode wrongNumArgs
+	    return -code error -errorcode $errorcode \
 		"wrong # args: should be [lrange [info level 0] 0 1]\
                  ?-option value?... ?--? varName script"
 	}
@@ -625,6 +656,8 @@ oo::class create tdbc::resultset {
 
     method nextrow {args} {
 
+	variable ::tdbc::generalError
+
 	set opts [dict create -as dicts]
 	set i 0
     
@@ -641,7 +674,9 @@ oo::class create tdbc::resultset {
 			break
 		    }
 		    default {
-			return -code error -errorcode {TDBC badOption} \
+			set errorcode $generalError
+			lappend errorcode badOption $key
+			return -code error -errorcode $errorcode \
 			    "bad option \"$key\":\
                              must be -as or -columnsvariable"
 		    }
@@ -654,7 +689,9 @@ oo::class create tdbc::resultset {
 
 	set args [lrange $args $i end]
 	if {[llength $args] != 1} {
-	    return -code error -errorcode {TDBC wrongNumArgs} \
+	    set errorcode $generalError
+	    lappend errorcode wrongNumArgs
+	    return -code error -errorcode $errorcode \
 		"wrong # args: should be [lrange [info level 0] 0 1]\
                  ?-option value?... ?--? varName"
 	}

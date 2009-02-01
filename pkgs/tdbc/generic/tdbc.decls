@@ -27,3 +27,6 @@ declare 0 current {
 declare 1 current {
     Tcl_Obj* Tdbc_TokenizeSql(Tcl_Interp* interp, const char* statement)
 }
+declare 2 current {
+    const char* Tdbc_MapSqlState(const char* sqlstate)
+}

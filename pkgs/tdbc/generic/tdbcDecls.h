@@ -28,7 +28,7 @@
 /* !BEGIN!: Do not edit below this line. */
 
 #define TDBC_STUBS_EPOCH 0
-#define TDBC_STUBS_REVISION 2
+#define TDBC_STUBS_REVISION 3
 
 #if !defined(USE_TDBC_STUBS)
 
@@ -41,6 +41,8 @@ TDBCAPI int		Tdbc_Init (Tcl_Interp* interp);
 /* 1 */
 TDBCAPI Tcl_Obj*	Tdbc_TokenizeSql (Tcl_Interp* interp, 
 				const char* statement);
+/* 2 */
+TDBCAPI const char*	Tdbc_MapSqlState (const char* sqlstate);
 
 #endif /* !defined(USE_TDBC_STUBS) */
 
@@ -52,6 +54,7 @@ typedef struct TdbcStubs {
 
     int (*tdbc_Init) (Tcl_Interp* interp); /* 0 */
     Tcl_Obj* (*tdbc_TokenizeSql) (Tcl_Interp* interp, const char* statement); /* 1 */
+    const char* (*tdbc_MapSqlState) (const char* sqlstate); /* 2 */
 } TdbcStubs;
 
 #ifdef __cplusplus
@@ -75,6 +78,10 @@ extern const TdbcStubs *tdbcStubsPtr;
 #ifndef Tdbc_TokenizeSql
 #define Tdbc_TokenizeSql \
 	(tdbcStubsPtr->tdbc_TokenizeSql) /* 1 */
+#endif
+#ifndef Tdbc_MapSqlState
+#define Tdbc_MapSqlState \
+	(tdbcStubsPtr->tdbc_MapSqlState) /* 2 */
 #endif
 
 #endif /* defined(USE_TDBC_STUBS) */

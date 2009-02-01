@@ -47,6 +47,9 @@ PKG_STUB_OBJECTS = @PKG_STUB_OBJECTS@
 #========================================================================
 
 PKG_TCL_SOURCES = @PKG_TCL_SOURCES@
+TCL_VERSION_REQ = 8.5
+TCL_VERSION_DESIRED = 8.6
+TCLOO_VERSION_REQ = 0.6
 
 #========================================================================
 # This is a list of public header files to be installed, if any.
@@ -288,7 +291,13 @@ VPATH = $(srcdir):$(srcdir)/generic:$(srcdir)/unix:$(srcdir)/win
 pkgIndex.tcl: Makefile
 	-@echo Creating pkgIndex.tcl
 	@( \
-	echo 'if {[catch {package require Tcl $(TCL_VERSION_REQ)}]} return'; \
+	echo 'if {[catch {package present Tcl $(TCL_VERSION_REQ)}]} {'; \
+	echo '    return'; \
+	echo '}'; \
+	echo 'if {[catch {package present Tcl $(TCL_VERSION_DESIRED)}]'; \
+        echo '    && [catch {package present TclOO $(TCLOO_VERSION_REQ)}]} {'; \
+	echo '    return'; \
+	echo '}'; \
 	echo 'package ifneeded $(PACKAGE_NAME) $(PACKAGE_VERSION) \
 	    [list load [file join $$dir $(PKG_LIB_FILE)] $(PACKAGE_NAME)]' \
 	) > pkgIndex.tcl
@@ -342,7 +351,9 @@ dist: dist-clean
 	cp -p $(srcdir)/library/tdbc.tcl $(DIST_DIR)/library/
 
 	mkdir $(DIST_DIR)/tests
-	cp -p $(srcdir)/tests/all.tcl $(srcdir)/tests/tokenize.test \
+	cp -p $(srcdir)/tests/all.tcl \
+		$(srcdir)/tests/tdbc.test \
+		$(srcdir)/tests/tokenize.test \
 		$(DIST_DIR)/tests/
 
 	mkdir $(DIST_DIR)/tools
@@ -375,6 +386,7 @@ genstubs: $(srcdir)/tools/genStubs.tcl $(srcdir)/generic/tdbc.decls
 clean:  
 	-test -z "$(BINARIES)" || rm -f $(BINARIES)
 	-rm -f *.$(OBJEXT) core *.core
+	-rm -f pkgIndex.tcl
 	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean: clean
