@@ -122,6 +122,13 @@ OPTIMIZATIONS  = $(OPTIMIZATIONS) -GS
 OPTIMIZATIONS  = $(OPTIMIZATIONS) -GL
 !endif
 
+# In v13 -GL and -YX are incompatible.
+!if [nmakehlp -c -YX]
+!if ![nmakehlp -c -GL]
+OPTIMIZATIONS  = $(OPTIMIZATIONS) -YX
+!endif
+!endif
+
 DEBUGFLAGS     =
 
 !if [nmakehlp -c -RTC1]
@@ -130,14 +137,7 @@ DEBUGFLAGS     = $(DEBUGFLAGS) -RTC1
 DEBUGFLAGS     = $(DEBUGFLAGS) -GZ
 !endif
 
-COMPILERFLAGS  =-W3
-
-# In v13 -GL and -YX are incompatible.
-!if [nmakehlp -c -YX]
-!if ![nmakehlp -c -GL]
-OPTIMIZATIONS  = $(OPTIMIZATIONS) -YX
-!endif
-!endif
+COMPILERFLAGS  =
 
 !if "$(MACHINE)" == "IX86"
 ### test for pentium errata
