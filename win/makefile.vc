@@ -649,7 +649,7 @@ pkgs:
 	@for /d %d in ($(PKGSDIR)\*) do \
 	  @if exist "%~fd\win\makefile.vc" ( \
 	    pushd "%~fd\win" & \
-	    $(MAKE) -nologo -f makefile.vc TCLDIR=$(ROOT) &\
+	    $(MAKE) -$(MAKEFLAGS) -f makefile.vc TCLDIR=$(ROOT) &\
 	    popd \
 	  )
 
@@ -657,7 +657,7 @@ test-pkgs:
 	@for /d %d in ($(PKGSDIR)\*) do \
 	  @if exist "%~fd\win\makefile.vc" ( \
 	    pushd "%~fd\win" & \
-	    $(MAKE) -nologo -f makefile.vc TCLDIR=$(ROOT) test &\
+	    $(MAKE) -$(MAKEFLAGS) -f makefile.vc TCLDIR=$(ROOT) test &\
 	    popd \
 	  )
 
@@ -665,7 +665,7 @@ install-pkgs:
 	@for /d %d in ($(PKGSDIR)\*) do \
 	  @if exist "%~fd\win\makefile.vc" ( \
 	    pushd "%~fd\win" & \
-	    $(MAKE) -nologo -f makefile.vc TCLDIR=$(ROOT) install &\
+	    $(MAKE) -$(MAKEFLAGS) -f makefile.vc TCLDIR=$(ROOT) install &\
 	    popd \
 	  )
 
@@ -673,7 +673,7 @@ clean-pkgs:
 	@for /d %d in ($(PKGSDIR)\*) do \
 	  @if exist "%~fd\win\makefile.vc" ( \
 	    pushd "%~fd\win" & \
-	    $(MAKE) -nologo -f makefile.vc TCLDIR=$(ROOT) clean &\
+	    $(MAKE) -$(MAKEFLAGS) -f makefile.vc TCLDIR=$(ROOT) clean &\
 	    popd \
 	  )
 
