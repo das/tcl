@@ -41,19 +41,14 @@ Itcl_InitStubs(
     const char *packageName = "itcl";
     const char *errMsg = NULL;
     ClientData clientData = NULL;
-    ItclStubs *stubsPtr;
-    ItclIntStubs *intStubsPtr;
-    const char *actualVersion;
-    struct ItclStubAPI *stubsAPIPtr;
-    
-    actualVersion =
+    const char *actualVersion =
 	    Tcl_PkgRequireEx(interp, packageName, version, exact, &clientData);
-    stubsAPIPtr = clientData;
+    struct ItclStubAPI *stubsAPIPtr = clientData;
     if (clientData == NULL) {
         return NULL;
     }
-    stubsPtr = stubsAPIPtr->stubsPtr;
-    intStubsPtr = stubsAPIPtr->intStubsPtr;
+    ItclStubs *stubsPtr = stubsAPIPtr->stubsPtr;
+    ItclIntStubs *intStubsPtr = stubsAPIPtr->intStubsPtr;
 
     if (actualVersion == NULL) {
 	return NULL;

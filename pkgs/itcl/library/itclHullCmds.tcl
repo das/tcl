@@ -182,8 +182,7 @@ proc initoptions {args} {
     } else {
         set argsDict [dict create]
     }
-    set myOptions [uplevel 1 info option]
-#    set myOptions [uplevel 1 info options]
+    set myOptions [uplevel 1 info options]
     set my_class [uplevel 1 info class]
     set myDelegatedOptions [uplevel 1 info delegated options]
     set opt_lst [list configure]

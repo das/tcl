@@ -34,7 +34,7 @@
  */
 #include "itclInt.h"
 
-extern Tcl_ObjCmdProc Itcl_ThisCmd;
+EXTERN Tcl_ObjCmdProc Itcl_ThisCmd;
 static Tcl_NamespaceDeleteProc* _TclOONamespaceDeleteProc = NULL;
 static void ItclDeleteOption(char *cdata);
 
@@ -146,10 +146,9 @@ void
 ItclDeleteClassMetadata(
     ClientData clientData)
 {
-    ItclClass *iclsPtr;
-
     /* do we need that at all ? */
 return;
+    ItclClass *iclsPtr;
 
     iclsPtr = clientData;
 }
@@ -208,7 +207,6 @@ Itcl_CreateClass(
     void *callbackPtr;
     int result;
     int newEntry;
-    ItclResolveInfo *resolveInfoPtr;
 
     /*
      * check for an empty class name to avoid a crash
@@ -302,7 +300,8 @@ Itcl_CreateClass(
     Itcl_InitList(&iclsPtr->bases);
     Itcl_InitList(&iclsPtr->derived);
 
-    resolveInfoPtr = (ItclResolveInfo *) ckalloc(sizeof(ItclResolveInfo));
+    ItclResolveInfo *resolveInfoPtr = (ItclResolveInfo *)
+            ckalloc(sizeof(ItclResolveInfo));
     memset (resolveInfoPtr, 0, sizeof(ItclResolveInfo));
     resolveInfoPtr->flags = ITCL_RESOLVE_CLASS;
     resolveInfoPtr->iclsPtr = iclsPtr;
@@ -606,11 +605,9 @@ ItclDeleteClassVariablesNamespace(
     Tcl_Interp *interp,
     ItclClass *iclsPtr)
 {
+return;
     Tcl_DString buffer;
     Tcl_Namespace *varNsPtr;
-
-    /* TODO: why is this being skipped? */
-return;
 
     if (iclsPtr->nsPtr == NULL) {
         return;
@@ -1029,7 +1026,6 @@ ItclFreeClass(
     if (iclsPtr->flags & ITCL_CLASS_IS_FREED) {
         return;
     }
-    ItclDeleteClassesDictInfo(iclsPtr->interp, iclsPtr);
     iclsPtr->flags |= ITCL_CLASS_IS_FREED;
 
     /*
@@ -1709,7 +1705,6 @@ Itcl_BuildVirtualTables(
     while (iclsPtr2 != NULL) {
         hPtr = Tcl_FirstHashEntry(&iclsPtr2->variables, &place);
         while (hPtr) {
-            int type = VAR_TYPE_VARIABLE;
             ivPtr = (ItclVariable*)Tcl_GetHashValue(hPtr);
 
             vlookup = (ItclVarLookup *)ckalloc(sizeof(ItclVarLookup));
@@ -1724,6 +1719,7 @@ Itcl_BuildVirtualTables(
             vlookup->accessible = (ivPtr->protection != ITCL_PRIVATE ||
 	            ivPtr->iclsPtr == iclsPtr);
 
+            int type = VAR_TYPE_VARIABLE;
 	    if (ivPtr->flags & ITCL_COMMON) {
 	        type = VAR_TYPE_COMMON;
 	    }
@@ -2350,8 +2346,6 @@ Itcl_DeleteVariable(
     ItclVariable *ivPtr;
 
     ivPtr = (ItclVariable *)cdata;
-if (ivPtr->arrayInitPtr != NULL) {
-}
     hPtr = Tcl_FindHashEntry(&ivPtr->infoPtr->classes, (char *)ivPtr->iclsPtr);
     if (hPtr != NULL) {
 	/* unlink owerself from list of class variables */

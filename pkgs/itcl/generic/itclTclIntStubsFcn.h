@@ -1,9 +1,13 @@
 /* these functions are Tcl internal stubs so make an Itcl_* wrapper */
-extern void Itcl_GetVariableFullName (Tcl_Interp * interp,
+EXTERN int Itcl_PushCallFrame (Tcl_Interp * interp,
+                Tcl_CallFrame * framePtr,
+	        Tcl_Namespace * nsPtr, int isProcCallFrame);
+EXTERN void Itcl_PopCallFrame (Tcl_Interp * interp);
+EXTERN void Itcl_GetVariableFullName (Tcl_Interp * interp,
                 Tcl_Var variable, Tcl_Obj * objPtr);
-extern Tcl_Var Itcl_FindNamespaceVar (Tcl_Interp * interp,
+EXTERN Tcl_Var Itcl_FindNamespaceVar (Tcl_Interp * interp,
                 CONST char * name, Tcl_Namespace * contextNsPtr, int flags);
-extern void Itcl_SetNamespaceResolvers (Tcl_Namespace * namespacePtr,
+EXTERN void Itcl_SetNamespaceResolvers (Tcl_Namespace * namespacePtr,
         Tcl_ResolveCmdProc * cmdProc, Tcl_ResolveVarProc * varProc,
         Tcl_ResolveCompiledVarProc * compiledVarProc);
 
@@ -21,15 +25,15 @@ struct Tcl_Resolve;
 #define Tcl_GetObjInterpProc _Tcl_GetObjInterpProc
 #define Tcl_SetNamespaceResolver _Tcl_SetNamespaceResolver
 
-extern Tcl_Command _Tcl_GetOriginalCommand(Tcl_Command command);
-extern int _Tcl_CreateProc(Tcl_Interp *interp, Tcl_Namespace *nsPtr,
+EXTERN Tcl_Command _Tcl_GetOriginalCommand(Tcl_Command command);
+EXTERN int _Tcl_CreateProc(Tcl_Interp *interp, Tcl_Namespace *nsPtr,
 	CONST char *procName, Tcl_Obj *argsPtr, Tcl_Obj *bodyPtr,
         Tcl_Proc *procPtrPtr);
-extern void _Tcl_ProcDeleteProc(ClientData clientData);
-extern void *_Tcl_GetObjInterpProc(void);
-extern int _Tcl_SetNamespaceResolver(Tcl_Namespace *nsPtr,
+EXTERN void _Tcl_ProcDeleteProc(ClientData clientData);
+EXTERN void *_Tcl_GetObjInterpProc(void);
+EXTERN int _Tcl_SetNamespaceResolver(Tcl_Namespace *nsPtr,
         struct Tcl_Resolve *resolvePtr);
-extern int Tcl_RenameCommand(Tcl_Interp *interp, const char *oldName,
+EXTERN int Tcl_RenameCommand(Tcl_Interp *interp, const char *oldName,
 	const char *newName);
 
 

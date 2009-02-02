@@ -377,7 +377,6 @@ ItclCreateMethod(
     if (imPtrPtr != NULL) {
         *imPtrPtr = imPtr;
     }
-    ItclAddClassFunctionDictInfo(interp, iclsPtr, imPtr);
     return TCL_OK;
 }
 
@@ -758,7 +757,7 @@ Itcl_ChangeMemberFunc(
             Tcl_SetHashValue(hPtr, imPtr);
         }
     }
-    ItclAddClassFunctionDictInfo(interp, imPtr->iclsPtr, imPtr);
+
     return TCL_OK;
 }
 
@@ -823,7 +822,6 @@ ItclCreateMemberCode(
         mcode->maxargcount = maxArgc;
         mcode->argListPtr = argListPtr;
         mcode->usagePtr = usagePtr;
-	Tcl_IncrRefCount(mcode->usagePtr);
 	mcode->argumentPtr = Tcl_NewStringObj((const char *)arglist, -1);
 	if (iclsPtr->flags & (ITCL_TYPE|ITCL_WIDGETADAPTOR)) {
 	    haveError = 0;
@@ -1854,7 +1852,6 @@ Itcl_ConstructBase(
 
         if (Tcl_FindHashEntry(contextObj->constructed,
 	        (char *)iclsPtr->namePtr) == NULL) {
-	    Tcl_Obj *objPtr;
 
             callbackPtr = Itcl_GetCurrentCallbackPtr(interp);
             Itcl_NRAddCallback(interp, CallInvokeMethodIfExists, iclsPtr,
@@ -1870,6 +1867,7 @@ Itcl_ConstructBase(
              *  weren't constructed either.  Make sure that all of its
              *  base classes are properly constructed.
              */
+	    Tcl_Obj *objPtr;
 	    objPtr = Tcl_NewStringObj("constructor", -1);
 	    Tcl_IncrRefCount(objPtr);
             entry = Tcl_FindHashEntry(&iclsPtr->functions, (char *)objPtr);
@@ -1922,9 +1920,9 @@ Itcl_InvokeMethodIfExists(
     ItclMemberFunc *imPtr;
     int cmdlinec;
     int result = TCL_OK;
-    Tcl_Obj *objPtr = Tcl_NewStringObj(name, -1);
 
     ItclShowArgs(1, "Itcl_InvokeMethodIfExists", objc, objv);
+    Tcl_Obj *objPtr = Tcl_NewStringObj(name, -1);
     hPtr = Tcl_FindHashEntry(&contextClassPtr->functions, (char *)objPtr);
     Tcl_DecrRefCount(objPtr);
     if (hPtr) {
@@ -2049,7 +2047,6 @@ Itcl_CmdAliasProc(
     ItclObject *ioPtr;
     ItclMemberFunc *imPtr;
     ItclResolveInfo *resolveInfoPtr;
-    ItclCmdLookup *clookup;
 
     resolveInfoPtr = (ItclResolveInfo *)clientData;
     if (resolveInfoPtr->flags & ITCL_RESOLVE_OBJECT) {
@@ -2143,6 +2140,7 @@ Itcl_CmdAliasProc(
 	}
         return NULL;
     }
+    ItclCmdLookup *clookup;
     clookup = (ItclCmdLookup *)Tcl_GetHashValue(hPtr);
     imPtr = clookup->imPtr;
     if (strcmp(cmdName, "info") == 0) {
@@ -2279,9 +2277,6 @@ ItclCheckCallMethod(
     ItclMemberFunc *imPtr;
     int result;
     int isNew;
-    int cObjc;
-    Tcl_Obj *const * cObjv;
-    Tcl_Namespace *currNsPtr;
 
     oPtr = NULL;
     hPtr = NULL;
@@ -2327,8 +2322,8 @@ ItclCheckCallMethod(
 	result = TCL_ERROR;
 	goto finishReturn;
     }
-    cObjc = Itcl_GetCallFrameObjc(interp);
-    cObjv = Itcl_GetCallFrameObjv(interp);
+    int cObjc = Itcl_GetCallFrameObjc(interp);
+    Tcl_Obj *const * cObjv = Itcl_GetCallFrameObjv(interp);
     if (cObjc-2 < imPtr->argcount) {
 	if (strcmp(Tcl_GetString(imPtr->namePtr), "info") == 0) {
             Tcl_Obj *objPtr = Tcl_NewStringObj(
@@ -2349,6 +2344,7 @@ ItclCheckCallMethod(
     }
     isNew = 0;
     callContextPtr = NULL;
+    Tcl_Namespace *currNsPtr;
     currNsPtr = Tcl_GetCurrentNamespace(interp);
     if (ioPtr != NULL) {
         hPtr = Tcl_CreateHashEntry(&ioPtr->contextCache, (char *)imPtr, &isNew);

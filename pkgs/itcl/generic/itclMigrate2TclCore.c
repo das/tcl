@@ -131,11 +131,10 @@ Itcl_GetUplevelNamespace(
     Tcl_Interp *interp,
     int level)
 {
-    CallFrame *framePtr;
     if (level < 0) {
         return NULL;
     }
-    framePtr = ((Interp *)interp)->framePtr;
+    CallFrame *framePtr = ((Interp *)interp)->framePtr;
     while ((framePtr != NULL) && (level-- > 0)) {
         framePtr = framePtr->callerVarPtr;
     }
@@ -197,15 +196,13 @@ Itcl_IsCallFrameArgument(
     const char *name)
 {
     CallFrame *varFramePtr = ((Interp *)interp)->framePtr;
-    Proc *procPtr;
-
     if (varFramePtr == NULL) {
         return 0;
     }
     if (!varFramePtr->isProcCallFrame) {
         return 0;
     }
-    procPtr = varFramePtr->procPtr;
+    Proc *procPtr = varFramePtr->procPtr;
     /*
      *  Search through compiled locals first...
      */

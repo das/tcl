@@ -796,8 +796,6 @@ CreateEnsemble(
     EnsemblePart *ensPart;
     int result;
     int isNew;
-    char buf[20];
-    Tcl_Obj *unkObjPtr;
 
     /*
      *  Create the data associated with the ensemble.
@@ -818,6 +816,7 @@ CreateEnsemble(
     memset(ensData->parts, 0, ensData->maxParts*sizeof(EnsemblePart*));
     Tcl_DStringInit(&buffer);
     Tcl_DStringAppend(&buffer, ITCL_COMMANDS_NAMESPACE "::ensembles::", -1);
+    char buf[20];
     sprintf(buf, "%d", ensData->ensembleId);
     Tcl_DStringAppend(&buffer, buf, -1);
     ensData->nsPtr = Tcl_CreateNamespace(interp, Tcl_DStringValue(&buffer),
@@ -839,7 +838,6 @@ CreateEnsemble(
      *    when invoked as a hidden command.
      */
     if (parentEnsData == NULL) {
-	Tcl_Obj *unkObjPtr;
 	ensData->cmdPtr = Tcl_CreateEnsemble(interp, ensName,
 	        Tcl_GetCurrentNamespace(interp), TCL_ENSEMBLE_PREFIX);
         hPtr = Tcl_CreateHashEntry(&infoPtr->ensembleInfo->ensembles,
@@ -849,7 +847,7 @@ CreateEnsemble(
 	    goto finish;
 	}
         Tcl_SetHashValue(hPtr, (ClientData)ensData);
-        unkObjPtr = Tcl_NewStringObj(ITCL_COMMANDS_NAMESPACE, -1);
+        Tcl_Obj *unkObjPtr = Tcl_NewStringObj(ITCL_COMMANDS_NAMESPACE, -1);
         Tcl_AppendToObj(unkObjPtr, "::ensembles::unknown", -1);
         if (Tcl_SetEnsembleUnknownHandler(NULL, ensData->cmdPtr,
                 unkObjPtr) != TCL_OK) {
@@ -898,7 +896,7 @@ CreateEnsemble(
         goto finish;
     }
     Tcl_SetHashValue(hPtr, (ClientData)ensData);
-    unkObjPtr = Tcl_NewStringObj(ITCL_COMMANDS_NAMESPACE, -1);
+    Tcl_Obj *unkObjPtr = Tcl_NewStringObj(ITCL_COMMANDS_NAMESPACE, -1);
     Tcl_AppendToObj(unkObjPtr, "::ensembles::unknown", -1);
     if (Tcl_SetEnsembleUnknownHandler(NULL, ensPart->cmdPtr,
             unkObjPtr) != TCL_OK) {
@@ -1819,13 +1817,13 @@ Itcl_EnsembleCmd(
 #endif
 
         if (objc == 3) {
-            char msg[128];
 	    Tcl_Obj *options = Tcl_GetReturnOptions(interp, status);
 	    Tcl_Obj *key = Tcl_NewStringObj("-errorline", -1);
 	    Tcl_Obj *stackTrace;
 	    Tcl_IncrRefCount(key);
 	    Tcl_DictObjGet(NULL, options, key, &stackTrace);
 	    Tcl_DecrRefCount(key);
+            char msg[128];
             sprintf(msg, "\n    (\"ensemble\" body line %s)",
                 Tcl_GetString(stackTrace));
 /*                ensInfo->parser->errorLine); */
@@ -2011,7 +2009,6 @@ Itcl_EnsPartCmd(
     int result;
     int argc;
     int maxArgc;
-    Tcl_CmdInfo cmdInfo;
 
     ItclShowArgs(1, "Itcl_EnsPartCmd", objc, objv);
     if (objc != 4) {
@@ -2037,6 +2034,7 @@ Itcl_EnsPartCmd(
 	result = TCL_ERROR;
 	goto errorOut;
     }
+    Tcl_CmdInfo cmdInfo;
     if (Tcl_GetCommandInfoFromToken(ensData->cmdPtr, &cmdInfo) != 1) {
 	result = TCL_ERROR;
 	goto errorOut;
@@ -2165,18 +2163,18 @@ EnsembleSubCmd(
     int result;
     Tcl_Namespace *nsPtr;
     EnsemblePart *ensPart;
-    void *callbackPtr;
 
     ItclShowArgs(1, "EnsembleSubCmd", objc, objv);
     result = TCL_OK;
     ensPart = (EnsemblePart *)clientData;
     nsPtr = Tcl_GetCurrentNamespace(interp);
-    callbackPtr = Itcl_GetCurrentCallbackPtr(interp);
+void *callbackPtr;
+callbackPtr = Itcl_GetCurrentCallbackPtr(interp);
     if (ensPart->flags & ITCL_ENSEMBLE_ENSEMBLE) {
-	/* FIXME !!! */
-	if (ensPart->clientData == NULL) {
-	    return TCL_ERROR;
-	}
+/* FIXME !!! */
+if (ensPart->clientData == NULL) {
+    return TCL_ERROR;
+}
         Itcl_NRAddCallback(interp, CallInvokeEnsembleMethod, nsPtr, ensPart, INT2PTR(objc), (ClientData)objv);
     } else {
         Itcl_NRAddCallback(interp, CallInvokeEnsembleMethod2, ensPart, INT2PTR(objc), (ClientData)objv, NULL);
