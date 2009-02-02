@@ -763,6 +763,14 @@ Tcl_SetObjLength(
 {
     String *stringPtr;
 
+    if (length < 0) {
+	/*
+	 * Setting to a negative length is nonsense.  This is probably the
+	 * result of overflowing the signed integer range.
+	 */
+	Tcl_Panic(	"Tcl_SetObjLength: negative length requested: "
+			"%d (integer overflow?)", length);
+    }
     if (Tcl_IsShared(objPtr)) {
 	Tcl_Panic("%s called with shared object", "Tcl_SetObjLength");
     }
@@ -876,6 +884,13 @@ Tcl_AttemptSetObjLength(
 {
     String *stringPtr;
 
+    if (length < 0) {
+	/*
+	 * Setting to a negative length is nonsense.  This is probably the
+	 * result of overflowing the signed integer range.
+	 */
+	return 0;
+    }
     if (Tcl_IsShared(objPtr)) {
 	Tcl_Panic("%s called with shared object", "Tcl_AttemptSetObjLength");
     }
