@@ -110,7 +110,8 @@ typedef struct String {
 #define STRING_SIZE(numBytes) \
 	(sizeof(String) - sizeof(Tcl_UniChar) + (numBytes))
 #define STRING_NOMEM(numBytes) \
-	(Tcl_Panic("unable to alloc %u bytes", STRING_SIZE(numBytes)), NULL)
+	(Tcl_Panic("unable to alloc %u bytes", STRING_SIZE(numBytes)), \
+	 (char *) NULL)
 #define stringAlloc(numBytes) \
 	(String *) (((numBytes) > INT_MAX - STRING_SIZE(0)) \
 	    ? STRING_NOMEM(numBytes) \
