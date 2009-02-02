@@ -394,11 +394,13 @@ test nre-X.1 {eval in wrong interp} {
     set res [$i eval {
 	set x {namespace children ::}
 	set y [list namespace children ::]
-	set j [interp create]
 	namespace delete {*}[{*}$y]
+	set j [interp create]
 	$j eval {namespace delete {*}[namespace children ::]}
 	namespace eval foo {}
-	list [eval $x] [eval $y] [$j eval $x] [$j eval $y]
+	set res [list [eval $x] [eval $y] [$j eval $x] [$j eval $y]]
+	interp delete $j
+	set res
     }]
     interp delete $i
     set res
