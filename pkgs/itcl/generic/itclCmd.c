@@ -606,6 +606,7 @@ NRDelObjectCmd(
      */
     for (i=1; i < objc; i++) {
         name = Tcl_GetStringFromObj(objv[i], (int*)NULL);
+	contextIoPtr = NULL;
         if (Itcl_FindObject(interp, name, &contextIoPtr) != TCL_OK) {
             return TCL_ERROR;
         }
@@ -749,6 +750,7 @@ Itcl_ScopeCmd(
         contextIclsPtr = (ItclClass *)Tcl_GetHashValue(hPtr);
     }
     if (Itcl_IsClassNamespace(contextNsPtr)) {
+	ClientData clientData;
 
         entry = Tcl_FindHashEntry(&contextIclsPtr->resolveVars, token);
         if (!entry) {
@@ -782,7 +784,6 @@ Itcl_ScopeCmd(
          *  an object context.  Return the name as a fully qualified name.
          */
         infoPtr = contextIclsPtr->infoPtr;
-	ClientData clientData;
         clientData = Itcl_GetCallFrameClientData(interp);
         if (clientData != NULL) {
             oPtr = Tcl_ObjectContextObject((Tcl_ObjectContext)clientData);
@@ -1753,6 +1754,7 @@ Itcl_AddComponentCmd(
     const char *name;
     int isNew;
     int result;
+    int type = VAR_TYPE_VARIABLE;
 
     result = TCL_OK;
     contextIoPtr = NULL;
@@ -1817,7 +1819,6 @@ Itcl_AddComponentCmd(
     vlookup->accessible = (ivPtr->protection != ITCL_PRIVATE ||
         ivPtr->iclsPtr == contextIclsPtr);
 
-    int type = VAR_TYPE_VARIABLE;
     if (ivPtr->flags & ITCL_COMMON) {
         type = VAR_TYPE_COMMON;
     }

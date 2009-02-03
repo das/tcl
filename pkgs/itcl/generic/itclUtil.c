@@ -31,7 +31,10 @@
  * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  */
 #include "itclInt.h"
+
+#ifdef ITCL_PRESERVE_DEBUG
 #include <malloc.h>
+#endif
 
 /*
  *  POOL OF LIST ELEMENTS FOR LINKED LIST
@@ -640,7 +643,7 @@ ItclDbgPreserveData(
         }
 	hPtr = Tcl_CreateHashEntry(&itclPreserveInfos, cdata, &isNew);
 	if (isNew) {
-	    ipiPtr = (ItclPreserveInfo *)malloc(sizeof(ItclPreserveInfo));
+	    ipiPtr = (ItclPreserveInfo *)ckalloc(sizeof(ItclPreserveInfo));
 	    ipiPtr->refCount = 0;
 	    ipiPtr->size = ITCL_PRESERVE_BUCKET_SIZE;
 	    ipiPtr->numEntries = 0;

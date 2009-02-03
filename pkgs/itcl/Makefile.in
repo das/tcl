@@ -377,7 +377,7 @@ install-lib-binaries:
 	  fi; \
 	done
 	$(INSTALL_DATA) pkgIndex.tcl $(DESTDIR)$(pkglibdir)
-	$(INSTALL_DATA) itclConfig.sh $(DESTDIR)$(libdir)
+	$(INSTALL_DATA) itclConfig.sh $(DESTDIR)$(pkglibdir)
 
 #========================================================================
 # Install binary executables (e.g. .exe files)
