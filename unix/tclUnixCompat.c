@@ -127,7 +127,7 @@ static int		CopyGrp(struct group *tgtPtr, char *buf, int buflen);
 static int		CopyHostent(struct hostent *tgtPtr, char *buf,
 			    int buflen);
 static int		CopyPwd(struct passwd *tgtPtr, char *buf, int buflen);
-static int		CopyString(char *src, char *buf, int buflen);
+static int		CopyString(const char *src, char *buf, int buflen);
 
 #endif
 #endif /* TCL_THREADS */
@@ -772,7 +772,7 @@ CopyArray(
 #ifdef NEED_COPYSTRING
 static int
 CopyString(
-    char *src,			/* String to copy. */
+    const char *src,	/* String to copy. */
     char *buf,			/* Buffer to copy into. */
     int buflen)			/* Size of buffer. */
 {

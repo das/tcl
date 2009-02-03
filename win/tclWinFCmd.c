@@ -1611,7 +1611,7 @@ GetWinFileAttributes(
 	 */
 
 	int len;
-	char *str = Tcl_GetStringFromObj(fileName,&len);
+	const char *str = Tcl_GetStringFromObj(fileName,&len);
 
 	if (len < 4) {
 	    if (len == 0) {
@@ -1721,7 +1721,7 @@ ConvertFileNameFormat(
 	    Tcl_DString ds;
 	    Tcl_DString dsTemp;
 	    TCHAR *nativeName;
-	    char *tempString;
+	    const char *tempString;
 	    int tempLen;
 	    WIN32_FIND_DATAT data;
 	    HANDLE handle;

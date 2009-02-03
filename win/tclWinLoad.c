@@ -66,7 +66,7 @@ TclpDlopen(
 	 */
 
 	Tcl_DString ds;
-	char *fileName = Tcl_GetString(pathPtr);
+	const char *fileName = Tcl_GetString(pathPtr);
 
 	nativeName = Tcl_WinUtfToTChar(fileName, -1, &ds);
 	handle = tclWinProcs->loadLibraryProc(nativeName);

@@ -1173,7 +1173,7 @@ TclpCreateProcess(
 	     * tcl dll.
 	     */
 	    Tcl_Obj *tclExePtr, *pipeDllPtr;
-	    char *start, *end;
+	    const char *start, *end;
 	    int i, fileExists;
 	    Tcl_DString pipeDll;
 
