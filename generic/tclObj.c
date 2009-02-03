@@ -1099,13 +1099,7 @@ Tcl_GetStringFromObj(
 				 * rep's byte array length should * be stored.
 				 * If NULL, no length is stored. */
 {
-    if (objPtr->bytes == NULL) {
-	if (objPtr->typePtr->updateStringProc == NULL) {
-	    Tcl_Panic("UpdateStringProc should not be invoked for type %s",
-		    objPtr->typePtr->name);
-	}
-	objPtr->typePtr->updateStringProc(objPtr);
-    }
+    (void) TclGetString(objPtr);
 
     if (lengthPtr != NULL) {
 	*lengthPtr = objPtr->length;
