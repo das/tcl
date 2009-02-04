@@ -936,7 +936,7 @@ Tcl_AttemptSetObjLength(
 /*
  *---------------------------------------------------------------------------
  *
- * TclSetUnicodeObj --
+ * Tcl_SetUnicodeObj --
  *
  *	Modify an object to hold the Unicode string indicated by "unicode".
  *
