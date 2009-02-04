@@ -879,7 +879,7 @@ Tcl_AttemptSetObjLength(
      * Check that we're not extending a pure unicode string.
      */
 
-    if (length > (int) stringPtr->allocated &&
+    if ((size_t)length > stringPtr->allocated &&
 	    (objPtr->bytes != NULL || stringPtr->hasUnicode == 0)) {
 	char *newBytes;
 
@@ -1477,6 +1477,9 @@ AppendUtfToUtfRep(
      */
 
     oldLength = objPtr->length;
+    if (numBytes > INT_MAX - oldLength) {
+	Tcl_Panic("max size for a Tcl value (%d bytes) exceeded", INT_MAX);
+    }
     newLength = numBytes + oldLength;
 
     stringPtr = GET_STRING(objPtr);
@@ -1490,8 +1493,15 @@ AppendUtfToUtfRep(
 	 */
 
 	if (Tcl_AttemptSetObjLength(objPtr, 2 * newLength) == 0) {
-	    Tcl_SetObjLength(objPtr,
-		    newLength + numBytes + TCL_GROWTH_MIN_ALLOC);
+	    /*
+	     * Take care computing the amount of modest growth to avoid
+	     * overflow into invalid argument values for Tcl_SetObjLength.
+	     */
+	    unsigned int limit = INT_MAX - newLength;
+	    unsigned int extra = numBytes + TCL_GROWTH_MIN_ALLOC;
+	    int growth = (int) ((extra > limit) ? limit : extra);
+
+	    Tcl_SetObjLength(objPtr, newLength + growth);
 	}
     }
 
