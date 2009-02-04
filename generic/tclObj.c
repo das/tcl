@@ -277,9 +277,17 @@ const Tcl_HashKeyType tclObjHashKeyType = {
  * ResolvedCmdName pointer, but DO NOT DO THIS. It seems that some extensions
  * use the second internal pointer field of the twoPtrValue field for their
  * own purposes.
+ *
+ * TRICKY POINT! Some extensions update this structure! (Notably, these
+ * include TclBlend and TCom). This is highly ill-advised on their part, but
+ * does allow them to delete a command when references to it are gone, which
+ * is fragile but useful given their somewhat-OO style. Because of this, this
+ * structure MUST NOT be const so that the C compiler puts the data in
+ * writable memory. [Bug 2558422]
+ * TODO: Provide a better API for those extensions so that they can coexist...
  */
 
-static const Tcl_ObjType tclCmdNameType = {
+Tcl_ObjType tclCmdNameType = {
     "cmdName",				/* name */
     FreeCmdNameInternalRep,		/* freeIntRepProc */
     DupCmdNameInternalRep,		/* dupIntRepProc */
@@ -1099,13 +1107,7 @@ Tcl_GetStringFromObj(
 				 * rep's byte array length should * be stored.
 				 * If NULL, no length is stored. */
 {
-    if (objPtr->bytes == NULL) {
-	if (objPtr->typePtr->updateStringProc == NULL) {
-	    Tcl_Panic("UpdateStringProc should not be invoked for type %s",
-		    objPtr->typePtr->name);
-	}
-	objPtr->typePtr->updateStringProc(objPtr);
-    }
+    (void) TclGetString(objPtr);
 
     if (lengthPtr != NULL) {
 	*lengthPtr = objPtr->length;
