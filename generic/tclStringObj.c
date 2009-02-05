@@ -1216,6 +1216,35 @@ Tcl_AppendObjToObj(
     int length, numChars, allOneByteChars;
     char *bytes;
 
+    /*
+     * Handle append of one bytearray object to another as a special case.
+     * Note that we only do this when the object being written doesn't have a
+     * string rep; if it did, then appending the byte arrays together could
+     * well lose information; this is a special-case optimization only.
+     */
+
+    if (objPtr->typePtr == &tclByteArrayType && objPtr->bytes == NULL
+	    && appendObjPtr->typePtr == &tclByteArrayType) {
+	unsigned char *bytesDst, *bytesSrc;
+	int lengthSrc, lengthTotal;
+
+	/*
+	 * Note that we do not assume that objPtr and appendObjPtr must be
+	 * distinct!
+	 */
+
+	(void) Tcl_GetByteArrayFromObj(objPtr, &length);
+	(void) Tcl_GetByteArrayFromObj(appendObjPtr, &lengthSrc);
+	lengthTotal = length + lengthSrc;
+	if (((length > lengthSrc) ? length : lengthSrc) > lengthTotal) {
+	    Tcl_Panic("overflow when calculating byte array size");
+	}
+	bytesDst = Tcl_SetByteArrayLength(objPtr, lengthTotal);
+	bytesSrc = Tcl_GetByteArrayFromObj(appendObjPtr, NULL);
+	memcpy(bytesDst + length, bytesSrc, lengthSrc);
+	return;
+    }
+
     SetStringFromAny(NULL, objPtr);
 
     /*
