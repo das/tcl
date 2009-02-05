@@ -2448,12 +2448,16 @@ TclExecuteByteCode(
 	opnd = TclGetUInt1AtPtr(pc+1);
 
 	/*
-	 * Detect only-bytearray-or-null case
+	 * Detect only-bytearray-or-null case.
 	 */
 
 	for (currPtr=&OBJ_AT_DEPTH(opnd-1); currPtr<=&OBJ_AT_TOS; currPtr++) {
 	    if (((*currPtr)->typePtr != &tclByteArrayType)
 		    && ((*currPtr)->bytes != tclEmptyStringRep)) {
+		onlyb = 0;
+		break;
+	    } else if (((*currPtr)->typePtr == &tclByteArrayType) &&
+		    ((*currPtr)->bytes != NULL)) {
 		onlyb = 0;
 		break;
 	    }
