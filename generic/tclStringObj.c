@@ -481,7 +481,7 @@ Tcl_GetUniChar(
     if (IS_PURE_BYTE_ARRAY(objPtr)) {
 	unsigned char *bytes = Tcl_GetByteArrayFromObj(objPtr, NULL);
 
-	return bytes[index];
+	return (Tcl_UniChar) bytes[index];
     }
 
     /*
