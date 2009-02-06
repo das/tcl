@@ -339,6 +339,7 @@ typedef long LONG;
 #	undef TCL_WIDE_INT_IS_LONG
 #    endif /* __LP64__ */
 #    undef HAVE_STRUCT_STAT64
+#    include <mach/mach.h>
 #endif /* __APPLE__ */
 
 /*
