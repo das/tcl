@@ -652,11 +652,6 @@ Tcl_InterpObjCmd(
 	    OPT_UNWIND,	OPT_LAST
 	};
 
-	if (objc > 6) {
-	    Tcl_WrongNumArgs(interp, 2, objv, "?-unwind? ?--? ?path? ?result?");
-	    return TCL_ERROR;
-	}
-
 	flags = 0;
 
 	for (i = 2; i < objc; i++) {
@@ -683,6 +678,11 @@ Tcl_InterpObjCmd(
 	}
 
 	endOfForLoop:
+
+	if ((i + 2) < objc) {
+	    Tcl_WrongNumArgs(interp, 2, objv, "?-unwind? ?--? ?path? ?result?");
+	    return TCL_ERROR;
+	}
 
 	/*
 	 * Did they specify a slave interp to cancel the script in
