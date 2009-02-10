@@ -1801,7 +1801,7 @@ ReflectGetOption(
 	return TCL_ERROR;
     } else {
 	int len;
-	char *str = Tcl_GetStringFromObj(resObj, &len);
+	const char *str = Tcl_GetStringFromObj(resObj, &len);
 
 	if (len) {
 	    Tcl_DStringAppend(dsPtr, " ", 1);

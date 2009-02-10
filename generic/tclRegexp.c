@@ -573,7 +573,7 @@ Tcl_GetRegExpFromObj(
 {
     int length;
     TclRegexp *regexpPtr;
-    char *pattern;
+    const char *pattern;
 
     /*
      * This is OK because we only actually interpret this value properly as a
