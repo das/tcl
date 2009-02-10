@@ -807,16 +807,9 @@ Tcl_SetObjLength(
 	 */
 
 	if (objPtr->bytes != tclEmptyStringRep) {
-	    objPtr->bytes = ckrealloc((char *) objPtr->bytes,
-		    (unsigned) (length + 1));
+	    objPtr->bytes = ckrealloc(objPtr->bytes, (unsigned) length+1);
 	} else {
-	    char *newBytes = ckalloc((unsigned) (length+1));
-
-	    if (objPtr->bytes != NULL && objPtr->length != 0) {
-		memcpy(newBytes, objPtr->bytes, (size_t) objPtr->length);
-		TclInvalidateStringRep(objPtr);
-	    }
-	    objPtr->bytes = newBytes;
+	    objPtr->bytes = ckalloc((unsigned) length+1);
 	}
 	stringPtr->allocated = length;
 
