@@ -668,7 +668,7 @@ Tcl_GetRange(
     }
 
     if (objPtr->bytes && (stringPtr->numChars == objPtr->length)) {
-	char *str = TclGetString(objPtr);
+	const char *str = TclGetString(objPtr);
 
 	/*
 	 * All of the characters in the Utf string are 1 byte chars, so we
@@ -1240,7 +1240,7 @@ Tcl_AppendObjToObj(
 {
     String *stringPtr;
     int length, numChars, allOneByteChars;
-    char *bytes;
+    const char *bytes;
 
     /*
      * Handle append of one bytearray object to another as a special case.

@@ -879,7 +879,7 @@ Tcl_AfterObjCmd(
     }
     case AFTER_CANCEL: {
 	Tcl_Obj *commandPtr;
-	char *command, *tempCommand;
+	const char *command, *tempCommand;
 	int tempLength;
 
 	if (objc < 3) {
@@ -1096,7 +1096,7 @@ GetAfterEvent(
 				 * this interpreter. */
     Tcl_Obj *commandPtr)
 {
-    char *cmdString;		/* Textual identifier for after event, such as
+    const char *cmdString;	/* Textual identifier for after event, such as
 				 * "after#6". */
     AfterInfo *afterPtr;
     int id;
