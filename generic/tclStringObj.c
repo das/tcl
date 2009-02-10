@@ -1146,7 +1146,7 @@ Tcl_AppendLimitedToObj(
     if (stringPtr->hasUnicode != 0) {
 	AppendUtfToUnicodeRep(objPtr, ellipsis, -1);
     } else {
-	AppendUtfToUtfRep(objPtr, ellipsis, -1);
+	AppendUtfToUtfRep(objPtr, ellipsis, strlen(ellipsis));
     }
 }
 
@@ -1518,6 +1518,7 @@ AppendUtfToUnicodeRep(
  *
  *	This function appends "numBytes" bytes of "bytes" to the UTF string
  *	rep of "objPtr". objPtr must already have a valid String rep.
+ *	numBytes must be non-negative.
  *
  * Results:
  *	None.
@@ -1537,9 +1538,6 @@ AppendUtfToUtfRep(
     String *stringPtr;
     int newLength, oldLength;
 
-    if (numBytes < 0) {
-	numBytes = (bytes ? strlen(bytes) : 0);
-    }
     if (numBytes == 0) {
 	return;
     }
