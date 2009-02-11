@@ -94,7 +94,7 @@ typedef struct String {
 				 * means that there is a valid Unicode rep, or
 				 * that the number of UTF bytes == the number
 				 * of chars. */
-    size_t allocated;		/* The amount of space actually allocated for
+    int allocated;		/* The amount of space actually allocated for
 				 * the UTF string (minus 1 byte for the
 				 * termination char). */
     size_t uallocated;		/* The amount of space actually allocated for
