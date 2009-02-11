@@ -55,7 +55,7 @@ static int		TeststringobjCmd(ClientData dummy, Tcl_Interp *interp,
 
 typedef struct TestString {
     int numChars;
-    size_t allocated;
+    int allocated;
     size_t uallocated;
     Tcl_UniChar unicode[2];
 } TestString;
