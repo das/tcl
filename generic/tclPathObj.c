@@ -2300,7 +2300,7 @@ Tcl_FSEqualPaths(
     Tcl_Obj *firstPtr,
     Tcl_Obj *secondPtr)
 {
-    char *firstStr, *secondStr;
+    const char *firstStr, *secondStr;
     int firstLen, secondLen, tempErrno;
 
     if (firstPtr == secondPtr) {

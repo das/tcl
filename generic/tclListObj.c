@@ -1670,7 +1670,8 @@ SetListFromAny(
     Tcl_Interp *interp,		/* Used for error reporting if not NULL. */
     Tcl_Obj *objPtr)		/* The object to convert. */
 {
-    char *string, *s;
+    const char *string;
+    char *s;
     const char *elemStart, *nextElem;
     int lenRemain, length, estCount, elemSize, hasBrace, i, j, result;
     const char *limit;		/* Points just after string's last byte. */
@@ -1860,7 +1861,8 @@ UpdateStringOfList(
     List *listRepPtr = (List *) listPtr->internalRep.twoPtrValue.ptr1;
     int numElems = listRepPtr->elemCount;
     register int i;
-    char *elem, *dst;
+    const char *elem;
+    char *dst;
     int length;
     Tcl_Obj **elemPtrs;
 

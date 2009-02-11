@@ -1727,7 +1727,7 @@ LoadTableEncoding(
     Tcl_IncrRefCount(objPtr);
     for (i = 0; i < numPages; i++) {
 	int ch;
-	char *p;
+	const char *p;
 
 	Tcl_ReadChars(chan, objPtr, 3 + 16 * (16 * 4 + 1), 0);
 	p = Tcl_GetString(objPtr);
@@ -3494,7 +3494,7 @@ InitializeEncodingSearchPath(
     int *lengthPtr,
     Tcl_Encoding *encodingPtr)
 {
-    char *bytes;
+    const char *bytes;
     int i, numDirs, numBytes;
     Tcl_Obj *libPath, *encodingObj, *searchPath;
 
