@@ -212,8 +212,9 @@ $statement foreach row {
 }
 $statement close
 db close
+.CE
 .SH "SEE ALSO"
-encoding(n), tdbc(n), tdbc_connection(n), tdbc_resultset(n),  tdbc_tokenize(n)
+encoding(n), tdbc(n), tdbc::connection(n), tdbc::resultset(n), tdbc::tokenize(n)
 .SH "KEYWORDS"
 TDBC, SQL, database, connectivity, connection, resultset, statement,
 bound variable, stored procedure, call

@@ -82,7 +82,7 @@ parse SQL; it merely identifies bound variables (distinguishing them
 from similar strings appearing inside quotes or comments) and
 statement delimiters.
 .SH "SEE ALSO"
-tdbc(n), tdbc_connection(n), tdbc_statement(n),  tdbc_resultset(n)
+tdbc(n), tdbc::connection(n), tdbc::statement(n), tdbc::resultset(n)
 .SH "KEYWORDS"
 TDBC, SQL, database, tokenize
 .SH "COPYRIGHT"

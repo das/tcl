@@ -65,7 +65,8 @@ have manual pages of their own, listed under \fBSEE ALSO\fR.
 In addition, TDBC itself has a few service procedures that are chiefly
 of interest to driver writers. \fBSEE ALSO\fR also enumerates them.
 .SH "SEE ALSO"
-tdbc_connection(n), tdbc_resultSet(n), tdbc_statement(n), tdbc_tokenize(n)
+tdbc::connection(n), tdbc::resultset(n), tdbc::statement(n), tdbc::tokenize(n),
+tdbc::mysql(n), tdbc::odbc(n), tdbc::sqlite3(n)
 .SH "KEYWORDS"
 TDBC, SQL, database, connectivity, connection, resultset, statement
 .SH "COPYRIGHT"

@@ -208,7 +208,7 @@ optional \fIdictionary\fR parameter giving bind variables. Finally,
 it uses the \fIforeach\fR object command on the result set (see
 \fBtdbc_resultset(n)\fR) to evaluate the given \fIscript\fR for each row of
 the results. Finally, both result set and statement are closed, even
-if the given \fIscript\rR results in a \fBreturn\fI, and error, or
+if the given \fIscript\fR results in a \fBreturn\fR, an error, or
 an unusual return code. 
 .SH "CONFIGURATION OPTIONS"
 The configuration options accepted when the connection is created and
@@ -270,7 +270,7 @@ is \fBreadcommitted\fR.
 A script should not the isolation level when a transaction is in
 progress.
 .SH "SEE ALSO"
-encoding(n), tdbc(n), tdbc_resultSet(n), tdbc_statement(n), tdbc_tokenize(n)
+encoding(n), tdbc(n), tdbc::resultset(n), tdbc::statement(n), tdbc::tokenize(n)
 .SH "KEYWORDS"
 TDBC, SQL, database, connectivity, connection, resultset, statement
 .SH "COPYRIGHT"

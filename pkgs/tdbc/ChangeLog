@@ -1,3 +1,20 @@
+2009-02-14  Kevin B. Kenny  <kennykb@acm.org>
+
+	* tools/tdbc-man2html.tcl (new file):
+		First cut at automating HTML generation for the manual
+		pages.
+	* doc/tdbc.n: 
+	* doc/tdbc_connection.n:
+	* doc/tdbc_resultset.n:
+	* doc/tdbc_statement.n:
+	* doc/tdbc_tokenize.n:	Formatting changes to the man pages so that
+				man2html works.
+	
+	* generic/tdbc.h:
+	* configure.in:
+	* README:		Advance version number to 1.0b8
+	* configure:		autoconf-2.59
+	
 2009-02-01  Kevin B. Kenny  <kennykb@acm.org>
 
 	* Makefile.in:		Modified 'pkgIndex.tcl' rule to allow for

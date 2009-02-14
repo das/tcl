@@ -146,7 +146,7 @@ unusual return code terminates the iteration and is reported from the
 The \fBclose\fR object command deletes the result set and frees any
 associated system resources.
 .SH "SEE ALSO"
-encoding(n), tdbc(n), tdbc_connection(n), tdbc_statement(n),  tdbc_tokenize(n)
+encoding(n), tdbc(n), tdbc::connection(n), tdbc::statement(n), tdbc::tokenize(n)
 .SH "KEYWORDS"
 TDBC, SQL, database, connectivity, connection, resultset, statement,
 bound variable, stored procedure, call
