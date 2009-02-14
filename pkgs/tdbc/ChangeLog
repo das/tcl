@@ -1,9 +1,71 @@
+2009-02-14  Kevin B. Kenny  <kennykb@acm.org>
+
+	* tools/tdbc-man2html.tcl (new file):
+		First cut at automating HTML generation for the manual
+		pages.
+	* doc/tdbc.n: 
+	* doc/tdbc_connection.n:
+	* doc/tdbc_resultset.n:
+	* doc/tdbc_statement.n:
+	* doc/tdbc_tokenize.n:	Formatting changes to the man pages so that
+				man2html works.
+	
+	* generic/tdbc.h:
+	* configure.in:
+	* README:		Advance version number to 1.0b8
+	* configure:		autoconf-2.59
+	
+2009-02-01  Kevin B. Kenny  <kennykb@acm.org>
+
+	* Makefile.in:		Modified 'pkgIndex.tcl' rule to allow for
+				requiring the TclOO package in 8.5, and not
+				in 8.6, while allowing both versions.
+				Modified 'clean' to clean up 'pkgIndex.tcl',
+				and added the version dependencies as
+				TCL_VERSION_REQ, TCL_VERSION_DESIRED,
+				and TCLOO_VERSION_REQ. Added the new
+				'tests/tdbc.test' to 'make dist'.
+	* tests/tdbc.test:	Removed explicit check for {TCL WRONGARGS}
+				in ::errorCode, to restore 8.5 compatibility.
+	
+2009-01-31  Kevin B. Kenny  <kennykb@acm.org>
+
+	* README:
+	* configure.in:
+	* generic/tdbc.h:	Advanced version to 1.0b7
+	* configure:		autoconf-2.59
+	* generic/tdbc.c:	Added a 'tdbc::mapSqlState' command that
+				makes a key suitable for 'errorCode' from
+				a SQLSTATE.
+	* generic/tdbc.decls:	Added Tdbc_MapSqlState, C API to 'mapSqlState'
+	* generic/tdbcDecls.h:
+	* generic/tdbcStubInit.c:  Regenerated
+	* library/tdbc.tcl:	Modified so that all errors return a proper
+				errorCode
+	* tests/tdbc.test:	Added tests for tdbc::mapSqlState
+	
 2009-01-07  David Gravereaux <davygrvy@pobox.com>
 
 	* win/makefile.vc: Needed quotes around	$(SCRIPT_INSTALL_DIR)
 	in the install-libraries target else directory with spaces
 	in it failed.
 
+2009-01-05  Kevin B. Kenny  <kennykb@acm.org>
+
+	* README:		  Advanced version to 1.0b6
+	* configure.in:
+	* generic/tdbc.h:	
+
+	* configure:		  autoconf-2.59
+	
+2009-01-04  Kevin B. Kenny  <kennykb@acm.org>
+
+	* README:		  Advanced version to 1.0b5
+	* configure.in:
+	* generic/tdbc.h:	
+
+	* configure:		  autoconf-2.59
+	
 2008-12-30  Kevin B. Kenny  <kennykb@acm.org>
 
 	* README:		  Advanced version to 1.0b4
