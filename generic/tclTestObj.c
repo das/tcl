@@ -1096,9 +1096,8 @@ TeststringobjCmd(
 		goto wrongNumArgs;
 	    }
 	    if (varPtr[varIndex] != NULL) {
-		if ((varPtr[varIndex])->typePtr != &tclStringType) {
-		    Tcl_ConvertToType(NULL, varPtr[varIndex], &tclStringType);
-		}
+		Tcl_ConvertToType(NULL, varPtr[varIndex],
+			Tcl_GetObjType("string"));
 		strPtr = (TestString *)
 		    (varPtr[varIndex])->internalRep.otherValuePtr;
 		length = (int) strPtr->allocated;
@@ -1152,9 +1151,8 @@ TeststringobjCmd(
 		goto wrongNumArgs;
 	    }
 	    if (varPtr[varIndex] != NULL) {
-		if ((varPtr[varIndex])->typePtr != &tclStringType) {
-		    Tcl_ConvertToType(NULL, varPtr[varIndex], &tclStringType);
-		}
+		Tcl_ConvertToType(NULL, varPtr[varIndex],
+			Tcl_GetObjType("string"));
 		strPtr = (TestString *)
 		    (varPtr[varIndex])->internalRep.otherValuePtr;
 		length = (int) strPtr->uallocated;
