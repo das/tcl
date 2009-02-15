@@ -1203,7 +1203,7 @@ Tcl_AppendObjToObj(
     Tcl_Obj *appendObjPtr)	/* Object to append. */
 {
     String *stringPtr;
-    int length, numChars, allOneByteChars;
+    int length, numChars, appendNumChars = -1;
     const char *bytes;
 
     /*
@@ -1280,24 +1280,19 @@ Tcl_AppendObjToObj(
      * characters in the final (appended-to) object.
      */
 
+    /* TODO: Check that append to self works */
     bytes = TclGetStringFromObj(appendObjPtr, &length);
 
-    allOneByteChars = 0;
     numChars = stringPtr->numChars;
     if ((numChars >= 0) && (appendObjPtr->typePtr == &tclStringType)) {
-	stringPtr = GET_STRING(appendObjPtr);
-	/* TODO why is the == length test needed here? */
-	if ((stringPtr->numChars >= 0) && (stringPtr->numChars == length)) {
-	    numChars += stringPtr->numChars;
-	    allOneByteChars = 1;
-	}
+	String *appendStringPtr = GET_STRING(appendObjPtr);
+	appendNumChars = appendStringPtr->numChars;
     }
 
     AppendUtfToUtfRep(objPtr, bytes, length);
 
-    if (allOneByteChars) {
-	stringPtr = GET_STRING(objPtr);
-	stringPtr->numChars = numChars;
+    if (numChars >= 0 && appendNumChars >= 0) {
+	stringPtr->numChars = numChars + appendNumChars;
     }
 }
 
