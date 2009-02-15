@@ -1249,18 +1249,10 @@ Tcl_AppendObjToObj(
 	 */
 
 	if (appendObjPtr->typePtr == &tclStringType) {
-	    stringPtr = GET_STRING(appendObjPtr);
-	    if (stringPtr->hasUnicode == 0) {
-		/*
-		 * If appendObjPtr is a string obj with no valid Unicode rep,
-		 * then fill its unicode rep.
-		 */
+	    Tcl_UniChar *unicode =
+		    Tcl_GetUnicodeFromObj(appendObjPtr, &numChars);
 
-		FillUnicodeRep(appendObjPtr);
-		stringPtr = GET_STRING(appendObjPtr);
-	    }
-	    AppendUnicodeToUnicodeRep(objPtr, stringPtr->unicode,
-		    stringPtr->numChars);
+	    AppendUnicodeToUnicodeRep(objPtr, unicode, numChars);
 	} else {
 	    bytes = TclGetStringFromObj(appendObjPtr, &length);
 	    AppendUtfToUnicodeRep(objPtr, bytes, length);
