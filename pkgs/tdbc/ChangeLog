@@ -1,3 +1,15 @@
+2009-02-16  Kevin B. Kenny  <kennykb@acm.org>
+
+	* generic/tdbc.h:
+	* configure.in:
+	* README:		Advance version number to 1.0b9
+	* configure:		autoconf-2.59
+	
+2009-02-15  Kevin B. Kenny  <kennykb@acm.org>
+
+	* README: Fix several editorial details. Thanks to Larry Virden
+	for the patch. [Ticket e33df9041f]
+	
 2009-02-14  Kevin B. Kenny  <kennykb@acm.org>
 
 	* tools/tdbc-man2html.tcl (new file):
