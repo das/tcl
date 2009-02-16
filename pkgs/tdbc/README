@@ -1,8 +1,8 @@
 README: tdbc
 
-    This is the 1.0b8 source distribution of Tcl Database Connectivity
+    This is the 1.0b9 source distribution of Tcl Database Connectivity
     (TDBC). TDBC is available from a Fossil version control repository
-       at http://tdbc.tcl.tk/
+       at http://tdbc.tcl.tk/ .
 
 RCS: @(#) $Id$
 
@@ -13,7 +13,7 @@ for the base classes and SQL tokenizer of Tcl Database Connectivity. It
 is not very useful by itself; to access databases, you also need one
 or more driver modules for the database manager(s) that you intend to use.
 The drivers are available from http://tdbc.tcl.tk along with the
-source code of this module A bug database and Wiki are available 
+source code of this module. A bug database and Wiki are available 
 at the same location.
 
 TDBC is a freely-available open source package.  You can do virtually
@@ -26,7 +26,7 @@ and selling it either in whole or in part.  See the file
 The 'doc' subdirectory in this release contains a set of reference manual
 entries for TDBC.  Files with an extension '.n' are for Tcl classes and
 commands; files with an extension '.3' are for C library functions. The
-file, 'doc/tdbc.n' gives an overview, listing the classes and functions 
+file, 'doc/tdbc.n' gives an overview, listing the classes and functions.
 
 3. Compiling and Installing.
 
@@ -89,7 +89,7 @@ Requests form at the same web site, may take longer and may not happen
 at all unless there is widespread support for them.
 
 The Tcl community is too large for us to provide much individual support
-for users.  If you need help we suggest that you post questions to
+for users.  If you need help, we suggest that you post questions to
 comp.lang.tcl.  We read the newsgroup and will attempt to answer esoteric
 questions for which no one else is likely to know the answer.
 
