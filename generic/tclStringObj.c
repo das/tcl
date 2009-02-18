@@ -1326,6 +1326,7 @@ Tcl_AppendObjToObj(
      * appendObjPtr and append it.
      */
 
+    /* TODO: optimize unicode appends */
     if (stringPtr->hasUnicode && stringPtr->numChars > 0) {
 	/*
 	 * If appendObjPtr is not of the "String" type, don't convert it.
