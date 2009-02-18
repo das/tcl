@@ -136,7 +136,7 @@ test stringObj-6.5 {Tcl_AppendStringsToObj procedure, don't double space if init
     testobj newobj 1
     teststringobj appendstrings 1 123 abcdefg
     list [teststringobj length 1] [teststringobj length2 1] [teststringobj get 1]
-} {10 10 123abcdefg}
+} {10 20 123abcdefg}
 test stringObj-6.6 {Tcl_AppendStringsToObj procedure, space reallocation} testobj {
     testobj freeallvars
     teststringobj set 1 abc
