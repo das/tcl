@@ -115,7 +115,7 @@ typedef struct String {
 } String;
 
 #define STRING_MAXCHARS \
-	(((size_t)UINT_MAX - sizeof(String))/sizeof(Tcl_UniChar))
+	(int)(((size_t)UINT_MAX - sizeof(String))/sizeof(Tcl_UniChar))
 #define STRING_SIZE(numChars) \
 	(sizeof(String) + ((numChars) * sizeof(Tcl_UniChar)))
 #define stringCheckLimits(numChars) \
