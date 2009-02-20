@@ -511,7 +511,16 @@ TclFSGetPathType(
     }
 
     if (PATHFLAGS(pathPtr) == 0) {
+	/* The path is not absolute... */
+#ifdef __WIN32__
+	/* ... on Windows we must make another call to determine whether
+	 * it's relative or volumerelative [Bug 2571597]. */
+	return TclGetPathType(pathPtr, filesystemPtrPtr, driveNameLengthPtr,
+		NULL);
+#else
+	/* On other systems, quickly deduce !absolute -> relative */
 	return TCL_PATH_RELATIVE;
+#endif
     }
     return TclFSGetPathType(fsPathPtr->cwdPtr, filesystemPtrPtr,
 	    driveNameLengthPtr);
