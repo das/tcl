@@ -4747,7 +4747,16 @@ FSGetPathType(pathObjPtr, filesystemPtrPtr, driveNameLengthPtr)
 	FsPath *fsPathPtr = (FsPath*) PATHOBJ(pathObjPtr);
 	if (fsPathPtr->cwdPtr != NULL) {
 	    if (PATHFLAGS(pathObjPtr) == 0) {
+		/* The path is not absolute... */
+#ifdef __WIN32__
+		/* ... on Windows we must make another call to determine
+		 * whether it's relative or volumerelative [Bug 2571597]. */
+		return GetPathType(pathObjPtr, filesystemPtrPtr, 
+			driveNameLengthPtr, NULL);
+#else
+		/* On other systems, quickly deduce !absolute -> relative */
 		return TCL_PATH_RELATIVE;
+#endif
 	    }
 	    return FSGetPathType(fsPathPtr->cwdPtr, filesystemPtrPtr, 
 				 driveNameLengthPtr);
