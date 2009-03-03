@@ -1345,7 +1345,7 @@ StringIndexCmd(
     }
 
     /*
-     * Get Unicode or byte-array char length to calulate what 'end' means.
+     * Get the char length to calulate what 'end' means.
      */
 
     length = Tcl_GetCharLength(objv[1]);
@@ -2047,9 +2047,8 @@ StringRangeCmd(
     }
 
     /*
-     * Get the length in actual characters; this uses the unicode string rep
-     * or the byte-array rep. We then reduce it by one because 'end' refers to
-     * the last character, not one past it.
+     * Get the length in actual characters; Then reduce it by one because
+     * 'end' refers to the last character, not one past it.
      */
 
     length = Tcl_GetCharLength(objv[1]) - 1;
