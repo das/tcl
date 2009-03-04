@@ -1692,7 +1692,8 @@ TclZlibCmd(
 	    start = Tcl_ZlibAdler32(0, NULL, 0);
 	}
 	data = Tcl_GetByteArrayFromObj(objv[2], &dlen);
-	Tcl_SetIntObj(obj, (int) Tcl_ZlibAdler32(start, data, dlen));
+	Tcl_SetWideIntObj(obj,
+		(Tcl_WideInt) Tcl_ZlibAdler32(start, data, dlen));
 	return TCL_OK;
     case z_crc32:			/* crc32 str ?startvalue?
 					 * -> checksum */
@@ -1708,7 +1709,8 @@ TclZlibCmd(
 	    start = Tcl_ZlibCRC32(0, NULL, 0);
 	}
 	data = Tcl_GetByteArrayFromObj(objv[2], &dlen);
-	Tcl_SetIntObj(obj, (int) Tcl_ZlibCRC32(start, data, dlen));
+	Tcl_SetWideIntObj(obj,
+		(Tcl_WideInt) Tcl_ZlibCRC32(start, data, dlen));
 	return TCL_OK;
     case z_deflate:			/* deflate data ?level?
 					 * -> rawCompressedData */
