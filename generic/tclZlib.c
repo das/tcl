@@ -2264,7 +2264,7 @@ ZlibStreamCmd(
 	    Tcl_WrongNumArgs(interp, 2, objv, NULL);
 	    return TCL_ERROR;
 	}
-	Tcl_SetIntObj(obj, Tcl_ZlibStreamChecksum(zstream));
+	Tcl_SetWideIntObj(obj, (Tcl_WideInt) Tcl_ZlibStreamChecksum(zstream));
 	return TCL_OK;
     case zs_reset:		/* $strm reset */
 	if (objc != 2) {
@@ -2529,7 +2529,7 @@ ChanGetOption(
 	    crc = cd->inStream.adler;
 	}
 
-	sprintf(buf, "0x%lx", crc);
+	sprintf(buf, "%lu", crc);
 	if (optionName == NULL) {
 	    Tcl_DStringAppendElement(dsPtr, "-checksum");
 	    Tcl_DStringAppendElement(dsPtr, buf);
@@ -2838,7 +2838,7 @@ Tcl_ZlibStreamEof(
 }
 
 int
-Tcl_ZlibStreamAdler32(
+Tcl_ZlibStreamChecksum(
     Tcl_ZlibStream zshandle)
 {
     return 0;
