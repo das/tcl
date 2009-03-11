@@ -8471,7 +8471,6 @@ TclNRCoroutineObjCmd(
     TclGetString(cmdObjPtr);
     TclFreeIntRep(cmdObjPtr);
     cmdObjPtr->typePtr = NULL;
-    Tcl_IncrRefCount(cmdObjPtr);
 
     /*
      * Set up the callback in caller execEnv and switch to the new execEnv.
