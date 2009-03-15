@@ -110,6 +110,19 @@ static void
 TSDTableDelete(
     TSDTable *tsdTablePtr)
 {
+    sig_atomic_t i;
+
+    for (i=0 ; i<tsdTablePtr->allocated ; i++) {
+	if (tsdTablePtr->tablePtr[i] != NULL) {
+	    /*
+	     * These values were allocated in Tcl_GetThreadData in tclThread.c
+	     * and must now be deallocated or they will leak.
+	     */
+
+	    TclpSysFree((char *) tsdTablePtr->tablePtr[i]);
+	}
+    }
+
     TclpSysFree(tsdTablePtr->tablePtr);
     TclpSysFree(tsdTablePtr);
 }
