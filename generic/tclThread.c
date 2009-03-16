@@ -89,7 +89,7 @@ Tcl_GetThreadData(
 
     if (result == NULL) {
 	result = ckalloc((size_t)size);
-	memset(result, 0, (size_t)size);
+	memset(result, 0, (size_t) size);
 	TclThreadStorageKeySet(keyPtr, result);
     }
 #else /* TCL_THREADS */
@@ -133,7 +133,6 @@ TclThreadDataKeyGet(
     return *keyPtr;
 #endif /* TCL_THREADS */
 }
-
 
 /*
  *----------------------------------------------------------------------
