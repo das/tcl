@@ -119,7 +119,7 @@ TSDTableDelete(
 	     * and must now be deallocated or they will leak.
 	     */
 
-	    TclpSysFree((char *) tsdTablePtr->tablePtr[i]);
+	    ckfree((char *) tsdTablePtr->tablePtr[i]);
 	}
     }
 

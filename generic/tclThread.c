@@ -88,10 +88,7 @@ Tcl_GetThreadData(
     result = TclThreadStorageKeyGet(keyPtr);
 
     if (result == NULL) {
-	result = TclpSysAlloc((size_t) size, 0);
-	if (result == NULL) {
-	    Tcl_Panic("unable to alloc %u bytes", (unsigned) size);
-	}
+	result = ckalloc((size_t)size);
 	memset(result, 0, (size_t) size);
 	TclThreadStorageKeySet(keyPtr, result);
     }
