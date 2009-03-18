@@ -1,3 +1,15 @@
+2009-03-18  Don Porter  <dgp@users.sourceforge.net>
+
+	* win/tclWinFile.c (TclpObjNormalizePath):      Corrected Tcl_Obj leak.
+	Thanks to Joe Mistachkin for detection and patch.  [Bug 2688184].
+
+2009-02-20  Don Porter  <dgp@users.sourceforge.net>
+
+	* generic/tclPathObj.c: Fixed mistaken logic in TclFSGetPathType()
+	* tests/fileName.test:  that assumed (not "absolute" => "relative").
+	This is a false assumption on Windows, where "volumerelative" is
+	another possibility.  [Bug 2571597].
+
 2008-02-06  Daniel Steffen  <das@users.sourceforge.net>
 
 	* generic/tcl.h (Darwin): workaround conflict between deprecated tcl
