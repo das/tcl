@@ -2112,11 +2112,16 @@ TclExecuteByteCode(
 	 * Compute the length to be appended.
 	 */
 
-	for (currPtr=&OBJ_AT_DEPTH(opnd-2); currPtr<=&OBJ_AT_TOS; currPtr++) {
+	for (currPtr=&OBJ_AT_DEPTH(opnd-2);
+		appendLen >= 0 && currPtr<=&OBJ_AT_TOS; currPtr++) {
 	    bytes = TclGetStringFromObj(*currPtr, &length);
 	    if (bytes != NULL) {
 		appendLen += length;
 	    }
+	}
+
+	if (appendLen < 0) {
+	    Tcl_Panic("max size for a Tcl value (%d bytes) exceeded", INT_MAX);
 	}
 
 	/*
@@ -2142,6 +2147,9 @@ TclExecuteByteCode(
 
 	objResultPtr = OBJ_AT_DEPTH(opnd-1);
 	bytes = TclGetStringFromObj(objResultPtr, &length);
+	if (length + appendLen < 0) {
+	    Tcl_Panic("max size for a Tcl value (%d bytes) exceeded", INT_MAX);
+	}
 #if !TCL_COMPILE_DEBUG
 	if (bytes != tclEmptyStringRep && !Tcl_IsShared(objResultPtr)) {
 	    TclFreeIntRep(objResultPtr);
