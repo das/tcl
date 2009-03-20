@@ -1442,11 +1442,17 @@ TclExecuteByteCode(interp, codePtr)
 	     * First, determine how many characters are needed.
 	     */
 
-	    for (i = (stackTop - (opnd-1));  i <= stackTop;  i++) {
+	    for (i = (stackTop - (opnd-1));
+		    totalLen >= 0 && i <= stackTop; i++) {
 		bytes = Tcl_GetStringFromObj(stackPtr[i], &length);
 		if (bytes != NULL) {
 		    totalLen += length;
 		}
+	    }
+
+	    if (totalLen < 0) {
+		Tcl_Panic("max size for a Tcl value (%d bytes) exceeded",
+			INT_MAX);
 	    }
 
 	    /*
