@@ -302,10 +302,24 @@ CatchObjCmdCallback(
     Tcl_Interp *interp,
     int result)
 {
+    Interp *iPtr = (Interp *) interp;
     int objc = PTR2INT(data[0]);
     Tcl_Obj *varNamePtr = data[1];
     Tcl_Obj *optionVarNamePtr = data[2];
     int rewind = ((Interp *) interp)->execEnvPtr->rewind;
+
+    /*
+     * catch has to disable any tailcall
+     */
+
+    if (iPtr->varFramePtr->tailcallPtr) {
+	TclClearTailcall(interp, iPtr->varFramePtr->tailcallPtr);
+	iPtr->varFramePtr->tailcallPtr = NULL;
+	result = TCL_ERROR;
+	Tcl_SetResult(interp,"Tailcall called from within a catch environment",
+		TCL_STATIC);
+    }	
+
 
     /*
      * We disable catch in interpreters where the limit has been exceeded.

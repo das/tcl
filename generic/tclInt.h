@@ -2603,6 +2603,10 @@ MODULE_SCOPE Tcl_ObjCmdProc TclNRTailcallObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRCoroutineObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRYieldObjCmd;
 
+MODULE_SCOPE void TclClearTailcall(Tcl_Interp *interp,
+	            struct TEOV_callback *tailcallPtr);
+
+
 /*
  *----------------------------------------------------------------
  * Procedures shared among Tcl modules but not used by the outside world:
