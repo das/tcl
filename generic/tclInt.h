@@ -1059,9 +1059,7 @@ typedef struct CallFrame {
     struct TEOV_callback *tailcallPtr;
                                 /* The callback implementing the call to be
 				 * executed by the command that pushed this
-				 * frame. It can be TAILCALL_NONE to signal
-				 * that we are tailcalling a frame further up
-				 * the stack. 
+				 * frame. 
 				 */
 } CallFrame;
 
@@ -2088,6 +2086,7 @@ typedef struct InterpList {
 #define TCL_ALLOW_EXCEPTIONS	4
 #define TCL_EVAL_FILE		2
 #define TCL_EVAL_CTX		8
+#define TCL_EVAL_REDIRECT       16
 
 /*
  * Flag bits for Interp structures:
@@ -2678,6 +2677,10 @@ MODULE_SCOPE Tcl_NRPostProc TclNRForIterCallback;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRTailcallObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRCoroutineObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRYieldObjCmd;
+
+MODULE_SCOPE void TclClearTailcall(Tcl_Interp *interp,
+	            struct TEOV_callback *tailcallPtr);
+
 
 /*
  *----------------------------------------------------------------
