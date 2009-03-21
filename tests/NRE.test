@@ -304,6 +304,23 @@ test nre-8.1 {nre and {*}} -body {
     rename inner {}
     rename outer {}
 } -result {1 1 1} 
+test nre-8.2 {nre and {*}, [Bug 2415422]} -body {
+    # force an expansion that grows the evaluation stack, check that nre
+    # adapts the bcFramePtr. This causes an NRE assertion to fail if it is not
+    # done properly.
+
+    proc nop {} {}
+    proc crash {} {
+	foreach val [list {*}[lrepeat 100000 x]] {
+	    nop
+	}
+    }
+
+    crash
+} -cleanup {
+    rename nop {}
+    rename crash {}
+}
 
 
 #
