@@ -1059,9 +1059,7 @@ typedef struct CallFrame {
     struct TEOV_callback *tailcallPtr;
                                 /* The callback implementing the call to be
 				 * executed by the command that pushed this
-				 * frame. It can be TAILCALL_NONE to signal
-				 * that we are tailcalling a frame further up
-				 * the stack. 
+				 * frame. 
 				 */
 } CallFrame;
 
