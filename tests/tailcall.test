@@ -143,7 +143,30 @@ test tailcall-0.5 {tailcall is constant space} -constraints testnrelevels -setup
     rename b {}
 } -result {0 0 0 0 0 0}
 
-test tailcall-0.6 {tailcall is constant space} -constraints testnrelevels -setup {
+test tailcall-0.6 {tailcall is constant space} -constraints {testnrelevels knownBug} -setup {
+    #
+    # This test fails because ns-unknown is not NR-enabled
+    #
+    proc c i {
+	if {[incr i] > 10} {
+	    return [depthDiff]
+	}
+	depthDiff
+	tailcall a b $i
+    }
+    proc d {ens sub args} {
+	return [list $ens c]
+    }
+    namespace ensemble create -command a -unknown d
+} -body {
+    a b 0
+} -cleanup {
+    rename a {}
+    rename c {}
+    rename d {}
+} -result {0 0 0 0 0 0}
+
+test tailcall-0.7 {tailcall is constant space} -constraints testnrelevels -setup {
     oo::class create foo {
 	method b i {
 	    if {[incr i] > 10} {
