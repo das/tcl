@@ -1992,6 +1992,14 @@ TclExecuteByteCode(
 	/*NRE_ASSERT(iPtr->cmdFramePtr == bcFramePtr);*/
 	iPtr->cmdFramePtr = bcFramePtr->nextPtr;
 
+	/*
+	 * If the CallFrame is marked as tailcalling, keep tailcalling
+	 */
+
+	if (iPtr->varFramePtr->tailcallPtr) {
+	    goto abnormalReturn;
+	}
+    
 	if (iPtr->execEnvPtr->rewind) {
 	    result = TCL_ERROR;
 	    goto abnormalReturn;
