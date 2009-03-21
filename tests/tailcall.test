@@ -376,10 +376,6 @@ test tailcall-11b {tailcall and uplevel} -setup {
     unset -nocomplain ::x
 } -match glob -result *tailcall* -returnCodes error
 
-# cleanup
-::tcltest::cleanupTests
-
-
 test tailcall-12.1 {[Bug 2649975]} -setup {
     proc dump {{text {}}} {
 	set text [uplevel 1 [list subst $text]]
