@@ -4058,7 +4058,12 @@ TclNREvalObjv(
      * finishes the source command and not just the target.
      */
 
-    TclNRAddCallback(interp, NRCommand, NULL, NULL, NULL, NULL);
+    if (iPtr->evalFlags & TCL_EVAL_REDIRECT) {
+	TclNRAddCallback(interp, NRCommand, NULL, INT2PTR(1), NULL, NULL);
+	iPtr->evalFlags &= ~TCL_EVAL_REDIRECT;
+    } else {
+	TclNRAddCallback(interp, NRCommand, NULL, NULL, NULL, NULL);
+    }
     cmdPtrPtr = (Command **) &(TOP_CB(interp)->data[0]);
 
     TclNRSpliceDeferred(interp);
