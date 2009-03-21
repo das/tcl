@@ -1548,6 +1548,13 @@ Tcl_AppendStringsToObjVA(
     SetStringFromAny(NULL, objPtr);
 
     /*
+     * Force the existence of a string rep. so we avoid crashes operating
+     * on a pure unicode value.  [Bug 2597185]
+     */
+
+    (void) Tcl_GetStringFromObj(objPtr, &oldLength);
+
+    /*
      * Figure out how much space is needed for all the strings, and expand the
      * string representation if it isn't big enough. If no bytes would be
      * appended, just return. Note that on some platforms (notably OS/390) the
@@ -1556,7 +1563,6 @@ Tcl_AppendStringsToObjVA(
 
     nargs = 0;
     newLength = 0;
-    oldLength = objPtr->length;
     while (1) {
 	string = va_arg(argList, char *);
 	if (string == NULL) {
