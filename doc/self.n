@@ -39,9 +39,10 @@ destructors respectively).
 .TP
 \fBself class\fR
 .
-This returns the name of the class or object that the current method was
-defined within. Note that this will change as the chain of method
-implementations is traversed with \fBnext\fR.
+This returns the name of the class that the current method was defined within.
+Note that this will change as the chain of method implementations is traversed
+with \fBnext\fR, and that if the method was defined on an object then this
+will fail.
 .TP
 \fBself filter\fR
 .
