@@ -787,7 +787,7 @@ TclObjGetFrame(
     register Interp *iPtr = (Interp *) interp;
     int curLevel, level, result;
     CallFrame *framePtr;
-    const char *name = TclGetString(objPtr);
+    const char *name;
 
     /*
      * Parse object to figure out which level number to go to.
@@ -795,6 +795,12 @@ TclObjGetFrame(
 
     result = 1;
     curLevel = iPtr->varFramePtr->level;
+    if (objPtr == NULL) {
+	name = "1";
+	goto haveLevel1;
+    }
+
+    name = TclGetString(objPtr);
     if (objPtr->typePtr == &levelReferenceType) {
 	if (objPtr->internalRep.ptrAndLongRep.ptr != NULL) {
 	    level = curLevel - objPtr->internalRep.ptrAndLongRep.value;
@@ -847,9 +853,11 @@ TclObjGetFrame(
 	level = curLevel - level;
     } else {
 	/*
-	 * Don't cache as the object *isn't* a level reference.
+	 * Don't cache as the object *isn't* a level reference (might even be
+	 * NULL...)
 	 */
 
+    haveLevel1:
 	level = curLevel - 1;
 	result = 0;
     }
