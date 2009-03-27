@@ -510,7 +510,16 @@ TclFSGetPathType(
     }
 
     if (PATHFLAGS(pathPtr) == 0) {
+	/* The path is not absolute... */
+#ifdef __WIN32__
+	/* ... on Windows we must make another call to determine whether
+	 * it's relative or volumerelative [Bug 2571597]. */
+	return TclGetPathType(pathPtr, filesystemPtrPtr, driveNameLengthPtr,
+		NULL);
+#else
+	/* On other systems, quickly deduce !absolute -> relative */
 	return TCL_PATH_RELATIVE;
+#endif
     }
     return TclFSGetPathType(fsPathPtr->cwdPtr, filesystemPtrPtr,
 	    driveNameLengthPtr);
@@ -568,9 +577,22 @@ TclPathPart(
 		 * the standardPath code.
 		 */
 
-		const char *rest = TclGetString(fsPathPtr->normPathPtr);
+		int numBytes;
+		const char *rest =
+			Tcl_GetStringFromObj(fsPathPtr->normPathPtr, &numBytes);
 
 		if (strchr(rest, '/') != NULL) {
+		    goto standardPath;
+		}
+		/*
+		 * If the joined-on bit is empty, then [file dirname] is
+		 * documented to return all but the last non-empty element
+		 * of the path, so we need to split apart the main part to
+		 * get the right answer.  We could do that here, but it's
+		 * simpler to fall back to the standardPath code.
+		 * [Bug 2710920]
+		 */
+		if (numBytes == 0) {
 		    goto standardPath;
 		}
 		if (tclPlatform == TCL_PLATFORM_WINDOWS
@@ -593,9 +615,22 @@ TclPathPart(
 		 * we don't, and instead just use the standardPath code.
 		 */
 
-		const char *rest = TclGetString(fsPathPtr->normPathPtr);
+		int numBytes;
+		const char *rest =
+			Tcl_GetStringFromObj(fsPathPtr->normPathPtr, &numBytes);
 
 		if (strchr(rest, '/') != NULL) {
+		    goto standardPath;
+		}
+		/*
+		 * If the joined-on bit is empty, then [file tail] is
+		 * documented to return the last non-empty element
+		 * of the path, so we need to split off the last element
+		 * of the main part to get the right answer.  We could do
+		 * that here, but it's simpler to fall back to the
+		 * standardPath code.  [Bug 2710920]
+		 */
+		if (numBytes == 0) {
 		    goto standardPath;
 		}
 		if (tclPlatform == TCL_PLATFORM_WINDOWS

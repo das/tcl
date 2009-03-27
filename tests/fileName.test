@@ -1335,6 +1335,19 @@ test filename-14.25.1 {type specific globbing} {win} {
 test filename-14.26 {type specific globbing} {
     list [catch {glob -nocomplain -dir globTest -types {readonly} *} msg] $msg
 } [list 0 {}]
+test filename-14.27 {Bug 2710920} {unixOrPc} {
+    file tail [lindex [lsort [glob globTest/*/]] 0]
+} a1
+test filename-14.28 {Bug 2710920} {unixOrPc} {
+    file dirname [lindex [lsort [glob globTest/*/]] 0]
+} globTest
+test filename-14.29 {Bug 2710920} {unixOrPc} {
+    file extension [lindex [lsort [glob globTest/*/]] 0]
+} {}
+test filename-14.30 {Bug 2710920} {unixOrPc} {
+    file rootname [lindex [lsort [glob globTest/*/]] 0]
+} globTest/a1/
+
 
 unset globname
 
@@ -1521,6 +1534,12 @@ test filename-17.2 {windows specific glob with executable} {win} {
     removeDirectory execglob
     set res
 } {abc.exe}
+test filename-17.3 {Bug 2571597} win {
+    set p /a
+    file pathtype $p
+    file normalize $p
+    file pathtype $p
+} volumerelative
 
 test fileName-18.1 {windows - split ADS name correctly} {win} {
     # bug 1194458
