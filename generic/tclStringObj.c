@@ -1242,6 +1242,17 @@ AppendUnicodeToUnicodeRep(objPtr, unicode, appendNumChars)
     numChars = stringPtr->numChars + appendNumChars;
 
     if (STRING_UALLOC(numChars) >= stringPtr->uallocated) {
+	/*
+	 * Protect against case where unicode points into the existing
+	 * stringPtr->unicode array.  Force it to follow any relocations
+	 * due to the reallocs below.
+	 */
+	int offset = -1;
+	if (unicode >= stringPtr->unicode && unicode <= stringPtr->unicode
+		+ 1 + stringPtr->uallocated / sizeof(Tcl_UniChar)) {
+	    offset = unicode - stringPtr->unicode;
+	}
+
      	stringPtr->uallocated = STRING_UALLOC(2 * numChars);
 	tmpString = (String *) attemptckrealloc((char *)stringPtr,
 		STRING_SIZE(stringPtr->uallocated));
@@ -1254,6 +1265,11 @@ AppendUnicodeToUnicodeRep(objPtr, unicode, appendNumChars)
 	}
 	stringPtr = tmpString;
 	SET_STRING(objPtr, stringPtr);
+
+	/* Relocate unicode if needed; see above. */
+	if (offset >= 0) {
+	    unicode = stringPtr->unicode + offset;
+	}
     }
 
     /*
@@ -1399,6 +1415,16 @@ AppendUtfToUtfRep(objPtr, bytes, numBytes)
 
     stringPtr = GET_STRING(objPtr);
     if (newLength > (int) stringPtr->allocated) {
+        /*
+	 * Protect against case where unicode points into the existing
+	 * stringPtr->unicode array.  Force it to follow any relocations
+	 * due to the reallocs below.
+	 */
+	int offset = -1;
+	if (bytes >= objPtr->bytes
+		&& bytes <= objPtr->bytes + objPtr->length) {
+	    offset = bytes - objPtr->bytes;
+	}
 
 	/*
 	 * There isn't currently enough space in the string representation
@@ -1418,6 +1444,11 @@ AppendUtfToUtfRep(objPtr, bytes, numBytes)
 	    int growth = (int) ((extra > limit) ? limit : extra);
 
 	    Tcl_SetObjLength(objPtr, newLength + growth);
+	}
+
+	/* Relocate bytes if needed; see above. */
+	if (offset >=0) {
+	    bytes = objPtr->bytes + offset;
 	}
     }
 
