@@ -264,7 +264,7 @@ GrowUnicodeBuffer(
 	     */
 	    unsigned int limit = STRING_MAXCHARS - needed;
 	    unsigned int extra = needed - stringPtr->numChars
-		    + TCL_GROWTH_MIN_ALLOC;
+		    + TCL_GROWTH_MIN_ALLOC/sizeof(Tcl_UniChar);
 	    int growth = (int) ((extra > limit) ? limit : extra);
 	    attempt = needed + growth;
 	    ptr = stringAttemptRealloc(stringPtr, attempt);
