@@ -24,7 +24,7 @@ namespace eval tcltest {
     # When the version number changes, be sure to update the pkgIndex.tcl file,
     # and the install directory in the Makefiles.  When the minor version
     # changes (new feature) be sure to update the man page as well.
-    variable Version 2.2.9
+    variable Version 2.2.10
 
     # Compatibility support for dumb variables defined in tcltest 1
     # Do not use these.  Call [package provide Tcl] and [info patchlevel]
@@ -1419,7 +1419,7 @@ proc tcltest::ProcessFlags {flagArray} {
 	RemoveAutoConfigureTraces
     } else {
 	set args $flagArray
-	while {[llength $args]>1 && [catch {eval configure $args} msg]} {
+	while {[llength $args]>1 && [catch {eval [linsert $args 0 configure]} msg]} {
 
 	    # Something went wrong parsing $args for tcltest options
 	    # Check whether the problem is "unknown option"
@@ -2221,12 +2221,12 @@ proc tcltest::Skipped {name constraints} {
 	set doTest 0
 	if {[string match {*[$\[]*} $constraints] != 0} {
 	    # full expression, e.g. {$foo > [info tclversion]}
-	    catch {set doTest [uplevel #0 expr $constraints]}
+	    catch {set doTest [uplevel #0 [list expr $constraints]]}
 	} elseif {[regexp {[^.:_a-zA-Z0-9 \n\r\t]+} $constraints] != 0} {
 	    # something like {a || b} should be turned into
 	    # $testConstraints(a) || $testConstraints(b).
 	    regsub -all {[.\w]+} $constraints {$testConstraints(&)} c
-	    catch {set doTest [eval expr $c]}
+	    catch {set doTest [eval [list expr $c]]}
 	} elseif {![catch {llength $constraints}]} {
 	    # just simple constraints such as {unixOnly fonts}.
 	    set doTest 1
@@ -3305,12 +3305,12 @@ namespace eval tcltest {
 		    Tcl list: $msg"
 	    return
 	}
-	if {[llength $::env(TCLTEST_OPTIONS)] % 2} {
+	if {[llength $options] % 2} {
 	    Warn "invalid TCLTEST_OPTIONS: \"$options\":\n  should be\
 		    -option value ?-option value ...?"
 	    return
 	}
-	if {[catch {eval Configure $::env(TCLTEST_OPTIONS)} msg]} {
+	if {[catch {eval [linsert $options 0 Configure]} msg]} {
 	    Warn "invalid TCLTEST_OPTIONS: \"$options\":\n  $msg"
 	    return
 	}
