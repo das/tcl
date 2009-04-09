@@ -962,9 +962,10 @@ proc http::Event {sock token} {
 	return
     }
     if {$state(state) eq "connecting"} {
-	set state(state) "header"
 	if {[catch {gets $sock state(http)} n]} {
 	    return [Finish $token $n]
+	} elseif {$n >= 0} {
+	    set state(state) "header"
 	}
     } elseif {$state(state) eq "header"} {
 	if {[catch {gets $sock line} n]} {
