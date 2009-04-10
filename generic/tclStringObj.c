@@ -2922,7 +2922,7 @@ UpdateStringOfString(
 	 */
 
 	if (stringPtr->numChars <= INT_MAX/TCL_UTF_MAX
-		&& stringPtr->allocated >= stringPtr->numChars * TCL_UTF_MAX) {
+	    && stringPtr->allocated >= stringPtr->numChars * (size_t)TCL_UTF_MAX) {
 	    goto copyBytes;
 	}
 
