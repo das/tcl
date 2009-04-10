@@ -3051,7 +3051,7 @@ TclUnixWaitForFile(
 {
     Tcl_Time abortTime = {0, 0}, now; /* silence gcc 4 warning */
     struct timeval blockTime, *timeoutPtr;
-    int index, numFound, result = 0;
+    int numFound, result = 0;
     fd_set readableMask;
     fd_set writableMask;
     fd_set exceptionalMask;
