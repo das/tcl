@@ -1145,3 +1145,6 @@ declare 18 macosx {
 	    CONST char *fileName, Tcl_StatBuf *statBufPtr,
 	    Tcl_GlobTypeData *types)
 }
+declare 19 macosx {
+    void TclMacOSXNotifierAddRunLoopMode(CONST void *runLoopMode)
+}
