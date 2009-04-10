@@ -368,6 +368,12 @@ EXTERN int		TclMacOSXMatchType (Tcl_Interp * interp,
 				Tcl_StatBuf * statBufPtr,
 				Tcl_GlobTypeData * types);
 #endif
+#ifndef TclMacOSXNotifierAddRunLoopMode_TCL_DECLARED
+#define TclMacOSXNotifierAddRunLoopMode_TCL_DECLARED
+/* 19 */
+EXTERN void		TclMacOSXNotifierAddRunLoopMode (
+				const void * runLoopMode);
+#endif
 #endif /* MACOSX */
 
 typedef struct TclIntPlatStubs {
@@ -443,6 +449,7 @@ typedef struct TclIntPlatStubs {
     int (*tclMacOSXSetFileAttribute) (Tcl_Interp * interp, int objIndex, Tcl_Obj * fileName, Tcl_Obj * attributePtr); /* 16 */
     int (*tclMacOSXCopyFileAttributes) (const char * src, const char * dst, const Tcl_StatBuf * statBufPtr); /* 17 */
     int (*tclMacOSXMatchType) (Tcl_Interp * interp, const char * pathName, const char * fileName, Tcl_StatBuf * statBufPtr, Tcl_GlobTypeData * types); /* 18 */
+    void (*tclMacOSXNotifierAddRunLoopMode) (const void * runLoopMode); /* 19 */
 #endif /* MACOSX */
 } TclIntPlatStubs;
 
@@ -692,6 +699,10 @@ extern const TclIntPlatStubs *tclIntPlatStubsPtr;
 #ifndef TclMacOSXMatchType
 #define TclMacOSXMatchType \
 	(tclIntPlatStubsPtr->tclMacOSXMatchType) /* 18 */
+#endif
+#ifndef TclMacOSXNotifierAddRunLoopMode
+#define TclMacOSXNotifierAddRunLoopMode \
+	(tclIntPlatStubsPtr->tclMacOSXNotifierAddRunLoopMode) /* 19 */
 #endif
 #endif /* MACOSX */
 
