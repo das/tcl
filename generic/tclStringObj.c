@@ -2934,12 +2934,12 @@ UpdateStringOfString(
 	    Tcl_Panic("max size for a Tcl value (%d bytes) exceeded", INT_MAX);
 	}
 
-	dst = (char *) ckalloc((unsigned) (size + 1));
-	objPtr->bytes = dst;
+	objPtr->bytes = (char *) ckalloc((unsigned) (size + 1));
 	objPtr->length = size;
 	stringPtr->allocated = size;
 
     copyBytes:
+	dst = objPtr->bytes;
 	for (i = 0; i < stringPtr->numChars; i++) {
 	    dst += Tcl_UniCharToUtf(unicode[i], dst);
 	}
