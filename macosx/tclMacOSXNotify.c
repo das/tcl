@@ -1372,6 +1372,8 @@ UpdateWaitingListAndServiceEvents(
 	    while (Tcl_ServiceAll() && tsdPtr->waitTime == 0) {}
 	}
 	break;
+    default:
+	break;
     }
 }
 
