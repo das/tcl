@@ -1410,6 +1410,7 @@ AppendUnicodeToUnicodeRep(
 	    appendNumChars * sizeof(Tcl_UniChar));
     stringPtr->unicode[numChars] = 0;
     stringPtr->numChars = numChars;
+    stringPtr->allocated = 0;
 
     Tcl_InvalidateStringRep(objPtr);
 }
