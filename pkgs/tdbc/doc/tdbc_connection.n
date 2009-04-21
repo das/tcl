@@ -1,13 +1,17 @@
-.\" tdbc_connection.n --
-.\"
-.\" Copyright (c) 2008 by Kevin B. Kenny.
-.\"
-.\" See the file "license.terms" for information on usage and redistribution of
-.\" this file, and for a DISCLAIMER OF ALL WARRANTIES.
-.\" .so man.macros
-.\"	# BS - start boxed text
-.\"	# ^y = starting y location
-.\"	# ^b = 1
+'\" tdbc_connection.n --
+'\"
+'\" Copyright (c) 2008 by Kevin B. Kenny.
+'\"
+'\" See the file "license.terms" for information on usage and redistribution of
+'\" this file, and for a DISCLAIMER OF ALL WARRANTIES.
+'\" .so man.macros
+'\" IGNORE
+.if t .wh -1.3i ^B
+.nr ^l \n(.l
+.ad b
+'\"	# BS - start boxed text
+'\"	# ^y = starting y location
+'\"	# ^b = 1
 .de BS
 .br
 .mk ^y
@@ -17,15 +21,15 @@
 .if n \l'\\n(.lu\(ul'
 .if n .fi
 ..
-.\"	# BE - end boxed text (draw box now)
+'\"	# BE - end boxed text (draw box now)
 .de BE
 .nf
 .ti 0
 .mk ^t
 .ie n \l'\\n(^lu\(ul'
 .el \{\
-.\"	Draw four-sided box normally, but don't draw top of
-.\"	box if the box started on an earlier page.
+'\"	Draw four-sided box normally, but don't draw top of
+'\"	box if the box started on an earlier page.
 .ie !\\n(^b-1 \{\
 \h'-1.5n'\L'|\\n(^yu-1v'\l'\\n(^lu+3n\(ul'\L'\\n(^tu+1v-\\n(^yu'\l'|0u-1.5n\(ul'
 .\}
@@ -37,6 +41,7 @@
 .br
 .nr ^b 0
 ..
+'\" END IGNORE
 .TH "tdbc::connection" n 8.6 Tcl "Tcl Database Connectivity"
 .BS
 .SH "NAME"
@@ -74,7 +79,7 @@ package require \fBtdbc::\fR\fIdriver version\fR
 .sp
 \fIdb\fR \fBallrows\fR ?\fB-as lists|dicts\fR? ?\fB-columnsvariable\fR \fIname\fR? ?\fB--\fR? \fIsql-code\fR ?\fIdictionary\fR?
 .sp
-\fIdb\fR \fBforeach\fR ?\fB-as lists|dicts\fR? ?\fB-columnsvariable\fR \fIname\fR? ?\fB--\fR? \fIsql-code\fR ?\fIdictionary\fR? \fIvarName\fR \fIscript\fR
+\fIdb\fR \fBforeach\fR ?\fB-as lists|dicts\fR? ?\fB-columnsvariable\fR \fIname\fR? ?--? \fIvarName\fR \fIsqlcode\fR ?\fIdictionary\fR? \fIscript\fR
 .BE
 .SH "DESCRIPTION"
 .PP
@@ -163,21 +168,21 @@ point), for types that support the concept.
 .IP \fBnullable\fR
 Contains 1 if the column can contain NULL values, and 0 otherwise.
 .PP
-The \fBstarttransaction\fR object command on a database connection
+The \fBbegintransaction\fR object command on a database connection
 begins a transaction on the database. If the underlying database does
 not support atomic, consistent, isolated, durable transactions, the
-\fBstarttransaction\fR object command returns an error reporting the
-fact. Similarly, if multiple \fBstarttransaction\fR commands are executed
+\fBbegintransaction\fR object command returns an error reporting the
+fact. Similarly, if multiple \fBbegintransaction\fR commands are executed
 withough an intervening \fBcommit\fR or \fBrollback\fR command, an
 error is returned unless the underlying database supports nested
 transactions.
 .PP
 The \fBcommit\fR object command on a database connection ends the most
-recent transaction started by \fBstarttransaction\fR and commits
+recent transaction started by \fBbegintransaction\fR and commits
 changes to the database.
 .PP
 The \fBrollback\fR object command on a database connection rolls back
-the most recent transaction started by \fBstarttransaction\fR. The
+the most recent transaction started by \fBbegintransaction\fR. The
 state of the database is as if nothing happened during the
 transaction.
 .PP
@@ -275,7 +280,7 @@ encoding(n), tdbc(n), tdbc::resultset(n), tdbc::statement(n), tdbc::tokenize(n)
 TDBC, SQL, database, connectivity, connection, resultset, statement
 .SH "COPYRIGHT"
 Copyright (c) 2008 by Kevin B. Kenny.
-.\" Local Variables:
-.\" mode: nroff
-.\" End:
-.\"
+'\" Local Variables:
+'\" mode: nroff
+'\" End:
+'\"

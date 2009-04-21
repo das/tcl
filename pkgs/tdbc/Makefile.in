@@ -230,6 +230,11 @@ install-libraries: libraries
 install-doc: doc
 	@mkdir -p $(DESTDIR)$(mandir)/mann
 	@echo "Installing documentation in $(DESTDIR)$(mandir)"
+	@list='$(srcdir)/doc/*.3'; for i in $$list; do \
+	    echo "Installing $$i"; \
+	    rm -f $(DESTDIR)$(mandir)/man3/`basename $$i`; \
+	    $(INSTALL_DATA) $$i $(DESTDIR)$(mandir)/man3 ; \
+	done
 	@list='$(srcdir)/doc/*.n'; for i in $$list; do \
 	    echo "Installing $$i"; \
 	    rm -f $(DESTDIR)$(mandir)/mann/`basename $$i`; \
@@ -337,8 +342,12 @@ dist: dist-clean
 
 	mkdir $(DIST_DIR)/doc
 	cp -p $(srcdir)/doc/tdbc.n $(srcdir)/doc/tdbc_connection.n \
-		$(srcdir)/doc/tdbc_resultset.n $(srcdir)/doc/tdbc_statement.n \
-		$(srcdir)/doc/tdbc_tokenize.n $(DIST_DIR)/doc/
+		$(srcdir)/doc/tdbc_resultset.n \
+		$(srcdir)/doc/tdbc_statement.n \
+		$(srcdir)/doc/tdbc_mapSqlState.n \
+		$(srcdir)/doc/tdbc_tokenize.n \
+		$(srcdir)/doc/Tdbc_Init.3 \
+		$(DIST_DIR)/doc/
 
 	mkdir $(DIST_DIR)/generic
 	cp -p $(srcdir)/generic/tdbc.c $(srcdir)/generic/tdbc.decls \

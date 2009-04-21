@@ -1496,9 +1496,14 @@ proc output-directive {line} {
 	}
 	.na -
 	.ad -
+	.nr -
+	.if -
 	.UL -
 	.ne {
 	    manerror "ignoring $line"
+	}
+	.\\\" {
+	    manerror "ignoring comment $line"
 	}
 	default {
 	    manerror "unrecognized format directive: $line"
@@ -1652,8 +1657,20 @@ proc make-man-pages {html args} {
 	    set manual(copyrights) {}
 	    lappend manual(all-pages) $manual(wing-file)/$manual(tail)
 	    manreport 100 $manual(name)
+	    set ignored 0
 	    while {[gets $manual(infp) line] >= 0} {
 		manreport 100 $line
+		if {"$line" eq "'\\\" IGNORE"} {
+		    set ignored 1
+		    continue
+		}
+		if {"$line" eq "'\\\" END IGNORE"} {
+		    set ignored 0
+		    continue
+		}
+		if {$ignored} {
+		    continue
+		}
 		if {[regexp {^[`'][/\\]} $line]} {
 		    if {[regexp {Copyright (?:\(c\)|\\\(co).*$} $line copyright]} {
 			lappend manual(copyrights) $copyright
@@ -2065,9 +2082,8 @@ if {[catch {
 	[expr {$build_tdbc ? "$tcltkdir/$tdbcdir/doc/*.n {Tcl Database Connectivity} TDBC {$tdbcdesc}" : ""}] \
 	[expr {$build_tdbcodbc ? "$tcltkdir/$tdbcodbcdir/doc/*.n {TDBC-ODBC Bridge} Tdbcodbc {$tdbcodbcdesc}" : ""}] \
 	[expr {$build_tdbcsqlite3 ? "$tcltkdir/$tdbcsqlite3dir/doc/*.n {TDBC driver for Sqlite3} Tdbcsqlite3 {$tdbcsqlite3desc}" : ""}] \
-	[expr {$build_tdbcmysql ? "$tcltkdir/$tdbcmysqldir/doc/*.n {TDBC driver for Mysql} Tdbcmysql {$tdbcmysqldesc}" : ""}] 
-# eventually, add
-#	[expr {$build_tdbc ? "$tcltkdir/$tdbcdir/doc/*.3 {Tcl Database Connectivity C API} TdbcLib {$tdbclibdesc}" : ""}] \
+	[expr {$build_tdbcmysql ? "$tcltkdir/$tdbcmysqldir/doc/*.n {TDBC driver for Mysql} Tdbcmysql {$tdbcmysqldesc}" : ""}] \
+	[expr {$build_tdbc ? "$tcltkdir/$tdbcdir/doc/*.3 {Tcl Database Connectivity C API} TdbcLib {$tdbclibdesc}" : ""}] \
 } error]} {
     puts $error\n$errorInfo
 }

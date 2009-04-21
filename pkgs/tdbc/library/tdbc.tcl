@@ -17,13 +17,6 @@ namespace eval ::tdbc {
     namespace export connection statement resultset
     variable generalError [list TDBC GENERAL_ERROR HY000 {}]
 }
-
-# TEMP - Allow for tracing
-
-proc tdbc::puts args {
-    uplevel 1 [list ::puts [uplevel 1 subst $args]]
-}
-proc tdbc::puts args {}
 
 #------------------------------------------------------------------------------
 #
@@ -107,6 +100,12 @@ proc tdbc::ParseConvenienceArgs {argv optsVar} {
 
 oo::class create ::tdbc::connection {
 
+    # statementSeq is the sequence number of the last statement created.
+    # statementClass is the name of the class that implements the
+    #	'statement' API.
+
+    variable statementSeq
+
     # The base class constructor accepts no arguments.  It sets up the
     # machinery to do the bookkeeping to keep track of what statements
     # are associated with the connection.  The derived class constructor
@@ -115,7 +114,7 @@ oo::class create ::tdbc::connection {
     # method can invoke it.
 
     constructor {} {
-	my variable statementSeq 0
+	set statementSeq 0
 	namespace eval Stmt {}
     }
 
@@ -132,11 +131,17 @@ oo::class create ::tdbc::connection {
     # to get the class to instantiate.
 
     method prepare {sqlCode} {
+	return [my statementCreate Stmt::[incr statementSeq] [self] $sqlCode]
+    }
+
+    # The 'statementCreate' method delegates to the constructor
+    # of the class specified by the 'statementClass' variable. It's
+    # intended for drivers designed before tdbc 1.0b10. Current ones
+    # should forward this method to the constructor directly.
+
+    method statementCreate {name instance sqlCode} {
 	my variable statementClass
-	my variable statementSeq
-	set result [$statementClass create Stmt::[incr statementSeq] \
-		    [self] $sqlCode]
-	return $result
+	return [$statementClass create $name $instance $sqlcode]
     }
 
     # Derived classes are expected to implement the 'prepareCall' method,
@@ -197,14 +202,6 @@ oo::class create ::tdbc::connection {
 
 	variable ::tdbc::generalError
 
-	tdbc::puts {Entering ::tdbc::connection::allrows}
-	tdbc::puts {Class == [self class]}
-	tdbc::puts {Instance == [self]}
-	tdbc::puts {Call == [info level 0]}
-	if {[info level] > 1} {
-	    tdbc::puts {Caller is [info level -1]}
-	}
-
 	# Grab keyword-value parameters
 
 	set args [::tdbc::ParseConvenienceArgs $args[set args {}] opts]
@@ -260,14 +257,6 @@ oo::class create ::tdbc::connection {
     method foreach args {
 
 	variable ::tdbc::generalError
-
-	tdbc::puts {Entering ::tdbc::connection::foreach}
-	tdbc::puts {Class == [self class]}
-	tdbc::puts {Instance == [self]}
-	tdbc::puts {Call == [info level 0]}
-	if {[info level] > 1} {
-	    tdbc::puts {Caller is [info level -1]}
-	}
 
 	# Grab keyword-value parameters
 
@@ -336,6 +325,12 @@ oo::class create ::tdbc::connection {
 
 oo::class create tdbc::statement {
 
+    # resultSetSeq is the sequence number of the last result set created.
+    # resultSetClass is the name of the class that implements the 'resultset'
+    #	API.
+
+    variable resultSetClass resultSetSeq
+
     # The base class constructor accepts no arguments.  It initializes
     # the machinery for tracking the ownership of result sets. The derived
     # constructor is expected to invoke the base constructor, and to
@@ -343,7 +338,7 @@ oo::class create tdbc::statement {
     # class that represents result sets.
 
     constructor {} {
-	my variable resultSetSeq 0
+	set resultSetSeq 0
 	namespace eval ResultSet {}
     }
 
@@ -354,14 +349,33 @@ oo::class create tdbc::statement {
     # is wrapped in an [uplevel] call because the substitution proces
     # may need to access variables in the caller's scope.
 
-    method execute args {
-	my variable resultSetClass
-	my variable resultSetSeq
-	set name [namespace current]::ResultSet::[incr resultSetSeq]
-	tdbc::puts {tdbc::statement::execute:
-	    Making an instance of $resultSetClass called $name}
-	return [uplevel 1 \
-		    [list $resultSetClass create $name [self] {*}$args]]
+    # WORKAROUND: Take out the '0 &&' from the next line when 
+    # Bug 2649975 is fixed
+    if {0 && [package vsatisfies [package provide Tcl] 8.6]} {
+	method execute args {
+	    tailcall my resultSetCreate \
+		[namespace current]::ResultSet::[incr resultSetSeq]  \
+		[self] {*}$args
+	}
+    } else {
+	method execute args {
+	    return \
+		[uplevel 1 \
+		     [list \
+			  [self] resultSetCreate \
+			  [namespace current]::ResultSet::[incr resultSetSeq] \
+			  [self] {*}$args]]
+	}
+    }
+
+    # The 'ResultSetCreate' method is expected to be a forward to the
+    # appropriate result set constructor. If it's missing, the driver must
+    # have been designed for tdbc 1.0b9 and earlier, and the 'resultSetClass'
+    # variable holds the class name.
+
+    method resultSetCreate {name instance args} {
+	return [uplevel 1 [list $resultSetClass create \
+			       $name $instance {*}$args]]
     }
 
     # The 'resultsets' method returns a list of result sets produced by
@@ -384,14 +398,6 @@ oo::class create tdbc::statement {
     method allrows args {
 
 	variable ::tdbc::generalError
-
-	tdbc::puts {Entering ::tdbc::statement::allrows}
-	tdbc::puts {Class == [self class]}
-	tdbc::puts {Instance == [self]}
-	tdbc::puts {Call == [info level 0]}
-	if {[info level] > 1} {
-	    tdbc::puts {Caller is [info level -1]}
-	}
 
 	# Grab keyword-value parameters
 
@@ -451,13 +457,6 @@ oo::class create tdbc::statement {
     method foreach args {
 
 	variable ::tdbc::generalError
-
-	tdbc::puts {Entering ::tdbc::statement::foreach}
-	tdbc::puts {Class == [self class]}
-	tdbc::puts {Call == [info level 0]}
-	if {[info level] > 1} {
-	    tdbc::puts {Caller is [info level -1]}
-	}
 
 	# Grab keyword-value parameters
 
@@ -539,13 +538,6 @@ oo::class create tdbc::resultset {
 
 	variable ::tdbc::generalError
 
-	tdbc::puts {Entering ::tdbc::resultset::allrows}
-	tdbc::puts {Class == [self class]}
-	tdbc::puts {Call == [info level 0]}
-	if {[info level] > 1} {
-	    tdbc::puts {Caller is [info level -1]}
-	}
-
 	# Parse args
 
 	set args [::tdbc::ParseConvenienceArgs $args[set args {}] opts]
@@ -589,13 +581,6 @@ oo::class create tdbc::resultset {
 
 	variable ::tdbc::generalError
 
-	tdbc::puts {Entering ::tdbc::resultset::foreach}
-	tdbc::puts {Class == [self class]}
-	tdbc::puts {Call == [info level 0]}
-	if {[info level] > 1} {
-	    tdbc::puts {Caller is [info level -1]}
-	}
-
 	# Grab keyword-value parameters
 
 	set args [::tdbc::ParseConvenienceArgs $args[set args {}] opts]
@@ -626,7 +611,6 @@ oo::class create tdbc::resultset {
 	    set delegate nextdict
 	}
 	while {[my $delegate row]} {
-	    tdbc::puts {foreach: processing $row}
 	    set status [catch {
 		uplevel 1 [lindex $args 1]
 	    } result options]
@@ -712,10 +696,12 @@ oo::class create tdbc::resultset {
 
     # Derived classes are expected to implement the following methods:
 
-    # init statement ?dictionary?
-    #     -- Executes the statement against the database, optionally providing
-    #        a dictionary of substituted parameters (default is to get params
-    #        from variables in the caller's scope).
+    # constructor and destructor.  
+    #        Constructor accepts a statement and an optional
+    #        a dictionary of substituted parameters  and
+    #        executes the statement against the database. If
+    #	     the dictionary is not supplied, then the default
+    #	     is to get params from variables in the caller's scope).
     # columns
     #     -- Returns a list of the names of the columns in the result.
     # nextdict variableName

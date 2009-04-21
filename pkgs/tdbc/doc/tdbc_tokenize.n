@@ -1,14 +1,18 @@
-.\" tdbc_tokenize.n --
-.\"
-.\" Copyright (c) 2008 by Kevin B. Kenny.
-.\"
-.\" See the file "license.terms" for information on usage and redistribution of
-.\" this file, and for a DISCLAIMER OF ALL WARRANTIES.
-.\"
-.\" .so man.macros
-.\"	# BS - start boxed text
-.\"	# ^y = starting y location
-.\"	# ^b = 1
+'\" tdbc_tokenize.n --
+'\"
+'\" Copyright (c) 2008 by Kevin B. Kenny.
+'\"
+'\" See the file "license.terms" for information on usage and redistribution of
+'\" this file, and for a DISCLAIMER OF ALL WARRANTIES.
+'\"
+'\" .so man.macros
+'\" IGNORE
+.if t .wh -1.3i ^B
+.nr ^l \n(.l
+.ad b
+'\"	# BS - start boxed text
+'\"	# ^y = starting y location
+'\"	# ^b = 1
 .de BS
 .br
 .mk ^y
@@ -18,15 +22,15 @@
 .if n \l'\\n(.lu\(ul'
 .if n .fi
 ..
-.\"	# BE - end boxed text (draw box now)
+'\"	# BE - end boxed text (draw box now)
 .de BE
 .nf
 .ti 0
 .mk ^t
 .ie n \l'\\n(^lu\(ul'
 .el \{\
-.\"	Draw four-sided box normally, but don't draw top of
-.\"	box if the box started on an earlier page.
+'\"	Draw four-sided box normally, but don't draw top of
+'\"	box if the box started on an earlier page.
 .ie !\\n(^b-1 \{\
 \h'-1.5n'\L'|\\n(^yu-1v'\l'\\n(^lu+3n\(ul'\L'\\n(^tu+1v-\\n(^yu'\l'|0u-1.5n\(ul'
 .\}
@@ -38,17 +42,18 @@
 .br
 .nr ^b 0
 ..
-.\"	# CS - begin code excerpt
+'\"	# CS - begin code excerpt
 .de CS
 .RS
 .nf
 .ta .25i .5i .75i 1i
 ..
-.\"	# CE - end code excerpt
+'\"	# CE - end code excerpt
 .de CE
 .fi
 .RE
 ..
+'\" END IGNORE
 .TH "tdbc::tokenize" n 8.6 Tcl "Tcl Database Connectivity"
 .BS
 .SH "NAME"
@@ -87,7 +92,7 @@ tdbc(n), tdbc::connection(n), tdbc::statement(n), tdbc::resultset(n)
 TDBC, SQL, database, tokenize
 .SH "COPYRIGHT"
 Copyright (c) 2008 by Kevin B. Kenny.
-.\" Local Variables:
-.\" mode: nroff
-.\" End:
-.\"
+'\" Local Variables:
+'\" mode: nroff
+'\" End:
+'\"
