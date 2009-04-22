@@ -1929,7 +1929,7 @@ UpdateStringOfString(objPtr)
 	 */
 
 	if (stringPtr->numChars <= INT_MAX/TCL_UTF_MAX
-		&& stringPtr->allocated >= stringPtr->numChars * TCL_UTF_MAX) {
+		&& stringPtr->allocated >= (size_t) (stringPtr->numChars * TCL_UTF_MAX)) {
 	    goto copyBytes;
 	}
 
