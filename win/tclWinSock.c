@@ -326,7 +326,7 @@ InitSockets()
 
     if (!initialized) {
 	initialized = 1;
-	Tcl_CreateExitHandler(SocketExitHandler, (ClientData) NULL);
+	TclCreateLateExitHandler(SocketExitHandler, (ClientData) NULL);
 
 	winSock.hModule = LoadLibraryA("wsock32.dll");
 

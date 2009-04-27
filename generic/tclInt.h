@@ -1893,6 +1893,10 @@ EXTERN int		TclFileMakeDirsCmd _ANSI_ARGS_((Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[])) ;
 EXTERN int		TclFileRenameCmd _ANSI_ARGS_((Tcl_Interp *interp,
 			    int objc, Tcl_Obj *CONST objv[])) ;
+EXTERN void		TclCreateLateExitHandler (Tcl_ExitProc * proc,
+						   ClientData clientData);
+EXTERN void		TclDeleteLateExitHandler (Tcl_ExitProc * proc,
+						   ClientData clientData);
 EXTERN void		TclFinalizeAllocSubsystem _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeAsync _ANSI_ARGS_((void));
 EXTERN void		TclFinalizeCompilation _ANSI_ARGS_((void));
