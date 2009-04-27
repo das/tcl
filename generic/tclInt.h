@@ -2502,6 +2502,10 @@ MODULE_SCOPE int	TclFileMakeDirsCmd(Tcl_Interp *interp,
 			    int objc, Tcl_Obj *const objv[]);
 MODULE_SCOPE int	TclFileRenameCmd(Tcl_Interp *interp,
 			    int objc, Tcl_Obj *const objv[]);
+MODULE_SCOPE void	TclCreateLateExitHandler (Tcl_ExitProc * proc,
+						   ClientData clientData);
+MODULE_SCOPE void	TclDeleteLateExitHandler (Tcl_ExitProc * proc,
+						   ClientData clientData);
 MODULE_SCOPE void	TclFinalizeAllocSubsystem(void);
 MODULE_SCOPE void	TclFinalizeAsync(void);
 MODULE_SCOPE void	TclFinalizeDoubleConversion(void);

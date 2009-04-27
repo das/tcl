@@ -231,7 +231,7 @@ InitSockets(void)
 
     if (!initialized) {
 	initialized = 1;
-	Tcl_CreateExitHandler(SocketExitHandler, (ClientData) NULL);
+	TclCreateLateExitHandler(SocketExitHandler, (ClientData) NULL);
 
 	/*
 	 * Create the async notification window with a new class. We must
