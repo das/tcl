@@ -367,12 +367,12 @@ typedef struct stat	Tcl_StatBuf;
 #      ifdef __BORLANDC__
 typedef struct stati64 Tcl_StatBuf;
 #         define TCL_LL_MODIFIER	"L"
-#      else /* !__BORLANDC__ */
-#         if _MSC_VER < 1400 && defined(_WIN64)
+#      else /* __BORLANDC__ */
+#         if _MSC_VER < 1400 || !defined(_M_IX86)
 typedef struct _stati64	Tcl_StatBuf;
 #         else
 typedef struct _stat64	Tcl_StatBuf;
-#         endif /* _MSC_VER < 1400 && _WIN64 */
+#         endif /* _MSC_VER < 1400 */
 #         define TCL_LL_MODIFIER	"I64"
 #      endif /* __BORLANDC__ */
 #   else /* __WIN32__ */
