@@ -6421,7 +6421,12 @@ TclObjInvoke(
      */
 
     iPtr->cmdCount++;
-    result = cmdPtr->objProc(cmdPtr->objClientData, interp, objc, objv);
+    if (cmdPtr->objProc != NULL) {
+	result = cmdPtr->objProc(cmdPtr->objClientData, interp, objc, objv);
+    } else {
+	result = Tcl_NRCallObjProc(interp, cmdPtr->nreProc,
+		cmdPtr->objClientData, objc, objv);
+    }
 
     /*
      * If an error occurred, record information about what was being executed
