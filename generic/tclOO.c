@@ -502,7 +502,9 @@ AllocObject(
      */
 
   configNamespace:
-    TclSetNsPath((Namespace *) oPtr->namespacePtr, 1, &fPtr->helpersNs);
+    if (fPtr->helpersNs != NULL) {
+	TclSetNsPath((Namespace *) oPtr->namespacePtr, 1, &fPtr->helpersNs);
+    }
     TclOOSetupVariableResolver(oPtr->namespacePtr);
 
     /*
