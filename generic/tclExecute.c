@@ -2121,6 +2121,7 @@ TclExecuteByteCode(
 	}
 
 	if (appendLen < 0) {
+	    /* TODO: convert panic to error ? */
 	    Tcl_Panic("max size for a Tcl value (%d bytes) exceeded", INT_MAX);
 	}
 
@@ -2148,6 +2149,7 @@ TclExecuteByteCode(
 	objResultPtr = OBJ_AT_DEPTH(opnd-1);
 	bytes = TclGetStringFromObj(objResultPtr, &length);
 	if (length + appendLen < 0) {
+	    /* TODO: convert panic to error ? */
 	    Tcl_Panic("max size for a Tcl value (%d bytes) exceeded", INT_MAX);
 	}
 #if !TCL_COMPILE_DEBUG
