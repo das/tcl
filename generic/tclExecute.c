@@ -2440,6 +2440,7 @@ TclExecuteByteCode(
 	}
 
 	if (appendLen < 0) {
+	    /* TODO: convert panic to error ? */
 	    Tcl_Panic("max size for a Tcl value (%d bytes) exceeded", INT_MAX);
 	}
 
@@ -2468,6 +2469,7 @@ TclExecuteByteCode(
 	if (!onlyb) {
 	    bytes = TclGetStringFromObj(objResultPtr, &length);
 	    if (length + appendLen < 0) {
+		/* TODO: convert panic to error ? */
 		Tcl_Panic("max size for a Tcl value (%d bytes) exceeded",
 			INT_MAX);
 	    }
@@ -2504,6 +2506,7 @@ TclExecuteByteCode(
 	} else {
 	    bytes = (char *) Tcl_GetByteArrayFromObj(objResultPtr, &length);
 	    if (length + appendLen < 0) {
+		/* TODO: convert panic to error ? */
 		Tcl_Panic("max size for a Tcl value (%d bytes) exceeded",
 			INT_MAX);
 	    }
