@@ -278,10 +278,21 @@ test oo-2.5 {OO constructor - Bug 2531577} -setup {
 } -cleanup {
     foo destroy
 } -result {1 1}
+test oo-2.6 {OO constructor and tailcall - Bug 2414858} -setup {
+    oo::class create foo
+} -body {
+    oo::define foo {
+	constructor {} { tailcall my bar }
+	method bar {}  { return bad }
+    }
+    namespace tail [foo create good]
+} -cleanup {
+    foo destroy
+} -result good
 
 test oo-3.1 {basic test of OO functionality: destructor} -setup {
-    # This is a bit complex because it needs to run in a sub-interp as
-    # we're modifying the root object class's constructor
+    # This is a bit complex because it needs to run in a sub-interp as we're
+    # modifying the root object class's constructor
     interp create subinterp
     initInterpreter subinterp
     subinterp eval {

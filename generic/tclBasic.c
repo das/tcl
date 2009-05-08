@@ -4200,6 +4200,14 @@ TclNREvalObjv(
     return TCL_OK;
 }
 
+void
+TclPushTailcallPoint(
+    Tcl_Interp *interp)
+{
+    TclNRAddCallback(interp, NRCommand, NULL, NULL, NULL, NULL);
+    ((Interp *) interp)->numLevels++;
+}
+
 int
 TclNRRunCallbacks(
     Tcl_Interp *interp,
