@@ -1594,6 +1594,14 @@ test interp-20.49 {interp invokehidden -namespace} -setup {
     interp delete slave
     removeFile script
 } -result ::foo
+test interp-20.50 {Bug 2486550} -setup {
+    interp create slave
+} -body {
+    slave hide coroutine
+    slave invokehidden coroutine
+} -cleanup {
+    interp delete slave
+} -returnCodes error -match glob -result *
 
 
 test interp-21.1 {interp hidden} {

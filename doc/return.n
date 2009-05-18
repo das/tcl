@@ -304,3 +304,6 @@ proc myReturn {args} {
 break(n), catch(n), continue(n), dict(n), error(n), proc(n), source(n), tclvars(n)
 .SH KEYWORDS
 break, catch, continue, error, procedure, return
+.\" Local Variables:
+.\" mode: nroff
+.\" End:

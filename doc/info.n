@@ -567,6 +567,12 @@ This subcommand returns a list of all classes that have been mixed into the
 object named \fIobject\fR.
 .VE 8.6
 .TP
+\fBinfo object namespace\fI object\fR
+.VS 8.6
+This subcommand returns the name of the internal namespace of the object named
+\fIobject\fR.
+.VE 8.6
+.TP
 \fBinfo object variables\fI object\fR
 .VS 8.6
 This subcommand returns a list of all variables that have been declared for
