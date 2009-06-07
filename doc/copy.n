@@ -39,9 +39,9 @@ then demonstrates that the copied object is indeed a copy.
 .PP
 .CS
 oo::object create src
-oo::define src method msg {} {puts foo}
+oo::objdefine src method msg {} {puts foo}
 \fBoo::copy\fR src dst
-oo::define src method msg {} {puts bar}
+oo::objdefine src method msg {} {puts bar}
 src msg              \fI\(-> prints "bar"\fR
 dst msg              \fI\(-> prints "foo"\fR
 .CE
