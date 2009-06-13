@@ -1891,7 +1891,6 @@ ProcCompileProc(
     Interp *iPtr = (Interp *) interp;
     int i;
     Tcl_CallFrame *framePtr;
-    Proc *saveProcPtr;
     ByteCode *codePtr = bodyPtr->internalRep.otherValuePtr;
     CompiledLocal *localPtr;
 
@@ -1960,8 +1959,6 @@ ProcCompileProc(
  	 *   namespace context, so that the byte codes are compiled in the
  	 *   appropriate class context.
  	 */
-
- 	saveProcPtr = iPtr->compiledProcPtr;
 
 	if (procPtrPtr != NULL && procPtr->refCount > 1) {
 	    Tcl_Command token;
@@ -2045,7 +2042,6 @@ ProcCompileProc(
 	(void) tclByteCodeType.setFromAnyProc(interp, bodyPtr);
 	iPtr->invokeCmdFramePtr = NULL;
 	TclPopStackFrame(interp);
- 	iPtr->compiledProcPtr = saveProcPtr;
     } else if (codePtr->nsEpoch != nsPtr->resolverEpoch) {
 	/*
 	 * The resolver epoch has changed, but we only need to invalidate the
