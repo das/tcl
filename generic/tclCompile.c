@@ -773,6 +773,7 @@ TclInitCompileEnv(interp, envPtr, string, numBytes, invoker, word)
     envPtr->source = string;
     envPtr->numSrcBytes = numBytes;
     envPtr->procPtr = iPtr->compiledProcPtr;
+    iPtr->compiledProcPtr = NULL;
     envPtr->numCommands = 0;
     envPtr->exceptDepth = 0;
     envPtr->maxExceptDepth = 0;

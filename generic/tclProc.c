@@ -1300,7 +1300,6 @@ ProcCompileProc(interp, procPtr, bodyPtr, nsPtr, description,
     Interp *iPtr = (Interp*)interp;
     int i, result;
     Tcl_CallFrame frame;
-    Proc *saveProcPtr;
     ByteCode *codePtr = (ByteCode *) bodyPtr->internalRep.otherValuePtr;
     CompiledLocal *localPtr;
  
@@ -1368,8 +1367,6 @@ ProcCompileProc(interp, procPtr, bodyPtr, nsPtr, description,
  	 *   proper namespace context, so that the byte codes are
  	 *   compiled in the appropriate class context.
  	 */
-
- 	saveProcPtr = iPtr->compiledProcPtr;
 
 	if (procPtrPtr != NULL && procPtr->refCount > 1) {
 	    Tcl_Command token;
@@ -1455,8 +1452,6 @@ ProcCompileProc(interp, procPtr, bodyPtr, nsPtr, description,
 	    Tcl_PopCallFrame(interp);
 	}
  
- 	iPtr->compiledProcPtr = saveProcPtr;
- 	
  	if (result != TCL_OK) {
  	    if (result == TCL_ERROR) {
 		char buf[100 + TCL_INTEGER_SPACE];
