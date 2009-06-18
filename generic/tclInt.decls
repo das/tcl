@@ -970,6 +970,12 @@ declare 242 generic {
     int TclNREvalObjv(Tcl_Interp *interp, int objc,
 	      Tcl_Obj *const objv[], int flags, Command *cmdPtr)
 }
+
+# Tcl_Obj leak detection support.
+declare 243 generic {
+    void TclDbDumpActiveObjects(FILE *outFile)
+}
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are
