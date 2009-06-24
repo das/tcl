@@ -690,6 +690,7 @@ test oo-7.6 {OO: inheritance 101 - overridden methods should be oblivious} -setu
     lappend result [Binstance incr x]
     lappend result x=$x
 } -result {x=10 x 1 returning:11 11 x=11} -cleanup {
+    unset -nocomplain x
     Aclass destroy
 }
 test oo-7.7 {OO: inheritance and errorInfo} -setup {
