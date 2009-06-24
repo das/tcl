@@ -945,6 +945,7 @@ test execute-8.4 {Compile epoch bump effect on stack trace} -setup {
 } -cleanup {
     rename foo {}
     rename FOO {}
+    unset -nocomplain m o stack1 stack2
 } -result {}
 test execute-8.5 {Bug 2038069} -setup {
     proc demo {} {
