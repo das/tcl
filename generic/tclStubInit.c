@@ -288,6 +288,7 @@ static const TclIntStubs tclIntStubs = {
     TclNRRunCallbacks, /* 240 */
     TclNREvalObjEx, /* 241 */
     TclNREvalObjv, /* 242 */
+    TclDbDumpActiveObjects, /* 243 */
 };
 
 static const TclIntPlatStubs tclIntPlatStubs = {

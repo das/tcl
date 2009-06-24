@@ -2247,10 +2247,8 @@ Tcl_AppendFormatToObj(
 	}
 	default:
 	    if (interp != NULL) {
-		char buf[40];
-
-		sprintf(buf, "bad field specifier \"%c\"", ch);
-		Tcl_SetObjResult(interp, Tcl_NewStringObj(buf, -1));
+		Tcl_SetObjResult(interp,
+			Tcl_ObjPrintf("bad field specifier \"%c\"", ch));
 	    }
 	    goto error;
 	}
