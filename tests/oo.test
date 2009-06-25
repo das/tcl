@@ -1608,6 +1608,7 @@ test oo-19.1 {OO: varname method} -setup {
     oo::object create inst
     oo::objdefine inst export eval
     set result {}
+    inst eval { variable x }
 } -body {
     inst eval {trace add variable x write foo}
     set ns [inst eval namespace current]
