@@ -2508,6 +2508,7 @@ Tcl_LrepeatObjCmd(
      * number of times.
      */
 
+    CLANG_ASSERT(dataArray);
     if (objc == 1) {
 	register Tcl_Obj *tmpPtr = objv[0];
 
