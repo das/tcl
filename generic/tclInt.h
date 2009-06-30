@@ -4192,9 +4192,9 @@ MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int *bignum,
 #if defined(PURIFY) && defined(__clang__) && !defined(CLANG_ASSERT)
 #include <assert.h>
 #define CLANG_ASSERT(x) assert(x)
-#define Tcl_PanicEx Tcl_Panic
+#define TclPanic Tcl_Panic
 #undef Tcl_Panic
-#define Tcl_Panic(f, ...) Tcl_PanicEx(f,##__VA_ARGS__); CLANG_ASSERT(0)
+#define Tcl_Panic(f, ...) do { TclPanic(f,##__VA_ARGS__); CLANG_ASSERT(0); } while(0)
 #elif !defined(CLANG_ASSERT)
 #define CLANG_ASSERT(x)
 #endif
