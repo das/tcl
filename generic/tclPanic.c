@@ -16,6 +16,7 @@
  */
 
 #include "tclInt.h"
+#undef Tcl_Panic
 
 /*
  * The panicProc variable contains a pointer to an application specific panic
