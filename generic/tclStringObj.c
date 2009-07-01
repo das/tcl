@@ -2265,9 +2265,9 @@ Tcl_AppendFormatToObj(
 		    numDigits = 1;
 		}
 		pure = Tcl_NewObj();
-		Tcl_SetObjLength(pure, numDigits);
+		Tcl_SetObjLength(pure, (int)numDigits);
 		bytes = TclGetString(pure);
-		toAppend = length = numDigits;
+		toAppend = length = (int)numDigits;
 		while (numDigits--) {
 		    int digitOffset;
 
