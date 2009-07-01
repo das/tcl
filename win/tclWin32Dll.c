@@ -124,7 +124,8 @@ static TclWinProcs asciiProcs = {
     NULL, NULL, NULL, NULL, NULL, NULL,
     /* ReadConsole and WriteConsole */
     (BOOL (WINAPI *)(HANDLE, LPVOID, DWORD, LPDWORD, LPVOID)) ReadConsoleA,
-    (BOOL (WINAPI *)(HANDLE, const void*, DWORD, LPDWORD, LPVOID)) WriteConsoleA
+    (BOOL (WINAPI *)(HANDLE, const void*, DWORD, LPDWORD, LPVOID)) WriteConsoleA,
+    (BOOL (WINAPI *)(LPTSTR, LPDWORD)) GetUserNameA
 };
 
 static TclWinProcs unicodeProcs = {
@@ -182,7 +183,8 @@ static TclWinProcs unicodeProcs = {
     NULL, NULL, NULL, NULL, NULL, NULL,
     /* ReadConsole and WriteConsole */
     (BOOL (WINAPI *)(HANDLE, LPVOID, DWORD, LPDWORD, LPVOID)) ReadConsoleW,
-    (BOOL (WINAPI *)(HANDLE, const void*, DWORD, LPDWORD, LPVOID)) WriteConsoleW
+    (BOOL (WINAPI *)(HANDLE, const void*, DWORD, LPDWORD, LPVOID)) WriteConsoleW,
+    (BOOL (WINAPI *)(LPTSTR, LPDWORD))GetUserNameW
 };
 
 TclWinProcs *tclWinProcs;
