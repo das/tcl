@@ -130,8 +130,8 @@ oo::class create ::tdbc::connection {
     # prepare.  It uses the 'statementClass' variable set by the constructor
     # to get the class to instantiate.
 
-    method prepare {sqlCode} {
-	return [my statementCreate Stmt::[incr statementSeq] [self] $sqlCode]
+    method prepare {sqlcode} {
+	return [my statementCreate Stmt::[incr statementSeq] [self] $sqlcode]
     }
 
     # The 'statementCreate' method delegates to the constructor
@@ -139,7 +139,7 @@ oo::class create ::tdbc::connection {
     # intended for drivers designed before tdbc 1.0b10. Current ones
     # should forward this method to the constructor directly.
 
-    method statementCreate {name instance sqlCode} {
+    method statementCreate {name instance sqlcode} {
 	my variable statementClass
 	return [$statementClass create $name $instance $sqlcode]
     }

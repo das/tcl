@@ -6,11 +6,6 @@ dnl	to configure the system for the local environment.
 # RCS: @(#) $Id$
 
 #-----------------------------------------------------------------------
-# Sample configure.in for Tcl Extensions.  The only places you should
-# need to modify this file are marked by the string __CHANGE__
-#-----------------------------------------------------------------------
-
-#-----------------------------------------------------------------------
 # Set your package name and version numbers here.
 #
 # This initializes the environment with PACKAGE_NAME and PACKAGE_VERSION
@@ -18,7 +13,7 @@ dnl	to configure the system for the local environment.
 # so you can encode the package version directly into the source files.
 #-----------------------------------------------------------------------
 
-AC_INIT([tdbc], [1.0b10])
+AC_INIT([tdbc], [1.0b12])
 
 #--------------------------------------------------------------------
 # Call TEA_INIT as the first TEA_ macro to set up initial vars.

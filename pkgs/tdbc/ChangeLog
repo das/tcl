@@ -1,3 +1,18 @@
+2009-07-02  Kevin B. Kenny  <kennykb@acm.org>
+
+	* generic/tdbc.h:
+	* configure.in:
+	* README:		Advance version number to 1.0b12
+	* configure:		autoconf-2.59
+	
+	
+2009-05-29  Kevin B. Kenny  <kennykb@acm.org>
+	
+	* generic/tdbc.h:
+	* configure.in:
+	* README:		Advance version number to 1.0b11
+	* configure:		autoconf-2.59
+	
 2009-04-21  Kevin B. Kenny  <kennykb@acm.org>
 
 	* Makefile.in (dist): Rename Tdbc.3 to Tdbc_Init.3 to avoid
