@@ -130,6 +130,34 @@ test zlib-8.2 {zlib transformation} -constraints zlib -setup {
     close $f
     removeFile $file
 } -result ok
+test zlib-8.3 {zlib transformation and fileevent} -constraints zlib -setup {
+    set srv [socket -myaddr localhost -server {apply {{c a p} {
+        fconfigure $c -translation binary
+        puts -nonewline $c [zlib gzip [string repeat a 81920]]
+        close $c
+    }}} 0]
+    set port [lindex [fconfigure $srv -sockname] 2]
+    set file [makeFile {} test.gz]
+    set fout [open $file wb]
+} -body {
+    set sin [socket localhost $port]
+    try {
+	fconfigure $sin -translation binary
+	zlib push gunzip $sin
+	after 1000 {set total timeout}
+	fcopy $sin $fout -command {apply {{c {e {}}} {
+	    set ::total [expr {$e eq {} ? $c : $e}]
+	}}}
+	vwait total
+    } finally {
+	close $sin
+    }
+    append total --> [file size $file]
+} -cleanup {
+    close $fout
+    close $srv
+    removeFile $file
+} -result 81920-->81920
 
 ::tcltest::cleanupTests
 return
