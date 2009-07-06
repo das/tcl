@@ -2605,7 +2605,7 @@ ZlibTransformWatch(
 
     watchProc = Tcl_ChannelWatchProc(Tcl_GetChannelType(cd->parent));
     watchProc(Tcl_GetChannelInstanceData(cd->parent), mask);
-    if (!(mask & TCL_READABLE) || (cd->inStream.avail_in==cd->inAllocated)) {
+    if (!(mask & TCL_READABLE) || (cd->inStream.avail_in==(uInt)cd->inAllocated)) {
 	ZlibTransformTimerKill(cd);
     } else {
 	ZlibTransformTimerSetup(cd);
