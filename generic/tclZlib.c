@@ -1940,7 +1940,7 @@ TclZlibCmd(
 	switch ((enum zlibFormats) format) {
 	case f_deflate:
 	    mode = TCL_ZLIB_STREAM_DEFLATE;
-	    format = TCL_ZLIB_FORMAT_GZIP;
+	    format = TCL_ZLIB_FORMAT_RAW;
 	    break;
 	case f_inflate:
 	    mode = TCL_ZLIB_STREAM_INFLATE;
