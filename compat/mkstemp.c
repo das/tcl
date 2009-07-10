@@ -64,7 +64,7 @@ mkstemp(
 	 */
 
 	for (b=a ; *b ; b++) {
-	    float r = random() / ((float) RAND_MAX);
+	    float r = rand() / ((float) RAND_MAX);
 
 	    *b = alphanumerics[(int)(r * alphanumericsLen)];
 	}
