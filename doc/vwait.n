@@ -41,7 +41,10 @@ inner ones do.  It is recommended that code should never nest \fBvwait\fR
 calls (by avoiding putting them in event callbacks) but when that is not
 possible, care should be taken to add interlock variables to the code to
 prevent all reentrant calls to \fBvwait\fR that are not \fIstrictly\fR
-necessary.
+necessary. Be aware that the synchronous modes of operation of some Tcl
+packages (e.g.,\ \fBhttp\fR) use \fBvwait\fR internally; if using the event
+loop, it is best to use the asynchronous callback-based modes of operation of
+those packages where available.
 .SH EXAMPLES
 .PP
 Run the event-loop continually until some event calls \fBexit\fR.
