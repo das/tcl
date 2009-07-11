@@ -300,7 +300,7 @@ oo::class create stringchan {
         return $d
     }
 }
-set string "The quick brown fox jumps over the lazy dog.\n"
+set string "The quick brown fox jumps over the lazy dog.\\n"
 set ch [\fBchan create\fR read [stringchan new $string]]
 .CE
 .SH "SEE ALSO"
