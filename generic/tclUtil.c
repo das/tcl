@@ -1747,9 +1747,10 @@ TclByteArrayMatch(
 
 int
 TclStringMatchObj(
-    Tcl_Obj *strObj,	/* string object. */
-    Tcl_Obj *ptnObj,	/* pattern object. */
-    int flags)		/* Only TCL_MATCH_NOCASE should be passed or 0. */
+    Tcl_Obj *strObj,		/* string object. */
+    Tcl_Obj *ptnObj,		/* pattern object. */
+    int flags)			/* Only TCL_MATCH_NOCASE should be passed, or
+				 * 0. */
 {
     int match, length, plen;
 
@@ -1766,8 +1767,7 @@ TclStringMatchObj(
 	udata = Tcl_GetUnicodeFromObj(strObj, &length);
 	uptn  = Tcl_GetUnicodeFromObj(ptnObj, &plen);
 	match = TclUniCharMatch(udata, length, uptn, plen, flags);
-    } else if ((strObj->typePtr == &tclByteArrayType) 
-	    && (strObj->bytes == NULL) && !flags) {
+    } else if (TclIsPureByteArray(strObj) && !flags) {
 	unsigned char *data, *ptn;
 
 	data = Tcl_GetByteArrayFromObj(strObj, &length);
