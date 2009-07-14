@@ -5458,11 +5458,11 @@ TclArgumentBCEnter(
 
     if (hePtr) {
 	ExtCmdLoc* eclPtr = (ExtCmdLoc*) Tcl_GetHashValue (hePtr);
-	hePtr = Tcl_FindHashEntry(&eclPtr->litInfo, (char*) pc);
+	hePtr = Tcl_FindHashEntry(&eclPtr->litInfo, INT2PTR(pc));
 
 	if (hePtr) {
 	    int  word;
-	    int  cmd  = (int) Tcl_GetHashValue(hePtr);
+	    int  cmd  = PTR2INT(Tcl_GetHashValue(hePtr));
 	    ECL* ePtr = &eclPtr->loc[cmd];
 	    CFWordBC* lastPtr = 0;
 
