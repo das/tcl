@@ -1469,11 +1469,6 @@ CompileScriptTokens(interp, tokens, lastTokenPtr, envPtr)
 		    && tokenPtr->type == TCL_TOKEN_SIMPLE_WORD) {
 		int objIndex = TclRegisterNewLiteral(envPtr,
 			tokenPtr[1].start, tokenPtr[1].size);
-/*
-		EnterCmdWordIndex(eclPtr,
-			envPtr->literalArrayPtr[objIndex].objPtr,
-			envPtr->codeNext - envPtr->codeStart, wordIndex);
-*/
 		TclEmitPush(objIndex, envPtr);
 	    } else {
 		TclCompileTokens(interp, tokenPtr+1,
