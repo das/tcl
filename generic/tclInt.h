@@ -2602,6 +2602,7 @@ MODULE_SCOPE Tcl_ObjCmdProc TclNRForObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRForeachCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRIfObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRSourceObjCmd;
+MODULE_SCOPE Tcl_ObjCmdProc TclNRSwitchObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRTryObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRWhileObjCmd;
 

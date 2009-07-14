@@ -738,6 +738,22 @@ test switch-14.16 {switch -regexp compilation} {
     }}
 } no
 
+test switch-15.1 {coroutine safety of non-bytecoded switch} {*}{
+    -body {
+	proc coro {} {
+	    switch -glob a {
+		a {yield ok1}
+	    }
+	    return ok2
+	}
+	list [coroutine c coro] [c]
+    }
+    -result {ok1 ok2}
+    -cleanup {
+	rename coro {}
+    }
+}
+
 # cleanup
 catch {rename foo {}}
 ::tcltest::cleanupTests
