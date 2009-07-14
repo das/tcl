@@ -1205,6 +1205,24 @@ test info-38.6 {location information for uplevel, ppl, proc-proc-literal} -const
 * {type source line 1200 file info.test cmd datal proc ::tcltest::RunTest}}
 
 # -------------------------------------------------------------------------
+# literal sharing
+
+test info-39.0 {location information not confused by literal sharing} -constraints tip280 -body {
+    namespace eval ::foo {}
+    proc ::foo::bar {} {
+	lappend res {}
+	lappend res [reduce [eval {info frame 0}]]
+	lappend res [reduce [eval {info frame 0}]]
+	return $res
+    }
+    set res [::foo::bar]
+    namespace delete ::foo
+    join $res \n
+} -result {
+type source line 1214 file info.test cmd {info frame 0} proc ::foo::bar level 0
+type source line 1215 file info.test cmd {info frame 0} proc ::foo::bar level 0}
+
+# -------------------------------------------------------------------------
 
 # cleanup
 catch {namespace delete test_ns_info1 test_ns_info2}
