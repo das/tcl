@@ -1147,17 +1147,11 @@ typedef struct CFWord {
     int       refCount;  /* #times the word is on the stack */
 } CFWord;
 
-typedef struct ExtIndex {
-    Tcl_Obj* obj; /* Reference to the word */
-    int pc;   /* Instruction pointer of a command in ExtCmdLoc.loc[.] */
-    int word; /* Index of word in ExtCmdLoc.loc[cmd]->line[.] */
-} ExtIndex;
-
-
 typedef struct CFWordBC {
     CmdFrame* framePtr;  /* CmdFrame to acess */
-    ExtIndex* eiPtr;     /* Word info: PC and index */
-    int       refCount;  /* #times the word is on the stack */
+    int pc;   /* Instruction pointer of a command in ExtCmdLoc.loc[.] */
+    int word; /* Index of word in ExtCmdLoc.loc[cmd]->line[.] */
+    struct CFWordBC* prevPtr;
 } CFWordBC;
 
 /*
@@ -2472,9 +2466,11 @@ MODULE_SCOPE void       TclArgumentRelease(Tcl_Interp* interp,
 MODULE_SCOPE void       TclArgumentGet(Tcl_Interp* interp, Tcl_Obj* obj,
 			    CmdFrame** cfPtrPtr, int* wordPtr);
 MODULE_SCOPE void       TclArgumentBCEnter(Tcl_Interp* interp,
-			    void* codePtr, CmdFrame* cfPtr);
+			    Tcl_Obj* objv[], int objc,
+			    void* codePtr, CmdFrame* cfPtr, int pc);
 MODULE_SCOPE void       TclArgumentBCRelease(Tcl_Interp* interp,
-			    void* codePtr);
+			    Tcl_Obj* objv[], int objc,
+			    void* codePtr, int pc);
 MODULE_SCOPE int	TclArraySet(Tcl_Interp *interp,
 			    Tcl_Obj *arrayNameObj, Tcl_Obj *arrayElemObj);
 MODULE_SCOPE double	TclBignumToDouble(mp_int *bignum);
