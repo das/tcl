@@ -1357,7 +1357,7 @@ AppendUnicodeToUnicodeRep(
     int appendNumChars)		/* Number of chars of "unicode" to append. */
 {
     String *stringPtr;
-    size_t numChars;
+    int numChars;
 
     if (appendNumChars < 0) {
 	appendNumChars = UnicodeLength(unicode);

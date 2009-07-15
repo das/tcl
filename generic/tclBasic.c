@@ -4637,10 +4637,10 @@ TclArgumentBCEnter(interp,objv,objc,codePtr,cfPtr,pc)
 
     if (hePtr) {
 	ExtCmdLoc* eclPtr = (ExtCmdLoc*) Tcl_GetHashValue (hePtr);
-	hePtr = Tcl_FindHashEntry(&eclPtr->litInfo, (char*) pc);
+	hePtr = Tcl_FindHashEntry(&eclPtr->litInfo, INT2PTR(pc));
 
 	if (hePtr) {
-	    int  cmd  = (int) Tcl_GetHashValue(hePtr);
+	    int  cmd  = PTR2INT(Tcl_GetHashValue(hePtr));
 	    ECL* ePtr = &eclPtr->loc[cmd];
 	    int word;
 
@@ -4722,10 +4722,10 @@ TclArgumentBCRelease(interp,objv,objc,codePtr,pc)
 
     if (hePtr) {
 	ExtCmdLoc* eclPtr = (ExtCmdLoc*) Tcl_GetHashValue (hePtr);
-	hePtr = Tcl_FindHashEntry(&eclPtr->litInfo, (char*) pc);
+	hePtr = Tcl_FindHashEntry(&eclPtr->litInfo, INT2PTR(pc));
 
 	if (hePtr) {
-	    int  cmd  = (int) Tcl_GetHashValue(hePtr);
+	    int  cmd  = PTR2INT(Tcl_GetHashValue(hePtr));
 	    ECL* ePtr = &eclPtr->loc[cmd];
 	    int word;
 
