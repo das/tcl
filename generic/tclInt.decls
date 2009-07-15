@@ -16,7 +16,7 @@
 # RCS: @(#) $Id$
 
 library tcl
-
+
 # Define the unsupported generic interfaces.
 
 interface tclInt
@@ -976,6 +976,21 @@ declare 243 generic {
     void TclDbDumpActiveObjects(FILE *outFile)
 }
 
+# Functions to make things better for itcl
+declare 244 generic {
+    Tcl_HashTable *TclGetNamespaceChildTable(Tcl_Namespace *nsPtr)
+}
+declare 245 generic {
+    Tcl_HashTable *TclGetNamespaceCommandTable(Tcl_Namespace *nsPtr)
+}
+declare 246 generic {
+    int TclInitRewriteEnsemble(Tcl_Interp *interp, int numRemoved,
+	    int numInserted, Tcl_Obj *const *objv)
+}
+declare 247 generic {
+    void TclResetRewriteEnsemble(Tcl_Interp *interp, int isRootEnsemble)
+}
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are
@@ -1190,3 +1205,8 @@ declare 18 macosx {
 declare 19 macosx {
     void TclMacOSXNotifierAddRunLoopMode(const void *runLoopMode)
 }
+
+
+# Local Variables:
+# mode: tcl
+# End:
