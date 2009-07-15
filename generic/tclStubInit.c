@@ -290,6 +290,10 @@ static const TclIntStubs tclIntStubs = {
     TclNREvalObjEx, /* 241 */
     TclNREvalObjv, /* 242 */
     TclDbDumpActiveObjects, /* 243 */
+    TclGetNamespaceChildTable, /* 244 */
+    TclGetNamespaceCommandTable, /* 245 */
+    TclInitRewriteEnsemble, /* 246 */
+    TclResetRewriteEnsemble, /* 247 */
 };
 
 static const TclIntPlatStubs tclIntPlatStubs = {
