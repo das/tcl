@@ -1157,7 +1157,7 @@ TclCompileScript(
     Namespace *cmdNsPtr;
     Command *cmdPtr;
     Tcl_Token *tokenPtr;
-    int bytesLeft, isFirstCmd, gotParse, wordIdx, currCmdIndex;
+    int bytesLeft, isFirstCmd, wordIdx, currCmdIndex;
     int commandLength, objIndex;
     Tcl_DString ds;
     /* TIP #280 */
@@ -1187,7 +1187,6 @@ TclCompileScript(
 
     p = script;
     bytesLeft = numBytes;
-    gotParse = 0;
     cmdLine = envPtr->line;
     do {
 	if (Tcl_ParseCommand(interp, p, bytesLeft, 0, parsePtr) != TCL_OK) {
@@ -1203,7 +1202,6 @@ TclCompileScript(
 	    TclCompileSyntaxError(interp, envPtr);
 	    break;
 	}
-	gotParse = 1;
 	if (parsePtr->numWords > 0) {
 	    int expand = 0;	/* Set if there are dynamic expansions to
 				 * handle */
@@ -1543,7 +1541,6 @@ TclCompileScript(
 
 	TclAdvanceLines(&cmdLine, parsePtr->commandStart, p);
 	Tcl_FreeParse(parsePtr);
-	gotParse = 0;
     } while (bytesLeft > 0);
 
     /*

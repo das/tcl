@@ -2279,14 +2279,13 @@ CreateSocket(
 				 * attempt to do an async connect. Otherwise
 				 * do a synchronous connect or bind. */
 {
-    int status, sock, asyncConnect, curState, origState;
+    int status, sock, asyncConnect, curState;
     struct sockaddr_in sockaddr;	/* socket address */
     struct sockaddr_in mysockaddr;	/* Socket address for client */
     TcpState *statePtr;
     const char *errorMsg = NULL;
 
     sock = -1;
-    origState = 0;
     if (!CreateSocketAddress(&sockaddr, host, port, 0, &errorMsg)) {
 	goto addressError;
     }
