@@ -1793,11 +1793,9 @@ TclNREvalFile(
     const char *encodingName)	/* If non-NULL, then use this encoding for the
 				 * file. NULL means use the system encoding. */
 {
-    int length;
     Tcl_StatBuf statBuf;
     Tcl_Obj *oldScriptFile, *objPtr;
     Interp *iPtr;
-    const char *string;
     Tcl_Channel chan;
 
     if (Tcl_FSGetNormalizedPath(interp, pathPtr) == NULL) {
@@ -1857,7 +1855,6 @@ TclNREvalFile(
     oldScriptFile = iPtr->scriptFile;
     iPtr->scriptFile = pathPtr;
     Tcl_IncrRefCount(iPtr->scriptFile);
-    string = Tcl_GetStringFromObj(objPtr, &length);
 
     /*
      * TIP #280: Force the evaluator to open a frame for a sourced file.
