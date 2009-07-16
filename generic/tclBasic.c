@@ -4302,7 +4302,7 @@ NRRunObjProc(
 {
     /* OPT: do not call? */
 
-    Tcl_ObjCmdProc *objProc = data[0];
+    Tcl_ObjCmdProc *objProc = (Tcl_ObjCmdProc *)data[0];
     ClientData objClientData = data[1];
     int objc = PTR2INT(data[2]);
     Tcl_Obj **objv = data[3];

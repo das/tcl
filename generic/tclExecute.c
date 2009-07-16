@@ -4708,10 +4708,8 @@ TclExecuteByteCode(
 	 */
 
 	int index, length;
-	char *bytes;
 	Tcl_Obj *valuePtr, *value2Ptr;
 
-	bytes = NULL; /* lint */
 	value2Ptr = OBJ_AT_TOS;
 	valuePtr = OBJ_UNDER_TOS;
 
