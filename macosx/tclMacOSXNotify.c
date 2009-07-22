@@ -1655,7 +1655,7 @@ TclUnixWaitForFile(
 	    if (FD_ISSET(fd, &writableMask))  {
 		SET_BITS(result, TCL_WRITABLE);
 	    }
-	    if (FD_ISSET(fd, &exceptionalMask)) { 
+	    if (FD_ISSET(fd, &exceptionalMask)) {
 		SET_BITS(result, TCL_EXCEPTION);
 	    }
 	    result &= mask;
@@ -1973,7 +1973,7 @@ AtForkChild(void)
 
 void
 TclMacOSXNotifierAddRunLoopMode(
-    CONST void *runLoopMode)
+    const void *runLoopMode)
 {
     Tcl_Panic("TclMacOSXNotifierAddRunLoopMode: "
 	    "Tcl not built with CoreFoundation support");
