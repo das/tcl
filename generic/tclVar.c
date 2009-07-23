@@ -67,19 +67,10 @@ VarHashCreateVar(
 
 #define VarHashFindVar(tablePtr, key) \
     VarHashCreateVar((tablePtr), (key), NULL)
-#ifdef _AIX
-/* Work around AIX cc problem causing crash in TclDeleteVars. Possible
- * optimizer bug. Do _NOT_ inline this function, this re-activates the
- * problem.
- */
-static void
-VarHashInvalidateEntry(Var* varPtr) {
-    varPtr->flags |= VAR_DEAD_HASH;
-}
-#else
+
 #define VarHashInvalidateEntry(varPtr) \
     ((varPtr)->flags |= VAR_DEAD_HASH)
-#endif
+
 #define VarHashDeleteEntry(varPtr) \
     Tcl_DeleteHashEntry(&(((VarInHash *) varPtr)->entry))
 

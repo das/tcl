@@ -1492,7 +1492,7 @@ dnl AC_CHECK_TOOL(AR, ar)
 		# Users may want PA-RISC 1.1/2.0 portable code - needs HP cc
 		#CFLAGS="$CFLAGS +DAportable"
 		SHLIB_CFLAGS="+z"
-		SHLIB_LD="ld -b"
+		SHLIB_LD="${CC} -Wl,-b"
 	    ])
 
 	    # Check to enable 64-bit flags for compiler/linker

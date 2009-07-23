@@ -912,8 +912,8 @@ install-private-headers: libraries
 	    $(INSTALL_DATA) tclConfig.h "$(PRIVATE_INCLUDE_INSTALL_DIR)"; \
 	    fi;
 
-#Makefile: $(UNIX_DIR)/Makefile.in $(DLTEST_DIR)/Makefile.in
-#	$(SHELL) config.status
+Makefile: $(UNIX_DIR)/Makefile.in $(DLTEST_DIR)/Makefile.in
+	$(SHELL) config.status
 #tclConfig.h: $(UNIX_DIR)/tclConfig.h.in
 #	$(SHELL) config.status
 
