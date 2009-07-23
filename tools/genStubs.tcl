@@ -208,6 +208,9 @@ proc genStubs::rewriteFile {file text} {
     set in [open ${file} r]
     set out [open ${file}.new w]
 
+    # Hardwire the genstubs output to Unix eol.
+    fconfigure $out -translation lf
+
     while {![eof $in]} {
 	set line [gets $in]
 	if {[string match "*!BEGIN!*" $line]} {
