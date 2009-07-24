@@ -290,7 +290,7 @@ TclNRCatchObjCmd(
      * TIP #280. Make invoking context available to caught script.
      */
 
-    Tcl_NRAddCallback(interp, CatchObjCmdCallback, INT2PTR(objc),
+    TclNRAddCallback(interp, CatchObjCmdCallback, INT2PTR(objc),
 	    varNamePtr, optionVarNamePtr, NULL);
 
     return TclNREvalObjEx(interp, objv[1], 0, iPtr->cmdFramePtr, 1);
