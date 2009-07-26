@@ -63,7 +63,6 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
     if {[info exists the_library] && $the_library ne ""} {
 	lappend dirs $the_library
     } else {
-
 	# Do the canonical search
 
 	# 1. From an environment variable, if it exists.  Placing this first
@@ -77,14 +76,8 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
 	# 2. In the package script directory registered within the
 	#    configuration of the package itself.
 
-	try {
-	    ::${basename}::pkgconfig get scriptdir,runtime
-	} on ok value {
-	    lappend dirs $value
-	} on error {msg opts} {
-	    if {![string match "invalid command name *" $msg]} {
-		return -options $opts $msg
-	    }
+	catch {
+	    lappend dirs [::${basename}::pkgconfig get scriptdir,runtime]
 	}
 
 	# 3. Relative to auto_path directories.  This checks relative to the
