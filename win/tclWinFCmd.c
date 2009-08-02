@@ -1108,12 +1108,12 @@ DoRemoveJustDirectory(
 	    }
 
 	    /*
-	     * Windows 95 and Win32s report removing a non-empty directory as
+	     * Windows 95 reports removing a non-empty directory as
 	     * EACCES, not EEXIST. If the directory is not empty, change errno
 	     * so caller knows what's going on.
 	     */
 
-	    if (TclWinGetPlatformId() != VER_PLATFORM_WIN32_NT) {
+	    if (TclWinGetPlatformId() == VER_PLATFORM_WIN32_WINDOWS) {
 		const char *path, *find;
 		HANDLE handle;
 		WIN32_FIND_DATAA data;

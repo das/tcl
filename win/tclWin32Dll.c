@@ -184,10 +184,10 @@ static TclWinProcs unicodeProcs = {
     /* ReadConsole and WriteConsole */
     (BOOL (WINAPI *)(HANDLE, LPVOID, DWORD, LPDWORD, LPVOID)) ReadConsoleW,
     (BOOL (WINAPI *)(HANDLE, const void*, DWORD, LPDWORD, LPVOID)) WriteConsoleW,
-    (BOOL (WINAPI *)(LPTSTR, LPDWORD))GetUserNameW
+    (BOOL (WINAPI *)(LPTSTR, LPDWORD)) GetUserNameW
 };
 
-TclWinProcs *tclWinProcs;
+TclWinProcs *tclWinProcs = &asciiProcs;
 static Tcl_Encoding tclWinTCharEncoding;
 
 /*
@@ -354,7 +354,7 @@ TclWinInit(
 	Tcl_Panic("Win32s is not a supported platform");
     }
 
-    tclWinProcs = &asciiProcs;
+    TclWinResetInterfaces();
 }
 
 /*
@@ -370,6 +370,7 @@ TclWinInit(
  *	    VER_PLATFORM_WIN32s		Win32s on Windows 3.1. (not supported)
  *	    VER_PLATFORM_WIN32_WINDOWS	Win32 on Windows 95, 98, ME.
  *	    VER_PLATFORM_WIN32_NT	Win32 on Windows NT, 2000, XP
+ *	    VER_PLATFORM_WIN32_CE	Win32 on Windows CE
  *
  * Side effects:
  *	None.
@@ -442,7 +443,7 @@ TclWinSetInterfaces(
     int wide)			/* Non-zero to use wide interfaces, 0
 				 * otherwise. */
 {
-    Tcl_FreeEncoding(tclWinTCharEncoding);
+	TclWinResetInterfaces();
 
     if (wide) {
 	tclWinProcs = &unicodeProcs;
@@ -504,8 +505,6 @@ TclWinSetInterfaces(
 	    }
 	}
     } else {
-	tclWinProcs = &asciiProcs;
-	tclWinTCharEncoding = NULL;
 	if (tclWinProcs->getFileAttributesExProc == NULL) {
 	    HINSTANCE hInstance = LoadLibraryA("kernel32");
 	    if (hInstance != NULL) {
@@ -543,7 +542,7 @@ TclWinSetInterfaces(
 /*
  *---------------------------------------------------------------------------
  *
- * TclWinResetInterfaceEncodings --
+ * TclWinEncodingsCleanup --
  *
  *	Called during finalization to free up any encodings we use. The
  *	tclWinProcs-> look up table is still ok to use after this call,
@@ -563,14 +562,11 @@ TclWinSetInterfaces(
  */
 
 void
-TclWinResetInterfaceEncodings(void)
+TclWinEncodingsCleanup(void)
 {
     MountPointMap *dlIter, *dlIter2;
 
-    if (tclWinTCharEncoding != NULL) {
-	Tcl_FreeEncoding(tclWinTCharEncoding);
-	tclWinTCharEncoding = NULL;
-    }
+    TclWinResetInterfaces();
 
     /*
      * Clean up the mount point map.
@@ -607,7 +603,11 @@ TclWinResetInterfaceEncodings(void)
 void
 TclWinResetInterfaces(void)
 {
-    tclWinProcs = &asciiProcs;
+    if (tclWinTCharEncoding != NULL) {
+	Tcl_FreeEncoding(tclWinTCharEncoding);
+	tclWinTCharEncoding = NULL;
+    }
+	tclWinProcs = &asciiProcs;
 }
 
 /*
