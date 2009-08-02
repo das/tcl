@@ -782,11 +782,13 @@ Tcl_CreateInterp(void)
 	    TclDefaultBgErrorHandlerObjCmd, NULL, NULL);
 
     /*
-     * Create an unsupported command for debugging bytecode.
+     * Create unsupported commands for debugging bytecode and objects.
      */
 
     Tcl_CreateObjCommand(interp, "::tcl::unsupported::disassemble",
 	    Tcl_DisassembleObjCmd, NULL, NULL);
+    Tcl_CreateObjCommand(interp, "::tcl::unsupported::representation",
+	    Tcl_RepresentationCmd, NULL, NULL);
 
     /*
      * Create the 'tailcall' command
@@ -7863,7 +7865,7 @@ DTraceCmdReturn(
     return result;
 }
 
-TCL_DTRACE_DEBUG_LOG();
+TCL_DTRACE_DEBUG_LOG()
 
 #endif /* USE_DTRACE */
 
