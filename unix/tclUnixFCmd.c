@@ -1341,7 +1341,6 @@ GetGroupAttribute(
 	*attributePtrPtr = Tcl_NewStringObj(utf, -1);
 	Tcl_DStringFree(&ds);
     }
-    endgrent();
     return TCL_OK;
 }
 
@@ -1396,7 +1395,6 @@ GetOwnerAttribute(
 	*attributePtrPtr = Tcl_NewStringObj(utf, Tcl_DStringLength(&ds));
 	Tcl_DStringFree(&ds);
     }
-    endpwent();
     return TCL_OK;
 }
 
@@ -1483,7 +1481,6 @@ SetGroupAttribute(
 	Tcl_DStringFree(&ds);
 
 	if (groupPtr == NULL) {
-	    endgrent();
 	    if (interp != NULL) {
 		Tcl_AppendResult(interp, "could not set group for file \"",
 			TclGetString(fileName), "\": group \"", string,
@@ -1497,7 +1494,6 @@ SetGroupAttribute(
     native = Tcl_FSGetNativePath(fileName);
     result = chown(native, (uid_t) -1, (gid_t) gid);	/* INTL: Native. */
 
-    endgrent();
     if (result != 0) {
 	if (interp != NULL) {
 	    Tcl_AppendResult(interp, "could not set group for file \"",
@@ -1545,7 +1541,7 @@ SetOwnerAttribute(
 	string = Tcl_GetStringFromObj(attributePtr, &length);
 
 	native = Tcl_UtfToExternalDString(NULL, string, length, &ds);
-	pwPtr = TclpGetPwNam(native); /* INTL: Native. */
+	pwPtr = TclpGetPwNam(native);			/* INTL: Native. */
 	Tcl_DStringFree(&ds);
 
 	if (pwPtr == NULL) {

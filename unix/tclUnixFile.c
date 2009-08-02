@@ -578,15 +578,13 @@ TclpGetUserHome(
     Tcl_DString ds;
     const char *native = Tcl_UtfToExternalDString(NULL, name, -1, &ds);
 
-    pwPtr = getpwnam(native);				/* INTL: Native. */
+    pwPtr = TclpGetPwNam(native);			/* INTL: Native. */
     Tcl_DStringFree(&ds);
 
     if (pwPtr == NULL) {
-	endpwent();
 	return NULL;
     }
     Tcl_ExternalToUtfDString(NULL, pwPtr->pw_dir, -1, bufferPtr);
-    endpwent();
     return Tcl_DStringValue(bufferPtr);
 }
 
