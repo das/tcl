@@ -2517,7 +2517,7 @@ TclSubstTokens(
 		break;
 	    default:
 		/*
-		 * All other return codes, we will subst the result from the
+		 * All other return codes, we will subst the ulesult from the
 		 * code-throwing evaluation.
 		 */
 

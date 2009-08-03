@@ -397,31 +397,6 @@ ToUtf(
 /*
  *---------------------------------------------------------------------------
  *
- * TclWinEncodingsCleanup --
- *
- *	Reset information to its original state in finalization to allow for
- *	reinitialization to be possible. This must not be called until after
- *	the filesystem has been finalised, or exit crashes may occur when
- *	using virtual filesystems.
- *
- * Results:
- *	None.
- *
- * Side effects:
- *	Static information reset to startup state.
- *
- *---------------------------------------------------------------------------
- */
-
-void
-TclWinEncodingsCleanup(void)
-{
-    TclWinResetInterfaceEncodings();
-}
-
-/*
- *---------------------------------------------------------------------------
- *
  * TclpSetInitialEncodings --
  *
  *	Based on the locale, determine the encoding of the operating system
@@ -457,11 +432,9 @@ TclpSetInitialEncodings(void)
 void
 TclpSetInterfaces(void)
 {
-    int platformId, useWide;
+    int useWide;
 
-    platformId = TclWinGetPlatformId();
-    useWide = ((platformId == VER_PLATFORM_WIN32_NT)
-	    || (platformId == VER_PLATFORM_WIN32_CE));
+    useWide = (TclWinGetPlatformId() != VER_PLATFORM_WIN32_WINDOWS);
     TclWinSetInterfaces(useWide);
 }
 

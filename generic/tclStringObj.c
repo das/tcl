@@ -2211,6 +2211,9 @@ Tcl_AppendFormatToObj(
 	    }
 	    if (width) {
 		p += sprintf(p, "%d", width);
+		if (width > length) {
+		    length = width;
+		} 
 	    }
 	    if (gotPrecision) {
 		*p++ = '.';
