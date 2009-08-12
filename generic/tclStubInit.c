@@ -1109,6 +1109,7 @@ static const TclStubs tclStubs = {
     Tcl_SetStartupScript, /* 622 */
     Tcl_GetStartupScript, /* 623 */
     Tcl_CloseEx, /* 624 */
+    Tcl_NRExprObj, /* 625 */
 };
 
 /* !END!: Do not edit above this line. */
