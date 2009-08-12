@@ -182,7 +182,7 @@ static const CmdInfo builtInCmds[] = {
     {"coroutine",	NULL,			NULL,			TclNRCoroutineObjCmd,	1},
     {"error",		Tcl_ErrorObjCmd,	NULL,			NULL,	1},
     {"eval",		Tcl_EvalObjCmd,		NULL,			NULL,	1},
-    {"expr",		Tcl_ExprObjCmd,		TclCompileExprCmd,	NULL,	1},
+    {"expr",		Tcl_ExprObjCmd,		TclCompileExprCmd,	TclNRExprObjCmd,	1},
     {"for",		Tcl_ForObjCmd,		TclCompileForCmd,	TclNRForObjCmd,	1},
     {"foreach",		Tcl_ForeachObjCmd,	TclCompileForeachCmd,	TclNRForeachCmd,	1},
     {"format",		Tcl_FormatObjCmd,	NULL,			NULL,	1},

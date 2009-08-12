@@ -2295,6 +2295,11 @@ declare 624 generic {
     int Tcl_CloseEx(Tcl_Interp *interp, Tcl_Channel chan, int flags)
 }
 
+# TIP #353 (NR-enabled expressions) dgp
+declare 625 generic {
+    int Tcl_NRExprObj(Tcl_Interp *interp, Tcl_Obj *objPtr, Tcl_Obj *resultPtr)
+}
+
 # ----- BASELINE -- FOR -- 8.6.0 ----- #
 
 ##############################################################################
