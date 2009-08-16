@@ -1919,7 +1919,7 @@ TclNRForIterCallback(
     Tcl_Obj *cond = iterPtr->cond;
     Tcl_Obj *body = iterPtr->body;
     Tcl_Obj *next = iterPtr->next;
-    char *msg = iterPtr->msg;
+    const char *msg = iterPtr->msg;
     int value;
 
     if ((result != TCL_OK) && (result != TCL_CONTINUE)) {
