@@ -1597,7 +1597,7 @@ test fileName-20.5 {Bug 2837800} -setup {
     set savewd [pwd]
     cd $dd
 } -body {
-    glob */test
+    glob -nocomplain */test
 } -cleanup {
     cd $savewd
     removeFile test $d
