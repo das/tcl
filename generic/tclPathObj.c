@@ -1165,6 +1165,7 @@ Tcl_FSConvertToPathType(
 	    return TCL_OK;
 	}
 
+
 	if (pathPtr->bytes == NULL) {
 	    UpdateStringOfFsPath(pathPtr);
 	}
@@ -1680,8 +1681,13 @@ Tcl_FSGetTranslatedPath(
 	     * translated result we need, and can store it for future use.
 	     */
 
-	    Tcl_Obj *translatedCwdPtr = Tcl_FSGetTranslatedPath(interp,
+	    Tcl_Obj *translatedCwdPtr;
+
+	    translatedCwdPtr = Tcl_FSGetTranslatedPath(interp,
 		    srcFsPathPtr->cwdPtr);
+	    if (translatedCwdPtr == NULL) {
+		return NULL;
+	    }
 
 	    retObj = Tcl_FSJoinToPath(translatedCwdPtr, 1,
 		    &(srcFsPathPtr->normPathPtr));
