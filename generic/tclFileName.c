@@ -2369,7 +2369,7 @@ DoGlob(
 	    for (i=0; result==TCL_OK && i<subdirc; i++) {
 		Tcl_Obj *copy = NULL;
 
-		if (Tcl_GetString(subdirv[i])[0] == '~') {
+		if (pathPtr == NULL && Tcl_GetString(subdirv[i])[0] == '~') {
 		    Tcl_ListObjLength(NULL, matchesObj, &repair);
 		    copy = subdirv[i];
 		    subdirv[i] = Tcl_NewStringObj("./", 2);
