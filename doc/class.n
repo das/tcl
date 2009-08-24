@@ -69,7 +69,7 @@ method.
 .PP
 The \fBoo::class\fR class supports the following non-exported methods:
 .TP
-\fIobj \fBcreateWithNamespace\fI name nsName\fR ?\fIarg ...\fR?
+\fIcls \fBcreateWithNamespace\fI name nsName\fR ?\fIarg ...\fR?
 .
 This creates a new instance of the class \fIcls\fR called \fIname\fR (which is
 resolved within the calling context's namespace if not fully qualified),
