@@ -1580,7 +1580,7 @@ TclExecuteByteCode(interp, codePtr)
 	     */
 
 #ifdef TCL_TIP280
-	    bcFrame.data.tebc.pc = pc;
+	    bcFrame.data.tebc.pc = (char*) pc;
 	    iPtr->cmdFramePtr = &bcFrame;
 	    TclArgumentBCEnter((Tcl_Interp*) iPtr, objv, objc,
 			       codePtr, &bcFrame,
@@ -4835,7 +4835,7 @@ TclGetSrcInfoForPc (cfPtr)
     ByteCode* codePtr = (ByteCode*) cfPtr->data.tebc.codePtr;
 
     if (cfPtr->cmd.str.cmd == NULL) {
-        cfPtr->cmd.str.cmd = GetSrcInfoForPc((char*) cfPtr->data.tebc.pc,
+        cfPtr->cmd.str.cmd = GetSrcInfoForPc((unsigned char*) cfPtr->data.tebc.pc,
 					     codePtr,
 					     &cfPtr->cmd.str.len);
     }
