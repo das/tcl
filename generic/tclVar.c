@@ -1878,6 +1878,14 @@ TclPtrSetVar(
 	    } else {
 		if (Tcl_IsShared(oldValuePtr)) {	/* Append to copy. */
 		    varPtr->value.objPtr = Tcl_DuplicateObj(oldValuePtr);
+
+		    /*
+		     * TIP #280.
+		     * Ensure that the continuation line data for the string
+		     * is not lost and applies to the extended script as well.
+		     */
+		    TclContinuationsCopy (varPtr->value.objPtr, oldValuePtr);
+
 		    TclDecrRefCount(oldValuePtr);
 		    oldValuePtr = varPtr->value.objPtr;
 		    Tcl_IncrRefCount(oldValuePtr);	/* Since var is ref */

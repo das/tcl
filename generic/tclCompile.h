@@ -132,6 +132,9 @@ typedef struct ECL {
     int nline;                  /* Number of words in the command */
     int *line;			/* Line information for all words in the
 				 * command. */
+    int** next;                 /* Transient information used by the compiler
+				 * for tracking of hidden continuation
+				 * lines. */
 } ECL;
 
 typedef struct ExtCmdLoc {
@@ -306,6 +309,13 @@ typedef struct CompileEnv {
 				 * should be issued; they should never be
 				 * issued repeatedly, as that is significantly
 				 * inefficient. */
+    ContLineLoc* clLoc;  /* If not NULL, the table holding the
+			  * locations of the invisible continuation
+			  * lines in the input script, to adjust the
+			  * line counter. */
+    int*         clNext; /* If not NULL, it refers to the next slot in
+			  * clLoc to check for an invisible
+			  * continuation line. */
 } CompileEnv;
 
 /*
