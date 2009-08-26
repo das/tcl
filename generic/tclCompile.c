@@ -1657,7 +1657,7 @@ TclCompileTokens(
     unsigned char *entryCodeNext = envPtr->codeNext;
 #define NUM_STATIC_POS 20
     int isLiteral, maxNumCL, numCL;
-    int* clPosition;
+    int* clPosition = NULL;
 
     /*
      * For the handling of continuation lines in literals we first check if

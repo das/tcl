@@ -2168,7 +2168,7 @@ TclSubstTokens(
     int code = TCL_OK;
 #define NUM_STATIC_POS 20
     int isLiteral, maxNumCL, numCL, i, adjust;
-    int* clPosition;
+    int* clPosition = NULL;
     Interp* iPtr = (Interp*) interp;
     int inFile = iPtr->evalFlags & TCL_EVAL_FILE;
 
