@@ -440,8 +440,18 @@ TclCreateProc(
 	 */
 
 	if (Tcl_IsShared(bodyPtr)) {
+	    Tcl_Obj* sharedBodyPtr = bodyPtr;
+
 	    bytes = TclGetStringFromObj(bodyPtr, &length);
 	    bodyPtr = Tcl_NewStringObj(bytes, length);
+
+	    /*
+	     * TIP #280.
+	     * Ensure that the continuation line data for the original body is
+	     * not lost and applies to the new body as well.
+	     */
+
+	    TclContinuationsCopy (bodyPtr, sharedBodyPtr);
 	}
 
 	/*
@@ -2538,7 +2548,7 @@ SetLambdaFromAny(
 		 * location (line of 2nd list element).
 		 */
 
-		TclListLines(name, contextPtr->line[1], 2, buf);
+		TclListLines(objPtr, contextPtr->line[1], 2, buf, NULL);
 
 		cfPtr->level = -1;
 		cfPtr->type = contextPtr->type;
