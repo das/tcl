@@ -2363,6 +2363,10 @@ Tcl_AppendFormatToObj(
 	    if (gotPrecision) {
 		*p++ = '.';
 		p += sprintf(p, "%d", precision);
+		if (precision > INT_MAX - length) {
+		    msg=overflow;
+		    goto errorMsg;
+		}
 		length += precision;
 	    }
 
@@ -2375,9 +2379,15 @@ Tcl_AppendFormatToObj(
 
 	    segment = Tcl_NewObj();
 	    allocSegment = 1;
-	    Tcl_SetObjLength(segment, length);
+	    if (!Tcl_AttemptSetObjLength(segment, length)) {
+		msg = overflow;
+		goto errorMsg;
+	    }
 	    bytes = TclGetString(segment);
-	    Tcl_SetObjLength(segment, sprintf(bytes, spec, d));
+	    if (!Tcl_AttemptSetObjLength(segment, sprintf(bytes, spec, d))) {
+		msg = overflow;
+		goto errorMsg;
+	    }
 	    break;
 	}
 	default:
