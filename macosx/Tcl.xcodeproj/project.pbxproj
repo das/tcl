@@ -2679,6 +2679,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC = "llvm-gcc";
 				GCC_OPTIMIZATION_LEVEL = 4;
+				"GCC_OPTIMIZATION_LEVEL[arch=ppc]" = s;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PREBINDING = NO;
