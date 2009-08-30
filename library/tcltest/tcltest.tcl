@@ -2104,7 +2104,7 @@ proc tcltest::test {name description args} {
 	    }
 	}
 	if {[info exists testLine]} {
-	    puts [outputChannel] "$testFile:$testLine: test failed:\
+	    puts [outputChannel] "$testFile:$testLine: error: test failed:\
 		    $name [string trim $description]"
 	}
     }	
