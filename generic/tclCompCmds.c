@@ -3877,7 +3877,7 @@ TclCompileSubstCmd(
     Tcl_Parse parse;
     Tcl_InterpState state = NULL;
     Tcl_Token *wordTokenPtr = TokenAfter(parsePtr->tokenPtr);
-    int breakOffset = 0, count = 0, code = TCL_OK;
+    int breakOffset = 0, count = 0, code = TCL_ERROR;
     Tcl_Token *endTokenPtr, *tokenPtr;
     DefineLineInformation;	/* TIP #280 */
     int bline = mapPtr->loc[eclIndex].line[numArgs];
@@ -3912,10 +3912,7 @@ TclCompileSubstCmd(
      *	parts of the compile machinery get upset.  They want all pointers
      *	stored in Tcl_Tokens to point back to the same original string.
      */
-    if (wordTokenPtr->type != TCL_TOKEN_SIMPLE_WORD) {
-	code = TCL_ERROR;
-    }
-    if (code == TCL_OK) {
+    if (wordTokenPtr->type == TCL_TOKEN_SIMPLE_WORD) {
 	code = TclSubstOptions(NULL, numOpts, objv, &flags);
     }
 
