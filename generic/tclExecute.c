@@ -2493,6 +2493,10 @@ TclExecuteByteCode(
 	    NEXT_INST_F(opnd, 0, -1);
 	}
 
+    case INST_NOP:
+	pc += 1;
+	goto cleanup0;
+
     case INST_DUP:
 	objResultPtr = OBJ_AT_TOS;
 	TRACE_WITH_OBJ(("=> "), objResultPtr);
@@ -7162,6 +7166,21 @@ TclExecuteByteCode(
 	objResultPtr = Tcl_GetReturnOptions(interp, result);
 	TRACE_WITH_OBJ(("=> "), objResultPtr);
 	NEXT_INST_F(1, 0, 1);
+
+    case INST_RETURN_CODE_BRANCH: {
+	int code;
+
+	if (TclGetIntFromObj(NULL, OBJ_AT_TOS, &code) != TCL_OK) {
+	    Tcl_Panic("INST_RETURN_CODE_BRANCH: TOS not a return code!");
+	}
+	if (code == TCL_OK) {
+	    Tcl_Panic("INST_RETURN_CODE_BRANCH: TOS is TCL_OK!");
+	}
+	if (code < TCL_ERROR || code > TCL_CONTINUE) {
+	    code = TCL_CONTINUE + 1;
+	}
+	NEXT_INST_F(2*code -1, 1, 0);
+    }
 
 /* TODO: normalize "valPtr" to "valuePtr" */
     {

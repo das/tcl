@@ -2950,6 +2950,11 @@ MODULE_SCOPE int	TclStringMatch(const char *str, int strLen,
 MODULE_SCOPE int	TclStringMatchObj(Tcl_Obj *stringObj,
 			    Tcl_Obj *patternObj, int flags);
 MODULE_SCOPE Tcl_Obj *	TclStringObjReverse(Tcl_Obj *objPtr);
+MODULE_SCOPE int	TclSubstOptions(Tcl_Interp *interp, int numOpts,
+			    Tcl_Obj *const opts[], int *flagPtr);
+MODULE_SCOPE void	TclSubstParse(Tcl_Interp *interp, const char *bytes,
+			    int numBytes, int flags, Tcl_Parse *parsePtr,
+			    Tcl_InterpState *statePtr);
 MODULE_SCOPE int	TclSubstTokens(Tcl_Interp *interp, Tcl_Token *tokenPtr,
 			    int count, int *tokensLeftPtr, int line,
 			    int *clNextOuter, const char *outerScript);
@@ -3368,6 +3373,9 @@ MODULE_SCOPE int	TclCompileStringLenCmd(Tcl_Interp *interp,
 			    Tcl_Parse *parsePtr, Command *cmdPtr,
 			    struct CompileEnv *envPtr);
 MODULE_SCOPE int	TclCompileStringMatchCmd(Tcl_Interp *interp,
+			    Tcl_Parse *parsePtr, Command *cmdPtr,
+			    struct CompileEnv *envPtr);
+MODULE_SCOPE int	TclCompileSubstCmd(Tcl_Interp *interp,
 			    Tcl_Parse *parsePtr, Command *cmdPtr,
 			    struct CompileEnv *envPtr);
 MODULE_SCOPE int	TclCompileSwitchCmd(Tcl_Interp *interp,
