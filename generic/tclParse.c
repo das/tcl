@@ -2663,6 +2663,13 @@ TclSubstTokens(
 		TclAdvanceLines(&line, tokenPtr->start+1,
 			tokenPtr->start + tokenPtr->size - 1);
 
+		/*
+		 * Restore flag reset by nested eval for future bracketed
+		 * commands and their cmdframe setup
+		 */
+	        if (inFile) {
+		    iPtr->evalFlags |= TCL_EVAL_FILE;
+		}
 		count -= tokenPtr->numComponents;
 		tokenPtr += tokenPtr->numComponents;
 	    }
