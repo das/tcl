@@ -4300,19 +4300,21 @@ MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int *bignum,
 #endif   /* TCL_MEM_DEBUG */
 
 /*
- * Macros for clang static analyzer
+ * Support for Clang Static Analyzer <http://clang-analyzer.llvm.org>
  */
 
-#if defined(PURIFY) && defined(__clang__) && !defined(CLANG_ASSERT)
+#if defined(PURIFY) && defined(__clang__)
+#if __has_feature(attribute_analyzer_noreturn) && \
+	!defined(Tcl_Panic) && defined(Tcl_Panic_TCL_DECLARED)
+void Tcl_Panic(const char *, ...) __attribute__((analyzer_noreturn));
+#endif
+#if !defined(CLANG_ASSERT)
 #include <assert.h>
 #define CLANG_ASSERT(x) assert(x)
-#ifndef USE_TCL_STUBS
-EXTERN void Tcl_Panic(const char * format, ...)
-	__attribute__((analyzer_noreturn));
 #endif
 #elif !defined(CLANG_ASSERT)
 #define CLANG_ASSERT(x)
-#endif
+#endif /* PURIFY && __clang__ */
 
 /*
  *----------------------------------------------------------------
