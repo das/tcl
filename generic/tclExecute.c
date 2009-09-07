@@ -2850,6 +2850,7 @@ TclExecuteByteCode(
 
     case INST_INVOKE_EXPANDED:
 	{
+	    CLANG_ASSERT(auxObjList);
 	    objc = CURR_DEPTH
 		    - (ptrdiff_t) auxObjList->internalRep.twoPtrValue.ptr1;
 	    POP_AUX_OBJ();
@@ -4546,7 +4547,7 @@ TclExecuteByteCode(
 		if (o != NULL) {
 		    s2 = TclGetStringFromObj(o, &s2len);
 		} else {
-		    s2 = "";
+		    s2 = ""; s2len = 0;
 		}
 		if (s1len == s2len) {
 		    found = (strcmp(s1, s2) == 0);
@@ -7969,6 +7970,7 @@ TclExecuteByteCode(
 		    (unsigned) CURR_DEPTH, (unsigned) 0);
 	    Tcl_Panic("TclExecuteByteCode execution failure: end stack top < start stack top");
 	}
+	CLANG_ASSERT(bcFramePtr);
     }
 
     oldBottomPtr = bottomPtr->prevBottomPtr;
