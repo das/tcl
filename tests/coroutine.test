@@ -277,9 +277,13 @@ test coroutine-1.12 {proc as coroutine} -setup {
     rename moo {}
     rename foo {}
 } -result {16 24}
-test coroutine-1.13 {subst as coroutine} {
-    list [coroutine foo subst {>>[yield a],[yield b]<<}] [foo x] [foo y]
+test coroutine-1.13 {subst as coroutine: literal} {
+    list [coroutine foo eval {subst {>>[yield a],[yield b]<<}}] [foo x] [foo y]
 } {a b >>x,y<<}
+test coroutine-1.14 {subst as coroutine: in variable} knownBug {
+    set pattern {>>[yield c],[yield d]<<}
+    list [coroutine foo eval {subst $pattern}] [foo p] [foo q]
+} {c d >>p,q<<}
 
 test coroutine-2.1 {self deletion on return} -body {
     coroutine foo set x 3
@@ -511,6 +515,6 @@ if {[testConstraint testnrelevels]} {
 
 return
 
-# Local-Variables:
+# Local Variables:
 # mode: tcl
 # End:
