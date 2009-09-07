@@ -2324,20 +2324,31 @@ ParseQuotedString(
  *----------------------------------------------------------------------
  */
 
+void
+TclSubstParse(
+    Tcl_Interp *interp,
+    const char *bytes,
+    int numBytes,
+    int flags,
+    Tcl_Parse *parsePtr)
+{
+    TclParseInit(interp, bytes, numBytes, parsePtr);
+    flags &= TCL_SUBST_ALL;
+    flags |= PARSE_USE_INTERNAL_TOKENS;
+    ParseTokens(bytes, numBytes, /* mask */ 0, flags, parsePtr);
+}
+
 Tcl_Obj *
 Tcl_SubstObj(
     Tcl_Interp *interp,		/* Interpreter in which substitution occurs */
     Tcl_Obj *objPtr,		/* The value to be substituted. */
     int flags)			/* What substitutions to do. */
 {
-    int length, tokensLeft, code;
+    int tokensLeft, code, numBytes;
     Tcl_Token *endTokenPtr;
     Tcl_Obj *result;
-    const char *p = TclGetStringFromObj(objPtr, &length);
     Tcl_Parse *parsePtr = (Tcl_Parse *)
 	    TclStackAlloc(interp, sizeof(Tcl_Parse));
-
-    TclParseInit(interp, p, length, parsePtr);
 
     /*
      * First parse the string rep of objPtr, as if it were enclosed as a
@@ -2345,9 +2356,9 @@ Tcl_SubstObj(
      * inhibit types of substitution.
      */
 
-    flags &= TCL_SUBST_ALL;
-    flags |= PARSE_USE_INTERNAL_TOKENS;
-    ParseTokens(p, length, /* mask */ 0, flags, parsePtr);
+    const char *bytes = TclGetStringFromObj(objPtr, &numBytes);
+
+    TclSubstParse(interp, bytes, numBytes, flags, parsePtr);
 
     /*
      * Next, substitute the parsed tokens just as in normal Tcl evaluation.
