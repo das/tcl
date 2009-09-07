@@ -1823,6 +1823,11 @@ test info-30.47 {TIP 280 for compiled [subst]} {
 [dict get [info frame 0] line])} ; # 1823
 } YES
 
+test info-30.48 {Bug 2850901} testevalex {
+    testevalex {return -level 0 [format %s {}
+][reduce [info frame 0]]} ; # line 2 of the eval
+} {type eval line 2 cmd {info frame 0} proc ::tcltest::RunTest}
+
 # -------------------------------------------------------------------------
 
 # cleanup
