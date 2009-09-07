@@ -754,6 +754,7 @@ CopyRenameOneFile(
 	if (S_ISDIR(sourceStatBuf.st_mode)) {
 	    result = Tcl_FSRemoveDirectory(source, 1, &errorBuffer);
 	    if (result != TCL_OK) {
+		errfile = errorBuffer;
 		if (Tcl_FSEqualPaths(errfile, source) == 0) {
 		    errfile = source;
 		}

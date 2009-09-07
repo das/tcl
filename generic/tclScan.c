@@ -712,6 +712,7 @@ Tcl_ScanObjCmd(
 	    if (!(flags & SCAN_SUPPRESS)) {
 		objPtr = Tcl_NewIntObj(string - baseString);
 		Tcl_IncrRefCount(objPtr);
+		CLANG_ASSERT(objs);
 		objs[objIndex++] = objPtr;
 	    }
 	    nconversions++;
@@ -819,6 +820,7 @@ Tcl_ScanObjCmd(
 	    if (!(flags & SCAN_SUPPRESS)) {
 		objPtr = Tcl_NewStringObj(string, end-string);
 		Tcl_IncrRefCount(objPtr);
+		CLANG_ASSERT(objs);
 		objs[objIndex++] = objPtr;
 	    }
 	    string = end;
@@ -869,6 +871,7 @@ Tcl_ScanObjCmd(
 	    if (!(flags & SCAN_SUPPRESS)) {
 		objPtr = Tcl_NewIntObj((int)sch);
 		Tcl_IncrRefCount(objPtr);
+		CLANG_ASSERT(objs);
 		objs[objIndex++] = objPtr;
 	    }
 	    break;
@@ -973,6 +976,7 @@ Tcl_ScanObjCmd(
 		    }
 		}
 		Tcl_SetDoubleObj(objPtr, dvalue);
+		CLANG_ASSERT(objs);
 		objs[objIndex++] = objPtr;
 		string = end;
 	    }

@@ -707,7 +707,7 @@ Tcl_UniCharAtIndex(
     register const char *src,	/* The UTF-8 string to dereference. */
     register int index)		/* The position of the desired character. */
 {
-    Tcl_UniChar ch;
+    Tcl_UniChar ch = 0;
 
     while (index >= 0) {
 	index--;
