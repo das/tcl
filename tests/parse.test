@@ -1048,7 +1048,7 @@ test parse-19.3 {Bug 1115904: recursion limit in Tcl_EvalEx} -setup {
     interp delete i
 }
 
-test parse-19.4 {Bug 1115904: recursion limit in Tcl_EvalEx} -setup {
+test parse-19.4 {Bug 1115904: recursion limit in Tcl_EvalEx} -constraints knownBug -setup {
     interp create i
     i eval {proc {} args {}}
     interp recursionlimit i 2
