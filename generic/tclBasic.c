@@ -213,7 +213,7 @@ static const CmdInfo builtInCmds[] = {
     {"scan",		Tcl_ScanObjCmd,		NULL,			NULL,	1},
     {"set",		Tcl_SetObjCmd,		TclCompileSetCmd,	NULL,	1},
     {"split",		Tcl_SplitObjCmd,	NULL,			NULL,	1},
-    {"subst",		Tcl_SubstObjCmd,	TclCompileSubstCmd,	NULL,	1},
+    {"subst",		Tcl_SubstObjCmd,	TclCompileSubstCmd,	TclNRSubstObjCmd,	1},
     {"switch",		Tcl_SwitchObjCmd,	TclCompileSwitchCmd,	TclNRSwitchObjCmd, 1},
     {"throw",		Tcl_ThrowObjCmd,	NULL,			NULL,	1},
     {"trace",		Tcl_TraceObjCmd,	NULL,			NULL,	1},
