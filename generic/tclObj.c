@@ -4381,7 +4381,7 @@ Tcl_RepresentationCmd(
 {
     char refcountBuffer[TCL_INTEGER_SPACE+1];
     char objPtrBuffer[TCL_INTEGER_SPACE+3];
-    char internalRepBuffer[2*(TCL_INTEGER_SPACE+2)+1];
+    char internalRepBuffer[2*(TCL_INTEGER_SPACE+2)+2];
 #define TCLOBJ_TRUNCATE_STRINGREP 16
     char stringRepBuffer[TCLOBJ_TRUNCATE_STRINGREP+1];
 
