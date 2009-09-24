@@ -3440,7 +3440,7 @@ TclNRSubstObjCmd(
     if (TclSubstOptions(interp, objc-2, objv+1, &flags) != TCL_OK) {
 	return TCL_ERROR;
     }
-    return TclNRSubstObj(interp, objv[objc-1], flags);
+    return Tcl_NRSubstObj(interp, objv[objc-1], flags);
 }
 
 /*

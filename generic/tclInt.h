@@ -2847,8 +2847,6 @@ MODULE_SCOPE int	TclMarkList(Tcl_Interp *interp, const char *list,
 MODULE_SCOPE int	TclMergeReturnOptions(Tcl_Interp *interp, int objc,
 			    Tcl_Obj *const objv[], Tcl_Obj **optionsPtrPtr,
 			    int *codePtr, int *levelPtr);
-MODULE_SCOPE int	TclNRSubstObj(Tcl_Interp *interp, Tcl_Obj *objPtr,
-			    int flags);
 MODULE_SCOPE int	TclNokia770Doubles();
 MODULE_SCOPE void	TclObjVarErrMsg(Tcl_Interp *interp, Tcl_Obj *part1Ptr,
 			    Tcl_Obj *part2Ptr, const char *operation,

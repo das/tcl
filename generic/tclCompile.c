@@ -898,7 +898,7 @@ Tcl_SubstObj(
 {
     TEOV_callback *rootPtr = TOP_CB(interp);
 
-    if (TclNRRunCallbacks(interp, TclNRSubstObj(interp, objPtr, flags),
+    if (TclNRRunCallbacks(interp, Tcl_NRSubstObj(interp, objPtr, flags),
 	    rootPtr, 0) != TCL_OK) {
 	return NULL;
     }
@@ -908,7 +908,7 @@ Tcl_SubstObj(
 /*
  *----------------------------------------------------------------------
  *
- * TclNRSubstObj --
+ * Tcl_NRSubstObj --
  *
  *	Request substitution of a Tcl value by the NR stack.
  *
@@ -924,7 +924,7 @@ Tcl_SubstObj(
  */
 
 int
-TclNRSubstObj(
+Tcl_NRSubstObj(
     Tcl_Interp *interp,
     Tcl_Obj *objPtr,
     int flags)
