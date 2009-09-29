@@ -28,7 +28,8 @@ proc parse_command_line {} {
     # the converted pages go to.
     global tcltkdir tkdir tcldir webdir build_tcl build_tk
     global build_tdbc build_tdbcodbc build_tdbcsqlite3 build_tdbcmysql
-    global tdbcdir tdbcodbcdir tdbcsqlite3dir tdbcmysqldir
+    global build_tdbcpostgres
+    global tdbcdir tdbcodbcdir tdbcsqlite3dir tdbcmysqldir tdbcpostgresdir
 
     # Set defaults based on original code.
     set tcltkdir ../..
@@ -38,6 +39,7 @@ proc parse_command_line {} {
     set tdbcodbcdir {}
     set tdbcsqlite3dir {}
     set tdbcmysqldir {}
+    set tdbcpostgresdir {}
     set webdir ../html
     set build_tcl 0
     set build_tk 0
@@ -45,6 +47,7 @@ proc parse_command_line {} {
     set build_tdbcodbc 0
     set build_tdbcsqlite3 0
     set build_tdbcmysql 0
+    set build_tdbcpostgres 0
 
     # Default search version is a glob pattern
     set useversion {{,[8-9].[0-9]{,[.ab][0-9]{,[0-9]}}}}
@@ -112,6 +115,10 @@ proc parse_command_line {} {
 
 	    --tdbcmysql {
 		set build_tdbcmysql 1
+	    }
+
+	    --tdbcpostgres {
+		set build_tdbcpostgres 1
 	    }
 
 	    default {
@@ -191,6 +198,20 @@ proc parse_command_line {} {
 	puts "using Tdbcmysql source directory $tcldir"
     }
 
+
+    if {$build_tdbcpostgres} {
+	# Find Tdbcpostgres.
+	set tdbcpostgresdir [lindex [lsort [glob -nocomplain -tails -type d \
+						-directory $tcltkdir \
+						tdbcpostgres$useversion]] end]
+	if {$tdbcpostgresdir eq ""} {
+	    puts stderr "tcltk-man-html: couldn't find Tdbcpostgres below \
+                         $tcltkdir"
+	    exit 1
+	}
+	puts "using Tdbcpostgres source directory $tcldir"
+    }
+
     # the title for the man pages overall
     global overall_title
     set overall_title ""
@@ -205,7 +226,7 @@ proc parse_command_line {} {
     }
     if {!$build_tcl && !$build_tk &&
 	($build_tdbc || $build_tdbcodbc || $build_tdbcsqlite3
-	 || $build_tdbcmysql)} {
+	 || $build_tdbcmysql || $build_tdbcpostgres)} {
 	append overall_title "[capitalize $tdbcdir]"
     }
     append overall_title " Documentation"
@@ -2059,6 +2080,10 @@ if {$build_tdbcmysql} {
     append appdir $sep $tdbcmysqldir
     set sep ,
 }
+if {$build_tdbcpostgres} {
+    append appdir $sep $tdbcpostgresdir
+    set sep ,
+}
 
 set usercmddesc "The interpreters which implement $cmdesc."
 set tclcmddesc {The commands which the <B>tclsh</B> interpreter implements.}
@@ -2070,6 +2095,7 @@ set tdbclibdesc {The C functions that are implemented by Tcl DataBase Connectivi
 set tdbcodbcdesc {The ODBC driver for Tcl DataBase Connectivity (TDBC)}
 set tdbcsqlite3desc {The Sqlite3 driver for Tcl DataBase Connectivity (TDBC)}
 set tdbcmysqldesc {The MySQL driver for Tcl DataBase Connectivity (TDBC)}
+set tdbcpostgresdesc {The Postgres driver for Tcl DataBase Connectivity (TDBC)}
 
     
 if {[catch {
@@ -2082,7 +2108,8 @@ if {[catch {
 	[expr {$build_tdbc ? "$tcltkdir/$tdbcdir/doc/*.n {Tcl Database Connectivity} TDBC {$tdbcdesc}" : ""}] \
 	[expr {$build_tdbcodbc ? "$tcltkdir/$tdbcodbcdir/doc/*.n {TDBC-ODBC Bridge} Tdbcodbc {$tdbcodbcdesc}" : ""}] \
 	[expr {$build_tdbcsqlite3 ? "$tcltkdir/$tdbcsqlite3dir/doc/*.n {TDBC driver for Sqlite3} Tdbcsqlite3 {$tdbcsqlite3desc}" : ""}] \
-	[expr {$build_tdbcmysql ? "$tcltkdir/$tdbcmysqldir/doc/*.n {TDBC driver for Mysql} Tdbcmysql {$tdbcmysqldesc}" : ""}] \
+	[expr {$build_tdbcmysql ? "$tcltkdir/$tdbcmysqldir/doc/*.n {TDBC driver for MySQL} Tdbcmysql {$tdbcmysqldesc}" : ""}] \
+	[expr {$build_tdbcpostgres ? "$tcltkdir/$tdbcpostgresdir/doc/*.n {TDBC driver for Postgres} Tdbcmysql {$tdbcmysqldesc}" : ""}] \
 	[expr {$build_tdbc ? "$tcltkdir/$tdbcdir/doc/*.3 {Tcl Database Connectivity C API} TdbcLib {$tdbclibdesc}" : ""}] \
 } error]} {
     puts $error\n$errorInfo

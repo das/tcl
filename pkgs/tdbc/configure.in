@@ -13,7 +13,7 @@ dnl	to configure the system for the local environment.
 # so you can encode the package version directly into the source files.
 #-----------------------------------------------------------------------
 
-AC_INIT([tdbc], [1.0b12])
+AC_INIT([tdbc], [1.0b13])
 
 #--------------------------------------------------------------------
 # Call TEA_INIT as the first TEA_ macro to set up initial vars.
@@ -55,6 +55,8 @@ Found configuration for Tcl ${TCL_VERSION}.])
   if test "${TCL_MINOR_VERSION}" -eq 5 ; then
     TEA_PATH_CONFIG(tcloo)
     TEA_LOAD_CONFIG(tcloo)
+  else
+    TCLOO_CFLAGS="-DUSE_TCLOO_STUBS"
   fi
 fi
 
@@ -90,9 +92,9 @@ if test "${TCL_MAJOR_VERSION}" -eq 8 ; then
   if test "${TCL_MINOR_VERSION}" -eq 5 ; then
     TEA_ADD_INCLUDES([${TCLOO_INCLUDE_SPEC}])
     TEA_ADD_LIBS([${TCLOO_STUB_LIB_SPEC}])
-    TEA_ADD_CFLAGS([${TCLOO_CFLAGS}])
   fi
 fi
+TEA_ADD_CFLAGS([${TCLOO_CFLAGS}])
 TEA_ADD_STUB_SOURCES([tdbcStubLib.c])
 TEA_ADD_TCL_SOURCES([library/tdbc.tcl])
 

@@ -1,8 +1,8 @@
 README: tdbc
 
-    This is the 1.0b12 source distribution of Tcl Database Connectivity
+    This is the 1.0b13 source distribution of Tcl Database Connectivity
     (TDBC). TDBC is available from a Fossil version control repository
-       at http://tdbc.tcl.tk/ .
+    at http://tdbc.tcl.tk/ .
 
 RCS: @(#) $Id$
 
