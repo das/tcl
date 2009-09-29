@@ -3875,10 +3875,15 @@ MODULE_SCOPE void	TclDbInitNewObj(Tcl_Obj *objPtr, const char *file,
  *----------------------------------------------------------------
  */
 
+#define TCL_MAX_TOKENS (int)(UINT_MAX / sizeof(Tcl_Token))
 #define TCL_MIN_TOKEN_GROWTH 50
 #define TclGrowTokenArray(tokenPtr, used, available, append, staticPtr)	\
 {									\
     int needed = (used) + (append);					\
+    if (needed > TCL_MAX_TOKENS) {					\
+	Tcl_Panic("max # of tokens for a Tcl parse (%d) exceeded",	\
+		TCL_MAX_TOKENS);					\
+    }									\
     if (needed > (available)) {						\
 	int allocated = 2 * needed;					\
 	Tcl_Token *oldPtr = (tokenPtr);					\
@@ -3886,12 +3891,18 @@ MODULE_SCOPE void	TclDbInitNewObj(Tcl_Obj *objPtr, const char *file,
 	if (oldPtr == (staticPtr)) {					\
 	    oldPtr = NULL;						\
 	}								\
+	if (allocated > TCL_MAX_TOKENS) {				\
+	    allocated = TCL_MAX_TOKENS;					\
+	}								\
 	newPtr = (Tcl_Token *) attemptckrealloc((char *) oldPtr,	\
-		(unsigned) (allocated * sizeof(Tcl_Token)));	\
+		(unsigned int) (allocated * sizeof(Tcl_Token)));	\
 	if (newPtr == NULL) {						\
 	    allocated = needed + (append) + TCL_MIN_TOKEN_GROWTH;	\
+	    if (allocated > TCL_MAX_TOKENS) {				\
+		allocated = TCL_MAX_TOKENS;				\
+	    }								\
 	    newPtr = (Tcl_Token *) ckrealloc((char *) oldPtr,		\
-		    (unsigned) (allocated * sizeof(Tcl_Token)));	\
+		    (unsigned int) (allocated * sizeof(Tcl_Token)));	\
 	}								\
 	(available) = allocated;					\
 	if (oldPtr == NULL) {						\
