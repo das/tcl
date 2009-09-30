@@ -2601,6 +2601,7 @@ FreeFsPathInternalRep(
     }
 
     ckfree((char*) fsPathPtr);
+    pathPtr->typePtr = NULL;
 }
 
 static void
