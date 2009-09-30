@@ -3130,6 +3130,7 @@ FreeBignum(
     if ((long) objPtr->internalRep.ptrAndLongRep.value < 0) {
 	ckfree((char *) objPtr->internalRep.ptrAndLongRep.ptr);
     }
+    objPtr->typePtr = NULL;
 }
 
 /*
@@ -4218,6 +4219,7 @@ FreeCmdNameInternalRep(
 	    ckfree((char *) resPtr);
 	}
     }
+    objPtr->typePtr = NULL;
 }
 
 /*

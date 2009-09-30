@@ -3927,6 +3927,7 @@ MODULE_SCOPE void	TclDbInitNewObj(Tcl_Obj *objPtr, const char *file,
     if ((objPtr)->typePtr != NULL && \
 	    (objPtr)->typePtr->freeIntRepProc != NULL) { \
 	(objPtr)->typePtr->freeIntRepProc(objPtr); \
+	(objPtr)->typePtr = NULL; \
     }
 
 /*

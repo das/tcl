@@ -4770,6 +4770,7 @@ FreeNsNameInternalRep(
 	}
 	ckfree((char *) resNamePtr);
     }
+    objPtr->typePtr = NULL;
 }
 
 /*
@@ -7469,6 +7470,7 @@ FreeEnsembleCmdRep(
 	NamespaceFree(ensembleCmd->nsPtr);
     }
     ckfree((char *) ensembleCmd);
+    objPtr->typePtr = NULL;
 }
 
 /*

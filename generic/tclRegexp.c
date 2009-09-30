@@ -760,6 +760,7 @@ FreeRegexpInternalRep(
     if (--(regexpRepPtr->refCount) <= 0) {
 	FreeRegexp(regexpRepPtr);
     }
+    objPtr->typePtr = NULL;
 }
 
 /*
