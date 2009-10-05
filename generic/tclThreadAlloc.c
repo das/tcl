@@ -316,7 +316,7 @@ TclpAlloc(unsigned int reqsize)
 	const size_t zero = 0;
 	const size_t max = ~zero;
 
-	if (((size_t) reqSize) > max - sizeof(Block) - RCHECK) {
+	if (((size_t) reqsize) > max - sizeof(Block) - RCHECK) {
 	    /* Requested allocation exceeds memory */
 	    return NULL;
 	}
@@ -456,7 +456,7 @@ TclpRealloc(char *ptr, unsigned int reqsize)
 	const size_t zero = 0;
 	const size_t max = ~zero;
 
-	if (((size_t) reqSize) > max - sizeof(Block) - RCHECK) {
+	if (((size_t) reqsize) > max - sizeof(Block) - RCHECK) {
 	    /* Requested allocation exceeds memory */
 	    return NULL;
 	}
