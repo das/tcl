@@ -792,6 +792,8 @@ proc ::safe::setLogCmd {args} {
 
 	try {
 	    ::interp invokehidden $slave glob {*}$cmd
+	} on ok msg {
+	    # Nothing to be done, just capture the 'msg' for later.
 	} on error msg {
 	    Log $slave $msg
 	    return -code error "script error"

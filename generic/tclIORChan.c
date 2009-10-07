@@ -2318,7 +2318,7 @@ ErrnoReturn(ReflectedChannel *rcPtr, Tcl_Obj* resObj)
 
     if (((Tcl_GetIntFromObj(rcPtr->interp, resObj, &code) != TCL_OK) || (code >= 0))) {
 	if (strcmp ("EAGAIN",Tcl_GetString(resObj)) == 0) {
-	    code = -11;
+	    code = - EAGAIN;
 	} else {
 	    code = 0;
 	}
