@@ -1239,6 +1239,7 @@ Tcl_FinalizeThread(void)
 	TclFinalizeIOSubsystem();
 	TclFinalizeNotifier();
 	TclFinalizeAsync();
+	TclFinalizeThreadObjects();
     }
 
     /*
