@@ -934,6 +934,11 @@ declare 236 generic {
     void TclBackgroundException(Tcl_Interp *interp, int code)
 }
 
+# Tcl_Obj leak detection support.
+declare 243 generic {
+    void TclDbDumpActiveObjects(FILE *outFile)
+}
+
 ##############################################################################
 
 # Define the platform specific internal Tcl interface. These functions are
