@@ -2258,7 +2258,7 @@ StringTraceProc(
 
     data->proc(data->clientData, interp, level, (char *) command,
 	    cmdPtr->proc, cmdPtr->clientData, objc, argv);
-    TclStackFree(interp, (void *) argv);
+    TclStackFree(interp, argv);
 
     return TCL_OK;
 }
@@ -2283,7 +2283,7 @@ static void
 StringTraceDeleteProc(
     ClientData clientData)
 {
-    ckfree((char *) clientData);
+    ckfree(clientData);
 }
 
 /*
@@ -2311,7 +2311,7 @@ Tcl_DeleteTrace(
 {
     Interp *iPtr = (Interp *) interp;
     Trace *prevPtr, *tracePtr = (Trace *) trace;
-    register Trace **tracePtr2 = &(iPtr->tracePtr);
+    register Trace **tracePtr2 = &iPtr->tracePtr;
     ActiveInterpTrace *activePtr;
 
     /*
@@ -2320,14 +2320,14 @@ Tcl_DeleteTrace(
      */
 
     prevPtr = NULL;
-    while ((*tracePtr2) != NULL && (*tracePtr2) != tracePtr) {
+    while (*tracePtr2 != NULL && *tracePtr2 != tracePtr) {
 	prevPtr = *tracePtr2;
-	tracePtr2 = &((*tracePtr2)->nextPtr);
+	tracePtr2 = &prevPtr->nextPtr;
     }
     if (*tracePtr2 == NULL) {
 	return;
     }
-    (*tracePtr2) = (*tracePtr2)->nextPtr;
+    *tracePtr2 = (*tracePtr2)->nextPtr;
 
     /*
      * The code below makes it possible to delete traces while traces are
@@ -2899,6 +2899,7 @@ Tcl_UntraceVar2(
     } else {
 	prevPtr->nextPtr = nextPtr;
     }
+    tracePtr->nextPtr = NULL;
     Tcl_EventuallyFree(tracePtr, TCL_DYNAMIC);
 
     for (tracePtr = nextPtr; tracePtr != NULL;

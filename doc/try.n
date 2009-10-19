@@ -51,7 +51,8 @@ non-empty, it names a variable into which the result of the evaluation of
 \fIbody\fR (from the main \fBtry\fR) will be placed; this will contain the
 human-readable form of any errors. If the second word of the list is present
 and non-empty, it names a variable into which the options dictionary of the
-interpreter at the moment of completion of execution of \fIbody\fR.
+interpreter at the moment of completion of execution of \fIbody\fR
+will be placed.
 .PP
 The \fIscript\fR word of each \fIhandler\fR is also always interpreted the
 same: as a Tcl script to evaluate if the clause is matched. If \fIscript\fR is
