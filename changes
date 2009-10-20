@@ -7334,9 +7334,9 @@ among multiple interps (kupries)
 
 --- Released 8.5.7, April 15, 2009 --- See ChangeLog for details ---
 
-2009-04-27 (bug fix)[2446662] (ferrieux)
+2009-04-27 (bug fix)[2446662] uniformly declare EOF on RST on sockets (ferrieux)
 
-2009-04-27 (bug fix)[1028264] (ferrieux)
+2009-04-27 (bug fix)[1028264] delay WSACleanup() from under our feet (ferrieux)
 
 2009-05-07 (bug fix)[2785893] find command in deleted namespace (sofer)
 
