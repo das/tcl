@@ -2393,7 +2393,11 @@ FlushChannel(
 	 */
 
 	toWrite = BytesLeft(bufPtr);
-	written = ChanWrite(chanPtr, RemovePoint(bufPtr),toWrite, &errorCode);
+	if (toWrite == 0) {
+            written = 0;
+	} else {
+	    written = ChanWrite(chanPtr, RemovePoint(bufPtr),toWrite, &errorCode);
+	}
 
 	/*
 	 * If the write failed completely attempt to start the asynchronous
