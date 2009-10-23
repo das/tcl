@@ -2131,9 +2131,13 @@ FlushChannel(interp, chanPtr, calledFromAsyncFlush)
          */
 
         toWrite = bufPtr->nextAdded - bufPtr->nextRemoved;
-        written = (chanPtr->typePtr->outputProc) (chanPtr->instanceData,
+	if (toWrite == 0) {
+	    written = 0;
+	} else {
+	    written = (chanPtr->typePtr->outputProc) (chanPtr->instanceData,
                 bufPtr->buf + bufPtr->nextRemoved, toWrite,
 		&errorCode);
+	}
 
 	/*
          * If the write failed completely attempt to start the asynchronous
