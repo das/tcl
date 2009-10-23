@@ -769,7 +769,6 @@ TclCompileForeachCmd(interp, parsePtr, envPtr)
     char buffer[32 + TCL_INTEGER_SPACE];
     int savedStackDepth = envPtr->currStackDepth;
 
-    DefineLineInformation;
 #ifdef TCL_TIP280
     int        bodyIndex;
 #endif
@@ -785,6 +784,8 @@ TclCompileForeachCmd(interp, parsePtr, envPtr)
     CONST char **varvListStaticSpace[STATIC_VAR_LIST_SIZE];
     int *varcList = varcListStaticSpace;
     CONST char ***varvList = varvListStaticSpace;
+
+    DefineLineInformation;
 
     /*
      * If the foreach command isn't in a procedure, don't compile it inline:
@@ -1851,10 +1852,10 @@ TclCompileLindexCmd(interp, parsePtr, envPtr)
 {
     Tcl_Token *varTokenPtr;
     int code, i;
+    int numWords;
 
     DefineLineInformation;
 
-    int numWords;
     numWords = parsePtr->numWords;
 
     /*
