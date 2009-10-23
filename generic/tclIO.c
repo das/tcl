@@ -2314,8 +2314,12 @@ FlushChannel(
 	 */
 
 	toWrite = BytesLeft(bufPtr);
-	written = (chanPtr->typePtr->outputProc)(chanPtr->instanceData,
+	if (toWrite == 0) {
+	    written = 0;
+	} else {
+	    written = (chanPtr->typePtr->outputProc)(chanPtr->instanceData,
 		RemovePoint(bufPtr), toWrite, &errorCode);
+	}
 
 	/*
 	 * If the write failed completely attempt to start the asynchronous
