@@ -36140,6 +36140,16 @@ test clock-52.3 {correct conversion of times in Russia} {
    set result
 } {01:59:59 03:00:00 02:59:59 02:00:00}
 
+test clock-52.4 {correct conversion of times in USA} {
+   # [Bug 2207436]
+   set result {}
+   foreach t [list 1268549999 1268550000 1257055199 1257055200] {
+       lappend result [clock format $t -format %H:%M:%S \
+                           -timezone EST5EDT]
+   }
+   set result
+} {01:59:59 03:00:00 01:59:59 01:00:00}
+
 # Regression test for Bug # 1505383
 
 test clock-53.1 {%EC %Ey} {
