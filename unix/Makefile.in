@@ -927,8 +927,7 @@ clean: clean-packages
 
 distclean: distclean-packages clean
 	rm -rf Makefile config.status config.cache config.log tclConfig.sh \
-		$(PACKAGE).* prototype tclConfig.h *.plist Tcl.framework \
-		tcl.pc
+		tclConfig.h *.plist Tcl.framework tcl.pc
 	cd dltest ; $(MAKE) distclean
 
 depend:
