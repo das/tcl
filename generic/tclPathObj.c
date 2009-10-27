@@ -1940,6 +1940,7 @@ Tcl_FSGetNormalizedPath(
 	    TclFSNormalizeToUniquePath(interp, copy, cwdLen-1,
 		    (fsPathPtr->nativePathPtr == NULL ? &clientData : NULL));
 	    fsPathPtr->normPathPtr = copy;
+	    Tcl_IncrRefCount(fsPathPtr->normPathPtr);
 	    if (clientData != NULL) {
 		fsPathPtr->nativePathPtr = clientData;
 	    }
