@@ -1996,6 +1996,20 @@ proc ::tcl::clock::ParseClockScanFormat {formatString locale} {
     append procBody $postcode
     append procBody [list set changeover [mc GREGORIAN_CHANGE_DATE]] \n
 
+    # Get time zone if needed
+
+    if { ![dict exists $fieldSet seconds] 
+	 && ![dict exists $fieldSet starDate] } {
+	if { [dict exists $fieldSet tzName] } {
+	    append procBody {
+		set timeZone [dict get $date tzName]
+	    }
+	}
+	append procBody {
+	    ::tcl::clock::SetupTimeZone $timeZone
+	}
+    }
+
     # Add code that gets Julian Day Number from the fields.
 
     append procBody [MakeParseCodeFromFields $fieldSet $DateParseActions]
@@ -2018,17 +2032,7 @@ proc ::tcl::clock::ParseClockScanFormat {formatString locale} {
 			+ ( 86400 * wide([dict get $date julianDay]) )
 			+ [dict get $date secondOfDay] }]
 	}
-    }
-
-    if { ![dict exists $fieldSet seconds] 
-	 && ![dict exists $fieldSet starDate] } {
-	if { [dict exists $fieldSet tzName] } {
-	    append procBody {
-		set timeZone [dict get $date tzName]
-	    }
-	}
 	append procBody {
-	    ::tcl::clock::SetupTimeZone $timeZone
 	    set date [::tcl::clock::ConvertLocalToUTC $date[set date {}] \
 			  $TZData($timeZone) \
 			  $changeover]
