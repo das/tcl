@@ -1822,6 +1822,7 @@ test info-30.47 {TIP 280 for compiled [subst]} {
     subst {$a(
 [dict get [info frame 0] line])} ; # 1823
 } YES
+unset -nocomplain a
 
 test info-30.48 {Bug 2850901} testevalex {
     testevalex {return -level 0 [format %s {}

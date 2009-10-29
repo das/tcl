@@ -2514,24 +2514,28 @@ proc ::tcl::clock::LocalizeFormat { locale format } {
     }
     set inFormat $format
 
-    # Handle locale-dependent format groups by mapping them out of the input
+    # Handle locale-dependent format groups by mapping them out of the format
     # string.  Note that the order of the [string map] operations is
-    # significant because earlier formats can refer to later ones; for example
+    # significant because later formats can refer to later ones; for example
     # %c can refer to %X, which in turn can refer to %T.
     
-    set format [string map [list %c [mc DATE_TIME_FORMAT] \
-				%Ec [mc LOCALE_DATE_TIME_FORMAT]] $format]
-    set format [string map [list %x [mc DATE_FORMAT] \
-				%Ex [mc LOCALE_DATE_FORMAT] \
-				%X [mc TIME_FORMAT] \
-				%EX [mc LOCALE_TIME_FORMAT]] $format]
-    set format [string map [list %r [mc TIME_FORMAT_12] \
-				%R [mc TIME_FORMAT_24] \
-				%T [mc TIME_FORMAT_24_SECS]] $format]
-    set format [string map [list %D %m/%d/%Y \
-				%EY [mc LOCALE_YEAR_FORMAT]\
-				%+ {%a %b %e %H:%M:%S %Z %Y}] $format]
-
+    set list {
+	%% %%
+	%D %m/%d/%Y
+	%+ {%a %b %e %H:%M:%S %Z %Y}
+    }
+    lappend list %EY [string map $list [mc LOCALE_YEAR_FORMAT]]
+    lappend list %T  [string map $list [mc TIME_FORMAT_24_SECS]]
+    lappend list %R  [string map $list [mc TIME_FORMAT_24]]
+    lappend list %r  [string map $list [mc TIME_FORMAT_12]]
+    lappend list %X  [string map $list [mc TIME_FORMAT]]
+    lappend list %EX [string map $list [mc LOCALE_TIME_FORMAT]]
+    lappend list %x  [string map $list [mc DATE_FORMAT]]
+    lappend list %Ex [string map $list [mc LOCALE_DATE_FORMAT]]
+    lappend list %c  [string map $list [mc DATE_TIME_FORMAT]]
+    lappend list %Ec [string map $list [mc LOCALE_DATE_TIME_FORMAT]]
+    set format [string map $list $format]
+				       
     dict set McLoaded $locale FORMAT $inFormat $format
     return $format
 }
