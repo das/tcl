@@ -2179,14 +2179,10 @@ typedef void (Tcl_LimitHandlerProc) _ANSI_ARGS_((ClientData clientData,
 	Tcl_Interp *interp));
 typedef void (Tcl_LimitHandlerDeleteProc) _ANSI_ARGS_((ClientData clientData));
 
-#ifndef MP_INT_DECLARED
 typedef struct mp_int mp_int;
 #define MP_INT_DECLARED
-#endif
-#ifndef MP_DIGIT_DECLARED
-typedef unsigned long mp_digit;
+typedef unsigned int mp_digit;
 #define MP_DIGIT_DECLARED
-#endif
 
 /*
  * The following constant is used to test for older versions of Tcl in the
