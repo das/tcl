@@ -36746,6 +36746,10 @@ test clock-66.1 {clock scan, no date, never-before-seen timezone} {*}{
     -result 1256572800
 }
 
+test clock-67.1 {clock format, %% with a letter following [Bug 2819334]} {
+    clock format [clock seconds] -format %%r
+} %r
+
 # cleanup
 
 namespace delete ::testClock
