@@ -29,7 +29,7 @@ method is invoked is always the one that is the current context of the method
 (i.e. the object that is returned by \fBself object\fR) from which the
 \fBmy\fR command is invoked.
 .PP
-Each object has its own \fBmy\fR command, contained in its unique namespace.
+Each object has its own \fBmy\fR command, contained in its instance namespace.
 .SH EXAMPLES
 .PP
 This example shows basic use of \fBmy\fR to use the \fBvariables\fR method of
