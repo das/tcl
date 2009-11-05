@@ -26,48 +26,9 @@ package require opt 0.4.1
 
 # Create the safe namespace
 namespace eval ::safe {
-
     # Exported API:
     namespace export interpCreate interpInit interpConfigure interpDelete \
 	interpAddToAccessPath interpFindInAccessPath setLogCmd
-
-    ####
-    #
-    # Setup the arguments parsing
-    #
-    ####
-
-    # Make sure that our temporary variable is local to this namespace.  [Bug
-    # 981733]
-    variable temp
-
-    # Share the descriptions
-    set temp [::tcl::OptKeyRegister {
-	{-accessPath -list {} "access path for the slave"}
-	{-noStatics "prevent loading of statically linked pkgs"}
-	{-statics true "loading of statically linked pkgs"}
-	{-nestedLoadOk "allow nested loading"}
-	{-nested false "nested loading"}
-	{-deleteHook -script {} "delete hook"}
-    }]
-
-    # create case (slave is optional)
-    ::tcl::OptKeyRegister {
-	{?slave? -name {} "name of the slave (optional)"}
-    } ::safe::interpCreate
-    # adding the flags sub programs to the command program (relying on Opt's
-    # internal implementation details)
-    lappend ::tcl::OptDesc(::safe::interpCreate) $::tcl::OptDesc($temp)
-
-    # init and configure (slave is needed)
-    ::tcl::OptKeyRegister {
-	{slave -name {} "name of the slave"}
-    } ::safe::interpIC
-    # adding the flags sub programs to the command program (relying on Opt's
-    # internal implementation details)
-    lappend ::tcl::OptDesc(::safe::interpIC) $::tcl::OptDesc($temp)
-    # temp not needed anymore
-    ::tcl::OptKeyDelete $temp
 }
 
 # Helper function to resolve the dual way of specifying staticsok (either
@@ -582,11 +543,6 @@ proc ::safe::setLogCmd {args} {
     }
 }
 
-namespace eval ::safe {
-    # internal variable
-    variable Log {}
-}
-
 # ------------------- END OF PUBLIC METHODS ------------
 
 #
@@ -1044,4 +1000,48 @@ proc ::safe::AliasEncoding {slave args} {
     }
     Log $slave $msg
     error $msg
+}
+
+
+namespace eval ::safe {
+    # internal variable
+    variable Log {}
+
+    ####
+    #
+    # Setup the arguments parsing
+    #
+    ####
+
+    # Make sure that our temporary variable is local to this namespace.  [Bug
+    # 981733]
+    variable temp
+
+    # Share the descriptions
+    set temp [::tcl::OptKeyRegister {
+	{-accessPath -list {} "access path for the slave"}
+	{-noStatics "prevent loading of statically linked pkgs"}
+	{-statics true "loading of statically linked pkgs"}
+	{-nestedLoadOk "allow nested loading"}
+	{-nested false "nested loading"}
+	{-deleteHook -script {} "delete hook"}
+    }]
+
+    # create case (slave is optional)
+    ::tcl::OptKeyRegister {
+	{?slave? -name {} "name of the slave (optional)"}
+    } ::safe::interpCreate
+    # adding the flags sub programs to the command program (relying on Opt's
+    # internal implementation details)
+    lappend ::tcl::OptDesc(::safe::interpCreate) $::tcl::OptDesc($temp)
+
+    # init and configure (slave is needed)
+    ::tcl::OptKeyRegister {
+	{slave -name {} "name of the slave"}
+    } ::safe::interpIC
+    # adding the flags sub programs to the command program (relying on Opt's
+    # internal implementation details)
+    lappend ::tcl::OptDesc(::safe::interpIC) $::tcl::OptDesc($temp)
+    # temp not needed anymore
+    ::tcl::OptKeyDelete $temp
 }
