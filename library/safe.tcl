@@ -1003,19 +1003,13 @@ proc ::safe::AliasEncoding {slave args} {
 }
 
 
-namespace eval ::safe {
-    # internal variable
-    variable Log {}
+proc ::safe::Setup {} {
 
     ####
     #
     # Setup the arguments parsing
     #
     ####
-
-    # Make sure that our temporary variable is local to this namespace.  [Bug
-    # 981733]
-    variable temp
 
     # Share the descriptions
     set temp [::tcl::OptKeyRegister {
@@ -1031,6 +1025,7 @@ namespace eval ::safe {
     ::tcl::OptKeyRegister {
 	{?slave? -name {} "name of the slave (optional)"}
     } ::safe::interpCreate
+
     # adding the flags sub programs to the command program (relying on Opt's
     # internal implementation details)
     lappend ::tcl::OptDesc(::safe::interpCreate) $::tcl::OptDesc($temp)
@@ -1039,9 +1034,20 @@ namespace eval ::safe {
     ::tcl::OptKeyRegister {
 	{slave -name {} "name of the slave"}
     } ::safe::interpIC
+
     # adding the flags sub programs to the command program (relying on Opt's
     # internal implementation details)
     lappend ::tcl::OptDesc(::safe::interpIC) $::tcl::OptDesc($temp)
+
     # temp not needed anymore
     ::tcl::OptKeyDelete $temp
+
+    return
 }
+
+namespace eval ::safe {
+    # internal variable
+    variable Log {}
+}
+
+::safe::Setup
