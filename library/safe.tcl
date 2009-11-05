@@ -68,6 +68,7 @@ namespace eval ::safe {
     lappend ::tcl::OptDesc(::safe::interpIC) $::tcl::OptDesc($temp)
     # temp not needed anymore
     ::tcl::OptKeyDelete $temp
+}
 
     # Helper function to resolve the dual way of specifying staticsok (either
     # by -noStatics or -statics 0)
@@ -581,8 +582,10 @@ proc ::safe::setLogCmd {args} {
 	}
     }
 
+namespace eval ::safe {
     # internal variable
     variable Log {}
+}
 
     # ------------------- END OF PUBLIC METHODS ------------
 
@@ -1042,4 +1045,3 @@ proc ::safe::setLogCmd {args} {
 	Log $slave $msg
 	error $msg
     }
-}
