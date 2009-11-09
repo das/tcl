@@ -5204,11 +5204,10 @@ TclEvalObjEx(interp, objPtr, flags, invoker, word)
 
 		    result = EvalEx(interp, script, numSrcBytes, flags,
 				    ctx.line [word], NULL, script);
-
-		    if (pc) {
-			/* Death of SrcInfo reference */
-			Tcl_DecrRefCount (ctx.data.eval.path);
-		    }
+		}
+		if (pc && (ctx.type == TCL_LOCATION_SOURCE)) {
+		    /* Death of SrcInfo reference. */
+		    Tcl_DecrRefCount(ctx.data.eval.path);
 		}
 	    }
 
