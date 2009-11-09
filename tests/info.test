@@ -1034,7 +1034,7 @@ set body {set flag 0
     set a c
     set res [info frame 0]} ;# line 3!
 
-test info-31.0 {ns eval, script in variable} {
+test info-31.0 {ns eval, script in variable} {set res {}
     namespace eval foo $body
     set res
 } {type eval line 3 cmd {info frame 0} level 0}
