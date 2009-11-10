@@ -119,7 +119,7 @@ they are automatically created.
 Returns \fB1\fR if \fInamespace\fR is a valid namespace in the current
 context, returns \fB0\fR otherwise.
 .TP
-\fBnamespace export \fR?\-\fBclear\fR? ?\fIpattern pattern ...\fR?
+\fBnamespace export \fR?\fB\-clear\fR? ?\fIpattern pattern ...\fR?
 .
 Specifies which commands are exported from a namespace.
 The exported commands are those that can be later imported
@@ -313,7 +313,7 @@ script and the result evaluated in the context of the namespace. The
 default handler for all namespaces is \fB::unknown\fR. If no argument
 is given, it returns the handler for the current namespace.
 .TP
-\fBnamespace which\fR ?\-\fBcommand\fR? ?\-\fBvariable\fR? \fIname\fR
+\fBnamespace which\fR ?\fB\-command\fR? ?\fB\-variable\fR? \fIname\fR
 .
 Looks up \fIname\fR as either a command or variable
 and returns its fully-qualified name.
