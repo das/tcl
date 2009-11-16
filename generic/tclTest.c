@@ -290,6 +290,9 @@ static int		TestexitmainloopCmd(ClientData dummy,
 			    Tcl_Interp *interp, int argc, const char **argv);
 static int		TestpanicCmd(ClientData dummy,
 			    Tcl_Interp *interp, int argc, const char **argv);
+static int		TestfinexitObjCmd(ClientData dummy,
+			    Tcl_Interp *interp, int objc,
+			    Tcl_Obj *const objv[]);
 static int		TestparserObjCmd(ClientData dummy,
 			    Tcl_Interp *interp, int objc,
 			    Tcl_Obj *const objv[]);
@@ -619,6 +622,7 @@ Tcltest_Init(
     Tcl_CreateObjCommand(interp, "testlocale", TestlocaleCmd, (ClientData) 0,
 	    NULL);
     Tcl_CreateCommand(interp, "testpanic", TestpanicCmd, (ClientData) 0, NULL);
+    Tcl_CreateCommand(interp, "testfinexit", TestfinexitObjCmd, (ClientData) 0, NULL);
     Tcl_CreateObjCommand(interp, "testparser", TestparserObjCmd,
 	    (ClientData) 0, NULL);
     Tcl_CreateObjCommand(interp, "testparsevar", TestparsevarObjCmd,
@@ -4357,6 +4361,47 @@ TestpanicCmd(
     ckfree((char *)argString);
 
     return TCL_OK;
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TestfinexitObjCmd --
+ *
+ *	Calls a variant of [exit] including the full finalization path.
+ *
+ * Results:
+ *	Error, or doesn't return.
+ *
+ * Side effects:
+ *	Exits application.
+ *
+ *----------------------------------------------------------------------
+ */
+
+static int
+TestfinexitObjCmd(
+    ClientData dummy,		/* Not used. */
+    Tcl_Interp *interp,		/* Current interpreter. */
+    int objc,			/* Number of arguments. */
+    Tcl_Obj *const objv[])	/* Argument objects. */
+{
+    int value;
+    
+    if ((objc != 1) && (objc != 2)) {
+	Tcl_WrongNumArgs(interp, 1, objv, "?returnCode?");
+	return TCL_ERROR;
+    }
+
+    if (objc == 1) {
+	value = 0;
+    } else if (Tcl_GetIntFromObj(interp, objv[1], &value) != TCL_OK) {
+	return TCL_ERROR;
+    }
+    Tcl_Finalize();
+    TclpExit(value);
+    /*NOTREACHED*/
+    return TCL_ERROR;		/* Better not ever reach this! */
 }
 
 static int
