@@ -622,7 +622,7 @@ Tcltest_Init(
     Tcl_CreateObjCommand(interp, "testlocale", TestlocaleCmd, (ClientData) 0,
 	    NULL);
     Tcl_CreateCommand(interp, "testpanic", TestpanicCmd, (ClientData) 0, NULL);
-    Tcl_CreateCommand(interp, "testfinexit", TestfinexitObjCmd, (ClientData) 0, NULL);
+    Tcl_CreateObjCommand(interp, "testfinexit", TestfinexitObjCmd, (ClientData) 0, NULL);
     Tcl_CreateObjCommand(interp, "testparser", TestparserObjCmd,
 	    (ClientData) 0, NULL);
     Tcl_CreateObjCommand(interp, "testparsevar", TestparsevarObjCmd,
