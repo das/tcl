@@ -13,13 +13,13 @@
 	* generic/tclIndexObj.c
 	* generic/tclIOCmd.c
 	* generic/tclIOUtil.c
+	* generic/tclIORTrans.c
 	* generic/tclOO.c
 	* generic/tclZlib.c
 	* generic/tclGetDate.y
 	* win/tclWinInit.c
 	* win/tclWinChan.c
 	* win/tclWinConsole.c
-	* win/tclWinFile.c
 	* win/tclWinNotify.c
 	* win/tclWinReg.c
 	* library/auto.tcl          Eliminate "then" keyword
