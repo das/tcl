@@ -78,7 +78,7 @@ proc ::tcl::HistAdd {event {exec {}}} {
     if {
 	[prefix longest {exec {}} $exec] eq ""
 	&& [llength [info level 0]] == 3
-    } then {
+    } {
 	return -code error "bad argument \"$exec\": should be \"exec\""
     }
 
