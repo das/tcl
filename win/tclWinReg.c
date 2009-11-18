@@ -14,6 +14,9 @@
  * RCS: @(#) $Id$
  */
 
+#ifndef USE_TCL_STUBS
+#   define USE_TCL_STUBS
+#endif
 #include "tclInt.h"
 #ifdef _MSC_VER
 #   pragma comment (lib, "advapi32.lib")

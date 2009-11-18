@@ -12,6 +12,9 @@
  * RCS: @(#) $Id$
  */
 
+#ifndef USE_TCL_STUBS
+#   define USE_TCL_STUBS
+#endif
 #include "tclInt.h"
 #include <dde.h>
 #include <ddeml.h>
@@ -140,7 +143,7 @@ Dde_Init(
 {
     ThreadSpecificData *tsdPtr;
 
-    if (!Tcl_InitStubs(interp, "8.0", 0)) {
+    if (!Tcl_InitStubs(interp, "8.1", 0)) {
 	return TCL_ERROR;
     }
 

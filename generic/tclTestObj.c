@@ -16,6 +16,9 @@
  * RCS: @(#) $Id$
  */
 
+#ifndef USE_TCL_STUBS
+#   define USE_TCL_STUBS
+#endif
 #include "tclInt.h"
 #include "tommath.h"
 
@@ -996,7 +999,7 @@ TeststringobjCmd(
     TestString *strPtr;
     static const char *const options[] = {
 	"append", "appendstrings", "get", "get2", "length", "length2",
-	"set", "set2", "setlength", "maxchars", "getunicode", 
+	"set", "set2", "setlength", "maxchars", "getunicode",
 	"appendself", "appendself2", NULL
     };
 
