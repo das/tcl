@@ -742,7 +742,7 @@ GetType(
      * know about the type, just use the numeric value.
      */
 
-    if (type > lastType || type < 0) {
+    if (type > lastType) {
 	Tcl_SetObjResult(interp, Tcl_NewIntObj((int) type));
     } else {
 	Tcl_SetObjResult(interp, Tcl_NewStringObj(typeNames[type], -1));
@@ -1602,7 +1602,7 @@ ConvertDWORD(
      */
 
     localType = (*((char*) &order) == 1) ? REG_DWORD : REG_DWORD_BIG_ENDIAN;
-    return (type != localType) ? SWAPLONG(value) : value;
+    return (type != localType) ? (DWORD)SWAPLONG(value) : value;
 }
 
 /*
