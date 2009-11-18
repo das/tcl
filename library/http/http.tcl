@@ -1283,18 +1283,18 @@ proc http::Eof {token {force 0}} {
 	    Log "error doing $coding '$state(body)'"
 	    return [Finish $token $err]
 	}
-	
+
 	if {!$state(binary)} {
 	    # If we are getting text, set the incoming channel's encoding
 	    # correctly.  iso8859-1 is the RFC default, but this could be any IANA
 	    # charset.  However, we only know how to convert what we have
 	    # encodings for.
-	    
+
 	    set enc [CharsetToEncoding $state(charset)]
 	    if {$enc ne "binary"} {
 		set state(body) [encoding convertfrom $enc $state(body)]
 	    }
-	    
+
 	    # Translate text line endings.
 	    set state(body) [string map {\r\n \n \r \n} $state(body)]
 	}
