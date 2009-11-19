@@ -322,7 +322,7 @@ CatchObjCmdCallback(
 	result = TCL_ERROR;
 	Tcl_SetResult(interp,"Tailcall called from within a catch environment",
 		TCL_STATIC);
-    }	
+    }
 
 
     /*

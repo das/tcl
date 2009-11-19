@@ -127,7 +127,9 @@ can be called to perform I/O and other functions on the channel.
 .AP "const char" *channelName in
 The name of this channel, such as \fBfile3\fR; must not be in use
 by any other channel. Can be NULL, in which case the channel is
-created without a name.
+created without a name. If the create channel is assigned to one
+of the standard channels (stdin, stdout or stderr), the assigned
+channel name will be the name of the standard channel.
 .AP ClientData instanceData in
 Arbitrary one-word value to be associated with this channel.  This
 value is passed to procedures in \fItypePtr\fR when they are invoked.

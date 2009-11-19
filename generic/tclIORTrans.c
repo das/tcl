@@ -1517,7 +1517,7 @@ ReflectSetOption(
      * level is not involved there is no need for thread forwarding.
      */
 
-    Tcl_DriverSetOptionProc *setOptionProc = 
+    Tcl_DriverSetOptionProc *setOptionProc =
 	    Tcl_ChannelSetOptionProc(Tcl_GetChannelType(rtPtr->parent));
 
     if (setOptionProc == NULL) {
@@ -1563,7 +1563,7 @@ ReflectGetOption(
      * specific option has to fail.
      */
 
-    Tcl_DriverGetOptionProc *getOptionProc = 
+    Tcl_DriverGetOptionProc *getOptionProc =
 	    Tcl_ChannelGetOptionProc(Tcl_GetChannelType(rtPtr->parent));
 
     if (getOptionProc != NULL) {
@@ -1751,7 +1751,7 @@ NewReflectedTransform(
     rtPtr->timer = NULL;
     rtPtr->mode = 0;
     rtPtr->readIsDrained = 0;
-    rtPtr->nonblocking = 
+    rtPtr->nonblocking =
 	    (((Channel *) parentChan)->state->flags & CHANNEL_NONBLOCKING);
 
     /*

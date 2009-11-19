@@ -121,12 +121,12 @@ static const DeclaredClassMethod objMethods[] = {
     DCM("unknown", 0,	TclOO_Object_Unknown),
     DCM("variable", 0,	TclOO_Object_LinkVar),
     DCM("varname", 0,	TclOO_Object_VarName),
-    {NULL}
+    {NULL, 0, {0, NULL, NULL, NULL, NULL}}
 }, clsMethods[] = {
     DCM("create", 1,	TclOO_Class_Create),
     DCM("new", 1,	TclOO_Class_New),
     DCM("createWithNamespace", 0, TclOO_Class_CreateNs),
-    {NULL}
+    {NULL, 0, {0, NULL, NULL, NULL, NULL}}
 };
 
 static char initScript[] =

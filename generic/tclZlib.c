@@ -189,7 +189,9 @@ static const Tcl_ChannelType zlibChannelType = {
     ZlibTransformBlockMode,
     NULL,			/* flushProc */
     ZlibTransformHandler,
-    NULL			/* wideSeekProc */
+    NULL,			/* wideSeekProc */
+    NULL,
+    NULL
 };
 
 /*

@@ -472,6 +472,7 @@ FreeByteArrayInternalRep(
     Tcl_Obj *objPtr)		/* Object with internal rep to free. */
 {
     ckfree((char *) GET_BYTEARRAY(objPtr));
+    objPtr->typePtr = NULL;
 }
 
 /*
@@ -595,23 +596,23 @@ TclInitBinaryCmd(
     Tcl_Interp *interp)
 {
     const EnsembleImplMap binaryMap[] = {
-	{ "format", BinaryFormatCmd, NULL },
-	{ "scan",   BinaryScanCmd,   NULL },
-	{ "encode", NULL,	     NULL },
-	{ "decode", NULL,	     NULL },
-	{ NULL, NULL, NULL }
+	{ "format", BinaryFormatCmd, NULL, NULL ,NULL },
+	{ "scan",   BinaryScanCmd, NULL,NULL ,NULL },
+	{ "encode", NULL, NULL, NULL, NULL },
+	{ "decode", NULL, NULL, NULL, NULL },
+	{ NULL, NULL, NULL, NULL, NULL }
     };
     const EnsembleImplMap encodeMap[] = {
 	{ "hex",      BinaryEncodeHex, NULL, NULL, (ClientData)HexDigits },
 	{ "uuencode", BinaryEncode64,  NULL, NULL, (ClientData)UueDigits },
 	{ "base64",   BinaryEncode64,  NULL, NULL, (ClientData)B64Digits },
-	{ NULL, NULL, NULL }
+	{ NULL, NULL, NULL, NULL, NULL }
     };
     const EnsembleImplMap decodeMap[] = {
-	{ "hex",      BinaryDecodeHex, NULL },
-	{ "uuencode", BinaryDecodeUu,  NULL },
-	{ "base64",   BinaryDecode64,  NULL },
-	{ NULL, NULL, NULL }
+	{ "hex",      BinaryDecodeHex, NULL, NULL, NULL },
+	{ "uuencode", BinaryDecodeUu,  NULL, NULL, NULL },
+	{ "base64",   BinaryDecode64,  NULL, NULL, NULL },
+	{ NULL, NULL, NULL, NULL, NULL }
     };
     Tcl_Command binaryEnsemble;
 

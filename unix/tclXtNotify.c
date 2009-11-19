@@ -12,6 +12,9 @@
  * RCS: @(#) $Id$
  */
 
+#ifndef USE_TCL_STUBS
+#   define USE_TCL_STUBS
+#endif
 #include <X11/Intrinsic.h>
 #include "tclInt.h"
 

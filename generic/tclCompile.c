@@ -406,7 +406,7 @@ InstructionDesc const tclInstructionTable[] = {
 	 * ERROR: +1;	RETURN: +3;	BREAK: +5;	CONTINUE: +7;
 	 * Other non-OK: +9
 	 */
-    {0}
+    {NULL, 0, 0, 0, {OPERAND_NONE}}
 };
 
 /*
