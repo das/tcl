@@ -194,7 +194,7 @@ proc ::safe::interpConfigure {args} {
 	    if {
 		![::tcl::OptProcArgGiven -statics]
 		&& ![::tcl::OptProcArgGiven -noStatics]
-	    } {
+	    } then {
 		set statics    $state(staticsok)
 	    } else {
 		set statics    [InterpStatics]
@@ -202,7 +202,7 @@ proc ::safe::interpConfigure {args} {
 	    if {
 		[::tcl::OptProcArgGiven -nested] ||
 		[::tcl::OptProcArgGiven -nestedLoadOk]
-	    } {
+	    } then {
 		set nested     [InterpNested]
 	    } else {
 		set nested     $state(nestedok)

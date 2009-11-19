@@ -88,7 +88,7 @@ proc tcl_findLibrary {basename version patch initScript enVarName varName} {
 	    if {
 		$::tcl_platform(platform) eq "unix"
 		&& $::tcl_platform(os) eq "Darwin"
-	    } {
+	    } then {
 		# 4. On MacOSX, check the Resources/Scripts subdir too
 		lappend dirs [file join $d $basename$version Resources Scripts]
 	    }
