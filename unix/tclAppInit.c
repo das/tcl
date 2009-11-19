@@ -21,6 +21,7 @@
 #include "tclInt.h"
 
 extern Tcl_PackageInitProc	Tcltest_Init;
+extern Tcl_PackageInitProc	Tcltest_SafeInit;
 
 #endif /* TCL_TEST */
 
@@ -122,8 +123,7 @@ Tcl_AppInit(
     if (Tcltest_Init(interp) == TCL_ERROR) {
 	return TCL_ERROR;
     }
-    Tcl_StaticPackage(interp, "Tcltest", Tcltest_Init,
-	    (Tcl_PackageInitProc *) Tcltest_SafeInit);
+    Tcl_StaticPackage(interp, "Tcltest", Tcltest_Init, Tcltest_SafeInit);
 #endif /* TCL_TEST */
 
     /*
