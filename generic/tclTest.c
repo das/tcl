@@ -20,7 +20,6 @@
 #ifndef USE_TCL_STUBS
 #   define USE_TCL_STUBS
 #endif
-#define TCL_TEST
 #include "tclInt.h"
 
 /*
@@ -153,7 +152,6 @@ static TestChannel *firstDetached;
  * Forward declarations for procedures defined later in this file:
  */
 
-int			Tcltest_Init(Tcl_Interp *interp);
 static int		AsyncHandlerProc(ClientData clientData,
 			    Tcl_Interp *interp, int code);
 #ifdef TCL_THREADS
