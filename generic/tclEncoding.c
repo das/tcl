@@ -336,6 +336,7 @@ FreeEncodingIntRep(
     Tcl_Obj *objPtr)
 {
     Tcl_FreeEncoding((Tcl_Encoding) objPtr->internalRep.otherValuePtr);
+    objPtr->typePtr = NULL;
 }
 
 /*
@@ -3394,7 +3395,7 @@ EscapeFreeProc(
      *  weak reference in the toplevel encodingTable (ie they don't have a +1
      *  refcount for this), and unpredictable nuking order could remove them
      *  from under the following loop's feet [Bug 2891556].
-     *  
+     *
      *  The encodingsInitialized flag, being reset on entry to TFES, can serve
      *  as a "not in finalization" test.
      */
