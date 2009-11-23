@@ -588,7 +588,7 @@ NewTestThread(
      * use by the new thread.
      */
 
-    result = Tcl_PkgRequire(tsdPtr->interp, "Tcltest", TCL_VERSION, 1);
+    result = Tcl_Eval(tsdPtr->interp, "load {} Tcltest");
     if (result != TCL_OK) {
 	ThreadErrorProc(tsdPtr->interp);
     }
