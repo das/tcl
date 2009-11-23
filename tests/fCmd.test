@@ -2548,7 +2548,7 @@ removeDirectory abc.dir
 
 test fCmd-30.1 {file writable on 'My Documents'} -setup {
     # Get the localized version of the folder name by looking in the registry.
-    set mydocsname [registry get {HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\DocFolderPaths} $tcl_platform(user)]
+    set mydocsname [registry get {HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders} Personal]
 } -constraints {2000orNewer reg} -body {
     file writable $mydocsname
 } -result 1
