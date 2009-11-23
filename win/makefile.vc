@@ -603,11 +603,11 @@ $**
 $(TCLSTUBLIB): $(TCLSTUBOBJS)
 	$(lib32) -nologo $(LINKERFLAGS) -out:$@ $(TCLSTUBOBJS)
 
-$(TCLSH): $(TCLSHOBJS) $(TCLIMPLIB)
+$(TCLSH): $(TCLSHOBJS) $(TCLSTUBLIB) $(TCLIMPLIB)
 	$(link32) $(conlflags) -stack:2300000 -out:$@ $(baselibs) $**
 	$(_VC_MANIFEST_EMBED_EXE)
 
-$(TCLTEST): $(TCLTESTOBJS) $(TCLIMPLIB)
+$(TCLTEST): $(TCLTESTOBJS) $(TCLSTUBLIB) $(TCLIMPLIB)
 	$(link32) $(conlflags) -stack:2300000 -out:$@ $(baselibs) $**
 	$(_VC_MANIFEST_EMBED_EXE)
 
