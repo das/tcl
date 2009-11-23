@@ -26,7 +26,7 @@ testConstraint winOlderThan2000 0
 # Don't know how to determine this constraint correctly
 testConstraint notNetworkFilesystem 0
 testConstraint 95or98 [expr {[testConstraint 95] || [testConstraint 98]}]
-testConstraint 2000orNewer [expr {![testConstraint 95or98]}]
+testConstraint 2000orNewer [expr {[testConstraint win] && ![testConstraint 95or98]}]
 testConstraint reg 0
 if {[testConstraint win]} {
     catch {
