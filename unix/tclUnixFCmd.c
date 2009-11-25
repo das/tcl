@@ -49,7 +49,7 @@
 #include "tclInt.h"
 #include <utime.h>
 #include <grp.h>
-#ifndef HAVE_ST_BLKSIZE
+#ifndef HAVE_STRUCT_STAT_ST_BLKSIZE
 #ifndef NO_FSTATFS
 #include <sys/statfs.h>
 #endif
@@ -544,7 +544,7 @@ TclUnixCopyFile(
      * that's likely to be fairly efficient anyway.
      */
 
-#ifdef HAVE_ST_BLKSIZE
+#ifdef HAVE_STRUCT_STAT_ST_BLKSIZE
     blockSize = statBufPtr->st_blksize;
 #elif !defined(NO_FSTATFS)
     {
@@ -558,13 +558,14 @@ TclUnixCopyFile(
     }
 #else
     blockSize = 4096;
-#endif /* HAVE_ST_BLKSIZE */
+#endif /* HAVE_STRUCT_STAT_ST_BLKSIZE */
 
     /*
-     * [SF Tcl Bug 1586470] Even if we HAVE_ST_BLKSIZE, there are filesystems
-     * which report a bogus value for the blocksize. An example is the Andrew
-     * Filesystem (afs), reporting a blocksize of 0. When detecting such a
-     * situation we now simply fall back to a hardwired default size.
+     * [SF Tcl Bug 1586470] Even if we HAVE_STRUCT_STAT_ST_BLKSIZE, there are
+     * filesystems which report a bogus value for the blocksize. An example
+     * is the Andrew Filesystem (afs), reporting a blocksize of 0. When
+     * detecting such a situation we now simply fall back to a hardwired
+     * default size.
      */
 
     if (blockSize <= 0) {
