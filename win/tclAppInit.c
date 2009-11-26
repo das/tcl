@@ -125,6 +125,10 @@ int
 Tcl_AppInit(
     Tcl_Interp *interp)		/* Interpreter for application. */
 {
+#undef Tcl_InitStubs
+    if (!Tcl_InitStubs(interp, TCL_VERSION, 0)) {
+	return TCL_ERROR;
+    }
     if (Tcl_Init(interp) == TCL_ERROR) {
 	return TCL_ERROR;
     }
@@ -133,7 +137,7 @@ Tcl_AppInit(
     if (Tcltest_Init(interp) == TCL_ERROR) {
 	return TCL_ERROR;
     }
-    Tcl_StaticPackage(interp, "Tcltest", Tcltest_Init, Tcltest_SafeInit);
+    Tcl_StaticPackage(interp, "Tcltest", Tcltest_Init, NULL);
 #endif /* TCL_TEST */
 
 #if defined(STATIC_BUILD) && TCL_USE_STATIC_PACKAGES
