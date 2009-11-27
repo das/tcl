@@ -9,7 +9,7 @@
 #
 # RCS: @(#) $Id$
 
-package require TclOO 0.6.1 ;# Must match value in generic/tclOO.h
+package require -exact TclOO 0.6.2 ;# Must match value in generic/tclOO.h
 if {[lsearch [namespace children] ::tcltest] == -1} {
     package require tcltest 2
     namespace import -force ::tcltest::*
