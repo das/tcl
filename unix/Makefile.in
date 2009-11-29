@@ -615,7 +615,7 @@ tclLibObjs:
 objs: ${OBJS}
 
 tclsh: ${TCLSH_OBJS} ${TCL_LIB_FILE}
-	${CC} ${CFLAGS} ${LDFLAGS} ${TCLSH_OBJS} @TCL_BUILD_LIB_SPEC@ ${TCL_STUB_LIB_FILE} ${LIBS} @EXTRA_TCLSH_LIBS@ \
+	${CC} ${CFLAGS} ${LDFLAGS} ${TCLSH_OBJS} @TCL_BUILD_LIB_SPEC@ ${LIBS} @EXTRA_TCLSH_LIBS@ \
 		${CC_SEARCH_FLAGS} -o tclsh
 
 Makefile: $(UNIX_DIR)/Makefile.in $(DLTEST_DIR)/Makefile.in
