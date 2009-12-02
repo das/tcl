@@ -590,8 +590,11 @@ proc genStubs::makeSlot {name decl index} {
 	append text $rtype " *" $lfname "; /* $index */\n"
 	return $text
     }
-    append text $rtype " (*" $lfname ") "
-
+    if {[string range $rtype end-7 end] == "CALLBACK"} {
+	append text [string trim [string range $rtype 0 end-8]] " (CALLBACK *" $lfname ") "
+    } else {
+	append text $rtype " (*" $lfname ") "
+    }
     set arg1 [lindex $args 0]
     switch -exact $arg1 {
 	void {
