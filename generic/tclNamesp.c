@@ -517,13 +517,27 @@ Tcl_PopCallFrame(
 	 */
 
 	TEOV_callback *tailcallPtr, *runPtr;
+	ExecEnv *eePtr = NULL;
+
 	
+	restart:
 	for (runPtr = TOP_CB(interp); runPtr; runPtr = runPtr->nextPtr) {
 	    if (((runPtr->procPtr) == NRCommand) && !runPtr->data[1]) {
 		break;
 	    }
 	}
 	if (!runPtr) {
+	    /*
+	     * If we are tailcalling out of a coroutine, the splicing spot is
+	     * in the caller's execEnv: go find it!
+	     */
+	    
+	    CoroutineData *corPtr = iPtr->execEnvPtr->corPtr;
+	    if (corPtr) {
+		eePtr = iPtr->execEnvPtr;		
+		iPtr->execEnvPtr = corPtr->callerEEPtr;
+		goto restart;
+	    }
 	    Tcl_Panic("Tailcall cannot find the right splicing spot: should not happen!");
 	}
 
@@ -531,6 +545,15 @@ Tcl_PopCallFrame(
 	
 	tailcallPtr->nextPtr = runPtr->nextPtr;
 	runPtr->nextPtr = tailcallPtr;
+
+	if (eePtr) {
+	    /*
+	     * Restore the right execEnv if it was swapped for tailcalling out
+	     * of a coroutine.
+	     */
+	    
+	    iPtr->execEnvPtr = eePtr;
+	}
     }
 }
 

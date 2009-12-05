@@ -560,6 +560,23 @@ test tailcall-12.3b {[Bug 2695587]} -setup {
     rename a {}
 } -result {1 {Tailcall called from within a catch environment}}
 
+test tailcall-13.1 {tailcall and coroutine} -setup {
+    set lambda {i {
+	if {$i == 0} {
+	    depthDiff
+	}
+	if {[incr i] > 10} {
+	    return [depthDiff]
+	}
+	tailcall coroutine foo ::apply $::lambda $i
+    }}
+} -body {
+    coroutine moo ::apply $::lambda 0
+} -cleanup {
+    unset lambda 
+} -result {0 0 0 0 0 0}
+ 
+
 
 if {[testConstraint testnrelevels]} {
     namespace forget testnre::*

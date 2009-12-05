@@ -8783,6 +8783,7 @@ TclNRCoroutineObjCmd(
     corPtr->auxNumLevels = iPtr->numLevels;
 
     TclNRAddCallback(interp, NRCoroutineExitCallback, corPtr, NULL,NULL,NULL);
+    iPtr->evalFlags |= TCL_EVAL_REDIRECT;
     return TclNRRunCallbacks(interp,
 	    TclNREvalObjEx(interp, cmdObjPtr, 0, NULL, 0), rootPtr, 0);
 }
