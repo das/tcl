@@ -465,11 +465,6 @@ test coroutine-5.2 {right numLevels within coro} -constraints {testnrelevels} \
 
 unset lambda
 
-if {[testConstraint testnrelevels]} {
-    namespace forget testnre::*
-    namespace delete testnre
-}
-
 # cleanup
 ::tcltest::cleanupTests
 
