@@ -1991,6 +1991,7 @@ TclExecuteByteCode(
 
 		codePtr = param;
 		if (!codePtr) {
+		    /* NOT CALLED, does not (yet?) work */
 		    goto resumeCoroutine;
 		}
 		break;
