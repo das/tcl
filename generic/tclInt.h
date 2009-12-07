@@ -2660,6 +2660,7 @@ MODULE_SCOPE Tcl_NRPostProc TclNRForIterCallback;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRTailcallObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRCoroutineObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRYieldObjCmd;
+MODULE_SCOPE Tcl_ObjCmdProc TclNRYieldToObjCmd;
 
 MODULE_SCOPE void	TclClearTailcall(Tcl_Interp *interp,
 			    struct TEOV_callback *tailcallPtr);
