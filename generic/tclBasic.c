@@ -145,6 +145,7 @@ static Tcl_NRPostProc   NRRunObjProc;
 
 static Tcl_NRPostProc	TailcallCleanup;
 static Tcl_NRPostProc   NRTailcallEval;
+static Tcl_NRPostProc   YieldCallback;
 
 /*
  * The following structure define the commands in the Tcl core.
