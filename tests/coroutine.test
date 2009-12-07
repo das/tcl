@@ -322,6 +322,24 @@ test coroutine-3.5 {info coroutine} -setup {
     rename a {}
     rename b {}
 } -result {}
+test coroutine-3.6 {info frame, bug #2910094} -setup {
+    proc stack {} {
+	set res [list "LEVEL:[set lev [info frame]]"]
+	for {set i 1} {$i < $lev} {incr i} {
+	    lappend res [info frame $i]
+	}
+	set res
+	# the precise command depends on line numbers and such, is likely not
+	# to be stable: just check that the test completes!
+	return
+    }
+    proc a {} stack
+} -body {
+    coroutine aa a
+} -cleanup {
+    rename stack {}
+    rename a {}
+} -result {}
 
 test coroutine-4.1 {bug #2093188} -setup {
     proc foo {} {
