@@ -2031,9 +2031,19 @@ TclExecuteByteCode(
     bcFramePtr->cmd.str.cmd = NULL;
     bcFramePtr->cmd.str.len = 0;
 
-    if (iPtr->execEnvPtr->rewind) {
-	TRESULT = TCL_ERROR;
-	goto abnormalReturn;
+    if (iPtr->execEnvPtr->corPtr) {
+	if (!iPtr->execEnvPtr->corPtr->base.cmdFramePtr) {
+	    /*
+	     * First coroutine run, the base cmdFramePtr has not yet been
+	     * initialized. Do it now.
+	     */
+	    
+	    iPtr->execEnvPtr->corPtr->base.cmdFramePtr = bcFramePtr;
+	}
+	if (iPtr->execEnvPtr->rewind) {
+	    TRESULT = TCL_ERROR;
+	    goto abnormalReturn;
+	}
     }
 
 #ifdef TCL_COMPILE_DEBUG
