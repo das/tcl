@@ -1400,7 +1400,7 @@ typedef struct CoroutineData {
     CorContext caller;
     CorContext running;
     CorContext base;
-    int *stackLevel;
+    void *stackLevel;
     int auxNumLevels;		/* While the coroutine is running the
 				 * numLevels of the create/resume command is
 				 * stored here; for suspended coroutines it
