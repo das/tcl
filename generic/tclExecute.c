@@ -2797,6 +2797,8 @@ TclExecuteByteCode(
 		    int type = PTR2INT(callbackPtr->data[0]);
 		    ClientData param = callbackPtr->data[1];
 
+		    pcAdjustment = 0; /* silence warning */
+		    
 		    NRE_ASSERT(callbackPtr != BP->rootPtr);
 		    NRE_ASSERT(callbackPtr->procPtr == NRCallTEBC);
 
