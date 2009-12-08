@@ -510,27 +510,7 @@ Tcl_PopCallFrame(
     framePtr->nsPtr = NULL;
 
     if (framePtr->tailcallPtr) {
-	/*
-	 * Find the splicing spot: right before the NRCommand of the thing
-	 * being tailcalled. Note that we skip NRCommands marked in data[1]
-	 * (used by command redirectors)
-	 */
-
-	TEOV_callback *tailcallPtr, *runPtr;
-	
-	for (runPtr = TOP_CB(interp); runPtr; runPtr = runPtr->nextPtr) {
-	    if (((runPtr->procPtr) == NRCommand) && !runPtr->data[1]) {
-		break;
-	    }
-	}
-	if (!runPtr) {
-	    Tcl_Panic("Tailcall cannot find the right splicing spot: should not happen!");
-	}
-
-	tailcallPtr = framePtr->tailcallPtr;
-	
-	tailcallPtr->nextPtr = runPtr->nextPtr;
-	runPtr->nextPtr = tailcallPtr;
+	TclSpliceTailcall(interp, framePtr->tailcallPtr);
     }
 }
 

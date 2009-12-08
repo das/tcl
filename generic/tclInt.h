@@ -1400,7 +1400,7 @@ typedef struct CoroutineData {
     CorContext caller;
     CorContext running;
     CorContext base;
-    int *stackLevel;
+    void *stackLevel;
     int auxNumLevels;		/* While the coroutine is running the
 				 * numLevels of the create/resume command is
 				 * stored here; for suspended coroutines it
@@ -2736,8 +2736,11 @@ MODULE_SCOPE Tcl_NRPostProc TclNRForIterCallback;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRTailcallObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRCoroutineObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRYieldObjCmd;
+MODULE_SCOPE Tcl_ObjCmdProc TclNRYieldToObjCmd;
 
 MODULE_SCOPE void	TclClearTailcall(Tcl_Interp *interp,
+			    struct TEOV_callback *tailcallPtr);
+MODULE_SCOPE void       TclSpliceTailcall(Tcl_Interp *interp,
 			    struct TEOV_callback *tailcallPtr);
 
 /*

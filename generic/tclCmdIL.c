@@ -1100,7 +1100,7 @@ InfoFrameCmd(
 	 * A coroutine: must fix the level computations
 	 */
 
-	topLevel += iPtr->execEnvPtr->corPtr->caller.cmdFramePtr->level + 1 -
+	topLevel += iPtr->execEnvPtr->corPtr->caller.cmdFramePtr->level -
 		iPtr->execEnvPtr->corPtr->base.cmdFramePtr->level;
     }
 
