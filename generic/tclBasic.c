@@ -8665,7 +8665,6 @@ NRCoroutineExitCallback(
     TclDeleteExecEnv(corPtr->eePtr);
     corPtr->eePtr = NULL;
 
-    SAVE_CONTEXT(corPtr->running);
     RESTORE_CONTEXT(corPtr->caller);
 
     NRE_ASSERT(iPtr->framePtr == corPtr->caller.framePtr);
@@ -8798,10 +8797,6 @@ TclNRCoroutineObjCmd(
     corPtr->stackLevel = NULL;
     corPtr->callerBP = NULL;
     
-    /*
-     * On first run just set a 0 level-offset, the natural numbering is
-     * correct. The offset will be fixed for later runs.
-     */
 
     Tcl_DStringInit(&ds);
     if (nsPtr != iPtr->globalNsPtr) {
@@ -8850,14 +8845,16 @@ TclNRCoroutineObjCmd(
     framePtr->objc = objc-2;
     framePtr->objv = &objv[2];
 
-    SAVE_CONTEXT(corPtr->base);
-    corPtr->running = NULL_CONTEXT;
-
     /*
-     * Signal TEBC that it has to initialize the base cmdFramePtr.
+     * Save the base context. The base cmdFramePtr is unknown at this time: it
+     * will be allocated in the Tcl stack. So signal TEBC that it has to
+     * initialize the base cmdFramePtr by setting it to NULL.
      */
 
+    SAVE_CONTEXT(corPtr->base);
     corPtr->base.cmdFramePtr = NULL;
+    corPtr->running = NULL_CONTEXT;
+
     
     /*
      * #280.
