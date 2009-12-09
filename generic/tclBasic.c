@@ -8860,8 +8860,6 @@ TclNRCoroutineObjCmd(
     Tcl_IncrRefCount(arglistPtr);
     Tcl_ListObjGetElements(interp, arglistPtr, &framePtr->objc,
 	    &framePtr->objv);
-    //framePtr->objc = objc-2;
-    //framePtr->objv = &objv[2];
 
     /*
      * Save the base context. The base cmdFramePtr is unknown at this time: it
