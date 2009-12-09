@@ -1168,7 +1168,8 @@ TclStackFree(
     marker = *markerPtr;
 
     if ((freePtr != NULL) && (MEMSTART(markerPtr) != (Tcl_Obj **)freePtr)) {
-	Tcl_Panic("TclStackFree: incorrect freePtr. Call out of sequence?");
+	Tcl_Panic("TclStackFree: incorrect freePtr (%p != %p). Call out of sequence?",
+		freePtr, MEMSTART(markerPtr));
     }
 
     esPtr->tosPtr = markerPtr - 1;
