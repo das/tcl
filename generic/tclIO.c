@@ -6959,11 +6959,6 @@ Tcl_Tell(
     inputBuffered = Tcl_InputBuffered(chan);
     outputBuffered = Tcl_OutputBuffered(chan);
 
-    if ((inputBuffered != 0) && (outputBuffered != 0)) {
-	//Tcl_SetErrno(EFAULT);
-	//return Tcl_LongAsWide(-1);
-    }
-
     /*
      * Get the current position in the device and compute the position where
      * the next character will be read or written. Note that we prefer the
