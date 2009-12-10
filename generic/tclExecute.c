@@ -2040,6 +2040,7 @@ TclExecuteByteCode(
 	    
 	    corPtr->base.cmdFramePtr = bcFramePtr;
 	    BP->prevBottomPtr = NULL;
+	    iPtr->varFramePtr->callerPtr = iPtr->rootFramePtr;
 	}
 	
 	if (!corPtr->stackLevel) {
