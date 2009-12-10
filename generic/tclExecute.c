@@ -2039,8 +2039,9 @@ TclExecuteByteCode(
 	     */
 	    
 	    corPtr->base.cmdFramePtr = bcFramePtr;
-	    BP->prevBottomPtr = NULL;
 	    iPtr->varFramePtr = iPtr->rootFramePtr;
+	    corPtr->callerBP = BP->prevBottomPtr;
+	    BP->prevBottomPtr = NULL;
 	}
 	
 	if (!corPtr->stackLevel) {
@@ -2832,13 +2833,12 @@ TclExecuteByteCode(
 			 * new one.
 			 */
 
-			if (param) {
-			    codePtr = param;
+			codePtr = param;
+			if (codePtr) {
 			    goto nonRecursiveCallStart;
 			} else {
 			    CoroutineData *corPtr = iPtr->execEnvPtr->corPtr;
 
-			    codePtr = NULL;
 			    corPtr->callerBP = BP;
 			    goto resumeCoroutine;
 			}

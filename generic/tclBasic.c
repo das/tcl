@@ -8736,7 +8736,6 @@ TclNRCoroutineObjCmd(
     Command *cmdPtr;
     CoroutineData *corPtr;
     Tcl_Obj *cmdObjPtr;
-    TEOV_callback *rootPtr = TOP_CB(interp);
     const char *fullName;
     const char *procName;
     Namespace *nsPtr, *altNsPtr, *cxtNsPtr;
@@ -8849,7 +8848,6 @@ TclNRCoroutineObjCmd(
      * initialize the base cmdFramePtr by setting it to NULL.
      */
  
-    SAVE_CONTEXT(corPtr->base);
     corPtr->base.cmdFramePtr = NULL;
     corPtr->running = NULL_CONTEXT;
     corPtr->stackLevel = NULL;
@@ -8884,14 +8882,7 @@ TclNRCoroutineObjCmd(
     iPtr->evalFlags |= TCL_EVAL_REDIRECT;
     TclNREvalObjEx(interp, cmdObjPtr, 0, NULL, 0);
 
-    /*
-     * This should just be returning TCL_OK, to let the coro run in the
-     * caller's TEBC instance if available. BUT this causes an error in
-     * TclStackFree, couldn't yet find why. It is a bit of a mistery.
-     *                                  msofer, 2009-12-08
-     */
-    
-    return TclNRRunCallbacks(interp, TCL_OK, rootPtr, 0);
+    return TCL_OK;
 }
 
 /*
