@@ -1405,9 +1405,10 @@ typedef struct CoroutineData {
 				 * numLevels of the create/resume command is
 				 * stored here; for suspended coroutines it
 				 * holds the nesting numLevels at yield. */
-    struct BottomData *callerBP;/* The caller's bottomPointer, if the coro is
-				 * running in the caller's TEBC instance. NULL
-				 * otherwise. */
+    struct BottomData **callerBPPtr;
+                                /* Where to stash the caller's bottomPointer,
+				 * if the coro is running in the caller's TEBC 
+				 * instance. Put a NULL in there otherwise. */
 } CoroutineData;
 
 typedef struct ExecEnv {
