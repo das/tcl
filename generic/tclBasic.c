@@ -8717,7 +8717,6 @@ NRInterpCoroutine(
     TclNRAddCallback(interp, NRCoroutineCallerCallback, corPtr, NULL, NULL,
 	    NULL);
 
-    corPtr->callerBP = NULL;;
     corPtr->callerEEPtr = iPtr->execEnvPtr;
     iPtr->execEnvPtr = corPtr->eePtr;
 
@@ -8852,7 +8851,6 @@ TclNRCoroutineObjCmd(
     corPtr->running = NULL_CONTEXT;
     corPtr->stackLevel = NULL;
     corPtr->auxNumLevels = iPtr->numLevels;
-    corPtr->callerBP = NULL;
     
     /*
      * Create the command that will run at the bottom of the coroutine.
