@@ -2497,7 +2497,7 @@ BinaryDecodeUu(
 	    if (data < dataend) {
 		d[i] = c = *data++;
 		if (c < 33 || c > 96) {
-		    if (strict || !isspace(c & 255)) {
+		    if (strict || !isspace(UCHAR(c))) {
 			goto badUu;
 		    }
 		    i--;
