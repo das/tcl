@@ -4215,9 +4215,8 @@ TclNRRunCallbacks(
     struct TEOV_callback *rootPtr,
 				/* All callbacks down to rootPtr not inclusive
 				 * are to be run. */
-    int tebcCall)		/* Normal callers set this to 0; TEBC sets it
-				 * to 1 when executing a bytecode, to 2 when
-				 * cleaning up after a bytecode returns. */
+    int tebcCall)		/* Normal callers set this to 0; only TEBC
+				 * sets it to 1. */
 {
     Interp *iPtr = (Interp *) interp;
     TEOV_callback *callbackPtr;
