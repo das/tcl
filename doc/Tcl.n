@@ -61,9 +61,9 @@ variable substitutions; backslash substitutions are performed as is normal for
 a list and individual internal words may be surrounded by either braces or
 double-quote characters), and its words are added to the command being
 substituted. For instance,
-.QW "cmd a {*}{b [c]} d {*}{$e f \"g h\"}"
+.QW "cmd a {*}{b [c]} d {*}{$e f {g h}}"
 is equivalent to
-.QW "cmd a b {[c]} d {$e} f \"g h\"" .
+.QW "cmd a b {[c]} d {$e} f {g h}" .
 .IP "[6] \fBBraces.\fR"
 If the first character of a word is an open brace
 .PQ {

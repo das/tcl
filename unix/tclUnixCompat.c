@@ -736,7 +736,7 @@ CopyArray(
     p = buf + len;
 
     for (j = 0; j < i; j++) {
-	int sz = (elsize<0 ? strlen(src[j])+1 : elsize);
+	int sz = (elsize<0 ? (int) strlen(src[j]) + 1 : elsize);
 
 	len += sz;
 	if (len > buflen) {
