@@ -2852,6 +2852,9 @@ TclExecuteByteCode(
 			    fprintf(stdout, "   Tailcall request received\n");
 			}
 #endif /* TCL_COMPILE_DEBUG */
+			iPtr->cmdFramePtr = bcFramePtr->nextPtr;
+			TclArgumentBCRelease((Tcl_Interp *) iPtr, bcFramePtr);
+
 			if (catchTop != initCatchTop) {
 			    TEOV_callback *tailcallPtr =
 				iPtr->varFramePtr->tailcallPtr;

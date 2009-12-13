@@ -8293,16 +8293,6 @@ TclNRTailcallObjCmd(
      * TclNRAddCallBack macro to build the callback)
      */
 
-    /*
-     * In a bytecode execution context the engine has called
-     * TclArgumentBCEnter() which, due to the tailcall, is not paired with a
-     * regular TclArgumentBCRelease. Get rid of it on our own.
-     */
-
-    if (iPtr->cmdFramePtr->type == TCL_LOCATION_BC) {
-	TclArgumentBCRelease(interp, iPtr->cmdFramePtr);
-    }
-
     TclNRAddCallback(interp, NRTailcallEval, listPtr, nsObjPtr, NULL, NULL);
     iPtr->varFramePtr->tailcallPtr = TOP_CB(interp);
     TOP_CB(interp) = TOP_CB(interp)->nextPtr;
