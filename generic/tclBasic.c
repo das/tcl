@@ -8289,12 +8289,10 @@ TclNRTailcallObjCmd(
     Tcl_IncrRefCount(nsObjPtr);
 
     /*
-     * Add two callbacks: first the one to actually evaluate the tailcalled
-     * command, then the one that signals TEBC to stash the first at its
-     * proper place.
-     *
-     * Being lazy: add the callback, then remove it (to exploit the
-     * TclNRAddCallBack macro to build the callback)
+     * Create the callback to actually evaluate the tailcalled
+     * command, then pass it to tebc so that it is stashed at the proper
+     * place. Being lazy: exploit the TclNRAddCallBack macro to build the
+     * callback. 
      */
 
     TclNRAddCallback(interp, NRTailcallEval, listPtr, nsObjPtr, NULL, NULL);
