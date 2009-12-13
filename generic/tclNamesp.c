@@ -456,7 +456,6 @@ Tcl_PushCallFrame(
  *	Modifies the call stack of the interpreter. Resets various fields of
  *	the popped call frame. If a namespace has been deleted and has no more
  *	activations on the call stack, the namespace is destroyed.
- *      Schedules a tailcall if one is present. 
  *
  *----------------------------------------------------------------------
  */
@@ -508,10 +507,6 @@ Tcl_PopCallFrame(
 	Tcl_DeleteNamespace((Tcl_Namespace *) nsPtr);
     }
     framePtr->nsPtr = NULL;
-
-    if (framePtr->tailcallPtr) {
-	TclSpliceTailcall(interp, framePtr->tailcallPtr);
-    }
 }
 
 /*
