@@ -8298,8 +8298,6 @@ TclNRTailcallObjCmd(
      */
 
     TclNRAddCallback(interp, NRTailcallEval, listPtr, nsObjPtr, NULL, NULL);
-    //iPtr->varFramePtr->tailcallPtr = TOP_CB(interp);
-    //TclSpliceTailcall(interp, TOP_CB(interp));
     tailcallPtr = TOP_CB(interp);
     TOP_CB(interp) = tailcallPtr->nextPtr;
 
