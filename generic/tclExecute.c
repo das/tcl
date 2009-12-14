@@ -2852,11 +2852,11 @@ TclExecuteByteCode(
 			    fprintf(stdout, "   Tailcall request received\n");
 			}
 #endif /* TCL_COMPILE_DEBUG */
+			iPtr->cmdFramePtr = bcFramePtr->nextPtr;
+			TclArgumentBCRelease((Tcl_Interp *) iPtr, bcFramePtr);
+
 			if (catchTop != initCatchTop) {
-			    TEOV_callback *tailcallPtr =
-				iPtr->varFramePtr->tailcallPtr;
-			    
-			    TclClearTailcall(interp, tailcallPtr);
+			    TclClearTailcall(interp, param);
 			    iPtr->varFramePtr->tailcallPtr = NULL;
 			    TRESULT = TCL_ERROR;
 			    Tcl_SetResult(interp,
@@ -2867,6 +2867,8 @@ TclExecuteByteCode(
 			    pc--;
 			    goto checkForCatch;
 			}
+			iPtr->varFramePtr->tailcallPtr = param;
+			TclSpliceTailcall(interp, param);
 			goto abnormalReturn;
 		    case TCL_NR_YIELD_TYPE: {	/* [yield] */
 			CoroutineData *corPtr = iPtr->execEnvPtr->corPtr;

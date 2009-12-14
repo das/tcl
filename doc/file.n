@@ -446,6 +446,12 @@ for the temporary file to be deleted once it is no longer required. If the
 to use when creating it (such as the directory, base-name or extension) though
 some platforms may ignore some or all of these parts and use a built-in
 default instead.
+.RS
+.PP
+Note that temporary files are \fIonly\fR ever created on the native
+filesystem. As such, they can be relied upon to be used with operating-system
+native APIs and external programs that require a filename.
+.RE
 .VE 8.6
 .TP
 \fBfile type \fIname\fR
