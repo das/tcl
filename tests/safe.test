@@ -463,6 +463,13 @@ test safe-11.8 {testing safe encoding} {
 	    [safe::interpDelete $i];
 } {1 {wrong # args: should be "encoding convertto ?encoding? data"} {}}
 
+test safe-12.1 {glob is restricted [Bug 2906841]} -setup {
+    set i [safe::interpCreate]
+} -body {
+    $i eval glob ../*
+} -returnCodes error -cleanup {
+    safe::interpDelete $i
+} -result "permission denied"
 
 set ::auto_path $saveAutoPath
 # cleanup
