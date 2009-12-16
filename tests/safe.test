@@ -498,6 +498,41 @@ test safe-12.1 {glob is restricted [Bug 2906841]} -setup {
 } -returnCodes error -cleanup {
     safe::interpDelete $i
 } -result "permission denied"
+test safe-12.2 {glob is restricted [Bug 2906841]} -setup {
+    set i [safe::interpCreate]
+} -body {
+    $i eval glob -directory .. *
+} -returnCodes error -cleanup {
+    safe::interpDelete $i
+} -result "permission denied"
+test safe-12.3 {glob is restricted [Bug 2906841]} -setup {
+    set i [safe::interpCreate]
+} -body {
+    $i eval glob -join .. *
+} -returnCodes error -cleanup {
+    safe::interpDelete $i
+} -result "permission denied"
+test safe-12.4 {glob is restricted [Bug 2906841]} -setup {
+    set i [safe::interpCreate]
+} -body {
+    $i eval glob -nocomplain ../*
+} -cleanup {
+    safe::interpDelete $i
+} -result {}
+test safe-12.5 {glob is restricted [Bug 2906841]} -setup {
+    set i [safe::interpCreate]
+} -body {
+    $i eval glob -directory .. -nocomplain *
+} -cleanup {
+    safe::interpDelete $i
+} -result {}
+test safe-12.6 {glob is restricted [Bug 2906841]} -setup {
+    set i [safe::interpCreate]
+} -body {
+    $i eval glob -nocomplain -join .. *
+} -cleanup {
+    safe::interpDelete $i
+} -result {}
 
 set ::auto_path $saveAutoPath
 # cleanup
