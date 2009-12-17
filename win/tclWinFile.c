@@ -1416,13 +1416,13 @@ NativeMatchType(
  *----------------------------------------------------------------------
  */
 
-char *
+const char *
 TclpGetUserHome(
     const char *name,		/* User name for desired home directory. */
     Tcl_DString *bufferPtr)	/* Uninitialized or free DString filled with
 				 * name of user's home directory. */
 {
-    char *result;
+    const char *result;
     HINSTANCE netapiInst;
 
     result = NULL;
