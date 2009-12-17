@@ -785,7 +785,7 @@ Tcl_WaitForEvent(
 	    tsdPtr->onList = 1;
 
 	    if (write(triggerPipe, "", 1) != 1) {
-			Tcl_Panic("Tcl_FinalizeNotifier: unable to write to triggerPipe");
+			Tcl_Panic("Tcl_WaitForEvent: unable to write to triggerPipe");
 	    }
 	}
 
@@ -817,7 +817,7 @@ Tcl_WaitForEvent(
 	    tsdPtr->nextPtr = tsdPtr->prevPtr = NULL;
 	    tsdPtr->onList = 0;
 	    if (write(triggerPipe, "", 1) != 1) {
-			Tcl_Panic("Tcl_FinalizeNotifier: unable to write to triggerPipe");
+			Tcl_Panic("Tcl_WaitForEvent: unable to write to triggerPipe");
 	    }
 	}
 
