@@ -8869,6 +8869,7 @@ TclNRCoroutineObjCmd(
     TclNRAddCallback(interp, NRCoroutineExitCallback, corPtr,
 	    NULL, NULL, NULL);
     iPtr->evalFlags |= TCL_EVAL_REDIRECT;
+    iPtr->lookupNsPtr = iPtr->varFramePtr->nsPtr;    
     TclNREvalObjEx(interp, cmdObjPtr, 0, NULL, 0);
 
     return TCL_OK;

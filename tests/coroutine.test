@@ -402,6 +402,16 @@ test coroutine-4.3 {bug #2093947} -setup {
     unset ::res
 } -result {{v {} write} {v {} write} {v {} unset} {v {} write} {v {} unset}}
 
+test coroutine-4.4 {bug #2917627: cmd resolution} -setup {
+    proc a {} {return global}
+    namespace eval b {proc a {} {return local}}
+} -body {
+    namespace eval b {coroutine foo a}
+} -cleanup {
+    rename a {}
+    namespace delete b
+} -result local
+
 test coroutine-5.1 {right numLevels on coro return} -constraints {testnrelevels} \
 -setup {
     proc nestedYield {{val {}}} {
