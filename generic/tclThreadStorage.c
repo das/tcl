@@ -43,7 +43,7 @@ static struct TSDMaster {
 				 * increasing value. */
     Tcl_Mutex mutex;		/* Protection for the rest of this structure,
 				 * which holds per-process data. */
-} tsdMaster = { NULL, 0 };
+} tsdMaster = { NULL, 0, NULL };
 
 /*
  * The type of the data held per thread in a system TSD.

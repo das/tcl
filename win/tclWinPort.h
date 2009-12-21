@@ -48,8 +48,11 @@
  * These string functions are not defined with the same names on Windows.
  */
 
+#ifndef __CYGWIN__
+#define wcscasecmp _wcsicmp
 #define strcasecmp stricmp
 #define strncasecmp strnicmp
+#endif
 
 /*
  * Need to block out these includes for building extensions with MetroWerks

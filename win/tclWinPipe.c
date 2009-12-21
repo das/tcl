@@ -1423,7 +1423,7 @@ ApplicationType(
 	Tcl_DStringFree(&ds);
 
 	ext = strrchr(fullName, '.');
-	if ((ext != NULL) && (stricmp(ext, ".bat") == 0)) {
+	if ((ext != NULL) && (strcasecmp(ext, ".bat") == 0)) {
 	    applType = APPL_DOS;
 	    break;
 	}
@@ -1447,7 +1447,7 @@ ApplicationType(
 	     */
 
 	    CloseHandle(hFile);
-	    if ((ext != NULL) && (stricmp(ext, ".com") == 0)) {
+	    if ((ext != NULL) && (strcasecmp(ext, ".com") == 0)) {
 		applType = APPL_DOS;
 		break;
 	    }

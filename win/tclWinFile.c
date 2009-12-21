@@ -1264,8 +1264,8 @@ WinIsReserved(
 	    }
 	}
 
-    } else if (!stricmp(path, "prn") || !stricmp(path, "nul")
-	    || !stricmp(path, "aux")) {
+    } else if (!strcasecmp(path, "prn") || !strcasecmp(path, "nul")
+	    || !strcasecmp(path, "aux")) {
 	/*
 	 * Have match for 'prn', 'nul' or 'aux'.
 	 */
@@ -1787,9 +1787,9 @@ NativeIsExec(
 	 * Use wide-char case-insensitive comparison
 	 */
 
-	if ((_wcsicmp(path+len-3, L"exe") == 0)
-		|| (_wcsicmp(path+len-3, L"com") == 0)
-		|| (_wcsicmp(path+len-3, L"bat") == 0)) {
+	if ((wcscasecmp(path+len-3, L"exe") == 0)
+		|| (wcscasecmp(path+len-3, L"com") == 0)
+		|| (wcscasecmp(path+len-3, L"bat") == 0)) {
 	    return 1;
 	}
     } else {
@@ -1808,9 +1808,9 @@ NativeIsExec(
 	     * executable, whereas access did not.
 	     */
 
-	    if ((stricmp(p, "exe") == 0)
-		    || (stricmp(p, "com") == 0)
-		    || (stricmp(p, "bat") == 0)) {
+	    if ((strcasecmp(p, "exe") == 0)
+		    || (strcasecmp(p, "com") == 0)
+		    || (strcasecmp(p, "bat") == 0)) {
 		/*
 		 * File that ends with .exe, .com, or .bat is executable.
 		 */
