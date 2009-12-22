@@ -129,6 +129,12 @@ extern "C" {
 #define TCL_DECLARE_MUTEX(name)
 #endif
 
+#if defined(__CYGWIN__) && defined(__WIN32__)
+/* Cygwin/win32 needs winsock2.h to be included BEFORE stdio.h,
+ * otherwise there will be symbol conflicts with sys/types.h! */
+#   include <winsock2.h>
+#endif
+
 /*
  * Tcl's public routine Tcl_FSSeek() uses the values SEEK_SET, SEEK_CUR, and
  * SEEK_END, all #define'd by stdio.h .

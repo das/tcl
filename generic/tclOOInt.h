@@ -589,6 +589,7 @@ MODULE_SCOPE int	TclOOUpcatchCmd(ClientData ignored,
  * but all arguments are used multiple times and so must have no side effects.
  */
 
+#undef DUPLICATE /* prevent possible conflict with definition in WINAPI nb30.h */
 #define DUPLICATE(target,source,type) \
     do { \
 	register unsigned len = sizeof(type) * ((target).num=(source).num);\
