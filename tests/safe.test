@@ -91,7 +91,7 @@ test safe-3.2 {calling safe::interpCreate on trusted interp} -setup {
     lsort [a aliases]
 } -cleanup {
     safe::interpDelete a
-} -result {clock encoding exit file glob load source}
+} -result {::tcl::info::nameofexecutable clock encoding exit file glob load source}
 test safe-3.3 {calling safe::interpCreate on trusted interp} -setup {
     catch {safe::interpDelete a}
 } -body {
