@@ -3275,6 +3275,18 @@ test interp-34.12 {time limit extension in callbacks} -setup {
 } -result {cb1 cb1 0 {} ok} -cleanup {
     rename cb1 {}
 }
+test interp-34.13 {time limit granularity and vwait: Bug 2891362} -setup {
+    set i [interp create -safe]
+} -body {
+    $i limit time -seconds [clock add [clock seconds] 1 second]
+    $i eval {
+	after 2000 set x timeout
+	vwait x
+	return $x
+    }
+} -cleanup {
+    interp delete $i
+} -returnCodes error -result {limit exceeded}
 
 test interp-35.1 {interp limit syntax} -body {
     interp limit

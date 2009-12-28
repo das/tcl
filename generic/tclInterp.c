@@ -3603,10 +3603,20 @@ TimeLimitCallback(
     ClientData clientData)
 {
     Tcl_Interp *interp = clientData;
+    Interp *iPtr = clientData;
     int code;
 
     Tcl_Preserve(interp);
-    ((Interp *)interp)->limit.timeEvent = NULL;
+    iPtr->limit.timeEvent = NULL;
+
+    /*
+     * Must reset the granularity ticker here to force an immediate full
+     * check. This is OK because we're swallowing the cost in the overall cost
+     * of the event loop. [Bug 2891362]
+     */
+
+    iPtr->limit.granularityTicker = 0;
+
     code = Tcl_LimitCheck(interp);
     if (code != TCL_OK) {
 	Tcl_AddErrorInfo(interp, "\n    (while waiting for event)");
