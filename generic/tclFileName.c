@@ -46,7 +46,7 @@ static int		DoGlob(Tcl_Interp *interp, Tcl_Obj *resultPtr,
  * specific files.
  */
 
-#if (!defined(HAVE_ST_BLOCKS) && !defined(GUESSED_BLOCK_SIZE))
+#if (!defined(HAVE_STRUCT_STAT_ST_BLKSIZE) && !defined(GUESSED_BLOCK_SIZE))
 #define GUESSED_BLOCK_SIZE	1024
 #endif
 
@@ -2672,11 +2672,12 @@ Tcl_WideUInt
 Tcl_GetBlocksFromStat(
     const Tcl_StatBuf *statPtr)
 {
-#ifdef HAVE_ST_BLOCKS
+#ifdef HAVE_STRUCT_STAT_ST_BLOCKS
     return (Tcl_WideUInt) statPtr->st_blocks;
 #else
-    return ((Tcl_WideUInt) statPtr->st_size
-	    + (GUESSED_BLOCK_SIZE-1)) / GUESSED_BLOCK_SIZE;
+    register unsigned blksize = Tcl_GetBlockSizeFromStat(statPtr);
+
+    return ((Tcl_WideUInt) statPtr->st_size + blksize - 1) / blksize;
 #endif
 }
 
@@ -2684,7 +2685,7 @@ unsigned
 Tcl_GetBlockSizeFromStat(
     const Tcl_StatBuf *statPtr)
 {
-#ifdef HAVE_ST_BLOCKS
+#ifdef HAVE_STRUCT_STAT_ST_BLKSIZE
     return (unsigned) statPtr->st_blksize;
 #else
     /*
