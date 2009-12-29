@@ -70,10 +70,10 @@ test safe-2.3 {creating safe interpreters, should have no unexpected aliases} -s
     catch {safe::interpDelete a}
 } -body {
     interp create a -safe
-    a aliases
+    lsort [a aliases]
 } -cleanup {
     interp delete a
-} -result {clock}
+} -result {::tcl::mathfunc::max ::tcl::mathfunc::min clock}
 
 test safe-3.1 {calling safe::interpInit is safe} -setup {
     catch {safe::interpDelete a}
