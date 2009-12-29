@@ -2309,6 +2309,7 @@ BinaryDecodeHex(
 	*cursor++ = UCHAR(value);
 	value = 0;
     }
+    if (cut > size) cut = size;
     Tcl_SetByteArrayLength(resultObj, cursor - begin - cut);
     Tcl_SetObjResult(interp, resultObj);
     return TCL_OK;
@@ -2515,6 +2516,7 @@ BinaryDecodeUu(
 	*cursor++ = (((d[2] - 0x20) & 0x3f) << 6)
 		| (((d[3] - 0x20) & 0x3f));
     }
+    if (cut > size) cut = size;
     Tcl_SetByteArrayLength(resultObj, cursor - begin - cut);
     Tcl_SetObjResult(interp, resultObj);
     return TCL_OK;
@@ -2620,6 +2622,7 @@ BinaryDecode64(
 	*cursor++ = UCHAR((value >> 8) & 0xff);
 	*cursor++ = UCHAR(value & 0xff);
     }
+    if (cut > size) cut = size;
     Tcl_SetByteArrayLength(resultObj, cursor - begin - cut);
     Tcl_SetObjResult(interp, resultObj);
     return TCL_OK;
