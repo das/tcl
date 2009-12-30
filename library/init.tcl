@@ -237,8 +237,13 @@ proc unknown args {
     variable ::tcl::UnknownPending
     global auto_noexec auto_noload env tcl_interactive
 
-    catch {set savedErrorInfo $::errorInfo}
-    catch {set savedErrorCode $::errorCode}
+
+    if {[info exists ::errorInfo]} {
+	set savedErrorInfo $::errorInfo
+    }
+    if {[info exists ::errorCode]} {
+	set savedErrorCode $::errorCode
+    }
 
     set name [lindex $args 0]
     if {![info exists auto_noload]} {
