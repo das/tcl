@@ -858,6 +858,7 @@ typedef struct {
 
 MODULE_SCOPE Tcl_NRPostProc   NRCallTEBC;
 MODULE_SCOPE Tcl_NRPostProc   NRCommand;
+MODULE_SCOPE Tcl_ObjCmdProc   NRInterpCoroutine;
 
 #define TCL_NR_BC_TYPE         0
 #define TCL_NR_ATEXIT_TYPE     1
