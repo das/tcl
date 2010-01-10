@@ -12,9 +12,7 @@
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
 itcl::widget \- create a widget class of objects
-.PP
-\fBWARNING!\fR
-.br
+.SH WARNING!
 This is new functionality in [incr Tcl] where the API can still change!!
 .SH SYNOPSIS
 .nf

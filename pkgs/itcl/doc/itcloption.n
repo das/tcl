@@ -14,9 +14,7 @@
 itcl::option \- define options for extendedclass, widget or widgetadaptor
 .PP
 Parts of this description are "borrowed" from Tcl extension [snit], as the functionality is mostly identical.
-.PP
-\fBWARNING!\fR
-.br
+.SH WARNING!
 This is new functionality in [incr Tcl] where the API can still change!!
 .SH SYNOPSIS
 .nf

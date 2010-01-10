@@ -12,9 +12,7 @@
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
 itcl::extendedclass \- create a extendedclass of objects
-.PP
-\fBWARNING!\fR
-.br
+.SH WARNING!
 This is new functionality in [incr Tcl] where the API can still change!!
 .SH SYNOPSIS
 .nf
