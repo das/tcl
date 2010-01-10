@@ -203,7 +203,7 @@ static int		SerialBlockingWrite(SerialInfo *infoPtr, LPVOID buf,
  * based IO.
  */
 
-static Tcl_ChannelType serialChannelType = {
+static const Tcl_ChannelType serialChannelType = {
     "serial",			/* Type name. */
     TCL_CHANNEL_VERSION_5,	/* v5 channel */
     SerialCloseProc,		/* Close proc. */
@@ -220,7 +220,7 @@ static Tcl_ChannelType serialChannelType = {
     NULL,			/* handler proc. */
     NULL,			/* wide seek proc */
     SerialThreadActionProc,	/* thread action proc */
-    NULL,                       /* truncate */
+    NULL                       /* truncate */
 };
 
 /*
