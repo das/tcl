@@ -11,7 +11,7 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-is \- test argument to see if it is a class or an object
+itcl::is \- test argument to see if it is a class or an object
 .SH SYNOPSIS
 \fBitcl::is \fIoption\fR ?\fIarg arg ...\fR?
 .BE

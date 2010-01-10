@@ -11,10 +11,10 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-class \- create a class of objects
+itcl::class \- create a class of objects
 .SH SYNOPSIS
 .nf
-\fBitcl::class \fIclassName\fR \fB{\fR
+\fBitcl::class \fIclassName \fB{\fR
     \fBinherit \fIbaseClass\fR ?\fIbaseClass\fR...?
     \fBconstructor \fIargs\fR ?\fIinit\fR? \fIbody\fR
     \fBdestructor \fIbody\fR
@@ -30,13 +30,13 @@ class \- create a class of objects
     \fBset \fIvarName\fR ?\fIvalue\fR?
     \fBarray \fIoption\fR ?\fIarg arg ...\fR?
 \fB}\fR
-.fi
-.sp
+
 \fIclassName objName\fR ?\fIarg arg ...\fR?
-.sp
+
 \fIobjName method\fR ?\fIarg arg ...\fR?
-.sp
+
 \fIclassName::proc\fR ?\fIarg arg ...\fR?
+.fi
 .BE
 
 .SH DESCRIPTION
@@ -315,7 +315,7 @@ any method name appearing in the class definition, or any of
 the following built-in methods.
 .SH "BUILT-IN METHODS"
 .TP
-\fIobjName\fR \fBcget option\fR
+\fIobjName \fBcget option\fR
 .
 Provides access to public variables as configuration options.  This
 mimics the behavior of the usual "cget" operation for Tk widgets.
@@ -323,7 +323,7 @@ The \fIoption\fR argument is a string of the form "\fB-\fIvarName\fR",
 and this method returns the current value of the public variable
 \fIvarName\fR.
 .TP
-\fIobjName\fR \fBconfigure\fR ?\fIoption\fR? ?\fIvalue option value ...\fR?
+\fIobjName \fBconfigure\fR ?\fIoption\fR? ?\fIvalue option value ...\fR?
 .
 Provides access to public variables as configuration options.  This
 mimics the behavior of the usual "configure" operation for Tk widgets.
@@ -344,12 +344,12 @@ is set back to its previous value, and the \fBconfigure\fR method
 returns an error.
 .RE
 .TP
-\fIobjName\fR \fBisa \fIclassName\fR
+\fIobjName \fBisa \fIclassName\fR
 .
 Returns non-zero if the given \fIclassName\fR can be found in the
 object's heritage, and zero otherwise.
 .TP
-\fIobjName\fR \fBinfo \fIoption\fR ?\fIargs...\fR?
+\fIobjName \fBinfo \fIoption\fR ?\fIargs...\fR?
 .
 Returns information related to a particular object named
 \fIobjName\fR, or to its class definition.  The \fIoption\fR
@@ -357,23 +357,23 @@ parameter includes the following things, as well as the options
 recognized by the usual Tcl "info" command:
 .RS
 .TP
-\fIobjName\fR \fBinfo class\fR
+\fIobjName \fBinfo class\fR
 .
 Returns the name of the most-specific class for object \fIobjName\fR.
 .TP
-\fIobjName\fR \fBinfo inherit\fR
+\fIobjName \fBinfo inherit\fR
 .
 Returns the list of base classes as they were defined in the
 "\fBinherit\fR" command, or an empty string if this class
 has no base classes.
 .TP
-\fIobjName\fR \fBinfo heritage\fR
+\fIobjName \fBinfo heritage\fR
 .
 Returns the current class name and the entire list of base classes
 in the order that they are traversed for member lookup and object
 destruction.
 .TP
-\fIobjName\fR \fBinfo function\fR ?\fIcmdName\fR? ?\fB-protection\fR? ?\fB-type\fR? ?\fB-name\fR? ?\fB-args\fR? ?\fB-body\fR?
+\fIobjName \fBinfo function\fR ?\fIcmdName\fR? ?\fB-protection\fR? ?\fB-type\fR? ?\fB-name\fR? ?\fB-args\fR? ?\fB-body\fR?
 .
 With no arguments, this command returns a list of all class methods
 and procs.  If \fIcmdName\fR is specified, it returns information
@@ -383,7 +383,7 @@ level, the type (method/proc), the qualified name, the argument list
 and the body.  Flags can be used to request specific elements from
 this list.
 .TP
-\fIobjName\fR \fBinfo variable\fR ?\fIvarName\fR? ?\fB-protection\fR? ?\fB-type\fR? ?\fB-name\fR? ?\fB-init\fR? ?\fB-value\fR? ?\fB-config\fR?
+\fIobjName \fBinfo variable\fR ?\fIvarName\fR? ?\fB-protection\fR? ?\fB-type\fR? ?\fB-name\fR? ?\fB-init\fR? ?\fB-value\fR? ?\fB-config\fR?
 .
 With no arguments, this command returns a list of all object-specific
 variables and common data members.  If \fIvarName\fR is specified, it

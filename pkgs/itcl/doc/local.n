@@ -11,7 +11,7 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-local \- create an object local to a procedure
+itcl::local \- create an object local to a procedure
 .SH SYNOPSIS
 \fBitcl::local \fIclassName objName\fR ?\fIarg arg ...\fR?
 .BE

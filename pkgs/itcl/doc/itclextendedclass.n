@@ -11,7 +11,7 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-extendedclass \- create a extendedclass of objects
+itcl::extendedclass \- create a extendedclass of objects
 .PP
 \fBWARNING!\fR
 .br

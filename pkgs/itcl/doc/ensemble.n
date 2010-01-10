@@ -11,7 +11,7 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-ensemble \- create or modify a composite command
+itcl::ensemble \- create or modify a composite command
 .SH SYNOPSIS
 .nf
 \fBitcl::ensemble \fIensName\fR ?\fIcommand arg arg...\fR?

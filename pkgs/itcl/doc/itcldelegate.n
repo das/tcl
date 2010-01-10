@@ -11,10 +11,10 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-delegation \- delegate methods, procs or options to other objects
-.sp
+itcl::delegation \- delegate methods, procs or options to other objects
+.PP
 Parts of this description are "borrowed" from Tcl extension [snit], as the functionality is mostly identical.
-.sp
+.PP
 \fBWARNING!\fR
 .br
 This is new functionality in [incr Tcl] where the API can still change!!

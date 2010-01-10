@@ -59,9 +59,11 @@
 .SH "NAME"
 tdbc::mapSqlState \- Map SQLSTATE to error class
 .SH "SYNOPSIS"
+.nf
 package require \fBtdbc 1.0\fR
-.sp
+
 \fBtdbc::mapSqlState\fR \fIsqlstate\fR
+.fi
 .BE
 .SH "DESCRIPTION"
 .PP

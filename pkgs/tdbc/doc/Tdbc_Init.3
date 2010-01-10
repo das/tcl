@@ -90,15 +90,16 @@ Tdbc_Init, Tdbc_MapSqlState, Tdbc_TokenizeSql \- C procedures to facilitate writ
 .SH SYNOPSIS
 .nf
 \fB#include <tdbc.h>\fR
-.sp
+
 int
 \fBTdbc_Init\fR(\fIinterp\fR)
-.sp
+
 Tcl_Obj *
 \fBTdbc_TokenizeSql\fR(\fIinterp, sqlcode\fR)
-.sp
+
 const char *
 \fBTdbc_MapSqlState\fR(\fIstate\fR)
+.fi
 .SH ARGUMENTS
 .AS "Tcl_Interp" statement in/out
 .AP Tcl_Interp *interp in/out
