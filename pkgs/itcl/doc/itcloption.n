@@ -123,7 +123,7 @@ handling of configure:
 .PP
 Note that it's possible for any number of options to share a single -configuremethod. 
 .RE
-.PP
+.TP
 \fB-configuremethodvar\fI varName\fR
 .
 That is very similar to -configuremethod, the only difference is, one can define
