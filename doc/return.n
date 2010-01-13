@@ -303,7 +303,7 @@ proc myReturn {args} {
 .SH "SEE ALSO"
 break(n), catch(n), continue(n), dict(n), error(n), proc(n), source(n), tclvars(n)
 .SH KEYWORDS
-break, catch, continue, error, procedure, return
+break, catch, continue, error, exception, procedure, result, return
 .\" Local Variables:
 .\" mode: nroff
 .\" End:

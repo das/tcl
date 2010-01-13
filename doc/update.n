@@ -64,4 +64,4 @@ while {!$done} {
 .SH "SEE ALSO"
 after(n), interp(n)
 .SH KEYWORDS
-event, flush, handler, idle, update
+asynchronous I/O, event, flush, handler, idle, update

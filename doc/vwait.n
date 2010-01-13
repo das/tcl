@@ -239,7 +239,7 @@ coroutine task-3 eval {
 .SH "SEE ALSO"
 global(n), update(n)
 .SH KEYWORDS
-event, variable, wait
+asynchronous I/O, event, variable, wait
 '\" Local Variables:
 '\" mode: nroff
 '\" fill-column: 78

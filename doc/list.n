@@ -52,7 +52,7 @@ lappend(n), lindex(n), linsert(n), llength(n), lrange(n),
 lrepeat(n),
 lreplace(n), lsearch(n), lset(n), lsort(n)
 .SH KEYWORDS
-element, list
+element, list, quoting
 '\"Local Variables:
 '\"mode: nroff
 '\"End:

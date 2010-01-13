@@ -537,7 +537,8 @@ exec {*}[auto_execok start] {} [\fBfile nativename\fR ~/example.txt]
 filename(n), open(n), close(n), eof(n), gets(n), tell(n), seek(n),
 fblocked(n), flush(n)
 .SH KEYWORDS
-attributes, copy files, delete files, directory, file, move files, name, rename files, stat
+attributes, copy files, delete files, directory, file, move files, name,
+rename files, stat, user
 '\" Local Variables:
 '\" mode: nroff
 '\" fill-column: 78

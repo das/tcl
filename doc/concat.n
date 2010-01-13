@@ -54,7 +54,7 @@ values, as can be seen here:
 .SH "SEE ALSO"
 append(n), eval(n), join(n)
 .SH KEYWORDS
-concatenate, join, lists
+concatenate, join, list
 '\" Local Variables:
 '\" mode: nroff
 '\" End:

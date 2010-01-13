@@ -50,4 +50,4 @@ if {[catch {main} msg options]} {
 .SH "SEE ALSO"
 exec(n)
 .SH KEYWORDS
-exit, process
+abort, exit, process

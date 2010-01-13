@@ -74,4 +74,4 @@ if {1+2 != 3} {
 .SH "SEE ALSO"
 catch(n), return(n)
 .SH KEYWORDS
-error
+error, exception

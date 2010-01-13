@@ -119,7 +119,7 @@ proc decr {varName {decrement 1}} {
 .SH "SEE ALSO"
 global(n), namespace(n), uplevel(n), variable(n)
 .SH KEYWORDS
-context, frame, global, level, namespace, procedure, variable
+context, frame, global, level, namespace, procedure, upvar, variable
 .\" Local Variables:
 .\" mode: nroff
 .\" End:
