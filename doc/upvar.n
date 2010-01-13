@@ -64,7 +64,7 @@ that the Tcl naming context can change.
 It adds a call frame to the stack to represent the namespace context.
 This means each \fBnamespace eval\fR command
 counts as another call level for \fBuplevel\fR and \fBupvar\fR commands.
-For example, \fBinfo level 1\fR will return a list
+For example, \fBinfo level\fR \fB1\fR will return a list
 describing a command that is either
 the outermost procedure call or the outermost \fBnamespace eval\fR command.
 Also, \fBuplevel #0\fR evaluates a script
