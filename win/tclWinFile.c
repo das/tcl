@@ -226,7 +226,7 @@ WinLink(
 {
     WCHAR tempFileName[MAX_PATH];
     TCHAR *tempFilePart;
-    int attr;
+    DWORD attr;
 
     /*
      * Get the full path referenced by the target.
@@ -347,7 +347,7 @@ WinReadLink(
 {
     WCHAR tempFileName[MAX_PATH];
     TCHAR *tempFilePart;
-    int attr;
+    DWORD attr;
 
     /*
      * Get the full path referenced by the target.

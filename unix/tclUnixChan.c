@@ -1538,7 +1538,7 @@ TclpOpenFileChannel(
     FileState *fsPtr;
     const char *native, *translation;
     char channelName[16 + TCL_INTEGER_SPACE];
-    Tcl_ChannelType *channelTypePtr;
+    const Tcl_ChannelType *channelTypePtr;
 
     switch (mode & (O_RDONLY | O_WRONLY | O_RDWR)) {
     case O_RDONLY:
@@ -1664,7 +1664,7 @@ Tcl_MakeFileChannel(
     FileState *fsPtr;
     char channelName[16 + TCL_INTEGER_SPACE];
     int fd = PTR2INT(handle);
-    Tcl_ChannelType *channelTypePtr;
+    const Tcl_ChannelType *channelTypePtr;
     struct sockaddr sockaddr;
     socklen_t sockaddrLen = sizeof(sockaddr);
 

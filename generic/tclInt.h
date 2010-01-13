@@ -40,6 +40,7 @@
 #ifdef HAVE_TCL_CONFIG_H
 #include "tclConfig.h"
 #endif
+#include "tclPort.h"
 #ifndef _TCL
 #include "tcl.h"
 #endif
@@ -2927,7 +2928,6 @@ MODULE_SCOPE Tcl_Obj *	TclPathPart(Tcl_Interp *interp, Tcl_Obj *pathPtr,
 			    Tcl_PathPart portion);
 MODULE_SCOPE char *	TclpReadlink(const char *fileName,
 			    Tcl_DString *linkPtr);
-MODULE_SCOPE void	TclpReleaseFile(TclFile file);
 MODULE_SCOPE void	TclpSetInterfaces(void);
 MODULE_SCOPE void	TclpSetVariables(Tcl_Interp *interp);
 MODULE_SCOPE void	TclpUnloadFile(Tcl_LoadHandle loadHandle);
@@ -4437,7 +4437,6 @@ typedef struct TEOV_callback {
 #define NRE_ASSERT(expr)
 #endif
 
-#include "tclPort.h"
 #include "tclIntDecls.h"
 #include "tclIntPlatDecls.h"
 #include "tclTomMathDecls.h"
