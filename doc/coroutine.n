@@ -38,8 +38,9 @@ returns conventionally, the result of the \fBcoroutine\fR command will be the
 result of the evaluation of the context.
 .PP
 The coroutine can also be deleted by destroying the command \fIname\fR, and
-the name of the current coroutine can be retrieved by using \fBinfo
-coroutine\fR. If there are deletion traces on variables in the coroutine's
+the name of the current coroutine can be retrieved by using
+\fBinfo coroutine\fR.
+If there are deletion traces on variables in the coroutine's
 implementation, they will fire at the point when the coroutine is explicitly
 deleted (or, naturally, if the command returns conventionally).
 .PP
