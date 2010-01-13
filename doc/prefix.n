@@ -11,7 +11,7 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-prefix \- facilities for prefix matching
+tcl::prefix \- facilities for prefix matching
 .SH SYNOPSIS
 .nf
 \fB::tcl::prefix all\fR \fItable\fR \fIstring\fR
