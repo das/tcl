@@ -14,8 +14,6 @@
 
 #include "tclWinInt.h"
 
-#include <fcntl.h>
-#include <io.h>
 #include <sys/stat.h>
 
 /*
@@ -208,7 +206,7 @@ static void		PipeThreadActionProc(ClientData instanceData,
  * I/O.
  */
 
-static Tcl_ChannelType pipeChannelType = {
+static const Tcl_ChannelType pipeChannelType = {
     "pipe",			/* Type name. */
     TCL_CHANNEL_VERSION_5,	/* v5 channel */
     TCL_CLOSE2PROC,		/* Close proc. */
@@ -225,7 +223,7 @@ static Tcl_ChannelType pipeChannelType = {
     NULL,			/* handler proc. */
     NULL,			/* wide seek proc */
     PipeThreadActionProc,	/* thread action proc */
-    NULL,                       /* truncate */
+    NULL                       /* truncate */
 };
 
 /*

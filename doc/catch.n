@@ -92,4 +92,4 @@ documentation for the \fBreturn\fR command.
 .SH "SEE ALSO" 
 break(n), continue(n), dict(n), error(n), return(n), tclvars(n)
 .SH KEYWORDS
-catch, error
+catch, error, exception

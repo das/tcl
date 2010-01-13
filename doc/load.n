@@ -172,9 +172,9 @@ switch $tcl_platform(platform) {
 foo
 .CE
 .SH "SEE ALSO"
-info sharedlibextension, Tcl_StaticPackage(3), safe(n)
+info sharedlibextension, package(n), Tcl_StaticPackage(3), safe(n)
 .SH KEYWORDS
-binary code, loading, safe interpreter, shared library
+binary code, dynamic library, load, safe interpreter, shared library
 '\"Local Variables:
 '\"mode: nroff
 '\"End:

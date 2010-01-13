@@ -246,6 +246,8 @@ except for argument expansion as specified in rule [5].
 For example, during variable substitution the entire value of
 the variable becomes part of a single word, even if the variable's
 value contains spaces.
+.SH KEYWORDS
+backslash, command, comment, script, substitution, variable
 '\" Local Variables:
 '\" mode: nroff
 '\" fill-column: 78

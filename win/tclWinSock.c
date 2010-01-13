@@ -181,7 +181,7 @@ static Tcl_DriverGetHandleProc	TcpGetHandleProc;
  * based IO.
  */
 
-static Tcl_ChannelType tcpChannelType = {
+static const Tcl_ChannelType tcpChannelType = {
     "tcp",		    /* Type name. */
     TCL_CHANNEL_VERSION_5,  /* v5 channel */
     TcpCloseProc,	    /* Close proc. */
@@ -198,7 +198,7 @@ static Tcl_ChannelType tcpChannelType = {
     NULL,		    /* handler proc. */
     NULL,		    /* wide seek proc */
     TcpThreadActionProc,    /* thread action proc */
-    NULL,		    /* truncate */
+    NULL		    /* truncate */
 };
 
 /*

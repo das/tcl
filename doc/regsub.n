@@ -185,7 +185,7 @@ set quoted [subst [\fBregsub\fR -all $RE $string $substitution]]
 .SH "SEE ALSO"
 regexp(n), re_syntax(n), subst(n), string(n)
 .SH KEYWORDS
-match, pattern, quoting, regular expression, substitute
+match, pattern, quoting, regular expression, substitution
 '\" Local Variables:
 '\" mode: nroff
 '\" End:

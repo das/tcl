@@ -63,7 +63,7 @@ static int		ReflectNotify(ClientData clientData, int mask);
  * The C layer channel type/driver definition used by the reflection.
  */
 
-static Tcl_ChannelType tclRTransformType = {
+static const Tcl_ChannelType tclRTransformType = {
     "tclrtransform",		/* Type name. */
     TCL_CHANNEL_VERSION_5,	/* v5 channel. */
     ReflectClose,		/* Close channel, clean instance data. */
@@ -81,7 +81,7 @@ static Tcl_ChannelType tclRTransformType = {
     ReflectNotify,		/* Handle events. */
     ReflectSeekWide,		/* Move access point (64 bit). */
     NULL,			/* thread action */
-    NULL,			/* truncate */
+    NULL			/* truncate */
 };
 
 /*

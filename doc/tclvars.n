@@ -495,7 +495,8 @@ the main Tk window.
 .SH "SEE ALSO"
 eval(n), library(n), tclsh(1), wish(1)
 .SH KEYWORDS
-arithmetic, bytecode, compiler, error, environment, POSIX, precision, subprocess, variables
+arithmetic, bytecode, compiler, error, environment, POSIX, precision,
+subprocess, user, variables
 '\" Local Variables:
 '\" mode: nroff
 '\" End:

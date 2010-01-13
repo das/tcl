@@ -15,8 +15,6 @@
 
 #include "tclWinInt.h"
 
-#include <fcntl.h>
-#include <io.h>
 #include <sys/stat.h>
 
 /*
@@ -44,8 +42,10 @@ static CRITICAL_SECTION initLock;
 
 #ifdef TCL_THREADS
 
-static CRITICAL_SECTION allocLock;
-static Tcl_Mutex allocLockPtr = (Tcl_Mutex) &allocLock;
+static struct Tcl_Mutex_ {
+    CRITICAL_SECTION crit;
+} allocLock;
+static Tcl_Mutex allocLockPtr = &allocLock;
 static int allocOnce = 0;
 
 #endif /* TCL_THREADS */
@@ -413,7 +413,7 @@ Tcl_GetAllocMutex(void)
 {
 #ifdef TCL_THREADS
     if (!allocOnce) {
-	InitializeCriticalSection(&allocLock);
+	InitializeCriticalSection(&allocLock.crit);
 	allocOnce = 1;
     }
     return &allocLockPtr;
@@ -455,7 +455,7 @@ TclFinalizeLock(void)
 
 #ifdef TCL_THREADS
     if (allocOnce) {
-	DeleteCriticalSection(&allocLock);
+	DeleteCriticalSection(&allocLock.crit);
 	allocOnce = 0;
     }
 #endif

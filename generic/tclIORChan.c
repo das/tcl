@@ -57,7 +57,7 @@ static int		ReflectSetOption(ClientData clientData,
  * a version 3 structure.
  */
 
-static Tcl_ChannelType tclRChannelType = {
+static const Tcl_ChannelType tclRChannelType = {
     "tclrchannel",	   /* Type name.				  */
     TCL_CHANNEL_VERSION_5, /* v5 channel */
     ReflectClose,	   /* Close channel, clean instance data	  */
@@ -74,7 +74,7 @@ static Tcl_ChannelType tclRChannelType = {
     NULL,		   /* Handle events.			NULL'able */
     ReflectSeekWide,	   /* Move access point (64 bit).	NULL'able */
     NULL,		   /* thread action */
-    NULL,		   /* truncate */
+    NULL		   /* truncate */
 };
 
 /*

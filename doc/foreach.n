@@ -103,4 +103,4 @@ set x {}
 for(n), while(n), break(n), continue(n)
 
 .SH KEYWORDS
-foreach, iteration, list, looping
+foreach, iteration, list, loop

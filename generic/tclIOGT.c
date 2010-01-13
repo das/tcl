@@ -118,7 +118,7 @@ static inline void	ResultAdd(ResultBuffer *r, unsigned char *buf,
  * transformations.
  */
 
-static Tcl_ChannelType transformChannelType = {
+static const Tcl_ChannelType transformChannelType = {
     "transform",		/* Type name. */
     TCL_CHANNEL_VERSION_5,	/* v5 channel */
     TransformCloseProc,		/* Close proc. */
@@ -135,7 +135,7 @@ static Tcl_ChannelType transformChannelType = {
     TransformNotifyProc,	/* Handling of events bubbling up. */
     TransformWideSeekProc,	/* Wide seek proc. */
     NULL,			/* Thread action. */
-    NULL,			/* Truncate. */
+    NULL			/* Truncate. */
 };
 
 /*
