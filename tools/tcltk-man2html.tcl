@@ -797,6 +797,11 @@ set ensemble_commands {
     clipboard console grab grid image option pack place selection tk tkwait
     winfo wm
 }
+array set remap_link_target {
+    stdin  Tcl_GetStdChannel
+    stdout Tcl_GetStdChannel
+    stderr Tcl_GetStdChannel
+}
 array set exclude_refs_map {
     history.n		{exec}
     canvas.n		{bitmap text}
@@ -807,6 +812,7 @@ array set exclude_refs_map {
     radiobutton.n	{image}
     scrollbar.n		{set}
     selection.n		{string}
+    tcltest.n		{error}
     tkvars.n		{tk}
 }
 array set exclude_when_followed_by_map {
