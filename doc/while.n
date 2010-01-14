@@ -64,4 +64,4 @@ set lineCount 0
 .SH "SEE ALSO"
 break(n), continue(n), for(n), foreach(n)
 .SH KEYWORDS
-boolean value, loop, test, while
+boolean, loop, test, while

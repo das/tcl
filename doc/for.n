@@ -81,6 +81,6 @@ for {set x 1} {$x<=1024} {set x [expr {$x * 2}]} {
 }
 .CE
 .SH "SEE ALSO"
-break, continue, foreach, while
+break(n), continue(n), foreach(n), while(n)
 .SH KEYWORDS
-for, iteration, loop
+boolean, for, iteration, loop

@@ -544,7 +544,8 @@ Returns -1 if the channel was not opened for the mode in question.
 Creates a standalone pipe whose read- and write-side channels are
 returned as a 2-element list, the first element being the read side and
 the second the write side. Can be useful e.g. to redirect
-separately stderr and stdout from a subprocess. To do this, spawn with "2>@" or
+separately \fBstderr\fR and \fBstdout\fR from a subprocess. To do
+this, spawn with "2>@" or
 ">@" redirection operators onto the write side of a pipe, and then
 immediately close it in the parent. This is necessary to get an EOF on
 the read side once the child has exited or otherwise closed its output. 
