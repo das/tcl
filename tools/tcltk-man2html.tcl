@@ -811,6 +811,7 @@ array set remap_link_target {
 }
 array set exclude_refs_map {
     history.n		{exec}
+    next.n		{unknown}
     canvas.n		{bitmap text}
     checkbutton.n	{image}
     clipboard.n		{string}
