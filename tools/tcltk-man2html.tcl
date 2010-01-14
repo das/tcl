@@ -810,6 +810,7 @@ array set remap_link_target {
     {style map} ttk::style
 }
 array set exclude_refs_map {
+    clock.n		{next}
     history.n		{exec}
     next.n		{unknown}
     canvas.n		{bitmap text}
