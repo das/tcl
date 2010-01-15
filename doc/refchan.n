@@ -230,8 +230,8 @@ time; that is behavior implemented in the Tcl channel core.
 The return value of the subcommand is ignored.
 .PP
 If the subcommand throws an error the command which performed the
-(re)configuration or query (usually \fBfconfigure\fR or \fBchan
-configure\fR) will appear to have thrown this error. Any exception
+(re)configuration or query (usually \fBfconfigure\fR or
+\fBchan configure\fR) will appear to have thrown this error. Any exception
 beyond \fBerror\fR (e.g.,\ \fBbreak\fR, etc.) is treated as and
 converted to an error.
 .RE
