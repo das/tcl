@@ -2280,6 +2280,9 @@ Tcl_AppendFormatToObj(
 
 	Tcl_GetStringFromObj(segment, &segmentNumBytes);
 	if (segmentNumBytes > limit) {
+	    if (allocSegment) {
+		Tcl_DecrRefCount(segment);
+	    }
 	    msg = overflow;
 	    goto errorMsg;
 	}
