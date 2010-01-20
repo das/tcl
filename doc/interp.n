@@ -832,8 +832,8 @@ set i [\fBinterp create\fR -safe]
 \fBinterp hide\fR $i lappend
 \fBinterp alias\fR $i lappend {} loggedLappend $i
 proc loggedLappend {i args} {
-   puts "logged invocation of lappend $args"
-   \fBinterp invokehidden\fR $i lappend {*}$args
+    puts "logged invocation of lappend $args"
+    \fBinterp invokehidden\fR $i lappend {*}$args
 }
 \fBinterp eval\fR $i $someUntrustedScript
 .CE
@@ -845,10 +845,10 @@ terminates.
 set i [\fBinterp create\fR]
 \fBinterp limit\fR $i command -value 1000
 \fBinterp eval\fR $i {
-   set x 0
-   while {1} {
-      puts "Counting up... [incr x]"
-   }
+    set x 0
+    while {1} {
+        puts "Counting up... [incr x]"
+    }
 }
 .CE
 .SH "SEE ALSO"

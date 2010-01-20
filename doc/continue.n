@@ -34,13 +34,16 @@ Print a line for each of the integers from 0 to 10 \fIexcept\fR 5:
 .PP
 .CS
 for {set x 0} {$x<10} {incr x} {
-   if {$x == 5} {
-      \fBcontinue\fR
-   }
-   puts "x is $x"
+    if {$x == 5} {
+        \fBcontinue\fR
+    }
+    puts "x is $x"
 }
 .CE
 .SH "SEE ALSO"
 break(n), for(n), foreach(n), return(n), while(n)
 .SH KEYWORDS
 continue, iteration, loop
+'\" Local Variables:
+'\" mode: nroff
+'\" End:

@@ -114,7 +114,7 @@ seconds:
 .PP
 .CS
 proc sleep {N} {
-   \fBafter\fR [expr {int($N * 1000)}]
+    \fBafter\fR [expr {int($N * 1000)}]
 }
 .CE
 .PP
@@ -138,9 +138,9 @@ responsive during a slow task.
 .PP
 .CS
 proc doOneStep {} {
-   if {[::my_calc::one_step]} {
-      \fBafter idle\fR [list \fBafter\fR 0 doOneStep]
-   }
+    if {[::my_calc::one_step]} {
+        \fBafter idle\fR [list \fBafter\fR 0 doOneStep]
+    }
 }
 doOneStep
 .CE
