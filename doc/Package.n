@@ -357,13 +357,16 @@ the functionality is not critical) do this:
 .PP
 .CS
 if {[catch {\fBpackage require\fR Snack}]} {
-   # Error thrown - package not found.
-   # Set up a dummy interface to work around the absence
+    # Error thrown - package not found.
+    # Set up a dummy interface to work around the absence
 } else {
-   # We have the package, configure the app to use it
+    # We have the package, configure the app to use it
 }
 .CE
 .SH "SEE ALSO"
 msgcat(n), packagens(n), pkgMkIndex(n)
 .SH KEYWORDS
 package, version
+'\" Local Variables:
+'\" mode: nroff
+'\" End:

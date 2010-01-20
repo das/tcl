@@ -81,9 +81,9 @@ them out, one by one.
 .PP
 .CS
 \fBproc\fR printArguments args {
-   foreach arg $args {
-      puts $arg
-   }
+    foreach arg $args {
+        puts $arg
+    }
 }
 .CE
 .PP
@@ -93,11 +93,14 @@ defaults to \fB2\fR:
 .PP
 .CS
 \fBproc\fR mult {varName {multiplier 2}} {
-   upvar 1 $varName var
-   set var [expr {$var * $multiplier}]
+    upvar 1 $varName var
+    set var [expr {$var * $multiplier}]
 }
 .CE
 .SH "SEE ALSO"
 info(n), unknown(n)
 .SH KEYWORDS
 argument, procedure
+'\" Local Variables:
+'\" mode: nroff
+'\" End:

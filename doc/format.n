@@ -270,8 +270,8 @@ puts $sep
 # Print the contents of the table
 set p 1
 for {set i 0} {$i<=20} {incr i} {
-   puts [\fBformat\fR "| %*d | %*ld |" $w1 $i $w2 $p]
-   set p [expr {wide($p) * 3}]
+    puts [\fBformat\fR "| %*d | %*ld |" $w1 $i $w2 $p]
+    set p [expr {wide($p) * 3}]
 }
 
 # Finish off by printing the separator again
@@ -281,3 +281,6 @@ puts $sep
 scan(n), sprintf(3), string(n)
 .SH KEYWORDS
 conversion specifier, format, sprintf, string, substitution
+'\" Local Variables:
+'\" mode: nroff
+'\" End:

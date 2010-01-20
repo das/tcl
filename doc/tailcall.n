@@ -25,10 +25,12 @@ in the current namespace context, not in the caller's. Apart from that
 difference in resolution, it is equivalent to:
 .PP
 .CS
-uplevel 1 [list \fIcommand\fR ?\fIarg ...\fR?]
+return [uplevel 1 [list \fIcommand\fR ?\fIarg ...\fR?]]
 .CE
 .PP
-This command may not be invoked from within an \fBuplevel\fR into a procedure.
+This command may not be invoked from within an \fBuplevel\fR into a procedure
+or inside a \fBcatch\fR inside a procedure or lambda.
+'\" TODO: sort out the mess with the [try] command!
 .SH EXAMPLE
 .PP
 Compute the factorial of a number.

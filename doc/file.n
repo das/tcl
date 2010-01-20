@@ -491,22 +491,22 @@ directory:
 .PP
 .CS
 proc findMatchingCFiles {dir} {
-   set files {}
-   switch $::tcl_platform(platform) {
-      windows {
-         set ext .obj
-      }
-      unix {
-         set ext .o
-      }
-   }
-   foreach file [glob \-nocomplain \-directory $dir *.c] {
-      set objectFile [\fBfile tail\fR [\fBfile rootname\fR $file]]$ext
-      if {[\fBfile exists\fR $objectFile]} {
-         lappend files $file
-      }
-   }
-   return $files
+    set files {}
+    switch $::tcl_platform(platform) {
+        windows {
+            set ext .obj
+        }
+        unix {
+           set ext .o
+        }
+    }
+    foreach file [glob \-nocomplain \-directory $dir *.c] {
+        set objectFile [\fBfile tail\fR [\fBfile rootname\fR $file]]$ext
+        if {[\fBfile exists\fR $objectFile]} {
+            lappend files $file
+        }
+    }
+    return $files
 }
 .CE
 .PP
@@ -518,7 +518,7 @@ set oldName foobar.txt
 set newName foo/bar.txt
 # Make sure that where we're going to move to exists...
 if {![\fBfile isdirectory\fR [\fBfile dirname\fR $newName]]} {
-   \fBfile mkdir\fR [\fBfile dirname\fR $newName]
+    \fBfile mkdir\fR [\fBfile dirname\fR $newName]
 }
 \fBfile rename\fR $oldName $newName
 \fBfile link\fR \-symbolic $oldName $newName

@@ -62,7 +62,7 @@ Alternatively:
 .PP
 .CS
 foreach scriptFile {foo.tcl bar.tcl} {
-   \fBsource\fR $scriptFile
+    \fBsource\fR $scriptFile
 }
 .CE
 .SH "SEE ALSO"

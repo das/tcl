@@ -606,36 +606,36 @@ progress meter, and prints the meta-data associated with the URL.
 .PP
 .CS
 proc httpcopy { url file {chunk 4096} } {
-   set out [open $file w]
-   set token [\fB::http::geturl\fR $url -channel $out \e
-          -progress httpCopyProgress -blocksize $chunk]
-   close $out
+    set out [open $file w]
+    set token [\fB::http::geturl\fR $url -channel $out \e
+            -progress httpCopyProgress -blocksize $chunk]
+    close $out
 
-   # This ends the line started by httpCopyProgress
-   puts stderr ""
+    # This ends the line started by httpCopyProgress
+    puts stderr ""
 
-   upvar #0 $token state
-   set max 0
-   foreach {name value} $state(meta) {
-      if {[string length $name] > $max} {
-         set max [string length $name]
-      }
-      if {[regexp -nocase ^location$ $name]} {
-         # Handle URL redirects
-         puts stderr "Location:$value"
-         return [httpcopy [string trim $value] $file $chunk]
-      }
-   }
-   incr max
-   foreach {name value} $state(meta) {
-      puts [format "%-*s %s" $max $name: $value]
-   }
+    upvar #0 $token state
+    set max 0
+    foreach {name value} $state(meta) {
+        if {[string length $name] > $max} {
+            set max [string length $name]
+        }
+        if {[regexp -nocase ^location$ $name]} {
+            # Handle URL redirects
+            puts stderr "Location:$value"
+            return [httpcopy [string trim $value] $file $chunk]
+        }
+    }
+    incr max
+    foreach {name value} $state(meta) {
+        puts [format "%-*s %s" $max $name: $value]
+    }
 
-   return $token
+    return $token
 }
 proc httpCopyProgress {args} {
-   puts -nonewline stderr .
-   flush stderr
+    puts -nonewline stderr .
+    flush stderr
 }
 .CE
 .SH "SEE ALSO"

@@ -165,9 +165,9 @@ Here is a very simple time server:
 .PP
 .CS
 proc Server {channel clientaddr clientport} {
-   puts "Connection from $clientaddr registered"
-   puts $channel [clock format [clock seconds]]
-   close $channel
+    puts "Connection from $clientaddr registered"
+    puts $channel [clock format [clock seconds]]
+    close $channel
 }
 
 \fBsocket\fR -server Server 9900
@@ -187,3 +187,6 @@ puts "The time on $server is $line"
 fconfigure(n), flush(n), open(n), read(n)
 .SH KEYWORDS
 asynchronous I/O, bind, channel, connection, domain name, host, network address, socket, tcp
+'\" Local Variables:
+'\" mode: nroff
+'\" End:
