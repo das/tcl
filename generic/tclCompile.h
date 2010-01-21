@@ -343,6 +343,8 @@ typedef struct CompileEnv {
 
 #define TCL_BYTECODE_RESOLVE_VARS		0x0002
 
+#define TCL_BYTECODE_RECOMPILE			0x0004
+
 typedef struct ByteCode {
     TclHandle interpHandle;	/* Handle for interpreter containing the
 				 * compiled code. Commands and their compile

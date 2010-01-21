@@ -280,6 +280,28 @@ test nre-7.7 {[eval] is not recursive} -setup {
     testnrelevels
 } -result {{0 2 2 1} 0}
 
+test nre-7.8 {bug #2910748: switch out of stale BC is not nre-aware} -setup {
+    proc foo args {}
+    foo
+    coroutine bar apply {{} {
+	yield
+	proc foo args {return ok}
+	while 1 {
+	    yield [incr i]
+	    foo
+	}
+    }}
+} -body {
+    # if switching to plain eval is not nre aware, this will cause a "cannot
+    # yield" error
+
+    list [bar] [bar] [bar]
+} -cleanup {
+    rename bar {}
+    rename foo {}
+} -result {1 2 3}
+
+
 test nre-8.1 {nre and {*}} -body {
     # force an expansion that grows the evaluation stack, check that nre
     # adapts the bottomPtr. This crashes on failure.
