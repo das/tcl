@@ -402,8 +402,6 @@
 
 #ifdef __CYGWIN__
 /* On Cygwin, the environment is imported from the Cygwin DLL. */
-     DLLIMPORT extern char **__cygwin_environ;
-#    define environ __cygwin_environ
 #    define putenv TclCygwinPutenv
 #    define timezone _timezone
 #endif /* __CYGWIN__ */
