@@ -138,13 +138,7 @@ extern "C" {
  * prior Tcl releases.
  */
 
-#if 1
-#   ifndef NULL
-#       define NULL ((void *) 0)
-#   endif
-#else
-#   include <stdio.h>
-#endif
+#include <stdio.h>
 
 /*
  * Support for functions with a variable number of arguments.

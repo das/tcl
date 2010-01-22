@@ -2686,8 +2686,8 @@ Tcl_WaitPid(
 
 void
 TclWinAddProcess(
-    HANDLE hProcess,		/* Handle to process */
-    DWORD id)			/* Global process identifier */
+    void *hProcess,		/* Handle to process */
+    unsigned long id)		/* Global process identifier */
 {
     ProcInfo *procPtr = (ProcInfo *) ckalloc(sizeof(ProcInfo));
 
