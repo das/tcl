@@ -575,7 +575,7 @@ AllocObject(
 	cmdPtr->nreProc = PrivateNRObjectCmd;
 	Tcl_SetHashValue(cmdPtr->hPtr, cmdPtr);
 	oPtr->myCommand = (Tcl_Command) cmdPtr;
-	cmdPtr->tracePtr = trace = (CommandTrace *)
+	cmdPtr->tracePtr = tracePtr = (CommandTrace *)
 		ckalloc(sizeof(CommandTrace));
 	tracePtr->traceProc = MyDeletedTrace;
 	tracePtr->clientData = oPtr;

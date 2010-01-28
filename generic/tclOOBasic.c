@@ -268,13 +268,15 @@ TclOO_Object_Destroy(
 	return TCL_ERROR;
     }
     if (!(oPtr->flags & DESTRUCTOR_CALLED)) {
-	CallContext *contextPtr = TclOOGetCallContext(oPtr, NULL, DESTRUCTOR);
+	CallContext *contextPtr =
+		TclOOGetCallContext(oPtr, NULL, DESTRUCTOR, NULL);
 
 	oPtr->flags |= DESTRUCTOR_CALLED;
 	if (contextPtr != NULL) {
 	    contextPtr->callPtr->flags |= DESTRUCTOR;
 	    contextPtr->skip = 0;
-	    result = TclOOInvokeContext(interp, contextPtr, 0, NULL);
+	    result = Tcl_NRCallObjProc(interp, TclOOInvokeContext,
+		    contextPtr, 0, NULL);
 	    TclOODeleteContext(contextPtr);
 	}
     }
