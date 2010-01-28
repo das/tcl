@@ -199,6 +199,8 @@ typedef struct Object {
 
 #define OBJECT_DELETED	1	/* Flag to say that an object has been
 				 * destroyed. */
+#define DESTRUCTOR_CALLED 2	/* Flag to say that the destructor has been
+				 * called. */
 #define ROOT_OBJECT 0x1000	/* Flag to say that this object is the root of
 				 * the class hierarchy and should be treated
 				 * specially during teardown. */
