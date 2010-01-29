@@ -425,7 +425,7 @@ proc genStubs::makeDecl {name decl index} {
 	append text ";\n"
 	return $text
     }
-    append line "$fname "
+    append line $fname
 
     set arg1 [lindex $args 0]
     switch -exact $arg1 {
@@ -437,8 +437,11 @@ proc genStubs::makeDecl {name decl index} {
 	    foreach arg [lrange $args 1 end] {
 		append line $sep
 		set next {}
-		append next [lindex $arg 0] " " [lindex $arg 1] \
-			[lindex $arg 2]
+		append next [lindex $arg 0]
+		if {[string index $next end] ne "*"} {
+		    append next " "
+		}
+		append next [lindex $arg 1] [lindex $arg 2]
 		if {[string length $line] + [string length $next] \
 			+ $pad > 76} {
 		    append text [string trimright $line] \n
@@ -455,8 +458,11 @@ proc genStubs::makeDecl {name decl index} {
 	    foreach arg $args {
 		append line $sep
 		set next {}
-		append next [lindex $arg 0] " " [lindex $arg 1] \
-			[lindex $arg 2]
+		append next [lindex $arg 0]
+		if {[string index $next end] ne "*"} {
+		    append next " "
+		}
+		append next [lindex $arg 1] [lindex $arg 2]
 		if {[string length $line] + [string length $next] \
 			+ $pad > 76} {
 		    append text [string trimright $line] \n
