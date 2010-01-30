@@ -808,6 +808,9 @@ typedef struct VarInHash {
 #define TclIsVarDirectWritable(varPtr) \
     !((varPtr)->flags & (VAR_ARRAY|VAR_LINK|VAR_TRACED_WRITE|VAR_DEAD_HASH))
 
+#define TclIsVarDirectUnsettable(varPtr) \
+    !((varPtr)->flags & (VAR_ARRAY|VAR_LINK|VAR_TRACED_UNSET|VAR_DEAD_HASH))
+
 #define TclIsVarDirectModifyable(varPtr) \
     (   !((varPtr)->flags & (VAR_ARRAY|VAR_LINK|VAR_TRACED_READ|VAR_TRACED_WRITE)) \
     &&  (varPtr)->value.objPtr)
@@ -3392,6 +3395,9 @@ MODULE_SCOPE int	TclCompileSubstCmd(Tcl_Interp *interp,
 MODULE_SCOPE int	TclCompileSwitchCmd(Tcl_Interp *interp,
 			    Tcl_Parse *parsePtr, Command *cmdPtr,
 			    struct CompileEnv *envPtr);
+MODULE_SCOPE int	TclCompileUnsetCmd(Tcl_Interp *interp,
+			    Tcl_Parse *parsePtr, Command *cmdPtr,
+			    struct CompileEnv *envPtr);
 MODULE_SCOPE int	TclCompileUpvarCmd(Tcl_Interp *interp,
 			    Tcl_Parse *parsePtr, Command *cmdPtr,
 			    struct CompileEnv *envPtr);
@@ -3569,6 +3575,10 @@ MODULE_SCOPE Tcl_Obj *	TclPtrIncrObjVar(Tcl_Interp *interp,
 			    const int flags, int index);
 MODULE_SCOPE int	TclPtrObjMakeUpvar(Tcl_Interp *interp, Var *otherPtr,
 			    Tcl_Obj *myNamePtr, int myFlags, int index);
+MODULE_SCOPE int	TclPtrUnsetVar(Tcl_Interp *interp, Var *varPtr,
+			    Var *arrayPtr, Tcl_Obj *part1Ptr,
+			    Tcl_Obj *part2Ptr, const int flags,
+			    int index);
 MODULE_SCOPE void	TclInvalidateNsPath(Namespace *nsPtr);
 
 /*
