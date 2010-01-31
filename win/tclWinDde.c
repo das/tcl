@@ -15,7 +15,6 @@
 #include "tclInt.h"
 #include <dde.h>
 #include <ddeml.h>
-#include <tchar.h>
 
 /*
  * TCL_STORAGE_CLASS is set unconditionally to DLLEXPORT because the Dde_Init

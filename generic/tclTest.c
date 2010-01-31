@@ -2212,11 +2212,11 @@ ExitProcOdd(
     ClientData clientData)	/* Integer value to print. */
 {
     char buf[16 + TCL_INTEGER_SPACE];
-    size_t len;
+    int len;
 
     sprintf(buf, "odd %d\n", PTR2INT(clientData));
     len = strlen(buf);
-    if (write(1, buf, len) != len) {
+    if (len != (int) write(1, buf, len)) {
 	Tcl_Panic("Tcl_FinalizeNotifier: unable to write q to triggerPipe");
     }
 }
@@ -2226,11 +2226,11 @@ ExitProcEven(
     ClientData clientData)	/* Integer value to print. */
 {
     char buf[16 + TCL_INTEGER_SPACE];
-    size_t len;
+    int len;
 
     sprintf(buf, "even %d\n", PTR2INT(clientData));
     len = strlen(buf);
-    if (write(1, buf, len) != len) {
+    if (len != (int) write(1, buf, len)) {
 	Tcl_Panic("Tcl_FinalizeNotifier: unable to write q to triggerPipe");
     }
 }
