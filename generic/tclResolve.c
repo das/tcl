@@ -294,7 +294,7 @@ BumpCmdRefEpochs(
  *
  *	Command resolution is handled by a function of the following type:
  *
- *	  typedef int (*Tcl_ResolveCmdProc)(Tcl_Interp *interp,
+ *	  typedef int (Tcl_ResolveCmdProc)(Tcl_Interp *interp,
  *		  const char *name, Tcl_Namespace *context,
  *		  int flags, Tcl_Command *rPtr);
  *
@@ -309,7 +309,7 @@ BumpCmdRefEpochs(
  *	Variable resolution is handled by two functions. The first is called
  *	whenever a variable needs to be resolved at compile time:
  *
- *	  typedef int (*Tcl_ResolveCompiledVarProc)(Tcl_Interp *interp,
+ *	  typedef int (Tcl_ResolveCompiledVarProc)(Tcl_Interp *interp,
  *		  const char *name, Tcl_Namespace *context,
  *		  Tcl_ResolvedVarInfo *rPtr);
  *
@@ -325,7 +325,7 @@ BumpCmdRefEpochs(
  *	the variable may be requested via Tcl_FindNamespaceVar.) This function
  *	has the following type:
  *
- *	  typedef int (*Tcl_ResolveVarProc)(Tcl_Interp *interp,
+ *	  typedef int (Tcl_ResolveVarProc)(Tcl_Interp *interp,
  *		  const char *name, Tcl_Namespace *context,
  *		  int flags, Tcl_Var *rPtr);
  *

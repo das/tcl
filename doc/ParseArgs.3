@@ -128,7 +128,7 @@ have the following signature:
 .RS
 .PP
 .CS
-typedef int (*\fBTcl_ArgvFuncProc\fR)(
+typedef int (\fBTcl_ArgvFuncProc\fR)(
         ClientData \fIclientData\fR,
         Tcl_Obj *\fIobjPtr\fR,
         void *\fIdstPtr\fR);
@@ -150,7 +150,7 @@ function will have the following signature:
 .RS
 .PP
 .CS
-typedef int (*\fBTcl_ArgvGenFuncProc\fR)(
+typedef int (\fBTcl_ArgvGenFuncProc\fR)(
         ClientData \fIclientData\fR,
         Tcl_Interp *\fIinterp\fR,
         int \fIobjc\fR,

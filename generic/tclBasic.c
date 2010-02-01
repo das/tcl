@@ -242,7 +242,7 @@ static const CmdInfo builtInCmds[] = {
     {"throw",		Tcl_ThrowObjCmd,	NULL,			NULL,	1},
     {"trace",		Tcl_TraceObjCmd,	NULL,			NULL,	1},
     {"try",		Tcl_TryObjCmd,		NULL,			TclNRTryObjCmd,	1},
-    {"unset",		Tcl_UnsetObjCmd,	NULL,			NULL,	1},
+    {"unset",		Tcl_UnsetObjCmd,	TclCompileUnsetCmd,	NULL,	1},
     {"uplevel",		Tcl_UplevelObjCmd,	NULL,			TclNRUplevelObjCmd,	1},
     {"upvar",		Tcl_UpvarObjCmd,	TclCompileUpvarCmd,	NULL,	1},
     {"variable",	Tcl_VariableObjCmd,	TclCompileVariableCmd,	NULL,	1},
