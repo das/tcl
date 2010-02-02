@@ -440,6 +440,22 @@ test oo-3.8 {basic test of OO functionality: errors in destructor} -setup {
     list [namespace delete [info object namespace [cls create obj]]] \
 	[update idletasks] $result [info commands obj]
 } -result {{} {} foo {}}
+test oo-3.9 {Bug 2944404: deleting the object in the destructor} -setup {
+    oo::class create cls
+    set result {}
+} -body {
+    oo::define cls {
+	destructor {
+	    lappend ::result in destructor
+	    [self] destroy
+	}
+    }
+    # This used to crash
+    [cls new] destroy
+    return $result
+} -cleanup {
+    cls destroy
+} -result {in destructor}
 
 test oo-4.1 {basic test of OO functionality: export} {
     set o [oo::object new]
