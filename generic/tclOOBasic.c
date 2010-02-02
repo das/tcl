@@ -267,6 +267,7 @@ TclOO_Object_Destroy(
 		NULL);
 	return TCL_ERROR;
     }
+    AddRef(oPtr);
     if (!(oPtr->flags & DESTRUCTOR_CALLED)) {
 	CallContext *contextPtr =
 		TclOOGetCallContext(oPtr, NULL, DESTRUCTOR, NULL);
@@ -280,8 +281,10 @@ TclOO_Object_Destroy(
 	    TclOODeleteContext(contextPtr);
 	}
     }
-    Tcl_DeleteCommandFromToken(interp,
-	    Tcl_GetObjectCommand(Tcl_ObjectContextObject(context)));
+    if (oPtr->command) {
+	Tcl_DeleteCommandFromToken(interp, oPtr->command);
+    }
+    DelRef(oPtr);
     return result;
 }
 
