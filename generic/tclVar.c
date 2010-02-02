@@ -3218,7 +3218,9 @@ Tcl_ArrayObjCmd(
 		 */
 
 		if (varPtr2 == protectedVarPtr) {
-		    VarHashRefCount(varPtr2)--;
+		    if (VarHashRefCount(varPtr2)-- == 1) {
+			CleanupVar(varPtr2, varPtr);
+		    }
 		}
 
 		/*
@@ -3247,7 +3249,9 @@ Tcl_ArrayObjCmd(
 			 */
 
 			if (protectedVarPtr) {
-			    VarHashRefCount(protectedVarPtr)--;
+			    if (VarHashRefCount(protectedVarPtr)-- == 1) {
+				CleanupVar(protectedVarPtr, varPtr);
+			    }
 			}
 			return TCL_ERROR;
 		    }
