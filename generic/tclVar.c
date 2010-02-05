@@ -3700,7 +3700,7 @@ ArrayNamesCmd(
     Var *varPtr, *arrayPtr, *varPtr2;
     Tcl_Obj *varNameObj, *nameObj, *resultObj, *patternObj;
     Tcl_HashSearch search;
-    const char *pattern;
+    const char *pattern = NULL;
     int mode = OPT_GLOB;
 
     if ((objc < 2) || (objc > 4)) {
@@ -3785,7 +3785,7 @@ ArrayNamesCmd(
 	nameObj = VarHashGetKey(varPtr2);
 	if (patternObj) {
 	    const char *name = TclGetString(nameObj);
-	    int matched;
+	    int matched = 0;
 
 	    switch ((enum options) mode) {
 	    case OPT_EXACT:

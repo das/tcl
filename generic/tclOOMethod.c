@@ -1657,7 +1657,7 @@ TclOONewProcInstanceMethodEx(
     Tcl_Object oPtr,		/* The object to modify. */
     TclOO_PreCallProc preCallPtr,
     TclOO_PostCallProc postCallPtr,
-    ProcErrorProc errProc,
+    ProcErrorProc *errProc,
     ClientData clientData,
     Tcl_Obj *nameObj,		/* The name of the method, which must not be
 				 * NULL. */
@@ -1694,7 +1694,7 @@ TclOONewProcMethodEx(
     Tcl_Class clsPtr,		/* The class to modify. */
     TclOO_PreCallProc preCallPtr,
     TclOO_PostCallProc postCallPtr,
-    ProcErrorProc errProc,
+    ProcErrorProc *errProc,
     ClientData clientData,
     Tcl_Obj *nameObj,		/* The name of the method, which may be NULL;
 				 * if so, up to caller to manage storage

@@ -52,7 +52,7 @@ typedef struct TclWinProcs {
     int useWide;
 
     BOOL (WINAPI *buildCommDCBProc)(const TCHAR *, LPDCB);
-    TCHAR *(WINAPI *charLowerProc)(TCHAR *);
+    TCHAR * (WINAPI *charLowerProc)(TCHAR *);
     BOOL (WINAPI *copyFileProc)(const TCHAR *, const TCHAR *, BOOL);
     BOOL (WINAPI *createDirectoryProc)(const TCHAR *, LPSECURITY_ATTRIBUTES);
     HANDLE (WINAPI *createFileProc)(const TCHAR *, DWORD, DWORD,
