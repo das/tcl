@@ -1051,7 +1051,7 @@ test cmdAH-23.6 {Tcl_FileObjCmd: lstat errors} -setup {
 } -body {
     set x 44
     list [catch {file lstat $gorpfile x} msg] $msg $errorCode
-} -result {1 {can't set "x(dev)": variable isn't array} {TCL LOOKUP VARNAME}}
+} -result {1 {can't set "x(dev)": variable isn't array} {TCL LOOKUP VARNAME x}}
 catch {unset stat}
 # mkdir
 set dirA [file join [temporaryDirectory] a]
