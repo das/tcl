@@ -3318,6 +3318,9 @@ MODULE_SCOPE int	TclCompileDictUpdateCmd(Tcl_Interp *interp,
 MODULE_SCOPE int	TclCompileEnsemble(Tcl_Interp *interp,
 			    Tcl_Parse *parsePtr, Command *cmdPtr,
 			    struct CompileEnv *envPtr);
+MODULE_SCOPE int	TclCompileErrorCmd(Tcl_Interp *interp,
+			    Tcl_Parse *parsePtr, Command *cmdPtr,
+			    struct CompileEnv *envPtr);
 MODULE_SCOPE int	TclCompileExprCmd(Tcl_Interp *interp,
 			    Tcl_Parse *parsePtr, Command *cmdPtr,
 			    struct CompileEnv *envPtr);
