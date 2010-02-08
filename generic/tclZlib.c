@@ -1316,6 +1316,15 @@ Tcl_ZlibDeflate(
     obj = Tcl_GetObjResult(interp);
 
     /*
+     * Make sure that the result is an unshared object. [Bug 2947783]
+     */
+
+    if (Tcl_IsShared(obj)) {
+	obj = Tcl_DuplicateObj(obj);
+	Tcl_SetObjResult(interp, obj);
+    }
+
+    /*
      * Compressed format is specified by the wbits parameter. See zlib.h for
      * details.
      */
@@ -1467,6 +1476,15 @@ Tcl_ZlibInflate(
 	return TCL_ERROR;
     }
     obj = Tcl_GetObjResult(interp);
+
+    /*
+     * Make sure that the result is an unshared object. [Bug 2947783]
+     */
+
+    if (Tcl_IsShared(obj)) {
+	obj = Tcl_DuplicateObj(obj);
+	Tcl_SetObjResult(interp, obj);
+    }
 
     /*
      * Compressed format is specified by the wbits parameter. See zlib.h for
