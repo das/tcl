@@ -2222,7 +2222,7 @@ test io-28.5 {Tcl_Close vs standard handles} {stdio unix testchannel openpipe} {
     set f [open "|[list [interpreter] $path(script)]" r]
     set l [gets $f]
     close $f
-    set l
+    lsort $l
 } {file1 file2}
 
 test io-29.1 {Tcl_WriteChars, channel not writable} {

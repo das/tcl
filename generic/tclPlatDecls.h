@@ -85,12 +85,12 @@ typedef struct TclPlatStubs {
     const struct TclPlatStubHooks *hooks;
 
 #ifdef __WIN32__ /* WIN */
-    TCHAR * (*tcl_WinUtfToTChar) (const char * str, int len, Tcl_DString * dsPtr); /* 0 */
-    char * (*tcl_WinTCharToUtf) (const TCHAR * str, int len, Tcl_DString * dsPtr); /* 1 */
+    TCHAR * (*tcl_WinUtfToTChar) (const char *str, int len, Tcl_DString *dsPtr); /* 0 */
+    char * (*tcl_WinTCharToUtf) (const TCHAR *str, int len, Tcl_DString *dsPtr); /* 1 */
 #endif /* WIN */
 #ifdef MAC_OSX_TCL /* MACOSX */
-    int (*tcl_MacOSXOpenBundleResources) (Tcl_Interp * interp, const char * bundleName, int hasResourceFile, int maxPathLen, char * libraryPath); /* 0 */
-    int (*tcl_MacOSXOpenVersionedBundleResources) (Tcl_Interp * interp, const char * bundleName, const char * bundleVersion, int hasResourceFile, int maxPathLen, char * libraryPath); /* 1 */
+    int (*tcl_MacOSXOpenBundleResources) (Tcl_Interp *interp, const char *bundleName, int hasResourceFile, int maxPathLen, char *libraryPath); /* 0 */
+    int (*tcl_MacOSXOpenVersionedBundleResources) (Tcl_Interp *interp, const char *bundleName, const char *bundleVersion, int hasResourceFile, int maxPathLen, char *libraryPath); /* 1 */
 #endif /* MACOSX */
 } TclPlatStubs;
 
