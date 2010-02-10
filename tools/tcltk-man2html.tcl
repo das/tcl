@@ -813,7 +813,7 @@ array set exclude_refs_map {
     clock.n		{next}
     history.n		{exec}
     next.n		{unknown}
-    zlib.n		{binary filename text}
+    zlib.n		{binary close filename text}
     canvas.n		{bitmap text}
     checkbutton.n	{image}
     clipboard.n		{string}
@@ -839,7 +839,7 @@ array set exclude_refs_map {
     ttk_spinbox.n	{format}
     ttk_treeview.n	{text open}
     ttk_widget.n	{image text variable}
-    TclZlib.3		{binary filename text}
+    TclZlib.3		{binary flush filename text}
 }
 array set exclude_when_followed_by_map {
     canvas.n {
