@@ -724,7 +724,7 @@ proc ::tcl::clock::ParseClockFormatFormat {procName format locale} {
 
     try {
 	return [ParseClockFormatFormat2 $format $locale $procName]
-    } trap clock {result opts} {
+    } trap CLOCK {result opts} {
 	dict unset opts -errorinfo
 	return -options $opts $result
     } finally {
