@@ -75,8 +75,8 @@ The size of the uncompressed data.
 \fBtime\fR
 .
 The time field from the header if non-zero, expected to be time that the file
-named by the \fBfilename\fR field was modified. Suitable for use with \fBclock
-format\fR.
+named by the \fBfilename\fR field was modified. Suitable for use with
+\fBclock format\fR.
 .TP
 \fBtype\fR
 .
