@@ -4038,7 +4038,7 @@ TclHashObjKey(
     void *keyPtr)		/* Key from which to compute hash value. */
 {
     Tcl_Obj *objPtr = keyPtr;
-    register unsigned result = 0;
+    register unsigned result = 0x811c9dc5;
     const unsigned char *string = (unsigned char *) TclGetString(objPtr);
     const unsigned char *last = string + objPtr->length;
 
