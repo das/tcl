@@ -872,7 +872,7 @@ HashStringKey(
     void *keyPtr)		/* Key from which to compute hash value. */
 {
     const unsigned char *string = keyPtr;
-    unsigned result = 0;
+    unsigned result = 0x811c9dc5;
     unsigned c;
 
     /*
