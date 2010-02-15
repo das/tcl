@@ -137,7 +137,7 @@ static char initScript[] =
 /*     "tcl_findLibrary tcloo $oo::version $oo::version" */
 /*     " tcloo.tcl OO_LIBRARY oo::library;"; */
 
-MODULE_SCOPE const TclOOStubs tclOOConstStubs;
+MODULE_SCOPE const TclOOStubs tclOOStubs;
 
 /*
  * Convenience macro for getting the foundation from an interpreter.
@@ -183,7 +183,7 @@ TclOOInit(
     }
 
     return Tcl_PkgProvideEx(interp, "TclOO", TCLOO_VERSION,
-	    (ClientData) &tclOOConstStubs);
+	    (ClientData) &tclOOStubs);
 }
 
 /*

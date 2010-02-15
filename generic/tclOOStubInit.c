@@ -10,11 +10,11 @@
 #endif
 #include "tclOOInt.h"
 
-MODULE_SCOPE const TclOOStubs tclOOConstStubs;
+MODULE_SCOPE const TclOOStubs tclOOStubs;
 
 /* !BEGIN!: Do not edit below this line. */
 
-static const TclOOIntStubs tclOOIntConstStubs = {
+static const TclOOIntStubs tclOOIntStubs = {
     TCL_STUB_MAGIC,
     NULL,
     TclOOGetDefineCmdContext, /* 0 */
@@ -36,10 +36,10 @@ static const TclOOIntStubs tclOOIntConstStubs = {
 };
 
 static const TclOOStubHooks tclOOStubHooks = {
-    &tclOOIntConstStubs
+    &tclOOIntStubs
 };
 
-const TclOOStubs tclOOConstStubs = {
+const TclOOStubs tclOOStubs = {
     TCL_STUB_MAGIC,
     &tclOOStubHooks,
     Tcl_CopyObjectInstance, /* 0 */

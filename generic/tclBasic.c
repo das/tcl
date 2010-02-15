@@ -167,7 +167,7 @@ static Tcl_NRPostProc	TEOV_RestoreVarFrame;
 static Tcl_NRPostProc	TEOV_RunLeaveTraces;
 static Tcl_NRPostProc	YieldToCallback;
 
-MODULE_SCOPE const TclStubs tclConstStubs;
+MODULE_SCOPE const TclStubs tclStubs;
 
 /*
  * The following structure define the commands in the Tcl core.
@@ -677,7 +677,7 @@ Tcl_CreateInterp(void)
      * Initialise the stub table pointer.
      */
 
-    iPtr->stubTable = &tclConstStubs;
+    iPtr->stubTable = &tclStubs;
 
     /*
      * Initialize the ensemble error message rewriting support.
@@ -906,7 +906,7 @@ Tcl_CreateInterp(void)
      */
 
     Tcl_PkgProvideEx(interp, "Tcl", TCL_PATCH_LEVEL,
-	    (ClientData) &tclConstStubs);
+	    (ClientData) &tclStubs);
 
     if (TclTommath_Init(interp) != TCL_OK) {
 	Tcl_Panic(Tcl_GetString(Tcl_GetObjResult(interp)));

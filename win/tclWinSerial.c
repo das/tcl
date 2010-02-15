@@ -1682,7 +1682,7 @@ SerialSetOptionProc(
 	    }
 	    return TCL_ERROR;
 	}
-	native = Tcl_WinUtfToTChar(value, -1, &ds);
+	native = tclWinProcs->utf2tchar(value, -1, &ds);
 	result = tclWinProcs->buildCommDCBProc(native, &dcb);
 	Tcl_DStringFree(&ds);
 

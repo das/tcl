@@ -983,7 +983,7 @@ proc genStubs::emitInit {name textVar} {
 	append text "\nstatic const ${capName}StubHooks ${name}StubHooks = \{\n"
 	set sep "    "
 	foreach sub $hooks($name) {
-	    append text $sep "&${sub}ConstStubs"
+	    append text $sep "&${sub}Stubs"
 	    set sep ",\n    "
 	}
 	append text "\n\};\n"
@@ -998,9 +998,9 @@ proc genStubs::emitInit {name textVar} {
     }
 
     if {$root} {
-	append text "\nconst ${capName}Stubs ${name}ConstStubs = \{\n"
+	append text "\nconst ${capName}Stubs ${name}Stubs = \{\n"
     } else {
-	append text "\nstatic const ${capName}Stubs ${name}ConstStubs = \{\n"
+	append text "\nstatic const ${capName}Stubs ${name}Stubs = \{\n"
     }
     append text "    TCL_STUB_MAGIC,\n"
     if {[info exists hooks($name)]} {

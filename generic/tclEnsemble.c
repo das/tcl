@@ -2743,7 +2743,7 @@ TclCompileEnsemble(
 	}
 	for (i=0 ; i<len ; i++) {
 	    str = Tcl_GetStringFromObj(elems[i], &sclen);
-	    if ((sclen == numBytes) && !memcmp(word, str, numBytes)) {
+	    if ((sclen == (int) numBytes) && !memcmp(word, str, numBytes)) {
 		/*
 		 * Exact match! Excellent!
 		 */
