@@ -1417,7 +1417,7 @@ ApplicationType(
 	if ((attr == 0xffffffff) || (attr & FILE_ATTRIBUTE_DIRECTORY)) {
 	    continue;
 	}
-	strcpy(fullName, Tcl_WinTCharToUtf((TCHAR *) nativeFullPath, -1, &ds));
+	strcpy(fullName, tclWinProcs->tchar2utf((TCHAR *) nativeFullPath, -1, &ds));
 	Tcl_DStringFree(&ds);
 
 	ext = strrchr(fullName, '.');
@@ -1508,7 +1508,7 @@ ApplicationType(
 
 	tclWinProcs->getShortPathNameProc((TCHAR *) nativeFullPath,
 		nativeFullPath, MAX_PATH);
-	strcpy(fullName, Tcl_WinTCharToUtf((TCHAR *) nativeFullPath, -1, &ds));
+	strcpy(fullName, tclWinProcs->tchar2utf((TCHAR *) nativeFullPath, -1, &ds));
 	Tcl_DStringFree(&ds);
     }
     return applType;

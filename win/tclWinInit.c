@@ -555,7 +555,7 @@ TclpSetVariables(
 	if (tclWinProcs->getUserName((LPTSTR)szUserName, &cchUserNameLen) != 0) {
 	    int cbUserNameLen = cchUserNameLen - 1;
 	    if (tclWinProcs->useWide) cbUserNameLen *= sizeof(WCHAR);
-	    Tcl_WinTCharToUtf((LPTSTR)szUserName, cbUserNameLen, &ds);
+	    tclWinProcs->tchar2utf((LPTSTR)szUserName, cbUserNameLen, &ds);
 	}
     }
     Tcl_SetVar2(interp, "tcl_platform", "user", Tcl_DStringValue(&ds),
