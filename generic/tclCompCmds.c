@@ -978,6 +978,7 @@ TclCompileDictUpdateCmd(
     const char *name;
     int i, nameChars, dictIndex, numVars, range, infoIndex;
     Tcl_Token **keyTokenPtrs, *dictVarTokenPtr, *bodyTokenPtr, *tokenPtr;
+    int savedStackDepth = envPtr->currStackDepth;
     DictUpdateInfo *duiPtr;
     JumpFixup jumpFixup;
 
@@ -1095,7 +1096,9 @@ TclCompileDictUpdateCmd(
     TclEmitInstInt4( INST_BEGIN_CATCH4, range,			envPtr);
 
     ExceptionRangeStarts(envPtr, range);
+    envPtr->currStackDepth++;
     CompileBody(envPtr, bodyTokenPtr, interp);
+    envPtr->currStackDepth = savedStackDepth;
     ExceptionRangeEnds(envPtr, range);
 
     /*

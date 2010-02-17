@@ -315,7 +315,7 @@ TclCreateLiteral(
 #ifdef TCL_COMPILE_DEBUG
     if (TclLookupLiteralEntry((Tcl_Interp *) iPtr, objPtr) != NULL) {
 	Tcl_Panic("%s: literal \"%.*s\" found globally but shouldn't be",
-		"TclRegisterLiteral" (length>60? 60 : length), bytes);
+		"TclRegisterLiteral", (length>60? 60 : length), bytes);
     }
 #endif
 

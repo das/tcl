@@ -355,9 +355,9 @@ InstructionDesc const tclInstructionTable[] = {
 	/* Create the variables (described in the aux data referred to by the
 	 * second immediate argument) to mirror the state of the dictionary in
 	 * the variable referred to by the first immediate argument. The list
-	 * of keys (popped from the stack) must be the same length as the list
-	 * of variables.
-	 * Stack:  ... keyList => ... */
+	 * of keys (top of the stack, not poppsed) must be the same length as
+	 * the list of variables.
+	 * Stack:  ... keyList => ... keyList */
     {"dictUpdateEnd",	  9,    -1,	   2,	{OPERAND_LVT4, OPERAND_AUX4}},
 	/* Reflect the state of local variables (described in the aux data
 	 * referred to by the second immediate argument) back to the state of
