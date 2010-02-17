@@ -2432,7 +2432,7 @@ InitializeHostName(
 	 * Convert string from native to UTF then change to lowercase.
 	 */
 
-	Tcl_UtfToLower(Tcl_WinTCharToUtf((TCHAR *) wbuf, -1, &ds));
+	Tcl_UtfToLower((char *) tclWinProcs->tchar2utf((TCHAR *) wbuf, -1, &ds));
 
     } else {
 	Tcl_DStringInit(&ds);
