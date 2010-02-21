@@ -175,7 +175,7 @@ TclTomMathInitializeStubs(
     ClientData pkgClientData = NULL;
     const char *actualVersion =
 	Tcl_PkgRequireEx(interp, packageName, version, exact, &pkgClientData);
-    TclTomMathStubs *stubsPtr = pkgClientData;
+    const TclTomMathStubs *stubsPtr = pkgClientData;
 
     if (actualVersion == NULL) {
 	return NULL;
