@@ -5374,6 +5374,16 @@ ExprAbsFunc(interp, eePtr, clientData)
 	d = valuePtr->internalRep.doubleValue;
 	if (d < 0.0) {
 	    dResult = -d;
+        } else if (d == -0.0) {
+            /* We need to distinguish here between positive 0.0 and
+             * negative -0.0, see Bug ID #2954959.
+             */
+            static const double poszero = 0.0;
+            if (memcmp(&d, &poszero, sizeof(double))) {
+                dResult = -d;
+            } else {
+                dResult = d;
+            }
 	} else {
 	    dResult = d;
 	}
