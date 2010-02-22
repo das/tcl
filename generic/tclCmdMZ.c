@@ -1075,7 +1075,7 @@ Tcl_SplitObjCmd(
 		 * Don't need to fiddle with refcount...
 		 */
 
-		Tcl_SetHashValue(hPtr, (ClientData) objPtr);
+		Tcl_SetHashValue(hPtr, objPtr);
 	    } else {
 		objPtr = (Tcl_Obj *) Tcl_GetHashValue(hPtr);
 	    }

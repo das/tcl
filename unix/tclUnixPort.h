@@ -251,7 +251,7 @@ MODULE_SCOPE int TclUnixSetBlockingMode(int fd, int mode);
 #endif
 
 #ifdef GETTOD_NOT_DECLARED
-EXTERN int		gettimeofday(struct timeval *tp, struct timezone *tzp);
+MODULE_SCOPE int		gettimeofday(struct timeval *tp, struct timezone *tzp);
 #endif
 
 /*
@@ -588,11 +588,6 @@ typedef int socklen_t;
 #define TclpExit		exit
 
 #ifdef TCL_THREADS
-EXTERN struct tm *     	TclpLocaltime(const time_t *);
-EXTERN struct tm *     	TclpGmtime(const time_t *);
-EXTERN char *          	TclpInetNtoa(struct in_addr);
-/* #define localtime(x)	TclpLocaltime(x)
- * #define gmtime(x)	TclpGmtime(x)    */
 #   undef inet_ntoa
 #   define inet_ntoa(x)	TclpInetNtoa(x)
 #endif /* TCL_THREADS */

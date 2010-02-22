@@ -6563,7 +6563,7 @@ TestHashSystemHashCmd(
 	    Tcl_DeleteHashTable(&hash);
 	    return TCL_ERROR;
 	}
-	Tcl_SetHashValue(hPtr, (ClientData) INT2PTR(i+42));
+	Tcl_SetHashValue(hPtr, INT2PTR(i+42));
     }
 
     if (hash.numEntries != limit) {

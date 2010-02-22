@@ -3012,7 +3012,7 @@ TclSetProcessGlobalValue(
     ClearHash(cacheMap);
     hPtr = Tcl_CreateHashEntry(cacheMap,
 	    (char *) INT2PTR(pgvPtr->epoch), &dummy);
-    Tcl_SetHashValue(hPtr, (ClientData) newValue);
+    Tcl_SetHashValue(hPtr, newValue);
     Tcl_MutexUnlock(&pgvPtr->mutex);
 }
 
