@@ -353,7 +353,7 @@ Tcl_CreateHashEntry(
     hPtr->nextPtr = tablePtr->buckets[index];
     tablePtr->buckets[index] = hPtr;
 #else
-    hPtr->bucketPtr = &(tablePtr->buckets[index]);
+    hPtr->bucketPtr = &tablePtr->buckets[index];
     hPtr->nextPtr = *hPtr->bucketPtr;
     *hPtr->bucketPtr = hPtr;
 #endif
@@ -416,12 +416,12 @@ Tcl_DeleteHashEntry(
 #if TCL_HASH_KEY_STORE_HASH
     if (typePtr->hashKeyProc == NULL
 	    || typePtr->flags & TCL_HASH_KEY_RANDOMIZE_HASH) {
-	index = RANDOM_INDEX (tablePtr, entryPtr->hash);
+	index = RANDOM_INDEX(tablePtr, entryPtr->hash);
     } else {
 	index = PTR2UINT(entryPtr->hash) & tablePtr->mask;
     }
 
-    bucketPtr = &(tablePtr->buckets[index]);
+    bucketPtr = &tablePtr->buckets[index];
 #else
     bucketPtr = entryPtr->bucketPtr;
 #endif
@@ -1063,7 +1063,7 @@ RebuildTable(
 		index = RANDOM_INDEX(tablePtr, key);
 	    }
 
-	    hPtr->bucketPtr = &(tablePtr->buckets[index]);
+	    hPtr->bucketPtr = &tablePtr->buckets[index];
 	    hPtr->nextPtr = *hPtr->bucketPtr;
 	    *hPtr->bucketPtr = hPtr;
 #endif

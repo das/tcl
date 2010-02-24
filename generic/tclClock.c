@@ -221,7 +221,7 @@ static const struct ClockCommand clockCommands[] = {
     { "GetJulianDayFromEraYearMonthDay",
 		ClockGetjuliandayfromerayearmonthdayObjCmd },
     { "GetJulianDayFromEraYearWeekDay",
-    		ClockGetjuliandayfromerayearweekdayObjCmd },
+		ClockGetjuliandayfromerayearweekdayObjCmd },
     { "ParseFormatArgs",	ClockParseformatargsObjCmd },
     { NULL, NULL }
 };
@@ -251,7 +251,7 @@ TclClockInit(
     const struct ClockCommand *clockCmdPtr;
     char cmdName[50];		/* Buffer large enough to hold the string
 				 *::tcl::clock::GetJulianDayFromEraYearMonthDay
-				 * plus a terminating NULL. */
+				 * plus a terminating NUL. */
     ClockClientData *data;
     int i;
 
@@ -261,7 +261,7 @@ TclClockInit(
      */
 
     if (Tcl_IsSafe(interp)) {
-        return;
+	return;
     }
 
     /*

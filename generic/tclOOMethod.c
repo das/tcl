@@ -686,7 +686,7 @@ InvokeProcedureMethod(
      * Allocate the special frame data.
      */
 
-    fdPtr = (PMFrameData *) TclStackAlloc(interp, sizeof(PMFrameData));
+    fdPtr = TclStackAlloc(interp, sizeof(PMFrameData));
 
     /*
      * Create a call frame for this method.
