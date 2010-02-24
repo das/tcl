@@ -2333,7 +2333,7 @@ Tcl_AppendFormatToObj(
  *	A refcount zero Tcl_Obj.
  *
  * Side effects:
- * 	None.
+ *	None.
  *
  *---------------------------------------------------------------------------
  */
@@ -2508,7 +2508,7 @@ AppendPrintfToObjVA(
  *	A standard Tcl result.
  *
  * Side effects:
- * 	None.
+ *	None.
  *
  *---------------------------------------------------------------------------
  */
@@ -2535,7 +2535,7 @@ Tcl_AppendPrintfToObj(
  *	A refcount zero Tcl_Obj.
  *
  * Side effects:
- * 	None.
+ *	None.
  *
  *---------------------------------------------------------------------------
  */

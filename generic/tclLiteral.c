@@ -926,7 +926,7 @@ HashString(
      */
 
     for (i=0; i<length ; i++) {
-        result += (result<<3) + UCHAR(bytes[i]);
+	result += (result<<3) + UCHAR(bytes[i]);
     }
     return result;
 }

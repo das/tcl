@@ -2597,7 +2597,7 @@ FreeFsPathInternalRep(
 	}
     }
 
-    ckfree((char*) fsPathPtr);
+    ckfree((char *) fsPathPtr);
     pathPtr->typePtr = NULL;
 }
 

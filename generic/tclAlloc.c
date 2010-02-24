@@ -80,7 +80,7 @@ union overhead {
 #define RMAGIC		0x5555	/* magic # on range info */
 
 #ifdef RCHECK
-#define	RSLOP		sizeof (unsigned short)
+#define	RSLOP		sizeof(unsigned short)
 #else
 #define	RSLOP		0
 #endif
@@ -157,7 +157,7 @@ static	unsigned int numMallocs[NBUCKETS+1];
  * Prototypes for functions used only in this file.
  */
 
-static void 		MoreCore(int bucket);
+static void		MoreCore(int bucket);
 
 /*
  *-------------------------------------------------------------------------
@@ -466,7 +466,7 @@ TclpFree(
     }
 
     Tcl_MutexLock(allocMutexPtr);
-    overPtr = (union overhead *)((caddr_t)oldPtr - sizeof (union overhead));
+    overPtr = (union overhead *)((caddr_t)oldPtr - sizeof(union overhead));
 
     ASSERT(overPtr->overMagic0 == MAGIC);	/* make sure it was in use */
     ASSERT(overPtr->overMagic1 == MAGIC);
@@ -535,7 +535,7 @@ TclpRealloc(
 
     Tcl_MutexLock(allocMutexPtr);
 
-    overPtr = (union overhead *)((caddr_t)oldPtr - sizeof (union overhead));
+    overPtr = (union overhead *)((caddr_t)oldPtr - sizeof(union overhead));
 
     ASSERT(overPtr->overMagic0 == MAGIC);	/* make sure it was in use */
     ASSERT(overPtr->overMagic1 == MAGIC);

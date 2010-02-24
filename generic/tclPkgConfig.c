@@ -122,7 +122,7 @@ static Tcl_Config const cfg[] = {
 
 void
 TclInitEmbeddedConfigurationInformation(
-    Tcl_Interp* interp)		/* Interpreter the configuration command is
+    Tcl_Interp *interp)		/* Interpreter the configuration command is
 				 * registered in. */
 {
     Tcl_RegisterConfig(interp, "tcl", cfg, TCL_CFGVAL_ENCODING);
