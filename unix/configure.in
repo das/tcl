@@ -88,6 +88,12 @@ AC_C_INLINE
 
 SC_MISSING_POSIX_HEADERS
 
+#--------------------------------------------------------------------
+# Determines the correct executable file extension (.exe)
+#--------------------------------------------------------------------
+
+AC_EXEEXT
+
 #------------------------------------------------------------------------
 # If we're using GCC, see if the compiler understands -pipe.  If so, use it.
 # It makes compiling go faster.  (This is only a performance feature.)

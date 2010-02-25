@@ -847,7 +847,7 @@ Tcl_AfterObjCmd(
 	if (objc == 3) {
 	    afterPtr->commandPtr = objv[2];
 	} else {
- 	    afterPtr->commandPtr = Tcl_ConcatObj(objc-2, objv+2);
+	    afterPtr->commandPtr = Tcl_ConcatObj(objc-2, objv+2);
 	}
 	Tcl_IncrRefCount(afterPtr->commandPtr);
 
@@ -964,7 +964,7 @@ Tcl_AfterObjCmd(
 	resultListPtr = Tcl_NewObj();
 	Tcl_ListObjAppendElement(interp, resultListPtr, afterPtr->commandPtr);
 	Tcl_ListObjAppendElement(interp, resultListPtr, Tcl_NewStringObj(
- 		(afterPtr->token == NULL) ? "idle" : "timer", -1));
+		(afterPtr->token == NULL) ? "idle" : "timer", -1));
 	Tcl_SetObjResult(interp, resultListPtr);
 	break;
     }

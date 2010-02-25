@@ -956,7 +956,7 @@ Tcl_ExecObjCmd(
      * Free the argv array.
      */
 
-    TclStackFree(interp, (void *)argv);
+    TclStackFree(interp, (void *) argv);
 
     if (chan == NULL) {
 	return TCL_ERROR;

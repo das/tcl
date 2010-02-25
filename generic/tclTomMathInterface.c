@@ -40,8 +40,8 @@ MODULE_SCOPE const TclTomMathStubs tclTomMathStubs;
 
 int
 TclTommath_Init(
-    Tcl_Interp* interp		/* Tcl interpreter */
-) {
+    Tcl_Interp *interp)		/* Tcl interpreter */
+{
     /* TIP #268: Full patchlevel instead of just major.minor */
 
     if (Tcl_PkgProvideEx(interp, "tcl::tommath", TCL_PATCH_LEVEL,
@@ -191,7 +191,7 @@ TclBNInitBignumFromLong(
 {
     int status;
     unsigned long v;
-    mp_digit* p;
+    mp_digit *p;
 
     /*
      * Allocate enough memory to hold the largest possible long

@@ -55,8 +55,8 @@
  *
  * *** NOTE: this code has been altered slightly for use in Tcl: ***
  * *** 1. Names have been changed, e.g. from re_comp to		 ***
- * ***    TclRegComp, to avoid clashes with other 		 ***
- * ***    regexp implementations used by applications. 		 ***
+ * ***    TclRegComp, to avoid clashes with other		 ***
+ * ***    regexp implementations used by applications.		 ***
  */
 
 /*

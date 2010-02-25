@@ -3131,7 +3131,7 @@ TestlocaleCmd(
     const char *locale;
 
     static const char *const optionStrings[] = {
-    	"ctype", "numeric", "time", "collate", "monetary",
+	"ctype", "numeric", "time", "collate", "monetary",
 	"all",	NULL
     };
     static int lcTypes[] = {
@@ -5089,7 +5089,7 @@ TestmainthreadCmd(
  *	A main loop set by TestsetmainloopCmd below.
  *
  * Results:
- * 	None.
+ *	None.
  *
  * Side effects:
  *	Event handlers could do anything.
@@ -6563,7 +6563,7 @@ TestHashSystemHashCmd(
 	    Tcl_DeleteHashTable(&hash);
 	    return TCL_ERROR;
 	}
-	Tcl_SetHashValue(hPtr, (ClientData) INT2PTR(i+42));
+	Tcl_SetHashValue(hPtr, INT2PTR(i+42));
     }
 
     if (hash.numEntries != limit) {
