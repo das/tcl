@@ -4039,9 +4039,9 @@ TclSubstCompile(
 
 	breakJump = CurrentOffset(envPtr) - breakOffset;
 	if (breakJump > 127) {
-	    TclEmitInstInt4(INST_JUMP4, -breakJump, envPtr)
+	    TclEmitInstInt4(INST_JUMP4, -breakJump, envPtr);
 	} else {
-	    TclEmitInstInt1(INST_JUMP1, -breakJump, envPtr)
+	    TclEmitInstInt1(INST_JUMP1, -breakJump, envPtr);
 	}
 
 	/* CONTINUE destination */
