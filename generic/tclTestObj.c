@@ -91,18 +91,18 @@ TclObjTest_Init(
     }
 
     Tcl_CreateObjCommand(interp, "testbignumobj", TestbignumobjCmd,
-	    (ClientData) 0, NULL);
+	    NULL, NULL);
     Tcl_CreateObjCommand(interp, "testbooleanobj", TestbooleanobjCmd,
-	    (ClientData) 0, NULL);
+	    NULL, NULL);
     Tcl_CreateObjCommand(interp, "testdoubleobj", TestdoubleobjCmd,
-	    (ClientData) 0, NULL);
+	    NULL, NULL);
     Tcl_CreateObjCommand(interp, "testintobj", TestintobjCmd,
-	    (ClientData) 0, NULL);
+	    NULL, NULL);
     Tcl_CreateObjCommand(interp, "testindexobj", TestindexobjCmd,
-	    (ClientData) 0, NULL);
-    Tcl_CreateObjCommand(interp, "testobj", TestobjCmd, (ClientData) 0, NULL);
+	    NULL, NULL);
+    Tcl_CreateObjCommand(interp, "testobj", TestobjCmd, NULL, NULL);
     Tcl_CreateObjCommand(interp, "teststringobj", TeststringobjCmd,
-	    (ClientData) 0, NULL);
+	    NULL, NULL);
     return TCL_OK;
 }
 

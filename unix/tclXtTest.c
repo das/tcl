@@ -62,7 +62,7 @@ Tclxttest_Init(
     XtToolkitInitialize();
     InitNotifier();
     Tcl_CreateCommand(interp, "testeventloop", TesteventloopCmd,
-	    (ClientData) 0, NULL);
+	    NULL, NULL);
     return TCL_OK;
 }
 

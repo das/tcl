@@ -639,7 +639,7 @@ SetTZIfNecessary(void)
     if (lastTZ == NULL || strcmp(lastTZ, newTZ)) {
 	tzset();
 	if (lastTZ == NULL) {
-	    Tcl_CreateExitHandler(CleanupMemory, (ClientData) NULL);
+	    Tcl_CreateExitHandler(CleanupMemory, NULL);
 	} else {
 	    Tcl_Free(lastTZ);
 	}
