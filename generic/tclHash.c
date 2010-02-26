@@ -871,8 +871,8 @@ HashStringKey(
     Tcl_HashTable *tablePtr,	/* Hash table. */
     void *keyPtr)		/* Key from which to compute hash value. */
 {
-    register const char *string = (const char *) keyPtr;
-    register unsigned int result = 0;
+    register const char *string = keyPtr;
+    register unsigned int result;
     register char c;
 
     /*
@@ -903,10 +903,14 @@ HashStringKey(
      *
      * See also HashString in tclLiteral.c.
      * See also TclObjHashKey in tclObj.c.
+     *
+     * See [tcl-Feature Request #2958832]
      */
 
-    for (; (c=*string++) != 0 ;) {
-        result += (result<<3) + UCHAR(c);
+    if ((result = UCHAR(*string)) != 0) {
+	while ((c = *++string) != 0) {
+	    result += (result << 3) + UCHAR(c);
+	}
     }
     return result;
 }
