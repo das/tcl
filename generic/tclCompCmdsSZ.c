@@ -651,7 +651,6 @@ TclSubstCompile(
     Tcl_Token *endTokenPtr, *tokenPtr;
     int breakOffset = 0, count = 0, bline = line;
     Tcl_Parse parse;
-    Tcl_InterpState state = NULL;
 
     TclSubstParse(interp, bytes, numBytes, flags, &parse);
 
