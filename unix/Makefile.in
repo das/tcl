@@ -627,8 +627,8 @@ ${TCL_EXE}: ${TCLSH_OBJS} ${TCL_LIB_FILE}
 	${CC} ${CFLAGS} ${LDFLAGS} ${TCLSH_OBJS} @TCL_BUILD_LIB_SPEC@ ${LIBS} @EXTRA_TCLSH_LIBS@ \
 		${CC_SEARCH_FLAGS} -o ${TCL_EXE}
 
+# Must be empty so it doesn't conflict with rule for ${TCL_EXE} above
 ${NATIVE_TCLSH}:
-	@:
 
 Makefile: $(UNIX_DIR)/Makefile.in $(DLTEST_DIR)/Makefile.in
 	$(SHELL) config.status
