@@ -42,6 +42,7 @@
  */
 
 MODULE_SCOPE const TclStubs tclStubs;
+MODULE_SCOPE const TclTomMathStubs tclTomMathStubs;
 
 /* !BEGIN!: Do not edit below this line. */
 
