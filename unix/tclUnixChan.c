@@ -2132,16 +2132,21 @@ TcpGetOptionProc(
 	    ((len > 1) && (optionName[1] == 's') &&
 	    (strncmp(optionName, "-sockname", len) == 0))) {
 	if (getsockname(statePtr->fd, (struct sockaddr *) &sockname,
-		&size) >= 0) {
+                        &size) >= 0) {
 	    if (len == 0) {
 		Tcl_DStringAppendElement(dsPtr, "-sockname");
 		Tcl_DStringStartSublist(dsPtr);
 	    }
 	    Tcl_DStringAppendElement(dsPtr, inet_ntoa(sockname.sin_addr));
             if (sockname.sin_addr.s_addr == INADDR_ANY) {
-                hostEntPtr = NULL;   /* we don't want to resolve INADDR_ANY */
+		/*
+		 * We don't want to resolve INADDR_ANY; it can sometimes cause
+		 * problems (and never has a name).
+		 */
+                
+                hostEntPtr = NULL;
             } else {
-                hostEntPtr = TclpGetHostByAddr(			/* INTL: Native. */
+                hostEntPtr = TclpGetHostByAddr(		/* INTL: Native. */
                                                (char *) &sockname.sin_addr,
                                                sizeof(sockname.sin_addr), AF_INET);
             }
