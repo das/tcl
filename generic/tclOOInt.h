@@ -212,6 +212,10 @@ typedef struct Object {
 				 * instance of the class, and has had nothing
 				 * added that changes the dispatch chain (i.e.
 				 * no methods, mixins, or filters. */
+#define ROOT_CLASS 0x8000	/* Flag to say that this object is the root
+				 * class of classes, and should be treated
+				 * specially during teardown (and in a few
+				 * other spots). */
 
 /*
  * And the definition of a class. Note that every class also has an associated
