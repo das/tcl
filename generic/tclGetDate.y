@@ -504,10 +504,6 @@ o_merid : /* NULL */ {
 	;
 
 %%
-MODULE_SCOPE int yychar;
-MODULE_SCOPE YYSTYPE yylval;
-MODULE_SCOPE int yynerrs;
-
 /*
  * Month and day table.
  */
