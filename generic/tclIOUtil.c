@@ -1511,7 +1511,7 @@ TclGetOpenModeEx(
 	default:
 	    goto error;
 	}
-	i=1;
+	i = 1;
 	while (i<3 && modeString[i]) {
 	    if (modeString[i] == modeString[i-1]) {
 		goto error;

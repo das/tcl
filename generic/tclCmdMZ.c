@@ -2513,7 +2513,7 @@ StringEqualCmd(
 	    if (i+1 >= objc-2) {
 		goto str_cmp_args;
 	    }
-	    ++i;
+	    i++;
 	    if (TclGetIntFromObj(interp, objv[i], &reqlength) != TCL_OK) {
 		return TCL_ERROR;
 	    }
@@ -2660,7 +2660,7 @@ StringCmpCmd(
 	    if (i+1 >= objc-2) {
 		goto str_cmp_args;
 	    }
-	    ++i;
+	    i++;
 	    if (TclGetIntFromObj(interp, objv[i], &reqlength) != TCL_OK) {
 		return TCL_ERROR;
 	    }
@@ -3927,7 +3927,7 @@ TclNRSwitchObjCmd(
 static int
 SwitchPostProc(
     ClientData data[],		/* Data passed from Tcl_NRAddCallback above */
-    Tcl_Interp* interp,		/* Tcl interpreter */
+    Tcl_Interp *interp,		/* Tcl interpreter */
     int result)			/* Result to return*/
 {
     /* Unpack the preserved data */

@@ -332,8 +332,8 @@ Tcl_ProcObjCmd(
     }
 
     if ((procArgs[0] == 'a') && (strncmp(procArgs, "args", 4) == 0)) {
-	procArgs +=4;
-	while(*procArgs != '\0') {
+	procArgs += 4;
+	while (*procArgs != '\0') {
 	    if (*procArgs != ' ') {
 		goto done;
 	    }
@@ -973,11 +973,11 @@ TclNRUplevelObjCmd(
     if (result == -1) {
 	return TCL_ERROR;
     }
-    objc -= (result+1);
+    objc -= result + 1;
     if (objc == 0) {
 	goto uplevelSyntax;
     }
-    objv += (result+1);
+    objv += result + 1;
 
     /*
      * Modify the interpreter state to execute in the given frame.
@@ -1390,7 +1390,7 @@ InitLocalCache(
 	    i++;
 	}
 	namePtr++;
-	localPtr=localPtr->nextPtr;
+	localPtr = localPtr->nextPtr;
     }
     codePtr->localCachePtr = localCachePtr;
     localCachePtr->refCount = 1;

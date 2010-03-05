@@ -1006,10 +1006,9 @@ ObjectNamespaceDeleted(
     }
 
     if (clsPtr != NULL) {
-	Class *superPtr, *mixinPtr;
+	Class *superPtr;
 
 	if (clsPtr->metadataPtr != NULL) {
-	    FOREACH_HASH_DECLS;
 	    Tcl_ObjectMetadataType *metadataTypePtr;
 	    ClientData value;
 
