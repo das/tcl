@@ -1067,7 +1067,8 @@ Tcl_SplitObjCmd(
 	     * Assume Tcl_UniChar is an integral type...
 	     */
 
-	    hPtr = Tcl_CreateHashEntry(&charReuseTable, INT2PTR(ch), &isNew);
+	    hPtr = Tcl_CreateHashEntry(&charReuseTable, INT2PTR((int) ch),
+		    &isNew);
 	    if (isNew) {
 		TclNewStringObj(objPtr, stringPtr, len);
 
