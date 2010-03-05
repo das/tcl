@@ -2665,8 +2665,6 @@ ForwardProc(
 	    ForwardSetObjError(paramPtr, MarshallError(interp));
 	    paramPtr->limit.max = -1;
 	}
-
-	Tcl_DecrRefCount(resObj);
 	break;
 
     default:
