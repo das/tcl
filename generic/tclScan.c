@@ -449,14 +449,10 @@ ValidateFormat(
 		    TCL_STATIC);
 	    goto error;
 	default:
-	    {
-		char buf[TCL_UTF_MAX+1];
-
-		buf[Tcl_UniCharToUtf(ch, buf)] = '\0';
-		Tcl_AppendResult(interp, "bad scan conversion character \"",
-			buf, "\"", NULL);
-		goto error;
-	    }
+	    buf[Tcl_UniCharToUtf(ch, buf)] = '\0';
+	    Tcl_AppendResult(interp, "bad scan conversion character \"", buf,
+		    "\"", NULL);
+	    goto error;
 	}
 	if (!(flags & SCAN_SUPPRESS)) {
 	    if (objIndex >= nspace) {

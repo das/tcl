@@ -722,8 +722,7 @@ TclCygwinPutenv(
 	/* Can't happen. */
 	return;
     }
-    *value = '\0';
-    ++value;
+    *(value++) = '\0';
     if (*value == '\0') {
 	value = NULL;
     }

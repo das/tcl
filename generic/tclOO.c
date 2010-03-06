@@ -1006,10 +1006,9 @@ ObjectNamespaceDeleted(
     }
 
     if (clsPtr != NULL) {
-	Class *superPtr, *mixinPtr;
+	Class *superPtr;
 
 	if (clsPtr->metadataPtr != NULL) {
-	    FOREACH_HASH_DECLS;
 	    Tcl_ObjectMetadataType *metadataTypePtr;
 	    ClientData value;
 
@@ -2703,7 +2702,7 @@ Tcl_GetClassAsObject(
     return (Tcl_Object) ((Class *)clazz)->thisPtr;
 }
 
-Tcl_ObjectMapMethodNameProc
+Tcl_ObjectMapMethodNameProc *
 Tcl_ObjectGetMethodNameMapper(
     Tcl_Object object)
 {
@@ -2713,7 +2712,7 @@ Tcl_ObjectGetMethodNameMapper(
 void
 Tcl_ObjectSetMethodNameMapper(
     Tcl_Object object,
-    Tcl_ObjectMapMethodNameProc mapMethodNameProc)
+    Tcl_ObjectMapMethodNameProc *mapMethodNameProc)
 {
     ((Object *) object)->mapMethodNameProc = mapMethodNameProc;
 }

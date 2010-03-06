@@ -1657,7 +1657,6 @@ TclOODefineSuperclassObjCmd(
     Tcl_Obj *const *objv)
 {
     Object *oPtr;
-    Foundation *fPtr = TclOOGetFoundation(interp);
     Class **superclasses, *superPtr;
     int i, j;
 

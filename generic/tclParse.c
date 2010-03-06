@@ -821,7 +821,7 @@ ParseCommand(
 
 			for(s=elemStart;size>0;s++,size--) {
 			    if ((*s)=='\\') {
-				nakedbs=1;
+				nakedbs = 1;
 				break;
 			    }
 			}
@@ -1017,7 +1017,7 @@ ParseWhiteSpace(
 	    if (p[1] != '\n') {
 		break;
 	    }
-	    p+=2;
+	    p += 2;
 	    if (--numBytes == 0) {
 		*incompletePtr = 1;
 		break;
@@ -1102,7 +1102,7 @@ TclParseHex(
 	    break;
 	}
 
-	++p;
+	p++;
 	result <<= 4;
 
 	if (digit >= 'a') {
