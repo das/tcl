@@ -2423,16 +2423,16 @@ InitializeHostName(
     int *lengthPtr,
     Tcl_Encoding *encodingPtr)
 {
-    WCHAR wbuf[MAX_COMPUTERNAME_LENGTH + 1];
-    DWORD length = sizeof(wbuf) / sizeof(WCHAR);
+    TCHAR tbuf[(MAX_COMPUTERNAME_LENGTH + 1)*2];
+    DWORD length = MAX_COMPUTERNAME_LENGTH + 1;
     Tcl_DString ds;
 
-    if (tclWinProcs->getComputerNameProc(wbuf, &length) != 0) {
+    if (tclWinProcs->getComputerNameProc(tbuf, &length) != 0) {
 	/*
 	 * Convert string from native to UTF then change to lowercase.
 	 */
 
-	Tcl_UtfToLower((char *) tclWinProcs->tchar2utf((TCHAR *) wbuf, -1, &ds));
+	Tcl_UtfToLower((char *) tclWinProcs->tchar2utf(tbuf, -1, &ds));
 
     } else {
 	Tcl_DStringInit(&ds);

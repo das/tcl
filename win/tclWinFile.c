@@ -224,7 +224,7 @@ WinLink(
     const TCHAR *linkTargetPath,
     int linkAction)
 {
-    WCHAR tempFileName[MAX_PATH];
+    TCHAR tempFileName[MAX_PATH*2];
     TCHAR *tempFilePart;
     DWORD attr;
 
@@ -345,7 +345,7 @@ static Tcl_Obj *
 WinReadLink(
     const TCHAR *linkSourcePath)
 {
-    WCHAR tempFileName[MAX_PATH];
+    TCHAR tempFileName[MAX_PATH*2];
     TCHAR *tempFilePart;
     DWORD attr;
 
@@ -1946,7 +1946,7 @@ TclpGetCwd(
     Tcl_DString *bufferPtr)	/* Uninitialized or free DString filled with
 				 * name of current directory. */
 {
-    WCHAR buffer[MAX_PATH];
+    TCHAR buffer[MAX_PATH*2];
     char *p;
 
     if (tclWinProcs->getCurrentDirectoryProc(MAX_PATH, buffer) == 0) {
@@ -1963,18 +1963,14 @@ TclpGetCwd(
      */
 
     if (tclWinProcs->useWide) {
-	WCHAR *native;
-
-	native = (WCHAR *) buffer;
+	WCHAR *native = (WCHAR *) buffer;
 	if ((native[0] != '\0') && (native[1] == ':')
 		&& (native[2] == '\\') && (native[3] == '\\')) {
 	    native += 2;
 	}
 	tclWinProcs->tchar2utf((TCHAR *) native, -1, bufferPtr);
     } else {
-	char *native;
-
-	native = (char *) buffer;
+	char *native = (char *) buffer;
 	if ((native[0] != '\0') && (native[1] == ':')
 		&& (native[2] == '\\') && (native[3] == '\\')) {
 	    native += 2;
@@ -2197,14 +2193,14 @@ NativeDev(
 {
     int dev;
     Tcl_DString ds;
-    WCHAR nativeFullPath[MAX_PATH];
+    TCHAR nativeFullPath[MAX_PATH*2];
     TCHAR *nativePart;
     const char *fullPath;
 
     tclWinProcs->getFullPathNameProc(nativePath, MAX_PATH, nativeFullPath,
 	    &nativePart);
 
-    fullPath = tclWinProcs->tchar2utf((TCHAR *) nativeFullPath, -1, &ds);
+    fullPath = tclWinProcs->tchar2utf(nativeFullPath, -1, &ds);
 
     if ((fullPath[0] == '\\') && (fullPath[1] == '\\')) {
 	const char *p;
@@ -2371,7 +2367,7 @@ ClientData
 TclpGetNativeCwd(
     ClientData clientData)
 {
-    WCHAR buffer[MAX_PATH];
+    TCHAR buffer[MAX_PATH*2];
 
     if (tclWinProcs->getCurrentDirectoryProc(MAX_PATH, buffer) == 0) {
 	TclWinConvertError(GetLastError());
@@ -2489,7 +2485,7 @@ TclpFilesystemPathType(
 {
 #define VOL_BUF_SIZE 32
     int found;
-    WCHAR volType[VOL_BUF_SIZE];
+    TCHAR volType[VOL_BUF_SIZE*2];
     char *firstSeparator;
     const char *path;
     Tcl_Obj *normPath = Tcl_FSGetNormalizedPath(NULL, pathPtr);
@@ -2506,14 +2502,14 @@ TclpFilesystemPathType(
     if (firstSeparator == NULL) {
 	found = tclWinProcs->getVolumeInformationProc(
 		Tcl_FSGetNativePath(pathPtr), NULL, 0, NULL, NULL, NULL,
-		(WCHAR *) volType, VOL_BUF_SIZE);
+		volType, VOL_BUF_SIZE);
     } else {
 	Tcl_Obj *driveName = Tcl_NewStringObj(path, firstSeparator - path+1);
 
 	Tcl_IncrRefCount(driveName);
 	found = tclWinProcs->getVolumeInformationProc(
 		Tcl_FSGetNativePath(driveName), NULL, 0, NULL, NULL, NULL,
-		(WCHAR *) volType, VOL_BUF_SIZE);
+		volType, VOL_BUF_SIZE);
 	Tcl_DecrRefCount(driveName);
     }
 

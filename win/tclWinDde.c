@@ -991,7 +991,7 @@ DdeServicesOnAck(
     ATOM service = (ATOM)LOWORD(lParam);
     ATOM topic = (ATOM)HIWORD(lParam);
     struct DdeEnumServices *es;
-    TCHAR sz[255];
+    char sz[255];
 
 #ifdef _WIN64
     es = (struct DdeEnumServices *) GetWindowLongPtr(hwnd, GWLP_USERDATA);
@@ -1004,9 +1004,9 @@ DdeServicesOnAck(
 	Tcl_Obj *matchPtr = Tcl_NewListObj(0, NULL);
 	Tcl_Obj *resultPtr = Tcl_GetObjResult(es->interp);
 
-	GlobalGetAtomName(service, sz, 255);
+	GlobalGetAtomNameA(service, sz, 255);
 	Tcl_ListObjAppendElement(NULL, matchPtr, Tcl_NewStringObj(sz, -1));
-	GlobalGetAtomName(topic, sz, 255);
+	GlobalGetAtomNameA(topic, sz, 255);
 	Tcl_ListObjAppendElement(NULL, matchPtr, Tcl_NewStringObj(sz, -1));
 
 	/*
