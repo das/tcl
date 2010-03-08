@@ -54,24 +54,24 @@ typedef struct TclWinProcs {
     BOOL (WINAPI *deleteFileProc)(const TCHAR *);
     HANDLE (WINAPI *findFirstFileProc)(const TCHAR *, WIN32_FIND_DATAT *);
     BOOL (WINAPI *findNextFileProc)(HANDLE, WIN32_FIND_DATAT *);
-    BOOL (WINAPI *getComputerNameProc)(WCHAR *, LPDWORD);
-    DWORD (WINAPI *getCurrentDirectoryProc)(DWORD, WCHAR *);
+    BOOL (WINAPI *getComputerNameProc)(TCHAR *, LPDWORD);
+    DWORD (WINAPI *getCurrentDirectoryProc)(DWORD, TCHAR *);
     DWORD (WINAPI *getFileAttributesProc)(const TCHAR *);
-    DWORD (WINAPI *getFullPathNameProc)(const TCHAR *, DWORD, WCHAR *,
+    DWORD (WINAPI *getFullPathNameProc)(const TCHAR *, DWORD, TCHAR *,
 	    TCHAR **);
-    DWORD (WINAPI *getModuleFileNameProc)(HMODULE, WCHAR *, int);
-    DWORD (WINAPI *getShortPathNameProc)(const TCHAR *, WCHAR *, DWORD);
+    DWORD (WINAPI *getModuleFileNameProc)(HMODULE, TCHAR *, int);
+    DWORD (WINAPI *getShortPathNameProc)(const TCHAR *, TCHAR *, DWORD);
     UINT (WINAPI *getTempFileNameProc)(const TCHAR *, const TCHAR *, UINT,
-	    WCHAR *);
-    DWORD (WINAPI *getTempPathProc)(DWORD, WCHAR *);
-    BOOL (WINAPI *getVolumeInformationProc)(const TCHAR *, WCHAR *, DWORD,
-	    LPDWORD, LPDWORD, LPDWORD, WCHAR *, DWORD);
+	    TCHAR *);
+    DWORD (WINAPI *getTempPathProc)(DWORD, TCHAR *);
+    BOOL (WINAPI *getVolumeInformationProc)(const TCHAR *, TCHAR *, DWORD,
+	    LPDWORD, LPDWORD, LPDWORD, TCHAR *, DWORD);
     HINSTANCE (WINAPI *loadLibraryProc)(const TCHAR *);
-    TCHAR (WINAPI *lstrcpyProc)(WCHAR *, const TCHAR *);
+    TCHAR (WINAPI *lstrcpyProc)(TCHAR *, const TCHAR *);
     BOOL (WINAPI *moveFileProc)(const TCHAR *, const TCHAR *);
     BOOL (WINAPI *removeDirectoryProc)(const TCHAR *);
     DWORD (WINAPI *searchPathProc)(const TCHAR *, const TCHAR *,
-	    const TCHAR *, DWORD, WCHAR *, TCHAR **);
+	    const TCHAR *, DWORD, TCHAR *, TCHAR **);
     BOOL (WINAPI *setCurrentDirectoryProc)(const TCHAR *);
     BOOL (WINAPI *setFileAttributesProc)(const TCHAR *, DWORD);
     /*
