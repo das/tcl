@@ -104,7 +104,7 @@ TclpDlopen(
 	return TCL_ERROR;
     }
 
-    *unloadProcPtr = TclpUnloadFile;
+    *unloadProcPtr = &TclpUnloadFile;
     *loadHandle = (Tcl_LoadHandle) handle;
     return TCL_OK;
 }

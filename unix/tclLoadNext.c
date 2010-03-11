@@ -96,7 +96,7 @@ TclpDlopen(
     NXCloseMemory(errorStream, NX_FREEBUFFER);
 
     *loadHandle = (Tcl_LoadHandle)1; /* A dummy non-NULL value */
-    *unloadProcPtr = TclpUnloadFile;
+    *unloadProcPtr = &TclpUnloadFile;
 
     return TCL_OK;
 }
