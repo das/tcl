@@ -270,8 +270,6 @@ TCL_DECLARE_MUTEX(mountPointMap)
  * We will need this below.
  */
 
-extern Tcl_FSDupInternalRepProc TclNativeDupInternalRep;
-
 #ifdef __WIN32__
 #ifndef STATIC_BUILD
 

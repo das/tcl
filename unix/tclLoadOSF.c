@@ -120,7 +120,7 @@ TclpDlopen(
 	pkg++;
     }
     *loadHandle = pkg;
-    *unloadProcPtr = &TclpUnloadFile;
+    *unloadProcPtr = TclpUnloadFile;
     return TCL_OK;
 }
 

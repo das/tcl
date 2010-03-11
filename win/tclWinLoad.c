@@ -130,7 +130,7 @@ TclpDlopen(
 	}
 	return TCL_ERROR;
     } else {
-	*unloadProcPtr = &TclpUnloadFile;
+	*unloadProcPtr = TclpUnloadFile;
     }
     return TCL_OK;
 }

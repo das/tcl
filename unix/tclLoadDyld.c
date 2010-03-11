@@ -308,7 +308,7 @@ TclpDlopen(
 	dyldLoadHandle->modulePtr = modulePtr;
 #endif
 	*loadHandle = (Tcl_LoadHandle) dyldLoadHandle;
-	*unloadProcPtr = &TclpUnloadFile;
+	*unloadProcPtr = TclpUnloadFile;
 	result = TCL_OK;
     } else {
 	Tcl_AppendResult(interp, errMsg, NULL);
@@ -758,7 +758,7 @@ TclpLoadMemory(
     dyldLoadHandle->dyldLibHeader = NULL;
     dyldLoadHandle->modulePtr = modulePtr;
     *loadHandle = (Tcl_LoadHandle) dyldLoadHandle;
-    *unloadProcPtr = &TclpUnloadFile;
+    *unloadProcPtr = TclpUnloadFile;
     return TCL_OK;
 }
 #endif /* TCL_LOAD_FROM_MEMORY */
