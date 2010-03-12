@@ -620,12 +620,8 @@ $(TCLPIPEDLL): $(WINDIR)\stub16.c
 	$(_VC_MANIFEST_EMBED_DLL)
 
 !if $(STATIC_BUILD)
-!if $(TCL_USE_STATIC_PACKAGES)
-$(TCLDDELIB):
-!else
 $(TCLDDELIB): $(TMP_DIR)\tclWinDde.obj
 	$(lib32) -nologo $(LINKERFLAGS) -out:$@ $**
-!endif
 !else
 $(TCLDDELIB): $(TMP_DIR)\tclWinDde.obj $(TCLSTUBLIB)
 	$(link32) $(dlllflags) -base:@$(WINDIR)\coffbase.txt,tcldde -out:$@ \
@@ -634,12 +630,8 @@ $(TCLDDELIB): $(TMP_DIR)\tclWinDde.obj $(TCLSTUBLIB)
 !endif
 
 !if $(STATIC_BUILD)
-!if $(TCL_USE_STATIC_PACKAGES)
-$(TCLREGLIB):
-!else
 $(TCLREGLIB): $(TMP_DIR)\tclWinReg.obj
 	$(lib32) -nologo $(LINKERFLAGS) -out:$@ $**
-!endif
 !else
 $(TCLREGLIB): $(TMP_DIR)\tclWinReg.obj $(TCLSTUBLIB)
 	$(link32) $(dlllflags) -base:@$(WINDIR)\coffbase.txt,tclreg -out:$@ \
