@@ -335,7 +335,6 @@ ZLIBOBJS = \
 	$(TMP_DIR)\compress.obj \
 	$(TMP_DIR)\crc32.obj \
 	$(TMP_DIR)\deflate.obj \
-	$(TMP_DIR)\gzio.obj \
 	$(TMP_DIR)\infback.obj \
 	$(TMP_DIR)\inffast.obj \
 	$(TMP_DIR)\inflate.obj \
