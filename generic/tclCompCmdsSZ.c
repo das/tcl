@@ -2077,6 +2077,7 @@ IssueTryInstructions(
     BODY(				bodyToken, 1);
     ExceptionRangeEnds(envPtr, range);
     PUSH(				"0");
+    OP4(				REVERSE, 2);
     OP1(				JUMP1, 4);
     ExceptionRangeTarget(envPtr, range, catchOffset);
     OP(					PUSH_RETURN_CODE);
@@ -2224,6 +2225,7 @@ IssueTryFinallyInstructions(
     BODY(				bodyToken, 1);
     ExceptionRangeEnds(envPtr, range);
     PUSH(				"0");
+    OP4(				REVERSE, 2);
     OP1(				JUMP1, 4);
     ExceptionRangeTarget(envPtr, range, catchOffset);
     OP(					PUSH_RETURN_CODE);
