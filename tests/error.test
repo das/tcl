@@ -803,6 +803,28 @@ test error-19.5 {multiple unrelated fallthroughs #2} {
     } 
     set RES
 } {err}
+test error-19.6 {compiled try executes all clauses} -setup {
+    proc addmsg msg {
+	variable RES
+	lappend RES $msg
+    }
+    set RES {}
+} -body {
+    apply {{} {
+	try {
+	    addmsg a
+	    throw bar hello
+	} trap bar {res opt} {
+	    addmsg b
+	} finally {
+	    addmsg c
+	}
+	addmsg d
+    } ::tcl::test::error}
+} -cleanup {
+    rename addmsg {}
+    unset RES
+} -result {a b c d}
 
 # FIXME test what vars get set on fallthough ... what is the correct behavior?
 # It would seem appropriate to set at least those for the matching handler and
