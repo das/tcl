@@ -34,7 +34,7 @@ static Tcl_Obj *varPtr[NUMBER_OF_OBJECT_VARS];
 
 static int		CheckIfVarUnset(Tcl_Interp *interp, int varIndex);
 static int		GetVariableIndex(Tcl_Interp *interp,
-			    char *string, int *indexPtr);
+			    const char *string, int *indexPtr);
 static void		SetVarToObj(int varIndex, Tcl_Obj *objPtr);
 int			TclObjTest_Init(Tcl_Interp *interp);
 static int		TestbignumobjCmd(ClientData dummy, Tcl_Interp *interp,
@@ -1387,7 +1387,7 @@ SetVarToObj(
 static int
 GetVariableIndex(
     Tcl_Interp *interp,		/* Interpreter for error reporting. */
-    char *string,		/* String containing a variable index
+    const char *string,		/* String containing a variable index
 				 * specified as a nonnegative number less than
 				 * NUMBER_OF_OBJECT_VARS. */
     int *indexPtr)		/* Place to store converted result. */
