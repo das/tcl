@@ -15,7 +15,7 @@
 .SH NAME
 exec \- Invoke subprocesses
 .SH SYNOPSIS
-\fBexec \fR?\fIswitches\fR? \fIarg \fR?\fIarg ...\fR?
+\fBexec \fR?\fIswitches\fR? \fIarg \fR?\fIarg ...\fR? ?\fB&\fR?
 .BE
 .SH DESCRIPTION
 .PP
