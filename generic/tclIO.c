@@ -9345,7 +9345,7 @@ CopyData(
 		result = TCL_ERROR;
 	    } else {
 		Tcl_ResetResult(interp);
-		Tcl_SetObjResult(interp, Tcl_NewIntObj(total));
+		Tcl_SetObjResult(interp, Tcl_NewWideIntObj(total));
 	    }
 	}
     }
