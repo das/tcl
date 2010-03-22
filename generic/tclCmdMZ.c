@@ -4351,6 +4351,7 @@ TryPostBody(
 {
     Tcl_Obj *resultObj, *options, *handlersObj, *finallyObj, *cmdObj;
     int i, dummy, code;
+    int numHandlers = 0;
 
     handlersObj = data[0];
     finallyObj = data[1];
@@ -4377,7 +4378,7 @@ TryPostBody(
      */
 
     if (handlersObj != NULL) {
-	int numHandlers, found = 0;
+	int found = 0;
 	Tcl_Obj **handlers, **info;
 
 	Tcl_ListObjGetElements(NULL, handlersObj, &numHandlers, &handlers);
@@ -4487,7 +4488,7 @@ TryPostBody(
 		    info[0], finallyObj);
 	    Tcl_DecrRefCount(handlersObj);
 	    return TclNREvalObjEx(interp, handlerBodyObj, 0,
-		    ((Interp *) interp)->cmdFramePtr, -1);
+		    ((Interp *) interp)->cmdFramePtr, 4*i + 5);
 
 	handlerFailed:
 	    options = During(interp, result, options, NULL);
@@ -4512,7 +4513,7 @@ TryPostBody(
 	Tcl_NRAddCallback(interp, TryPostFinal, resultObj, INT2PTR(result),
 		options, cmdObj);
 	return TclNREvalObjEx(interp, finallyObj, 0,
-		((Interp *) interp)->cmdFramePtr, -1);
+		((Interp *) interp)->cmdFramePtr, numHandlers*4 + 3);
     }
 
     /*
@@ -4574,10 +4575,14 @@ TryPostHandler(
      */
 
     if (finallyObj != NULL) {
+	Interp *iPtr = (Interp *) interp;
+
 	Tcl_NRAddCallback(interp, TryPostFinal, resultObj, INT2PTR(result),
 		options, cmdObj);
-	return TclNREvalObjEx(interp, finallyObj, 0,
-		((Interp *) interp)->cmdFramePtr, -1);
+
+	/* The 'finally' script is always the last argument word. */
+	return TclNREvalObjEx(interp, finallyObj, 0, iPtr->cmdFramePtr,
+		iPtr->cmdFramePtr->nline - 1);
     }
 
     /*
