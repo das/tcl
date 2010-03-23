@@ -1033,7 +1033,9 @@ CreateSocketAddress(
     (void) memset(&hints, 0, sizeof(hints));
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
+#ifdef AI_ADDRCONFIG
     hints.ai_flags |= AI_ADDRCONFIG;
+#endif
     if (willBind) {
 	hints.ai_flags |= AI_PASSIVE;
     } 
