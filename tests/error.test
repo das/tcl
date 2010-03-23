@@ -883,10 +883,10 @@ rename addmsg {}
 
 test error-20.1 {bad code name in on handler} -body {
     try { list a b c } on foo {} {}
-} -returnCodes error -match glob -result {bad code *}
+} -returnCodes error -match glob -result {bad completion code *}
 test error-20.2 {bad code value in on handler} -body {
     try { list a b c } on 34985723094872345 {} {}
-} -returnCodes error -match glob -result {bad code *}
+} -returnCodes error -match glob -result {bad completion code *}
 
 test error-21.1 {memory leaks in try: Bug 2910044} memory {
     leaktest {

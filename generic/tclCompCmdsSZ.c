@@ -1995,7 +1995,7 @@ TclCompileTryCmd(
 	    } else if (tokenPtr[1].size == 2
 		    && !strncmp(tokenPtr[1].start, "on", 2)) {
 		int code;
-		static const char *codes[] = {
+		static const char *const returnCodes[] = {
 		    "ok", "error", "return", "break", "continue", NULL
 		};
 
@@ -2011,7 +2011,7 @@ TclCompileTryCmd(
 		    goto failedToCompile;
 		}
 		if (Tcl_GetIntFromObj(NULL, tmpObj, &code) != TCL_OK
-			&& Tcl_GetIndexFromObj(NULL, tmpObj, codes, "",
+			&& Tcl_GetIndexFromObj(NULL, tmpObj, returnCodes, "",
 				TCL_EXACT, &code) != TCL_OK) {
 		    TclDecrRefCount(tmpObj);
 		    goto failedToCompile;
