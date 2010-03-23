@@ -91,7 +91,7 @@ static unsigned int s_mp_defprec = MP_DEFPREC;
 /* {{{ Constant strings */
 
 /* Constant strings returned by mp_strerror() */
-static const char *mp_err_string[] = {
+static const char *const mp_err_string[] = {
   "unknown result code",     /* say what?            */
   "boolean true",            /* MP_OKAY, MP_YES      */
   "boolean false",           /* MP_NO                */
@@ -3979,3 +3979,7 @@ int      s_mp_outlen(int bits, int r)
 /*------------------------------------------------------------------------*/
 /* HERE THERE BE DRAGONS                                                  */
 /* crc==4242132123, version==2, Sat Feb 02 06:43:52 2002 */
+
+/* $Source$ */
+/* $Revision$ */
+/* $Date$ */
