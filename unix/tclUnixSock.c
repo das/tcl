@@ -880,7 +880,7 @@ CreateClientSocket(
 	     * No need to try combinations of local and remote addresses of different
 	     * families.
 	     */
-	    if (myaddr != NULL && myaddrPtr->ai_family != addrPtr->ai_family) {
+	    if (myaddrPtr->ai_family != addrPtr->ai_family) {
 		continue;
 	    }
 
@@ -891,7 +891,7 @@ CreateClientSocket(
 	     * informed when the connect completes.
 	     */
 	    
-	    sock = socket(addrPtr->ai_family, SOCK_STREAM, 0);
+	    sock = socket(myaddrPtr->ai_family, SOCK_STREAM, 0);
 	    if (sock < 0) {
 		continue;
 	    }
@@ -915,15 +915,13 @@ CreateClientSocket(
 		}
 	    }
 
-	    if (myaddr != NULL || myport != 0) {
-		int reuseaddr = 1;
-		(void) setsockopt(sock, SOL_SOCKET, SO_REUSEADDR,
-				  (char *) &reuseaddr, sizeof(reuseaddr));
-		status = bind(sock, myaddrPtr->ai_addr, myaddrPtr->ai_addrlen);
-		if (status < 0) {
-		    goto looperror;
-		}
-	    }
+            int reuseaddr = 1;
+            (void) setsockopt(sock, SOL_SOCKET, SO_REUSEADDR,
+                              (char *) &reuseaddr, sizeof(reuseaddr));
+            status = bind(sock, myaddrPtr->ai_addr, myaddrPtr->ai_addrlen);
+            if (status < 0) {
+                goto looperror;
+            }
 
 	    status = connect(sock, addrPtr->ai_addr, addrPtr->ai_addrlen);
 	    if (status < 0 && errno == EINPROGRESS) {
@@ -939,7 +937,7 @@ CreateClientSocket(
 		sock = -1;
 	    }
 	}
-	if (connected || myaddr == NULL) {
+	if (connected) {
 	    break;
 	} 
 	status = -1;
