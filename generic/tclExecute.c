@@ -1922,7 +1922,7 @@ TclExecuteByteCode(
 	NULL,
 	NULL,
 	NULL,
-	&iPtr->execEnvPtr->constants[0],
+	NULL,
 	0,
 	0,
 	NULL,
@@ -1977,6 +1977,7 @@ TclExecuteByteCode(
     char cmdNameBuf[21];
 #endif
 
+    TAUX.constants = &iPtr->execEnvPtr->constants[0];
     if (!codePtr) {
 	CoroutineData *corPtr;
 
