@@ -554,7 +554,7 @@ TclUnixCopyFile(
     {
 	struct statfs fs;
 
-	if (fstatfs(srcFd, &fs, sizeof(fs), 0) == 0) {
+	if (fstatfs(srcFd, &fs) == 0) {
 	    blockSize = fs.f_bsize;
 	} else {
 	    blockSize = DEFAULT_COPY_BLOCK_SIZE;
