@@ -4165,9 +4165,6 @@ TclNRTryObjCmd(
     enum Handlers {
 	TryFinally, TryOn, TryTrap
     };
-    static const char *const returnCodes[] = {
-	"ok", "error", "return", "break", "continue", NULL
-    };
 
     /*
      * Parse the arguments. The handlers are passed to subsequent callbacks as
@@ -4217,15 +4214,7 @@ TclNRTryObjCmd(
 		Tcl_DecrRefCount(handlersObj);
 		return TCL_ERROR;
 	    }
-	    if (Tcl_GetIntFromObj(NULL, objv[i+1], &code) != TCL_OK
-		    && Tcl_GetIndexFromObj(NULL, objv[i+1], returnCodes,
-			    "code", 0, &code) != TCL_OK) {
-		Tcl_ResetResult(interp);
-		Tcl_AppendResult(interp, "bad completion code \"",
-			TclGetString(objv[i+1]),
-			"\": must be ok, error, return, break, "
-			"continue, or an integer", NULL);
-		    Tcl_SetErrorCode(interp, "TCL", "RESULT", "ILLEGAL_CODE", NULL);
+	    if (TCL_ERROR == TclGetCompletionCodeFromObj(interp, objv[i+1], &code)) {
 		Tcl_DecrRefCount(handlersObj);
 		return TCL_ERROR;
 	    }
