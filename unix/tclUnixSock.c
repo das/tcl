@@ -1303,11 +1303,13 @@ Tcl_OpenTcpServer(
 	if (port != 0) {
 	    ((struct sockaddr_in *) addrPtr->ai_addr)->sin_port = htons(port);
 	}
+#ifdef IPV6_V6ONLY
         if (addrPtr->ai_family == AF_INET6) {
             int v6only=1;
             (void) setsockopt(sock, IPPROTO_IPV6, IPV6_V6ONLY,
                               &v6only, sizeof(v6only));
         }
+#endif
 	status = bind(sock, addrPtr->ai_addr, addrPtr->ai_addrlen);
         if (status == -1) {
             close(sock);
