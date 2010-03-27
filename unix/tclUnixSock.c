@@ -1032,6 +1032,7 @@ CreateSocketAddress(
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
 #ifdef AI_ADDRCONFIG
+    /* Missing on: OpenBSD, NetBSD */
     hints.ai_flags |= AI_ADDRCONFIG;
 #endif
     if (willBind) {
@@ -1304,6 +1305,7 @@ Tcl_OpenTcpServer(
 	    ((struct sockaddr_in *) addrPtr->ai_addr)->sin_port = htons(port);
 	}
 #ifdef IPV6_V6ONLY
+	/* Missing on: Solaris 2.8 */
         if (addrPtr->ai_family == AF_INET6) {
             int v6only=1;
             (void) setsockopt(sock, IPPROTO_IPV6, IPV6_V6ONLY,
