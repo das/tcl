@@ -36,9 +36,9 @@
 Tcl_ObjCmdProc Itcl_BiInfoComponentsCmd;
 Tcl_ObjCmdProc Itcl_BiInfoDefaultCmd;
 Tcl_ObjCmdProc Itcl_BiInfoDelegatedCmd;
-Tcl_ObjCmdProc Itcl_BiInfoExistsCmd;
 Tcl_ObjCmdProc Itcl_BiInfoExtendedClassCmd;
 Tcl_ObjCmdProc Itcl_BiInfoInstancesCmd;
+Tcl_ObjCmdProc Itcl_BiInfoLevelCmd;
 Tcl_ObjCmdProc Itcl_BiInfoHullTypeCmd;
 Tcl_ObjCmdProc Itcl_BiInfoMethodCmd;
 Tcl_ObjCmdProc Itcl_BiInfoMethodsCmd;
@@ -273,7 +273,6 @@ static const struct NameProcMap infoCmds2[] = {
     { "::itcl::builtin::Info::components", Itcl_BiInfoComponentsCmd },
     { "::itcl::builtin::Info::default", Itcl_BiInfoDefaultCmd },
     { "::itcl::builtin::Info::delegated", Itcl_BiInfoDelegatedCmd },
-    { "::itcl::builtin::Info::exists", Itcl_BiInfoExistsCmd },
     { "::itcl::builtin::Info::extendedclass", Itcl_BiInfoExtendedClassCmd },
     { "::itcl::builtin::Info::function", Itcl_BiInfoFunctionCmd },
     { "::itcl::builtin::Info::heritage", Itcl_BiInfoHeritageCmd },
@@ -1588,45 +1587,6 @@ Itcl_BiInfoVarsCmd(
 
 /*
  * ------------------------------------------------------------------------
- *  Itcl_BiInfoExistsCmd()
- *
- *  Returns information regarding existance of vars/params 
- *
- *    info exists 
- *  uses ::info exists
- *
- *  Returns a status TCL_OK/TCL_ERROR
- *  to indicate success/failure.
- * ------------------------------------------------------------------------
- */
-/* ARGSUSED */
-int
-Itcl_BiInfoExistsCmd(
-    ClientData clientData, /* ItclObjectInfo Ptr */
-    Tcl_Interp *interp,    /* current interpreter */
-    int objc,              /* number of arguments */
-    Tcl_Obj *const objv[]) /* argument objects */
-{
-    Tcl_Obj **newObjv;
-    Tcl_Namespace *saveNsPtr;
-    int result = TCL_OK;
-
-    ItclShowArgs(1, "Itcl_BiInfoExists", objc, objv);
-    newObjv = (Tcl_Obj **)ckalloc(sizeof(Tcl_Obj *)*(objc));
-    newObjv[0] = Tcl_NewStringObj("::tcl::info::exists", -1);
-    Tcl_IncrRefCount(newObjv[0]);
-    memcpy(newObjv+1, objv+1, sizeof(Tcl_Obj *)*(objc-1));
-    saveNsPtr = Tcl_GetCurrentNamespace(interp);
-    Itcl_SetCallFrameNamespace(interp, Itcl_GetUplevelNamespace(interp, 1));
-    result = Tcl_EvalObjv(interp, objc, newObjv, 0);
-    Tcl_DecrRefCount(newObjv[0]);
-    Itcl_SetCallFrameNamespace(interp, saveNsPtr);
-    ckfree((char *)newObjv);
-    return result;
-}
-
-/*
- * ------------------------------------------------------------------------
  *  Itcl_BiInfoUnknownCmd()
  *
  *  the unknown handler for the ::itcl::builtin::Info ensemble
@@ -1656,20 +1616,13 @@ Itcl_BiInfoUnknownCmd(
         return TCL_ERROR;
     }
     listObj = Tcl_NewListObj(-1, NULL);
-    objPtr = Tcl_NewStringObj("namespace", -1);
-    Tcl_ListObjAppendElement(interp, listObj, objPtr);
-    objPtr = Tcl_NewStringObj("inscope", -1);
-    Tcl_ListObjAppendElement(interp, listObj, objPtr);
-    objPtr = Tcl_NewStringObj(Itcl_GetUplevelNamespace(interp, 1)->fullName,
-            -1);
-    Tcl_ListObjAppendElement(interp, listObj, objPtr);
     objPtr = Tcl_NewStringObj("::info", -1);
     Tcl_ListObjAppendElement(interp, listObj, objPtr);
     objPtr = Tcl_NewStringObj(Tcl_GetString(objv[2]), -1);
     Tcl_ListObjAppendElement(interp, listObj, objPtr);
     Tcl_SetResult(interp, Tcl_GetString(listObj), TCL_VOLATILE);
     Tcl_DecrRefCount(listObj);
-    return result;
+    return TCL_OK;
 }
 
 
@@ -5578,6 +5531,7 @@ Itcl_BiInfoDelegatedTypeMethodCmd(
     }
     return TCL_OK;
 }
+
 /* the next 4 commands are dummies until itclWidget.tcl is loaded
  * they just report the normal unknown message
  */
@@ -5590,6 +5544,7 @@ Itcl_BiInfoHullTypesCmd(
 {
     return Itcl_BiInfoUnknownCmd(clientData, interp, objc, objv);
 }
+
 int
 Itcl_BiInfoWidgetclassesCmd(
     ClientData clientData, /* ItclObjectInfo Ptr */
@@ -5599,6 +5554,7 @@ Itcl_BiInfoWidgetclassesCmd(
 {
     return Itcl_BiInfoUnknownCmd(clientData, interp, objc, objv);
 }
+
 int
 Itcl_BiInfoWidgetsCmd(
     ClientData clientData, /* ItclObjectInfo Ptr */
@@ -5608,6 +5564,7 @@ Itcl_BiInfoWidgetsCmd(
 {
     return Itcl_BiInfoUnknownCmd(clientData, interp, objc, objv);
 }
+
 int
 Itcl_BiInfoWidgetadaptorsCmd(
     ClientData clientData, /* ItclObjectInfo Ptr */

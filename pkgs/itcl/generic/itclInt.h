@@ -12,6 +12,7 @@
  * RCS: @(#) $Id$
  */
 
+#include <unistd.h>
 #include <string.h>
 #include <ctype.h>
 #include <tcl.h>
@@ -371,6 +372,7 @@ typedef struct ItclObject {
                                    * to avoid callin destructor twice */
     int noComponentTrace;         /* don't call component traces if
                                    * setting components in DelegationInstall */
+    int hadConstructorError;      /* needed for multiple calls of CallItclObjectCmd */
 } ItclObject;
 
 #define ITCL_IGNORE_ERRS  0x002  /* useful for construction/destruction */
@@ -648,6 +650,9 @@ typedef struct ItclCallContext {
 
 #if !defined(INT2PTR) && !defined(PTR2INT)
 #   if defined(HAVE_INTPTR_T) || defined(intptr_t)
+#       ifdef HAVE_SYS_TYPES_H
+#           include <sys/types.h>
+#       endif
 #       define INT2PTR(p) ((void*)(intptr_t)(p))
 #       define PTR2INT(p) ((int)(intptr_t)(p))
 #   else

@@ -243,7 +243,7 @@ int
 Itcl_EvalArgs(
     Tcl_Interp *interp,      /* current interpreter */
     int objc,                /* number of arguments */
-    Tcl_Obj *CONST objv[])   /* argument objects */
+    Tcl_Obj *const objv[])   /* argument objects */
 {
     int result;
     Tcl_Command cmd;
@@ -363,7 +363,7 @@ ItclEnsembleSubCmd(
     ItclShowArgs(2, functionName, objc, objv);
 
     newObjv = (Tcl_Obj **)ckalloc(sizeof(Tcl_Obj *)*(objc+1));
-    isRootEnsemble = Tcl_InitRewriteEnsemble(interp, 1, 2, objc, objv);
+    isRootEnsemble = Itcl_InitRewriteEnsemble(interp, 1, 2, objc, objv);
     newObjv[0] = Tcl_NewStringObj("::info", -1);
     Tcl_IncrRefCount(newObjv[0]);
     newObjv[1] = Tcl_NewStringObj("itclinfo", -1);
@@ -375,7 +375,7 @@ ItclEnsembleSubCmd(
     Tcl_DecrRefCount(newObjv[0]);
     Tcl_DecrRefCount(newObjv[1]);
     ckfree((char *)newObjv);
-    Tcl_ResetRewriteEnsemble(interp, isRootEnsemble);
+    Itcl_ResetRewriteEnsemble(interp, isRootEnsemble);
     return result;
 }
 

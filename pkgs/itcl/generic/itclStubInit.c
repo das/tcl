@@ -191,6 +191,8 @@ ItclIntStubs itclIntStubs = {
     Itcl_RenameCommand, /* 173 */
     Itcl_PushCallFrame, /* 174 */
     Itcl_PopCallFrame, /* 175 */
+    Itcl_GetUplevelCallFrame, /* 176 */
+    Itcl_ActivateCallFrame, /* 177 */
 };
 
 static ItclStubHooks itclStubHooks = {

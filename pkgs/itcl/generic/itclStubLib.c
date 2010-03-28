@@ -3,6 +3,7 @@
  * SOURCE: tk/generic/tkStubLib.c, version 1.9 2004/03/17
  */
 
+#define USE_TCL_STUBS 1
 #include "tcl.h"
 
 #define USE_ITCL_STUBS 1

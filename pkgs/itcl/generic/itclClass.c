@@ -189,7 +189,7 @@ CallNewObjectInstance(
 int
 Itcl_CreateClass(
     Tcl_Interp* interp,		/* interpreter that will contain new class */
-    CONST char* path,		/* name of new class */
+    const char* path,		/* name of new class */
     ItclObjectInfo *infoPtr,	/* info for all known objects */
     ItclClass **rPtr)		/* returns: pointer to class definition */
 {
@@ -1136,7 +1136,9 @@ ItclFreeClass(
         }
         icPtr = Tcl_GetHashValue(hPtr);
 	Tcl_DeleteHashEntry(hPtr);
-        ItclDeleteComponent(icPtr);
+	if (icPtr != NULL) {
+            ItclDeleteComponent(icPtr);
+	}
     }
     Tcl_DeleteHashTable(&iclsPtr->components);
 
@@ -1150,7 +1152,9 @@ ItclFreeClass(
         }
         ivPtr = Tcl_GetHashValue(hPtr);
 	Tcl_DeleteHashEntry(hPtr);
-        Itcl_ReleaseData(ivPtr);
+	if (ivPtr != NULL) {
+            Itcl_ReleaseData(ivPtr);
+	}
     }
     Tcl_DeleteHashTable(&iclsPtr->variables);
 
@@ -1312,9 +1316,10 @@ Itcl_IsClass(
  * ------------------------------------------------------------------------
  */
 ItclClass*
-Itcl_FindClass(interp, path, autoload)
-    Tcl_Interp* interp;      /* interpreter containing class */
-    CONST char* path;              /* path name for class */
+Itcl_FindClass(
+    Tcl_Interp* interp,      /* interpreter containing class */
+    const char* path,        /* path name for class */
+    int autoload)
 {
     Tcl_Namespace* classNs;
 
@@ -1396,7 +1401,7 @@ Itcl_FindClass(interp, path, autoload)
 Tcl_Namespace*
 Itcl_FindClassNamespace(interp, path)
     Tcl_Interp* interp;        /* interpreter containing class */
-    CONST char* path;                /* path name for class */
+    const char* path;                /* path name for class */
 {
     Tcl_Namespace* contextNs = Tcl_GetCurrentNamespace(interp);
     Tcl_Namespace* classNs;
@@ -1449,8 +1454,8 @@ FinalizeCreateObject(
     if (result == TCL_ERROR) {
 	Tcl_Obj *objPtr;
 	
+	(void) Tcl_GetReturnOptions(interp, result);
 	objPtr = Tcl_NewStringObj("-level 2", -1);
-	/* result = Tcl_SetReturnOptions(interp, objPtr); */
 	if (!(iclsPtr->flags & (ITCL_TYPE|ITCL_WIDGETADAPTOR))) {
 	    result = Tcl_SetReturnOptions(interp, objPtr);
 	} else {
@@ -1458,6 +1463,24 @@ FinalizeCreateObject(
 	}
     }
     Tcl_DecrRefCount(objNamePtr);
+    return result;
+}
+
+static int
+CallCreateObject(
+    ClientData data[],
+    Tcl_Interp *interp,
+    int result)
+{
+    Tcl_Obj *objNamePtr = data[0];
+    ItclClass *iclsPtr = data[1];
+    int objc = PTR2INT(data[2]);
+    Tcl_Obj **objv = data[3];
+
+    if (result == TCL_OK) {
+        result = ItclCreateObject(interp, Tcl_GetString(objNamePtr), iclsPtr,
+                objc, objv);
+    }
     return result;
 }
 /*
@@ -1492,8 +1515,10 @@ Itcl_HandleClass(
     Tcl_DString buffer;  /* buffer used to build object names */
     Tcl_Obj *objNamePtr;
     Tcl_HashEntry *hPtr;
+    Tcl_Obj **newObjv;
     ItclClass *iclsPtr;
     ItclObjectInfo *infoPtr;
+    void *callbackPtr;
     char unique[256];    /* buffer used for unique part of object names */
     char *token;
     char *objName;
@@ -1618,10 +1643,13 @@ Itcl_HandleClass(
     objNamePtr = Tcl_NewStringObj(objName, -1);
     Tcl_IncrRefCount(objNamePtr);
     Tcl_DStringFree(&buffer);
+    callbackPtr = Itcl_GetCurrentCallbackPtr(interp);
+    newObjv = (Tcl_Obj **)(objv+4);
     Itcl_NRAddCallback(interp, FinalizeCreateObject, objNamePtr, iclsPtr,
             NULL, NULL);
-    result = ItclCreateObject(interp, Tcl_GetString(objNamePtr), iclsPtr,
-            objc-4, objv+4);
+    Itcl_NRAddCallback(interp, CallCreateObject, objNamePtr, iclsPtr,
+            INT2PTR(objc-4), newObjv);
+    result = Itcl_NRRunCallbacks(interp, callbackPtr);
     return result;
 }
 
@@ -2218,13 +2246,13 @@ Itcl_CreateMethodVariable(
  *  anything goes wrong, this returns NULL.
  * ------------------------------------------------------------------------
  */
-CONST char*
+const char*
 Itcl_GetCommonVar(
     Tcl_Interp *interp,        /* current interpreter */
-    CONST char *name,          /* name of desired instance variable */
+    const char *name,          /* name of desired instance variable */
     ItclClass *contextIclsPtr) /* name is interpreted in this scope */
 {
-    CONST char *val = NULL;
+    const char *val = NULL;
     Tcl_HashEntry *hPtr;
     Tcl_DString buffer;
     Tcl_Obj *namePtr;

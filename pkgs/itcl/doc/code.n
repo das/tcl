@@ -11,7 +11,7 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-code \- capture the namespace context for a code fragment
+itcl::code \- capture the namespace context for a code fragment
 .SH SYNOPSIS
 \fBitcl::code \fR?\fB-namespace \fIname\fR? \fIcommand \fR?\fIarg arg ...\fR?
 .BE

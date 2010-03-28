@@ -15,21 +15,22 @@ Itcl_CreateClass, Itcl_DeleteClass, Itcl_FindClass, Itcl_IsClass, Itcl_IsClassNa
 .SH SYNOPSIS
 .nf
 \fB#include <itclInt.h>\fR
-.sp
+
 int
 \fBItcl_CreateClass\fR(\fIinterp, path, info, rPtr\fR)
-.sp
+
 int
 \fBItcl_DeleteClass\fR(\fIinterp, cdefnPtr\fR)
-.sp
+
 ItclClass *
 \fBItcl_FindClass\fR(\fIinterp, path, autoload\fR)
-.sp
+
 int
 \fBItcl_IsClass\fR(\fIcmd\fR)
-.sp
+
 int
 \fBItcl_IsClassNamespace\fR(\fInamesp\fR)
+.fi
 .SH ARGUMENTS
 .AP Tcl_Interp *interp in
 Interpreter to modify.
@@ -54,4 +55,3 @@ Namespace to check.
 
 .SH KEYWORDS
 class, find
-

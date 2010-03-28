@@ -15,15 +15,16 @@ Itcl_RegisterC, Itcl_RegisterObjC, Itcl_FindC \- Associate a symbolic name with 
 .SH SYNOPSIS
 .nf
 \fB#include <itcl.h>\fR
-.sp
+
 int
 \fBItcl_RegisterC\fR(\fIinterp, cmdName, argProc, clientData, deleteProc\fR)
-.sp
+
 int
 \fBItcl_RegisterObjC\fR(\fIinterp, cmdName, objProc, clientData, deleteProc\fR)
-.sp
+
 int
 \fBItcl_FindC\fR(\fIinterp, cmdName, argProcPtr, objProcPtr, cDataPtr\fR)
+.fi
 .SH ARGUMENTS
 .AP Tcl_Interp *interp in
 Interpreter in which to create new command.

@@ -62,7 +62,7 @@ CallFinalizePMCall(
     int result)
 {
     Tcl_Namespace *nsPtr = data[0];
-    TclOO_PostCallProc postCallProc = data[1];
+    TclOO_PostCallProc *postCallProc = data[1];
     ClientData clientData = data[2];
 
     /*
@@ -70,7 +70,7 @@ CallFinalizePMCall(
      * this point the call frame itself is invalid; it's already been popped.
      */
 
-    if (postCallProc) {
+    if (postCallProc != NULL) {
         result = postCallProc(clientData, interp, NULL, nsPtr, result);
     }
     return result;

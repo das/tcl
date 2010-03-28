@@ -29,7 +29,7 @@ int
 _Tcl_CreateProc(
     Tcl_Interp *interp,         /* Interpreter containing proc. */
     Tcl_Namespace *nsPtr,       /* Namespace containing this proc. */
-    CONST char *procName,       /* Unqualified name of this proc. */
+    const char *procName,       /* Unqualified name of this proc. */
     Tcl_Obj *argsPtr,           /* Description of arguments. */
     Tcl_Obj *bodyPtr,           /* Command body. */
     Tcl_Proc *procPtrPtr)       /* Returns: pointer to proc data. */
@@ -90,7 +90,7 @@ Itcl_GetVariableFullName(
 Tcl_Var
 Itcl_FindNamespaceVar(
     Tcl_Interp * interp,
-    CONST char * name,
+    const char * name,
     Tcl_Namespace * contextNsPtr,
     int flags)
 {
@@ -105,6 +105,39 @@ Itcl_SetNamespaceResolvers (
     Tcl_ResolveCompiledVarProc * compiledVarProc)
 {
     Tcl_SetNamespaceResolvers(namespacePtr, cmdProc, varProc, compiledVarProc);
+}
+
+Tcl_HashTable *
+Itcl_GetNamespaceCommandTable(
+    Tcl_Namespace *nsPtr)
+{
+    return TclGetNamespaceCommandTable(nsPtr);
+}
+
+Tcl_HashTable *
+Itcl_GetNamespaceChildTable(
+    Tcl_Namespace *nsPtr)
+{
+    return TclGetNamespaceChildTable(nsPtr);
+}
+
+int
+Itcl_InitRewriteEnsemble(
+    Tcl_Interp *interp,
+    int numRemoved,
+    int numInserted,
+    int objc,
+    Tcl_Obj *const *objv)
+{
+    return TclInitRewriteEnsemble(interp, numRemoved, numInserted, objv);
+}
+
+void
+Itcl_ResetRewriteEnsemble(
+    Tcl_Interp *interp,
+    int isRootEnsemble)
+{
+    return TclResetRewriteEnsemble(interp, isRootEnsemble);
 }
 
 

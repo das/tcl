@@ -15,27 +15,28 @@ Itcl_InitStack, Itcl_DeleteStack, Itcl_PushStack, Itcl_PopStack, Itcl_PeekStack,
 .SH SYNOPSIS
 .nf
 \fB#include <itcl.h>\fR
-.sp
+
 int
 \fBItcl_InitStack\fR(\fIstack\fR)
-.sp
+
 int
 \fBItcl_DeleteStack\fR(\fIstack\fR)
-.sp
+
 int
 \fBItcl_PushStack\fR(\fIcdata, stack\fR)
-.sp
+
 ClientData
 \fBItcl_PopStack\fR(\fIstack\fR)
-.sp
+
 ClientData
 \fBItcl_PeekStack\fR(\fIstack\fR)
-.sp
+
 ClientData
 \fBItcl_GetStackValue\fR(\fIstack, pos\fR)
-.sp
+
 int
 \fBItcl_GetStackSize\fR(\fIstack\fR)
+.fi
 .SH ARGUMENTS
 .AP Itcl_Stack *stack in
 Stack info structure.

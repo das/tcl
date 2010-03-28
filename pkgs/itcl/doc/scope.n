@@ -11,7 +11,7 @@
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
-scope \- capture the namespace context for a variable
+itcl::scope \- capture the namespace context for a variable
 .SH SYNOPSIS
 \fBitcl::scope \fIname\fR
 .BE
