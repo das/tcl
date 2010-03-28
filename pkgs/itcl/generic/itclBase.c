@@ -42,30 +42,21 @@ static char initScript[] =
 "        if {[info exists library]} {\n"
 "            lappend dirs $library\n"
 "        } else {\n"
-"            if {[catch {uplevel #0 source -rsrc itcl}] == 0} {\n"
-"                return\n"
-"            }\n"
 "            set dirs {}\n"
 "            if {[info exists env(ITCL_LIBRARY)]} {\n"
 "                lappend dirs $env(ITCL_LIBRARY)\n"
 "            }\n"
 "            lappend dirs [file join [file dirname $tcl_library] itcl$patchLevel]\n"
 "            set bindir [file dirname [info nameofexecutable]]\n"
-"	    lappend dirs [file join . library]\n"
+"            lappend dirs [file join . library]\n"
 "            lappend dirs [file join $bindir .. lib itcl$patchLevel]\n"
 "            lappend dirs [file join $bindir .. library]\n"
 "            lappend dirs [file join $bindir .. .. library]\n"
 "            lappend dirs [file join $bindir .. .. itcl library]\n"
 "            lappend dirs [file join $bindir .. .. .. itcl library]\n"
 "            lappend dirs [file join $bindir .. .. itcl-ng itcl library]\n"
-"            # On MacOSX, check the directories in the tcl_pkgPath\n"
-"            if {[string equal $::tcl_platform(platform) \"unix\"] && "
-"                    [string equal $::tcl_platform(os) \"Darwin\"]} {\n"
-"                foreach d $::tcl_pkgPath {\n"
-"                    lappend dirs [file join $d itcl$patchLevel]\n"
-"                }\n"
-"            }\n"
 "            # On *nix, check the directories in the tcl_pkgPath\n"
+"            # XXX JH - this looks unnecessary, maybe Darwin only?\n"
 "            if {[string equal $::tcl_platform(platform) \"unix\"]} {\n"
 "                foreach d $::tcl_pkgPath {\n"
 "                    lappend dirs $d\n"
@@ -75,8 +66,8 @@ static char initScript[] =
 "        }\n"
 "        foreach i $dirs {\n"
 "            set library $i\n"
-"            set itclfile [file join $i itcl.tcl]\n"
-"            if {![catch {uplevel #0 [list source $itclfile]} msg]} {\n"
+"            if {![catch {uplevel #0 [list source [file join $i itcl.tcl]]}]} {\n"
+"                set library $i\n"
 "                return\n"
 "            }\n"
 "        }\n"
@@ -901,7 +892,7 @@ ItclDumpRefCountInfo(
     ClientData clientData,   /* unused */
     Tcl_Interp *interp,      /* current interpreter */
     int objc,                /* number of arguments */
-    Tcl_Obj *CONST objv[])   /* argument objects */
+    Tcl_Obj *const objv[])   /* argument objects */
 {
     int noDeleted;
 
@@ -935,7 +926,7 @@ ItclDumpPreserveInfo(
     ClientData clientData,   /* unused */
     Tcl_Interp *interp,      /* current interpreter */
     int objc,                /* number of arguments */
-    Tcl_Obj *CONST objv[])   /* argument objects */
+    Tcl_Obj *const objv[])   /* argument objects */
 {
     ItclShowArgs(0, "ItclDumpPreserveInfo", objc, objv);
     Itcl_DbDumpPreserveInfo(NULL);

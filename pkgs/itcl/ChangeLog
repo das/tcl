@@ -6,6 +6,143 @@ RCS: @(#) $Id$
 	[Bug 2821935]: Change method of quoting multiline strings to work
 	around a limitation in the MSVC 6.0 compiler.
 
+2010-03-19  Arnulf P. Wiedemann <wiede@users.sourceforge.net>
+	* configure.in:    	add missing include files for install,thanks to Reinhard Max for
+	                        the patch
+	* itclInfo.c:		removed "uplevel 1" in Itcl_BiInfoUnknownCmd.c, which made problems
+	                        with "info complete", reported by Reinhard Max
+	* itclMethod.c:		fixed bug, which caused core dump in CallItclObjectCmd, thanks to
+	                        Reinhard Max for the patch
+2010-03-06  Arnulf P. Wiedemann <wiede@users.sourceforge.net>
+	* itcl.decls:    	changed CONST in declarations to const
+	* itclDecls.h:
+	* itclIntDecls.h
+	* itcl2TclOO.c:		adaption to typedef change in TclOO for TclOO_PreCallProc and
+				TclOO_PostCallProc
+	* itclNeededFromTclOO.h:
+	* itclBuiltin.c:	allow installcomponent for ::itcl::type too typeclass.test install-1.7
+	* itclClass.c:		use "new" style params in Itcl_FindClass
+
+2009-10-25 Arnulf P. Wiedemann <wiede@users.sf.net>
+	* itclCmd.c:            fix for Itcl_AddOptionCmd
+
+2009-10-24 Arnulf P. Wiedemann <wiede@users.sf.net>
+	* itclMethod.c:          if during call of constructor, when building
+	                         an object there were multiple recursive calls
+				 on CallItclObjectCmd and errors have not been
+				 propagated. Now hadConstructorError
+				 field in ItclObject struct is used for that
+				 purpose.
+	* itclInt.h:
+	* itclObject.c:
+
+	* itclObject.c:          allow %:var_name substitution in delegate
+	                         method using part for extendedclass
+
+	* itclObject.c:          allow call of delegated methods in constructor
+	                         of ::itcl::extendedclass
+	* itclBuiltin.c:
+	* itclMethod.c:
+
+
+2009-10-23 Arnulf P. Wiedemann <wiede@users.sf.net>
+        * generic/itcl.h:        bumped version to 4.0b4
+	* configure.in:
+	* configure:
+
+	* itclClass.c:           fixed bug which prevented correct error
+	                         reporting when there was a problem when
+				 creating an object, also fixed to use correct
+				 NRE calling
+
+2009-10-23  Arnulf P. Wiedemann <wiede@users.sourceforge.net>
+	* itclMigrate2TclCore.c: added Itcl_GetUplevelCallFrame and 
+	                         Itcl_ActivateCallFrame functions
+	                         same as in Itcl3.4. They are needed to call
+				 the itk_component command with the suitable
+				 call frame as this is needed for access to the
+	                         proc local vars. This was the fix for SF 
+				 bug #2840994
+	* itclStubInit.c:
+	* itcl.decls:
+	* itclDecls.h:
+	* itclIntDecls.h:
+
+	* itclResolve.c:         added special_resolve_vars. Also needed
+	                         for SF bug #2840994
+
+
+2009-10-22  Arnulf P. Wiedemann <wiede@users.sourceforge.net>
+	* itclLinkage.c:    changed CONST in declarations to const
+	* itclMethod.c:
+	* itclBase.c:
+	* itclBuiltin.c:
+	* itclStubs.c:
+
+	* itclObject.c:     added an empty line (beautifying)
+
+	* itclInfo.c:       no extra method for info exists, use the
+	                    ItclBiInfoUnknownCmd instead
+			    fix for bug # 2738459
+	* itclObject.c:     fix for bug # 2789473
+	* itclResolve.c:    fix for bug # 2495261
+
+	* itclCmd.c:             use of new Tcl functions as suggested from dkf
+	* itclHelpers.c:
+	* itclMigrate2TclCore.c:
+	* itclMigrate2TclCore.h:
+	* itclTclIntStubsFcn.c:
+	* itclTclIntStubsFcn.h:
+
+2009-10-20  Arnulf P. Wiedemann <wiede@users.sourceforge.net>
+	* generic/itclParse.c:	fix for bug  #2871541.
+	       added a lot of checks if within a class
+	       environment (iclsPtr != NULL), as there
+	       were a lot of similar cases
+
+2009-10-18  Arnulf P. Wiedemann <wiede@users.sourceforge.net>
+
+	* generic/itclInfo.c:	fix for bug  #2830946.
+	* pkgIndex.tcl.in:	fix for bug  #2856166.
+	* itclInt.h:    for linux we need inclusion of unistd.h otherwise
+	                intprt_t type is not defined
+
+	* itclResolve2.c:       changed CONST in declarations to const
+	* itclTclIntStubsFcn.c:
+	* itclObject.c:
+	* itclParse.c:
+	* itclClass.c:
+	* ItclEnsemble.c:
+	* itclHelpers.c:
+	* itclCmd.c:
+	* itclUtil.c:
+
+2009-07-18  Daniel A. Steffen <das@users.sourceforge.net>
+
+	* generic/itclClass.c:	fix warnings.
+	* generic/itclParse.c:
+	* generic/itclResolve.c:
+
+	* configure.in:		check for intptr_t type and include sys/types.h
+	* generic/itclInt.h:	to make INT2PTR & PTR2INT macros actually work.
+	* itclng/generic/itclngInt.h:
+
+	* configure:		autoconf-2.59
+
+2009-05-09  David Gravereaux <davygrvy@pobox.com>
+
+	* generic/itcl.h:
+	* generic/itclDecls.h:   Better C++ support.
+	* generic/itclStubLib.c: #define USE_TCL_STUBS is required
+
+2009-03-19  Jeff Hobbs  <jeffh@ActiveState.com>
+
+	* generic/itclBase.c: reduce size of initScript to satisfy MSVC6.
+
+2008-02-21 Arnulf P. Wiedemann <wiede@users.sf.net>
+        * fix for SF bug 2595708 itclParse.c and itclBuiltin.c
+	* fix for problem with scope command path reported by 
+	* Harald Krummeck on c.l.t ItclCmd.c
 2008-02-02 Arnulf P. Wiedemann <wiede@users.sf.net>
         * generic/itcl.h configure.in:
 	             bumped version to 4.0b3
