@@ -72,7 +72,7 @@ package require \fBtdbc::\fIdriver version\fR
 \fIdb \fBallrows\fR ?\fB\-as lists\fR|\fBdicts\fR? ?\fB\-columnsvariable \fIname\fR? ?\fB\-\-\fR? \fIsql-code\fR ?\fIdictionary\fR?
 .br
 .ti 7
-\fIdb \fBforeach\fR ?\fB\-as lists\fR|\fBdicts\fR? ?\fB\-columnsvariable \fIname\fR? ?\fB\-\-\fR? \fIvarName sql-code\fR ?\fIdictionary\fR? \fIscript\fR
+\fIdb \fBforeach\fR ?\fB\-as lists\fR|\fBdicts\fR? ?\fB\-columnsvariable \fIname\fR? ?\-\-? \fIvarName sqlcode\fR ?\fIdictionary\fR? \fIscript\fR
 .ad b
 .BE
 .SH "DESCRIPTION"

@@ -1,3 +1,81 @@
+2009-09-20  Kevin B. Kenny  <kennykb@acm.org>
+
+	* tools/tdbc-man2html.tcl: Added tdbcpostgres to the documentation set.
+	* generic/tdbc.h:
+	* configure.in:
+	* README:		Advance version number to 1.0b13
+	* configure:		autoconf-2.59
+	
+2009-07-02  Kevin B. Kenny  <kennykb@acm.org>
+
+	* generic/tdbc.h:
+	* configure.in:
+	* README:		Advance version number to 1.0b12
+	* configure:		autoconf-2.59
+	
+	
+2009-05-29  Kevin B. Kenny  <kennykb@acm.org>
+	
+	* generic/tdbc.h:
+	* configure.in:
+	* README:		Advance version number to 1.0b11
+	* configure:		autoconf-2.59
+	
+2009-04-21  Kevin B. Kenny  <kennykb@acm.org>
+
+	* Makefile.in (dist): Rename Tdbc.3 to Tdbc_Init.3 to avoid
+	a file naming conflict in HTML documentation.
+	* doc/Tdbc_Init.3: Renamed from Tdbc.3. Added IGNORE arond macros
+	* doc/tbdc.n:
+	* doc/tdbc_connection.n:
+	* doc/tdbc_mapSqlState.n:
+	* doc/tdbc_resultset.n:
+	* doc/tdbc_statement.n:
+	* doc/tdbc_tokenize.n: Added IGNORE / END IGNORE around macros.
+	* tdbc_mapSqlState.n: Moved the .BS comment to where it belongs.
+	* tools/tdbc-man2html.tcl: Added .3 man pages to the build. Added a
+	    '\" IGNORE ... \'" END IGNORE directive so that *roff macros
+	    can be skipped reliably (needed in order to handle the .AS and
+	    .AP macros)
+	Retagged 1.0b10 with these changes.
+	
+2009-04-20  Kevin B. Kenny  <kennykb@acm.org>
+
+	* Makefile.in (dist): Added new man pages to the 'dist' rule.
+	Retagged 1.0b10 with these changes.
+	
+2009-04-19  Kevin B. Kenny  <kennykb@acm.org>
+
+	* Makefile.in (install-doc): Added missing commands to install
+	                             section 3 man pages
+	
+2009-04-18  Kevin B. Kenny  <kennykb@acm.org>
+
+	* doc/Tdbc.3: Added manual page for C API to TDBC
+	* doc/tdbc.n:
+	* doc/tdbc_connection.n: Changed 'starttransaction' to
+				 'begintransaction'. Corrected the 'foreach'
+				 syntax
+	* doc/tdbc_statement.n: Corrected the 'foreach' syntax.
+	* doc/tdbc_resultset.n:
+	* doc/tdbc_tokenize.n: Corrected tabs, margins, etc. to Tcl standard.
+	* doc/tdbc_mapSqlState.n: Added documentation for tdbc::mapSqlState.
+	
+2009-04-16  Kevin B. Kenny  <kennykb@acm.org>
+
+	* generic/tdbc.h:
+	* configure.in:
+	* README:		Advance version number to 1.0b10
+	* configure:		autoconf-2.59
+	
+2009-03-03  Kevin B. Kenny  <kennykb@acm.org>
+
+	* tdbc.tcl: Replaced the 'statementClass' and 'resultSetClass'
+	instance variables with 'statementCreate and 'resultSetCreate'
+	methods (expected to forward to the appropriate constructors).
+	Replaced 'my variable' usage with 'variable' declarations at
+	class level. Removed various bits of debugging output.
+	
 2009-02-16  Kevin B. Kenny  <kennykb@acm.org>
 
 	* generic/tdbc.h:
