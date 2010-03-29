@@ -1,5 +1,12 @@
 RCS: @(#) $Id$
 
+2010-03-28  Arnulf P. Wiedemann <wiede@users.sourceforge.net>
+	* typeinfo.test:        integrated fix for [Tcl Bug 2821935] and
+	* typeoption.test:	other fixes from Donal Fellows.  This helps
+	* itclParse.c:		work around a limitation in the MSVC 6.0
+	* itclBuiltin.c:	compiler.
+	* itclBase.c:
+	* itcl2TclOO.c:
 2010-03-19  Arnulf P. Wiedemann <wiede@users.sourceforge.net>
 	* configure.in:    	add missing include files for install,thanks to Reinhard Max for
 	                        the patch
