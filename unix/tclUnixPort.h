@@ -25,6 +25,10 @@
 #ifndef _TCLUNIXPORT
 #define _TCLUNIXPORT
 
+#ifndef MODULE_SCOPE
+#define MODULE_SCOPE extern
+#endif
+
 /*
  *---------------------------------------------------------------------------
  * The following sets of #includes and #ifdefs are required to get Tcl to
@@ -79,13 +83,6 @@ typedef off_t		Tcl_SeekOffset;
 #   define TclOSlstat		lstat
 #endif
 
-#if !HAVE_STRTOLL && defined(TCL_WIDE_INT_TYPE) && !TCL_WIDE_INT_IS_LONG
-EXTERN Tcl_WideInt	strtoll _ANSI_ARGS_((CONST char *string,
-					     char **endPtr, int base));
-EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((CONST char *string,
-					      char **endPtr, int base));
-#endif
-
 #include <sys/file.h>
 #ifdef HAVE_SYS_SELECT_H
 #   include <sys/select.h>
@@ -104,25 +101,20 @@ EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((CONST char *string,
 #ifndef NO_SYS_WAIT_H
 #   include <sys/wait.h>
 #endif
+#if HAVE_INTTYPES_H
+#   include <inttypes.h>
+#endif
+#if HAVE_STDINT_H
+#   include <stdint.h>
+#endif
 #ifdef HAVE_UNISTD_H
 #   include <unistd.h>
 #else
 #   include "../compat/unistd.h"
 #endif
-#ifdef	USE_FIONBIO
-    /*
-     * Not using the Posix fcntl(...,O_NONBLOCK,...) interface, instead
-     * we are using ioctl(..,FIONBIO,..).
-     */
 
-#   ifdef HAVE_SYS_FILIO_H
-#	include	<sys/filio.h>	/* For FIONBIO. */
-#   endif
+MODULE_SCOPE int TclUnixSetBlockingMode(int fd, int mode);
 
-#   ifdef HAVE_SYS_IOCTL_H
-#	include	<sys/ioctl.h>	/* For FIONBIO. */
-#   endif
-#endif	/* USE_FIONBIO */
 #include <utime.h>
 
 /*
@@ -172,18 +164,6 @@ EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((CONST char *string,
 
 #ifndef O_NONBLOCK
 #   define O_NONBLOCK 0x80
-#endif
-
-/*
- * HPUX needs the flag O_NONBLOCK to get the right non-blocking I/O
- * semantics, while most other systems need O_NDELAY.  Define the
- * constant NBIO_FLAG to be one of these
- */
-
-#ifdef HPUX
-#  define NBIO_FLAG O_NONBLOCK
-#else
-#  define NBIO_FLAG O_NDELAY
 #endif
 
 /*
@@ -259,21 +239,11 @@ EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((CONST char *string,
 
 /*
  * The stuff below is needed by the "time" command.  If this system has no
- * gettimeofday call, then must use times and the CLK_TCK #define (from
- * sys/param.h) to compute elapsed time.  Unfortunately, some systems only
- * have HZ and no CLK_TCK, and some might not even have HZ.
+ * gettimeofday call, then must use times() instead.
  */
 
 #ifdef NO_GETTOD
 #   include <sys/times.h>
-#   include <sys/param.h>
-#   ifndef CLK_TCK
-#       ifdef HZ
-#           define CLK_TCK HZ
-#       else
-#           define CLK_TCK 60
-#       endif
-#   endif
 #else
 #   ifdef HAVE_BSDGETTIMEOFDAY
 #	define gettimeofday BSDgettimeofday
@@ -281,8 +251,7 @@ EXTERN Tcl_WideUInt	strtoull _ANSI_ARGS_((CONST char *string,
 #endif
 
 #ifdef GETTOD_NOT_DECLARED
-EXTERN int		gettimeofday _ANSI_ARGS_((struct timeval *tp,
-			    struct timezone *tzp));
+MODULE_SCOPE int		gettimeofday(struct timeval *tp, struct timezone *tzp);
 #endif
 
 /*
@@ -478,33 +447,108 @@ extern int errno;
  * Variables provided by the C library:
  */
 
-#if defined(_sgi) || defined(__sgi) || (defined(__APPLE__) && defined(__DYNAMIC__))
-#   define environ _environ
-#endif
+#if defined(__APPLE__) && defined(__DYNAMIC__)
+#   include <crt_externs.h>
+#   define environ (*_NSGetEnviron())
+#   define USE_PUTENV 1
+#else
+#   if defined(_sgi) || defined(__sgi)
+#       define environ _environ
+#   endif
 extern char **environ;
-
-/*
- * At present (12/91) not all stdlib.h implementations declare strtod.
- * The declaration below is here to ensure that it's declared, so that
- * the compiler won't take the default approach of assuming it returns
- * an int.  There's no ANSI prototype for it because there would end
- * up being too many conflicts with slightly-different prototypes.
- */
-
-#ifdef NO_STDLIB_H
-extern double strtod();
 #endif
 
 /*
- * There is no platform-specific panic routine for Unix in the Tcl internals.
+ * Darwin specifc configure overrides.
  */
 
-#define TclpPanic ((Tcl_PanicProc *) NULL)
+#ifdef __APPLE__
+/*
+ * Support for fat compiles: configure runs only once for multiple architectures
+ */
+#   if defined(__LP64__) && defined (NO_COREFOUNDATION_64)
+#       undef HAVE_COREFOUNDATION
+#    endif /* __LP64__ && NO_COREFOUNDATION_64 */
+#   include <sys/cdefs.h>
+#   ifdef __DARWIN_UNIX03
+#       if __DARWIN_UNIX03
+#           undef HAVE_PUTENV_THAT_COPIES
+#       else
+#           define HAVE_PUTENV_THAT_COPIES 1
+#       endif
+#   endif /* __DARWIN_UNIX03 */
+/*
+ * The termios configure test program relies on the configure script being run
+ * from a terminal, which is not the case e.g. when configuring from Xcode.
+ * Since termios is known to be present on all Mac OS X releases since 10.0,
+ * override the configure defines for serial API here. [Bug 497147]
+ */
+#   define USE_TERMIOS 1
+#   undef  USE_TERMIO
+#   undef  USE_SGTTY
+/*
+ * Include AvailabilityMacros.h here (when available) to ensure any symbolic
+ * MAC_OS_X_VERSION_* constants passed on the command line are translated.
+ */
+#   ifdef HAVE_AVAILABILITYMACROS_H
+#       include <AvailabilityMacros.h>
+#   endif
+/*
+ * Support for weak import.
+ */
+#   ifdef HAVE_WEAK_IMPORT
+#       if !defined(HAVE_AVAILABILITYMACROS_H) || !defined(MAC_OS_X_VERSION_MIN_REQUIRED)
+#           undef HAVE_WEAK_IMPORT
+#       else
+#           ifndef WEAK_IMPORT_ATTRIBUTE
+#               define WEAK_IMPORT_ATTRIBUTE __attribute__((weak_import))
+#           endif
+#       endif
+#   endif /* HAVE_WEAK_IMPORT */
+/*
+ * Support for MAC_OS_X_VERSION_MAX_ALLOWED define from AvailabilityMacros.h:
+ * only use API available in the indicated OS version or earlier.
+ */
+#   ifdef MAC_OS_X_VERSION_MAX_ALLOWED
+#       if MAC_OS_X_VERSION_MAX_ALLOWED < 1050 && defined(__LP64__)
+#           undef HAVE_COREFOUNDATION
+#       endif
+#       if MAC_OS_X_VERSION_MAX_ALLOWED < 1040
+#           undef HAVE_OSSPINLOCKLOCK
+#           undef HAVE_PTHREAD_ATFORK
+#           undef HAVE_COPYFILE
+#       endif
+#       if MAC_OS_X_VERSION_MAX_ALLOWED < 1030
+#           ifdef TCL_THREADS
+		/* prior to 10.3, realpath is not threadsafe, c.f. bug 711232 */
+#               define NO_REALPATH 1
+#           endif
+#           undef HAVE_LANGINFO
+#       endif
+#   endif /* MAC_OS_X_VERSION_MAX_ALLOWED */
+#   if defined(HAVE_COREFOUNDATION) && defined(__LP64__) && \
+	    defined(HAVE_WEAK_IMPORT) && MAC_OS_X_VERSION_MIN_REQUIRED < 1050
+#       warning "Weak import of 64-bit CoreFoundation is not supported, will not run on Mac OS X < 10.5."
+#   endif
+/*
+ * At present, using vfork() instead of fork() causes execve() to fail
+ * intermittently on Darwin x86_64. rdar://4685553
+ */
+#   if defined(__x86_64__) && !defined(FIXED_RDAR_4685553)
+#       undef USE_VFORK
+#   endif /* __x86_64__ */
+/* Workaround problems with vfork() when building with llvm-gcc-4.2 */
+#   if defined (__llvm__) && \
+	    (__GNUC__ > 4 || (__GNUC__ == 4 && (__GNUC_MINOR__ > 2 || \
+	    (__GNUC_MINOR__ == 2 && __GNUC_PATCHLEVEL__ > 0))))
+#       undef USE_VFORK
+#   endif /* __llvm__ */
+#endif /* __APPLE__ */
 
 /*
  *---------------------------------------------------------------------------
- * The following macros and declarations represent the interface between 
- * generic and unix-specific parts of Tcl.  Some of the macros may override 
+ * The following macros and declarations represent the interface between
+ * generic and unix-specific parts of Tcl.  Some of the macros may override
  * functions declared in tclInt.h.
  *---------------------------------------------------------------------------
  */
@@ -521,7 +565,7 @@ typedef int socklen_t;
 #endif
 
 /*
- * The following macros have trivial definitions, allowing generic code to 
+ * The following macros have trivial definitions, allowing generic code to
  * address platform-specific issues.
  */
 
@@ -543,55 +587,34 @@ typedef int socklen_t;
 
 #define TclpExit		exit
 
-/*
- * Platform specific mutex definition used by memory allocators.
- * These mutexes are statically allocated and explicitly initialized.
- * Most modules do not use this, but instead use Tcl_Mutex types and
- * Tcl_MutexLock and Tcl_MutexUnlock that are self-initializing.
- */
-
 #ifdef TCL_THREADS
-#   include <pthread.h>
-typedef pthread_mutex_t TclpMutex;
-EXTERN void	TclpMutexInit _ANSI_ARGS_((TclpMutex *mPtr));
-EXTERN void	TclpMutexLock _ANSI_ARGS_((TclpMutex *mPtr));
-EXTERN void	TclpMutexUnlock _ANSI_ARGS_((TclpMutex *mPtr));
-EXTERN struct tm *     	TclpLocaltime(CONST time_t *);
-EXTERN struct tm *     	TclpGmtime(CONST time_t *);
-EXTERN char *          	TclpInetNtoa(struct in_addr);
-/* #define localtime(x)	TclpLocaltime(x)
- * #define gmtime(x)	TclpGmtime(x)    */
 #   undef inet_ntoa
 #   define inet_ntoa(x)	TclpInetNtoa(x)
-#   ifdef MAC_OSX_TCL
-/* 
- * On Mac OS X, realpath is currently not
- * thread safe, c.f. SF bug # 711232.
- */
-#	define NO_REALPATH
-#   endif
-#   ifdef HAVE_PTHREAD_ATTR_GET_NP
-#	define TclpPthreadGetAttrs	pthread_attr_get_np
-#	ifdef ATTRGETNP_NOT_DECLARED
-/*
- * Assume it is in pthread_np.h if it isn't in pthread.h. [Bug 1064882]
- * We might need to revisit this in the future. :^(
- */
-#	    include <pthread_np.h>
-#	endif
-#   else
-#	ifdef HAVE_PTHREAD_GETATTR_NP
-#	    define TclpPthreadGetAttrs	pthread_getattr_np
-#	    ifdef GETATTRNP_NOT_DECLARED
-EXTERN int pthread_getattr_np _ANSI_ARGS_((pthread_t, pthread_attr_t *));
-#	    endif
-#	endif /* HAVE_PTHREAD_GETATTR_NP */
-#   endif /* HAVE_PTHREAD_ATTR_GET_NP */
-#else
-typedef int TclpMutex;
-#   define	TclpMutexInit(a)
-#   define	TclpMutexLock(a)
-#   define	TclpMutexUnlock(a)
 #endif /* TCL_THREADS */
+
+/* FIXME */
+#ifndef AF_INET6
+#define AF_INET6 10
+#endif
+
+/*
+ * Set of MT-safe implementations of some
+ * known-to-be-MT-unsafe library calls.
+ * Instead of returning pointers to the
+ * static storage, those return pointers
+ * to the TSD data.
+ */
+
+#include <pwd.h>
+#include <grp.h>
+
+MODULE_SCOPE struct passwd*  TclpGetPwNam(const char *name);
+MODULE_SCOPE struct group*   TclpGetGrNam(const char *name);
+MODULE_SCOPE struct passwd*  TclpGetPwUid(uid_t uid);
+MODULE_SCOPE struct group*   TclpGetGrGid(gid_t gid);
+MODULE_SCOPE struct hostent* TclpGetHostByName(const char *name);
+MODULE_SCOPE struct hostent* TclpGetHostByAddr(const char *addr, int length, int type);
+MODULE_SCOPE Tcl_Channel     TclpMakeTcpClientChannelMode(ClientData tcpSocket, int mode);
+
 
 #endif /* _TCLUNIXPORT */
