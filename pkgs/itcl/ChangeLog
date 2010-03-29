@@ -1,11 +1,12 @@
 RCS: @(#) $Id$
 
-2009-09-26  Donal K. Fellows  <dkf@users.sf.net>
-
-	* generic/itclBase.c, generic/itclBuiltin.c, generic/itclParse.c:
-	[Bug 2821935]: Change method of quoting multiline strings to work
-	around a limitation in the MSVC 6.0 compiler.
-
+2010-03-28  Arnulf P. Wiedemann <wiede@users.sourceforge.net>
+	* typeinfo.test:        integrated fix for [Tcl Bug 2821935] and
+	* typeoption.test:	other fixes from Donal Fellows.  This helps
+	* itclParse.c:		work around a limitation in the MSVC 6.0
+	* itclBuiltin.c:	compiler.
+	* itclBase.c:
+	* itcl2TclOO.c:
 2010-03-19  Arnulf P. Wiedemann <wiede@users.sourceforge.net>
 	* configure.in:    	add missing include files for install,thanks to Reinhard Max for
 	                        the patch
