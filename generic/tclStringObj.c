@@ -2275,7 +2275,7 @@ Tcl_AppendFormatToObj(
 		    int digitOffset;
 
 		    if (useBig && big.used) {
-			if ((size_t) shift <
+			if (index < big.used && (size_t) shift <
 				CHAR_BIT*sizeof(Tcl_WideUInt) - DIGIT_BIT) {
 			    bits |= (((Tcl_WideUInt)big.dp[index++]) <<shift);
 			    shift += DIGIT_BIT;
