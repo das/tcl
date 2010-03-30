@@ -979,7 +979,6 @@ CreateSocket(
     u_long flag = 1;		/* Indicates nonblocking mode. */
     int asyncConnect = 0;	/* Will be 1 if async connect is in
 				 * progress. */
-    int connected = 0;
     int chosenport = 0;
     struct addrinfo *addrlist = NULL, *addrPtr;	/* socket address */
     struct addrinfo *myaddrlist = NULL, *myaddrPtr; /* Socket address for client */
@@ -1011,6 +1010,7 @@ CreateSocket(
 	for (addrPtr = addrlist; addrPtr != NULL; addrPtr = addrPtr->ai_next) {
 	    sock = socket(addrPtr->ai_family, SOCK_STREAM, 0);
 	    if (sock == INVALID_SOCKET) {
+		TclWinConvertWSAError((DWORD) WSAGetLastError());
 		continue;
 	    }
 	
@@ -1051,6 +1051,7 @@ CreateSocket(
 
 	    if (bind(sock, addrPtr->ai_addr, addrPtr->ai_addrlen)
 		== SOCKET_ERROR) {
+		TclWinConvertWSAError((DWORD) WSAGetLastError());
 		closesocket(sock);
 		continue;
 	    }
@@ -1073,6 +1074,7 @@ CreateSocket(
 	     */
 	    
 	    if (listen(sock, SOMAXCONN) == SOCKET_ERROR) {
+		TclWinConvertWSAError((DWORD) WSAGetLastError());
 		closesocket(sock);
 		continue;
 	    }
@@ -1117,6 +1119,7 @@ CreateSocket(
 
 		sock = socket(myaddrPtr->ai_family, SOCK_STREAM, 0);
 		if (sock == INVALID_SOCKET) {
+		    TclWinConvertWSAError((DWORD) WSAGetLastError());
 		    continue;
 		}
 		
@@ -1139,6 +1142,7 @@ CreateSocket(
 		
 		if (bind(sock, myaddrPtr->ai_addr, myaddrPtr->ai_addrlen)
 		    == SOCKET_ERROR) {
+		    TclWinConvertWSAError((DWORD) WSAGetLastError());
 		    goto looperror;
 		}
 		/*
@@ -1148,6 +1152,7 @@ CreateSocket(
 		if (async) {
 		    if (ioctlsocket(sock, (long) FIONBIO, &flag)
 			== SOCKET_ERROR) {
+			TclWinConvertWSAError((DWORD) WSAGetLastError());
 			goto looperror;
 		    }
 		}
@@ -1158,8 +1163,8 @@ CreateSocket(
 		
 		if (connect(sock, addrPtr->ai_addr, addrPtr->ai_addrlen)
 		    == SOCKET_ERROR) {
-		    TclWinConvertWSAError((DWORD) WSAGetLastError());
 		    if (Tcl_GetErrno() != EWOULDBLOCK) {
+			TclWinConvertWSAError((DWORD) WSAGetLastError());
 			goto looperror;
 		    }
 		    
@@ -1218,7 +1223,6 @@ CreateSocket(
 	return infoPtr;
     }
 
-    TclWinConvertWSAError((DWORD) WSAGetLastError());
     if (interp != NULL) {
 	Tcl_AppendResult(interp, "couldn't open socket: ",
 		Tcl_PosixError(interp), NULL);
