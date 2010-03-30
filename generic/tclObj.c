@@ -4055,8 +4055,8 @@ Tcl_GetCommandFromObj(
     if ((objPtr->typePtr != &tclCmdNameType)
 	    || (resPtr == NULL)
 	    || (cmdPtr = resPtr->cmdPtr, cmdPtr->cmdEpoch != resPtr->cmdEpoch)
-	    || (interp != cmdPtr->nsPtr->interp)
 	    || (cmdPtr->flags & CMD_IS_DELETED)
+	    || (interp != cmdPtr->nsPtr->interp)
 	    || (cmdPtr->nsPtr->flags & 	NS_DYING)
 	    || ((resPtr->refNsPtr != NULL) && 
 		     (((refNsPtr = (Namespace *) TclGetCurrentNamespace(interp))
