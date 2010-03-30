@@ -21,11 +21,10 @@ if {[lsearch [namespace children] ::tcltest] == -1} {
 testConstraint testobj [llength [info commands testobj]]
 
 catch {unset x}
-test listobj-1.1 {Tcl_GetListObjType} testobj {
-    set t [testobj types]
-    set first [string first "list" $t]
-    set result [expr {$first != -1}]
-} {1}
+test listobj-1.1 {Tcl_GetListObjType} emptyTest {
+    # Test removed; tested an internal detail
+    # that's no longer correct, and duplicated test obj-1.1
+} {}
 
 test listobj-2.1 {Tcl_SetListObj, use in lappend} {
     catch {unset x}
@@ -178,6 +177,28 @@ test listobj-9.1 {UpdateStringOfList} {
     string length [list foo\x00help]
 } 8
 
+test listobj-10.1 {Bug [2971669]} {*}{
+    -constraints testobj
+    -setup {
+	testobj freeallvars
+    }
+    -body {
+	set result {}
+	lappend result \
+	    [testlistobj set 1 a b c d e] \
+	    [testlistobj replace 1 0x7fffffff 0x7fffffff f] \
+	    [testlistobj get 1]
+    }
+    -cleanup {
+	testobj freeallvars
+    }
+    -result {{a b c d e} {} {a b c d e f}}
+}
+
 # cleanup
 ::tcltest::cleanupTests
 return
+
+# Local Variables:
+# mode: tcl
+# End:
