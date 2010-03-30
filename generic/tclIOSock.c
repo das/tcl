@@ -164,6 +164,10 @@ TclCreateSocketAddress(
 	Tcl_DStringFree(&ds);
     }
 
+    if (result != 0) {
+	goto error;
+    }
+
     /*
      * Put IPv4 addresses before IPv6 addresses to maximize backwards
      * compatibility of [fconfigure -sockname] output.
@@ -203,14 +207,13 @@ TclCreateSocketAddress(
 	i++;
     }
     
-    if (result == 0) {
-	return 1;
-    }
+    return 1;
 	
     /*
      * Ought to use gai_strerror() here...
      */
 
+error:
     switch (result) {
     case EAI_NONAME:
     case EAI_SERVICE:

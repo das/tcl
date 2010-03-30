@@ -73,7 +73,9 @@ typedef union {
     struct sockaddr_storage sas;
 } address;
 
+#ifndef IN6_ARE_ADDR_EQUAL
 #define IN6_ARE_ADDR_EQUAL IN6_ADDR_EQUAL
+#endif
 
 typedef struct SocketInfo SocketInfo;
 
@@ -175,7 +177,6 @@ static int		CreateSocketAddress(LPSOCKADDR_IN sockaddrPtr,
 #endif
 static void		InitSockets(void);
 static SocketInfo *	NewSocketInfo(SOCKET socket);
-static SocketInfo *	NewSocketInfoEx(TcpFdList *sockets);
 static void		SocketExitHandler(ClientData clientData);
 static LRESULT CALLBACK	SocketProc(HWND hwnd, UINT message, WPARAM wParam,
 			    LPARAM lParam);
@@ -915,27 +916,17 @@ static SocketInfo *
 NewSocketInfo(
     SOCKET socket)
 {
-    TcpFdList *fds;
-    fds = (TcpFdList*) ckalloc(sizeof(TcpFdList));
-    fds->fd = socket;
-    fds->next = 0;
-    return NewSocketInfoEx(fds);
-}
-
-static SocketInfo *
-NewSocketInfoEx(
-    TcpFdList *sockets)
-{
     SocketInfo *infoPtr;
     TcpFdList *fds;
-    /* ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey); */
-
     infoPtr = (SocketInfo *) ckalloc((unsigned) sizeof(SocketInfo));
-    for (fds = sockets; fds != NULL; fds = fds->next) {
-	fds->infoPtr = infoPtr;
-    }
+    fds = (TcpFdList*) ckalloc(sizeof(TcpFdList));
+
+    fds->fd = socket;
+    fds->next = NULL;
+    fds->infoPtr = infoPtr;
+    /* ThreadSpecificData *tsdPtr = TCL_TSD_INIT(&dataKey); */
     infoPtr->channel = 0;
-    infoPtr->sockets = sockets;
+    infoPtr->sockets = fds;
     infoPtr->flags = 0;
     infoPtr->watchEvents = 0;
     infoPtr->readyEvents = 0;
@@ -1011,8 +1002,7 @@ CreateSocket(
     if (!TclCreateSocketAddress(&addrlist, host, port, server, &errorMsg)) {
 	goto error;
     }
-    if ((myaddr != NULL || myport != 0) &&
-	!TclCreateSocketAddress(&myaddrlist, myaddr, myport, 1, &errorMsg)) {
+    if (!TclCreateSocketAddress(&myaddrlist, myaddr, myport, 1, &errorMsg)) {
 	goto error;
     }
 
@@ -1176,13 +1166,11 @@ CreateSocket(
 		    /*
 		     * The connection is progressing in the background.
 		     */
-		    
+
 		    asyncConnect = 1;
-		    connected = 1;
-		    break;
+		    goto connected;
 		} else {
-		    connected = 1;
-		    break;
+		    goto connected;
 		}
 	    looperror:
 		if (sock != INVALID_SOCKET) {
@@ -1190,14 +1178,10 @@ CreateSocket(
 		    sock = INVALID_SOCKET;
 		}
 	    }
-	    if (connected) {
-		break;
-	    }
-	    if (sock != INVALID_SOCKET) {
-		closesocket(sock);
-		sock = INVALID_SOCKET;
-	    }
 	}
+	goto error;
+
+    connected:
 	/*
 	 * Add this socket to the global list of sockets.
 	 */
