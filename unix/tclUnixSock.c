@@ -93,9 +93,6 @@ struct TcpState {
 static TcpState *	CreateClientSocket(Tcl_Interp *interp, int port,
 			    const char *host, const char *myaddr,
 			    int myport, int async);
-static int		CreateSocketAddress(struct addrinfo **addrlist,
-			    const char *host, int port, int willBind,
-			    const char **errorMsgPtr);
 static void		TcpAccept(ClientData data, int mask);
 static int		TcpBlockModeProc(ClientData data, int mode);
 static int		TcpCloseProc(ClientData instanceData,
@@ -702,8 +699,8 @@ TcpGetOptionProc(
 	for (fds = statePtr->fds; fds != NULL; fds = fds->next) {
 	    size = sizeof(sockname);
 	    if (getsockname(fds->fd, &(sockname.sa), &size) >= 0) {
-		found = 1;
                 int flags;
+		found = 1;
 
                 getnameinfo(&sockname.sa, size, host, sizeof(host),
                             NULL, 0, NI_NUMERICHOST);
@@ -735,14 +732,17 @@ TcpGetOptionProc(
 		Tcl_DStringAppendElement(dsPtr, port);
 	    }
 	}
-	if (len == 0) {
-	    Tcl_DStringEndSublist(dsPtr);
-	} else {
-	    return TCL_OK;
-	}
-	if (interp && !found) {
-	    Tcl_AppendResult(interp, "can't get sockname: ",
-			     Tcl_PosixError(interp), NULL);
+        if (found) {
+            if (len == 0) {
+                Tcl_DStringEndSublist(dsPtr);
+            } else {
+                return TCL_OK;
+            }
+        } else {
+            if (interp) {
+                Tcl_AppendResult(interp, "can't get sockname: ",
+                                 Tcl_PosixError(interp), NULL);
+            }
 	    return TCL_ERROR;
 	}
     }
@@ -867,10 +867,10 @@ CreateClientSocket(
     TcpState *statePtr;
     const char *errorMsg = NULL;
 
-    if (!CreateSocketAddress(&addrlist, host, port, 0, &errorMsg)) {
+    if (!TclCreateSocketAddress(&addrlist, host, port, 0, &errorMsg)) {
 	goto error;
     }
-    if (!CreateSocketAddress(&myaddrlist, myaddr, myport, 1, &errorMsg)) {
+    if (!TclCreateSocketAddress(&myaddrlist, myaddr, myport, 1, &errorMsg)) {
 	goto error;
     }
 
@@ -988,89 +988,6 @@ error:
     statePtr->fds->fd = sock;
 
     return statePtr;
-}
-
-/*
- *----------------------------------------------------------------------
- *
- * CreateSocketAddress --
- *
- *	This function initializes a sockaddr structure for a host and port.
- *
- * Results:
- *	1 if the host was valid, 0 if the host could not be converted to an IP
- *	address.
- *
- * Side effects:
- *	Fills in the *sockaddrPtr structure.
- *
- *----------------------------------------------------------------------
- */
-
-static int
-CreateSocketAddress(
-    struct addrinfo **addrlist,		/* Socket address list */
-    const char *host,			/* Host. NULL implies INADDR_ANY */
-    int port,				/* Port number */
-    int willBind,			/* Is this an address to bind() to or
-					 * to connect() to? */
-    const char **errorMsgPtr)		/* Place to store the error message
-					 * detail, if available. */
-{
-    struct addrinfo hints;
-    char *native = NULL, portstring[TCL_INTEGER_SPACE];
-    Tcl_DString ds;
-    int result;
-
-    TclFormatInt(portstring, port);
-
-    if (host != NULL) {
-	native = Tcl_UtfToExternalDString(NULL, host, -1, &ds);
-    }
-    
-    (void) memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_UNSPEC;
-    hints.ai_socktype = SOCK_STREAM;
-#ifdef AI_ADDRCONFIG
-    /* Missing on: OpenBSD, NetBSD */
-    hints.ai_flags |= AI_ADDRCONFIG;
-#endif
-    if (willBind) {
-	hints.ai_flags |= AI_PASSIVE;
-    } 
-
-    result = getaddrinfo(native, portstring, &hints, addrlist);
-    
-    if (host != NULL) {
-	Tcl_DStringFree(&ds);
-    }
-    if (result == 0) {
-	return 1;
-    }
-
-    /*
-     * Ought to use gai_strerror() here...
-     */
-
-    switch (result) {
-    case EAI_NONAME:
-    case EAI_SERVICE:
-#if defined(EAI_ADDRFAMILY) && EAI_ADDRFAMILY != EAI_NONAME
-    case EAI_ADDRFAMILY:
-#endif
-#if defined(EAI_NODATA) && EAI_NODATA != EAI_NONAME
-    case EAI_NODATA:
-#endif
-	*errorMsgPtr = gai_strerror(result);
-	errno = EHOSTUNREACH;
-	return 0;
-    case EAI_SYSTEM:
-	return 0;
-    default:
-	*errorMsgPtr = gai_strerror(result);
-	errno = ENXIO;
-	return 0;
-    }
 }
 
 /*
@@ -1224,50 +1141,15 @@ Tcl_OpenTcpServer(
 				 * clients. */
     ClientData acceptProcData)	/* Data for the callback. */
 {
-    int status = 0, sock = -1, reuseaddr = 1;
+    int status = 0, sock = -1, reuseaddr = 1, chosenport = 0;
     struct addrinfo *addrlist = NULL, *addrPtr;	/* socket address */
     TcpState *statePtr = NULL;
     char channelName[16 + TCL_INTEGER_SPACE];
     const char *errorMsg = NULL;
     TcpFdList *fds = NULL, *newfds;
 
-    if (!CreateSocketAddress(&addrlist, myHost, port, 1, &errorMsg)) {
+    if (!TclCreateSocketAddress(&addrlist, myHost, port, 1, &errorMsg)) {
 	goto error;
-    }
-
-    /*
-     * Put IPv4 addresses before IPv6 addresses to maximize backwards
-     * compatibility of [fconfigure -sockname] output.
-     *
-     * There might be more elegant/efficient ways to do this.
-     */
-    struct addrinfo *p,
-	*v4head = NULL, *v4ptr = NULL,
-	*v6head = NULL, *v6ptr = NULL;
-    for (p = addrlist; p != NULL; p = p->ai_next) {
-	if (p->ai_family == AF_INET) {
-	    if (v4head == NULL) {
-		v4head = p;
-	    } else {
-		v4ptr->ai_next = p;
-	    }
-	    v4ptr = p;
-	} else {
-	    if (v6head == NULL) {
-		v6head = p;
-	    } else {
-		v6ptr->ai_next = p;
-	    }
-	    v6ptr = p;
-	}
-    }
-    if (v6head != NULL) {
-	addrlist = v6head;
-	v6ptr->ai_next = NULL;
-    }
-    if (v4head != NULL) {
-	v4ptr->ai_next = v6head;
-	addrlist = v4ptr;
     }
 
     for (addrPtr = addrlist; addrPtr != NULL; addrPtr = addrPtr->ai_next) {
@@ -1298,11 +1180,15 @@ Tcl_OpenTcpServer(
 			  (char *) &reuseaddr, sizeof(reuseaddr));
 	
         /*
+         * Make sure we use the same port when opening two server sockets for
+         * IPv4 and IPv6.
+         *
          * As sockaddr_in6 uses the same offset and size for the port member
          * as sockaddr_in, we can handle both through the IPv4 API.
          */
-	if (port != 0) {
-	    ((struct sockaddr_in *) addrPtr->ai_addr)->sin_port = htons(port);
+	if (port == 0 && chosenport != 0) {
+	    ((struct sockaddr_in *) addrPtr->ai_addr)->sin_port =
+                htons(chosenport);
 	}
 #ifdef IPV6_V6ONLY
 	/* Missing on: Solaris 2.8 */
@@ -1317,7 +1203,7 @@ Tcl_OpenTcpServer(
             close(sock);
             continue;
         }
-        if (port == 0) {
+        if (port == 0 && chosenport == 0) {
             address sockname;
             socklen_t namelen = sizeof(sockname);
             /*
@@ -1325,7 +1211,7 @@ Tcl_OpenTcpServer(
              * addresses.
              */
             if (getsockname(sock, &sockname.sa, &namelen) >= 0) {
-                port = ntohs(sockname.sa4.sin_port);
+                chosenport = ntohs(sockname.sa4.sin_port);
             }
         }
         status = listen(sock, SOMAXCONN);

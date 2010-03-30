@@ -1,12 +1,12 @@
-/* 
+/*
  * tclIOSock.c --
  *
  *	Common routines used by all socket based channel types.
  *
  * Copyright (c) 1995-1997 Sun Microsystems, Inc.
  *
- * See the file "license.terms" for information on usage and redistribution
- * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
+ * See the file "license.terms" for information on usage and redistribution of
+ * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
  * RCS: @(#) $Id$
  */
@@ -18,14 +18,13 @@
  *
  * TclSockGetPort --
  *
- *	Maps from a string, which could be a service name, to a port.
- *	Used by socket creation code to get port numbers and resolve
- *	registered service names to port numbers.
+ *	Maps from a string, which could be a service name, to a port. Used by
+ *	socket creation code to get port numbers and resolve registered
+ *	service names to port numbers.
  *
  * Results:
- *	A standard Tcl result.  On success, the port number is returned
- *	in portPtr. On failure, an error message is left in the interp's
- *	result.
+ *	A standard Tcl result. On success, the port number is returned in
+ *	portPtr. On failure, an error message is left in the interp's result.
  *
  * Side effects:
  *	None.
@@ -34,21 +33,21 @@
  */
 
 int
-TclSockGetPort(interp, string, proto, portPtr)
-    Tcl_Interp *interp;
-    char *string;		/* Integer or service name */
-    char *proto;		/* "tcp" or "udp", typically */
-    int *portPtr;		/* Return port number */
+TclSockGetPort(
+    Tcl_Interp *interp,
+    const char *string, /* Integer or service name */
+    const char *proto, /* "tcp" or "udp", typically */
+    int *portPtr)		/* Return port number */
 {
     struct servent *sp;		/* Protocol info for named services */
     Tcl_DString ds;
-    CONST char *native;
+    const char *native;
 
     if (Tcl_GetInt(NULL, string, portPtr) != TCL_OK) {
 	/*
 	 * Don't bother translating 'proto' to native.
 	 */
-	 
+
 	native = Tcl_UtfToExternalDString(NULL, string, -1, &ds);
 	sp = getservbyname(native, proto);		/* INTL: Native. */
 	Tcl_DStringFree(&ds);
@@ -61,8 +60,8 @@ TclSockGetPort(interp, string, proto, portPtr)
 	return TCL_ERROR;
     }
     if (*portPtr > 0xFFFF) {
-        Tcl_AppendResult(interp, "couldn't open socket: port number too high",
-                (char *) NULL);
+	Tcl_AppendResult(interp, "couldn't open socket: port number too high",
+		NULL);
 	return TCL_ERROR;
     }
     return TCL_OK;
@@ -85,9 +84,9 @@ TclSockGetPort(interp, string, proto, portPtr)
  */
 
 int
-TclSockMinimumBuffers(sock, size)
-    int sock;			/* Socket file descriptor */
-    int size;			/* Minimum buffer size */
+TclSockMinimumBuffers(
+    int sock,			/* Socket file descriptor */
+    int size)			/* Minimum buffer size */
 {
     int current;
     socklen_t len;
@@ -106,3 +105,139 @@ TclSockMinimumBuffers(sock, size)
     }
     return TCL_OK;
 }
+
+/*
+ *----------------------------------------------------------------------
+ *
+ * TclCreateSocketAddress --
+ *
+ *	This function initializes a sockaddr structure for a host and port.
+ *
+ * Results:
+ *	1 if the host was valid, 0 if the host could not be converted to an IP
+ *	address.
+ *
+ * Side effects:
+ *	Fills in the *sockaddrPtr structure.
+ *
+ *----------------------------------------------------------------------
+ */
+
+int
+TclCreateSocketAddress(
+    struct addrinfo **addrlist,		/* Socket address list */
+    const char *host,			/* Host. NULL implies INADDR_ANY */
+    int port,				/* Port number */
+    int willBind,			/* Is this an address to bind() to or
+					 * to connect() to? */
+    const char **errorMsgPtr)		/* Place to store the error message
+					 * detail, if available. */
+{
+    struct addrinfo hints;
+    struct addrinfo *p;
+    struct addrinfo *v4head = NULL, *v4ptr = NULL;
+    struct addrinfo *v6head = NULL, *v6ptr = NULL;
+    char *native = NULL, portstring[TCL_INTEGER_SPACE];
+    Tcl_DString ds;
+    int result, i;
+
+    TclFormatInt(portstring, port);
+
+    if (host != NULL) {
+	native = Tcl_UtfToExternalDString(NULL, host, -1, &ds);
+    }
+    
+    (void) memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+#ifdef AI_ADDRCONFIG
+    /* Missing on: OpenBSD, NetBSD */
+    hints.ai_flags |= AI_ADDRCONFIG;
+#endif
+    if (willBind) {
+	hints.ai_flags |= AI_PASSIVE;
+    } 
+
+    result = getaddrinfo(native, portstring, &hints, addrlist);
+
+    if (host != NULL) {
+	Tcl_DStringFree(&ds);
+    }
+
+    /*
+     * Put IPv4 addresses before IPv6 addresses to maximize backwards
+     * compatibility of [fconfigure -sockname] output.
+     *
+     * There might be more elegant/efficient ways to do this.
+     */
+    if (willBind) {
+	for (p = *addrlist; p != NULL; p = p->ai_next) {
+	    if (p->ai_family == AF_INET) {
+		if (v4head == NULL) {
+		    v4head = p;
+		} else {
+		    v4ptr->ai_next = p;
+		}
+		v4ptr = p;
+	    } else {
+		if (v6head == NULL) {
+		    v6head = p;
+		} else {
+		    v6ptr->ai_next = p;
+		}
+		v6ptr = p;
+	    }
+	}
+	*addrlist = NULL;
+	if (v6head != NULL) {
+	    *addrlist = v6head;
+	    v6ptr->ai_next = NULL;
+	}
+	if (v4head != NULL) {
+	    v4ptr->ai_next = *addrlist;
+	    *addrlist = v4head;
+	}
+    }
+    i = 0;
+    for (p = *addrlist; p != NULL; p = p->ai_next) {
+	i++;
+    }
+    
+    if (result == 0) {
+	return 1;
+    }
+	
+    /*
+     * Ought to use gai_strerror() here...
+     */
+
+    switch (result) {
+    case EAI_NONAME:
+    case EAI_SERVICE:
+#if defined(EAI_ADDRFAMILY) && EAI_ADDRFAMILY != EAI_NONAME
+    case EAI_ADDRFAMILY:
+#endif
+#if defined(EAI_NODATA) && EAI_NODATA != EAI_NONAME
+    case EAI_NODATA:
+#endif
+	*errorMsgPtr = gai_strerror(result);
+	errno = EHOSTUNREACH;
+	return 0;
+#ifdef EAI_SYSTEM
+    case EAI_SYSTEM:
+	return 0;
+#endif
+    default:
+	*errorMsgPtr = gai_strerror(result);
+	errno = ENXIO;
+	return 0;
+    }
+}
+
+/*
+ * Local Variables:
+ * mode: c
+ * c-basic-offset: 4
+ * fill-column: 78
+ * End:
+ */
