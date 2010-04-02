@@ -3126,7 +3126,6 @@ Tcl_LoadFile(
 	ret = TclpLoadMemory(interp, buffer, size, ret, handlePtr,
 		&unloadProcPtr);
 	if (ret == TCL_OK && *handlePtr != NULL) {
-	    *clientDataPtr = *handlePtr;
 	    goto resolveSymbols;
 	}
     }
