@@ -1115,6 +1115,9 @@ const TclStubs tclStubs = {
     Tcl_CloseEx, /* 624 */
     Tcl_NRExprObj, /* 625 */
     Tcl_NRSubstObj, /* 626 */
+    Tcl_LoadFile, /* 627 */
+    Tcl_FindSymbol, /* 628 */
+    Tcl_FSUnloadFile, /* 629 */
 };
 
 /* !END!: Do not edit above this line. */

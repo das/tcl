@@ -269,6 +269,40 @@ TclpTempFileName(void)
 }
 
 /*
+ *-----------------------------------------------------------------------------
+ *
+ * TclpTempFileNameForLibrary --
+ *
+ *	Constructs a file name in the native file system where a
+ *	dynamically loaded library may be placed.
+ *
+ * Results:
+ *	Returns the constructed file name. If an error occurs,
+ *	returns NULL and leaves an error message in the interpreter
+ *	result.
+ *
+ * On Unix, it works to load a shared object from a file of any
+ * name, so this function is merely a thin wrapper around
+ * TclpTempFileName().
+ *	
+ *-----------------------------------------------------------------------------
+ */
+
+Tcl_Obj*
+TclpTempFileNameForLibrary(Tcl_Interp* interp, /* Tcl interpreter */
+			   Tcl_Obj* path)      /* Path name of the library
+						* in the VFS */
+{
+    Tcl_Obj* retval;
+    retval = TclpTempFileName();
+    if (retval == NULL) {
+	Tcl_AppendResult(interp, "couldn't create temporary file: ",
+		Tcl_PosixError(interp), NULL);
+    }
+    return retval;
+}
+
+/*
  *----------------------------------------------------------------------
  *
  * TclpCreatePipe --
