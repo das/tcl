@@ -3031,7 +3031,7 @@ Tcl_LoadFile(
     Tcl_Interp *interp,		/* Used for error reporting. */
     Tcl_Obj *pathPtr,		/* Name of the file containing the desired
 				 * code. */
-    const char *symbols[],	/* Names of functions to look up in the file's
+    const char *const symbols[],	/* Names of functions to look up in the file's
 				 * symbol table. */
     int flags,			/* Flags (unused) */
     void *procVPtrs,		/* Where to return the addresses corresponding
