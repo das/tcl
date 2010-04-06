@@ -471,12 +471,11 @@ Tcl_RegexpObjCmd(dummy, interp, objc, objv)
 		}
 	    } else {
 		Tcl_Obj *valuePtr;
-		Tcl_IncrRefCount(newPtr);
 		valuePtr = Tcl_ObjSetVar2(interp, objv[i], NULL, newPtr, 0);
-		Tcl_DecrRefCount(newPtr);
 		if (valuePtr == NULL) {
 		    Tcl_AppendResult(interp, "couldn't set variable \"",
 			    Tcl_GetString(objv[i]), "\"", (char *) NULL);
+		    Tcl_DecrRefCount(newPtr);
 		    return TCL_ERROR;
 		}
 	    }
