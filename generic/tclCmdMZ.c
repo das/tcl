@@ -391,7 +391,6 @@ Tcl_RegexpObjCmd(
 		if (valuePtr == NULL) {
 		    Tcl_AppendResult(interp, "couldn't set variable \"",
 			    TclGetString(objv[i]), "\"", NULL);
-		    Tcl_DecrRefCount(newPtr);
 		    return TCL_ERROR;
 		}
 	    }
