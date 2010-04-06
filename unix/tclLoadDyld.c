@@ -452,7 +452,8 @@ FindSymbol(
     }
     Tcl_DStringFree(&ds);
     if (errMsg && (interp != NULL)) {
-	Tcl_AppendResult(interp, errMsg, NULL);
+	Tcl_AppendResult(interp, "cannot find symbol \"", symbol, "\": ",
+		errMsg, NULL);
 	Tcl_SetErrorCode(interp, "TCL", "LOOKUP", "LOAD_SYMBOL", symbol,
 		NULL);
     }
