@@ -103,7 +103,7 @@ proc ::platform::generic {} {
 	}
 	sunos {
 	    set plat solaris
-	    if {$cpu ne "ia64"} {
+	    if {![string match "ia64*" $cpu]} {
 		if {$tcl_platform(wordSize) == 8} {
 		    append cpu 64
 		}
@@ -127,7 +127,7 @@ proc ::platform::generic {} {
 	}
 	hp-ux {
 	    set plat hpux
-	    if {$cpu ne "ia64"} {
+	    if {![string match "ia64*" $cpu]} {
 		set cpu parisc
 		if {$tcl_platform(wordSize) == 8} {
 		    append cpu 64
@@ -175,7 +175,10 @@ proc ::platform::identify {} {
 
 	    set v unknown
 
-	    if {[file exists /lib64] && [file isdirectory /lib64]} {
+	    if {[file exists /lib64] &&
+		[file isdirectory /lib64] &&
+		[llength [glob -nocomplain -directory /lib64 libc*]]
+	    } {
 		set base /lib64
 	    } else {
 		set base /lib
@@ -289,7 +292,7 @@ proc ::platform::patterns {id} {
 # ### ### ### ######### ######### #########
 ## Ready
 
-package provide platform 1.0.4
+package provide platform 1.0.6
 
 # ### ### ### ######### ######### #########
 ## Demo application
