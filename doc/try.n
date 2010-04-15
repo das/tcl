@@ -31,7 +31,7 @@ one of the following forms:
 \fBon \fIcode variableList script\fR
 .
 This clause matches if the evaluation of \fIbody\fR completed with the
-exeception code \fIcode\fR. The \fIcode\fR may be expressed as an integer or
+exception code \fIcode\fR. The \fIcode\fR may be expressed as an integer or
 one of the following literal words: \fBok\fR, \fBerror\fR, \fBreturn\fR,
 \fBbreak\fR, or \fBcontinue\fR. Those literals correspond to the integers 0
 through 4 respectively.
