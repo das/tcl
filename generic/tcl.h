@@ -2375,6 +2375,12 @@ EXTERN const char *	Tcl_PkgInitStubsCheck(Tcl_Interp *interp,
 EXTERN void		Tcl_GetMemoryInfo(Tcl_DString *dsPtr);
 #endif
 
+#if !defined(_TCHAR_DEFINED)
+#   if defined(__WIN32__)
+	typedef char TCHAR;
+#	define _TCHAR_DEFINED
+#   endif
+#endif
 /*
  *----------------------------------------------------------------------------
  * Include the public function declarations that are accessible via the stubs
