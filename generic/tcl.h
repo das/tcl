@@ -2375,6 +2375,12 @@ EXTERN const char *	Tcl_PkgInitStubsCheck(Tcl_Interp *interp,
 EXTERN void		Tcl_GetMemoryInfo(Tcl_DString *dsPtr);
 #endif
 
+/*
+ * Unfortunately, TCHAR is needed in tclPlatDecls.h for
+ * win32, so if TCHAR is not defined yet do it here.
+ * This way, we don't need to include <tchar.h> just
+ * for one define.
+ */
 #if !defined(_TCHAR_DEFINED)
 #   if defined(__WIN32__)
 	typedef char TCHAR;
