@@ -1787,9 +1787,9 @@ NativeIsExec(
 	 * Use wide-char case-insensitive comparison
 	 */
 
-	if ((wcscasecmp(path+len-3, L"exe") == 0)
-		|| (wcscasecmp(path+len-3, L"com") == 0)
-		|| (wcscasecmp(path+len-3, L"bat") == 0)) {
+	if ((_wcsicmp(path+len-3, L"exe") == 0)
+		|| (_wcsicmp(path+len-3, L"com") == 0)
+		|| (_wcsicmp(path+len-3, L"bat") == 0)) {
 	    return 1;
 	}
     } else {

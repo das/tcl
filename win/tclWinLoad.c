@@ -305,14 +305,13 @@ TclpTempFileNameForLibrary(Tcl_Interp* interp, /* Tcl interpreter */
     if (dllDirectoryName == NULL) {
 	Tcl_MutexLock(&loadMutex);
 	if (dllDirectoryName == NULL) {
-	    if ((nameLen = GetTempPathW(MAX_PATH, name)) >= 0) {
-		if (nameLen >= MAX_PATH-12) {
-		    Tcl_SetErrno(ENAMETOOLONG);
-		    nameLen = 0;
-		} else {
-		    wcscpy(name+nameLen, L"TCLXXXXXXXX");
-		    nameLen += 11;
-		}
+	    nameLen = GetTempPathW(MAX_PATH, name);
+	    if (nameLen >= MAX_PATH-12) {
+		Tcl_SetErrno(ENAMETOOLONG);
+		nameLen = 0;
+	    } else {
+		wcscpy(name+nameLen, L"TCLXXXXXXXX");
+		nameLen += 11;
 	    }
 	    status = 1;
 	    if (nameLen != 0) {
