@@ -1188,7 +1188,7 @@ DoRemoveDirectory(
 				 * filled with UTF-8 name of file causing
 				 * error. */
 {
-    int res = DoRemoveJustDirectory(Tcl_DStringValue(pathPtr), recursive,
+    int res = DoRemoveJustDirectory((const TCHAR *)Tcl_DStringValue(pathPtr), recursive,
 	    errorPtr);
 
     if ((res == TCL_ERROR) && (recursive != 0) && (Tcl_GetErrno() == EEXIST)) {
@@ -1400,8 +1400,8 @@ TraverseWinTree(
 	 * files in that directory.
 	 */
 
-	result = traverseProc(Tcl_DStringValue(sourcePtr),
-		(targetPtr == NULL ? NULL : Tcl_DStringValue(targetPtr)),
+	result = traverseProc((const TCHAR *)Tcl_DStringValue(sourcePtr),
+		(const TCHAR *)(targetPtr == NULL ? NULL : Tcl_DStringValue(targetPtr)),
 		DOTREE_POSTD, errorPtr);
     }
 

@@ -29,6 +29,19 @@
  * in the generic/tcl.decls script.
  */
 
+/*
+ * TCHAR is needed here for win32, so if it is not defined yet do it here.
+ * This way, we don't need to include <tchar.h> just for one define.
+ */
+#if defined(_WIN32) && !defined(_TCHAR_DEFINED)
+#   if defined(_UNICODE)
+	typedef wchar_t TCHAR;
+#   else
+	typedef char TCHAR;
+#   endif
+#   define _TCHAR_DEFINED
+#endif
+
 /* !BEGIN!: Do not edit below this line. */
 
 /*
