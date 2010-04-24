@@ -2756,7 +2756,8 @@ MODULE_SCOPE Tcl_ObjCmdProc TclNRYieldToObjCmd;
 MODULE_SCOPE void	TclClearTailcall(Tcl_Interp *interp,
 			    struct TEOV_callback *tailcallPtr);
 MODULE_SCOPE void       TclSpliceTailcall(Tcl_Interp *interp,
-			    struct TEOV_callback *tailcallPtr);
+	                    struct TEOV_callback *tailcallPtr,
+	                    int skip);
 
 /*
  * This structure holds the data for the various iteration callbacks used to
