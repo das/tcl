@@ -766,7 +766,7 @@ TclpTempFileName(void)
 	return NULL;
     }
 
-    return TclpNativeToNormalized((ClientData) fileName);
+    return TclpNativeToNormalized(fileName);
 }
 
 /*

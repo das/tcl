@@ -2872,7 +2872,7 @@ TclExecuteByteCode(
 		    goto checkForCatch;
 		}
 		iPtr->varFramePtr->tailcallPtr = param;
-		TclSpliceTailcall(interp, param);
+		TclSpliceTailcall(interp, param, 1);
 		goto abnormalReturn;
 	    case TCL_NR_YIELD_TYPE: {		/* [yield] */
 		CoroutineData *corPtr = iPtr->execEnvPtr->corPtr;

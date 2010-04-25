@@ -347,7 +347,7 @@ TclpTempFileNameForLibrary(Tcl_Interp* interp, /* Tcl interpreter */
 	Tcl_AppendResult(interp, "couldn't create temporary directory: ",
 			 Tcl_PosixError(interp), NULL);
     }
-    fileName = TclpNativeToNormalized((ClientData) dllDirectoryName);
+    fileName = TclpNativeToNormalized(dllDirectoryName);
     tail = TclPathPart(interp, path, TCL_PATH_TAIL);
     if (tail == NULL) {
 	Tcl_DecrRefCount(fileName);

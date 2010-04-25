@@ -4566,7 +4566,7 @@ const char *
 Tcl_FSGetNativePath(
     Tcl_Obj *pathPtr)
 {
-    return (const char *) Tcl_FSGetInternalRep(pathPtr, &tclNativeFilesystem);
+    return Tcl_FSGetInternalRep(pathPtr, &tclNativeFilesystem);
 }
 
 /*

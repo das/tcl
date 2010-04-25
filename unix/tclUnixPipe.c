@@ -263,7 +263,7 @@ TclpTempFileName(void)
     fcntl(fd, F_SETFD, FD_CLOEXEC);
     unlink(fileName);			/* INTL: Native. */
 
-    result = TclpNativeToNormalized((ClientData) fileName);
+    result = TclpNativeToNormalized(fileName);
     close(fd);
     return result;
 }
