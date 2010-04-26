@@ -14,6 +14,12 @@
 #include "tclInt.h"
 #include "tommath.h"
 
+#ifdef __GNUC__
+#pragma GCC dependency "tcl.decls"
+#pragma GCC dependency "tclInt.decls"
+#pragma GCC dependency "tclTomMath.decls"
+#endif
+
 /*
  * Remove macros that will interfere with the definitions below.
  */
