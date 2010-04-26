@@ -22,11 +22,11 @@
 static int TdbcMapSqlStateObjCmd(ClientData unused, Tcl_Interp* interp,
 				 int objc, Tcl_Obj *const objv[]);
 
-MODULE_SCOPE TdbcStubs tdbcStubs;
+MODULE_SCOPE const TdbcStubs tdbcStubs;
 
 /* Table of commands to create for TDBC */
 
-static struct TdbcCommand {
+static const struct TdbcCommand {
     const char* name;		/* Name of the command */
     Tcl_ObjCmdProc* proc;	/* Command procedure */
 } commandTable[] = {
@@ -37,7 +37,7 @@ static struct TdbcCommand {
 
 /* Table mapping SQLSTATE to error code */
 
-static struct SqlStateLookup {
+static const struct SqlStateLookup {
     const char* stateclass;
     const char* message;
 } StateLookup [] = {

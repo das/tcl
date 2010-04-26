@@ -21,6 +21,14 @@ set Version "0.40"
 
 set ::CSSFILE "docs.css"
 
+set ::logo {
+    <a href="http://sourceforge.net/projects/tcl">
+    <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=10894&amp;type=14" 
+         width="150" height="40" 
+         alt="Get Tcl at SourceForge.net. Fast, secure and Free Open Source software downloads" />
+    </a>
+}
+
 proc parse_command_line {} {
     global argv Version
 
@@ -1922,6 +1930,7 @@ proc make-man-pages {html args} {
 	# insert wing copyrights
 	#
 	puts $manual(wing-toc-fp) [copyout $manual(wing-copyrights) "../"]
+	puts $manual(wing-toc-fp) $::logo
 	puts $manual(wing-toc-fp) "</BODY></HTML>"
 	close $manual(wing-toc-fp)
 	set manual(merge-copyrights) [merge-copyrights $manual(merge-copyrights) $manual(wing-copyrights)]
@@ -1976,11 +1985,13 @@ proc make-man-pages {html args} {
 	puts $afp "</DL>"
 	# insert merged copyrights
 	puts $afp [copyout $manual(merge-copyrights)]
+	puts $afp $::logo
 	puts $afp "</BODY></HTML>"
 	close $afp
     }
     # insert merged copyrights
     puts $keyfp [copyout $manual(merge-copyrights)]
+    puts $keyfp $::logo
     puts $keyfp "</BODY></HTML>"
     close $keyfp
 
@@ -1991,6 +2002,7 @@ proc make-man-pages {html args} {
     puts $manual(short-toc-fp) "</DL>"
     # insert merged copyrights
     puts $manual(short-toc-fp) [copyout $manual(merge-copyrights)]
+    puts $manual(short-toc-fp) $::logo
     puts $manual(short-toc-fp) "</BODY></HTML>"
     close $manual(short-toc-fp)
 
@@ -2033,6 +2045,7 @@ proc make-man-pages {html args} {
 	foreach item $text {
 	    puts $outfd [insert-cross-references $item]
 	}
+	puts $outfd $::logo
 	puts $outfd "</BODY></HTML>"
 	close $outfd
     }
@@ -2109,7 +2122,7 @@ if {[catch {
 	[expr {$build_tdbcodbc ? "$tcltkdir/$tdbcodbcdir/doc/*.n {TDBC-ODBC Bridge} Tdbcodbc {$tdbcodbcdesc}" : ""}] \
 	[expr {$build_tdbcsqlite3 ? "$tcltkdir/$tdbcsqlite3dir/doc/*.n {TDBC driver for Sqlite3} Tdbcsqlite3 {$tdbcsqlite3desc}" : ""}] \
 	[expr {$build_tdbcmysql ? "$tcltkdir/$tdbcmysqldir/doc/*.n {TDBC driver for MySQL} Tdbcmysql {$tdbcmysqldesc}" : ""}] \
-	[expr {$build_tdbcpostgres ? "$tcltkdir/$tdbcpostgresdir/doc/*.n {TDBC driver for Postgres} Tdbcmysql {$tdbcmysqldesc}" : ""}] \
+	[expr {$build_tdbcpostgres ? "$tcltkdir/$tdbcpostgresdir/doc/*.n {TDBC driver for Postgres} Tdbcpostgres {$tdbcpostgresdesc}" : ""}] \
 	[expr {$build_tdbc ? "$tcltkdir/$tdbcdir/doc/*.3 {Tcl Database Connectivity C API} TdbcLib {$tdbclibdesc}" : ""}] \
 } error]} {
     puts $error\n$errorInfo

@@ -15,11 +15,11 @@
 
 #include "tdbcInt.h"
 
-MODULE_SCOPE TdbcStubs tdbcStubs;
+MODULE_SCOPE const TdbcStubs tdbcStubs;
 
 /* !BEGIN!: Do not edit below this line. */
 
-TdbcStubs tdbcStubs = {
+const TdbcStubs tdbcStubs = {
     TCL_STUB_MAGIC,
     TDBC_STUBS_EPOCH,
     TDBC_STUBS_REVISION,

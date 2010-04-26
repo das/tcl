@@ -1,4 +1,4 @@
-'\" tdbc_connection.n --
+'\" tdbc::connection.n --
 '\"
 '\" Copyright (c) 2008 by Kevin B. Kenny.
 '\"
@@ -47,46 +47,40 @@
 .SH "NAME"
 tdbc::connection \- TDBC connection object
 .SH "SYNOPSIS"
+.nf
 package require \fBtdbc 1.0\fR
-.sp
-package require \fBtdbc::\fR\fIdriver version\fR
-.sp
-\fBtdbc::\fR\fIdriver\fR\fB::connection create \fR\fIdb\fR \fI?\-option value\fR...?
-.sp
-\fIdb\fR \fBconfigure\fR ?\fI-option value\fR...?
-.sp
-\fIdb\fR \fBclose\fR
-.sp
-\fIdb\fR \fBprepare\fR \fIsql-code\fR
-.sp
-\fIdb\fR \fBpreparecall\fR \fIcall\fR
-.sp
-\fIdb\fR \fBstatements\fR
-.sp
-\fIdb\fR \fBresultsets\fR
-.sp
-\fIdb\fR \fBtables\fR ?\fIpattern\fR?
-.sp
-\fIdb\fR \fBcolumns\fR \fItable\fR ?\fIpattern\fR?
-.sp
-\fIdb\fR \fBbegintransaction\fR
-.sp
-\fIdb\fR \fBcommit\fR
-.sp
-\fIdb\fR \fBrollback\fR
-.sp
-\fIdb\fR \fBtransaction\fR \fIscript\fR
-.sp
-\fIdb\fR \fBallrows\fR ?\fB-as lists|dicts\fR? ?\fB-columnsvariable\fR \fIname\fR? ?\fB--\fR? \fIsql-code\fR ?\fIdictionary\fR?
-.sp
-\fIdb\fR \fBforeach\fR ?\fB-as lists|dicts\fR? ?\fB-columnsvariable\fR \fIname\fR? ?--? \fIvarName\fR \fIsqlcode\fR ?\fIdictionary\fR? \fIscript\fR
+package require \fBtdbc::\fIdriver version\fR
+
+\fBtdbc::\fIdriver\fB::connection create \fIdb\fR ?\fI\-option value\fR...?
+
+\fIdb \fBconfigure\fR ?\fI\-option value\fR...?
+\fIdb \fBclose\fR
+\fIdb \fBprepare \fIsql-code\fR
+\fIdb \fBpreparecall \fIcall\fR
+\fIdb \fBstatements\fR
+\fIdb \fBresultsets\fR
+\fIdb \fBtables\fR ?\fIpattern\fR?
+\fIdb \fBcolumns \fItable\fR ?\fIpattern\fR?
+\fIdb \fBbegintransaction\fR
+\fIdb \fBcommit\fR
+\fIdb \fBrollback\fR
+\fIdb \fBtransaction \fIscript\fR
+.fi
+.ad l
+.in 14
+.ti 7
+\fIdb \fBallrows\fR ?\fB\-as lists\fR|\fBdicts\fR? ?\fB\-columnsvariable \fIname\fR? ?\fB\-\-\fR? \fIsql-code\fR ?\fIdictionary\fR?
+.br
+.ti 7
+\fIdb \fBforeach\fR ?\fB\-as lists\fR|\fBdicts\fR? ?\fB\-columnsvariable \fIname\fR? ?\-\-? \fIvarName sqlcode\fR ?\fIdictionary\fR? \fIscript\fR
+.ad b
 .BE
 .SH "DESCRIPTION"
 .PP
 Every database driver for TDBC (Tcl DataBase Connectivity) implements
 a \fIconnection\fR object that represents a connection to a database.
 By convention, this object is created by the command,
-\fBtdbc::\fR\fIdriver\fR\fB::connection\fR \fBcreate\fR.
+\fBtdbc::\fIdriver\fB::connection create\fR.
 This command accepts the name of a Tcl command that will represent the
 connection and a possible set of options (see \fBCONFIGURATION
 OPTIONS\fR). It establishes a connection to the database and returns
@@ -95,7 +89,7 @@ the name of the newly-created Tcl command.
 The \fBconfigure\fR object command on a database connection, if
 presented with no arguments, returns a list of alternating keywords
 and values representing the connection's current configuration. If
-presented with a single argument \fI-option\fR, it returns the
+presented with a single argument \fI\-option\fR, it returns the
 configured value of the given option. Otherwise, it must be given an
 even number of arguments which are alternating options and values. The
 specified options receive the specified values, and nothing is
@@ -109,21 +103,24 @@ command is deleted.
 The \fBprepare\fR object command on a database connection prepares a SQL
 statement for execution. The \fIsql-code\fR argument must contain a
 single SQL statement to be executed. Bound variables may be
-included. See \fBSQL STATEMENTS\fR for a further description of the
-SQL that is accepted by this command. The return value is a
+included. The return value is a
 newly-created Tcl command that represents the statement. See
-tdbc_statement(n) for the interface accepted by a statement.
+\fBtdbc::statement\fR for more detailed discussion of the
+SQL accepted by the \fBprepare\fR object command and the
+interface accepted by a statement.
 .PP
 On a database connection where the underlying database and driver
 support stored procedures, the \fBpreparecall\fR
 object command prepares a call to a stored procedure for execution.
 The syntax of the stored procedure call is:
-.sp
+.PP
+.CS
 ?\fIresultvar\fR =? \fIprocname\fR(?\fIarg\fR ?, \fIarg\fR...?)
-.sp
+.CE
+.PP
 The return value is a
 newly-created Tcl command that represents the statement. See
-tdbc_statement(n) for the interface accepted by a statement.
+\fBtdbc::statement\fR for the interface accepted by a statement.
 .PP
 The \fBstatements\fR object command returns a list of statements 
 that have been created by \fBprepare\fR and \fBpreparecall\fR
@@ -199,19 +196,19 @@ rethrown. Any other return code is treated similarly to \fBbreak\fR,
 .PP
 The \fBallrows\fR object command prepares a SQL statement (given by
 the \fIsql-code\fR parameter) to execute against the database.
-It then executes it (see \fBtdbc_statement(n)\fR for details) with the
+It then executes it (see \fBtdbc::statement\fR for details) with the
 optional \fIdictionary\fR parameter giving bind variables. Finally,
 it uses the \fIallrows\fR object command on the result set (see
-\fBtdbc_resultset(n)\fR) to construct a list of the results. Finally, both
+\fBtdbc::resultset\fR) to construct a list of the results. Finally, both
 result set and statement are closed. The return value is the list of
 results. 
 .PP
 The \fBforeach\fR object command prepares a SQL statement (given by
 the \fIsql-code\fR parameter) to execute against the database.
-It then executes it (see \fBtdbc_statement(n)\fR for details) with the
+It then executes it (see \fBtdbc::statement\fR for details) with the
 optional \fIdictionary\fR parameter giving bind variables. Finally,
 it uses the \fIforeach\fR object command on the result set (see
-\fBtdbc_resultset(n)\fR) to evaluate the given \fIscript\fR for each row of
+\fBtdbc::resultset\fR) to evaluate the given \fIscript\fR for each row of
 the results. Finally, both result set and statement are closed, even
 if the given \fIscript\fR results in a \fBreturn\fR, an error, or
 an unusual return code. 
@@ -219,29 +216,29 @@ an unusual return code.
 The configuration options accepted when the connection is created and
 on the connection's \fBconfigure\fR object command include the
 following, and may include others specific to a database driver.
-.IP "\fB-encoding\fR \fIname\fR"
+.IP "\fB\-encoding \fIname\fR"
 Specifies the encoding to be used in connecting to the database.
 The \fIname\fR should be one of the names accepted by the
-\fBencoding(n)\fR command. This option is usually unnecessary; most
+\fBencoding\fR command. This option is usually unnecessary; most
 database drivers can figure out the encoding in use by themselves.
-.IP "\fB-isolation\fR \fIlevel\fR"
+.IP "\fB\-isolation \fIlevel\fR"
 Specifies the transaction isolation level needed for transactions on
 the database. The acceptable values for \fIlevel\fR are shown under
 \fBTRANSACTION ISOLATION LEVELS\fR.
-.IP "\fB-timeout\fR \fIms\fR"
+.IP "\fB\-timeout \fIms\fR"
 Specifies the maximum time to wait for a an operation database engine before
 reporting an error to the caller. The \fIms\fR argument gives the
 maximum time in milliseconds. A value of zero (the default) specifies
 that the calling process is to wait indefinitely for database
 operations.
-.IP "\fB-readonly\fR \fIflag\fR"
+.IP "\fB\-readonly \fIflag\fR"
 Specifies that the connection will not modify the database (if the
 Boolean parameter \fIflag\fR is true), or that it may modify the
 database (if \fIflag\fR is false). If \fIflag\fR is true, this option
 may have the effect of raising the transaction isolation level to
 \fIreadonly\fR.
-.SH "TRANSACTION ISOLATION LEVELS"
-The acceptable values for the \fB-isolation\fR configuration option
+.SS "TRANSACTION ISOLATION LEVELS"
+The acceptable values for the \fB\-isolation\fR configuration option
 are as follows:
 .IP \fBreaduncommitted\fR
 Allows the transaction to read "dirty", that is, uncommitted

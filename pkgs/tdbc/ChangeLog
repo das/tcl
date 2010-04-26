@@ -1,3 +1,68 @@
+2010-04-25  Kevin B. Kenny  <kennykb@acm.org>
+
+	* configure.in:     Advance release to 1.0b14
+	* generic/tdbc.h:
+	* README:
+	* configure:        autoconf-2.59
+	
+2010-04-10  Kevin B. Kenny  <kennykb@acm.org>
+
+	* configure.in:
+	* tdbcConfig.sh.in: Modified to pass the build-time and run-time
+	                    Tcl script library directories in tdbcConfig.sh,
+	                    so that driver tests can be run before tdbc itself
+	                    is installed.
+	* configure: autoconf 2.59
+	
+2010-04-08  Kevin B. Kenny  <kennykb@acm.org>
+
+	* configure.in: 
+	* tdbcConfig.sh.in:  Revised names starting with TDBC_ to start
+	with tdbc_ in order to conform with the expectations of
+	TEA_LOAD_CONFIG. Added tdbc_BUILD_STUB_LIB_SPEC and
+	tdbc_BUILD_INCLUDE_SPEC to the generated tdbcConfig.sh so that
+	the Stubs library and include files for tdbc can be found in
+	the build directory as well as the install directory.
+
+	* configure: autoconf 2.59
+	
+2010-04-06  Kevin B. Kenny  <kennykb@acm.org>
+
+	* doc/Tdbc_Init.3:
+	* doc/tdbc.n:
+	* doc/tdbc_connection.n:
+	* doc/tdbc_mapSqlState.n:
+	* doc/tdbc_connection.n:
+	* doc/tdbc_resultset.n:
+	* doc/tdbc_statement.n:
+	* doc/tdbc_tokenize.n: Merged changes from the trunk of the 
+	Tcl source tree that make the documentation fit better with the
+	Tcl manuals. (Tickets [fcc8231b9e], [02c0131ba1] and [18c90402fb]).
+
+	* Makefile.in: Corrected a misinstallation of the manual
+	pages in the case where $(MANDIR)/man3 doesn't exist.
+	(Ticket [99e97fb098])
+
+	* generic/tdbc.c:
+	* generic/tdbcDecls.h:
+	* generic/tdbcStubInit.c:
+	* generic/tdbcStubLib.c:
+	* tools/genStubs.tcl: Made the Stubs tables (and a few other constants
+	formally 'const'. (Ticket [cf7bc364cc])
+	
+2010-03-14  Kevin B. Kenny  <kennykb@acm.org>
+
+	* tools/genExtStubs.tcl (new file): Added a tool so that
+	drivers can resolve imports into Stubs tables at run time, allowing
+	them to avoid compile-dependencies on the respective databases'
+	build systems. 
+	
+2010-03-01  Kevin B. Kenny  <kennykb@acm.org>
+
+	* tools/tdbc-man2html.tcl: Added SourceForge logo to the HTML
+	documentation, to comply with requirements for hosting the
+	documentation at SourceForge.
+
 2009-09-20  Kevin B. Kenny  <kennykb@acm.org>
 
 	* tools/tdbc-man2html.tcl: Added tdbcpostgres to the documentation set.

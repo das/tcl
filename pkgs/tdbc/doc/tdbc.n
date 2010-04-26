@@ -47,17 +47,18 @@
 .SH "NAME"
 tdbc \- Tcl Database Connectivity
 .SH "SYNOPSIS"
+.nf
 package require \fBtdbc 1.0\fR
-.sp
-package require \fBtdbc::\fR\fIdriver version\fR
-.sp
-\fBtdbc::\fR\fIdriver\fR\fB::connection create \fR\fIdb\fR \fI?\-option value\fR...?
+package require \fBtdbc::\fIdriver version\fR
+
+\fBtdbc::\fIdriver\fB::connection create \fIdb\fR ?\fI\-option value\fR...?
+.fi
 .BE
 .SH "DESCRIPTION"
 .PP
 Tcl Database Connectivity (TDBC) is a common interface for Tcl
 programs to access SQL databases. It is implemented by a series of
-database \fIdrivers:\fR separate modules, each of which adapts Tcl to
+database \fIdrivers\fR: separate modules, each of which adapts Tcl to
 the interface of one particular database system.  All of the drivers
 implement a common series of commands for manipulating the database.
 These commands are all named dynamically, since they all represent
@@ -73,7 +74,7 @@ of interest to driver writers. \fBSEE ALSO\fR also enumerates them.
 Tdbc_Init(3),
 tdbc::connection(n), tdbc::mapSqlState(n), 
 tdbc::resultset(n), tdbc::statement(n), tdbc::tokenize(n),
-tdbc::mysql(n), tdbc::odbc(n), tdbc::sqlite3(n)
+tdbc::mysql(n), tdbc::odbc(n), tdbc::postgres(n), tdbc::sqlite3(n)
 .SH "KEYWORDS"
 TDBC, SQL, database, connectivity, connection, resultset, statement
 .SH "COPYRIGHT"

@@ -22,7 +22,7 @@
                              TDBC_STUBS_REVISION))
 #else
 #    define Tdbc_InitStubs(interp) \
-    (Tcl_PkgRequire(interp, "tdbc", TDBC_VERSION))
+        (Tcl_PkgRequire(interp, "tdbc", TDBC_VERSION))
 #endif
 
 /* !BEGIN!: Do not edit below this line. */
@@ -50,7 +50,7 @@ typedef struct TdbcStubs {
     int magic;
     int epoch;
     int revision;
-    struct TdbcStubHooks *hooks;
+    const struct TdbcStubHooks *hooks;
 
     int (*tdbc_Init) (Tcl_Interp* interp); /* 0 */
     Tcl_Obj* (*tdbc_TokenizeSql) (Tcl_Interp* interp, const char* statement); /* 1 */

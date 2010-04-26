@@ -59,32 +59,32 @@
 .SH "NAME"
 tdbc::resultset \- TDBC result set object
 .SH "SYNOPSIS"
+.nf
 package require \fBtdbc 1.0\fR
-.sp
 package require \fBtdbc::\fR\fIdriver version\fR
-.sp
+
 \fBtdbc::\fR\fIdriver\fR\fB::connection create \fR\fIdb\fR \fI?\-option value\fR...?
-.sp
+
 \fBset\fR \fIstmt\fR \fB[\fR\fIdb\fR \fBprepare\fR \fIsql-code\fR\fB]\fR
-.sp
-\fBset\fR \fIresultset\fR \fB[\fR\fI$stmt\fR \fBexecute\fR ?\fIargs...\fR?
-.sp
+\fBset\fR \fIresultset\fR \fB[\fR\fI$stmt\fR \fBexecute\fR ?\fIargs...\fR?\fB]\fR
+
 \fI$resultset\fR \fBcolumns\fR
-.sp
-\fI$resultset \fR \fBrowcount\fR
-.sp
+\fI$resultset\fR \fBrowcount\fR
 \fI$resultset\fR \fBnextrow\fR ?\fB-as\fR \fBlists\fR|\fBdicts\fR? ?\fB--\fR? \fIvarname\fR
-.sp
 \fI$resultset\fR \fBnextlist\fR \fIvarname\fR
-.sp
 \fI$resultset\fR \fBnextdict\fR \fIvarname\fR
-.sp
+.fi
+.ad l
+.in 14
+.ti 7
 \fI$resultset\fR \fBallrows\fR ?\fB-as lists|dicts\fR? ?\fB-columnsvariable\fR \fIname\fR? ?\fB--\fR?
-.sp
-\fI$resultset\fR \fBforeach\fR ?\fB-as lists|dicts\fR?
-?\fB-columnsvariable\fR \fIname\fR? ?\fB--\fR? \fIvarname\fR \fIscript\fR
-.sp
+.br
+.ti 7
+\fI$resultset\fR \fBforeach\fR ?\fB-as lists|dicts\fR? ?\fB-columnsvariable\fR \fIname\fR? ?\fB--\fR? \fIvarname\fR \fIscript\fR
+.br
+.ti 7
 \fI$resultset\fR \fBclose\fR
+.ad b
 .BE
 .SH "DESCRIPTION"
 .PP

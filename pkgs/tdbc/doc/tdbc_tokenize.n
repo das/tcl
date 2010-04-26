@@ -59,9 +59,11 @@
 .SH "NAME"
 tdbc::tokenize \- TDBC SQL tokenizer
 .SH "SYNOPSIS"
+.nf
 package require \fBtdbc 1.0\fR
-.sp
+
 \fBtdbc::tokenize\fR \fIstring\fR
+.fi
 .BE
 .SH "DESCRIPTION"
 .PP

@@ -694,7 +694,7 @@ proc genStubs::emitHeader {name} {
 	foreach hook $hooks($name) {
 	    set capHook [string toupper [string index $hook 0]]
 	    append capHook [string range $hook 1 end]
-	    append text "    struct ${capHook}Stubs *${hook}Stubs;\n"
+	    append text "    const struct ${capHook}Stubs *${hook}Stubs;\n"
 	}
 	append text "} ${capName}StubHooks;\n"
     }
@@ -702,7 +702,7 @@ proc genStubs::emitHeader {name} {
     append text "    int magic;\n"
     append text "    int epoch;\n"
     append text "    int revision;\n"
-    append text "    struct ${capName}StubHooks *hooks;\n\n"
+    append text "    const struct ${capName}StubHooks *hooks;\n\n"
 
     emitSlots $name text
 
@@ -741,7 +741,7 @@ proc genStubs::emitInit {name textVar} {
     set CAPName [string toupper $name]
 
     if {[info exists hooks($name)]} {
- 	append text "\nstatic ${capName}StubHooks ${name}StubHooks = \{\n"
+ 	append text "\nstatic const ${capName}StubHooks ${name}StubHooks = \{\n"
 	set sep "    "
 	foreach sub $hooks($name) {
 	    append text $sep "&${sub}Stubs"
@@ -749,7 +749,7 @@ proc genStubs::emitInit {name textVar} {
 	}
 	append text "\n\};\n"
     }
-    append text "\n${capName}Stubs ${name}Stubs = \{\n"
+    append text "\nconst ${capName}Stubs ${name}Stubs = \{\n"
     append text "    TCL_STUB_MAGIC,\n"
     append text "    ${CAPName}_STUBS_EPOCH,\n"
     append text "    ${CAPName}_STUBS_REVISION,\n"

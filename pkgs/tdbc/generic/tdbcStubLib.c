@@ -19,7 +19,15 @@
 #define USE_TDBC_STUBS 1
 #include "tdbc.h"
 
-const TdbcStubs* tdbcStubsPtr;
+/* 
+ * 'extern' is the best scope that we can come up with for linking
+ * tdbcStubsPtr.  We have no idea what linker scope a caller might
+ * want for it. MODULE_SCOPE would be right, but we don't know even
+ * whether the caller has the concept.
+ */
+
+extern const TdbcStubs *tdbcStubsPtr;
+const TdbcStubs *tdbcStubsPtr = NULL;
 
 /*
  *-----------------------------------------------------------------------------
@@ -57,7 +65,7 @@ TdbcInitializeStubs(
     ClientData clientData = NULL;
 				/* Client data for the package */
     const char* actualVersion;  /* Actual version of the package */
-    TdbcStubs* stubsPtr;	/* Stubs table for the public API */
+    const TdbcStubs* stubsPtr;	/* Stubs table for the public API */
 
     /* Load the package */
 
@@ -77,7 +85,7 @@ TdbcInitializeStubs(
     if (actualVersion == NULL) {
 	return NULL;
     } else {
-	stubsPtr = (TdbcStubs*) clientData;
+	stubsPtr = (const TdbcStubs*) clientData;
 	if (stubsPtr->epoch != epoch) {
 	    errorMsg = "mismatched epoch number";
 	} else if (stubsPtr->revision < revision) {
