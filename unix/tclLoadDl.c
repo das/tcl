@@ -172,7 +172,7 @@ FindSymbol(
 	Tcl_SetErrorCode(interp, "TCL", "LOOKUP", "LOAD_SYMBOL", symbol,
 		NULL);
     }
-    return proc;
+    return (void *) proc;
 }
 
 /*
