@@ -1,3 +1,16 @@
+2010-04-26  Kevin B. Kenny  <kennykb@acm.org>
+
+	* tools/genStubs.tcl: Revised 'genStubs' to write files in Unix
+			      format (-translation lf) so that 'make genstubs'
+	                      generates the same output on Unix and Windows.
+	* tdbcDecls.h:
+	* tdbcStubInit.h:     make genstubs
+	* README:
+	* configure.in:
+	* generic/tdbc.h:     Advance patchlevel to 1.0b14.1
+	* configure:          autoconf-2.59
+	
+	
 2010-04-25  Kevin B. Kenny  <kennykb@acm.org>
 
 	* configure.in:     Advance release to 1.0b14
