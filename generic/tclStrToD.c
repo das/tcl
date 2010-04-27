@@ -19,14 +19,9 @@
  *----------------------------------------------------------------------
  */
 
-#include <tclInt.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <float.h>
-#include <limits.h>
+#include "tclInt.h"
+#include "tommath.h"
 #include <math.h>
-#include <ctype.h>
-#include <tommath.h>
 
 /*
  * Define KILL_OCTAL to suppress interpretation of numbers with leading zero

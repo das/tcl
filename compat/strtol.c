@@ -12,7 +12,6 @@
  * RCS: @(#) $Id$
  */
 
-#include <ctype.h>
 #include "tclInt.h"
 
 /*

@@ -20,9 +20,7 @@
 #include "tclInt.h"
 #include "tclCompile.h"
 #include "tommath.h"
-
 #include <math.h>
-#include <float.h>
 
 #if NRE_ENABLE_ASSERTS
 #include <assert.h>

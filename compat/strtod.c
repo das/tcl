@@ -13,7 +13,6 @@
  */
 
 #include "tclInt.h"
-#include <ctype.h>
 
 #ifndef TRUE
 #define TRUE 1
