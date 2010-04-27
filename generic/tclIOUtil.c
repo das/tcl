@@ -3466,8 +3466,8 @@ TclpLoadFile(
 
     *clientDataPtr = handle;
 
-    *proc1Ptr = Tcl_FindSymbol(interp, handle, sym1);
-    *proc2Ptr = Tcl_FindSymbol(interp, handle, sym2);
+    *proc1Ptr = (Tcl_PackageInitProc*) Tcl_FindSymbol(interp, handle, sym1);
+    *proc2Ptr = (Tcl_PackageInitProc*) Tcl_FindSymbol(interp, handle, sym2);
     return TCL_OK;
 }
 
@@ -4550,7 +4550,7 @@ Tcl_FSGetFileSystemForPath(
  *	functions not in this file), then one cannot necessarily guarantee
  *	that the path object pointer is from the correct filesystem.
  *
- *	Note: in the future it might be desireable to have separate versions
+ *	Note: in the future it might be desirable to have separate versions
  *	of this function with different signatures, for example
  *	Tcl_FSGetNativeWinPath, Tcl_FSGetNativeUnixPath etc. Right now, since
  *	native paths are all string based, we use just one function.
