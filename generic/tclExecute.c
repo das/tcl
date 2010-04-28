@@ -5081,7 +5081,7 @@ TclExecuteByteCode(
 		     * Quickly force large right shifts to 0 or -1.
 		     */
 
-		    if (l2 >= CHAR_BIT*sizeof(long)) {
+		    if (l2 >= (long)(CHAR_BIT*sizeof(long))) {
 			/*
 			 * We assume that INT_MAX is much larger than the
 			 * number of bits in a long. This is a pretty safe

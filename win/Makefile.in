@@ -90,9 +90,6 @@ COMPILE_DEBUG_FLAGS =
 #COMPILE_DEBUG_FLAGS = -DTCL_COMPILE_DEBUG
 #COMPILE_DEBUG_FLAGS = -DTCL_COMPILE_DEBUG -DTCL_COMPILE_STATS
 
-# Special compiler flags to use when building man2tcl on Windows.
-MAN2TCLFLAGS =		@MAN2TCLFLAGS@
-
 SRC_DIR			= @srcdir@
 ROOT_DIR		= @srcdir@/..
 TOP_DIR			= $(shell cd @srcdir@/..; pwd)

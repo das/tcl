@@ -755,13 +755,13 @@ TclCygwinPutenv(
 
 	if (strcmp(name, "Path") == 0) {
 #ifdef __WIN32__
-	    SetEnvironmentVariable("PATH", NULL);
+	    SetEnvironmentVariableA("PATH", NULL);
 #endif
 	    unsetenv("PATH");
 	}
 
 #ifdef __WIN32__
-	SetEnvironmentVariable(name, value);
+	SetEnvironmentVariableA(name, value);
 #endif
     } else {
 	char *buf;
@@ -771,7 +771,7 @@ TclCygwinPutenv(
 	 */
 
 #ifdef __WIN32__
-	SetEnvironmentVariable("Path", NULL);
+	SetEnvironmentVariableA("Path", NULL);
 #endif
 	unsetenv("Path");
 
@@ -786,7 +786,7 @@ TclCygwinPutenv(
 	}
 
 #ifdef __WIN32__
-	SetEnvironmentVariable(name, buf);
+	SetEnvironmentVariableA(name, buf);
 #endif
     }
 }
