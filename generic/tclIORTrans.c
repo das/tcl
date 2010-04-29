@@ -18,7 +18,7 @@
  * RCS: @(#) $Id$
  */
 
-#include <tclInt.h>
+#include "tclInt.h"
 #include <tclIO.h>
 #include <assert.h>
 

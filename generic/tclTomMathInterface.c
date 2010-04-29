@@ -16,7 +16,6 @@
 
 #include "tclInt.h"
 #include "tommath.h"
-#include <limits.h>
 
 MODULE_SCOPE const TclTomMathStubs tclTomMathStubs;
 

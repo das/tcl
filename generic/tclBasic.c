@@ -22,10 +22,8 @@
 #include "tclInt.h"
 #include "tclOOInt.h"
 #include "tclCompile.h"
-#include <float.h>
-#include <limits.h>
-#include <math.h>
 #include "tommath.h"
+#include <math.h>
 
 #if NRE_ENABLE_ASSERTS
 #include <assert.h>

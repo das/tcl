@@ -16,9 +16,7 @@
 #ifndef _DIRENT
 #define _DIRENT
 
-#ifndef _TCL
-#include <tcl.h>
-#endif
+#include "tcl.h"
 
 /*
  * Dirent structure, which holds information about a single

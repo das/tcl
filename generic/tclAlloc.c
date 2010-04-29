@@ -142,7 +142,6 @@ static int allocInit = 0;
  */
 
 static	unsigned int numMallocs[NBUCKETS+1];
-#include <stdio.h>
 #endif
 
 #if defined(DEBUG) || defined(RCHECK)
