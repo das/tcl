@@ -2801,6 +2801,8 @@ struct Tcl_LoadHandle_ {
  *----------------------------------------------------------------
  */
 
+MODULE_SCOPE void	TclAppendBytesToByteArray(Tcl_Obj *objPtr,
+			    const unsigned char *bytes, unsigned len);
 MODULE_SCOPE int	TclNREvalCmd(Tcl_Interp *interp, Tcl_Obj *objPtr,
 			    int flags);
 MODULE_SCOPE void	TclPushTailcallPoint(Tcl_Interp *interp);

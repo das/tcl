@@ -577,6 +577,81 @@ UpdateStringOfByteArray(
 /*
  *----------------------------------------------------------------------
  *
+ * TclAppendBytesToByteArray --
+ *
+ *	This function appends an array of bytes to a byte array object. Note
+ *	that the object *must* be unshared, and the array of bytes *must not*
+ *	refer to the object being appended to.
+ *
+ * Results:
+ *	None.
+ *
+ * Side effects:
+ *	Allocates enough memory for an array of bytes of the requested total
+ *	size, or possibly larger. [Bug 2992970]
+ *
+ *----------------------------------------------------------------------
+ */
+
+void
+TclAppendBytesToByteArray(
+    Tcl_Obj *objPtr,
+    const unsigned char *bytes,
+    unsigned len)
+{
+    ByteArray *byteArrayPtr;
+
+    if (Tcl_IsShared(objPtr)) {
+	Tcl_Panic("%s called with shared object","TclAppendBytesToByteArray");
+    }
+    if (objPtr->typePtr != &tclByteArrayType) {
+	SetByteArrayFromAny(NULL, objPtr);
+    }
+    byteArrayPtr = GET_BYTEARRAY(objPtr);
+
+    /*
+     * If we need to, resize the allocated space in the byte array.
+     */
+
+    if (byteArrayPtr->used+len > byteArrayPtr->allocated) {
+	unsigned int attempt, used = byteArrayPtr->used;
+	ByteArray *tmpByteArrayPtr;
+
+	attempt = byteArrayPtr->allocated;
+	do {
+	    attempt *= 2;
+	} while (attempt < used+len);
+
+	tmpByteArrayPtr = (ByteArray *)
+		attemptckrealloc((char *) byteArrayPtr,
+			BYTEARRAY_SIZE(attempt));
+
+	if (tmpByteArrayPtr == NULL) {
+	    attempt = used + len;
+	    tmpByteArrayPtr = (ByteArray *) ckrealloc((char *) byteArrayPtr,
+		    BYTEARRAY_SIZE(attempt));
+	}
+
+	byteArrayPtr = tmpByteArrayPtr;
+	byteArrayPtr->allocated = attempt;
+	byteArrayPtr->used = used;
+	SET_BYTEARRAY(objPtr, byteArrayPtr);
+    }
+
+    /*
+     * Do the append if there's any point.
+     */
+
+    if (len > 0) {
+	memcpy(byteArrayPtr->bytes + byteArrayPtr->used, bytes, len);
+	byteArrayPtr->used += len;
+	Tcl_InvalidateStringRep(objPtr);
+    }
+}
+
+/*
+ *----------------------------------------------------------------------
+ *
  * TclInitBinaryCmd --
  *
  *	This function is called to create the "binary" Tcl command. See the

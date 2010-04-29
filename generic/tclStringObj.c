@@ -1235,7 +1235,7 @@ Tcl_AppendObjToObj(
      */
 
     if (TclIsPureByteArray(objPtr) && TclIsPureByteArray(appendObjPtr)) {
-	unsigned char *bytesDst, *bytesSrc;
+	unsigned char *bytesSrc;
 	int lengthSrc, lengthTotal;
 
 	/*
@@ -1250,9 +1250,8 @@ Tcl_AppendObjToObj(
 	if (((length > lengthSrc) ? length : lengthSrc) > lengthTotal) {
 	    Tcl_Panic("overflow when calculating byte array size");
 	}
-	bytesDst = Tcl_SetByteArrayLength(objPtr, lengthTotal);
 	bytesSrc = Tcl_GetByteArrayFromObj(appendObjPtr, NULL);
-	memcpy(bytesDst + length, bytesSrc, lengthSrc);
+	TclAppendBytesToByteArray(objPtr, bytesSrc, (unsigned) lengthSrc);
 	return;
     }
 
