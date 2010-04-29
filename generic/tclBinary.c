@@ -613,7 +613,7 @@ TclAppendBytesToByteArray(
      * If we need to, resize the allocated space in the byte array.
      */
 
-    if (byteArrayPtr->used+len > byteArrayPtr->allocated) {
+    if (byteArrayPtr->used + (int)len > byteArrayPtr->allocated) {
 	unsigned int attempt, used = byteArrayPtr->used;
 	ByteArray *tmpByteArrayPtr;
 
