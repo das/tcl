@@ -29,9 +29,7 @@
 #ifndef __dlfcn_h__
 #define __dlfcn_h__
 
-#ifndef _TCL
-#include <tcl.h>
-#endif
+#include "tcl.h"
 
 #ifdef __cplusplus
 extern "C" {
