@@ -615,19 +615,24 @@ TclAppendBytesToByteArray(
 
     if (byteArrayPtr->used + (int)len > byteArrayPtr->allocated) {
 	unsigned int attempt, used = byteArrayPtr->used;
-	ByteArray *tmpByteArrayPtr;
+	ByteArray *tmpByteArrayPtr = NULL;
 
 	attempt = byteArrayPtr->allocated;
 	do {
 	    attempt *= 2;
 	} while (attempt < used+len);
 
-	tmpByteArrayPtr = (ByteArray *)
-		attemptckrealloc((char *) byteArrayPtr,
-			BYTEARRAY_SIZE(attempt));
+	if (BYTEARRAY_SIZE(attempt) > BYTEARRAY_SIZE(used)) {
+	    tmpByteArrayPtr = (ByteArray *)
+		    attemptckrealloc((char *) byteArrayPtr,
+			    BYTEARRAY_SIZE(attempt));
+	}
 
 	if (tmpByteArrayPtr == NULL) {
 	    attempt = used + len;
+	    if (BYTEARRAY_SIZE(attempt) < BYTEARRAY_SIZE(used)) {
+		Tcl_Panic("attempt to allocate a bigger buffer than we can handle");
+	    }
 	    tmpByteArrayPtr = (ByteArray *) ckrealloc((char *) byteArrayPtr,
 		    BYTEARRAY_SIZE(attempt));
 	}
@@ -1118,7 +1123,7 @@ BinaryFormatCmd(
 		 * this is safe since we aren't going to modify the array.
 		 */
 
-		listv = (Tcl_Obj**)(objv + arg);
+		listv = (Tcl_Obj **) (objv + arg);
 		listc = 1;
 		count = 1;
 	    } else {
