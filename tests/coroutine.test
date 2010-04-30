@@ -516,6 +516,31 @@ test coroutine-5.2 {right numLevels within coro} -constraints {testnrelevels} \
     unset res
 } -result {0 0 0 0}
 
+
+test coroutine-6.1 {coroutine nargs} \
+-body {
+    coroutine a ::apply $lambda
+    a
+} -cleanup {
+    rename a {}
+} -result 0
+
+test coroutine-6.2 {coroutine nargs} \
+-body {
+    coroutine a ::apply $lambda
+    a a
+} -cleanup {
+    rename a {}
+} -result 0
+
+test coroutine-6.3 {coroutine nargs} \
+-body {
+    coroutine a ::apply $lambda
+    a a a
+} -cleanup {
+    rename a {}
+} -returnCodes error
+
 unset lambda
 
 # cleanup
