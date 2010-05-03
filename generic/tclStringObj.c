@@ -1248,10 +1248,10 @@ Tcl_AppendObjToObj(
 	(void) Tcl_GetByteArrayFromObj(appendObjPtr, &lengthSrc);
 	lengthTotal = length + lengthSrc;
 	if (((length > lengthSrc) ? length : lengthSrc) > lengthTotal) {
-	    Tcl_Panic("overflow when calculating byte array size");
+	    Tcl_Panic("max size for a Tcl value (%d bytes) exceeded", INT_MAX);
 	}
 	bytesSrc = Tcl_GetByteArrayFromObj(appendObjPtr, NULL);
-	TclAppendBytesToByteArray(objPtr, bytesSrc, (unsigned) lengthSrc);
+	TclAppendBytesToByteArray(objPtr, bytesSrc, lengthSrc);
 	return;
     }
 
