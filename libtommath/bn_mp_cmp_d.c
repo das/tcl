@@ -12,11 +12,11 @@
  * The library is free for all purposes without any express
  * guarantee it works.
  *
- * Tom St Denis, tomstdenis@iahu.ca, http://math.libtomcrypt.org
+ * Tom St Denis, tomstdenis@gmail.com, http://math.libtomcrypt.com
  */
 
 /* compare a digit */
-int mp_cmp_d(mp_int * a, mp_digit b)
+int mp_cmp_d(const mp_int * a, mp_digit b)
 {
   /* compare based on sign */
   if (a->sign == MP_NEG) {
@@ -38,3 +38,7 @@ int mp_cmp_d(mp_int * a, mp_digit b)
   }
 }
 #endif
+
+/* $Source$ */
+/* $Revision$ */
+/* $Date$ */

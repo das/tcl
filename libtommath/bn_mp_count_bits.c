@@ -12,12 +12,12 @@
  * The library is free for all purposes without any express
  * guarantee it works.
  *
- * Tom St Denis, tomstdenis@iahu.ca, http://math.libtomcrypt.org
+ * Tom St Denis, tomstdenis@gmail.com, http://math.libtomcrypt.com
  */
 
 /* returns the number of bits in an int */
 int
-mp_count_bits (mp_int * a)
+mp_count_bits (const mp_int * a)
 {
   int     r;
   mp_digit q;
@@ -39,3 +39,7 @@ mp_count_bits (mp_int * a)
   return r;
 }
 #endif
+
+/* $Source$ */
+/* $Revision$ */
+/* $Date$ */

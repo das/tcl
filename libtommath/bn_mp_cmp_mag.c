@@ -12,11 +12,11 @@
  * The library is free for all purposes without any express
  * guarantee it works.
  *
- * Tom St Denis, tomstdenis@iahu.ca, http://math.libtomcrypt.org
+ * Tom St Denis, tomstdenis@gmail.com, http://math.libtomcrypt.com
  */
 
 /* compare maginitude of two ints (unsigned) */
-int mp_cmp_mag (mp_int * a, mp_int * b)
+int mp_cmp_mag (const mp_int * a, const mp_int * b)
 {
   int     n;
   mp_digit *tmpa, *tmpb;
@@ -49,3 +49,7 @@ int mp_cmp_mag (mp_int * a, mp_int * b)
   return MP_EQ;
 }
 #endif
+
+/* $Source$ */
+/* $Revision$ */
+/* $Date$ */

@@ -12,12 +12,12 @@
  * The library is free for all purposes without any express
  * guarantee it works.
  *
- * Tom St Denis, tomstdenis@iahu.ca, http://math.libtomcrypt.org
+ * Tom St Denis, tomstdenis@gmail.com, http://math.libtomcrypt.com
  */
 
 /* copy, b = a */
 int
-mp_copy (mp_int * a, mp_int * b)
+mp_copy (const mp_int * a, mp_int * b)
 {
   int     res, n;
 
@@ -62,3 +62,7 @@ mp_copy (mp_int * a, mp_int * b)
   return MP_OKAY;
 }
 #endif
+
+/* $Source$ */
+/* $Revision$ */
+/* $Date$ */

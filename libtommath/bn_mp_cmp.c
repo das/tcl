@@ -12,12 +12,12 @@
  * The library is free for all purposes without any express
  * guarantee it works.
  *
- * Tom St Denis, tomstdenis@iahu.ca, http://math.libtomcrypt.org
+ * Tom St Denis, tomstdenis@gmail.com, http://math.libtomcrypt.com
  */
 
 /* compare two ints (signed)*/
 int
-mp_cmp (mp_int * a, mp_int * b)
+mp_cmp (const mp_int * a, const mp_int * b)
 {
   /* compare based on sign */
   if (a->sign != b->sign) {
@@ -37,3 +37,7 @@ mp_cmp (mp_int * a, mp_int * b)
   }
 }
 #endif
+
+/* $Source$ */
+/* $Revision$ */
+/* $Date$ */
