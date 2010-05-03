@@ -218,7 +218,7 @@ setargv(
     char **argv;
     int argc, size, inquote, copy, slashes;
 
-    cmdLine = GetCommandLine();	/* INTL: BUG */
+    cmdLine = GetCommandLineA();	/* INTL: BUG */
 
     /*
      * Precompute an overly pessimistic guess at the number of arguments in
