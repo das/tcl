@@ -1367,7 +1367,7 @@ TclWinOpenConsoleChannel(
     wsprintfA(channelName, "file%lx", (int) infoPtr);
 
     infoPtr->channel = Tcl_CreateChannel(&consoleChannelType, channelName,
-	    (ClientData) infoPtr, permissions);
+	    infoPtr, permissions);
 
     if (permissions & TCL_READABLE) {
 	/*

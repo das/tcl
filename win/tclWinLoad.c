@@ -153,7 +153,7 @@ TclpDlopen(
 	handlePtr->clientData = (ClientData) hInstance;
 	handlePtr->findSymbolProcPtr = &FindSymbol;
 	handlePtr->unloadFileProcPtr = &UnloadFile;
-	*loadHandle = (Tcl_LoadHandle) handlePtr;
+	*loadHandle = handlePtr;
 	*unloadProcPtr = &UnloadFile;
     }
     return TCL_OK;
