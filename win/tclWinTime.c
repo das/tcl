@@ -416,7 +416,7 @@ NativeGetTime(
 
 		WaitForSingleObject(timeInfo.readyEvent, INFINITE);
 		CloseHandle(timeInfo.readyEvent);
-		Tcl_CreateExitHandler(StopCalibration, (ClientData) NULL);
+		Tcl_CreateExitHandler(StopCalibration, NULL);
 	    }
 	    timeInfo.initialized = TRUE;
 	}

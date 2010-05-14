@@ -122,7 +122,7 @@ Tcl_InitNotifier(void)
 	tsdPtr->event = CreateEvent(NULL, TRUE /* manual */,
 		FALSE /* !signaled */, NULL);
 
-	return (ClientData) tsdPtr;
+	return tsdPtr;
     }
 }
 
@@ -363,7 +363,7 @@ Tcl_ServiceModeHook(
 	     * if one is needed.
 	     */
 
-	    Tcl_AlertNotifier((ClientData)tsdPtr);
+	    Tcl_AlertNotifier(tsdPtr);
 	}
     }
 }

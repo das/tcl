@@ -1506,7 +1506,7 @@ TclWinOpenSerialChannel(
     wsprintfA(channelName, "file%lx", (int) infoPtr);
 
     infoPtr->channel = Tcl_CreateChannel(&serialChannelType, channelName,
-	    (ClientData) infoPtr, permissions);
+	    infoPtr, permissions);
 
 
     SetupComm(handle, infoPtr->sysBufRead, infoPtr->sysBufWrite);

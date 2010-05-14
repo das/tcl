@@ -410,11 +410,6 @@
 #   define environ  _environ
 #endif /* __BORLANDC__ */
 
-#ifdef __CYGWIN__
-#   define timezone _timezone
-#endif /* __CYGWIN__ */
-
-
 #ifdef __WATCOMC__
     /*
      * OpenWatcom uses a wine derived winsock2.h that is missing the
