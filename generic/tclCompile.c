@@ -156,11 +156,11 @@ InstructionDesc const tclInstructionTable[] = {
     {"lt",		  1,   -1,         0,	{OPERAND_NONE}},
 	/* Less:	push (stknext < stktop) */
     {"gt",		  1,   -1,         0,	{OPERAND_NONE}},
-	/* Greater:	push (stknext || stktop) */
+	/* Greater:	push (stknext > stktop) */
     {"le",		  1,   -1,         0,	{OPERAND_NONE}},
-	/* Less or equal: push (stknext || stktop) */
+	/* Less or equal: push (stknext <= stktop) */
     {"ge",		  1,   -1,         0,	{OPERAND_NONE}},
-	/* Greater or equal: push (stknext || stktop) */
+	/* Greater or equal: push (stknext >= stktop) */
     {"lshift",		  1,   -1,         0,	{OPERAND_NONE}},
 	/* Left shift:	push (stknext << stktop) */
     {"rshift",		  1,   -1,         0,	{OPERAND_NONE}},
