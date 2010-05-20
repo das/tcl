@@ -1983,19 +1983,19 @@ TclGlob(
 	for (i = 0; i< objc; i++) {
 	    int len;
 	    const char *oldStr = Tcl_GetStringFromObj(objv[i], &len);
-	    Tcl_Obj *elems[1];
+	    Tcl_Obj *elem;
 
 	    if (len == prefixLen) {
 		if ((pattern[0] == '\0')
 			|| (strchr(separators, pattern[0]) == NULL)) {
-		    TclNewLiteralStringObj(elems[0], ".");
+		    TclNewLiteralStringObj(elem, ".");
 		} else {
-		    TclNewLiteralStringObj(elems[0], "/");
+		    TclNewLiteralStringObj(elem, "/");
 		}
 	    } else {
-		elems[0] = Tcl_NewStringObj(oldStr+prefixLen, len-prefixLen);
+		elem = Tcl_NewStringObj(oldStr+prefixLen, len-prefixLen);
 	    }
-	    Tcl_ListObjReplace(interp, filenamesObj, i, 1, 1, elems);
+	    Tcl_ListObjReplace(interp, filenamesObj, i, 1, 1, &elem);
 	}
     }
 
