@@ -950,13 +950,14 @@ TclParseNumber(
 	case sINFIN:
 	case sINFINI:
 	case sINFINIT:
+#ifdef IEEE_FLOATING_POINT
 	case sN:
 	case sNA:
 	case sNANPAREN:
 	case sNANHEX:
 	    Tcl_Panic("TclParseNumber: bad acceptState %d parsing '%s'",
 		    acceptState, bytes);
-
+#endif
 	case BINARY:
 	    shift = numTrailZeros;
 	    if (!significandOverflow && significandWide != 0 &&
@@ -1137,12 +1138,13 @@ TclParseNumber(
 	    objPtr->typePtr = &tclDoubleType;
 	    break;
 
+#ifdef IEEE_FLOATING_POINT
 	case sNAN:
 	case sNANFINISH:
 	    objPtr->internalRep.doubleValue = MakeNaN(signum, significandWide);
 	    objPtr->typePtr = &tclDoubleType;
 	    break;
-
+#endif
 	case INITIAL:
 	    /* This case only to silence compiler warning */
 	    Tcl_Panic("TclParseNumber: state INITIAL can't happen here");
