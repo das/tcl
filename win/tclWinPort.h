@@ -57,6 +57,7 @@
 #include <process.h>
 #include <signal.h>
 #include <string.h>
+#include <limits.h>
 
 #ifdef __CYGWIN__
 #   include <unistd.h>
@@ -403,13 +404,6 @@
 #   define timezone _timezone
 #   define environ  _environ
 #endif /* __BORLANDC__ */
-
-#ifdef __CYGWIN__
-/* On Cygwin, the environment is imported from the Cygwin DLL. */
-#   define putenv TclCygwinPutenv
-#   define timezone _timezone
-#endif /* __CYGWIN__ */
-
 
 #ifdef __WATCOMC__
     /*

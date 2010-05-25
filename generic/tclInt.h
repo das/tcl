@@ -40,11 +40,6 @@
 #include <stdio.h>
 
 #include <ctype.h>
-#ifdef NO_LIMITS_H
-#   include "../compat/limits.h"
-#else
-#   include <limits.h>
-#endif
 #ifdef NO_STDLIB_H
 #   include "../compat/stdlib.h"
 #else
@@ -62,7 +57,7 @@ typedef int ptrdiff_t;
 #endif
 
 /*
- * Ensure WORDS_BIGENDIAN is defined correcly:
+ * Ensure WORDS_BIGENDIAN is defined correctly:
  * Needs to happen here in addition to configure to work with fat compiles on
  * Darwin (where configure runs only once for multiple architectures).
  */
