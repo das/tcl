@@ -892,22 +892,22 @@ proc ::tcl::OptKeyError {prefix descKey {header 0}} {
     }
     # output the tree
     proc OptTree {desc nl tl dl} {
-	set res "";
+	set res ""
 	foreach item $desc {
-	    if {[OptIsCounter $item]} continue;
+	    if {[OptIsCounter $item]} continue
 	    if {[OptIsPrg $item]} {
-		append res [OptTree $item $nl $tl $dl];
+		append res [OptTree $item $nl $tl $dl]
 	    } else {
-		set dv [OptTypeArgs $item];
+		set dv [OptTypeArgs $item]
 		if {[OptState $item] != "header"} {
-		    set dv "($dv)";
+		    set dv "($dv)"
 		}
-		append res [format "\n    %-*s %-*s %-*s %s" \
+		append res [string trimright [format "\n    %-*s %-*s %-*s %s" \
 			$nl [OptName $item] $tl [OptType $item] \
-			$dl $dv [OptHelp $item]]
+			$dl $dv [OptHelp $item]]]
 	    }
 	}
-	return $res;
+	return $res
     }
 
 # Give nice usage string
@@ -915,9 +915,9 @@ proc ::tcl::OptError {prefix desc {header 0}} {
     # determine length
     if {$header} {
 	# add faked instruction
-	set h [list [OptNewInst header Var/FlagName Type Value Help]];
-	lappend h   [OptNewInst header ------------ ---- ----- ----];
-	lappend h   [OptNewInst header {( -help} "" "" {gives this help )}]
+	set h [list [OptNewInst header Var/FlagName Type Value Help]]
+	lappend h   [OptNewInst header ------------ ---- ----- ----]
+	lappend h   [OptNewInst header {(-help} "" "" {gives this help)}]
 	set desc [concat $h $desc]
     }
     OptLengths $desc nl tl dl
