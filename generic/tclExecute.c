@@ -232,7 +232,7 @@ VarHashCreateVar(
     Tcl_Obj *key,
     int *newPtr)
 {
-    Tcl_HashEntry *hPtr = Tcl_CreateHashEntry((Tcl_HashTable *) tablePtr,
+    Tcl_HashEntry *hPtr = Tcl_CreateHashEntry(&tablePtr->table,
 	    (char *) key, newPtr);
 
     if (!hPtr) {
