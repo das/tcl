@@ -4961,7 +4961,7 @@ Tcl_LogCommandInfo(
 
         for (n=0, frame=iPtr->framePtr;
 		(frame && (frame != iPtr->varFramePtr));
-		n++, frame=frame->callerVarPtr);
+		n++, frame=frame->callerPtr);
         Tcl_ListObjAppendElement(NULL, iPtr->errorStack, iPtr->upLiteral);
         Tcl_ListObjAppendElement(NULL, iPtr->errorStack, Tcl_NewIntObj(n));
     } else if (iPtr->framePtr != iPtr->rootFramePtr) {
