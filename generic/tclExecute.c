@@ -2084,13 +2084,11 @@ TclExecuteByteCode(
 	     *  - base.cmdFramePtr not set
 	     *  - need to monkey-patch the BP chain
 	     *  - set the running level for the coroutine
-	     *  - insure that the coro runs in #0
 	     */
 
 	    corPtr->base.cmdFramePtr = bcFramePtr;
 	    corPtr->callerBPPtr = &BP->prevBottomPtr;
 	    corPtr->stackLevel = &TAUX;
-	    iPtr->varFramePtr = iPtr->rootFramePtr;
 	}
 
 	if (iPtr->execEnvPtr->rewind) {
