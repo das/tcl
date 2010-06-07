@@ -14,6 +14,12 @@
 #include "tclInt.h"
 #include "tommath.h"
 
+#ifdef __GNUC__
+#pragma GCC dependency "tcl.decls"
+#pragma GCC dependency "tclInt.decls"
+#pragma GCC dependency "tclTomMath.decls"
+#endif
+
 /*
  * Remove macros that will interfere with the definitions below.
  */
@@ -1115,6 +1121,9 @@ const TclStubs tclStubs = {
     Tcl_CloseEx, /* 624 */
     Tcl_NRExprObj, /* 625 */
     Tcl_NRSubstObj, /* 626 */
+    Tcl_LoadFile, /* 627 */
+    Tcl_FindSymbol, /* 628 */
+    Tcl_FSUnloadFile, /* 629 */
 };
 
 /* !END!: Do not edit above this line. */

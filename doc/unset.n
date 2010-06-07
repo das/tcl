@@ -17,7 +17,6 @@ unset \- Delete variables
 .SH SYNOPSIS
 \fBunset \fR?\fI\-nocomplain\fR? ?\fI\-\-\fR? ?\fIname name name ...\fR?
 .BE
-
 .SH DESCRIPTION
 .PP
 This command removes one or more variables.
@@ -28,20 +27,21 @@ element is removed without affecting the rest of the array.
 If a \fIname\fR consists of an array name with no parenthesized
 index, then the entire array is deleted.
 The \fBunset\fR command returns an empty string as result.
-.VS 8.4
 If \fI\-nocomplain\fR is specified as the first argument, any possible
 errors are suppressed.  The option may not be abbreviated, in order to
 disambiguate it from possible variable names.  The option \fI\-\-\fR
 indicates the end of the options, and should be used if you wish to
 remove a variable with the same name as any of the options.
-.VE 8.4
-If an error occurs, any variables after the named one causing the error not
-deleted.  An error can occur when the named variable doesn't exist, or the
+If an error occurs during variable deletion, any variables after the named one
+causing the error are not
+deleted.  An error can occur when the named variable does not exist, or the
 name refers to an array element but the variable is a scalar, or the name
 refers to a variable in a non-existent namespace.
 .SH EXAMPLE
+.PP
 Create an array containing a mapping from some numbers to their
 squares and remove the array elements for non-prime numbers:
+.PP
 .CS
 array set squares {
     1 1    6 36
@@ -60,9 +60,11 @@ parray squares
 puts "The prime squares are:"
 parray squares
 .CE
-
 .SH "SEE ALSO"
 set(n), trace(n), upvar(n)
-
 .SH KEYWORDS
 remove, variable
+'\" Local Variables:
+'\" mode: nroff
+'\" fill-column: 78
+'\" End:

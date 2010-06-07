@@ -13,7 +13,6 @@
  */
 
 #include "tclInt.h"
-#include <ctype.h>
 
 #ifndef TRUE
 #define TRUE 1
@@ -23,12 +22,12 @@
 #define NULL 0
 #endif
 
-static int maxExponent = 511;	/* Largest possible base 10 exponent.  Any
+static const int maxExponent = 511;	/* Largest possible base 10 exponent.  Any
 				 * exponent larger than this will already
 				 * produce underflow or overflow, so there's
 				 * no need to worry about additional digits.
 				 */
-static double powersOf10[] = {	/* Table giving binary powers of 10.  Entry */
+static const double powersOf10[] = {	/* Table giving binary powers of 10.  Entry */
     10.,			/* is 10^2^i.  Used to convert decimal */
     100.,			/* exponents into floating-point numbers. */
     1.0e4,
@@ -62,41 +61,41 @@ static double powersOf10[] = {	/* Table giving binary powers of 10.  Entry */
  */
 
 double
-strtod(string, endPtr)
-    CONST char *string;		/* A decimal ASCII floating-point number,
-				 * optionally preceded by white space.
-				 * Must have form "-I.FE-X", where I is the
-				 * integer part of the mantissa, F is the
-				 * fractional part of the mantissa, and X
-				 * is the exponent.  Either of the signs
-				 * may be "+", "-", or omitted.  Either I
-				 * or F may be omitted, or both.  The decimal
-				 * point isn't necessary unless F is present.
-				 * The "E" may actually be an "e".  E and X
-				 * may both be omitted (but not just one).
-				 */
-    char **endPtr;		/* If non-NULL, store terminating character's
+strtod(
+    const char *string,		/* A decimal ASCII floating-point number,
+				 * optionally preceded by white space. Must
+				 * have form "-I.FE-X", where I is the integer
+				 * part of the mantissa, F is the fractional
+				 * part of the mantissa, and X is the
+				 * exponent. Either of the signs may be "+",
+				 * "-", or omitted. Either I or F may be
+				 * omitted, or both. The decimal point isn't
+				 * necessary unless F is present. The "E" may
+				 * actually be an "e". E and X may both be
+				 * omitted (but not just one). */
+    char **endPtr)		/* If non-NULL, store terminating character's
 				 * address here. */
 {
     int sign, expSign = FALSE;
-    double fraction, dblExp, *d;
-    register CONST char *p;
+    double fraction, dblExp;
+    const double *d;
+    register const char *p;
     register int c;
     int exp = 0;		/* Exponent read from "EX" field. */
     int fracExp = 0;		/* Exponent that derives from the fractional
-				 * part.  Under normal circumstatnces, it is
+				 * part. Under normal circumstatnces, it is
 				 * the negative of the number of digits in F.
 				 * However, if I is very long, the last digits
 				 * of I get dropped (otherwise a long I with a
 				 * large negative exponent could cause an
-				 * unnecessary overflow on I alone).  In this
+				 * unnecessary overflow on I alone). In this
 				 * case, fracExp is incremented one for each
 				 * dropped digit. */
     int mantSize;		/* Number of digits in mantissa. */
     int decPt;			/* Number of mantissa digits BEFORE decimal
 				 * point. */
-    CONST char *pExp;		/* Temporarily holds location of exponent
-				 * in string. */
+    const char *pExp;		/* Temporarily holds location of exponent in
+				 * string. */
 
     /*
      * Strip off leading blanks and check for a sign.
@@ -135,10 +134,10 @@ strtod(string, endPtr)
     }
 
     /*
-     * Now suck up the digits in the mantissa.  Use two integers to
-     * collect 9 digits each (this is faster than using floating-point).
-     * If the mantissa has more than 18 digits, ignore the extras, since
-     * they can't affect the value anyway.
+     * Now suck up the digits in the mantissa. Use two integers to collect 9
+     * digits each (this is faster than using floating-point). If the mantissa
+     * has more than 18 digits, ignore the extras, since they can't affect the
+     * value anyway.
      */
     
     pExp  = p;
@@ -146,7 +145,7 @@ strtod(string, endPtr)
     if (decPt < 0) {
 	decPt = mantSize;
     } else {
-	mantSize -= 1;			/* One of the digits was the point. */
+	mantSize -= 1;		/* One of the digits was the point. */
     }
     if (mantSize > 18) {
 	fracExp = decPt - 18;
@@ -160,9 +159,9 @@ strtod(string, endPtr)
 	goto done;
     } else {
 	int frac1, frac2;
+
 	frac1 = 0;
-	for ( ; mantSize > 9; mantSize -= 1)
-	{
+	for ( ; mantSize > 9; mantSize -= 1) {
 	    c = *p;
 	    p += 1;
 	    if (c == '.') {
@@ -172,8 +171,7 @@ strtod(string, endPtr)
 	    frac1 = 10*frac1 + (c - '0');
 	}
 	frac2 = 0;
-	for (; mantSize > 0; mantSize -= 1)
-	{
+	for (; mantSize > 0; mantSize -= 1) {
 	    c = *p;
 	    p += 1;
 	    if (c == '.') {
@@ -217,10 +215,9 @@ strtod(string, endPtr)
     }
 
     /*
-     * Generate a floating-point number that represents the exponent.
-     * Do this by processing the exponent one bit at a time to combine
-     * many powers of 2 of 10. Then combine the exponent with the
-     * fraction.
+     * Generate a floating-point number that represents the exponent. Do this
+     * by processing the exponent one bit at a time to combine many powers of
+     * 2 of 10. Then combine the exponent with the fraction.
      */
     
     if (exp < 0) {
@@ -234,7 +231,7 @@ strtod(string, endPtr)
 	errno = ERANGE;
     }
     dblExp = 1.0;
-    for (d = powersOf10; exp != 0; exp >>= 1, d += 1) {
+    for (d = powersOf10; exp != 0; exp >>= 1, ++d) {
 	if (exp & 01) {
 	    dblExp *= *d;
 	}
@@ -245,7 +242,7 @@ strtod(string, endPtr)
 	fraction *= dblExp;
     }
 
-done:
+  done:
     if (endPtr != NULL) {
 	*endPtr = (char *) p;
     }

@@ -22,10 +22,8 @@
 #include "tclInt.h"
 #include "tclOOInt.h"
 #include "tclCompile.h"
-#include <float.h>
-#include <limits.h>
-#include <math.h>
 #include "tommath.h"
+#include <math.h>
 
 #if NRE_ENABLE_ASSERTS
 #include <assert.h>
@@ -168,6 +166,14 @@ static Tcl_NRPostProc	TEOV_RunLeaveTraces;
 static Tcl_NRPostProc	YieldToCallback;
 
 MODULE_SCOPE const TclStubs tclStubs;
+
+/*
+ * Magical counts for the number of arguments accepted by a coroutine command
+ * after particular kinds of [yield].
+ */
+
+#define COROUTINE_ARGUMENTS_SINGLE_OPTIONAL     (-1)
+#define COROUTINE_ARGUMENTS_ARBITRARY           (-2)
 
 /*
  * The following structure define the commands in the Tcl core.
@@ -529,6 +535,13 @@ Tcl_CreateInterp(void)
     iPtr->errorInfo = NULL;
     TclNewLiteralStringObj(iPtr->eiVar, "::errorInfo");
     Tcl_IncrRefCount(iPtr->eiVar);
+    iPtr->errorStack = Tcl_NewListObj(0, NULL);
+    Tcl_IncrRefCount(iPtr->errorStack);
+    iPtr->resetErrorStack = 1;
+    TclNewLiteralStringObj(iPtr->upLiteral,"UP");
+    Tcl_IncrRefCount(iPtr->upLiteral);
+    TclNewLiteralStringObj(iPtr->callLiteral,"CALL");
+    Tcl_IncrRefCount(iPtr->callLiteral);
     iPtr->errorCode = NULL;
     TclNewLiteralStringObj(iPtr->ecVar, "::errorCode");
     Tcl_IncrRefCount(iPtr->ecVar);
@@ -793,6 +806,8 @@ Tcl_CreateInterp(void)
 
     Tcl_NRCreateCommand(interp, "::tcl::unsupported::yieldTo", NULL,
 	    TclNRYieldToObjCmd, NULL, NULL);
+    Tcl_NRCreateCommand(interp, "::tcl::unsupported::yieldm", NULL,
+	    TclNRYieldmObjCmd, NULL, NULL);
 
 #ifdef USE_DTRACE
     /*
@@ -1467,6 +1482,10 @@ DeleteInterpProc(
 	Tcl_DecrRefCount(iPtr->errorInfo);
 	iPtr->errorInfo = NULL;
     }
+    Tcl_DecrRefCount(iPtr->errorStack);
+    iPtr->errorStack = NULL;
+    Tcl_DecrRefCount(iPtr->upLiteral);
+    Tcl_DecrRefCount(iPtr->callLiteral);
     if (iPtr->returnOpts) {
 	Tcl_DecrRefCount(iPtr->returnOpts);
     }
@@ -7482,8 +7501,7 @@ ExprAbsFunc(
 #endif
 
     if (type == TCL_NUMBER_BIG) {
-	/* TODO: const correctness ? */
-	if (mp_cmp_d((mp_int *) ptr, 0) == MP_LT) {
+	if (mp_cmp_d((const mp_int *) ptr, 0) == MP_LT) {
 	    Tcl_GetBignumFromObj(NULL, objv[1], &big);
 	tooLarge:
 	    mp_neg(&big, &big);
@@ -8259,25 +8277,25 @@ Tcl_NRCmdSwap(
 void
 TclSpliceTailcall(
     Tcl_Interp *interp,
-    TEOV_callback *tailcallPtr)
+    TEOV_callback *tailcallPtr,
+    int skip)
 {
     /*
      * Find the splicing spot: right before the NRCommand of the thing
      * being tailcalled. Note that we skip NRCommands marked in data[1]
      * (used by command redirectors), and we skip the first command that we
-     * find: it corresponds to [tailcall] itself.
+     * find if requested to do so: it corresponds to [tailcall] itself.
      */
 
     Interp *iPtr = (Interp *) interp;
     TEOV_callback *runPtr;
     ExecEnv *eePtr = NULL;
-    int second = 0;
 
   restart:
     for (runPtr = TOP_CB(interp); runPtr; runPtr = runPtr->nextPtr) {
 	if (((runPtr->procPtr) == NRCommand) && !runPtr->data[1]) {
-	    if (second) break;
-	    second = 1;
+	    if (!skip) break;
+            skip = 0;
 	}
     }
     if (!runPtr) {
@@ -8475,10 +8493,33 @@ TclNRYieldObjCmd(
 
     iPtr->numLevels = corPtr->auxNumLevels;
     corPtr->auxNumLevels = numLevels - corPtr->auxNumLevels;
+    corPtr->nargs = COROUTINE_ARGUMENTS_SINGLE_OPTIONAL;
 
     TclNRAddCallback(interp, NRCallTEBC, INT2PTR(TCL_NR_YIELD_TYPE),
 	    NULL, NULL, NULL);
     return TCL_OK;
+}
+
+int
+TclNRYieldmObjCmd(
+    ClientData clientData,
+    Tcl_Interp *interp,
+    int objc,
+    Tcl_Obj *const objv[])
+{
+    CoroutineData *corPtr = iPtr->execEnvPtr->corPtr;
+    int result;
+
+    if (!corPtr) {
+	Tcl_SetResult(interp, "yieldm can only be called in a coroutine",
+		TCL_STATIC);
+	Tcl_SetErrorCode(interp, "TCL", "COROUTINE", "ILLEGAL_YIELD", NULL);
+	return TCL_ERROR;
+    }
+
+    result = TclNRYieldObjCmd(clientData, interp, objc, objv);
+    corPtr->nargs = COROUTINE_ARGUMENTS_ARBITRARY;
+    return result;
 }
 
 int
@@ -8489,8 +8530,6 @@ TclNRYieldToObjCmd(
     Tcl_Obj *const objv[])
 {
     CoroutineData *corPtr = iPtr->execEnvPtr->corPtr;
-    int numLevels = iPtr->numLevels;
-
     Tcl_Obj *listPtr, *nsObjPtr;
     Tcl_Namespace *nsPtr = (Tcl_Namespace *) iPtr->varFramePtr->nsPtr;
     Tcl_Namespace *ns1Ptr;
@@ -8507,10 +8546,9 @@ TclNRYieldToObjCmd(
 	return TCL_ERROR;
     }
 
-    iPtr->numLevels = corPtr->auxNumLevels;
-    corPtr->auxNumLevels = numLevels - corPtr->auxNumLevels;
-
     /*
+     * Add the tailcall in the caller env, then just yield.
+     *
      * This is essentially code from TclNRTailcallObjCmd
      */
 
@@ -8525,7 +8563,7 @@ TclNRYieldToObjCmd(
     Tcl_IncrRefCount(nsObjPtr);
 
     /*
-     * Add the callback in the caller's env, then instruct TEBC to yield
+     * Add the callback in the caller's env, then instruct TEBC to yield.
      */
 
     iPtr->execEnvPtr = corPtr->callerEEPtr;
@@ -8533,9 +8571,7 @@ TclNRYieldToObjCmd(
 	    NULL);
     iPtr->execEnvPtr = corPtr->eePtr;
 
-    TclNRAddCallback(interp, NRCallTEBC, INT2PTR(TCL_NR_YIELD_TYPE),
-	    NULL, NULL, NULL);
-    return TCL_OK;
+    return TclNRYieldObjCmd(clientData, interp, objc-1, objv+1);
 }
 
 static int
@@ -8547,15 +8583,17 @@ YieldToCallback(
     /* CoroutineData *corPtr = data[0];*/
     Tcl_Obj *listPtr = data[1];
     ClientData nsPtr = data[2];
-
-    /* yieldTo: invoke the command using tailcall tech */
     TEOV_callback *cbPtr;
+
+    /*
+     * yieldTo: invoke the command using tailcall tech.
+     */
 
     TclNRAddCallback(interp, NRTailcallEval, listPtr, nsPtr, NULL, NULL);
     cbPtr = TOP_CB(interp);
     TOP_CB(interp) = cbPtr->nextPtr;
 
-    TclSpliceTailcall(interp, cbPtr);
+    TclSpliceTailcall(interp, cbPtr, 0);
     return TCL_OK;
 }
 
@@ -8672,6 +8710,7 @@ NRCoroutineExitCallback(
     TclCleanupCommandMacro(cmdPtr);
 
     corPtr->eePtr->corPtr = NULL;
+    TclPopStackFrame(interp);
     TclDeleteExecEnv(corPtr->eePtr);
     corPtr->eePtr = NULL;
 
@@ -8706,15 +8745,6 @@ NRInterpCoroutine(
     CoroutineData *corPtr = clientData;
     int nestNumLevels = corPtr->auxNumLevels;
 
-    /*
-     * objc==0 indicates a call to rewind the coroutine
-     */
-
-    if (objc > 2) {
-	Tcl_WrongNumArgs(interp, 1, objv, "?arg?");
-	return TCL_ERROR;
-    }
-
     if (!COR_IS_SUSPENDED(corPtr)) {
 	Tcl_ResetResult(interp);
 	Tcl_AppendResult(interp, "coroutine \"", Tcl_GetString(objv[0]),
@@ -8724,16 +8754,44 @@ NRInterpCoroutine(
     }
 
     /*
+     * Parse all the arguments to work out what to feed as the result of the
+     * [yield]. TRICKY POINT: objc==0 happens here! It occurs when a coroutine
+     * is deleted!
+     */
+
+    switch (corPtr->nargs) {
+    case COROUTINE_ARGUMENTS_SINGLE_OPTIONAL:
+        if (objc == 2) {
+            Tcl_SetObjResult(interp, objv[1]);
+        } else if (objc > 2) {
+            Tcl_WrongNumArgs(interp, 1, objv, "?arg?");
+            return TCL_ERROR;
+        }
+        break;
+    default:
+        if (corPtr->nargs != objc-1) {
+            Tcl_SetObjResult(interp,
+                    Tcl_NewStringObj("wrong coro nargs; how did we get here? "
+                    "not implemented!", -1));
+            Tcl_SetErrorCode(interp, "TCL", "WRONGARGS", NULL);
+            return TCL_ERROR;
+        }
+        /* fallthrough */
+    case COROUTINE_ARGUMENTS_ARBITRARY:
+        if (objc > 1) {
+            Tcl_SetObjResult(interp, Tcl_NewListObj(objc-1, objv+1));
+        }
+        break;
+    }
+
+    /*
      * Swap the interp's environment to make it suitable to run this
      * coroutine. TEBC needs no info to resume executing after a suspension:
      * the codePtr will be read from the execEnv's saved bottomPtr.
      */
 
-    if (objc == 2) {
-	Tcl_SetObjResult(interp, objv[1]);
-    }
-
     SAVE_CONTEXT(corPtr->caller);
+    corPtr->base.framePtr->callerPtr = iPtr->framePtr;
     RESTORE_CONTEXT(corPtr->running);
     corPtr->auxNumLevels = iPtr->numLevels;
     iPtr->numLevels += nestNumLevels;
@@ -8763,6 +8821,8 @@ TclNRCoroutineObjCmd(
     const char *procName;
     Namespace *nsPtr, *altNsPtr, *cxtNsPtr;
     Tcl_DString ds;
+    Tcl_CallFrame *framePtr;
+    
 
     if (objc < 3) {
 	Tcl_WrongNumArgs(interp, 1, objv, "name cmd ?arg ...?");
@@ -8866,11 +8926,31 @@ TclNRCoroutineObjCmd(
     }
 
     /*
+     * Create the coro's execEnv and switch to it so that any CallFrames or
+     * callbacks refer to the new execEnv's stack. 
+     */
+
+    corPtr->eePtr = TclCreateExecEnv(interp, CORO_STACK_INITIAL_SIZE);
+    corPtr->callerEEPtr = iPtr->execEnvPtr;
+    corPtr->eePtr->corPtr = corPtr;
+    iPtr->execEnvPtr = corPtr->eePtr;
+
+    /* push a base call frame; save the current namespace to do a correct
+     * command lookup.
+     */
+
+    nsPtr = iPtr->varFramePtr->nsPtr;
+    TclPushStackFrame(interp, &framePtr,
+	    (Tcl_Namespace *) iPtr->globalNsPtr, 0);
+    iPtr->varFramePtr = iPtr->rootFramePtr;
+    
+    /*
      * Save the base context. The base cmdFramePtr is unknown at this time: it
      * will be allocated in the Tcl stack. So signal TEBC that it has to
      * initialize the base cmdFramePtr by setting it to NULL.
      */
 
+    SAVE_CONTEXT(corPtr->base);
     corPtr->base.cmdFramePtr = NULL;
     corPtr->running = NULL_CONTEXT;
     corPtr->stackLevel = NULL;
@@ -8887,22 +8967,14 @@ TclNRCoroutineObjCmd(
     TclFreeIntRep(cmdObjPtr);
     cmdObjPtr->typePtr = NULL;
 
-
     /*
-     * Create the coro's execEnv and switch to it so that any CallFrames or
-     * callbacks refer to the new execEnv's stack. Add the exit callback, then
-     * the callback to eval the coro body.
+     * Add the exit callback, then the callback to eval the coro body
      */
-
-    corPtr->eePtr = TclCreateExecEnv(interp, CORO_STACK_INITIAL_SIZE);
-    corPtr->callerEEPtr = iPtr->execEnvPtr;
-    corPtr->eePtr->corPtr = corPtr;
-    iPtr->execEnvPtr = corPtr->eePtr;
 
     TclNRAddCallback(interp, NRCoroutineExitCallback, corPtr,
 	    NULL, NULL, NULL);
     iPtr->evalFlags |= TCL_EVAL_REDIRECT;
-    iPtr->lookupNsPtr = iPtr->varFramePtr->nsPtr;    
+    iPtr->lookupNsPtr = nsPtr;
     TclNREvalObjEx(interp, cmdObjPtr, 0, NULL, 0);
 
     return TCL_OK;
@@ -8943,5 +9015,7 @@ TclInfoCoroutineCmd(
  * mode: c
  * c-basic-offset: 4
  * fill-column: 78
+ * tab-width: 8
+ * indent-tabs-mode: nil
  * End:
  */

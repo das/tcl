@@ -169,6 +169,19 @@ test error-4.5 {errorInfo and errorCode variables} {
     list [catch {error msg1 msg2 {}} msg] $msg $::errorInfo $::errorCode
 } {1 msg1 msg2 {}}
 
+test error-4.6 {errorstack via info } -body {
+    proc f x {g $x$x}
+    proc g x {error G:$x}
+    catch {f 12}
+    info errorstack
+} -match glob -result {CALL {g 1212} CALL {f 12} UP 1}
+test error-4.7 {errorstack via options dict } -body {
+    proc f x {g $x$x}
+    proc g x {error G:$x}
+    catch {f 12} m d
+    dict get $d -errorstack
+} -match glob -result {CALL {g 1212} CALL {f 12} UP 1}
+
 # Errors in error command itself
 
 test error-5.1 {errors in error command} {
@@ -223,6 +236,15 @@ test error-6.9 {catch must reset error state} {
     catch foo
     list $::errorCode
 } {NONE}
+test error-6.10 {catch must reset errorstack} -body {
+	proc f x {g $x$x}
+	proc g x {error G:$x}
+	catch {f 12}
+	set e1 [info errorstack]
+	catch {f 13}
+	set e2 [info errorstack]
+	list $e1 $e2
+} -match glob -result {{CALL {g 1212} CALL {f 12} UP 1} {CALL {g 1313} CALL {f 13} UP 1}}
 
 test error-7.1 {Bug 1397843} -body {
     variable cmds
@@ -873,6 +895,23 @@ test error-19.9 {compiled try executes all clauses} -setup {
 } -cleanup {
     unset RES
 } -result {a c d}
+test error-19.10 {compiled try with chained clauses} -setup {
+    set RES {}
+} -body {
+    list [apply {{} {
+	try {
+	    return good
+	} on return {res} - on ok {res} {
+	    addmsg ok
+	    addmsg $res
+	    return handler
+	} finally {
+	    addmsg finally
+	}
+    } ::tcl::test::error}] $RES
+} -cleanup {
+    unset RES
+} -result {handler {ok good finally}}
 rename addmsg {}
 
 # FIXME test what vars get set on fallthough ... what is the correct behavior?
@@ -882,11 +921,11 @@ rename addmsg {}
 # negative case try tests - bad "on" handler
 
 test error-20.1 {bad code name in on handler} -body {
-    try { list a b c } on foo {} {}
-} -returnCodes error -match glob -result {bad completion code *}
+    try { list a b c } on err {} {}
+} -returnCodes error -match glob -result {bad completion code "err": must be ok, error, return, break, continue*, or an integer}
 test error-20.2 {bad code value in on handler} -body {
     try { list a b c } on 34985723094872345 {} {}
-} -returnCodes error -match glob -result {bad completion code *}
+} -returnCodes error -match glob -result {bad completion code "34985723094872345": must be ok, error, return, break, continue*, or an integer}
 
 test error-21.1 {memory leaks in try: Bug 2910044} memory {
     leaktest {

@@ -17,18 +17,18 @@
 #		TCL_BIN_DIR	Full path to the tclConfig.sh file
 #------------------------------------------------------------------------
 
-AC_DEFUN(SC_PATH_TCLCONFIG, [
+AC_DEFUN([SC_PATH_TCLCONFIG], [
     AC_MSG_CHECKING([the location of tclConfig.sh])
 
-    if test -d ../../tcl8.5$1/win;  then
-	TCL_BIN_DIR_DEFAULT=../../tcl8.5$1/win
-    elif test -d ../../tcl8.5/win;  then
-	TCL_BIN_DIR_DEFAULT=../../tcl8.5/win
+    if test -d ../../tcl8.6$1/win;  then
+	TCL_BIN_DIR_DEFAULT=../../tcl8.6$1/win
+    elif test -d ../../tcl8.6/win;  then
+	TCL_BIN_DIR_DEFAULT=../../tcl8.6/win
     else
 	TCL_BIN_DIR_DEFAULT=../../tcl/win
     fi
     
-    AC_ARG_WITH(tcl, [  --with-tcl=DIR          use Tcl 8.5 binaries from DIR],
+    AC_ARG_WITH(tcl, [  --with-tcl=DIR          use Tcl 8.6 binaries from DIR],
 	    TCL_BIN_DIR=$withval, TCL_BIN_DIR=`cd $TCL_BIN_DIR_DEFAULT; pwd`)
     if test ! -d $TCL_BIN_DIR; then
 	AC_MSG_ERROR(Tcl directory $TCL_BIN_DIR does not exist)
@@ -57,18 +57,18 @@ AC_DEFUN(SC_PATH_TCLCONFIG, [
 #		TK_BIN_DIR	Full path to the tkConfig.sh file
 #------------------------------------------------------------------------
 
-AC_DEFUN(SC_PATH_TKCONFIG, [
+AC_DEFUN([SC_PATH_TKCONFIG], [
     AC_MSG_CHECKING([the location of tkConfig.sh])
 
-    if test -d ../../tk8.5$1/win;  then
-	TK_BIN_DIR_DEFAULT=../../tk8.5$1/win
-    elif test -d ../../tk8.5/win;  then
-	TK_BIN_DIR_DEFAULT=../../tk8.5/win
+    if test -d ../../tk8.6$1/win;  then
+	TK_BIN_DIR_DEFAULT=../../tk8.6$1/win
+    elif test -d ../../tk8.6/win;  then
+	TK_BIN_DIR_DEFAULT=../../tk8.6/win
     else
 	TK_BIN_DIR_DEFAULT=../../tk/win
     fi
     
-    AC_ARG_WITH(tk, [  --with-tk=DIR          use Tk 8.5 binaries from DIR],
+    AC_ARG_WITH(tk, [  --with-tk=DIR          use Tk 8.6 binaries from DIR],
 	    TK_BIN_DIR=$withval, TK_BIN_DIR=`cd $TK_BIN_DIR_DEFAULT; pwd`)
     if test ! -d $TK_BIN_DIR; then
 	AC_MSG_ERROR(Tk directory $TK_BIN_DIR does not exist)
@@ -99,7 +99,7 @@ AC_DEFUN(SC_PATH_TKCONFIG, [
 #
 #------------------------------------------------------------------------
 
-AC_DEFUN(SC_LOAD_TCLCONFIG, [
+AC_DEFUN([SC_LOAD_TCLCONFIG], [
     AC_MSG_CHECKING([for existence of $TCL_BIN_DIR/tclConfig.sh])
 
     if test -f "$TCL_BIN_DIR/tclConfig.sh" ; then
@@ -168,7 +168,7 @@ AC_DEFUN(SC_LOAD_TCLCONFIG, [
 #		TK_BIN_DIR
 #------------------------------------------------------------------------
 
-AC_DEFUN(SC_LOAD_TKCONFIG, [
+AC_DEFUN([SC_LOAD_TKCONFIG], [
     AC_MSG_CHECKING([for existence of $TK_BIN_DIR/tkConfig.sh])
 
     if test -f "$TK_BIN_DIR/tkConfig.sh" ; then
@@ -205,7 +205,7 @@ AC_DEFUN(SC_LOAD_TKCONFIG, [
 #		SHARED_BUILD	Value of 1 or 0
 #------------------------------------------------------------------------
 
-AC_DEFUN(SC_ENABLE_SHARED, [
+AC_DEFUN([SC_ENABLE_SHARED], [
     AC_MSG_CHECKING([how to build libraries])
     AC_ARG_ENABLE(shared,
 	[  --enable-shared         build and link with shared libraries [--enable-shared]],
@@ -245,10 +245,10 @@ AC_DEFUN(SC_ENABLE_SHARED, [
 #		TCL_THREADS
 #------------------------------------------------------------------------
 
-AC_DEFUN(SC_ENABLE_THREADS, [
+AC_DEFUN([SC_ENABLE_THREADS], [
     AC_MSG_CHECKING(for building with threads)
     AC_ARG_ENABLE(threads, [  --enable-threads        build with threads],
-	[tcl_ok=$enableval], [tcl_ok=no])
+	[tcl_ok=$enableval], [tcl_ok=yes])
 
     if test "$tcl_ok" = "yes"; then
 	AC_MSG_RESULT(yes)
@@ -257,12 +257,9 @@ AC_DEFUN(SC_ENABLE_THREADS, [
 	# USE_THREAD_ALLOC tells us to try the special thread-based
 	# allocator that significantly reduces lock contention
 	AC_DEFINE(USE_THREAD_ALLOC)
-	# USE_THREAD_STORAGE tells us to use the new generic thread 
-	# storage subsystem. 
-	AC_DEFINE(USE_THREAD_STORAGE)
     else
 	TCL_THREADS=0
-	AC_MSG_RESULT([no (default)])
+	AC_MSG_RESULT(no)
     fi
     AC_SUBST(TCL_THREADS)
 ])
@@ -295,7 +292,7 @@ AC_DEFUN(SC_ENABLE_THREADS, [
 #
 #------------------------------------------------------------------------
 
-AC_DEFUN(SC_ENABLE_SYMBOLS, [
+AC_DEFUN([SC_ENABLE_SYMBOLS], [
     AC_MSG_CHECKING([for build with symbols])
     AC_ARG_ENABLE(symbols, [  --enable-symbols        build with debugging symbols [--disable-symbols]],    [tcl_ok=$enableval], [tcl_ok=no])
 # FIXME: Currently, LDFLAGS_DEFAULT is not used, it should work like CFLAGS_DEFAULT.
@@ -376,6 +373,7 @@ AC_DEFUN(SC_ENABLE_SYMBOLS, [
 #		MAKE_DLL
 #
 #		LIBSUFFIX
+#		LIBFLAGSUFFIX
 #		LIBPREFIX
 #		LIBRARIES
 #		EXESUFFIX
@@ -383,13 +381,24 @@ AC_DEFUN(SC_ENABLE_SYMBOLS, [
 #
 #--------------------------------------------------------------------
 
-AC_DEFUN(SC_CONFIG_CFLAGS, [
+AC_DEFUN([SC_CONFIG_CFLAGS], [
 
     # Step 0: Enable 64 bit support?
 
     AC_MSG_CHECKING([if 64bit support is requested])
     AC_ARG_ENABLE(64bit,[  --enable-64bit          enable 64bit support (where applicable)], [do64bit=$enableval], [do64bit=no])
     AC_MSG_RESULT($do64bit)
+
+    # Cross-compiling options for Windows/CE builds
+
+    AC_MSG_CHECKING([if Windows/CE build is requested])
+    AC_ARG_ENABLE(wince,[  --enable-wince          enable Win/CE support (where applicable)], [doWince=$enableval], [doWince=no])
+    AC_MSG_RESULT($doWince)
+
+    AC_MSG_CHECKING([for Windows/CE celib directory])
+    AC_ARG_WITH(celib,[  --with-celib=DIR        use Windows/CE support library from DIR],
+	    CELIB_DIR=$withval, CELIB_DIR=NO_CELIB)
+    AC_MSG_RESULT([$CELIB_DIR])
 
     # Set some defaults (may get changed below)
     EXTRA_CFLAGS=""
@@ -423,6 +432,22 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	cyg_conftest=
     fi
 
+    AC_CACHE_CHECK(for Cygwin version of gcc,
+        ac_cv_cygwin,
+    AC_TRY_COMPILE([
+    #ifdef __CYGWIN__
+    #error cygwin
+    #endif
+    ],
+    [],
+        ac_cv_cygwin=no,
+        ac_cv_cygwin=yes)
+    )
+    if test "$ac_cv_cygwin" = "yes" ; then
+    AC_MSG_WARN([Compiling under Cygwin is not currently supported.
+If you are not sure you want this, see the README
+file for information about building with Mingw.])
+    fi
     if test "$CYGPATH" = "echo" || test "$ac_cv_cygwin" = "yes"; then
         DEPARG='"$<"'
     else
@@ -433,13 +458,14 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 
     AC_MSG_CHECKING([compiler flags])
     if test "${GCC}" = "yes" ; then
-	if test "$do64bit" = "yes" ; then
-	    AC_MSG_WARN("64bit mode not supported with GCC on Windows")
+	if test "$do64bit" != "no" ; then
+	    AC_MSG_WARN([64bit mode not supported with GCC on Windows])
 	fi
 	SHLIB_LD=""
-	SHLIB_LD_LIBS=""
-	LIBS=""
-	LIBS_GUI="-lgdi32 -lcomdlg32 -limm32 -lcomctl32 -lshell32 -lole32 -loleaut32 -luuid"
+	SHLIB_LD_LIBS='${LIBS}'
+	LIBS="-lws2_32"
+	# mingw needs to link ole32 and oleaut32 for [send], but MSVC doesn't
+	LIBS_GUI="-lgdi32 -lcomdlg32 -limm32 -lcomctl32 -lshell32 -luuid -lole32 -loleaut32"
 	STLIB_LD='${AR} cr'
 	RC_OUT=-o
 	RC_TYPE=
@@ -451,13 +477,8 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	MAKE_EXE="\${CC} -o \[$]@"
 	LIBPREFIX="lib"
 
-	#if test "$ac_cv_cygwin" = "yes"; then
-	#    extra_cflags="-mno-cygwin"
-	#    extra_ldflags="-mno-cygwin"
-	#else
-	#    extra_cflags=""
-	#    extra_ldflags=""
-	#fi
+	extra_cflags="-pipe"
+	extra_ldflags="-pipe"
 
 	if test "$ac_cv_cygwin" = "yes"; then
 	  touch ac$$.c
@@ -472,18 +493,12 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	    esac
 	  fi
 	  rm -f ac$$.o ac$$.c
-	else
-	  extra_cflags=''
-	  extra_ldflags=''
 	fi
 
 	if test "${SHARED_BUILD}" = "0" ; then
 	    # static
             AC_MSG_RESULT([using static flags])
 	    runtime=
-	    MAKE_DLL="echo "
-	    LIBSUFFIX="s\${DBGX}.a"
-	    LIBFLAGSUFFIX="s\${DBGX}"
 	    LIBRARIES="\${STATIC_LIBRARIES}"
 	    EXESUFFIX="s\${DBGX}.exe"
 	else
@@ -497,30 +512,30 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	    fi
 
 	    runtime=
-	    # Link with gcc since ld does not link to default libs like
-	    # -luser32 and -lmsvcrt by default. Make sure CFLAGS is
-	    # included so -mno-cygwin passed the correct libs to the linker.
-	    SHLIB_LD='${CC} -shared ${CFLAGS}'
-	    SHLIB_LD_LIBS='${LIBS}'
 	    # Add SHLIB_LD_LIBS to the Make rule, not here.
-	    MAKE_DLL="\${SHLIB_LD} \$(LDFLAGS) -o \[$]@ ${extra_ldflags} \
-	        -Wl,--out-implib,\$(patsubst %.dll,lib%.a,\[$]@)"
 
-	    LIBSUFFIX="\${DBGX}.a"
-	    LIBFLAGSUFFIX="\${DBGX}"
 	    EXESUFFIX="\${DBGX}.exe"
 	    LIBRARIES="\${SHARED_LIBRARIES}"
 	fi
+	# Link with gcc since ld does not link to default libs like
+	# -luser32 and -lmsvcrt by default. Make sure CFLAGS is
+	# included so -mno-cygwin passed the correct libs to the linker.
+	SHLIB_LD='${CC} -shared ${CFLAGS}'
+	SHLIB_LD_LIBS='${LIBS}'
+	MAKE_DLL="\${SHLIB_LD} \$(LDFLAGS) -o \[$]@ ${extra_ldflags} \
+	    -Wl,--out-implib,\$(patsubst %.dll,lib%.a,\[$]@)"
 	# DLLSUFFIX is separate because it is the building block for
 	# users of tclConfig.sh that may build shared or static.
 	DLLSUFFIX="\${DBGX}.dll"
+	LIBSUFFIX="\${DBGX}.a"
+	LIBFLAGSUFFIX="\${DBGX}"
 	SHLIB_SUFFIX=.dll
 
 	EXTRA_CFLAGS="${extra_cflags}"
 
 	CFLAGS_DEBUG=-g
 	CFLAGS_OPTIMIZE="-O2 -fomit-frame-pointer"
-	CFLAGS_WARNING="-Wall -Wconversion"
+	CFLAGS_WARNING="-Wall"
 	LDFLAGS_DEBUG=
 	LDFLAGS_OPTIMIZE=
 
@@ -544,62 +559,82 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	#LDFLAGS_WINDOW="-mwindows -e _WinMain@16 ${extra_ldflags}"
 	LDFLAGS_CONSOLE="-mconsole ${extra_ldflags}"
 	LDFLAGS_WINDOW="-mwindows ${extra_ldflags}"
+
+	# gcc under Windows supports only 32bit builds
+	MACHINE="X86"
     else
 	if test "${SHARED_BUILD}" = "0" ; then
 	    # static
             AC_MSG_RESULT([using static flags])
 	    runtime=-MT
-	    MAKE_DLL="echo "
-	    LIBSUFFIX="s\${DBGX}.lib"
-	    LIBFLAGSUFFIX="s\${DBGX}"
 	    LIBRARIES="\${STATIC_LIBRARIES}"
 	    EXESUFFIX="s\${DBGX}.exe"
-	    SHLIB_LD_LIBS=""
 	else
 	    # dynamic
             AC_MSG_RESULT([using shared flags])
 	    runtime=-MD
 	    # Add SHLIB_LD_LIBS to the Make rule, not here.
-	    MAKE_DLL="\${SHLIB_LD} \$(LDFLAGS) -out:\[$]@"
-	    LIBSUFFIX="\${DBGX}.lib"
-	    LIBFLAGSUFFIX="\${DBGX}"
-	    EXESUFFIX="\${DBGX}.exe"
 	    LIBRARIES="\${SHARED_LIBRARIES}"
-	    SHLIB_LD_LIBS='${LIBS}'
+	    EXESUFFIX="\${DBGX}.exe"
 	fi
+	MAKE_DLL="\${SHLIB_LD} \$(LDFLAGS) -out:\[$]@"
 	# DLLSUFFIX is separate because it is the building block for
 	# users of tclConfig.sh that may build shared or static.
 	DLLSUFFIX="\${DBGX}.dll"
+	LIBSUFFIX="\${DBGX}.lib"
+	LIBFLAGSUFFIX="\${DBGX}"
 
-	# This is a 2-stage check to make sure we have the 64-bit SDK
-	# We have to know where the SDK is installed.
-	if test "$do64bit" = "yes" ; then
+ 	# This is a 2-stage check to make sure we have the 64-bit SDK
+ 	# We have to know where the SDK is installed.
+	# This magic is based on MS Platform SDK for Win2003 SP1 - hobbs
+	# MACHINE is IX86 for LINK, but this is used by the manifest,
+	# which requires x86|amd64|ia64.
+	MACHINE="X86"
+	if test "$do64bit" != "no" ; then
 	    if test "x${MSSDK}x" = "xx" ; then
-		MSSDK="C:/Progra~1/Microsoft SDK"
+		MSSDK="C:/Progra~1/Microsoft Platform SDK"
 	    fi
-	    # In order to work in the tortured autoconf environment,
-	    # we need to ensure that this path has no spaces
-	    MSSDK=$(cygpath -w -s "$MSSDK" | sed -e 's!\\!/!g')
-	    if test ! -d "${MSSDK}/bin/win64" ; then
-		AC_MSG_WARN("could not find 64-bit SDK to enable 64bit mode")
+	    MSSDK=`echo "$MSSDK" | sed -e 's!\\\!/!g'`
+	    PATH64=""
+	    case "$do64bit" in
+	      amd64|x64|yes)
+		MACHINE="AMD64" ; # assume AMD64 as default 64-bit build
+		PATH64="${MSSDK}/Bin/Win64/x86/AMD64"
+		;;
+	      ia64)
+		MACHINE="IA64"
+		PATH64="${MSSDK}/Bin/Win64"
+		;;
+	    esac
+	    if test ! -d "${PATH64}" ; then
+		AC_MSG_WARN([Could not find 64-bit $MACHINE SDK to enable 64bit mode])
+		AC_MSG_WARN([Ensure latest Platform SDK is installed])
 		do64bit="no"
+	    else
+		AC_MSG_RESULT([   Using 64-bit $MACHINE mode])
 	    fi
 	fi
 
-	if test "$do64bit" = "yes" ; then
-	    # All this magic is necessary for the Win64 SDK RC1 - hobbs
-	    CC="${MSSDK}/Bin/Win64/cl.exe \
-	-I${MSSDK}/Include/prerelease \
-	-I${MSSDK}/Include/Win64/crt \
-	-I${MSSDK}/Include/Win64/crt/sys \
-	-I${MSSDK}/Include"
-	    RC="${MSSDK}/bin/rc.exe"
+	LIBS="user32.lib advapi32.lib ws2_32.lib"
+	if test "$do64bit" != "no" ; then
+	    # The space-based-path will work for the Makefile, but will
+	    # not work if AC_TRY_COMPILE is called.  TEA has the
+	    # TEA_PATH_NOSPACE to avoid this issue.
+	    # Check if _WIN64 is already recognized, and if so we don't
+	    # need to modify CC.
+	    AC_CHECK_DECL([_WIN64], [],
+			  [CC="\"${PATH64}/cl.exe\" -I\"${MSSDK}/Include\" \
+			 -I\"${MSSDK}/Include/crt\" \
+			 -I\"${MSSDK}/Include/crt/sys\""])
+	    RC="\"${MSSDK}/bin/rc.exe\""
 	    CFLAGS_DEBUG="-nologo -Zi -Od ${runtime}d"
-	    CFLAGS_OPTIMIZE="-nologo -O2 ${runtime}"
-	    lflags="-MACHINE:IA64 -LIBPATH:${MSSDK}/Lib/IA64 \
-	-LIBPATH:${MSSDK}/Lib/Prerelease/IA64"
-	    STLIB_LD="${MSSDK}/bin/win64/lib.exe -nologo ${lflags}"
-	    LINKBIN="${MSSDK}/bin/win64/link.exe ${lflags}"
+	    # Do not use -O2 for Win64 - this has proved buggy in code gen.
+	    CFLAGS_OPTIMIZE="-nologo -O1 ${runtime}"
+	    lflags="-nologo -MACHINE:${MACHINE} -LIBPATH:\"${MSSDK}/Lib/${MACHINE}\""
+	    LINKBIN="\"${PATH64}/link.exe\""
+	    # Avoid 'unresolved external symbol __security_cookie' errors.
+	    # c.f. http://support.microsoft.com/?id=894573
+	    LIBS="$LIBS bufferoverflowU.lib"
 	else
 	    RC="rc"
 	    # -Od - no optimization
@@ -607,13 +642,107 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	    CFLAGS_DEBUG="-nologo -Z7 -Od -WX ${runtime}d"
 	    # -O2 - create fast code (/Og /Oi /Ot /Oy /Ob2 /Gs /GF /Gy)
 	    CFLAGS_OPTIMIZE="-nologo -O2 ${runtime}"
-	    STLIB_LD="link -lib -nologo"
+	    lflags="-nologo"
 	    LINKBIN="link"
 	fi
 
-	SHLIB_LD="${LINKBIN} -dll -nologo -incremental:no"
-	LIBS="user32.lib advapi32.lib"
-	LIBS_GUI="gdi32.lib comdlg32.lib imm32.lib comctl32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib"
+	if test "$doWince" != "no" ; then
+	    # Set defaults for common evc4/PPC2003 setup
+	    # Currently Tcl requires 300+, possibly 420+ for sockets
+	    CEVERSION=420; 		# could be 211 300 301 400 420 ...
+	    TARGETCPU=ARMV4;	# could be ARMV4 ARM MIPS SH3 X86 ...
+	    ARCH=ARM;		# could be ARM MIPS X86EM ...
+	    PLATFORM="Pocket PC 2003"; # or "Pocket PC 2002"
+	    if test "$doWince" != "yes"; then
+		# If !yes then the user specified something
+		# Reset ARCH to allow user to skip specifying it
+		ARCH=
+		eval `echo $doWince | awk -F "," '{ \
+	if (length([$]1)) { printf "CEVERSION=\"%s\"\n", [$]1; \
+	if ([$]1 < 400)	  { printf "PLATFORM=\"Pocket PC 2002\"\n" } }; \
+	if (length([$]2)) { printf "TARGETCPU=\"%s\"\n", toupper([$]2) }; \
+	if (length([$]3)) { printf "ARCH=\"%s\"\n", toupper([$]3) }; \
+	if (length([$]4)) { printf "PLATFORM=\"%s\"\n", [$]4 }; \
+		}'`
+		if test "x${ARCH}" = "x" ; then
+		    ARCH=$TARGETCPU;
+		fi
+	    fi
+	    OSVERSION=WCE$CEVERSION;
+	    if test "x${WCEROOT}" = "x" ; then
+		WCEROOT="C:/Program Files/Microsoft eMbedded C++ 4.0"
+		if test ! -d "${WCEROOT}" ; then
+		    WCEROOT="C:/Program Files/Microsoft eMbedded Tools"
+		fi
+	    fi
+	    if test "x${SDKROOT}" = "x" ; then
+		SDKROOT="C:/Program Files/Windows CE Tools"
+		if test ! -d "${SDKROOT}" ; then
+		    SDKROOT="C:/Windows CE Tools"
+		fi
+	    fi
+	    # The space-based-path will work for the Makefile, but will
+	    # not work if AC_TRY_COMPILE is called.
+	    WCEROOT=`echo "$WCEROOT" | sed -e 's!\\\!/!g'`
+	    SDKROOT=`echo "$SDKROOT" | sed -e 's!\\\!/!g'`
+	    CELIB_DIR=`echo "$CELIB_DIR" | sed -e 's!\\\!/!g'`
+	    if test ! -d "${CELIB_DIR}/inc"; then
+		AC_MSG_ERROR([Invalid celib directory "${CELIB_DIR}"])
+	    fi
+	    if test ! -d "${SDKROOT}/${OSVERSION}/${PLATFORM}/Lib/${TARGETCPU}"\
+		-o ! -d "${WCEROOT}/EVC/${OSVERSION}/bin"; then
+		AC_MSG_ERROR([could not find PocketPC SDK or target compiler to enable WinCE mode [$CEVERSION,$TARGETCPU,$ARCH,$PLATFORM]])
+	    else
+		CEINCLUDE="${SDKROOT}/${OSVERSION}/${PLATFORM}/include"
+		if test -d "${CEINCLUDE}/${TARGETCPU}" ; then
+		    CEINCLUDE="${CEINCLUDE}/${TARGETCPU}"
+		fi
+		CELIBPATH="${SDKROOT}/${OSVERSION}/${PLATFORM}/Lib/${TARGETCPU}"
+	    fi
+	fi
+
+	if test "$doWince" != "no" ; then
+	    CEBINROOT="${WCEROOT}/EVC/${OSVERSION}/bin"
+	    if test "${TARGETCPU}" = "X86"; then
+		CC="${CEBINROOT}/cl.exe"
+	    else
+		CC="${CEBINROOT}/cl${ARCH}.exe"
+	    fi
+	    CC="\"${CC}\" -I\"${CELIB_DIR}/inc\" -I\"${CEINCLUDE}\""
+	    RC="\"${WCEROOT}/Common/EVC/bin/rc.exe\""
+	    arch=`echo ${ARCH} | awk '{print tolower([$]0)}'`
+	    defs="${ARCH} _${ARCH}_ ${arch} PALM_SIZE _MT _DLL _WINDOWS"
+	    for i in $defs ; do
+		AC_DEFINE_UNQUOTED($i)
+	    done
+#	    if test "${ARCH}" = "X86EM"; then
+#		AC_DEFINE_UNQUOTED(_WIN32_WCE_EMULATION)
+#	    fi
+	    AC_DEFINE_UNQUOTED(_WIN32_WCE, $CEVERSION)
+	    AC_DEFINE_UNQUOTED(UNDER_CE, $CEVERSION)
+	    CFLAGS_DEBUG="-nologo -Zi -Od"
+	    CFLAGS_OPTIMIZE="-nologo -O2"
+	    lversion=`echo ${CEVERSION} | sed -e 's/\(.\)\(..\)/\1\.\2/'`
+	    lflags="-nodefaultlib -MACHINE:${ARCH} -LIBPATH:\"${CELIBPATH}\" -subsystem:windowsce,${lversion} -nologo"
+	    LINKBIN="\"${CEBINROOT}/link.exe\""
+	    AC_SUBST(CELIB_DIR)
+	    if test "${CEVERSION}" -lt 400 ; then
+		LIBS="coredll.lib corelibc.lib winsock.lib"
+	    else
+		LIBS="coredll.lib corelibc.lib ws2.lib"
+	    fi
+	    # celib currently stuck at wce300 status
+	    #LIBS="$LIBS \${CELIB_DIR}/wince-${ARCH}-pocket-${OSVERSION}-release/celib.lib"
+	    LIBS="$LIBS \"\${CELIB_DIR}/wince-${ARCH}-pocket-wce300-release/celib.lib\""
+	    LIBS_GUI="commctrl.lib commdlg.lib"
+	else
+	    LIBS_GUI="gdi32.lib comdlg32.lib imm32.lib comctl32.lib shell32.lib uuid.lib"
+	fi
+
+	SHLIB_LD="${LINKBIN} -dll -incremental:no ${lflags}"
+	SHLIB_LD_LIBS='${LIBS}'
+	# link -lib only works when -lib is the first arg
+	STLIB_LD="${LINKBIN} -lib ${lflags}"
 	RC_OUT=-fo
 	RC_TYPE=-r
 	RC_INCLUDE=-i
@@ -624,9 +753,12 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 	MAKE_EXE="\${CC} -Fe\[$]@"
 	LIBPREFIX=""
 
+	CFLAGS_DEBUG="${CFLAGS_DEBUG} -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE"
+	CFLAGS_OPTIMIZE="${CFLAGS_OPTIMIZE} -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE"
+
 	EXTRA_CFLAGS=""
 	CFLAGS_WARNING="-W3"
-	LDFLAGS_DEBUG="-debug:full -debugtype:both"
+	LDFLAGS_DEBUG="-debug:full"
 	LDFLAGS_OPTIMIZE="-release"
 	
 	# Specify the CC output file names based on the target name
@@ -635,11 +767,16 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 
 	# Specify linker flags depending on the type of app being 
 	# built -- Console vs. Window.
-	LDFLAGS_CONSOLE="-link -subsystem:console ${lflags}"
-	LDFLAGS_WINDOW="-link -subsystem:windows ${lflags}"
+	if test "$doWince" != "no" -a "${TARGETCPU}" != "X86"; then
+	    LDFLAGS_CONSOLE="-link ${lflags}"
+	    LDFLAGS_WINDOW=${LDFLAGS_CONSOLE}
+	else
+	    LDFLAGS_CONSOLE="-link -subsystem:console ${lflags}"
+	    LDFLAGS_WINDOW="-link -subsystem:windows ${lflags}"
+	fi
     fi
 
-    if test "$do64bit" = "yes" ; then
+    if test "$do64bit" != "no" ; then
 	AC_DEFINE(TCL_CFG_DO64BIT)
     fi
 
@@ -667,14 +804,14 @@ AC_DEFUN(SC_CONFIG_CFLAGS, [
 #		TCL_BIN_DIR	Full path to the tcl build dir.
 #------------------------------------------------------------------------
 
-AC_DEFUN(SC_WITH_TCL, [
-    if test -d ../../tcl8.5$1/win;  then
-	TCL_BIN_DEFAULT=../../tcl8.5$1/win
+AC_DEFUN([SC_WITH_TCL], [
+    if test -d ../../tcl8.6$1/win;  then
+	TCL_BIN_DEFAULT=../../tcl8.6$1/win
     else
-	TCL_BIN_DEFAULT=../../tcl8.5/win
+	TCL_BIN_DEFAULT=../../tcl8.6/win
     fi
     
-    AC_ARG_WITH(tcl, [  --with-tcl=DIR          use Tcl 8.5 binaries from DIR],
+    AC_ARG_WITH(tcl, [  --with-tcl=DIR          use Tcl 8.6 binaries from DIR],
 	    TCL_BIN_DIR=$withval, TCL_BIN_DIR=`cd $TCL_BIN_DEFAULT; pwd`)
     if test ! -d $TCL_BIN_DIR; then
 	AC_MSG_ERROR(Tcl directory $TCL_BIN_DIR does not exist)
@@ -687,18 +824,17 @@ AC_DEFUN(SC_WITH_TCL, [
     AC_SUBST(TCL_BIN_DIR)
 ])
 
-# FIXME : SC_PROG_TCLSH should really look for the installed tclsh and
-# not the build version. If we want to use the build version in the
-# tk script, it is better to hardcode that!
-
 #------------------------------------------------------------------------
 # SC_PROG_TCLSH
-#	Locate a tclsh shell in the following directories:
-#		${exec_prefix}/bin
-#		${prefix}/bin
-#		${TCL_BIN_DIR}
-#		${TCL_BIN_DIR}/../bin
-#		${PATH}
+#	Locate a tclsh shell installed on the system path. This macro
+#	will only find a Tcl shell that already exists on the system.
+#	It will not find a Tcl shell in the Tcl build directory or
+#	a Tcl shell that has been installed from the Tcl build directory.
+#	If a Tcl shell can't be located on the PATH, then TCLSH_PROG will
+#	be set to "". Extensions should take care not to create Makefile
+#	rules that are run by default and depend on TCLSH_PROG. An
+#	extension can't assume that an executable Tcl shell exists at
+#	build time.
 #
 # Arguments
 #	none
@@ -708,11 +844,11 @@ AC_DEFUN(SC_WITH_TCL, [
 #		TCLSH_PROG
 #------------------------------------------------------------------------
 
-AC_DEFUN(SC_PROG_TCLSH, [
+AC_DEFUN([SC_PROG_TCLSH], [
     AC_MSG_CHECKING([for tclsh])
 
     AC_CACHE_VAL(ac_cv_path_tclsh, [
-	search_path=`echo ${exec_prefix}/bin:${prefix}/bin:${TCL_BIN_DIR}:${TCL_BIN_DIR}/../bin:${PATH} | sed -e 's/:/ /g'`
+	search_path=`echo ${PATH} | sed -e 's/:/ /g'`
 	for dir in $search_path ; do
 	    for j in `ls -r $dir/tclsh[[8-9]]*.exe 2> /dev/null` \
 		    `ls -r $dir/tclsh* 2> /dev/null` ; do
@@ -729,15 +865,36 @@ AC_DEFUN(SC_PROG_TCLSH, [
     if test -f "$ac_cv_path_tclsh" ; then
 	TCLSH_PROG="$ac_cv_path_tclsh"
 	AC_MSG_RESULT($TCLSH_PROG)
-    elif test -f "$TCL_BIN_DIR/tclConfig.sh" ; then
-	# One-tree build.
-	ac_cv_path_tclsh="$TCL_BIN_DIR/tclsh"
-	TCLSH_PROG="$ac_cv_path_tclsh"
-	AC_MSG_RESULT($TCLSH_PROG)
     else
-	AC_MSG_ERROR(No tclsh found in PATH:  $search_path)
+	# It is not an error if an installed version of Tcl can't be located.
+	TCLSH_PROG=""
+	AC_MSG_RESULT([No tclsh found on PATH])
     fi
     AC_SUBST(TCLSH_PROG)
+])
+
+#------------------------------------------------------------------------
+# SC_BUILD_TCLSH
+#	Determine the fully qualified path name of the tclsh executable
+#	in the Tcl build directory. This macro will correctly determine
+#	the name of the tclsh executable even if tclsh has not yet
+#	been built in the build directory. The build tclsh must be used
+#	when running tests from an extension build directory. It is not
+#	correct to use the TCLSH_PROG in cases like this.
+#
+# Arguments
+#	none
+#
+# Results
+#	Subst's the following values:
+#		BUILD_TCLSH
+#------------------------------------------------------------------------
+
+AC_DEFUN([SC_BUILD_TCLSH], [
+    AC_MSG_CHECKING([for tclsh in Tcl build directory])
+    BUILD_TCLSH=${TCL_BIN_DIR}/tclsh${TCL_MAJOR_VERSION}${TCL_MINOR_VERSION}${TCL_DBGX}${EXEEXT}
+    AC_MSG_RESULT($BUILD_TCLSH)
+    AC_SUBST(BUILD_TCLSH)
 ])
 
 #--------------------------------------------------------------------
@@ -757,7 +914,7 @@ AC_DEFUN(SC_PROG_TCLSH, [
 #
 #--------------------------------------------------------------------
 
-AC_DEFUN(SC_TCL_CFG_ENCODING, [
+AC_DEFUN([SC_TCL_CFG_ENCODING], [
     AC_ARG_WITH(encoding, [  --with-encoding              encoding for configuration values], with_tcencoding=${withval})
 
     if test x"${with_tcencoding}" != x ; then

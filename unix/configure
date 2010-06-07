@@ -848,7 +848,7 @@ Optional Features:
                           use STRING as a suffix to manpage file names
                           (default: no, tcl if enabled without
                           specifying STRING)
-  --enable-threads        build with threads (default: off)
+  --enable-threads        build with threads (default: on)
   --enable-shared         build and link with shared libraries (default: on)
   --enable-64bit          enable 64bit support (default: off)
   --enable-64bit-vis      enable 64bit Sparc VIS support (default: off)
@@ -1335,7 +1335,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 TCL_VERSION=8.6
 TCL_MAJOR_VERSION=8
 TCL_MINOR_VERSION=6
-TCL_PATCH_LEVEL="b1.1"
+TCL_PATCH_LEVEL="b1.2"
 VERSION=${TCL_VERSION}
 
 #------------------------------------------------------------------------
@@ -4398,7 +4398,7 @@ if test "${enable_threads+set}" = set; then
   enableval="$enable_threads"
   tcl_ok=$enableval
 else
-  tcl_ok=no
+  tcl_ok=yes
 fi;
 
     if test "${TCL_THREADS}" = 1; then
@@ -4934,8 +4934,8 @@ echo "${ECHO_T}yes (threaded core)" >&6
 echo "${ECHO_T}yes" >&6
 	fi
     else
-	echo "$as_me:$LINENO: result: no (default)" >&5
-echo "${ECHO_T}no (default)" >&6
+	echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
     fi
 
 

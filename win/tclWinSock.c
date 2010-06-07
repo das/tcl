@@ -41,6 +41,7 @@
  */
 
 static int initialized = 0;
+static const TCHAR classname[] = TEXT("TclSocket");
 TCL_DECLARE_MUTEX(socketMutex)
 
 /*
@@ -257,7 +258,7 @@ InitSockets(void)
 
     if (!initialized) {
 	initialized = 1;
-	TclCreateLateExitHandler(SocketExitHandler, (ClientData) NULL);
+	TclCreateLateExitHandler(SocketExitHandler, NULL);
 
 	/*
 	 * Create the async notification window with a new class. We must
@@ -272,12 +273,12 @@ InitSockets(void)
 	windowClass.hInstance = TclWinGetTclInstance();
 	windowClass.hbrBackground = NULL;
 	windowClass.lpszMenuName = NULL;
-	windowClass.lpszClassName = "TclSocket";
+	windowClass.lpszClassName = classname;
 	windowClass.lpfnWndProc = SocketProc;
 	windowClass.hIcon = NULL;
 	windowClass.hCursor = NULL;
 
-	if (!RegisterClassA(&windowClass)) {
+	if (!RegisterClass(&windowClass)) {
 	    TclWinConvertError(GetLastError());
 	    goto initFailure;
 	}
@@ -419,7 +420,7 @@ SocketExitHandler(
      */
 
     TclpFinalizeSockets();
-    UnregisterClass("TclSocket", TclWinGetTclInstance());
+    UnregisterClass(classname, TclWinGetTclInstance());
     WSACleanup();
     initialized = 0;
     Tcl_MutexUnlock(&socketMutex);
@@ -1421,7 +1422,7 @@ Tcl_OpenTcpClient(
     wsprintfA(channelName, "sock%d", infoPtr->sockets->fd);
 
     infoPtr->channel = Tcl_CreateChannel(&tcpChannelType, channelName,
-	    (ClientData) infoPtr, (TCL_READABLE | TCL_WRITABLE));
+	    infoPtr, (TCL_READABLE | TCL_WRITABLE));
     if (Tcl_SetChannelOption(interp, infoPtr->channel, "-translation",
 	    "auto crlf") == TCL_ERROR) {
 	Tcl_Close((Tcl_Interp *) NULL, infoPtr->channel);
@@ -1485,7 +1486,7 @@ Tcl_MakeTcpClientChannel(
 
     wsprintfA(channelName, "sock%d", infoPtr->sockets->fd);
     infoPtr->channel = Tcl_CreateChannel(&tcpChannelType, channelName,
-	    (ClientData) infoPtr, (TCL_READABLE | TCL_WRITABLE));
+	    infoPtr, (TCL_READABLE | TCL_WRITABLE));
     Tcl_SetChannelOption(NULL, infoPtr->channel, "-translation", "auto crlf");
     return infoPtr->channel;
 }
@@ -1539,7 +1540,7 @@ Tcl_OpenTcpServer(
     wsprintfA(channelName, "sock%d", infoPtr->sockets->fd);
 
     infoPtr->channel = Tcl_CreateChannel(&tcpChannelType, channelName,
-	    (ClientData) infoPtr, 0);
+	    infoPtr, 0);
     if (Tcl_SetChannelOption(interp, infoPtr->channel, "-eofchar", "")
 	    == TCL_ERROR) {
 	Tcl_Close((Tcl_Interp *) NULL, infoPtr->channel);
@@ -1634,7 +1635,7 @@ TcpAccept(
 
     wsprintfA(channelName, "sock%d", newInfoPtr->sockets->fd);
     newInfoPtr->channel = Tcl_CreateChannel(&tcpChannelType, channelName,
-	    (ClientData) newInfoPtr, (TCL_READABLE | TCL_WRITABLE));
+	    newInfoPtr, (TCL_READABLE | TCL_WRITABLE));
     if (Tcl_SetChannelOption(NULL, newInfoPtr->channel, "-translation",
 	    "auto crlf") == TCL_ERROR) {
 	Tcl_Close((Tcl_Interp *) NULL, newInfoPtr->channel);
@@ -2307,7 +2308,7 @@ TcpGetHandleProc(
 {
     SocketInfo *statePtr = (SocketInfo *) instanceData;
 
-    *handlePtr = (ClientData) statePtr->sockets->fd;
+    *handlePtr = INT2PTR(statePtr->sockets->fd);
     return TCL_OK;
 }
 
@@ -2338,7 +2339,7 @@ SocketThread(
      * Create a dummy window receiving socket events.
      */
 
-    tsdPtr->hwnd = CreateWindow("TclSocket", "TclSocket",
+    tsdPtr->hwnd = CreateWindow(classname, classname,
 	    WS_TILED, 0, 0, 0, 0, NULL, NULL, windowClass.hInstance, arg);
 
     /*
