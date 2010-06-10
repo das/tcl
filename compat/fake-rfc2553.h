@@ -55,23 +55,23 @@ struct sockaddr_storage {
 
 #ifndef IN6_IS_ADDR_LOOPBACK
 # define IN6_IS_ADDR_LOOPBACK(a) \
-	(((u_int32_t *)(a))[0] == 0 && ((u_int32_t *)(a))[1] == 0 && \
-	 ((u_int32_t *)(a))[2] == 0 && ((u_int32_t *)(a))[3] == htonl(1))
+	(((uint32_t *)(a))[0] == 0 && ((uint32_t *)(a))[1] == 0 && \
+	 ((uint32_t *)(a))[2] == 0 && ((uint32_t *)(a))[3] == htonl(1))
 #endif /* !IN6_IS_ADDR_LOOPBACK */
 
 #ifndef HAVE_STRUCT_IN6_ADDR
 struct in6_addr {
-	u_int8_t	s6_addr[16];
+	uint8_t	s6_addr[16];
 };
 #endif /* !HAVE_STRUCT_IN6_ADDR */
 
 #ifndef HAVE_STRUCT_SOCKADDR_IN6
 struct sockaddr_in6 {
 	unsigned short	sin6_family;
-	u_int16_t	sin6_port;
-	u_int32_t	sin6_flowinfo;
+	uint16_t	sin6_port;
+	uint32_t	sin6_flowinfo;
 	struct in6_addr	sin6_addr;
-	u_int32_t	sin6_scope_id;
+	uint32_t	sin6_scope_id;
 };
 #endif /* !HAVE_STRUCT_SOCKADDR_IN6 */
 
@@ -125,6 +125,9 @@ struct sockaddr_in6 {
 #endif
 #ifndef EAI_FAMILY
 # define EAI_FAMILY	(INT_MAX - 5)
+#endif
+#ifndef EAI_SERVICE
+# define EAI_SERVICE      -8    /* SERVICE not supported for `ai_socktype'.  */
 #endif
 
 #ifndef HAVE_STRUCT_ADDRINFO
