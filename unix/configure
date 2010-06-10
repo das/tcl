@@ -12283,7 +12283,7 @@ else
   NEED_FAKE_RFC2553=1
 fi
 
-if test "x$NEED_FAKE_RFC2553" == "x1"; then
+if test "x$NEED_FAKE_RFC2553" = "x1"; then
    cat >>confdefs.h <<\_ACEOF
 #define NEED_FAKE_RFC2553 1
 _ACEOF

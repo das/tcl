@@ -3301,7 +3301,7 @@ AC_DEFUN([SC_TCL_IPV6],[
 #include <sys/socket.h>
 #include <netdb.h>
 ]])
-if test "x$NEED_FAKE_RFC2553" == "x1"; then
+if test "x$NEED_FAKE_RFC2553" = "x1"; then
    AC_DEFINE(NEED_FAKE_RFC2553)
    AC_LIBOBJ([fake-rfc2553])
 fi
