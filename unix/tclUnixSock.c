@@ -718,6 +718,7 @@ TcpGetOptionProc(
                     if (sockname.sa4.sin_addr.s_addr == INADDR_ANY) {
                         flags |= NI_NUMERICHOST;
                     }
+#ifndef NEED_FAKE_RFC2553
                 } else if (sockname.sa.sa_family == AF_INET6) {
                     if ((IN6_ARE_ADDR_EQUAL(&sockname.sa6.sin6_addr,
                                 &in6addr_any))
@@ -728,6 +729,7 @@ TcpGetOptionProc(
                             sockname.sa6.sin6_addr.s6_addr[15] == 0)) {
                         flags |= NI_NUMERICHOST;
                     }
+#endif
                 }
 		getnameinfo(&sockname.sa, size, host, sizeof(host), port,
                         sizeof(port), flags);
