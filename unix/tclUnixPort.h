@@ -134,7 +134,7 @@ MODULE_SCOPE int TclUnixSetBlockingMode(int fd, int mode);
 #include <arpa/inet.h>		/* inet_ntoa() */
 #include <netdb.h>		/* getaddrinfo() */
 #ifdef NEED_FAKE_RFC2553
-# include "fake-rfc2553.h"
+# include "../compat/fake-rfc2553.h"
 #endif
 
 /*
