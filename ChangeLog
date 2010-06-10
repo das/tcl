@@ -1,3 +1,19 @@
+2010-06-10  Jeff Hobbs  <jeffh@ActiveState.com>
+
+	* unix/configure, unix/tcl.m4: s/==/=/ syntax error fix
+
+	* unix/tclUnixPort.h: correct include path of fake-rfc2553.h
+
+	* unix/tclUnixSock.c (CreateClientSocket): protect AF_INET6 pieces
+	with ifndef NEED_FAKE_RFC2553.  Might need a more appropriate define.
+
+	* generic/tclIOSock.c (TclCreateSocketAddress): don't use
+	AI_ADDRCONFIG on AIX, as it causes complete socket failure (at
+	least on AIX 5.1).
+
+	* compat/fake-rfc2553.h: define EAI_SERVICE if not already.
+	s/u_/u/g for types.
+
 2010-06-05  Miguel Sofer  <msofer@users.sf.net>
 
 	* generic/tclBasic.c:   Fix for #3008307: make callerPtr chains
