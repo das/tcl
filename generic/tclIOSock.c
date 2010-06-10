@@ -150,8 +150,8 @@ TclCreateSocketAddress(
     (void) memset(&hints, 0, sizeof(hints));
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
-#ifdef AI_ADDRCONFIG
-    /* Missing on: OpenBSD, NetBSD */
+#if defined(AI_ADDRCONFIG) && !defined(_AIX)
+    /* Missing on: OpenBSD, NetBSD.  Causes failure when used on AIX 5.1 */
     hints.ai_flags |= AI_ADDRCONFIG;
 #endif
     if (willBind) {
