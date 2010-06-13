@@ -918,7 +918,7 @@ try {
 	     "The C functions which a Tcl extended C program may use."] \
 	[plus-base $build_tk $tkdir/doc/*.3 {Tk Library} TkLib \
 	     "The additional C functions which a Tk extended C program may use."] \
-	{*}[plus-pkgs 3 {*}$packageDirNameMap]
+	{*}[plus-pkgs 3 {*}[dict remove $packageDirNameMap itcl]]
 } on error {msg opts} {
     # On failure make sure we show what went wrong. We're not supposed
     # to get here though; it represents a bug in the script.
