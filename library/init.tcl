@@ -693,7 +693,7 @@ proc auto_execok name {
 
     foreach dir [split $path {;}] {
 	# Skip already checked directories
-	if {[info exists checked($dir)] || ($dir eq {})} {
+	if {[info exists checked($dir)] || ($dir eq "")} {
 	    continue
 	}
 	set checked($dir) {}
