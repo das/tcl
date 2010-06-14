@@ -19,19 +19,13 @@
 
 static int	TesteventloopCmd(ClientData clientData,
 		    Tcl_Interp *interp, int argc, const char **argv);
-extern void	InitNotifier(void);
-
+extern DLLEXPORT Tcl_PackageInitProc Tclxttest_Init;
 /*
- * TCL_STORAGE_CLASS is set unconditionally to DLLEXPORT because the
- * Tcltest_Init declaration is in the source file itself, which is only
- * accessed when we are building a library.
+ * Functions defined in tclXtNotify.c for use by users of the Xt Notifier:
  */
 
-#undef TCL_STORAGE_CLASS
-#define TCL_STORAGE_CLASS DLLEXPORT
-EXTERN int		Tclxttest_Init(Tcl_Interp *interp);
-
-
+extern void	InitNotifier(void);
+extern XtAppContext	TclSetAppContext(XtAppContext ctx);
 
 /*
  *----------------------------------------------------------------------

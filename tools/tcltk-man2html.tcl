@@ -541,10 +541,11 @@ proc make-man-pages {html args} {
 	    open-text
 	    set haserror 0
 	    if {[next-op-is .HS rest]} {
-		set manual($manual(name)-title) \
-			"[lrange $rest 1 end] [lindex $rest 0] manual page"
+		set manual($manual(wing-file)-$manual(name)-title) \
+		    "[join [lrange $rest 1 end] { }] [lindex $rest 0] manual page"
 	    } elseif {[next-op-is .TH rest]} {
-		set manual($manual(name)-title) "[lindex $rest 0] manual page - [lrange $rest 4 end]"
+		set manual($manual(wing-file)-$manual(name)-title) \
+		    "[lindex $rest 0] manual page - [join [lrange $rest 4 end] { }]"
 	    } else {
 		set haserror 1
 		if {!$verbose} {
@@ -712,7 +713,7 @@ proc make-man-pages {html args} {
 		puts -nonewline stderr .
 	    }
 	    set outfd [open $html/$manual(wing-file)/$manual(name).htm w]
-	    puts $outfd [htmlhead "$manual($manual(name)-title)" \
+	    puts $outfd [htmlhead "$manual($manual(wing-file)-$manual(name)-title)" \
 		    $manual(name) $manual(wing-file) "[indexfile]" \
 		    $overall_title "../[indexfile]"]
 	    if {($ntext > 60) && ($ntoc > 32)} {
