@@ -153,10 +153,18 @@ proc ::safe::interpConfigure {args} {
 	    set item [::tcl::OptCurDesc $desc]
 	    set name [::tcl::OptName $item]
 	    switch -exact -- $name {
-		-accessPath {return [list -accessPath $state(access_path)]}
-		-statics    {return [list -statics    $state(staticsok)]}
-		-nested     {return [list -nested     $state(nestedok)]}
-		-deleteHook {return [list -deleteHook $state(cleanupHook)]}
+		-accessPath {
+		    return [list -accessPath $state(access_path)]
+		}
+		-statics    {
+		    return [list -statics $state(staticsok)]
+		}
+		-nested     {
+		    return [list -nested $state(nestedok)]
+		}
+		-deleteHook {
+		    return [list -deleteHook $state(cleanupHook)]
+		}
 		-noStatics {
 		    # it is most probably a set in fact but we would need
 		    # then to jump to the set part and it is not *sure*
@@ -1011,7 +1019,7 @@ proc ::safe::AliasEncoding {slave option args} {
     }
 
     if {[string equal -length [string length $option] $option "system"]} {
-	if {[llength $args] == 0} {
+	if {![llength $args]} {
 	    # passed all the tests , lets source it:
 	    try {
 		return [::interp invokehidden $slave encoding system]
