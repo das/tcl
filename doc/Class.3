@@ -146,8 +146,8 @@ The contents of the Tcl_ObjectMetadataType structure are as follows:
 typedef const struct {
     int \fIversion\fR;
     const char *\fIname\fR;
-    Tcl_ObjectMetadataDeleteProc \fIdeleteProc\fR;
-    Tcl_CloneProc \fIcloneProc\fR;
+    Tcl_ObjectMetadataDeleteProc *\fIdeleteProc\fR;
+    Tcl_CloneProc *\fIcloneProc\fR;
 } \fBTcl_ObjectMetadataType\fR;
 .CE
 .PP
