@@ -6,8 +6,8 @@
  *
  * Copyright (c) 1995-1998 Sun Microsystems, Inc.
  *
- * See the file "license.terms" for information on usage and redistribution of
- * this file, and for a DISCLAIMER OF ALL WARRANTIES.
+ * See the file "license.terms" for information on usage and redistribution
+ * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
  * RCS: @(#) $Id$
  */
@@ -710,7 +710,7 @@ TclpGetNativeCwd(
 	char *newCd = ckalloc((unsigned) strlen(buffer) + 1);
 
 	strcpy(newCd, buffer);
-	return (ClientData) newCd;
+	return newCd;
     }
 
     /*
