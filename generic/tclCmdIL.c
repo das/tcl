@@ -3381,7 +3381,7 @@ Tcl_LsetObjCmd(
      */
 
     if (objc < 3) {
-	Tcl_WrongNumArgs(interp, 1, objv, "listVar index ?index...? value");
+	Tcl_WrongNumArgs(interp, 1, objv, "listVar ?index? ?index...? value");
 	return TCL_ERROR;
     }
 
@@ -3501,6 +3501,9 @@ Tcl_LsortObjCmd(
     for (i = 1; i < objc-1; i++) {
 	if (Tcl_GetIndexFromObj(interp, objv[i], switches, "option", 0,
 		&index) != TCL_OK) {
+	    if (sortInfo.indexc > 1) {
+		ckfree((char *) sortInfo.indexv);
+	    }
 	    return TCL_ERROR;
 	}
 	switch ((enum Lsort_Switches) index) {
