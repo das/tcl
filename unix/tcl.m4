@@ -3292,6 +3292,7 @@ AC_DEFUN([SC_TCL_GETGRNAM_R], [AC_CHECK_FUNC(getgrnam_r, [
 AC_DEFUN([SC_TCL_IPV6],[
 	NEED_FAKE_RFC2553=0
 	AC_CHECK_FUNCS(getnameinfo getaddrinfo freeaddrinfo gai_strerror,,[NEED_FAKE_RFC2553=1])
+	AC_CHECK_FUNC(strlcpy)
 	AC_CHECK_TYPES([
 		struct addrinfo,
 		struct in6_addr,
