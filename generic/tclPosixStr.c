@@ -720,7 +720,7 @@ Tcl_ErrnoMsg(
     case ENOLCK: return "no locks available";
 #endif
 #if defined(ENOLINK) && (!defined(ESOCKTNOSUPPORT) || (ESOCKTNOSUPPORT != ENOLINK))
-    case ENOLINK: return "link has be severed";
+    case ENOLINK: return "link has been severed";
 #endif
 #ifdef ENOMEM
     case ENOMEM: return "not enough memory";
@@ -849,7 +849,7 @@ Tcl_ErrnoMsg(
     case ERREMOTE: return "object is remote";
 #endif
 #ifdef ESHUTDOWN
-    case ESHUTDOWN: return "can't send afer socket shutdown";
+    case ESHUTDOWN: return "can't send after socket shutdown";
 #endif
 #ifdef ESOCKTNOSUPPORT
     case ESOCKTNOSUPPORT: return "socket type not supported";
@@ -906,7 +906,7 @@ Tcl_ErrnoMsg(
 #ifdef NO_STRERROR
 	return "unknown POSIX error";
 #else
-	return strerror(errno);
+	return strerror(err);
 #endif
     }
 }
