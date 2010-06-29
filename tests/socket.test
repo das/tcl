@@ -1651,8 +1651,7 @@ removeFile script2
 
 # cleanup
 if {[string match sock* $commandSocket] == 1} {
-   puts $commandSocket exit
-   flush $commandSocket
+    catch {sendCommand exit}
 }
 catch {close $commandSocket}
 catch {close $remoteProcChan}
