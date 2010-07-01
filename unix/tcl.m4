@@ -3292,7 +3292,6 @@ AC_DEFUN([SC_TCL_GETGRNAM_R], [AC_CHECK_FUNC(getgrnam_r, [
 AC_DEFUN([SC_TCL_IPV6],[
 	NEED_FAKE_RFC2553=0
 	AC_CHECK_FUNCS(getnameinfo getaddrinfo freeaddrinfo gai_strerror,,[NEED_FAKE_RFC2553=1])
-	AC_CHECK_FUNC(strlcpy)
 	AC_CHECK_TYPES([
 		struct addrinfo,
 		struct in6_addr,
@@ -3300,11 +3299,13 @@ AC_DEFUN([SC_TCL_IPV6],[
 		struct sockaddr_storage],,[NEED_FAKE_RFC2553=1],[[
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
 #include <netdb.h>
 ]])
 if test "x$NEED_FAKE_RFC2553" = "x1"; then
    AC_DEFINE(NEED_FAKE_RFC2553)
    AC_LIBOBJ([fake-rfc2553])
+   AC_CHECK_FUNC(strlcpy)
 fi
 ])
 # Local Variables:
