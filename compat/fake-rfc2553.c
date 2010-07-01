@@ -36,6 +36,10 @@
  */
 #include "tclInt.h"
 
+TCL_DECLARE_MUTEX(netdbMutex)
+
+#ifndef HAVE_GETNAMEINFO
+#ifndef HAVE_STRLCPY
 static size_t
 strlcpy(char *dst, const char *src, size_t siz)
 {
@@ -61,8 +65,8 @@ strlcpy(char *dst, const char *src, size_t siz)
 
         return(s - src - 1);    /* count does not include NUL */
 }
+#endif
 
-#ifndef HAVE_GETNAMEINFO
 int fake_getnameinfo(const struct sockaddr *sa, size_t salen, char *host, 
                 size_t hostlen, char *serv, size_t servlen, int flags)
 {
@@ -80,21 +84,30 @@ int fake_getnameinfo(const struct sockaddr *sa, size_t salen, char *host,
 
 	if (host != NULL) {
 		if (flags & NI_NUMERICHOST) {
-			if (strlcpy(host, inet_ntoa(sin->sin_addr),
-			    hostlen) >= hostlen)
+			int len;
+			Tcl_MutexLock(&netdbMutex);
+			len = strlcpy(host, inet_ntoa(sin->sin_addr), hostlen);
+			Tcl_MutexUnlock(&netdbMutex);
+			if (len >= hostlen) {
 				return (EAI_MEMORY);
-			else
+			} else {
 				return (0);
+			}
 		} else {
+			int ret;
+			Tcl_MutexLock(&netdbMutex);
 			hp = gethostbyaddr((char *)&sin->sin_addr, 
 			    sizeof(struct in_addr), AF_INET);
-			if (hp == NULL)
-				return (EAI_NODATA);
-			
-			if (strlcpy(host, hp->h_name, hostlen) >= hostlen)
-				return (EAI_MEMORY);
-			else
-				return (0);
+			if (hp == NULL) {
+				ret = EAI_NODATA;
+			} else if (strlcpy(host, hp->h_name, hostlen)
+				   >= hostlen) {
+				ret = EAI_MEMORY;
+			} else {
+				ret = 0;
+			}
+			Tcl_MutexUnlock(&netdbMutex);
+			return ret;
 		}
 	}
 	return (0);
@@ -102,11 +115,7 @@ int fake_getnameinfo(const struct sockaddr *sa, size_t salen, char *host,
 #endif /* !HAVE_GETNAMEINFO */
 
 #ifndef HAVE_GAI_STRERROR
-#ifdef HAVE_CONST_GAI_STRERROR_PROTO
 const char *
-#else
-char *
-#endif
 fake_gai_strerror(int err)
 {
 	switch (err) {
@@ -225,6 +234,7 @@ fake_getaddrinfo(const char *hostname, const char *servname,
 	if (hints && hints->ai_flags & AI_NUMERICHOST)
 		return (EAI_NONAME);
 	
+	Tcl_MutexLock(&netdbMutex);
 	hp = gethostbyname(hostname);
 	if (hp && hp->h_name && hp->h_name[0] && hp->h_addr_list[0]) {
 		struct addrinfo *cur, *prev;
@@ -237,6 +247,7 @@ fake_getaddrinfo(const char *hostname, const char *servname,
 			if (cur == NULL) {
 				if (*res != NULL)
 					freeaddrinfo(*res);
+				Tcl_MutexUnlock(&netdbMutex);
 				return (EAI_MEMORY);
 			}
 			if (prev)
@@ -246,9 +257,10 @@ fake_getaddrinfo(const char *hostname, const char *servname,
 
 			prev = cur;
 		}
+		Tcl_MutexUnlock(&netdbMutex);
 		return (0);
 	}
-	
+	Tcl_MutexUnlock(&netdbMutex);
 	return (EAI_NODATA);
 }
 #endif /* !HAVE_GETADDRINFO */

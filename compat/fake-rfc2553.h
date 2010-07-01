@@ -152,9 +152,9 @@ int getaddrinfo(const char *, const char *,
     const struct addrinfo *, struct addrinfo **);
 #endif /* !HAVE_GETADDRINFO */
 
-#if !defined(HAVE_GAI_STRERROR) && !defined(HAVE_CONST_GAI_STRERROR_PROTO)
+#ifndef HAVE_GAI_STRERROR
 #define gai_strerror(a)         (fake_gai_strerror(a))
-char *gai_strerror(int);
+const char *gai_strerror(int);
 #endif /* !HAVE_GAI_STRERROR */
 
 #ifndef HAVE_FREEADDRINFO
