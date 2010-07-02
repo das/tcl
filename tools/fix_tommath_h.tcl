@@ -20,7 +20,7 @@ set eat_endif 0
 set eat_semi 0
 set def_count 0
 foreach line [split $data \n] {
-    if { !$eat_semi && !$eat_endif } {
+    if {!$eat_semi && !$eat_endif} {
 	switch -regexp -- $line {
 	    {#define BN_H_} {
 		puts $line
