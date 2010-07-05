@@ -64,6 +64,6 @@ catch {rename unknown.old unknown}
 ::tcltest::cleanupTests
 return 
 
-# Local-Variables:
+# Local Variables:
 # mode: tcl
 # End:
