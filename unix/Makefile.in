@@ -167,7 +167,7 @@ INSTALL_DATA		= ${INSTALL} -m 644
 EXE_SUFFIX		= @EXEEXT@
 TCL_EXE			= tclsh${EXE_SUFFIX}
 TCLTEST_EXE		= tcltest${EXE_SUFFIX}
-NATIVE_TCLSH		= ./${TCL_EXE}
+NATIVE_TCLSH		= @TCLSH_PROG@
 
 # The symbols below provide support for dynamic loading and shared libraries.
 # See configure.in for a description of what the symbols mean. The values of
