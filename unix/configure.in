@@ -133,6 +133,17 @@ LIBS="$LIBS$THREADS_LIBS"
 
 SC_ENABLE_SHARED
 
+#--------------------------------------------------------------------
+# Look for a native installed tclsh binary (if available)
+# If one cannot be found then use the binary we build (fails for
+# cross compiling). This is used for NATIVE_TCLSH in Makefile.
+#--------------------------------------------------------------------
+
+SC_PROG_TCLSH
+if test "$TCLSH_PROG" = ""; then
+  TCLSH_PROG='./${TCL_EXE}'
+fi
+
 #------------------------------------------------------------------------
 #	Add stuff for zlib
 #------------------------------------------------------------------------
