@@ -860,16 +860,17 @@ typedef struct Tcl_CallFrame {
     Tcl_Namespace *nsPtr;
     int dummy1;
     int dummy2;
-    char *dummy3;
-    char *dummy4;
-    char *dummy5;
+    VOID *dummy3;
+    VOID *dummy4;
+    VOID *dummy5;
     int dummy6;
-    char *dummy7;
-    char *dummy8;
+    VOID *dummy7;
+    VOID *dummy8;
     int dummy9;
-    char *dummy10;
-    char *dummy11;
-    char *dummy12;
+    VOID *dummy10;
+    VOID *dummy11;
+    VOID *dummy12;
+    VOID *dummy13;
 } Tcl_CallFrame;
 
 /*
