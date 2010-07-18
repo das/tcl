@@ -946,7 +946,6 @@ typedef struct Tcl_CallFrame {
     VOID *dummy8;
     int dummy9;
     VOID *dummy10;
-    VOID *dummy10;
     VOID *dummy11;
     VOID *dummy12;
     VOID *dummy13;
