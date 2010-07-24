@@ -4112,8 +4112,8 @@ TeststaticpkgCmd(
     if (Tcl_GetInt(interp, argv[3], &loaded) != TCL_OK) {
 	return TCL_ERROR;
     }
-    Tcl_StaticPackage((loaded) ? interp : NULL, argv[1], StaticInitProc,
-	    (safe) ? StaticInitProc : NULL);
+    tclStubsPtr->tcl_StaticPackage((loaded) ? interp : NULL, argv[1],
+	    StaticInitProc, (safe) ? StaticInitProc : NULL);
     return TCL_OK;
 }
 

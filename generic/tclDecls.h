@@ -6926,5 +6926,17 @@ extern const TclStubs *tclStubsPtr;
 #undef TCL_STORAGE_CLASS
 #define TCL_STORAGE_CLASS DLLIMPORT
 
+#if defined(USE_TCL_STUBS)
+#   undef Tcl_CreateInterp
+#   undef Tcl_FindExecutable
+#   undef Tcl_Init
+#   undef Tcl_SetVar
+#   undef Tcl_StaticPackage
+#   define Tcl_CreateInterp() (tclStubsPtr->tcl_CreateInterp())
+#   define Tcl_Init(interp) (tclStubsPtr->tcl_Init(interp))
+#   define Tcl_SetVar(interp, varName, newValue, flags) \
+	    (tclStubsPtr->tcl_SetVar(interp, varName, newValue, flags))
+#endif
+
 #endif /* _TCLDECLS */
 
