@@ -568,7 +568,7 @@ The type of the URL contents.  Examples include \fBtext/html\fR,
 \fBContent-Length\fR
 .
 The advertised size of the contents.  The actual size obtained by
-\fB::http::geturl\fR is available as \fBstate(size)\fR.
+\fB::http::geturl\fR is available as \fBstate(currentsize)\fR.
 .TP
 \fBLocation\fR
 .
