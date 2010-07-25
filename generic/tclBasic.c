@@ -142,7 +142,7 @@ static CmdInfo builtInCmds[] = {
     {"rename",		(Tcl_CmdProc *) NULL,	Tcl_RenameObjCmd,
         (CompileProc *) NULL,		1},
     {"return",		(Tcl_CmdProc *) NULL,	Tcl_ReturnObjCmd,	
-        TclCompileReturnCmd,		1},
+        (CompileProc *) NULL,		1},
     {"scan",		(Tcl_CmdProc *) NULL,	Tcl_ScanObjCmd,
         (CompileProc *) NULL,		1},
     {"set",		(Tcl_CmdProc *) NULL,	Tcl_SetObjCmd,
@@ -150,7 +150,7 @@ static CmdInfo builtInCmds[] = {
     {"split",		(Tcl_CmdProc *) NULL,	Tcl_SplitObjCmd,
         (CompileProc *) NULL,		1},
     {"string",		(Tcl_CmdProc *) NULL,	Tcl_StringObjCmd,
-        TclCompileStringCmd,		1},
+        (CompileProc *) NULL,		1},
     {"subst",		(Tcl_CmdProc *) NULL,	Tcl_SubstObjCmd,
         (CompileProc *) NULL,		1},
     {"switch",		(Tcl_CmdProc *) NULL,	Tcl_SwitchObjCmd,	
@@ -285,9 +285,9 @@ Tcl_CreateInterp()
      * also updating the Tcl_CallFrame structure (or vice versa).
      */  
 
-    if (sizeof(Tcl_CallFrame) != sizeof(CallFrame)) {
+    if (sizeof(Tcl_CallFrame) < sizeof(CallFrame)) {
 	/*NOTREACHED*/
-        panic("Tcl_CallFrame and CallFrame are not the same size");
+	panic("Tcl_CallFrame must not be smaller than CallFrame");
     }
 
     /*
