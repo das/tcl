@@ -803,9 +803,6 @@ typedef struct CallFrame {
 				 * recognized by the compiler. The compiler
 				 * emits code that refers to these variables
 				 * using an index into this array. */
-    VOID *dummy11;
-    VOID *dummy12;
-    VOID *dummy13;
 } CallFrame;
 
 #ifdef TCL_TIP280
