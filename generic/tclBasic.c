@@ -407,9 +407,9 @@ Tcl_CreateInterp(void)
      * the Tcl_CallFrame structure (or vice versa).
      */
 
-    if (sizeof(Tcl_CallFrame) != sizeof(CallFrame)) {
+    if (sizeof(Tcl_CallFrame) < sizeof(CallFrame)) {
 	/*NOTREACHED*/
-	Tcl_Panic("Tcl_CallFrame and CallFrame are not the same size");
+	Tcl_Panic("Tcl_CallFrame must not be smaller than CallFrame");
     }
 
     /*
