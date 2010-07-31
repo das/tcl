@@ -4521,14 +4521,10 @@ TclDeleteVars(
     }
 
     for (varPtr = VarHashFirstVar(tablePtr, &search); varPtr != NULL;
-	    varPtr = VarHashNextVar(&search)) {
-	/*
-	 * Lie about the validity of the hashtable entry. In this way the
-	 * variables will be deleted by VarHashDeleteTable.
-	 */
+	     varPtr = VarHashFirstVar(tablePtr, &search)) {
 
-	VarHashInvalidateEntry(varPtr);
 	UnsetVarStruct(varPtr, NULL, iPtr, VarHashGetKey(varPtr), NULL, flags);
+	VarHashDeleteEntry(varPtr);
     }
     VarHashDeleteTable(tablePtr);
 }
