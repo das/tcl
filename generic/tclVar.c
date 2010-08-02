@@ -5329,7 +5329,7 @@ TclDeleteVars(
     }
 
     for (varPtr = VarHashFirstVar(tablePtr, &search); varPtr != NULL;
-	    varPtr = VarHashNextVar(&search)) {
+	 varPtr = VarHashFirstVar(tablePtr, &search)) {
 	UnsetVarStruct(varPtr, NULL, iPtr, VarHashGetKey(varPtr), NULL, flags,
 		-1);
 	VarHashDeleteEntry(varPtr);
