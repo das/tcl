@@ -1970,6 +1970,19 @@ test iocmd-32.1 {origin interpreter of moved channel destroyed during access} -m
 } -constraints {testchannel impossible} \
     -result {Owner lost}
 
+test iocmd-32.2 {delete interp of reflected chan} {
+    # Bug 3034840
+    # Run this test in an interp with memory debugging to panic
+    # on the double free
+    interp create slave
+    slave eval {
+	proc no-op args {}
+	proc driver {sub args} {return {initialize finalize watch read}}
+	chan event [chan create read driver] readable no-op
+    }
+    interp delete slave
+} {}
+
 # ### ### ### ######### ######### #########
 ## Same tests as above, but exercising the code forwarding and
 ## receiving driver operations to the originator thread.
