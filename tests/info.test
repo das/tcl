@@ -1723,11 +1723,11 @@ test info-39.1 {location information not confused by literal sharing, bug 293308
 	} ;#line 1722^
 	# Do not put the comments listing the line numbers into the
 	# branches. We need shared literals, and the comments would
-	# them different, thus unshared.
+	# make them different, thus unshared.
     }
 
     proc get_frame_info { cmd_str op } {
-	lappend ::result [reduce [eval {info frame 9}]]
+	lappend ::result [reduce [eval {info frame -3}]]
     }
     trace add execution print_one enter get_frame_info
 } -body {
