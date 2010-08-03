@@ -753,6 +753,13 @@ test var-18.1 {array unset and unset traces: Bug 2939073} -setup {
 } -cleanup {
     unset x already
 } -result 0
+
+
+test var-19.1 {crash when freeing locals hashtable: Bug 3037525} {
+    proc foo {} { catch {upvar 0 dummy \$index} }
+    foo ; # This crashes without the fix for the bug
+    rename foo {}
+} {}
 
 catch {namespace delete ns}
 catch {unset arr}
