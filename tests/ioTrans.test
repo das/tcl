@@ -854,6 +854,28 @@ test iortrans-11.1 {origin interpreter of moved transform destroyed during acces
 } -constraints {testchannel impossible} \
     -result {Owner lost}
 
+
+test iortrans-11.2 {delete interp of reflected transform} -body {
+    interp create slave
+
+    # Magic to get the test* commands into the slave
+    load {} Tcltest slave
+
+    # Get base channel into the slave
+    set c [tempchan]
+    testchannel cut $c
+    interp eval slave [list testchannel splice $c]
+    interp eval slave [list set c $c]
+
+    slave eval {
+        proc no-op args {}
+        proc driver {c sub args} {return {initialize finalize read write}}
+	set t [chan push $c [list driver $c]]
+        chan event $c readable no-op
+    }
+    interp delete slave
+} -result {} -constraints {testchannel}
+
 # ### ### ### ######### ######### #########
 ## Same tests as above, but exercising the code forwarding and
 ## receiving driver operations to the originator thread.
