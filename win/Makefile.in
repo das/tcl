@@ -544,7 +544,7 @@ tclOOStubLib.${OBJEXT}: tclOOStubLib.c
 
 # Implicit rule for all object files that will end up in the Tcl library
 
-.c.${OBJEXT}:
+%.${OBJEXT}: %.c
 	$(CC) -c $(CC_SWITCHES) -DBUILD_tcl @DEPARG@ $(CC_OBJNAME)
 
 .rc.$(RES):
