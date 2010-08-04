@@ -390,12 +390,15 @@ TclWinInit(
     platformId = os.dwPlatformId;
 
     /*
-     * We no longer support Win32s, so just in case someone manages to get a
-     * runtime there, make sure they know that.
+     * We no longer support Win32s or Win9x, so just in case someone manages
+     * to get a runtime there, make sure they know that.
      */
 
     if (platformId == VER_PLATFORM_WIN32s) {
 	Tcl_Panic("Win32s is not a supported platform");
+    }
+    if (platformId == VER_PLATFORM_WIN32_WINDOWS) {
+	Tcl_Panic("Windows 9x is not a supported platform");
     }
 
     TclWinResetInterfaces();
@@ -411,10 +414,10 @@ TclWinInit(
  *
  * Results:
  *	The return value is one of:
- *	    VER_PLATFORM_WIN32s		Win32s on Windows 3.1. (not supported)
- *	    VER_PLATFORM_WIN32_WINDOWS	Win32 on Windows 95, 98, ME.
- *	    VER_PLATFORM_WIN32_NT	Win32 on Windows NT, 2000, XP
- *	    VER_PLATFORM_WIN32_CE	Win32 on Windows CE
+ *	VER_PLATFORM_WIN32s	   Win32s on Windows 3.1 (not supported)
+ *	VER_PLATFORM_WIN32_WINDOWS Win32 on Windows 95, 98, ME (not supported)
+ *	VER_PLATFORM_WIN32_NT	Win32 on Windows NT, 2000, XP
+ *	VER_PLATFORM_WIN32_CE	Win32 on Windows CE
  *
  * Side effects:
  *	None.
