@@ -1612,7 +1612,7 @@ TclByteArrayMatch(
 	     * Skip all successive *'s in the pattern.
 	     */
 
-	    while (*(++pattern) == '*') {
+	    while ((++pattern < patternEnd) && (*pattern == '*')) {
 		/* empty body */
 	    }
 	    if (pattern == patternEnd) {

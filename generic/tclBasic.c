@@ -8569,7 +8569,7 @@ TclNRYieldToObjCmd(
 	    NULL);
     iPtr->execEnvPtr = corPtr->eePtr;
 
-    return TclNRYieldObjCmd(clientData, interp, objc-1, objv+1);
+    return TclNRYieldObjCmd(clientData, interp, 1, objv);
 }
 
 static int
