@@ -632,9 +632,9 @@ TclpObjDeleteFile(
 
 int
 TclpDeleteFile(
-    const char *path)		/* Pathname of file to be removed (native). */
+    const void *path)		/* Pathname of file to be removed (native). */
 {
-    if (unlink(path) != 0) {				/* INTL: Native. */
+    if (unlink((const char *)path) != 0) {
 	return TCL_ERROR;
     }
     return TCL_OK;
