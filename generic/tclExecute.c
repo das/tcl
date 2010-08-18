@@ -2851,33 +2851,6 @@ TclExecuteByteCode(
 		    OBP = BP;
 		    goto resumeCoroutine;
 		}
-	    case TCL_NR_TAILCALL_TYPE:
-		/*
-		 * A request to perform a tailcall: just drop this bytecode.
-		 */
-
-#ifdef TCL_COMPILE_DEBUG
-		if (TAUX.traceInstructions) {
-		    fprintf(stdout, "   Tailcall request received\n");
-		}
-#endif /* TCL_COMPILE_DEBUG */
-		iPtr->cmdFramePtr = bcFramePtr->nextPtr;
-		TclArgumentBCRelease((Tcl_Interp *) iPtr, bcFramePtr);
-
-		if (catchTop != initCatchTop) {
-		    TclClearTailcall(interp, param);
-		    iPtr->varFramePtr->tailcallPtr = NULL;
-		    Tcl_SetResult(interp,
-			    "tailcall called from within a catch environment",
-			    TCL_STATIC);
-		    Tcl_SetErrorCode(interp, "TCL", "TAILCALL", "ILLEGAL",
-			    NULL);
-		    pc--;
-		    goto gotError;
-		}
-		iPtr->varFramePtr->tailcallPtr = param;
-		TclSpliceTailcall(interp, param, 1);
-		goto abnormalReturn;
 	    case TCL_NR_YIELD_TYPE: {		/* [yield] */
 		CoroutineData *corPtr = iPtr->execEnvPtr->corPtr;
 
@@ -6592,7 +6565,6 @@ TclExecuteByteCode(
   returnToCaller:
     if (OBP) {
 	BP = OBP; /* back to old bc */
-    rerunCallbacks:
 	TRESULT = TclNRRunCallbacks(interp, TRESULT, BP->rootPtr, 1);
 
 	NR_DATA_DIG();
@@ -6618,15 +6590,6 @@ TclExecuteByteCode(
 		 */
 
 		goto nonRecursiveCallSetup;
-	    case TCL_NR_TAILCALL_TYPE:
-		TOP_CB(iPtr) = callbackPtr->nextPtr;
-		TCLNR_FREE(interp, callbackPtr);
-
-		Tcl_SetResult(interp,
-			"tailcall cannot be invoked recursively", TCL_STATIC);
-		Tcl_SetErrorCode(interp, "TCL", "TAILCALL", "REENTRY", NULL);
-		TRESULT = TCL_ERROR;
-		goto rerunCallbacks;
 	    default:
 		Tcl_Panic("TEBC: TRCB sent us a callback we cannot handle!");
 	    }

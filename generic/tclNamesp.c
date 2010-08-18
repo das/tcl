@@ -391,6 +391,10 @@ Tcl_PopCallFrame(
 	Tcl_DeleteNamespace((Tcl_Namespace *) nsPtr);
     }
     framePtr->nsPtr = NULL;
+
+    if (framePtr->tailcallPtr) {
+        TclSpliceTailcall(interp, framePtr->tailcallPtr);
+    }
 }
 
 /*

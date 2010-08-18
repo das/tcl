@@ -290,12 +290,14 @@ TclNRCatchObjCmd(
 	optionVarNamePtr = objv[3];
     }
 
+    TclNRAddCallback(interp, CatchObjCmdCallback, INT2PTR(objc),
+	    varNamePtr, optionVarNamePtr, NULL);
+    TclNRAddCallback(interp, TclNRBlockTailcall, NULL, NULL, NULL,
+	    NULL);
+
     /*
      * TIP #280. Make invoking context available to caught script.
      */
-
-    TclNRAddCallback(interp, CatchObjCmdCallback, INT2PTR(objc),
-	    varNamePtr, optionVarNamePtr, NULL);
 
     return TclNREvalObjEx(interp, objv[1], 0, iPtr->cmdFramePtr, 1);
 }
@@ -311,19 +313,6 @@ CatchObjCmdCallback(
     Tcl_Obj *varNamePtr = data[1];
     Tcl_Obj *optionVarNamePtr = data[2];
     int rewind = iPtr->execEnvPtr->rewind;
-
-    /*
-     * catch has to disable any tailcall
-     */
-
-    if (iPtr->varFramePtr->tailcallPtr) {
-	TclClearTailcall(interp, iPtr->varFramePtr->tailcallPtr);
-	iPtr->varFramePtr->tailcallPtr = NULL;
-	result = TCL_ERROR;
-	Tcl_SetResult(interp,"Tailcall called from within a catch environment",
-		TCL_STATIC);
-    }
-
 
     /*
      * We disable catch in interpreters where the limit has been exceeded.
