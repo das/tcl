@@ -2905,13 +2905,13 @@ TclExecuteByteCode(
 	 * If the CallFrame is marked as tailcalling, keep tailcalling
 	 */
 
-	if (iPtr->varFramePtr->tailcallPtr) {
+	if (iPtr->varFramePtr->isProcCallFrame & FRAME_TAILCALLING) {
 	    if (catchTop == initCatchTop) {
 		goto abnormalReturn;
 	    }
 
-	    TclClearTailcall(interp, iPtr->varFramePtr->tailcallPtr);
-	    iPtr->varFramePtr->tailcallPtr = NULL;
+	    iPtr->varFramePtr->isProcCallFrame &= ~FRAME_TAILCALLING;
+	    TclRemoveTailcall(interp);
 	    Tcl_SetResult(interp,
 		    "tailcall called from within a catch environment",
 		    TCL_STATIC);
