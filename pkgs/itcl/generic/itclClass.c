@@ -146,12 +146,8 @@ void
 ItclDeleteClassMetadata(
     ClientData clientData)
 {
-    ItclClass *iclsPtr;
-
     /* do we need that at all ? */
-return;
-
-    iclsPtr = clientData;
+    return;
 }
 
 static int
@@ -450,9 +446,9 @@ Itcl_CreateClass(
     Tcl_DStringAppend(&buffer, Tcl_GetString(iclsPtr->fullNamePtr), -1);
     if (Tcl_CreateNamespace(interp, Tcl_DStringValue(&buffer),
             NULL, 0) == NULL) {
-	Tcl_AppendResult(interp, "ITCL: cannot create variables namespace \"",
-	Tcl_DStringValue(&buffer), "\"", NULL);
-	result = TCL_ERROR;
+        Tcl_AppendResult(interp, "ITCL: cannot create variables namespace \"",
+        Tcl_DStringValue(&buffer), "\"", NULL);
+        result = TCL_ERROR;
         goto errorOut;
     }
 
@@ -606,26 +602,8 @@ ItclDeleteClassVariablesNamespace(
     Tcl_Interp *interp,
     ItclClass *iclsPtr)
 {
-    Tcl_DString buffer;
-    Tcl_Namespace *varNsPtr;
-
     /* TODO: why is this being skipped? */
-return;
-
-    if (iclsPtr->nsPtr == NULL) {
-        return;
-    }
-    /* free the classes's variables namespace and variables in it */
-    Tcl_DStringInit(&buffer);
-    Tcl_DStringAppend(&buffer, ITCL_VARIABLES_NAMESPACE, -1);
-    Tcl_DStringAppend(&buffer, iclsPtr->nsPtr->fullName, -1);
-    varNsPtr = Tcl_FindNamespace(interp, Tcl_DStringValue(&buffer),
-	    NULL, 0);
-    if (varNsPtr != NULL) {
-        Tcl_DeleteNamespace(varNsPtr);
-    }
-    Tcl_DStringFree(&buffer);
-    iclsPtr->nsPtr = NULL;
+    return;
 }
 
 int

@@ -183,6 +183,7 @@ Itcl_EnsembleInit(
     Tcl_DStringAppend(&buffer, "::ensembles", -1);
     infoPtr->ensembleInfo->ensembleNsPtr = Tcl_CreateNamespace(interp,
             Tcl_DStringValue(&buffer), NULL, NULL);
+    Tcl_DStringFree(&buffer);
     if (infoPtr->ensembleInfo->ensembleNsPtr == NULL) {
         Tcl_AppendResult(interp, "error in creating namespace: ",
 	        Tcl_DStringValue(&buffer), NULL);

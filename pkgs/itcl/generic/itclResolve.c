@@ -437,6 +437,7 @@ Itcl_ClassVarResolver(
 	Tcl_DStringAppend(&buffer, Tcl_GetString(contextIoPtr->namePtr), -1);
 	Tcl_DStringAppend(&buffer, "::itcl_options", -1);
 	varPtr = Itcl_FindNamespaceVar(interp, Tcl_DStringValue(&buffer), NULL, 0);
+	Tcl_DStringFree(&buffer);
         if (varPtr != NULL) {
             *rPtr = varPtr;
 	    return TCL_OK;
@@ -648,6 +649,7 @@ ItclClassRuntimeVarResolver(
 	    Tcl_DStringAppend(&buffer, "::itcl_options", -1);
 	    varPtr = Itcl_FindNamespaceVar(interp, Tcl_DStringValue(&buffer),
 	            NULL, 0);
+	    Tcl_DStringFree(&buffer);
             if (varPtr != NULL) {
 	        return varPtr;
             }

@@ -137,7 +137,7 @@ Itcl_ResetRewriteEnsemble(
     Tcl_Interp *interp,
     int isRootEnsemble)
 {
-    return TclResetRewriteEnsemble(interp, isRootEnsemble);
+    TclResetRewriteEnsemble(interp, isRootEnsemble);
 }
 
 

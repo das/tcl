@@ -31,7 +31,7 @@ void
 Itcl_NRAddCallback_(
     Tcl_Interp *interp,
     char *procName,
-    void *procPtr,
+    Tcl_NRPostProc *procPtr,
     ClientData data0,
     ClientData data1,
     ClientData data2,
@@ -62,7 +62,7 @@ CallFinalizePMCall(
     int result)
 {
     Tcl_Namespace *nsPtr = data[0];
-    TclOO_PostCallProc *postCallProc = data[1];
+    TclOO_PostCallProc *postCallProc = (TclOO_PostCallProc *)data[1];
     ClientData clientData = data[2];
 
     /*
@@ -147,7 +147,7 @@ Tcl_InvokeClassProcedureMethod(
 
     if (pmPtr->postCallProc) {
 	Tcl_NRAddCallback(interp, CallFinalizePMCall, nsPtr,
-		pmPtr->postCallProc, pmPtr->clientData, NULL);
+		(Tcl_NRPostProc *)pmPtr->postCallProc, pmPtr->clientData, NULL);
     }
     return TclNRInterpProcCore(interp, namePtr, 1, pmPtr->errProc);
 

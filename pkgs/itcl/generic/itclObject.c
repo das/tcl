@@ -1680,6 +1680,10 @@ Itcl_ObjectIsa(
     ItclClass *iclsPtr)       /* class to test for "is-a" relationship */
 {
     Tcl_HashEntry *entry;
+
+    if (contextIoPtr == NULL) {
+        return 0;
+    }
     entry = Tcl_FindHashEntry(&contextIoPtr->iclsPtr->heritage, (char*)iclsPtr);
     return (entry != NULL);
 }
@@ -3395,6 +3399,7 @@ GetConstructorVar(
         Tcl_DStringAppend(&buffer, "::", -1);
         Tcl_DStringAppend(&buffer, varName, -1);
         val = Tcl_GetVar2(interp, Tcl_DStringValue(&buffer), NULL, 0);
+        Tcl_DStringFree(&buffer);
     }
     return val;
 }
@@ -3457,6 +3462,7 @@ DelegationInstall(
                         Tcl_GetString(ivPtr->fullNamePtr), -1);
                 val = Tcl_GetVar2(interp,
                             Tcl_DStringValue(&buffer), NULL, 0);
+                Tcl_DStringFree(&buffer);
 	    }
 	    componentValuePtr = Tcl_NewStringObj(val, -1);
             Tcl_IncrRefCount(componentValuePtr);

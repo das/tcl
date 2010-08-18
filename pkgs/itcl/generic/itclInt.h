@@ -12,7 +12,9 @@
  * RCS: @(#) $Id$
  */
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <string.h>
 #include <ctype.h>
 #include <tcl.h>
@@ -650,9 +652,6 @@ typedef struct ItclCallContext {
 
 #if !defined(INT2PTR) && !defined(PTR2INT)
 #   if defined(HAVE_INTPTR_T) || defined(intptr_t)
-#       ifdef HAVE_SYS_TYPES_H
-#           include <sys/types.h>
-#       endif
 #       define INT2PTR(p) ((void*)(intptr_t)(p))
 #       define PTR2INT(p) ((int)(intptr_t)(p))
 #   else

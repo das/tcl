@@ -1166,6 +1166,7 @@ Itcl_BiChainCmd(
 {
     return Itcl_NRCallObjProc(clientData, interp, NRBiChainCmd, objc, objv);
 }
+
 static int
 CallCreateObject(
     ClientData data[],
