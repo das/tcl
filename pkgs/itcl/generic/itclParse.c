@@ -1447,6 +1447,7 @@ Itcl_ClassInheritCmd(
     if (haveClasses) {
         result = Tcl_Eval(interp, Tcl_DStringValue(&buffer));
     }
+    Tcl_DStringFree(&buffer);
 
     return result;
 
@@ -1513,6 +1514,11 @@ Itcl_ClassProtectionCmd(
     } else {
 	/* something like: public variable a 123 456 */
         result = Itcl_EvalArgs(interp, objc-1, objv+1);
+	if (result == TCL_ERROR) {
+	    Tcl_ResetResult(interp);
+            Tcl_WrongNumArgs(interp, 1, objv, "command ?arg arg...? or wrong command name");
+            return TCL_ERROR;
+        }
     }
 
     if (result == TCL_BREAK) {
