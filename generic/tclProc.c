@@ -272,7 +272,7 @@ Tcl_ProcObjCmd(
 		cfPtr->cmd.str.len = 0;
 
 		hePtr = Tcl_CreateHashEntry(iPtr->linePBodyPtr,
-			(char *) procPtr, &isNew);
+			procPtr, &isNew);
 		if (!isNew) {
 		    /*
 		     * Get the old command frame and release it. See also
@@ -2568,7 +2568,7 @@ SetLambdaFromAny(
 		cfPtr->cmd.str.len = 0;
 
 		Tcl_SetHashValue(Tcl_CreateHashEntry(iPtr->linePBodyPtr,
-			(char *) procPtr, &isNew), cfPtr);
+			procPtr, &isNew), cfPtr);
 	    }
 
 	    /*

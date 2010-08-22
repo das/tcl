@@ -2114,7 +2114,7 @@ ScanNumber(
 	    register Tcl_HashEntry *hPtr;
 	    int isNew;
 
-	    hPtr = Tcl_CreateHashEntry(tablePtr, (char *)value, &isNew);
+	    hPtr = Tcl_CreateHashEntry(tablePtr, INT2PTR(value), &isNew);
 	    if (!isNew) {
 		return Tcl_GetHashValue(hPtr);
 	    }

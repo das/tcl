@@ -1271,7 +1271,7 @@ RegisterTcpServerInterpCleanup(
 		TcpAcceptCallbacksDeleteProc, hTblPtr);
     }
 
-    hPtr = Tcl_CreateHashEntry(hTblPtr, (char *) acceptCallbackPtr, &isNew);
+    hPtr = Tcl_CreateHashEntry(hTblPtr, acceptCallbackPtr, &isNew);
     if (!isNew) {
 	Tcl_Panic("RegisterTcpServerCleanup: damaged accept record table");
     }
