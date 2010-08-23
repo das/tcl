@@ -233,7 +233,7 @@ VarHashCreateVar(
     int *newPtr)
 {
     Tcl_HashEntry *hPtr = Tcl_CreateHashEntry(&tablePtr->table,
-	    (char *) key, newPtr);
+	    key, newPtr);
 
     if (!hPtr) {
 	return NULL;
@@ -1655,7 +1655,7 @@ TclCompileObj(
 
 	{
 	    Tcl_HashEntry *hePtr =
-		    Tcl_FindHashEntry(iPtr->lineBCPtr, (char *) codePtr);
+		    Tcl_FindHashEntry(iPtr->lineBCPtr, codePtr);
 
 	    if (hePtr) {
 		ExtCmdLoc *eclPtr = Tcl_GetHashValue(hePtr);
@@ -8221,14 +8221,14 @@ TclGetSrcInfoForPc(
 	int srcOffset, i;
 	Interp *iPtr = (Interp *) *codePtr->interpHandle;
 	Tcl_HashEntry *hePtr =
-		Tcl_FindHashEntry(iPtr->lineBCPtr, (char *) codePtr);
+		Tcl_FindHashEntry(iPtr->lineBCPtr, codePtr);
 
 	if (!hePtr) {
 	    return;
 	}
 
 	srcOffset = cfPtr->cmd.str.cmd - codePtr->source;
-	eclPtr = (ExtCmdLoc *) Tcl_GetHashValue(hePtr);
+	eclPtr = Tcl_GetHashValue(hePtr);
 
 	for (i=0; i < eclPtr->nuloc; i++) {
 	    if (eclPtr->loc[i].srcOffset == srcOffset) {

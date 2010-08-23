@@ -3198,7 +3198,7 @@ TraceVarEx(
 #endif
     tracePtr->flags = tracePtr->flags & flagMask;
 
-    hPtr = Tcl_CreateHashEntry(&iPtr->varTraces, (char *) varPtr, &isNew);
+    hPtr = Tcl_CreateHashEntry(&iPtr->varTraces, varPtr, &isNew);
     if (isNew) {
 	tracePtr->nextPtr = NULL;
     } else {

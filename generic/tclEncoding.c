@@ -776,7 +776,7 @@ Tcl_GetEncoding(
 
     hPtr = Tcl_FindHashEntry(&encodingTable, name);
     if (hPtr != NULL) {
-	encodingPtr = (Encoding *) Tcl_GetHashValue(hPtr);
+	encodingPtr = Tcl_GetHashValue(hPtr);
 	encodingPtr->refCount++;
 	Tcl_MutexUnlock(&encodingMutex);
 	return (Tcl_Encoding) encodingPtr;
@@ -925,7 +925,7 @@ Tcl_GetEncodingNames(
 	Encoding *encodingPtr = Tcl_GetHashValue(hPtr);
 
 	Tcl_CreateHashEntry(&table,
-		(char *) Tcl_NewStringObj(encodingPtr->name, -1), &dummy);
+		Tcl_NewStringObj(encodingPtr->name, -1), &dummy);
     }
     Tcl_MutexUnlock(&encodingMutex);
 
@@ -938,7 +938,7 @@ Tcl_GetEncodingNames(
 
     Tcl_DictObjFirst(NULL, map, &mapSearch, &name, NULL, &done);
     for (; !done; Tcl_DictObjNext(&mapSearch, &name, NULL, &done)) {
-	Tcl_CreateHashEntry(&table, (char *) name, &dummy);
+	Tcl_CreateHashEntry(&table, name, &dummy);
     }
 
     /*

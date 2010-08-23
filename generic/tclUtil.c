@@ -3009,7 +3009,7 @@ TclSetProcessGlobalValue(
     cacheMap = GetThreadHash(&pgvPtr->key);
     ClearHash(cacheMap);
     hPtr = Tcl_CreateHashEntry(cacheMap,
-	    (char *) INT2PTR(pgvPtr->epoch), &dummy);
+	    INT2PTR(pgvPtr->epoch), &dummy);
     Tcl_SetHashValue(hPtr, newValue);
     Tcl_MutexUnlock(&pgvPtr->mutex);
 }
@@ -3104,7 +3104,7 @@ TclGetProcessGlobalValue(
 
 	value = Tcl_NewStringObj(pgvPtr->value, pgvPtr->numBytes);
 	hPtr = Tcl_CreateHashEntry(cacheMap,
-		(char *) INT2PTR(pgvPtr->epoch), &dummy);
+		INT2PTR(pgvPtr->epoch), &dummy);
 	Tcl_MutexUnlock(&pgvPtr->mutex);
 	Tcl_SetHashValue(hPtr, value);
 	Tcl_IncrRefCount(value);

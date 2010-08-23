@@ -4008,7 +4008,7 @@ SetScriptLimitCallback(
 	return;
     }
 
-    hashPtr = Tcl_CreateHashEntry(&iPtr->limit.callbacks, (char *) &key,
+    hashPtr = Tcl_CreateHashEntry(&iPtr->limit.callbacks, &key,
 	    &isNew);
     if (!isNew) {
 	limitCBPtr = Tcl_GetHashValue(hashPtr);

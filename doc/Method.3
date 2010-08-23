@@ -163,12 +163,12 @@ The types of methods are described by a pointer to a Tcl_MethodType structure,
 which is defined as:
 .PP
 .CS
-typedef const struct {
+typedef struct {
     int \fIversion\fR;
     const char *\fIname\fR;
-    Tcl_MethodCallProc \fIcallProc\fR;
-    Tcl_MethodDeleteProc \fIdeleteProc\fR;
-    Tcl_CloneProc \fIcloneProc\fR;
+    Tcl_MethodCallProc *\fIcallProc\fR;
+    Tcl_MethodDeleteProc *\fIdeleteProc\fR;
+    Tcl_CloneProc *\fIcloneProc\fR;
 } \fBTcl_MethodType\fR;
 .CE
 .PP
