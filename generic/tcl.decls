@@ -1671,7 +1671,7 @@ declare 468 generic {
 	    ClientData clientData)
 }
 declare 469 generic {
-    const char *TclFSGetNativePath(Tcl_Obj *pathPtr)
+    const void *Tcl_FSGetNativePath(Tcl_Obj *pathPtr)
 }
 declare 470 generic {
     Tcl_Obj *Tcl_FSFileSystemInfo(Tcl_Obj *pathPtr)
@@ -2317,10 +2317,6 @@ declare 628 generic {
 }
 declare 629 generic {
     int Tcl_FSUnloadFile(Tcl_Interp *interp, Tcl_LoadHandle handlePtr)
-}
-
-declare 630 generic {
-    const void *Tcl_FSGetNativePath(Tcl_Obj *pathPtr)
 }
 
 # ----- BASELINE -- FOR -- 8.6.0 ----- #
