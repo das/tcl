@@ -118,7 +118,7 @@ This returns information (intended for display to people) about the
 given dictionary though the format of this data is dependent on the
 implementation of the dictionary. For dictionaries that are
 implemented by hash tables, it is expected that this will return the
-string produced by \fBTcl_HashStats\fR, similar to \fBarray info\fR.
+string produced by \fBTcl_HashStats\fR, similar to \fBarray statistics\fR.
 .TP
 \fBdict keys \fIdictionaryValue \fR?\fIglobPattern\fR?
 Return a list of all keys in the given dictionary value. If a pattern
