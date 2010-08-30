@@ -313,18 +313,7 @@ Tcl_PushCallFrame(
     framePtr->compiledLocals = NULL;
     framePtr->clientData = NULL;
     framePtr->localCachePtr = NULL;
-
-    /*
-     * Record the top of the callback stack, so that tailcall can identify
-     * the spot where to splice the new command.
-     */
-
-    if (iPtr->execEnvPtr) {
-        framePtr->wherePtr = TOP_CB(interp);
-    } else {
-        framePtr->wherePtr = NULL;
-    }
-    
+    framePtr->tailcallPtr = NULL;
     
     /*
      * Push the new call frame onto the interpreter's stack of procedure call
@@ -403,6 +392,10 @@ Tcl_PopCallFrame(
 	Tcl_DeleteNamespace((Tcl_Namespace *) nsPtr);
     }
     framePtr->nsPtr = NULL;
+
+    if (framePtr->tailcallPtr) {
+        TclSpliceTailcall(interp, framePtr->tailcallPtr);
+    }
 }
 
 /*

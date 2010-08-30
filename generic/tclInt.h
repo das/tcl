@@ -1152,10 +1152,8 @@ typedef struct CallFrame {
 				 * meaning of the value is, which we do not
 				 * specify. */
     LocalCache *localCachePtr;
-    struct TEOV_callback *wherePtr;
-				/* The top of the callback stack when this
-				 * frame was pushed; used to find the spot
-				 * where to tailcall to. */
+    struct TEOV_callback *tailcallPtr;
+				/* NULL if no tailcall is scheduled */
 } CallFrame;
 
 #define FRAME_IS_PROC	0x1
@@ -1168,8 +1166,6 @@ typedef struct CallFrame {
 				 * field contains an Object reference that has
 				 * been confirmed to refer to a class. Part of
 				 * TIP#257. */
-#define FRAME_TAILCALLING 0x10  /* Flag is set while the CallFrame is winding
-				 * down to process a tailcall */
 
 /*
  * TIP #280
@@ -2758,10 +2754,8 @@ MODULE_SCOPE Tcl_ObjCmdProc TclNRYieldObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRYieldmObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRYieldToObjCmd;
 
-MODULE_SCOPE void       TclRemoveTailcall(Tcl_Interp *interp);
-
-MODULE_SCOPE Tcl_NRPostProc TclNRBlockTailcall;
-
+MODULE_SCOPE void  TclSpliceTailcall(Tcl_Interp *interp,
+	               struct TEOV_callback *tailcallPtr);
 
 /*
  * This structure holds the data for the various iteration callbacks used to
