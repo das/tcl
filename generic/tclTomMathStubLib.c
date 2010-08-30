@@ -57,15 +57,14 @@ TclTomMathInitializeStubs(
     int exact = 0;
     const char *packageName = "tcl::tommath";
     const char *errMsg = NULL;
-    ClientData pkgClientData = NULL;
+    const TclTomMathStubs *stubsPtr;
     const char *actualVersion =
-	Tcl_PkgRequireEx(interp, packageName, version, exact, &pkgClientData);
-    const TclTomMathStubs *stubsPtr = pkgClientData;
+	Tcl_PkgRequireEx(interp, packageName, version, exact, &stubsPtr);
 
     if (actualVersion == NULL) {
 	return NULL;
     }
-    if (pkgClientData == NULL) {
+    if (stubsPtr == NULL) {
 	errMsg = "missing stub table pointer";
     } else if ((stubsPtr->tclBN_epoch)() != epoch) {
 	errMsg = "epoch number mismatch";

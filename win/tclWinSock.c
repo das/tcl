@@ -2424,7 +2424,7 @@ InitializeHostName(
     int *lengthPtr,
     Tcl_Encoding *encodingPtr)
 {
-    TCHAR tbuf[(MAX_COMPUTERNAME_LENGTH + 1)*2];
+    TCHAR tbuf[MAX_COMPUTERNAME_LENGTH + 1];
     DWORD length = MAX_COMPUTERNAME_LENGTH + 1;
     Tcl_DString ds;
 

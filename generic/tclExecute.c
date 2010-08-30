@@ -2901,25 +2901,6 @@ TclExecuteByteCode(
 	iPtr->cmdFramePtr = bcFramePtr->nextPtr;
 	TclArgumentBCRelease((Tcl_Interp *) iPtr, bcFramePtr);
 
-	/*
-	 * If the CallFrame is marked as tailcalling, keep tailcalling
-	 */
-
-	if (iPtr->varFramePtr->isProcCallFrame & FRAME_TAILCALLING) {
-	    if (catchTop == initCatchTop) {
-		goto abnormalReturn;
-	    }
-
-	    iPtr->varFramePtr->isProcCallFrame &= ~FRAME_TAILCALLING;
-	    TclRemoveTailcall(interp);
-	    Tcl_SetResult(interp,
-		    "tailcall called from within a catch environment",
-		    TCL_STATIC);
-	    Tcl_SetErrorCode(interp, "TCL", "TAILCALL", "ILLEGAL", NULL);
-	    pc--;
-	    goto gotError;
-	}
-
 	if (iPtr->execEnvPtr->rewind) {
 	    TRESULT = TCL_ERROR;
 	    goto abnormalReturn;

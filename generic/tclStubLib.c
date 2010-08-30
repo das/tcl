@@ -84,7 +84,7 @@ Tcl_InitStubs(
     int exact)
 {
     const char *actualVersion = NULL;
-    ClientData pkgData = NULL;
+    const TclStubs *stubsPtr;
 
     /*
      * We can't optimize this check by caching tclStubsPtr because that
@@ -97,7 +97,7 @@ Tcl_InitStubs(
 	return NULL;
     }
 
-    actualVersion = Tcl_PkgRequireEx(interp, "Tcl", version, 0, &pkgData);
+    actualVersion = Tcl_PkgRequireEx(interp, "Tcl", version, 0, &stubsPtr);
     if (actualVersion == NULL) {
 	return NULL;
     }
@@ -127,7 +127,7 @@ Tcl_InitStubs(
 	    }
 	}
     }
-    tclStubsPtr = (TclStubs *) pkgData;
+    tclStubsPtr = stubsPtr;
 
     if (tclStubsPtr->hooks) {
 	tclPlatStubsPtr = tclStubsPtr->hooks->tclPlatStubs;

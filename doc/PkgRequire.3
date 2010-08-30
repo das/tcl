@@ -52,10 +52,11 @@ acceptable as long as they have the same major version number
 as \fIversion\fR.
 .AP ClientData clientData in
 Arbitrary value to be associated with the package.
-.AP ClientData *clientDataPtr out
+.AP void *clientDataPtr out
 Pointer to place to store the value associated with the matching
 package. It is only changed if the pointer is not NULL and the
-function completed successfully.
+function completed successfully. The storage can be any pointer
+type with the same size as ClientData.
 .AP int objc in
 Number of requirements.
 .AP Tcl_Obj* objv[] in

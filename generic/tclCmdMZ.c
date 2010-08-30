@@ -4274,13 +4274,11 @@ TclNRTryObjCmd(
     }
 
     /*
-     * Execute the body; block tailcalling out of it.
+     * Execute the body.
      */
 
     Tcl_NRAddCallback(interp, TryPostBody, handlersObj, finallyObj,
 	    (ClientData)objv, INT2PTR(objc));
-    TclNRAddCallback(interp, TclNRBlockTailcall, NULL, NULL, NULL,
-	    NULL);    
     return TclNREvalObjEx(interp, bodyObj, 0,
 	    ((Interp *) interp)->cmdFramePtr, 1);
 }
