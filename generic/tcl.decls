@@ -35,7 +35,7 @@ declare 0 generic {
 declare 1 generic {
     CONST84_RETURN char *Tcl_PkgRequireEx(Tcl_Interp *interp,
 	    const char *name, const char *version, int exact,
-	    ClientData *clientDataPtr)
+	    void *clientDataPtr)
 }
 declare 2 generic {
     void Tcl_Panic(const char *format, ...)
@@ -966,7 +966,7 @@ declare 271 generic {
 declare 272 generic {
     CONST84_RETURN char *Tcl_PkgPresentEx(Tcl_Interp *interp,
 	    const char *name, const char *version, int exact,
-	    ClientData *clientDataPtr)
+	    void *clientDataPtr)
 }
 declare 273 generic {
     int Tcl_PkgProvide(Tcl_Interp *interp, const char *name,
@@ -2085,7 +2085,7 @@ declare 572 generic {
 # TIP#268 (extended version numbers and requirements) akupries
 declare 573 generic {
     int Tcl_PkgRequireProc(Tcl_Interp *interp, const char *name,
-	    int objc, Tcl_Obj *const objv[], ClientData *clientDataPtr)
+	    int objc, Tcl_Obj *const objv[], void *clientDataPtr)
 }
 
 # TIP#270 (utility C routines for string formatting) dgp
