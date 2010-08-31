@@ -40,7 +40,7 @@
 /* 0 */
 EXTERN int		Tcl_PkgProvideEx(Tcl_Interp *interp,
 				const char *name, const char *version,
-				ClientData clientData);
+				const void *clientData);
 /* 1 */
 EXTERN CONST84_RETURN char * Tcl_PkgRequireEx(Tcl_Interp *interp,
 				const char *name, const char *version,
@@ -1820,7 +1820,7 @@ typedef struct TclStubs {
     int magic;
     const struct TclStubHooks *hooks;
 
-    int (*tcl_PkgProvideEx) (Tcl_Interp *interp, const char *name, const char *version, ClientData clientData); /* 0 */
+    int (*tcl_PkgProvideEx) (Tcl_Interp *interp, const char *name, const char *version, const void *clientData); /* 0 */
     CONST84_RETURN char * (*tcl_PkgRequireEx) (Tcl_Interp *interp, const char *name, const char *version, int exact, void *clientDataPtr); /* 1 */
     void (*tcl_Panic) (const char *format, ...); /* 2 */
     char * (*tcl_Alloc) (unsigned int size); /* 3 */

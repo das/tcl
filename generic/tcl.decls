@@ -30,7 +30,7 @@ hooks {tclPlat tclInt tclIntPlat}
 
 declare 0 generic {
     int Tcl_PkgProvideEx(Tcl_Interp *interp, const char *name,
-	    const char *version, ClientData clientData)
+	    const char *version, const void *clientData)
 }
 declare 1 generic {
     CONST84_RETURN char *Tcl_PkgRequireEx(Tcl_Interp *interp,
