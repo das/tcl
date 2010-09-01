@@ -74,7 +74,7 @@ of interest to driver writers. \fBSEE ALSO\fR also enumerates them.
 Tdbc_Init(3),
 tdbc::connection(n), tdbc::mapSqlState(n), 
 tdbc::resultset(n), tdbc::statement(n), tdbc::tokenize(n),
-tdbc::mysql(n), tdbc::odbc(n), tdbc::sqlite3(n)
+tdbc::mysql(n), tdbc::odbc(n), tdbc::postgres(n), tdbc::sqlite3(n)
 .SH "KEYWORDS"
 TDBC, SQL, database, connectivity, connection, resultset, statement
 .SH "COPYRIGHT"

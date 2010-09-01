@@ -228,7 +228,7 @@ install-libraries: libraries
 #========================================================================
 
 install-doc: doc
-	@mkdir -p $(DESTDIR)$(mandir)/mann
+	@mkdir -p $(DESTDIR)$(mandir)/man3 $(DESTDIR)$(mandir)/mann
 	@echo "Installing documentation in $(DESTDIR)$(mandir)"
 	@list='$(srcdir)/doc/*.3'; for i in $$list; do \
 	    echo "Installing $$i"; \
