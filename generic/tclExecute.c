@@ -1880,14 +1880,14 @@ TclExecuteByteCode(interp, codePtr)
 	valuePtr = stackPtr[stackTop]; /* value to append */
 	part2 = NULL;
 	storeFlags = (TCL_LEAVE_ERR_MSG | TCL_APPEND_VALUE 
-		      | TCL_LIST_ELEMENT | TCL_TRACE_READS);
+		      | TCL_LIST_ELEMENT);
 	goto doStoreStk;
 
     case INST_LAPPEND_ARRAY_STK:
 	valuePtr = stackPtr[stackTop]; /* value to append */
 	part2 = TclGetString(stackPtr[stackTop - 1]);
 	storeFlags = (TCL_LEAVE_ERR_MSG | TCL_APPEND_VALUE 
-		      | TCL_LIST_ELEMENT | TCL_TRACE_READS);
+		      | TCL_LIST_ELEMENT);
 	goto doStoreStk;
 
     case INST_APPEND_STK:
@@ -1943,14 +1943,14 @@ TclExecuteByteCode(interp, codePtr)
 	opnd = TclGetUInt4AtPtr(pc+1);
 	pcAdjustment = 5;
 	storeFlags = (TCL_LEAVE_ERR_MSG | TCL_APPEND_VALUE 
-		      | TCL_LIST_ELEMENT | TCL_TRACE_READS);
+		      | TCL_LIST_ELEMENT);
 	goto doStoreArray;
 
     case INST_LAPPEND_ARRAY1:
 	opnd = TclGetUInt1AtPtr(pc+1);
 	pcAdjustment = 2;
 	storeFlags = (TCL_LEAVE_ERR_MSG | TCL_APPEND_VALUE 
-		      | TCL_LIST_ELEMENT | TCL_TRACE_READS);
+		      | TCL_LIST_ELEMENT);
 	goto doStoreArray;
 
     case INST_APPEND_ARRAY4:
@@ -2000,14 +2000,14 @@ TclExecuteByteCode(interp, codePtr)
 	opnd = TclGetUInt4AtPtr(pc+1);
 	pcAdjustment = 5;
 	storeFlags = (TCL_LEAVE_ERR_MSG | TCL_APPEND_VALUE 
-		      | TCL_LIST_ELEMENT | TCL_TRACE_READS);
+		      | TCL_LIST_ELEMENT);
 	goto doStoreScalar;
 
     case INST_LAPPEND_SCALAR1:
 	opnd = TclGetUInt1AtPtr(pc+1);
 	pcAdjustment = 2;	    
 	storeFlags = (TCL_LEAVE_ERR_MSG | TCL_APPEND_VALUE 
-		      | TCL_LIST_ELEMENT | TCL_TRACE_READS);
+		      | TCL_LIST_ELEMENT);
 	goto doStoreScalar;
 
     case INST_APPEND_SCALAR4:
