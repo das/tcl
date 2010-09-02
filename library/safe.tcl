@@ -699,7 +699,6 @@ proc ::safe::AliasGlob {slave args} {
 		set got($opt) 1
 		set virtualdir [lindex $args [incr at]]
 		incr at
-		lappend cmd -directory $dir
 	    }
 	    pkgIndex.tcl {
 		# Oops, this is globbing a subdirectory in regular package
@@ -734,6 +733,7 @@ proc ::safe::AliasGlob {slave args} {
 		return
 	    }
 	}
+	lappend cmd -directory $dir
     }
 
     # Apply the -join semantics ourselves
@@ -841,7 +841,7 @@ proc ::safe::AliasSource {slave args} {
     # because we want to control [info script] in the slave so information
     # doesn't leak so much. [Bug 2913625]
     set old [::interp eval $slave {info script}]
-    if {[catch {
+    set code [catch {
 	set f [open $realfile]
 	fconfigure $f -eofchar \032
 	if {$encoding ne ""} {
@@ -851,13 +851,15 @@ proc ::safe::AliasSource {slave args} {
 	close $f
 	::interp eval $slave [list info script $file]
 	::interp eval $slave $contents
-    } msg]} {
-	catch {interp eval $slave [list info script $old]}
+    } msg opt]
+    catch {interp eval $slave [list info script $old]}
+    # Note that all non-errors are fine result codes from [source], so we must
+    # take a little care to do it properly. [Bug 2923613]
+    if {$code == 1} {
 	Log $slave $msg
 	return -code error "script error"
     }
-    catch {interp eval $slave [list info script $old]}
-    return $msg
+    return -code $code -options $opt $msg
 }
 
 # AliasLoad is the target of the "load" alias in safe interpreters.
