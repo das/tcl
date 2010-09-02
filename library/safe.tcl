@@ -724,7 +724,7 @@ proc ::safe::AliasGlob {slave args} {
 		break
 	    }
 	}
-	if {$got(--) || $got(-join)} break
+	if {$got(--)} break
     }
 
     # Get the real path from the virtual one and check that the path is in the
