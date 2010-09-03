@@ -592,7 +592,7 @@ proc output-IP-list {context code rest} {
 proc output-name {line} {
     global manual
     # split name line into pieces
-    regexp {^([^-]+) - (.*)$} $line all head tail
+    regexp {^([^-]+) - (.*)$} [regsub -all {[ \n\r\t]+} $line " "] -> head tail
     # output line to manual page untouched
     man-puts "$head &mdash; $tail"
     # output line to long table of contents
