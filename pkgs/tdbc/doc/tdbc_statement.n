@@ -174,7 +174,7 @@ scope whose name matches the name of the bound variable. If one is
 found, its value becomes the bound variable's value. If none is found,
 the bound variable is assigned a SQL NULL as its value.  Once
 substitution is finished, the resulting statement is executed. The
-return value is a result set object (see \fBtdbc_resultset\fR for
+return value is a result set object (see \fBtdbc::resultset\fR for
 details).
 .PP
 The \fBresultsets\fR method returns a list of all the result sets that
@@ -186,7 +186,7 @@ The \fBallrows\fR object command executes the statement as with the
 optional \fIdict\fR parameter giving bind variables. After executing
 the statement,
 it uses the \fIallrows\fR object command on the result set (see
-\fBtdbc_resultset\fR) to construct a list of the results. Finally, 
+\fBtdbc::resultset\fR) to construct a list of the results. Finally, 
 the result set is closed. The return value is the list of
 results. 
 .PP
@@ -195,7 +195,7 @@ The \fBforeach\fR object command executes the statement as with the
 optional \fIdict\fR parameter giving bind variables. After executing
 the statement,
 it uses the \fIforeach\fR object command on the result set (see
-\fBtdbc_resultset\fR) to evaluate the given \fIscript\fR for each row of
+\fBtdbc::resultset\fR) to evaluate the given \fIscript\fR for each row of
 the results. Finally, the result set is closed, even
 if the given \fIscript\fR results in a \fBreturn\fR, an error, or
 an unusual return code. 
