@@ -80,6 +80,9 @@ AC_DEFUN([TEAX_SDX], [
 	AC_MSG_NOTICE([building as a normal library still supported])])])
 dnl TODO: Adapt this for OSX Frameworks...
 dnl This next bit is a bit ugly, but it makes things for tclooConfig.sh...
+AC_DEFUN([TEAX_PATH_LINE], [
+    eval "$1=\"[]CygPath($2)\""
+    AC_SUBST($1)])
 AC_DEFUN([TEAX_INCLUDE_LINE], [
     eval "$1=\"-I[]CygPath($2)\""
     AC_SUBST($1)])

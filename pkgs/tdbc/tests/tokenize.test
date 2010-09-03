@@ -2,12 +2,10 @@
 #
 #	Tests for the tokenizer in TDBC
 
-lappend auto_path .
+package require tcltest 2
+namespace import -force ::tcltest::*
+tcltest::loadTestedCommands
 package require tdbc
-if {[lsearch [namespace children] ::tcltest] == -1} {
-    package require tcltest 2
-    namespace import -force ::tcltest::*
-}
 
 test tokenize-1.0 {wrong args} \
     -body {

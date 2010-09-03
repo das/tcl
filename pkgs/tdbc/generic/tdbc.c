@@ -105,13 +105,6 @@ static const struct SqlStateLookup {
     { NULL, NULL }
 };
 
-/* Initialization script to run once the base commands are created */
-
-static const char initScript[] = 
-    "tcl_findLibrary tdbc " PACKAGE_VERSION " " PACKAGE_VERSION
-    " tdbc.tcl TDBC_LIBRARY ::tdbc::Library";
-
-
 /*
  *-----------------------------------------------------------------------------
  *
@@ -216,12 +209,6 @@ Tdbc_Init(
     for (i = 0; commandTable[i].name != NULL; ++i) {
 	Tcl_CreateObjCommand(interp, commandTable[i].name, commandTable[i].proc,
 			     (ClientData) NULL, (Tcl_CmdDeleteProc*) NULL);
-    }
-
-    /* Evaluate the initialization script */
-
-    if (Tcl_EvalEx(interp, initScript, -1, TCL_EVAL_GLOBAL) != TCL_OK) {
-	return TCL_ERROR;
     }
 
     /* Provide the TDBC package */

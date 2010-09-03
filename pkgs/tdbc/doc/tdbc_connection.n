@@ -55,16 +55,18 @@ package require \fBtdbc::\fIdriver version\fR
 
 \fIdb \fBconfigure\fR ?\fI\-option value\fR...?
 \fIdb \fBclose\fR
-\fIdb \fBprepare \fIsql-code\fR
-\fIdb \fBpreparecall \fIcall\fR
+\fIdb \fBforeignkeys\fR ?\fI\-primary tableName\fR? ?\fI\-foreign tableName\fR?
+\fIdb \fBprepare\fR \fIsql-code\fR
+\fIdb \fBpreparecall\fR \fIcall\fR
+\fIdb \fBprimarykeys\fR \fItableName\fR
 \fIdb \fBstatements\fR
 \fIdb \fBresultsets\fR
 \fIdb \fBtables\fR ?\fIpattern\fR?
-\fIdb \fBcolumns \fItable\fR ?\fIpattern\fR?
+\fIdb \fBcolumns\fR \fItable\fR ?\fIpattern\fR?
 \fIdb \fBbegintransaction\fR
 \fIdb \fBcommit\fR
 \fIdb \fBrollback\fR
-\fIdb \fBtransaction \fIscript\fR
+\fIdb \fBtransaction\fR \fIscript\fR
 .fi
 .ad l
 .in 14
@@ -132,7 +134,7 @@ given connection and not yet closed.
 .PP
 The \fBtables\fR object command allows the program to query the
 connection for the names of tables that exist in the database.
-The optional \fBpattern\fR parameter is a pattern to match the name of
+The optional \fIpattern\fR parameter is a pattern to match the name of
 a table. It may contain the SQL wild-card characters '\fB%\fR' and
 '\fB_\fR'. The return value is a dictionary whose keys are table names
 and whose values are subdictionaries. See the documentation for the
@@ -164,6 +166,94 @@ Contains the scale of the column (the number of digits after the radix
 point), for types that support the concept.
 .IP \fBnullable\fR
 Contains 1 if the column can contain NULL values, and 0 otherwise.
+.PP
+The \fBprimarykeys\fR object command allows the program to query the
+connection for the primary keys belonging to a given table. The
+\fItableName\fR parameter identifies the table being interrogated. The result
+is a list of dictionaries enumerating the keys (in a similar format to the
+list returned by \fI$connection\fR \fBallrows -as dicts\fR). The keys of the
+dictionary may include at least the following. Values that are NULL or
+meaningless in a given database are omitted.
+.IP \fBtableCatalog\fR
+Name of the catalog in which the table appears.
+.IP \fBtableSchema\fR
+Name of the schema in which the table  appears.
+.IP \fBtableName\fR
+Name of the table owning the primary key.
+.IP \fBconstraintCatalog\fR
+Name of the catalog in which the primary key constraint appears. In some
+database systems, this may not be the same as the table's catalog.
+.IP \fBconstraintSchema\fR
+Name of the schema in which the primary key constraint appears.  In some
+database systems, this may not be the same as the table's schema.
+.IP \fBconstraintName\fR
+Name of the primary key constraint,
+.IP \fBcolumnName\fR
+Name of a column that is a member of the primary key.
+.IP \fBordinalPosition\fR
+Ordinal position of the column within the primary key.
+.PP
+To these columns may be added additional ones that are specific to
+a particular database system.
+.PP
+The \fBforeignkeys\fR object command allows the program to query the
+connection for foreign key relationships that apply to a particular table.
+The relationships may be constrained to the keys that appear in a
+particular table (\fB-foreign\fR \fItableName\fR), the keys that
+refer to a particular table (\fB-primary\fR \fItableName\fR), or both.
+At least one of \fB-primary\fR and \fB-foreign\fR should be specified,
+although some drivers will enumerate all foreign keys in the current
+catalog if both options are omitted. The result of the \fBforeignkeys\fR 
+object command is a list of dictionaries, with one list element per key
+(in a similar format to the
+list returned by \fI$connection\fR \fBallrows -as dicts\fR). The keys of the
+dictionary may include at least the following. Values that are NULL or
+meaningless in a given database are omitted.
+.IP \fBforeignConstraintCatalog\fR
+Catalog in which the foreign key constraint appears.
+.IP \fBforeignConstraintSchema\fR
+Schema in which the foreign key constraint appears.
+.IP \fBforeignConstraintName\fR
+Name of the foreign key constraint.
+.IP \fBprimaryConstraintCatalog\fR
+Catalog holding the primary key constraint (or unique key constraint) on the 
+column to which the foreign key refers.
+.IP \fBprimaryConstraintSchema\fR
+Schema holding the primary key constraint (or unique key constraint) on the 
+column to which the foreign key refers.
+.IP \fBprimaryConstraintName\fR
+Name of the primary key constraint (or unique key constraint) on the 
+column to which the foreign key refers.
+.IP \fBupdateAction\fR
+Action to take when an UPDATE statement invalidates the constraint. 
+The value will be \fBCASCADE\fR, \fBSET DEFAULT\fR, \fBSET NULL\fR, 
+\fBRESTRICT\fR, or \fBNO ACTION\fR.
+.IP \fBdeleteAction\fR
+Action to take when a DELETE statement invalidates the constraint. 
+The value will be \fBCASCADE\fR, \fBSET DEFAULT\fR, \fBSET NULL\fR,
+\fBRESTRICT\fR, or \fBNO ACTION\fR.
+.IP \fBprimaryCatalog\fR
+Catalog name in which the primary table (the one to which the foreign key
+refers) appears.
+.IP \fBprimarySchema\fR
+Schema name in which the primary table (the one to which the foreign key
+refers) appears.
+.PP
+.IP \fBprimaryTable\fR
+Table name of the primary table (the one to which the foreign key
+refers).
+.IP \fBprimaryColumn\fR
+Name of the column to which the foreign key refers.
+.IP \fBforeignCatalog\fR
+Name of the catalog in which the table containing the foreign key appears.
+.IP \fBforeignSchema\fR
+Name of the schema in which the table containing the foreign key appears.
+.IP \fBforeignTable\fR
+Name of the table containing the foreign key.
+.IP \fBforeignColumn\fR
+Name of the column appearing in the foreign key.
+.IP \fBordinalPosition\fR
+Position of the column in the foreign key, if the key is a compound key.
 .PP
 The \fBbegintransaction\fR object command on a database connection
 begins a transaction on the database. If the underlying database does

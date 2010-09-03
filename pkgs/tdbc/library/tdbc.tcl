@@ -103,8 +103,10 @@ oo::class create ::tdbc::connection {
     # statementSeq is the sequence number of the last statement created.
     # statementClass is the name of the class that implements the
     #	'statement' API.
+    # primaryKeysStatement is the statement that queries primary keys
+    # foreignKeysStatement is the statement that queries foreign keys
 
-    variable statementSeq
+    variable statementSeq primaryKeysStatement foreignKeysStatement
 
     # The base class constructor accepts no arguments.  It sets up the
     # machinery to do the bookkeeping to keep track of what statements
@@ -306,6 +308,172 @@ oo::class create ::tdbc::connection {
 	    dict incr options -level
 	}
 	return -options $options $result
+    }
+
+    # The 'BuildPrimaryKeysStatement' method builds a SQL statement to
+    # retrieve the primary keys from a database. (It executes once the
+    # first time the 'primaryKeys' method is executed, and retains the
+    # prepared statement for reuse.)
+
+    method BuildPrimaryKeysStatement {} {
+
+	# On some databases, CONSTRAINT_CATALOG is always NULL and
+	# JOINing to it fails. Check for this case and include that
+	# JOIN only if catalog names are supplied.
+
+	set catalogClause {}
+	if {[lindex [set count [my allrows -as lists {
+	    SELECT COUNT(*) 
+            FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+            WHERE CONSTRAINT_CATALOG IS NOT NULL}]] 0 0] != 0} {
+	    set catalogClause \
+		{AND xtable.CONSTRAINT_CATALOG = xcolumn.CONSTRAINT_CATALOG}
+	}
+	set primaryKeysStatement [my prepare "
+	     SELECT xtable.TABLE_SCHEMA AS \"tableSchema\", 
+                 xtable.TABLE_NAME AS \"tableName\",
+                 xtable.CONSTRAINT_CATALOG AS \"constraintCatalog\", 
+                 xtable.CONSTRAINT_SCHEMA AS \"constraintSchema\", 
+                 xtable.CONSTRAINT_NAME AS \"constraintName\", 
+                 xcolumn.COLUMN_NAME AS \"columnName\", 
+                 xcolumn.ORDINAL_POSITION AS \"ordinalPosition\" 
+             FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS xtable 
+             INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE xcolumn 
+                     ON xtable.CONSTRAINT_SCHEMA = xcolumn.CONSTRAINT_SCHEMA 
+                    AND xtable.TABLE_NAME = xcolumn.TABLE_NAME
+                    AND xtable.CONSTRAINT_NAME = xcolumn.CONSTRAINT_NAME 
+	            $catalogClause
+             WHERE xtable.TABLE_NAME = :tableName 
+               AND xtable.CONSTRAINT_TYPE = 'PRIMARY KEY'
+  	"]
+    }
+
+    # The default implementation of the 'primarykeys' method uses the
+    # SQL INFORMATION_SCHEMA to retrieve primary key information. Databases
+    # that might not have INFORMATION_SCHEMA must overload this method.
+
+    method primarykeys {tableName} {
+	if {![info exists primaryKeysStatement]} {
+	    my BuildPrimaryKeysStatement
+	}
+	tailcall $primaryKeysStatement allrows [list tableName $tableName]
+    }
+
+    # The 'BuildForeignKeysStatements' method builds a SQL statement to
+    # retrieve the foreign keys from a database. (It executes once the
+    # first time the 'foreignKeys' method is executed, and retains the
+    # prepared statements for reuse.)
+
+    method BuildForeignKeysStatement {} {
+
+	# On some databases, CONSTRAINT_CATALOG is always NULL and
+	# JOINing to it fails. Check for this case and include that
+	# JOIN only if catalog names are supplied.
+
+	set catalogClause1 {}
+	set catalogClause2 {}
+	if {[lindex [set count [my allrows -as lists {
+	    SELECT COUNT(*) 
+            FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+            WHERE CONSTRAINT_CATALOG IS NOT NULL}]] 0 0] != 0} {
+	    set catalogClause1 \
+		{AND fkc.CONSTRAINT_CATALOG = rc.CONSTRAINT_CATALOG}
+	    set catalogClause2 \
+		{AND pkc.CONSTRAINT_CATALOG = rc.CONSTRAINT_CATALOG}
+	}
+
+	foreach {exists1 clause1} {
+	    0 {}
+	    1 { AND pkc.TABLE_NAME = :primary}
+	} {
+	    foreach {exists2 clause2} {
+		0 {}
+		1 { AND fkc.TABLE_NAME = :foreign}
+	    } {
+		set stmt [my prepare "
+	     SELECT rc.CONSTRAINT_CATALOG AS \"foreignConstraintCatalog\",
+                    rc.CONSTRAINT_SCHEMA AS \"foreignConstraintSchema\",
+                    rc.CONSTRAINT_NAME AS \"foreignConstraintName\",
+                    rc.UNIQUE_CONSTRAINT_CATALOG 
+                        AS \"primaryConstraintCatalog\",
+                    rc.UNIQUE_CONSTRAINT_SCHEMA AS \"primaryConstraintSchema\",
+                    rc.UNIQUE_CONSTRAINT_NAME AS \"primaryConstraintName\",
+                    rc.UPDATE_RULE AS \"updateAction\",
+		    rc.DELETE_RULE AS \"deleteAction\",
+                    pkc.TABLE_CATALOG AS \"primaryCatalog\",
+                    pkc.TABLE_SCHEMA AS \"primarySchema\",
+                    pkc.TABLE_NAME AS \"primaryTable\",
+                    pkc.COLUMN_NAME AS \"primaryColumn\",
+                    fkc.TABLE_CATALOG AS \"foreignCatalog\",
+                    fkc.TABLE_SCHEMA AS \"foreignSchema\",
+                    fkc.TABLE_NAME AS \"foreignTable\",
+                    fkc.COLUMN_NAME AS \"foreignColumn\",
+                    pkc.ORDINAL_POSITION AS \"ordinalPosition\"
+             FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS rc
+             INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE fkc
+                     ON fkc.CONSTRAINT_NAME = rc.CONSTRAINT_NAME
+                    AND fkc.CONSTRAINT_SCHEMA = rc.CONSTRAINT_SCHEMA
+                    $catalogClause1
+             INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE pkc
+                     ON pkc.CONSTRAINT_NAME = rc.UNIQUE_CONSTRAINT_NAME
+                     AND pkc.CONSTRAINT_SCHEMA = rc.UNIQUE_CONSTRAINT_SCHEMA
+                     $catalogClause2
+                     AND pkc.ORDINAL_POSITION = fkc.ORDINAL_POSITION
+             WHERE 1=1
+                 $clause1
+                 $clause2
+"]
+		dict set foreignKeysStatement $exists1 $exists2 $stmt
+	    }
+	}
+    }
+
+    # The default implementation of the 'foreignkeys' method uses the
+    # SQL INFORMATION_SCHEMA to retrieve primary key information. Databases
+    # that might not have INFORMATION_SCHEMA must overload this method.
+
+    method foreignkeys {args} {
+
+	variable ::tdbc::generalError
+
+	# Check arguments
+
+	set argdict {}
+	if {[llength $args] % 2 != 0} {
+	    set errorcode $generalError
+	    lappend errorcode wrongNumArgs
+	    return -code error -errorcode $errorcode \
+		"wrong # args: should be [lrange [info level 0] 0 1]\
+                 ?-option value?..."
+	}
+	foreach {key value} $args {
+	    if {$key ni {-primary -foreign}} {
+		set errorcode $generalError
+		lappend errorcode badOption
+		return -code error -errorcode $errorcode \
+		    "bad option \"$key\", must be -primary or -foreign"
+	    }
+	    set key [string range $key 1 end]
+	    if {[dict exists $argdict $key]} {
+		set errorcode $generalError
+		lappend errorcode dupOption
+		return -code error -errorcode $errorcode \
+		    "duplicate option \"$key\" supplied"
+	    }
+	    dict set argdict $key $value
+	}
+
+	# Build the statements that query foreign keys. There are four
+	# of them, one for each combination of whether -primary
+	# and -foreign is specified.
+
+	if {![info exists foreignKeysStatement]} {
+	    my BuildForeignKeysStatement
+	}
+	set stmt [dict get $foreignKeysStatement \
+		      [dict exists $argdict primary] \
+		      [dict exists $argdict foreign]]
+	tailcall $stmt allrows $argdict
     }
 
     # Derived classes are expected to implement the 'begintransaction',
