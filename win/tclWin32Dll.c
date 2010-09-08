@@ -319,7 +319,7 @@ DllMain(
 	 * an exception handler and the state of the stack might be unstable.
 	 */
 
-#ifdef HAVE_NO_SEH
+#if defined(HAVE_NO_SEH) && !defined(_WIN64)
 	__asm__ __volatile__ (
 
 	    /*
@@ -389,12 +389,16 @@ DllMain(
 	    "%eax", "%ebx", "%ecx", "%edx", "%esi", "%edi", "memory"
 	    );
 
-#else /* HAVE_NO_SEH */
+#else
+#ifndef HAVE_NO_SEH
 	__try {
+#endif
 	    Tcl_Finalize();
+#ifndef HAVE_NO_SEH
 	} __except (EXCEPTION_EXECUTE_HANDLER) {
 	    /* empty handler body. */
 	}
+#endif
 #endif
 
 	break;

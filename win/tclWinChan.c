@@ -1094,12 +1094,7 @@ Tcl_MakeFileChannel(
 	 */
 
 	result = 0;
-#ifndef HAVE_NO_SEH
-	__try {
-	    CloseHandle(dupedHandle);
-	    result = 1;
-	} __except (EXCEPTION_EXECUTE_HANDLER) {}
-#else
+#if defined(HAVE_NO_SEH) && !defined(_WIN64)
 	/*
 	 * Don't have SEH available, do things the hard way. Note that this
 	 * needs to be one block of asm, to avoid stack imbalance; also, it is
@@ -1179,7 +1174,15 @@ Tcl_MakeFileChannel(
 	    "%eax", "%ebx", "%ecx", "%edx", "%esi", "%edi", "memory"
 	    );
 	result = registration.status;
-
+#else
+#ifndef HAVE_NO_SEH
+	__try {
+#endif
+	    CloseHandle(dupedHandle);
+	    result = 1;
+#ifndef HAVE_NO_SEH
+	} __except (EXCEPTION_EXECUTE_HANDLER) {}
+#endif
 #endif
 	if (result == FALSE) {
 	    return NULL;
