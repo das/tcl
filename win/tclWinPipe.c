@@ -953,7 +953,7 @@ TclpCreateProcess(
 {
     int result, applType, createFlags;
     Tcl_DString cmdLine;	/* Complete command line (TCHAR). */
-    STARTUPINFOA startInfo;
+    STARTUPINFO startInfo;
     PROCESS_INFORMATION procInfo;
     SECURITY_ATTRIBUTES secAtts;
     HANDLE hProcess, h, inputHandle, outputHandle, errorHandle;
