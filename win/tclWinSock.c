@@ -2428,12 +2428,12 @@ InitializeHostName(
     DWORD length = MAX_COMPUTERNAME_LENGTH + 1;
     Tcl_DString ds;
 
-    if (tclWinProcs->getComputerNameProc(tbuf, &length) != 0) {
+    if (GetComputerName(tbuf, &length) != 0) {
 	/*
 	 * Convert string from native to UTF then change to lowercase.
 	 */
 
-	Tcl_UtfToLower((char *) tclWinProcs->tchar2utf(tbuf, -1, &ds));
+	Tcl_UtfToLower(Tcl_WinTCharToUtf(tbuf, -1, &ds));
 
     } else {
 	Tcl_DStringInit(&ds);
