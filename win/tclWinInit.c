@@ -478,7 +478,7 @@ TclpSetVariables(
     } sys;
     OSVERSIONINFOA osInfo;
     Tcl_DString ds;
-    WCHAR szUserName[UNLEN+1];
+    TCHAR szUserName[UNLEN+1];
     DWORD cchUserNameLen = UNLEN;
 
     Tcl_SetVar2Ex(interp, "tclDefaultLibrary", NULL,
@@ -552,10 +552,10 @@ TclpSetVariables(
 
     Tcl_DStringInit(&ds);
     if (TclGetEnv("USERNAME", &ds) == NULL) {
-	if (tclWinProcs->getUserName((LPTSTR)szUserName, &cchUserNameLen) != 0) {
+	if (GetUserName(szUserName, &cchUserNameLen) != 0) {
 	    int cbUserNameLen = cchUserNameLen - 1;
-	    if (tclWinProcs->useWide) cbUserNameLen *= sizeof(WCHAR);
-	    tclWinProcs->tchar2utf((LPTSTR)szUserName, cbUserNameLen, &ds);
+	    cbUserNameLen *= sizeof(TCHAR);
+	    Tcl_WinTCharToUtf(szUserName, cbUserNameLen, &ds);
 	}
     }
     Tcl_SetVar2(interp, "tcl_platform", "user", Tcl_DStringValue(&ds),

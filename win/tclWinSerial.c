@@ -1448,7 +1448,7 @@ TclWinSerialReopen(
     if (CloseHandle(handle) == FALSE) {
 	return INVALID_HANDLE_VALUE;
     }
-    handle = tclWinProcs->createFileProc(name, access, 0, 0, OPEN_EXISTING,
+    handle = CreateFile(name, access, 0, 0, OPEN_EXISTING,
 	    FILE_FLAG_OVERLAPPED, 0);
     return handle;
 }
@@ -1682,8 +1682,8 @@ SerialSetOptionProc(
 	    }
 	    return TCL_ERROR;
 	}
-	native = tclWinProcs->utf2tchar(value, -1, &ds);
-	result = tclWinProcs->buildCommDCBProc(native, &dcb);
+	native = Tcl_WinUtfToTChar(value, -1, &ds);
+	result = BuildCommDCB(native, &dcb);
 	Tcl_DStringFree(&ds);
 
 	if (result == FALSE) {

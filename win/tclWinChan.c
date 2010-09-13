@@ -915,7 +915,7 @@ TclpOpenFileChannel(
 	    flags = FILE_ATTRIBUTE_READONLY;
 	}
     } else {
-	flags = tclWinProcs->getFileAttributesProc(nativeName);
+	flags = GetFileAttributes(nativeName);
 	if (flags == 0xFFFFFFFF) {
 	    flags = 0;
 	}
@@ -931,7 +931,7 @@ TclpOpenFileChannel(
      * Now we get to create the file.
      */
 
-    handle = tclWinProcs->createFileProc(nativeName, accessMode, shareMode,
+    handle = CreateFile(nativeName, accessMode, shareMode,
 	    NULL, createMode, flags, (HANDLE) NULL);
 
     if (handle == INVALID_HANDLE_VALUE) {
