@@ -16,6 +16,19 @@
 #ifndef _TCLWINPORT
 #define _TCLWINPORT
 
+/*
+ * We must specify the lower version we intend to support.
+ *
+ * WINVER = 0x0500 means Windows 2000 and above
+ */
+
+#ifndef WINVER
+#   define WINVER 0x0500
+#endif
+#ifndef _WIN32_WINNT
+#   define _WIN32_WINNT 0x0500
+#endif
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #undef WIN32_LEAN_AND_MEAN
