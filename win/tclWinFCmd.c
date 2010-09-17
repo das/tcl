@@ -199,14 +199,7 @@ DoRenameFile(
      * arguments is a char block device.
      */
 
-#ifndef HAVE_NO_SEH
-    __try {
-	if (tclWinProcs->moveFileProc(nativeSrc, nativeDst) != FALSE) {
-	    retval = TCL_OK;
-	}
-    } __except (EXCEPTION_EXECUTE_HANDLER) {}
-#else
-
+#if defined(HAVE_NO_SEH) && !defined(_WIN64)
     /*
      * Don't have SEH available, do things the hard way. Note that this needs
      * to be one block of asm, to avoid stack imbalance; also, it is illegal
@@ -291,6 +284,16 @@ DoRenameFile(
     if (registration.status != FALSE) {
 	retval = TCL_OK;
     }
+#else
+#ifndef HAVE_NO_SEH
+    __try {
+#endif
+	if ((*tclWinProcs->moveFileProc)(nativeSrc, nativeDst) != FALSE) {
+	    retval = TCL_OK;
+	}
+#ifndef HAVE_NO_SEH
+    } __except (EXCEPTION_EXECUTE_HANDLER) {}
+#endif
 #endif
 
     if (retval != -1) {
@@ -328,8 +331,8 @@ DoRenameFile(
 	    TCHAR *nativeSrcRest, *nativeDstRest;
 	    const char **srcArgv, **dstArgv;
 	    int size, srcArgc, dstArgc;
-	    TCHAR nativeSrcPath[MAX_PATH*2];
-	    TCHAR nativeDstPath[MAX_PATH*2];
+	    TCHAR nativeSrcPath[MAX_PATH];
+	    TCHAR nativeDstPath[MAX_PATH];
 	    Tcl_DString srcString, dstString;
 	    const char *src, *dst;
 
@@ -465,7 +468,7 @@ DoRenameFile(
 
 		TCHAR *nativeRest, *nativeTmp, *nativePrefix;
 		int result, size;
-		TCHAR tempBuf[MAX_PATH*2];
+		TCHAR tempBuf[MAX_PATH];
 
 		size = tclWinProcs->getFullPathNameProc(nativeDst, MAX_PATH,
 			tempBuf, &nativeRest);
@@ -473,8 +476,7 @@ DoRenameFile(
 		    return TCL_ERROR;
 		}
 		nativeTmp = (TCHAR *) tempBuf;
-		((char *) nativeRest)[0] = '\0';
-		((char *) nativeRest)[1] = '\0';    /* In case it's Unicode. */
+		nativeRest[0] = '\0';
 
 		result = TCL_ERROR;
 		nativePrefix = (tclWinProcs->useWide)
@@ -587,14 +589,7 @@ DoCopyFile(
      * arguments is a char block device.
      */
 
-#ifndef HAVE_NO_SEH
-    __try {
-	if (tclWinProcs->copyFileProc(nativeSrc, nativeDst, 0) != FALSE) {
-	    retval = TCL_OK;
-	}
-    } __except (EXCEPTION_EXECUTE_HANDLER) {}
-#else
-
+#if defined(HAVE_NO_SEH) && !defined(_WIN64)
     /*
      * Don't have SEH available, do things the hard way. Note that this needs
      * to be one block of asm, to avoid stack imbalance; also, it is illegal
@@ -681,6 +676,16 @@ DoCopyFile(
     if (registration.status != FALSE) {
 	retval = TCL_OK;
     }
+#else
+#ifndef HAVE_NO_SEH
+    __try {
+#endif
+	if ((*tclWinProcs->copyFileProc)(nativeSrc, nativeDst, 0) != FALSE) {
+	    retval = TCL_OK;
+	}
+#ifndef HAVE_NO_SEH
+    } __except (EXCEPTION_EXECUTE_HANDLER) {}
+#endif
 #endif
 
     if (retval != -1) {
@@ -766,34 +771,35 @@ TclpObjDeleteFile(
 
 int
 TclpDeleteFile(
-    const TCHAR *nativePath)	/* Pathname of file to be removed (native). */
+    const void *nativePath)	/* Pathname of file to be removed (native). */
 {
     DWORD attr;
+    const TCHAR *path = nativePath;
 
     /*
      * The DeleteFile API acts differently under Win95/98 and NT WRT NULL and
      * "". Avoid passing these values.
      */
 
-    if (nativePath == NULL || nativePath[0] == '\0') {
+    if (path == NULL || path[0] == '\0') {
 	Tcl_SetErrno(ENOENT);
 	return TCL_ERROR;
     }
 
-    if (tclWinProcs->deleteFileProc(nativePath) != FALSE) {
+    if (tclWinProcs->deleteFileProc(path) != FALSE) {
 	return TCL_OK;
     }
     TclWinConvertError(GetLastError());
 
     if (Tcl_GetErrno() == EACCES) {
-	attr = tclWinProcs->getFileAttributesProc(nativePath);
+	attr = tclWinProcs->getFileAttributesProc(path);
 	if (attr != 0xffffffff) {
 	    if (attr & FILE_ATTRIBUTE_DIRECTORY) {
 		if (attr & FILE_ATTRIBUTE_REPARSE_POINT) {
 		    /*
 		     * It is a symbolic link - remove it.
 		     */
-		    if (TclWinSymLinkDelete(nativePath, 0) == 0) {
+		    if (TclWinSymLinkDelete(path, 0) == 0) {
 			return TCL_OK;
 		    }
 		}
@@ -807,21 +813,21 @@ TclpDeleteFile(
 
 		Tcl_SetErrno(EISDIR);
 	    } else if (attr & FILE_ATTRIBUTE_READONLY) {
-		int res = tclWinProcs->setFileAttributesProc(nativePath,
+		int res = tclWinProcs->setFileAttributesProc(path,
 			attr & ~((DWORD) FILE_ATTRIBUTE_READONLY));
 
 		if ((res != 0) &&
-			(tclWinProcs->deleteFileProc(nativePath) != FALSE)) {
+			(tclWinProcs->deleteFileProc(path) != FALSE)) {
 		    return TCL_OK;
 		}
 		TclWinConvertError(GetLastError());
 		if (res != 0) {
-		    tclWinProcs->setFileAttributesProc(nativePath, attr);
+		    tclWinProcs->setFileAttributesProc(path, attr);
 		}
 	    }
 	}
     } else if (Tcl_GetErrno() == ENOENT) {
-	attr = tclWinProcs->getFileAttributesProc(nativePath);
+	attr = tclWinProcs->getFileAttributesProc(path);
 	if (attr != 0xffffffff) {
 	    if (attr & FILE_ATTRIBUTE_DIRECTORY) {
 		/*

@@ -664,6 +664,8 @@ TCL_PATCH_LEVEL
 TCL_MINOR_VERSION
 TCL_MAJOR_VERSION
 TCL_VERSION
+VC_MANIFEST_EMBED_EXE
+VC_MANIFEST_EMBED_DLL
 LDFLAGS_DEFAULT
 CFLAGS_DEFAULT
 ZLIB_OBJS
@@ -738,6 +740,7 @@ enable_64bit
 enable_wince
 with_celib
 enable_symbols
+enable_embedded_manifest
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1361,6 +1364,8 @@ Optional Features:
   --enable-64bit          enable 64bit support (where applicable)
   --enable-wince          enable Win/CE support (where applicable)
   --enable-symbols        build with debugging symbols --disable-symbols
+  --enable-embedded-manifest
+                          embed manifest if possible (default: yes)
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -4229,7 +4234,7 @@ $as_echo "$as_me: WARNING: 64bit mode not supported with GCC on Windows" >&2;}
 	fi
 	SHLIB_LD=""
 	SHLIB_LD_LIBS='${LIBS}'
-	LIBS="-lws2_32"
+	LIBS="-lkernel32 -luser32 -ladvapi32 -lws2_32"
 	# mingw needs to link ole32 and oleaut32 for [send], but MSVC doesn't
 	LIBS_GUI="-lgdi32 -lcomdlg32 -limm32 -lcomctl32 -lshell32 -luuid -lole32 -loleaut32"
 	STLIB_LD='${AR} cr'
@@ -4679,6 +4684,61 @@ $as_echo "enabled $tcl_ok debugging" >&6; }
 
 
 TCL_DBGX=${DBGX}
+
+#--------------------------------------------------------------------
+# Embed the manifest if we can determine how
+#--------------------------------------------------------------------
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to embed manifest" >&5
+$as_echo_n "checking whether to embed manifest... " >&6; }
+    # Check whether --enable-embedded-manifest was given.
+if test "${enable_embedded_manifest+set}" = set; then :
+  enableval=$enable_embedded_manifest; embed_ok=$enableval
+else
+  embed_ok=yes
+fi
+
+
+    VC_MANIFEST_EMBED_DLL=
+    VC_MANIFEST_EMBED_EXE=
+    result=no
+    if test "$embed_ok" = "yes" -a "${SHARED_BUILD}" = "1" \
+       -a "$GCC" != "yes" ; then
+	# Add the magic to embed the manifest into the dll/exe
+	cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#if defined(_MSC_VER) && _MSC_VER >= 1400
+print("manifest needed")
+#endif
+
+_ACEOF
+if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
+  $EGREP "manifest needed" >/dev/null 2>&1; then :
+
+	# Could do a CHECK_PROG for mt, but should always be with MSVC8+
+	# Could add 'if test -f' check, but manifest should be created
+	# in this compiler case
+	# Add in a manifest argument that may be specified
+	# XXX Needs improvement so that the test for existence accounts
+	# XXX for a provided (known) manifest
+	VC_MANIFEST_EMBED_DLL="if test -f \$@.manifest ; then mt.exe -nologo -manifest \$@.manifest  -outputresource:\$@\;2 ; fi"
+	VC_MANIFEST_EMBED_EXE="if test -f \$@.manifest ; then mt.exe -nologo -manifest \$@.manifest  -outputresource:\$@\;1 ; fi"
+	result=yes
+	if test "x" != x ; then
+	    result="yes ()"
+	fi
+
+fi
+rm -f conftest*
+
+    fi
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $result" >&5
+$as_echo "$result" >&6; }
+
+
+
 
 #------------------------------------------------------------------------
 # tclConfig.sh refers to this by a different name

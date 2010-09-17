@@ -1153,9 +1153,7 @@ typedef struct CallFrame {
 				 * specify. */
     LocalCache *localCachePtr;
     struct TEOV_callback *tailcallPtr;
-				/* The callback implementing the call to be
-				 * executed by the command that pushed this
-				 * frame. */
+				/* NULL if no tailcall is scheduled */
 } CallFrame;
 
 #define FRAME_IS_PROC	0x1
@@ -2756,11 +2754,8 @@ MODULE_SCOPE Tcl_ObjCmdProc TclNRYieldObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRYieldmObjCmd;
 MODULE_SCOPE Tcl_ObjCmdProc TclNRYieldToObjCmd;
 
-MODULE_SCOPE void	TclClearTailcall(Tcl_Interp *interp,
-			    struct TEOV_callback *tailcallPtr);
-MODULE_SCOPE void       TclSpliceTailcall(Tcl_Interp *interp,
-	                    struct TEOV_callback *tailcallPtr,
-	                    int skip);
+MODULE_SCOPE void  TclSpliceTailcall(Tcl_Interp *interp,
+	               struct TEOV_callback *tailcallPtr);
 
 /*
  * This structure holds the data for the various iteration callbacks used to
@@ -2991,7 +2986,7 @@ MODULE_SCOPE Tcl_Obj *	TclpTempFileName(void);
 MODULE_SCOPE Tcl_Obj *  TclpTempFileNameForLibrary(Tcl_Interp *interp, Tcl_Obj* pathPtr);
 MODULE_SCOPE Tcl_Obj *	TclNewFSPathObj(Tcl_Obj *dirPtr, const char *addStrRep,
 			    int len);
-MODULE_SCOPE int	TclpDeleteFile(const char *path);
+MODULE_SCOPE int	TclpDeleteFile(const void *path);
 MODULE_SCOPE void	TclpFinalizeCondition(Tcl_Condition *condPtr);
 MODULE_SCOPE void	TclpFinalizeMutex(Tcl_Mutex *mutexPtr);
 MODULE_SCOPE void	TclpFinalizePipes(void);
@@ -3000,7 +2995,7 @@ MODULE_SCOPE int	TclCreateSocketAddress(struct addrinfo **addrlist,
 			    const char *host, int port, int willBind,
 			    const char **errorMsgPtr);
 MODULE_SCOPE int	TclpThreadCreate(Tcl_ThreadId *idPtr,
-			    Tcl_ThreadCreateProc proc, ClientData clientData,
+			    Tcl_ThreadCreateProc *proc, ClientData clientData,
 			    int stackSize, int flags);
 MODULE_SCOPE int	TclpFindVariable(const char *name, int *lengthPtr);
 MODULE_SCOPE void	TclpInitLibraryPath(char **valuePtr,
@@ -4160,7 +4155,7 @@ MODULE_SCOPE void	TclDbInitNewObj(Tcl_Obj *objPtr, const char *file,
  *----------------------------------------------------------------------
  */
 
-MODULE_SCOPE int	TclTommath_Init(Tcl_Interp *interp);
+MODULE_SCOPE Tcl_PackageInitProc TclTommath_Init;
 MODULE_SCOPE void	TclBNInitBignumFromLong(mp_int *bignum, long initVal);
 MODULE_SCOPE void	TclBNInitBignumFromWideInt(mp_int *bignum,
 			    Tcl_WideInt initVal);
@@ -4177,11 +4172,11 @@ MODULE_SCOPE void	TclBNInitBignumFromWideUInt(mp_int *bignum,
  *----------------------------------------------------------------------
  */
 
-MODULE_SCOPE int	TclplatformtestInit(Tcl_Interp *interp);
-MODULE_SCOPE int	TclObjTest_Init(Tcl_Interp *interp);
-MODULE_SCOPE int	TclThread_Init(Tcl_Interp *interp);
-MODULE_SCOPE int	Procbodytest_Init(Tcl_Interp *interp);
-MODULE_SCOPE int	Procbodytest_SafeInit(Tcl_Interp *interp);
+MODULE_SCOPE Tcl_PackageInitProc TclplatformtestInit;
+MODULE_SCOPE Tcl_PackageInitProc TclObjTest_Init;
+MODULE_SCOPE Tcl_PackageInitProc TclThread_Init;
+MODULE_SCOPE Tcl_PackageInitProc Procbodytest_Init;
+MODULE_SCOPE Tcl_PackageInitProc Procbodytest_SafeInit;
 
 /*
  *----------------------------------------------------------------

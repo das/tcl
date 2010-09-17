@@ -165,6 +165,9 @@ static Tcl_NRPostProc	TEOV_RestoreVarFrame;
 static Tcl_NRPostProc	TEOV_RunLeaveTraces;
 static Tcl_NRPostProc	YieldToCallback;
 
+static void	        ClearTailcall(Tcl_Interp *interp,
+			    struct TEOV_callback *tailcallPtr);
+
 MODULE_SCOPE const TclStubs tclStubs;
 
 /*
@@ -475,9 +478,9 @@ Tcl_CreateInterp(void)
      * the Tcl_CallFrame structure (or vice versa).
      */
 
-    if (sizeof(Tcl_CallFrame) != sizeof(CallFrame)) {
+    if (sizeof(Tcl_CallFrame) < sizeof(CallFrame)) {
 	/*NOTREACHED*/
-	Tcl_Panic("Tcl_CallFrame and CallFrame are not the same size");
+	Tcl_Panic("Tcl_CallFrame must not be smaller than CallFrame");
     }
 
     if (cancelTableInitialized == 0) {
@@ -649,7 +652,7 @@ Tcl_CreateInterp(void)
     cancelInfo->length = 0;
 
     Tcl_MutexLock(&cancelLock);
-    hPtr = Tcl_CreateHashEntry(&cancelTable, (char *) iPtr, &isNew);
+    hPtr = Tcl_CreateHashEntry(&cancelTable, iPtr, &isNew);
     Tcl_SetHashValue(hPtr, cancelInfo);
     Tcl_MutexUnlock(&cancelLock);
 
@@ -920,8 +923,7 @@ Tcl_CreateInterp(void)
      * TIP #268: Full patchlevel instead of just major.minor
      */
 
-    Tcl_PkgProvideEx(interp, "Tcl", TCL_PATCH_LEVEL,
-	    (ClientData) &tclStubs);
+    Tcl_PkgProvideEx(interp, "Tcl", TCL_PATCH_LEVEL, &tclStubs);
 
     if (TclTommath_Init(interp) != TCL_OK) {
 	Tcl_Panic(Tcl_GetString(Tcl_GetObjResult(interp)));
@@ -1677,6 +1679,7 @@ Tcl_HideCommand(
 	Tcl_AppendResult(interp,
 		"cannot use namespace qualifiers in hidden command"
 		" token (rename)", NULL);
+        Tcl_SetErrorCode(interp, "TCL", "VALUE", "HIDDENTOKEN", NULL);
 	return TCL_ERROR;
     }
 
@@ -1700,6 +1703,7 @@ Tcl_HideCommand(
     if (cmdPtr->nsPtr != iPtr->globalNsPtr) {
 	Tcl_AppendResult(interp, "can only hide global namespace commands"
 		" (use rename then hide)", NULL);
+        Tcl_SetErrorCode(interp, "TCL", "HIDE", "NON_GLOBAL", NULL);
 	return TCL_ERROR;
     }
 
@@ -1725,6 +1729,7 @@ Tcl_HideCommand(
     if (!isNew) {
 	Tcl_AppendResult(interp, "hidden command named \"", hiddenCmdToken,
 		"\" already exists", NULL);
+        Tcl_SetErrorCode(interp, "TCL", "HIDE", "ALREADY_HIDDEN", NULL);
 	return TCL_ERROR;
     }
 
@@ -1827,6 +1832,7 @@ Tcl_ExposeCommand(
     if (strstr(cmdName, "::") != NULL) {
 	Tcl_AppendResult(interp, "cannot expose to a namespace "
 		"(use expose to toplevel, then rename)", NULL);
+        Tcl_SetErrorCode(interp, "TCL", "EXPOSE", "NON_GLOBAL", NULL);
 	return TCL_ERROR;
     }
 
@@ -1842,6 +1848,8 @@ Tcl_ExposeCommand(
     if (hPtr == NULL) {
 	Tcl_AppendResult(interp, "unknown hidden command \"", hiddenCmdToken,
 		"\"", NULL);
+        Tcl_SetErrorCode(interp, "TCL", "LOOKUP", "HIDDENTOKEN",
+                hiddenCmdToken, NULL);
 	return TCL_ERROR;
     }
     cmdPtr = Tcl_GetHashValue(hPtr);
@@ -1859,7 +1867,7 @@ Tcl_ExposeCommand(
 	 */
 
 	Tcl_AppendResult(interp,
-		"trying to expose a non global command name space command",
+		"trying to expose a non-global command namespace command",
 		NULL);
 	return TCL_ERROR;
     }
@@ -1879,6 +1887,7 @@ Tcl_ExposeCommand(
     if (!isNew) {
 	Tcl_AppendResult(interp, "exposed command \"", cmdName,
 		"\" already exists", NULL);
+        Tcl_SetErrorCode(interp, "TCL", "EXPOSE", "COMMAND_EXISTS", NULL);
 	return TCL_ERROR;
     }
 
@@ -2425,6 +2434,7 @@ TclRenameCommand(
 	Tcl_AppendResult(interp, "can't ",
 		((newName == NULL)||(*newName == '\0'))? "delete":"rename",
 		" \"", oldName, "\": command doesn't exist", NULL);
+        Tcl_SetErrorCode(interp, "TCL", "LOOKUP", "COMMAND", oldName, NULL);
 	return TCL_ERROR;
     }
     cmdNsPtr = cmdPtr->nsPtr;
@@ -2455,12 +2465,14 @@ TclRenameCommand(
     if ((newNsPtr == NULL) || (newTail == NULL)) {
 	Tcl_AppendResult(interp, "can't rename to \"", newName,
 		"\": bad command name", NULL);
+        Tcl_SetErrorCode(interp, "TCL", "VALUE", "COMMAND", NULL);
 	result = TCL_ERROR;
 	goto done;
     }
     if (Tcl_FindHashEntry(&newNsPtr->cmdTable, newTail) != NULL) {
 	Tcl_AppendResult(interp, "can't rename to \"", newName,
 		 "\": command already exists", NULL);
+        Tcl_SetErrorCode(interp, "TCL", "RENAME", "TARGET_EXISTS", NULL);
 	result = TCL_ERROR;
 	goto done;
     }
@@ -3765,6 +3777,7 @@ TclInterpReady(
 
     Tcl_AppendResult(interp,
 	    "too many nested evaluations (infinite loop?)", NULL);
+    Tcl_SetErrorCode(interp, "TCL", "LIMIT", "STACK", NULL);
     return TCL_ERROR;
 }
 
@@ -4387,13 +4400,6 @@ NRCallTEBC(
     switch (type) {
     case TCL_NR_BC_TYPE:
 	return TclExecuteByteCode(interp, data[1]);
-    case TCL_NR_TAILCALL_TYPE:
-	/* For tailcalls */
-	Tcl_SetResult(interp,
-		"tailcall can only be called from a proc or lambda",
-		TCL_STATIC);
-	Tcl_SetErrorCode(interp, "TCL", "TAILCALL", "ILLEGAL", NULL);
-	return TCL_ERROR;
     case TCL_NR_YIELD_TYPE:
 	if (iPtr->execEnvPtr->corPtr) {
 	    Tcl_SetResult(interp, "cannot yield: C stack busy", TCL_STATIC);
@@ -4615,8 +4621,12 @@ TEOV_NotFound(
     if (cmdPtr == NULL) {
 	Tcl_AppendResult(interp, "invalid command name \"",
 		TclGetString(objv[0]), "\"", NULL);
+        Tcl_SetErrorCode(interp, "TCL", "LOOKUP", "COMMAND",
+                TclGetString(objv[0]), NULL);
+
 	/*
-	 * Release any resources we locked and allocated during the handler call.
+	 * Release any resources we locked and allocated during the handler
+	 * call.
 	 */
 
 	for (i = 0; i < handlerObjc; ++i) {
@@ -5504,7 +5514,7 @@ TclArgumentEnter(
 	if (cfPtr->line[i] < 0) {
 	    continue;
 	}
-	hPtr = Tcl_CreateHashEntry(iPtr->lineLAPtr, (char *) objv[i], &new);
+	hPtr = Tcl_CreateHashEntry(iPtr->lineLAPtr, objv[i], &new);
 	if (new) {
 	    /*
 	     * The word is not on the stack yet, remember the current location
@@ -5637,7 +5647,7 @@ TclArgumentBCEnter(
 		int isnew;
 		Tcl_HashEntry *hPtr =
 			Tcl_CreateHashEntry(iPtr->lineLABCPtr,
-				(char *) objv[word], &isnew);
+				objv[word], &isnew);
 		CFWordBC *cfwPtr = (CFWordBC *) ckalloc(sizeof(CFWordBC));
 
 		cfwPtr->framePtr = cfPtr;
@@ -6639,6 +6649,8 @@ TclObjInvoke(
     if (hPtr == NULL) {
 	Tcl_AppendResult(interp, "invalid hidden command name \"",
 		cmdName, "\"", NULL);
+        Tcl_SetErrorCode(interp, "TCL", "LOOKUP", "HIDDENTOKEN", cmdName,
+                NULL);
 	return TCL_ERROR;
     }
     cmdPtr = Tcl_GetHashValue(hPtr);
@@ -8277,54 +8289,27 @@ Tcl_NRCmdSwap(
 void
 TclSpliceTailcall(
     Tcl_Interp *interp,
-    TEOV_callback *tailcallPtr,
-    int skip)
+    TEOV_callback *tailcallPtr)
 {
     /*
      * Find the splicing spot: right before the NRCommand of the thing
      * being tailcalled. Note that we skip NRCommands marked in data[1]
-     * (used by command redirectors), and we skip the first command that we
-     * find if requested to do so: it corresponds to [tailcall] itself.
+     * (used by command redirectors).
      */
 
-    Interp *iPtr = (Interp *) interp;
     TEOV_callback *runPtr;
-    ExecEnv *eePtr = NULL;
 
-  restart:
     for (runPtr = TOP_CB(interp); runPtr; runPtr = runPtr->nextPtr) {
 	if (((runPtr->procPtr) == NRCommand) && !runPtr->data[1]) {
-	    if (!skip) break;
-            skip = 0;
-	}
+            break;
+        }
     }
     if (!runPtr) {
-	/*
-	 * If we are tailcalling out of a coroutine, the splicing spot is in
-	 * the caller's execEnv: go find it!
-	 */
-
-	CoroutineData *corPtr = iPtr->execEnvPtr->corPtr;
-
-	if (corPtr) {
-	    eePtr = iPtr->execEnvPtr;
-	    iPtr->execEnvPtr = corPtr->callerEEPtr;
-	    goto restart;
-	}
-	Tcl_Panic("Tailcall cannot find the right splicing spot: should not happen!");
+        Tcl_Panic("tailcall cannot find the right splicing spot: should not happen!");
     }
 
     tailcallPtr->nextPtr = runPtr->nextPtr;
     runPtr->nextPtr = tailcallPtr;
-
-    if (eePtr) {
-	/*
-	 * Restore the right execEnv if it was swapped for tailcalling out
-	 * of a coroutine.
-	 */
-
-	iPtr->execEnvPtr = eePtr;
-    }
 }
 
 int
@@ -8335,49 +8320,59 @@ TclNRTailcallObjCmd(
     Tcl_Obj *const objv[])
 {
     Interp *iPtr = (Interp *) interp;
-    Tcl_Obj *listPtr, *nsObjPtr;
-    Tcl_Namespace *nsPtr = (Tcl_Namespace *) iPtr->varFramePtr->nsPtr;
-    Tcl_Namespace *ns1Ptr;
-    TEOV_callback *tailcallPtr;
 
-    if (objc < 2) {
-	Tcl_WrongNumArgs(interp, 1, objv, "command ?arg ...?");
+    if (objc < 1) {
+	Tcl_WrongNumArgs(interp, 1, objv, "?command? ?arg ...?");
 	return TCL_ERROR;
     }
 
-    if (!iPtr->varFramePtr->isProcCallFrame ||		/* is not a body */
-	    (iPtr->framePtr != iPtr->varFramePtr)) {	/* or is upleveled */
-	Tcl_SetResult(interp,
-		"tailcall can only be called from a proc or lambda",
-		TCL_STATIC);
-	Tcl_SetErrorCode(interp, "TCL", "TAILCALL", "ILLEGAL", NULL);
+    if (!iPtr->varFramePtr->isProcCallFrame) {	/* or is upleveled */
+        Tcl_SetResult(interp,
+                "tailcall can only be called from a proc or lambda",
+                TCL_STATIC);
+        Tcl_SetErrorCode(interp, "TCL", "TAILCALL", "ILLEGAL", NULL);
 	return TCL_ERROR;
     }
 
-    listPtr = Tcl_NewListObj(objc-1, objv+1);
-    Tcl_IncrRefCount(listPtr);
+    /*
+     * Invocation without args just clears a scheduled tailcall; invocation
+     * with an argument replaces any previously scheduled tailcall.
+     */
 
-    nsObjPtr = Tcl_NewStringObj(nsPtr->fullName, -1);
-    if ((TCL_OK != TclGetNamespaceFromObj(interp, nsObjPtr, &ns1Ptr))
-	    || (nsPtr != ns1Ptr)) {
-	Tcl_Panic("Tailcall failed to find the proper namespace");
+    if (iPtr->varFramePtr->tailcallPtr) {
+        ClearTailcall(interp, iPtr->varFramePtr->tailcallPtr);
+        iPtr->varFramePtr->tailcallPtr = NULL;
     }
-    Tcl_IncrRefCount(nsObjPtr);
 
     /*
      * Create the callback to actually evaluate the tailcalled
-     * command, then pass it to tebc so that it is stashed at the proper
-     * place. Being lazy: exploit the TclNRAddCallBack macro to build the
-     * callback.
+     * command, then set it in the varFrame so that PopCallFrame can use it
+     * at the proper time. Being lazy: exploit the TclNRAddCallBack macro to
+     * build the callback.
      */
 
-    TclNRAddCallback(interp, NRTailcallEval, listPtr, nsObjPtr, NULL, NULL);
-    tailcallPtr = TOP_CB(interp);
-    TOP_CB(interp) = tailcallPtr->nextPtr;
+    if (objc > 1) {
+        Tcl_Obj *listPtr, *nsObjPtr;
+        Tcl_Namespace *nsPtr = (Tcl_Namespace *) iPtr->varFramePtr->nsPtr;
+        Tcl_Namespace *ns1Ptr;
+        TEOV_callback *tailcallPtr;
+        
+        listPtr = Tcl_NewListObj(objc-1, objv+1);
+        Tcl_IncrRefCount(listPtr);
 
-    TclNRAddCallback(interp, NRCallTEBC, INT2PTR(TCL_NR_TAILCALL_TYPE),
-	    tailcallPtr, NULL, NULL);
-    return TCL_OK;
+        nsObjPtr = Tcl_NewStringObj(nsPtr->fullName, -1);
+        if ((TCL_OK != TclGetNamespaceFromObj(interp, nsObjPtr, &ns1Ptr))
+                || (nsPtr != ns1Ptr)) {
+            Tcl_Panic("Tailcall failed to find the proper namespace");
+        }
+        Tcl_IncrRefCount(nsObjPtr);
+
+        TclNRAddCallback(interp, NRTailcallEval, listPtr, nsObjPtr, NULL, NULL);
+        tailcallPtr = TOP_CB(interp);
+        TOP_CB(interp) = tailcallPtr->nextPtr;
+        iPtr->varFramePtr->tailcallPtr = tailcallPtr;
+    }
+    return TCL_RETURN;
 }
 
 int
@@ -8393,16 +8388,28 @@ NRTailcallEval(
     int objc;
     Tcl_Obj **objv;
 
-    TclNRDeferCallback(interp, TailcallCleanup, listPtr, nsObjPtr, NULL,NULL);
     if (result == TCL_OK) {
 	result = TclGetNamespaceFromObj(interp, nsObjPtr, &nsPtr);
-	if (result == TCL_OK) {
-	    iPtr->lookupNsPtr = (Namespace *) nsPtr;
-	    ListObjGetElements(listPtr, objc, objv);
-	    result = TclNREvalObjv(interp, objc, objv, 0, NULL);
-	}
     }
-    return result;
+
+    if (result != TCL_OK) {
+        /*
+         * Tailcall execution was preempted, eg by an intervening catch or by
+         * a now-gone namespace: cleanup and return.
+         */
+        
+        TailcallCleanup(data, interp, result);
+        return result;
+    }
+
+    /*
+     * Perform the tailcall
+     */
+
+    TclNRDeferCallback(interp, TailcallCleanup, listPtr, nsObjPtr, NULL,NULL);
+    iPtr->lookupNsPtr = (Namespace *) nsPtr;
+    ListObjGetElements(listPtr, objc, objv);
+    return TclNREvalObjv(interp, objc, objv, 0, NULL);
 }
 
 static int
@@ -8416,8 +8423,8 @@ TailcallCleanup(
     return result;
 }
 
-void
-TclClearTailcall(
+static void
+ClearTailcall(
     Tcl_Interp *interp,
     TEOV_callback *tailcallPtr)
 {
@@ -8571,7 +8578,7 @@ TclNRYieldToObjCmd(
 	    NULL);
     iPtr->execEnvPtr = corPtr->eePtr;
 
-    return TclNRYieldObjCmd(clientData, interp, objc-1, objv+1);
+    return TclNRYieldObjCmd(clientData, interp, 1, objv);
 }
 
 static int
@@ -8593,7 +8600,7 @@ YieldToCallback(
     cbPtr = TOP_CB(interp);
     TOP_CB(interp) = cbPtr->nextPtr;
 
-    TclSpliceTailcall(interp, cbPtr, 0);
+    TclSpliceTailcall(interp, cbPtr);
     return TCL_OK;
 }
 
@@ -8817,13 +8824,11 @@ TclNRCoroutineObjCmd(
     Command *cmdPtr;
     CoroutineData *corPtr;
     Tcl_Obj *cmdObjPtr;
-    const char *fullName;
-    const char *procName;
+    const char *fullName, *procName;
     Namespace *nsPtr, *altNsPtr, *cxtNsPtr;
     Tcl_DString ds;
     Tcl_CallFrame *framePtr;
     
-
     if (objc < 3) {
 	Tcl_WrongNumArgs(interp, 1, objv, "name cmd ?arg ...?");
 	return TCL_ERROR;
@@ -8841,11 +8846,13 @@ TclNRCoroutineObjCmd(
     if (nsPtr == NULL) {
 	Tcl_AppendResult(interp, "can't create procedure \"", fullName,
 		"\": unknown namespace", NULL);
+        Tcl_SetErrorCode(interp, "TCL", "LOOKUP", "NAMESPACE", NULL);
 	return TCL_ERROR;
     }
     if (procName == NULL) {
 	Tcl_AppendResult(interp, "can't create procedure \"", fullName,
 		"\": bad procedure name", NULL);
+        Tcl_SetErrorCode(interp, "TCL", "VALUE", "COMMAND", fullName, NULL);
 	return TCL_ERROR;
     }
     if ((nsPtr != iPtr->globalNsPtr)
@@ -8853,6 +8860,7 @@ TclNRCoroutineObjCmd(
 	Tcl_AppendResult(interp, "can't create procedure \"", procName,
 		"\" in non-global namespace with name starting with \":\"",
 		NULL);
+        Tcl_SetErrorCode(interp, "TCL", "VALUE", "COMMAND", procName, NULL);
 	return TCL_ERROR;
     }
 
@@ -8907,7 +8915,7 @@ TclNRCoroutineObjCmd(
 	    int isNew;
 	    Tcl_HashEntry *newPtr =
 		    Tcl_CreateHashEntry(corPtr->base.lineLABCPtr,
-		    (char *) Tcl_GetHashKey(iPtr->lineLABCPtr, hePtr),
+		    Tcl_GetHashKey(iPtr->lineLABCPtr, hePtr),
 		    &isNew);
 
 	    Tcl_SetHashValue(newPtr, Tcl_GetHashValue(hePtr));
@@ -8973,7 +8981,6 @@ TclNRCoroutineObjCmd(
 
     TclNRAddCallback(interp, NRCoroutineExitCallback, corPtr,
 	    NULL, NULL, NULL);
-    iPtr->evalFlags |= TCL_EVAL_REDIRECT;
     iPtr->lookupNsPtr = nsPtr;
     TclNREvalObjEx(interp, cmdObjPtr, 0, NULL, 0);
 

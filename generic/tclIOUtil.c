@@ -4564,7 +4564,7 @@ Tcl_FSGetFileSystemForPath(
  *---------------------------------------------------------------------------
  */
 
-const char *
+const void *
 Tcl_FSGetNativePath(
     Tcl_Obj *pathPtr)
 {

@@ -5,7 +5,7 @@
 #
 # See the file "license.terms" for information on usage and redistribution
 # of this file, and for a DISCLAIMER OF ALL WARRANTIES.
-# 
+#
 # Copyright (c) 1995-1996 Sun Microsystems, Inc.
 # Copyright (c) 1998-2000 Ajuba Solutions.
 # Copyright (c) 2001-2005 ActiveState Corporation.
@@ -47,8 +47,7 @@ the build instructions.
 #
 # 3)  Targets are:
 #	release  -- Builds the core, the shell and the dlls. (default)
-#	dlls     -- Just builds the windows extensions and the 16-bit DOS
-#		    pipe/thunk helper app.
+#	dlls     -- Just builds the windows extensions
 #	shell    -- Just builds the shell and the core.
 #	core     -- Only builds the core [tclXX.(dll|lib)].
 #	all      -- Builds everything.
@@ -94,7 +93,7 @@ the build instructions.
 #		thrdalloc = Use the thread allocator (shared global free pool)
 #			   This is the default on threaded builds.
 #		tclalloc = Use the old non-thread allocator
-#		symbols  = Debug build. Links to the debug C runtime, disables 
+#		symbols  = Debug build. Links to the debug C runtime, disables
 #			   optimizations and creates pdb symbols files.
 #		pdbs     = Build detached symbols for release builds.
 #		profile  = Adds profiling hooks.  Map file is assumed.
@@ -117,7 +116,7 @@ the build instructions.
 #		Sets special macros for checking compatability.
 #
 #		nodep	 = Turns off compatability macros to ensure the core
-#			    isn't being built with deprecated functions. 
+#			    isn't being built with deprecated functions.
 #		fullwarn = Builds with full compiler and link warnings enabled.
 #			    Very verbose.
 #		64bit    = Enable 64bit portability warnings (if available)
@@ -131,7 +130,7 @@ the build instructions.
 #	TMP_DIR=<path>
 #	OUT_DIR=<path>
 #		Hooks to allow the intermediate and output directories to be
-#		changed.  $(OUT_DIR) is assumed to be 
+#		changed.  $(OUT_DIR) is assumed to be
 #		$(BINROOT)\(Release|Debug) based on if symbols are requested.
 #		$(TMP_DIR) will de $(OUT_DIR)\<buildtype> by default.
 #
@@ -208,8 +207,6 @@ TCLSTUBLIB	= $(OUT_DIR)\$(TCLSTUBLIBNAME)
 
 TCLSHNAME	= $(PROJECT)sh$(VERSION)$(SUFX).exe
 TCLSH		= $(OUT_DIR)\$(TCLSHNAME)
-TCLPIPEDLLNAME	= $(PROJECT)pip$(VERSION)$(SUFX:t=).dll
-TCLPIPEDLL	= $(OUT_DIR)\$(TCLPIPEDLLNAME)
 
 TCLREGLIBNAME	= $(PROJECT)reg$(REGVERSION)$(SUFX:t=).$(EXT)
 TCLREGLIB	= $(OUT_DIR)\$(TCLREGLIBNAME)
@@ -451,7 +448,7 @@ PKGSDIR		= $(ROOT)\pkgs
 ### This cranks the optimization level to maximize speed
 cdebug	= -O2 $(OPTIMIZATIONS)
 !else
-cdebug	= 
+cdebug	=
 !endif
 !if $(SYMBOLS)
 cdebug	= $(cdebug) -Zi
@@ -482,8 +479,7 @@ crt = -MT
 !endif
 
 TCL_INCLUDES	= -I"$(WINDIR)" -I"$(GENERICDIR)" -I"$(TOMMATHDIR)"
-TCL_DEFINES	= -DTCL_PIPE_DLL=\"$(TCLPIPEDLLNAME)\" -DTCL_TOMMATH -DMP_PREC=4 \
-		  -Dinline=__inline -DHAVE_ZLIB=1
+TCL_DEFINES	= -DTCL_TOMMATH -DMP_PREC=4 -Dinline=__inline -DHAVE_ZLIB=1
 BASE_CFLAGS	= $(cflags) $(cdebug) $(crt) $(TCL_INCLUDES) $(TCL_DEFINES)
 CON_CFLAGS	= $(cflags) $(cdebug) $(crt) -DCONSOLE
 TCL_CFLAGS	= $(BASE_CFLAGS) $(OPTDEFINES)
@@ -526,7 +522,7 @@ dlllflags = $(lflags) -dll
 conlflags = $(lflags) -subsystem:console
 guilflags = $(lflags) -subsystem:windows
 
-baselibs   = kernel32.lib user32.lib ws2_32.lib
+baselibs   = kernel32.lib user32.lib advapi32.lib ws2_32.lib
 # Avoid 'unresolved external symbol __security_cookie' errors.
 # c.f. http://support.microsoft.com/?id=894573
 !if "$(MACHINE)" == "IA64" || "$(MACHINE)" == "AMD64"
@@ -551,7 +547,7 @@ TESTFLAGS = $(TESTFLAGS) -file $(TESTPAT)
 release:    setup $(TCLSH) $(TCLSTUBLIB) dlls pkgs
 core:	    setup $(TCLLIB) $(TCLSTUBLIB)
 shell:	    setup $(TCLSH)
-dlls:	    setup $(TCLPIPEDLL) $(TCLREGLIB) $(TCLDDELIB)
+dlls:	    setup $(TCLREGLIB) $(TCLDDELIB)
 all:	    setup $(TCLSH) $(TCLSTUBLIB) dlls $(CAT32) pkgs
 tcltest:    setup $(TCLTEST) dlls $(CAT32)
 install:    install-binaries install-libraries install-docs install-pkgs
@@ -612,11 +608,6 @@ $(TCLSH): $(TCLSHOBJS) $(TCLSTUBLIB) $(TCLIMPLIB)
 $(TCLTEST): $(TCLTESTOBJS) $(TCLSTUBLIB) $(TCLIMPLIB)
 	$(link32) $(conlflags) -stack:2300000 -out:$@ $(baselibs) $**
 	$(_VC_MANIFEST_EMBED_EXE)
-
-$(TCLPIPEDLL): $(WINDIR)\stub16.c
-	$(cc32) $(CON_CFLAGS) -Fo$(TMP_DIR)\ $(WINDIR)\stub16.c
-	$(link32) $(conlflags) -out:$@ $(TMP_DIR)\stub16.obj $(baselibs)
-	$(_VC_MANIFEST_EMBED_DLL)
 
 !if $(STATIC_BUILD)
 $(TCLDDELIB): $(TMP_DIR)\tclWinDde.obj
@@ -845,8 +836,8 @@ $(OUT_DIR)\tclConfig.sh: $(WINDIR)\tclConfig.sh.in
 @LIBS@               $(baselibs)
 @prefix@             $(_INSTALLDIR)
 @exec_prefix@        $(BIN_INSTALL_DIR)
-@SHLIB_CFLAGS@       
-@STLIB_CFLAGS@       
+@SHLIB_CFLAGS@
+@STLIB_CFLAGS@
 @CFLAGS_WARNING@     -W3
 @EXTRA_CFLAGS@       -YX
 @SHLIB_LD@           $(link32) $(dlllflags)
@@ -864,7 +855,7 @@ $(OUT_DIR)\tclConfig.sh: $(WINDIR)\tclConfig.sh.in
 @TCL_INCLUDE_SPEC@   -I$(INCLUDE_INSTALL_DIR)
 @TCL_LIB_VERSIONS_OK@
 @TCL_SRC_DIR@        $(ROOT)
-@TCL_PACKAGE_PATH@   
+@TCL_PACKAGE_PATH@
 @TCL_STUB_LIB_FILE@  $(TCLSTUBLIBNAME)
 @TCL_STUB_LIB_FLAG@  $(TCLSTUBLIBNAME)
 @TCL_STUB_LIB_SPEC@  -L$(LIB_INSTALL_DIR) $(TCLSTUBLIBNAME)
@@ -884,7 +875,7 @@ $(OUT_DIR)\tclConfig.sh: $(WINDIR)\tclConfig.sh.in
 
 
 #---------------------------------------------------------------------
-# The following target generates the file generic/tclDate.c 
+# The following target generates the file generic/tclDate.c
 # from the yacc grammar found in generic/tclGetDate.y.  This is
 # only run by hand as yacc is not available in all environments.
 # The name of the .c file is different than the name of the .y file
@@ -1058,10 +1049,6 @@ install-binaries:
 !if exist($(TCLSH))
 	@echo Installing $(TCLSHNAME)
 	@$(CPY) "$(TCLSH)" "$(BIN_INSTALL_DIR)\"
-!endif
-!if exist($(TCLPIPEDLL))
-	@echo Installing $(TCLPIPEDLLNAME)
-	@$(CPY) "$(TCLPIPEDLL)" "$(BIN_INSTALL_DIR)\"
 !endif
 	@echo Installing $(TCLSTUBLIBNAME)
 	@$(CPY) "$(TCLSTUBLIB)" "$(LIB_INSTALL_DIR)\"

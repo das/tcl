@@ -831,9 +831,9 @@ TcpGetHandleProc(
     int direction,		/* Not used. */
     ClientData *handlePtr)	/* Where to store the handle. */
 {
-    TcpState *statePtr = instanceData;
-    
-    *handlePtr = (ClientData) INT2PTR(statePtr->fds->fd);
+    TcpState *statePtr = (TcpState *) instanceData;
+
+    *handlePtr = INT2PTR(statePtr->fds->fd);
     return TCL_OK;
 }
 

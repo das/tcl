@@ -145,28 +145,6 @@ typedef struct {
     WCHAR dummyBuf[MAX_PATH * 3];
 } DUMMY_REPARSE_BUFFER;
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1100)
-#undef	HAVE_NO_FINDEX_ENUMS
-#define HAVE_NO_FINDEX_ENUMS
-#elif !defined(_WIN32_WINNT) || (_WIN32_WINNT < 0x0400)
-#undef	HAVE_NO_FINDEX_ENUMS
-#define HAVE_NO_FINDEX_ENUMS
-#endif
-
-#ifdef HAVE_NO_FINDEX_ENUMS
-/* These two aren't in VC++ 5.2 headers */
-typedef enum _FINDEX_INFO_LEVELS {
-    FindExInfoStandard,
-    FindExInfoMaxInfoLevel
-} FINDEX_INFO_LEVELS;
-typedef enum _FINDEX_SEARCH_OPS {
-    FindExSearchNameMatch,
-    FindExSearchLimitToDirectories,
-    FindExSearchLimitToDevices,
-    FindExSearchMaxSearchOp
-} FINDEX_SEARCH_OPS;
-#endif /* HAVE_NO_FINDEX_ENUMS */
-
 /*
  * Other typedefs required by this code.
  */
@@ -224,7 +202,7 @@ WinLink(
     const TCHAR *linkTargetPath,
     int linkAction)
 {
-    TCHAR tempFileName[MAX_PATH*2];
+    TCHAR tempFileName[MAX_PATH];
     TCHAR *tempFilePart;
     DWORD attr;
 
@@ -345,7 +323,7 @@ static Tcl_Obj *
 WinReadLink(
     const TCHAR *linkSourcePath)
 {
-    TCHAR tempFileName[MAX_PATH*2];
+    TCHAR tempFileName[MAX_PATH];
     TCHAR *tempFilePart;
     DWORD attr;
 
@@ -1946,7 +1924,7 @@ TclpGetCwd(
     Tcl_DString *bufferPtr)	/* Uninitialized or free DString filled with
 				 * name of current directory. */
 {
-    TCHAR buffer[MAX_PATH*2];
+    TCHAR buffer[MAX_PATH];
     char *p;
 
     if (tclWinProcs->getCurrentDirectoryProc(MAX_PATH, buffer) == 0) {
@@ -2193,7 +2171,7 @@ NativeDev(
 {
     int dev;
     Tcl_DString ds;
-    TCHAR nativeFullPath[MAX_PATH*2];
+    TCHAR nativeFullPath[MAX_PATH];
     TCHAR *nativePart;
     const char *fullPath;
 
@@ -2367,7 +2345,7 @@ ClientData
 TclpGetNativeCwd(
     ClientData clientData)
 {
-    TCHAR buffer[MAX_PATH*2];
+    TCHAR buffer[MAX_PATH];
 
     if (tclWinProcs->getCurrentDirectoryProc(MAX_PATH, buffer) == 0) {
 	TclWinConvertError(GetLastError());
@@ -2485,7 +2463,7 @@ TclpFilesystemPathType(
 {
 #define VOL_BUF_SIZE 32
     int found;
-    TCHAR volType[VOL_BUF_SIZE*2];
+    TCHAR volType[VOL_BUF_SIZE];
     char *firstSeparator;
     const char *path;
     Tcl_Obj *normPath = Tcl_FSGetNormalizedPath(NULL, pathPtr);

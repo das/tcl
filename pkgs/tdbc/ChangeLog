@@ -1,3 +1,155 @@
+2010-09-03  Kevin B. Kenny  <kennykb@acm.org>
+
+	* doc/tdbc_connection.n:
+			Added description of the new 'primarykeys' and
+			'foreignkeys' methods to the manual.
+
+	* library/tdbc.tcl:
+			Revised the 'keySequence' column in 'foreignkeys'
+			to be 'ordinalPosition' instead, for consistency
+			with 'primarykeys'
+
+	* configure.in:
+	* Makefile.in:
+	* pkgIndex.tcl.in (new file):
+	* README:
+	* tdbcConfig.sh.in:
+	* generic/tdbc.h:
+	* tclconfig/:	Upgraded the build to use TEA 3.9. Changed the
+			approach to pkgIndex.tcl generation. (It's now built
+			at configure time, rather than from the Makefile.)
+			Advanced version number to 1.0b16.
+	* configure: 	autoconf 2.59
+
+2010-06-19  Kevin B. Kenny  <kennykb@acm.org>
+
+	* Makefile.in:			Revised the code at the suggestion
+	* generic/tdbc.c (Tdbc_Init):	of Andreas Kupries to avoid using
+	* tests/all.tcl:		'tcl_findLibrary' and instead execute
+	* tests/tdbc.test:		both 'source' and 'load' commands from
+	* tests/tokenize.test:		'pkgIndex.tcl'. Revised the 'make test'
+					rule, and the test scripts, to
+					test successfully under the new regime.
+					Thanks to Andreas for providing the
+					original patch, and to Joe English
+					for providing ideas for simplifying
+					and repairing 'make test' under the
+					new regime.
+
+2010-05-23  Kevin B. Kenny  <kennykb@acm.org>
+
+	* library/tdbc.tcl: Add methods 'primarykeys' and 'foreignkeys'
+			    on the 'tdbc::connection' object
+	                    to inspect database structure, and methods
+			    'BuildPrimaryKeysStatement' and
+	                    'BuildForeignKeysStatement' to initialize the
+	                    'statement' objects that the methods use.
+
+2010-05-10  Kevin B. Kenny  <kennykb@acm.org>
+
+	* aclocal.m4:	Add a TEAX_PATH_LINE rule to simplify emitting the
+			stub library paths in tdbcConfig.sh.
+	* tools/genExtStubs.tcl (ParseImports, writeStubDeclarations):
+			Add a new '* CONVENTION:' declaration to the
+			stub declarations that specifies the linkage
+			convention (e.g., __stdcall, WINAPI) that is
+			used in an imported library.
+	* configure.in: Add code to put the stub library path (build and
+			(install) in the tdbcConfig.sh file so that extensions
+			that import TDBC stubs can find it.
+	* generic/tdbc.h:
+	* README:	Advance release to 1.0b15
+
+2010-04-30  Kevin B. Kenny  <kennykb@acm.org>
+
+	* Makefile.in: Updated 'make dist' to include the tools that
+	               generate Stubs for external libs to support
+	               run-time loading.
+	* configure.in: Removed a stray backslash that caused a shell
+	                error message while configuring (and otherwise
+	                appeared harmless).
+	* tools/genExtStubs.tcl: Adjusted to generate the Stubs files in
+	                         Unix format only to avoid DOS-formatted files
+	                         sneaking into the repository.
+	
+2010-04-26  Kevin B. Kenny  <kennykb@acm.org>
+
+	* tools/genStubs.tcl: Revised 'genStubs' to write files in Unix
+			      format (-translation lf) so that 'make genstubs'
+	                      generates the same output on Unix and Windows.
+	* tdbcDecls.h:
+	* tdbcStubInit.h:     make genstubs
+	* README:
+	* configure.in:
+	* generic/tdbc.h:     Advance patchlevel to 1.0b14.1
+	* configure:          autoconf-2.59
+	
+	
+2010-04-25  Kevin B. Kenny  <kennykb@acm.org>
+
+	* configure.in:     Advance release to 1.0b14
+	* generic/tdbc.h:
+	* README:
+	* configure:        autoconf-2.59
+	
+2010-04-10  Kevin B. Kenny  <kennykb@acm.org>
+
+	* configure.in:
+	* tdbcConfig.sh.in: Modified to pass the build-time and run-time
+	                    Tcl script library directories in tdbcConfig.sh,
+	                    so that driver tests can be run before tdbc itself
+	                    is installed.
+	* configure: autoconf 2.59
+	
+2010-04-08  Kevin B. Kenny  <kennykb@acm.org>
+
+	* configure.in: 
+	* tdbcConfig.sh.in:  Revised names starting with TDBC_ to start
+	with tdbc_ in order to conform with the expectations of
+	TEA_LOAD_CONFIG. Added tdbc_BUILD_STUB_LIB_SPEC and
+	tdbc_BUILD_INCLUDE_SPEC to the generated tdbcConfig.sh so that
+	the Stubs library and include files for tdbc can be found in
+	the build directory as well as the install directory.
+
+	* configure: autoconf 2.59
+	
+2010-04-06  Kevin B. Kenny  <kennykb@acm.org>
+
+	* doc/Tdbc_Init.3:
+	* doc/tdbc.n:
+	* doc/tdbc_connection.n:
+	* doc/tdbc_mapSqlState.n:
+	* doc/tdbc_connection.n:
+	* doc/tdbc_resultset.n:
+	* doc/tdbc_statement.n:
+	* doc/tdbc_tokenize.n: Merged changes from the trunk of the 
+	Tcl source tree that make the documentation fit better with the
+	Tcl manuals. (Tickets [fcc8231b9e], [02c0131ba1] and [18c90402fb]).
+
+	* Makefile.in: Corrected a misinstallation of the manual
+	pages in the case where $(MANDIR)/man3 doesn't exist.
+	(Ticket [99e97fb098])
+
+	* generic/tdbc.c:
+	* generic/tdbcDecls.h:
+	* generic/tdbcStubInit.c:
+	* generic/tdbcStubLib.c:
+	* tools/genStubs.tcl: Made the Stubs tables (and a few other constants
+	formally 'const'. (Ticket [cf7bc364cc])
+	
+2010-03-14  Kevin B. Kenny  <kennykb@acm.org>
+
+	* tools/genExtStubs.tcl (new file): Added a tool so that
+	drivers can resolve imports into Stubs tables at run time, allowing
+	them to avoid compile-dependencies on the respective databases'
+	build systems. 
+	
+2010-03-01  Kevin B. Kenny  <kennykb@acm.org>
+
+	* tools/tdbc-man2html.tcl: Added SourceForge logo to the HTML
+	documentation, to comply with requirements for hosting the
+	documentation at SourceForge.
+
 2009-09-20  Kevin B. Kenny  <kennykb@acm.org>
 
 	* tools/tdbc-man2html.tcl: Added tdbcpostgres to the documentation set.

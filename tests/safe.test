@@ -544,6 +544,13 @@ test safe-12.6 {glob is restricted [Bug 2906841]} -setup {
 } -cleanup {
     safe::interpDelete $i
 } -result {}
+test safe-12.7 {glob is restricted} -setup {
+    set i [safe::interpCreate]
+} -body {
+    $i eval glob *
+} -cleanup {
+    safe::interpDelete $i
+} -match glob -result *
 
 set ::auto_path $saveAutoPath
 # cleanup

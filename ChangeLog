@@ -1,3 +1,536 @@
+2010-09-16  Jeff Hobbs  <jeffh@ActiveState.com>
+
+	* win/tclWinFile.c: remove define of FINDEX_INFO_LEVELS as all
+	supported versions of compilers should now have it.
+
+	* unix/Makefile.in: do not pass current build env vars when using
+	NATIVE_TCLSH in targets.
+
+2010-09-16  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* generic/tclDecls.h     Make Tcl_FindExecutable() work in UNICODE
+	* generic/tclEncoding.c  compiles (windows-only) as well as ASCII.
+	* generic/tclStubInit.c  Needed for [FRQ 491789]: setargv() doesn't
+	support a unicode cmdline
+
+2010-09-15  Donal K. Fellows  <dkf@users.sf.net>
+
+	* generic/tclBinary.c (TclAppendBytesToByteArray): [Bug 3067036]: Make
+	sure we never try to double zero repeatedly to get a buffer size. Also
+	added a check for sanity on the size of buffer being appended.
+
+2010-09-15  Don Porter  <dgp@users.sourceforge.net>
+
+	* unix/Makefile.in:	Revise `make dist` target to tolerate the
+	case of zero bundled packages.
+
+2010-09-15  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* tools/genStubs.tcl:   [Patch 3034251]: Backport ttkGenStubs.tcl
+	* generic/tcl.decls:    features to genStubs.tcl. Make the "generic"
+	* generic/tclInt.decls: argument in the *.decls files optional
+	* generic/tclOO.decls:  (no change to any tcl*Decls.h files)
+	* generic/tclTomMath.decls:
+	This allows genStubs.tcl to generate the ttk stub files as well, while
+	keeping full compatibility with existing *.decls files.
+
+2010-09-14  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* win/tclWinPort.h:  Allow all Win2000+ API entries in Tcl
+	* win/tclWin32Dll.c: Eliminate dynamical loading of advapi23 and
+	kernel32 symbols.
+
+2010-09-13  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* win/tclWinChan.c:      Various clean-ups, converting from
+	* win/tclWinConsole.c:   tclWinProc->xxxProc directly to Xxx
+	* win/tclWinInit.c:      (no change in functionality)
+	* win/tclWinLoad.c:
+	* win/tclWinSerial.c:
+	* win/tclWinSock.c:
+	* tools/genStubs.tcl:    Add scspec feature from ttkGenStubs.tcl
+	  (no change in output for *Decls.h files)
+
+2010-09-10  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* win/tclWin32Dll.c: Partly revert yesterday's change, to make it work
+	on VC++ 6.0 again.
+
+2010-09-10  Donal K. Fellows  <dkf@users.sf.net>
+
+	* doc/regsub.n: [Bug 3063568]: Fix for gotcha in example due to Tcl's
+	special handling of backslash-newline. Makes example slightly less
+	pure, but more useful.
+
+2010-09-09  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* win/makefile.vc:   Mingw should always link with -ladvapi32.
+	* win/tcl.m4:
+	* win/configure:     (regenerated)
+	* win/tclWinInt.h:   Remove ascii variant of tkWinPocs table, it is
+	* win/tclWin32Dll.c: no longer necessary. Fix CreateProcess signature
+	* win/tclWinPipe.c:  and remove unused GetModuleFileName and lstrcpy.
+	* win/tclWinPort.h:  Mingw/cygwin fixes: <tchar.h> should always be
+	included, and fix conflict in various macro values: Always force the
+	same values as in VC++.
+
+2010-09-08  Don Porter  <dgp@users.sourceforge.net>
+
+	* win/tclWinChan.c:	[Bug 3059922]: #ifdef protections to permit
+	* win/tclWinFCmd.c:     builds with mingw on amd64 systems. Thanks to
+				"mescalinum" for reporting and testing.
+
+2010-09-08  Andreas Kupries  <andreask@activestate.com>
+
+	* doc/tm.n: Added underscore to the set of characters accepted in
+	module names. This is true for quite some time in the code, this
+	change catches up the documentation.
+
+2010-09-03  Donal K. Fellows  <dkf@users.sf.net>
+
+	* tools/tcltk-man2html.tcl (plus-pkgs): Improve the package
+	documentation search pattern to support the doctoos-generated
+	directory structure.
+	* tools/tcltk-man2html-utils.tcl (output-name): Made this more
+	resilient against misformatted NAME sections, induced by import of
+	Thread package documentation into Tcl doc tree.
+
+2010-09-02  Andreas Kupries  <andreask@activestate.com>
+
+	* doc/glob.n: Fixed documentation ambiguity regarding the handling
+	of -join.
+
+	* library/safe.tcl (safe::AliasGlob): Fixed another problem, the
+	option -join does not stop option processing in the core builtin, so
+	the emulation must not do that either.
+
+2010-09-01  Andreas Kupries  <andreas_kupries@users.sourceforge.net>
+
+	* library/safe.tcl (safe::AliasGlob): Moved the command extending the
+	actual glob command with a -directory flag to when we actually have a
+	proper untranslated path,
+
+2010-09-01  Andreas Kupries  <andreask@activestate.com>
+
+	* generic/tclExecute.c: [Bug 3057639]: Applied patch by Jeff to make
+	* generic/tclVar.c:	the behaviour of lappend in bytecompiled mode
+	* tests/append.test:	consistent with direct-eval and 'append'
+	* tests/appendComp.test: generally. Added tests (append*-9.*)
+	showing the difference.
+
+2010-08-31  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* win/rules.vc:               Typo (thanks to Twylite discovering
+				      this)
+	* generic/tclStubLib.c:       Revert to previous version: MSVC++ 6.0
+	* generic/tclTomMathStubLib.c:cannot handle the new construct.
+	* generic/tcl.decls           [Patch 2997642]: Many type casts needed
+	* generic/tclDecls.h:         when using Tcl_Pkg* API. Remaining part.
+	* generic/tclPkg.c:
+	* generic/tclBasic.c:
+	* generic/tclTomMathInterface.c:
+	* doc/PkgRequire.3
+
+2010-08-31  Andreas Kupries  <andreask@activestate.com>
+
+	* win/tcl.m4: Applied patch by Jeff fixing issues with the manifest
+	handling on Win64.
+	* win/configure: Regenerated.
+
+2010-08-30  Miguel Sofer  <msofer@users.sf.net>
+
+	* generic/tclBasic.c:    [Bugs 3046594,3047235,3048771]: New
+	* generic/tclCmdAH.c:    implementation for [tailcall] command: it now
+	* generic/tclCmdMZ.c:    schedules the command and returns TCL_RETURN.
+	* generic/tclExecute.c:  This fixes all issues with [catch] and [try].
+	* generic/tclInt.h:      Thanks dgp for exploring the dark corners.
+	* generic/tclNamesp.c:   More thorough testing is required.
+	* tests/tailcall.test:
+
+2010-08-30  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* win/Makefile.in:   [FRQ 2965056]: Windows build with -DUNICODE
+	* win/rules.vc:
+	* win/tclWinFCmd.c:  Make sure that allocated TCHAR arrays are
+	* win/tclWinFile.c:  always properly aligned as wchar_t, and
+	* win/tclWinPipe.c:  not bigger than necessary.
+	* win/tclWinSock.c:
+	* win/tclWinDde.c:   Those 3 files are not converted yet to be
+	* win/tclWinReg.c:   built with -DUNICODE, so add a TODO.
+	* win/tclWinTest.c:
+	* generic/tcl.decls:  [Patch 2997642]: Many type casts needed when
+	* generic/tclDecls.h: using Tcl_Pkg* API. Partly.
+	* generic/tclPkg.c:
+	* generic/tclStubLib.c: Demonstration how this change can benefit
+				code.
+	* generic/tclTomMathStubLib.c:
+	* doc/PkgRequire.3:
+
+2010-08-29  Donal K. Fellows  <dkf@users.sf.net>
+
+	* doc/dict.n: [Bug 3046999]: Corrected cross reference to array
+	manpage to refer to (correct) existing subcommand.
+
+2010-08-26  Jeff Hobbs  <jeffh@ActiveState.com>
+
+	* unix/configure, unix/tcl.m4: SHLIB_LD_LIBS='${LIBS}' for OSF1-V*.
+	Add /usr/lib64 to set of auto-search dirs. [Bug 1230554]
+	(SC_PATH_X): Correct syntax error when xincludes not found.
+
+	* win/Makefile.in (VC_MANIFEST_EMBED_DLL VC_MANIFEST_EMBED_EXE):
+	* win/configure, win/configure.in, win/tcl.m4: SC_EMBED_MANIFEST
+	macro and --enable-embedded-manifest configure arg added to support
+	manifest embedding where we know the magic.  Help prevents DLL hell
+	with MSVC8+.
+
+2010-08-24  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* generic/tcl.decls: [Bug 3007895]: Tcl_(Find|Create)HashEntry
+	* generic/tclHash.c: stub entries can never be called.
+	* generic/tclDecls.h:
+	* generic/tclStubInit.c: [Patch 2994165]: Change signature of
+	Tcl_FSGetNativePath and TclpDeleteFile follow-up: move stub entry back
+	to original location.
+
+2010-08-23  Kevin B. Kenny  <kennykb@acm.org>
+
+	* library/tzdata/Africa/Cairo:
+	* library/tzdata/Asia/Gaza: Olson's tzdata2010l.
+
+2010-08-22  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* generic/tclBasic.c:  [Patch 3009403]: Signature of Tcl_GetHashKey,
+	* generic/tclBinary.c: Tcl_(Create|Find)HashEntry follow-up:
+	* generic/tclCmdIL.c:  Remove many type casts which are no longer
+	* generic/tclCompile.c:necessary as a result of this signature change.
+	* generic/tclDictObj.c:
+	* generic/tclEncoding.c:
+	* generic/tclExecute.c:
+	* generic/tclInterp.c:
+	* generic/tclIOCmd.c:
+	* generic/tclObj.c:
+	* generic/tclProc.c:
+	* generic/tclTest.c:
+	* generic/tclTrace.c:
+	* generic/tclUtil.c:
+	* generic/tclVar.c:
+
+2010-08-21  Donal K. Fellows  <dkf@users.sf.net>
+
+	* doc/linsert.n: [Bug 3045123]: Make description of what is actually
+	happening more accurate.
+
+2010-08-21  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* tools/genStubs.tcl: [Patch 3034251]: Backport ttkGenStubs.tcl
+	features to genStubs.tcl, partly: Use void (*reserved$i)(void) = 0
+	instead of void *reserved$i = NULL for unused stub entries, in case
+	pointer-to-function and pointer-to-object are different sizes.
+	* generic/tcl*Decls.h:   (regenerated)
+	* generic/tcl*StubInit.c:(regenerated)
+
+2010-08-20  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* doc/Method.3:   Fix definition of Tcl_MethodType.
+
+2010-08-19  Donal K. Fellows  <dkf@users.sf.net>
+
+	* generic/tclTrace.c (TraceExecutionObjCmd, TraceCommandObjCmd)
+	(TraceVariableObjCmd): [Patch 3048354]: Use memcpy() instead of
+	strcpy() to avoid buffer overflow; we have the correct length of data
+	to copy anyway since we've just allocated the target buffer.
+
+2010-08-18  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* tools/genStubs.tcl: [Patch 3034251]: Backport ttkGenStubs.tcl
+	features to genStubs.tcl, partly: remove unneeded ifdeffery and put
+	C++ guard around stubs pointer definition.
+	* generic/*Decls.h:   (regenerated)
+
+2010-08-18  Miguel Sofer  <msofer@users.sf.net>
+	* generic/tclBasic.c:   New redesign of [tailcall]: find
+	* generic/tclExecute.c: errors early on, so that errorInfo
+	* generic/tclInt.h:     contains the proper info [Bug 3047235]
+	* generic/tclNamesp.c:
+
+	* generic/tclCmdAH.c (TclNRTryObjCmd): [Bug 3046594]: Block
+	tailcalling out of the body of a non-bc'ed [try].
+
+	* generic/tclBasic.c:    Redesign of [tailcall] to
+	* generic/tclCmdAH.c:    (a) fix [Bug 3047235]
+	* generic/tclCompile.h:  (b) enable fix for [Bug 3046594]
+	* generic/tclExecute.c:  (c) enable recursive tailcalls
+	* generic/tclInt.h:
+	* generic/tclNamesp.c:
+	* tests/tailcall.test:
+
+2010-08-18  Donal K. Fellows  <dkf@users.sf.net>
+
+	* library/safe.tcl (AliasGlob): [Bug 3004191]: Restore safe [glob] to
+	working condition.
+
+2010-08-15  Donal K. Fellows  <dkf@users.sf.net>
+
+	* generic/tclProc.c (ProcWrongNumArgs): [Bug 3045010]: Make the
+	handling of passing the wrong number of arguments to [apply] somewhat
+	less verbose when a lambda term is present.
+
+2010-08-14  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* compat/unicows:    Remove completely, see [FRQ 2819611].
+	* doc/FileSystem.3: [Patch 2994165]: Change signature of
+	* generic/tcl.decls  Tcl_FSGetNativePath and TclpDeleteFile
+	* generic/tclDecls.h:
+	* generic/tclIOUtil.c:
+	* generic/tclStubInit.c:
+	* generic/tclInt.h:
+	* unix/tclUnixFCmd.c:
+	* win/tclWinFCmd.c:
+	* doc/Hash.3: [Patch 3009403]: Signature of Tcl_GetHashKey,
+	* generic/tcl.h:     Tcl_(Create|Find)HashEntry
+
+2010-08-11  Jeff Hobbs  <jeffh@ActiveState.com>
+
+	* unix/ldAix: Remove ancient (pre-4.2) AIX support
+	* unix/configure: Regen with ac-2.59
+	* unix/configure.in, unix/tclConfig.sh.in, unix/Makefile.in:
+	* unix/tcl.m4 (AIX): Remove the need for ldAIX, replace with
+	-bexpall/-brtl.  Remove TCL_EXP_FILE (export file) and other baggage
+	that went with it.  Remove pre-4 AIX build support.
+
+2010-08-11  Miguel Sofer  <msofer@users.sf.net>
+
+	* generic/tclBasic.c (TclNRYieldToObjCmd):
+	* tests/coroutine.test: Fixed bad copypasta snafu. Thanks to Andy Goth
+	for finding the bug.
+
+2010-08-10  Jeff Hobbs  <jeffh@ActiveState.com>
+
+	* generic/tclUtil.c (TclByteArrayMatch): Patterns may not be
+	null-terminated, so account for that.
+
+2010-08-09  Don Porter  <dgp@users.sourceforge.net>
+
+	* changes:	Updates for 8.6b2 release.
+
+2010-08-04  Jeff Hobbs  <jeffh@ActiveState.com>
+
+	* win/Makefile.in, win/makefile.bc, win/makefile.vc, win/tcl.dsp:
+	* win/tclWinPipe.c (TclpCreateProcess):
+	* win/stub16.c (removed): Removed Win9x tclpip8x.dll build and 16-bit
+	application loader stub support.  Win9x is no longer supported.
+
+	* win/tclWin32Dll.c (TclWinInit): Hard-enforce Windows 9x as an
+	unsupported platform with a panic.  Code to support it still exists in
+	other files (to go away in time), but new APIs are being used that
+	don't exist on Win9x.
+
+	* unix/tclUnixFCmd.c: Adjust license header as per
+	ftp://ftp.cs.berkeley.edu/pub/4bsd/README.Impt.License.Change
+
+	* license.terms: Fix DFARs note for number-adjusted rights clause
+
+	* win/tclWin32Dll.c (asciiProcs, unicodeProcs):
+	* win/tclWinLoad.c (TclpDlopen): 'load' use LoadLibraryEx with
+	* win/tclWinInt.h (TclWinProcs): LOAD_WITH_ALTERED_SEARCH_PATH to
+	prefer dependent DLLs in same dir as loaded DLL.
+
+	* win/Makefile.in (%.${OBJEXT}): better implicit rules support
+
+2010-08-04  Andreas Kupries  <andreask@activestate.com>
+
+	* generic/tclIORChan.c: [Bug 3034840]: Fixed reference counting in
+	* generic/tclIORTrans.c: InvokeTclMethod and callers.
+	* tests/ioTrans.test:
+
+2010-08-03  Andreas Kupries  <andreask@activestate.com>
+
+	* tests/var.test (var-19.1): [Bug 3037525]: Added test demonstrating
+	the local hashtable deletion crash and fix.
+
+	* tests/info.test (info-39.1): Added forward copy of test in 8.5
+	branch about [Bug 2933089]. Should not fail, and doesn't, after
+	updating the line numbers to the changed position.
+
+2010-08-02  Kevin B. Kenny  <kennykb@users.sf.net>
+
+	* library/tzdata/America/Bahia_Banderas:
+	* library/tzdata/Pacific/Chuuk:
+	* library/tzdata/Pacific/Pohnpei:
+	* library/tzdata/Africa/Cairo:
+	* library/tzdata/Europe/Helsinki:
+	* library/tzdata/Pacific/Ponape:
+	* library/tzdata/Pacific/Truk:
+	* library/tzdata/Pacific/Yap:			Olson's tzdata2010k.
+
+2010-08-02  Miguel Sofer  <msofer@users.sf.net>
+
+	* generic/tclVar.c: Correcting bad port of [Bug 3037525] fix
+
+2010-07-28  Miguel Sofer  <msofer@users.sf.net>
+
+	* generic/tclVar.c: [Bug 3037525]: Lose fickle optimisation in
+	TclDeleteVars (used for runtime-created locals) that caused crash.
+
+2010-07-29  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* compat/zlib/win32/README.txt: Official build of zlib1.dll 1.2.5 is
+	* compat/zlib/win32/USAGE.txt:  finally available, so put it in.
+	* compat/zlib/win32/zlib1.dll:
+
+2010-07-25  Donal K. Fellows  <dkf@users.sf.net>
+
+	* doc/http.n: Corrected description of location of one of the entries
+	in the state array.
+
+2010-07-24  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* generic/tclDecls.h: [Bug 3029891]: Functions that don't belong in
+	* generic/tclTest.c:  the stub table.
+	* generic/tclBasic.c: From [Bug 3030870] make itcl 3.x built with
+	pre-8.6 work in 8.6: Relax the relation between Tcl_CallFrame and
+	CallFrame.
+
+2010-07-16  Donal K. Fellows  <dkf@users.sf.net>
+
+	* generic/tclBasic.c: Added more errorCode setting.
+
+2010-07-15  Donal K. Fellows  <dkf@users.sf.net>
+
+	* generic/tclExecute.c (TclExecuteByteCode): Ensure that [dict get]
+	* generic/tclDictObj.c (DictGetCmd): always generates an errorCode on
+	a failure to look up an entry.
+
+2010-07-11  Pat Thoyts  <patthoyts@users.sourceforge.net>
+
+	* unix/configure: (regenerated)
+	* unix/configure.in: For the NATIVE_TCLSH variable use the autoconf
+	* unix/Makefile.in:  SC_PROG_TCLSH to try and find a locally installed
+	native binary. This avoids manually fixing up when cross compiling. If
+	there is not one, revert to using the build product.
+
+2010-07-02  Don Porter  <dgp@users.sourceforge.net>
+
+	* generic/tclInt.decs:	Reverted to the original TIP 337
+	implementation on what to do with the obsolete internal stub for
+	TclBackgroundException() (eliminate it!)
+	* generic/tclIntDecls.h:	make genstubs
+	* generic/tclStubInit.c:
+
+2010-07-02  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* generic/tclInt.decls:  [Bug 803489]: Tcl_FindNamespace problem in the
+	* generic/tclIntDecls.h: Stubs table
+	* generic/tclStubInit.c:
+
+2010-07-02  Donal K. Fellows  <dkf@users.sf.net>
+
+	* generic/tclExecute.c (IllegalExprOperandType): [Bug 3024379]: Made
+	sure that errors caused by an argument to an operator being outside
+	the domain of the operator all result in ::errorCode being ARITH
+	DOMAIN and not NONE.
+
+2010-07-01  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* win/rules.vc:              [Bug 3020677]: wish can't link reg1.2
+	* tools/checkLibraryDoc.tcl: formatting, spacing, cleanup unused
+	* tools/eolFix.tcl:          variables; no change in generated output
+	* tools/fix_tommath_h.tcl:
+	* tools/genStubs.tcl:
+	* tools/index.tcl:
+	* tools/man2help2.tcl:
+	* tools/regexpTestLib.tcl:
+	* tools/tsdPerf.tcl:
+	* tools/uniClass.tcl:
+	* tools/uniParse.tcl:
+
+2010-07-01  Donal K. Fellows  <dkf@users.sf.net>
+
+	* doc/mathop.n: [Bug 3023165]: Fix typo that was preventing proper
+	rendering of the exclusive-or operator.
+
+2010-06-28  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* generic/tclPosixStr.c: [Bug 3019634]: errno.h and tclWinPort.h have
+	conflicting definitions. Added messages for ENOTRECOVERABLE, EOTHER,
+	ECANCELED and EOWNERDEAD, and fixed various typing mistakes in other
+	messages.
+
+2010-06-25  Reinhard Max  <max@suse.de>
+
+	* tests/socket.test: Prevent a race condition during shutdown of the
+	remote test server that can cause a hang when the server is being run
+	in verbose mode.
+
+2010-06-24  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* win/tclWinPort.h: [Bug 3019634]: errno.h and tclWinPort.h have
+	conflicting definitions.
+
+		***POTENTIAL INCOMPATIBILITY***
+	On win32, the correspondence between errno and the related error
+	message, as handled by Tcl_ErrnoMsg() changes. The error message is
+	kept the same, but the corresponding errno value might change.
+
+2010-06-22  Donal K. Fellows  <dkf@users.sf.net>
+
+	* generic/tclCmdIL.c (Tcl_LsetObjCmd): [Bug 3019351]: Corrected wrong
+	args message.
+
+2010-06-21  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* unix/tclLoadDl.c:    Eliminate various unnecessary type casts, use
+	* unix/tclLoadNext.c:  function typedefs whenever possible
+	* unix/tclUnixChan.c:
+	* unix/tclUnixFile.c:
+	* unix/tclUnixNotfy.c:
+	* unix/tclUnixSock.c:
+	* unix/tclUnixTest.c:
+	* unix/tclXtTest.c:
+	* generic/tclZlib.c:   Remove hack needed for zlib 1.2.3 on win32
+
+2010-06-18  Donal K. Fellows  <dkf@users.sf.net>
+
+	* library/init.tcl (auto_execok): [Bug 3017997]: Add .cmd to the
+	default list of extensions that we can execute interactively.
+
+2010-06-16  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* tools/loadICU.tcl:   [Bug 3016135]: Traceback using clock format
+	* library/msgs/he.msg: with locale of he_IL.
+
+	* generic/tcl.h:       Simplify Tcl_AppInit and *_Init definitions,
+	* generic/tclInt.h:    spacing. Change TclpThreadCreate and
+	* generic/tcl.decls:   Tcl_CreateThread signature, making clear that
+	* generic/tclDecls.h:  "proc" is a function pointer, as in all other
+	* generic/tclEvent.c:  "proc" function parameters.
+	* generic/tclTestProcBodyObj.c:
+	* win/tclWinThrd.c:
+	* unix/tclUnixThrd.c:
+	* doc/Thread.3:
+	* doc/Class.3:         Fix Tcl_ObjectMetadataType definition.
+
+2010-06-14  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* unix/Makefile.in:    Fix compilation of xttest with 8.6 changes
+	* unix/tclXtNotify.c:
+	* unix/tclXtTest.c:
+	* generic/tclPipe.c:   Fix gcc warning (with -fstrict-aliasing=2)
+	* library/auto.tcl:    Spacing and style fixes.
+	* library/history.tcl:
+	* library/init.tcl:
+	* library/package.tcl:
+	* library/safe.tcl:
+	* library/tm.tcl:
+
+2010-06-13  Donal K. Fellows  <dkf@users.sf.net>
+
+	* tools/tcltk-man2html.tcl (make-man-pages): [Bug 3015327]: Make the
+	title of a manual page be stored relative to its resulting directory
+	name as well as its source filename. This was caused by both Tcl and a
+	contributed package ([incr Tcl]) defining an Object.3. Also corrected
+	the joining of strings in titles to avoid extra braces.
+
 2010-06-10  Jeff Hobbs  <jeffh@ActiveState.com>
 
 	* unix/configure, unix/tcl.m4: s/==/=/ syntax error fix
@@ -14,15 +547,35 @@
 	* compat/fake-rfc2553.h: define EAI_SERVICE if not already.
 	s/u_/u/g for types.
 
+2010-06-09  Andreas Kupries  <andreask@activestate.com>
+
+	* library/platform/platform.tcl: Added OSX Intel 64bit
+	* library/platform/pkgIndex.tcl: Package updated to version 1.0.9.
+	* unix/Makefile.in:
+	* win/Makefile.in:
+
+2010-06-09  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* tools/tsdPerf.c:    Fix export of symbol Tsdperf_Init, when using
+	-fvisibility=hidden. Make two functions static, eliminate some
+	unnecessary type casts.
+	* tools/configure.in: Update to Tcl 8.6
+	* tools/configure:    (regenerated)
+	* tools/.cvsignore    new file
+
+2010-06-07  Alexandre Ferrieux  <ferrieux@users.sourceforge.net>
+
+	* generic/tclExecute.c: Ensure proper reset of [info errorstack] even
+	* generic/tclNamesp.c:  when compiling constant expr's with errors.
+
 2010-06-05  Miguel Sofer  <msofer@users.sf.net>
 
-	* generic/tclBasic.c:   Fix for #3008307: make callerPtr chains
-	* generic/tclExecute.c: be traversable accross coro
-	boundaries. Add the special coroutine CallFrame (partially
-	reverting commit of 2009-12-10), as it is needed for coroutines
-	that do not push a CF - eg, those with [eval] as command. Thanks
-	to Colin McCormack (coldstore) and Alexandre Ferrieux for the
-	hard work on this.
+	* generic/tclBasic.c:   [Bug 3008307]: make callerPtr chains be
+	* generic/tclExecute.c: traversable accross coro boundaries. Add the
+	special coroutine CallFrame (partially reverting commit of
+	2009-12-10), as it is needed for coroutines that do not push a CF, eg,
+	those with [eval] as command. Thanks to Colin McCormack (coldstore)
+	and Alexandre Ferrieux for the hard work on this.
 
 2010-06-03  Alexandre Ferrieux  <ferrieux@users.sourceforge.net>
 
@@ -32,26 +585,26 @@
 
 2010-06-02  Jan Nijtmans  <nijtmans@users.sf.net>
 
-	* generic/tclOO.h   BUILD_tcloo is never defined (leftover)
-	* win/makefile.bc   Don't set BUILD_tcloo (leftover)
+	* generic/tclOO.h:  BUILD_tcloo is never defined (leftover)
+	* win/makefile.bc:  Don't set BUILD_tcloo (leftover)
 	See also entry below: 2008-06-01  Joe Mistachkin
 
 2010-06-01  Alexandre Ferrieux  <ferrieux@users.sourceforge.net>
 
-	* generic/tclNamesp.c: Fix computation of [uplevel] offsets in TIP 348.
+	* generic/tclNamesp.c: Fix computation of [uplevel] offsets in TIP 348
 	* tests/error.test:    Only depend on callerPtr chaining now.
 	* tests/result.test:   Needed for upcoming coro patch.
 
 2010-05-31  Jan Nijtmans  <nijtmans@users.sf.net>
 
-	* generic/tclVar.c         Eliminate some casts to (Tcl_HashTable *)
-	* generic/tclExecute.c
-	* tests/fileSystem.test    Fix filesystem-5.1 test failure on CYGWIN
+	* generic/tclVar.c:        Eliminate some casts to (Tcl_HashTable *)
+	* generic/tclExecute.c:
+	* tests/fileSystem.test:   Fix filesystem-5.1 test failure on CYGWIN
 
 2010-05-28  Jan Nijtmans  <nijtmans@users.sf.net>
 
-	* generic/tclInt.h:  [tcl-Patches-3008541] order of TIP #348 fields
-	in Interp structure
+	* generic/tclInt.h: [Patch 3008541]: Order of TIP #348 fields in
+	Interp structure
 
 2010-05-28  Donal K. Fellows  <dkf@users.sf.net>
 

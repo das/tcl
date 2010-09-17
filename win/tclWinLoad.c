@@ -77,7 +77,8 @@ TclpDlopen(
      */
 
     nativeName = Tcl_FSGetNativePath(pathPtr);
-    hInstance = tclWinProcs->loadLibraryProc(nativeName);
+    hInstance = LoadLibraryEx(nativeName, NULL,
+	    LOAD_WITH_ALTERED_SEARCH_PATH);
     if (hInstance == NULL) {
 	/*
 	 * Let the OS loader examine the binary search path for whatever
@@ -88,8 +89,9 @@ TclpDlopen(
 	Tcl_DString ds;
 	const char *fileName = Tcl_GetString(pathPtr);
 
-	nativeName = tclWinProcs->utf2tchar(fileName, -1, &ds);
-	hInstance = tclWinProcs->loadLibraryProc(nativeName);
+	nativeName = Tcl_WinUtfToTChar(fileName, -1, &ds);
+	hInstance = LoadLibraryEx(nativeName, NULL,
+		LOAD_WITH_ALTERED_SEARCH_PATH);
 	Tcl_DStringFree(&ds);
     }
 
@@ -148,7 +150,7 @@ TclpDlopen(
 	}
 	return TCL_ERROR;
     } else {
-	handlePtr = 
+	handlePtr =
 	    (Tcl_LoadHandle) ckalloc(sizeof(struct Tcl_LoadHandle_));
 	handlePtr->clientData = (ClientData) hInstance;
 	handlePtr->findSymbolProcPtr = &FindSymbol;
@@ -356,7 +358,7 @@ TclpTempFileNameForLibrary(Tcl_Interp* interp, /* Tcl interpreter */
 	Tcl_AppendToObj(fileName, "/", 1);
 	Tcl_AppendObjToObj(fileName, tail);
 	return fileName;
-    }    
+    }
 }
 
 /*

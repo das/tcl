@@ -312,9 +312,9 @@ typedef long LONG;
  */
 
 #ifndef NO_VOID
-#define VOID	void
+#   define VOID void
 #else
-#define VOID	char
+#   define VOID char
 #endif
 
 /*
@@ -1019,8 +1019,8 @@ typedef struct Tcl_DString {
  *	TCL_CANCEL_UNWIND:	Magical Tcl_CancelEval mode that causes the
  *				stack for the script in progress to be
  *				completely unwound.
- *      TCL_EVAL_NOERR:         Do no exception reporting at all, just return
- *	                        as the caller will report.
+ *	TCL_EVAL_NOERR:	Do no exception reporting at all, just return
+ *				as the caller will report.
  */
 
 #define TCL_NO_EVAL		0x010000
@@ -2494,7 +2494,7 @@ EXTERN void		Tcl_GetMemoryInfo(Tcl_DString *dsPtr);
 #define Tcl_GetHashValue(h) ((h)->clientData)
 #define Tcl_SetHashValue(h, value) ((h)->clientData = (ClientData) (value))
 #define Tcl_GetHashKey(tablePtr, h) \
-	((char *) (((tablePtr)->keyType == TCL_ONE_WORD_KEYS || \
+	((void *) (((tablePtr)->keyType == TCL_ONE_WORD_KEYS || \
 		    (tablePtr)->keyType == TCL_CUSTOM_PTR_KEYS) \
 		   ? (h)->key.oneWordValue \
 		   : (h)->key.string))
@@ -2506,10 +2506,10 @@ EXTERN void		Tcl_GetMemoryInfo(Tcl_DString *dsPtr);
 
 #undef  Tcl_FindHashEntry
 #define Tcl_FindHashEntry(tablePtr, key) \
-	(*((tablePtr)->findProc))(tablePtr, key)
+	(*((tablePtr)->findProc))(tablePtr, (const char *)(key))
 #undef  Tcl_CreateHashEntry
 #define Tcl_CreateHashEntry(tablePtr, key, newPtr) \
-	(*((tablePtr)->createProc))(tablePtr, key, newPtr)
+	(*((tablePtr)->createProc))(tablePtr, (const char *)(key), newPtr)
 
 /*
  *----------------------------------------------------------------------------
@@ -2566,13 +2566,7 @@ EXTERN void		Tcl_GetMemoryInfo(Tcl_DString *dsPtr);
  * neither DLLEXPORT nor DLLIMPORT.
  */
 
-#undef TCL_STORAGE_CLASS
-#define TCL_STORAGE_CLASS
-
-EXTERN int		Tcl_AppInit(Tcl_Interp *interp);
-
-#undef TCL_STORAGE_CLASS
-#define TCL_STORAGE_CLASS DLLIMPORT
+extern Tcl_AppInitProc Tcl_AppInit;
 
 #endif /* RC_INVOKED */
 

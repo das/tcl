@@ -8,14 +8,14 @@
 #
 # See the file "license.terms" for information on usage and redistribution
 # of this file, and for a DISCLAIMER OF ALL WARRANTIES.
-# 
+#
 # RCS: @(#) $Id$
-# 
+#
 
 # Global variables used by these scripts:
 #
 # state -	state variable that controls action of text proc.
-#				
+#
 # topics -	array indexed by (package,section,topic) with value
 # 		of topic ID.
 #
@@ -179,12 +179,12 @@ proc text {string} {
     }
 
     switch $state(textState) {
-	REF { 
+	REF {
 	    if {$state(inTP) == 0} {
 		set string [insertRef $string]
 	    }
 	}
-	SEE { 
+	SEE {
 	    global topics curPkg curSect
 	    foreach i [split $string] {
 		if {![regexp -nocase {^[a-z_0-9]+} [string trim $i] i ]} {
@@ -234,7 +234,7 @@ proc insertRef {string} {
 	}
     }
 
-    if {($ref != {}) && ($ref != $curID)} {
+    if {($ref != "") && ($ref != $curID)} {
 	set string [link $string $ref]
     }
     return $string
@@ -276,7 +276,7 @@ proc macro {name args} {
 	    # next page and previous page
 	}
 	br {
-	    lineBreak	
+	    lineBreak
 	}
 	BS {}
 	BE {}
@@ -391,12 +391,12 @@ proc macro {name args} {
 	    set state(noFill) 1
 	}
 	so {
-	    if {$args != "man.macros"} {
+	    if {$args ne "man.macros"} {
 		puts stderr "Unknown macro: .$name [join $args " "]"
 	    }
 	}
 	sp {					;# needs work
-	    if {$args == ""} {
+	    if {$args eq ""} {
 		set count 1
 	    } else {
 		set count [lindex $args 0]
@@ -425,6 +425,21 @@ proc macro {name args} {
 	}
 	VE {}
 	VS {}
+	QW {
+	    formattedText "``[lindex $args 0]''[lindex $args 1] "
+	}
+	MT {
+	    text "``'' "
+	}
+	PQ {
+	    formattedText \
+		"(``[lindex $args 0]''[lindex $args 1])[lindex $args 2] "
+	}
+	QR {
+	    formattedText "``[lindex $args 0]"
+	    dash
+	    formattedText "[lindex $args 1]''[lindex $args 2] "
+	}
 	default {
 	    puts stderr "Unknown macro: .$name [join $args " "]"
 	}
@@ -460,14 +475,14 @@ proc font {type} {
 	P -
 	R {
 	    endFont
-	    if {$state(textState) == "REF"} {
+	    if {$state(textState) eq "REF"} {
 		set state(textState) INSERT
 	    }
 	}
 	C -
 	B {
 	    beginFont Code
-	    if {$state(textState) == "INSERT"} {
+	    if {$state(textState) eq "INSERT"} {
 		set state(textState) REF
 	    }
 	}
@@ -495,7 +510,7 @@ proc font {type} {
 proc formattedText {text} {
     global chars
 
-    while {$text != ""} {
+    while {$text ne ""} {
 	set index [string first \\ $text]
 	if {$index < 0} {
 	    text $text
@@ -516,13 +531,12 @@ proc formattedText {text} {
 		dash
 		set text [string range $text [expr {$index+2}] end]
 	    }
-	    | {
+	    & - | {
 		set text [string range $text [expr {$index+2}] end]
 	    }
-	    o {
-		text "\\'"
-		regexp {'([^']*)'(.*)} $text all ch text
-		text $chars($ch)
+	    ( {
+		char [string range $text $index [expr {$index+3}]]
+		set text [string range $text [expr {$index+4}] end]
 	    }
 	    default {
 		puts stderr "Unknown sequence: \\$c"
@@ -586,7 +600,7 @@ proc setTabs {tabList} {
 	    set relativeTo [expr {$state(leftMargin) \
 		    + ($state(offset) * $state(nestingLevel))}]
 	}
-	if {[regexp {^\w'(.*)'u$} $arg -> submatch]} {
+	if {[regexp {^\\w'([^']*)'u$} $arg -> submatch]} {
 	    # Magic factor!
 	    set distance [expr {[string length $submatch] * 86.4}]
 	} else {
@@ -665,31 +679,54 @@ proc char {name} {
     global file state
 
     switch -exact $name {
-        \\o {
+        {\o} {
 	    set state(intl) 1
 	}
-	\\\  {
+	{\ } {
 	    textSetup
 	    puts -nonewline $file " "
 	}
-	\\0 {
+	{\0} {
 	    textSetup
 	    puts -nonewline $file " \\emspace "
 	}
-	\\\\ {
+	{\\} - {\e} {
 	    textSetup
 	    puts -nonewline $file "\\\\"
 	}
-	\\(+- {
+	{\(+-} {
 	    textSetup
 	    puts -nonewline $file "\\'b1 "
 	}
-	\\% -
-	\\| {
+	{\%} - {\|} {
 	}
-	\\(bu {
+	{\(->} {
+	    textSetup
+	    puts -nonewline $file "->"
+	}
+	{\(bu} {
 	    textSetup
 	    puts -nonewline $file "\\bullet "
+	}
+	{\(co} {
+	    textSetup
+	    puts -nonewline $file "\\'a9 "
+	}
+	{\(mi} {
+	    textSetup
+	    puts -nonewline $file "-"
+	}
+	{\(mu} {
+	    textSetup
+	    puts -nonewline $file "\\'d7 "
+	}
+	{\(em} {
+	    textSetup
+	    puts -nonewline $file "-"
+	}
+	{\(fm} {
+	    textSetup
+	    puts -nonewline $file "\\'27 "
 	}
 	default {
 	    puts stderr "Unknown character: $name"
@@ -730,7 +767,7 @@ proc SHmacro {argList {style section}} {
     }
 
     # control what the text proc does with text
-    
+
     switch $args {
 	NAME {set state(textState) NAME}
 	DESCRIPTION {set state(textState) INSERT}
@@ -855,7 +892,7 @@ proc THmacro {argList} {
     set curVer	[lindex $argList 2]		;# 7.4
     set curPkg	[lindex $argList 3]		;# Tcl
     set curSect	[lindex $argList 4]		;# {Tcl Library Procedures}
-    
+
     regsub -all {\\ } $curSect { } curSect	;# Clean up for [incr\ Tcl]
 
     puts $file "#{\\footnote $curID}"		;# Context string
@@ -920,7 +957,7 @@ proc newPara {leftIndent {firstIndent 0i}} {
     if $state(paragraph) {
 	puts -nonewline $file "\\line\n"
     }
-    if {$leftIndent != ""} {
+    if {$leftIndent ne ""} {
 	set state(leftIndent) [expr {$state(leftMargin) \
 		+ ($state(offset) * $state(nestingLevel)) \
 		+ [getTwips $leftIndent]}]
@@ -943,6 +980,10 @@ proc getTwips {arg} {
 	puts stderr "bad distance \"$arg\""
 	return 0
     }
+    if {[string length $units] > 1} {
+	puts stderr "additional characters after unit \"$arg\""
+	set units [string index $units 0]
+    }
     switch -- $units {
 	c	{
 	    set distance [expr {$distance * 567}]
@@ -952,7 +993,7 @@ proc getTwips {arg} {
 	}
 	default {
 	    puts stderr "bad units in distance \"$arg\""
-	    continue
+	    return 0
 	}
     }
     return $distance
@@ -986,7 +1027,7 @@ proc incrNestingLevel {} {
 
 proc decrNestingLevel {} {
     global state
-    
+
     if {$state(nestingLevel) == 0} {
 	puts stderr "Nesting level decremented below 0"
     } else {

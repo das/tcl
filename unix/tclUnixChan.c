@@ -7,8 +7,8 @@
  * Copyright (c) 1995-1997 Sun Microsystems, Inc.
  * Copyright (c) 1998-1999 by Scriptics Corporation.
  *
- * See the file "license.terms" for information on usage and redistribution of
- * this file, and for a DISCLAIMER OF ALL WARRANTIES.
+ * See the file "license.terms" for information on usage and redistribution
+ * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
  * RCS: @(#) $Id$
  */
@@ -1618,7 +1618,7 @@ TclpOpenFileChannel(
     fsPtr->fd = fd;
 
     fsPtr->channel = Tcl_CreateChannel(channelTypePtr, channelName,
-	    (ClientData) fsPtr, channelPermissions);
+	    fsPtr, channelPermissions);
 
     if (translation != NULL) {
 	/*
@@ -1684,7 +1684,7 @@ Tcl_MakeFileChannel(
     if ((getsockname(fd, (struct sockaddr *)&sockaddr, &sockaddrLen) == 0)
 	&& (sockaddrLen > 0)
 	&& (sockaddr.sa_family == AF_INET || sockaddr.sa_family == AF_INET6)) {
-	return TclpMakeTcpClientChannelMode((ClientData) INT2PTR(fd), mode);
+	return TclpMakeTcpClientChannelMode(INT2PTR(fd), mode);
     } else {
 	channelTypePtr = &fileChannelType;
 	fsPtr = (FileState *) ckalloc((unsigned) sizeof(FileState));
@@ -1694,7 +1694,7 @@ Tcl_MakeFileChannel(
     fsPtr->fd = fd;
     fsPtr->validMask = mode | TCL_EXCEPTION;
     fsPtr->channel = Tcl_CreateChannel(channelTypePtr, channelName,
-	    (ClientData) fsPtr, mode);
+	    fsPtr, mode);
 
     return fsPtr->channel;
 }
@@ -1768,7 +1768,7 @@ TclpGetDefaultStdChannel(
 #undef ZERO_OFFSET
 #undef ERROR_OFFSET
 
-    channel = Tcl_MakeFileChannel((ClientData) INT2PTR(fd), mode);
+    channel = Tcl_MakeFileChannel(INT2PTR(fd), mode);
     if (channel == NULL) {
 	return NULL;
     }
@@ -1828,7 +1828,7 @@ Tcl_GetOpenFile(
     FILE *f;
 
     chan = Tcl_GetChannel(interp, chanID, &chanMode);
-    if (chan == (Tcl_Channel) NULL) {
+    if (chan == NULL) {
 	return TCL_ERROR;
     }
     if ((forWriting) && ((chanMode & TCL_WRITABLE) == 0)) {

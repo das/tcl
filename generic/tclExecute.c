@@ -233,7 +233,7 @@ VarHashCreateVar(
     int *newPtr)
 {
     Tcl_HashEntry *hPtr = Tcl_CreateHashEntry(&tablePtr->table,
-	    (char *) key, newPtr);
+	    key, newPtr);
 
     if (!hPtr) {
 	return NULL;
@@ -1655,7 +1655,7 @@ TclCompileObj(
 
 	{
 	    Tcl_HashEntry *hePtr =
-		    Tcl_FindHashEntry(iPtr->lineBCPtr, (char *) codePtr);
+		    Tcl_FindHashEntry(iPtr->lineBCPtr, codePtr);
 
 	    if (hePtr) {
 		ExtCmdLoc *eclPtr = Tcl_GetHashValue(hePtr);
@@ -2851,33 +2851,6 @@ TclExecuteByteCode(
 		    OBP = BP;
 		    goto resumeCoroutine;
 		}
-	    case TCL_NR_TAILCALL_TYPE:
-		/*
-		 * A request to perform a tailcall: just drop this bytecode.
-		 */
-
-#ifdef TCL_COMPILE_DEBUG
-		if (TAUX.traceInstructions) {
-		    fprintf(stdout, "   Tailcall request received\n");
-		}
-#endif /* TCL_COMPILE_DEBUG */
-		iPtr->cmdFramePtr = bcFramePtr->nextPtr;
-		TclArgumentBCRelease((Tcl_Interp *) iPtr, bcFramePtr);
-
-		if (catchTop != initCatchTop) {
-		    TclClearTailcall(interp, param);
-		    iPtr->varFramePtr->tailcallPtr = NULL;
-		    Tcl_SetResult(interp,
-			    "tailcall called from within a catch environment",
-			    TCL_STATIC);
-		    Tcl_SetErrorCode(interp, "TCL", "TAILCALL", "ILLEGAL",
-			    NULL);
-		    pc--;
-		    goto gotError;
-		}
-		iPtr->varFramePtr->tailcallPtr = param;
-		TclSpliceTailcall(interp, param, 1);
-		goto abnormalReturn;
 	    case TCL_NR_YIELD_TYPE: {		/* [yield] */
 		CoroutineData *corPtr = iPtr->execEnvPtr->corPtr;
 
@@ -2927,25 +2900,6 @@ TclExecuteByteCode(
 	NRE_ASSERT(iPtr->cmdFramePtr == bcFramePtr);
 	iPtr->cmdFramePtr = bcFramePtr->nextPtr;
 	TclArgumentBCRelease((Tcl_Interp *) iPtr, bcFramePtr);
-
-	/*
-	 * If the CallFrame is marked as tailcalling, keep tailcalling
-	 */
-
-	if (iPtr->varFramePtr->tailcallPtr) {
-	    if (catchTop == initCatchTop) {
-		goto abnormalReturn;
-	    }
-
-	    TclClearTailcall(interp, iPtr->varFramePtr->tailcallPtr);
-	    iPtr->varFramePtr->tailcallPtr = NULL;
-	    Tcl_SetResult(interp,
-		    "tailcall called from within a catch environment",
-		    TCL_STATIC);
-	    Tcl_SetErrorCode(interp, "TCL", "TAILCALL", "ILLEGAL", NULL);
-	    pc--;
-	    goto gotError;
-	}
 
 	if (iPtr->execEnvPtr->rewind) {
 	    TRESULT = TCL_ERROR;
@@ -3313,14 +3267,14 @@ TclExecuteByteCode(
 	valuePtr = OBJ_AT_TOS; /* value to append */
 	part2Ptr = NULL;
 	storeFlags = (TCL_LEAVE_ERR_MSG | TCL_APPEND_VALUE
-		| TCL_LIST_ELEMENT | TCL_TRACE_READS);
+		| TCL_LIST_ELEMENT);
 	goto doStoreStk;
 
     case INST_LAPPEND_ARRAY_STK:
 	valuePtr = OBJ_AT_TOS; /* value to append */
 	part2Ptr = OBJ_UNDER_TOS;
 	storeFlags = (TCL_LEAVE_ERR_MSG | TCL_APPEND_VALUE
-		| TCL_LIST_ELEMENT | TCL_TRACE_READS);
+		| TCL_LIST_ELEMENT);
 	goto doStoreStk;
 
     case INST_APPEND_STK:
@@ -3373,14 +3327,14 @@ TclExecuteByteCode(
 	opnd = TclGetUInt4AtPtr(pc+1);
 	pcAdjustment = 5;
 	storeFlags = (TCL_LEAVE_ERR_MSG | TCL_APPEND_VALUE
-		| TCL_LIST_ELEMENT | TCL_TRACE_READS);
+		| TCL_LIST_ELEMENT);
 	goto doStoreArray;
 
     case INST_LAPPEND_ARRAY1:
 	opnd = TclGetUInt1AtPtr(pc+1);
 	pcAdjustment = 2;
 	storeFlags = (TCL_LEAVE_ERR_MSG | TCL_APPEND_VALUE
-		| TCL_LIST_ELEMENT | TCL_TRACE_READS);
+		| TCL_LIST_ELEMENT);
 	goto doStoreArray;
 
     case INST_APPEND_ARRAY4:
@@ -3420,14 +3374,14 @@ TclExecuteByteCode(
 	opnd = TclGetUInt4AtPtr(pc+1);
 	pcAdjustment = 5;
 	storeFlags = (TCL_LEAVE_ERR_MSG | TCL_APPEND_VALUE
-		| TCL_LIST_ELEMENT | TCL_TRACE_READS);
+		| TCL_LIST_ELEMENT);
 	goto doStoreScalar;
 
     case INST_LAPPEND_SCALAR1:
 	opnd = TclGetUInt1AtPtr(pc+1);
 	pcAdjustment = 2;
 	storeFlags = (TCL_LEAVE_ERR_MSG | TCL_APPEND_VALUE
-		| TCL_LIST_ELEMENT | TCL_TRACE_READS);
+		| TCL_LIST_ELEMENT);
 	goto doStoreScalar;
 
     case INST_APPEND_SCALAR4:
@@ -5818,6 +5772,8 @@ TclExecuteByteCode(
 	    Tcl_ResetResult(interp);
 	    Tcl_AppendResult(interp, "key \"", TclGetString(OBJ_AT_TOS),
 		    "\" not known in dictionary", NULL);
+	    Tcl_SetErrorCode(interp, "TCL", "LOOKUP", "DICT",
+		    TclGetString(OBJ_AT_TOS), NULL);
 	    TRACE_WITH_OBJ(("%u => ERROR ", opnd), Tcl_GetObjResult(interp));
 	} else {
 	    TRACE_WITH_OBJ((
@@ -6419,11 +6375,9 @@ TclExecuteByteCode(
 	}
 	if ((TRESULT == TCL_ERROR) && !(iPtr->flags & ERR_ALREADY_LOGGED)) {
 	    bytes = GetSrcInfoForPc(pc, codePtr, &length);
-	    if (bytes != NULL) {
-		DECACHE_STACK_INFO();
-		Tcl_LogCommandInfo(interp, codePtr->source, bytes, length);
-		CACHE_STACK_INFO();
-	    }
+	    DECACHE_STACK_INFO();
+	    Tcl_LogCommandInfo(interp, codePtr->source, bytes, bytes ? length : 0);
+	    CACHE_STACK_INFO();
 	}
 	iPtr->flags &= ~ERR_ALREADY_LOGGED;
 
@@ -6592,7 +6546,6 @@ TclExecuteByteCode(
   returnToCaller:
     if (OBP) {
 	BP = OBP; /* back to old bc */
-    rerunCallbacks:
 	TRESULT = TclNRRunCallbacks(interp, TRESULT, BP->rootPtr, 1);
 
 	NR_DATA_DIG();
@@ -6618,15 +6571,6 @@ TclExecuteByteCode(
 		 */
 
 		goto nonRecursiveCallSetup;
-	    case TCL_NR_TAILCALL_TYPE:
-		TOP_CB(iPtr) = callbackPtr->nextPtr;
-		TCLNR_FREE(interp, callbackPtr);
-
-		Tcl_SetResult(interp,
-			"tailcall cannot be invoked recursively", TCL_STATIC);
-		Tcl_SetErrorCode(interp, "TCL", "TAILCALL", "REENTRY", NULL);
-		TRESULT = TCL_ERROR;
-		goto rerunCallbacks;
 	    default:
 		Tcl_Panic("TEBC: TRCB sent us a callback we cannot handle!");
 	    }
@@ -6712,7 +6656,7 @@ ExecuteExtendedBinaryMathOp(
     ClientData ptr1, ptr2;
     double d1, d2, dResult;
     long l1, l2, lResult;
-    Tcl_WideInt w1, w2, wResult, wQuotient, wRemainder;
+    Tcl_WideInt w1, w2, wResult;
     mp_int big1, big2, bigResult, bigRemainder;
     Tcl_Obj *objResultPtr;
     int invalid, numPos, zero;
@@ -6743,6 +6687,7 @@ ExecuteExtendedBinaryMathOp(
 	if (type1 == TCL_NUMBER_WIDE) {
 	    w1 = *((const Tcl_WideInt *)ptr1);
 	    if (type2 != TCL_NUMBER_BIG) {
+		Tcl_WideInt wQuotient, wRemainder;
 		Tcl_GetWideIntFromObj(NULL, value2Ptr, &w2);
 		wQuotient = w1 / w2;
 
@@ -7787,7 +7732,9 @@ TclCompareTwoNumbers(
     mp_int big1, big2;
     double d1, d2, tmp;
     long l1, l2;
+#ifndef NO_WIDE_TYPE
     Tcl_WideInt w1, w2;
+#endif
 
     (void) GetNumberFromObj(NULL, valuePtr, &ptr1, &type1);
     (void) GetNumberFromObj(NULL, value2Ptr, &ptr2, &type2);
@@ -8193,6 +8140,7 @@ IllegalExprOperandType(
 
     Tcl_SetObjResult(interp, Tcl_ObjPrintf(
 	    "can't use %s as operand of \"%s\"", description, operator));
+    Tcl_SetErrorCode(interp, "ARITH", "DOMAIN", description, NULL);
 }
 
 /*
@@ -8254,14 +8202,14 @@ TclGetSrcInfoForPc(
 	int srcOffset, i;
 	Interp *iPtr = (Interp *) *codePtr->interpHandle;
 	Tcl_HashEntry *hePtr =
-		Tcl_FindHashEntry(iPtr->lineBCPtr, (char *) codePtr);
+		Tcl_FindHashEntry(iPtr->lineBCPtr, codePtr);
 
 	if (!hePtr) {
 	    return;
 	}
 
 	srcOffset = cfPtr->cmd.str.cmd - codePtr->source;
-	eclPtr = (ExtCmdLoc *) Tcl_GetHashValue(hePtr);
+	eclPtr = Tcl_GetHashValue(hePtr);
 
 	for (i=0; i < eclPtr->nuloc; i++) {
 	    if (eclPtr->loc[i].srcOffset == srcOffset) {

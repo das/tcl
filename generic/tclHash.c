@@ -1,4 +1,4 @@
-/* 
+/*
  * tclHash.c --
  *
  *	Implementation of in-memory hash tables for Tcl and Tcl-based
@@ -7,8 +7,8 @@
  * Copyright (c) 1991-1993 The Regents of the University of California.
  * Copyright (c) 1994 Sun Microsystems, Inc.
  *
- * See the file "license.terms" for information on usage and redistribution
- * of this file, and for a DISCLAIMER OF ALL WARRANTIES.
+ * See the file "license.terms" for information on usage and redistribution of
+ * this file, and for a DISCLAIMER OF ALL WARRANTIES.
  *
  * RCS: @(#) $Id$
  */
@@ -19,24 +19,21 @@
  * Prevent macros from clashing with function definitions.
  */
 
-#if TCL_PRESERVE_BINARY_COMPATABILITY
-#   undef Tcl_FindHashEntry
-#   undef Tcl_CreateHashEntry
-#endif
+#undef Tcl_FindHashEntry
+#undef Tcl_CreateHashEntry
 
 /*
- * When there are this many entries per bucket, on average, rebuild
- * the hash table to make it larger.
+ * When there are this many entries per bucket, on average, rebuild the hash
+ * table to make it larger.
  */
 
 #define REBUILD_MULTIPLIER	3
 
 /*
- * The following macro takes a preliminary integer hash value and
- * produces an index into a hash tables bucket list.  The idea is
- * to make it so that preliminary values that are arbitrarily similar
- * will end up in different buckets.  The hash function was taken
- * from a random-number generator.
+ * The following macro takes a preliminary integer hash value and produces an
+ * index into a hash tables bucket list. The idea is to make it so that
+ * preliminary values that are arbitrarily similar will end up in different
+ * buckets. The hash function was taken from a random-number generator.
  */
 
 #define RANDOM_INDEX(tablePtr, i) \
@@ -46,51 +43,43 @@
  * Prototypes for the array hash key methods.
  */
 
-static Tcl_HashEntry *	AllocArrayEntry _ANSI_ARGS_((
-			    Tcl_HashTable *tablePtr, VOID *keyPtr));
-static int		CompareArrayKeys _ANSI_ARGS_((
-			    VOID *keyPtr, Tcl_HashEntry *hPtr));
-static unsigned int	HashArrayKey _ANSI_ARGS_((
-			    Tcl_HashTable *tablePtr, VOID *keyPtr));
+static Tcl_HashEntry *	AllocArrayEntry(Tcl_HashTable *tablePtr, void *keyPtr);
+static int		CompareArrayKeys(void *keyPtr, Tcl_HashEntry *hPtr);
+static unsigned int	HashArrayKey(Tcl_HashTable *tablePtr, void *keyPtr);
 
 /*
  * Prototypes for the one word hash key methods.
  */
 
 #if 0
-static Tcl_HashEntry *	AllocOneWordEntry _ANSI_ARGS_((
-			    Tcl_HashTable *tablePtr, VOID *keyPtr));
-static int		CompareOneWordKeys _ANSI_ARGS_((
-			    VOID *keyPtr, Tcl_HashEntry *hPtr));
-static unsigned int	HashOneWordKey _ANSI_ARGS_((
-			    Tcl_HashTable *tablePtr, VOID *keyPtr));
+static Tcl_HashEntry *	AllocOneWordEntry(Tcl_HashTable *tablePtr,
+			    void *keyPtr);
+static int		CompareOneWordKeys(void *keyPtr, Tcl_HashEntry *hPtr);
+static unsigned int	HashOneWordKey(Tcl_HashTable *tablePtr, void *keyPtr);
 #endif
 
 /*
  * Prototypes for the string hash key methods.
  */
 
-static Tcl_HashEntry *	AllocStringEntry _ANSI_ARGS_((
-			    Tcl_HashTable *tablePtr, VOID *keyPtr));
-static int		CompareStringKeys _ANSI_ARGS_((
-			    VOID *keyPtr, Tcl_HashEntry *hPtr));
-static unsigned int	HashStringKey _ANSI_ARGS_((
-			    Tcl_HashTable *tablePtr, VOID *keyPtr));
+static Tcl_HashEntry *	AllocStringEntry(Tcl_HashTable *tablePtr,
+			    void *keyPtr);
+static int		CompareStringKeys(void *keyPtr, Tcl_HashEntry *hPtr);
+static unsigned int	HashStringKey(Tcl_HashTable *tablePtr, void *keyPtr);
 
 /*
- * Procedure prototypes for static procedures in this file:
+ * Function prototypes for static functions in this file:
  */
 
-#if TCL_PRESERVE_BINARY_COMPATABILITY
-static Tcl_HashEntry *	BogusFind _ANSI_ARGS_((Tcl_HashTable *tablePtr,
-			    CONST char *key));
-static Tcl_HashEntry *	BogusCreate _ANSI_ARGS_((Tcl_HashTable *tablePtr,
-			    CONST char *key, int *newPtr));
-#endif
+static Tcl_HashEntry *	BogusFind(Tcl_HashTable *tablePtr, const char *key);
+static Tcl_HashEntry *	BogusCreate(Tcl_HashTable *tablePtr, const char *key,
+			    int *newPtr);
+static Tcl_HashEntry *	CreateHashEntry(Tcl_HashTable *tablePtr, const char *key,
+			    int *newPtr);
+static Tcl_HashEntry *	FindHashEntry(Tcl_HashTable *tablePtr, const char *key);
+static void		RebuildTable(Tcl_HashTable *tablePtr);
 
-static void		RebuildTable _ANSI_ARGS_((Tcl_HashTable *tablePtr));
-
-Tcl_HashKeyType tclArrayHashKeyType = {
+const Tcl_HashKeyType tclArrayHashKeyType = {
     TCL_HASH_KEY_TYPE_VERSION,		/* version */
     TCL_HASH_KEY_RANDOMIZE_HASH,	/* flags */
     HashArrayKey,			/* hashKeyProc */
@@ -99,7 +88,7 @@ Tcl_HashKeyType tclArrayHashKeyType = {
     NULL				/* freeEntryProc */
 };
 
-Tcl_HashKeyType tclOneWordHashKeyType = {
+const Tcl_HashKeyType tclOneWordHashKeyType = {
     TCL_HASH_KEY_TYPE_VERSION,		/* version */
     0,					/* flags */
     NULL, /* HashOneWordKey, */		/* hashProc */
@@ -108,7 +97,7 @@ Tcl_HashKeyType tclOneWordHashKeyType = {
     NULL  /* FreeOneWordKey, */		/* freeEntryProc */
 };
 
-Tcl_HashKeyType tclStringHashKeyType = {
+const Tcl_HashKeyType tclStringHashKeyType = {
     TCL_HASH_KEY_TYPE_VERSION,		/* version */
     0,					/* flags */
     HashStringKey,			/* hashKeyProc */
@@ -116,15 +105,14 @@ Tcl_HashKeyType tclStringHashKeyType = {
     AllocStringEntry,			/* allocEntryProc */
     NULL				/* freeEntryProc */
 };
-
 
 /*
  *----------------------------------------------------------------------
  *
  * Tcl_InitHashTable --
  *
- *	Given storage for a hash table, set up the fields to prepare
- *	the hash table for use.
+ *	Given storage for a hash table, set up the fields to prepare the hash
+ *	table for use.
  *
  * Results:
  *	None.
@@ -136,22 +124,23 @@ Tcl_HashKeyType tclStringHashKeyType = {
  *----------------------------------------------------------------------
  */
 
-#undef Tcl_InitHashTable
 void
-Tcl_InitHashTable(tablePtr, keyType)
-    register Tcl_HashTable *tablePtr;	/* Pointer to table record, which
-					 * is supplied by the caller. */
-    int keyType;			/* Type of keys to use in table:
-					 * TCL_STRING_KEYS, TCL_ONE_WORD_KEYS,
-					 * or an integer >= 2. */
+Tcl_InitHashTable(
+    register Tcl_HashTable *tablePtr,
+				/* Pointer to table record, which is supplied
+				 * by the caller. */
+    int keyType)		/* Type of keys to use in table:
+				 * TCL_STRING_KEYS, TCL_ONE_WORD_KEYS, or an
+				 * integer >= 2. */
 {
     /*
-     * Use a special value to inform the extended version that it must
-     * not access any of the new fields in the Tcl_HashTable. If an
-     * extension is rebuilt then any calls to this function will be
-     * redirected to the extended version by a macro.
+     * Use a special value to inform the extended version that it must not
+     * access any of the new fields in the Tcl_HashTable. If an extension is
+     * rebuilt then any calls to this function will be redirected to the
+     * extended version by a macro.
      */
-    Tcl_InitCustomHashTable(tablePtr, keyType, (Tcl_HashKeyType *) -1);
+
+    Tcl_InitCustomHashTable(tablePtr, keyType, (const Tcl_HashKeyType *) -1);
 }
 
 /*
@@ -159,9 +148,9 @@ Tcl_InitHashTable(tablePtr, keyType)
  *
  * Tcl_InitCustomHashTable --
  *
- *	Given storage for a hash table, set up the fields to prepare
- *	the hash table for use. This is an extended version of
- *	Tcl_InitHashTable which supports user defined keys.
+ *	Given storage for a hash table, set up the fields to prepare the hash
+ *	table for use. This is an extended version of Tcl_InitHashTable which
+ *	supports user defined keys.
  *
  * Results:
  *	None.
@@ -174,22 +163,22 @@ Tcl_InitHashTable(tablePtr, keyType)
  */
 
 void
-Tcl_InitCustomHashTable(tablePtr, keyType, typePtr)
-    register Tcl_HashTable *tablePtr;	/* Pointer to table record, which
-					 * is supplied by the caller. */
-    int keyType;			/* Type of keys to use in table:
-					 * TCL_STRING_KEYS, TCL_ONE_WORD_KEYS,
-					 * TCL_CUSTOM_TYPE_KEYS,
-					 * TCL_CUSTOM_PTR_KEYS,  or an
-					 * integer >= 2. */
-    Tcl_HashKeyType *typePtr;		/* Pointer to structure which defines
-					 * the behaviour of this table. */
+Tcl_InitCustomHashTable(
+    register Tcl_HashTable *tablePtr,
+				/* Pointer to table record, which is supplied
+				 * by the caller. */
+    int keyType,		/* Type of keys to use in table:
+				 * TCL_STRING_KEYS, TCL_ONE_WORD_KEYS,
+				 * TCL_CUSTOM_TYPE_KEYS, TCL_CUSTOM_PTR_KEYS,
+				 * or an integer >= 2. */
+    const Tcl_HashKeyType *typePtr) /* Pointer to structure which defines the
+				 * behaviour of this table. */
 {
-#if (TCL_SMALL_HASH_TABLE != 4) 
-    Tcl_Panic("Tcl_InitCustomHashTable: TCL_SMALL_HASH_TABLE is %d, not 4\n",
+#if (TCL_SMALL_HASH_TABLE != 4)
+    Tcl_Panic("Tcl_InitCustomHashTable: TCL_SMALL_HASH_TABLE is %d, not 4",
 	    TCL_SMALL_HASH_TABLE);
 #endif
-    
+
     tablePtr->buckets = tablePtr->staticBuckets;
     tablePtr->staticBuckets[0] = tablePtr->staticBuckets[1] = 0;
     tablePtr->staticBuckets[2] = tablePtr->staticBuckets[3] = 0;
@@ -199,9 +188,8 @@ Tcl_InitCustomHashTable(tablePtr, keyType, typePtr)
     tablePtr->downShift = 28;
     tablePtr->mask = 3;
     tablePtr->keyType = keyType;
-#if TCL_PRESERVE_BINARY_COMPATABILITY
-    tablePtr->findProc = Tcl_FindHashEntry;
-    tablePtr->createProc = Tcl_CreateHashEntry;
+    tablePtr->findProc = FindHashEntry;
+    tablePtr->createProc = CreateHashEntry;
 
     if (typePtr == NULL) {
 	/*
@@ -210,41 +198,16 @@ Tcl_InitCustomHashTable(tablePtr, keyType, typePtr)
 	 */
     } else if (typePtr != (Tcl_HashKeyType *) -1) {
 	/*
-	 * The caller is requesting a customized hash table so it must be
-	 * an extended version.
+	 * The caller is requesting a customized hash table so it must be an
+	 * extended version.
 	 */
+
 	tablePtr->typePtr = typePtr;
     } else {
 	/*
-	 * The caller has not been rebuilt so the hash table is not
-	 * extended.
+	 * The caller has not been rebuilt so the hash table is not extended.
 	 */
     }
-#else
-    if (typePtr == NULL) {
-	/*
-	 * Use the key type to decide which key type is needed.
-	 */
-	if (keyType == TCL_STRING_KEYS) {
-	    typePtr = &tclStringHashKeyType;
-	} else if (keyType == TCL_ONE_WORD_KEYS) {
-	    typePtr = &tclOneWordHashKeyType;
-	} else if (keyType == TCL_CUSTOM_TYPE_KEYS) {
-	    Tcl_Panic ("No type structure specified for TCL_CUSTOM_TYPE_KEYS");
-	} else if (keyType == TCL_CUSTOM_PTR_KEYS) {
-	    Tcl_Panic ("No type structure specified for TCL_CUSTOM_PTR_KEYS");
-	} else {
-	    typePtr = &tclArrayHashKeyType;
-	}
-    } else if (typePtr == (Tcl_HashKeyType *) -1) {
-	/*
-	 * If the caller has not been rebuilt then we cannot continue as
-	 * the hash table is not an extended version.
-	 */
-	Tcl_Panic ("Hash table is not compatible");
-    }
-    tablePtr->typePtr = typePtr;
-#endif
 }
 
 /*
@@ -255,8 +218,8 @@ Tcl_InitCustomHashTable(tablePtr, keyType, typePtr)
  *	Given a hash table find the entry with a matching key.
  *
  * Results:
- *	The return value is a token for the matching entry in the
- *	hash table, or NULL if there was no matching entry.
+ *	The return value is a token for the matching entry in the hash table,
+ *	or NULL if there was no matching entry.
  *
  * Side effects:
  *	None.
@@ -265,94 +228,36 @@ Tcl_InitCustomHashTable(tablePtr, keyType, typePtr)
  */
 
 Tcl_HashEntry *
-Tcl_FindHashEntry(tablePtr, key)
-    Tcl_HashTable *tablePtr;	/* Table in which to lookup entry. */
-    CONST char *key;		/* Key to use to find matching entry. */
+Tcl_FindHashEntry(
+    Tcl_HashTable *tablePtr,	/* Table in which to lookup entry. */
+    const void *key)		/* Key to use to find matching entry. */
 {
-    register Tcl_HashEntry *hPtr;
-    Tcl_HashKeyType *typePtr;
-    unsigned int hash;
-    int index;
-
-#if TCL_PRESERVE_BINARY_COMPATABILITY
-    if (tablePtr->keyType == TCL_STRING_KEYS) {
-	typePtr = &tclStringHashKeyType;
-    } else if (tablePtr->keyType == TCL_ONE_WORD_KEYS) {
-	typePtr = &tclOneWordHashKeyType;
-    } else if (tablePtr->keyType == TCL_CUSTOM_TYPE_KEYS
-	    || tablePtr->keyType == TCL_CUSTOM_PTR_KEYS) {
-	typePtr = tablePtr->typePtr;
-    } else {
-	typePtr = &tclArrayHashKeyType;
-    }
-#else
-    typePtr = tablePtr->typePtr;
-    if (typePtr == NULL) {
-	Tcl_Panic("called Tcl_FindHashEntry on deleted table");
-	return NULL;
-    }
-#endif
-
-    if (typePtr->hashKeyProc) {
-	hash = typePtr->hashKeyProc (tablePtr, (VOID *) key);
-	if (typePtr->flags & TCL_HASH_KEY_RANDOMIZE_HASH) {
-	    index = RANDOM_INDEX (tablePtr, hash);
-	} else {
-	    index = hash & tablePtr->mask;
-	}
-    } else {
-	hash = (unsigned int) key;
-	index = RANDOM_INDEX (tablePtr, hash);
-    }
-
-    /*
-     * Search all of the entries in the appropriate bucket.
-     */
-
-    if (typePtr->compareKeysProc) {
-	Tcl_CompareHashKeysProc *compareKeysProc = typePtr->compareKeysProc;
-	for (hPtr = tablePtr->buckets[index]; hPtr != NULL;
-	        hPtr = hPtr->nextPtr) {
-#if TCL_HASH_KEY_STORE_HASH
-	    if (hash != (unsigned int) hPtr->hash) {
-		continue;
-	    }
-#endif
-	    if (compareKeysProc ((VOID *) key, hPtr)) {
-		return hPtr;
-	    }
-	}
-    } else {
-	for (hPtr = tablePtr->buckets[index]; hPtr != NULL;
-	        hPtr = hPtr->nextPtr) {
-#if TCL_HASH_KEY_STORE_HASH
-	    if (hash != (unsigned int) hPtr->hash) {
-		continue;
-	    }
-#endif
-	    if (key == hPtr->key.oneWordValue) {
-		return hPtr;
-	    }
-	}
-    }
-    
-    return NULL;
+    return (*((tablePtr)->findProc))(tablePtr, key);
 }
+
+static Tcl_HashEntry *
+FindHashEntry(
+    Tcl_HashTable *tablePtr,	/* Table in which to lookup entry. */
+    const char *key)		/* Key to use to find matching entry. */
+{
+    return CreateHashEntry(tablePtr, key, NULL);
+}
+
 
 /*
  *----------------------------------------------------------------------
  *
  * Tcl_CreateHashEntry --
  *
- *	Given a hash table with string keys, and a string key, find
- *	the entry with a matching key.  If there is no matching entry,
- *	then create a new entry that does match.
+ *	Given a hash table with string keys, and a string key, find the entry
+ *	with a matching key. If there is no matching entry, then create a new
+ *	entry that does match.
  *
  * Results:
- *	The return value is a pointer to the matching entry.  If this
- *	is a newly-created entry, then *newPtr will be set to a non-zero
- *	value;  otherwise *newPtr will be set to 0.  If this is a new
- *	entry the value stored in the entry will initially be 0.
+ *	The return value is a pointer to the matching entry. If this is a
+ *	newly-created entry, then *newPtr will be set to a non-zero value;
+ *	otherwise *newPtr will be set to 0. If this is a new entry the value
+ *	stored in the entry will initially be 0.
  *
  * Side effects:
  *	A new entry may be added to the hash table.
@@ -361,19 +266,29 @@ Tcl_FindHashEntry(tablePtr, key)
  */
 
 Tcl_HashEntry *
-Tcl_CreateHashEntry(tablePtr, key, newPtr)
-    Tcl_HashTable *tablePtr;	/* Table in which to lookup entry. */
-    CONST char *key;		/* Key to use to find or create matching
+Tcl_CreateHashEntry(
+    Tcl_HashTable *tablePtr,	/* Table in which to lookup entry. */
+    const void *key,		/* Key to use to find or create matching
 				 * entry. */
-    int *newPtr;		/* Store info here telling whether a new
-				 * entry was created. */
+    int *newPtr)		/* Store info here telling whether a new entry
+				 * was created. */
+{
+    return (*((tablePtr)->createProc))(tablePtr, key, newPtr);
+}
+
+static Tcl_HashEntry *
+CreateHashEntry(
+    Tcl_HashTable *tablePtr,	/* Table in which to lookup entry. */
+    const char *key,		/* Key to use to find or create matching
+				 * entry. */
+    int *newPtr)		/* Store info here telling whether a new entry
+				 * was created. */
 {
     register Tcl_HashEntry *hPtr;
-    Tcl_HashKeyType *typePtr;
+    const Tcl_HashKeyType *typePtr;
     unsigned int hash;
     int index;
 
-#if TCL_PRESERVE_BINARY_COMPATABILITY
     if (tablePtr->keyType == TCL_STRING_KEYS) {
 	typePtr = &tclStringHashKeyType;
     } else if (tablePtr->keyType == TCL_ONE_WORD_KEYS) {
@@ -384,24 +299,17 @@ Tcl_CreateHashEntry(tablePtr, key, newPtr)
     } else {
 	typePtr = &tclArrayHashKeyType;
     }
-#else
-    typePtr = tablePtr->typePtr;
-    if (typePtr == NULL) {
-	Tcl_Panic("called Tcl_CreateHashEntry on deleted table");
-	return NULL;
-    }
-#endif
 
     if (typePtr->hashKeyProc) {
-	hash = typePtr->hashKeyProc (tablePtr, (VOID *) key);
+	hash = typePtr->hashKeyProc(tablePtr, (void *) key);
 	if (typePtr->flags & TCL_HASH_KEY_RANDOMIZE_HASH) {
-	    index = RANDOM_INDEX (tablePtr, hash);
+	    index = RANDOM_INDEX(tablePtr, hash);
 	} else {
 	    index = hash & tablePtr->mask;
 	}
     } else {
-	hash = (unsigned int) key;
-	index = RANDOM_INDEX (tablePtr, hash);
+	hash = PTR2UINT(key);
+	index = RANDOM_INDEX(tablePtr, hash);
     }
 
     /*
@@ -410,65 +318,70 @@ Tcl_CreateHashEntry(tablePtr, key, newPtr)
 
     if (typePtr->compareKeysProc) {
 	Tcl_CompareHashKeysProc *compareKeysProc = typePtr->compareKeysProc;
+
 	for (hPtr = tablePtr->buckets[index]; hPtr != NULL;
-	        hPtr = hPtr->nextPtr) {
+		hPtr = hPtr->nextPtr) {
 #if TCL_HASH_KEY_STORE_HASH
-	    if (hash != (unsigned int) hPtr->hash) {
+	    if (hash != PTR2UINT(hPtr->hash)) {
 		continue;
 	    }
 #endif
-	    if (compareKeysProc ((VOID *) key, hPtr)) {
-		*newPtr = 0;
+	    if (compareKeysProc((void *) key, hPtr)) {
+		if (newPtr) {
+		    *newPtr = 0;
+		}
 		return hPtr;
 	    }
 	}
     } else {
 	for (hPtr = tablePtr->buckets[index]; hPtr != NULL;
-	        hPtr = hPtr->nextPtr) {
+		hPtr = hPtr->nextPtr) {
 #if TCL_HASH_KEY_STORE_HASH
-	    if (hash != (unsigned int) hPtr->hash) {
+	    if (hash != PTR2UINT(hPtr->hash)) {
 		continue;
 	    }
 #endif
 	    if (key == hPtr->key.oneWordValue) {
-		*newPtr = 0;
+		if (newPtr) {
+		    *newPtr = 0;
+		}
 		return hPtr;
 	    }
 	}
     }
 
+    if (!newPtr) {
+	return NULL;
+    }
+
     /*
-     * Entry not found.  Add a new one to the bucket.
+     * Entry not found. Add a new one to the bucket.
      */
 
     *newPtr = 1;
     if (typePtr->allocEntryProc) {
-	hPtr = typePtr->allocEntryProc (tablePtr, (VOID *) key);
+	hPtr = typePtr->allocEntryProc(tablePtr, (void *) key);
     } else {
 	hPtr = (Tcl_HashEntry *) ckalloc((unsigned) sizeof(Tcl_HashEntry));
 	hPtr->key.oneWordValue = (char *) key;
+	hPtr->clientData = 0;
     }
-					 
+
     hPtr->tablePtr = tablePtr;
 #if TCL_HASH_KEY_STORE_HASH
-#   if TCL_PRESERVE_BINARY_COMPATABILITY
-    hPtr->hash = (VOID *) hash;
-#   else
-    hPtr->hash = hash;
-#   endif
+    hPtr->hash = UINT2PTR(hash);
     hPtr->nextPtr = tablePtr->buckets[index];
     tablePtr->buckets[index] = hPtr;
 #else
-    hPtr->bucketPtr = &(tablePtr->buckets[index]);
+    hPtr->bucketPtr = &tablePtr->buckets[index];
     hPtr->nextPtr = *hPtr->bucketPtr;
     *hPtr->bucketPtr = hPtr;
 #endif
-    hPtr->clientData = 0;
     tablePtr->numEntries++;
 
     /*
-     * If the table has exceeded a decent size, rebuild it with many
-     * more buckets.
+     * If the table has exceeded a decent size, rebuild it with many more
+     * buckets.
      */
 
     if (tablePtr->numEntries >= tablePtr->rebuildSize) {
@@ -488,20 +401,19 @@ Tcl_CreateHashEntry(tablePtr, key, newPtr)
  *	None.
  *
  * Side effects:
- *	The entry given by entryPtr is deleted from its table and
- *	should never again be used by the caller.  It is up to the
- *	caller to free the clientData field of the entry, if that
- *	is relevant.
+ *	The entry given by entryPtr is deleted from its table and should never
+ *	again be used by the caller. It is up to the caller to free the
+ *	clientData field of the entry, if that is relevant.
  *
  *----------------------------------------------------------------------
  */
 
 void
-Tcl_DeleteHashEntry(entryPtr)
-    Tcl_HashEntry *entryPtr;
+Tcl_DeleteHashEntry(
+    Tcl_HashEntry *entryPtr)
 {
     register Tcl_HashEntry *prevPtr;
-    Tcl_HashKeyType *typePtr;
+    const Tcl_HashKeyType *typePtr;
     Tcl_HashTable *tablePtr;
     Tcl_HashEntry **bucketPtr;
 #if TCL_HASH_KEY_STORE_HASH
@@ -510,7 +422,6 @@ Tcl_DeleteHashEntry(entryPtr)
 
     tablePtr = entryPtr->tablePtr;
 
-#if TCL_PRESERVE_BINARY_COMPATABILITY
     if (tablePtr->keyType == TCL_STRING_KEYS) {
 	typePtr = &tclStringHashKeyType;
     } else if (tablePtr->keyType == TCL_ONE_WORD_KEYS) {
@@ -521,23 +432,20 @@ Tcl_DeleteHashEntry(entryPtr)
     } else {
 	typePtr = &tclArrayHashKeyType;
     }
-#else
-    typePtr = tablePtr->typePtr;
-#endif
-    
+
 #if TCL_HASH_KEY_STORE_HASH
     if (typePtr->hashKeyProc == NULL
 	    || typePtr->flags & TCL_HASH_KEY_RANDOMIZE_HASH) {
-	index = RANDOM_INDEX (tablePtr, entryPtr->hash);
+	index = RANDOM_INDEX(tablePtr, entryPtr->hash);
     } else {
-	index = ((unsigned int) entryPtr->hash) & tablePtr->mask;
+	index = PTR2UINT(entryPtr->hash) & tablePtr->mask;
     }
 
-    bucketPtr = &(tablePtr->buckets[index]);
+    bucketPtr = &tablePtr->buckets[index];
 #else
     bucketPtr = entryPtr->bucketPtr;
 #endif
-    
+
     if (*bucketPtr == entryPtr) {
 	*bucketPtr = entryPtr->nextPtr;
     } else {
@@ -554,7 +462,7 @@ Tcl_DeleteHashEntry(entryPtr)
 
     tablePtr->numEntries--;
     if (typePtr->freeEntryProc) {
-	typePtr->freeEntryProc (entryPtr);
+	typePtr->freeEntryProc(entryPtr);
     } else {
 	ckfree((char *) entryPtr);
     }
@@ -565,8 +473,8 @@ Tcl_DeleteHashEntry(entryPtr)
  *
  * Tcl_DeleteHashTable --
  *
- *	Free up everything associated with a hash table except for
- *	the record for the table itself.
+ *	Free up everything associated with a hash table except for the record
+ *	for the table itself.
  *
  * Results:
  *	None.
@@ -578,14 +486,13 @@ Tcl_DeleteHashEntry(entryPtr)
  */
 
 void
-Tcl_DeleteHashTable(tablePtr)
-    register Tcl_HashTable *tablePtr;		/* Table to delete. */
+Tcl_DeleteHashTable(
+    register Tcl_HashTable *tablePtr)	/* Table to delete. */
 {
     register Tcl_HashEntry *hPtr, *nextPtr;
-    Tcl_HashKeyType *typePtr;
+    const Tcl_HashKeyType *typePtr;
     int i;
 
-#if TCL_PRESERVE_BINARY_COMPATABILITY
     if (tablePtr->keyType == TCL_STRING_KEYS) {
 	typePtr = &tclStringHashKeyType;
     } else if (tablePtr->keyType == TCL_ONE_WORD_KEYS) {
@@ -596,9 +503,6 @@ Tcl_DeleteHashTable(tablePtr)
     } else {
 	typePtr = &tclArrayHashKeyType;
     }
-#else
-    typePtr = tablePtr->typePtr;
-#endif
 
     /*
      * Free up all the entries in the table.
@@ -609,7 +513,7 @@ Tcl_DeleteHashTable(tablePtr)
 	while (hPtr != NULL) {
 	    nextPtr = hPtr->nextPtr;
 	    if (typePtr->freeEntryProc) {
-		typePtr->freeEntryProc (hPtr);
+		typePtr->freeEntryProc(hPtr);
 	    } else {
 		ckfree((char *) hPtr);
 	    }
@@ -634,12 +538,8 @@ Tcl_DeleteHashTable(tablePtr)
      * re-initialization.
      */
 
-#if TCL_PRESERVE_BINARY_COMPATABILITY
     tablePtr->findProc = BogusFind;
     tablePtr->createProc = BogusCreate;
-#else
-    tablePtr->typePtr = NULL;
-#endif
 }
 
 /*
@@ -647,16 +547,14 @@ Tcl_DeleteHashTable(tablePtr)
  *
  * Tcl_FirstHashEntry --
  *
- *	Locate the first entry in a hash table and set up a record
- *	that can be used to step through all the remaining entries
- *	of the table.
+ *	Locate the first entry in a hash table and set up a record that can be
+ *	used to step through all the remaining entries of the table.
  *
  * Results:
- *	The return value is a pointer to the first entry in tablePtr,
- *	or NULL if tablePtr has no entries in it.  The memory at
- *	*searchPtr is initialized so that subsequent calls to
- *	Tcl_NextHashEntry will return all of the entries in the table,
- *	one at a time.
+ *	The return value is a pointer to the first entry in tablePtr, or NULL
+ *	if tablePtr has no entries in it. The memory at *searchPtr is
+ *	initialized so that subsequent calls to Tcl_NextHashEntry will return
+ *	all of the entries in the table, one at a time.
  *
  * Side effects:
  *	None.
@@ -665,10 +563,10 @@ Tcl_DeleteHashTable(tablePtr)
  */
 
 Tcl_HashEntry *
-Tcl_FirstHashEntry(tablePtr, searchPtr)
-    Tcl_HashTable *tablePtr;		/* Table to search. */
-    Tcl_HashSearch *searchPtr;		/* Place to store information about
-					 * progress through the table. */
+Tcl_FirstHashEntry(
+    Tcl_HashTable *tablePtr,	/* Table to search. */
+    Tcl_HashSearch *searchPtr)	/* Place to store information about progress
+				 * through the table. */
 {
     searchPtr->tablePtr = tablePtr;
     searchPtr->nextIndex = 0;
@@ -682,12 +580,12 @@ Tcl_FirstHashEntry(tablePtr, searchPtr)
  * Tcl_NextHashEntry --
  *
  *	Once a hash table enumeration has been initiated by calling
- *	Tcl_FirstHashEntry, this procedure may be called to return
- *	successive elements of the table.
+ *	Tcl_FirstHashEntry, this function may be called to return successive
+ *	elements of the table.
  *
  * Results:
- *	The return value is the next entry in the hash table being
- *	enumerated, or NULL if the end of the table is reached.
+ *	The return value is the next entry in the hash table being enumerated,
+ *	or NULL if the end of the table is reached.
  *
  * Side effects:
  *	None.
@@ -696,11 +594,12 @@ Tcl_FirstHashEntry(tablePtr, searchPtr)
  */
 
 Tcl_HashEntry *
-Tcl_NextHashEntry(searchPtr)
-    register Tcl_HashSearch *searchPtr;	/* Place to store information about
-					 * progress through the table.  Must
-					 * have been initialized by calling
-					 * Tcl_FirstHashEntry. */
+Tcl_NextHashEntry(
+    register Tcl_HashSearch *searchPtr)
+				/* Place to store information about progress
+				 * through the table. Must have been
+				 * initialized by calling
+				 * Tcl_FirstHashEntry. */
 {
     Tcl_HashEntry *hPtr;
     Tcl_HashTable *tablePtr = searchPtr->tablePtr;
@@ -723,13 +622,12 @@ Tcl_NextHashEntry(searchPtr)
  *
  * Tcl_HashStats --
  *
- *	Return statistics describing the layout of the hash table
- *	in its hash buckets.
+ *	Return statistics describing the layout of the hash table in its hash
+ *	buckets.
  *
  * Results:
- *	The return value is a malloc-ed string containing information
- *	about tablePtr.  It is the caller's responsibility to free
- *	this string.
+ *	The return value is a malloc-ed string containing information about
+ *	tablePtr. It is the caller's responsibility to free this string.
  *
  * Side effects:
  *	None.
@@ -737,35 +635,15 @@ Tcl_NextHashEntry(searchPtr)
  *----------------------------------------------------------------------
  */
 
-CONST char *
-Tcl_HashStats(tablePtr)
-    Tcl_HashTable *tablePtr;		/* Table for which to produce stats. */
+char *
+Tcl_HashStats(
+    Tcl_HashTable *tablePtr)	/* Table for which to produce stats. */
 {
 #define NUM_COUNTERS 10
     int count[NUM_COUNTERS], overflow, i, j;
     double average, tmp;
     register Tcl_HashEntry *hPtr;
     char *result, *p;
-    Tcl_HashKeyType *typePtr;
-
-#if TCL_PRESERVE_BINARY_COMPATABILITY
-    if (tablePtr->keyType == TCL_STRING_KEYS) {
-	typePtr = &tclStringHashKeyType;
-    } else if (tablePtr->keyType == TCL_ONE_WORD_KEYS) {
-	typePtr = &tclOneWordHashKeyType;
-    } else if (tablePtr->keyType == TCL_CUSTOM_TYPE_KEYS
-	    || tablePtr->keyType == TCL_CUSTOM_PTR_KEYS) {
-	typePtr = tablePtr->typePtr;
-    } else {
-	typePtr = &tclArrayHashKeyType;
-    }
-#else
-    typePtr = tablePtr->typePtr;
-    if (typePtr == NULL) {
-	Tcl_Panic("called Tcl_HashStats on deleted table");
-	return NULL;
-    }
-#endif
 
     /*
      * Compute a histogram of bucket usage.
@@ -795,11 +673,8 @@ Tcl_HashStats(tablePtr)
     /*
      * Print out the histogram and a few other pieces of information.
      */
-    if (typePtr->flags & TCL_HASH_KEY_SYSTEM_HASH) {
-	result = (char *) TclpSysAlloc((unsigned) (NUM_COUNTERS*60) + 300, 0);
-    } else {
-	result = (char *) ckalloc((unsigned) (NUM_COUNTERS*60) + 300);
-    }
+
+    result = (char *) ckalloc((unsigned) (NUM_COUNTERS*60) + 300);
     sprintf(result, "%d entries in table, %d buckets\n",
 	    tablePtr->numEntries, tablePtr->numBuckets);
     p = result + strlen(result);
@@ -832,9 +707,9 @@ Tcl_HashStats(tablePtr)
  */
 
 static Tcl_HashEntry *
-AllocArrayEntry(tablePtr, keyPtr)
-    Tcl_HashTable *tablePtr;	/* Hash table. */
-    VOID *keyPtr;		/* Key to store in the hash table entry. */
+AllocArrayEntry(
+    Tcl_HashTable *tablePtr,	/* Hash table. */
+    void *keyPtr)		/* Key to store in the hash table entry. */
 {
     int *array = (int *) keyPtr;
     register int *iPtr1, *iPtr2;
@@ -849,11 +724,12 @@ AllocArrayEntry(tablePtr, keyPtr)
 	size = sizeof(Tcl_HashEntry);
     }
     hPtr = (Tcl_HashEntry *) ckalloc(size);
-    
+
     for (iPtr1 = array, iPtr2 = hPtr->key.words;
 	    count > 0; count--, iPtr1++, iPtr2++) {
 	*iPtr2 = *iPtr1;
     }
+    hPtr->clientData = 0;
 
     return hPtr;
 }
@@ -866,8 +742,8 @@ AllocArrayEntry(tablePtr, keyPtr)
  *	Compares two array keys.
  *
  * Results:
- *	The return value is 0 if they are different and 1 if they are
- *	the same.
+ *	The return value is 0 if they are different and 1 if they are the
+ *	same.
  *
  * Side effects:
  *	None.
@@ -876,12 +752,12 @@ AllocArrayEntry(tablePtr, keyPtr)
  */
 
 static int
-CompareArrayKeys(keyPtr, hPtr)
-    VOID *keyPtr;		/* New key to compare. */
-    Tcl_HashEntry *hPtr;	/* Existing key to compare. */
+CompareArrayKeys(
+    void *keyPtr,		/* New key to compare. */
+    Tcl_HashEntry *hPtr)	/* Existing key to compare. */
 {
-    register CONST int *iPtr1 = (CONST int *) keyPtr;
-    register CONST int *iPtr2 = (CONST int *) hPtr->key.words;
+    register const int *iPtr1 = (const int *) keyPtr;
+    register const int *iPtr2 = (const int *) hPtr->key.words;
     Tcl_HashTable *tablePtr = hPtr->tablePtr;
     int count;
 
@@ -901,8 +777,8 @@ CompareArrayKeys(keyPtr, hPtr)
  *
  * HashArrayKey --
  *
- *	Compute a one-word summary of an array, which can be
- *	used to generate a hash index.
+ *	Compute a one-word summary of an array, which can be used to generate
+ *	a hash index.
  *
  * Results:
  *	The return value is a one-word summary of the information in
@@ -915,11 +791,11 @@ CompareArrayKeys(keyPtr, hPtr)
  */
 
 static unsigned int
-HashArrayKey(tablePtr, keyPtr)
-    Tcl_HashTable *tablePtr;	/* Hash table. */
-    VOID *keyPtr;		/* Key from which to compute hash value. */
+HashArrayKey(
+    Tcl_HashTable *tablePtr,	/* Hash table. */
+    void *keyPtr)		/* Key from which to compute hash value. */
 {
-    register CONST int *array = (CONST int *) keyPtr;
+    register const int *array = (const int *) keyPtr;
     register unsigned int result;
     int count;
 
@@ -947,11 +823,11 @@ HashArrayKey(tablePtr, keyPtr)
  */
 
 static Tcl_HashEntry *
-AllocStringEntry(tablePtr, keyPtr)
-    Tcl_HashTable *tablePtr;	/* Hash table. */
-    VOID *keyPtr;		/* Key to store in the hash table entry. */
+AllocStringEntry(
+    Tcl_HashTable *tablePtr,	/* Hash table. */
+    void *keyPtr)		/* Key to store in the hash table entry. */
 {
-    CONST char *string = (CONST char *) keyPtr;
+    const char *string = (const char *) keyPtr;
     Tcl_HashEntry *hPtr;
     unsigned int size;
 
@@ -961,7 +837,7 @@ AllocStringEntry(tablePtr, keyPtr)
     }
     hPtr = (Tcl_HashEntry *) ckalloc(size);
     strcpy(hPtr->key.string, string);
-
+    hPtr->clientData = 0;
     return hPtr;
 }
 
@@ -973,8 +849,8 @@ AllocStringEntry(tablePtr, keyPtr)
  *	Compares two string keys.
  *
  * Results:
- *	The return value is 0 if they are different and 1 if they are
- *	the same.
+ *	The return value is 0 if they are different and 1 if they are the
+ *	same.
  *
  * Side effects:
  *	None.
@@ -983,26 +859,14 @@ AllocStringEntry(tablePtr, keyPtr)
  */
 
 static int
-CompareStringKeys(keyPtr, hPtr)
-    VOID *keyPtr;		/* New key to compare. */
-    Tcl_HashEntry *hPtr;	/* Existing key to compare. */
+CompareStringKeys(
+    void *keyPtr,		/* New key to compare. */
+    Tcl_HashEntry *hPtr)	/* Existing key to compare. */
 {
-    register CONST char *p1 = (CONST char *) keyPtr;
-    register CONST char *p2 = (CONST char *) hPtr->key.string;
+    register const char *p1 = (const char *) keyPtr;
+    register const char *p2 = (const char *) hPtr->key.string;
 
-#ifdef TCL_COMPARE_HASHES_WITH_STRCMP
     return !strcmp(p1, p2);
-#else
-    for (;; p1++, p2++) {
-	if (*p1 != *p2) {
-	    break;
-	}
-	if (*p1 == '\0') {
-	    return 1;
-	}
-    }
-    return 0;
-#endif /* TCL_COMPARE_HASHES_WITH_STRCMP */
 }
 
 /*
@@ -1010,12 +874,11 @@ CompareStringKeys(keyPtr, hPtr)
  *
  * HashStringKey --
  *
- *	Compute a one-word summary of a text string, which can be
- *	used to generate a hash index.
+ *	Compute a one-word summary of a text string, which can be used to
+ *	generate a hash index.
  *
  * Results:
- *	The return value is a one-word summary of the information in
- *	string.
+ *	The return value is a one-word summary of the information in string.
  *
  * Side effects:
  *	None.
@@ -1023,51 +886,65 @@ CompareStringKeys(keyPtr, hPtr)
  *----------------------------------------------------------------------
  */
 
-static unsigned int
-HashStringKey(tablePtr, keyPtr)
-    Tcl_HashTable *tablePtr;	/* Hash table. */
-    VOID *keyPtr;		/* Key from which to compute hash value. */
+static unsigned
+HashStringKey(
+    Tcl_HashTable *tablePtr,	/* Hash table. */
+    void *keyPtr)		/* Key from which to compute hash value. */
 {
-    register CONST char *string = (CONST char *) keyPtr;
+    register const char *string = keyPtr;
     register unsigned int result;
-    register int c;
+    register char c;
 
     /*
-     * I tried a zillion different hash functions and asked many other
-     * people for advice.  Many people had their own favorite functions,
-     * all different, but no-one had much idea why they were good ones.
-     * I chose the one below (multiply by 9 and add new character)
-     * because of the following reasons:
+     * I tried a zillion different hash functions and asked many other people
+     * for advice. Many people had their own favorite functions, all
+     * different, but no-one had much idea why they were good ones. I chose
+     * the one below (multiply by 9 and add new character) because of the
+     * following reasons:
      *
-     * 1. Multiplying by 10 is perfect for keys that are decimal strings,
-     *    and multiplying by 9 is just about as good.
-     * 2. Times-9 is (shift-left-3) plus (old).  This means that each
-     *    character's bits hang around in the low-order bits of the
-     *    hash value for ever, plus they spread fairly rapidly up to
-     *    the high-order bits to fill out the hash value.  This seems
-     *    works well both for decimal and non-decimal strings.
+     * 1. Multiplying by 10 is perfect for keys that are decimal strings, and
+     *    multiplying by 9 is just about as good.
+     * 2. Times-9 is (shift-left-3) plus (old). This means that each
+     *    character's bits hang around in the low-order bits of the hash value
+     *    for ever, plus they spread fairly rapidly up to the high-order bits
+     *    to fill out the hash value. This seems works well both for decimal
+     *    and non-decimal strings, but isn't strong against maliciously-chosen
+     *    keys.
+     *
+     * Note that this function is very weak against malicious strings; it's
+     * very easy to generate multiple keys that have the same hashcode. On the
+     * other hand, that hardly ever actually occurs and this function *is*
+     * very cheap, even by comparison with industry-standard hashes like FNV.
+     * If real strength of hash is required though, use a custom hash based on
+     * Bob Jenkins's lookup3(), but be aware that it's significantly slower.
+     * Since Tcl command and namespace names are usually reasonably-named (the
+     * main use for string hashes in modern Tcl) speed is far more important
+     * than strength.
+     *
+     * See also HashString in tclLiteral.c.
+     * See also TclObjHashKey in tclObj.c.
+     *
+     * See [tcl-Feature Request #2958832]
      */
 
-    result = 0;
-
-    for (c=*string++ ; c ; c=*string++) {
-	result += (result<<3) + c;
+    if ((result = UCHAR(*string)) != 0) {
+	while ((c = *++string) != 0) {
+	    result += (result << 3) + UCHAR(c);
+	}
     }
     return result;
 }
 
-#if TCL_PRESERVE_BINARY_COMPATABILITY
 /*
  *----------------------------------------------------------------------
  *
  * BogusFind --
  *
- *	This procedure is invoked when an Tcl_FindHashEntry is called
- *	on a table that has been deleted.
+ *	This function is invoked when an Tcl_FindHashEntry is called on a
+ *	table that has been deleted.
  *
  * Results:
- *	If Tcl_Panic returns (which it shouldn't) this procedure returns
- *	NULL.
+ *	If Tcl_Panic returns (which it shouldn't) this function returns NULL.
  *
  * Side effects:
  *	Generates a panic.
@@ -1077,11 +954,11 @@ HashStringKey(tablePtr, keyPtr)
 
 	/* ARGSUSED */
 static Tcl_HashEntry *
-BogusFind(tablePtr, key)
-    Tcl_HashTable *tablePtr;	/* Table in which to lookup entry. */
-    CONST char *key;		/* Key to use to find matching entry. */
+BogusFind(
+    Tcl_HashTable *tablePtr,	/* Table in which to lookup entry. */
+    const char *key)		/* Key to use to find matching entry. */
 {
-    Tcl_Panic("called Tcl_FindHashEntry on deleted table");
+    Tcl_Panic("called %s on deleted table", "Tcl_FindHashEntry");
     return NULL;
 }
 
@@ -1090,12 +967,11 @@ BogusFind(tablePtr, key)
  *
  * BogusCreate --
  *
- *	This procedure is invoked when an Tcl_CreateHashEntry is called
- *	on a table that has been deleted.
+ *	This function is invoked when an Tcl_CreateHashEntry is called on a
+ *	table that has been deleted.
  *
  * Results:
- *	If panic returns (which it shouldn't) this procedure returns
- *	NULL.
+ *	If panic returns (which it shouldn't) this function returns NULL.
  *
  * Side effects:
  *	Generates a panic.
@@ -1105,49 +981,45 @@ BogusFind(tablePtr, key)
 
 	/* ARGSUSED */
 static Tcl_HashEntry *
-BogusCreate(tablePtr, key, newPtr)
-    Tcl_HashTable *tablePtr;	/* Table in which to lookup entry. */
-    CONST char *key;		/* Key to use to find or create matching
+BogusCreate(
+    Tcl_HashTable *tablePtr,	/* Table in which to lookup entry. */
+    const char *key,		/* Key to use to find or create matching
 				 * entry. */
-    int *newPtr;		/* Store info here telling whether a new
-				 * entry was created. */
+    int *newPtr)		/* Store info here telling whether a new entry
+				 * was created. */
 {
-    Tcl_Panic("called Tcl_CreateHashEntry on deleted table");
+    Tcl_Panic("called %s on deleted table", "Tcl_CreateHashEntry");
     return NULL;
 }
-#endif
 
 /*
  *----------------------------------------------------------------------
  *
  * RebuildTable --
  *
- *	This procedure is invoked when the ratio of entries to hash
- *	buckets becomes too large.  It creates a new table with a
- *	larger bucket array and moves all of the entries into the
- *	new table.
+ *	This function is invoked when the ratio of entries to hash buckets
+ *	becomes too large. It creates a new table with a larger bucket array
+ *	and moves all of the entries into the new table.
  *
  * Results:
  *	None.
  *
  * Side effects:
- *	Memory gets reallocated and entries get re-hashed to new
- *	buckets.
+ *	Memory gets reallocated and entries get re-hashed to new buckets.
  *
  *----------------------------------------------------------------------
  */
 
 static void
-RebuildTable(tablePtr)
-    register Tcl_HashTable *tablePtr;	/* Table to enlarge. */
+RebuildTable(
+    register Tcl_HashTable *tablePtr)	/* Table to enlarge. */
 {
     int oldSize, count, index;
     Tcl_HashEntry **oldBuckets;
     register Tcl_HashEntry **oldChainPtr, **newChainPtr;
     register Tcl_HashEntry *hPtr;
-    Tcl_HashKeyType *typePtr;
+    const Tcl_HashKeyType *typePtr;
 
-#if TCL_PRESERVE_BINARY_COMPATABILITY
     if (tablePtr->keyType == TCL_STRING_KEYS) {
 	typePtr = &tclStringHashKeyType;
     } else if (tablePtr->keyType == TCL_ONE_WORD_KEYS) {
@@ -1158,16 +1030,13 @@ RebuildTable(tablePtr)
     } else {
 	typePtr = &tclArrayHashKeyType;
     }
-#else
-    typePtr = tablePtr->typePtr;
-#endif
 
     oldSize = tablePtr->numBuckets;
     oldBuckets = tablePtr->buckets;
 
     /*
-     * Allocate and initialize the new bucket array, and set up
-     * hashing constants for new array size.
+     * Allocate and initialize the new bucket array, and set up hashing
+     * constants for new array size.
      */
 
     tablePtr->numBuckets *= 4;
@@ -1196,28 +1065,29 @@ RebuildTable(tablePtr)
 #if TCL_HASH_KEY_STORE_HASH
 	    if (typePtr->hashKeyProc == NULL
 		    || typePtr->flags & TCL_HASH_KEY_RANDOMIZE_HASH) {
-		index = RANDOM_INDEX (tablePtr, hPtr->hash);
+		index = RANDOM_INDEX(tablePtr, hPtr->hash);
 	    } else {
-		index = ((unsigned int) hPtr->hash) & tablePtr->mask;
+		index = PTR2UINT(hPtr->hash) & tablePtr->mask;
 	    }
 	    hPtr->nextPtr = tablePtr->buckets[index];
 	    tablePtr->buckets[index] = hPtr;
 #else
-	    VOID *key = (VOID *) Tcl_GetHashKey (tablePtr, hPtr);
+	    void *key = Tcl_GetHashKey(tablePtr, hPtr);
 
 	    if (typePtr->hashKeyProc) {
 		unsigned int hash;
-		hash = typePtr->hashKeyProc (tablePtr, (VOID *) key);
+
+		hash = typePtr->hashKeyProc(tablePtr, key);
 		if (typePtr->flags & TCL_HASH_KEY_RANDOMIZE_HASH) {
-		    index = RANDOM_INDEX (tablePtr, hash);
+		    index = RANDOM_INDEX(tablePtr, hash);
 		} else {
 		    index = hash & tablePtr->mask;
 		}
 	    } else {
-		index = RANDOM_INDEX (tablePtr, key);
+		index = RANDOM_INDEX(tablePtr, key);
 	    }
 
-	    hPtr->bucketPtr = &(tablePtr->buckets[index]);
+	    hPtr->bucketPtr = &tablePtr->buckets[index];
 	    hPtr->nextPtr = *hPtr->bucketPtr;
 	    *hPtr->bucketPtr = hPtr;
 #endif
@@ -1236,3 +1106,11 @@ RebuildTable(tablePtr)
 	}
     }
 }
+
+/*
+ * Local Variables:
+ * mode: c
+ * c-basic-offset: 4
+ * fill-column: 78
+ * End:
+ */
