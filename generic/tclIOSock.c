@@ -125,6 +125,8 @@ TclSockMinimumBuffers(
 
 int
 TclCreateSocketAddress(
+    Tcl_Interp *interp,                 /* Interpreter for querying
+					 * the desired socket family */
     struct addrinfo **addrlist,		/* Socket address list */
     const char *host,			/* Host. NULL implies INADDR_ANY */
     int port,				/* Port number */
@@ -138,6 +140,7 @@ TclCreateSocketAddress(
     struct addrinfo *v4head = NULL, *v4ptr = NULL;
     struct addrinfo *v6head = NULL, *v6ptr = NULL;
     char *native = NULL, portstring[TCL_INTEGER_SPACE];
+    const char *family;
     Tcl_DString ds;
     int result, i;
 
@@ -148,7 +151,18 @@ TclCreateSocketAddress(
     }
     
     (void) memset(&hints, 0, sizeof(hints));
+    
     hints.ai_family = AF_UNSPEC;
+    /* Magic variable to enforce a certain address family */
+    family = Tcl_GetVar(interp, "::tcl::unsupported::socketAF", 0);
+    if (family != NULL) {
+        if (strcmp(family, "inet") == 0) {
+            hints.ai_family = AF_INET;
+        } else if (strcmp(family, "inet6") == 0) {
+            hints.ai_family = AF_INET6;
+        }
+    }
+
     hints.ai_socktype = SOCK_STREAM;
 #if defined(AI_ADDRCONFIG) && !defined(_AIX)
     /* Missing on: OpenBSD, NetBSD.  Causes failure when used on AIX 5.1 */

@@ -875,10 +875,10 @@ CreateClientSocket(
     TcpState *statePtr;
     const char *errorMsg = NULL;
 
-    if (!TclCreateSocketAddress(&addrlist, host, port, 0, &errorMsg)) {
+    if (!TclCreateSocketAddress(interp, &addrlist, host, port, 0, &errorMsg)) {
 	goto error;
     }
-    if (!TclCreateSocketAddress(&myaddrlist, myaddr, myport, 1, &errorMsg)) {
+    if (!TclCreateSocketAddress(interp, &myaddrlist, myaddr, myport, 1, &errorMsg)) {
 	goto error;
     }
 
@@ -1167,7 +1167,7 @@ Tcl_OpenTcpServer(
     const char *errorMsg = NULL;
     TcpFdList *fds = NULL, *newfds;
 
-    if (!TclCreateSocketAddress(&addrlist, myHost, port, 1, &errorMsg)) {
+    if (!TclCreateSocketAddress(interp, &addrlist, myHost, port, 1, &errorMsg)) {
 	goto error;
     }
 

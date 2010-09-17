@@ -999,10 +999,10 @@ CreateSocket(
 	return NULL;
     }
 
-    if (!TclCreateSocketAddress(&addrlist, host, port, server, &errorMsg)) {
+    if (!TclCreateSocketAddress(interp, &addrlist, host, port, server, &errorMsg)) {
 	goto error;
     }
-    if (!TclCreateSocketAddress(&myaddrlist, myaddr, myport, 1, &errorMsg)) {
+    if (!TclCreateSocketAddress(interp, &myaddrlist, myaddr, myport, 1, &errorMsg)) {
 	goto error;
     }
 
