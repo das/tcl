@@ -12,6 +12,14 @@
  * RCS: @(#) $Id$
  */
 
+/* TODO: This file does not compile in UNICODE mode.
+ * See [Freq 2965056]: Windows build with -DUNICODE
+ * and
+ * [Bug 3069278]: breakage on head Windows triggered by install-tzdata
+ */
+#undef UNICODE
+#undef _UNICODE
+
 #include "tclWinInt.h"
 
 /*
@@ -331,8 +339,8 @@ DoRenameFile(
 	    TCHAR *nativeSrcRest, *nativeDstRest;
 	    const char **srcArgv, **dstArgv;
 	    int size, srcArgc, dstArgc;
-	    TCHAR nativeSrcPath[MAX_PATH];
-	    TCHAR nativeDstPath[MAX_PATH];
+	    TCHAR nativeSrcPath[MAX_PATH * 2];
+	    TCHAR nativeDstPath[MAX_PATH * 2];
 	    Tcl_DString srcString, dstString;
 	    const char *src, *dst;
 
@@ -468,7 +476,7 @@ DoRenameFile(
 
 		TCHAR *nativeRest, *nativeTmp, *nativePrefix;
 		int result, size;
-		TCHAR tempBuf[MAX_PATH];
+		TCHAR tempBuf[MAX_PATH * 2];
 
 		size = tclWinProcs->getFullPathNameProc(nativeDst, MAX_PATH,
 			tempBuf, &nativeRest);
