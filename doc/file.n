@@ -327,7 +327,7 @@ Returns \fB1\fR if file \fIname\fR is readable by the current user,
 \fBfile readlink \fIname\fR
 .
 Returns the value of the symbolic link given by \fIname\fR (i.e. the name
-of the file it points to).  If \fIname\fR is npt a symbolic link or its
+of the file it points to).  If \fIname\fR is not a symbolic link or its
 value cannot be read, then an error is returned.  On systems that do not
 support symbolic links this option is undefined.
 .TP
