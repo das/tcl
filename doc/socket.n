@@ -7,7 +7,7 @@
 '\"
 '\" RCS: @(#) $Id$
 .so man.macros
-.TH socket n 8.0 Tcl "Tcl Built-In Commands"
+.TH socket n 8.6 Tcl "Tcl Built-In Commands"
 .BS
 '\" Note:  do not modify the .SH NAME line immediately below!
 .SH NAME
@@ -30,7 +30,7 @@ whether the \fB\-server\fR switch is specified.
 .PP
 Note that the default encoding for \fIall\fR sockets is the system
 encoding, as returned by \fBencoding system\fR.  Most of the time, you
-will need to use \fBfconfigure\fR to alter this to something else,
+will need to use \fBchan configure\fR to alter this to something else,
 such as \fIutf\-8\fR (ideal for communicating with other Tcl
 processes) or \fIiso8859\-1\fR (useful for many network protocols,
 especially the older ones).
@@ -84,10 +84,10 @@ mode using:
 .RS
 .PP
 .CS
-\fBfconfigure \fIchan \fB\-blocking 0\fR
+\fBchan configure \fIchan \fB\-blocking 0\fR
 .CE
 .PP
-See the \fBfconfigure\fR command for more details.
+See the \fBchan\fR \fBconfigure\fR command for more details.
 .RE
 .SH "SERVER SOCKETS"
 .PP
@@ -96,7 +96,7 @@ a server that listens on the given \fIport\fR (either an integer or a
 service name, where supported and understood by the host operating
 system; if \fIport\fR is zero, the operating system will allocate a
 free port to the server socket which may be discovered by using
-\fBfconfigure\fR to read the \fB\-sockname\fR option). If the host
+\fBchan configure\fR to read the \fB\-sockname\fR option). If the host
 supports both, IPv4 and IPv6, the socket will listen on both address
 families. Tcl will automatically accept connections to the given port.
 For each connection Tcl will create a new channel that may be used to
@@ -134,11 +134,11 @@ will be accepted.
 If \fIport\fR is specified as zero, the operating system will allocate
 an unused port for use as a server socket.  The port number actually
 allocated may be retrieved from the created server socket using the
-\fBfconfigure\fR command to retrieve the \fB\-sockname\fR option as
+\fBchan configure\fR command to retrieve the \fB\-sockname\fR option as
 described below.
 .SH "CONFIGURATION OPTIONS"
 .PP
-The \fBfconfigure\fR command can be used to query several readonly
+The \fBchan configure\fR command can be used to query several readonly
 configuration options for socket channels:
 .TP
 \fB\-error\fR
@@ -202,7 +202,7 @@ puts "The time on $server is $line1"
 puts "That is [lindex $line2 0]s since the server started"
 .CE
 .SH "SEE ALSO"
-fconfigure(n), flush(n), open(n), read(n)
+chan(n), flush(n), open(n), read(n)
 .SH KEYWORDS
 asynchronous I/O, bind, channel, connection, domain name, host, network address, socket, tcp
 '\" Local Variables:
