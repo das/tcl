@@ -2878,12 +2878,12 @@ TclExecuteByteCode(
 		    pc--;
 		    goto gotError;
 		}
-		NRE_ASSERT(BP == corPtr->eePtr->bottomPtr);
 
 		/*
 		 * Mark suspended, save our state and return
 		 */
 
+		DECACHE_STACK_INFO();
 		corPtr->stackLevel = NULL;
 		iPtr->execEnvPtr = corPtr->callerEEPtr;
 		OBP = *corPtr->callerBPPtr;
