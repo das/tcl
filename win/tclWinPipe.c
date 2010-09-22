@@ -3133,8 +3133,8 @@ TclpOpenTemporaryFile(
 	sprintf(number, "%d.TMP", counter);
 	counter = (unsigned short) (counter + 1);
 	tclWinProcs->utf2tchar(number, strlen(number), &buf);
-	memcpy(namePtr, Tcl_DStringValue(&buf), Tcl_DStringLength(&buf));
-	*(WCHAR *)(namePtr + Tcl_DStringLength(&buf) + 1) = '\0';
+	Tcl_DStringSetLength(&buf, Tcl_DStringLength(&buf) + 1);
+	memcpy(namePtr, Tcl_DStringValue(&buf), Tcl_DStringLength(&buf) + 1);
 	Tcl_DStringFree(&buf);
 
 	handle = tclWinProcs->createFileProc((TCHAR *) name,

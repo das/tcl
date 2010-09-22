@@ -1885,6 +1885,7 @@ TclpGetCwd(
 {
     TCHAR buffer[MAX_PATH];
     char *p;
+    WCHAR *native;
 
     if (tclWinProcs->getCurrentDirectoryProc(MAX_PATH, buffer) == 0) {
 	TclWinConvertError(GetLastError());
@@ -1899,7 +1900,7 @@ TclpGetCwd(
      * Watch for the weird Windows c:\\UNC syntax.
      */
 
-    WCHAR *native = (WCHAR *) buffer;
+    native = (WCHAR *) buffer;
     if ((native[0] != '\0') && (native[1] == ':')
 	    && (native[2] == '\\') && (native[3] == '\\')) {
 	native += 2;
