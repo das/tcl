@@ -3774,12 +3774,16 @@ extern const TclStubs *tclStubsPtr;
 #if defined(USE_TCL_STUBS)
 #   undef Tcl_CreateInterp
 #   undef Tcl_FindExecutable
+#   undef Tcl_GetStringResult
 #   undef Tcl_Init
+#   undef Tcl_SetPanicProc
 #   undef Tcl_SetVar
 #   undef Tcl_StaticPackage
 #   undef TclFSGetNativePath
 #   define Tcl_CreateInterp() (tclStubsPtr->tcl_CreateInterp())
+#   define Tcl_GetStringResult(interp) (tclStubsPtr->tcl_GetStringResult(interp))
 #   define Tcl_Init(interp) (tclStubsPtr->tcl_Init(interp))
+#   define Tcl_SetPanicProc(proc) (tclStubsPtr->tcl_SetPanicProc(proc))
 #   define Tcl_SetVar(interp, varName, newValue, flags) \
 	    (tclStubsPtr->tcl_SetVar(interp, varName, newValue, flags))
 #endif

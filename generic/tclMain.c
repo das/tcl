@@ -368,6 +368,7 @@ Tcl_Main(
 		    Tcl_WriteObj(errChannel, valuePtr);
 		}
 		Tcl_WriteChars(errChannel, "\n", 1);
+		Tcl_DecrRefCount(options);
 	    }
 	    exitCode = 1;
 	}
