@@ -4180,7 +4180,7 @@ Tcl_GetCommandFromObj(
  *	The object's old internal rep is freed. It's string rep is not
  *	changed. The refcount in the Command structure is incremented to keep
  *	it from being freed if the command is later deleted until
- *	TclExecuteByteCode has a chance to recognize that it was deleted.
+ *	TclNRExecuteByteCode has a chance to recognize that it was deleted.
  *
  *----------------------------------------------------------------------
  */

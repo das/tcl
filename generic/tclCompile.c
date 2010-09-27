@@ -915,7 +915,7 @@ Tcl_SubstObj(
     TEOV_callback *rootPtr = TOP_CB(interp);
 
     if (TclNRRunCallbacks(interp, Tcl_NRSubstObj(interp, objPtr, flags),
-	    rootPtr, 0) != TCL_OK) {
+	    rootPtr) != TCL_OK) {
 	return NULL;
     }
     return Tcl_GetObjResult(interp);
@@ -949,9 +949,7 @@ Tcl_NRSubstObj(
 
     /* TODO: Confirm we do not need this. */
     /* Tcl_ResetResult(interp); */
-    Tcl_NRAddCallback(interp, NRCallTEBC, INT2PTR(TCL_NR_BC_TYPE), codePtr,
-	    NULL, NULL);
-    return TCL_OK;
+    return TclNRExecuteByteCode(interp, codePtr);
 }
 
 /*
@@ -1651,7 +1649,7 @@ TclCompileScript(
 			 * length will be updated later. There is no need to
 			 * do this for the first bytecode in the compile env,
 			 * as the check is done before calling
-			 * TclExecuteByteCode(). Do emit an INST_START_CMD in
+			 * TclNRExecuteByteCode(). Do emit an INST_START_CMD in
 			 * special cases where the first bytecode is in a
 			 * loop, to insure that the corresponding command is
 			 * counted properly. Compilers for commands able to

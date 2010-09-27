@@ -961,7 +961,7 @@ declare 239 {
 }
 declare 240 {
     int TclNRRunCallbacks(Tcl_Interp *interp, int result,
-	      struct TEOV_callback *rootPtr, int tebcCall)
+	      struct TEOV_callback *rootPtr)
 }
 declare 241 {
     int TclNREvalObjEx(Tcl_Interp *interp, Tcl_Obj *objPtr, int flags,
