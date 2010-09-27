@@ -1155,11 +1155,22 @@ InfoFrameCmd(
 
     if (iPtr->execEnvPtr->corPtr) {
 	/*
-	 * A coroutine: must fix the level computations
+	 * A coroutine: must fix the level computations AND the cmdFrame chain,
+	 * which is interrupted at the base.
 	 */
 
-	topLevel += iPtr->execEnvPtr->corPtr->caller.cmdFramePtr->level -
-		iPtr->execEnvPtr->corPtr->base.cmdFramePtr->level;
+        CoroutineData *corPtr = iPtr->execEnvPtr->corPtr;
+        CmdFrame *runPtr = iPtr->cmdFramePtr;
+        CmdFrame *lastPtr = NULL;
+        
+        topLevel += corPtr->caller.cmdFramePtr->level;
+        while (runPtr && (runPtr != corPtr->caller.cmdFramePtr)) {
+            lastPtr = runPtr;
+            runPtr = runPtr->nextPtr;
+        }
+        if (lastPtr && !runPtr) {
+            lastPtr->nextPtr = corPtr->caller.cmdFramePtr;
+        }
     }
 
     if (objc == 1) {
