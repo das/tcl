@@ -1934,14 +1934,6 @@ TclNRExecuteByteCode(
     bcFramePtr->cmd.str.cmd = NULL;
     bcFramePtr->cmd.str.len = 0;
 
-#ifdef TCL_COMPILE_DEBUG
-    if (tclTraceExec >= 2) {
-	PrintByteCodeInfo(codePtr);
-	fprintf(stdout, "  Starting stack top=%d\n", (int) CURR_DEPTH);
-	fflush(stdout);
-    }
-#endif
-
 #ifdef TCL_COMPILE_STATS
     iPtr->stats.numExecutions++;
 #endif
@@ -2068,6 +2060,14 @@ TEBCresume(
 #endif
 
     NR_DATA_DIG();
+
+#ifdef TCL_COMPILE_DEBUG
+    if (!data[1] && (tclTraceExec >= 2)) {
+	PrintByteCodeInfo(codePtr);
+	fprintf(stdout, "  Starting stack top=%d\n", (int) CURR_DEPTH);
+	fflush(stdout);
+    }
+#endif
 
     if (data[1] /* resume from invocation */) {
 	if (iPtr->execEnvPtr->rewind) {
