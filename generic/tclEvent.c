@@ -281,6 +281,7 @@ HandleBgErrors(
 		}
 		Tcl_WriteChars(errChannel, "\n", 1);
 		Tcl_Flush(errChannel);
+		Tcl_DecrRefCount(options);
 	    }
 	}
     }

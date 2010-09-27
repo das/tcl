@@ -535,7 +535,7 @@ file for information about building with Mingw.])
 
 	CFLAGS_DEBUG=-g
 	CFLAGS_OPTIMIZE="-O2 -fomit-frame-pointer"
-	CFLAGS_WARNING="-Wall"
+	CFLAGS_WARNING="-Wall -Wdeclaration-after-statement"
 	LDFLAGS_DEBUG=
 	LDFLAGS_OPTIMIZE=
 
@@ -615,7 +615,7 @@ file for information about building with Mingw.])
 	    fi
 	fi
 
-	LIBS="user32.lib advapi32.lib ws2_32.lib"
+	LIBS="kernel32.lib user32.lib advapi32.lib ws2_32.lib"
 	if test "$do64bit" != "no" ; then
 	    # The space-based-path will work for the Makefile, but will
 	    # not work if AC_TRY_COMPILE is called.  TEA has the

@@ -1,9 +1,101 @@
+2010-09-26  Miguel Sofer  <msofer@users.sf.net>
+
+	* generic/tclOOMethod.c (ProcedureMethodVarResolver): avoid code
+	duplication, let the runtime var resolver call the compiled var
+	resolver.
+
+2010-09-24  Jeff Hobbs  <jeffh@ActiveState.com>
+
+	* tests/stringComp.test: improved string eq/cmp test coverage
+	* generic/tclExecute.c (TclExecuteByteCode): merge INST_STR_CMP
+	and INST_STR_EQ/INST_STR_NEQ paths.  Speeds up eq/ne/[string eq]
+	with obj-aware comparisons and eq/==/ne/!= with length equality
+	check.
+
+2010-09-24  Andreas Kupries  <andreask@activestate.com>
+
+	* tclWinsock.c: [Bug 3056775]: Fixed race condition between thread
+	and internal co-thread access of a socket's structure because of
+	the thread not using the socketListLock in TcpAccept(). Added
+	documentation on how the module works to the top.
+
+2010-09-23  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* generic/tclDecls.h: Make Tcl_SetPanicProc and Tcl_GetStringResult
+	* unix/tclAppInit.c:  callable without stubs, just as Tcl_SetVar.
+	* win/tclAppInit.c:
+
+2010-09-23  Don Porter  <dgp@users.sourceforge.net>
+
+	* generic/tclCmdAH.c:   Fix cases where value returned by
+	* generic/tclEvent.c:   Tcl_GetReturnOptions() was leaked.
+	* generic/tclMain.c:    Thanks to Jeff Hobbs for discovery of the
+	anti-pattern to seek and destroy.
+
+2010-09-23  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* unix/tclAppInit.c:  Make compilable with -DUNICODE (not
+	* win/tclAppInit.c:   actived yet), many clean-ups in comments.
+
+2010-09-22  Miguel Sofer  <msofer@users.sf.net>
+
+	* generic/tclExecute: one more DECACHE_STACK_INFO() missing; this
+	fixes [Bug 3072640]
+
+	* tests/execute.test: added execute-10.3 for [Bug 3072640]. The
+	test causes a mem failure.
+
+	* generic/tclExecute: protect all possible writes to ::errorInfo
+	or ::errorCode with DECACHE_STACK_INFO(), as they could run
+	traces. The new calls to be protected are Tcl_ResetResult(),
+	Tcl_SetErrorCode(), IllegalExprOperandType(),
+	TclExprFloatError(). The error was triggered by [Patch 3072080].
+
+2010-09-22  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* win/tcl.m4:         Add kernel32 to LIBS, so the link line for mingw
+	* win/configure:      is exactly the same as for MSVC++.
+
+2010-09-21  Jeff Hobbs  <jeffh@ActiveState.com>
+
+	* generic/tclExecute.c (TclExecuteByteCode):
+	* generic/tclOOMethod.c (ProcedureMethodCompiledVarConnect):
+	* generic/tclVar.c (TclLookupSimpleVar, CompareVarKeys):
+	* generic/tclPathObj.c (Tcl_FSGetNormalizedPath, Tcl_FSEqualPaths):
+	* generic/tclIOUtil.c (TclFSCwdPointerEquals): peephole opt
+	* generic/tclResult.c (TclMergeReturnOptions): use memcmp where
+	applicable as possible speedup on some libc variants.
+
+2010-09-21  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* win/tclWinFile.c:   Fix declaration after statement.
+	* win/tcl.m4:         Add -Wdeclaration-after-statement, so
+	* win/configure:      this mistake cannot happen again.
+	* win/tclWinFCmd.c:   [Bug 3069278]: Breakage on head Windows triggered
+	* win/tclWinPipe.c:   by install-tzdata, final fix
+
+2010-09-20  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* win/tclWinFCmd.c: Eliminate tclWinProcs->useWide everywhere, since
+	* win/tclWinFile.c: the value is always "1" on platforms >win95
+	* win/tclWinPipe.c:
+
+2010-09-19  Donal K. Fellows  <dkf@users.sf.net>
+
+	* doc/file.n (file readlink): [Bug 3070580]: Typofix.
+
+2010-09-18  Jan Nijtmans  <nijtmans@users.sf.net>
+
+	* win/tclWinFCmd.c [Bug 3069278]: Breakage on head Windows triggered
+	by install-tzdata. Temporary don't compile this with -DUNICODE, while
+	investigating this bug.
+
 2010-09-16  Jeff Hobbs  <jeffh@ActiveState.com>
 
-	* win/tclWinFile.c: remove define of FINDEX_INFO_LEVELS as all
+	* win/tclWinFile.c: Remove define of FINDEX_INFO_LEVELS as all
 	supported versions of compilers should now have it.
 
-	* unix/Makefile.in: do not pass current build env vars when using
+	* unix/Makefile.in: Do not pass current build env vars when using
 	NATIVE_TCLSH in targets.
 
 2010-09-16  Jan Nijtmans  <nijtmans@users.sf.net>
@@ -530,22 +622,6 @@
 	name as well as its source filename. This was caused by both Tcl and a
 	contributed package ([incr Tcl]) defining an Object.3. Also corrected
 	the joining of strings in titles to avoid extra braces.
-
-2010-06-10  Jeff Hobbs  <jeffh@ActiveState.com>
-
-	* unix/configure, unix/tcl.m4: s/==/=/ syntax error fix
-
-	* unix/tclUnixPort.h: correct include path of fake-rfc2553.h
-
-	* unix/tclUnixSock.c (CreateClientSocket): protect AF_INET6 pieces
-	with ifndef NEED_FAKE_RFC2553.  Might need a more appropriate define.
-
-	* generic/tclIOSock.c (TclCreateSocketAddress): don't use
-	AI_ADDRCONFIG on AIX, as it causes complete socket failure (at
-	least on AIX 5.1).
-
-	* compat/fake-rfc2553.h: define EAI_SERVICE if not already.
-	s/u_/u/g for types.
 
 2010-06-09  Andreas Kupries  <andreask@activestate.com>
 
