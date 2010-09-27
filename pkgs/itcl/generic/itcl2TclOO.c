@@ -52,7 +52,7 @@ Itcl_NRRunCallbacks(
     Tcl_Interp *interp,
     void *rootPtr)
 {
-    return TclNRRunCallbacks(interp, TCL_OK, rootPtr, 0);
+    return TclNRRunCallbacks(interp, TCL_OK, rootPtr);
 }
 
 static int
