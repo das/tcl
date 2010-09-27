@@ -2101,6 +2101,7 @@ ExecConstantExprTree(
     ByteCode *byteCodePtr;
     int code;
     Tcl_Obj *byteCodeObj = Tcl_NewObj();
+    TEOV_callback *rootPtr = TOP_CB(interp);
 
     /*
      * Note we are compiling an expression with literal arguments. This means
@@ -2118,7 +2119,8 @@ ExecConstantExprTree(
     TclFreeCompileEnv(envPtr);
     TclStackFree(interp, envPtr);
     byteCodePtr = (ByteCode *) byteCodeObj->internalRep.otherValuePtr;
-    code = TclExecuteByteCode(interp, byteCodePtr);
+    TclNRExecuteByteCode(interp, byteCodePtr);
+    code = TclNRRunCallbacks(interp, TCL_OK, rootPtr);
     Tcl_DecrRefCount(byteCodeObj);
     return code;
 }

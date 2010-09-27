@@ -863,13 +863,8 @@ typedef struct {
  *----------------------------------------------------------------
  */
 
-MODULE_SCOPE Tcl_NRPostProc	NRCallTEBC;
 MODULE_SCOPE Tcl_NRPostProc	NRCommand;
 MODULE_SCOPE Tcl_ObjCmdProc	NRInterpCoroutine;
-
-#define TCL_NR_BC_TYPE		0
-#define TCL_NR_ATEXIT_TYPE	1
-#define TCL_NR_YIELD_TYPE	2
 
 /*
  *----------------------------------------------------------------
@@ -923,7 +918,7 @@ MODULE_SCOPE void	TclEmitForwardJump(CompileEnv *envPtr,
 MODULE_SCOPE ExceptionRange * TclGetExceptionRangeForPc(unsigned char *pc,
 			    int catchOnly, ByteCode *codePtr);
 MODULE_SCOPE void	TclExpandJumpFixupArray(JumpFixupArray *fixupArrayPtr);
-MODULE_SCOPE int	TclExecuteByteCode(Tcl_Interp *interp,
+MODULE_SCOPE int	TclNRExecuteByteCode(Tcl_Interp *interp,
 			    ByteCode *codePtr);
 MODULE_SCOPE void	TclFinalizeAuxDataTypeTable(void);
 MODULE_SCOPE int	TclFindCompiledLocal(const char *name, int nameChars,
