@@ -216,7 +216,7 @@ if test "`uname -s`" = "Darwin" && test "${TCL_THREADS}" = 1 && \
 fi
 AC_CHECK_FUNC(realpath, , [AC_DEFINE(NO_REALPATH, 1, [Do we have realpath()])])
 
-SC_TCL_GETADDRINFO
+SC_TCL_IPV6
 
 #-------------------------------------------------------------------- 
 #	Look for thread-safe variants of some library functions.
