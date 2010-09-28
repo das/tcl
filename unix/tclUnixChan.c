@@ -1681,8 +1681,9 @@ Tcl_MakeFileChannel(
 	sprintf(channelName, "serial%d", fd);
     } else
 #endif /* SUPPORTS_TTY */
-    if ((getsockname(fd, &sockaddr, &sockaddrLen) == 0)
-	    && (sockaddrLen > 0) && (sockaddr.sa_family == AF_INET)) {
+    if ((getsockname(fd, (struct sockaddr *)&sockaddr, &sockaddrLen) == 0)
+	&& (sockaddrLen > 0)
+	&& (sockaddr.sa_family == AF_INET || sockaddr.sa_family == AF_INET6)) {
 	return TclpMakeTcpClientChannelMode(INT2PTR(fd), mode);
     } else {
 	channelTypePtr = &fileChannelType;
