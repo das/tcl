@@ -23,10 +23,10 @@
  */
 
 #ifndef WINVER
-#   define WINVER 0x0500
+#   define WINVER 0x0501
 #endif
 #ifndef _WIN32_WINNT
-#   define _WIN32_WINNT 0x0500
+#   define _WIN32_WINNT 0x0501
 #endif
 
 #define WIN32_LEAN_AND_MEAN
@@ -38,6 +38,7 @@
  */
 #define INCL_WINSOCK_API_TYPEDEFS   1
 #include <winsock2.h>
+#include <ws2tcpip.h>
 
 #ifdef CHECK_UNICODE_CALLS
 #   define _UNICODE
