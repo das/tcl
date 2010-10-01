@@ -2355,7 +2355,7 @@ UpdateStringOfDouble(
     len = strlen(buffer);
 
     objPtr->bytes = (char *) ckalloc((unsigned) len + 1);
-    strcpy(objPtr->bytes, buffer);
+    memcpy(objPtr->bytes, buffer, (unsigned) len + 1);
     objPtr->length = len;
 }
 
@@ -2551,7 +2551,7 @@ UpdateStringOfInt(
     len = TclFormatInt(buffer, objPtr->internalRep.longValue);
 
     objPtr->bytes = ckalloc((unsigned) len + 1);
-    strcpy(objPtr->bytes, buffer);
+    memcpy(objPtr->bytes, buffer, (unsigned) len + 1);
     objPtr->length = len;
 }
 
