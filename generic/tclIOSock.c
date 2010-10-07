@@ -12,6 +12,12 @@
  */
 
 #include "tclInt.h"
+
+#if defined(_WIN32) && defined(UNICODE)
+/* On Windows, we always need the ASCII version. */
+#   undef gai_strerror
+#   define gai_strerror gai_strerrorA
+#endif
 
 /*
  *---------------------------------------------------------------------------
