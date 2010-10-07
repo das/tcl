@@ -1053,12 +1053,12 @@ FreeSubstCodeInternalRep(
 {
     register ByteCode *codePtr = objPtr->internalRep.ptrAndLongRep.ptr;
 
+    objPtr->typePtr = NULL;
+    objPtr->internalRep.otherValuePtr = NULL;
     codePtr->refCount--;
     if (codePtr->refCount <= 0) {
 	TclCleanupByteCode(codePtr);
     }
-    objPtr->typePtr = NULL;
-    objPtr->internalRep.otherValuePtr = NULL;
 }
 
 /*
