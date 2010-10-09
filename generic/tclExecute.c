@@ -1799,8 +1799,8 @@ TclExecuteByteCode(
 
     catchTop = initCatchTop = (ptrdiff_t *) (
 	GrowEvaluationStack(iPtr->execEnvPtr,
-		codePtr->maxExceptDepth + sizeof(CmdFrame) +
-		    codePtr->maxStackDepth, 0) - 1);
+		(sizeof(CmdFrame) + sizeof(Tcl_Obj *) - 1)/sizeof(Tcl_Obj *) +
+		codePtr->maxExceptDepth + codePtr->maxStackDepth, 0) - 1);
     bcFramePtr = (CmdFrame *) (initCatchTop + codePtr->maxExceptDepth + 1);
     tosPtr = initTosPtr = ((Tcl_Obj **) (bcFramePtr + 1)) - 1;
     esPtr = iPtr->execEnvPtr->execStackPtr;
