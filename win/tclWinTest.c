@@ -505,10 +505,6 @@ TestplatformChmod(
     int res = 0;
 
     /*
-     * One time initialization, dynamically load Windows NT features
-     */
-
-    /*
      * Process the chmod request.
      */
 
