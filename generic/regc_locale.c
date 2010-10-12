@@ -131,7 +131,9 @@ typedef struct crange {
  *	and used in generic/regc_locale.c.  Do not modify by hand.
  */
 
-/* Unicode: alphabetic characters */
+/*
+ * Unicode: alphabetic characters.
+ */
 
 static const crange alphaRangeTable[] = {
     {0x0041, 0x005a}, {0x0061, 0x007a}, {0x00c0, 0x00d6}, {0x00d8, 0x00f6},
@@ -200,7 +202,7 @@ static const chr alphaCharTable[] = {
 #define NUM_ALPHA_CHAR (sizeof(alphaCharTable)/sizeof(chr))
 
 /*
- * Unicode: decimal digit characters
+ * Unicode: decimal digit characters.
  */
 
 static const crange digitRangeTable[] = {
@@ -262,7 +264,7 @@ static const chr spaceCharTable[] = {
 #define NUM_SPACE_CHAR (sizeof(spaceCharTable)/sizeof(chr))
 
 /*
- * Unicode: lowercase characters
+ * Unicode: lowercase characters.
  */
 
 static const crange lowerRangeTable[] = {
