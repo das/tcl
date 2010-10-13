@@ -717,12 +717,12 @@ FreeByteCodeInternalRep(
 {
     register ByteCode *codePtr = objPtr->internalRep.otherValuePtr;
 
+    objPtr->typePtr = NULL;
+    objPtr->internalRep.otherValuePtr = NULL;
     codePtr->refCount--;
     if (codePtr->refCount <= 0) {
 	TclCleanupByteCode(codePtr);
     }
-    objPtr->typePtr = NULL;
-    objPtr->internalRep.otherValuePtr = NULL;
 }
 
 /*
@@ -1831,7 +1831,7 @@ CompileScriptTokens(interp, tokens, lastTokenPtr, envPtr)
      */
 
     if (envPtr->codeNext == entryCodeNext) {
-	TclEmitPush(TclAddLiteralObj(envPtr, Tcl_NewObj(), NULL), envPtr);
+	TclEmitPush(TclRegisterNewLiteral(envPtr, "", 0), envPtr);
     }
 }
 

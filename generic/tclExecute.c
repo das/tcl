@@ -1525,12 +1525,12 @@ FreeExprCodeInternalRep(
 {
     ByteCode *codePtr = (ByteCode *) objPtr->internalRep.otherValuePtr;
 
+    objPtr->typePtr = NULL;
+    objPtr->internalRep.otherValuePtr = NULL;
     codePtr->refCount--;
     if (codePtr->refCount <= 0) {
 	TclCleanupByteCode(codePtr);
     }
-    objPtr->typePtr = NULL;
-    objPtr->internalRep.otherValuePtr = NULL;
 }
 
 /*
