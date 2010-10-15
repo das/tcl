@@ -209,7 +209,7 @@ proc uni::main {} {
  * to the same alternate page number.
  */
 
-static const unsigned char pageMap\[\] = {"
+static const unsigned short pageMap\[\] = {"
     set line "    "
     set last [expr {[llength $pMap] - 1}]
     for {set i 0} {$i <= $last} {incr i} {
