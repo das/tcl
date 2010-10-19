@@ -1228,13 +1228,23 @@ Tcl_AppendObjToObj(
     const char *bytes;
 
     /*
+     * Special case: second object is standard-empty is fast case. We know
+     * that appending nothing to anything leaves that starting anything...
+     */
+
+    if (appendObjPtr->bytes == tclEmptyStringRep) {
+	return;
+    }
+
+    /*
      * Handle append of one bytearray object to another as a special case.
      * Note that we only do this when the objects don't have string reps; if
      * it did, then appending the byte arrays together could well lose
      * information; this is a special-case optimization only.
      */
 
-    if (TclIsPureByteArray(objPtr) && TclIsPureByteArray(appendObjPtr)) {
+    if ((TclIsPureByteArray(objPtr) || objPtr->bytes == tclEmptyStringRep)
+	    && TclIsPureByteArray(appendObjPtr)) {
 	unsigned char *bytesSrc;
 	int lengthSrc, lengthTotal;
 
