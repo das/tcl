@@ -4,7 +4,7 @@
 #	corresponding tclUniData.c file with compressed character
 #	data tables.  The input to this program should be the latest
 #	UnicodeData file from:
-#	    ftp://ftp.unicode.org/Public/UNIDATA/UnicodeData-Latest.txt
+#	    ftp://ftp.unicode.org/Public/UNIDATA/UnicodeData.txt
 #
 # Copyright (c) 1998-1999 by Scriptics Corporation.
 # All rights reserved.
@@ -116,7 +116,11 @@ proc uni::buildTables {data} {
 
 	set items [split $line \;]
 
-	scan [lindex $items 0] %4x index
+	scan [lindex $items 0] %x index
+	if {$index > 0xFFFF} then {
+	    # Ignore non-BMP characters, as long as Tcl doesn't support them
+	    continue
+	}
 	set index [format 0x%0.4x $index]
 
 	set gIndex [getGroup [getValue $items $index]]
