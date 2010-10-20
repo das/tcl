@@ -118,7 +118,7 @@ typedef struct SocketInfo SocketInfo;
 
 typedef struct TcpFdList {
     SocketInfo *infoPtr;
-    int fd;
+    SOCKET fd;
     struct TcpFdList *next;
 } TcpFdList;
 
@@ -1016,7 +1016,7 @@ CreateSocket(
     u_long flag = 1;		/* Indicates nonblocking mode. */
     int asyncConnect = 0;	/* Will be 1 if async connect is in
 				 * progress. */
-    int chosenport = 0;
+    unsigned short chosenport = 0;
     struct addrinfo *addrlist = NULL, *addrPtr;	/* socket address */
     struct addrinfo *myaddrlist = NULL, *myaddrPtr; /* Socket address for client */
     const char *errorMsg = NULL;

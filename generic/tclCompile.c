@@ -714,12 +714,12 @@ FreeByteCodeInternalRep(
 {
     register ByteCode *codePtr = objPtr->internalRep.otherValuePtr;
 
+    objPtr->typePtr = NULL;
+    objPtr->internalRep.otherValuePtr = NULL;
     codePtr->refCount--;
     if (codePtr->refCount <= 0) {
 	TclCleanupByteCode(codePtr);
     }
-    objPtr->typePtr = NULL;
-    objPtr->internalRep.otherValuePtr = NULL;
 }
 
 /*
@@ -1854,16 +1854,10 @@ TclCompileScript(
     /*
      * If the source script yielded no instructions (e.g., if it was empty),
      * push an empty string as the command's result.
-     *
-     * WARNING: push an unshared object! If the script being compiled is a
-     * shared empty string, it will otherwise be self-referential and cause
-     * difficulties with literal management [Bugs 467523, 983660]. We used to
-     * have special code in TclReleaseLiteral to handle this particular
-     * self-reference, but now opt for avoiding its creation altogether.
      */
 
     if (envPtr->codeNext == entryCodeNext) {
-	TclEmitPush(TclAddLiteralObj(envPtr, Tcl_NewObj(), NULL), envPtr);
+	TclEmitPush(TclRegisterNewLiteral(envPtr, "", 0), envPtr);
     }
 
     envPtr->numSrcBytes = p - script;
