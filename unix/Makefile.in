@@ -363,7 +363,6 @@ TCL_DECLS = \
 
 GENERIC_HDRS = \
 	$(GENERIC_DIR)/tcl.h \
-	$(GENERIC_DIR)/tclAssembly.h \
 	$(GENERIC_DIR)/tclDecls.h \
 	$(GENERIC_DIR)/tclInt.h \
 	$(GENERIC_DIR)/tclIntDecls.h \
