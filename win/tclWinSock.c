@@ -2079,6 +2079,7 @@ TcpGetOptionProc(
     SOCKET sock;
     size_t len = 0;
     int reverseDNS = 0;
+#define SUPPRESS_RDNS_VAR "::tcl::unsupported::noReverseDNS"
 
     /*
      * Check that WinSock is initialized; do not call it if not, to prevent
@@ -2118,7 +2119,7 @@ TcpGetOptionProc(
 	return TCL_OK;
     }
 
-    if (Tcl_GetVar(interp, "::tcl::unsupported::noReverseDNS", 0) != NULL) {
+    if (interp != NULL && Tcl_GetVar(interp, SUPPRESS_RDNS_VAR, 0) != NULL) {
         reverseDNS = NI_NUMERICHOST;
     }
 
