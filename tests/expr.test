@@ -7169,6 +7169,10 @@ test expr-49.1 {Bug 2823282} {
     foo 1
 } 1
 
+test expr-50.1 {test sqrt() of bignums with non-Inf answer} {
+    expr {sqrt("1[string repeat 0 616]") == 1e308}
+} 1
+
 
 
 # cleanup
