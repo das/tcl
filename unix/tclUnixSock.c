@@ -972,8 +972,12 @@ CreateClientSocket(
     }
 
 error:
-    freeaddrinfo(addrlist);
-    freeaddrinfo(myaddrlist);
+    if (addrlist) {
+	freeaddrinfo(addrlist);
+    }
+    if (myaddrlist) {
+	freeaddrinfo(myaddrlist);
+    }
     
     if (status < 0) {
 	if (interp != NULL) {
