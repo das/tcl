@@ -197,7 +197,7 @@ test safe-7.2 {tests specific path and interpFind/AddToAccessPath} -body {
 	    [catch {interp eval $i {package require http 1}} msg] $msg \
 	    [safe::interpConfigure $i]\
 	    [safe::interpDelete $i]
-} -match glob -result "{\$p(:0:)} {\$p(:*:)} 1 {can't find package http 1} {-accessPath {[list $tcl_library * /dummy/unixlike/test/path]} -statics 0 -nested 1 -deleteHook {}} {}"
+} -match glob -result "{\$p(:0:)} {\$p(:*:)} 1 {can't find package http 1} {-accessPath {[list $tcl_library */dummy/unixlike/test/path]} -statics 0 -nested 1 -deleteHook {}} {}"
 
 
 # test source control on file name
@@ -300,6 +300,17 @@ test safe-8.8 {safe source forbids -rsrc} {
 	    $msg \
 	    [safe::interpDelete $i] ;
 } {1 {wrong # args: should be "source ?-encoding E? fileName"} {}}
+test safe-8.9 {safe source and return} -setup {
+    set returnScript [makeFile {return "ok"} return.tcl]
+    catch {safe::interpDelete $i}
+} -body {
+    safe::interpCreate $i
+    set token [safe::interpAddToAccessPath $i [file dirname $returnScript]]
+    $i eval [list source $token/[file tail $returnScript]]
+} -cleanup {
+    catch {safe::interpDelete $i}
+    removeFile $returnScript
+} -result ok
 
 test safe-9.1 {safe interps' deleteHook} {
     set i "a";
