@@ -500,9 +500,9 @@ proc ::safe::InterpInit {
     # Sync the paths used to search for Tcl modules. This can be done only
     # now, after tm.tcl was loaded.
     namespace upvar ::safe S$slave state
-    ::interp eval $slave [list \
-	      ::tcl::tm::add {*}$state(tm_path_slave)]
-
+    if {[llength $state(tm_path_slave)] > 0} {
+	::interp eval $slave [list ::tcl::tm::add {*}$state(tm_path_slave)]
+    }
     return $slave
 }
 
