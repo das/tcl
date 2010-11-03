@@ -85,7 +85,7 @@ typedef struct TclWinProcs {
     DWORD (WINAPI *getTempPathProc)(DWORD, WCHAR *);
     BOOL (WINAPI *getVolumeInformationProc)(CONST TCHAR *, WCHAR *, DWORD, 
 	    LPDWORD, LPDWORD, LPDWORD, WCHAR *, DWORD);
-    HINSTANCE (WINAPI *loadLibraryProc)(CONST TCHAR *);
+    HINSTANCE (WINAPI *loadLibraryExProc)(const TCHAR *, HANDLE, DWORD);
     TCHAR (WINAPI *lstrcpyProc)(WCHAR *, CONST TCHAR *);
     BOOL (WINAPI *moveFileProc)(CONST TCHAR *, CONST TCHAR *);
     BOOL (WINAPI *removeDirectoryProc)(CONST TCHAR *);

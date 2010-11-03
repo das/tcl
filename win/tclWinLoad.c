@@ -56,7 +56,8 @@ TclpDlopen(interp, pathPtr, loadHandle, unloadProcPtr)
      * using a relative path.
      */
     nativeName = Tcl_FSGetNativePath(pathPtr);
-    handle = (*tclWinProcs->loadLibraryProc)(nativeName);
+    handle = (*tclWinProcs->loadLibraryExProc)(nativeName, NULL,
+	       LOAD_WITH_ALTERED_SEARCH_PATH);
     if (handle == NULL) {
 	/* 
 	 * Let the OS loader examine the binary search path for
@@ -66,7 +67,8 @@ TclpDlopen(interp, pathPtr, loadHandle, unloadProcPtr)
 	Tcl_DString ds;
         char *fileName = Tcl_GetString(pathPtr);
 	nativeName = Tcl_WinUtfToTChar(fileName, -1, &ds);
-	handle = (*tclWinProcs->loadLibraryProc)(nativeName);
+	handle = (*tclWinProcs->loadLibraryExProc)(nativeName, NULL,
+			LOAD_WITH_ALTERED_SEARCH_PATH);
 	Tcl_DStringFree(&ds);
     }
 
