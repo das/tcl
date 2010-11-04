@@ -2070,7 +2070,7 @@ BUILD_HTML = \
 .PHONY: install-private-headers distclean depend xttest configure-packages rpm
 .PHONY: packages install-packages test-packages clean-packages dist-packages
 .PHONY: distclean-packages genstubs checkstubs checkdoc checkuchar dist html
-.PHONY: checkexports alldist allpatch html-tcl html-tk
+.PHONY: checkexports alldist allpatch html-tcl html-tk install-headers
 
 #--------------------------------------------------------------------------
 # DO NOT DELETE THIS LINE -- make depend depends on it.
