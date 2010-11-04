@@ -956,6 +956,28 @@ test error-19.12 {interpreted try and errors on variable write} -setup {
 } -cleanup {
     unset RES
 } -result {body finally,a {can't set "foo": variable is array}}
+test error-19.13 {compiled try and errors on variable write} -setup {
+    set RES {}
+} -body {
+    apply {{} {
+	array set foo {bar boo}
+	set bar unset
+	catch {
+	    try {
+		addmsg body
+		return a
+	    } on return {bar foo} - on error {bar foo} {
+		addmsg handler
+		return b
+	    } finally {
+		addmsg finally,$bar
+	    }
+	} msg
+	addmsg $msg
+    } ::tcl::test::error}
+} -cleanup {
+    unset RES
+} -result {body finally,a {can't set "foo": variable is array}}
 rename addmsg {}
 
 # FIXME test what vars get set on fallthough ... what is the correct behavior?
