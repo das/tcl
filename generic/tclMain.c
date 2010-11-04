@@ -19,8 +19,13 @@
  * can be implemented, sharing the same source code.
  */
 #ifndef TCL_ASCII_MAIN
-#   undef UNICODE
-#   undef _UNICODE
+#   ifdef UNICODE
+#	undef UNICODE
+#	undef _UNICODE
+#   else
+#	define UNICODE
+#	define _UNICODE
+#   endif
 #endif
 
 #include "tclInt.h"
@@ -265,7 +270,7 @@ Tcl_SourceRCFile(
 
 /*----------------------------------------------------------------------
  *
- * Tcl_Main --
+ * Tcl_Main, Tcl_MainEx --
  *
  *	Main program for tclsh and most other Tcl-based applications.
  *
@@ -282,13 +287,14 @@ Tcl_SourceRCFile(
  */
 
 void
-Tcl_Main(
+Tcl_MainEx(
     int argc,			/* Number of arguments. */
     TCHAR **argv,		/* Array of argument strings. */
-    Tcl_AppInitProc *appInitProc)
+    Tcl_AppInitProc *appInitProc,
 				/* Application-specific initialization
 				 * function to call after most initialization
 				 * but before starting to execute commands. */
+    Tcl_Interp *interp)
 {
     Tcl_Obj *path, *resultPtr, *argvPtr, *commandPtr = NULL;
     const char *encodingName = NULL;
@@ -296,12 +302,8 @@ Tcl_Main(
     int code, length, tty, exitCode = 0;
     Tcl_MainLoopProc *mainLoopProc;
     Tcl_Channel inChannel, outChannel, errChannel;
-    Tcl_Interp *interp;
     Tcl_DString appName;
 
-    Tcl_FindExecutable(argv[0]);
-
-    interp = Tcl_CreateInterp();
     Tcl_InitMemory(interp);
 
     /*
@@ -652,6 +654,20 @@ Tcl_Main(
 }
 
 #ifndef TCL_ASCII_MAIN
+#undef Tcl_Main
+void
+Tcl_Main(
+    int argc,			/* Number of arguments. */
+    TCHAR **argv,		/* Array of argument strings. */
+    Tcl_AppInitProc *appInitProc)
+				/* Application-specific initialization
+				 * function to call after most initialization
+				 * but before starting to execute commands. */
+{
+    Tcl_FindExecutable(argv[0]);
+	Tcl_MainEx(argc, argv, appInitProc, Tcl_CreateInterp());
+}
+
 /*
  *---------------------------------------------------------------
  *
