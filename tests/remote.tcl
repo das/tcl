@@ -156,5 +156,6 @@ if {[catch {set serverSocket \
 	[socket -myaddr $serverAddress -server __accept__ $serverPort]} msg]} {
     puts "Server on $serverAddress:$serverPort cannot start: $msg"
 } else {
+    puts ready
     vwait __server_wait_variable__
 }
