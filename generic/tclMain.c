@@ -18,7 +18,7 @@
  * TCL_ASCII_MAIN defined. This way both Tcl_Main and Tcl_MainExW
  * can be implemented, sharing the same source code.
  */
-#ifndef TCL_ASCII_MAIN
+#if defined(_WIN32) && !defined(TCL_ASCII_MAIN)
 #   ifdef UNICODE
 #	undef UNICODE
 #	undef _UNICODE
