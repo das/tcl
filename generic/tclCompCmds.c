@@ -557,7 +557,7 @@ TclCompileCatchCmd(
     TclEmitOpcode(INST_POP, envPtr);
 
     /*
-     * Stack is now ?script? result returnCode.
+     * Stack is now ?script? ?returnOptions? returnCode.
      * If the options dict has been requested, it is buried on the stack
      * under the return code. Reverse the stack to bring it to the top,
      * store it and remove it from the stack.
