@@ -15,11 +15,11 @@
  * RCS: @(#) $Id$
  */
 
-/* TODO: This file does not compile in UNICODE mode.
- * See [Freq 2965056]: Windows build with -DUNICODE
- */
-#undef UNICODE
-#undef _UNICODE
+#ifndef _MSC_VER
+/* On mingw and cygwin this doesn't work yet */
+#   undef UNICODE
+#   undef _UNICODE
+#endif
 
 #include "tcl.h"
 #define WIN32_LEAN_AND_MEAN

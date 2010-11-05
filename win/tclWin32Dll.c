@@ -522,7 +522,7 @@ TclWinDriveLetterForVolMountPoint(
 		     */
 
 		    Tcl_MutexUnlock(&mountPointMap);
-		    return dlIter->driveLetter;
+		    return (char) dlIter->driveLetter;
 		}
 	    }
 
@@ -602,7 +602,7 @@ TclWinDriveLetterForVolMountPoint(
 	    dlIter = dlIter->nextPtr) {
 	if (_tcscmp(dlIter->volumeName, mountPoint) == 0) {
 	    Tcl_MutexUnlock(&mountPointMap);
-	    return dlIter->driveLetter;
+	    return (char) dlIter->driveLetter;
 	}
     }
 
