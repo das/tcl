@@ -1583,10 +1583,6 @@ test binary-40.4 {ScanNumber: NaN} -body {
     unset -nocomplain arg1
     list [binary scan \xff\xff\xff\xff\xff\xff\xff\xff d arg1] $arg1
 } -match glob -result {1 -NaN*}
-test binary-40.5 {ScanNumber: -NaN} -body {
-    unset -nocomplain arg1
-    list [binary scan \x00\x00\x00\x00\x00\x00\xf8\xff d arg1] $arg1
-} -match glob -result {1 -NaN}
 
 test binary-41.1 {ScanNumber: word alignment} {
     unset -nocomplain arg1; unset arg2
