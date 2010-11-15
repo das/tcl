@@ -501,6 +501,15 @@ Tcl_CreateInterp(void)
     iPtr->resultSpace[0] = 0;
     iPtr->threadId = Tcl_GetCurrentThread();
 
+    /* TIP #378 */
+#ifdef TCL_INTERP_DEBUG_FRAME
+    iPtr->flags |= INTERP_DEBUG_FRAME;
+#else
+    if (getenv("TCL_INTERP_DEBUG_FRAME") != NULL) {
+        iPtr->flags |= INTERP_DEBUG_FRAME;
+    }
+#endif
+
     /*
      * Initialise the tables for variable traces and searches *before*
      * creating the global ns - so that the trace on errorInfo can be
@@ -3442,7 +3451,9 @@ int
 TclInterpReady(
     Tcl_Interp *interp)
 {
+#if !defined(TCL_NO_STACK_CHECK)
     int localInt; /* used for checking the stack */
+#endif
     register Interp *iPtr = (Interp *) interp;
 
     /*

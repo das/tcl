@@ -2412,14 +2412,18 @@ TclExecuteByteCode(
 
 	    bcFramePtr->data.tebc.pc = (char *) pc;
 	    iPtr->cmdFramePtr = bcFramePtr;
-	    TclArgumentBCEnter((Tcl_Interp*) iPtr, objv, objc,
-		    codePtr, bcFramePtr, pc - codePtr->codeStart);
+	    if (iPtr->flags & INTERP_DEBUG_FRAME) {
+		TclArgumentBCEnter((Tcl_Interp *) iPtr, objv, objc,
+			codePtr, bcFramePtr, pc - codePtr->codeStart);
+	    }
 	    DECACHE_STACK_INFO();
 	    result = TclEvalObjvInternal(interp, objc, objv,
 		    /* call from TEBC */(char *) -1, -1, 0);
 	    CACHE_STACK_INFO();
-	    TclArgumentBCRelease((Tcl_Interp*) iPtr, objv, objc,
-		    codePtr, pc - codePtr->codeStart);
+	    if (iPtr->flags & INTERP_DEBUG_FRAME) {
+		TclArgumentBCRelease((Tcl_Interp *) iPtr, objv, objc,
+			codePtr, pc - codePtr->codeStart);
+	    }
 	    iPtr->cmdFramePtr = iPtr->cmdFramePtr->nextPtr;
 
 	    if (result == TCL_OK) {
