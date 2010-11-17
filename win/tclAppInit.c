@@ -253,9 +253,9 @@ setargv(
 	}
     }
     argSpace = (char *) ckalloc(
-	    (unsigned) (size * sizeof(char *) + (strlen(cmdLine)) + 1));
+	    (unsigned) (size * sizeof(char *) + strlen(cmdLine) + 1));
     argv = (char **) argSpace;
-    argSpace += size;
+    argSpace += size * sizeof(char *);
     size--;
 
     p = cmdLine;
