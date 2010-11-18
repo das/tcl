@@ -377,7 +377,7 @@ generated.
 Returns a list whose elements are the path components in \fIname\fR.  The
 first element of the list will have the same path type as \fIname\fR.
 All other elements will be relative.  Path separators will be discarded
-unless they are needed ensure that an element is unambiguously relative.
+unless they are needed to ensure that an element is unambiguously relative.
 For example, under Unix
 .RS
 .PP
