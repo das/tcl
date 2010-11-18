@@ -888,7 +888,7 @@ Tcl_DeleteNamespace(
 		    (Tcl_Command) cmdPtr);
 	    entryPtr = Tcl_FirstHashEntry(&nsPtr->cmdTable, &search);
 	} else {
-	    entryPtr = entryPtr->nextPtr;
+	    entryPtr = Tcl_NextHashEntry(&search);
 	}
     }
 
