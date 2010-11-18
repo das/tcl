@@ -2615,6 +2615,40 @@ test oo-30.2 {Bug 2903011: deleting an object in a constructor} -setup {
 } -returnCodes error -cleanup {
     cls destroy
 } -result {object deleted in constructor}
+
+test oo-31.1 {Bug 3111059: when objects and coroutines entangle} -setup {
+    oo::class create cls
+} -constraints memory -body {
+    oo::define cls {
+	method justyield {} {
+	    yield
+	}
+	constructor {} {
+	    coroutine coro my justyield
+	}
+    }
+    list [leaktest {[cls new] destroy}] [info class instances cls]
+} -cleanup {
+    cls destroy
+} -result {0 {}}
+test oo-31.2 {Bug 3111059: when objects and coroutines entangle} -setup {
+    oo::class create cls
+} -constraints memory -body {
+    oo::define cls {
+	method justyield {} {
+	    yield
+	}
+	constructor {} {
+	    coroutine coro my justyield
+	}
+	destructor {
+	    rename coro {}
+	}
+    }
+    list [leaktest {[cls new] destroy}] [info class instances cls]
+} -cleanup {
+    cls destroy
+} -result {0 {}}
 
 cleanupTests
 return
