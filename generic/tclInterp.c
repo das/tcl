@@ -2494,7 +2494,7 @@ SlaveDebugCmd(
     int objc,			/* Number of arguments. */
     Tcl_Obj *const objv[])	/* Argument objects. */
 {
-    static const char *const debugTypes[] = {
+    static const char *debugTypes[] = {
 	"-frame", NULL
     };
     enum DebugTypes {
