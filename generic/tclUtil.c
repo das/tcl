@@ -2236,7 +2236,6 @@ Tcl_PrintDouble(
     int signum;
     char* digits;
     char* end;
-    Tcl_UniChar ch;
 
     int *precisionPtr = Tcl_GetThreadData(&precisionKey, (int)sizeof(int));
 
