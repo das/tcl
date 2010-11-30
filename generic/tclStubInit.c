@@ -318,6 +318,12 @@ TclIntStubs tclIntStubs = {
     NULL, /* 241 */
     NULL, /* 242 */
     TclDbDumpActiveObjects, /* 243 */
+    NULL, /* 244 */
+    NULL, /* 245 */
+    NULL, /* 246 */
+    NULL, /* 247 */
+    NULL, /* 248 */
+    TclDoubleDigits, /* 249 */
 };
 
 TclIntPlatStubs tclIntPlatStubs = {
@@ -473,6 +479,8 @@ TclTomMathStubs tclTomMathStubs = {
     TclBN_s_mp_mul_digs, /* 58 */
     TclBN_s_mp_sqr, /* 59 */
     TclBN_s_mp_sub, /* 60 */
+    TclBN_mp_init_set_int, /* 61 */
+    TclBN_mp_set_int, /* 62 */
 };
 
 static TclStubHooks tclStubHooks = {

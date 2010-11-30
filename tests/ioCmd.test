@@ -155,7 +155,7 @@ test iocmd-4.12 {read command} {
     set x [list [catch {read $f 12z} msg] $msg $::errorCode]
     close $f
     set x
-} {1 {expected integer but got "12z"} NONE}
+} {1 {expected integer but got "12z"} {TCL VALUE NUMBER}}
 
 test iocmd-5.1 {seek command} {
     list [catch {seek} msg] $msg

@@ -940,6 +940,11 @@ declare 243 generic {
     void TclDbDumpActiveObjects(FILE *outFile)
 }
 
+declare 249 {
+    char* TclDoubleDigits(double dv, int ndigits, int flags,
+			  int* decpt, int* signum, char** endPtr)
+}
+
 
 ##############################################################################
 
