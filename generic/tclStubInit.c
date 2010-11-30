@@ -80,7 +80,7 @@ static const TclIntStubs tclIntStubs = {
     0, /* 21 */
     TclFindElement, /* 22 */
     TclFindProc, /* 23 */
-    0, /* 24 */
+    TclFormatInt, /* 24 */
     TclFreePackageInfo, /* 25 */
     0, /* 26 */
     0, /* 27 */

@@ -116,10 +116,10 @@ declare 22 {
 declare 23 {
     Proc *TclFindProc(Interp *iPtr, const char *procName)
 }
-# Replaced with macro (see tclInt.h) in Tcl 8.5
-#declare 24 {
-#    int TclFormatInt(char *buffer, long n)
-#}
+# Replaced with macro (see tclInt.h) in Tcl 8.5.0, restored in 8.5.10
+declare 24 {
+    int TclFormatInt(char *buffer, long n)
+}
 declare 25 {
     void TclFreePackageInfo(Interp *iPtr)
 }
