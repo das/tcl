@@ -4221,18 +4221,6 @@ MODULE_SCOPE Tcl_PackageInitProc Procbodytest_SafeInit;
 
 /*
  *----------------------------------------------------------------
- * Macro used by the Tcl core to write the string rep of a long integer to a
- * character buffer. The ANSI C "prototype" for this macro is:
- *
- * MODULE_SCOPE int	TclFormatInt(char *buf, long n);
- *----------------------------------------------------------------
- */
-
-#define TclFormatInt(buf, n) \
-    sprintf((buf), "%ld", (long)(n))
-
-/*
- *----------------------------------------------------------------
  * Macros used by the Tcl core to set a Tcl_Obj's numeric representation
  * avoiding the corresponding function calls in time critical parts of the
  * core. They should only be called on unshared objects. The ANSI C
