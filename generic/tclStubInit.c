@@ -98,7 +98,7 @@ TclIntStubs tclIntStubs = {
     NULL, /* 21 */
     TclFindElement, /* 22 */
     TclFindProc, /* 23 */
-    NULL, /* 24 */
+    TclFormatInt, /* 24 */
     TclFreePackageInfo, /* 25 */
     NULL, /* 26 */
     NULL, /* 27 */
