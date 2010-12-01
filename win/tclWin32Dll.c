@@ -522,7 +522,7 @@ TclWinDriveLetterForVolMountPoint(
 		     */
 
 		    Tcl_MutexUnlock(&mountPointMap);
-		    return dlIter->driveLetter;
+		    return (char) dlIter->driveLetter;
 		}
 	    }
 
@@ -602,7 +602,7 @@ TclWinDriveLetterForVolMountPoint(
 	    dlIter = dlIter->nextPtr) {
 	if (_tcscmp(dlIter->volumeName, mountPoint) == 0) {
 	    Tcl_MutexUnlock(&mountPointMap);
-	    return dlIter->driveLetter;
+	    return (char) dlIter->driveLetter;
 	}
     }
 
@@ -718,7 +718,7 @@ TclWinCPUID(
     unsigned int index,		/* Which CPUID value to retrieve. */
     unsigned int *regsPtr)	/* Registers after the CPUID. */
 {
-#ifdef HAVE_NO_SEH
+#if defined(__GNUC__) && !defined(_WIN64)
     EXCEPTION_REGISTRATION registration;
 #endif
     int status = TCL_ERROR;

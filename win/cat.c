@@ -11,6 +11,12 @@
  * RCS: @(#) $Id$
  */
 
+#ifdef TCL_BROKEN_MAINARGS
+/* On mingw32 and cygwin this doesn't work */
+#   undef UNICODE
+#   undef _UNICODE
+#endif
+
 #include <stdio.h>
 #ifdef __CYGWIN__
 #   include <unistd.h>
@@ -18,9 +24,10 @@
 #   include <io.h>
 #endif
 #include <string.h>
+#include <tchar.h>
 
 int
-main(void)
+_tmain(void)
 {
     char buf[1024];
     int n;

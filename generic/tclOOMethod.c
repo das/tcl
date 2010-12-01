@@ -929,7 +929,7 @@ ProcedureMethodVarResolver(
     Tcl_Var *varPtr)
 {
     int result;
-    Tcl_ResolvedVarInfo *rPtr;
+    Tcl_ResolvedVarInfo *rPtr = NULL;
     
     result = ProcedureMethodCompiledVarResolver(interp, varName,
 	    strlen(varName), contextNs, &rPtr);
@@ -939,6 +939,14 @@ ProcedureMethodVarResolver(
     }
 
     *varPtr = rPtr->fetchProc(interp, rPtr);
+
+    /*
+     * Must not retain reference to resolved information. [Bug 3105999]
+     */
+
+    if (rPtr != NULL) {
+	rPtr->deleteProc(rPtr);
+    }
     return (*varPtr? TCL_OK : TCL_CONTINUE);
 }
 
@@ -955,8 +963,6 @@ ProcedureMethodCompiledVarConnect(
     Tcl_HashEntry *hPtr;
     int i, isNew, cacheIt, varLen, len;
     const char *match, *varName;
-
-    varName = TclGetStringFromObj(infoPtr->variableObj, &varLen);
 
     /*
      * Check that the variable is being requested in a context that is also a
@@ -984,6 +990,7 @@ ProcedureMethodCompiledVarConnect(
      * either.
      */
 
+    varName = TclGetStringFromObj(infoPtr->variableObj, &varLen);
     if (contextPtr->callPtr->chain[contextPtr->index]
 	    .mPtr->declaringClassPtr != NULL) {
 	FOREACH(variableObj, contextPtr->callPtr->chain[contextPtr->index]

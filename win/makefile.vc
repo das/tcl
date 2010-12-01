@@ -290,6 +290,7 @@ COREOBJS = \
 	$(TMP_DIR)\tclLiteral.obj \
 	$(TMP_DIR)\tclLoad.obj \
 	$(TMP_DIR)\tclMain.obj \
+	$(TMP_DIR)\tclMain2.obj \
 	$(TMP_DIR)\tclNamesp.obj \
 	$(TMP_DIR)\tclNotify.obj \
 	$(TMP_DIR)\tclOO.obj \
@@ -369,6 +370,7 @@ TOMMATHOBJS = \
 	$(TMP_DIR)\bn_mp_init_copy.obj \
 	$(TMP_DIR)\bn_mp_init_multi.obj \
 	$(TMP_DIR)\bn_mp_init_set.obj \
+	$(TMP_DIR)\bn_mp_init_set_int.obj \
 	$(TMP_DIR)\bn_mp_init_size.obj \
 	$(TMP_DIR)\bn_mp_karatsuba_mul.obj \
 	$(TMP_DIR)\bn_mp_karatsuba_sqr.obj \
@@ -386,6 +388,7 @@ TOMMATHOBJS = \
 	$(TMP_DIR)\bn_mp_read_radix.obj \
 	$(TMP_DIR)\bn_mp_rshd.obj \
 	$(TMP_DIR)\bn_mp_set.obj \
+	$(TMP_DIR)\bn_mp_set_int.obj \
 	$(TMP_DIR)\bn_mp_shrink.obj \
 	$(TMP_DIR)\bn_mp_sqr.obj \
 	$(TMP_DIR)\bn_mp_sqrt.obj \
@@ -895,6 +898,10 @@ gendate:
 $(TMP_DIR)\testMain.obj: $(WINDIR)\tclAppInit.c
 	$(cc32) $(TCL_CFLAGS) -DTCL_TEST \
 	    -DTCL_USE_STATIC_PACKAGES=$(TCL_USE_STATIC_PACKAGES) \
+	    -Fo$@ $?
+
+$(TMP_DIR)\tclMain2.obj: $(GENERICDIR)\tclMain.c
+	$(cc32) $(TCL_CFLAGS) -DBUILD_tcl -DTCL_ASCII_MAIN \
 	    -Fo$@ $?
 
 $(TMP_DIR)\tclTest.obj: $(GENERICDIR)\tclTest.c
