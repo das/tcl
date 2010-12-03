@@ -2527,7 +2527,7 @@ TclFormatInt(buffer, n)
     long intVal;
     int i;
     int numFormatted, j;
-    char *digits = "0123456789";
+    const char *digits = "0123456789";
 
     /*
      * Check first whether "n" is zero.
