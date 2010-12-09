@@ -276,7 +276,6 @@ static const CmdInfo builtInCmds[] = {
     {"fblocked",	Tcl_FblockedObjCmd,	NULL,			NULL,	1},
     {"fconfigure",	Tcl_FconfigureObjCmd,	NULL,			NULL,	0},
     {"fcopy",		Tcl_FcopyObjCmd,	NULL,			NULL,	1},
-    {"file",		Tcl_FileObjCmd,		NULL,			NULL,	0},
     {"fileevent",	Tcl_FileEventObjCmd,	NULL,			NULL,	1},
     {"flush",		Tcl_FlushObjCmd,	NULL,			NULL,	1},
     {"gets",		Tcl_GetsObjCmd,		NULL,			NULL,	1},
@@ -783,15 +782,17 @@ Tcl_CreateInterp(void)
     }
 
     /*
-     * Create the "array", "binary", "chan", "dict", "info" and "string"
-     * ensembles. Note that all these commands (and their subcommands that are
-     * not present in the global namespace) are wholly safe.
+     * Create the "array", "binary", "chan", "dict", "file", "info" and
+     * "string" ensembles. Note that all these commands (and their subcommands
+     * that are not present in the global namespace) are wholly safe *except*
+     * for "file".
      */
 
     TclInitArrayCmd(interp);
     TclInitBinaryCmd(interp);
     TclInitChanCmd(interp);
     TclInitDictCmd(interp);
+    TclInitFileCmd(interp);
     TclInitInfoCmd(interp);
     TclInitStringCmd(interp);
     TclInitPrefixCmd(interp);
@@ -1007,6 +1008,7 @@ TclHideUnsafeCommands(
 	    Tcl_HideCommand(interp, cmdInfoPtr->name, cmdInfoPtr->name);
 	}
     }
+    TclMakeFileCommandSafe(interp);     /* Ugh! */
     return TCL_OK;
 }
 
