@@ -814,6 +814,7 @@ MemoryCmd(
     FILE *fileP;
     Tcl_DString buffer;
     int result;
+    size_t len;
 
     if (argc < 2) {
 	Tcl_AppendResult(interp, "wrong # args: should be \"", argv[0],
@@ -909,9 +910,10 @@ MemoryCmd(
 	if ((curTagPtr != NULL) && (curTagPtr->refCount == 0)) {
 	    TclpFree((char *) curTagPtr);
 	}
-	curTagPtr = (MemTag *) TclpAlloc(TAG_SIZE(strlen(argv[2])));
+	len = strlen(argv[2]);
+	curTagPtr = (MemTag *) TclpAlloc(TAG_SIZE(len));
 	curTagPtr->refCount = 0;
-	strcpy(curTagPtr->string, argv[2]);
+	memcpy(curTagPtr->string, argv[2], len + 1);
 	return TCL_OK;
     }
     if (strcmp(argv[1],"trace") == 0) {
