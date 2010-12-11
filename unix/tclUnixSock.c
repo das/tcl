@@ -923,7 +923,7 @@ CreateClientSocket(
 	     * Set kernel space buffering
 	     */
 	    
-	    TclSockMinimumBuffers(sock, SOCKET_BUFSIZE);
+	    TclSockMinimumBuffers(INT2PTR(sock), SOCKET_BUFSIZE);
     
 	    if (async) {
 		status = TclUnixSetBlockingMode(sock, TCL_MODE_NONBLOCKING);
@@ -1185,7 +1185,7 @@ Tcl_OpenTcpServer(
 	 * Set kernel space buffering
 	 */
 	
-	TclSockMinimumBuffers(sock, SOCKET_BUFSIZE);
+	TclSockMinimumBuffers(INT2PTR(sock), SOCKET_BUFSIZE);
 	
 	/*
 	 * Set up to reuse server addresses automatically and bind to the
