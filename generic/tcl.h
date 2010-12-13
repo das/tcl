@@ -190,7 +190,7 @@ extern "C" {
 #   endif
 #else
 #   define DLLIMPORT
-#   if defined(__GNUC__) && __GNUC__ > 3
+#   if defined(__GNUC__) && !defined(NO_VIZ)
 #       define DLLEXPORT __attribute__ ((visibility("default")))
 #   else
 #       define DLLEXPORT
