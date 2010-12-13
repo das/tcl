@@ -90,13 +90,19 @@ Tcl_PanicVA(
 		arg8);
 	fprintf(stderr, "\n");
 	fflush(stderr);
+    }
+    /* In case the users panic proc does not abort, we do it here */
+#ifdef __GNUC__
+    __builtin_trap();
+#endif
 #ifdef _WIN32
-    DebugBreak();
+#   ifdef _MSC_VER
+	DebugBreak();
+#   endif
     ExitProcess(1);
 #else
-	abort();
+    abort();
 #endif
-    }
 }
 
 /*
