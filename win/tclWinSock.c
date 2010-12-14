@@ -1142,10 +1142,10 @@ CreateSocket(
 	    }
 	}
     } else {
-	for (myaddrPtr = myaddrlist; myaddrPtr != NULL;
-	     myaddrPtr = myaddrPtr->ai_next) {
-	    for (addrPtr = addrlist; addrPtr != NULL;
-		 addrPtr = addrPtr->ai_next) {
+        for (addrPtr = addrlist; addrPtr != NULL;
+             addrPtr = addrPtr->ai_next) {
+            for (myaddrPtr = myaddrlist; myaddrPtr != NULL;
+                 myaddrPtr = myaddrPtr->ai_next) {
 		/*
 		 * No need to try combinations of local and remote addresses
 		 * of different families.
