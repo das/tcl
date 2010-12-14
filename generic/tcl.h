@@ -190,7 +190,7 @@ extern "C" {
 #   endif
 #else
 #   define DLLIMPORT
-#   if defined(__GNUC__) && !defined(NO_VIZ)
+#   if defined(__GNUC__) && !defined(NO_VIZ) && !defined(STATIC_BUILD)
 #       define DLLEXPORT __attribute__ ((visibility("default")))
 #   else
 #       define DLLEXPORT
