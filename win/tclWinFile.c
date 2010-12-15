@@ -823,7 +823,14 @@ PanicMessageBox(
     MessageBeep(MB_ICONEXCLAMATION);
     MessageBoxW(NULL, msgString, L"Fatal Error",
 	    MB_ICONSTOP | MB_OK | MB_TASKMODAL | MB_SETFOREGROUND);
-    /* We don't need to abort here, because our caller already does. */
+	/* try to trigger the debugger */
+#   ifdef __GNUC__
+	__builtin_trap();
+#   endif
+#   ifdef _MSC_VER
+	DebugBreak();
+#   endif
+	ExitProcess(1);
 }
 
 /*
