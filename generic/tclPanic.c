@@ -16,7 +16,6 @@
  */
 
 #include "tclInt.h"
-#undef Tcl_Panic
 
 /*
  * The panicProc variable contains a pointer to an application specific panic
@@ -90,13 +89,9 @@ Tcl_PanicVA(
 		arg8);
 	fprintf(stderr, "\n");
 	fflush(stderr);
-#ifdef _WIN32
-    DebugBreak();
-    ExitProcess(1);
-#else
-	abort();
-#endif
     }
+    /* In case the users panic proc does not abort, we do it here */
+    abort();
 }
 
 /*
