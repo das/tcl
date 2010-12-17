@@ -1718,32 +1718,10 @@ dist: $(UNIX_DIR)/configure $(UNIX_DIR)/tclConfig.h.in $(MAC_OSX_DIR)/configure 
 	cp -p $(TOMMATH_SRCS) $(TOMMATH_DIR)/*.h \
 		$(DISTDIR)/libtommath
 
-#
-# The following target can only be used for non-patch releases. Use the
-# "allpatch" target below for patch releases.
-#
-
 alldist: dist
 	rm -f $(DISTROOT)/$(DISTNAME)-src.tar.gz $(DISTROOT)/$(ZIPNAME)
 	cd $(DISTROOT); tar cf $(DISTNAME)-src.tar $(DISTNAME); \
 		gzip -9 $(DISTNAME)-src.tar; zip -qr8 $(ZIPNAME) $(DISTNAME)
-
-#
-# The target below is similar to "alldist" except it works for patch releases.
-# It is needed because patch releases are peculiar: the patch designation
-# appears in the name of the compressed file (e.g. tcl8.0p1.tar.gz) but the
-# extracted source directory doesn't include the patch designation (e.g.,
-# tcl8.0).
-#
-
-allpatch: dist
-	rm -f $(DISTROOT)/$(DISTNAME)-src.tar.gz $(DISTROOT)/$(ZIPNAME)
-	mv $(DISTROOT)/tcl${VERSION} $(DISTROOT)/old
-	mv $(DISTROOT)/$(DISTNAME) $(DISTROOT)/tcl${VERSION}
-	cd $(DISTROOT); tar cf $(DISTNAME)-src.tar tcl${VERSION}; \
-		gzip -9 $(DISTNAME)-src.tar; zip -r8 $(ZIPNAME) tcl${VERSION}
-	mv $(DISTROOT)/tcl${VERSION} $(DISTROOT)/$(DISTNAME)
-	mv $(DISTROOT)/old $(DISTROOT)/tcl${VERSION}
 
 #
 # This target creates the HTML folder for Tcl & Tk and places it in
