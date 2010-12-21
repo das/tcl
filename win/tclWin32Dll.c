@@ -14,6 +14,9 @@
  */
 
 #include "tclWinInt.h"
+#if defined(HAVE_INTRIN_H) || (defined(_MSC_VER) && defined(_WIN64))
+#   include <intrin.h>
+#endif
 
 /*
  * The following data structures are used when loading the thunking library
@@ -720,7 +723,12 @@ TclWinCPUID(
 {
     int status = TCL_ERROR;
 
-#if defined(__GNUC__)
+#if defined(HAVE_INTRIN_H) && defined(_WIN64)
+
+    __cpuid(regsPtr, index);
+    status = TCL_OK;
+
+#elif defined(__GNUC__)
 #   if defined(_WIN64)
     /*
      * Execute the CPUID instruction with the given index, and store results
@@ -836,7 +844,13 @@ TclWinCPUID(
     status = registration.status;
 
 #   endif /* !_WIN64 */
-#elif defined(_MSC_VER) && !defined(_WIN64)
+#elif defined(_MSC_VER)
+#   if defined(_WIN64)
+
+    __cpuid(regsPtr, index);
+    status = TCL_OK;
+
+#   else
     /*
      * Define a structure in the stack frame to hold the registers.
      */
@@ -883,6 +897,7 @@ TclWinCPUID(
 	/* do nothing */
     }
 
+#   endif
 #else
     /*
      * Don't know how to do assembly code for this compiler and/or
