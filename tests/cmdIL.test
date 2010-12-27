@@ -458,6 +458,9 @@ test cmdIL-5.5 {lsort with list style index and sharing} -body {
 } -result 0 -cleanup {
     rename test_lsort ""
 }
+test cmdIL-5.6 {lsort with multiple list-style index options} {
+    lsort -index {1 2 3} -index 0 {{a b} {c d} {b e}}
+} {{a b} {b e} {c d}}
 
 # Compiled version
 test cmdIL-6.1 {lassign command syntax} -returnCodes error -body {
