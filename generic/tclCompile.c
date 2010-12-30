@@ -2598,8 +2598,7 @@ TclFindCompiledLocal(
     if (create || (name == NULL)) {
 	localVar = procPtr->numCompiledLocals;
 	localPtr = (CompiledLocal *) ckalloc((unsigned)
-		(sizeof(CompiledLocal) - sizeof(localPtr->name)
-		+ nameBytes + 1));
+		(TclOffset(CompiledLocal, name) + nameBytes + 1));
 	if (procPtr->firstLocalPtr == NULL) {
 	    procPtr->firstLocalPtr = procPtr->lastLocalPtr = localPtr;
 	} else {
@@ -4402,7 +4401,7 @@ static void UpdateStringOfInstName(Tcl_Obj *objPtr)
     }
     len = strlen(s);
     objPtr->bytes = ckalloc((unsigned) len + 1);
-    strcpy(objPtr->bytes, s);
+    memcpy(objPtr->bytes, s, len + 1);
     objPtr->length = len;
 }
 

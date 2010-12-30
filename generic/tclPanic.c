@@ -16,7 +16,12 @@
  */
 
 #include "tclInt.h"
-#undef Tcl_Panic
+#ifdef _WIN32
+#   ifdef HAVE_INTRIN_H
+#	include <intrin.h>
+#   endif
+    MODULE_SCOPE void tclWinDebugPanic(const char *format, ...);
+#endif
 
 /*
  * The panicProc variable contains a pointer to an application specific panic
@@ -45,6 +50,10 @@ void
 Tcl_SetPanicProc(
     Tcl_PanicProc *proc)
 {
+#ifdef _WIN32
+    /* tclWinDebugPanic only installs if there is no panicProc yet. */
+    if ((proc != tclWinDebugPanic) || (panicProc == NULL))
+#endif
     panicProc = proc;
 }
 
@@ -85,18 +94,29 @@ Tcl_PanicVA(
 
     if (panicProc != NULL) {
 	panicProc(format, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+#ifdef _WIN32
+    } else if (IsDebuggerPresent()) {
+	tclWinDebugPanic(format, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+#endif
     } else {
 	fprintf(stderr, format, arg1, arg2, arg3, arg4, arg5, arg6, arg7,
 		arg8);
 	fprintf(stderr, "\n");
 	fflush(stderr);
+    }
+    /* In case the users panic proc does not abort, we do it here */
 #ifdef _WIN32
+#   ifdef HAVE_INTRIN_H
+    __debugbreak();
+#   elif defined(__GNUC__)
+    __builtin_trap();
+#   else
     DebugBreak();
+#   endif
     ExitProcess(1);
 #else
-	abort();
+    abort();
 #endif
-    }
 }
 
 /*
