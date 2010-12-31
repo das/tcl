@@ -74,6 +74,9 @@ static unsigned int	HashStringKey(Tcl_HashTable *tablePtr, VOID *keyPtr);
 static Tcl_HashEntry *	BogusFind(Tcl_HashTable *tablePtr, const char *key);
 static Tcl_HashEntry *	BogusCreate(Tcl_HashTable *tablePtr, const char *key,
 			    int *newPtr);
+static Tcl_HashEntry *	CreateHashEntry(Tcl_HashTable *tablePtr, const char *key,
+			    int *newPtr);
+static Tcl_HashEntry *	FindHashEntry(Tcl_HashTable *tablePtr, const char *key);
 static void		RebuildTable(Tcl_HashTable *tablePtr);
 
 Tcl_HashKeyType tclArrayHashKeyType = {
@@ -186,8 +189,8 @@ Tcl_InitCustomHashTable(
     tablePtr->downShift = 28;
     tablePtr->mask = 3;
     tablePtr->keyType = keyType;
-    tablePtr->findProc = Tcl_FindHashEntry;
-    tablePtr->createProc = Tcl_CreateHashEntry;
+    tablePtr->findProc = FindHashEntry;
+    tablePtr->createProc = CreateHashEntry;
 
     if (typePtr == NULL) {
 	/*
@@ -230,8 +233,15 @@ Tcl_FindHashEntry(
     Tcl_HashTable *tablePtr,	/* Table in which to lookup entry. */
     const char *key)		/* Key to use to find matching entry. */
 {
+    return (*((tablePtr)->findProc))(tablePtr, key);
+}
 
-    return Tcl_CreateHashEntry(tablePtr, key, NULL);
+static Tcl_HashEntry *
+FindHashEntry(
+    Tcl_HashTable *tablePtr,	/* Table in which to lookup entry. */
+    const char *key)		/* Key to use to find matching entry. */
+{
+    return CreateHashEntry(tablePtr, key, NULL);
 }
 
 
@@ -258,6 +268,17 @@ Tcl_FindHashEntry(
 
 Tcl_HashEntry *
 Tcl_CreateHashEntry(
+    Tcl_HashTable *tablePtr,	/* Table in which to lookup entry. */
+    const char *key,		/* Key to use to find or create matching
+				 * entry. */
+    int *newPtr)		/* Store info here telling whether a new entry
+				 * was created. */
+{
+    return (*((tablePtr)->createProc))(tablePtr, key, newPtr);
+}
+
+static Tcl_HashEntry *
+CreateHashEntry(
     Tcl_HashTable *tablePtr,	/* Table in which to lookup entry. */
     const char *key,		/* Key to use to find or create matching
 				 * entry. */
