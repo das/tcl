@@ -13,6 +13,7 @@
  * RCS: @(#) $Id$
  */
 
+#undef STATIC_BUILD
 #include "tcl.h"
 
 /*
