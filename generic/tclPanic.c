@@ -105,8 +105,10 @@ Tcl_PanicVA(
 #ifdef _WIN32
 #   if defined(__GNUC__)
     __builtin_trap();
-#   elif defined(_MSC_VER)
+#   elif defined(_WIN64)
     __debugbreak();
+#   elif defined(_MSC_VER)
+    _asm {int 3}
 #   else
     DebugBreak();
 #   endif
