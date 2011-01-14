@@ -987,7 +987,7 @@ Tcl_DdeObjCmd(
     ClientData clientData,	/* Used only for deletion */
     Tcl_Interp *interp,		/* The interp we are sending from */
     int objc,			/* Number of arguments */
-    Tcl_Obj *CONST objv[])	/* The arguments */
+    Tcl_Obj *CONST *objv)	/* The arguments */
 {
     enum {
 	DDE_SERVERNAME,
@@ -1308,7 +1308,7 @@ Tcl_DdeObjCmd(
 	    }
 
 	    objc -= (async + 3);
-	    ((Tcl_Obj **) objv) += (async + 3);
+	    objv += (async + 3);
 
             /*
 	     * See if the target interpreter is local.  If so, execute
