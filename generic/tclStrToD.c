@@ -3335,11 +3335,6 @@ ShorteningBignumConversionPowD(
 		    *s++ = '9';
 		    s = BumpUp(s, retval, &k);
 		    break;
-		} else if (mp_iszero(&b)) {
-		    while (*--s == '0') {
-			/* do nothing */
-		    }
-		    ++s;
 		}
 	    }
 
