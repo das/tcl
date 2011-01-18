@@ -830,7 +830,7 @@ Tcl_CreateInterp(void)
     Tcl_InitStubs(interp, TCL_VERSION, 1);
 
     if (TclTommath_Init(interp) != TCL_OK) {
-	Tcl_Panic(Tcl_GetString(Tcl_GetObjResult(interp)));
+	Tcl_Panic("%s", Tcl_GetString(Tcl_GetObjResult(interp)));
     }
 
     return interp;
@@ -4847,7 +4847,7 @@ TclArgumentBCRelease(interp,objv,objc,codePtr,pc)
 						    (char *) objv[word]);
 		    if (hPtr) {
 			CFWordBC* cfwPtr = (CFWordBC*) Tcl_GetHashValue (hPtr);
- 
+
 			if (cfwPtr->prevPtr) {
 			    Tcl_SetHashValue(hPtr, cfwPtr->prevPtr);
 			} else {

@@ -497,7 +497,7 @@ TclCompileCatchCmd(
     TclEmitForwardJump(envPtr, TCL_UNCONDITIONAL_JUMP, &jumpFixup);
     /* Stack at this point: ?script? <mark> result TCL_OK */
 
-    /* 
+    /*
      * Emit the "error case" epilogue. Push the interpreter result
      * and the return code.
      */
@@ -509,13 +509,13 @@ TclCompileCatchCmd(
     TclEmitOpcode(INST_PUSH_RETURN_CODE, envPtr);
 
     /*
-     * Update the target of the jump after the "no errors" code. 
+     * Update the target of the jump after the "no errors" code.
      */
 
     /* Stack at this point: ?script? result returnCode */
     if (TclFixupForwardJumpToHere(envPtr, &jumpFixup, 127)) {
 	Tcl_Panic("TclCompileCatchCmd: bad jump distance %d",
-		CurrentOffset(envPtr) - jumpFixup.codeOffset);
+		(int) (CurrentOffset(envPtr) - jumpFixup.codeOffset));
     }
 
     /* Push the return options if the caller wants them */
@@ -573,7 +573,7 @@ TclCompileCatchCmd(
 	TclEmitOpcode(INST_POP, envPtr);
     }
 
-    /* 
+    /*
      * Stack is now ?script? result. Get rid of the subst'ed script
      * if it's hanging arond.
      */
@@ -583,7 +583,7 @@ TclCompileCatchCmd(
 	TclEmitOpcode(INST_POP, envPtr);
     }
 
-    /* 
+    /*
      * Result of all this, on either branch, should have been to leave
      * one operand -- the return code -- on the stack.
      */
@@ -1211,7 +1211,7 @@ TclCompileDictUpdateCmd(
 
     if (TclFixupForwardJumpToHere(envPtr, &jumpFixup, 127)) {
 	Tcl_Panic("TclCompileDictCmd(update): bad jump distance %d",
-		CurrentOffset(envPtr) - jumpFixup.codeOffset);
+		(int) (CurrentOffset(envPtr) - jumpFixup.codeOffset));
     }
     TclStackFree(interp, keyTokenPtrs);
     return TCL_OK;
