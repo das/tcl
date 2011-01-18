@@ -41,7 +41,8 @@ typedef struct {
     Tcl_Obj *nameObj;		/* The "name" of the command. */
     Command cmd;		/* The command structure. Mostly bogus. */
     ExtraFrameInfo efi;		/* Extra information used for [info frame]. */
-    Command *oldCmdPtr;
+    Command *oldCmdPtr;		/* Saved cmdPtr so that we can be safe after a
+				 * recursive call returns. */
     struct PNI pni;		/* Specialist information used in the efi
 				 * field for this type of call. */
 } PMFrameData;
