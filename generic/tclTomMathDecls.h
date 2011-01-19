@@ -325,7 +325,7 @@ EXTERN int		TclBN_mp_radix_size(mp_int *a, int radix, int *size);
 #ifndef TclBN_mp_read_radix_TCL_DECLARED
 #define TclBN_mp_read_radix_TCL_DECLARED
 /* 36 */
-EXTERN int		TclBN_mp_read_radix(mp_int *a, const char *str,
+EXTERN int		TclBN_mp_read_radix(mp_int *a, CONST char *str,
 				int radix);
 #endif
 #ifndef TclBN_mp_rshd_TCL_DECLARED
@@ -504,7 +504,7 @@ typedef struct TclTomMathStubs {
     int (*tclBN_mp_neg) (mp_int *a, mp_int *b); /* 33 */
     int (*tclBN_mp_or) (mp_int *a, mp_int *b, mp_int *c); /* 34 */
     int (*tclBN_mp_radix_size) (mp_int *a, int radix, int *size); /* 35 */
-    int (*tclBN_mp_read_radix) (mp_int *a, const char *str, int radix); /* 36 */
+    int (*tclBN_mp_read_radix) (mp_int *a, CONST char *str, int radix); /* 36 */
     void (*tclBN_mp_rshd) (mp_int *a, int shift); /* 37 */
     int (*tclBN_mp_shrink) (mp_int *a); /* 38 */
     void (*tclBN_mp_set) (mp_int *a, mp_digit b); /* 39 */
