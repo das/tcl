@@ -411,8 +411,8 @@ proc genStubs::makeDecl {name decl index} {
     lassign $decl rtype fname args
 
     append text "/* $index */\n"
-    if {$rtype eq "VOID"} {
-	set rtype void
+    if {$rtype != "void"} {
+	regsub -all void $rtype VOID rtype
     }
     set line "EXTERN $rtype"
     set count [expr {2 - ([string length $line] / 8)}]
@@ -530,8 +530,8 @@ proc genStubs::makeSlot {name decl index} {
     append lfname [string range $fname 1 end]
 
     set text "    "
-    if {$rtype eq "VOID"} {
-	set rtype void
+    if {$rtype != "void"} {
+	regsub -all void $rtype VOID rtype
     }
     if {$args == ""} {
 	append text $rtype " *" $lfname "; /* $index */\n"
