@@ -985,7 +985,7 @@ TclpMatchInDirectory(
 	}
 	attr = GetFileAttributes(native);
 
-	if ((attr == INVALID_FILE_ATTRIBUTES) 
+	if ((attr == INVALID_FILE_ATTRIBUTES)
 	    || ((attr & FILE_ATTRIBUTE_DIRECTORY) == 0)) {
 	    return TCL_OK;
 	}
@@ -2054,7 +2054,7 @@ NativeStat(
 	    /*
 	     * We might have just been denied access
 	     */
-	    
+
 	    WIN32_FIND_DATA ffd;
 	    HANDLE hFind;
 	    hFind = FindFirstFile(nativePath, &ffd);

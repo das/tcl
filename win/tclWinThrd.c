@@ -263,7 +263,7 @@ TclpThreadExit(
 Tcl_ThreadId
 Tcl_GetCurrentThread(void)
 {
-    return (Tcl_ThreadId) GetCurrentThreadId();
+    return (Tcl_ThreadId)(size_t)GetCurrentThreadId();
 }
 
 /*
