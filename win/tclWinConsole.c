@@ -1362,7 +1362,7 @@ TclWinOpenConsoleChannel(
      * for instance).
      */
 
-    wsprintfA(channelName, "file%lx", (int) infoPtr);
+    sprintf(channelName, "file%Ix", (size_t) infoPtr);
 
     infoPtr->channel = Tcl_CreateChannel(&consoleChannelType, channelName,
 	    infoPtr, permissions);
